@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din reservation i øjeblikket. Prøv venligst igen.</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Betalingen mislykkedes</string>
+    <string name="payment_failed_label">Betalingen mislykkedes</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Sessionen er udløbet</string>
 
@@ -4328,8 +4328,8 @@
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_search_nav_icon_cont_desc">Tilbage</string>
-    <string name="toolbar_search_nav_icon_close_cont_desc">Luk</string>
+    <string name="toolbar_nav_icon_cont_desc">Tilbage</string>
+    <string name="toolbar_nav_icon_close_cont_desc">Luk</string>
     <string name="search_button_cont_desc">Søgeknap</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Varighed {duration}</string>

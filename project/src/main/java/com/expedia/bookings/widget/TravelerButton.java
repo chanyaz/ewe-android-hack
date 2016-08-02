@@ -21,6 +21,7 @@ import com.expedia.bookings.dialog.ThrobberDialog;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.TravelerAutoCompleteAdapter;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.tracking.FlightsV2Tracking;
 import com.expedia.bookings.tracking.PackagesTracking;
 import com.expedia.bookings.utils.TravelerUtils;
 import com.expedia.bookings.utils.Ui;
@@ -116,6 +117,9 @@ public class TravelerButton extends LinearLayout {
 		if (mTraveler.isSelectable()) {
 			if (lineOfBusiness == LineOfBusiness.PACKAGES) {
 				new PackagesTracking().trackCheckoutSelectTraveler();
+			}
+			else if (lineOfBusiness == LineOfBusiness.FLIGHTS_V2) {
+				FlightsV2Tracking.trackCheckoutSelectTraveler();
 			}
 			BackgroundDownloader dl = BackgroundDownloader.getInstance();
 			if (dl.isDownloading(getTravelerDownloadKey())) {

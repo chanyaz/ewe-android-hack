@@ -4,9 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -42,7 +44,6 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     }
 
     init {
-        viewModel = CheckoutTravelerViewModel(context)
         View.inflate(context, R.layout.traveler_presenter, this)
         travelerSelectState.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
             toolbarTitleSubject.onNext(selectedTraveler.second)
@@ -100,7 +101,11 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
                 travelerEntryWidget.onFocusChange(travelerEntryWidget.nameEntryView.firstName, true)
                 Ui.showKeyboard(travelerEntryWidget.nameEntryView.firstName, null)
-                PackagesTracking().trackCheckoutEditTraveler()
+                if (viewModel.lob == LineOfBusiness.PACKAGES) {
+                    PackagesTracking().trackCheckoutEditTraveler()
+                } else if (viewModel.lob == LineOfBusiness.FLIGHTS_V2) {
+                    FlightsV2Tracking.trackCheckoutEditTraveler()
+                }
             } else {
                 travelerEntryWidget.viewModel.validate()
             }

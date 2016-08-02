@@ -42,8 +42,12 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     checkoutTravelerErrorObservable.onNext(Unit)
                     PackagesTracking().trackCheckoutErrorRetry()
                 }
-                ApiError.Code.UNKNOWN_ERROR -> {
+                ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN -> {
                     checkoutUnknownErrorObservable.onNext(Unit)
+                    PackagesTracking().trackCheckoutErrorRetry()
+                }
+                ApiError.Code.UNKNOWN_ERROR -> {
+                    createTripUnknownErrorObservable.onNext(Unit)
                     PackagesTracking().trackCheckoutErrorRetry()
                 }
                 else -> {
@@ -126,7 +130,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     }
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
-                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
+                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
                 }
                 ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS -> {
@@ -142,7 +146,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
                     }
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_guest_details))
-                    titleObservable.onNext(context.getString(R.string.hotel_payment_failed_text))
+                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
                 }
                 else -> {

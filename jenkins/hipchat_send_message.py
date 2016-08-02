@@ -4,7 +4,7 @@ from hypchat import *
 def sendPrivateHipchatMessage(accessToken, userMailIdToSendMessageTo, message):
 	hipchat = HypChat(accessToken)
 	userToSendMessageTo = hipchat.get_user(userMailIdToSendMessageTo)
-	userToSendMessageTo.message(message, message_format='text', notify=True)
+	userToSendMessageTo.message(message, message_format='html', notify=True)
 
 def sendHipchatMessageToRoom(accessToken, roomName, message):
 	hipchat = HypChat(accessToken)

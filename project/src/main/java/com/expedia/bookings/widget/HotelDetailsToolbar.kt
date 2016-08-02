@@ -43,7 +43,7 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
-        toolbar.navigationContentDescription = context.getString(R.string.toolbar_search_nav_icon_cont_desc)
+        toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
         toolbar.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
         toolBarRating.visibility = View.VISIBLE

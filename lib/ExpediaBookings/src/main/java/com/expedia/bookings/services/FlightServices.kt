@@ -60,6 +60,11 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                         leg.elapsedDays = Days.daysBetween(departureTime.toLocalDate(), arrivalTime.toLocalDate()).days
                         leg.departureDateTimeISO = departure.departureTimeRaw
                         leg.arrivalDateTimeISO = arrival.arrivalTimeRaw
+                        leg.destinationAirportCode = arrival.arrivalAirportCode
+                        leg.originAirportCode = departure.departureAirportCode
+                        leg.destinationCity = arrival.arrivalAirportAddress.city
+                        leg.originCity = departure.departureAirportAddress.city
+
                         val airlines = ArrayList<Airline>()
                         var lastSegment: FlightLeg.FlightSegment? = null
                         var lastArrival: DateTime? = null
@@ -78,7 +83,6 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                             val segmentArrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(segment.arrivalTimeRaw)
                             val segmentDepartureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(segment.departureTimeRaw)
                             segment.elapsedDays = Days.daysBetween(segmentArrivalTime.toLocalDate(), segmentDepartureTime.toLocalDate()).days
-
                             val airline = Airline(segment.airlineName, segment.airlineLogoURL)
                             airlines.add(airline)
 
@@ -87,10 +91,6 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                             segment.durationMinutes = travelPeriod.minutes
                             leg.durationHour += travelPeriod.hours
                             leg.durationMinute += travelPeriod.minutes
-
-                            // set departure and arrival time to be compatible with packages format
-                            segment.departureTime = segmentDepartureTime.toString(hourMinuteFormatter)
-                            segment.arrivalTime = segmentArrivalTime.toString(hourMinuteFormatter)
 
                             if (lastSegment != null) {
                                 val layOverPeriod = Period(lastArrival, segmentDepartureTime);

@@ -18,6 +18,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeChecked
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.InsuranceViewModel
 
 class InsuranceWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -28,7 +29,8 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     val benefitsDialog: AlertDialog by lazy {
         val benefitsTextView = View.inflate(context, R.layout.insurance_benefits_dialog_body, null) as TextView
-        benefitsTextView.text = Html.fromHtml(context.resources.getString(R.string.insurance_benefits))
+        viewModel.benefitsObservable.subscribeText(benefitsTextView)
+
         AlertDialog.Builder(context).setPositiveButton(R.string.button_done, null)
                 .setTitle(context.resources.getString(R.string.insurance_description))
                 .setView(benefitsTextView)
@@ -36,12 +38,11 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : LinearLayout(cont
     }
 
     var viewModel: InsuranceViewModel by notNullAndObservable { vm ->
-        // this toggles the switch after a failure, to reflect the actual state of insurance on the trip
         vm.programmaticToggleObservable.subscribeChecked(toggleSwitch)
-
         vm.termsObservable.subscribeText(termsTextView)
         vm.titleColorObservable.subscribeTextColor(titleTextView)
         vm.titleObservable.subscribeText(titleTextView)
+        vm.widgetVisibilityObservable.subscribeVisibility(this)
     }
 
     init {
@@ -58,12 +59,12 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : LinearLayout(cont
             FlightsV2Tracking.trackInsuranceBenefitsClick()
         }
 
-        // we listen for OnClick rather than OnCheckedChange so that no action occurs when isChecked is changed
-        // programmatically (in response to a failure, to reflect the actual state of insurance on the trip)
-        toggleSwitch.setOnClickListener { viewModel.userInitiatedToggleObservable.onNext(toggleSwitch.isChecked) }
-
         termsTextView.movementMethod = LinkMovementMethod.getInstance()
         termsTextView.setOnClickListener { FlightsV2Tracking.trackInsuranceTermsClick() }
         termsTextView.setTextColor(Ui.obtainThemeColor(context, R.attr.primary_color))
+
+        toggleSwitch.setOnClickListener {
+            viewModel.userInitiatedToggleObservable.onNext(toggleSwitch.isChecked)
+        }
     }
 }

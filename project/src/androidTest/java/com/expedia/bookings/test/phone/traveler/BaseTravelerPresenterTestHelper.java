@@ -16,6 +16,7 @@ import android.view.ViewStub;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TravelerName;
@@ -136,14 +137,17 @@ public class BaseTravelerPresenterTestHelper {
 		});
 	}
 
-	protected void enterValidTraveler() {
+	protected void enterValidTraveler(boolean withPhoneNumber) {
 		PackageScreen.enterFirstName(testFirstName);
 		PackageScreen.enterLastName(testLastName);
-		PackageScreen.enterPhoneNumber(testPhone);
+		if (withPhoneNumber) {
+			PackageScreen.enterPhoneNumber(testPhone);
+		}
 		Espresso.closeSoftKeyboard();
 		Common.delay(1);
 		PackageScreen.selectBirthDate(1991, 1, 27);
 		PackageScreen.clickTravelerDone();
+		Espresso.closeSoftKeyboard();
 	}
 
 	protected PackageSearchParams setPackageParams(int adults) {
@@ -247,7 +251,7 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected CheckoutTravelerViewModel getMockviewModel() {
-		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context);
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES);
 		mockViewModel.getTravelerCompletenessStatus().subscribe(testTravelerDefault.getViewModel().getTravelerStatusObserver());
 		return mockViewModel;
 	}

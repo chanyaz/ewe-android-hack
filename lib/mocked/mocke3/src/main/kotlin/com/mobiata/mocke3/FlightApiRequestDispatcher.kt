@@ -19,7 +19,11 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
         CREATETRIP_UNKNOWN_ERROR,
         CREATETRIP_FLIGHT_SOLD_OUT,
         CREATETRIP_PRODUCT_NOT_FOUND,
-        CREATETRIP_SESSION_TIMEOUT
+        CREATETRIP_SESSION_TIMEOUT,
+        CHECKOUT_UNKNOWN_ERROR,
+        CHECKOUT_PAYMENT_FAILED,
+        CHECKOUT_SESSION_TIMEOUT,
+        CHECKOUT_TRIP_ALREADY_BOOKED
     }
 
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -57,6 +61,10 @@ class FlightApiMockResponseGenerator() {
             val flightSoldOutCreateTrip = params["departureAirport"] == "FlightSoldOutCT"
             val flightProductNotFoundCreateTrip = params["departureAirport"] == "FlightProductNotFoundCT"
             val flightSessionTimeoutCreateTrip = params["departureAirport"] == "SessionTimeoutCT"
+            val flightUnknownErrorCheckout = params["departureAirport"] == "UnknownErrorCKO"
+            val flightPaymentFailedErrorCheckout = params["departureAirport"] == "PaymentFailedCKO"
+            val flightSessionTimeoutCheckout = params["departureAirport"] == "SessionTimeoutCKO"
+            val flightTripAlreadyBookedCheckout = params["departureAirport"] == "TripAlreadyBookedCKO"
             val isEarnResponse = params["departureAirport"] == "EARN"
             val isPassportNeeded = params["departureAirport"] == "PEN" && params["arrivalAirport"] == "KUL"
             val isReturnFlightSearch = params.containsKey("returnDate")
@@ -89,6 +97,18 @@ class FlightApiMockResponseGenerator() {
                     }
                     else if (flightSessionTimeoutCreateTrip) {
                         FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_SESSION_TIMEOUT
+                    }
+                    else if (flightUnknownErrorCheckout) {
+                        FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_UNKNOWN_ERROR
+                    }
+                    else if (flightPaymentFailedErrorCheckout) {
+                        FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_PAYMENT_FAILED
+                    }
+                    else if (flightSessionTimeoutCheckout) {
+                        FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_SESSION_TIMEOUT
+                    }
+                    else if (flightTripAlreadyBookedCheckout) {
+                        FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_TRIP_ALREADY_BOOKED
                     }
                     else if (isReturnFlightSearch) {
                         FlightApiRequestDispatcher.SearchResponseType.HAPPY_ROUND_TRIP
@@ -139,6 +159,14 @@ class FlightApiMockResponseGenerator() {
                 FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_PRODUCT_NOT_FOUND -> "create_trip_product_not_found"
 
                 FlightApiRequestDispatcher.SearchResponseType.CREATETRIP_SESSION_TIMEOUT -> "create_trip_session_timeout_error"
+
+                FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_UNKNOWN_ERROR -> "checkout_unknown_error"
+
+                FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_PAYMENT_FAILED -> "checkout_payment_failed"
+
+                FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_SESSION_TIMEOUT -> "checkout_session_timeout"
+
+                FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_TRIP_ALREADY_BOOKED -> "checkout_trip_already_booked"
             }
 
             if (isEarnResponse) {
@@ -151,6 +179,7 @@ class FlightApiMockResponseGenerator() {
         fun getCheckoutResponseFilePath(params: MutableMap<String, String>): String {
             val tripId = params["tripId"] ?: throw RuntimeException("tripId required")
             val tealeafTransactionId = params["tealeafTransactionId"] ?: throw RuntimeException("teleafTransactionId required")
+            val isError = isErrorCodeResponse(tripId)
 
             if ("tealeafFlight:" + tripId != tealeafTransactionId) {
                 throw RuntimeException("tripId must match tealeafTransactionId ('tealeafFlight:<tripId>') got: $tealeafTransactionId")
@@ -168,7 +197,9 @@ class FlightApiMockResponseGenerator() {
                 params.put("airAttachTimeZoneOffsetSeconds", "" + tzOffsetSeconds)
             }
 
-            return "api/flight/checkout/" + params["tripId"] + ".json"
+
+            val fileName = if (isError) "checkout_custom_error" else tripId
+            return "api/flight/checkout/$fileName.json"
         }
 
         fun getCreateTripResponseFilePath(params: MutableMap<String, String>): String {
@@ -184,9 +215,9 @@ class FlightApiMockResponseGenerator() {
             }
         }
 
-        private fun isErrorCodeResponse(productKey: String): Boolean {
+        private fun isErrorCodeResponse(code: String): Boolean {
             try {
-                ApiError.Code.valueOf(productKey)
+                ApiError.Code.valueOf(code)
                 return true
             } catch (e: IllegalArgumentException) {
                 return false

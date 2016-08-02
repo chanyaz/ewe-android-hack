@@ -32,7 +32,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
     val flightSegmentWidget: FlightSegmentBreakdownView by bindView(R.id.segment_breakdown)
     val showBaggageFeesButton: Button by bindView(R.id.show_baggage_fees)
-    val paymentFeesMayApplyTextView: TextView by bindView(R.id.show_payment_fees)
+    val paymentFeesMayApplyTextView: Button by bindView(R.id.show_payment_fees)
     val baggageFeeShowSubject = PublishSubject.create<String>()
     val showPaymentFeesObservable = PublishSubject.create<Unit>()
     val e3EndpointUrl = Ui.getApplication(getContext()).appComponent().endpointProvider().e3EndpointUrl

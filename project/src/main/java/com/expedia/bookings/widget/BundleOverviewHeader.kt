@@ -39,7 +39,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         toolbar.setSubtitleTextAppearance(context, R.style.ToolbarSubtitleTextAppearance)
         checkoutOverviewHeaderToolbar.checkoutHeaderImage = imageHeader
         checkoutOverviewFloatingToolbar.checkoutHeaderImage = imageHeader
-        toolbar.navigationContentDescription = context.getString(R.string.toolbar_search_nav_icon_cont_desc)
+        toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
         toolbar.setNavigationOnClickListener {
             val activity = context as AppCompatActivity
             activity.onBackPressed()

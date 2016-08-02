@@ -1002,12 +1002,16 @@
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
     <string name="nav_hotels">Hotels</string>
+    <string name="nav_hotels_cont_desc">Hotels button</string>
     <!-- Cars -->
     <string name="nav_cars">Cars</string>
+    <string name="nav_cars_cont_desc">Cars button</string>
     <!-- Activities -->
     <string name="nav_lx">Activities</string>
+    <string name="nav_lx_cont_desc">Activities button</string>
     <!-- Ground Transport -->
     <string name="nav_transport">Transport</string>
+    <string name="nav_transport_cont_desc">Transport button</string>
     <!-- Packages -->
     <string name="nav_packages">Bundle Deals</string>
     <!-- Rail -->
@@ -1667,6 +1671,7 @@
     <string name="flights_outbound_label">Outbound</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Flights</string>
+    <string name="flights_title_cont_desc">Flights button</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">Payment Fees Info</string>
     <!-- Flights Free Cancellation messaging -->
@@ -1679,8 +1684,6 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">An &lt;a href=\"{airline_fee_url}\"&gt;airline fee&lt;/a&gt;, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debit cards are not accepted.</string>
-    <!-- Flights Sold out error screen: Select New Flight button label -->
-    <string name="flights_select_new_flight">Select new flight</string>
     <!-- Flights Sold out error screen:- warning message -->
     <string name="flight_sold_out_warning">We\'re sorry. This flight has sold out.</string>
     <!-- Flights Sold out error screen:- toolbar title -->
@@ -1766,7 +1769,7 @@
     <string name="invalid_flights_pos">Sorry, but mobile flight booking is not yet available in your location.</string>
     <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
     <string name="tablet_drop_down_flight_pos_unavailable_TEMPLATE">We\&apos;re sorry, but we don\&apos;t support flights for your region yet. However, they are available on &lt;a href=\"%1$s\"&gt;our website&lt;/a&gt;.</string>
-    <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
+    <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Departure and arrival airports must be different.</string>
 
     <!-- Flight search params fragment -->
@@ -2259,7 +2262,7 @@
 
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Traveler Details</string>
-    <string name="checkout_enter_traveler_details_line2">Enter your information</string>
+    <string name="enter_missing_traveler_details">Enter missing traveler details</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ {travelercount} more traveler</item>
@@ -2488,13 +2491,13 @@
     <!-- split ticket rules header -->
     <string name="split_ticket_important_flight_information_header">Important Flight Information</string>
     <!-- split ticket rules and restrictions -->
-    <string name="split_ticket_rules_with_link_TEMPLATE">• Your flight is a combination of two one-way fares, each subject to its own rules and restrictions.</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE">Your flight is a combination of two one-way fares, each subject to its own rules and restrictions.</string>
     <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Your flight is a combination of two one-way fares, each subject to its own rules and restrictions.</string>
     <!-- split ticket rules - cancellation policy -->
-    <string name="split_ticket_rules_cancellation_policy">• If one of your flights is changed or cancelled, it will not automatically alter the other flight. Changes to the other flight may incur a charge.</string>
+    <string name="split_ticket_rules_cancellation_policy">If one of your flights is changed or cancelled, it will not automatically alter the other flight. Changes to the other flight may incur a charge.</string>
     <string name="split_ticket_rules_cancellation_policy_tablet">If one of your flights is changed or cancelled, it will not automatically alter the other flight. Changes to the other flight may incur a charge.</string>
-    <!-- split ticket baggage fees -->
-    <string name="split_ticket_baggage_fees">• &lt;a href=\"%1$s\"&gt;Departure&lt;/a&gt; and &lt;a href=\"%2$s\"&gt;Return&lt;/a&gt; flights have their own baggage fees</string>
+    <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
+    <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Departure&lt;/a&gt; and &lt;a href=\"{returnlink}\"&gt;Return&lt;/a&gt; flights have their own baggage fees</string>
     <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;Departure&lt;/a&gt; and &lt;a href=\"%2$s\"&gt;Return&lt;/a&gt; flights have their own baggage fees</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2549,8 +2552,8 @@
     <string name="pick_new_hotel">Pick a New Hotel</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Sorry, we don\'t seem to be able to process your order right now. Please try again.</string>
-    <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Payment Failed</string>
+    <!-- Error Screen toolbar title for payment failed screen -->
+    <string name="payment_failed_label">Payment Failed</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Session Expired</string>
 
@@ -2656,6 +2659,8 @@
     <!-- Search Activity -->
     <!-- Label for "start search" button -->
     <string name="search">Search</string>
+    <!-- Accessibility text disabled search button-->
+    <string name="search_button_disable_content_desc">Disabled search</string>
     <!-- Date range for current search: %1$s is the "From Date" and %2$s is the "To Date" (i.e. "Oct 14 to Oct 16") -->
     <string name="date_range_TEMPLATE">%1$s to %2$s</string>
     <!-- Hint for filtering results by hotel name -->
@@ -3019,6 +3024,8 @@
     <string name="non_refundable">Non-refundable</string>
     <!-- Label for free nights -->
     <string name="free">FREE!</string>
+    <!-- Delimiter for multiple bed types in hotel offer-->
+    <string name="delimiter_multiple_bed">" or "</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">Includes %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
@@ -4019,8 +4026,8 @@
     <string name="select_flight_searching_cont_desc_TEMPLATE">Searching for a flight to {flight} on {date} for {travelers}. Please wait</string>
     <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
     <string name="select_flight_selected_cont_desc_TEMPLATE">You have selected flight to {flight} on {datetraveler}. {expandstate} flight details.</string>
-    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
-    <string name="select_flight_disabled_cont_desc_TEMPLATE">Flight to {flight} on {date} for {travelers}. Please select {previous} first. Button disabled.</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">Flight to {flight} on {date} for {travelers}. Please select {previous} first. Button.</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
     <string name="select_flight_disabled_choose_outbound">Outbound Flight</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
@@ -4141,7 +4148,7 @@
         <item quantity="one">{seats} seat left</item>
         <item quantity="other">{seats} seats left</item>
     </plurals>
-    <string name="package_flight_overview_baggage_fees">Baggage Fee Info</string>
+    <string name="package_flight_overview_baggage_fees">Baggage fee info</string>
     <string name="package_flight_overview_select_flight">Select this Flight</string>
     <string name="package_flight_overview_bundle_total_label">Bundle Total</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/person</string>
@@ -4199,14 +4206,20 @@
     <!-- Label for the tab on fare rules/amenities screen -->
     <string name="fare_rules">Fare Rules</string>
 
-    <!-- Label for no segment amenities amenities screen -->
-    <string name="no_amenities">No amenities</string>
+    <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
+    <string name="rail_segment_no_amenities">No amenities</string>
+
+    <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
+    <string name="no_fare_rules_available">No fare rules information available</string>
 
     <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
     <string name="rail_station_info_TEMPLATE">{departure} to {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
     <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+
+    <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
+    <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
@@ -4333,6 +4346,11 @@
     <string name="packages_remove_child_traveler_cont_desc">Remove one child traveler</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Select age for child {childnumber}.</string>
+    <!--Packages search alternate datepicker announce for accessibility-->
+    <!--Announce for choosing start date before showing datepicker dialog-->
+    <string name="packages_search_datepicker_announce_accessibility_start_date">Choose your start date.</string>
+    <!--Announce for choosing end date before showing datepicker dialog-->
+    <string name="packages_search_datepicker_announce_accessibility_end_date">Choose your end date.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Show more airlines. Button</string>
@@ -4361,8 +4379,10 @@
     <string name="insurance_adding">Adding trip protection…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
     <string name="insurance_add_error">Sorry, we weren\'t able to add trip protection. Please try again or continue booking without trip protection.</string>
-    <!-- Benefits of purchasing insurance -->
-    <string name="insurance_benefits">1. Your ticket is non-refundable and you\'re too sick to travel.&lt;br/&gt;&lt;br/&gt;2. You get injured and can\'t make your flight home.&lt;br/&gt;&lt;br/&gt;3. Your traveling companion has a covered medical emergency and can\'t travel.</string>
+    <!-- Benefits of purchasing insurance for domestic flights -->
+    <string name="insurance_benefits_domestic">1. Your ticket is non-refundable and you\'re too sick to travel.&lt;br/&gt;&lt;br/&gt;2. You get injured and can\'t make your flight home.&lt;br/&gt;&lt;br/&gt;3. Your traveling companion has a covered medical emergency and can\'t travel.</string>
+    <!-- Benefits of purchasing insurance for international flights -->
+    <string name="insurance_benefits_international">1. Your ticket is non-refundable and you\'re too sick to travel.&lt;br/&gt;&lt;br/&gt;2. You need to replace lost baggage, including laptop, phone, or camera.&lt;br/&gt;&lt;br/&gt;3. Your insurance may not cover medical expenses while traveling.</string>
     <!-- Insurance call to action; links to list of benefits -->
     <string name="insurance_description">3 reasons why you might need trip protection</string>
     <!-- Error message displayed when insurance fails to be removed from a trip -->
@@ -4383,7 +4403,9 @@
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Rated {rating} out of 5</string>
     <!--LX accessibility -->
     <!--LX search accessibility -->
-    <string name="lx_location_edit_box_cont_desc">Activity Location</string>
+    <string name="location_edit_box_cont_desc">Location. Button</string>
+    <!-- Content description for location entered, e.g- Location. Gurgaon,India. Button-->
+    <string name="location_edit_box_cont_desc_TEMPLATE">Location. {location}. Button</string>
 
     <!--LX infosite accessibility -->
     <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
@@ -4394,11 +4416,15 @@
     <string name="lx_add_ticket_button_cont_desc_TEMPLATE">Add {traveler}</string>
     <!-- Content description for LX remove ticket button e.g. Remove child Button -->
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Remove {traveler}</string>
+    <!-- Append 'Button' to Content description for LX search results card button -->
+    <string name="lx_card_announce_button_cont_desc">. Button</string>
+    <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
+    <string name="lx_search_date_range_cont_desc_TEMPLATE">Activity dates. Button. Opens dialog. {date_range}</string>
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_search_nav_icon_cont_desc">Back</string>
-    <string name="toolbar_search_nav_icon_close_cont_desc">Close</string>
+    <string name="toolbar_nav_icon_cont_desc">Back</string>
+    <string name="toolbar_nav_icon_close_cont_desc">Close</string>
     <string name="search_button_cont_desc">Search Button</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Duration {duration}</string>
@@ -4425,4 +4451,5 @@
     <string name="accessibility_cont_desc_role_checkbox_checked">Checkbox. Checked.</string>
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Checkbox. Unchecked.</string>
+    <string name="base_search_dates_cont_desc">Select dates. Button. Opens dialog</string>
 </resources>

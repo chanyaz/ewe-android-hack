@@ -57,8 +57,8 @@ class HotelRoomRateViewModelTest {
         assertEquals("", sut.strikeThroughPriceObservable.value)
         assertEquals("$109", sut.dailyPricePerNightObservable.value)
         assertTrue(sut.perNightPriceVisibleObservable.value)
-        assertEquals("One King Bed", sut.collapsedBedTypeObservable.value)
-        assertEquals("One King Bed", sut.expandedBedTypeObservable.value)
+        assertEquals("One King Bed or Two King Bed", sut.collapsedBedTypeObservable.value)
+        assertEquals("One King Bed or Two King Bed", sut.expandedBedTypeObservable.value)
 
         assertEquals("Non-refundable", sut.expandedMessageObservable.value.first)
         assertEquals(R.drawable.room_non_refundable, sut.expandedMessageObservable.value.second)

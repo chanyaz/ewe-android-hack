@@ -88,7 +88,7 @@ class PackageErrorViewModelTest {
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_payment)
         errorMessageObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(errorMessageId))
         errorButtonObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.edit_payment))
-        titleObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.hotel_payment_failed_text))
+        titleObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.payment_failed_label))
         subtitleObservableTestSubscriber.assertValues("")
     }
 
@@ -107,12 +107,42 @@ class PackageErrorViewModelTest {
         val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
-        val apiError = ApiError(ApiError.Code.UNKNOWN_ERROR)
+        val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN);
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
         subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
 
         checkoutUnknownErrorObservableTestSubscriber.assertValues(Unit)
+        errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
+        val message = Phrase.from(getContext(), R.string.error_server_TEMPLATE)
+                .put("brand", BuildConfig.brand)
+                .format()
+                .toString()
+        errorMessageObservableTestSubscriber.assertValues(message)
+        errorButtonObservableTestSubscriber.assertValues(getContext().getString(R.string.retry))
+    }
+
+    @Test fun observableEmissionsOnCreateTripUnknownError() {
+        val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
+
+        val createTripUnknownErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
+        subjectUnderTest.createTripUnknownErrorObservable.subscribe(createTripUnknownErrorObservableTestSubscriber)
+
+        val errorImageObservableTestSubscriber = TestSubscriber.create<Int>()
+        subjectUnderTest.imageObservable.subscribe(errorImageObservableTestSubscriber)
+
+        val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
+
+        val errorButtonObservableTestSubscriber = TestSubscriber.create<String>()
+        subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
+
+        val apiError = ApiError(ApiError.Code.UNKNOWN_ERROR);
+
+        subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
+        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
+
+        createTripUnknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
         val message = Phrase.from(getContext(), R.string.error_server_TEMPLATE)
                 .put("brand", BuildConfig.brand)

@@ -35,7 +35,7 @@ public class RailScreen {
 	}
 
 	public static ViewInteraction searchButton() {
-		ViewInteraction searchButton = onView(allOf(withId(R.id.search_button), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
+		ViewInteraction searchButton = onView(allOf(withId(R.id.search_btn), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)));
 		searchButton.perform(ViewActions.waitForViewToDisplay());
 		return searchButton;
 	}
@@ -74,6 +74,10 @@ public class RailScreen {
 				hasSibling(Matchers.allOf(withId(R.id.fare_description), withText(fareClass))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
+	}
+
+	public static void clickFareRules(String fareType) {
+		onView(withText(fareType)).perform(scrollTo(), click());
 	}
 
 	public static ViewInteraction checkout() {

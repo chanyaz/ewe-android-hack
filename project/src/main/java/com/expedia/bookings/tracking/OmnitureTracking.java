@@ -38,6 +38,7 @@ import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Distance.DistanceUnit;
@@ -64,7 +65,6 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarTrackingData;
@@ -5161,17 +5161,30 @@ public class OmnitureTracking {
 	// https://confluence/display/Omniture/Mobile+App%3A+Flights+Material+Redesign
 	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	private static final String FLIGHT_INSURANCE_ADD = "App.Flight.CKO.INS.Add";
+	private static final String FLIGHTS_V2_SEARCH_ONEWAY = "App.Flight.Search.Oneway";
+	private static final String FLIGHT_INSURANCE_ACTION_TEMPLATE = "App.Flight.CKO.INS.";
 	private static final String FLIGHT_INSURANCE_BENEFITS_VIEW = "App.Flight.CKO.INS.Reasons";
 	private static final String FLIGHT_INSURANCE_ERROR = "App.Flight.CKO.INS.Error";
-	private static final String FLIGHT_INSURANCE_REMOVE = "App.Flight.CKO.INS.Decline";
 	private static final String FLIGHT_INSURANCE_TERMS_VIEW = "App.Flight.CKO.INS.Terms";
-	private static final String FLIGHT_RECENT_SEARCH_V2 = "App.Flight.DS.RecentSearch";
 	private static final String FLIGHT_SEARCH_V2 = "App.Flight.Dest-Search";
 	private static final String FLIGHTS_V2_FLIGHT_BAGGAGE_FEE_CLICK = "App.Flight.Search.BaggageFee";
 	private static final String FLIGHTS_V2_FLIGHT_PAYMENT_FEE_CLICK = "App.Flight.Search.PaymentFee";
 	private static final String FLIGHTS_V2_TRAVELER_CHANGE_PREFIX = "App.Flight.DS.";
 	private static final String FLIGHTS_V2_TRAVELER_LINK_NAME = "Search Results Update";
+	private static final String FLIGHTS_V2_SORTBY_TEMPLATE = "App.Flight.Search.Sort.";
+	private static final String FLIGHTS_V2_FILTER_STOPS_TEMPLATE = "App.Flight.Search.Filter.";
+	private static final String FLIGHTS_V2_FLIGHT_AIRLINES = "App.Flight.Search.Filter.Airline";
+	private static final String FLIGHTS_V2_RATE_DETAILS = "App.Flight.RateDetails";
+	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.ViewDetails";
+	private static final String FLIGHTS_V2_PRICE_CHANGE = "App.Flight.CKO.PriceChange";
+	private static final String FLIGHTS_V2_SELECT_TRAVELER = "App.Flight.CKO.Traveler.Select.Existing";
+	private static final String FLIGHTS_V2_ENTER_TRAVELER = "App.Flight.CKO.Traveler.EnterManually";
+	private static final String FLIGHTS_V2_SELECT_CARD = "App.Flight.CKO.Payment.Select.Existing";
+	private static final String FLIGHTS_V2_ENTER_CARD = "App.Flight.CKO.Payment.EnterManually";
+	private static final String FLIGHTS_V2_SLIDE_TO_PURCHASE = "App.Flight.Checkout.Payment.SlideToPurchase";
+	private static final String FLIGHTS_V2_PAYMENT_CID = "App.Flight.Checkout.Payment.CID";
+	private static final String FLIGHTS_V2_ERROR = "App.Flight.Error";
+	private static final String FLIGHTS_V2_CHECKOUT_ERROR = "App.Flight.CKO.Error";
 
 	public static Pair<com.expedia.bookings.data.flights.FlightLeg,
 		com.expedia.bookings.data.flights.FlightLeg> getFirstAndLastFlightLegs() {
@@ -5361,8 +5374,8 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackFlightInsuranceAdd() {
-		createAndtrackLinkEvent(FLIGHT_INSURANCE_ADD, "Flight Checkout");
+	public static void trackFlightInsuranceAdd(String action) {
+		createAndtrackLinkEvent(FLIGHT_INSURANCE_ACTION_TEMPLATE + action, "Flight Checkout");
 	}
 
 	public static void trackFlightInsuranceBenefitsClick() {
@@ -5373,10 +5386,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(FLIGHT_INSURANCE_ERROR);
 		s.setProp(36, "ins:" + message);
 		s.trackLink(null, "o", "Flight Checkout", null, null);
-	}
-
-	public static void trackFlightInsuranceRemove() {
-		createAndtrackLinkEvent(FLIGHT_INSURANCE_REMOVE, "Flight Checkout");
 	}
 
 	public static void trackFlightInsuranceTermsClick() {
@@ -5408,4 +5417,190 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
 		s.track();
 	}
+
+	public static void trackResultOutBoundFlights(
+		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
+		String pageName =
+			flightSearchParams.getReturnDate() != null ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHTS_V2_SEARCH_ONEWAY;
+
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+
+		s.setEvents("event12,event54");
+		// Search Type: value always 'Flight'
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+
+		// Search Origin: 3 letter airport code of origin
+		String origin = flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode;
+		s.setEvar(3, "D=c3");
+		s.setProp(3, origin);
+
+		// Search Destination: 3 letter airport code of destination
+		String dest = flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode;
+		s.setEvar(4, "D=c4");
+		s.setProp(4, dest);
+
+		// day computation date
+		LocalDate departureDate = flightSearchParams.getDepartureDate();
+		LocalDate returnDate = flightSearchParams.getReturnDate();
+
+		setDateValues(s, departureDate, returnDate);
+
+		s.setEvar(47, getFlightV2Evar47String(flightSearchParams));
+		s.track();
+	}
+
+	public static void trackFlightOverview(Boolean isOutboundFlight) {
+		String pageName = isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS : FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS;
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+		s.track();
+	}
+
+	public static void trackResultInBoundFlights() {
+		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_SEARCH_ROUNDTRIP_IN);
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+		s.track();
+	}
+
+	public static void trackSortFilterClick() {
+		ADMS_Measurement s = createTrackPageLoadEventBase(PREFIX_FLIGHT_SEARCH_FILTER);
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+		s.track();
+	}
+
+	public static void trackFlightSortBy(String sortedBy) {
+		createAndtrackLinkEvent(FLIGHTS_V2_SORTBY_TEMPLATE + sortedBy, "Search Results Sort");
+	}
+
+	public static void trackFlightFilterStops(String stops) {
+		createAndtrackLinkEvent(FLIGHTS_V2_FILTER_STOPS_TEMPLATE + stops, "Search Results Filter");
+	}
+
+	public static void trackFlightFilterAirlines() {
+		createAndtrackLinkEvent(FLIGHTS_V2_FLIGHT_AIRLINES, "Search Results Filter");
+	}
+
+	public static void trackShowFlightOverView(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_RATE_DETAILS + "\" pageLoad");
+
+		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHTS_V2_RATE_DETAILS);
+
+		s.setEvents("event4");
+		// Search Type: value always 'Flight'
+		s.setEvar(2, "D=c2");
+		s.setProp(2, "Flight");
+
+		// Search Origin: 3 letter airport code of origin
+		String origin = flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode;
+		s.setEvar(3, "D=c3");
+		s.setProp(3, origin);
+
+		// Search Destination: 3 letter airport code of destination
+		String dest = flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode;
+		s.setEvar(4, "D=c4");
+		s.setProp(4, dest);
+
+		// day computation date
+		LocalDate departureDate = flightSearchParams.getDepartureDate();
+		LocalDate returnDate = flightSearchParams.getReturnDate();
+
+		setDateValues(s, departureDate, returnDate);
+
+		s.setProducts(getFlightProductString());
+		s.track();
+	}
+
+	public static void trackOverviewFlightExpandClick() {
+		createAndtrackLinkEvent(FLIGHTS_V2_DETAILS_EXPAND, "Rate Details");
+	}
+
+	public static void trackFlightPriceChange(int priceChangePercentage) {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_PRICE_CHANGE + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvents("event62");
+		s.setProp(9, "FLT|" + priceChangePercentage);
+		s.setEvar(28, FLIGHTS_V2_PRICE_CHANGE);
+		s.setProp(16, FLIGHTS_V2_PRICE_CHANGE);
+		s.trackLink(null, "o", "Flight Checkout", null, null);
+	}
+
+	public static void trackFlightCheckoutSelectTraveler() {
+		createAndtrackLinkEvent(FLIGHTS_V2_SELECT_TRAVELER, "Flight Checkout");
+	}
+
+	public static void trackFlightCheckoutEditTraveler() {
+		createAndtrackLinkEvent(FLIGHTS_V2_ENTER_TRAVELER, "Flight Checkout");
+	}
+
+	public static void trackPaymentStoredCCSelect() {
+		createAndtrackLinkEvent(FLIGHTS_V2_SELECT_CARD, "Flight Checkout");
+	}
+
+	public static void trackShowPaymentEdit() {
+		createAndtrackLinkEvent(FLIGHTS_V2_ENTER_CARD, "Flight Checkout");
+	}
+
+	public static void trackSlideToPurchase(String cardType) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHTS_V2_SLIDE_TO_PURCHASE);
+		s.setEvar(37, cardType);
+		s.track();
+	}
+
+	public static void trackFlightCheckoutPaymentCID() {
+		createTrackPageLoadEventBase(FLIGHTS_V2_PAYMENT_CID).track();
+	}
+
+	public static void trackFlightError(String errorType) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_ERROR);
+		s.setProp(16, FLIGHTS_V2_ERROR);
+		s.setProp(36, errorType);
+		s.trackLink(null, "o", "Flight Error", null, null);
+	}
+
+	public static void trackFlightCheckoutError(String errorType) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvar(28, FLIGHTS_V2_CHECKOUT_ERROR);
+		s.setProp(16, FLIGHTS_V2_CHECKOUT_ERROR);
+		s.setProp(36, errorType);
+		s.trackLink(null, "o", "Flight Checkout", null, null);
+	}
+
+	private static String getFlightV2Evar47String(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
+		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
+		// e.g. FLT|RT|A2|C1
+		String str = "FLT|";
+		if (flightSearchParams.getEndDate() != null) {
+			str += "RT|A";
+		}
+		else {
+			str += "OW|A";
+		}
+
+		int childrenInLap = 0;
+		if (flightSearchParams.getInfantSeatingInLap()) {
+			for (int age : flightSearchParams.getChildren()) {
+				if (age < 2) {
+					childrenInLap++;
+				}
+			}
+		}
+
+		int childrenInSeat = flightSearchParams.getChildren().size() - childrenInLap;
+
+		str += flightSearchParams.getAdults();
+		str += "|C";
+		str += childrenInSeat;
+		str += "|L";
+		str += childrenInLap;
+
+		return str;
+	}
+
 }

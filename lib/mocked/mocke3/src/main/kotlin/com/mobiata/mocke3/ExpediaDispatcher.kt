@@ -241,11 +241,15 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
     private fun dispatchSuggest(request: RecordedRequest): MockResponse {
         var type: String? = ""
+        var regionType: String? = ""
         var latlong: String? = ""
         var lob: String? = ""
         val params = parseHttpRequest(request)
         if (params.containsKey("type")) {
             type = params.get("type")
+        }
+        if (params.containsKey("regiontype")) {
+            regionType = params.get("regiontype")
         }
         if (params.containsKey("latlong")) {
             latlong = params.get("latlong")
@@ -284,6 +288,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         } else if (request.path.startsWith("/api/v4/nearby/")) {
             if (latlong == "31.32|75.57") {
                 return makeResponse("/api/v4/suggestion_with_no_lx_activities.json")
+            } else if (regionType == "65") {
+                return makeResponse("/api/v4/suggestion_with_airports.json")
+            } else if (regionType == "4") {
+                return makeResponse("/api/v4/suggestion_with_airports_cities.json")
             }
             return makeResponse("/api/v4/suggestion_nearby.json")
         }

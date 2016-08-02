@@ -33,6 +33,7 @@ class PaymentViewModel(val context: Context) {
     val billingInfoAndStatusUpdate = BehaviorSubject.create<Pair<BillingInfo?,ContactDetailsCompletenessStatus>>()
     val emptyBillingInfo = PublishSubject.create<Unit>()
     val storedCardRemoved = PublishSubject.create<StoredCreditCard?>()
+    val showingPaymentForm = PublishSubject.create<Boolean>()
 
     val cardTypeSubject = PublishSubject.create<PaymentType?>()
     val userLogin = PublishSubject.create<Boolean>()

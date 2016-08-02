@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
@@ -67,7 +68,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val filter: BaseFlightFilterWidget by lazy {
         val viewStub = findViewById(R.id.filter_stub) as ViewStub
         val filterView = viewStub.inflate() as BaseFlightFilterWidget
-        filterView.viewModelBase = BaseFlightFilterViewModel(context)
+        filterView.viewModelBase = BaseFlightFilterViewModel(context, getLineOfBusiness())
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
             filterView.viewModelBase.flightResultsObservable.onNext(it)
             filterView.viewModelBase.clearObservable.onNext(Unit)
@@ -205,30 +206,29 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         }
     }
 
-    val listToFiltersTransition: Transition = object : Transition(FlightResultsListViewPresenter::class.java, BaseFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
+    private val listToFiltersTransition = object : Presenter.Transition(FlightResultsListViewPresenter::class.java, BaseFlightFilterWidget::class.java, DecelerateInterpolator(2f), 500) {
         override fun startTransition(forward: Boolean) {
-            resultsPresenter.recyclerView.visibility = View.VISIBLE
-            toolbar.visibility = View.VISIBLE
+            super.startTransition(forward)
+            filter.visibility = View.VISIBLE
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
+            super.updateTransition(f, forward)
             val translatePercentage = if (forward) 1f - f else f
             filter.translationY = filter.height * translatePercentage
         }
 
         override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
             viewBundleSetVisibility(!forward)
             if (forward) {
-                toolbar.visibility = View.GONE
                 filter.visibility = View.VISIBLE
                 filter.translationY = 0f
                 trackFlightSortFilterLoad()
             } else {
-                toolbar.visibility = View.VISIBLE
                 filter.visibility = View.GONE
                 filter.translationY = (filter.height).toFloat()
             }
-            resultsPresenter.recyclerView.visibility = if(forward) View.GONE else View.VISIBLE
         }
     }
 
@@ -279,6 +279,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     abstract fun setupToolbarMenu()
+    abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun shouldShowBundlePrice(): Boolean
     abstract fun isOutboundResultsPresenter(): Boolean
     abstract fun trackFlightResultsLoad()

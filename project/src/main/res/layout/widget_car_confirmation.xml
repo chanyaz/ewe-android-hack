@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
@@ -27,9 +27,9 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/text_container"
-                android:gravity="center"
+                android:layout_centerInParent="true"
                 android:orientation="vertical">
 
                 <com.expedia.bookings.widget.TextView
@@ -94,7 +94,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:minHeight="?attr/actionBarSize" />
-        </FrameLayout>
+        </RelativeLayout>
 
         <ScrollView
             android:layout_width="match_parent"

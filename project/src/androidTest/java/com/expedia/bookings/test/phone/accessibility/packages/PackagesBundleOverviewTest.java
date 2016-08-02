@@ -39,10 +39,10 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		checkBundleTotalWidgetContentDescription("$0.00", "$0.00", false);
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
+			allOf(isDisplayed(), withText("Flight to Detroit")))));
 
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
-			allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
+			allOf(isDisplayed(), withText("Flight to San Francisco")))));
 		PackageScreen.outboundFlightInfo().check(matches(not(isEnabled())));
 		checkBundleOverviewFlightContentDescription(PackageScreen.outboundFlightInfoRowContainer(), "(DTW) Detroit", false, true);
 		PackageScreen.inboundFlightInfo().check(matches(not(isEnabled())));
@@ -111,7 +111,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		String previous = isInboundFlight ? "Outbound Flight" : "Hotel";
 		if (isDisabled) {
 			view.check(matches(withContentDescription(
-				"Flight to " + flightTo + " on " + date + " for 1 Traveler. Please select " + previous + " first. Button disabled.")));
+				"Flight to " + flightTo + " on " + date + " for 1 Traveler. Please select " + previous + " first. Button.")));
 		}
 		else {
 			view.check(matches(withContentDescription(

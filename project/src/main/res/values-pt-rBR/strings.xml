@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">No momento não é possível processar seu pedido. Tente novamente.</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Falha no pagamento</string>
+    <string name="payment_failed_label">Falha no pagamento</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Sessão expirada</string>
 
@@ -4328,8 +4328,8 @@
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_search_nav_icon_cont_desc">Voltar</string>
-    <string name="toolbar_search_nav_icon_close_cont_desc">Fechar</string>
+    <string name="toolbar_nav_icon_cont_desc">Voltar</string>
+    <string name="toolbar_nav_icon_close_cont_desc">Fechar</string>
     <string name="search_button_cont_desc">Botão de busca</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Duração: {duration}</string>

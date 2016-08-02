@@ -11,5 +11,6 @@ class RailDetailsViewModel(val context: Context) {
 
     val offerSelectedObservable = PublishSubject.create<RailSearchResponse.RailOffer>()
     val showAmenitiesObservable = PublishSubject.create<RailSearchResponse.RailOffer>()
+    val showFareRulesObservable = PublishSubject.create<RailSearchResponse.RailOffer>()
 }
 

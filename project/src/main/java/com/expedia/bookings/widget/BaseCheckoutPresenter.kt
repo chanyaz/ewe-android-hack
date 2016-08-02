@@ -42,13 +42,14 @@ import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
-import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
+import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.mobiata.android.Log
 import rx.subjects.PublishSubject
@@ -82,6 +83,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
     val travelerPresenter: TravelerPresenter by lazy {
         val presenter = findViewById(R.id.traveler_presenter) as TravelerPresenter
+        presenter.viewModel = CheckoutTravelerViewModel(context, getLineOfBusiness())
         presenter.travelerEntryWidget.travelerButton.setLOB(getLineOfBusiness())
         presenter.closeSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
@@ -300,14 +302,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             depositPolicyText.setInverseVisibility(forward)
             bottomContainer.setInverseVisibility(forward)
             cardFeeWarningTextView.setInverseVisibility(forward)
-            val showPaymentProcessingFee = if (forward && cardProcessingFeeTextView.text.isNotEmpty()) VISIBLE else GONE
-            cardProcessingFeeTextView.visibility = showPaymentProcessingFee
-            toolbarDropShadow.visibility = showPaymentProcessingFee
             if (!forward) {
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
                 paymentWidgetRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
                 scrollView.layoutParams.height = height
                 toolbarDropShadow.visibility = View.GONE
+                paymentWidget.viewmodel.showingPaymentForm.onNext(false)
             } else {
                 paymentWidgetRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
             }
@@ -414,12 +414,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     fun animateInSlideToPurchase(visible: Boolean) {
-        var isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
+        val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
         if (isSlideToPurchaseLayoutVisible) {
             trackShowSlideToPurchase()
         }
         slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
-        var distance = if (!isSlideToPurchaseLayoutVisible) slideToPurchaseLayout.height.toFloat() else 0f
+        val distance = if (!isSlideToPurchaseLayoutVisible) slideToPurchaseLayout.height.toFloat() else 0f
         if (bottomContainer.translationY == distance) {
             return
         }

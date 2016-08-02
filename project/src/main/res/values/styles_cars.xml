@@ -45,7 +45,7 @@
         <item name="skin_rippleDrawable">@drawable/car_button_ripple</item>
 
         
-        <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
 

@@ -19,6 +19,8 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.FlightFilter
+import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
@@ -163,7 +165,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                 val sort = FlightFilter.Sort.values()[position]
                 vm.userFilterChoices.userSort = sort
                 if (!isFirstLoad) {
-                    PackagesTracking().trackFlightSortBy(sort)
+                    trackFlightSortBy(sort)
                 }
                 isFirstLoad = false
             }
@@ -279,7 +281,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
         toolbar.setTitleTextAppearance(context, R.style.ToolbarTitleTextAppearance)
         toolbar.setTitleTextColor(ContextCompat.getColor(context, R.color.cars_actionbar_text_color))
         toolbar.menu.findItem(R.id.menu_done).setActionView(doneButton).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS)
-
+        toolbar.setBackgroundColor(ContextCompat.getColor(this.context,R.color.packages_flight_filter_background_color))
         val adapter = ArrayAdapter(getContext(), R.layout.spinner_sort_item, resources.getStringArray(R.array.sort_options_flights).toMutableList())
         adapter.setDropDownViewResource(R.layout.spinner_dropdown_item)
 
@@ -300,4 +302,13 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             }
         }
     }
+
+    fun trackFlightSortBy(sort: FlightFilter.Sort) {
+        if (viewModelBase.lob == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackFlightSortBy(sort)
+        } else if (viewModelBase.lob == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackFlightSortBy(sort)
+        }
+    }
+
 }

@@ -8,7 +8,9 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
+import rx.Observable
 import rx.Observer
+import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
@@ -38,6 +40,9 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
     val checkoutPaymentFailedObservable = BehaviorSubject.create<Unit>()
     val sessionTimeOutObservable = BehaviorSubject.create<Unit>()
     val soldOutObservable = BehaviorSubject.create<Unit>()
+    val createTripUnknownErrorObservable = BehaviorSubject.create<Unit>()
+
+    private var buttonActionSubscription: Subscription? = null
 
     init {
         checkoutApiErrorObserver.subscribe(checkoutApiErrorHandler())
@@ -48,6 +53,12 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
     abstract protected fun searchErrorHandler(): Observer<ApiError>
     abstract protected fun createTripErrorHandler(): Observer<ApiError>
     abstract protected fun checkoutApiErrorHandler(): Observer<ApiError>
+
+    protected fun subscribeActionToButtonPress(action: Observer<Unit>) {
+        // Unsubscribe current button action
+        buttonActionSubscription?.unsubscribe()
+        buttonActionSubscription = buttonOneClickedObservable.subscribe(action)
+    }
 
     protected fun makeDefaultError() {
         imageObservable.onNext(R.drawable.error_default)

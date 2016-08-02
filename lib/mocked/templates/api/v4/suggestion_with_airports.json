@@ -1,0 +1,434 @@
+{
+  "q": "latlong=28.4895006|77.0925364&tla=&siteid=1&type=65&knnsearch=true&maxradius=200",
+  "rid": "28d4240a-c0a0-4c5f-82fa-34472c989bfe",
+  "rc": "OK",
+  "sr": [
+    {
+      "@type": "gaiaRegionResult",
+      "index": "0",
+      "gaiaId": "6000184",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Delhi, India (DEL-Indira Gandhi Intl.)",
+        "shortName": "Delhi (DEL-Indira Gandhi Intl.)",
+        "displayName": "Delhi, India (DEL-Indira Gandhi Intl.)",
+        "lastSearchName": "Delhi, India (DEL-Indira Gandhi Intl.)"
+      },
+      "coordinates": {
+        "lat": "28.555741",
+        "long": "77.086145"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "DEL",
+          "multicity": "180000"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "7.398",
+          "distInMI": "4.598"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "938"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "1.0",
+      "popularity": "11.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6000184",
+          "airportCode": "DEL",
+          "regionNames": {
+            "fullName": "Delhi, India (DEL-Indira Gandhi Intl.)",
+            "shortName": "Delhi (DEL-Indira Gandhi Intl.)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "28.555741",
+            "long": "77.086145"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "11.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "1",
+      "gaiaId": "6026024",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Agra, India (AGR-Kheria)",
+        "shortName": "Agra (AGR-Kheria)",
+        "displayName": "Agra, India (AGR-Kheria)",
+        "lastSearchName": "Agra, India (AGR-Kheria)"
+      },
+      "coordinates": {
+        "lat": "27.153407",
+        "long": "77.962933"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "AGR",
+          "multicity": "6126825"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "171.606",
+          "distInMI": "106.653"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "118"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "0.0",
+      "popularity": "0.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6026024",
+          "airportCode": "AGR",
+          "regionNames": {
+            "fullName": "Agra, India (AGR-Kheria)",
+            "shortName": "Agra (AGR-Kheria)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "27.153407",
+            "long": "77.962933"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "0.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "2",
+      "gaiaId": "6024340",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Dehradun, India (DED-Jolly Grant)",
+        "shortName": "Dehradun (DED-Jolly Grant)",
+        "displayName": "Dehradun, India (DED-Jolly Grant)",
+        "lastSearchName": "Dehradun, India (DED-Jolly Grant)"
+      },
+      "coordinates": {
+        "lat": "30.187352",
+        "long": "78.182093"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "DED",
+          "multicity": "6126235"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "216.507",
+          "distInMI": "134.56"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "59"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "0.27272727272727276",
+      "popularity": "1.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6024340",
+          "airportCode": "DED",
+          "regionNames": {
+            "fullName": "Dehradun, India (DED-Jolly Grant)",
+            "shortName": "Dehradun (DED-Jolly Grant)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "30.187352",
+            "long": "78.182093"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "1.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "3",
+      "gaiaId": "6028762",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Jaipur, India (JAI-Sanganer)",
+        "shortName": "Jaipur (JAI-Sanganer)",
+        "displayName": "Jaipur, India (JAI-Sanganer)",
+        "lastSearchName": "Jaipur, India (JAI-Sanganer)"
+      },
+      "coordinates": {
+        "lat": "26.828451",
+        "long": "75.805900"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "JAI",
+          "multicity": "6052917"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "224.177",
+          "distInMI": "139.327"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "296"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "0.27272727272727276",
+      "popularity": "1.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6028762",
+          "airportCode": "JAI",
+          "regionNames": {
+            "fullName": "Jaipur, India (JAI-Sanganer)",
+            "shortName": "Jaipur (JAI-Sanganer)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "26.828451",
+            "long": "75.805900"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "1.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "4",
+      "gaiaId": "6031065",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Pantnagar, India (PGH)",
+        "shortName": "Pantnagar (PGH)",
+        "displayName": "Pantnagar, India (PGH)",
+        "lastSearchName": "Pantnagar, India (PGH)"
+      },
+      "coordinates": {
+        "lat": "29.031107",
+        "long": "79.474411"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "PGH",
+          "multicity": "9395"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "240.064",
+          "distInMI": "149.2"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "2"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "0.5636363636363637",
+      "popularity": "5.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6031065",
+          "airportCode": "PGH",
+          "regionNames": {
+            "fullName": "Pantnagar, India (PGH)",
+            "shortName": "Pantnagar (PGH)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "29.031107",
+            "long": "79.474411"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "5.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "5",
+      "gaiaId": "6028720",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Chandigarh, India (IXC)",
+        "shortName": "Chandigarh (IXC)",
+        "displayName": "Chandigarh, India (IXC)",
+        "lastSearchName": "Chandigarh, India (IXC)"
+      },
+      "coordinates": {
+        "lat": "30.676601",
+        "long": "76.789284"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "IXC",
+          "multicity": "6126248"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "245.165",
+          "distInMI": "152.371"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "118"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "0.49090909090909096",
+      "popularity": "4.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6028720",
+          "airportCode": "IXC",
+          "regionNames": {
+            "fullName": "Chandigarh, India (IXC)",
+            "shortName": "Chandigarh (IXC)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "30.676601",
+            "long": "76.789284"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "4.0"
+        }
+      ]
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "6",
+      "gaiaId": "6028188",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Gwalior, India (GWL)",
+        "shortName": "Gwalior (GWL)",
+        "displayName": "Gwalior, India (GWL)",
+        "lastSearchName": "Gwalior, India (GWL)"
+      },
+      "coordinates": {
+        "lat": "26.285874",
+        "long": "78.218880"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "GWL",
+          "multicity": "1407"
+        },
+        "country": {
+          "name": "India",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        },
+        "nearby": {
+          "distInKM": "269.311",
+          "distInMI": "167.378"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "5"
+      },
+      "regionGrades": {
+        "globalGrade": "0"
+      },
+      "packageable": "true",
+      "score": "0.0",
+      "popularity": "0.0",
+      "packageAirport": [
+        {
+          "@type": "gaiaPackageTLA",
+          "gaiaId": "6028188",
+          "airportCode": "GWL",
+          "regionNames": {
+            "fullName": "Gwalior, India (GWL)",
+            "shortName": "Gwalior (GWL)"
+          },
+          "isPrimaryTla": "true",
+          "isMetroCode": "false",
+          "coordinates": {
+            "lat": "26.285874",
+            "long": "78.218880"
+          },
+          "index": "0",
+          "isMinorAirport": "false",
+          "stationType": "AIRPORT",
+          "popularity": "0.0"
+        }
+      ]
+    }
+  ]
+}

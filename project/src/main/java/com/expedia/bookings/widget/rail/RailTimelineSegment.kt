@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.rail
 import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
+import android.widget.ImageView
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailSegment
@@ -17,6 +18,7 @@ class RailTimelineSegment(context: Context, segment: RailSegment) : FrameLayout(
     val operator: TextView by bindView(R.id.rail_timeline_operator)
     val duration: TextView by bindView(R.id.rail_timeline_duration)
     val arrivalStation: TextView by bindView(R.id.rail_timeline_arrival_station)
+    val travelIcon: ImageView by bindView(R.id.rail_timeline_icon)
 
     init {
         View.inflate(context, R.layout.widget_rail_details_timeline_segment, this)
@@ -30,5 +32,7 @@ class RailTimelineSegment(context: Context, segment: RailSegment) : FrameLayout(
 
         operator.text = segment.operatingCarrier
         duration.text = DateTimeUtils.formatDuration(context.resources, segment.durationMinutes())
+        travelIcon.setImageResource(RailResultsTimelineHelper.findMappedDrawable(segment.travelMode))
+
     }
 }

@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "errorCode": "UNKNOWN_ERROR",
+      "errorInfo": {
+        "summary": "An unknown or unexpected error occurred."
+      },
+      "diagnosticId": -409653352,
+      "diagnosticFullText": "com.expedia.www.domain.services.packages.exception.PackageGetProductDetailsException"
+    }
+  ],
+  "activityId": "cae4cfc1-82a3-4745-9ece-72427830d3e8"
+}

@@ -43,9 +43,9 @@ public class PackageFlightPresenterTest extends PackageTestCase {
 		assertHotelSelection();
 
 		PackageScreen.outboundFlightInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Select flight to (DTW) Detroit")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Select flight to Detroit")))));
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Flight to (SFO) San Francisco")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Flight to San Francisco")))));
 		PackageScreen.bundlePriceWidget().perform(click());
 	}
 
@@ -56,7 +56,7 @@ public class PackageFlightPresenterTest extends PackageTestCase {
 			CoreMatchers.allOf(isDisplayed(), withText("Flight to (DTW) Detroit")))));
 
 		PackageScreen.inboundFlightInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Select flight to (SFO) San Francisco")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Select flight to San Francisco")))));
 		PackageScreen.bundlePriceWidget().perform(click());
 	}
 

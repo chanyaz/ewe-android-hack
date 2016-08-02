@@ -8,6 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:foreground="?android:attr/selectableItemBackground"
+        android:importantForAccessibility="no"
         app:cardCornerRadius="@dimen/launch_lob_btn_corner_radius"
         app:cardElevation="2dp"
         app:cardUseCompatPadding="true"

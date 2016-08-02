@@ -32,6 +32,7 @@ import com.expedia.bookings.section.ISectionEditable
 import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.section.SectionBillingInfo
 import com.expedia.bookings.section.SectionLocation
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -237,15 +238,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         storedCreditCardList.setStoredCreditCardListener(storedCreditCardListener)
 
         cardInfoContainer.setOnClickListener {
-            if (shouldShowPaymentOptions()) {
-                show(PaymentOption(), FLAG_CLEAR_BACKSTACK)
-                trackShowPaymentOptions()
-            } else {
-                show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
-                trackShowPaymentEdit()
-
-            }
-            viewmodel.expandObserver.onNext(true)
+            showPaymentForm()
         }
 
         filledInCardDetailsMiniView.setOnClickListener {
@@ -269,6 +262,18 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM)
         Db.setTemporarilySavedCard(null)
+    }
+
+    fun showPaymentForm() {
+        if (shouldShowPaymentOptions()) {
+            show(PaymentOption(), FLAG_CLEAR_BACKSTACK)
+            trackShowPaymentOptions()
+        } else {
+            show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
+            trackShowPaymentEdit()
+
+        }
+        viewmodel.expandObserver.onNext(true)
     }
 
     protected fun getCreditCardIcon(drawableResourceId: Int): Drawable {
@@ -495,7 +500,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             storedCreditCardList.bind()
             trackAnalytics()
             if (!forward) validateAndBind()
-            if (forward) filledIn.onNext(isCompletelyFilled())
+            if (forward) {
+                filledIn.onNext(isCompletelyFilled())
+            }
+            viewmodel.showingPaymentForm.onNext(forward)
         }
     }
 
@@ -521,6 +529,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 validateAndBind()
                 viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
             }
+            viewmodel.showingPaymentForm.onNext(forward)
             updateToolbarMenu(!forward)
             toolbarNavIcon.onNext(if(!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
             else  ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
@@ -615,9 +624,15 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     open fun trackShowPaymentEdit() {
         // Let inheriting class call their respective tracking.
+        if(viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackShowPaymentEdit()
+        }
     }
 
     open fun trackPaymentStoredCCSelect() {
         // Let inheriting class call their respective tracking.
+        if(viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackPaymentStoredCCSelect()
+        }
     }
 }

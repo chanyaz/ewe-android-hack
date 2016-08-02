@@ -61,6 +61,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         bundlePresenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServices)
         confirmationPresenter.viewModel = PackageConfirmationViewModel(context)
         errorPresenter.viewmodel = PackageErrorViewModel(context)
+        bundlePresenter.bundleWidget.viewModel.showSearchObservable.subscribe {
+            show(searchPresenter, FLAG_CLEAR_TOP)
+        }
 
         bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
             val packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
@@ -114,7 +117,11 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             checkoutPresenter.slideToPurchase.resetSlider()
         }
 
-        errorPresenter.getViewModel().checkoutTravelerErrorObservable.subscribe {
+        errorPresenter.viewmodel.createTripUnknownErrorObservable.subscribe {
+            show(searchPresenter, FLAG_CLEAR_TOP)
+        }
+
+        errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
             checkoutPresenter.openTravelerPresenter()
@@ -168,7 +175,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
             searchPresenter.animationUpdate(f, !forward)
-            if(forward) {
+            if (forward) {
                 searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.start, searchBackgroundColor.end) as Int)
             } else {
                 searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.end, searchBackgroundColor.start) as Int)
@@ -189,7 +196,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
             val params = bundlePresenter.bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
-            behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
+            behavior.setDragCallback(object : AppBarLayout.Behavior.DragCallback() {
                 override fun canDrag(appBarLayout: AppBarLayout): Boolean {
                     return false
                 }
@@ -232,7 +239,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         override fun updateTransition(f: Float, forward: Boolean) {
             super.updateTransition(f, forward)
             searchPresenter.animationUpdate(f, forward)
-            if(forward) {
+            if (forward) {
                 searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.start, searchBackgroundColor.end) as Int)
             } else {
                 searchPresenter.setBackgroundColor(searchArgbEvaluator.evaluate(f, searchBackgroundColor.end, searchBackgroundColor.start) as Int)

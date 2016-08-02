@@ -87,7 +87,7 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.rail_primary_color)
-            val statusBar = Ui.setUpStatusBarWithTabs(context, searchContainer, color)
+            val statusBar = Ui.setUpStatusBarWithTabs(context, null, color)
             addView(statusBar)
         }
 

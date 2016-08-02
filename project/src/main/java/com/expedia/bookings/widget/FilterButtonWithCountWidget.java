@@ -84,7 +84,7 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 							.setInterpolator(new DecelerateInterpolator()).start();
 					}
 					else {
-						self.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
+						self.animate().translationY(0f).setInterpolator(new DecelerateInterpolator()).start();
 					}
 				}
 			}
@@ -93,12 +93,17 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 			public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
 				super.onScrolled(recyclerView, dx, dy);
 
-				if (scrolledDistance > 0) {
+				if (dy > 0) {
 					scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy);
-					self.setTranslationY(Math.min(heightOfButton, scrolledDistance));
 				}
 				else {
 					scrolledDistance = Math.max(0, scrolledDistance + dy);
+				}
+
+				if (scrolledDistance > 0) {
+					self.setTranslationY(Math.min(heightOfButton, scrolledDistance));
+				}
+				else {
 					self.setTranslationY(Math.min(scrolledDistance, 0));
 				}
 			}

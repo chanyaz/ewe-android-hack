@@ -24,7 +24,7 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
 
             if (isCustomerSelectingOrigin) {
                 titleObservable.onNext(
-                        Html.fromHtml(StrUtils.formatAirportNameForPackage(suggestion.regionNames.displayName)).toString())
+                        Html.fromHtml(StrUtils.formatAirportName(suggestion.regionNames.displayName)).toString())
                 subtitleObservable.onNext(
                         StrUtils.formatCityStateName(Html.fromHtml(suggestion.regionNames.displayName).toString()))
             } else {

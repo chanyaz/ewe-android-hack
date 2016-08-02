@@ -21,9 +21,7 @@ import com.expedia.ui.FlightActivity
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
-import rx.Observable
 import rx.Observer
-import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.HashMap
@@ -40,19 +38,19 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
 
 
     // Outputs
-    val searchParamsObservable = PublishSubject.create<FlightSearchParams>()
+    val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val cachedEndDateObservable = BehaviorSubject.create<LocalDate?>()
     val outboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
-    val inboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
+    val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val flightProductId = PublishSubject.create<String>()
-    val confirmedOutboundFlightSelection = PublishSubject.create<FlightLeg>()
-    val confirmedInboundFlightSelection = PublishSubject.create<FlightLeg>()
-    val outboundSelected = PublishSubject.create<FlightLeg>()
+    val confirmedOutboundFlightSelection = BehaviorSubject.create<FlightLeg>()
+    val confirmedInboundFlightSelection = BehaviorSubject.create<FlightLeg>()
+    val outboundSelected = BehaviorSubject.create<FlightLeg>()
     val inboundSelected = PublishSubject.create<FlightLeg>()
     val showChargesObFeesSubject = PublishSubject.create<Boolean>()
-    val offerSelectedChargesObFeesSubject = PublishSubject.create<String>()
+    val offerSelectedChargesObFeesSubject = BehaviorSubject.create<String>()
     val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
-    val obFeeDetailsUrlObservable = PublishSubject.create<String>()
+    val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
     val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
@@ -62,51 +60,35 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
     val searchObserver = endlessObserver<Unit> {
         getParamsBuilder().maxStay = getMaxSearchDurationDays()
         if (getParamsBuilder().areRequiredParamsFilled()) {
-            if (getParamsBuilder().isOriginSameAsDestination()) {
+            val flightSearchParams = getParamsBuilder().build()
+            travelerValidator.updateForNewSearch(flightSearchParams)
+            Db.setFlightSearchParams(flightSearchParams)
+            searchParamsObservable.onNext(flightSearchParams)
+        } else {
+            if (!getParamsBuilder().hasOriginLocation()) {
+                errorNoOriginObservable.onNext(Unit)
+            } else if (!getParamsBuilder().hasDestinationLocation()) {
+                errorNoDestinationObservable.onNext(Unit)
+            } else if (!getParamsBuilder().hasValidDates()) {
+                errorNoDatesObservable.onNext(Unit)
+            } else if (getParamsBuilder().isOriginSameAsDestination()) {
                 errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_flight_departure_arrival))
             } else if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
-            } else {
-                val flightSearchParams = getParamsBuilder().build()
-                travelerValidator.updateForNewSearch(flightSearchParams)
-                Db.setFlightSearchParams(flightSearchParams)
-                searchParamsObservable.onNext(flightSearchParams)
-            }
-        } else {
-            if (!getParamsBuilder().hasOriginAndDestination()) {
-                errorNoDestinationObservable.onNext(Unit)
-            } else if (!getParamsBuilder().hasStartAndEndDates()) {
-                errorNoDatesObservable.onNext(Unit)
             }
         }
     }
 
-    private var confirmedOutInSubscription: Subscription? = null
-    private var inboundOutboundSelectSubscription: Subscription? = null
-    private val resetFlightSelectionsSubject = PublishSubject.create<Unit>()
+    val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
+        getParamsBuilder().infantSeatingInLap(isInfantInLap)
+    }
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
+        setupFlightSelectionObservables()
 
         searchParamsObservable.subscribe { params ->
             flightServices.flightSearch(params).subscribe(makeResultsObserver())
-        }
-        searchParamsObservable.map { Unit }.subscribe(resetFlightSelectionsSubject)
-
-        confirmedOutboundFlightSelection.subscribe { flight ->
-            if (isRoundTripSearchObservable.value) {
-                inboundResultsObservable.onNext(findInboundFlights(flight.legId))
-            }
-            else {
-                val offer = flightOfferModels[makeFlightOfferKey(flight.legId,flight.legId)]
-                if (offer != null) {
-                    flightProductId.onNext(offer.productKey)
-                }
-            }
-        }
-
-        resetFlightSelectionsSubject.subscribe {
-            setupFlightSelectionObservables()
         }
 
         outboundSelected.subscribe { flightLeg ->
@@ -125,6 +107,8 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
+            getParamsBuilder().isRoundTrip = isRoundTripSearch
+            getParamsBuilder().maxStay = getMaxSearchDurationDays()
             if (datesObservable.value != null && datesObservable.value.first != null) {
                 val cachedEndDate = cachedEndDateObservable.value
                 if (isRoundTripSearch && cachedEndDate != null && startDate()?.isBefore(cachedEndDate) ?: false) {
@@ -141,35 +125,6 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
 
     override fun sameStartAndEndDateAllowed(): Boolean {
         return true
-    }
-
-    fun setupFlightSelectionObservables() {
-        confirmedOutInSubscription?.unsubscribe()
-        inboundOutboundSelectSubscription?.unsubscribe()
-
-        confirmedOutInSubscription = Observable.combineLatest(confirmedOutboundFlightSelection, confirmedInboundFlightSelection, { outbound, inbound ->
-            val offer = flightOfferModels[makeFlightOfferKey(outbound.legId, inbound.legId)]
-            if (offer != null) {
-                flightProductId.onNext(offer.productKey)
-            }
-        }).subscribe()
-
-        inboundOutboundSelectSubscription = Observable.combineLatest(outboundSelected, inboundSelected, { outbound, inbound ->
-            val offer = flightOfferModels[makeFlightOfferKey(outbound.legId, inbound.legId)]
-            if (offer != null) {
-                flightOfferSelected.onNext(offer)
-            }
-        }).subscribe()
-    }
-
-    fun clearDestinationLocation() {
-        getParamsBuilder().destination(null)
-        formattedDestinationObservable.onNext("")
-        requiredSearchParamsObserver.onNext(Unit)
-    }
-
-    val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
-        getParamsBuilder().infantSeatingInLap(isInfantInLap)
     }
 
     override fun getParamsBuilder(): FlightSearchParams.Builder {
@@ -239,6 +194,12 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         return Pair(computeTopTextForToolTip(start, end), instructions)
     }
 
+    fun clearDestinationLocation() {
+        getParamsBuilder().destination(null)
+        formattedDestinationObservable.onNext("")
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
     fun makeResultsObserver(): Observer<FlightSearchResponse> {
         return object : Observer<FlightSearchResponse> {
             override fun onNext(response: FlightSearchResponse) {
@@ -263,17 +224,42 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }
     }
 
-
     fun findInboundFlights(outboundFlightId: String) : List<FlightLeg> {
         val flights = flightMap[outboundFlightId]?.toList() ?: emptyList()
         flights.forEach { inbound ->
-            val offer = flightOfferModels[makeFlightOfferKey(outboundFlightId, inbound.legId)]
+            val offer = getFlightOffer(outboundFlightId, inbound.legId)
             if (offer != null) {
                 val offerModel = makeOffer(offer)
                 inbound.packageOfferModel = offerModel
             }
         }
         return flights
+    }
+
+    private fun setupFlightSelectionObservables() {
+        confirmedOutboundFlightSelection.subscribe { flight ->
+            if (isRoundTripSearchObservable.value) {
+                inboundResultsObservable.onNext(findInboundFlights(flight.legId))
+            }
+            else { // one-way flights
+                val outboundLegId = flight.legId
+                val inboundLegId = flight.legId // yes, they are the same. It will get us the flight offer
+                selectFlightOffer(outboundLegId, inboundLegId)
+            }
+        }
+
+        // return trip flights
+        confirmedInboundFlightSelection.subscribe {
+            val inboundLegId = it.legId
+            val outboundLegId = confirmedOutboundFlightSelection.value.legId
+            selectFlightOffer(outboundLegId, inboundLegId)
+        }
+
+        // fires offer selected before flight selection confirmed to lookup terms, fees etc. in offer
+        inboundSelected.subscribe {
+            val offer = getFlightOffer(outboundSelected.value.legId, it.legId)
+            flightOfferSelected.onNext(offer)
+        }
     }
 
     private fun createFlightMap(response: FlightSearchResponse) {
@@ -292,7 +278,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
                 // assuming all offers are sorted by price by API
                 val hasCheapestOffer = !outBoundFlights.contains(outboundLeg)
                 if (hasCheapestOffer) {
-                    outboundLeg?.packageOfferModel = makeOffer(offer)
+                    outboundLeg.packageOfferModel = makeOffer(offer)
                 }
                 outBoundFlights.add(outboundLeg)
             }
@@ -322,12 +308,20 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         return offerModel
     }
 
-    private fun makeFlightOfferKey(outboundId: String, inboundId: String): String {
-        return outboundId + inboundId
+    private fun selectFlightOffer(outboundLegId: String, inboundLegId: String) {
+        val offer = getFlightOffer(outboundLegId, inboundLegId)
+        if (offer != null) {
+            flightProductId.onNext(offer.productKey)
+            flightOfferSelected.onNext(offer)
+        }
     }
 
-    fun resetFlightSelections() {
-        resetFlightSelectionsSubject.onNext(Unit)
+    private fun getFlightOffer(outboundLegId: String, inboundLegId: String): FlightTripDetails.FlightOffer? {
+        return flightOfferModels[makeFlightOfferKey(outboundLegId, inboundLegId)]
+    }
+
+    private fun makeFlightOfferKey(outboundId: String, inboundId: String): String {
+        return outboundId + inboundId
     }
 
     val deeplinkFlightSearchParamsObserver = endlessObserver<com.expedia.bookings.data.FlightSearchParams> { searchParams ->
@@ -341,9 +335,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         if (arrivalSuggestion != null) {
             destinationLocationObserver.onNext(arrivalSuggestion)
         }
-        if (searchParams.numAdults != null) {
-            travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList()))
-        }
+        travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList()))
 
         if (flightParamsBuilder.areRequiredParamsFilled()) {
             deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.RESULTS)

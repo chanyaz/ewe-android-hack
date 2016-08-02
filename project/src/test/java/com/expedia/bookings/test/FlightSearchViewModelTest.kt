@@ -35,6 +35,8 @@ class FlightSearchViewModelTest {
     var service: FlightServices by Delegates.notNull()
 
     var vm: FlightSearchViewModel by Delegates.notNull()
+    private val LOTS_MORE: Long = 100
+
 
     @Before
     fun before(){
@@ -81,6 +83,53 @@ class FlightSearchViewModelTest {
         vm.isRoundTripSearchObservable.onNext(false)
         assertEquals("Select departure date", vm.dateTextObservable.value)
 
+    }
+
+    @Test
+    fun testFlightSearchEnabled(){
+        val origin = getDummySuggestion()
+        origin.hierarchyInfo?.airport?.airportCode = "SFO"
+        val destination = getDummySuggestion()
+        destination.hierarchyInfo?.airport?.airportCode = "LAS"
+
+        vm.isRoundTripSearchObservable.onNext(false)
+        vm.flightParamsBuilder
+                .origin(origin)
+                .destination(destination)
+                .startDate(LocalDate.now())
+                .adults(1)
+                .build() as FlightSearchParams
+
+        assertEquals(true , vm.flightParamsBuilder.areRequiredParamsFilled())
+
+        vm.isRoundTripSearchObservable.onNext(true)
+        assertEquals(false , vm.flightParamsBuilder.areRequiredParamsFilled())
+
+        vm.flightParamsBuilder.endDate(LocalDate.now().plusDays(4))
+        assertEquals(true , vm.flightParamsBuilder.areRequiredParamsFilled())
+
+    }
+
+    @Test
+    fun testRoundTripMissingReturnDate() {
+        val origin = getDummySuggestion()
+        origin.hierarchyInfo?.airport?.airportCode = "SFO"
+        val destination = getDummySuggestion()
+        destination.hierarchyInfo?.airport?.airportCode = "LAS"
+        val params = vm.flightParamsBuilder
+                .origin(origin)
+                .destination(destination)
+                .startDate(LocalDate.now())
+                .adults(1)
+                .build() as FlightSearchParams
+
+        val testSubscriber = TestSubscriber<Unit>()
+        vm.errorNoDatesObservable.subscribe(testSubscriber)
+        vm.isRoundTripSearchObservable.onNext(true)
+        vm.searchParamsObservable.onNext(params)
+        vm.searchObserver.onNext(Unit)
+        testSubscriber.requestMore(LOTS_MORE)
+        testSubscriber.assertValueCount(1)
     }
 
     @Test

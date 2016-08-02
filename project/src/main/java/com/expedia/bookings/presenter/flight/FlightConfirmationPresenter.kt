@@ -31,7 +31,6 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
 
     val outboundFlightCard: ConfirmationRowCardView by bindView(R.id.outbound_flight_card)
     val inboundFlightCard: ConfirmationRowCardView by bindView(R.id.inbound_flight_card)
-    val inboundFlightCardContainer: CardView by bindView(R.id.inbound_flight_card_container)
 
     val hotelCrossSell: HotelCrossSellWidget by bindView(R.id.hotel_cross_sell_widget)
     val airattachExpirationDaysRemainingTextView: TextView by bindView(R.id.itin_air_attach_expiration_date_text_view)
@@ -44,7 +43,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.destinationObservable.subscribeText(destination)
         vm.rewardsPointsObservable.subscribeText(expediaPoints)
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
-        vm.inboundCardVisibility.subscribeVisibility(inboundFlightCardContainer)
+        vm.inboundCardVisibility.subscribeVisibility(inboundFlightCard)
 
         vm.crossSellWidgetVisibility.subscribeVisibility(hotelCrossSell)
         vm.crossSellTodayVisibility.subscribeVisibility(airAttachExpirationTodayTextView)

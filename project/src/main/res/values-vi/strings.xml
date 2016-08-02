@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Rất tiếc, chúng tôi hiện không thể xử lý yêu cầu của quý vị. Vui lòng thử lại.</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Thanh toán không thành công</string>
+    <string name="payment_failed_label">Thanh toán không thành công</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Hết phiên truy cập</string>
 
@@ -4328,8 +4328,8 @@
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_search_nav_icon_cont_desc">Quay lại</string>
-    <string name="toolbar_search_nav_icon_close_cont_desc">Đóng</string>
+    <string name="toolbar_nav_icon_cont_desc">Quay lại</string>
+    <string name="toolbar_nav_icon_close_cont_desc">Đóng</string>
     <string name="search_button_cont_desc">Nút tìm</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Thời gian {duration}</string>

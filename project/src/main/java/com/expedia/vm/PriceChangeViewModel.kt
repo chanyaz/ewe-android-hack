@@ -6,6 +6,7 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import rx.Observable
 import rx.subjects.BehaviorSubject
@@ -35,12 +36,14 @@ class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
                     priceChangeText.onNext(context.getString(R.string.price_changed_from_TEMPLATE, originalPrice?.formattedMoney))
                 }
                 val priceDiff = newPrice.amount.toInt() - originalPrice.amount.toInt()
+                var diffPercentage: Int = 0
+                if (priceDiff.toInt() != 0) {
+                    diffPercentage = (priceDiff * 100) / originalPrice.amount.toInt()
+                }
                 if (lob == LineOfBusiness.PACKAGES) {
-                    var diffPercentage: Int = 0
-                    if (priceDiff.toInt() != 0) {
-                        diffPercentage = (priceDiff * 100) / originalPrice.amount.toInt()
-                    }
                     PackagesTracking().trackPriceChange(diffPercentage)
+                } else if (lob == LineOfBusiness.FLIGHTS_V2) {
+                    FlightsV2Tracking.trackFlightPriceChange(diffPercentage)
                 }
             }
             priceChangeVisibility.onNext(hasPriceChange)

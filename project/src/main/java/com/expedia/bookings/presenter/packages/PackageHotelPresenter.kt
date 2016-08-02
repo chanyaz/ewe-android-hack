@@ -18,6 +18,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
@@ -27,6 +28,7 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -45,6 +47,7 @@ import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.google.android.gms.maps.MapView
 import rx.Observable
 import rx.Observer
+import rx.Subscriber
 import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -215,26 +218,56 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_selectable_date_range)))
         val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
         val info = packageServices.hotelInfo(hotelId)
-        packageHotelOffers.subscribe()
-        Observable.zip(packageHotelOffers, info, { packageHotelOffers, info ->
-            if (packageHotelOffers.hasErrors()) {
-                val activity = (context as AppCompatActivity)
-                val resultIntent = Intent()
-                resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, packageHotelOffers.firstError.errorCode.name)
-                activity.setResult(Activity.RESULT_OK, resultIntent)
-                activity.finish()
-                return@zip
+        packageHotelOffers.subscribe (makeErrorSubscriber(false))
+        info.subscribe (makeErrorSubscriber(false))
+
+        Observable.zip(packageHotelOffers.doOnError {}, info.doOnError {},
+                { packageHotelOffers, info ->
+                    if (packageHotelOffers.hasErrors()) {
+                        val activity = (context as AppCompatActivity)
+                        val resultIntent = Intent()
+                        resultIntent.putExtra(Constants.PACKAGE_HOTEL_OFFERS_ERROR, packageHotelOffers.firstError.errorCode.name)
+                        activity.setResult(Activity.RESULT_OK, resultIntent)
+                        activity.finish()
+                        return@zip
+                    }
+
+                    val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers, Db.getPackageParams())
+                    PackageResponseUtils.saveHotelOfferResponse(context, hotelOffers, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
+                    loadingOverlay.animate(false)
+                    detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
+                    detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
+                    show(detailPresenter)
+                    detailPresenter.showDefault()
+                }
+        ).subscribe (makeErrorSubscriber(true))
+    }
+
+    private fun makeErrorSubscriber(showErrorDialog: Boolean): Subscriber<Any> {
+        return object : Subscriber<Any>() {
+            override fun onError(e: Throwable) {
+                if (showErrorDialog) handleError(e)
             }
 
-            val hotelOffers = HotelOffersResponse.convertToHotelOffersResponse(info, packageHotelOffers, Db.getPackageParams())
-            PackageResponseUtils.saveHotelOfferResponse(context, hotelOffers, PackageResponseUtils.RECENT_PACKAGE_HOTEL_OFFER_FILE)
-            loadingOverlay.animate(false)
-            detailPresenter.hotelDetailView.viewmodel.hotelOffersSubject.onNext(hotelOffers)
-            detailPresenter.hotelMapView.viewmodel.offersObserver.onNext(hotelOffers)
-            show(detailPresenter)
-            detailPresenter.showDefault()
-        }).subscribe()
-        info.subscribe()
+            override fun onNext(t: Any?) {
+            }
+
+            override fun onCompleted() {
+            }
+        }
+    }
+
+    private fun handleError(e: Throwable) {
+        if (RetrofitUtils.isNetworkError(e)) {
+            val retryFun = fun() {
+                hotelSelectedObserver.onNext(selectedPackageHotel)
+            }
+            val cancelFun = fun() {
+                back()
+                loadingOverlay.visibility = View.GONE
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
     }
 
     private val defaultResultsTransition = object : Presenter.DefaultTransition(PackageHotelResultsPresenter::class.java.name) {

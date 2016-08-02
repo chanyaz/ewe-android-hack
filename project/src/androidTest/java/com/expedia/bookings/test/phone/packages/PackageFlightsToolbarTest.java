@@ -56,7 +56,7 @@ public class PackageFlightsToolbarTest extends PackageTestCase {
 		PackageScreen.baggageFeeInfo().check(matches(isDisplayed()));
 		PackageScreen.baggageFeeInfo().perform(click());
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
-		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Baggage Fee Info")))));
+		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Baggage fee info")))));
 		Common.pressBack();
 		PackageScreen.flightsToolbar().perform(waitFor(isDisplayed(), 5, TimeUnit.SECONDS));
 		PackageScreen.flightsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText(previousToolBarText)))));

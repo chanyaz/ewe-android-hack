@@ -2519,7 +2519,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Valitettavasti emme pysty käsittelemään tilaustasi juuri nyt. Ole hyvä ja yritä uudelleen.</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Maksu hylätty</string>
+    <string name="payment_failed_label">Maksu hylätty</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Istunto päättyi</string>
 
@@ -4328,8 +4328,8 @@
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_search_nav_icon_cont_desc">Takaisin</string>
-    <string name="toolbar_search_nav_icon_close_cont_desc">Sulje</string>
+    <string name="toolbar_nav_icon_cont_desc">Takaisin</string>
+    <string name="toolbar_nav_icon_close_cont_desc">Sulje</string>
     <string name="search_button_cont_desc">Hakupainike</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Kesto {duration}</string>

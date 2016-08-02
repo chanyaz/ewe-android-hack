@@ -8,7 +8,7 @@ open class BaseCostSummaryBreakdownViewModel(val context: Context) {
     val iconVisibilityObservable = PublishSubject.create<Boolean>()
     val addRows = BehaviorSubject.create<List<CostSummaryBreakdown>>()
 
-    class CostSummaryBreakdown(val title: String, val color: Int?, val cost: String, val isDiscount: Boolean,
+    data class CostSummaryBreakdown(val title: String, val color: Int?, val cost: String, val isDiscount: Boolean,
                                val isTotalDue: Boolean, val isTotalCost: Boolean, val isLine: Boolean) {
 
         class CostSummaryBuilder() {

@@ -2520,7 +2520,7 @@
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Leider können wir Ihre Buchung derzeit nicht bearbeiten. Bitte versuchen Sie es erneut.</string>
     <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Bezahlung fehlgeschlagen</string>
+    <string name="payment_failed_label">Bezahlung fehlgeschlagen</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Sitzung abgelaufen</string>
 
@@ -4329,8 +4329,8 @@
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_search_nav_icon_cont_desc">Zurück</string>
-    <string name="toolbar_search_nav_icon_close_cont_desc">Schließen</string>
+    <string name="toolbar_nav_icon_cont_desc">Zurück</string>
+    <string name="toolbar_nav_icon_close_cont_desc">Schließen</string>
     <string name="search_button_cont_desc">Schaltfläche Suchen</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Dauer {duration}</string>

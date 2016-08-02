@@ -19,6 +19,7 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
 import com.expedia.vm.LXSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
+import com.squareup.phrase.Phrase
 
 class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
 
@@ -26,11 +27,21 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         calendarWidgetV2.viewModel = vm
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
+            if (enable) {
+                searchButton.contentDescription = Phrase.from(context, R.string.search)
+                        .format().toString()
+            } else {
+                searchButton.contentDescription = Phrase.from(context, R.string.search_button_disable_content_desc)
+                        .format().toString()
+            }
         }
 
         vm.locationTextObservable.subscribe { locationText ->
             firstLaunch = false
             destinationCardView.setText(locationText)
+            destinationCardView.contentDescription = Phrase.from(context, R.string.location_edit_box_cont_desc_TEMPLATE)
+                    .put("location", locationText)
+                    .format().toString()
             if (this.visibility == VISIBLE && vm.startDate() == null) {
                 calendarWidgetV2.showCalendarDialog()
             }
@@ -44,6 +55,10 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         }
 
         searchButton.subscribeOnClick(vm.searchObserver)
+        vm.dateAccessibilityObservable.subscribe{
+            text ->
+            calendarWidgetV2.contentDescription = text
+        }
     }
 
     private val lxSuggestionAdapter by lazy {
@@ -73,7 +88,7 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
     override fun onFinishInflate() {
         super.onFinishInflate()
         val service = Ui.getApplication(context).lxComponent().suggestionsService()
-        suggestionViewModel = LXSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
+        suggestionViewModel = LXSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, false)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.location_activity_details)
     }
 

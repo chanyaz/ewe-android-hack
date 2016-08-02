@@ -956,9 +956,9 @@
         "available": true
       },
       "900411200487637202692076": {
-        "hotelId": "900411",
-        "hotelName": "Westin Detroit Metro Airport",
-        "localizedHotelName": "Westin Detroit Metro Airport",
+        "hotelId": "error_createtrip_unknown",
+        "hotelName": "Error Createtrip Unknown",
+        "localizedHotelName": "Error Createtrip Unknown",
         "hotelAddress": {
           "firstAddressLine": "2501 Worldgateway Pl",
           "secondAddressLine": "",
@@ -3093,7 +3093,7 @@
             "hasAllTrainSegments": false,
             "mixedCarrierFlight": false,
             "originCity": "San Francisco, CA",
-            "destinationCity": "Detroit, MI",
+            "destinationCity": "Detroit",
             "totalTravelDistance": "3,320",
             "totalTravelDistanceUnits": "miles",
             "outbound": true,
@@ -3202,7 +3202,7 @@
             "hasAllTrainSegments": false,
             "mixedCarrierFlight": false,
             "originCity": "Detroit, MI",
-            "destinationCity": "San Francisco, CA",
+            "destinationCity": "San Francisco",
             "totalTravelDistance": "3,320",
             "totalTravelDistanceUnits": "miles",
             "outbound": false,
@@ -3538,7 +3538,7 @@
         "packageCancelable": false
       },
       {
-        "piid": "c698fd40-63b4-4a5f-9e00-9a5dbc547ec7-1",
+        "piid": "error_createtrip_unknown",
         "hotel": "900411200487637202692076",
         "flight": "bdaeb3b97acaea318d4c5b02f99f0002",
         "car": null,

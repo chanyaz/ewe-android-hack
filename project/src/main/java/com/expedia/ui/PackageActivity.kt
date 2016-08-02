@@ -54,7 +54,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectInbound()
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
                 } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
-                    //revert bundle view to be the state loaded inbound flights
+                    //revert bundle view to be the state loaded outbound flights
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectOutbound()
                     packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
                 } else if (packagePresenter.backStack.size == 2) {

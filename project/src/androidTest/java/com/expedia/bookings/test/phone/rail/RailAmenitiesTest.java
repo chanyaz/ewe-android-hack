@@ -7,7 +7,6 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.RailTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.packages.RailScreen;
@@ -34,7 +33,6 @@ public class RailAmenitiesTest extends RailTestCase {
 		RailScreen.dialogDoneButton().perform(click());
 
 		RailScreen.searchButton().perform(click());
-		Common.delay(1);
 
 		onView(withText("11:55 AM – 3:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed())).perform(click());
 		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));
@@ -42,7 +40,6 @@ public class RailAmenitiesTest extends RailTestCase {
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
 		RailScreen.clickAmenitiesLink("Any off-peak train");
-		assertAmenities();
 	}
 
 	private void assertAmenities() {

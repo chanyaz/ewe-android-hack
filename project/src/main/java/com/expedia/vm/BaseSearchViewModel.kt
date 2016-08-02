@@ -7,28 +7,28 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.validation.TravelerValidator
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import javax.inject.Inject
 
 abstract class BaseSearchViewModel(val context: Context) {
     // Outputs
     val dateAccessibilityObservable = BehaviorSubject.create<CharSequence>()
-    val dateTextObservable = BehaviorSubject.create<CharSequence>()
+    var dateTextObservable = BehaviorSubject.create<CharSequence>()
     val dateInstructionObservable = PublishSubject.create<CharSequence>()
     val calendarTooltipTextObservable = PublishSubject.create<Pair<String, String>>()
     val datesObservable = BehaviorSubject.create<Pair<LocalDate?, LocalDate?>>()
     val locationTextObservable = PublishSubject.create<String>()
     val searchButtonObservable = PublishSubject.create<Boolean>()
     val errorNoDestinationObservable = PublishSubject.create<Unit>()
+    val errorNoOriginObservable = PublishSubject.create<Unit>()
     val errorNoDatesObservable = PublishSubject.create<Unit>()
     val errorMaxDurationObservable = PublishSubject.create<String>()
     val errorMaxRangeObservable = PublishSubject.create<String>()
@@ -42,6 +42,8 @@ abstract class BaseSearchViewModel(val context: Context) {
     val destinationValidObservable = BehaviorSubject.create<Boolean>(false)
     val originValidObservable = BehaviorSubject.create<Boolean>(false)
 
+    var accessibleStartDateSetObservable = BehaviorSubject.create<Boolean>(false)
+
     init {
         travelersObservable.subscribe { update ->
             getParamsBuilder().adults(update.numberOfAdults)
@@ -52,7 +54,11 @@ abstract class BaseSearchViewModel(val context: Context) {
     abstract fun getParamsBuilder(): BaseSearchParams.Builder
     abstract fun getMaxSearchDurationDays(): Int
     abstract fun getMaxDateRange(): Int
-    abstract fun sameStartAndEndDateAllowed():Boolean
+    abstract fun sameStartAndEndDateAllowed(): Boolean
+
+    open fun isTalkbackActive(): Boolean {
+        return AccessibilityUtil.isTalkBackEnabled(context)
+    }
 
     val datesObserver = endlessObserver<Pair<LocalDate?, LocalDate?>> { data ->
         onDatesChanged(data)
@@ -74,13 +80,15 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().origin(suggestion)
-        formattedOriginObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        val origin = StrUtils.formatAirportName(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        formattedOriginObservable.onNext(origin)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     open val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().destination(suggestion)
-        formattedDestinationObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        val destination = StrUtils.formatAirportName(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        formattedDestinationObservable.onNext(destination)
         requiredSearchParamsObserver.onNext(Unit)
     }
 

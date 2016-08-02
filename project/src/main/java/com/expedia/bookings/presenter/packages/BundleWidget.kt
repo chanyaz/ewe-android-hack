@@ -6,7 +6,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.packages.InboundFlightWidget
@@ -46,8 +46,16 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         }
         vm.hotelResultsObservable.subscribe {
             bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
-            bundleHotelWidget.openHotels()
         }
+
+        vm.autoAdvanceObservable.subscribe { searchType ->
+            when (searchType) {
+                PackageSearchType.HOTEL -> bundleHotelWidget.openHotels()
+                PackageSearchType.OUTBOUND_FLIGHT -> outboundFlightWidget.openFlightsForDeparture()
+                PackageSearchType.INBOUND_FLIGHT -> inboundFlightWidget.openFlightsForArrival()
+            }
+        }
+
         vm.flightParamsObservable.subscribe { param ->
             if (param.isChangePackageSearch()) {
                 bundleHotelWidget.toggleHotelWidget(opacity, false)
@@ -67,10 +75,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         }
         vm.flightResultsObservable.subscribe { searchType ->
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
-                outboundFlightWidget.openFlightsForDeparture()
                 outboundFlightWidget.handleResultsLoaded()
             } else {
-                inboundFlightWidget.openFlightsForArrival()
                 inboundFlightWidget.handleResultsLoaded()
             }
         }
@@ -112,8 +118,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         orientation = VERTICAL
 
         bundleHotelWidget.viewModel = BundleHotelViewModel(context)
-        outboundFlightWidget.viewModel = BundleFlightViewModel(context)
-        inboundFlightWidget.viewModel = BundleFlightViewModel(context)
+        outboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.PACKAGES)
+        inboundFlightWidget.viewModel = BundleFlightViewModel(context, LineOfBusiness.PACKAGES)
 
         outboundFlightWidget.viewModel.flightsRowExpanded.subscribe {
             inboundFlightWidget.collapseFlightDetails()

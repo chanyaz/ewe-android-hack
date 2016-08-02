@@ -38,8 +38,8 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.LocationServices;
@@ -59,7 +59,7 @@ public class StrUtils {
 	private static final Pattern AIRPORT_CODE_PATTERN = Pattern.compile("\\((.*?)\\)");
 	// e.g. San Francisco, CA, United States (SFO-San Francisco Int'l Airport) -> San Francisco, CA, United States
 	private static final Pattern DISPLAY_NAME_PATTERN = Pattern.compile("^((.+)(?= \\(.*\\)))");
-	public static final String HTML_TAGS_REGEX = "<[^>]*>";
+	private static final String HTML_TAGS_REGEX = "<[^>]*>";
 	private static final Pattern CITY_STATE_PATTERN_PACKAGE = Pattern.compile("^[^\\(]+");
 	/**
 	 * Formats the display of how many adults and children are picked currently.
@@ -435,11 +435,6 @@ public class StrUtils {
 		if (cityCountryMatcher.find()) {
 			city = cityCountryMatcher.group(1);
 		}
-		return city;
-	}
-
-	public static String formatAirportNameForPackage(String suggestion) {
-		String city = formatAirportName(suggestion);
 		if (city != null && city.contains("-")) {
 			city = city.replace("-", " - ");
 		}
@@ -459,6 +454,15 @@ public class StrUtils {
 		StringBuilder sb = new StringBuilder();
 		sb.append("(").append(suggestion.hierarchyInfo.airport.airportCode).append(") ");
 		sb.append(formatCityName(suggestion));
+		return sb.toString();
+	}
+
+	public static String formatAirportCodeCityName(FlightLeg flight) {
+		String city = flight.destinationCity;
+		String airportCode = flight.destinationAirportCode;
+		StringBuilder sb = new StringBuilder();
+		sb.append("(").append(airportCode).append(") ");
+		sb.append(city);
 		return sb.toString();
 	}
 
