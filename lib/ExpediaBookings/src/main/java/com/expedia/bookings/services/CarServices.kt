@@ -8,7 +8,7 @@ import com.expedia.bookings.data.cars.CarCheckoutResponse
 import com.expedia.bookings.data.cars.CarCreateTripResponse
 import com.expedia.bookings.data.cars.CarFilter
 import com.expedia.bookings.data.cars.CarSearch
-import com.expedia.bookings.data.cars.CarSearchParams
+import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.cars.CarSearchResponse
 import com.expedia.bookings.data.cars.CategorizedCarOffers
 import com.expedia.bookings.data.cars.CreateTripCarOffer
@@ -21,6 +21,7 @@ import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import org.joda.time.DateTime
+import org.joda.time.LocalDate
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -53,13 +54,13 @@ class CarServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Int
         adapter.create(CarApi::class.java)
     }
 
-    fun carSearch(params: CarSearchParams, observer: Observer<CarSearch>): Subscription {
+    fun carSearch(params: CarSearchParam, observer: Observer<CarSearch>): Subscription {
         val searchByLocationLatLng = params.shouldSearchByLocationLatLng()
         val carSearchResponse = if (searchByLocationLatLng) {
-            carApi.roundtripCarSearch(params.pickupLocationLatLng.lat, params.pickupLocationLatLng.lng,
+            carApi.roundtripCarSearch(params.pickupLocationLatLng!!.lat, params.pickupLocationLatLng.lng,
                     params.toServerPickupDate(), params.toServerDropOffDate(), 12)
         } else {
-            carApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
+            carApi.roundtripCarSearch(params.originLocation, params.toServerPickupDate(), params.toServerDropOffDate())
         }
 
         return carSearchResponse
@@ -74,13 +75,13 @@ class CarServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Int
                 .subscribe(observer)
     }
 
-    fun carSearchWithProductKey(params: CarSearchParams, productKey: String, observer: Observer<CarSearch>): Subscription {
+    fun carSearchWithProductKey(params: CarSearchParam, productKey: String, observer: Observer<CarSearch>): Subscription {
         val searchByLocationLatLng = params.shouldSearchByLocationLatLng()
         val carSearchResponse = if (searchByLocationLatLng) {
-            carApi.roundtripCarSearch(params.pickupLocationLatLng.lat, params.pickupLocationLatLng.lng,
+            carApi.roundtripCarSearch(params.pickupLocationLatLng!!.lat, params.pickupLocationLatLng.lng,
                     params.toServerPickupDate(), params.toServerDropOffDate(), 12)
         } else {
-            carApi.roundtripCarSearch(params.origin, params.toServerPickupDate(), params.toServerDropOffDate())
+            carApi.roundtripCarSearch(params.originLocation, params.toServerPickupDate(), params.toServerDropOffDate())
         }
         return Observable.combineLatest(carSearchResponse, Observable.just(productKey), FIND_PRODUCT_KEY)
                 .doOnNext(HANDLE_ERRORS)
@@ -197,8 +198,12 @@ class CarServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Int
     companion object {
 
         @JvmStatic fun generateGson(): Gson {
-            return GsonBuilder().registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
-                    .registerTypeAdapter(RateTerm::class.java, RateTermDeserializer()).create()
+            val PATTERN = "yyyy-MM-dd"
+            return GsonBuilder()
+                    .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
+                    .registerTypeAdapter(RateTerm::class.java, RateTermDeserializer())
+                    .registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(PATTERN))
+                    .create()
         }
 
         @JvmStatic val SORT_OFFERS_BY_LOWEST_TOTAL = object : Action1<CarSearchResponse> {

@@ -13,7 +13,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearch;
-import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.data.lx.LxSearchParams;
@@ -228,20 +228,20 @@ public class AdTracker {
 		TuneUtils.updatePOS();
 	}
 
-	public static void trackCarSearch(CarSearchParams params) {
+	public static void trackCarSearch(CarSearchParam params) {
 		LeanPlumUtils.trackCarSearch(params);
 	}
 
-	public static void trackCarResult(CarSearch search, CarSearchParams params) {
+	public static void trackCarResult(CarSearch search, CarSearchParam params) {
 		TuneUtils.trackCarSearch(search, params);
 		new FacebookEvents().trackCarSearch(params, search);
 	}
 
-	public static void trackFilteredCarResult(CarSearch search, CarSearchParams params) {
+	public static void trackFilteredCarResult(CarSearch search, CarSearchParam params) {
 		new FacebookEvents().trackCarSearch(params, search);
 	}
 
-	public static void trackCarDetails(CarSearchParams searchParams, SearchCarOffer searchCarOffer) {
+	public static void trackCarDetails(CarSearchParam searchParams, SearchCarOffer searchCarOffer) {
 		new FacebookEvents().trackCarDetail(searchParams, searchCarOffer);
 	}
 

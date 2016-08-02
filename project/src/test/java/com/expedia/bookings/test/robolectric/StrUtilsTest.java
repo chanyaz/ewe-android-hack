@@ -21,6 +21,7 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.SuggestionStrUtils;
 import com.squareup.phrase.Phrase;
 
 import static org.hamcrest.CoreMatchers.allOf;
@@ -195,7 +196,7 @@ public class StrUtilsTest {
 	@Test
 	public void testAirportNameFormatting() {
 		String displayNameResponse = "New York, NY, United States (NYC-All Airports)";
-		String formattedString = StrUtils.formatAirportName(displayNameResponse);
+		String formattedString = SuggestionStrUtils.formatAirportName(displayNameResponse);
 		assertEquals(formattedString, "NYC - All Airports");
 	}
 

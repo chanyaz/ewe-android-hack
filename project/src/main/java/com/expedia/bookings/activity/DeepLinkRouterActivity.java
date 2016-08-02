@@ -24,7 +24,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -211,8 +211,8 @@ public class DeepLinkRouterActivity extends Activity {
 				productKey = data.getQueryParameter("productKey");
 			}
 
-			CarSearchParams carSearchParams = CarDataUtils.fromDeepLink(data, queryData);
-			if (carSearchParams != null && JodaUtils.isBeforeOrEquals(carSearchParams.startDateTime, carSearchParams.endDateTime)) {
+			CarSearchParam carSearchParams = CarDataUtils.fromDeepLink(data, queryData);
+			if (carSearchParams != null && JodaUtils.isBeforeOrEquals(carSearchParams.getStartDateTime(), carSearchParams.getEndDateTime())) {
 				NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
 			}
 			else {

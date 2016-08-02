@@ -7,18 +7,19 @@ import java.util.Map;
 import java.util.Set;
 
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.net.Uri;
 
+import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.cars.CarCategory;
-import com.expedia.bookings.data.cars.CarSearchParams;
-import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
 import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.RateBreakdownItem;
@@ -235,10 +236,11 @@ public class CarDataUtils {
 		return s;
 	}
 
-	public static CarSearchParams fromFlightParams(FlightTrip trip) {
+	public static CarSearchParam fromFlightParams(FlightTrip trip) {
 		FlightLeg firstLeg = trip.getLeg(0);
 		FlightLeg secondLeg = trip.getLegCount() > 1 ? trip.getLeg(1) : null;
 
+		SuggestionV4 originSuggestion;
 		LocalDate checkInDate = new LocalDate(firstLeg.getLastWaypoint().getBestSearchDateTime());
 
 		LocalDate checkOutDate;
@@ -251,25 +253,21 @@ public class CarDataUtils {
 			checkOutDate = new LocalDate(secondLeg.getFirstWaypoint()
 				.getMostRelevantDateTime());
 		}
-		CarSearchParamsBuilder builder = new CarSearchParamsBuilder();
-		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder = new CarSearchParamsBuilder.DateTimeBuilder()
-			.startDate(checkInDate)
-			.endDate(checkOutDate);
-		builder.origin(firstLeg.getAirport(false).mAirportCode);
-		builder.originDescription(firstLeg.getAirport(false).mName);
-		// Empty DateTimeBuilder
-		builder.dateTimeBuilder(dateTimeBuilder);
 
-
-		return builder.build();
+		originSuggestion = getSuggestionFromLocation(firstLeg.getAirport(false).mAirportCode, null,
+			firstLeg.getAirport(false).mName);
+		return (CarSearchParam) new CarSearchParam.Builder()
+			.startDate(checkInDate).endDate(checkOutDate)
+			.origin(originSuggestion).build();
 	}
 
-	public static CarSearchParams fromDeepLink(Uri data, Set<String> queryData) {
+	public static CarSearchParam fromDeepLink(Uri data, Set<String> queryData) {
 		String pickupLocation = getQueryParameterIfExists(data, queryData, "pickupLocation");
 		String pickupLocationLatStr = getQueryParameterIfExists(data, queryData, "pickupLocationLat");
 		String pickupLocationLngStr = getQueryParameterIfExists(data, queryData, "pickupLocationLng");
 		LatLong pickupLocationLatLng = LatLong.fromLatLngStrings(pickupLocationLatStr, pickupLocationLngStr);
 		String originDescription = getQueryParameterIfExists(data, queryData, "originDescription");
+		SuggestionV4 originSuggestion;
 
 		//Input Validation
 		//1. One of `origin` and `pickupLocationLatLng` should exist for Car Search Params to be valid
@@ -277,29 +275,66 @@ public class CarDataUtils {
 		if ((Strings.isEmpty(pickupLocation) && pickupLocationLatLng == null) || Strings.isEmpty(originDescription)) {
 			return null;
 		}
+		else {
+			originSuggestion = getSuggestionFromLocation(pickupLocation, pickupLocationLatLng, originDescription);
+		}
 
 		String pickupDateTimeStr = getQueryParameterIfExists(data, queryData, "pickupDateTime");
 		String dropoffDateTimeStr = getQueryParameterIfExists(data, queryData, "dropoffDateTime");
 
-		CarSearchParams carSearchParams = new CarSearchParams();
 		// DateTime Sanity - In case the date time passed from the outside world is in a garbled format,
 		// we fallback to proper defaults to have a graceful behavior and nothing undesirable.
-		carSearchParams.startDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTimeStr, DateTime.now());
-		carSearchParams.endDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTimeStr, carSearchParams.startDateTime.plusDays(3));
-		carSearchParams.originDescription = originDescription;
+		DateTime startDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(pickupDateTimeStr, DateTime.now());
+		DateTime endDateTime = DateUtils.yyyyMMddTHHmmssToDateTimeSafe(dropoffDateTimeStr, startDateTime.plusDays(3));
 
-		carSearchParams.origin = pickupLocation;
-		carSearchParams.pickupLocationLatLng = pickupLocationLatLng;
-
-		return carSearchParams;
+		return (CarSearchParam) new CarSearchParam.Builder().pickupLocationLatLng(pickupLocationLatLng)
+			.startDateTime(startDateTime).endDateTime(endDateTime).origin(originSuggestion).build();
 	}
 
-	public static CarSearchParams getCarSearchParamsFromJSON(String carSearchParamsJSON) {
+	public static SuggestionV4 getSuggestionFromLocation(String deeplinkLocation,LatLong pickupLocationLatLng, String originDescription) {
+		SuggestionV4 suggestion = new SuggestionV4();
+		suggestion.gaiaId = "";
+		suggestion.regionNames = new SuggestionV4.RegionNames();
+		suggestion.coordinates = new SuggestionV4.LatLng();
+
+		if (deeplinkLocation != null) {
+			suggestion.regionNames = new SuggestionV4.RegionNames();
+			suggestion.regionNames.displayName = originDescription;
+			suggestion.regionNames.fullName = originDescription;
+			suggestion.regionNames.shortName = originDescription;
+			suggestion.hierarchyInfo = new SuggestionV4.HierarchyInfo();
+			suggestion.hierarchyInfo.airport = new SuggestionV4.Airport();
+			suggestion.hierarchyInfo.airport.airportCode = deeplinkLocation;
+			suggestion.type = "Airport";
+			suggestion.isMinorAirport = false;
+			return suggestion;
+		}
+		else if (pickupLocationLatLng != null) {
+			suggestion.coordinates = new SuggestionV4.LatLng();
+			suggestion.coordinates.lat = pickupLocationLatLng.lat;
+			suggestion.coordinates.lng = pickupLocationLatLng.lng;
+			suggestion.regionNames.displayName = originDescription;
+			suggestion.regionNames.fullName = originDescription;
+			suggestion.regionNames.shortName = originDescription;
+			suggestion.type = "";
+			return suggestion;
+		}
+		return null;
+	}
+
+	public static CarSearchParam getCarSearchParamsFromJSON(String carSearchParamsJSON) {
 		Gson gson = CarServices.generateGson();
 
 		if (Strings.isNotEmpty(carSearchParamsJSON)) {
 			try {
-				return gson.fromJson(carSearchParamsJSON, CarSearchParams.class);
+				CarSearchParam tempParams = gson.fromJson(carSearchParamsJSON, CarSearchParam.class);
+				DateTime startDateTime = tempParams.getStartDateTime().withZone(DateTimeZone.getDefault());
+				DateTime endDateTime = tempParams.getEndDateTime().withZone(DateTimeZone.getDefault());
+				return (CarSearchParam) new CarSearchParam.Builder().startDateTime(startDateTime)
+					.endDateTime(endDateTime)
+					.origin(getSuggestionFromLocation(tempParams.getOriginLocation(),
+						tempParams.getPickupLocationLatLng(), tempParams.getOriginDescription()))
+					.build();
 			}
 			catch (JsonSyntaxException jse) {
 				Log.e("Failed to fetch carSearchParams: " + carSearchParamsJSON, jse);

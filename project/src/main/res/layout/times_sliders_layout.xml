@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:paddingRight="@dimen/temporary_small_padding"
-            android:text="@string/rail_departing_at"
+            android:text="?attr/pickup_time_title"
             android:textColor="@color/defaultTextColor"
             android:textSize="@dimen/temporary_font_size_small" />
 
@@ -30,9 +30,9 @@
             android:max="47"
             android:maxHeight="6dp"
             android:progressDrawable="@drawable/cars_slider_progress"
-            app:slider_color="@color/rail_primary_color"
+            app:slider_color="?attr/primary_color"
             app:slider_text_color="@color/white"
-            app:slider_track_color="@color/rail_primary_color" />
+            app:slider_track_color="?attr/primary_color" />
     </LinearLayout>
 
     <LinearLayout android:id="@+id/return_slider_container"
@@ -45,7 +45,7 @@
             android:layout_height="wrap_content"
             android:paddingRight="@dimen/temporary_small_padding"
             android:layout_alignParentLeft="true"
-            android:text="@string/rail_returning_at"
+            android:text="?attr/dropoff_time_title"
             android:textColor="@color/defaultTextColor"
             android:textSize="@dimen/temporary_font_size_small" />
 
@@ -57,8 +57,8 @@
             android:max="47"
             android:maxHeight="6dp"
             android:progressDrawable="@drawable/cars_slider_progress"
-            app:slider_color="@color/rail_primary_color"
+            app:slider_color="?attr/primary_color"
             app:slider_text_color="@color/white"
-            app:slider_track_color="@color/rail_primary_color" />
+            app:slider_track_color="?attr/primary_color" />
     </LinearLayout>
 </LinearLayout>

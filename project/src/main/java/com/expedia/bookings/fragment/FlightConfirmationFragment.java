@@ -25,7 +25,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -259,7 +259,7 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 	// Search for cars
 
 	private void searchForCars() {
-		CarSearchParams sp = CarDataUtils.fromFlightParams(Db.getTripBucket().getFlight().getFlightTrip());
+		CarSearchParam sp = CarDataUtils.fromFlightParams(Db.getTripBucket().getFlight().getFlightTrip());
 		NavUtils.goToCars(getActivity(), null, sp, NavUtils.FLAG_OPEN_SEARCH);
 	}
 

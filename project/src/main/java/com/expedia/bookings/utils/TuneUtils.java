@@ -26,12 +26,12 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearch;
-import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -598,12 +598,12 @@ public class TuneUtils {
 
 	}
 
-	public static void trackCarSearch(CarSearch search, CarSearchParams params) {
+	public static void trackCarSearch(CarSearch search, CarSearchParam params) {
 		if (initialized) {
 			MATEvent event = new MATEvent("car_result");
 			MATEventItem eventItem = new MATEventItem("car_result_item");
-			eventItem.withAttribute2(params.origin)
-				.withAttribute3(params.origin);
+			eventItem.withAttribute2(params.getOriginLocation())
+				.withAttribute3(params.getOriginLocation());
 
 			if (search != null) {
 				int propertiesCount = search.categories.size();
@@ -631,9 +631,9 @@ public class TuneUtils {
 			withTuidAndMembership(event)
 				.withAttribute2(isUserLoggedIn())
 				.withEventItems(Arrays.asList(eventItem))
-				.withDate2(params.startDateTime.toDate())
+				.withDate2(params.getStartDateTime().toDate())
 				.withSearchString("car")
-				.withDate1(params.endDateTime.toDate());
+				.withDate1(params.getEndDateTime().toDate());
 
 			trackEvent(event);
 		}

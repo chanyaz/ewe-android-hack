@@ -6,9 +6,10 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.cars.CarSearchParamsBuilder
+import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.StrUtils
@@ -92,14 +93,12 @@ class PackageConfirmationViewModel(val context: Context) {
     fun searchForCarRentalsForTripObserver(context: Context): Observer<Unit> {
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
-                val builder = CarSearchParamsBuilder()
-                val dateTimeBuilder = CarSearchParamsBuilder.DateTimeBuilder()
-                        .startDate(Db.getPackageParams().startDate)
-                        .endDate(Db.getPackageParams().endDate)
-                builder.origin(Db.getPackageSelectedOutboundFlight().destinationAirportCode)
-                builder.originDescription(StrUtils.formatCarOriginDescription(context, Db.getPackageSelectedOutboundFlight()))
-                builder.dateTimeBuilder(dateTimeBuilder)
-                val carSearchParams = builder.build()
+                val originSuggestion = CarDataUtils.getSuggestionFromLocation(Db.getPackageSelectedOutboundFlight().destinationAirportCode,
+                        null, StrUtils.formatCarOriginDescription(context, Db.getPackageSelectedOutboundFlight()))
+                val carSearchParams = CarSearchParam.Builder()
+                        .startDate(Db.getPackageParams().startDate).endDate(Db.getPackageParams().endDate)
+                        .origin(originSuggestion).build() as CarSearchParam
+
                 NavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
                 val activity = context as AppCompatActivity
                 activity.finish()

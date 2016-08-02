@@ -7,6 +7,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractErrorViewModel
 import com.squareup.phrase.Phrase
@@ -30,7 +31,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
     init {
         paramsSubject.subscribe { params ->
-            val errorTitle: String = StrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, params.arrivalAirport?.regionNames?.shortName))
+            val errorTitle: String = SuggestionStrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, params.arrivalAirport?.regionNames?.shortName))
             titleObservable.onNext(errorTitle)
             subTitleObservable.onNext(getToolbarSubtitle(params))
         }

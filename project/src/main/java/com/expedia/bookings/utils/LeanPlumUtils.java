@@ -24,11 +24,11 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarLocation;
-import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CreateTripCarFare;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
@@ -478,22 +478,22 @@ public class LeanPlumUtils {
 		}
 	};
 
-	public static void trackCarSearch(CarSearchParams carSearchParams) {
+	public static void trackCarSearch(CarSearchParam carSearchParams) {
 		if (initialized) {
 			String eventName = "Search Car";
-			Log.i("LeanPlum car search destination=" + carSearchParams.origin);
+			Log.i("LeanPlum car search destination=" + carSearchParams.getOriginLocation());
 
 			/**
 			 * Common retargeting params i.e. city, state and country are not available for airport searches.
 			 * Add them once available.
 			 */
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
-			eventParams.put("Destination", carSearchParams.origin);
-			eventParams.put("PickupDate", DateUtils.convertDatetoInt(carSearchParams.startDateTime.toLocalDate()));
-			eventParams.put("PickupDatetime", carSearchParams.startDateTime.toString(DATE_PATTERN));
-			eventParams.put("DropoffDate", DateUtils.convertDatetoInt(carSearchParams.endDateTime.toLocalDate()));
-			eventParams.put("DropoffDatetime", carSearchParams.endDateTime.toString(DATE_PATTERN));
-			eventParams.put("b_win", "" + getBookingWindow(carSearchParams.startDateTime.toLocalDate()));
+			eventParams.put("Destination", carSearchParams.getOriginLocation());
+			eventParams.put("PickupDate", DateUtils.convertDatetoInt(carSearchParams.getStartDateTime().toLocalDate()));
+			eventParams.put("PickupDatetime", carSearchParams.getStartDateTime().toString(DATE_PATTERN));
+			eventParams.put("DropoffDate", DateUtils.convertDatetoInt(carSearchParams.getEndDateTime().toLocalDate()));
+			eventParams.put("DropoffDatetime", carSearchParams.getEndDateTime().toString(DATE_PATTERN));
+			eventParams.put("b_win", "" + getBookingWindow(carSearchParams.getStartDateTime().toLocalDate()));
 			eventParams.put("p_type", "CAR");
 
 			tracking(eventName, eventParams);

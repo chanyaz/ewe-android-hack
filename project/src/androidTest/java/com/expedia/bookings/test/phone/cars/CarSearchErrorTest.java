@@ -7,6 +7,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -17,9 +18,8 @@ public class CarSearchErrorTest extends CarTestCase {
 	public void testSearchErrorProductNotAvailable() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
-		CarScreen.pickupLocation().perform(typeText("KTM"));
+		CarScreen.pickupLocation().perform(ViewActions.waitForViewToDisplay(), typeText("KTM"));
 		CarScreen.selectPickupLocation("Kathmandu, Nepal");
-		CarScreen.selectDateButton().perform(click());
 		CarScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 		CarScreen.searchButton().perform(click());
 
@@ -43,9 +43,8 @@ public class CarSearchErrorTest extends CarTestCase {
 
 	public void testSearchErrorInvalidInput() throws Throwable {
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		CarScreen.pickupLocation().perform(typeText("DTW"));
+		CarScreen.pickupLocation().perform(ViewActions.waitForViewToDisplay(), typeText("DTW"));
 		CarScreen.selectPickupLocation("Detroit, MI");
-		CarScreen.selectDateButton().perform(click());
 		CarScreen.selectDates(startDateTime.toLocalDate(), startDateTime.toLocalDate());
 		CarScreen.searchButton().perform(click());
 

@@ -1,14 +1,14 @@
 package com.expedia.bookings.test.phone.cars;
 
-import org.joda.time.DateTime;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -52,13 +52,7 @@ public class CarCheckoutViewTest extends CarTestCase {
 	}
 
 	private void gotoCheckout(int carOfferIndex) throws Throwable {
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
-		CarScreen.pickupLocation().perform(typeText("SFO"));
-		CarScreen.selectPickupLocation("San Francisco, CA");
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
-		CarScreen.searchButton().perform(click());
+		SearchScreen.doGenericCarSearch();
 		CarScreen.selectCarCategory(CATEGORY);
 		CarScreen.selectCarOffer(carOfferIndex);
 	}
@@ -71,8 +65,12 @@ public class CarCheckoutViewTest extends CarTestCase {
 		Common.pressBack();
 		Common.delay(1);
 		CarScreen.searchButtonOnDetails().perform(click());
-		CarScreen.pickupLocation().perform(click());
-		gotoCheckout(CREDIT_CARD_NOT_REQUIRED);
+		CarScreen.locationCardView().perform(click());
+		CarScreen.pickupLocation().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"));
+		CarScreen.selectPickupLocation("San Francisco, CA");
+		CarScreen.searchButton().perform(click());
+		CarScreen.selectCarCategory(CATEGORY);
+		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
 		CarScreen.acceptTermsWidget().check(matches((isDisplayed())));
 	}
 

@@ -18,12 +18,11 @@
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <include
+    <com.expedia.bookings.presenter.car.CarSearchPresenter
         android:id="@+id/widget_car_params"
-        layout="@layout/widget_car_search_params"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:visibility="gone" />
+        android:visibility="invisible" />
 
     <include
         android:id="@+id/confirmation"

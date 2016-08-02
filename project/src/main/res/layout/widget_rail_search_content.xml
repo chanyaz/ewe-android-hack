@@ -20,7 +20,7 @@
         app:input_icon_tint_color="@color/search_screen_icon_color_v2"
         app:input_text="@string/search_destination" />
 
-    <com.expedia.bookings.widget.RailCalendarWidget
+    <com.expedia.bookings.widget.CalendarWidgetWithTimeSlider
         android:id="@+id/calendar_card"
         android:layout_width="match_parent"
         android:layout_height="@dimen/default_search_card_height"
