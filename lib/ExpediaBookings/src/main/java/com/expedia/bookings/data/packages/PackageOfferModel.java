@@ -12,6 +12,7 @@ public class PackageOfferModel {
 	public boolean featuredDeal;
 
 	public static class PackagePrice {
+		public Money averageTotalPricePerTicket;
 		public Money packageTotalPrice;
 		public Money pricePerPerson;
 		public Money hotelPrice;
