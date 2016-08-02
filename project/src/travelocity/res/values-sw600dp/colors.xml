@@ -2,5 +2,6 @@
 <resources>
     <color name="tablet_hotel_coupon_text_color">#80D0FF</color>
     <color name="tablet_hotel_sale_bg_color">#E57AC231</color>
+    <color name="tablet_hotel_filter_count_ring_color">@color/bg_blue_color_travelocity</color>
 
 </resources>
