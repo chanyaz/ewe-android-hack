@@ -90,6 +90,7 @@
     <color name="lx_ticket_selector_disabled_color_lm">#40E40088</color>
     <color name="cars_ripple_color">@color/lx_ripple_color</color>
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
+    <color name="cars_drop_off_hint_text_color">#4DFFFFFF</color>
 
     <!-- Launch screen colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
