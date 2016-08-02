@@ -54,15 +54,6 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                 title = context.getString(R.string.cost_summary_breakdown_taxes_fees)
                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(passenger.taxesPrice.formattedPrice).build())
 
-                // insurance
-                if (flightDetails.offer.selectedInsuranceProduct != null) {
-                    val insurance = flightDetails.offer.selectedInsuranceProduct
-                    title = context.getString(R.string.cost_summary_breakdown_flight_insurance)
-                    breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title)
-                            .cost(insurance.totalPrice.formattedPrice)
-                            .color(Ui.obtainThemeColor(context, R.attr.primary_color)).build())
-                }
-
                 // Adding divider line
                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
 
@@ -72,18 +63,28 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                 title = Phrase.from(context, R.string.brand_booking_fee).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()
                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(flightDetails.offer.bookingFee.formattedMoney).build())
 
+                // insurance
+                if (flightDetails.offer.selectedInsuranceProduct != null) {
+                    val insurance = flightDetails.offer.selectedInsuranceProduct
+                    val insuranceTitle = context.getString(R.string.cost_summary_breakdown_flight_insurance)
+
+                    breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(insuranceTitle)
+                            .cost(insurance.totalPrice.formattedPrice)
+                            .color(Ui.obtainThemeColor(context, R.attr.primary_color))
+                            .build())
+                }
+
+                if (tripResponse.selectedCardFees != null) {
+                    title = context.getString(R.string.airline_card_fee)
+                    val airlineCardFee = tripResponse.selectedCardFees.getFormattedMoneyFromAmountAndCurrencyCode()
+
+                    breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(airlineCardFee).build())
+                }
+
                 // Adding divider line
                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
             }
 
-            if (tripResponse.selectedCardFees != null) {
-                title = context.getString(R.string.airline_card_fee)
-                val airlineCardFee = tripResponse.selectedCardFees.getFormattedMoneyFromAmountAndCurrencyCode()
-                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(airlineCardFee).build())
-
-                 // Adding divider line
-                 breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
-            }
 
             title = context.getString(R.string.cost_summary_breakdown_total_due_today)
             val totalPrice = if (tripResponse.totalPrice != null) tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints() else tripResponse.details.offer.totalFarePrice // TODO - priceChange checkout response does not return totalPrice field!!
