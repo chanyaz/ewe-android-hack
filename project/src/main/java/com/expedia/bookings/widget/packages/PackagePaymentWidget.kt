@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.data.User
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PaymentWidget
 import com.jakewharton.rxbinding.widget.RxTextView
@@ -66,18 +65,6 @@ class PackagePaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget
 
     override fun getCreditCardNumberHintResId() : Int {
         return R.string.credit_card_hint
-    }
-
-    override fun trackPaymentStoredCCSelect() {
-        PackagesTracking().trackCheckoutPaymentSelectStoredCard()
-    }
-
-    override fun trackShowPaymentEdit() {
-        PackagesTracking().trackCheckoutAddPaymentType()
-    }
-
-    override fun trackShowPaymentOptions() {
-        PackagesTracking().trackCheckoutSelectPaymentClick()
     }
 
     override fun close() {
