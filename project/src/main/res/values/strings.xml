@@ -3878,8 +3878,8 @@
     <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Hotels in {location} button</string>
     <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
     <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Flights to {location} button</string>
-    <!-- Content description for action: $500. Press to go to cost summary for your Car selection -->
-    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Press to see cost summary for your car selection</string>
+    <!-- Content description for action: $500. Cost summary information button -->
+    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Cost summary information button.</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
