@@ -751,7 +751,8 @@
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Sort &amp; Filter</string>
-
+    <!-- Accessibility content description for Sort & Filter button -->
+    <string name="sort_and_filter_cont_desc">Sort &amp; Filter button</string>
     <!-- Tablet Results strings -->
     <!-- "Done" list header label -->
     <string name="Done">Done</string>
