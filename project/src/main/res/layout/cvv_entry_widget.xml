@@ -4,11 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/cvv_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:minHeight="?attr/actionBarSize" />
+
     <RelativeLayout
         android:id="@+id/main_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingTop="?attr/actionBarSize" >
+        android:layout_height="match_parent">
 
         <!-- This is a dummy center view, from which we can align things above/below -->
         <View
@@ -50,11 +56,5 @@
 
     </RelativeLayout>
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/cvv_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:minHeight="?attr/actionBarSize" />
 
 </merge>
