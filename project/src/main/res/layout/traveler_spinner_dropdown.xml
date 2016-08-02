@@ -4,5 +4,5 @@
     android:singleLine="true"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
-    android:textColor="@drawable/traveler_text_color"
+    android:textColor="?attr/spinner_traveler_text_color_drawable"
     android:ellipsize="marquee"/>
