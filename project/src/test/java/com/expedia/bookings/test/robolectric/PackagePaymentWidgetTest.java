@@ -178,6 +178,110 @@ public class PackagePaymentWidgetTest {
 			packagePaymentWidget.getCreditCardNumberHintResId(), R.string.credit_card_hint);
 	}
 
+	@Test
+	public void testIsAtLeastPartiallyFilled() {
+		packagePaymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
+		packagePaymentWidget.getCardInfoContainer().performClick();
+
+		BillingInfo info = new BillingInfo();
+		Location location = new Location();
+
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
+		info.setNumberAndDetectType("345104799171123");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.isAtLeastPartiallyFilled());
+
+		info = new BillingInfo();
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
+		info.setNameOnCard("Expedia Chicago");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.isAtLeastPartiallyFilled());
+
+		info = new BillingInfo();
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
+		info.setSecurityCode("1234");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.isAtLeastPartiallyFilled());
+
+		info = new BillingInfo();
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
+		info.setEmail("test@email.com");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.isAtLeastPartiallyFilled());
+
+		info = new BillingInfo();
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
+		location.setCity("San Francisco");
+		info.setLocation(location);
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.isAtLeastPartiallyFilled());
+
+		info = new BillingInfo();
+		location = new Location();
+		info.setLocation(location);
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
+		location.setPostalCode("60661");
+		info.setLocation(location);
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.isAtLeastPartiallyFilled());
+
+		info = new BillingInfo();
+		location = new Location();
+		info.setLocation(location);
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
+		location.setStateCode("IL");
+		info.setLocation(location);
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.isAtLeastPartiallyFilled());
+
+		info = new BillingInfo();
+		location = new Location();
+		info.setLocation(location);
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
+		location.setCountryCode("USA");
+		info.setLocation(location);
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
+	}
+
+	@Test
+	public void testIsCompletelyFilled() {
+		packagePaymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
+		packagePaymentWidget.getCardInfoContainer().performClick();
+
+		BillingInfo info = new BillingInfo();
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isCompletelyFilled());
+		info.setNumberAndDetectType("345104799171123");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isCompletelyFilled());
+
+		info.setNameOnCard("Expedia Chicago");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isCompletelyFilled());
+
+		info.setSecurityCode("1234");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isCompletelyFilled());
+
+		info.setEmail("test@email.com");
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertFalse(packagePaymentWidget.isCompletelyFilled());
+
+		Location location = givenLocation();
+		info.setLocation(location);
+		packagePaymentWidget.getSectionBillingInfo().bind(info);
+		assertTrue(packagePaymentWidget.isCompletelyFilled());
+	}
+
 	private Location givenLocation() {
 		Location location = new Location();
 		location.setCity("San Francisco");

@@ -44,6 +44,7 @@ import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
+import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -68,8 +69,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val sectionBillingInfo: SectionBillingInfo by bindView(R.id.section_billing_info)
     val sectionLocation: SectionLocation by bindView(R.id.section_location_address)
     val creditCardNumber: NumberMaskEditText by bindView(R.id.edit_creditcard_number)
-    val creditCardName: EditText by bindView(R.id.edit_name_on_card)
-    val creditCardPostalCode: EditText by bindView(R.id.edit_address_postal_code)
+    val creditCardName: AccessibleEditText by bindView(R.id.edit_name_on_card)
+    val creditCardPostalCode: AccessibleEditText by bindView(R.id.edit_address_postal_code)
     val cardInfoIcon: ImageView by bindView(R.id.card_info_icon)
     val cardInfoName: TextView by bindView(R.id.card_info_name)
     val cardInfoExpiration: TextView by bindView(R.id.card_info_expiration)
