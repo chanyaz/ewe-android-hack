@@ -13,7 +13,7 @@ import com.expedia.bookings.widget.accessibility.AccessibleTextViewForSpinner
 import com.jakewharton.rxbinding.widget.RxTextView
 
 
-class PackagePaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
+class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
     val creditCardCvv: AccessibleEditText by bindView(R.id.edit_creditcard_cvv)
     val addressLineOne: AccessibleEditText by bindView(R.id.edit_address_line_one)
     val addressLineTwo: AccessibleEditText by bindView(R.id.edit_address_line_two)

@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
-import com.expedia.bookings.widget.packages.PackagePaymentWidget
+import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
 
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
@@ -63,7 +63,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.travelerPresenter.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
 
         bundleOverviewHeader.toolbar.viewModel.doneClicked.subscribe {
-            if (checkoutPresenter.currentState == PackagePaymentWidget::class.java.name) {
+            if (checkoutPresenter.currentState == BillingDetailsPaymentWidget::class.java.name) {
                 checkoutPresenter.paymentWidget.doneClicked.onNext(Unit)
             } else if (checkoutPresenter.currentState == TravelerPresenter::class.java.name) {
                 checkoutPresenter.travelerPresenter.doneClicked.onNext(Unit)

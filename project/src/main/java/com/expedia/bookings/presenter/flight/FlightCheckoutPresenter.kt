@@ -152,4 +152,9 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
                     }
                 }).subscribe()
     }
+
+    override fun clearCCNumber() {
+        clearCVV()
+        super.clearCCNumber()
+    }
 }

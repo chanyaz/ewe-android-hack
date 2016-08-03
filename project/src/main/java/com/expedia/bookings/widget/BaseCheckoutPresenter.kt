@@ -16,7 +16,6 @@ import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.LinearLayout
-import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightRulesActivity
@@ -30,13 +29,12 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
-import com.expedia.bookings.widget.packages.PackagePaymentWidget
+import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.traveler.TravelerDefaultState
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -306,7 +304,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         }
     }
 
-    private val defaultToPayment = object : Presenter.Transition(CheckoutDefault::class.java, PackagePaymentWidget::class.java) {
+    private val defaultToPayment = object : Presenter.Transition(CheckoutDefault::class.java, BillingDetailsPaymentWidget::class.java) {
 
         override fun startTransition(forward: Boolean) {
             handle.setInverseVisibility(forward)
@@ -415,14 +413,24 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         tripViewModel.performCreateTrip.onNext(Unit)
     }
 
-    fun clearCCNumber() {
+    open fun clearCCNumber() {
         try {
             paymentWidget.creditCardNumber.setText("")
             Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
+            Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
             Db.getBillingInfo().number = null
+            Db.getBillingInfo().securityCode = null
             paymentWidget.validateAndBind()
         } catch (ex: Exception) {
             Log.e("Error clearing billingInfo card number", ex)
+        }
+    }
+
+
+    fun clearCVV() {
+        if (paymentWidget is BillingDetailsPaymentWidget) {
+            val packagePaymentWidget = paymentWidget as BillingDetailsPaymentWidget
+            packagePaymentWidget.creditCardCvv.setText("")
         }
     }
 
