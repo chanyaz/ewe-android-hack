@@ -19,6 +19,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -156,6 +157,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             baggageFeeInfoWebView.visibility = View.GONE
             paymentFeeInfoWebView.visibility = View.GONE
             filter.visibility = View.INVISIBLE
+            postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
         }
     }
 
@@ -167,6 +169,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             if (!forward) {
                 trackFlightResultsLoad()
             }
+            postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
         }
     }
 
