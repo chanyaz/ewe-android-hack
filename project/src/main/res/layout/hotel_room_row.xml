@@ -214,6 +214,7 @@
                     android:layout_below="@+id/parent_room_type_and_price_container"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="15dp"
+                    android:focusable="true"
                     android:layout_marginTop="3dp"
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
