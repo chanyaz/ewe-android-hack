@@ -919,7 +919,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
 				.put("departurelink", baggageFeesUrlLegOne)
 				.put("returnlink", baggageFeesUrlLegTwo)
-				.toString();
+				.format().toString();
 		SpannableStringBuilder spannableStringBuilder =
 			StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true);
 		splitTicketBaggageFeesTextView.setText(spannableStringBuilder);
