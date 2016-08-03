@@ -4406,9 +4406,9 @@
     <!-- Label of link to insurance terms and conditions -->
     <string name="insurance_terms">Terms, conditions and plan sponsors</string>
     <!-- Title of insurance widget when trip is protected, e.g. Your trip is protected for $19/person -->
-    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;Your trip is protected for ${price}&lt;/b&gt;{price_type}</string>
+    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;Your trip is protected for {price}&lt;/b&gt;{price_type}</string>
     <!-- Title of insurance widget when trip is not protected, e.g. Add protection for $19/person -->
-    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Add protection for ${price}&lt;/b&gt;{price_type}</string>
+    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Add protection for {price}&lt;/b&gt;{price_type}</string>
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/day</string>
     <string name="insurance_price_per_person">/person</string>
