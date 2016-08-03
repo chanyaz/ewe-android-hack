@@ -63,6 +63,10 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
         vm.formFilledIn.subscribe { isFilledIn ->
             vm.menuTitle.onNext(if (isFilledIn) context.getString(R.string.done) else context.getString(R.string.next))
         }
+
+        vm.toolbarNavIconContentDesc.subscribe {
+            navigationContentDescription = it
+        }
     }
 
     init {

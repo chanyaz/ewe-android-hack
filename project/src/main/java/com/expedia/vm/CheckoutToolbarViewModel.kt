@@ -19,6 +19,7 @@ class CheckoutToolbarViewModel(val context: Context) {
     val visibleMenuWithTitleDone = PublishSubject.create<Unit>()
     val currentFocus = PublishSubject.create<EditText>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
+    val toolbarNavIconContentDesc = PublishSubject.create<String>()
 
     // outputs
     val doneClicked = PublishSubject.create<Unit>()

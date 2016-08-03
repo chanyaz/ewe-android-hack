@@ -33,6 +33,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     val doneClicked = PublishSubject.create<Unit>()
     val closeSubject = PublishSubject.create<Unit>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
+    val toolbarNavIconContDescSubject = PublishSubject.create<String>()
 
     var viewModel: CheckoutTravelerViewModel by notNullAndObservable { vm ->
         vm.invalidTravelersSubject.subscribe {
@@ -113,8 +114,14 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     }
 
     private fun setToolbarNavIcon(forward : Boolean) {
-        toolbarNavIcon.onNext(if (!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
-        else ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        if(!forward) {
+            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
+            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
+        }
+        else {
+            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_close_cont_desc))
+            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        }
     }
 
     fun showSelectOrEntryState(status : TravelerCheckoutStatus) {
