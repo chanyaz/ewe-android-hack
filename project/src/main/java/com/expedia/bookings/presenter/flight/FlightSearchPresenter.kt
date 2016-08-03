@@ -37,7 +37,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
-        searchButton.subscribeOnClick(vm.searchObserver)
+        searchButton.subscribeOnClick(vm.performSearchObserver)
 
         vm.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(destinationCardView) }
         vm.errorNoOriginObservable.subscribe { AnimUtils.doTheHarlemShake(originCardView) }

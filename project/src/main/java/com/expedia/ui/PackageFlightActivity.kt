@@ -7,7 +7,8 @@ import com.expedia.bookings.utils.Ui
 
 class PackageFlightActivity : AbstractAppCompatActivity() {
     val flightsPresenter: PackageFlightPresenter by lazy {
-        findViewById(R.id.package_flight_presenter) as PackageFlightPresenter
+        val presenter = findViewById(R.id.package_flight_presenter) as PackageFlightPresenter
+        presenter
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

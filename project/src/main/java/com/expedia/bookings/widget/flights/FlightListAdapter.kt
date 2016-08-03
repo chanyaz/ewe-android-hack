@@ -4,11 +4,11 @@ import android.content.Context
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
-import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.flights.FlightViewModel
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, flightSearchViewModel: FlightSearchViewModel) : AbstractFlightListAdapter(context, flightSelectedSubject, flightSearchViewModel) {
+open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearchSubject) {
 
     override fun adjustPosition(): Int {
         return if (showAllFlightsHeader()) 2 else 1

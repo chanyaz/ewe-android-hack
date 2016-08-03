@@ -28,6 +28,7 @@ class FlightDeeplinkTest {
 
     var activity: Activity by notNull()
     var flightSearchViewModel: FlightSearchViewModel by notNull()
+
     @Before
     fun setup() {
         val server = MockWebServer()
@@ -68,7 +69,7 @@ class FlightDeeplinkTest {
         flightSearchViewModel.deeplinkFlightSearchParamsObserver.onNext(flightSearchParams)
 
         testTransitionSubscriber.assertReceivedOnNext(listOf(FlightActivity.Screen.RESULTS))
-        assertTrue(flightSearchViewModel.flightParamsBuilder.areRequiredParamsFilled())
+        assertTrue(flightSearchViewModel.getParamsBuilder().areRequiredParamsFilled())
 
         testDateSubscriber.assertValue(Pair(flightSearchParams.departureDate, flightSearchParams.returnDate))
         testOriginSubscriber.assertValue(Html.fromHtml(flightSearchParams.departureLocation.destinationId).toString())

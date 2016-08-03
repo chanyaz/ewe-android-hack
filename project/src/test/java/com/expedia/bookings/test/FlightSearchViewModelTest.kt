@@ -1,8 +1,9 @@
 package com.expedia.bookings.test
 
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -11,6 +12,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
@@ -19,177 +21,294 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import rx.Observer
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
 import java.util.concurrent.TimeUnit
-import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class FlightSearchViewModelTest {
 
+    private val LOTS_MORE: Long = 100
+    private val context = RuntimeEnvironment.application
+
     var server: MockWebServer = MockWebServer()
         @Rule get
 
-    var service: FlightServices by Delegates.notNull()
-
-    var vm: FlightSearchViewModel by Delegates.notNull()
-    private val LOTS_MORE: Long = 100
-
+    lateinit var service: FlightServices
+    lateinit var sut: FlightSearchViewModel
 
     @Before
     fun before(){
-        val logger = HttpLoggingInterceptor()
-        logger.level = HttpLoggingInterceptor.Level.BODY
-        val interceptor = MockInterceptor()
-        service = FlightServices("http://localhost:" + server.port,
-                okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
-        val root = File("../lib/mocked/templates").canonicalPath
-        val opener = FileSystemOpener(root)
-        server.setDispatcher(ExpediaDispatcher(opener))
-        val context = RuntimeEnvironment.application
+        setupMockServer()
         Ui.getApplication(context).defaultTravelerComponent()
-        vm = FlightSearchViewModel(context, service)
+        sut = FlightSearchViewModel(context, service)
     }
 
     @Test
-    fun testFlightSearchDatesOnTabChanges(){
+    fun testParamsMissingOrigin() {
+        val testSubscriber = TestSubscriber<Unit>()
+        sut.errorNoOriginObservable.subscribe(testSubscriber)
+
+        sut.performSearchObserver.onNext(Unit)
+
+        testSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testParamsMissingDestination() {
+        val testSubscriber = TestSubscriber<Unit>()
+        sut.errorNoDestinationObservable.subscribe(testSubscriber)
+        givenParamsHaveOrigin()
+
+        sut.performSearchObserver.onNext(Unit)
+
+        testSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testParamsMissingValidDates() {
+        val testSubscriber = TestSubscriber<Unit>()
+        sut.errorNoDatesObservable.subscribe(testSubscriber)
+        givenParamsHaveOrigin()
+        givenParamsHaveDestination()
+
+        sut.performSearchObserver.onNext(Unit)
+
+        testSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun testParamsOriginMatchingDestination() {
+        val testSubscriber = TestSubscriber<String>()
+        sut.errorOriginSameAsDestinationObservable.subscribe(testSubscriber)
+
+        val origin = SuggestionV4()
+        sut.getParamsBuilder().origin(origin)
+        sut.getParamsBuilder().destination(origin)
+        givenValidStartAndEndDates()
+
+        sut.performSearchObserver.onNext(Unit)
+
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue("Departure and arrival airports must be different.")
+    }
+
+    @Test
+    fun testParamsDatesExceedMaxStay() {
+        val testSubscriber = TestSubscriber<String>()
+        sut.errorMaxDurationObservable.subscribe(testSubscriber)
+
+        val startDate = LocalDate()
+        val endDate = startDate.plusDays(sut.getMaxSearchDurationDays() + 1)
+
+        givenParamsHaveOrigin()
+        givenParamsHaveDestination()
+        givenParamsHaveDates(startDate, endDate)
+
+        sut.performSearchObserver.onNext(Unit)
+
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue("We're sorry, but we are unable to search for hotel stays longer than 330 days.")
+    }
+
+    @Test
+    fun testGoodSearchResponse() {
+        val testSubscriber = TestSubscriber<FlightSearchResponse>()
+
+        sut.flightSearchResponseSubject.subscribe(testSubscriber)
+        sut.searchParamsObservable.onNext(makeSearchParams())
+
+        testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        testSubscriber.assertValueCount(1)
+        assertNotNull(testSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testResponseHasError() {
+        val observer = getMakeResultsObserver()
+        val testSubscriber = TestSubscriber<ApiError>()
+        sut.errorObservable.subscribe(testSubscriber)
+
+        val flightSearchResponse = FlightSearchResponse()
+        val apiError = ApiError(ApiError.Code.FLIGHT_SOLD_OUT)
+        flightSearchResponse.errors = listOf(apiError)
+        observer.onNext(flightSearchResponse)
+
+        testSubscriber.assertValueCount(1)
+        testSubscriber.assertValue(apiError)
+    }
+
+    @Test
+    fun testResponseHasNoResults() {
+        val observer = getMakeResultsObserver()
+        val testSubscriber = TestSubscriber<ApiError>()
+        sut.errorObservable.subscribe(testSubscriber)
+
+        val flightSearchResponse = FlightSearchResponse()
+        observer.onNext(flightSearchResponse)
+
+        testSubscriber.assertValueCount(1)
+        assertEquals(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS, testSubscriber.onNextEvents[0].errorCode)
+    }
+
+    @Test
+    fun testSameStartAndEndDateAllowed() {
+        assertTrue(sut.sameStartAndEndDateAllowed(), "Same day return flights are allowed")
+    }
+
+    @Test
+    fun testClearDestinationLocation() {
+        val testSubscriber = TestSubscriber<String>()
+        val destination = SuggestionV4()
+        destination.regionNames = SuggestionV4.RegionNames()
+        destination.regionNames.displayName = ""
+        sut.formattedDestinationObservable.subscribe(testSubscriber)
+        sut.destinationLocationObserver.onNext(destination)
+
+        sut.clearDestinationLocation()
+
+        testSubscriber.assertValueCount(2)
+        testSubscriber.assertValues("", "")
+    }
+
+    @Test
+    fun testInfantInLapObserver() {
+        givenParamsHaveDestination()
+        givenParamsHaveOrigin()
+        val startDate = LocalDate()
+        val endDate = startDate.plusDays(3)
+        givenParamsHaveDates(startDate, endDate)
+
+        sut.isInfantInLapObserver.onNext(true)
+        assertTrue(sut.getParamsBuilder().build().infantSeatingInLap)
+
+        sut.isInfantInLapObserver.onNext(false)
+        assertFalse(sut.getParamsBuilder().build().infantSeatingInLap)
+    }
+
+    @Test
+    fun testFlightSearchDatesOnTabChanges() {
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
         val expectedStartDate = DateUtils.localDateToMMMd(startDate)
         val expectedEndDate = DateUtils.localDateToMMMd(endDate)
 
-        vm.datesObserver.onNext(Pair(startDate, endDate))
-        assertEquals(null, vm.cachedEndDateObservable.value)
-        assertEquals("$expectedStartDate - $expectedEndDate", vm.dateTextObservable.value)
+        sut.datesObserver.onNext(Pair(startDate, endDate))
+        assertEquals(null, sut.cachedEndDateObservable.value)
+        assertEquals("$expectedStartDate - $expectedEndDate", sut.dateTextObservable.value)
 
-        vm.isRoundTripSearchObservable.onNext(false)
-        assertEquals(endDate, vm.cachedEndDateObservable.value)
-        assertEquals("$expectedStartDate (One Way)", vm.dateTextObservable.value)
+        sut.isRoundTripSearchObservable.onNext(false)
+        assertEquals(endDate, sut.cachedEndDateObservable.value)
+        assertEquals("$expectedStartDate (One Way)", sut.dateTextObservable.value)
 
         val newStartDate = LocalDate.now().plusDays(20)
         val expectedNewStartDate = DateUtils.localDateToMMMd(newStartDate)
 
-        vm.datesObserver.onNext(Pair(newStartDate, null))
-        vm.isRoundTripSearchObservable.onNext(true)
-        assertEquals(null, vm.cachedEndDateObservable.value)
-        assertEquals("$expectedNewStartDate – Select return date", vm.dateTextObservable.value)
+        sut.datesObserver.onNext(Pair(newStartDate, null))
+        sut.isRoundTripSearchObservable.onNext(true)
+        assertEquals(null, sut.cachedEndDateObservable.value)
+        assertEquals("$expectedNewStartDate – Select return date", sut.dateTextObservable.value)
 
-        vm.datesObserver.onNext(Pair(null, null))
-        assertEquals("Select Dates", vm.dateTextObservable.value)
+        sut.datesObserver.onNext(Pair(null, null))
+        assertEquals("Select Dates", sut.dateTextObservable.value)
 
-        vm.isRoundTripSearchObservable.onNext(false)
-        assertEquals("Select departure date", vm.dateTextObservable.value)
-
+        sut.isRoundTripSearchObservable.onNext(false)
+        assertEquals("Select departure date", sut.dateTextObservable.value)
     }
 
     @Test
     fun testFlightSearchEnabled(){
-        val origin = getDummySuggestion()
-        origin.hierarchyInfo?.airport?.airportCode = "SFO"
-        val destination = getDummySuggestion()
-        destination.hierarchyInfo?.airport?.airportCode = "LAS"
+        sut.isRoundTripSearchObservable.onNext(false)
+        makeSearchParams()
 
-        vm.isRoundTripSearchObservable.onNext(false)
-        vm.flightParamsBuilder
-                .origin(origin)
-                .destination(destination)
-                .startDate(LocalDate.now())
-                .adults(1)
-                .build() as FlightSearchParams
+        assertEquals(true , sut.getParamsBuilder().areRequiredParamsFilled())
 
-        assertEquals(true , vm.flightParamsBuilder.areRequiredParamsFilled())
+        sut.isRoundTripSearchObservable.onNext(true)
+        assertEquals(false , sut.getParamsBuilder().areRequiredParamsFilled())
 
-        vm.isRoundTripSearchObservable.onNext(true)
-        assertEquals(false , vm.flightParamsBuilder.areRequiredParamsFilled())
-
-        vm.flightParamsBuilder.endDate(LocalDate.now().plusDays(4))
-        assertEquals(true , vm.flightParamsBuilder.areRequiredParamsFilled())
-
+        sut.getParamsBuilder().endDate(LocalDate.now().plusDays(4))
+        assertEquals(true , sut.getParamsBuilder().areRequiredParamsFilled())
     }
 
     @Test
     fun testRoundTripMissingReturnDate() {
+        val testSubscriber = TestSubscriber<Unit>()
+        sut.errorNoDatesObservable.subscribe(testSubscriber)
+        sut.isRoundTripSearchObservable.onNext(true)
+        sut.searchParamsObservable.onNext(makeSearchParams())
+        sut.performSearchObserver.onNext(Unit)
+        testSubscriber.requestMore(LOTS_MORE)
+        testSubscriber.assertValueCount(1)
+    }
+
+    private fun getMakeResultsObserver(): Observer<FlightSearchResponse> {
+        val makeResultsObserverMethod = sut.javaClass.getDeclaredMethod("makeResultsObserver")
+        makeResultsObserverMethod.isAccessible = true
+        return makeResultsObserverMethod.invoke(sut) as Observer<FlightSearchResponse>
+    }
+
+    private fun givenValidStartAndEndDates() {
+        val startDate = LocalDate()
+        val endDate = LocalDate()
+        sut.getParamsBuilder()
+                .startDate(startDate)
+                .endDate(endDate)
+    }
+
+    private fun givenParamsHaveDates(startDate: LocalDate, endDate: LocalDate) {
+        sut.getParamsBuilder()
+                .startDate(startDate)
+                .endDate(endDate)
+    }
+
+    private fun givenParamsHaveOrigin() {
+        val origin = SuggestionV4()
+        val airport = SuggestionV4.Airport()
+        airport.airportCode = "SFO"
+        origin.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        origin.hierarchyInfo?.airport = airport
+        sut.getParamsBuilder().origin(origin)
+    }
+
+    private fun givenParamsHaveDestination() {
+        val destination = SuggestionV4()
+        val airport = SuggestionV4.Airport()
+        airport.airportCode = "LHR"
+        destination.hierarchyInfo = SuggestionV4.HierarchyInfo()
+        destination.hierarchyInfo?.airport = airport
+        sut.getParamsBuilder().destination(destination)
+    }
+
+    private fun makeSearchParams(): FlightSearchParams {
         val origin = getDummySuggestion()
         origin.hierarchyInfo?.airport?.airportCode = "SFO"
         val destination = getDummySuggestion()
         destination.hierarchyInfo?.airport?.airportCode = "LAS"
-        val params = vm.flightParamsBuilder
+
+        return sut.getParamsBuilder()
                 .origin(origin)
                 .destination(destination)
                 .startDate(LocalDate.now())
                 .adults(1)
                 .build() as FlightSearchParams
-
-        val testSubscriber = TestSubscriber<Unit>()
-        vm.errorNoDatesObservable.subscribe(testSubscriber)
-        vm.isRoundTripSearchObservable.onNext(true)
-        vm.searchParamsObservable.onNext(params)
-        vm.searchObserver.onNext(Unit)
-        testSubscriber.requestMore(LOTS_MORE)
-        testSubscriber.assertValueCount(1)
     }
 
-    @Test
-    fun testOutboundFlightMap(){
-        val testSubscriber = TestSubscriber<List<FlightLeg>>()
-        vm.outboundResultsObservable.subscribe(testSubscriber)
-
-        doFlightSearch()
-        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-
-        val legs = testSubscriber.onNextEvents[0]
-        assertEquals(2, legs.size)
-        assertEquals("leg1", legs[0].legId)
-        assertEquals("34fa89938312d0fd8322ee27cb89f8a1", legs[1].legId)
-        assertEquals(1, legs[0].packageOfferModel.urgencyMessage.ticketsLeft)
-        assertEquals("$696.00", legs[0].packageOfferModel.price.differentialPriceFormatted)
-        assertEquals(7, legs[1].packageOfferModel.urgencyMessage.ticketsLeft)
-        assertEquals("$800.00", legs[1].packageOfferModel.price.differentialPriceFormatted)
-        testSubscriber.assertValueCount(1)
-    }
-
-    @Test
-    fun testInboundFlightMap() {
-        val searchSubscriber = TestSubscriber<List<FlightLeg>>()
-        vm.outboundResultsObservable.subscribe(searchSubscriber)
-
-        doFlightSearch()
-        searchSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-
-        val testSubscriber = TestSubscriber<List<FlightLeg>>()
-        vm.inboundResultsObservable.take(2).subscribe(testSubscriber)
-
-        val outboundFlight1 = FlightLeg()
-        outboundFlight1.legId = "leg1"
-
-        val outboundFlight2 = FlightLeg()
-        outboundFlight2.legId = "34fa89938312d0fd8322ee27cb89f8a1"
-
-        vm.confirmedOutboundFlightSelection.onNext(outboundFlight1)
-        vm.confirmedOutboundFlightSelection.onNext(outboundFlight2)
-
-        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        val inboundFlights1 = testSubscriber.onNextEvents[0]
-        val inboundFlights2 = testSubscriber.onNextEvents[1]
-        assertEquals(1, inboundFlights1.size)
-        assertEquals(1, inboundFlights2.size)
-        assertEquals("leg0", inboundFlights1[0].legId)
-        assertEquals("0558a569d2c6b1af709befca2e617390", inboundFlights2[0].legId)
-        testSubscriber.assertValueCount(2)
-    }
-
-    private fun doFlightSearch() {
-        val params = FlightSearchParams.Builder(26, 500)
-                .origin(getDummySuggestion())
-                .destination(getDummySuggestion())
-                .startDate(LocalDate.now())
-                .endDate(LocalDate.now().plusDays(1))
-                .adults(1)
-                .build() as FlightSearchParams
-        vm.searchParamsObservable.onNext(params)
+    private fun setupMockServer() {
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        val interceptor = MockInterceptor()
+        service = FlightServices("http://localhost:" + server.port,
+                OkHttpClient.Builder().addInterceptor(logger).build(),
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
+        val root = File("../lib/mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        server.setDispatcher(ExpediaDispatcher(opener))
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

@@ -1,0 +1,79 @@
+{
+  "US":{
+    "doAirlinesChargeAdditionalFeeBasedOnPaymentMethod": true,
+    "supportPhoneNumber": {
+      "*": "1-866-649-6924",
+      "iPhone": "1-877-312-2037",
+      "iPad": "1-855-452-0195",
+      "Android": "1-877-222-6503",
+      "AndroidTablet": "1-877-222-6503"
+    },
+    "supportPhoneNumberSilver": {
+      "iPhone": "1-866-538-6228",
+      "iPad": "1-866-539-9230",
+      "Android": "1-877-240-3302",
+      "AndroidTablet": "1-866-573-4664"
+    },
+    "supportPhoneNumberGold": {
+      "iPhone": "1-800-327-4890",
+      "iPad": "1-800-916-4621",
+      "Android": "1-866-925-2524",
+      "AndroidTablet": "1-800-215-0967"
+    },
+    "TPID": 1,
+    "flightsEnabled": true,
+    "gdeFlightsEnabled": true,
+    "carsEnabled": true,
+    "lxEnabled": true,
+    "gtEnabled": true,
+    "pwpEnabled:hotels": true,
+    "swpEnabled:hotels": true,
+    "launchScreenStrikethroughEnabled": true,
+    "url": "expedia.com",
+    "countryCode": "USA",
+    "supportedLocales": [
+      {
+        "localeIdentifier": "en_US",
+        "appInfoURL": "http://www.expedia.com/app",
+        "createAccountMarketingText" : "Please send me Expedia emails with travel deals, special offers and other information.",
+        "forgotPasswordURL": "http://www.expedia.com/pub/agent.dll?qscr=apwd",
+        "hotelDescriptionLocaleKey": "en",
+        "appSupportURL": "https://service.expedia.com/en-us/",
+        "websiteURL": "http://www.expedia.com/?rfrr=app.iphone",
+        "websiteURL-pad": "http://www.expedia.com/?rfrr=app.tablet",
+        "bestPriceGuaranteePolicyURL": "http://www.expedia.com/daily/highlights/best-rate-guarantee/default.asp?mcicid=deal.tools.bpg&rfrr=-58159",
+        "hotelBookingStatement": "By completing this booking I agree that I have read and accept the <a href=\"http://www.expedia.com/\">Rules and Restrictions, the Terms and Conditions, and the Privacy Policy</a>.",
+        "hotelBookingStatement-pad": "By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.",
+        "flightBookingStatement": "By completing this booking I agree that I have read and accept the <a href=\"http://www.expedia.com/\">Rules and Restrictions, the Terms and Conditions, the Privacy Policy and Fare Information</a>.",
+        "termsAndConditionsLinkText": "Terms and Conditions",
+        "privacyPolicyLinkText": "Privacy Policy",
+        "termsAndConditionsURL": "http://www.expedia.com/daily/service/legal.asp",
+        "privacyPolicyURL": "http://www.expedia.com/daily/service/privacy.asp",
+        "loyaltyTermsAndConditionsURL" : "https://www.expedia.com/loyaltyrewards/pages/info-rewards/expediarewards/terms.htm"
+      }
+    ],
+    "branding": "Expedia",
+    "pointOfSaleId": 29,
+    "automaticallyMappedLocales": [
+      "en_US",
+      "haw_US",
+      "chr_US",
+      "es_US"
+    ],
+    "shouldDisplayAveragePrices": true,
+    "shouldDisplayBestPriceGuarantee": true,
+    "googleWalletEnabled": true,
+    "distanceUnit": "miles",
+    "requiredPaymentFields:hotels": "postalCode",
+    "requiredPaymentFields:cars": "postalCode",
+    "requiredPaymentFields:lx": "postalCode",
+    "mustAcceptLegalTerms:flights": false,
+    "supportsVipAccess": true,
+    "shouldShowRewards": true,
+    "shouldShowFTCResortRegulations": true,
+    "shouldShowFlightsFreeCancellation": true,
+    "marketingOptIn" : "DO_NOT_SHOW_AUTO_ENROLL",
+    "showMultiBrandCreateAccountText" : false,
+    "realTimeReviewLXEnabled" : true
+  }
+}

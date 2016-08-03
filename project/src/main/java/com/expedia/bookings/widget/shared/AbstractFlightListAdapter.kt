@@ -17,7 +17,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.packages.FlightLayoverWidget
 import com.expedia.vm.AbstractFlightViewModel
-import com.expedia.vm.FlightSearchViewModel
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.Locale
@@ -38,8 +38,8 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         FLIGHT_CELL_VIEW
     }
 
-    constructor(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, flightSearchViewModel: FlightSearchViewModel): this(context, flightSelectedSubject, true) {
-        flightSearchViewModel.isRoundTripSearchObservable.subscribe({ isRoundTripSearch = it })
+    constructor(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearchSubject: BehaviorSubject<Boolean>): this(context, flightSelectedSubject, true) {
+        isRoundTripSearchSubject.subscribe({ isRoundTripSearch = it })
     }
 
     abstract protected fun isAirlinesChargePaymentMethodFee(): Boolean
