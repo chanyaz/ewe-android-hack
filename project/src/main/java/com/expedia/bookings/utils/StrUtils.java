@@ -366,7 +366,7 @@ public class StrUtils {
 	}
 
 	public static String formatCity(SuggestionV4 suggestion) {
-		return SuggestionStrUtils.formatCityName(Html.fromHtml(suggestion.regionNames.displayName).toString());
+		return formatCityName(Html.fromHtml(suggestion.regionNames.displayName).toString());
 	}
 
 	public static String formatCity(SuggestionV2 suggestion) {
@@ -377,7 +377,23 @@ public class StrUtils {
 		if (TextUtils.isEmpty(city)) {
 			city = Html.fromHtml(suggestion.getDisplayName()).toString();
 		}
-		return SuggestionStrUtils.formatCityName(city);
+		return formatCityName(city);
+	}
+
+	public static String formatCityName(String suggestion) {
+		String city = suggestion;
+
+		Matcher cityCountryMatcher = CITY_COUNTRY_PATTERN.matcher(city);
+		if (cityCountryMatcher.find()) {
+			city = cityCountryMatcher.group(1);
+		}
+		else {
+			Matcher cityStateMatcher = CITY_STATE_PATTERN.matcher(city);
+			if (cityStateMatcher.find()) {
+				city = cityStateMatcher.group(1);
+			}
+		}
+		return city;
 	}
 
 	public static String formatCityStateCountryName(String suggestion) {
@@ -399,6 +415,18 @@ public class StrUtils {
 			displayName = displayNameMatcher.group(0);
 		}
 		return displayName;
+	}
+
+
+	public static String formatAirport(SuggestionV4 suggestion) {
+		String airportName = formatAirportName(suggestion.regionNames.fullName);
+		if (suggestion.hierarchyInfo != null && suggestion.hierarchyInfo.airport != null
+			&& !airportName.equals(suggestion.hierarchyInfo.airport.airportCode)) {
+			return airportName;
+		}
+		else {
+			return formatCityName(suggestion.regionNames.fullName);
+		}
 	}
 
 	public static String formatAirportName(String suggestion) {

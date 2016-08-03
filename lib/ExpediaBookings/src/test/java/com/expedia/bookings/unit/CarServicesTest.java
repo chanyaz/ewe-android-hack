@@ -4,21 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 
-import org.joda.time.LocalDate;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.cars.CarCheckoutParams;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
-import com.expedia.bookings.data.cars.CarSearchParam;
+import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarSearchResponse;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarFare;
@@ -72,8 +70,7 @@ public class CarServicesTest {
 			.setBody("{garbage}"));
 
 		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
-		CarSearchParam params = (CarSearchParam) new CarSearchParam.Builder().startDate(LocalDate.now())
-			.endDate(LocalDate.now()).origin(getDummySuggestion("San Fransisco")).build();
+		CarSearchParams params = new CarSearchParams();
 
 		service.carSearch(params, observer);
 		observer.awaitTerminalEvent();
@@ -88,8 +85,7 @@ public class CarServicesTest {
 			.setBody("{\"offers\" : []}"));
 
 		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
-		CarSearchParam params = (CarSearchParam) new CarSearchParam.Builder().startDate(LocalDate.now())
-			.endDate(LocalDate.now()).origin(getDummySuggestion("San Fransisco")).build();
+		CarSearchParams params = new CarSearchParams();
 
 		service.carSearch(params, observer);
 		observer.awaitTerminalEvent();
@@ -136,10 +132,7 @@ public class CarServicesTest {
 
 		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
 
-		CarSearchParam params = (CarSearchParam) new CarSearchParam.Builder().startDate(LocalDate.now())
-			.endDate(LocalDate.now()).origin(getDummySuggestion("San Fransisco")).build();
-
-		service.carSearch(params, observer);
+		service.carSearch(new CarSearchParams(), observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -165,10 +158,7 @@ public class CarServicesTest {
 
 		TestSubscriber<CarSearch> observer = new TestSubscriber<>();
 
-		CarSearchParam params = (CarSearchParam) new CarSearchParam.Builder().startDate(LocalDate.now())
-			.endDate(LocalDate.now()).origin(getDummySuggestion("San Fransisco")).build();
-
-		service.carSearch(params, observer);
+		service.carSearch(new CarSearchParams(), observer);
 		observer.awaitTerminalEvent();
 
 		observer.assertNoErrors();
@@ -440,20 +430,5 @@ public class CarServicesTest {
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
 		server.setDispatcher(new ExpediaDispatcher(opener));
-	}
-
-	private SuggestionV4 getDummySuggestion(String locationName) {
-		SuggestionV4 suggestion = new SuggestionV4();
-		suggestion.gaiaId = "";
-		suggestion.regionNames = new SuggestionV4.RegionNames();
-		suggestion.regionNames.displayName = locationName;
-		suggestion.regionNames.fullName = locationName;
-		suggestion.regionNames.shortName = locationName;
-		suggestion.hierarchyInfo = new SuggestionV4.HierarchyInfo();
-		suggestion.hierarchyInfo.airport = new SuggestionV4.Airport();
-		suggestion.hierarchyInfo.airport.airportCode = locationName;
-		suggestion.type = "Airport";
-		suggestion.isMinorAirport = false;
-		return suggestion;
 	}
 }
