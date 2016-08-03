@@ -4,9 +4,6 @@ import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
-import android.support.test.espresso.action.ViewActions.scrollTo
-import android.support.test.espresso.action.ViewActions.swipeDown
-import android.support.test.espresso.action.ViewActions.swipeUp
 import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
@@ -16,8 +13,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
-import com.expedia.bookings.test.espresso.EspressoUtils
-import com.expedia.bookings.test.espresso.RecyclerViewAssertions
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
 import com.expedia.bookings.test.espresso.TabletViewActions
 import com.expedia.bookings.test.espresso.TestValues
@@ -247,8 +242,8 @@ object SearchScreen {
         origin().perform(click())
         searchEditText().perform(typeText(TestValues.TYPE_TEXT_LONDON))
         Espresso.closeSoftKeyboard()
-        suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(
-                withText(TestValues.RAIL_ORIGIN_STATION)), scrollTo()))
+        val originPosition = 17 // origin suggestion position in suggestion list
+        suggestionList().perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(originPosition))
         selectLocation(TestValues.RAIL_ORIGIN_STATION)
         //Delay from the auto advance anim
 
@@ -257,8 +252,8 @@ object SearchScreen {
         searchEditText().perform(ViewActions.waitForViewToDisplay())
         searchEditText().perform(typeText(TestValues.TYPE_TEXT_GLASGOW))
         Espresso.closeSoftKeyboard()
-        suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(
-                withText(TestValues.RAIL_DESTINATION_STATION)), scrollTo()))
+        val destinationPosition = 18 // destination suggestion position in suggestion list
+        suggestionList().perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(destinationPosition))
         selectLocation(TestValues.RAIL_DESTINATION_STATION)
     }
 
