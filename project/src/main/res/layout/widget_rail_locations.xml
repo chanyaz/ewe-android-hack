@@ -19,7 +19,8 @@
             style="@style/MaterialCardTextView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_search_card_height"
-            app:input_icon="@drawable/packages_search_departure"
+            app:cardCornerRadius="0dp"
+            app:input_icon="@drawable/search_type_icon"
             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
             app:input_text="@string/fly_from_hint" />
 
@@ -28,7 +29,8 @@
             style="@style/MaterialCardTextView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_search_card_height"
-            app:input_icon="@drawable/packages_search_arrival"
+            app:cardCornerRadius="0dp"
+            app:input_icon="@drawable/search_type_icon"
             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
             app:input_text="@string/fly_to_hint" />
     </LinearLayout>

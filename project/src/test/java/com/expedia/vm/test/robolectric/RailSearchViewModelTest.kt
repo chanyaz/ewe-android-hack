@@ -29,8 +29,8 @@ class RailSearchViewModelTest {
     }
 
     fun setupOneWay() {
-        val origin = Mockito.mock(SuggestionV4::class.java)
-        val destination = Mockito.mock(SuggestionV4::class.java)
+        val origin = buildRailSuggestion("GBCHX")
+        val destination = buildRailSuggestion("GBGLQ")
         val departDate = LocalDate().plusDays(1)
         val departTime = departDate.toDateTimeAtStartOfDay().millis
 
@@ -42,8 +42,8 @@ class RailSearchViewModelTest {
     }
 
     fun setupRoundTrip() {
-        val origin = Mockito.mock(SuggestionV4::class.java)
-        val destination = Mockito.mock(SuggestionV4::class.java)
+        val origin = buildRailSuggestion("GBCHX")
+        val destination = buildRailSuggestion("GBGLQ")
         val departDate = LocalDate().plusDays(1)
         val departTime = departDate.toDateTimeAtStartOfDay().millis
         val returnDate = departDate.plusDays(1)
@@ -54,6 +54,16 @@ class RailSearchViewModelTest {
         searchVM.datesObserver.onNext(Pair(departDate, returnDate))
         searchVM.timesObservable.onNext(Pair(departTime, returnTime))
         searchVM.isRoundTripSearchObservable.onNext(true)
+    }
+
+    fun buildRailSuggestion(stationCode: String): SuggestionV4 {
+        val suggestion = Mockito.mock(SuggestionV4::class.java)
+        val hierarchyInfo = SuggestionV4.HierarchyInfo()
+        val rails = Mockito.mock(SuggestionV4.Rails::class.java)
+        rails.stationCode = stationCode
+        hierarchyInfo.rails = rails
+        suggestion.hierarchyInfo = hierarchyInfo
+        return suggestion
     }
 
     @Test
@@ -119,7 +129,7 @@ class RailSearchViewModelTest {
         assertEquals("This date is too far out, please choose a closer date.", errorMaxRangeSubscriber.onNextEvents[0].toString())
     }
 
-        private fun getContext(): Context {
+    private fun getContext(): Context {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         return activity
     }

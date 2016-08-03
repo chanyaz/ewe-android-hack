@@ -100,7 +100,7 @@ public class TripBucket implements JSONable {
 	}
 
 	public void clearRails() {
-		clear(LineOfBusiness.RAIL);
+		clear(LineOfBusiness.RAILS);
 	}
 
 	/**

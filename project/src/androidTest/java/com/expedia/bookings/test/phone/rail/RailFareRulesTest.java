@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.RailTestCase;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -21,11 +22,12 @@ import static org.hamcrest.Matchers.containsString;
 public class RailFareRulesTest extends RailTestCase {
 
 	public void testFareRules() throws Throwable {
-		navigateFromLaunchToFareRules();
+		SearchScreen.selectRailOriginAndDestination();
+		navigateFromSearchToFareRules();
 		assertFareRules();
 	}
 
-	private void navigateFromLaunchToFareRules() {
+	private void navigateFromSearchToFareRules() {
 		RailScreen.navigateToDetails();
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));

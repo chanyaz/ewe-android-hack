@@ -2,6 +2,7 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
@@ -13,7 +14,6 @@ import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
-import org.joda.time.Days
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -33,9 +33,6 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     val errorTimeTooltipColor = ContextCompat.getColor(context, R.color.cars_tooltip_disabled_color)
 
     init {
-        railOriginObservable.onNext(buildFakeOrigin())
-        railDestinationObservable.onNext(buildFakeDestination())
-
         departTimeSubject.subscribe {
             val valid = it > DateTime.now().millisOfDay //todo more logic
             departTimeSliderTooltipColor.onNext(if (valid) defaultTimeTooltipColor else errorTimeTooltipColor)
@@ -45,6 +42,22 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
             val valid = it > DateTime.now().millisOfDay //todo more logic
             returnTimeSliderTooltipColor.onNext(if (valid) defaultTimeTooltipColor else errorTimeTooltipColor)
         }
+    }
+
+    override val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
+        getParamsBuilder().origin(suggestion)
+        railOriginObservable.onNext(suggestion)
+        val origin = Html.fromHtml(suggestion.regionNames.displayName).toString()
+        formattedOriginObservable.onNext(origin)
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
+        getParamsBuilder().destination(suggestion)
+        railDestinationObservable.onNext(suggestion)
+        val destination = Html.fromHtml(suggestion.regionNames.shortName).toString()
+        formattedDestinationObservable.onNext(destination)
+        requiredSearchParamsObserver.onNext(Unit)
     }
 
     val searchObserver = endlessObserver<Unit> {
@@ -60,7 +73,9 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         }
 
         if (getParamsBuilder().areRequiredParamsFilled()) {
-            if (isRoundTripSearchObservable.value && !getParamsBuilder().hasValidDateDuration()) {
+            if (getParamsBuilder().isOriginSameAsDestination()) {
+                errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_station_departure_arrival))
+            } else if (isRoundTripSearchObservable.value && !getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.rail_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else if (!getParamsBuilder().isWithinDateRange()) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
@@ -69,7 +84,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
                 searchParamsObservable.onNext(searchParams)
             }
         } else {
-            if (!getParamsBuilder().hasOriginAndOrDestination()) {
+            if (!getParamsBuilder().hasOriginAndDestination()) {
                 errorNoDestinationObservable.onNext(Unit)
             } else if (!getParamsBuilder().hasStartAndOrEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
@@ -79,8 +94,8 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
 
     fun swapLocations() {
         val oldOrigin = railOriginObservable.value
-        railOriginObservable.onNext(railDestinationObservable.value)
-        railDestinationObservable.onNext(oldOrigin)
+        originLocationObserver.onNext(railDestinationObservable.value)
+        destinationLocationObserver.onNext(oldOrigin)
     }
 
     override fun getParamsBuilder(): RailSearchRequest.Builder {
@@ -123,7 +138,6 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         super.onDatesChanged(dates)
-
     }
 
     override fun getAllowedMinProgress(now: DateTime): Int {
@@ -200,33 +214,6 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
 
     override fun getMaxDateRange(): Int {
         return context.resources.getInteger(R.integer.calendar_max_days_rail_search)
-    }
-
-    //TODO - rip these out once we have an ESS service that works for Rail
-    private fun buildFakeOrigin(): SuggestionV4 {
-        val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "Manchester, UK"
-        suggestion.regionNames.fullName = "Manchester, UK"
-        suggestion.regionNames.shortName = "Manchester"
-        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestion.hierarchyInfo!!.airport!!.airportCode = ""
-        return suggestion
-    }
-
-    private fun buildFakeDestination(): SuggestionV4 {
-        val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "London, UK"
-        suggestion.regionNames.fullName = "London, UK"
-        suggestion.regionNames.shortName = "London"
-        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestion.hierarchyInfo!!.airport!!.airportCode = ""
-        return suggestion
     }
 
     override fun sameStartAndEndDateAllowed(): Boolean {

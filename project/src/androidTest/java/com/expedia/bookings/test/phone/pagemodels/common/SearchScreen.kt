@@ -35,6 +35,10 @@ object SearchScreen {
         return onView(withId(R.id.origin_card))
     }
 
+    @JvmStatic fun destination(): ViewInteraction {
+        return onView(withId(R.id.destination_card))
+    }
+
     @JvmStatic fun calendar(): ViewInteraction {
         return onView(withId(R.id.calendar)).inRoot(withDecorView(not<View>(`is`<View>(SpoonScreenshotUtils.getCurrentActivity().window.decorView))))
     }
@@ -122,10 +126,6 @@ object SearchScreen {
         } else {
             return null
         }
-    }
-
-    @JvmStatic fun destination(): ViewInteraction {
-        return onView(withId(R.id.destination_card))
     }
 
     @Throws(Throwable::class)
@@ -240,6 +240,26 @@ object SearchScreen {
         searchEditText().perform(ViewActions.waitForViewToDisplay())
         searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW))
         selectLocation(TestValues.DESTINATION_LOCATION_DTW)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectRailOriginAndDestination() {
+        origin().perform(click())
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_LONDON))
+        Espresso.closeSoftKeyboard()
+        suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(
+                withText(TestValues.RAIL_ORIGIN_STATION)), scrollTo()))
+        selectLocation(TestValues.RAIL_ORIGIN_STATION)
+        //Delay from the auto advance anim
+
+        destination().perform(ViewActions.waitForViewToDisplay())
+        destination().perform(click())
+        searchEditText().perform(ViewActions.waitForViewToDisplay())
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_GLASGOW))
+        Espresso.closeSoftKeyboard()
+        suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(
+                withText(TestValues.RAIL_DESTINATION_STATION)), scrollTo()))
+        selectLocation(TestValues.RAIL_DESTINATION_STATION)
     }
 
     @Throws(Throwable::class)
