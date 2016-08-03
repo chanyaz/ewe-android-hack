@@ -59,15 +59,15 @@ object SearchScreen {
     }
 
     @JvmStatic fun selectDateButton(): ViewInteraction {
-        return onView(allOf<View>(withId(R.id.input_label), withParent(withId(R.id.calendar_card))))
+        return onView(withId(R.id.calendar_card))
     }
 
     @JvmStatic fun selectTravelerText(): ViewInteraction {
-        return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.traveler_card))))
+        return onView(withId(R.id.traveler_card))
     }
 
     @JvmStatic fun selectDestinationTextView(): ViewInteraction {
-        return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.destination_card))))
+        return onView(withId(R.id.destination_card))
     }
 
     @JvmStatic fun selectGuestsButton(): ViewInteraction {

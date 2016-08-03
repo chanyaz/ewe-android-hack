@@ -12,13 +12,12 @@ import com.expedia.bookings.adapter.RailSearchPagerAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
-import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.rail.PositionObservableTabLayout
+import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -26,7 +25,6 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.rail.RailSearchViewModel
 import com.expedia.vm.rail.RailSuggestionAdapterViewModel
-import org.joda.time.LocalDate
 import kotlin.properties.Delegates
 
 class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
@@ -61,10 +59,10 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
     override val travelerWidgetV2: TravelerWidgetV2 by lazy {
         searchWidget.travelerWidget
     }
-    override val originCardView: SearchInputCardView by lazy {
+    override val originCardView: SearchInputTextView by lazy {
         searchWidget.locationWidget.originLocationText
     }
-    override val destinationCardView: SearchInputCardView by lazy {
+    override val destinationCardView: SearchInputTextView by lazy {
         searchWidget.locationWidget.destinationLocationText
     }
 

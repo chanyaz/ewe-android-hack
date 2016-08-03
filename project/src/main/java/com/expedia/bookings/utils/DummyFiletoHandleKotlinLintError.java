@@ -288,7 +288,6 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.package_confirmation_presenter,
 		R.layout.bundle_total_price_widget,
 		R.dimen.material_search_field_height,
-		R.layout.cardview_search_input,
 		R.string.bundle_total_savings_TEMPLATE,
 		R.layout.hotel_details_toolbar,
 		R.string.package_overview_flight_travel_info_TEMPLATE,

@@ -94,7 +94,7 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
                 .doOnNext(suggestionSelectedObserver)
                 .debounce(waitForOtherSuggestionListeners + delayBeforeShowingDestinationSuggestions, TimeUnit.MILLISECONDS)
                 .observeOn(AndroidSchedulers.mainThread())
-                .filter { destinationCardView.text.text.equals(getDestinationSearchBoxPlaceholderText()) }
+                .filter { destinationCardView.text.equals(getDestinationSearchBoxPlaceholderText()) }
                 .subscribe ()
     }
     override fun getSuggestionHistoryFileName(): String {
