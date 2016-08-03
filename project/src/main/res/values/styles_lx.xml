@@ -22,8 +22,7 @@
 
         <!-- Skins added for whitelabel -->
         <item name="skin_costSummaryAlertDrawable">@drawable/border_horizontal_expedia_striped</item>
-        
-        
+
         <item name="skin_checkoutLoginBookNowButtonDrawable">@drawable/btn_signin_cars</item>
         <item name="skin_checkoutLoginButtonColor">@color/checkout_login_button_color</item>
         <item name="skin_lxPrimaryColor">@color/lx_primary_color</item>
@@ -48,6 +47,7 @@
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_lx</item>
         <item name="skin_rippleDrawable">@drawable/lx_button_ripple</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/traveler_text_color</item>
 
     </style>
 

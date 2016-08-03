@@ -33,7 +33,7 @@
         <item name="pickup_time_title">@string/rail_departing_at</item>
         <item name="dropoff_time_title">@string/rail_returning_at</item>
         <item name="search_calendar_card_view_text">@string/select_dates</item>
-
+        <item name="spinner_traveler_text_color_drawable">@drawable/rail_traveler_text_color</item>
     </style>
 
     <style name="RailCell.CarrierText" parent="MaterialFlightCell.CarrierText" />
