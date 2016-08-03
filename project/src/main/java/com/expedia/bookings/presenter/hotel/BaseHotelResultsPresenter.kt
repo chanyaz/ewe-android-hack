@@ -42,8 +42,8 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.HotelMapClusterAlgorithm
 import com.expedia.bookings.utils.HotelMapClusterRenderer
 import com.expedia.bookings.utils.MapItem
@@ -93,8 +93,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val loadingOverlay: MapLoadingOverlayWidget? = null
     val filterView: HotelFilterView by bindView(R.id.filter_view)
     val toolbar: Toolbar by bindView(R.id.hotel_results_toolbar)
-    val toolbarTitle by lazy { toolbar.getChildAt(2) }
-    val toolbarSubtitle by lazy { toolbar.getChildAt(3) }
+    val toolbarTitle: android.widget.TextView by bindView(R.id.title)
+    val toolbarSubtitle: android.widget.TextView by bindView(R.id.subtitle)
     val recyclerTempBackground: View by bindView(R.id.recycler_view_temp_background)
     val mapCarouselContainer: ViewGroup by bindView(R.id.hotel_carousel_container)
     val mapCarouselRecycler: HotelCarouselRecycler by bindView(R.id.hotel_carousel)
@@ -337,8 +337,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
-        toolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
-        toolbar.setSubtitleTextAppearance(getContext(), R.style.ToolbarSubtitleTextAppearance)
 
         mapCarouselRecycler.adapter = HotelMapCarouselAdapter(emptyList(), hotelSelectedSubject)
         mapCarouselRecycler.addOnScrollListener(PicassoScrollListener(context, PICASSO_TAG))
@@ -1089,8 +1087,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             recyclerTempBackground.translationY = yTranslationRecyclerTempBackground
             toolbarTitleTop = (toolbarTitle.bottom - toolbarTitle.top) / 2
             toolbarSubtitleTop = (toolbarSubtitle.bottom - toolbarSubtitle.top) / 2
-            toolbarTitle.translationY = toolbarTitleTop.toFloat()
-            toolbarSubtitle.translationY = toolbarSubtitleTop.toFloat()
         }
     }
 
