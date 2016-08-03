@@ -66,7 +66,7 @@ import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
-import com.expedia.bookings.data.cars.CarSearchParam;
+import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.cars.CarTrackingData;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
@@ -4370,7 +4370,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppCarSearch(CarSearchParam carSearchParams, int resultSize) {
+	public static void trackAppCarSearch(CarSearchParams carSearchParams, int resultSize) {
 		Log.d(TAG, "Tracking \"" + CAR_SEARCH + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(CAR_SEARCH);
 
@@ -4383,16 +4383,16 @@ public class OmnitureTracking {
 
 		//Search Origin
 		s.setEvar(3, "D=c3");
-		s.setProp(3, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.getOriginLocation()));
+		s.setProp(3, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.origin));
 
 		//Search Destination
-		s.setProp(4, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.getOriginLocation()));
+		s.setProp(4, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.origin));
 		s.setEvar(4, "D=c4");
 
-		setDateValues(s, carSearchParams.getStartDateTime().toLocalDate(), carSearchParams.getEndDateTime().toLocalDate());
+		setDateValues(s, carSearchParams.startDateTime.toLocalDate(), carSearchParams.endDateTime.toLocalDate());
 
 		s.setEvar(47, getEvar47String(carSearchParams));
-		s.setEvar(48, carSearchParams.getOriginDescription());
+		s.setEvar(48, carSearchParams.originDescription);
 
 		s.track();
 	}
@@ -4532,12 +4532,12 @@ public class OmnitureTracking {
 				+ carOffer.detailedFare.grandTotal.amount);
 	}
 
-	private static String getEvar47String(CarSearchParam params) {
+	private static String getEvar47String(CarSearchParams params) {
 		StringBuilder sb = new StringBuilder("CAR|RT|");
 		SimpleDateFormat sdf = new SimpleDateFormat(CAR_DATE_FORMAT, Locale.US);
-		sb.append(sdf.format(params.getStartDateTime().toDate()));
+		sb.append(sdf.format(params.startDateTime.toDate()));
 		sb.append("|");
-		sb.append(sdf.format(params.getEndDateTime().toDate()));
+		sb.append(sdf.format(params.endDateTime.toDate()));
 		return sb.toString();
 	}
 

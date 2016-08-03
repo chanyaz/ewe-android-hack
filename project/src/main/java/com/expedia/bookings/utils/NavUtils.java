@@ -1,7 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +10,6 @@ import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.TextUtils;
 import android.widget.Toast;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ActivityKillReceiver;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -34,7 +31,7 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.cars.CarSearchParam;
+import com.expedia.bookings.data.cars.CarSearchParams;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
@@ -47,6 +44,7 @@ import com.expedia.ui.PackageActivity;
 import com.expedia.ui.RailActivity;
 import com.google.gson.Gson;
 import com.mobiata.android.Log;
+import java.util.List;
 
 /**
  * Utilities for navigating the app (between Activities)
@@ -310,7 +308,7 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToCars(Context context, Bundle animOptions, CarSearchParam searchParams, String productKey, int flags) {
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams, String productKey, int flags) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, CarActivity.class);
 		if (searchParams != null) {
@@ -327,7 +325,7 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
-	public static void goToCars(Context context, Bundle animOptions, CarSearchParam searchParams, int flags) {
+	public static void goToCars(Context context, Bundle animOptions, CarSearchParams searchParams, int flags) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, CarActivity.class);
 		if (searchParams != null) {

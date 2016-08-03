@@ -1,43 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingTop="10dp"
     android:background="@drawable/spinner_ripple"
-    android:orientation="horizontal"
-    android:paddingBottom="10dp"
-    android:paddingTop="10dp">
+    android:paddingBottom="10dp">
 
     <ImageView
-        android:id="@+id/cars_dropdown_imageView"
-        android:layout_width="55dp"
+        android:layout_width="wrap_content"
         android:layout_height="20dp"
+        android:id="@+id/cars_dropdown_imageView"
         android:src="@drawable/ic_suggest_current_location"
-        android:layout_gravity="center_vertical"
-        android:layout_marginRight="1dp" />
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginRight="11dp"
+        android:paddingLeft="9dp"/>
 
-    <LinearLayout android:id="@+id/suggestion_text_container"
+    <com.expedia.bookings.widget.TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
-    <com.expedia.bookings.widget.TextView
         android:id="@+id/location_title_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_vertical"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:paddingLeft="4dp"
-        android:textColor="?attr/skin_carsSecondaryColor"/>
+        android:textColor="?attr/skin_carsSecondaryColor"
+        android:layout_toRightOf="@+id/cars_dropdown_imageView" />
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/location_subtitle_textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/location_subtitle_textView"
         android:textColor="?attr/skin_carsSecondaryColor"
-        android:textSize="11sp"
-        android:layout_gravity="center_vertical"
-        android:singleLine="true"
-        android:ellipsize="end"
-        android:paddingLeft="4dp"/>
-    </LinearLayout>
-</LinearLayout>
+        android:textSize="12sp"
+        android:layout_alignLeft="@+id/location_title_textView"
+        android:layout_below="@+id/location_title_textView" />
+
+</RelativeLayout>

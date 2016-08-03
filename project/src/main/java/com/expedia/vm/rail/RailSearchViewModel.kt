@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.endlessObserver
-import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
+import com.expedia.vm.BaseSearchViewModel
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
@@ -18,12 +18,17 @@ import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalendar(context) {
+class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     val searchParamsObservable = PublishSubject.create<RailSearchRequest>()
     val railOriginObservable = BehaviorSubject.create<SuggestionV4>()
     val railDestinationObservable = BehaviorSubject.create<SuggestionV4>()
 
+    val departTimeSubject = BehaviorSubject.create<Int>()
+    val returnTimeSubject = BehaviorSubject.create<Int>()
+    val departTimeSliderTooltipColor = BehaviorSubject.create<Int>()
+    val returnTimeSliderTooltipColor = BehaviorSubject.create<Int>()
+    val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(false)
     val timesObservable = BehaviorSubject.create<Pair<Long, Long?>>()
     val railRequestBuilder = RailSearchRequest.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
@@ -54,7 +59,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         getParamsBuilder().startDate(datesObservable.value?.first)
         getParamsBuilder().departTime(timesObservable.value?.first)
         getParamsBuilder().searchType(isRoundTripSearchObservable.value)
-        if (isRoundTripSearchObservable.value) {
+       if (isRoundTripSearchObservable.value) {
             getParamsBuilder().endDate(datesObservable.value?.second)
             getParamsBuilder().returnTime(timesObservable.value?.second)
         }
@@ -94,49 +99,24 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
 
     fun resetDatesAndTimes() {
         resetDates()
-        departTimeSubject.onNext(0)
-        returnTimeSubject.onNext(0)
         onTimesChanged(Pair(0, 0))
     }
 
-    override fun onTimesChanged(times: Pair<Int , Int>) {
+    fun onTimesChanged(times: Pair<Int , Int>) {
         val (departProgress, returnProgress) = times
+
+        departTimeSubject.onNext(TimeSlider.convertProgressToMillis(departProgress))
+        if (isRoundTripSearchObservable.value) {
+            returnTimeSubject.onNext(TimeSlider.convertProgressToMillis(returnProgress))
+        }
 
         requiredSearchParamsObserver.onNext(Unit)
         timesObservable.onNext(Pair(TimeSlider.getDateTime(departProgress).millis, TimeSlider.getDateTime(returnProgress).millis))
     }
 
-    // Reset times if the start is equal to today and the selected time is before the current time
-    // or if the end time is earlier or equal to the start time and its the same day.
-    override fun validateTimes() {
-        val now = DateTime.now()
-        if (isStartTimeBeforeAllowedTime(now)) {
-            // Adding min search hours to current time for same day search
-            // TODO update this with minimum search out time and handle end of day case
-            departTimeSubject.onNext(TimeSlider.convertProgressToMillis(getAllowedMinProgress(now)))
-        }
-        if (isEndTimeBeforeStartTime() && isRoundTripSearchObservable.value) {
-            returnTimeSubject.onNext(TimeSlider.convertProgressToMillis(getStartDateTimeAsMillis() + DateTime().withHourOfDay(1).withMinuteOfHour(0).millisOfDay))
-        }
-        onTimesChanged(Pair(getStartDateTimeAsMillis(), getEndDateTimeAsMillis()))
-    }
-
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         super.onDatesChanged(dates)
 
-    }
-
-    override fun getAllowedMinProgress(now: DateTime): Int {
-        return TimeSlider.convertMillisToProgress(now.millisOfDay) + R.integer.calendar_min_search_time_rail
-    }
-
-    override fun isStartTimeBeforeAllowedTime(now: DateTime): Boolean {
-        val nowProgress = TimeSlider.convertMillisToProgress(now.millisOfDay)
-        return getStartDateTimeAsMillis() <= (nowProgress + R.integer.calendar_min_search_time_rail) && isStartDateEqualToToday()
-    }
-
-    override fun isEndTimeBeforeStartTime(): Boolean {
-        return getEndDateTimeAsMillis() < getStartDateTimeAsMillis() && isStartEqualToEnd()
     }
 
     override fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
@@ -233,11 +213,11 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         return false
     }
 
-    override fun getCalendarSliderTooltipStartTimeLabel(): String{
-        return context.resources.getString(R.string.rail_departing_at)
+    fun isStartDateEqualToToday(): Boolean {
+        return if (startDate() != null) startDate()!!.isEqual(LocalDate.now()) else false
     }
 
-    override fun getCalendarSliderTooltipEndTimeLabel(): String{
-        return context.resources.getString(R.string.rail_returning_at)
+    fun isStartEqualToEnd(): Boolean {
+        return if (startDate() != null && endDate() != null) startDate()!!.isEqual(endDate()) else false
     }
 }

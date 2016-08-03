@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.happy;
 
+import org.joda.time.DateTime;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -8,8 +10,9 @@ import com.expedia.bookings.test.phone.cars.CarScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
@@ -22,7 +25,14 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	private void goToCarDetails() throws Throwable {
 		LaunchScreen.launchCars();
 
-		SearchScreen.doGenericCarSearch();
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		CarScreen.pickupLocation().perform(typeText("SFO"));
+		CarScreen.selectPickupLocation("San Francisco, CA");
+		CarScreen.selectDateButton().perform(click());
+		CarScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
+
+		CarScreen.searchButton().perform(click());
 		Common.delay(1);
 
 		CarScreen.selectCarCategory(CATEGORY);

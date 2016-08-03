@@ -346,6 +346,7 @@
     <dimen name="hotel_row_strikethrough_price_text_size">12dp</dimen>
 
     <!-- Common Dimensions, Shared among LOBs -->
+    <dimen name="location_suggestion_row_height">60dp</dimen>
     <dimen name="toolbar_dropshadow_height">5dp</dimen>
 
     <!-- Misc Dimensions -->

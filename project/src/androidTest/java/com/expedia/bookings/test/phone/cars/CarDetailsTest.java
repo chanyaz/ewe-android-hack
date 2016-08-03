@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.phone.cars;
 
+import org.joda.time.DateTime;
+
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
@@ -7,8 +9,9 @@ import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
+import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -26,7 +29,10 @@ public class CarDetailsTest extends PhoneTestCase {
 		LaunchScreen.launchCars();
 
 		screenshot("Car_Search");
-		SearchScreen.doGenericCarSearch();
+		enterSearchParams("SFO", "San Francisco, CA");
+
+		screenshot("Car_Search_Params_Entered");
+		CarScreen.searchButton().perform(click());
 
 		screenshot("Car_Search_Results");
 		CarScreen.selectCarCategory(CATEGORY);
@@ -51,7 +57,10 @@ public class CarDetailsTest extends PhoneTestCase {
 		LaunchScreen.launchCars();
 
 		screenshot("Car_Search");
-		SearchScreen.doGenericCarSearch();
+		enterSearchParams("SFO", "San Francisco, CA");
+
+		screenshot("Car_Search_Params_Entered");
+		CarScreen.searchButton().perform(click());
 
 		screenshot("Car_Search_Results");
 		CarScreen.selectCarCategory(CATEGORY);
@@ -76,7 +85,10 @@ public class CarDetailsTest extends PhoneTestCase {
 		LaunchScreen.launchCars();
 
 		screenshot("Car_Search");
-		SearchScreen.doGenericCarSearch();
+		enterSearchParams("SFO", "San Francisco, CA");
+
+		screenshot("Car_Search_Params_Entered");
+		CarScreen.searchButton().perform(click());
 
 		screenshot("Car_Search_Results");
 		Common.delay(2);
@@ -91,6 +103,16 @@ public class CarDetailsTest extends PhoneTestCase {
 		assertTextAppearsInFirstCategory("4-6");
 		assertTextAppearsInFirstCategory("Daily $32");
 		assertTextAppearsInFirstCategory("Total $32");
+	}
+
+
+	private void enterSearchParams(String searchQuery, String location) throws Throwable {
+		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
+		final DateTime endDateTime = startDateTime.plusDays(3);
+		CarScreen.pickupLocation().perform(typeText(searchQuery));
+		CarScreen.selectPickupLocation(location);
+		CarScreen.selectDateButton().perform(click());
+		CarScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 	}
 
 	private void assertViewNotDisplayedInFirstOffer(int id) {
