@@ -3033,6 +3033,8 @@
     </plurals>
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">Room Information</string>
+    <!-- Accessibility label for the text we use to show room info for expanded room -->
+    <string name="room_information_button_cont_desc">Room Information Button</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Non-refundable</string>
     <!-- Label for free nights -->
