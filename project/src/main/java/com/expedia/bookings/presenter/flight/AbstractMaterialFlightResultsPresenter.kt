@@ -22,9 +22,9 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
 
     open fun setupComplete() {
         resultsPresenter.resultsViewModel.flightResultsObservable.subscribe {
-            val numberOfTravelers = Db.getFlightSearchParams()?.guests
-            if (numberOfTravelers != null) {
-                overviewPresenter.vm.numberOfTravelers.onNext(numberOfTravelers)
+            val travelerParams = Db.getFlightSearchParams()
+            if (travelerParams != null) {
+                overviewPresenter.vm.numberOfTravelers.onNext(travelerParams.guests)
             }
             show(resultsPresenter)
         }
