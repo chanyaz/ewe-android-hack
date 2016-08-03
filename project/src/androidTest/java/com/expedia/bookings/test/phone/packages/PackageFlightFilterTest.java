@@ -4,6 +4,7 @@ import org.joda.time.LocalDate;
 
 import android.support.annotation.IdRes;
 import android.support.test.espresso.ViewInteraction;
+import com.mobiata.android.Log;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -33,6 +34,8 @@ import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 
 public class PackageFlightFilterTest extends PackageTestCase {
+
+	private static final String TAG = "PackageFlightFilterTest";
 
 	public void testPackageFlightsFilters() throws Throwable {
 		navigateFromLaunchToFlightFilter();
@@ -77,6 +80,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 
 		// No show more displayed since only 3 airlines
 		EspressoUtils.assertViewIsNotDisplayed(R.id.show_more_less_text);
+		Log.d(TAG, " assertFlightFilterOverview finished");
 	}
 
 	private void filterByStops() {
@@ -90,6 +94,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		PackageScreen.tickCheckboxWithText("2+ Stops");
 		checkFilteredFlights("3 Results");
 		PackageScreen.resetFlightsFliter();
+		Log.d(TAG, " filterByStops finished");
 	}
 
 	private void filterByAirlines() {
@@ -102,10 +107,11 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		PackageScreen.tickCheckboxWithText("Virgin America");
 		checkFilteredFlights("1 Result");
 		PackageScreen.resetFlightsFliter();
+		PackageScreen.tickCheckboxWithText("Virgin America");
 		PackageScreen.tickCheckboxWithText("United");
 		PackageScreen.tickCheckboxWithText("Hawaiian Airlines");
-		PackageScreen.tickCheckboxWithText("Virgin America");
 		checkFilteredFlights("3 Results");
+		Log.d(TAG, " filterByAirlines finished");
 	}
 
 	private void filterByDuration() {
@@ -115,6 +121,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		durationSeekBar().perform(ViewActions.setCustomSeekBarTo(9));
 		visibleWithText(R.id.duration, "9hr");
 		checkFilteredFlights("2 Results");
+		Log.d(TAG, " filterByDuration finished");
 	}
 
 	private void filterByDepartureArrival() {
@@ -133,6 +140,7 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		checkFilteredFlights("0 Results");
 
 		PackageScreen.resetFlightsFliter();
+		Log.d(TAG, " filterByDepartureArrival finished");
 	}
 
 	private void filterAllResults() {
@@ -152,6 +160,8 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		PackageScreen.resetFlightsFliter();
 		clickDone();
 		assertBestFlightOnTop();
+		Log.d(TAG, " filterAllResults finished");
+
 	}
 
 	private void assertFlightResultsFiltered() {
@@ -164,13 +174,14 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		clickDone();
 		PackageScreen.flightList().perform(waitForViewToDisplay());
 		assertViewWithTextIsDisplayed(R.id.filter_count_text, "2");
-
 		EspressoUtils
 			.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 1, R.id.flight_time_detail_text_view,
 				"8:20 am - 11:00 am");
 		EspressoUtils
 			.assertViewWithTextIsDisplayedAtPosition(PackageScreen.flightList(), 2, R.id.flight_time_detail_text_view,
 				"9:50 am - 11:40 pm");
+		Log.d(TAG, " assertFlightResultsFiltered finished");
+
 	}
 
 	private void checkBestFlightNotDisplayed() {
@@ -185,14 +196,18 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		PackageScreen.tickCheckboxWithText("United");
 		clickDone();
 		assertBestFlightNotDisplayed();
+		Log.d(TAG, " checkBestFlightNotDisplayed finished");
 	}
 
 	private void checkBestFlightDisplayed() {
 		openFlightFilter();
-		selectSorting("Duration");
+		PackageScreen.resetFlightsFliter();
 		PackageScreen.tickCheckboxWithText("Virgin America");
+		PackageScreen.tickCheckboxWithText("United");
+		selectSorting("Duration");
 		clickDone();
 		assertBestFlightOnTop();
+		Log.d(TAG, " checkBestFlightDisplayed finished");
 	}
 
 	private void assertBestFlightOnTop() {
