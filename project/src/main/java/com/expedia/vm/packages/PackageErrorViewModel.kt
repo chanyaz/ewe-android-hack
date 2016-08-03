@@ -1,12 +1,10 @@
 package com.expedia.vm.packages
 
 import android.content.Context
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageApiError
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.data.trips.TripResponse
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
@@ -15,7 +13,6 @@ import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractErrorViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
-import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
@@ -58,13 +55,17 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             }
         }
 
-        packageSearchApiErrorObserver.subscribe {
+        packageSearchApiErrorObserver.withLatestFrom(paramsSubject, { errorCode, searchParams ->
+            object {
+                val errorCode = errorCode
+                val searchParams = searchParams
+            }
+        }).subscribe {
             error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
-            PackagesTracking().trackSearchError(it.toString())
-            when (it) {
+            PackagesTracking().trackSearchError(it.errorCode.toString())
+            when (it.errorCode) {
                 PackageApiError.Code.pkg_unknown_error,
                 PackageApiError.Code.search_response_null,
-                PackageApiError.Code.pkg_destination_resolution_failed,
                 PackageApiError.Code.pkg_flight_no_longer_available,
                 PackageApiError.Code.pkg_too_many_children_in_lap,
                 PackageApiError.Code.pkg_no_flights_available,
@@ -82,6 +83,20 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     titleObservable.onNext(context.getString(R.string.session_timeout))
                     subTitleObservable.onNext("")
                     buttonOneTextObservable.onNext(context.getString(R.string.search_again))
+                }
+                PackageApiError.Code.pkg_destination_resolution_failed -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(Phrase.from(context, R.string.error_package_destination_resolution_message_TEMPLATE)
+                            .put("destination", it.searchParams.destination!!.regionNames!!.shortName)
+                            .format().toString())
+                    buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
+                }
+                PackageApiError.Code.pkg_origin_resolution_failed -> {
+                    imageObservable.onNext(R.drawable.error_default)
+                    errorMessageObservable.onNext(Phrase.from(context, R.string.error_package_origin_resolution_message_TEMPLATE)
+                            .put("origin", it.searchParams.origin!!.regionNames!!.shortName)
+                            .format().toString())
+                    buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
                 }
                 else -> {
                     couldNotConnectToServerError()

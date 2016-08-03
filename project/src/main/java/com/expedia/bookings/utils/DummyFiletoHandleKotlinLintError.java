@@ -814,6 +814,8 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.temporary_tiny_padding,
 		R.string.cluster_number_of_packages_template,
 		R.string.flight_details_price_per_person_TEMPLATE,
-		R.string.accessibility_cont_desc_opens_dialog
+		R.string.accessibility_cont_desc_opens_dialog,
+		R.string.error_package_origin_resolution_message_TEMPLATE,
+		R.string.error_package_destination_resolution_message_TEMPLATE
 	};
 }
