@@ -167,6 +167,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (!forward) {
                 checkoutPresenter.trackShowBundleOverview()
             }
+            bundleOverviewHeader.toolbar.subtitle = ""
         }
 
         private fun translateHeader(f: Float, forward: Boolean) {
