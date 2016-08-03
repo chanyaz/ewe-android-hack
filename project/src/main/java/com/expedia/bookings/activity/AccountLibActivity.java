@@ -12,6 +12,7 @@ import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
 import com.expedia.account.PanningImageView;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -151,10 +152,9 @@ public class AccountLibActivity extends AppCompatActivity
 			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this));
 
 
-		if (isUserBucketedForSmartLockTest) {
+		if (BuildConfig.DEBUG && isUserBucketedForSmartLockTest) {
 			config.setParentActivity(this);
 		}
-
 
 		accountView.configure(config);
 
