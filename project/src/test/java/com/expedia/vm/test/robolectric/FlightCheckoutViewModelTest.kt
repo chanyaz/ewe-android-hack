@@ -1,6 +1,7 @@
 package com.expedia.vm.test.robolectric
 
 import android.app.Activity
+import android.content.DialogInterface
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.expedia.bookings.R
@@ -26,8 +27,13 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
+import org.robolectric.internal.Shadow
+import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.io.IOException
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -243,6 +249,42 @@ class FlightCheckoutViewModelTest {
         hasCardFeeTestSubscriber.assertValue(false)
     }
 
+    @Test
+    fun networkErrorDialogCancel() {
+        val testSubscriber = TestSubscriber<Unit>()
+        givenIOExceptionOnCheckoutRequest()
+        setupSystemUnderTest()
+
+        sut.noNetworkObservable.subscribe(testSubscriber)
+
+        sut.checkoutParams.onNext(params)
+        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val shadowAlertDialog = Shadows.shadowOf(noInternetDialog)
+        val cancelBtn = noInternetDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+        cancelBtn.performClick()
+
+        assertEquals("", shadowAlertDialog.title)
+        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", shadowAlertDialog.message)
+        testSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun networkErrorDialogRetry() {
+        givenIOExceptionOnCheckoutRequest()
+        setupSystemUnderTest()
+
+        sut.checkoutParams.onNext(params)
+        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val shadowAlertDialog = Shadows.shadowOf(noInternetDialog)
+        val retryBtn = noInternetDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+        retryBtn.performClick()
+        retryBtn.performClick()
+
+        assertEquals("", shadowAlertDialog.title)
+        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", shadowAlertDialog.message)
+        Mockito.verify(mockFlightServices, Mockito.times(3)).checkout(params.toQueryMap()) // 1 first attempt, 2 retries
+    }
+
     private fun givenGoodTripResponse() {
         val tripId = "1234"
         val tealeafTransactionId = "tealeaf-1234"
@@ -300,11 +342,22 @@ class FlightCheckoutViewModelTest {
                         .build() as FlightCheckoutParams
     }
 
+    private fun givenIOExceptionOnCheckoutRequest() {
+        givenGoodCheckoutParams()
+
+        mockFlightServices = Mockito.mock(FlightServices::class.java)
+        val observableWithIOException = BehaviorSubject.create<FlightCheckoutResponse>()
+        observableWithIOException.onError(IOException())
+        Mockito.`when`(mockFlightServices.checkout(params.toQueryMap()))
+                .thenReturn(observableWithIOException)
+    }
+
     private fun createMockFlightServices() {
         givenGoodCheckoutParams()
 
         mockFlightServices = Mockito.mock(FlightServices::class.java)
         val checkoutResponseObservable = PublishSubject.create<FlightCheckoutResponse>()
-        Mockito.`when`(mockFlightServices.checkout(params.toQueryMap())).thenReturn(checkoutResponseObservable)
+        Mockito.`when`(mockFlightServices.checkout(params.toQueryMap()))
+                .thenReturn(checkoutResponseObservable)
     }
 }

@@ -17,8 +17,11 @@ import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.utils.getFee
 import com.expedia.bookings.data.utils.getPaymentType
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.BookingSuppressionUtils
+import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
@@ -152,7 +155,15 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
             }
 
             override fun onError(e: Throwable) {
-                throw OnErrorNotImplementedException(e)
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() {
+                        flightServices.checkout(checkoutParams.value.toQueryMap()).subscribe(makeCheckoutResponseObserver())
+                    }
+                    val cancelFun = fun() {
+                        noNetworkObservable.onNext(Unit)
+                    }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                }
             }
 
             override fun onCompleted() {

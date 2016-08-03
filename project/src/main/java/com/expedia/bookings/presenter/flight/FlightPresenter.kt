@@ -171,6 +171,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         searchViewModel.searchParamsObservable.filter { searchViewModel.isRoundTripSearchObservable.value }
                 .map { it.guests }
                 .subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.guests)
+
         val checkoutViewModel = presenter.getCheckoutPresenter().getCheckoutViewModel()
 
         flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribe(checkoutViewModel.selectedFlightChargesFees)
@@ -180,7 +181,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         presenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
-        presenter.getCheckoutPresenter().getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
+        checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             show(confirmationPresenter)
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
         }
@@ -190,11 +191,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
 
-        presenter.getCheckoutPresenter().getCheckoutViewModel().tripResponseObservable.subscribe { trip ->
+        checkoutViewModel.tripResponseObservable.subscribe { trip ->
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.rewardPointsObservable.onNext(expediaRewards)
         }
-        presenter.getCheckoutPresenter().getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
+        checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val flightCheckoutResponse = pair.first as FlightCheckoutResponse
             val userEmail = pair.second
             confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
@@ -202,10 +203,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             show(confirmationPresenter)
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
         }
-        presenter.getCheckoutPresenter().getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
-        presenter.getCheckoutPresenter().getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
-        presenter.getCheckoutPresenter().getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
-        presenter.getCheckoutPresenter().getCheckoutViewModel().checkoutErrorObservable
+        val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
+        createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
+        createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
+        createTripViewModel.noNetworkObservable.subscribe {
+            show(inboundPresenter, FLAG_CLEAR_TOP)
+        }
+        checkoutViewModel.checkoutErrorObservable.subscribe(errorPresenter.viewmodel.checkoutApiErrorObserver)
+        checkoutViewModel.checkoutErrorObservable
                 .filter { it.errorCode != ApiError.Code.TRIP_ALREADY_BOOKED }
                 .subscribe { show(errorPresenter) }
         presenter
@@ -250,6 +255,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         vm.errorObservable.subscribe {
             errorPresenter.viewmodel.searchApiErrorObserver.onNext(it)
             show(errorPresenter)
+        }
+        vm.noNetworkObservable.subscribe {
+            show(searchPresenter)
         }
     }
 
