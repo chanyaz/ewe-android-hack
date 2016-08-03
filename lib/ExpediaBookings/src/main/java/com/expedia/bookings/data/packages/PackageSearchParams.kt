@@ -71,8 +71,8 @@ open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, 
         params.put("toDate", endDate.toString())
         params.put("numberOfRooms", numberOfRooms)
         params.put("adultsPerRoom[1]", adults)
-        params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)
         if (children.size > 0) {
+            params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)
             params.put("childrenPerRoom[1]", children.size)
             makeChildrenAgesParams(params, "childAges[1]", children, 1)
         }
