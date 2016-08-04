@@ -654,7 +654,7 @@
     },
     {
       "@type": "gaiaRegionResult",
-      "index": "0",
+      "index": "17",
       "gaiaId": "200000000000000119",
       "type": "TRAINSTATION",
       "regionNames": {
@@ -684,7 +684,7 @@
     },
     {
       "@type": "gaiaRegionResult",
-      "index": "0",
+      "index": "18",
       "gaiaId": "200000000000000117",
       "type": "TRAINSTATION",
       "regionNames": {
