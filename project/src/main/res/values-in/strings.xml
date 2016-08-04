@@ -4183,9 +4183,6 @@
     <!--Rail search screen title-->
     <string name="trains">Kereta</string>
 
-    <!--used on the rail search screen - this is equivalent to a one way air ticket -->
-    <string name="rail_single">Sekali-jalan</string>
-
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Pulang-pergi</string>
 

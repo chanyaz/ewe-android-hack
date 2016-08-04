@@ -199,7 +199,8 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
                                 Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
                                         .put("startdate", DateUtils.localDateToMMMd(start))
                                         .put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
-                            else context.getString(R.string.one_way_TEMPLATE, DateUtils.localDateToMMMd(start))
+                            else Phrase.from(context, R.string.calendar_instructions_date_rail_one_way_TEMPLATE)
+                                        .put("startdate", DateUtils.localDateToMMMd(start)).format().toString()
             return datesText
         }
     }

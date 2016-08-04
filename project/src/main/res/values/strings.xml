@@ -813,6 +813,16 @@
         <item quantity="many">%s Return Flights</item>
         <item quantity="other">%s Return Flights</item>
     </plurals>
+
+    <!-- Label indicating the direction of the rails is outbond-->
+    <string name="select_outbound">Select outbound</string>
+    <!-- Label indicating the direction of the rails is inbond-->
+    <string name="select_return">Select return</string>
+    <!-- Label indicating the one way trip for rails-->
+    <string name="one_way_from">One way from</string>
+    <!-- Label indicating the round trip for rails-->
+    <string name="total_from">Total from</string>
+
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_roundtrip_label">Prices roundtrip per person</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
@@ -1859,7 +1869,8 @@
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (One Way)</string>
-
+    <!-- Calendar instructions rail start date selected -->
+    <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
     <string name="calendar_instructions_date_range_flight_select_return_date">Next: Select return date</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
@@ -4226,7 +4237,7 @@
     <string name="trains">Trains</string>
 
     <!--used on the rail search screen - this is equivalent to a one way air ticket -->
-    <string name="rail_single">Single</string>
+    <string name="rail_one_way">One way</string>
 
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Return</string>

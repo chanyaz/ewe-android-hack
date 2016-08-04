@@ -1292,10 +1292,22 @@
         <item name="textStyle">normal</item>
     </style>
 
-    <style name="RailPrimaryText">
+
+    <style name="RailCell">
+        <item name="android:textColor">@color/packages_flight_cell_primary_text</item>
+        <item name="android:textSize">@dimen/packages_flight_cell_duration_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+
+    <style name="RailCell.PrimaryText">
         <item name="android:textColor">@color/flight_departure_date_color</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="RailCell.PriceText">
+        <item name="android:textSize">@dimen/packages_flight_cell_primary_text</item>
     </style>
 
     <!--Bundle Overview Hotel+Flight and Rail Widgets-->
@@ -1312,6 +1324,18 @@
         <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>
         <item name="textStyle">normal</item>
     </style>
+
+    <style name="BundleOverviewWidgets.SecondaryText.TotalPrice">
+        <item name="android:textColor">@color/packages_bundle_overview_widgets_secondary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>
+        <item name="textStyle">normal</item>
+        <item name="android:layout_marginBottom">11dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginTop">11dp</item>
+    </style>
+
+
 
     <!--Bundle Overview Footer Hotel+Flight and Rail-->
     <style name="BundleOverviewFooter">

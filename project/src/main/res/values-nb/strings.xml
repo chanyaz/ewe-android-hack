@@ -4183,9 +4183,6 @@
     <!--Rail search screen title-->
     <string name="trains">Tog</string>
 
-    <!--used on the rail search screen - this is equivalent to a one way air ticket -->
-    <string name="rail_single">Én vei</string>
-
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Tur–retur</string>
 

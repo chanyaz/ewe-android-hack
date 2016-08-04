@@ -4183,9 +4183,6 @@
     <!--Rail search screen title-->
     <string name="trains">鉄道</string>
 
-    <!--used on the rail search screen - this is equivalent to a one way air ticket -->
-    <string name="rail_single">片道</string>
-
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">往復</string>
 

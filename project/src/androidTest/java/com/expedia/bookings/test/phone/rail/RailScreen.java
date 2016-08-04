@@ -38,7 +38,7 @@ public class RailScreen {
 	}
 
 	public static void selectOneWay() {
-		onView(withText(R.string.rail_single)).perform(click());
+		onView(withText(R.string.rail_one_way)).perform(click());
 	}
 
 	public static void selectRoundTrip() {

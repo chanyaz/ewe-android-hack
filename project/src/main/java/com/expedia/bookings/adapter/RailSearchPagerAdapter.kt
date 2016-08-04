@@ -9,7 +9,7 @@ import com.expedia.bookings.R
 class RailSearchPagerAdapter(val context: Context) : PagerAdapter() {
 
     enum class Tab(val titleResourceId: Int) {
-        SINGLE(R.string.rail_single),
+        ONE_WAY(R.string.rail_one_way),
         RETURN(R.string.rail_return),
     }
 

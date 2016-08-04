@@ -4183,9 +4183,6 @@
     <!--Rail search screen title-->
     <string name="trains">Tåg</string>
 
-    <!--used on the rail search screen - this is equivalent to a one way air ticket -->
-    <string name="rail_single">Enkel resa</string>
-
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Tur och retur</string>
 

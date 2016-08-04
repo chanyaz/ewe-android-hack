@@ -13,7 +13,6 @@ import android.widget.ProgressBar
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -46,6 +45,10 @@ class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         vm.subtitleSubject.subscribe {
             toolbar.subtitle = it
         }
+
+        vm.directionHeaderSubject.subscribe(adapter.directionHeaderSubject)
+
+        vm.priceHeaderSubject.subscribe(adapter.priceHeaderSubject)
     }
 
     val resultsProgress: ProgressBar by bindView(R.id.results_progress)

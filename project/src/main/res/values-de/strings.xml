@@ -4184,9 +4184,6 @@
     <!--Rail search screen title-->
     <string name="trains">Züge</string>
 
-    <!--used on the rail search screen - this is equivalent to a one way air ticket -->
-    <string name="rail_single">Einzelfahrt</string>
-
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Hin- und Rückfahrt</string>
 
