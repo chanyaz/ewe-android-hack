@@ -69,6 +69,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
         checkoutPresenter.checkoutButton.setOnClickListener {
             showCheckout()
+            checkoutPresenter.slideToPurchaseLayout.visibility = View.VISIBLE
         }
 
         bundleOverviewHeader.setUpCollapsingToolbar()
