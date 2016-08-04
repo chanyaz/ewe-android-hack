@@ -19,11 +19,11 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.CarSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.cars.CarSearchViewModel
-import com.squareup.phrase.Phrase
 import kotlin.properties.Delegates
 import android.app.AlertDialog
 import android.content.DialogInterface
 import com.expedia.bookings.data.cars.CarSearchParam
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.CarDataUtils
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
@@ -127,6 +127,7 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
                 .setMessage(messageResourceId)
                 .setPositiveButton(confirmButtonResourceId, DialogInterface.OnClickListener { dialog, i ->
                     dialog.dismiss();
+                    AccessibilityUtil.delayedFocusToView(destinationCardView, 300)
                 }).create()
                 .show();
     }
