@@ -6,6 +6,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.packages.CheckoutOverviewHeader
 
@@ -52,6 +53,7 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
         textViewWidth = child.destinationText.width
         toolBarRightX = getLocation(toolbar.getChildAt(0))[0] + toolbar.getChildAt(0).width
         child.destinationText.maxWidth = child.width - (toolBarRightX * 2)
+        AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
     }
 
     private fun getLocation(view: View): IntArray {
