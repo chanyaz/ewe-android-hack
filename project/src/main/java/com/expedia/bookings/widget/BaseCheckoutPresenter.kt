@@ -500,8 +500,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         this.visibility = if (!forward && this.text.isNotEmpty()) View.VISIBLE else View.GONE
     }
 
-    fun resetAndShowTotalPriceWidget() {
+    fun resetPriceChange() {
         priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
+    }
+
+    fun resetAndShowTotalPriceWidget() {
+        resetPriceChange()
         totalPriceWidget.resetPriceWidget()
     }
 

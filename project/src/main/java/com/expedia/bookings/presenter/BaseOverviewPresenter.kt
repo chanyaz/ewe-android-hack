@@ -234,6 +234,13 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.getCheckoutViewModel().cvvCompleted.onNext(cvv)
     }
 
+    override fun back(): Boolean {
+        val didHandleBack = super.back()
+        if (!didHandleBack) {
+            checkoutPresenter.resetPriceChange()
+        }
+        return didHandleBack
+    }
 
     class BundleDefault
 
