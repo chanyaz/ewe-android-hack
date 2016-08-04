@@ -1,7 +1,5 @@
 package com.expedia.bookings.fragment;
 
-import java.util.Collection;
-
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -22,7 +20,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
@@ -44,6 +41,7 @@ import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
+import java.util.Collection;
 
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
 	ItinerarySyncListener {
@@ -149,6 +147,16 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mItinListView.setEmptyView(mEmptyView);
 		mItinListView.setOnListModeChangedListener(mOnListModeChangedListener);
 		mItinListView.setOnItemClickListener(mOnItemClickListener);
+
+		View guestItinView = inflater.inflate(R.layout.add_guest_itin, null);
+		mItinListView.addFooterView(guestItinView);
+		View guestItinTextView = Ui.findView(view, R.id.add_guest_itin_text_view);
+		guestItinTextView.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startAddGuestItinActivity(false);
+			}
+		});
 
 		mLoginButton.setOnClickListener(new OnClickListener() {
 			@Override
