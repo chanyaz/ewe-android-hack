@@ -39,5 +39,8 @@ public class LegalClickableSpan extends ClickableSpan {
 	public String getTitle() {
 		return title;
 	}
+	public String getUrl() {
+		return url;
+	}
 
 }
