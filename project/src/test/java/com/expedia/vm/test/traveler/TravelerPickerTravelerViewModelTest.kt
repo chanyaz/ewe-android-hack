@@ -15,7 +15,7 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
-import com.expedia.vm.traveler.TravelerSelectViewModel
+import com.expedia.vm.traveler.TravelerPickerTravelerViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -27,7 +27,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class TravelerSelectViewModelTest {
+class TravelerPickerTravelerViewModelTest {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
     lateinit var selectVM: TestTravelerSelectViewModel
@@ -254,7 +254,7 @@ class TravelerSelectViewModelTest {
         return packageParams
     }
 
-    class TestTravelerSelectViewModel(context: Context, index: Int, age: Int) : TravelerSelectViewModel(context, index, age) {
+    class TestTravelerSelectViewModel(context: Context, index: Int, age: Int) : TravelerPickerTravelerViewModel(context, index, age) {
         var testTraveler = Traveler()
 
         override fun getTraveler(): Traveler {

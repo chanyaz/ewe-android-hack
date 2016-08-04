@@ -573,7 +573,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.fly_from_hint,
 		R.string.fly_to_hint,
 		R.string.select_departure_date,
-		R.layout.traveler_select_state,
+		R.layout.traveler_picker_widget,
 		R.string.traveler_age_title,
 		R.string.traveler_infant_error,
 		R.string.traveler_child_error,

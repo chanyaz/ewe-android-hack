@@ -131,9 +131,9 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelers(1);
+				testTravelerPresenter.setViewModel(mockViewModel);
 			}
 		});
-		testTravelerPresenter.setViewModel(mockViewModel);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 
@@ -160,9 +160,10 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelers(1);
+				testTravelerPresenter.setViewModel(mockViewModel);
 			}
 		});
-		testTravelerPresenter.setViewModel(mockViewModel);
+
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 

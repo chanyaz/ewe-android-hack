@@ -148,6 +148,10 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         return FlightCostSummaryBreakdownViewModel(context)
     }
 
+    override fun showMainTravelerMinimumAgeMessaging(): Boolean {
+        return false
+    }
+
     private fun getFlightServices(): FlightServices {
         return Ui.getApplication(context).flightComponent().flightServices()
     }

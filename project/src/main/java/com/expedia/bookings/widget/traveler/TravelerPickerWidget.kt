@@ -8,30 +8,35 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.bindView
-import com.expedia.vm.traveler.TravelerSelectViewModel
+import com.expedia.bookings.widget.TextView
+import com.expedia.util.subscribeVisibility
+import com.expedia.vm.traveler.TravelerPickerTravelerViewModel
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-class TravelerSelectState(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
-    val mainTravelerContainer: LinearLayout by bindView(R.id.main_traveler_container)
-    val addTravelersContainer: LinearLayout by bindView(R.id.additional_traveler_container)
+class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+    val mainTravelerMinAgeTextView: TextView by bindView(R.id.bottom_main_traveler_min_age_message)
+    private val mainTravelerContainer: LinearLayout by bindView(R.id.main_traveler_container)
+    private val addTravelersContainer: LinearLayout by bindView(R.id.additional_traveler_container)
 
     val travelerIndexSelectedSubject = PublishSubject.create<Pair<Int, String>>()
-    val viewModelList = ArrayList<TravelerSelectViewModel>()
+
+    private val travelerViewModels = ArrayList<TravelerPickerTravelerViewModel>()
 
     init {
-        View.inflate(context, R.layout.traveler_select_state, this)
+        View.inflate(context, R.layout.traveler_picker_widget, this)
         orientation = VERTICAL
     }
 
     fun refresh(status: TravelerCheckoutStatus, travelerList: List<Traveler>) {
         mainTravelerContainer.removeAllViews()
         addTravelersContainer.removeAllViews()
-        viewModelList.clear()
+        travelerViewModels.clear()
         travelerList.forEachIndexed { i, traveler ->
-            val travelerViewModel = TravelerSelectViewModel(context, i, traveler.searchedAge)
+            val travelerViewModel = TravelerPickerTravelerViewModel(context, i, traveler.searchedAge)
             travelerViewModel.updateStatus(status)
-            viewModelList.add(travelerViewModel)
+            travelerViewModels.add(travelerViewModel)
 
             val travelerSelectItem = TravelerSelectItem(context, travelerViewModel)
             travelerSelectItem.setOnClickListener {
@@ -54,7 +59,7 @@ class TravelerSelectState(context: Context, attrs: AttributeSet?) : LinearLayout
 
     private fun refreshViewModels() {
         // Currently no way to tell which traveler changed update all viewModels to be safe.
-        for (viewModel in viewModelList) {
+        for (viewModel in travelerViewModels) {
             viewModel.updateStatus(viewModel.status)
         }
     }

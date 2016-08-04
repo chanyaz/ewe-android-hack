@@ -65,6 +65,10 @@ class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckou
     override fun isPassportRequired(response: TripResponse) {
     }
 
+    override fun showMainTravelerMinimumAgeMessaging(): Boolean {
+        return false
+    }
+
     private fun updatePricing(response: RailCreateTripResponse) {
         totalPriceWidget.viewModel.total.onNext(response.totalPrice)
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)

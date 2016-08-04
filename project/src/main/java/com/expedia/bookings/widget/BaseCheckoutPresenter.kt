@@ -83,7 +83,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
     val travelerPresenter: TravelerPresenter by lazy {
         val presenter = findViewById(R.id.traveler_presenter) as TravelerPresenter
-        presenter.viewModel = CheckoutTravelerViewModel(context, getLineOfBusiness())
+        presenter.viewModel = CheckoutTravelerViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
         presenter.travelerEntryWidget.travelerButton.setLOB(getLineOfBusiness())
         presenter.closeSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
@@ -545,8 +545,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
     abstract fun isPassportRequired(response: TripResponse)
+    abstract fun showMainTravelerMinimumAgeMessaging(): Boolean
 
-    fun makeKeyboardListener(scrollView: ScrollView, offset: Int = toolbarHeight) : ViewTreeObserver.OnGlobalLayoutListener {
+    private fun makeKeyboardListener(scrollView: ScrollView, offset: Int = toolbarHeight) : ViewTreeObserver.OnGlobalLayoutListener {
         val rootWindow = (context as Activity).window
         val layoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
             val decorView = rootWindow.decorView
