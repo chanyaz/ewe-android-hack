@@ -344,4 +344,5 @@
         <attr format="color" name="rsb__activeColor"/>
         <attr format="reference" name="rsb__thumb"/>
     </declare-styleable>
+
 </resources>
