@@ -2195,6 +2195,7 @@
     <string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
+    <string name="phone_number_country_code_dropdown_cont_desc">Country code</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Born %1$s</string>
     <!-- Born on colored -->
@@ -2259,6 +2260,8 @@
     <string name="address_city_hint">City</string>
     <!-- Address state hint -->
     <string name="address_state_hint">State</string>
+    <!-- Address country content desctiption -->
+    <string name="address_state_country_cont_desc">Country</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postal Code</string>
     <!-- Zip Code hint for Packages -->
