@@ -72,7 +72,6 @@ class FlightCostSummaryBreakdownViewModelTest {
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Taxes & Fees").cost("$5.00").build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Expedia Booking Fee").cost("$0.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Airline Card Fee").cost("$2.50").build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Total Due Today").cost("$57.50").build())
@@ -85,8 +84,7 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[4],
                 breakdowns[5],
                 breakdowns[6],
-                breakdowns[7],
-                breakdowns[8]
+                breakdowns[7]
         )
 
         breakdownRowsTestObservable.assertReceivedOnNext(listOf(expectedBreakdown))
@@ -107,12 +105,12 @@ class FlightCostSummaryBreakdownViewModelTest {
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Adult 1 details").cost("$55.00").build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Flight").cost("$50.00").build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Taxes & Fees").cost("$5.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Expedia Booking Fee").cost("$0.00").build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder()
                 .title("Flight Protection")
                 .cost("$10.00")
                 .color(Ui.obtainThemeColor(context, R.attr.primary_color)).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Expedia Booking Fee").cost("$0.00").build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Total Due Today").cost("$65.00").build())
 
@@ -146,11 +144,12 @@ class FlightCostSummaryBreakdownViewModelTest {
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Adult 1 details").cost("$55.00").build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Flight").cost("$50.00").build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Taxes & Fees").cost("$5.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Flight Protection").cost("$10.00")
-                .color(Ui.obtainThemeColor(context, R.attr.primary_color)).build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Expedia Booking Fee").cost("$0.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder()
+                .title("Flight Protection")
+                .cost("$10.00")
+                .color(Ui.obtainThemeColor(context, R.attr.primary_color)).build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Airline Card Fee").cost("$2.50").build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
         breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Total Due Today").cost("$67.50").build())
@@ -164,8 +163,7 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[5],
                 breakdowns[6],
                 breakdowns[7],
-                breakdowns[8],
-                breakdowns[9]
+                breakdowns[8]
         )
 
         breakdownRowsTestObservable.assertReceivedOnNext(listOf(expectedBreakdown))
