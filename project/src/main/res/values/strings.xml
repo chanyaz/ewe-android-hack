@@ -86,6 +86,8 @@
     <string name="cars_driver_details_text">Driver details</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Enter driver details</string>
+    <!-- Content description for enter driver details-->
+    <string name="enter_driver_details_cont_desc">Enter driver details button</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Select saved contacts</string>
     <!-- Text for enter payment details-->
@@ -2070,6 +2072,7 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">We\&apos;ve got great news! The cost of your stay just decreased from %1$s to %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Done</string>
+    <string name="done_cont_desc">Done button</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Please use the Roman alphabet</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -2319,6 +2322,7 @@
     <string name="female">Female</string>
     <!-- next page buttn -->
     <string name="next">Next</string>
+    <string name="next_cont_desc">Next button</string>
     <!-- Passport country label -->
     <string name="passport_country">Passport Country</string>
     <!-- Passport country / origin heading -->

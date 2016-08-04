@@ -820,6 +820,8 @@ DummyFiletoHandleKotlinLintError {
 		R.string.from_hint,
 		R.string.to_hint,
 		R.string.rail_location_hint,
-		R.string.error_same_station_departure_arrival
+		R.string.error_same_station_departure_arrival,
+		R.string.done_cont_desc,
+		R.string.next_cont_desc
 	};
 }

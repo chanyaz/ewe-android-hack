@@ -202,6 +202,10 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		enterDetailsText.setText(text);
 	}
 
+	public void setEnterDetailsContentDescription(String text) {
+		enterDetailsText.setContentDescription(text);
+	}
+
 	public void bind() {
 
 		// Cases

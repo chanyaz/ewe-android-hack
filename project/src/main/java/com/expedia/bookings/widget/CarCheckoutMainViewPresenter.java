@@ -67,6 +67,7 @@ public class CarCheckoutMainViewPresenter extends CheckoutBasePresenter implemen
 		summaryWidget = Ui.inflate(R.layout.car_checkout_summary_widget, summaryContainer, false);
 		summaryContainer.addView(summaryWidget);
 		mainContactInfoCardView.setEnterDetailsText(getResources().getString(R.string.enter_driver_details));
+		mainContactInfoCardView.setEnterDetailsContentDescription(getResources().getString(R.string.enter_driver_details_cont_desc));
 	}
 
 	// Create Trip network handling

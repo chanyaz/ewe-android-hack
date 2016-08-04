@@ -119,7 +119,12 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 	@Test
 	public void testStoredTravelerWorks() throws Throwable {
-		mockViewModel = getMockViewModelEmptyTravelers(1);
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(1);
+			}
+		});
 		testTravelerPresenter.setViewModel(mockViewModel);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
