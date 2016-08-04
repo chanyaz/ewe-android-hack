@@ -33,6 +33,8 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         TravelerButton.ITravelerButtonListener, View.OnFocusChangeListener {
 
     val ANIMATION_DURATION = 500L
+    val DEFAULT_EMPTY_PASSPORT = 0
+
     val travelerButton: TravelerButton by bindView(R.id.traveler_button)
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
     val phoneEntryView: PhoneEntryView by bindView(R.id.phone_entry_widget)
@@ -99,7 +101,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         View.inflate(context, R.layout.flight_traveler_entry_widget, this)
         travelerButton.visibility == View.GONE
         val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
-                R.layout.material_spinner_item, R.layout.spinner_dropdown_item, false)
+                R.layout.material_spinner_item, R.layout.spinner_dropdown_item, true)
         adapter.setPrefix(context.getString(R.string.passport_country_colon))
         adapter.setColoredPrefix(false)
 
@@ -200,7 +202,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
 
     private fun selectPassport(countryCode: String?) {
         val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
-        val position = if (countryCode?.isNullOrEmpty() ?: true) adapter.defaultLocalePosition else adapter.getPositionByCountryThreeLetterCode(countryCode)
+        val position = if (countryCode?.isNullOrEmpty() ?: true) DEFAULT_EMPTY_PASSPORT else adapter.getPositionByCountryThreeLetterCode(countryCode)
         passportCountrySpinner.setSelection(position)
     }
 }

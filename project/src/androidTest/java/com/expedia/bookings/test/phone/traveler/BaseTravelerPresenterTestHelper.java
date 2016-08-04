@@ -58,6 +58,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String testPhone = "7732025862";
 	protected final String testBirthDay = "Jan 27, 1991";
 	protected final String testPassport = "Passport: Vietnam";
+	protected final String testEmptyPassport = "Passport: ";
 	protected final String testGender = "Gender";
 
 	protected final String expectedMainText = "Main Traveler";
@@ -269,14 +270,14 @@ public class BaseTravelerPresenterTestHelper {
 		childTraveler.setBirthDate(LocalDate.now().minusYears(yearsOld));
 	}
 
-	protected Traveler makeStoredTraveler() {
+	protected Traveler makeStoredTraveler(String passport) {
 		Traveler storedTraveler = new Traveler();
 		storedTraveler.setFirstName(testFirstName);
 		storedTraveler.setMiddleName(testMiddleName);
 		storedTraveler.setLastName(testLastName);
 		storedTraveler.setGender(Traveler.Gender.MALE);
 		storedTraveler.setPhoneNumber(testPhone);
-		storedTraveler.addPassportCountry("VNM");
+		storedTraveler.addPassportCountry(passport);
 		storedTraveler.setBirthDate(LocalDate.now().withYear(1991).withMonthOfYear(1).withDayOfMonth(27));
 		return storedTraveler;
 	}

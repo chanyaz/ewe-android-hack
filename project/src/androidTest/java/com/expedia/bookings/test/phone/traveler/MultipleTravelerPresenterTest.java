@@ -26,7 +26,6 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
-import static android.support.test.espresso.matcher.ViewMatchers.isChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
@@ -277,21 +276,20 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnText(expectedTravelerOneText);
 
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
+		EspressoUtils.assertViewWithTextIsDisplayed("Passport: ");
 		EspressoUser.clickOnView(R.id.passport_country_spinner);
-		EspressoUtils.assertViewWithTextIsDisplayed("United States");
-		onView(withText("United States")).check(matches(isChecked()));
-		EspressoUser.clickOnText("Uruguay");
+		EspressoUser.clickOnText("Afghanistan");
 
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
-		EspressoUtils.assertViewWithTextIsDisplayed("Passport: Uruguay");
+		EspressoUtils.assertViewWithTextIsDisplayed("Passport: Afghanistan");
 
 		travelerPresenterBack();
 		Common.delay(1);
 
 		EspressoUser.clickOnText(expectedTravelerTwoText);
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
-		EspressoUtils.assertViewWithTextIsDisplayed("Passport: United States");
-		onView(withText("Passport: Uruguay")).check(doesNotExist());
+		EspressoUtils.assertViewWithTextIsDisplayed("Passport: ");
+		onView(withText("Passport: Afghanistan")).check(doesNotExist());
 	}
 
 	private void travelerPresenterBack() throws Throwable {
