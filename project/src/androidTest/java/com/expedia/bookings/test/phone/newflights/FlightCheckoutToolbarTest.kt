@@ -35,17 +35,21 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
     fun testToolbarMenuButtonsDuringIncompleteCheckoutUsingBackButton() {
         selectFlightsProceedToCheckout()
         PackageScreen.travelerInfo().perform(ViewActions.click())
+
         assertToolbarMenuButtonSaysNext()
 
+        Espresso.closeSoftKeyboard()
         Common.pressBack()
-        Common.pressBack()
+
         assertToolbarMenuButtonNotVisible()
 
         PackageScreen.clickPaymentInfo()
         waitForPaymentInfoCardView()
         assertToolbarMenuButtonSaysNext()
 
+        Espresso.closeSoftKeyboard()
         Common.pressBack()
+
         assertToolbarMenuButtonNotVisible()
     }
 
@@ -130,8 +134,7 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
         enterTravelerInfo()
 
         assertToolbarMenuButtonSaysDone()
-//        close keyboard
-        Common.pressBack()
+        Espresso.closeSoftKeyboard()
         Common.pressBack()
 
         assertToolbarMenuButtonNotVisible()
@@ -143,14 +146,16 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
         enterPaymentInfo()
         assertToolbarMenuButtonSaysDone()
 
+        Espresso.closeSoftKeyboard()
         Common.pressBack()
+
         assertToolbarMenuButtonNotVisible()
 
         PackageScreen.travelerInfo().perform(ViewActions.scrollTo(), ViewActions.click())
-
+        
         assertToolbarMenuButtonSaysDone()
 
-        Common.pressBack()
+        Espresso.closeSoftKeyboard()
         Common.pressBack()
 
         assertToolbarMenuButtonNotVisible()
@@ -160,7 +165,7 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
 
         assertToolbarMenuButtonSaysDone()
 
-        Common.pressBack()
+        Espresso.closeSoftKeyboard()
         Common.pressBack()
 
         assertToolbarMenuButtonNotVisible()
