@@ -110,6 +110,10 @@ public class DateUtils {
 		return date.toString("h:mm a").toLowerCase();
 	}
 
+	public static String dateTimeToHHmmss(DateTime date) {
+		return date.toString("HH:mm:ss").toLowerCase();
+	}
+
 	public static String dateTimeToMMMdhmma(DateTime date) {
 		return date.toString("MMM d, h:mm a");
 	}
@@ -198,8 +202,8 @@ public class DateUtils {
 	/*
 	* Parse long millis into HH:mm:ss format
 	* */
-	public static String formatMillisToHHmmss(Long millis) {
-		SimpleDateFormat ft =  new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-		return ft.format(millis);
+	public static String formatMillisToHHmmss(LocalDate date, int millis) {
+		DateTime dateTime = localDateAndMillisToDateTime(date, millis);
+		return dateTimeToHHmmss(dateTime);
 	}
 }

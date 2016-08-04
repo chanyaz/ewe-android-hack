@@ -1031,9 +1031,9 @@
     <string name="nav_rail">Rail</string>
 
     <!-- Rail from hint -->
-    <string name="from_hint">From</string>
+    <string name="from_hint">Going from</string>
     <!-- Rail to hint -->
-    <string name="to_hint">To</string>
+    <string name="to_hint">Going to</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->

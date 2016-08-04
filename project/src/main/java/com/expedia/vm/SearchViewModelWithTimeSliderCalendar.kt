@@ -29,7 +29,6 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
         return returnTimeSubject.value
     }
 
-
     init {
         setUpTimeSliderSubject.subscribe { dates ->
             val (start, end) = dates
@@ -51,23 +50,29 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
             }
         }
     }
-    fun isStartDateEqualToToday(): Boolean {
-        return if (startDate() != null) startDate()!!.isEqual(LocalDate.now()) else false
-    }
 
     fun isStartEqualToEnd(): Boolean {
         return if (startDate() != null && endDate() != null) startDate()!!.isEqual(endDate()) else false
+    }
+
+    fun isStartTimeBeforeNow(): Boolean {
+        return isStartDateEqualToToday() && getStartDateTimeAsMillis() < DateTime.now().millisOfDay;
+    }
+
+    //end time should always be at least 2 hours ahead of start time
+    fun isEndTimeBeforeStartTime(): Boolean {
+        return isStartEqualToEnd() && getEndDateTimeAsMillis() < getStartDateTimeAsMillis() + TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS);
     }
 
     // Reset times if the start is equal to today and the selected time is before the current time
     // or if the end time is earlier or equal to the start time and its the same day.
     abstract fun getCalendarSliderTooltipStartTimeLabel(): String
     abstract fun getCalendarSliderTooltipEndTimeLabel(): String
-
-
     abstract fun onTimesChanged(times: Pair<Int, Int>)
     abstract fun validateTimes()
     abstract fun getAllowedMinProgress(now: DateTime): Int
-    abstract fun isStartTimeBeforeAllowedTime(now: DateTime): Boolean
-    abstract fun isEndTimeBeforeStartTime(): Boolean
+
+    private fun isStartDateEqualToToday(): Boolean {
+        return if (startDate() != null) startDate()!!.isEqual(LocalDate.now()) else false
+    }
 }

@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.junit.Before;
 import org.junit.Rule;
@@ -109,7 +110,9 @@ public class RailServicesTest {
 	private void givenHappySearchRequest() {
 		SuggestionV4 origin = new SuggestionV4();
 		SuggestionV4 destination = new SuggestionV4();
-		Long timeInMillis = System.currentTimeMillis();
-		railSearchRequest = new RailApiSearchModel(origin, destination, LocalDate.now(), LocalDate.now().plusDays(1), timeInMillis, timeInMillis);
+		DateTime startDateTime = DateTime.now().plusDays(1);
+		LocalDate startDate = startDateTime.toLocalDate();
+		Integer startTime = startDateTime.toLocalTime().getMillisOfDay();
+		railSearchRequest = new RailApiSearchModel(origin, destination, startDate, null, startTime, null, false);
 	}
 }
