@@ -139,6 +139,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 }
             });
             userStoppedScrollingAt = behavior.topAndBottomOffset
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(bundleOverviewHeader.toolbar)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
