@@ -128,6 +128,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             val activity = context as AppCompatActivity
             activity.onBackPressed()
         }
+        toolbar.navigationContentDescription = context.getString(R.string.toolbar_nav_icon_cont_desc)
     }
 
     override fun onFinishInflate() {
