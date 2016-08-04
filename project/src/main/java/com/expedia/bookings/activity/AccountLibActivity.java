@@ -274,7 +274,7 @@ public class AccountLibActivity extends AppCompatActivity
 
 		@Override
 		public void userSignedInUsingSmartPassword() {
-			OmnitureTracking.trackSmartLockPasswordAccountCreation();
+			OmnitureTracking.trackSmartLockPasswordSignIn();
 		}
 	};
 
