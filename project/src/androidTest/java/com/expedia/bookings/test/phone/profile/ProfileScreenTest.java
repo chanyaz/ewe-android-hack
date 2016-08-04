@@ -26,6 +26,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.AccountSettingsActivity;
+import com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -87,7 +88,7 @@ public class ProfileScreenTest {
 		assertIntentFiredToStartAboutWebViewWithUrl(PointOfSale.getPointOfSale().getPrivacyPolicyUrl());
 
 		ProfileScreen.clickOpenSource();
-		assertIntentFiredToStartWebViewWithRawHtmlContaining("Licensed under the Apache License, Version 2.0");
+		assertIntentFiredToViewOpenSourceLicenses();
 
 		ProfileScreen.clickFlightTrack();
 		assertIntentFiredToViewAppInPlayStore("com.mobiata.flighttrack.five");
@@ -183,6 +184,10 @@ public class ProfileScreenTest {
 
 	private static void assertIntentFiredToStartWebViewWithRawHtmlContaining(String html) {
 		assertIntentFiredToStartActivityWithExtra(WebViewActivity.class, equalTo("ARG_HTML_DATA"), containsString(html));
+	}
+
+	private static void assertIntentFiredToViewOpenSourceLicenses() {
+		intended(hasComponent(OpenSourceLicenseWebViewActivity.class.getName()));
 	}
 
 	private static void assertIntentFiredToStartSignInWithInitialState(Config.InitialState initialState) {
