@@ -3,8 +3,8 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
@@ -16,20 +16,18 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseCreateTripViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.format.DateTimeFormat
-import rx.Observable
 import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.PublishSubject
+import rx.subjects.BehaviorSubject
 
 class PackageCreateTripViewModel(val packageServices: PackageServices, val context: Context) : BaseCreateTripViewModel() {
 
-    val tripParams = PublishSubject.create<PackageCreateTripParams>()
+    val tripParams = BehaviorSubject.create<PackageCreateTripParams>()
 
     init {
-        Observable.combineLatest(tripParams, performCreateTrip, { params, createTrip ->
+        performCreateTrip.subscribe {
             showCreateTripDialogObservable.onNext(true)
-            packageServices.createTrip(params).subscribe(makeCreateTripResponseObserver())
-        }).subscribe()
+            packageServices.createTrip(tripParams.value).subscribe(makeCreateTripResponseObserver())
+        }
     }
 
     fun makeCreateTripResponseObserver(): Observer<PackageCreateTripResponse> {

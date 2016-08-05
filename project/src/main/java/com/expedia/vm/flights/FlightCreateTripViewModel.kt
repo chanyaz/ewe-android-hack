@@ -9,12 +9,9 @@ import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.utils.getFee
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.vm.BaseCreateTripViewModel
-import rx.Observable
 import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -22,10 +19,10 @@ class FlightCreateTripViewModel(val context: Context, val flightServices: Flight
     val tripParams = BehaviorSubject.create<FlightCreateTripParams>()
 
     init {
-        Observable.combineLatest(tripParams, performCreateTrip, { params, createTrip ->
+        performCreateTrip.subscribe {
             showCreateTripDialogObservable.onNext(true)
-            flightServices.createTrip(params).subscribe(makeCreateTripResponseObserver())
-        }).subscribe()
+            flightServices.createTrip(tripParams.value).subscribe(makeCreateTripResponseObserver())
+        }
 
         updateTripFeesOnCardSelection()
     }

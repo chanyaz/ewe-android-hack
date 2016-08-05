@@ -222,8 +222,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_selectable_date_range)))
         val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
         val info = packageServices.hotelInfo(hotelId)
-        packageHotelOffers.subscribe (makeErrorSubscriber(false))
-        info.subscribe (makeErrorSubscriber(false))
 
         Observable.zip(packageHotelOffers.doOnError {}, info.doOnError {},
                 { packageHotelOffers, info ->
