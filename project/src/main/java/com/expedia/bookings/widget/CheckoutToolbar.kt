@@ -21,7 +21,7 @@ import kotlin.properties.Delegates
 
 class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs), ToolbarListener {
     var menuItem: MenuItem by Delegates.notNull()
-    var currentFocus: EditText? = null
+    var currentFocus: View? = null
     var toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
 
     var viewModel: CheckoutToolbarViewModel by notNullAndObservable { vm ->
@@ -134,13 +134,18 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
         toolbarNavIcon.parameter = arrowDrawableType.type.toFloat()
     }
 
-    override fun editTextFocus(edittext: EditText) {
-        viewModel.currentFocus.onNext(edittext)
+    override fun setCurrentViewFocus(view: View) {
+        viewModel.currentFocus.onNext(view)
     }
 
     private fun setNextFocus()
     {
-        currentFocus?.focusSearch(View.FOCUS_FORWARD)?.requestFocus()
+        val nextFocusId = currentFocus?.nextFocusForwardId ?: 0
+        var nextView = currentFocus?.focusSearch(View.FOCUS_FORWARD)
+        if (nextView?.id != nextFocusId) {
+            nextView = currentFocus?.rootView?.findViewById(nextFocusId)
+        }
+        nextView?.requestFocus()
     }
 
     override fun enableRightActionButton(enable: Boolean) {

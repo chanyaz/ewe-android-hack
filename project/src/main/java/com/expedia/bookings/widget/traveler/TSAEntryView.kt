@@ -60,6 +60,8 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         val genderAdapter = GenderSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_dropdown_item)
         genderSpinner.adapter = genderAdapter
         dateOfBirth.setOnClickListener(DateOfBirthClickListener(this))
+        genderSpinner.isFocusable = true
+        genderSpinner.isFocusableInTouchMode = true
     }
 
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {

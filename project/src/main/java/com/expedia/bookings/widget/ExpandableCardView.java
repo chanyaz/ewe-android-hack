@@ -49,7 +49,7 @@ public abstract class ExpandableCardView extends FrameLayout
 
 		if (mToolbarListener != null) {
 			mToolbarListener.showRightActionButton(true);
-			mToolbarListener.editTextFocus(mCurrentEditText);
+			mToolbarListener.setCurrentViewFocus(mCurrentEditText);
 		}
 
 	}
