@@ -3488,9 +3488,9 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
-	public static void trackSmartLockPasswordAccountCreation() {
-		ADMS_Measurement s = createTrackLinkEvent(LOGIN_ACCOUNT_CREATE_SUCCESS);
-		s.setEvents("event25,event26,event216");
+	public static void trackSmartLockPasswordSignIn() {
+		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
+		s.setEvents("event26,event218");
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
@@ -3499,6 +3499,7 @@ public class OmnitureTracking {
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
 		s.setEvar(18, LOGIN_SCREEN);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppSmartLockTest);
 		s.track();
 	}
 
