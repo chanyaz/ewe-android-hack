@@ -22,7 +22,7 @@ import com.expedia.bookings.data.flights.ValidFormOfPayment;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
-import com.expedia.bookings.widget.packages.PackagePaymentWidget;
+import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget;
 import com.expedia.vm.PaymentViewModel;
 
 import butterknife.ButterKnife;
@@ -34,7 +34,7 @@ import static org.junit.Assert.assertTrue;
 
 @RunWith(RobolectricRunner.class)
 public class PackagePaymentWidgetTest {
-	private PackagePaymentWidget packagePaymentWidget;
+	private BillingDetailsPaymentWidget packagePaymentWidget;
 	private Activity activity;
 	private EditText securityCodeInput;
 
@@ -42,8 +42,8 @@ public class PackagePaymentWidgetTest {
 	public void before() {
 		activity = Robolectric.buildActivity(Activity.class).create().get();
 		activity.setTheme(R.style.V2_Theme_Packages);
-		packagePaymentWidget = (PackagePaymentWidget) LayoutInflater.from(activity)
-			.inflate(R.layout.package_payment_widget, null);
+		packagePaymentWidget = (BillingDetailsPaymentWidget) LayoutInflater.from(activity)
+			.inflate(R.layout.billing_details_payment_widget, null);
 		packagePaymentWidget.setViewmodel(new PaymentViewModel(activity));
 	}
 
