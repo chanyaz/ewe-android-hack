@@ -163,16 +163,16 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
     }
 
     override fun onTravelerChosen(traveler: Traveler) {
-        val passengerCategory = viewModel.getTraveler().getPassengerCategory()
-        traveler.setPassengerCategory(passengerCategory)
-        viewModel.updateTraveler(traveler)
+        val passengerCategory = viewModel.getTraveler().passengerCategory
+        traveler.passengerCategory = passengerCategory
         selectPassport(traveler.primaryPassportCountry)
+        viewModel.updateTraveler(traveler)
     }
 
     override fun onAddNewTravelerSelected() {
         val newTraveler = Traveler()
-        val passengerCategory = viewModel.getTraveler().getPassengerCategory()
-        newTraveler.setPassengerCategory(passengerCategory)
+        val passengerCategory = viewModel.getTraveler().passengerCategory
+        newTraveler.passengerCategory = passengerCategory
         viewModel.updateTraveler(newTraveler)
     }
 
