@@ -4,12 +4,11 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.presenter.BaseErrorPresenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelDetailsToolbar
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
-import com.expedia.util.subscribeText
 import com.expedia.vm.AbstractErrorViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
@@ -26,7 +25,11 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
         hotelDetailsToolbar.toolbar.setNavigationOnClickListener {
             viewmodel.defaultErrorObservable.onNext(Unit)
         }
+        standardToolbar.setNavigationOnClickListener {
+            handleCheckoutErrors()
+        }
         hotelDetailsToolbar.hideGradient()
+
     }
 
     override fun setupViewModel(vm: AbstractErrorViewModel) {
@@ -42,4 +45,38 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
     override fun getViewModel(): HotelErrorViewModel {
         return viewmodel as HotelErrorViewModel
     }
+
+    override fun back(): Boolean {
+        handleCheckoutErrors()
+        return true
+    }
+
+    private fun handleCheckoutErrors() {
+        val checkoutError = getViewModel().error
+
+        when (checkoutError.errorCode) {
+            ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
+                 viewmodel.checkoutCardErrorObservable.onNext(Unit)
+            }
+            ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS -> {
+                 viewmodel.checkoutTravelerErrorObservable.onNext(Unit)
+            }
+            ApiError.Code.PAYMENT_FAILED -> {
+                viewmodel.checkoutCardErrorObservable.onNext(Unit)
+            }
+            ApiError.Code.INVALID_CARD_NUMBER -> {
+                viewmodel.checkoutCardErrorObservable.onNext(Unit)
+            }
+            ApiError.Code.CARD_LIMIT_EXCEEDED -> {
+                 viewmodel.checkoutCardErrorObservable.onNext(Unit)
+            }
+            ApiError.Code.INVALID_CARD_EXPIRATION_DATE -> {
+                viewmodel.checkoutCardErrorObservable.onNext(Unit)
+            }
+            else -> {
+                 viewmodel.defaultErrorObservable.onNext(Unit)
+            }
+        }
+    }
+
 }
