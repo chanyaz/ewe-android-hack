@@ -103,10 +103,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
     val checkoutButton: Button by bindView(R.id.checkout_button)
-
-    val paymentWidgetRootWindow by lazy { (context as Activity).window }
-    val paymentWidgetRootView by lazy { paymentWidgetRootWindow.decorView.findViewById(android.R.id.content) }
-    var globalLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+    val rootWindow by lazy { (context as Activity).window }
+    val decorView by lazy { rootWindow.decorView.findViewById(android.R.id.content) }
+    var paymentLayoutListener : ViewTreeObserver.OnGlobalLayoutListener? = null
+    var travelerLayoutListener : ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
 
     val checkoutDialog = ProgressDialog(context)
@@ -179,22 +179,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         totalPriceWidget.viewModel = BundlePriceViewModel(context)
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
-        globalLayoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
-            val decorView = paymentWidgetRootWindow.decorView
-            val windowVisibleDisplayFrameRect = Rect()
-            decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
-            var location = IntArray(2)
-            scrollView.getLocationOnScreen(location)
-            val lp = scrollView.layoutParams
-            val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - toolbarHeight
-
-            if (lp.height != newHeight) {
-                lp.height = newHeight
-                scrollView.layoutParams = lp
-            }
-        })
-
-        toolbarHeight = Ui.getToolbarSize(context)
 
         paymentWidget.viewmodel.lineOfBusiness.onNext(getLineOfBusiness())
         travelerPresenter.travelerEntryWidget.travelerButton.setLOB(getLineOfBusiness())
@@ -271,7 +255,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 }
             }
         })
-
+        paymentLayoutListener = makeKeyboardListener(scrollView)
+        travelerLayoutListener = makeKeyboardListener(travelerPresenter.travelerEntryWidget, toolbarHeight * 2)
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
@@ -290,6 +275,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 travelerPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
                 travelerPresenter.viewModel.updateCompletionStatus()
                 travelerPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
+            } else {
+                decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
             }
         }
 
@@ -318,11 +306,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             cardFeeWarningTextView.setInverseVisibility(forward)
             if (!forward) {
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
-                paymentWidgetRootView.viewTreeObserver.removeOnGlobalLayoutListener(globalLayoutListener)
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
                 scrollView.layoutParams.height = height
                 paymentWidget.viewmodel.showingPaymentForm.onNext(false)
             } else {
-                paymentWidgetRootView.viewTreeObserver.addOnGlobalLayoutListener(globalLayoutListener)
+                decorView.viewTreeObserver.addOnGlobalLayoutListener(paymentLayoutListener)
             }
         }
 
@@ -535,4 +523,25 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     abstract fun getCheckoutViewModel(): BaseCheckoutViewModel
     abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
+
+
+    fun makeKeyboardListener(scrollView: ScrollView, offset: Int = toolbarHeight) : ViewTreeObserver.OnGlobalLayoutListener {
+        val rootWindow = (context as Activity).window
+        val layoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
+            val decorView = rootWindow.decorView
+            val windowVisibleDisplayFrameRect = Rect()
+            decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
+            var location = IntArray(2)
+            scrollView.getLocationOnScreen(location)
+            val lp = scrollView.layoutParams
+            val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - offset
+
+            if (lp.height != newHeight) {
+                lp.height = newHeight
+                scrollView.layoutParams = lp
+            }
+        })
+
+        return layoutListener
+    }
 }

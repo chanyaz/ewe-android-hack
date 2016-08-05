@@ -29,7 +29,7 @@ import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
-class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs),
+class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : ScrollView(context, attrs),
         TravelerButton.ITravelerButtonListener, View.OnFocusChangeListener {
 
     val ANIMATION_DURATION = 500L
