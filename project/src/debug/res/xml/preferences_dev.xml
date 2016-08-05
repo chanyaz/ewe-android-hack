@@ -18,6 +18,12 @@
             android:layout="@layout/preference"
             android:summary="Click to view tests and change buckets" />
 
+        <Preference
+            android:title="Feature Toggle"
+            android:key="@string/preference_open_feature_toggle_settings"
+            android:layout="@layout/preference"
+            android:summary="Click for Features Toggle" />
+
         <EditTextPreference
             android:defaultValue="localhost:3000"
             android:key="@string/preference_proxy_server_address"
