@@ -69,6 +69,7 @@ class FlightCheckoutOverviewViewModelTest {
         val regionName = SuggestionV4.RegionNames()
         regionName.shortName = "San Francisco, CA (SFO-San Francisco Intl.)"
         regionName.displayName = "San Francisco, CA (<B>SFO</B>-San Francisco Intl.)"
+        regionName.fullName = "San Francisco, CA, United States (<B>SFO</B>-San Francisco Intl.)"
         suggestion.regionNames = regionName
         return suggestion
     }
