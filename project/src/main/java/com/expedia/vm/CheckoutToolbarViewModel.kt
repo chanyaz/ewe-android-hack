@@ -27,5 +27,4 @@ class CheckoutToolbarViewModel(val context: Context) {
 
     val expanded = PublishSubject.create<ExpandableCardView>()
     val closed = PublishSubject.create<Unit>()
-    val showChangePackageMenuObservable = BehaviorSubject.create<Boolean>()
 }

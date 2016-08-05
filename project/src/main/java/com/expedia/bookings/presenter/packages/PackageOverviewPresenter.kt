@@ -39,11 +39,14 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         removeView(bundleWidget)
         getCheckoutPresenter().getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
             trip as PackageCreateTripResponse
-            bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.onNext(true)
             bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
             bundleWidget.bundleHotelWidget.toggleHotelWidget(1f, true)
-            bundleWidget.toggleMenuObservable.onNext(true)
+
+            if (currentState == BundleDefault::class.java.name) {
+                bundleWidget.toggleMenuObservable.onNext(true)
+            }
+
             bundleWidget.setPadding(0, 0, 0, 0)
             bundleWidget.viewModel.createTripObservable.onNext(trip)
             (bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel

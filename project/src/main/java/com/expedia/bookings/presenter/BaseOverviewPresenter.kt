@@ -43,9 +43,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
 
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
-        bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.subscribe { visible ->
-            bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)
-        }
 
         checkoutPresenter.paymentWidget.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         checkoutPresenter.paymentWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
