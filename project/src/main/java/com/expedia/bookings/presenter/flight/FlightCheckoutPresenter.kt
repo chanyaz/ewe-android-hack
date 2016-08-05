@@ -7,6 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
@@ -75,6 +76,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
             (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(response)
+            isPassportRequired(response)
             trackShowBundleOverview()
         }
 
@@ -101,6 +103,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     @Subscribe fun onUserLoggedIn( @Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
+    }
+
+    override fun isPassportRequired(response: TripResponse) {
+        val flightOffer = (response as FlightCreateTripResponse).details.offer
+        travelerPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
     }
 
     override fun getLineOfBusiness() : LineOfBusiness {

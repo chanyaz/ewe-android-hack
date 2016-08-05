@@ -178,7 +178,6 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnText(expectedTravelerInfantText);
 		travelerPresenterBack();
 
-		Common.delay(2);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_select_state);
 		checkOscarInvalid(R.id.traveler_status_icon, R.drawable.invalid, testChildFullName);
 
@@ -271,7 +270,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	@Test
 	public void testPassportIndependent() throws Throwable {
 		mockViewModel = getMockViewModelValidTravelers(2);
-		generateMockTripWithPassport();
+		mockViewModel.getPassportRequired().onNext(true);
 		testTravelerPresenter.setViewModel(mockViewModel);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
