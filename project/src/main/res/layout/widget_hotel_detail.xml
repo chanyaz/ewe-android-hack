@@ -532,7 +532,8 @@
                         android:layout_height="480dp"
                         android:layout_gravity="center"
                         android:paddingBottom="160dp"
-                        android:scaleType="centerCrop" />
+                        android:scaleType="centerCrop"
+                        android:contentDescription="@string/hotel_map_view_cont_desc"/>
 
                     <View
                         android:id="@+id/transparent_view_over_mini_map"

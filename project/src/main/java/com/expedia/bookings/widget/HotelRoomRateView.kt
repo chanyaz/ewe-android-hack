@@ -126,6 +126,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
             val lp = roomInfoChevron.layoutParams as RelativeLayout.LayoutParams
             if (shouldExpand) {
                 roomInfoDescriptionText.visibility = View.VISIBLE
+                roomInfoDescriptionText.requestFocus()
                 lp.addRule(RelativeLayout.BELOW, R.id.room_info_description_text)
                 roomInfoChevron.layoutParams = lp
                 resizeAnimator.addViewSpec(roomInfoDescriptionText, roomInfoDescriptionTextHeight, 0)

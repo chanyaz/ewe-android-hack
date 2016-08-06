@@ -69,6 +69,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
         checkoutPresenter.checkoutButton.setOnClickListener {
             showCheckout()
+            checkoutPresenter.slideToPurchaseLayout.visibility = View.VISIBLE
         }
 
         bundleOverviewHeader.setUpCollapsingToolbar()
@@ -139,6 +140,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 }
             });
             userStoppedScrollingAt = behavior.topAndBottomOffset
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(bundleOverviewHeader.toolbar)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {

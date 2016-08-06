@@ -3,7 +3,7 @@ package com.expedia.bookings.widget.packages
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
-import android.support.v4.content.ContextCompat
+import android.support.v7.widget.CardView
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
@@ -19,9 +19,9 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.packages.PackageHotelViewModel
 
 class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : HotelCellViewHolder(root, width) {
+    val cardView: CardView by root.bindView(R.id.card_view)
     val unrealDealMessageContainer: LinearLayout by root.bindView(R.id.unreal_deal_container)
     val unrealDealMessage: TextView by root.bindView(R.id.unreal_deal_message)
-
     val priceIncludesFlightsDivider: View by root.bindView(R.id.price_includes_flights_divider)
     val priceIncludesFlightsView: TextView by root.bindView(R.id.price_includes_flights)
 
@@ -33,6 +33,7 @@ class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : HotelCellViewHol
 
         viewModel.priceIncludesFlightsObservable.subscribeVisibility(priceIncludesFlightsDivider)
         viewModel.priceIncludesFlightsObservable.subscribeVisibility(priceIncludesFlightsView)
+        cardView.contentDescription = viewModel.contentDescription
     }
 
     override fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
