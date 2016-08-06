@@ -461,6 +461,14 @@ public class StrUtils {
 		return displayName;
 	}
 
+	public static SpannableStringBuilder generateBaggageFeesTextWithClickableLinks(Context context, String outboundBaggageFeeUrl, String inboundBaggageFeeUrl) {
+		String baggageFeesTextFormatted = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
+				.put("departurelink", outboundBaggageFeeUrl)
+				.put("returnlink", inboundBaggageFeeUrl)
+				.format().toString();
+		return getSpannableTextByColor(baggageFeesTextFormatted, Color.BLACK, true);
+	}
+
 	public static SpannableStringBuilder generateStatementWithClickableLink(String statementWithAnchorLink) {
 		return getSpannableTextByColor(statementWithAnchorLink, Color.WHITE, true);
 	}
