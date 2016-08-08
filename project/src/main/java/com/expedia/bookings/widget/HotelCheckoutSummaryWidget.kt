@@ -22,7 +22,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Images
@@ -81,7 +81,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         View.inflate(getContext(), R.layout.hotel_checkout_summary_widget, this)
         costSummary.setOnClickListener {
             dialog.show()
-            HotelV2Tracking().trackTripSummaryClick()
+            HotelTracking().trackTripSummaryClick()
         }
 
         viewModel.hotelName.subscribeText(hotelName)

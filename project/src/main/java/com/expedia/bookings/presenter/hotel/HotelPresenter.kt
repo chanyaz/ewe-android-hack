@@ -16,11 +16,10 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -33,8 +32,7 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.ReviewsServices
-import com.expedia.bookings.tracking.HotelV2Tracking
-import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
@@ -51,13 +49,13 @@ import com.expedia.vm.GeocodeSearchModel
 import com.expedia.vm.HotelCheckoutViewModel
 import com.expedia.vm.HotelConfirmationViewModel
 import com.expedia.vm.HotelCreateTripViewModel
-import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelErrorViewModel
 import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelPresenterViewModel
-import com.expedia.vm.hotel.HotelResultsViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
 import org.joda.time.DateTime
@@ -108,7 +106,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELSV2, clientLogBuilder)
+        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELS, clientLogBuilder)
         presenter.viewmodel.hotelResultsObservable.subscribe {
             clientLogBuilder.requestToUser(DateTime.now())
             clientLogServices.log(clientLogBuilder.build())
@@ -118,7 +116,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.viewmodel.errorObservable.subscribe { show(errorPresenter) }
         presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
         presenter.viewmodel.hotelResultsObservable.subscribe({ hotelSearchResponse ->
-            HotelV2Tracking().trackHotelsV2Search(hotelSearchParams, hotelSearchResponse)
+            HotelTracking().trackHotelsSearch(hotelSearchParams, hotelSearchResponse)
         })
         presenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
         presenter.showDefault()
@@ -224,7 +222,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         var presenter = viewStub.inflate() as HotelReviewsView
         presenter.hotelReviewsTabbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
             override fun onPageSelected(position: Int) {
-                HotelV2Tracking().trackHotelV2ReviewsCategories(position)
+                HotelTracking().trackHotelReviewsCategories(position)
             }
             override fun onPageScrollStateChanged(state: Int) {
             }
@@ -268,7 +266,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 builder.setTitle(R.string.ChooseLocation)
                 val dialogItemClickListener = DialogInterface.OnClickListener { dialog, which ->
                     triggerNewSearch(which)
-                    HotelV2Tracking().trackGeoSuggestionClick()
+                    HotelTracking().trackGeoSuggestionClick()
                 }
                 builder.setItems(freeformLocations, dialogItemClickListener)
                 val alertDialog = builder.create()
@@ -375,7 +373,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
             searchPresenter.showSuggestionState(selectOrigin = false)
-            HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
+            HotelTracking().trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -446,7 +444,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.animationFinalize(forward, true)
             searchPresenter.animationFinalize(forward)
-            if (!forward) HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
+            if (!forward) HotelTracking().trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -535,7 +533,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             searchPresenter.animationFinalize(forward)
             errorPresenter.animationFinalize()
-            if (!forward) HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
+            if (!forward) HotelTracking().trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -563,7 +561,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
             else {
-                HotelV2Tracking().trackHotelV2SearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
+                HotelTracking().trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
             }
         }
     }
@@ -694,7 +692,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         //If hotel is known to be "Sold Out", simply show the Hotel Details Screen in "Sold Out" state, otherwise fetch Offers and show those as well
         showDetails(hotel.hotelId, if (hotel.isSoldOut) false else true)
-        HotelV2Tracking().trackHotelV2CarouselClick()
+        HotelTracking().trackHotelCarouselClick()
     }
 
     data class HotelDetailsRequestMetadata(val hotelId: String, val hotelOffersResponse: HotelOffersResponse, val isOffersRequest: Boolean)

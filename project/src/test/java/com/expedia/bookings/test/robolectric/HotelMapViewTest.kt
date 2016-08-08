@@ -43,7 +43,7 @@ class HotelMapViewTest {
         detailsStub.addView(detailsMapView)
         hotelMapView.mapView = detailsMapView
         hotelMapView.mapView.getMapAsync(hotelMapView);
-        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELSV2)
+        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, PublishSubject.create<Boolean>(), LineOfBusiness.HOTELS)
     }
 
     @Test fun testSelectARoomClicked() {
@@ -108,7 +108,7 @@ class HotelMapViewTest {
     }
 
     @Test fun testMapViewWhenRoomOffersAreNotAvailable() {
-        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, BehaviorSubject.create<Boolean>(true), LineOfBusiness.HOTELSV2)
+        hotelMapView.viewmodel = HotelMapViewModel(RuntimeEnvironment.application, selectARoomTestSubscriber, BehaviorSubject.create<Boolean>(true), LineOfBusiness.HOTELS)
         givenHotelOffersResponseWhenRoomOffersAreNotAvailable()
         hotelMapView.viewmodel.offersObserver.onNext(hotelOffersResponse)
 

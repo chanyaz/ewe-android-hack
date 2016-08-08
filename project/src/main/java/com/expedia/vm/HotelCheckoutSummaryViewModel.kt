@@ -8,7 +8,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -91,7 +91,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
                     priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
                 }
 
-                HotelV2Tracking().trackPriceChange(priceChange.toString())
+                HotelTracking().trackPriceChange(priceChange.toString())
             }
             val room = it.newHotelProductResponse.hotelRoomResponse
             val rate = room.rateInfo.chargeableRateInfo

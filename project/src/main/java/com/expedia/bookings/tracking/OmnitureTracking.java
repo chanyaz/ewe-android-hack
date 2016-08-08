@@ -88,10 +88,8 @@ import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
-import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
-import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
@@ -4026,15 +4024,6 @@ public class OmnitureTracking {
 
 		// TripBucket State
 		if (Db.getTripBucket() != null) {
-			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-			String hotelState = hotel == null ? "No Hotel" : (hotel.getState() == TripBucketItemState.PURCHASED ? "Hotel" : "UB Hotel");
-
-			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
-			String flightState = flight == null ? "No Flight" : (flight.getState() == TripBucketItemState.PURCHASED ? "Flight" : "UB Flight");
-
-			String tbState = hotelState + "|" + flightState;
-			s.setEvar(23, tbState);
-
 			// Air attach state
 			boolean userIsAttachEligible = Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified();
 			String airAttachState = userIsAttachEligible ? "Attach|Hotel Eligible" : "Attach|Non Eligible";

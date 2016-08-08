@@ -7,7 +7,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
@@ -21,7 +21,7 @@ import java.util.Comparator
 import java.util.HashSet
 import java.util.regex.Pattern
 
-class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
+class HotelFilterViewModel(val lob: LineOfBusiness) {
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
@@ -105,8 +105,8 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
                 var sortByString: String = Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString())
                 if (lob == LineOfBusiness.PACKAGES) {
                     PackagesTracking().trackHotelSortBy(sortByString)
-                } else {
-                    HotelV2Tracking().trackHotelV2SortBy(sortByString)
+                } else if (lob == LineOfBusiness.HOTELS) {
+                    HotelTracking().trackHotelSortBy(sortByString)
                 }
             }
 
@@ -126,6 +126,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
             finishClear.onNext(Unit)
             sendNewPriceRange()
         }
+
     }
 
     fun handleFiltering() {
@@ -230,8 +231,8 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         handleFiltering()
         if (lob == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackHotelFilterVIP(it)
-        } else {
-            HotelV2Tracking().trackLinkHotelV2FilterVip(it)
+        } else if (lob == LineOfBusiness.HOTELS) {
+            HotelTracking().trackLinkHotelFilterVip(it)
         }
     }
 
@@ -300,8 +301,8 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
         userFilterChoices.maxPrice = p.second
         if (lob == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackHotelFilterPriceSlider()
-        } else {
-            HotelV2Tracking().trackHotelV2SortPriceSlider()
+        } else if (lob == LineOfBusiness.HOTELS) {
+            HotelTracking().trackHotelSortPriceSlider()
         }
         handleFiltering()
     }
@@ -315,8 +316,8 @@ class HotelFilterViewModel(val lob: LineOfBusiness = LineOfBusiness.HOTELSV2) {
             trackingDone = true
             if (lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelFilterByName()
-            } else {
-                HotelV2Tracking().trackLinkHotelV2FilterByName()
+            } else if (lob == LineOfBusiness.HOTELS) {
+                HotelTracking().trackLinkHotelFilterByName()
             }
         }
         if (s.length == 0) trackingDone = false

@@ -29,7 +29,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.tracking.HotelV2Tracking;
+import com.expedia.bookings.tracking.HotelTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Strings;
@@ -206,7 +206,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		summaryContainer.addView(mSummaryProgressLayout);
 		userAccountRefresher = new UserAccountRefresher(getContext(), getLineOfBusiness(), this);
 
-		if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+		if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
 			scrollView.addOnScrollListener(checkoutScrollListener);
 		}
 	}
@@ -244,7 +244,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 			@Override
 			public void onNext(Unit unit) {
-				if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+				if (getLineOfBusiness() == LineOfBusiness.HOTELS && listenToScroll) {
 					scrollToEnterDetails();
 				}
 			}
@@ -265,7 +265,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				lastExpandedCard = currentExpandedCard;
 				currentExpandedCard = cardView;
 				menuDone.setTitle(currentExpandedCard.getMenuButtonTitle());
-				if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELSV2
+				if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELS
 					&& cardView instanceof TravelerContactDetailsWidget) {
 					requiredFieldTextView.setVisibility(VISIBLE);
 				}
@@ -300,7 +300,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	}
 
 	public void resetMenuButton() {
-		if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
+		if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
 			menuDone.setVisible(true);
 			menuDone.setTitle(R.string.next);
 		}
@@ -409,8 +409,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			scrollToEnterDetails();
 			String cardType = paymentInfoCardView.getCardType().getOmnitureTrackingCode();
 			switch (getLineOfBusiness()) {
-			case HOTELSV2:
-				new HotelV2Tracking().trackHotelV2SlideToPurchase(paymentInfoCardView.getCardType(), paymentInfoCardView.getViewmodel().getSplitsType().getValue());
+			case HOTELS:
+				new HotelTracking().trackHotelSlideToPurchase(paymentInfoCardView.getCardType(), paymentInfoCardView.getViewmodel().getSplitsType().getValue());
 				break;
 			case LX:
 			case TRANSPORT:
@@ -523,7 +523,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	};
 
 	private void updateSpacerHeight() {
-		if (getLineOfBusiness() != LineOfBusiness.HOTELSV2 || isCheckoutFormComplete()) {
+		if (getLineOfBusiness() != LineOfBusiness.HOTELS || isCheckoutFormComplete()) {
 			float scrollViewActualHeight = scrollView.getHeight() - scrollView.getPaddingTop();
 			int bottom = (disclaimerText.getVisibility() == View.VISIBLE) ? disclaimerText.getBottom()
 				: legalInformationText.getBottom();
@@ -617,7 +617,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				checkoutFormWasUpdated();
 				updateSpacerHeight();
-				if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+				if (getLineOfBusiness() == LineOfBusiness.HOTELS && listenToScroll) {
 					scrollToEnterDetails();
 				}
 			}
@@ -675,7 +675,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				checkoutFormWasUpdated();
 				updateSpacerHeight();
-				if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+				if (getLineOfBusiness() == LineOfBusiness.HOTELS && listenToScroll) {
 					scrollToEnterDetails();
 				}
 			}
@@ -728,7 +728,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			else {
 				checkoutFormWasUpdated();
 				updateSpacerHeight();
-				if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+				if (getLineOfBusiness() == LineOfBusiness.HOTELS && listenToScroll) {
 					scrollToEnterDetails();
 				}
 			}
@@ -755,7 +755,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	public void onUserAccountRefreshed() {
 		if (User.isLoggedIn(getContext())) {
 			listenToScroll = true;
-			if (getLineOfBusiness() == LineOfBusiness.HOTELSV2 && listenToScroll) {
+			if (getLineOfBusiness() == LineOfBusiness.HOTELS && listenToScroll) {
 				scrollToEnterDetails();
 			}
 		}
@@ -809,7 +809,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@Override
 	public void collapsed(ExpandableCardView view) {
 		acceptTermsWidget.setAlpha(1f);
-		if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELSV2
+		if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELS
 			&& view instanceof TravelerContactDetailsWidget) {
 			requiredFieldTextView.setVisibility(GONE);
 		}

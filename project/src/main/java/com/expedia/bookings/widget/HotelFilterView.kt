@@ -8,33 +8,33 @@ import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.view.MotionEvent
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.CheckBox
+import android.widget.GridLayout
+import android.widget.ImageButton
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
-import android.widget.GridLayout
-import android.widget.LinearLayout
-import android.widget.ImageButton
-import android.widget.RelativeLayout
-import android.widget.ImageView
-import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.FilterAmenity
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.shouldShowCircleForRatings
+import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FilterAmenity
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.util.endlessObserver
-import com.expedia.bookings.tracking.HotelV2Tracking
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
@@ -64,7 +64,6 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val dynamicFeedbackWidget: DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
     val dynamicFeedbackClearButton: TextView by bindView(R.id.dynamic_feedback_clear_button)
     val filterContainer: ViewGroup by bindView(R.id.filter_container)
-    var lob: LineOfBusiness = LineOfBusiness.HOTELSV2
 
     val doneButton: Button by lazy {
         val button = LayoutInflater.from(context).inflate(R.layout.toolbar_checkmark_item, null) as Button
@@ -111,7 +110,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         sortByAdapter.clear()
         val sortList = Sort.values().toMutableList()
 
-        if (lob == LineOfBusiness.PACKAGES) sortList.remove(Sort.DEALS) else sortList.remove(Sort.PACKAGE_DISCOUNT)
+        if (viewmodel.lob == LineOfBusiness.PACKAGES) sortList.remove(Sort.DEALS) else sortList.remove(Sort.PACKAGE_DISCOUNT)
         sortByAdapter.addAll(sortList)
 
         if (!isCurrentLocationSearch) {
@@ -146,8 +145,8 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             vm.clearObservable.onNext(Unit)
             if (vm.lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelClearFilter()
-            } else {
-                HotelV2Tracking().trackLinkHotelV2ClearFilter()
+            } else if (vm.lob == LineOfBusiness.HOTELS) {
+                HotelTracking().trackLinkHotelClearFilter()
             }
         }
 
@@ -226,8 +225,8 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             if (it <= 5) {
                 if (vm.lob == LineOfBusiness.PACKAGES) {
                     PackagesTracking().trackHotelRefineRating(it.toString())
-                } else {
-                    HotelV2Tracking().trackLinkHotelV2RefineRating(it.toString())
+                } else if (vm.lob == LineOfBusiness.HOTELS) {
+                    HotelTracking().trackLinkHotelRefineRating(it.toString())
                 }
             }
         }

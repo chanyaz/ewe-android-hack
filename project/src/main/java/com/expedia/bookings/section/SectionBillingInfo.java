@@ -752,7 +752,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		PointOfSale currentPOS = PointOfSale.getPointOfSale();
 		switch (mLineOfBusiness) {
 		case HOTELS:
-		case HOTELSV2:
 			return currentPOS.requiresHotelPostalCode();
 		case CARS:
 			return currentPOS.requiresCarsPostalCode();
@@ -1207,13 +1206,15 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			return Db.getTripBucket().getPackage() != null &&
 				Db.getTripBucket().getPackage().isPaymentTypeSupported(info.getPaymentType());
 		}
-		if (lob == LineOfBusiness.HOTELSV2) {
-			return Db.getTripBucket().getHotelV2() != null &&
-				Db.getTripBucket().getHotelV2().isPaymentTypeSupported(info.getPaymentType());
-		}
 		if (lob == LineOfBusiness.HOTELS) {
-			return Db.getTripBucket().getHotel() != null &&
-				Db.getTripBucket().getHotel().isPaymentTypeSupported(info.getPaymentType());
+			if (!ExpediaBookingApp.isTablet()) {
+				return Db.getTripBucket().getHotelV2() != null &&
+					Db.getTripBucket().getHotelV2().isPaymentTypeSupported(info.getPaymentType());
+			}
+			else {
+				return Db.getTripBucket().getHotel() != null &&
+					Db.getTripBucket().getHotel().isPaymentTypeSupported(info.getPaymentType());
+			}
 		}
 		if (lob == LineOfBusiness.FLIGHTS) {
 			return Db.getTripBucket().getFlight() != null

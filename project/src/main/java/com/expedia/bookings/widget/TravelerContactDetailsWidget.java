@@ -24,7 +24,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.MerchandiseSpam;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
-import com.expedia.bookings.tracking.HotelV2Tracking;
+import com.expedia.bookings.tracking.HotelTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
@@ -159,7 +159,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public void setUPEMailOptCheckBox(MerchandiseSpam value) {
 		emailOptInStatus = value;
-		if (lineOfBusiness == LineOfBusiness.HOTELSV2 && !User.isLoggedIn(getContext())) {
+		if (lineOfBusiness == LineOfBusiness.HOTELS && !User.isLoggedIn(getContext())) {
 			if (emailOptInStatus != null) {
 				switch (emailOptInStatus) {
 				case ALWAYS:
@@ -247,7 +247,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
-			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+			if (lineOfBusiness == LineOfBusiness.HOTELS) {
 				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
 				enterDetailsText.setText(getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1));
 				travelerPhoneText.setVisibility(VISIBLE);
@@ -296,8 +296,8 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 				travelerButton.setVisibility(GONE);
 			}
 			bind();
-			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
-				new HotelV2Tracking().trackHotelV2CheckoutTraveler();
+			if (lineOfBusiness == LineOfBusiness.HOTELS) {
+				new HotelTracking().trackHotelCheckoutTraveler();
 			}
 			else {
 				OmnitureTracking.trackCheckoutTraveler(lineOfBusiness);
@@ -345,7 +345,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	@Override
 	public String getActionBarTitle() {
-		if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+		if (lineOfBusiness == LineOfBusiness.HOTELS) {
 			return getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1);
 		}
 		else {

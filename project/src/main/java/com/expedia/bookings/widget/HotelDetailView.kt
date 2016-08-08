@@ -31,7 +31,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -525,7 +526,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             roomRateRegularLoyaltyAppliedView.visibility = View.VISIBLE
         }
 
-        HotelV2Tracking().trackPayNowContainerClick()
+        HotelTracking().trackPayNowContainerClick()
     }
 
     val payLaterObserver: Observer<Unit> = endlessObserver {
@@ -534,7 +535,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         viewmodel.etpRoomResponseListObservable.onNext(Pair(viewmodel.etpOffersList, viewmodel.etpUniqueValueAddForRooms))
         roomRateVIPLoyaltyAppliedContainer.visibility = View.GONE
         roomRateRegularLoyaltyAppliedView.visibility = View.GONE
-        HotelV2Tracking().trackPayLaterContainerClick()
+        HotelTracking().trackPayLaterContainerClick()
     }
 
     fun payNowLaterSelectionChanged(payNowSelected: Boolean) {

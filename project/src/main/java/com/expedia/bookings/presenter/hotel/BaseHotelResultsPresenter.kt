@@ -42,8 +42,8 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.HotelMapClusterAlgorithm
 import com.expedia.bookings.utils.HotelMapClusterRenderer
 import com.expedia.bookings.utils.MapItem
@@ -169,7 +169,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 clusterMarkers()
             }
         }
-
         vm.carouselSwipedObservable.subscribe {
             selectMarker(it, true)
         }

@@ -4,7 +4,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
-import org.robolectric.shadows.ShadowResourcesEB
 import com.expedia.bookings.widget.HotelRoomRateView
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelRoomRateViewModel
@@ -14,6 +13,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowResourcesEB
 import rx.subjects.PublishSubject
 import kotlin.test.assertEquals
 
@@ -34,7 +34,7 @@ class HotelRoomRateViewTest {
     @Test
     fun soldOutRoomAutoCollapses() {
         givenHotelOffersResponse()
-        hotelRoomRateView.viewmodel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>(), endlessObserver { }, false, LineOfBusiness.HOTELSV2)
+        hotelRoomRateView.viewmodel = HotelRoomRateViewModel(RuntimeEnvironment.application, hotelOffersResponse.hotelId, hotelOffersResponse.hotelRoomResponse.first(), "", 0, PublishSubject.create<Int>(), endlessObserver { }, false, LineOfBusiness.HOTELS)
 
         assertEquals(true, hotelRoomRateView.viewRoom.isEnabled)
         assertEquals(false, hotelRoomRateView.viewRoom.isChecked)

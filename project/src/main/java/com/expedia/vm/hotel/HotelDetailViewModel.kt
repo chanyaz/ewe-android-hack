@@ -9,7 +9,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.util.getABTestGuestRatingBackground
 import com.expedia.util.getABTestGuestRatingText
 import com.expedia.vm.BaseHotelDetailViewModel
@@ -19,11 +19,11 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
         BaseHotelDetailViewModel(context, roomSelectedObserver){
 
     override fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
-        HotelV2Tracking().trackPageLoadHotelV2Infosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, currentLocationSearch, hotelSoldOut, isRoomSoldOut)
+        HotelTracking().trackPageLoadHotelInfosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, currentLocationSearch, hotelSoldOut, isRoomSoldOut)
     }
 
     override fun getLOB(): LineOfBusiness {
-        return LineOfBusiness.HOTELSV2
+        return LineOfBusiness.HOTELS
     }
 
     override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse) : Boolean {
@@ -40,26 +40,26 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
     }
 
     override fun trackHotelResortFeeInfoClick() {
-        HotelV2Tracking().trackHotelV2ResortFeeInfo()
+        HotelTracking().trackHotelResortFeeInfo()
     }
 
     override fun trackHotelRenovationInfoClick() {
-        HotelV2Tracking().trackHotelV2RenovationInfo()
+        HotelTracking().trackHotelRenovationInfo()
     }
 
     override fun trackHotelDetailBookPhoneClick() {
-        HotelV2Tracking().trackLinkHotelV2DetailBookPhoneClick()
+        HotelTracking().trackLinkHotelDetailBookPhoneClick()
     }
 
     override fun trackHotelDetailSelectRoomClick(isStickyButton: Boolean) {
-        HotelV2Tracking().trackLinkHotelV2DetailSelectRoom()
+        HotelTracking().trackLinkHotelDetailSelectRoom()
     }
 
     override fun trackHotelViewBookClick() {
-        HotelV2Tracking().trackLinkHotelV2ViewRoomClick()
+        HotelTracking().trackLinkHotelViewRoomClick()
     }
 
     override fun trackHotelDetailMapViewClick() {
-        HotelV2Tracking().trackHotelV2DetailMapView()
+        HotelTracking().trackHotelDetailMapView()
     }
 }

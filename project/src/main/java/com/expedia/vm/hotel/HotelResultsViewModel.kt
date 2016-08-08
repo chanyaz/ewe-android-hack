@@ -11,7 +11,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -92,7 +92,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                     mapResultsObservable.onNext(it)
                 } else {
                     hotelResultsObservable.onNext(it)
-                    HotelV2Tracking().trackHotelsV2Search(paramsSubject.value, it)
+                    HotelTracking().trackHotelsSearch(paramsSubject.value, it)
                 }
             }
 

@@ -11,7 +11,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
@@ -117,7 +117,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         hotelSelectedSubject.onNext(hotel)
         if (hotel.isSponsoredListing) {
             AdImpressionTracking.trackAdClickOrImpression(context, hotel.clickTrackingUrl, null)
-            HotelV2Tracking().trackHotelV2SponsoredListingClick()
+            HotelTracking().trackHotelSponsoredListingClick()
         }
     }
 

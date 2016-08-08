@@ -199,7 +199,7 @@ class HotelRoomRateViewModelTest {
         expectedAmenity = "Free wifi"
         mockHotelDetailViewModel = HotelDetailViewModel(context, endlessObserver { /*ignore*/ })
 
-        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.HOTELSV2)
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.HOTELS)
     }
 
     private fun setupSoldOutRoomUnderTest() {
@@ -207,6 +207,6 @@ class HotelRoomRateViewModelTest {
         expectedAmenity = "Free wifi"
         mockHotelDetailViewModel = HotelDetailViewModel(context, endlessObserver { /*ignore*/ })
 
-        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.HOTELSV2)
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.HOTELS)
     }
 }
