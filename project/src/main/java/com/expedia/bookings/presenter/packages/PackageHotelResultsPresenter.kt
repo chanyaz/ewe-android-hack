@@ -27,11 +27,11 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 
         vm.titleSubject.subscribe {
-            toolbar.title = context.getString(R.string.package_hotel_results_toolbar_title_TEMPLATE, it)
+            toolbarTitle.text = context.getString(R.string.package_hotel_results_toolbar_title_TEMPLATE, it)
         }
 
         vm.subtitleSubject.subscribe {
-            toolbar.subtitle = it
+            toolbarSubtitle.text = it
         }
 
         vm.paramsSubject.subscribe { params ->

@@ -325,6 +325,10 @@
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />
         <activity
+            android:name="com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity"
+            android:resizeableActivity="false"
+            tools:ignore="UnusedAttribute" />
+        <activity
             android:name="com.expedia.bookings.activity.AboutWebViewActivity"
             android:resizeableActivity="false"
             tools:ignore="UnusedAttribute" />
