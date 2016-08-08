@@ -32,6 +32,12 @@
             android:title="Server/Proxy Address" />
 
         <Preference
+            android:key="@string/preference_clear_user_cookies"
+            android:layout="@layout/preference"
+            android:summary="Clears user cookies to simulate bad cookies scenario."
+            android:title="Clear user cookies" />
+
+        <Preference
             android:key="@string/preference_force_fs_db_update"
             android:layout="@layout/preference"
             android:summary="If you think the internal FS.db is out of date"
