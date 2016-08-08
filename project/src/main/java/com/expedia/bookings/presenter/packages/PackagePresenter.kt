@@ -27,6 +27,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
@@ -190,6 +191,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             bundlePresenter.visibility = if (forward) View.VISIBLE else View.GONE
             if (!forward) {
                 trackSearchPageLoad()
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(searchPresenter.toolbar)
             } else {
                 trackViewBundlePageLoad()
             }
