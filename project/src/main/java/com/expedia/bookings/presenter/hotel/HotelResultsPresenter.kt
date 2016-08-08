@@ -64,11 +64,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         vm.titleSubject.subscribe {
-            toolbar.title = it
+            toolbarTitle.text = it
         }
 
         vm.subtitleSubject.subscribe {
-            toolbar.subtitle = it
+            toolbarSubtitle.text = it
         }
 
         vm.paramsSubject.subscribe { params ->

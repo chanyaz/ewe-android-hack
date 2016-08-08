@@ -332,6 +332,13 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
         }
 
+        errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe{
+            show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
+            checkoutPresenter.hotelCheckoutWidget.slideWidget.resetSlider()
+            checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.cardInfoContainer.performClick()
+            checkoutPresenter.show(checkoutPresenter.hotelCheckoutWidget, Presenter.FLAG_CLEAR_TOP)
+        }
+
         errorPresenter.viewmodel.checkoutAlreadyBookedObservable.subscribe {
             NavUtils.goToItin(context)
         }
@@ -340,7 +347,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             show(detailPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
-        errorPresenter.viewmodel.checkoutPaymentFailedObservable.subscribe(errorPresenter.viewmodel.checkoutCardErrorObservable)
 
         errorPresenter.viewmodel.sessionTimeOutObservable.subscribe {
             show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
