@@ -35,9 +35,16 @@ class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout
 
         fun bind(airline: Airline) {
             airlineName.text = airline.airlineName
-            PicassoHelper.Builder(airlineLogoImageView)
-                    .build()
-                    .load(airline.airlineLogoUrl)
+            if (airline.airlineLogoUrl != null) {
+                PicassoHelper.Builder(airlineLogoImageView)
+                        .setPlaceholder(R.drawable.ic_airline_backup)
+                        .build()
+                        .load(airline.airlineLogoUrl)
+            } else {
+                PicassoHelper.Builder(airlineLogoImageView)
+                        .build()
+                        .load(R.drawable.ic_airline_backup)
+            }
         }
     }
 }
