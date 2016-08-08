@@ -12,6 +12,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightFilterButtonWithCountWidget
 import com.expedia.bookings.widget.FlightListRecyclerView
+import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.flights.DockedOutboundFlightSelectionView
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
@@ -107,6 +108,8 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                         dockedOutboundFlightSelection.viewTreeObserver.removeOnGlobalLayoutListener(this)
                         dockedOutboundFlightShadow.translationY = dockedOutboundFlightSelection.height.toFloat() + getToolbarSize()
                         recyclerView.translationY = dockedOutboundFlightSelection.height.toFloat()
+                        var layoutParams: LayoutParams = recyclerView.layoutParams as LayoutParams
+                        layoutParams.bottomMargin += dockedOutboundFlightSelection.height / 2
                     }
                 }
             })
