@@ -345,4 +345,7 @@
         <attr format="reference" name="rsb__thumb"/>
     </declare-styleable>
 
+    <declare-styleable name="AccessibleSpinner">
+        <attr name="spinner_label" format="reference" />
+    </declare-styleable>
 </resources>

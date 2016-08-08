@@ -2,6 +2,7 @@
 <com.expedia.bookings.section.SectionLocation xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
     <com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -57,11 +58,12 @@
                 android:singleLine="true"
                 android:textSize="@dimen/traveler_input_text_size" />
 
-            <Spinner
+            <com.expedia.bookings.widget.accessibility.AccessibleSpinner
                 android:id="@+id/edit_country_spinner"
                 style="@style/FakeSpinner.Light"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                app:spinner_label="@string/address_state_country_cont_desc" />
         </LinearLayout>
 
         <LinearLayout
