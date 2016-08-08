@@ -29,7 +29,7 @@ class PackageHotelViewModel(var context: Context, hotel: Hotel) : HotelViewModel
                 .put("hotel", hotel.localizedName)
                 .put("starrating", hotelStarRatingObservable.value.toString())
                 .put("guestrating", hotelGuestRatingObservable.value.toString())
-                .put("price", hotelStrikeThroughPriceFormatted.value)
+                .put("price", pricePerNightObservable.value)
                 .format()
                 .toString())
 
