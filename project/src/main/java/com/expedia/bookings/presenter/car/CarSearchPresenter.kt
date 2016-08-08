@@ -53,6 +53,9 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
 
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
+            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                searchButton.isEnabled = enable
+            }
         }
         vm.errorNoDatesObservable.subscribe { AnimUtils.doTheHarlemShake(calendarWidget) }
         vm.errorMaxDurationObservable.subscribe { message ->
@@ -82,6 +85,9 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         destinationCardView.setOnClickListener({ showAlertMessage(R.string.drop_off_same_as_pick_up, R.string.ok) })
         calendarWidget.setOnClickListener {
             calendarWidget.showCalendarDialog()
+        }
+        if (AccessibilityUtil.isTalkBackEnabled(context)) {
+            searchButton.isEnabled = false
         }
     }
 
