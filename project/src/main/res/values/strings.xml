@@ -1983,6 +1983,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline does not accept %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotel does not accept %1$s</string>
+    <!-- Package trip does not accept <Credit Card Brand> (Example: Visa is not accepted for this trip) -->
+    <string name="package_does_not_accept_cardtype_TEMPLATE">{card_type} is not accepted for this trip</string>
     <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
     <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s does not accept %2$s</string>
     <!-- Debit cards not supported message -->

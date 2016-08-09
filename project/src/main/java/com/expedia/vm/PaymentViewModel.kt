@@ -59,7 +59,7 @@ class PaymentViewModel(val context: Context) {
     val pwpSmallIcon = PublishSubject.create<Boolean>()
     val cardIO = BehaviorSubject.create<String>()
     val tempCard = PublishSubject.create<Pair<String, Drawable>>()
-    val invalidPayment = PublishSubject.create<String?>()
+    val invalidPaymentTypeWarning = PublishSubject.create<String>()
     val cardIOBillingInfo = PublishSubject.create<BillingInfo>()
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
@@ -141,19 +141,37 @@ class PaymentViewModel(val context: Context) {
 
         cardTypeSubject.subscribe { cardType ->
             val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
-            var message: String? = null
+            var message = ""
             if (tripItem != null && cardType != null && !tripItem.isPaymentTypeSupported(cardType)) {
                 val cardName = CreditCardUtils.getHumanReadableName(context, cardType)
-                if (lineOfBusiness.value == LineOfBusiness.CARS) {
-                    message = resources.getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
-                            (tripItem as TripBucketItemCar).mCarTripResponse.carProduct.vendor.name, cardName)
-                } else if (lineOfBusiness.value == LineOfBusiness.LX || lineOfBusiness.value == LineOfBusiness.TRANSPORT) {
-                    message = resources.getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName)
-                } else if (lineOfBusiness.value == LineOfBusiness.HOTELS) {
-                    message = resources.getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName)
-                }
+                message = when (lineOfBusiness.value) {
+                                LineOfBusiness.CARS -> {
+                                    resources.getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
+                                            (tripItem as TripBucketItemCar).mCarTripResponse.carProduct.vendor.name, cardName)
+                                }
+
+                                LineOfBusiness.LX, LineOfBusiness.TRANSPORT -> {
+                                    resources.getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName)
+                                }
+
+                                LineOfBusiness.HOTELS -> {
+                                    resources.getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName)
+                                }
+
+                                LineOfBusiness.FLIGHTS_V2 -> {
+                                    resources.getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName)
+                                }
+
+                                LineOfBusiness.PACKAGES -> {
+                                    Phrase.from(resources, R.string.package_does_not_accept_cardtype_TEMPLATE)
+                                            .put("card_type", cardName)
+                                            .format().toString()
+                                }
+
+                                else -> ""
+                        }
             }
-            invalidPayment.onNext(message)
+            invalidPaymentTypeWarning.onNext(message)
         }
 
         lineOfBusiness.subscribe { lob ->

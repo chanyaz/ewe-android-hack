@@ -655,6 +655,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_add_child_number_TEMPLATE,
 		R.string.flight_add_infant_in_lap_number_TEMPLATE,
 		R.string.flight_add_infant_in_seat_number_TEMPLATE,
+		R.string.package_does_not_accept_cardtype_TEMPLATE,
 		R.drawable.lx_category_count_background_more_than_one_digit,
 		R.string.flight_detail_card_cont_desc_TEMPLATE,
 		R.string.search_flying_from_destination_cont_desc_TEMPLATE,
