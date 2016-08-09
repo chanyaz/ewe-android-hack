@@ -149,7 +149,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByPopular() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.POPULAR)
+        vm.sortObserver.onNext(HotelFilterViewModel.Sort.RECOMMENDED)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).sortIndex

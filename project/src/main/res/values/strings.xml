@@ -869,8 +869,8 @@
     <string name="Areas">Areas</string>
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Other Areas</string>
-    <!-- Short label for "sort by popular" button -->
-    <string name="popular">Popular</string>
+    <!-- Short label for "sort by recommended" button -->
+    <string name="recommended">Recommended</string>
     <!-- Short label for "sort by price" button -->
     <string name="price">Price</string>
     <!-- Short label for "sort by rating" button -->
@@ -1037,7 +1037,7 @@
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Popular Hotels Tonight</string>
+    <string name="nearby_deals_title">Recommended Hotels Tonight</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">See more</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -2742,8 +2742,8 @@
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
     <string name="sort_description_distance">Distance</string>
-    <!-- Sort by popularity label -->
-    <string name="sort_description_popular">Popularity</string>
+    <!-- Sort by recommended label -->
+    <string name="sort_description_recommended">Recommended</string>
     <!-- Sort by price label -->
     <string name="sort_description_price">Price</string>
     <!-- Sort by deals label -->

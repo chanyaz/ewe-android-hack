@@ -47,7 +47,7 @@ public class HotelFilter implements JSONable {
 	}
 
 	public static enum Sort {
-		POPULAR(R.string.sort_description_popular),
+		RECOMMENDED(R.string.sort_description_recommended),
 		PRICE(R.string.sort_description_price),
 		DEALS(R.string.sort_description_deals),
 		RATING(R.string.sort_description_rating),
