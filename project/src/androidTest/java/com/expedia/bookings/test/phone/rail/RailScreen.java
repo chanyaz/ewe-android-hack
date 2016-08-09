@@ -7,6 +7,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.TabletViewActions;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -100,7 +101,8 @@ public class RailScreen {
 		return onView(withId(R.id.fare_description_container));
 	}
 
-	public static void navigateToDetails() {
+	public static void navigateToDetails() throws Throwable {
+		SearchScreen.selectRailOriginAndDestination();
 		RailScreen.calendarButton().perform(click());
 		LocalDate startDate = LocalDate.now().plusDays(10);
 		RailScreen.selectDates(startDate, null);
@@ -111,5 +113,16 @@ public class RailScreen {
 		onView(withText("3:55 PM – 7:22 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
 		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));
+	}
+
+	public static void navigateToTripOverview() throws Throwable {
+		navigateToDetails();
+
+		RailScreen.scrollToFareOptions();
+		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
+		RailScreen.clickSelectFareOption();
+
+		onView(withText("Outbound - Mon Aug 29")).perform(ViewActions.waitForViewToDisplay())
+			.check(matches(isDisplayed()));
 	}
 }

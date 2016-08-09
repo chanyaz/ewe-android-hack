@@ -42,13 +42,12 @@ import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
-import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
-import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.mobiata.android.Log
@@ -158,7 +157,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     init {
-        View.inflate(context, R.layout.widget_base_checkout, this)
+        View.inflate(context, R.layout.base_checkout_presenter, this)
 
         insuranceServices = Ui.getApplication(context).appComponent().insurance()
         travelerManager = Ui.getApplication(context).travelerComponent().travelerManager()
@@ -168,11 +167,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
 
-        if (getLineOfBusiness() == LineOfBusiness.FLIGHTS_V2) {
-            totalPriceWidget.breakdown.viewmodel = FlightCostSummaryBreakdownViewModel(context)
-        } else {
-            totalPriceWidget.breakdown.viewmodel = PackageCostSummaryBreakdownViewModel(context)
-        }
+        totalPriceWidget.breakdown.viewmodel = getCostSummaryBreakdownViewModel()
+
         totalPriceWidget.breakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
             totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
@@ -545,6 +541,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     abstract fun makeCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun getCheckoutViewModel(): BaseCheckoutViewModel
     abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
+    abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
     abstract fun isPassportRequired(response: TripResponse)
 

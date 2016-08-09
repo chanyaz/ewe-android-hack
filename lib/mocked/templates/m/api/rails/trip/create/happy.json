@@ -1,12 +1,12 @@
 {
-  "tripId": "f5c20d55-067f-40c0-a2d4-04265ceeb10c",
+  "tripId": "19558305-ea58-4cef-a0dc-6ca1fe6ce901",
   "totalPrice": {
     "amount": "196.00",
     "formattedPrice": "£196.00",
     "formattedWholePrice": "£196",
     "currencyCode": "GBP"
   },
-  "offerToken": "eNrjYBZK4YrhuNAsLMAgMbtFWOFFq7CWFMeyhoVsAkCCCyy2CCjGFhZibmZkqiUCkuMCyj1klwCKK5wFyjGAdTxkF1jW0c4scb4VYgqbe7iZoaGREAsHowCzFDNHIyMA3LYehA==",
+  "offerToken": "eNrjYBZK4YrhWDJPVIBB4vg8UYX-BaJaUhzLGhayCQAJLrDY8fmiWmxhIeZmZgZaIiA5LqDcQ3YJoLjCJ6AcA1jHQ3aBZR3tzBLf5kNMYXMPNzE0tBBi4WAUYJZi4jAEAPvMH0Q=",
   "railDomainProduct": {
     "railOffer": {
       "totalPrice": {
@@ -54,13 +54,13 @@
           ],
           "refundable": "REFUNDABLE",
           "refundableRules": [
-            "Your ticket is refundable before 3 Sep, 2016 01:30",
+            "Your ticket is refundable before 28 Sep, 2016 01:30",
             "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.",
             "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."
           ],
           "legOptionList": [
             {
-              "legOptionIndex": 5,
+              "legOptionIndex": 4,
               "departureStation": {
                 "stationCode": "GBQQM",
                 "stationDisplayName": "Manchester Piccadilly"
@@ -70,23 +70,23 @@
                 "stationDisplayName": "Reading"
               },
               "departureDateTime": {
-                "raw": "2016-08-04T13:15:00",
-                "epochSeconds": 1470316500,
-                "localized": "4 Aug, 2016 13:15",
-                "localizedShortDate": "Thu 4, Aug"
+                "raw": "2016-08-29T15:35:00",
+                "epochSeconds": 1472484900,
+                "localized": "29 Aug, 2016 15:35",
+                "localizedShortDate": "Mon 29, Aug"
               },
               "arrivalDateTime": {
-                "raw": "2016-08-04T16:40:00",
-                "epochSeconds": 1470328800,
-                "localized": "4 Aug, 2016 16:40",
-                "localizedShortDate": "Thu 4, Aug"
+                "raw": "2016-08-29T18:55:00",
+                "epochSeconds": 1472496900,
+                "localized": "29 Aug, 2016 18:55",
+                "localizedShortDate": "Mon 29, Aug"
               },
-              "duration": "PT3H25M",
+              "duration": "PT3H20M",
               "aggregatedMarketingCarrier": "Multiple train lines",
               "aggregatedOperatingCarrier": "Multiple train lines",
               "travelSegmentList": [
                 {
-                  "travelSegmentIndex": 13,
+                  "travelSegmentIndex": 8,
                   "travelMode": "Train",
                   "departureStation": {
                     "stationCode": "GBQQM",
@@ -97,28 +97,43 @@
                     "stationDisplayName": "London Euston"
                   },
                   "departureDateTime": {
-                    "raw": "2016-08-04T13:15:00",
-                    "epochSeconds": 1470316500,
-                    "localized": "4 Aug, 2016 13:15",
-                    "localizedShortDate": "Thu 4, Aug"
+                    "raw": "2016-08-29T15:35:00",
+                    "epochSeconds": 1472484900,
+                    "localized": "29 Aug, 2016 15:35",
+                    "localizedShortDate": "Mon 29, Aug"
                   },
                   "arrivalDateTime": {
-                    "raw": "2016-08-04T15:30:00",
-                    "epochSeconds": 1470324600,
-                    "localized": "4 Aug, 2016 15:30",
-                    "localizedShortDate": "Thu 4, Aug"
+                    "raw": "2016-08-29T17:43:00",
+                    "epochSeconds": 1472492580,
+                    "localized": "29 Aug, 2016 17:43",
+                    "localizedShortDate": "Mon 29, Aug"
                   },
                   "marketingCarrier": "Virgin Trains",
                   "operatingCarrier": "Virgin Trains",
                   "travelMedium": {
                     "travelMediumName": "Inter-City",
                     "travelMediumCode": "ICY",
-                    "supplierTravelMediumId": "VT7625"
+                    "supplierTravelMediumId": "VT7660"
                   },
-                  "duration": "PT2H15M"
+                  "duration": "PT2H8M",
+                  "fareDetail": {
+                    "travelSegmentIndex": 8,
+                    "carrierServiceClassDisplayName": "Standard",
+                    "carrierFareClassDisplayName": "anytime single",
+                    "carrierFareClassCategoryName": "Anytime",
+                    "fareDescription": "Travel anytime of day",
+                    "amenityList": [
+                      {
+                        "displayName": "Buffet Service"
+                      },
+                      {
+                        "displayName": "WiFi Access (Additional Cost)"
+                      }
+                    ]
+                  }
                 },
                 {
-                  "travelSegmentIndex": 14,
+                  "travelSegmentIndex": 9,
                   "travelMode": "Transfer",
                   "departureStation": {
                     "stationCode": "GBQQU",
@@ -129,16 +144,16 @@
                     "stationDisplayName": "London Paddington"
                   },
                   "departureDateTime": {
-                    "raw": "2016-08-04T15:30:00",
-                    "epochSeconds": 1470324600,
-                    "localized": "4 Aug, 2016 15:30",
-                    "localizedShortDate": "Thu 4, Aug"
+                    "raw": "2016-08-29T17:43:00",
+                    "epochSeconds": 1472492580,
+                    "localized": "29 Aug, 2016 17:43",
+                    "localizedShortDate": "Mon 29, Aug"
                   },
                   "arrivalDateTime": {
-                    "raw": "2016-08-04T16:13:00",
-                    "epochSeconds": 1470327180,
-                    "localized": "4 Aug, 2016 16:13",
-                    "localizedShortDate": "Thu 4, Aug"
+                    "raw": "2016-08-29T18:26:00",
+                    "epochSeconds": 1472495160,
+                    "localized": "29 Aug, 2016 18:26",
+                    "localizedShortDate": "Mon 29, Aug"
                   },
                   "marketingCarrier": "London Underground",
                   "operatingCarrier": "London Underground",
@@ -146,10 +161,17 @@
                     "travelMediumName": "Metro/City-Transit",
                     "travelMediumCode": "MCT"
                   },
-                  "duration": "PT43M"
+                  "duration": "PT43M",
+                  "fareDetail": {
+                    "travelSegmentIndex": 9,
+                    "carrierServiceClassDisplayName": "Standard",
+                    "carrierFareClassDisplayName": "anytime single",
+                    "carrierFareClassCategoryName": "Anytime",
+                    "fareDescription": "Travel anytime of day"
+                  }
                 },
                 {
-                  "travelSegmentIndex": 15,
+                  "travelSegmentIndex": 10,
                   "travelMode": "Train",
                   "departureStation": {
                     "stationCode": "GBQQP",
@@ -160,25 +182,37 @@
                     "stationDisplayName": "Reading"
                   },
                   "departureDateTime": {
-                    "raw": "2016-08-04T16:15:00",
-                    "epochSeconds": 1470327300,
-                    "localized": "4 Aug, 2016 16:15",
-                    "localizedShortDate": "Thu 4, Aug"
+                    "raw": "2016-08-29T18:30:00",
+                    "epochSeconds": 1472495400,
+                    "localized": "29 Aug, 2016 18:30",
+                    "localizedShortDate": "Mon 29, Aug"
                   },
                   "arrivalDateTime": {
-                    "raw": "2016-08-04T16:40:00",
-                    "epochSeconds": 1470328800,
-                    "localized": "4 Aug, 2016 16:40",
-                    "localizedShortDate": "Thu 4, Aug"
+                    "raw": "2016-08-29T18:55:00",
+                    "epochSeconds": 1472496900,
+                    "localized": "29 Aug, 2016 18:55",
+                    "localizedShortDate": "Mon 29, Aug"
                   },
                   "marketingCarrier": "First Great Western",
                   "operatingCarrier": "First Great Western",
                   "travelMedium": {
                     "travelMediumName": "Inter-City",
                     "travelMediumCode": "ICY",
-                    "supplierTravelMediumId": "GW6112"
+                    "supplierTravelMediumId": "GW4118"
                   },
-                  "duration": "PT25M"
+                  "duration": "PT25M",
+                  "fareDetail": {
+                    "travelSegmentIndex": 10,
+                    "carrierServiceClassDisplayName": "Standard",
+                    "carrierFareClassDisplayName": "anytime single",
+                    "carrierFareClassCategoryName": "Anytime",
+                    "fareDescription": "Travel anytime of day",
+                    "amenityList": [
+                      {
+                        "displayName": "Buffet Service"
+                      }
+                    ]
+                  }
                 }
               ],
               "noOfChanges": 2,
@@ -203,7 +237,7 @@
                   "passengerIndex": 1,
                   "passengerSegmentFareList": [
                     {
-                      "travelSegmentIndex": 13,
+                      "travelSegmentIndex": 8,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "anytime single",
                       "carrierFareClassCategoryName": "Anytime",
@@ -218,14 +252,14 @@
                       ]
                     },
                     {
-                      "travelSegmentIndex": 14,
+                      "travelSegmentIndex": 9,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "anytime single",
                       "carrierFareClassCategoryName": "Anytime",
                       "fareDescription": "Travel anytime of day"
                     },
                     {
-                      "travelSegmentIndex": 15,
+                      "travelSegmentIndex": 10,
                       "carrierServiceClassDisplayName": "Standard",
                       "carrierFareClassDisplayName": "anytime single",
                       "carrierFareClassCategoryName": "Anytime",
@@ -240,47 +274,95 @@
                 }
               ]
             }
-          ]
+          ],
+          "segmentFareDetailList": [
+            {
+              "travelSegmentIndex": 8,
+              "carrierServiceClassDisplayName": "Standard",
+              "carrierFareClassDisplayName": "anytime single",
+              "carrierFareClassCategoryName": "Anytime",
+              "fareDescription": "Travel anytime of day",
+              "amenityList": [
+                {
+                  "displayName": "Buffet Service"
+                },
+                {
+                  "displayName": "WiFi Access (Additional Cost)"
+                }
+              ]
+            },
+            {
+              "travelSegmentIndex": 9,
+              "carrierServiceClassDisplayName": "Standard",
+              "carrierFareClassDisplayName": "anytime single",
+              "carrierFareClassCategoryName": "Anytime",
+              "fareDescription": "Travel anytime of day"
+            },
+            {
+              "travelSegmentIndex": 10,
+              "carrierServiceClassDisplayName": "Standard",
+              "carrierFareClassDisplayName": "anytime single",
+              "carrierFareClassCategoryName": "Anytime",
+              "fareDescription": "Travel anytime of day",
+              "amenityList": [
+                {
+                  "displayName": "Buffet Service"
+                }
+              ]
+            }
+          ],
+          "openReturn": false
         }
       ],
-      "railOfferToken": "eNrjYBZK4YrhuNAsLMAgMbtFWOFFq7CWFMeyhoVsAkCCCyy2CCjGFhZibmZkqiUCkuMCyj1klwCKK5wFyjGAdTxkF1jW0c4scb4VYgqbe7iZoaGREAsHowCzFDNHIyMA3LYehA==",
+      "railOfferToken": "eNrjYBZK4YrhWDJPVIBB4vg8UYX-BaJaUhzLGhayCQAJLrDY8fmiWmxhIeZmZgZaIiA5LqDcQ3YJoLjCJ6AcA1jHQ3aBZR3tzBLf5kNMYXMPNzE0tBBi4WAUYJZi4jAEAPvMH0Q=",
       "passengerList": [
         {
           "passengerIndex": 1,
-          "age": 65,
+          "age": 25,
           "primaryTraveler": true,
-          "passengerAgeGroup": "SENIOR"
+          "passengerAgeGroup": "YOUTH",
+          "price": {
+            "amount": "195.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 195,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£195.0",
+            "formattedWholePrice": "£195"
+          }
         }
       ],
       "ticketDeliveryOptionList": [
         {
           "ticketDeliveryOptionToken": "SEND_BY_POST_UK",
           "ticketDeliveryOptionCategoryCode": "SEND_BY_POST",
-          "ticketDeliveryDescription": "Ticket by Royal Mail Special Delivery ",
+          "ticketDeliveryDescription": "£6.00 - Ticket by Royal Mail Special Delivery  Domestic UK",
           "ticketDeliveryFee": {
             "amount": "6.00",
             "currencyCode": "GBP"
           },
           "ticketDeliveryCountryCodeList": [
             "GB"
-          ]
+          ],
+          "departureStation": false
         },
         {
           "ticketDeliveryOptionToken": "SEND_BY_OVERNIGHT_POST_GLOBAL",
           "ticketDeliveryOptionCategoryCode": "SEND_BY_OVERNIGHT_POST",
-          "ticketDeliveryDescription": "Ticket by International DHL Next Day",
+          "ticketDeliveryDescription": "£25.00 - Ticket by International DHL Next Day (Outside Europe)",
           "ticketDeliveryFee": {
             "amount": "25.00",
             "currencyCode": "GBP"
           },
           "ticketDeliveryCountryCodeList": [
             "ALL"
-          ]
+          ],
+          "departureStation": false
         },
         {
           "ticketDeliveryOptionToken": "SEND_BY_OVERNIGHT_POST_EU",
           "ticketDeliveryOptionCategoryCode": "SEND_BY_OVERNIGHT_POST",
-          "ticketDeliveryDescription": "Ticket by International DHL Next Day",
+          "ticketDeliveryDescription": "£20.00 - Ticket by International DHL Next Day (Continental Europe)",
           "ticketDeliveryFee": {
             "amount": "20.00",
             "currencyCode": "GBP"
@@ -299,31 +381,34 @@
             "PT",
             "ES",
             "SE"
-          ]
+          ],
+          "departureStation": false
         },
         {
           "ticketDeliveryOptionToken": "SEND_BY_OVERNIGHT_POST_UK",
           "ticketDeliveryOptionCategoryCode": "SEND_BY_OVERNIGHT_POST",
-          "ticketDeliveryDescription": "Ticket by DHL Next Day",
+          "ticketDeliveryDescription": "£10.00 - Ticket by DHL Next Day Domestic UK",
           "ticketDeliveryFee": {
             "amount": "10.00",
             "currencyCode": "GBP"
           },
           "ticketDeliveryCountryCodeList": [
             "GB"
-          ]
+          ],
+          "departureStation": false
         },
         {
           "ticketDeliveryOptionToken": "SEND_BY_EXPRESS_POST_UK",
           "ticketDeliveryOptionCategoryCode": "SEND_BY_EXPRESS_POST",
-          "ticketDeliveryDescription": "Ticket by Courier London Area",
+          "ticketDeliveryDescription": "£50.00 - Ticket by Courier London Area Domestic UK",
           "ticketDeliveryFee": {
             "amount": "50.00",
             "currencyCode": "GBP"
           },
           "ticketDeliveryCountryCodeList": [
             "GB"
-          ]
+          ],
+          "departureStation": false
         },
         {
           "ticketDeliveryOptionToken": "PICK_UP_AT_TICKETING_OFFICE_NONE",
@@ -332,7 +417,8 @@
           "ticketDeliveryFee": {
             "amount": "0.00",
             "currencyCode": "GBP"
-          }
+          },
+          "departureStation": true
         },
         {
           "ticketDeliveryOptionToken": "KIOSK_NONE",
@@ -341,7 +427,8 @@
           "ticketDeliveryFee": {
             "amount": "0.00",
             "currencyCode": "GBP"
-          }
+          },
+          "departureStation": true
         }
       ]
     }
@@ -966,6 +1053,6 @@
       }
     }
   ],
-  "activityId": "88e22b13-2f7d-4174-b5f1-1482c2036919",
+  "activityId": "cfbf547a-8c58-42be-b58d-9462e7ba86e2",
   "guestUserPromoEmailOptInStatus": "CONSENT_TO_OPT_OUT"
 }
