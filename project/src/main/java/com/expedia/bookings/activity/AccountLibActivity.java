@@ -59,9 +59,6 @@ public class AccountLibActivity extends AppCompatActivity
 	private boolean loginWithFacebook = false;
 	private Listener listener = new Listener();
 
-	private boolean isUserBucketedForSmartLockTest = Db.getAbacusResponse()
-		.isUserBucketedForTest(AbacusUtils.EBAndroidAppSmartLockTest);
-
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
 		if (bundle != null) {
