@@ -5,7 +5,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.Spinner
@@ -15,6 +14,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.NameEntryView
@@ -44,7 +44,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
 
-    val focusedView = PublishSubject.create<EditText>()
+    val focusedView = PublishSubject.create<View>()
     val filledIn = PublishSubject.create<Boolean>()
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
@@ -88,7 +88,19 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
         vm.showPhoneNumberObservable.subscribeVisibility(phoneEntryView)
         vm.showPhoneNumberObservable.subscribe { show ->
-            nameEntryView.lastName.nextFocusForwardId = if (show) R.id.edit_phone_number else R.id.first_name_input
+            nameEntryView.lastName.nextFocusForwardId = if (show) R.id.edit_phone_number else R.id.edit_birth_date_text_btn
+        }
+        vm.showPassportCountryObservable.subscribe {
+            show ->
+            tsaEntryView.genderSpinner.nextFocusForwardId = if (show) R.id.passport_country_spinner else R.id.first_name_input
+        }
+
+        vm.tsaViewModel.formattedDateSubject.subscribe {
+            filledIn.onNext(isCompletelyFilled())
+        }
+
+        vm.tsaViewModel.genderSubject.subscribe {
+            filledIn.onNext(isCompletelyFilled())
         }
     }
 
@@ -107,11 +119,34 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
 
         passportCountrySpinner.adapter = adapter
         passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
+        passportCountrySpinner.isFocusable = true
+        passportCountrySpinner.isFocusableInTouchMode = true
         travelerButton.setTravelButtonListener(this)
         nameEntryView.firstName.onFocusChangeListener = this
         nameEntryView.middleName.onFocusChangeListener = this
         nameEntryView.lastName.onFocusChangeListener = this
         phoneEntryView.phoneNumber.onFocusChangeListener = this
+        tsaEntryView.dateOfBirth.setOnFocusChangeListener { view, hasFocus ->
+            onFocusChange(view, hasFocus)
+            if (hasFocus) {
+                Ui.hideKeyboard(this)
+                tsaEntryView.dateOfBirth.performClick()
+            }
+        }
+        tsaEntryView.genderSpinner.setOnFocusChangeListener { view, hasFocus ->
+            onFocusChange(view, hasFocus)
+            if (hasFocus) {
+                Ui.hideKeyboard(this)
+                tsaEntryView.genderSpinner.performClick()
+            }
+        }
+        passportCountrySpinner.setOnFocusChangeListener { view, hasFocus ->
+            onFocusChange(view, hasFocus)
+            if (hasFocus) {
+                Ui.hideKeyboard(this)
+                passportCountrySpinner.performClick()
+            }
+        }
         advancedOptionsWidget.redressNumber.onFocusChangeListener = this
     }
 
@@ -181,14 +216,15 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
 
     override fun onFocusChange(v: View, hasFocus: Boolean) {
         if (hasFocus) {
-            focusedView.onNext(v as EditText)
+            focusedView.onNext(v)
         }
     }
 
     fun isCompletelyFilled(): Boolean {
         return nameEntryView.firstName.text.isNotEmpty() &&
                 nameEntryView.lastName.text.isNotEmpty() &&
-                (!TravelerUtils.isMainTraveler(viewModel.travelerIndex) || phoneEntryView.phoneNumber.text.isNotEmpty())
+                (!TravelerUtils.isMainTraveler(viewModel.travelerIndex) || phoneEntryView.phoneNumber.text.isNotEmpty()) &&
+                tsaEntryView.viewModel.validate()
     }
 
     fun resetStoredTravelerSelection() {

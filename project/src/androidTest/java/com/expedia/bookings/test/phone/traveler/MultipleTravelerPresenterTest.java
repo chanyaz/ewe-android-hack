@@ -9,6 +9,7 @@ import org.junit.runner.RunWith;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
@@ -17,10 +18,12 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 
 import rx.observers.TestSubscriber;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -33,7 +36,9 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static junit.framework.Assert.assertEquals;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.Is.is;
 
 @RunWith(AndroidJUnit4.class)
 public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelper {
@@ -107,8 +112,14 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	}
 
 	@Test
-	public void testToolbar() throws Throwable {
-		mockViewModel = getMockViewModelEmptyTravelers(2);
+	public void testToolbarNextFlow() throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(2);
+			}
+		});
+
 		testTravelerPresenter.setViewModel(mockViewModel);
 
 		TestSubscriber testSubscriber = new TestSubscriber(1);
@@ -128,9 +139,15 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		PackageScreen.clickTravelerDone();
 
 		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getPhoneEntryView().getPhoneNumber().hasFocus());
+		PackageScreen.clickTravelerDone();
+
 		//skip phone number, assert that focus went back to first name
-		Espresso.closeSoftKeyboard();
-		PackageScreen.selectBirthDate(1989,6,9);
+		onView(withId(R.id.datePicker)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.datePicker)).perform(PickerActions.setDate(1989, 9, 6));
+		onView(withId(R.id.datePickerDoneButton)).perform(click());
+		PackageScreen.clickTravelerDone();
+
+		onData(allOf(is(instanceOf(String.class)),is("Male"))).perform(click());
 		PackageScreen.clickTravelerDone();
 
 		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getFirstName().hasFocus());
@@ -268,23 +285,25 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 	@Test
 	public void testPassportIndependent() throws Throwable {
-		mockViewModel = getMockViewModelValidTravelers(2);
-		mockViewModel.getPassportRequired().onNext(true);
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelValidTravelers(2);
+				mockViewModel.getPassportRequired().onNext(true);
+			}
+		});
+
 		testTravelerPresenter.setViewModel(mockViewModel);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUser.clickOnText(expectedTravelerOneText);
-
+		Espresso.closeSoftKeyboard();
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
 		EspressoUtils.assertViewWithTextIsDisplayed("Passport: ");
 		EspressoUser.clickOnView(R.id.passport_country_spinner);
-		EspressoUser.clickOnText("Afghanistan");
-
-		EspressoUser.scrollToView(R.id.passport_country_spinner);
+		onData(allOf(is(instanceOf(String.class)), is("Afghanistan"))).perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Passport: Afghanistan");
-
 		travelerPresenterBack();
-		Common.delay(1);
 
 		EspressoUser.clickOnText(expectedTravelerTwoText);
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
