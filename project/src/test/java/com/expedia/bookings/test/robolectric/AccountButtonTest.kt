@@ -31,14 +31,10 @@ import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import com.squareup.phrase.Phrase
-import kotlin.test.assertEquals
-import com.expedia.bookings.BuildConfig;
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class))
 class AccountButtonTest {
-    private val context = RuntimeEnvironment.application
     var accountButton by Delegates.notNull<AccountButton>()
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
@@ -93,22 +89,6 @@ class AccountButtonTest {
         Db.getTripBucket().add(tripBucketItemFlight)
         val rewards = accountButton.getRewardsForLOB(LineOfBusiness.FLIGHTS)
         assertNotNull(rewards)
-    }
-
-    @Test
-    fun testSignInTextWithRewards() {
-        val rewardsInfo = RewardsInfo()
-        rewardsInfo.totalAmountToEarn = Money("12", "USD")
-        val rewardsText = accountButton.getSignInWithRewardsAmountText(rewardsInfo).toString()
-        val expectedText = Phrase.from(context, R.string.Sign_in_to_earn_TEMPLATE).put("reward", "$12" ).format().toString()
-        assertEquals(expectedText, rewardsText)
-    }
-
-    @Test
-    fun testSignInTextWithoutRewards() {
-        val rewardsText = accountButton.getSignInWithoutRewardsText().toString()
-        val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).put("brand", "Expedia").format().toString()
-        assertEquals(expectedText, rewardsText)
     }
 
     @Test
