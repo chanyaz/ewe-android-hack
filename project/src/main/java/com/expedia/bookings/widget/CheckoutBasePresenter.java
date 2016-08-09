@@ -31,6 +31,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.HotelTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -186,7 +187,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// Consume touches so they don't pass behind
-				return true;
+				return !AccessibilityUtil.isTalkBackEnabled(getContext());
 			}
 		});
 
@@ -209,6 +210,15 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
 			scrollView.addOnScrollListener(checkoutScrollListener);
 		}
+
+		slideToContainer.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (AccessibilityUtil.isTalkBackEnabled(getContext())) {
+					slideWidget.fireSlideAllTheWay();
+				}
+			}
+		});
 	}
 
 	protected String getToolbarTitle() {
