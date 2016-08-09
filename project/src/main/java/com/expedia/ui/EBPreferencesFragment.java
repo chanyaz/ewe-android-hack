@@ -84,6 +84,15 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			return true;
 		}
 
+		else if (getString(R.string.preference_open_feature_toggle_settings).equals(key)) {
+			getFragmentManager()
+				.beginTransaction()
+				.replace(R.id.fragment_container, new FeatureTogglePreferencesFragment())
+				.addToBackStack(FeatureTogglePreferencesFragment.class.getName())
+				.commit();
+			return true;
+		}
+
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
 	}
 }
