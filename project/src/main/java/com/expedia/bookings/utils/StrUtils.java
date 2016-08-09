@@ -721,4 +721,22 @@ public class StrUtils {
 		return context.getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numOfTravelers,
 			numOfTravelers);
 	}
+
+	public static String formatRoomString(Context context, int roomsCount) {
+		return Phrase.from(context.getResources().getQuantityString(R.plurals.number_of_room_TEMPLATE, roomsCount))
+			.put("room", roomsCount)
+			.format().toString();
+	}
+
+	public static String formatNightsString(Context context, int nightsCount) {
+		return Phrase.from(context.getResources().getQuantityString(R.plurals.number_of_nights_TEMPLATE, nightsCount))
+			.put("night", nightsCount)
+			.format().toString();
+	}
+
+	public static String formatLowerCaseGuestString(Context context, int guestsCount) {
+		return Phrase.from(context.getResources().getQuantityString(R.plurals.number_of_guest_TEMPLATE, guestsCount))
+			.put("guest", guestsCount)
+			.format().toString();
+	}
 }

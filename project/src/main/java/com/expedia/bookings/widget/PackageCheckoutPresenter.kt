@@ -2,11 +2,13 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.util.AttributeSet
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
@@ -30,6 +32,14 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
             priceChangeWidget.viewmodel.newPrice.onNext(response.packageDetails.pricing.packageTotal)
             (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel).packageCostSummaryObservable.onNext(response.packageDetails)
+
+            val messageString =
+                    if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
+                        R.string.cost_summary_breakdown_total_due_today
+                    else
+                        R.string.bundle_total_text
+            totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
+
             val packageTotalPrice = response.packageDetails.pricing
             totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
                     packageTotalPrice.packageTotal.currencyCode))

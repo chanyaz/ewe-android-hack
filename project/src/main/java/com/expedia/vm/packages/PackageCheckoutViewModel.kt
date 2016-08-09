@@ -6,7 +6,6 @@ import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
@@ -20,7 +19,6 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
-import java.math.BigDecimal
 
 class PackageCheckoutViewModel(context: Context, val packageServices: PackageServices) : BaseCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
@@ -33,13 +31,13 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings))
             builder.bedType(it.packageDetails.hotel.hotelRoomResponse.bedTypes?.firstOrNull()?.id)
 
-            val hotelRate = it.packageDetails.hotel.hotelRoomResponse.rateInfo.chargeableRateInfo
-            var depositText = Html.fromHtml("")
-            if (hotelRate.showResortFeeMessage) {
-                val resortFees = Money(BigDecimal(hotelRate.totalMandatoryFees.toDouble()), hotelRate.currencyCode).formattedMoney
-                depositText = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, it.packageDetails.pricing.packageTotal));
+            var depositText = ""
+            if (it.packageDetails.pricing.hasResortFee()) {
+                depositText = Phrase.from(context, R.string.package_resort_fee_disclaimer_TEMPLATE)
+                        .put("amount", it.packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoney)
+                        .format().toString()
             }
-            depositPolicyText.onNext(depositText)
+            depositPolicyText.onNext(Html.fromHtml(depositText))
 
             legalText.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
             sliderPurchaseTotalText.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template).put("dueamount", it.getTripTotalExcludingFee().formattedMoneyFromAmountAndCurrencyCode).format())

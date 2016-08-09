@@ -192,7 +192,7 @@ public class PointOfSale {
 
 	private boolean mRequiresLXPostalCode;
 	private boolean mRequiresCarsPostalCode;
-
+	private boolean showBundleTotalWhenResortFees;
 
 	private static class CountryResources {
 		@StringRes
@@ -789,6 +789,10 @@ public class PointOfSale {
 		return isEarnMessageEnabledForFlights;
 	}
 
+	public boolean shouldShowBundleTotalWhenResortFees() {
+		return showBundleTotalWhenResortFees;
+	}
+
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1195,6 +1199,7 @@ public class PointOfSale {
 		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
 		pos.showPackageFreeUnrealDeal = data.optBoolean("showPackageFreeUnrealDeal", true);
+		pos.showBundleTotalWhenResortFees = data.optBoolean("showBundleTotalWhenResortFees", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
