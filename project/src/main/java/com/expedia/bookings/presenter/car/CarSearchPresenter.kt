@@ -127,6 +127,10 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         return context.resources.getString(R.string.fly_to_hint)
     }
 
+    override fun requestA11yFocus(isOrigin: Boolean) {
+        AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
+    }
+
     fun showAlertMessage(messageResourceId: Int, confirmButtonResourceId: Int) {
         val b = AlertDialog.Builder(getContext());
         b.setCancelable(false)

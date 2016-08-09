@@ -436,6 +436,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 searchLocationEditText?.visibility = VISIBLE
                 mRootView.viewTreeObserver.addOnPreDrawListener(globalLayoutListener)
                 doRequestA11yFocus = true
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             }
 
             toolBarTitle.visibility = if (forward) GONE else VISIBLE

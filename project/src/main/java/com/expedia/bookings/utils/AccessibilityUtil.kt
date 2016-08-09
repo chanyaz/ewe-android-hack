@@ -23,11 +23,16 @@ object AccessibilityUtil {
                     v.setFocusable(true)
                     v.clearFocus()
                     v.requestFocus()
+                    v.setBackgroundColor(android.R.color.transparent)
                     v.setAccessibilityHoverFocus()
                     break
                 }
             }
         }
+    }
+
+    @JvmStatic fun delayFocusToToolbarNavigationIcon(toolbar: Toolbar, delayMillis: Long) {
+        toolbar.postDelayed(Runnable { setFocusToToolbarNavigationIcon(toolbar) }, delayMillis)
     }
 
     @JvmStatic fun setMenuItemContentDescription(toolbar: Toolbar, contentDescription: String) {

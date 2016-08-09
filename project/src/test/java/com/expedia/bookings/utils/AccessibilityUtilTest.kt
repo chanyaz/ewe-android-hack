@@ -81,6 +81,23 @@ class AccessibilityUtilTest {
     }
 
     @Test
+    fun testToolbarNavIconGetsDelayedFocus() {
+        val spyContext = Mockito.spy(RuntimeEnvironment.application)
+        val mockAccessibilityManager = Mockito.mock(AccessibilityManager::class.java)
+
+        Mockito.`when`(spyContext.getSystemService(Context.ACCESSIBILITY_SERVICE)).thenReturn(mockAccessibilityManager)
+        Mockito.`when`(mockAccessibilityManager.isEnabled).thenReturn(true)
+        Mockito.`when`(mockAccessibilityManager.isTouchExplorationEnabled).thenReturn(true)
+
+        val toolbar = Toolbar(spyContext)
+        toolbar.navigationIcon = ArrowXDrawableUtil.getNavigationIconDrawable(spyContext, ArrowXDrawableUtil.ArrowDrawableType.CLOSE);
+
+        assertNull(toolbar.findFocus())
+        AccessibilityUtil.delayFocusToToolbarNavigationIcon(toolbar, 0)
+        assertTrue(toolbar.findFocus().javaClass.equals(ImageButton::class.java))
+    }
+
+    @Test
     fun testSetFocusForView() {
         val spyContext = Mockito.spy(RuntimeEnvironment.application)
         val parent = LinearLayout(spyContext)
