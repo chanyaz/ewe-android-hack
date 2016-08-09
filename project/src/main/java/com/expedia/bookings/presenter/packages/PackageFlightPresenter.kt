@@ -98,6 +98,8 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         toolbarViewModel.city.onNext(cityBound)
         toolbarViewModel.travelers.onNext(numTravelers)
         toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().startDate else Db.getPackageParams().endDate)
+        bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.package_price_include_flights))
+        bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.package_price_include_flights))
         trackFlightResultsLoad()
     }
 

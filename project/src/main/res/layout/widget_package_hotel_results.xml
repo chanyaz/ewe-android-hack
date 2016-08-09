@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:background="@color/gray1"
             android:gravity="center"
-            android:text="@string/package_price_includes_taxes_fees" />
+            android:text="@string/package_price_include_flights" />
 
         <com.expedia.bookings.widget.HotelCarouselRecycler
             android:id="@+id/hotel_carousel"

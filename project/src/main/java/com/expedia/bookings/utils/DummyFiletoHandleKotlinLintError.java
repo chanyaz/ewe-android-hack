@@ -826,6 +826,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.error_same_station_departure_arrival,
 		R.string.done_cont_desc,
 		R.string.next_cont_desc,
-		R.drawable.ic_airline_backup
+		R.drawable.ic_airline_backup,
+		R.string.includes_taxes_fees_flights_hotel
 	};
 }
