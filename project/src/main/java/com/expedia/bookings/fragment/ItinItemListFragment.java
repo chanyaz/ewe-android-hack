@@ -219,8 +219,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 		updateLoginState();
 
-		//We force sync only if the user is logged out, this ensures we don't show itins of a logged out user.
-		syncItinManager(!User.isLoggedIn(getActivity()), false);
+		syncItinManager(true, false);
 
 		if (mJumpToItinId != null) {
 			showItinCard(mJumpToItinId, true);

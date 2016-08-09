@@ -234,8 +234,22 @@ public class ExpediaServices implements DownloadListener {
 			"minfo",
 			"accttype",
 		};
+		removeUserLoginCookies(context, userCookieNames);
+	}
+
+	private static void removeUserLoginCookies(Context context, String[] userCookieNames) {
 		ExpediaServices services = new ExpediaServices(context);
 		services.mCookieManager.removeNamedCookies(userCookieNames);
+	}
+
+	public static void removeUserCookieFromUserLoginCookies(Context context) {
+		if (BuildConfig.DEBUG) {
+			Log.d("Cookies: Removing user cookie from user login cookies");
+			String[] cookieNames = {
+				"user"
+			};
+			removeUserLoginCookies(context, cookieNames);
+		}
 	}
 
 	public void clearCookies() {
