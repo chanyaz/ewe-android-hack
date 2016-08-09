@@ -240,6 +240,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         val didHandleBack = super.back()
         if (!didHandleBack) {
             checkoutPresenter.resetPriceChange()
+            checkoutPresenter.totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
         }
         return didHandleBack
     }
