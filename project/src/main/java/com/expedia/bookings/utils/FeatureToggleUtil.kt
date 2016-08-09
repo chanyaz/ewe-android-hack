@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.data.Db
 import com.mobiata.android.util.SettingUtils
 
@@ -13,11 +14,13 @@ class FeatureToggleUtil {
         }
 
         @JvmStatic fun isFeatureEnabled(context: Context, featureKey: Int, featureDefaultValue: Boolean): Boolean {
+            // enforcing everyone to clean the feature toggle before feature start showing in RC
+            if (BuildConfig.RELEASE) return false
             val isFeatureEnabled = SettingUtils.get(context, featureKey, featureDefaultValue)
             return isFeatureEnabled
         }
 
-        @JvmStatic fun isTestBucketed(abacusTestKey: Int): Boolean {
+        private fun isTestBucketed(abacusTestKey: Int): Boolean {
             val isTestBucketed = Db.getAbacusResponse().isUserBucketedForTest(abacusTestKey)
             return isTestBucketed
         }
