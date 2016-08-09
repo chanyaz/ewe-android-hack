@@ -1,14 +1,17 @@
 package com.expedia.vm.packages
 
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseCreateTripViewModel
 import com.squareup.phrase.Phrase
@@ -54,7 +57,17 @@ class PackageCreateTripViewModel(val packageServices: PackageServices, val conte
             }
 
             override fun onError(e: Throwable) {
-                throw OnErrorNotImplementedException(e)
+                showCreateTripDialogObservable.onNext(false)
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() {
+                        performCreateTrip.onNext(Unit)
+                    }
+                    val cancelFun = fun() {
+                        val activity = context as AppCompatActivity
+                        activity.onBackPressed()
+                    }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                }
             }
 
             override fun onCompleted() {

@@ -32,7 +32,7 @@ class RailTimelineSegment(context: Context, segment: RailSegment) : FrameLayout(
 
         operator.text = segment.operatingCarrier
         duration.text = DateTimeUtils.formatDuration(context.resources, segment.durationMinutes())
-        travelIcon.setImageResource(RailResultsTimelineHelper.findMappedDrawable(segment.travelMode))
+        travelIcon.setImageResource(RailTransferMode.findMappedDrawable(segment.travelMode))
 
     }
 }

@@ -12,6 +12,7 @@ public class PackageOfferModel {
 	public boolean featuredDeal;
 
 	public static class PackagePrice {
+		public Money averageTotalPricePerTicket;
 		public Money packageTotalPrice;
 		public Money pricePerPerson;
 		public Money hotelPrice;
@@ -28,6 +29,7 @@ public class PackageOfferModel {
 		public String hotelAvgPricePerNightFormatted;
 		public String differentialPriceFormatted;
 		public String flightPlusHotelPricePerPersonFormatted;
+		public boolean showTripSavings;
 		public int percentageSavings;
 		public boolean deltaPositive;
 	}

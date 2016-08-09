@@ -18,7 +18,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.FlightOverviewViewModel
+import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import rx.subjects.PublishSubject
@@ -45,12 +45,12 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     @Override
     override fun onFinishInflate() {
         super.onFinishInflate()
-        val filter = PorterDuffColorFilter(ContextCompat.getColor(this.context,R.color.lob_packages_primary_color), PorterDuff.Mode.SRC_ATOP);
+        val filter = PorterDuffColorFilter(ContextCompat.getColor(this.context,R.color.flight_overview_color_filter), PorterDuff.Mode.SRC_ATOP);
         showBaggageFeesButton.compoundDrawables[0].setColorFilter(filter)
         paymentFeesMayApplyTextView.compoundDrawables[0].setColorFilter(filter)
     }
 
-    var vm: FlightOverviewViewModel by notNullAndObservable {
+    var vm: AbstractFlightOverviewViewModel by notNullAndObservable {
         vm.bundlePriceSubject.subscribeText(bundlePriceTextView)
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceLabelTextView)
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceTextView)

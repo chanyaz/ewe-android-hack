@@ -282,6 +282,9 @@ public class LXPresenter extends Presenter {
 
 		@Override
 		public void endTransition(boolean forward) {
+			if (forward) {
+				resultsPresenter.setVisibility(GONE);
+			}
 			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
 			resultsPresenter.animationFinalize(forward);
 			searchParamsWidget.animationFinalize(forward);
@@ -298,6 +301,7 @@ public class LXPresenter extends Presenter {
 		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
+			detailsPresenter.setVisibility(VISIBLE);
 			searchParamsWidget.setVisibility(VISIBLE);
 			if (forward) {
 				searchStartingAlpha = detailsPresenter.animationStart(forward);
@@ -317,7 +321,9 @@ public class LXPresenter extends Presenter {
 
 		@Override
 		public void endTransition(boolean forward) {
-			detailsPresenter.setVisibility(VISIBLE);
+			if (forward) {
+				detailsPresenter.setVisibility(GONE);
+			}
 			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
 			detailsPresenter.animationFinalize(forward);
 			searchParamsWidget.animationFinalize(forward);
@@ -334,6 +340,7 @@ public class LXPresenter extends Presenter {
 		LXParamsOverlay.class, new DecelerateInterpolator(), ANIMATION_DURATION) {
 		@Override
 		public void startTransition(boolean forward) {
+			recommendationPresenter.setVisibility(VISIBLE);
 			searchParamsWidget.setVisibility(VISIBLE);
 			if (forward) {
 				searchStartingAlpha = recommendationPresenter.animationStart(forward);
@@ -353,7 +360,9 @@ public class LXPresenter extends Presenter {
 
 		@Override
 		public void endTransition(boolean forward) {
-			recommendationPresenter.setVisibility(VISIBLE);
+			if (forward) {
+				recommendationPresenter.setVisibility(GONE);
+			}
 			searchParamsWidget.setVisibility(forward ? VISIBLE : GONE);
 			recommendationPresenter.animationFinalize(forward);
 			searchParamsWidget.animationFinalize(forward);
@@ -449,6 +458,7 @@ public class LXPresenter extends Presenter {
 	public void onShowSearchWidget(Events.LXShowSearchWidget event) {
 		OmnitureTracking.trackAppLXSearchBox(isGroundTransport);
 		show(searchParamsWidget, FLAG_CLEAR_BACKSTACK | FLAG_CLEAR_TOP);
+		searchParamsWidget.showDefault();
 	}
 
 	@Subscribe

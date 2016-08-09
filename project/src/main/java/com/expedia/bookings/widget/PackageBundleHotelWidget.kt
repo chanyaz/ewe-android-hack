@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -145,8 +144,9 @@ class PackageBundleHotelWidget(context: Context, attrs: AttributeSet?) : Accessi
         val intent = Intent(context, PackageHotelActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
 
-        (context as Activity).startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
-        (context as Activity).overridePendingTransition(0, 0);
+        val activity = context as Activity
+        activity.startActivityForResult(intent, Constants.HOTEL_REQUEST_CODE, null)
+        activity.overridePendingTransition(0, 0);
     }
 
     private fun expandSelectedHotel() {

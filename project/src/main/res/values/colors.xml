@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- When editing/adding colors to this file please first refer to the following wiki:
+    https://github.com/ExpediaInc/ewe-android-eb/wiki/Design:-colors.xml-&-colors_palette.xml-best-practices.-->
 
     <!-- Action Bar colors -->
-    <color name="launch_actionbar_bg_color">@color/launchscreen_primary_color_old</color>
+    <color name="launch_actionbar_bg_color">@color/exp_old_launch</color>
     <color name="action_bar_selected_tab_underline_color">#FFED18</color>
     <color name="actionbarTabletTitleColor">#F3F3F3</color>
     <color name="actionbar_suggestion_text_color">@color/actionbar_text</color>
@@ -39,7 +41,7 @@
     <color name="disabled_lob_btn">#909ba3</color>
 
     <color name="launch_list_bg">#ECEFF1</color>
-    <color name="launch_screen_primary">@color/launchscreen_primary_color_old</color>
+    <color name="launch_screen_primary">@color/exp_old_launch</color>
     <color name="launch_lob_bg">@color/white</color>
     <color name="launch_list_txt">@color/white</color>
     <color name="launch_list_strikethrough_txt">#B2FFFFFF</color>
@@ -105,13 +107,16 @@
     <color name="flight_earn_message_text_color">#3D4652</color>
     
     <!-- Flights V2 colors -->
-    <color name="flight_warning_bar_color">@color/expDarkBlue</color>
-    <color name="flight_primary_color">@color/expDarkBlue</color>
+    <color name="flight_warning_bar_color">@color/exp_lob_dark_blue</color>
+    <color name="flight_primary_color">@color/exp_lob_dark_blue</color>
+    <color name="flight_overview_color_filter">@color/exp_lob_blue</color>
+    <color name="filter_number_text_color">@color/exp_lob_blue</color>
+    <color name="cardview_divider_lines_gray">@color/gray2</color>
 
     <!-- Hotels colors -->
-    <color name="hotels_primary_color">@color/lob_hotels_primary_color</color>
+    <color name="hotels_primary_color">@color/exp_hotel_green</color>
     <color name="search_anim_background">@color/gray1</color>
-    <color name="hotel_promo_background">@color/lob_hotels_secondary_color</color>
+    <color name="hotel_promo_background">@color/exp_hotel_dark_green</color>
     <color name="hotels_cc_text_color_secondary">#868a8f</color>
     <color name="hotelsv2_discount_green">#6BCA2C</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
@@ -201,7 +206,6 @@
     <color name="suggestion_row_divider">#FF4F4F4F</color>
     <color name="widget_text_color">#3d4552</color>
     <color name="hotel_cell_primary_color">#3D4552</color>
-    <color name="hotel_recent_search_icon_color">#747474</color>
     <color name="hotel_cell_secondary_color">#a6a6a6</color>
     <color name="hotel_price_text_color">#064192</color>
     <color name="hotel_price_sale_text_color">#00b277</color>
@@ -296,8 +300,8 @@
     <color name="placeholder_background_color">#21394E</color>
 
     <!-- Cars colors -->
-    <color name="cars_primary_color">@color/lob_cars_primary_maroon</color>
-    <color name="cars_secondary_color">@color/lob_cars_secondary_maroon</color>
+    <color name="cars_primary_color">@color/exp_car_maroon</color>
+    <color name="cars_secondary_color">@color/exp_car_dark_maroon</color>
     <color name="cars_button_ripple">#ECC3DC</color>
     <color name="cars_button_color">@color/cars_primary_color</color>
 
@@ -328,7 +332,7 @@
     <color name="tablet_checkout_account_button_text_color">#363636</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
     <color name="material_checkout_account_button_background_color">#384768</color>
-    <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
+    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#676767</color>
     <color name="card_io_scan_text">#0B8B7B</color>
 
@@ -339,20 +343,20 @@
     <color name="checkout_main_traveler_message">@color/gray7</color>
 
     <!-- Old Launch Screen colors -->
-    <color name="launch_toolbar_background_color">@color/launchscreen_primary_color_old</color>
-    <color name="launch_tab_indicator">@color/launchscreen_tab_indicator_color</color>
+    <color name="launch_toolbar_background_color">@color/exp_old_launch</color>
+    <color name="launch_tab_indicator">@color/exp_launch_yellow</color>
 
     <!-- New Launch Screen colors -->
-    <color name="new_launch_toolbar_background_color">@color/launch_blue</color>
-    <color name="new_launch_fab_color">@color/launch_blue</color>
-    <color name="new_launch_screen_itin_ripple">@color/launch_blue</color>
+    <color name="new_launch_toolbar_background_color">@color/exp_launch_blue</color>
+    <color name="new_launch_fab_color">@color/exp_launch_blue</color>
+    <color name="new_launch_screen_itin_ripple">@color/exp_launch_blue</color>
     <color name="new_launch_screen_itin_button_color">@color/white_25</color>
     <color name="new_launch_lob_divider_color">#dcdcdc</color>
     <color name="launch_screen_itin_divider">@color/white_70</color>
 
     <!-- LX colors -->
-    <color name="lx_primary_color">@color/lob_lx_primary_orange</color>
-    <color name="lx_ripple_color">@color/lob_lx_secondary_orange</color>
+    <color name="lx_primary_color">@color/exp_lx_orange</color>
+    <color name="lx_ripple_color">@color/exp_lx_secondary_orange</color>
     <color name="lx_button_ripple">#F6DAC0</color>
     <color name="lx_button_color">@color/lx_primary_color</color>
 
@@ -398,7 +402,7 @@
     <color name="checkout_login_button_color">#836B11</color>
     <color name="leanplum_dialog_button_color">#fc2176</color>
 
-    <color name="gt_primary_color">@color/lob_gt_primary_color</color>
+    <color name="gt_primary_color">@color/exp_gt_red</color>
     <color name="gt_unchecked_toggle_text_color">#E98DA7</color>
     <color name="gt_primary_disabled_color">#40B93F62</color>
 
@@ -460,16 +464,16 @@
 
     <!-- Packages colors -->
     <color name="package_bundle_icon_color">@color/gray6</color>
-    <color name="packages_primary_color">@color/lob_packages_primary_color</color>
-    <color name="packages_secondary_color">@color/expDarkBlue</color>
-    <color name="packages_ripple_mask_color">@color/lob_packages_ripple_color</color>
+    <color name="packages_primary_color">@color/exp_lob_blue</color>
+    <color name="packages_secondary_color">@color/exp_lob_dark_blue</color>
+    <color name="packages_ripple_mask_color">@color/exp_lob_ripple_blue</color>
     <color name="packages_flight_filter_text">@color/gray8</color>
     <color name="packages_flight_filter_background_color">@color/gray1</color>
     <color name="packages_flight_filter_show_more_less">@color/gray5</color>
     <color name="filter_divider_lines">@color/gray3</color>
     <color name="packages_bundle_overview_footer_primary_text">@color/gray9</color>
     <color name="packages_bundle_overview_footer_secondary_text">@color/gray6</color>
-    <color name="packages_bundle_overview_footer_secondary_text_savings">@color/temporary_savings</color>
+    <color name="packages_bundle_overview_footer_secondary_text_savings">@color/green_savings</color>
     <color name="packages_bundle_overview_widgets_primary_text">@color/gray7</color>
     <color name="packages_bundle_overview_widgets_secondary_text">@color/gray6</color>
     <color name="packages_bundle_overview_hotel_expanded_text">@color/gray7</color>
@@ -486,7 +490,7 @@
     <color name="flights_error_message_infants">@color/orange_crush</color>
 
     <!--Rail colors-->
-    <color name="rail_primary_color">@color/lob_rail_primary_color</color>
+    <color name="rail_primary_color">@color/exp_rail_navy</color>
     <color name="rail_background_color">@color/gray1</color>
     <color name="rail_bundle_icon_color">@color/gray6</color>
     <color name="rail_title_color">@color/gray10</color>
@@ -494,7 +498,7 @@
 
     <!-- Cost summary breakdown -->
     <color name="cost_summary_breakdown_line_separator_color">@color/gray4</color>
-    <color name="cost_summary_breakdown_savings_cost_color">@color/temporary_savings</color>
+    <color name="cost_summary_breakdown_savings_cost_color">@color/green_savings</color>
     <color name="cost_summary_breakdown_text_color">@color/gray5</color>
     <color name="cost_summary_breakdown_total_cost_color">@color/gray3</color>
 
@@ -512,6 +516,7 @@
     <!-- Unified Search Screen -->
     <color name="search_screen_icon_color_v2">@color/gray6</color>
     <color name="white_disabled">@color/white_30</color>
+    <color name="search_dialog_icon_color">@color/gray7</color>
     <color name="search_dialog_background_v2">@color/white</color>
     <color name="search_origin_dest_divider">@color/gray3</color>
     <color name="search_suggestion_background_v2">#FAFAFA</color>
@@ -562,16 +567,16 @@
     <color name="error_widget_text">@color/gray6</color>
 
     <!-- New Hotels Launch Screen LOB button colors -->
-    <color name="new_launch_hotels_lob_color">@color/new_lob_hotels_color</color>
-    <color name="new_launch_flights_lob_color">@color/new_lob_flights_color</color>
-    <color name="new_launch_cars_lob_color">@color/new_lob_cars_color</color>
-    <color name="new_launch_gt_lob_color">@color/new_lob_gt_color</color>
-    <color name="new_launch_lx_lob_color">@color/new_lob_lx_color</color>
-    <color name="new_launch_packages_lob_color">@color/new_lob_packages_color</color>
-    <color name="new_launch_rail_lob_color">@color/new_lob_rail_color</color>
+    <color name="new_launch_hotels_lob_color">@color/exp_launch_hotel_green</color>
+    <color name="new_launch_flights_lob_color">@color/exp_launch_flights_blue</color>
+    <color name="new_launch_cars_lob_color">@color/exp_launch_car_pink</color>
+    <color name="new_launch_gt_lob_color">@color/exp_launch_gt_red</color>
+    <color name="new_launch_lx_lob_color">@color/exp_launch_lx_orange</color>
+    <color name="new_launch_packages_lob_color">@color/exp_launch_packages_blue</color>
+    <color name="new_launch_rail_lob_color">@color/exp_launch_rail_teal</color>
     <color name="new_launch_lob_disabled_color">@color/black</color>
 
-    <color name="new_launch_lob_text_color">@color/new_lob_text_color</color>
+    <color name="new_launch_lob_text_color">@color/exp_launch_dark_teal</color>
 
     <!-- hotels swp colors-->
     <color name="hotelsv2_loyalty_applied_text_color">@color/hotelsv2_checkout_text_color</color>

@@ -355,6 +355,15 @@ public class PackageScreen {
 		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), click());
 	}
 
+	public static void clickPaymentDone() {
+		CheckoutViewModel.clickDone();
+	}
+
+	public static void clickPaymentInfo() {
+		CheckoutViewModel.waitForPaymentInfoDisplayed();
+		CheckoutViewModel.clickPaymentInfo();
+	}
+
 	public static void clickSpecialAssistance() {
 		onView(withId(R.id.edit_assistance_preference_spinner)).perform(click());
 	}
@@ -364,6 +373,7 @@ public class PackageScreen {
 	}
 
 	public static void enterCreditCard() {
+		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 	}
 
@@ -383,13 +393,10 @@ public class PackageScreen {
 	}
 
 	public static void enterPaymentInfo() {
-		CheckoutViewModel.waitForPaymentInfoDisplayed();
-		CheckoutViewModel.clickPaymentInfo();
-		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
-		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
+		clickPaymentInfo();
 		enterCreditCard();
 		completePaymentForm();
-		CheckoutViewModel.clickDone();
+		clickPaymentDone();
 	}
 
 	public static String getDatesGuestInfoText(LocalDate startDate, LocalDate endDate) {

@@ -36,6 +36,7 @@
         <item name="hotel_map_tooltip_drawable">@drawable/packages_tooltip</item>
         <item name="spinner_text_color_drawable">@drawable/package_traveler_text_color</item>
         <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
+        <item name="map_pin_drawable">@drawable/map_marker_blue</item>
     </style>
 
     <!--

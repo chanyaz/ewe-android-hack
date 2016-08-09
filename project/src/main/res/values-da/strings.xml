@@ -123,8 +123,6 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hoteller</string>
-    <!-- Label for recent searches -->
-    <string name="recent_searches">Tidligere søgninger</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Afhentningssted</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -144,7 +142,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Kommer snart! Vi arbejder hårdt på at tilføje envejsudlejning i en kommende version.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string>
+    <string name="error_no_result_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Din søgning gav ingen resultater. Prøv at reducere antallet af filtre.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -209,9 +207,9 @@
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Rutevejledning til %1$s</string>
     <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">Kreditkort/debitkort</string>
+    <string name="checkout_payment_option_credit_debit_label">Kreditkort/debetkort</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
-    <string name="shortened_checkout_payment_option_credit_debit_label">Indtast nyt kreditkort/debitkort</string>
+    <string name="shortened_checkout_payment_option_credit_debit_label">Indtast nyt kreditkort/debetkort</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Oplysninger om gæst</string>
     <!-- Text for Android pay label -->
@@ -241,7 +239,7 @@
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Gemte kort</string>
     <!-- text that goes underneath the camera button for card_io -->
-    <string name="card_io_btn_text">Scan</string>
+    <string name="card_io_btn_text">SCAN</string>
     <!-- Card.io scan text -->
     <string name="scan_card_text">Scan kort</string>
 
@@ -1678,7 +1676,29 @@
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Der opkræves et &lt;a href=\"{airline_fee_url}\"&gt;gebyr til flyselskabet&lt;/a&gt; ved betaling afhængigt af din korttype. Et sådant gebyr lægges til rejsens samlede beløb ved betaling.</string>
     <!-- Flights debit cards not accepted messaging -->
-    <string name="flights_debit_cards_not_accepted">Debitkort accepteres ikke.</string>
+    <string name="flights_debit_cards_not_accepted">Debetkort accepteres ikke.</string>
+    <!-- Flights Sold out error screen: Select New Flight button label -->
+    <string name="flights_select_new_flight">Vælg en ny flyrejse</string>
+    <!-- Flights Sold out error screen:- warning message -->
+    <string name="flight_sold_out_warning">Vi beklager. Denne flyrejse er udsolgt.</string>
+    <!-- Flights Sold out error screen:- toolbar title -->
+    <string name="flight_sold_out_toolbar_title">Udsolgt</string>
+    <!-- Flight Unavailable error screen:- toolbar title -->
+    <string name="flight_unavailable_toolbar_title">Flyrejsen er ikke tilgængelig</string>
+    <!-- Flight Unavailable error screen:- warning -->
+    <string name="flight_unavailable_warning">Vi beklager. Denne flyrejse er ikke længere tilgængelig</string>
+    <!-- Flight Session expired error screen:- warning -->
+    <string name="flight_session_expired_warning">Er du der stadig? Din session er udløbet. Prøv venligst igen.</string>
+    <!-- Flight Session expired error screen:- toolbar title -->
+    <string name="flight_session_expired_toolbar_title">Sessionen er udløbet</string>
+    <!-- Flight Session expired error screen:- new search button label -->
+    <string name="flight_new_search">Ny søgning</string>
+    <!-- Flights unknown error screen:- title -->
+    <string name="flight_generic_error_title">Fejl</string>
+    <!-- Flights unknown error screen:- warning -->
+    <string name="flight_error_try_again_warning">Ups. Lad os prøve igen.</string>
+    <!-- Flights unknown error screen:- retry button label -->
+    <string name="flight_error_retry">Prøv igen</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1808,6 +1828,9 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Vælg indtjekningsdato</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
+    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
+
     <string name="room_with_guests_TEMPLATE">1 værelse, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Gratis afbestilling inden {date}</string>
 
@@ -1902,7 +1925,10 @@
     <string name="select_payment_callout">Indtast oplysninger</string>
     <!-- Add new card -->
     <string name="add_new_card">Tilføj nyt kort</string>
-    <string name="new_credit_debit_card">Nyt debitkort/kreditkort</string>
+    <!-- New Debit/Credit card toolbar title shown on payment form -->
+    <string name="new_credit_debit_card">Nyt debetkort/kreditkort</string>
+    <!-- New Credit card toolbar title shown on payment form -->
+    <string name="new_credit_card">Nyt kreditkort</string>
     <!-- Overview button -->
     <string name="overview_btn">Oversigt</string>
     <!-- Stored Payment label -->
@@ -1924,7 +1950,7 @@
     <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
     <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s accepterer ikke %2$s</string>
     <!-- Debit cards not supported message -->
-    <string name="debit_cards_not_accepted">Debitkort accepteres ikke.</string>
+    <string name="debit_cards_not_accepted">Debetkort accepteres ikke.</string>
 
     <!-- Trip Overview Activity -->
     <!-- Label for Overview activity in task manager -->
@@ -2059,7 +2085,10 @@
     <string name="ab_test_flights_free_cancellation">Gratis afbestilling inden for 24 timer</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">Indtast oplysninger om rejsende</string>
-
+    <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
+    <string name="brand_account_cont_desc_TEMPLATE">{brand}-konto</string>
+    <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
+    <string name="signed_in_account_cont_desc_TEMPLATE">Logget på som {email}</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
     <string name="travelers">Rejsende</string>
@@ -2194,7 +2223,7 @@
     <!-- Credit Card field hint -->
     <string name="credit_card_hint">Kreditkortnummer</string>
     <!-- Credit Card field hint; this version calls out that debit cards are also acceptable -->
-    <string name="credit_debit_card_hint">Indtast nyt kreditkort/debitkort</string>
+    <string name="credit_debit_card_hint">Indtast nyt kreditkort/debetkort</string>
     <!-- Expiration date label -->
     <string name="expiration_date">Udløbsdato</string>
     <!-- Set expiration date button -->
@@ -2473,7 +2502,7 @@
     <!-- Button label for accepting an error and moving forward -->
     <string name="accept">Godkend</string>
     <!-- Button label for retrying after getting an error -->
-    <string name="retry">Forsøg igen</string>
+    <string name="retry">Prøv igen</string>
     <!-- Button label for adjusting filters after getting no results -->
     <string name="edit_filters">Rediger filtre</string>
     <!-- Button label for calling -->
@@ -3978,8 +4007,19 @@
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Søger efter hoteller i {destination} fra {startdate} til {enddate} til {guests}. Vent venligst</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">Du har valgt hotellet {hotel} fra {startdate} til {enddate} til {guests}. {expandstate} hoteloplysninger.</string>
-    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
-    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. {expandstate} oplysninger om flyrejse.</string>
+    <!-- Bundle Overview flight card accessibility content description after search completed Eg. Search completed. Select a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button -->
+    <string name="select_flight_cont_desc_TEMPLATE">Søgning gennemført. Vælg en flyrejse til {flight} den {date} for {travelers}. Knap</string>
+    <!-- Bundle Overview flight card accessibility content description while searching Eg. Searching for a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please wait -->
+    <string name="select_flight_searching_cont_desc_TEMPLATE">Søger efter en flyrejse til {flight} den {date} for {travelers}. Vent venligst</string>
+    <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">Du har valgt en flyrejse til {flight} den {datetraveler}. {expandstate} oplysninger om flyrejse.</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">Flyrejse til {flight} den {date} for {travelers}. Vælg venligst {previous} først. Knap deaktiveret.</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
+    <string name="select_flight_disabled_choose_outbound">Udgående flyrejse</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
+    <string name="select_flight_disabled_choose_hotel">Hotel</string>
+
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Vælg hotel in %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4017,11 +4057,17 @@
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
     <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} til {arrivaltime}</string>
+    <!-- Carrier name and code when flight operated by different carrier e.g. Operated by Alaska Airlines (AS) -->
+    <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">Flyves af {operatingairlinename} ({operatingairlinecode})</string>
+    <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
+    <string name="flight_operated_by_carrier_name_only_TEMPLATE">Flyves af {operatingairlinename}</string>
 
     <!-- Select flight to template -->
     <string name="select_flight_to">Vælg en flyrejse til %1$s</string>
     <!-- Flight to template -->
     <string name="flight_to">Flyrejse til %1$s</string>
+    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
+    <string name="flight_to_card_TEMPLATE">Flyrejse til ({airportcode}) {airportcity}</string>
     <!-- Select return flight -->
     <string name="select_return_flight">Vælg hjemrejse</string>
     <!-- Flight overview - flight to template -->
@@ -4084,7 +4130,11 @@
     <string name="pwp_total_due_today_TEMPLATE">Samlet beløb til betaling i dag:</string>
 
     <!-- Package Flight Overview -->
-    <string name="package_flight_overview_urgency_message_TEMPLATE">{seats} sæder tilbage</string>
+    <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
+    <plurals name="package_flight_overview_urgency_message_TEMPLATE">
+        <item quantity="one">{seats} sæde tilbage</item>
+        <item quantity="other">{seats} sæder tilbage</item>
+    </plurals>
     <string name="package_flight_overview_baggage_fees">Oplysninger om bagagegebyrer</string>
     <string name="package_flight_overview_select_flight">Vælg denne flyrejse</string>
     <string name="package_flight_overview_bundle_total_label">Pakkerejse i alt</string>
@@ -4139,6 +4189,18 @@
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
+
+    <!-- Label for the tab on fare rules/amenities screen -->
+    <string name="fare_rules">Prisregler</string>
+
+    <!-- Label for no segment amenities amenities screen -->
+    <string name="no_amenities">Ingen faciliteter</string>
+
+    <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
+    <string name="rail_station_info_TEMPLATE">{departure} til {arrival}</string>
+
+    <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Vi beklager, men vi oplevede et problem med serveren. Prøv venligst igen.</string>
     <string name="pwp_trip_service_error">Vi beklager, men vi oplevede et problem med serveren. Prøv venligst igen.</string>
@@ -4310,6 +4372,7 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">pr. dag</string>
     <string name="insurance_price_per_person">/person</string>
+
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Bedømt som nummer {rating} ud af 5</string>
     <!--LX accessibility -->

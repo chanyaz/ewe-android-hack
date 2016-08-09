@@ -861,7 +861,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 	private String getPriceChangeString() {
 		if (Db.getTripBucket().getFlight().getFlightTrip() != null) {
 			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
-			String originalPrice = flightTrip.getOldTotalFare().getFormattedMoney();
+			String originalPrice = flightTrip.getOldTotalPrice().getFormattedMoney();
 			return getString(R.string.price_changed_from_TEMPLATE, originalPrice);
 		}
 
@@ -919,7 +919,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
 				.put("departurelink", baggageFeesUrlLegOne)
 				.put("returnlink", baggageFeesUrlLegTwo)
-				.toString();
+				.format().toString();
 		SpannableStringBuilder spannableStringBuilder =
 			StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, Color.BLACK, true);
 		splitTicketBaggageFeesTextView.setText(spannableStringBuilder);

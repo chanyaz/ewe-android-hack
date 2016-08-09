@@ -90,7 +90,7 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 					text = data.getTotalFareWithCardFee(mBillingInfo, Db.getTripBucket().getFlight()).getFormattedMoney();
 				}
 				else {
-					text = data.getTotalFare().getFormattedMoney();
+					text = data.getTotalPrice().getFormattedMoney();
 				}
 			}
 			field.setText(text);

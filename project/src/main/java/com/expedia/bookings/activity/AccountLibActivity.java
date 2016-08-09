@@ -12,6 +12,7 @@ import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
 import com.expedia.account.PanningImageView;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -57,14 +58,9 @@ public class AccountLibActivity extends AppCompatActivity
 	private UserAccountRefresher userAccountRefresher;
 	private boolean loginWithFacebook = false;
 	private Listener listener = new Listener();
-	private boolean isUserBucketedForSignInMessagingTest = Db.getAbacusResponse()
-		.isUserBucketedForTest(AbacusUtils.EBAndroidAppSignInMessagingTest);
 
 	private boolean isUserBucketedForSmartLockTest = Db.getAbacusResponse()
 		.isUserBucketedForTest(AbacusUtils.EBAndroidAppSmartLockTest);
-	private int signInMessagingTestVariate = Db.getAbacusResponse()
-		.variateForTest(AbacusUtils.EBAndroidAppSignInMessagingTest);
-
 
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
@@ -138,23 +134,11 @@ public class AccountLibActivity extends AppCompatActivity
 		new PicassoHelper.Builder(background).setPlaceholder(backgroundDrawableResId).build().load(
 			backgroundDrawableResId);
 
-		String signInMessage = "";
-		if (signInMessagingTestVariate == AbacusUtils.HotelSignInMessagingVariate.EXCLUSIVE_MEMBER_MESSAGE.ordinal()) {
-			signInMessage = getString(R.string.sign_in_messaging);
-		}
-		else if (signInMessagingTestVariate == AbacusUtils.HotelSignInMessagingVariate.TRIPLE_POINT_MESSAGE.ordinal()) {
-			signInMessage = getString(R.string.triple_point_messaging);
-		}
-		else if (signInMessagingTestVariate == AbacusUtils.HotelSignInMessagingVariate.TRIP_ALERT_MESSAGE.ordinal()) {
-			signInMessage = getString(R.string.trip_alert_messaging);
-		}
 		Config config = Config.build()
 			.setService(ServicesUtil.generateAccountService(this))
 			.setBackgroundImageView(background)
 			.setPOSEnableSpamByDefault(PointOfSale.getPointOfSale().shouldEnableMarketingOptIn())
 			.setPOSShowSpamOptIn(PointOfSale.getPointOfSale().shouldShowMarketingOptIn())
-			.setEnableSignInMessaging(isUserBucketedForSignInMessagingTest)
-			.setSignInMessagingText(signInMessage)
 			.setEnableFacebookButton(
 				ProductFlavorFeatureConfiguration.getInstance().isFacebookLoginIntegrationEnabled())
 			.setListener(listener)
@@ -167,7 +151,8 @@ public class AccountLibActivity extends AppCompatActivity
 			.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
 			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this));
 
-		if (isUserBucketedForSmartLockTest) {
+
+		if (BuildConfig.DEBUG && isUserBucketedForSmartLockTest) {
 			config.setParentActivity(this);
 		}
 

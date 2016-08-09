@@ -8,7 +8,6 @@ import rx.subjects.PublishSubject
 /* TabLayout that emits the percentage between tabs 0 and 1, & 1 and 2 */
 class PositionObservableTabLayout : TabLayout {
     val singleToReturnScrollObservable = PublishSubject.create<Float>()
-    val returnToOpenReturnScrollObservable = PublishSubject.create<Float>()
 
     constructor(context: Context?, attrs: AttributeSet?) : super(context, attrs)
 
@@ -16,8 +15,6 @@ class PositionObservableTabLayout : TabLayout {
         super.setScrollPosition(position, positionOffset, updateSelectedText)
         if (position == 0 ) {
             singleToReturnScrollObservable.onNext(positionOffset)
-        } else if (position == 1) {
-            returnToOpenReturnScrollObservable.onNext(positionOffset)
         }
     }
 }

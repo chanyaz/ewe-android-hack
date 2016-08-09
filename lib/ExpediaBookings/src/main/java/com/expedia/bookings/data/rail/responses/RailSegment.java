@@ -3,7 +3,12 @@ package com.expedia.bookings.data.rail.responses;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 
-public abstract class RailSegment {
+import com.expedia.bookings.utils.DateUtils;
+
+public class RailSegment {
+	public static final String TRANSFER = "Transfer";
+
+	public Integer travelSegmentIndex;
 	public String travelMode;
 	public RailStation departureStation;
 	public RailStation arrivalStation;
@@ -12,12 +17,14 @@ public abstract class RailSegment {
 	public String marketingCarrier; //"Virgin"
 	public String operatingCarrier; //"Virgin"
 	public RailTravelMedium travelMedium;
-	public Integer travelSegmentIndex;
+	public String duration;  //ISO duration format P[yY][mM][dD][T[hH][mM][s[.s]S]]
 
-	public abstract int durationMinutes();
+	public int durationMinutes() {
+		return DateUtils.parseDurationMinutes(duration);
+	}
 
 	public boolean isTransfer() {
-		return !"Train".equals(travelMode);
+		return TRANSFER.equals(travelMode);
 	}
 
 	public static class RailTravelMedium {

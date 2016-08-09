@@ -2,7 +2,6 @@ package com.expedia.vm.test.rail
 
 import android.app.Activity
 import com.expedia.bookings.data.rail.responses.PassengerSegmentFare
-import com.expedia.bookings.data.rail.responses.RailSearchSegment
 import com.expedia.bookings.data.rail.responses.RailSegment
 import com.expedia.bookings.data.rail.responses.RailStation
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -58,7 +57,7 @@ class RailSegmentAmenitiesViewModelTest {
     }
 
     private fun createSegmentWithNoAmenities(): Pair<RailSegment, PassengerSegmentFare?> {
-        var segment = RailSearchSegment()
+        var segment = RailSegment()
         segment.departureStation = RailStation("ABC", "London", "", "")
         segment.arrivalStation = RailStation("ABC", "Manchester", "", "")
 

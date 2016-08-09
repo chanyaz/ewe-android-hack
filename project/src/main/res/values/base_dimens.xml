@@ -12,6 +12,12 @@
     <dimen name="temporary_font_size_medium">14sp</dimen>
     <dimen name="temporary_font_size_small">12sp</dimen>
 
+    <dimen name="temporary_tiny_padding">2dp</dimen>
+    <dimen name="temporary_default_padding">4dp</dimen>
+    <dimen name="temporary_small_padding">8dp</dimen>
+    <dimen name="temporary_medium_padding">12dp</dimen>
+    <dimen name="temporary_large_padding">16dp</dimen>
+
     <!--Full width footer buttons for things like "Checkout" "Select a Room" "Select this flight" "Search" etc-->
     <dimen name="footer_button_text_size">16sp</dimen>
 

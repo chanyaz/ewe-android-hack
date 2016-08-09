@@ -3369,7 +3369,7 @@
           "flightPriceFormatted": "$905",
           "sumFlightAndHotelFormatted": "$1,076",
           "tripSavingsFormatted": "$23",
-          "showTripSavings": false,
+          "showTripSavings": true,
           "freeFlightPromotion": false,
           "showReferencePrices": false,
           "mandatoryFeeIncludedInTotal": false,

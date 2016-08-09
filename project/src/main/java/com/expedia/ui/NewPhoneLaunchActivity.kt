@@ -7,11 +7,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.os.Parcelable
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentStatePagerAdapter
+import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
@@ -31,8 +30,6 @@ import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.NewPhoneLaunchFragment
-import com.expedia.bookings.interfaces.IPhoneLaunchActivityLaunchFragment
-import com.expedia.bookings.interfaces.IPhoneLaunchFragmentListener
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusHelperUtils
@@ -47,7 +44,7 @@ import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 
-class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
+class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
         , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener {
 
@@ -62,9 +59,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
     var jumpToItinId: String? = null
     private var pagerPosition = PAGER_POS_LAUNCH
 
-    private var launchFragment: IPhoneLaunchActivityLaunchFragment? = null
     private var itinListFragment: ItinItemListFragment? = null
     private var accountFragment: AccountSettingsFragment? = null
+    private var newPhoneLaunchFragment: NewPhoneLaunchFragment? = null
 
     private val debugMenu: DebugMenu by lazy {
         DebugMenu(this, ExpediaBookingPreferenceActivity::class.java)
@@ -81,15 +78,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
     val pagerAdapter: PagerAdapter by lazy {
         PagerAdapter(supportFragmentManager)
     }
-    val accountSettingsFragment: AccountSettingsFragment by lazy {
-        AccountSettingsFragment()
-    }
-
-    val newPhoneLaunchFragment: NewPhoneLaunchFragment by lazy {
-        NewPhoneLaunchFragment()
-    }
-
-    //TODO create intent method
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,9 +93,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
             } else {
                 // if we are in shops or account tab scroll to top
                 if (PAGER_SELECTED_POS == PAGER_POS_ACCOUNT) {
-                    accountSettingsFragment.smoothScrollToTop()
+                    accountFragment?.smoothScrollToTop()
                 } else if (PAGER_SELECTED_POS == PAGER_POS_LAUNCH) {
-                    newPhoneLaunchFragment.smoothScrollToTop()
+                    newPhoneLaunchFragment?.smoothScrollToTop()
                 }
 
             }
@@ -150,33 +138,19 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
         }
     }
 
-    override fun onLaunchFragmentAttached(frag: IPhoneLaunchActivityLaunchFragment) {
-        launchFragment = frag
-    }
-
-
     override fun onBackPressed() {
-        if (launchFragment?.onBackPressed() ?: false) {
-            return
-        }
-
         if (viewPager.currentItem == PAGER_POS_ITIN) {
             if (itinListFragment?.isInDetailMode ?: false) {
                 itinListFragment?.hideDetails()
                 return
             }
-
             viewPager.currentItem = PAGER_POS_LAUNCH
             return
-        }
-
-        if (viewPager.currentItem == PAGER_POS_ACCOUNT) {
+        } else if (viewPager.currentItem == PAGER_POS_ACCOUNT) {
             viewPager.currentItem = PAGER_POS_LAUNCH
             return
-        }
-
-        if (viewPager.currentItem == PAGER_POS_LAUNCH) {
-            if (newPhoneLaunchFragment.newPhoneLaunchWidget.onBackPressed()) return
+        } else if (viewPager.currentItem == PAGER_POS_LAUNCH) {
+            if (newPhoneLaunchFragment?.onBackPressed() ?: false) return
         }
         super.onBackPressed()
     }
@@ -331,14 +305,14 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
 
     }
 
-    inner class PagerAdapter(fm: FragmentManager) : FragmentStatePagerAdapter(fm) {
+    inner class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
         override fun getItem(position: Int): Fragment {
             val frag: Fragment
             when (position) {
                 PAGER_POS_ITIN -> frag = ItinItemListFragment.newInstance(jumpToItinId, true)
-                PAGER_POS_LAUNCH -> frag = newPhoneLaunchFragment
-                PAGER_POS_ACCOUNT -> frag = accountSettingsFragment
+                PAGER_POS_LAUNCH -> frag = NewPhoneLaunchFragment()
+                PAGER_POS_ACCOUNT -> frag = AccountSettingsFragment()
                 else -> throw RuntimeException("Position out of bounds position=" + position)
             }
 
@@ -360,9 +334,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
             return title
         }
 
-        override fun saveState(): Parcelable? {
-            return null
-        }
     }
 
     private val hideToolbarAnimator = ValueAnimator.AnimatorUpdateListener { animation ->
@@ -488,6 +459,10 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), IPhoneLaunchFragment
 
     override fun onAccountFragmentAttached(frag: AccountSettingsFragment) {
         accountFragment = frag
+    }
+
+    override fun onLaunchFragmentAttached(frag: NewPhoneLaunchFragment) {
+        newPhoneLaunchFragment = frag
     }
 
     fun showLOBNotSupportedAlertMessage(context: Context, errorMessage: CharSequence,

@@ -23,7 +23,7 @@ class FlightApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fi
         CHECKOUT_UNKNOWN_ERROR,
         CHECKOUT_PAYMENT_FAILED,
         CHECKOUT_SESSION_TIMEOUT,
-        CHECKOUT_TRIP_ALREADY_BOOKED
+        CHECKOUT_TRIP_ALREADY_BOOKED,
     }
 
     override fun dispatch(request: RecordedRequest): MockResponse {
@@ -69,6 +69,7 @@ class FlightApiMockResponseGenerator() {
             val isPassportNeeded = params["departureAirport"] == "PEN" && params["arrivalAirport"] == "KUL"
             val isReturnFlightSearch = params.containsKey("returnDate")
             val departureDate = params["departureDate"]
+            val flightNoResultsToShow = params["departureAirport"] == "SearchNoResult"
 
             val searchResponseType =
                     if (isPassportNeeded) {
@@ -167,6 +168,7 @@ class FlightApiMockResponseGenerator() {
                 FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_SESSION_TIMEOUT -> "checkout_session_timeout"
 
                 FlightApiRequestDispatcher.SearchResponseType.CHECKOUT_TRIP_ALREADY_BOOKED -> "checkout_trip_already_booked"
+
             }
 
             if (isEarnResponse) {

@@ -81,6 +81,12 @@
                     android:layout_below="@id/tabs"
                     android:background="@color/transparent" />
 
+                <com.expedia.bookings.presenter.rail.RailSearchWidget
+                    android:id="@+id/rail_search_widget"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tabs" />
+
                 <Button
                     android:id="@id/search_btn"
                     android:layout_width="match_parent"
@@ -89,7 +95,7 @@
                     android:background="@color/rail_primary_color"
                     android:padding="18dp"
                     android:text="@string/search"
-                    android:textColor="@color/text_light_gray"
+                    android:textColor="@color/white_disabled"
                     android:textSize="18sp" />
             </RelativeLayout>
         </ScrollView>

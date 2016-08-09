@@ -31,6 +31,8 @@
                 android:layout_height="?attr/actionBarSize"
                 android:background="?attr/primary_color"
                 app:layout_collapseMode="pin"
+                app:contentInsetEnd = "16dp"
+                app:contentInsetRight= "16dp"
                 app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
                 app:titleTextAppearance="@style/ToolbarTitleTextAppearance">
 

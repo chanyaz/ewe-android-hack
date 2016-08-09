@@ -37,6 +37,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
@@ -185,6 +186,9 @@ public class PointOfSale {
 	private boolean isSWPEnabledForHotels;
 	private boolean isEarnMessageEnabledForHotels;
 	private boolean isEarnMessageEnabledForFlights;
+
+	// 7407 - Should show package deal variation otherwise different messaging
+	private boolean showPackageFreeUnrealDeal;
 
 	private boolean mRequiresLXPostalCode;
 	private boolean mRequiresCarsPostalCode;
@@ -725,6 +729,10 @@ public class PointOfSale {
 		return mSupportsVipAccess;
 	}
 
+	public boolean shouldShowFreeUnrealDeal() {
+		return showPackageFreeUnrealDeal;
+	}
+
 	public boolean shouldShowRewards() {
 		return mShouldShowRewards;
 	}
@@ -839,8 +847,14 @@ public class PointOfSale {
 			text.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
 			text.setSpan(new UnderlineSpan(), start, end, 0);
 		}
-
 		return text;
+	}
+
+	public CharSequence getColorizedFlightBookingStatement(int color) {
+		if (!TextUtils.isEmpty(getPosLocale().getFlightBookingStatement())) {
+			return StrUtils.getSpannableTextByColor(getPosLocale().getFlightBookingStatement(), color, false);
+		}
+		return "FAIL FAIL FAIL LOC NEEDED: flightBookingStatement";
 	}
 
 	public int getDualLanguageId() {
@@ -1180,6 +1194,7 @@ public class PointOfSale {
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);
 		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
+		pos.showPackageFreeUnrealDeal = data.optBoolean("showPackageFreeUnrealDeal", true);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

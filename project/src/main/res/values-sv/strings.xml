@@ -123,8 +123,6 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotell</string>
-    <!-- Label for recent searches -->
-    <string name="recent_searches">Dina senaste sökningar</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Plats för hämtning</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -144,7 +142,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Kommer snart! Vi jobbar på att lägga till enkelresor i vår kommande version.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Din sökning gav inga resultat. Prova att söka igen med andra kriterier.</string>
+    <string name="error_no_result_message">Din sökning gav inga resultat. Prova att söka igen med andra kriterier.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Din sökning gav inga resultat. Försök minska antalet filter.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -241,7 +239,7 @@
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Sparade kort</string>
     <!-- text that goes underneath the camera button for card_io -->
-    <string name="card_io_btn_text">Scanna</string>
+    <string name="card_io_btn_text">SCANNA</string>
     <!-- Card.io scan text -->
     <string name="scan_card_text">Scanna kort</string>
 
@@ -253,7 +251,7 @@
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">Förläng bokningen.</string>
     <!-- Shown to user in case the reservation timed out -->
-    <string name="reservation_time_out">Är du kvar? Sessionen har gått ut. Försök med din sökning igen.</string>
+    <string name="reservation_time_out">Är du kvar? Sessionen har gått ut. Försök göra om din sökning.</string>
     <!-- Shown to user when they try to book something already booked in new Hotels -->
     <string name="reservation_already_exists_new_hotels">Bokningen har slutförts. Kontrollera dina resor eller din e-post.</string>
     <!-- Shown to user when they try to book something already booked -->
@@ -1679,6 +1677,28 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">En &lt;a href=\"{airline_fee_url}\"&gt;flygbolagsavgift&lt;/a&gt; baserad på korttyp läggs till vid betalning. Avgiften tillkommer till totalbeloppet vid betalning.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Bankkort accepteras inte.</string>
+    <!-- Flights Sold out error screen: Select New Flight button label -->
+    <string name="flights_select_new_flight">Välj nytt flyg</string>
+    <!-- Flights Sold out error screen:- warning message -->
+    <string name="flight_sold_out_warning">Vi beklagar. Flyget är slutsålt.</string>
+    <!-- Flights Sold out error screen:- toolbar title -->
+    <string name="flight_sold_out_toolbar_title">Slutsålt</string>
+    <!-- Flight Unavailable error screen:- toolbar title -->
+    <string name="flight_unavailable_toolbar_title">Flyg ej tillgängligt</string>
+    <!-- Flight Unavailable error screen:- warning -->
+    <string name="flight_unavailable_warning">Vi beklagar. Flyget är inte längre tillgängligt</string>
+    <!-- Flight Session expired error screen:- warning -->
+    <string name="flight_session_expired_warning">Är du kvar? Sessionen har gått ut. Försök göra om din sökning.</string>
+    <!-- Flight Session expired error screen:- toolbar title -->
+    <string name="flight_session_expired_toolbar_title">Sessionen löpte ut</string>
+    <!-- Flight Session expired error screen:- new search button label -->
+    <string name="flight_new_search">Ny sökning</string>
+    <!-- Flights unknown error screen:- title -->
+    <string name="flight_generic_error_title">Det uppstod ett fel</string>
+    <!-- Flights unknown error screen:- warning -->
+    <string name="flight_error_try_again_warning">Oj då. Vi gör ett nytt försök.</string>
+    <!-- Flights unknown error screen:- retry button label -->
+    <string name="flight_error_retry">Försök igen</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1808,6 +1828,9 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Välj incheckningsdatum</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
+    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
+
     <string name="room_with_guests_TEMPLATE">1 rum, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Gratis avbokning fram till {date}</string>
 
@@ -1902,7 +1925,10 @@
     <string name="select_payment_callout">Ange uppgifter</string>
     <!-- Add new card -->
     <string name="add_new_card">Lägg till nytt kort</string>
+    <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Nytt bankkort/kreditkort</string>
+    <!-- New Credit card toolbar title shown on payment form -->
+    <string name="new_credit_card">Nytt kreditkort</string>
     <!-- Overview button -->
     <string name="overview_btn">Översikt</string>
     <!-- Stored Payment label -->
@@ -2059,7 +2085,10 @@
     <string name="ab_test_flights_free_cancellation">Gratis avbokning inom 24 timmar</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">Ange resenärens uppgifter</string>
-
+    <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
+    <string name="brand_account_cont_desc_TEMPLATE">{brand}-konto</string>
+    <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
+    <string name="signed_in_account_cont_desc_TEMPLATE">Inloggad som {email}</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
     <string name="travelers">Resenärer</string>
@@ -3978,8 +4007,19 @@
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Söker efter hotell i {destination} från {startdate} till {enddate} för {guests}. Vänta</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">Du har valt {hotel} från {startdate} till {enddate} för {guests}. {expandstate} hotellinformation.</string>
-    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
-    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. {expandstate} flyginformation.</string>
+    <!-- Bundle Overview flight card accessibility content description after search completed Eg. Search completed. Select a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button -->
+    <string name="select_flight_cont_desc_TEMPLATE">Sökning slutförd. Välj flyg till {flight} {date} för {travelers}. Knapp</string>
+    <!-- Bundle Overview flight card accessibility content description while searching Eg. Searching for a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please wait -->
+    <string name="select_flight_searching_cont_desc_TEMPLATE">Söker efter flyg till {flight} {date} för {travelers}. Vänta</string>
+    <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">Du har valt flyg till {flight} {datetraveler}. {expandstate} flyginformation.</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">Flyg till {flight} {date} för {travelers}. Välj {previous} först. Knapp inaktiverad.</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
+    <string name="select_flight_disabled_choose_outbound">Utreseflyg</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
+    <string name="select_flight_disabled_choose_hotel">Hotell</string>
+
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Välj hotell i %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4017,11 +4057,17 @@
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
     <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} till {arrivaltime}</string>
+    <!-- Carrier name and code when flight operated by different carrier e.g. Operated by Alaska Airlines (AS) -->
+    <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">Trafikeras av {operatingairlinename} ({operatingairlinecode})</string>
+    <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
+    <string name="flight_operated_by_carrier_name_only_TEMPLATE">Trafikeras av {operatingairlinename}</string>
 
     <!-- Select flight to template -->
     <string name="select_flight_to">Välj flyg till %1$s</string>
     <!-- Flight to template -->
     <string name="flight_to">Flyg till %1$s</string>
+    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
+    <string name="flight_to_card_TEMPLATE">Flyg till ({airportcode}) {airportcity}</string>
     <!-- Select return flight -->
     <string name="select_return_flight">Välj returflyg</string>
     <!-- Flight overview - flight to template -->
@@ -4084,7 +4130,11 @@
     <string name="pwp_total_due_today_TEMPLATE">Totalt att betala idag:</string>
 
     <!-- Package Flight Overview -->
-    <string name="package_flight_overview_urgency_message_TEMPLATE">{seats} platser kvar</string>
+    <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
+    <plurals name="package_flight_overview_urgency_message_TEMPLATE">
+        <item quantity="one">{seats} plats kvar</item>
+        <item quantity="other">{seats} platser kvar</item>
+    </plurals>
     <string name="package_flight_overview_baggage_fees">Information om bagageavgifter</string>
     <string name="package_flight_overview_select_flight">Välj detta flyg</string>
     <string name="package_flight_overview_bundle_total_label">Paket totalt</string>
@@ -4139,6 +4189,18 @@
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Totalbelopp</string>
+
+    <!-- Label for the tab on fare rules/amenities screen -->
+    <string name="fare_rules">Prisregler</string>
+
+    <!-- Label for no segment amenities amenities screen -->
+    <string name="no_amenities">Inga bekvämligheter</string>
+
+    <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
+    <string name="rail_station_info_TEMPLATE">{departure} till {arrival}</string>
+
+    <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Vi har tyvärr stött på ett problem med vår server. Försök igen.</string>
     <string name="pwp_trip_service_error">Vi har tyvärr stött på ett problem med vår server. Försök igen.</string>
@@ -4310,6 +4372,7 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/dag</string>
     <string name="insurance_price_per_person">/person</string>
+
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Rankat {rating} av 5</string>
     <!--LX accessibility -->

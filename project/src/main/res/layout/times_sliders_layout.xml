@@ -1,67 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/slider_container"
+<LinearLayout android:id="@+id/slider_container"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
-    android:paddingBottom="12dp"
-    android:paddingTop="12dp">
+    android:orientation="vertical"
+    android:padding="@dimen/temporary_medium_padding">
 
-    <TextView
-        android:id="@+id/pickup_time_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/depart_time_slider"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@id/depart_time_slider"
-        android:layout_toLeftOf="@id/depart_time_slider"
-        android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:text="@string/rail_departing_at"
-        android:textColor="@color/defaultTextColor"
-        android:textSize="12sp" />
-
-    <com.expedia.bookings.widget.TimeSlider
-        android:id="@id/depart_time_slider"
+    <LinearLayout android:id="@+id/depart_slider_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/return_time_slider"
-        android:layout_alignParentTop="true"
-        android:layout_marginBottom="4dp"
-        android:max="47"
-        android:maxHeight="6dp"
-        android:progressDrawable="@drawable/cars_slider_progress"
-        app:slider_color="@color/rail_primary_color"
-        app:slider_text_color="@color/white"
-        app:slider_track_color="@color/rail_primary_color" />
-
-    <TextView
-        android:id="@+id/dropoff_time_title"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@id/return_time_slider"
-        android:layout_alignParentLeft="true"
-        android:layout_alignTop="@id/return_time_slider"
-        android:layout_marginRight="5dp"
         android:gravity="center_vertical"
-        android:paddingLeft="16dp"
-        android:text="@string/rail_returning_at"
-        android:textColor="@color/defaultTextColor"
-        android:textSize="12sp" />
+        android:paddingBottom="@dimen/temporary_medium_padding">
+        <TextView
+            android:id="@+id/depart_time_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="@dimen/temporary_small_padding"
+            android:text="@string/rail_departing_at"
+            android:textColor="@color/defaultTextColor"
+            android:textSize="@dimen/temporary_font_size_small" />
 
-    <com.expedia.bookings.widget.TimeSlider
-        android:id="@id/return_time_slider"
+        <com.expedia.bookings.widget.TimeSlider
+            android:id="@+id/depart_time_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="47"
+            android:maxHeight="6dp"
+            android:progressDrawable="@drawable/cars_slider_progress"
+            app:slider_color="@color/rail_primary_color"
+            app:slider_text_color="@color/white"
+            app:slider_track_color="@color/rail_primary_color" />
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/return_slider_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/depart_time_slider"
-        android:layout_marginTop="4dp"
-        android:layout_toRightOf="@id/dropoff_time_title"
-        android:max="47"
-        android:maxHeight="6dp"
-        android:progressDrawable="@drawable/cars_slider_progress"
-        app:slider_color="@color/rail_primary_color"
-        app:slider_text_color="@color/white"
-        app:slider_track_color="@color/rail_primary_color" />
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/return_time_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="@dimen/temporary_small_padding"
+            android:layout_alignParentLeft="true"
+            android:text="@string/rail_returning_at"
+            android:textColor="@color/defaultTextColor"
+            android:textSize="@dimen/temporary_font_size_small" />
 
-</RelativeLayout>
+        <com.expedia.bookings.widget.TimeSlider
+            android:id="@+id/return_time_slider"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/return_time_title"
+            android:max="47"
+            android:maxHeight="6dp"
+            android:progressDrawable="@drawable/cars_slider_progress"
+            app:slider_color="@color/rail_primary_color"
+            app:slider_text_color="@color/white"
+            app:slider_track_color="@color/rail_primary_color" />
+    </LinearLayout>
+</LinearLayout>

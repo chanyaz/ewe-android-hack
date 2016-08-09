@@ -96,7 +96,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		// move to Flight/common screen
 		PackageScreen.checkout().perform(click());
 
-		assertInsuranceIsAvailable();
+		assertInsuranceIsVisible();
 		PackageScreen.showInsuranceBenefits();
 		assertInsuranceBenefits();
 		PackageScreen.showInsuranceTerms();
@@ -111,14 +111,16 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.enterLastName("Gudjohnsen");
 		PackageScreen.enterPhoneNumber("4155554321");
 		PackageScreen.selectBirthDate(1989, 6, 9);
-
 		PackageScreen.selectGender("Male");
-
 		PackageScreen.clickTravelerAdvanced();
 		PackageScreen.enterRedressNumber("1234567");
-
 		PackageScreen.clickTravelerDone();
-		PackageScreen.enterPaymentInfo();
+
+		PackageScreen.clickPaymentInfo();
+		assertInsuranceIsNotVisible();
+		PackageScreen.enterCreditCard();
+		PackageScreen.completePaymentForm();
+		PackageScreen.clickPaymentDone();
 
 		PackageScreen.clickLegalInformation();
 		assertLegalInformation();
@@ -313,7 +315,11 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		onView(withId(R.id.insurance_title)).check(matches(withText("Your trip is protected for $19/person")));
 	}
 
-	private void assertInsuranceIsAvailable() {
+	private void assertInsuranceIsNotVisible() {
+		onView(withId(R.id.insurance_widget)).check(matches(not(isDisplayed())));
+	}
+
+	private void assertInsuranceIsVisible() {
 		onView(withId(R.id.insurance_widget)).check(matches(isDisplayed()));
 	}
 

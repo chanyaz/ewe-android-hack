@@ -12,15 +12,22 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.BundlePriceViewModel
+import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
+import java.math.BigDecimal
 
 class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
@@ -55,7 +62,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         val builder = AlertDialog.Builder(context)
         builder.setView(breakdown)
         builder.setTitle(R.string.cost_summary)
-        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss()})
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss() })
         builder.create()
     }
 
@@ -68,7 +75,11 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
             // We want to show cost breakdown ONLY in checkout screen. We set the rightDrawable only when createTrip returns. So let's check
             if (bundleTotalText.compoundDrawables[2] != null) {
                 dialog.show()
-                PackagesTracking().trackBundleOverviewCostBreakdownClick()
+                if (breakdown.viewmodel is FlightCostSummaryBreakdownViewModel) {
+                    FlightsV2Tracking.trackFlightCostBreakdownClick()
+                } else if (breakdown.viewmodel is PackageCostSummaryBreakdownViewModel) {
+                    PackagesTracking().trackBundleOverviewCostBreakdownClick()
+                }
             }
         }
     }
@@ -89,6 +100,17 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
             bundleTotalText.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
         }
 
+    }
+
+    fun resetPriceWidget() {
+        this.visibility = View.VISIBLE
+
+        val countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
+        val currencyCode = CurrencyUtils.currencyForLocale(countryCode)
+        viewModel.total.onNext(Money(BigDecimal("0.00"), currencyCode))
+        viewModel.savings.onNext(Money(BigDecimal("0.00"), currencyCode))
+        toggleBundleTotalCompoundDrawable(false)
+        viewModel.savingsPriceObservable.onNext("")
     }
 
     fun animateBundleWidget(f: Float, forward: Boolean) {
@@ -112,5 +134,27 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         bundleChevron.pivotX = bundleChevron.width / 2f
         bundleChevron.pivotY = bundleChevron.height / 2f
         bundleChevron.rotation = if (forward) f * 180 else (1 - f) * 180
+    }
+
+    fun disable() {
+        bundleChevron.alpha = .5f
+        bundleTotalPrice.alpha = .5f
+        bundleTotalIncludes.alpha = .5f
+        bundleSavings.alpha = .5f
+        bundleTotalText.alpha = .5f
+        perPersonText.alpha = .5f
+        bundleTitle.alpha = .5f
+        bundleSubtitle.alpha = .5f
+    }
+
+    fun enable() {
+        bundleChevron.alpha = 1f
+        bundleTotalPrice.alpha = 1f
+        bundleTotalIncludes.alpha = 1f
+        bundleSavings.alpha = 1f
+        bundleTotalText.alpha = 1f
+        perPersonText.alpha = 1f
+        bundleTitle.alpha = 1f
+        bundleSubtitle.alpha = 1f
     }
 }

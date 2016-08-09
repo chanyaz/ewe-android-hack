@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.responses.LegOption
+import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RailViewModel
@@ -17,14 +17,14 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
-class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSubject<LegOption>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSubject<RailLegOption>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     val LEG_VIEW = 0
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
     val resultsSubject = BehaviorSubject.create<RailSearchResponse>()
 
-    private var legs: List<LegOption> = emptyList()
+    private var legs: List<RailLegOption> = emptyList()
 
     init {
         resultsSubject.subscribe { response ->
@@ -81,7 +81,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
             viewModel = RailViewModel(root.context)
         }
 
-        fun bind(leg: LegOption) {
+        fun bind(leg: RailLegOption) {
             viewModel.legOptionObservable.onNext(leg)
 
             viewModel.priceObservable.subscribeText(priceView)

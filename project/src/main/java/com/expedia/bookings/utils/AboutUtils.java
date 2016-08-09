@@ -1,6 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.io.IOException;
 import java.util.List;
 
 import android.app.Activity;
@@ -20,18 +19,15 @@ import android.support.v4.app.DialogFragment;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AboutWebViewActivity;
-import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.activity.OpenSourceLicenseWebViewActivity;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.DomainAdapter;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.HtmlUtils;
-import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
@@ -99,26 +95,7 @@ public class AboutUtils {
 
 	public void openOpenSourceLicenses() {
 		OmnitureTracking.trackClickOpenSourceLicenses();
-
-		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(mActivity);
-
-		String license = GoogleApiAvailability.getInstance().getOpenSourceSoftwareLicenseInfo(mActivity);
-		String gps = "";
-		if (license != null) {
-			gps = "<h3>Google Play Services</h3>\n<pre>\n" + HtmlUtils.escape(license) + "</pre>\n";
-		}
-		String html;
-		try {
-			html = IoUtils.convertStreamToString(mActivity.getAssets().open("open_source_licenses.html"))
-					.replace("{gps}", gps);
-		}
-		catch (IOException e) {
-			html = HtmlUtils.wrapInHeadAndBody(gps);
-		}
-
-		builder.setHtmlData(html);
-
-		mActivity.startActivity(builder.getIntent());
+		mActivity.startActivity(OpenSourceLicenseWebViewActivity.createIntent(mActivity));
 	}
 
 	public void rateApp() {

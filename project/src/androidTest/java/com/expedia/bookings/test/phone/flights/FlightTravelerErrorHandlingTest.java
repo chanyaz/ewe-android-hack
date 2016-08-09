@@ -71,6 +71,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		closeDialog();
 
 		BillingAddressScreen.clickNextButton();
+		FlightsTravelerInfoScreen.selectGender("Male");
 		FlightsTravelerInfoScreen.clickDoneButton();
 
 		/*
@@ -145,6 +146,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 		closeDialog();
 
 		BillingAddressScreen.clickNextButton();
+		FlightsTravelerInfoScreen.selectGender("Male");
 		FlightsTravelerInfoScreen.clickDoneButton();
 
 		//Common.pressBack();
@@ -191,6 +193,7 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 
 	private void completeCheckout() {
 		BillingAddressScreen.clickNextButton();
+		FlightsTravelerInfoScreen.selectGender("Male");
 		FlightsTravelerInfoScreen.clickDoneButton();
 
 		CommonCheckoutScreen.clickSelectPaymentButton();

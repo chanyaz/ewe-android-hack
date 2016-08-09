@@ -53,7 +53,7 @@ public class EndpointProvider {
 
 	public String getShortlyEndpointUrl() {
 		if (BuildConfig.RELEASE) {
-			return "http://" + ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl();
+			return "https://" + ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl();
 		}
 
 		// Mock Server if enabled
@@ -62,7 +62,7 @@ public class EndpointProvider {
 			return getE3EndpointUrl();
 		}
 
-		return "http://" + ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl();
+		return "https://" + ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl();
 	}
 
 	public String getAbacusEndpointUrl() {

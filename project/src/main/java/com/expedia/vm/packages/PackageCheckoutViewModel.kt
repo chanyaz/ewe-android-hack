@@ -1,24 +1,25 @@
 package com.expedia.vm.packages
 
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import android.text.Html
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.BookingSuppressionUtils
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
-import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
 class PackageCheckoutViewModel(context: Context, val packageServices: PackageServices) : BaseCheckoutViewModel(context) {
@@ -51,7 +52,6 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.billingInfo.email
         }
-
     }
 
     fun makeCheckoutResponseObserver(): Observer<PackageCheckoutResponse> {
@@ -100,7 +100,19 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             }
 
             override fun onError(e: Throwable) {
-                throw OnErrorNotImplementedException(e)
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() {
+                        val params = checkoutParams.value
+                        packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
+                    }
+                    val cancelFun = fun() {
+                        builder.cvv(null)
+                        val activity = context as AppCompatActivity
+                        activity.onBackPressed()
+                        notNetworkObservable.onNext(Unit)
+                    }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                }
             }
 
             override fun onCompleted() {

@@ -1,6 +1,8 @@
 package com.expedia.vm.test.rail
 
 import android.app.Activity
+import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
+import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.rail.RailFareRulesViewModel
@@ -72,7 +74,7 @@ class RailFareRulesViewModelTest {
         assertEquals("Refundable 2", fareRules[3])
     }
 
-    private fun buildRailOfferWithRefundableRulesAndFareNotes(): RailSearchResponse.RailOffer {
+    private fun buildRailOfferWithRefundableRulesAndFareNotes(): RailOffer {
         val offer = buildRailOfferWithFareNotesOnly()
         offer.railProductList[0].refundableRules = ArrayList<String>()
         offer.railProductList[0].refundableRules.add("Refundable 1")
@@ -81,23 +83,23 @@ class RailFareRulesViewModelTest {
         return offer
     }
 
-    private fun buildRailOfferWithFareNotesOnly(): RailSearchResponse.RailOffer {
-        var offer = RailSearchResponse.RailOffer()
+    private fun buildRailOfferWithFareNotesOnly(): RailOffer {
+        var offer = RailOffer()
 
-        var product = RailSearchResponse.RailOffer.RailSearchProduct()
+        var product = RailProduct()
         product.fareNotes = ArrayList<String>()
         product.fareNotes.add("Fare note 1")
         product.fareNotes.add("Fare note 2")
-        offer.railProductList = ArrayList<RailSearchResponse.RailOffer.RailSearchProduct>()
+        offer.railProductList = ArrayList<RailProduct>()
         offer.railProductList.add(product)
 
         return offer
     }
 
-    private fun buildRailOfferWithNoFareRules(): RailSearchResponse.RailOffer {
-        var offer = RailSearchResponse.RailOffer()
-        offer.railProductList = ArrayList<RailSearchResponse.RailOffer.RailSearchProduct>()
-        offer.railProductList.add(RailSearchResponse.RailOffer.RailSearchProduct())
+    private fun buildRailOfferWithNoFareRules(): RailOffer {
+        var offer = RailOffer()
+        offer.railProductList = ArrayList<RailProduct>()
+        offer.railProductList.add(RailProduct())
         return offer
     }
 }

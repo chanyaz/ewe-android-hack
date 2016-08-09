@@ -39,6 +39,7 @@ public class LXCheckoutSummaryWidgetTest {
 		assertEquals("Tue, Feb 24", date.getText());
 		assertEquals("3 Adults, 1 Child", groupText.getText());
 		assertEquals("$500", tripTotal.getText());
+		assertEquals("$500. Press to see cost summary for your activity selection", tripTotal.getContentDescription());
 		assertEquals(View.VISIBLE, freeCancellation.getVisibility());
 	}
 }

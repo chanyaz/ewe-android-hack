@@ -57,6 +57,20 @@ class TravelerTSAViewModelTest {
     }
 
     @Test
+    fun testUpdateTravelerGenderErrorReset() {
+        tsaVM = TravelerTSAViewModel(activity)
+        val testSubscriber = TestSubscriber<Boolean>(1)
+        tsaVM.genderErrorSubject.subscribe(testSubscriber)
+        tsaVM.genderErrorSubject.onNext(true)
+
+        tsaVM.updateTraveler(traveler)
+
+        assertEquals(true, testSubscriber.onNextEvents[0])
+        assertEquals(false, testSubscriber.onNextEvents[1],
+                "Gender error needs to be reset upon updating traveler, Mingle #7645")
+    }
+
+    @Test
     fun testBirthDatePrePopulated() {
         traveler.birthDate = TEST_BIRTH_DATE
         tsaVM = TravelerTSAViewModel(activity)

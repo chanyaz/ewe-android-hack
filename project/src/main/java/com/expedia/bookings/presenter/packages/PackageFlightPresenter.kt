@@ -31,16 +31,12 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.AbstractFlightOverviewViewModel
+import com.expedia.vm.packages.FlightOverviewViewModel
 
 class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
 
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
-
-    init {
-        toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
-            menuFilter.isVisible = if (showMenu) true else false
-        }
-    }
 
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->
         val params = Db.getPackageParams()
@@ -54,10 +50,55 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         params.selectedLegId = flight.departureLeg
         params.packagePIID = flight.packageOfferModel.piid
         bundleSlidingWidget.updateBundleViews(Constants.PRODUCT_FLIGHT)
+        val response = Db.getPackageResponse()
+        response.packageResult.currentSelectedOffer = flight.packageOfferModel
 
         val activity = (context as AppCompatActivity)
         activity.setResult(Activity.RESULT_OK)
         activity.finish()
+    }
+
+    init {
+        toolbarViewModel.menuVisibilitySubject.subscribe { showMenu ->
+            menuFilter.isVisible = if (showMenu) true else false
+        }
+
+        View.inflate(getContext(), R.layout.package_flight_presenter, this)
+        resultsPresenter.showFilterButton = false
+        val activity = (context as AppCompatActivity)
+        val intent = activity.intent
+        if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
+            val params = Db.getPackageParams()
+            params.selectedLegId = null
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE))
+        } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
+            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE))
+        }
+
+        bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)
+        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
+        val bestPlusAllFlights = Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
+
+        // move bestFlight to the first place of the list
+        val bestFlight = bestPlusAllFlights.find { it.isBestFlight }
+        val allFlights = bestPlusAllFlights.filterNot { it.isBestFlight }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount }.toMutableList()
+
+        allFlights.add(0, bestFlight)
+        val flightListAdapter = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject, Db.getPackageParams().isChangePackageSearch())
+        resultsPresenter.setAdapter(flightListAdapter)
+        resultsPresenter.resultsViewModel.flightResultsObservable.onNext(allFlights)
+        if (!isOutboundResultsPresenter() && Db.getPackageSelectedOutboundFlight() != null) {
+            resultsPresenter.outboundFlightSelectedSubject.onNext(Db.getPackageSelectedOutboundFlight())
+        }
+        val numTravelers = Db.getPackageParams().guests
+        overviewPresenter.vm.numberOfTravelers.onNext(numTravelers)
+        overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
+        var cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.shortName as String else Db.getPackageParams().origin?.regionNames?.shortName as String
+        toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
+        toolbarViewModel.city.onNext(cityBound)
+        toolbarViewModel.travelers.onNext(numTravelers)
+        toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().startDate else Db.getPackageParams().endDate)
+        trackFlightResultsLoad()
     }
 
 
@@ -100,49 +141,15 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         }
     }
 
+    override fun makeFlightOverviewModel(): AbstractFlightOverviewViewModel {
+        return FlightOverviewViewModel(context)
+    }
+
     private fun addBackFlowTransition() {
         addDefaultTransition(backFlowDefaultTransition)
         addTransition(backFlowOverviewTransition)
         show(resultsPresenter)
         show(overviewPresenter)
-    }
-
-    init {
-        View.inflate(getContext(), R.layout.package_flight_presenter, this)
-        resultsPresenter.showFilterButton = false
-        val activity = (context as AppCompatActivity)
-        val intent = activity.intent
-        if (intent.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
-            val params = Db.getPackageParams()
-            params.selectedLegId = null
-            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_OUTBOUND_FLIGHT_FILE))
-        } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
-            Db.setPackageResponse(PackageResponseUtils.loadPackageResponse(context, PackageResponseUtils.RECENT_PACKAGE_INBOUND_FLIGHT_FILE))
-        }
-
-        bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_FLIGHT)
-        val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
-        val bestPlusAllFlights = Db.getPackageResponse().packageResult.flightsPackage.flights.filter { it.outbound == isOutboundSearch && it.packageOfferModel != null }
-
-        // move bestFlight to the first place of the list
-        val bestFlight = bestPlusAllFlights.find { it.isBestFlight }
-        val allFlights = bestPlusAllFlights.filterNot { it.isBestFlight }.sortedBy { it.packageOfferModel.price.packageTotalPrice.amount }.toMutableList()
-
-        allFlights.add(0, bestFlight)
-        val flightListAdapter = PackageFlightListAdapter(context, resultsPresenter.flightSelectedSubject, Db.getPackageParams().isChangePackageSearch())
-        resultsPresenter.setAdapter(flightListAdapter)
-        resultsPresenter.resultsViewModel.flightResultsObservable.onNext(allFlights)
-        if (!isOutboundResultsPresenter() && Db.getPackageSelectedOutboundFlight() != null) {
-            resultsPresenter.outboundFlightSelectedSubject.onNext(Db.getPackageSelectedOutboundFlight())
-        }
-        overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOverviewSelected)
-        var cityBound: String = if (isOutboundResultsPresenter()) Db.getPackageParams().destination?.regionNames?.shortName as String else Db.getPackageParams().origin?.regionNames?.shortName as String
-        val numTravelers = Db.getPackageParams().guests
-        toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
-        toolbarViewModel.city.onNext(cityBound)
-        toolbarViewModel.travelers.onNext(numTravelers)
-        toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().startDate else Db.getPackageParams().endDate)
-        trackFlightResultsLoad()
     }
 
     override fun isOutboundResultsPresenter(): Boolean = Db.getPackageParams()?.isOutboundSearch() ?: false
@@ -190,7 +197,16 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         addTransition(resultsToOverview)
         bundleSlidingWidget.bundleOverViewWidget.outboundFlightWidget.rowContainer.setOnClickListener {
             if (isShowingBundle()) {
-                back()
+                val outBoundFlightWidget = bundleSlidingWidget.bundleOverViewWidget.outboundFlightWidget
+                if (isOutboundResultsPresenter()) {
+                    backToOutboundResults()
+                } else {
+                    if (!outBoundFlightWidget.isFlightSegmentDetailsExpanded()) {
+                        outBoundFlightWidget.expandFlightDetails()
+                    } else {
+                        outBoundFlightWidget.collapseFlightDetails()
+                    }
+                }
             }
         }
         bundleSlidingWidget.bundleOverViewWidget.inboundFlightWidget.rowContainer.setOnClickListener {
@@ -229,10 +245,6 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun trackShowPaymentFees() {
         // do nothing. Not applicable to Packages LOB
-    }
-
-    override fun shouldShowBundlePrice(): Boolean {
-        return true
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {

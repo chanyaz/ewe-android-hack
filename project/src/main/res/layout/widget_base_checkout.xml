@@ -11,12 +11,14 @@
         <com.expedia.bookings.widget.TextView
             android:id="@+id/card_processing_fee"
             style="@style/FlightWarningBar"
+            android:singleLine="true"
             android:visibility="gone" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flights_debit_cards_not_accepted"
             style="@style/FlightWarningBar"
             android:text="@string/flights_debit_cards_not_accepted"
+            android:singleLine="true"
             android:visibility="gone" />
 
         <com.expedia.bookings.widget.FrameLayout
@@ -136,7 +138,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/card_view_container_margin"
                     android:layout_marginRight="@dimen/card_view_container_margin"
-                    android:layout_marginTop="12dp"
+                    android:layout_marginTop="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:layout_width="match_parent"
                     android:visibility="gone"/>
 
@@ -144,21 +148,26 @@
                     android:id="@+id/legal_information_text_view"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/card_view_container_margin"
+                    android:layout_marginLeft="12dp"
                     android:layout_marginRight="@dimen/card_view_container_margin"
+                    android:layout_marginTop="16dp"
                     android:linksClickable="true"
-                    android:paddingBottom="16dp"
-                    android:paddingTop="16dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:textColor="@color/defaultTextColor"
                     android:textSize="10sp" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/disclaimer_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/card_view_container_margin"
+                    android:layout_marginLeft="12dp"
                     android:layout_marginRight="@dimen/card_view_container_margin"
-                    android:paddingBottom="16dp"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:textSize="10sp"
+                    android:textColor="@color/defaultTextColor"
                     android:visibility="gone" />
 
 
@@ -166,18 +175,27 @@
                     android:id="@+id/deposit_policy_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/card_view_container_margin"
+                    android:layout_marginLeft="12dp"
                     android:layout_marginRight="@dimen/card_view_container_margin"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
                     android:textSize="10sp"
+                    android:textColor="@color/defaultTextColor"
                     android:visibility="gone" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/card_fee_warning_text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/card_view_container_margin"
+                    android:layout_marginLeft="12dp"
                     android:layout_marginRight="@dimen/card_view_container_margin"
+                    android:layout_marginTop="5dp"
+                    android:paddingLeft="8dp"
+                    android:paddingRight="8dp"
+                    android:paddingBottom="10dp"
                     android:textSize="10sp"
+                    android:textColor="@color/defaultTextColor"
                     android:visibility="gone" />
 
             </LinearLayout>
