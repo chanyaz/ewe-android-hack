@@ -49,7 +49,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         }
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
-            getParamsBuilder().isRoundTrip = isRoundTripSearch
+            getParamsBuilder().roundTrip(isRoundTripSearch)
             getParamsBuilder().maxStay = getMaxSearchDurationDays()
             if (datesObservable.value != null && datesObservable.value.first != null) {
                 val cachedEndDate = cachedEndDateObservable.value
@@ -170,6 +170,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
 
     val deeplinkFlightSearchParamsObserver = endlessObserver<com.expedia.bookings.data.FlightSearchParams> { searchParams ->
         //Setup the viewmodel according to the provided params
+        isRoundTripSearchObservable.onNext(searchParams.isRoundTrip)
         datesObserver.onNext(Pair(searchParams.departureDate, searchParams.returnDate))
         val departureSuggestion = FlightsV2DataUtil.getSuggestionFromDeeplinkLocation(searchParams.departureLocation?.destinationId)
         if (departureSuggestion != null) {
