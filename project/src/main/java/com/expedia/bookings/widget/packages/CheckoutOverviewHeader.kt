@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.packages
 
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
@@ -38,8 +39,8 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
         vm.travelersTitle.subscribeText(travelers)
         vm.url.subscribe { urls ->
             PicassoHelper.Builder(context)
-                    .setPlaceholder(R.drawable.room_fallback)
-                    .setError(R.drawable.room_fallback)
+                    .setPlaceholder(R.drawable.confirmation_background)
+                    .setError(R.drawable.confirmation_background)
                     .setTarget(picassoTarget)
                     .build()
                     .load(urls)
@@ -52,20 +53,7 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
 
             val drawable = HeaderBitmapDrawable()
             drawable.setBitmap(bitmap)
-
-            var textColor: Int
-            if (!mIsFallbackImage) {
-                // only apply gradient treatment to hotels with images #5647
-                val fullColorBuilder = ColorBuilder(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
-                val gradientColor = fullColorBuilder.setAlpha(230).build()
-                val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
-                drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))
-                textColor = ContextCompat.getColor(context, R.color.itin_white_text);
-            } else {
-                textColor = ContextCompat.getColor(context, R.color.text_black)
-            }
-            destinationText.setTextColor(textColor)
-            checkInOutDates.setTextColor(textColor)
+            applyGradient(drawable)
             checkoutHeaderImage?.setImageDrawable(drawable)
         }
 
@@ -75,15 +63,22 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
 
         override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
             super.onPrepareLoad(placeHolderDrawable)
-
-            if (placeHolderDrawable != null) {
-                checkoutHeaderImage?.setImageDrawable(placeHolderDrawable)
-
-                val textColor = ContextCompat.getColor(context, R.color.text_black)
-                destinationText.setTextColor(textColor)
-                checkInOutDates.setTextColor(textColor)
-
-            }
+            val drawable = HeaderBitmapDrawable()
+            val bitmap = (placeHolderDrawable as BitmapDrawable).bitmap
+            drawable.setBitmap(bitmap)
+            applyGradient(drawable)
+            checkoutHeaderImage?.setImageDrawable(drawable)
         }
+    }
+
+    private fun applyGradient(drawable: HeaderBitmapDrawable) {
+        val textColor = ContextCompat.getColor(context, R.color.itin_white_text)
+        // only apply gradient treatment to hotels with images #5647
+        val fullColorBuilder = ColorBuilder(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
+        val gradientColor = fullColorBuilder.setAlpha(230).build()
+        val colorArrayBottom = intArrayOf(gradientColor, gradientColor)
+        drawable.setGradient(colorArrayBottom, floatArrayOf(0f, 1f))
+        destinationText.setTextColor(textColor)
+        checkInOutDates.setTextColor(textColor)
     }
 }
