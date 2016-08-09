@@ -5,6 +5,7 @@ import android.location.Location
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.Constants
@@ -56,7 +57,8 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     private fun getNearbySuggestions(location: Location) {
         val latlong = "" + location.latitude + "|" + location.longitude;
         suggestionsService
-                .suggestNearbyV4(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().siteId, ServicesUtil.generateClient(context), shouldShowOnlyAirportNearbySuggestions())
+                .suggestNearbyV4(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().siteId, ServicesUtil.generateClient(context),
+                        getNearbyRegionType(), getNearbySortType(), getLineOfBusiness())
                 .doOnNext { nearbySuggestions ->
                     if (nearbySuggestions.size < 1) {
                         throw ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS)
@@ -142,6 +144,12 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     abstract fun getSuggestionService(query: String)
 
     abstract fun getSuggestionHistoryFile(): String
+
+    abstract fun getLineOfBusiness(): String
+
+    abstract fun getNearbyRegionType(): Int
+
+    abstract fun getNearbySortType(): String
 
     fun setCustomerSelectingOrigin(isOrigin: Boolean) {
         isCustomerSelectingOrigin = isOrigin

@@ -2,6 +2,7 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import android.location.Location
+import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.ServicesUtil
@@ -19,4 +20,16 @@ class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: Su
     }
 
     override fun shouldShowOnlyAirportNearbySuggestions(): Boolean = true
+
+    override fun getLineOfBusiness(): String {
+        return "PACKAGES"
+    }
+
+    override fun getNearbyRegionType(): Int {
+        return SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
+    }
+
+    override fun getNearbySortType(): String {
+        return "distance"
+    }
 }

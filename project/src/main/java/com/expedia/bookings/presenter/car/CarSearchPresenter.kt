@@ -73,7 +73,7 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         searchButton.subscribeOnClick(vm.searchObserver)
 
         originSuggestionViewModel = CarSuggestionAdapterViewModel(getContext(), suggestionServices, CurrentLocationObservable.create(getContext()), true, false)
-        destinationSuggestionViewModel = CarSuggestionAdapterViewModel(getContext(), suggestionServices, CurrentLocationObservable.create(getContext()), true, false)
+        destinationSuggestionViewModel = CarSuggestionAdapterViewModel(getContext(), suggestionServices, null, true, false)
         originSuggestionViewModel.setCustomerSelectingOrigin(true)
         destinationSuggestionViewModel.setCustomerSelectingOrigin(false)
         originSuggestionAdapter = CarSuggestionAdapter(originSuggestionViewModel)
