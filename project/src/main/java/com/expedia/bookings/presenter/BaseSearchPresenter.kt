@@ -40,6 +40,7 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.CalendarWidgetV2
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.ShopWithPointsWidget
@@ -227,7 +228,13 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.BACK.type) {
                 firstLaunch = false
                 com.mobiata.android.util.Ui.hideKeyboard(this@BaseSearchPresenter)
-                super.back()
+                if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                    toolbar.postDelayed(Runnable {
+                        showDefault()
+                    }, 900)
+                } else {
+                    showDefault()
+                }
             } else {
                 val activity = getContext() as AppCompatActivity
                 activity.onBackPressed()
@@ -437,6 +444,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             }
             if (!forward && doRequestA11yFocus) {
                 requestA11yFocus(isCustomerSelectingOrigin)
+            } else if ((forward || firstLaunch) && doRequestA11yFocus) {
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             }
         }
     }
