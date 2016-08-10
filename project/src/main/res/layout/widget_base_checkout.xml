@@ -191,12 +191,17 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginRight="@dimen/card_view_container_margin"
                     android:layout_marginTop="5dp"
+                    android:paddingBottom="10dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:paddingBottom="10dp"
-                    android:textSize="10sp"
                     android:textColor="@color/defaultTextColor"
+                    android:textSize="10sp"
                     android:visibility="gone" />
+
+                <Space
+                    android:id="@+id/scrollview_space"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
 
             </LinearLayout>
 
