@@ -184,7 +184,7 @@
                         android:hint="@string/expiration_date"
                         android:textSize="@dimen/traveler_input_text_size" />
 
-                    <com.expedia.bookings.widget.accessibility.AccessibleEditText
+                    <com.expedia.bookings.widget.accessibility.AccessiblePasswordEditText
                         android:id="@+id/edit_creditcard_cvv"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
@@ -195,7 +195,6 @@
                         android:imeOptions="actionNext"
                         android:inputType="numberPassword"
                         android:maxLength="4"
-                        android:contentDescription="@string/cvv_enter_security_code_v2"
                         android:nextFocusForward="@+id/edit_name_on_card"
                         android:singleLine="true"
                         android:textSize="@dimen/traveler_input_text_size" />

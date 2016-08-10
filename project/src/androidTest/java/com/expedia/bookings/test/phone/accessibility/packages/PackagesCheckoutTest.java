@@ -74,7 +74,7 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		String dateString = monthDate.toString("MM") + "/" + yearDate.toString("yy");
 		onView(withId(R.id.edit_creditcard_exp_text_btn))
 			.check(matches(withInfoText(" Expiration Date, " + dateString + ", Opens dialog")));
-		onView(withId(R.id.edit_creditcard_cvv)).check(matches(withInfoText(" CVV, 666")));
+		onView(withId(R.id.edit_creditcard_cvv)).check(matches(withInfoText(" CVV")));
 		onView(withId(R.id.edit_name_on_card)).check(matches(withInfoText(" Cardholder name, Mobiata Auto")));
 		onView(withId(R.id.edit_email_address))
 			.check(matches(withInfoText(" Email Address (for confirmation), test@email.com")));
