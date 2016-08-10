@@ -93,6 +93,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             if (!forward) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
                 travelerEntryWidget.travelerButton.dismissPopup()
+                Ui.hideKeyboard(this@TravelerPresenter)
             }
         }
 
