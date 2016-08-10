@@ -18,6 +18,7 @@ import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.widget.CarConfirmationWidget;
 import com.expedia.vm.cars.CarSearchViewModel;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
@@ -86,6 +87,7 @@ public class CarPresenter extends Presenter {
 		public void endTransition(boolean forward) {
 			carSearchPresenter.setVisibility(VISIBLE);
 			carSearchPresenter.showSuggestionState(true);
+			AccessibilityUtil.delayFocusToToolbarNavigationIcon(carSearchPresenter.getToolbar(), 300);
 		}
 	};
 
@@ -131,10 +133,16 @@ public class CarPresenter extends Presenter {
 
 		@Override
 		public void endTransition(boolean forward) {
-			carResultsPresenter.setVisibility(VISIBLE);
+			carResultsPresenter.setVisibility(forward ? GONE : VISIBLE);
 			carSearchPresenter.setVisibility(forward ? VISIBLE : GONE);
 			carResultsPresenter.animationFinalize();
 			carSearchPresenter.animationFinalize(forward);
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(carSearchPresenter.getToolbar());
+			}
+			else {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(carResultsPresenter.toolbar);
+			}
 		}
 	};
 
@@ -161,6 +169,12 @@ public class CarPresenter extends Presenter {
 			carSearchPresenter.setVisibility(forward ? GONE : VISIBLE);
 			carResultsPresenter.animationFinalize();
 			carSearchPresenter.animationFinalize(!forward);
+			if (forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(carResultsPresenter.toolbar);
+			}
+			else {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(carSearchPresenter.getToolbar());
+			}
 		}
 	};
 
