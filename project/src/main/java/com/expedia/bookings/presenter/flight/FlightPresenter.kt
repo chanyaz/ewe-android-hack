@@ -4,6 +4,7 @@ import android.animation.ArgbEvaluator
 import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
+import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -36,6 +37,7 @@ import com.expedia.vm.flights.FlightConfirmationViewModel
 import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.packages.PackageSearchType
+import com.squareup.phrase.Phrase
 import rx.Observable
 import javax.inject.Inject
 
@@ -143,8 +145,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 { outbound, inbound ->
                     val outboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(outbound.baggageFeesUrl)
                     val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
-                    val baggageFeesTextWithClickableLinks = StrUtils.generateBaggageFeesTextWithClickableLinks(context, outboundBaggageFeeUrl, inboundBaggageFeeUrl)
-                    presenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(baggageFeesTextWithClickableLinks)
+                    val baggageFeesTextFormatted = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
+                            .put("departurelink", outboundBaggageFeeUrl)
+                            .put("returnlink", inboundBaggageFeeUrl).format().toString()
+                    val baggageFeesTextWithColoredClickableLinks =
+                            StrUtils.getSpannableTextByColor(baggageFeesTextFormatted,
+                                    ContextCompat.getColor(context, R.color.flight_primary_color), true)
+                    presenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(baggageFeesTextWithColoredClickableLinks)
                 }).subscribe()
 
         inboundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.flight)
