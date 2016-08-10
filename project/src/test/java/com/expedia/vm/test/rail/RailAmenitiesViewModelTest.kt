@@ -28,17 +28,27 @@ class RailAmenitiesViewModelTest {
     }
 
     @Test
-    fun missingFareBreakdown() {
+    fun noRailProductInOffers() {
         amenitiesVM = RailAmenitiesViewModel()
-        amenitiesVM.offerObservable.onNext(buildRailOfferWithNoFareBreakdown())
+        val offer = buildRailOfferWithNoSegmentFares()
+        offer.railProductList = emptyList()
+        amenitiesVM.offerObservable.onNext(offer)
 
         assertSegmentFaresMissing(amenitiesVM.segmentAmenitiesSubject.value)
     }
 
     @Test
-    fun segmentsHavePassengerFares() {
+    fun missingSegmentFares() {
         amenitiesVM = RailAmenitiesViewModel()
-        amenitiesVM.offerObservable.onNext(buildRailOfferWithFareBreakdowns())
+        amenitiesVM.offerObservable.onNext(buildRailOfferWithNoSegmentFares())
+
+        assertSegmentFaresMissing(amenitiesVM.segmentAmenitiesSubject.value)
+    }
+
+    @Test
+    fun availableSegmentFares() {
+        amenitiesVM = RailAmenitiesViewModel()
+        amenitiesVM.offerObservable.onNext(buildRailOfferWithSegmentFares())
 
         assertSegmentFaresPopulated(amenitiesVM.segmentAmenitiesSubject.value)
     }
@@ -58,25 +68,21 @@ class RailAmenitiesViewModelTest {
         assertNull(pairs[1].second)
     }
 
-    private fun buildRailOfferWithFareBreakdowns(): RailOffer {
-        var offer = buildRailOfferWithNoFareBreakdown()
-        //quite an atrocity
-        offer.railProductList[0].fareBreakdownList = ArrayList<RailProduct.FareBreakdown>()
-        offer.railProductList[0].fareBreakdownList.add(RailProduct.FareBreakdown())
-        offer.railProductList[0].fareBreakdownList[0].passengerFareList = ArrayList<RailProduct.PassengerFare>()
-        offer.railProductList[0].fareBreakdownList[0].passengerFareList.add(RailProduct.PassengerFare())
-        offer.railProductList[0].fareBreakdownList[0].passengerFareList[0].passengerSegmentFareList = ArrayList<PassengerSegmentFare>()
+    private fun buildRailOfferWithSegmentFares(): RailOffer {
+        var offer = buildRailOfferWithNoSegmentFares()
+        val  segmentFareDetailList = ArrayList<PassengerSegmentFare>()
 
         var segmentFare1 = PassengerSegmentFare()
-        segmentFare1.travelSegmentIndex = 1;
+        segmentFare1.travelSegmentIndex = 1
         var segmentFare2 = PassengerSegmentFare()
-        segmentFare2.travelSegmentIndex = 2;
-        offer.railProductList[0].fareBreakdownList[0].passengerFareList[0].passengerSegmentFareList.add(segmentFare1)
-        offer.railProductList[0].fareBreakdownList[0].passengerFareList[0].passengerSegmentFareList.add(segmentFare2)
+        segmentFare2.travelSegmentIndex = 2
+        segmentFareDetailList.add(segmentFare1)
+        segmentFareDetailList.add(segmentFare2)
+        offer.railProductList[0].segmentFareDetailList = segmentFareDetailList
         return offer
     }
 
-    private fun buildRailOfferWithNoFareBreakdown(): RailOffer {
+    private fun buildRailOfferWithNoSegmentFares(): RailOffer {
         var legOption = buildLegOptionWithSegments()
         var offer = RailOffer()
         offer.outboundLeg = legOption
