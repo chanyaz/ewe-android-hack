@@ -187,7 +187,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         loginWidget.setListener(this)
         slideToPurchase.addSlideToListener(this)
 
-        loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), LineOfBusiness.PACKAGES)
+        loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), getLineOfBusiness())
         hintContainer.visibility = if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
         if (User.isLoggedIn(context)) {
             val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
@@ -262,7 +262,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
-            loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), LineOfBusiness.PACKAGES)
+            loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), getLineOfBusiness())
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             updateTravelerPresenter()
         }
@@ -515,11 +515,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         travelerPresenter.showSelectOrEntryState(travelerDefaultState.getStatus())
     }
 
-    abstract fun getLineOfBusiness(): LineOfBusiness
     open fun updateTravelerPresenter() {
         travelerPresenter.viewModel.refresh()
     }
 
+    abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateDbTravelers()
     abstract fun trackShowSlideToPurchase()
     abstract fun trackShowBundleOverview()
