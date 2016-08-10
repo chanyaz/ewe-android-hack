@@ -2,8 +2,12 @@ package com.expedia.bookings.fragment;
 
 import java.util.Random;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -20,7 +24,7 @@ import com.expedia.bookings.utils.NavUtils;
 import com.mobiata.android.util.Ui;
 
 public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivityLaunchFragment {
-
+	private static final int MY_PERMISSIONS_REQUEST_LOCATION = 7;
 	public static final String TAG = PhoneLaunchFragment.class.getName();
 	private boolean mLaunchingActivity = false;
 	private ImageView mSlidingImage;
@@ -61,6 +65,16 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 		actionBar.setIcon(R.drawable.ic_ab_travelocity_logo);
 		actionBar.setDisplayShowHomeEnabled(true);
 		actionBar.setElevation(0);
+
+		int permissionCheck = ContextCompat.checkSelfPermission(getActivity(),
+			Manifest.permission.ACCESS_FINE_LOCATION);
+
+		if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+
+			ActivityCompat.requestPermissions(getActivity(),
+				new String[] { Manifest.permission.ACCESS_FINE_LOCATION },
+				MY_PERMISSIONS_REQUEST_LOCATION);
+		}
 
 		return view;
 	}
