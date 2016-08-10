@@ -238,7 +238,7 @@ android {
 
         travelocity {
             buildConfigField "String", "brand", "\"Travelocity\""
-            buildConfigField "String", "MEDIA_URL", "\"http://images.trvl-media.com\""
+            buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             applicationId "com.travelocity.android"
 
             def major = 8
