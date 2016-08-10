@@ -68,7 +68,7 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 		SearchScreen.selectGuestsButton().check(matches(withContentDescription("Number of travelers. Button. Opens dialog. 1 traveler")));
 
 		SearchScreen.origin().check(matches(withContentDescription("Flying from. Button. SFO - San Francisco Intl.")));
-		SearchScreen.destination().check(matches(withContentDescription("Flying to. Button. DTW - Detroit Metropolitan Wayne County")));
+		SearchScreen.destination().check(matches(withContentDescription("Flying to. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)")));
 		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
 		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
 		SearchScreen.calendarCard().check(matches(withContentDescription("Trip dates. Button. Opens dialog. " + expectedStartDate + " to " + expectedEndDate + ". (5 nights)")));
