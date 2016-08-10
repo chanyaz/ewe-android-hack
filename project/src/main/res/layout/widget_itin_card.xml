@@ -149,7 +149,8 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerInParent="true"
                             android:gravity="center"
-                            android:orientation="vertical">
+                            android:focusable="true"
+                            android:orientation="vertical" >
 
                             <com.expedia.bookings.widget.TextView
                                 android:id="@+id/header_text_view"
@@ -175,6 +176,13 @@
                                 android:textColor="#9e9d9d"
                                 android:textSize="17sp"
                                 app:textStyle="normal" />
+
+                            <View
+                                android:id="@+id/header_itin_card_content_description_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="1dp"
+                                android:visibility="gone" />
+
                         </LinearLayout>
 
                         <com.expedia.bookings.widget.AlphaImageView
