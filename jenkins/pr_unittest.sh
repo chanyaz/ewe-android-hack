@@ -7,7 +7,7 @@ fi
 # do python scripts related setup only if we are running in CI context and a special feature requiring python setup is asked for
 if [[ $isJenkins && ("$isPRPoliceEnabled" == "true" || "$isUnitTestsFeedbackBotEnabled" == "true")]]; then
     GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
-    HIPCHAT_TOKEN=3htGpj4sE9XxUToWvWCWWmISA3op2U1roRufVjpQ
+    HIPCHAT_TOKEN=MdHG4PNWYSGD41jwF4TvVfhNADhw0NnOyGdjw3uI
 
     if [ ! -d 'virtualenv' ]; then
         virtualenv -p python2.7 virtualenv

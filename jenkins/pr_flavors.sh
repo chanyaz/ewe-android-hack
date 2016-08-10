@@ -5,7 +5,7 @@ set -e
 TERM=dumb
 
 GITHUB_TOKEN=0a1f692d47819eec1349e990240525233a12b4fd
-HIPCHAT_TOKEN=3htGpj4sE9XxUToWvWCWWmISA3op2U1roRufVjpQ
+HIPCHAT_TOKEN=MdHG4PNWYSGD41jwF4TvVfhNADhw0NnOyGdjw3uI
 
 if [ ! -d 'virtualenv' ] ; then
     virtualenv -p python2.7 virtualenv
