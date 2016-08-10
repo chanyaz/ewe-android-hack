@@ -57,6 +57,10 @@ object AccessibilityUtil {
             }, delayMillis)
         }
     }
+
+    @JvmStatic fun appendRoleContDesc(view: View, string: String, roleResId: Int) {
+        view.contentDescription = StringBuilder(string).append(" ").append(view.context.getString(roleResId))
+    }
 }
 
 fun View.setFocusForView() {
