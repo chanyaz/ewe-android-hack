@@ -8,9 +8,11 @@ import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
+import com.expedia.bookings.animation.AnimationListenerAdapter
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -28,11 +30,11 @@ import com.expedia.bookings.presenter.hotel.HotelReviewsView
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.PackageResponseUtils
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.PackageResponseUtils
+import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
@@ -65,7 +67,16 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val detailsMapView: MapView by bindView(R.id.details_map_view)
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
 
-    val slideDownAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_down)
+    val slideDownAnimation by lazy {
+        val anim = AnimationUtils.loadAnimation(context, R.anim.slide_down)
+        anim.duration = 500
+        anim.setAnimationListener(object : AnimationListenerAdapter() {
+            override fun onAnimationEnd(animation: Animation?) {
+                bundleSlidingWidget.visibility = GONE
+            }
+        })
+        anim
+    }
     val slideUpAnimation = AnimationUtils.loadAnimation(context, R.anim.slide_up)
 
     val resultsPresenter: PackageHotelResultsPresenter by lazy {
@@ -204,12 +215,11 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     private val hideBundlePriceOverviewObserver: Observer<Boolean> = endlessObserver { hide ->
-        bundleSlidingWidget.visibility = if (hide) {
-            bundleSlidingWidget.startAnimation(slideDownAnimation)
-            GONE
-        } else {
+        if (!hide) {
+            bundleSlidingWidget.visibility = VISIBLE
             bundleSlidingWidget.startAnimation(slideUpAnimation)
-            VISIBLE
+        } else {
+            bundleSlidingWidget.startAnimation(slideDownAnimation)
         }
     }
 

@@ -662,6 +662,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 resetListOffset()
             } else if (currentState == RecyclerView.SCROLL_STATE_SETTLING && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
                 showWithTracking(ResultsMap())
+                hideBundlePriceOverview(true)
             }
 
             if (dy > 0) {
