@@ -17,6 +17,7 @@ open class TravelerViewModel(val context: Context, val travelerIndex: Int) {
     val showPhoneNumberObservable = BehaviorSubject.create<Boolean>()
     val passportCountrySubject = BehaviorSubject.create<String>()
     val showPassportCountryObservable = BehaviorSubject.create<Boolean>()
+    val passportValidSubject = BehaviorSubject.create<Boolean>()
 
     val passportCountryObserver = endlessObserver<String> { countryCode ->
         getTraveler().primaryPassportCountry = countryCode
@@ -42,7 +43,7 @@ open class TravelerViewModel(val context: Context, val travelerIndex: Int) {
         val tsaValid = tsaViewModel.validate()
         val requiresPassport = showPassportCountryObservable.value ?: false
         val passportValid = !requiresPassport || (requiresPassport && Strings.isNotEmpty(getTraveler().primaryPassportCountry))
-
+        passportValidSubject.onNext(passportValid)
         val valid = nameValid && phoneValid && tsaValid && passportValid
         return valid
     }

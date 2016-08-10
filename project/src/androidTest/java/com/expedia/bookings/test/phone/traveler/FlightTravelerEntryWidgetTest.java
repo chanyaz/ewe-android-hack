@@ -20,7 +20,9 @@ import com.expedia.bookings.widget.FlightTravelerEntryWidget;
 import com.expedia.vm.traveler.TravelerViewModel;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
@@ -54,6 +56,7 @@ public class FlightTravelerEntryWidgetTest {
 		EspressoUtils.assertViewIsDisplayed(R.id.redress_number);
 		EspressoUtils.assertViewIsDisplayed(R.id.passport_country_spinner);
 		onView(allOf(withSpinnerText(testEmptyPassport)));
+		onView(allOf(withSpinnerText(testEmptyPassport), withCompoundDrawable(R.drawable.ic_error_blue))).check(doesNotExist());
 	}
 
 	@Test
