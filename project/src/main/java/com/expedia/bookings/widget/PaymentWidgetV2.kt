@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewStub
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.havePermissionToAccessCamera
@@ -83,7 +83,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         super.init(vm)
         Ui.getApplication(context).hotelComponent().inject(this)
         val isUserBucketedForCardIOTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHCKOCardIOTest);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M && !ExpediaBookingApp.isDeviceShitty() && isUserBucketedForCardIOTest) {
+        if (HotelUtils.isCardIoAvailable() && isUserBucketedForCardIOTest) {
             scanCardButton.visibility = View.VISIBLE
         }
     }

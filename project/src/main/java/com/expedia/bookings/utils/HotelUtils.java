@@ -21,6 +21,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -29,10 +30,10 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Sp;
-import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.ViewUtils;
@@ -321,5 +322,9 @@ public class HotelUtils {
 	public static String formattedReviewCount(int numberOfReviews) {
 		NumberFormat nf = NumberFormat.getInstance();
 		return nf.format(numberOfReviews);
+	}
+
+	public static boolean isCardIoAvailable() {
+		return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M && !ExpediaBookingApp.isDeviceShitty();
 	}
 }
