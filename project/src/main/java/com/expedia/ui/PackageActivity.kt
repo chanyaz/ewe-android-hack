@@ -7,6 +7,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
@@ -14,8 +15,10 @@ import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchType
+import java.math.BigDecimal
 
 class PackageActivity : AbstractAppCompatActivity() {
 
@@ -54,12 +57,25 @@ class PackageActivity : AbstractAppCompatActivity() {
                     //revert bundle view to be the state loaded inbound flights
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectInbound()
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+
+                    val rate = Db.getPackageSelectedOutboundFlight().packageOfferModel.price
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.tripSavings)
+
                 } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
+                    Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
+
                     //revert bundle view to be the state loaded outbound flights
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectOutbound()
                     packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+
+                    val rate = Db.getPackageSelectedRoom().rateInfo.chargeableRateInfo
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
+
                 } else if (packagePresenter.backStack.size == 2) {
+                    Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
+
                     //revert bundle view to be the state loaded hotels
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().totalPriceWidget.resetPriceWidget()
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
                     packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
                 }
