@@ -303,7 +303,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val searchArgbEvaluator = ArgbEvaluator()
     val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.search_anim_background), Color.TRANSPARENT)
 
-    private val errorToSearch = object : Presenter.Transition(FlightErrorPresenter::class.java, FlightSearchPresenter::class.java, DecelerateInterpolator(), 200) {
+    private val errorToSearch = object : Presenter.Transition(FlightErrorPresenter::class.java, searchPresenter.javaClass, DecelerateInterpolator(), 200) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             searchPresenter.visibility = View.VISIBLE
