@@ -4024,8 +4024,6 @@
     </plurals>
     <!-- Package hotel cell: Price Includes flights -->
     <string name="package_price_include_flights">Price includes hotel + flights</string>
-    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
-    <string name="package_price_includes_taxes_fees">Price includes taxes, fees, flights + hotel per person</string>
     <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
     <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->

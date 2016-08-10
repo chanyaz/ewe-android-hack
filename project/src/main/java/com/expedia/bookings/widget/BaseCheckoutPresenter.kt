@@ -178,6 +178,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
         }
         totalPriceWidget.viewModel = BundlePriceViewModel(context)
+        totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_fees_flights_hotel))
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
 

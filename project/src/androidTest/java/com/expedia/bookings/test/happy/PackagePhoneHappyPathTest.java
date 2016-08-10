@@ -170,7 +170,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
 			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 			withText(
-				"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
+				"Price includes hotel + flights"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
 	}
 
@@ -180,7 +180,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
 			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 			withText(
-				"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
+				"Price includes hotel + flights"))).check(matches(isDisplayed()));
 		onView(
 			allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(price)))
 			.check(matches(isDisplayed()));
