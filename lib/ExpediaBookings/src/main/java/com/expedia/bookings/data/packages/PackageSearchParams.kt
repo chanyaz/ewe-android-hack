@@ -72,7 +72,6 @@ open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, 
         params.put("numberOfRooms", numberOfRooms)
         params.put("adultsPerRoom[1]", adults)
         if (children.size > 0) {
-            params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)
             params.put("childrenPerRoom[1]", children.size)
             makeChildrenAgesParams(params, "childAges[1]", children, 1)
         }
@@ -95,11 +94,15 @@ open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, 
         return params
     }
 
-    private fun makeChildrenAgesParams(params: HashMap<String, Any?>, keyString: String, valueList: List<Any>, startIndex: Int) {
+    private fun makeChildrenAgesParams(params: HashMap<String, Any?>, keyString: String, valueList: List<Int>, startIndex: Int) {
         for (i in startIndex..valueList.size) {
             var key = StringBuilder(keyString)
             key.append("[").append(i).append("]")
-            params.put(key.toString(), valueList[i - 1])
+            val childAge = valueList[i-1]
+            params.put(key.toString(), childAge)
+            if (childAge < 2) {
+                params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)
+            }
         }
     }
 
