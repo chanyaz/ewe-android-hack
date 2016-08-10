@@ -432,6 +432,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         travelerManager.onSignIn(context)
         updateTravelerPresenter()
         paymentWidget.sectionBillingInfo.refreshOnLoginStatusChange()
+        animateInSlideToPurchase(true)
         doCreateTrip()
     }
 
