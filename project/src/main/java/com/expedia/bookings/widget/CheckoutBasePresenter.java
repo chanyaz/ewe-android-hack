@@ -463,6 +463,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		}
 	}
 
+	public void toolbarSetNavIcon(boolean forward) {
+		toolbar.setNavigationContentDescription(forward ? R.string.toolbar_nav_icon_close_cont_desc
+				: R.string.toolbar_nav_icon_cont_desc);
+		toolbar.getToolbarNavIcon().setParameter(
+				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
+						: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
+	}
+
 	public static class CheckoutDefault {
 	}
 
@@ -601,10 +609,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 			listenToScroll = !forward;
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle() : getToolbarTitle());
-
-			toolbar.getToolbarNavIcon().setParameter(
-				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
-					: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
+			toolbarSetNavIcon(forward);
 		}
 
 		@Override
@@ -659,10 +664,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				resetMenuButton();
 
 			}
-
-			toolbar.getToolbarNavIcon().setParameter(
-				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
-					: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
+			toolbarSetNavIcon(forward);
 		}
 
 		@Override
