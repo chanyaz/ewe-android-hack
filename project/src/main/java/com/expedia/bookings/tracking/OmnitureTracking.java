@@ -5289,7 +5289,7 @@ public class OmnitureTracking {
 			String inBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.second.airlineCode,
 				itineraryType, trip.getDetails().offer.numberOfTickets, trip.totalPrice.amount);
 
-			return outBoundFlight + inBoundFlight;
+			return outBoundFlight + "," + inBoundFlight;
 
 		}
 		return outBoundFlight;
