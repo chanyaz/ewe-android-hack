@@ -132,7 +132,6 @@ class AccountSettingsFragment : Fragment(),
     val memberNameView: TextView by bindView(R.id.toolbar_name)
     val memberEmailView: TextView by bindView(R.id.toolbar_email)
     val memberTierView: TextView by bindView(R.id.toolbar_loyalty_tier_text)
-    var listener: AccountFragmentListener? = null
 
     val debugMenu: DebugMenu by lazy {
         DebugMenu(activity, ExpediaBookingPreferenceActivity::class.java)
@@ -160,8 +159,8 @@ class AccountSettingsFragment : Fragment(),
     override fun onAttach(context: Context?) {
         super.onAttach(context)
         if (context is AccountFragmentListener) {
-            listener = context
-            listener?.onAccountFragmentAttached(this)
+            val listener: AccountFragmentListener = context
+            listener.onAccountFragmentAttached(this)
         }
     }
 

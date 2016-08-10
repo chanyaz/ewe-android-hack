@@ -123,8 +123,6 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">호텔</string>
-    <!-- Label for recent searches -->
-    <string name="recent_searches">최근 검색</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">인수 위치</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -144,7 +142,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">제공 예정! 다음 버전에서는 타지점 반납의 편도 예약을 추가하도록 지금 열심히 준비 중입니다.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
+    <string name="error_no_result_message">검색 결과가 없습니다. 다른 기준으로 다시 검색해 주세요.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">검색 결과가 없습니다. 필터 개수를 줄여보세요.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -1679,6 +1677,28 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">카드 종류에 따라 &lt;a href=\"{airline_fee_url}\"&gt;항공사 수수료&lt;/a&gt;가 결제 시 추가됩니다. 이러한 요금은 결제 시 총 요금에 추가됩니다.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">직불카드로는 결제하실 수 없습니다.</string>
+    <!-- Flights Sold out error screen: Select New Flight button label -->
+    <string name="flights_select_new_flight">새 항공편 선택</string>
+    <!-- Flights Sold out error screen:- warning message -->
+    <string name="flight_sold_out_warning">죄송합니다. 이 항공편은 매진되었습니다.</string>
+    <!-- Flights Sold out error screen:- toolbar title -->
+    <string name="flight_sold_out_toolbar_title">매진</string>
+    <!-- Flight Unavailable error screen:- toolbar title -->
+    <string name="flight_unavailable_toolbar_title">항공편 이용 불가</string>
+    <!-- Flight Unavailable error screen:- warning -->
+    <string name="flight_unavailable_warning">죄송합니다. 이 항공편은 더 이상 이용하실 수 없습니다.</string>
+    <!-- Flight Session expired error screen:- warning -->
+    <string name="flight_session_expired_warning">아직 계시나요? 세션이 초과되었습니다. 다시 검색해 주세요.</string>
+    <!-- Flight Session expired error screen:- toolbar title -->
+    <string name="flight_session_expired_toolbar_title">세션 만료됨</string>
+    <!-- Flight Session expired error screen:- new search button label -->
+    <string name="flight_new_search">새로 검색</string>
+    <!-- Flights unknown error screen:- title -->
+    <string name="flight_generic_error_title">오류</string>
+    <!-- Flights unknown error screen:- warning -->
+    <string name="flight_error_try_again_warning">잠시만요. 다시 시도해 주세요.</string>
+    <!-- Flights unknown error screen:- retry button label -->
+    <string name="flight_error_retry">다시 시도</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1808,6 +1828,9 @@
     <string name="calendar_instructions_hotels_no_dates_selected">체크인 날짜 선택</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
+    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
+
     <string name="room_with_guests_TEMPLATE">객실 1개, {guests}명</string>
     <string name="hotel_free_cancellation_TEMPLATE">무료 취소: {date}까지</string>
 
@@ -1902,7 +1925,10 @@
     <string name="select_payment_callout">세부 정보 입력</string>
     <!-- Add new card -->
     <string name="add_new_card">새 카드 추가</string>
+    <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">새 카드</string>
+    <!-- New Credit card toolbar title shown on payment form -->
+    <string name="new_credit_card">새 신용카드</string>
     <!-- Overview button -->
     <string name="overview_btn">요약</string>
     <!-- Stored Payment label -->
@@ -2059,7 +2085,10 @@
     <string name="ab_test_flights_free_cancellation">예약 후 24시간 이내 무료 취소</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">여행객 정보 입력</string>
-
+    <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
+    <string name="brand_account_cont_desc_TEMPLATE">{brand} 계정</string>
+    <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
+    <string name="signed_in_account_cont_desc_TEMPLATE">{email} 주소로 로그인되었습니다.</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
     <string name="travelers">여행객</string>
@@ -3281,7 +3310,7 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
 
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
@@ -3973,13 +4002,24 @@
     <!-- Template for package bundle total savings amount -->
     <string name="bundle_total_savings_TEMPLATE">{savings} 할인됨</string>
     <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
-    <string name="select_hotel_cont_desc_TEMPLATE">검색 완료됨. {guests}명에 대해 {startdate}부터 {enddate}까지 {destination} 호텔을 선택합니다. 버튼</string>
+    <string name="select_hotel_cont_desc_TEMPLATE">검색 완료됨. {guests}명에 대해 {startdate}부터 {enddate}까지 {destination} 호텔을 선택하세요. 버튼</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
     <string name="select_hotel_searching_cont_desc_TEMPLATE">{guests}명에 대해 {startdate}부터 {enddate}까지 {destination} 호텔을 검색 중입니다. 잠시 기다려 주세요.</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">{guests}명에 대해 {startdate}부터 {enddate}까지 {hotel} 호텔을 선택하셨습니다. 호텔 세부 정보를 {expandstate}.</string>
-    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
-    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. 항공편 세부 정보를 {expandstate}.</string>
+    <!-- Bundle Overview flight card accessibility content description after search completed Eg. Search completed. Select a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button -->
+    <string name="select_flight_cont_desc_TEMPLATE">검색 완료됨. {travelers}명에 대해 {date} {flight}행 항공편을 선택하세요. 버튼</string>
+    <!-- Bundle Overview flight card accessibility content description while searching Eg. Searching for a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please wait -->
+    <string name="select_flight_searching_cont_desc_TEMPLATE">{travelers}명에 대해 {date} {flight}행 항공편을 검색 중입니다. 잠시 기다려 주세요.</string>
+    <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">{datetraveler}에 대해 {flight}행 항공편을 선택하셨습니다. 항공편 세부 정보를 {expandstate}.</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">{travelers}명에 대해 {date} {flight}행 항공편. 먼저 {previous} 선택을 해 주세요. 버튼 해제됨.</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
+    <string name="select_flight_disabled_choose_outbound">가는 항공편</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
+    <string name="select_flight_disabled_choose_hotel">호텔</string>
+
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">%s 호텔 선택</string>
     <!-- Bundle Overview searching flight -->
@@ -4017,11 +4057,17 @@
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
     <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime}부터 {arrivaltime}까지</string>
+    <!-- Carrier name and code when flight operated by different carrier e.g. Operated by Alaska Airlines (AS) -->
+    <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">{operatingairlinename}({operatingairlinecode})에서 운항</string>
+    <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
+    <string name="flight_operated_by_carrier_name_only_TEMPLATE">{operatingairlinename}에서 운항</string>
 
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$s행 항공편 선택</string>
     <!-- Flight to template -->
     <string name="flight_to">%1$s행 항공편</string>
+    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
+    <string name="flight_to_card_TEMPLATE">{airportcity}({airportcode})행 항공편</string>
     <!-- Select return flight -->
     <string name="select_return_flight">오는 항공편 선택</string>
     <!-- Flight overview - flight to template -->
@@ -4035,7 +4081,7 @@
     <!-- Description for infant travelers sitting in seat -->
     <string name="in_seat">좌석에</string>
     <!-- Label for flights on checkout overview of Packages -->
-    <string name="flight_checkout_overview_TEMPLATE">항공편 - {origin} ~ {destination}, 왕복</string>
+    <string name="flight_checkout_overview_TEMPLATE">항공편: {origin} - {destination}, 왕복</string>
     <!-- Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE">
         <item quantity="one">{city} 호텔 - 객실 1개, {number}박</item>
@@ -4084,7 +4130,11 @@
     <string name="pwp_total_due_today_TEMPLATE">오늘 결제할 총 금액:</string>
 
     <!-- Package Flight Overview -->
-    <string name="package_flight_overview_urgency_message_TEMPLATE">{seats}개 좌석 남음</string>
+    <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
+    <plurals name="package_flight_overview_urgency_message_TEMPLATE">
+        <item quantity="one">{seats}개 좌석 남음</item>
+        <item quantity="other">{seats}개 좌석 남음</item>
+    </plurals>
     <string name="package_flight_overview_baggage_fees">수하물 요금 정보</string>
     <string name="package_flight_overview_select_flight">이 항공편 선택</string>
     <string name="package_flight_overview_bundle_total_label">항공+호텔 총액</string>
@@ -4139,6 +4189,18 @@
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">총 합계</string>
+
+    <!-- Label for the tab on fare rules/amenities screen -->
+    <string name="fare_rules">요금 규정</string>
+
+    <!-- Label for no segment amenities amenities screen -->
+    <string name="no_amenities">편의 시설 없음</string>
+
+    <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
+    <string name="rail_station_info_TEMPLATE">{departure} -&gt; {arrival}</string>
+
+    <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
     <string name="pwp_trip_service_error">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
@@ -4310,6 +4372,7 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">1일 기준</string>
     <string name="insurance_price_per_person">1인당</string>
+
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">평점: {rating} (5점 만점)</string>
     <!--LX accessibility -->

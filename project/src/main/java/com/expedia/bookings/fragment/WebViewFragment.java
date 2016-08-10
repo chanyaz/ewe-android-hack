@@ -69,7 +69,7 @@ public class WebViewFragment extends DialogFragment {
 	private boolean mWebViewLoaded = false;
 
 	private String mUrl;
-	private String mHtmlData;
+	protected String mHtmlData;
 	private boolean enableSignIn;
 	private boolean mLoadCookies;
 	private boolean mAllowUseableNetRedirects;

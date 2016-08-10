@@ -1,6 +1,7 @@
 package com.expedia.ui
 
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.PersistableBundle
 import com.expedia.bookings.R
@@ -117,6 +118,16 @@ class HotelActivity : AbstractAppCompatActivity() {
                 }
             }
         }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (requestCode == PaymentWidgetV2.REQUEST_CAMERA) {
+            if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                hotelPresenter.checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.viewmodel.startCreditCardScan.onNext(Unit)
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
     }
 
     override fun onDestroy() {

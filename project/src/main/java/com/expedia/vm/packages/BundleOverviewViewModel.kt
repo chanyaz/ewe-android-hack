@@ -88,6 +88,11 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
         }
     }
 
+    fun resetStepText() {
+        stepOneTextObservable.onNext(context.getString(R.string.step_one))
+        stepTwoTextObservable.onNext(context.getString(R.string.step_two))
+    }
+
     fun makeResultsObserver(type: PackageSearchType): Observer<PackageSearchResponse> {
         return object : Observer<PackageSearchResponse> {
             override fun onNext(response: PackageSearchResponse) {

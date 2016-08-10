@@ -12,9 +12,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -65,11 +63,11 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
 
         vm.titleSubject.subscribe {
-            toolbar.title = it
+            toolbarTitle.text = it
         }
 
         vm.subtitleSubject.subscribe {
-            toolbar.subtitle = it
+            toolbarSubtitle.text = it
         }
 
         vm.paramsSubject.subscribe { params ->

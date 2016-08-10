@@ -5,13 +5,15 @@ import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.widget.CalendarView
 import android.widget.DatePicker
+import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.vm.BaseSearchViewModel
 import org.joda.time.DateTimeZone
 import org.joda.time.LocalDate
 
-open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewModel) : DialogFragment(), DatePickerDialog.OnDateSetListener {
+open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewModel) : DialogFragment(), DatePickerDialog.OnDateSetListener, CalendarView.OnDateChangeListener {
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
@@ -32,6 +34,8 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
         val currentDate = LocalDate.now()
         val maxDate = currentDate.plusDays(baseSearchViewModel.getMaxDateRange())
         val startDate = baseSearchViewModel.startDate()
+
+        dialog.datePicker.calendarView.setOnDateChangeListener(this)
 
         if (baseSearchViewModel.accessibleStartDateSetObservable.value && startDate != null) {
             val endDate = startDate.plusDays(1)
@@ -94,4 +98,10 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
             throw IllegalArgumentException("Can't set an end date BEFORE a start date!  start=" + start + " end=" + end)
         }
     }
+
+    override fun onSelectedDayChange(view: CalendarView, year: Int, month: Int, dayOfMonth: Int) {
+        val date = LocalDate(year, month.plus(1), dayOfMonth)
+        view.announceForAccessibility(DateFormatUtils.formatLocalDateToShortDayAndDate(date))
+    }
+
 }

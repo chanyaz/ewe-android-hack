@@ -11,7 +11,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.responses.LegOption
+import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -25,9 +26,9 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
-    var offerSelectedObserver: Observer<RailSearchResponse.RailOffer>? = null
+    var offerSelectedObserver: Observer<RailOffer>? = null
 
-    val legSelectedSubject = PublishSubject.create<LegOption>()
+    val legSelectedSubject = PublishSubject.create<RailLegOption>()
 
     var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
 

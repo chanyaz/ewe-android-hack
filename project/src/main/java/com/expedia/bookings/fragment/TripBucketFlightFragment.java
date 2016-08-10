@@ -192,7 +192,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			String dateRange = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
 			mDatesTv.setText(dateRange);
 
-			String price = mFlightTrip.getTotalFare().getFormattedMoney();
+			String price = mFlightTrip.getTotalPrice().getFormattedMoney();
 			mPriceTv.setText(price);
 
 			if (mNowBookingTv != null) {
@@ -266,7 +266,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	public CharSequence getPriceChangeMessage() {
 		if (Db.getTripBucket().getFlight() != null) {
 			FlightTrip flightTrip = Db.getTripBucket().getFlight().getFlightTrip();
-			String originalPrice = flightTrip.getOldTotalFare().getFormattedMoney();
+			String originalPrice = flightTrip.getOldTotalPrice().getFormattedMoney();
 			return getString(R.string.price_changed_from_TEMPLATE, originalPrice);
 		}
 

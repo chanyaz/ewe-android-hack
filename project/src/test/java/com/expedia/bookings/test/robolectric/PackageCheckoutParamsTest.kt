@@ -27,6 +27,9 @@ class PackageCheckoutParamsTest {
     val expectedAddTravelerKey2 = "flight.associatedFlightPassengers[1].firstName"
     val expectedStoredCardKey = "storedCreditCardId"
 
+    val expectedSeatPreferenceKey = "flight.mainFlightPassenger.seatPreference"
+    val expectedRedressKey = "flight.mainFlightPassenger.TSARedressNumber"
+
     @Before
     fun before() {
         builder = PackageCheckoutParams.Builder()
@@ -52,6 +55,24 @@ class PackageCheckoutParamsTest {
         assertEquals("malcolm", params.toQueryMap().get(expectedMainTravelerKey))
         assertEquals("malcolm", params.toQueryMap().get(expectedAddTravelerKey1))
         assertEquals("malcolm", params.toQueryMap().get(expectedAddTravelerKey2))
+    }
+
+
+    @Test
+    fun testRedressAndSeatingPreference() {
+        val travelers = arrayListOf(getTraveler())
+        val builder = builder.billingInfo(getBillingInfo())
+                .travelers(travelers)
+                .cvv("123") as PackageCheckoutParams.Builder
+
+        val params = builder.bedType("")
+                .expectedFareCurrencyCode("")
+                .expectedTotalFare("")
+                .tripId("")
+                .build()
+
+        assertEquals("WINDOW", params.toQueryMap().get(expectedSeatPreferenceKey))
+        assertEquals("123456", params.toQueryMap().get(expectedRedressKey))
     }
 
     @Test
@@ -103,6 +124,8 @@ class PackageCheckoutParamsTest {
         traveler.gender = Traveler.Gender.MALE
         traveler.phoneNumber = "9163355329"
         traveler.birthDate = LocalDate.now().minusYears(18)
+        traveler.seatPreference = Traveler.SeatPreference.WINDOW
+        traveler.redressNumber = "123456"
         return traveler
     }
 

@@ -177,7 +177,7 @@ public class TimeSlider extends SeekBar {
 			.formatDateTime(getContext(), getDateTime(progress).getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
 	}
 
-	public DateTime getDateTime(int progress) {
+	public static DateTime getDateTime(int progress) {
 		DateTime date = new DateTime();
 		DateTime startTime = date.withTimeAtStartOfDay();
 		return startTime.plusMinutes(progress * 30);

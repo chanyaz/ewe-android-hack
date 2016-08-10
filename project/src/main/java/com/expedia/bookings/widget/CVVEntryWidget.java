@@ -13,7 +13,7 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,7 +34,7 @@ import com.larvalabs.svgandroid.widget.SVGView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CVVEntryWidget extends FrameLayout implements CreditCardInputListener {
+public class CVVEntryWidget extends LinearLayout implements CreditCardInputListener {
 
 	public static final String TAG = CVVEntryWidget.class.getName();
 
@@ -78,6 +78,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		setOrientation(VERTICAL);
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		View v = inflater.inflate(R.layout.cvv_entry_widget, this);
 		ButterKnife.inject(this);
@@ -129,7 +130,7 @@ public class CVVEntryWidget extends FrameLayout implements CreditCardInputListen
 			int color = Ui.obtainThemeColor(getContext(), R.attr.primary_color);
 			RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
 			params.addRule(RelativeLayout.ALIGN_PARENT_TOP, RelativeLayout.TRUE);
-			addView(Ui.setUpStatusBar(getContext(), toolbar, mainContainer, color));
+			addView(Ui.setUpStatusBar(getContext(), toolbar, null, color));
 		}
 
 		updateActionBar();

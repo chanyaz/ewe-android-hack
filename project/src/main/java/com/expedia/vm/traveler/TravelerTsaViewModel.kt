@@ -28,7 +28,7 @@ class TravelerTSAViewModel(val context: Context) {
 
     val dateOfBirthErrorSubject = PublishSubject.create<Boolean>()
     val birthErrorTextSubject = PublishSubject.create<String>()
-    val genderErrorSubject = PublishSubject.create<Boolean>()
+    val genderErrorSubject = BehaviorSubject.create<Boolean>()
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
@@ -47,6 +47,7 @@ class TravelerTSAViewModel(val context: Context) {
         if (traveler.gender != null) {
             genderSubject.onNext(traveler.gender)
         }
+        genderErrorSubject.onNext(false)
     }
 
     val dateOfBirthObserver = endlessObserver<LocalDate> { date ->

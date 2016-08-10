@@ -35,6 +35,7 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
     val hotelStrikeThroughPriceFormatted by lazy { BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, true, !hotel.isPackage)) }
     val strikethroughPriceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo?.strikethroughPriceToShowUsers ?: -1f)
     val priceToShowUsers = BehaviorSubject.create(hotel.lowRateInfo?.priceToShowUsers ?: -1f)
+    val showPackageTripSavings = BehaviorSubject.create(hotel.isPackage && hotel.packageOfferModel?.price?.showTripSavings ?: false)
     val hotelStrikeThroughPriceVisibility = BehaviorSubject.create(false)
     val loyaltyAvailabilityObservable = BehaviorSubject.create<Boolean>(hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false)
     val showDiscountObservable = BehaviorSubject.create<Boolean>((hotel.lowRateInfo?.isDiscountPercentNotZero ?: false) && !(hotel.lowRateInfo?.airAttached ?: false) && !loyaltyAvailabilityObservable.value)
@@ -87,7 +88,7 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
             adImpressionObservable.onNext(hotel.impressionTrackingUrl)
         }
 
-        Observable.combineLatest(strikethroughPriceToShowUsers, priceToShowUsers, soldOut) { strikethroughPriceToShowUsers, priceToShowUsers, soldOut -> !soldOut && (priceToShowUsers < strikethroughPriceToShowUsers) }.subscribe(hotelStrikeThroughPriceVisibility)
+        Observable.combineLatest(strikethroughPriceToShowUsers, priceToShowUsers, soldOut, showPackageTripSavings) { strikethroughPriceToShowUsers, priceToShowUsers, soldOut, showPackageTripSavings -> !soldOut && (if (hotel.isPackage) showPackageTripSavings else priceToShowUsers < strikethroughPriceToShowUsers) }.subscribe(hotelStrikeThroughPriceVisibility)
 
         val url = if (hotel.isPackage) hotel.thumbnailUrl else Images.getMediaHost() + hotel.largeThumbnailUrl
         if (!url.isNullOrBlank()) hotelLargeThumbnailUrlObservable.onNext(url)

@@ -55,8 +55,8 @@ public class FlightPriceChangeDialogFragment extends DialogFragment {
 		// Calculate message (based on online booking fees and whether the fare went up/down)
 		CharSequence message;
 
-		Money diff = new Money(currentOffer.getTotalFare());
-		diff.subtract(newOffer.getTotalFare());
+		Money diff = new Money(currentOffer.getTotalPrice());
+		diff.subtract(newOffer.getTotalPrice());
 
 		String obFeesFormatted = null;
 		Money obFees = newOffer.getOnlineBookingFeesAmount();
@@ -74,7 +74,7 @@ public class FlightPriceChangeDialogFragment extends DialogFragment {
 		// Reset the price to always be positive for formatting purposes
 		diff.setAmount(diff.getAmount().abs());
 		String diffFormatted = diff.getFormattedMoney();
-		String totalFareFormatted = newOffer.getTotalFare().getFormattedMoney();
+		String totalFareFormatted = newOffer.getTotalPrice().getFormattedMoney();
 		if (compareTo < 0) {
 			if (obFeesFormatted != null) {
 				message = getString(R.string.error_flight_price_increased_with_fee, obFeesFormatted, diffFormatted,

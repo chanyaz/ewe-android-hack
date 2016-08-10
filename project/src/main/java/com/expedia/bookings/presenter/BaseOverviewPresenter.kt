@@ -9,8 +9,10 @@ import android.view.View
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.packages.TravelerPresenter
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
@@ -112,6 +114,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             super.endTransition(forward)
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
+            checkoutPresenter.toolbarDropShadow.visibility = View.GONE
         }
     }
 
@@ -120,6 +123,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         var range = 0f
         var userStoppedScrollingAt = 0
         override fun startTransition(forward: Boolean) {
+            if (!forward) checkoutPresenter.toolbarDropShadow.visibility = View.GONE
             bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
             toggleToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
@@ -154,7 +158,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
-            checkoutPresenter.toolbarDropShadow.visibility = View.GONE
+            if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
             bundleOverviewHeader.isDisabled = forward
             bundleOverviewHeader.nestedScrollView.foreground.alpha = if (forward) 255 else 0
             checkoutPresenter.chevron.rotation = if (forward) 0f else 180f
@@ -207,11 +211,16 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     private val checkoutToCvv = object : VisibilityTransition(this, getCheckoutTransitionClass(), CVVEntryWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
             if (!forward) {
                 checkoutPresenter.slideToPurchase.resetSlider()
+                checkoutPresenter.slideToPurchaseLayout.setAccessibilityHoverFocus()
             } else {
                 cvv.visibility = View.VISIBLE
                 trackPaymentCIDLoad()
+                postDelayed({
+                    AccessibilityUtil.setFocusToToolbarNavigationIcon(cvv.toolbar)
+                }, 100L)
             }
         }
     }

@@ -47,7 +47,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private boolean mIsSmokingPreferred;
 
 	// Flights
-	private Gender mGender = Gender.MALE;
+	private Gender mGender = Gender.GENDER;
 	private LocalDate mBirthDate;
 	private String mRedressNumber;
 	private List<String> mPassportCountries;

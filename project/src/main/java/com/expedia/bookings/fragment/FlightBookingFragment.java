@@ -222,9 +222,9 @@ public class FlightBookingFragment extends BookingFragment<FlightCheckoutRespons
 
 			//Update total price and price change amount ONLY if fake price is not zero amount.
 			if (!priceChangeMoney.isZero()) {
-				Money currentTotalFare = response.getOffer().getTotalFare();
-				currentTotalFare.add(bigDecVal);
-				response.getOffer().setTotalFare(currentTotalFare);
+				Money currentTotalPrice = response.getOffer().getTotalPrice();
+				currentTotalPrice.add(bigDecVal);
+				response.getOffer().setTotalPrice(currentTotalPrice);
 				response.getOffer().setPriceChangeAmount(priceChangeMoney);
 			}
 		}

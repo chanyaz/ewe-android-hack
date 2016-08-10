@@ -2,17 +2,13 @@ package com.expedia.bookings.test.phone.rail;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.joda.time.LocalDate;
 
 import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 
 import com.expedia.bookings.test.espresso.RailTestCase;
-import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.phone.packages.RailScreen;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -27,16 +23,7 @@ public class RailAmenitiesTest extends RailTestCase {
 	}
 
 	private void navigateFromLaunchToAmenities() {
-		RailScreen.calendarButton().perform(click());
-		LocalDate firstStartDate = LocalDate.now().plusDays(10);
-		RailScreen.selectDates(firstStartDate, firstStartDate.plusDays(2));
-		RailScreen.dialogDoneButton().perform(click());
-
-		RailScreen.searchButton().perform(click());
-
-		onView(withText("11:55 AM – 3:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed())).perform(click());
-		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));
-
+		RailScreen.navigateToDetails();
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
 		RailScreen.clickAmenitiesLink("Any off-peak train");
@@ -46,7 +33,7 @@ public class RailAmenitiesTest extends RailTestCase {
 		onView(withText("Manchester Piccadilly to London Euston")).check(matches(isDisplayed()));
 		assertAmenityIsDisplayed("• Buffet Service\n• WiFi Access (Additional Cost)\n",
 			"Manchester Piccadilly to London Euston");
-		assertAmenityIsDisplayed("No amenities", "London Paddington to Reading");
+		assertAmenityIsDisplayed("• Snack Trolley Service\n", "London Paddington to Reading");
 	}
 
 	private void assertAmenityIsDisplayed(String amenityString, String segmentName) {

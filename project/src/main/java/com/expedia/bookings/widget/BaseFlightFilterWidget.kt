@@ -12,7 +12,7 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import android.widget.Spinner
@@ -57,7 +57,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
     val airlinesLabel: android.widget.TextView by bindView(R.id.airlines_label)
     val airlinesContainer: LinearLayout by bindView(R.id.airlines_container)
     val airlinesMoreLessLabel: TextView by bindView(R.id.show_more_less_text)
-    val airlinesMoreLessIcon: ImageButton by bindView(R.id.show_more_less_icon)
+    val airlinesMoreLessIcon: ImageView by bindView(R.id.show_more_less_icon)
     val airlinesMoreLessView: RelativeLayout by bindView(R.id.collapsed_container)
 
     val dynamicFeedbackWidget: DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)

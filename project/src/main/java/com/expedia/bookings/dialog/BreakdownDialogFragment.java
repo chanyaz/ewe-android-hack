@@ -447,13 +447,13 @@ public class BreakdownDialogFragment extends DialogFragment {
 		}
 
 		// Total price
-		if (trip.getTotalFare() != null) {
+		if (trip.getTotalPrice() != null) {
 			String text;
 			if (trip.showFareWithCardFee(context, billingInfo)) {
 				text = trip.getTotalFareWithCardFee(billingInfo, item).getFormattedMoney();
 			}
 			else {
-				text = trip.getTotalFare().getFormattedMoney();
+				text = trip.getTotalPrice().getFormattedMoney();
 			}
 
 			builder.addLineItem((new LineItemBuilder())

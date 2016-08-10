@@ -116,8 +116,8 @@
             android:textSize="10sp" />
 
         <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
+            android:layout_width="1dp"
+            android:layout_height="1dp"
             android:contentDescription="@string/lx_card_announce_button_cont_desc"/>
 
     </LinearLayout>

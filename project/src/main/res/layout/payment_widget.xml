@@ -173,7 +173,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="2">
 
-                    <EditText
+                    <com.expedia.bookings.widget.accessibility.AccessibleEditText
                         android:id="@+id/edit_address_postal_code"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -194,7 +194,7 @@
                 android:textSize="@dimen/data_form_section_header_text"
                 android:textStyle="bold" />
 
-            <EditText
+            <com.expedia.bookings.widget.accessibility.AccessibleEditText
                 android:id="@+id/edit_name_on_card"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

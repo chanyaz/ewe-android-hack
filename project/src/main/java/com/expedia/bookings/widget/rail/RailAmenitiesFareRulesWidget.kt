@@ -11,6 +11,7 @@ import android.widget.FrameLayout
 import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.RailAmenitiesAndRulesAdapter
+import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -38,13 +39,13 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
         setupStatusBar(context)
     }
 
-    fun showAmenitiesForOffer(offer: RailSearchResponse.RailOffer) {
+    fun showAmenitiesForOffer(offer: RailOffer) {
         updateOffer(offer)
         viewPager.currentItem = RailAmenitiesAndRulesAdapter.Tab.AMENITIES.ordinal
         updateToolbar(RailAmenitiesAndRulesAdapter.Tab.AMENITIES.ordinal)
     }
 
-    fun showFareRulesForOffer(offer: RailSearchResponse.RailOffer) {
+    fun showFareRulesForOffer(offer: RailOffer) {
         updateOffer(offer)
         viewPager.currentItem = RailAmenitiesAndRulesAdapter.Tab.FARE_RULES.ordinal
         updateToolbar(RailAmenitiesAndRulesAdapter.Tab.FARE_RULES.ordinal)
@@ -77,7 +78,7 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
         }
     }
 
-    private fun updateOffer(offer: RailSearchResponse.RailOffer) {
+    private fun updateOffer(offer: RailOffer) {
         adapter.amenitiesWidget.viewModel.offerObservable.onNext(offer)
         adapter.fareRulesWidget.viewModel.offerObservable.onNext(offer)
     }

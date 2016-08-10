@@ -1,13 +1,12 @@
 package com.expedia.bookings.test.happy;
 
 import org.hamcrest.CoreMatchers;
-import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RailTestCase;
-import com.expedia.bookings.test.phone.packages.RailScreen;
+import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.rail.RailScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -20,24 +19,13 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 
 	public void testRailPhoneHappyPath() throws Throwable {
 
-		RailScreen.calendarButton().perform(click());
-		LocalDate firstStartDate = LocalDate.now().plusDays(10);
-		RailScreen.selectDates(firstStartDate, firstStartDate.plusDays(2));
-		RailScreen.dialogDoneButton().perform(click());
-
-		RailScreen.searchButton().perform(click());
-		Common.delay(1);
-
-		onView(withText("11:55 AM – 3:22 PM")).check(matches(isDisplayed())).perform(click());
-		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));
-
+		RailScreen.navigateToDetails();
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
-		Common.delay(1);
 		RailScreen.clickSelectFareOption();
 
-		Common.delay(5);
-		onView(withText("Outbound - Wed Jul 06")).check(matches(isDisplayed()));
+		onView(withText("Outbound - Mon Aug 29")).perform(ViewActions.waitForViewToDisplay())
+			.check(matches(isDisplayed()));
 		assertLegInfo();
 		assertDetailsCollapsed();
 		assertDetailsExpanded();
@@ -51,12 +39,11 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 
 	private void assertLegInfo() {
 		RailScreen.legInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("11:55 AM – 3:22 PM")))));
+			CoreMatchers.allOf(isDisplayed(), withText("3:55 PM – 7:22 PM")))));
 		RailScreen.legInfo().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("3h 27m, 2 Changes")))));
 		RailScreen.legInfo().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Virgin Trains, London Underground, First Great Western")))));
-
 	}
 
 	private void assertDetailsExpanded() {

@@ -40,6 +40,14 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
     private var locSubscription: Subscription? = null
     private var wasOffline = false
 
+    override fun onAttach(context: Context?) {
+        super.onAttach(context)
+        if (context is LaunchFragmentListener) {
+            val listener: LaunchFragmentListener = context
+            listener.onLaunchFragmentAttached(this)
+        }
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.widget_new_phone_launch, null)
         return view
@@ -123,7 +131,7 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
 
 
     override fun onBackPressed(): Boolean {
-        return false
+        return newPhoneLaunchWidget.onBackPressed()
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<String>, grantResults: IntArray) {
@@ -163,6 +171,10 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         if (newPhoneLaunchWidget.darkView.alpha == 0f) {
             newPhoneLaunchWidget.launchListWidget.smoothScrollToPosition(0)
         }
+    }
+
+    interface LaunchFragmentListener {
+        fun onLaunchFragmentAttached(frag: NewPhoneLaunchFragment)
     }
 
 }

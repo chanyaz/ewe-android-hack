@@ -99,11 +99,11 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		else {
 			tv.setTextColor(ContextCompat.getColor(getContext(), R.color.black));
 		}
-		int errorIcon = R.drawable.material_dropdown;
+		int drawableRight = R.drawable.material_dropdown;
 		if (hasError) {
-			errorIcon = Ui.obtainThemeResID(retView.getContext(), R.attr.skin_errorIndicationExclaimationDrawable);
+			drawableRight = Ui.obtainThemeResID(retView.getContext(), R.attr.skin_errorIndicationExclaimationDrawable);
 		}
-		tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, errorIcon, 0);
+		tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, drawableRight, 0);
 		return retView;
 	}
 
@@ -131,7 +131,7 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		return -1;
 	}
 
-	public void showError(boolean hasError) {
+	public void setErrorVisible(boolean hasError) {
 		this.hasError = hasError;
 		notifyDataSetChanged();
 	}

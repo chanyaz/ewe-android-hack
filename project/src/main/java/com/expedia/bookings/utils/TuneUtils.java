@@ -454,8 +454,8 @@ public class TuneUtils {
 				event.withDate2(returnDate);
 			}
 			withTuidAndMembership(event)
-				.withRevenue(trip.getTotalFare().getAmount().doubleValue())
-				.withCurrencyCode(trip.getTotalFare().getCurrency())
+				.withRevenue(trip.getTotalPrice().getAmount().doubleValue())
+				.withCurrencyCode(trip.getTotalPrice().getCurrency())
 				.withAttribute2(isUserLoggedIn())
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);
@@ -490,8 +490,8 @@ public class TuneUtils {
 					for (int i = 0; (i < 5 && i < propertiesCount); i++) {
 						FlightTrip trip = response.getTrips().get(i);
 						String carrier = trip.getLegs().get(0).getFirstAirlineCode();
-						String currency = trip.getTotalFare().getCurrency();
-						String price = trip.getTotalFare().amount.toString();
+						String currency = trip.getTotalPrice().getCurrency();
+						String price = trip.getTotalPrice().amount.toString();
 						String routeType = searchParams.isRoundTrip() ? "RT" : "OW";
 						String route = String.format("%s-%s", searchParams.getDepartureLocation().getDestinationId(),
 							searchParams.getArrivalLocation().getDestinationId());
@@ -537,8 +537,8 @@ public class TuneUtils {
 					for (int i = 0; (i < 5 && i < propertiesCount); i++) {
 						FlightTrip trip = response.getTrips().get(i);
 						String carrier = trip.getLegs().get(1).getFirstAirlineCode();
-						String currency = trip.getTotalFare().getCurrency();
-						String price = trip.getTotalFare().amount.toString();
+						String currency = trip.getTotalPrice().getCurrency();
+						String price = trip.getTotalPrice().amount.toString();
 						String routeType = searchParams.isRoundTrip() ? "RT" : "OW";
 						String route = String.format("%s-%s", searchParams.getArrivalLocation().getDestinationId(),
 							searchParams.getDepartureLocation().getDestinationId());

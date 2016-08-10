@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.rail
 
 import android.content.Context
+import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
@@ -11,6 +12,7 @@ import com.expedia.bookings.adapter.RailSearchPagerAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -19,6 +21,7 @@ import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.rail.PositionObservableTabLayout
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.rail.RailSearchViewModel
@@ -30,6 +33,10 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
     lateinit private var originSuggestionAdapter: SuggestionAdapter
     lateinit private var destinationSuggestionAdapter: SuggestionAdapter
+    private val searchWidget by bindView<RailSearchWidget>(R.id.rail_search_widget)
+
+    override val tabs: PositionObservableTabLayout by bindView(R.id.tabs)
+    override val viewpager: ViewPager by bindView<ViewPager>(R.id.viewpager)
 
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(context).railComponent().suggestionsService()
@@ -37,10 +44,6 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
     override fun getSuggestionHistoryFileName(): String {
         return SuggestionV4Utils.RECENT_RAIL_SUGGESTIONS_FILE
-    }
-
-    override fun inflate() {
-        View.inflate(context, R.layout.widget_rail_search_params, this)
     }
 
     override fun getSuggestionViewModel(): SuggestionAdapterViewModel {
@@ -55,35 +58,46 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         return searchViewModel
     }
 
-    override val tabs: PositionObservableTabLayout by bindView(R.id.tabs)
-    override val viewpager: ViewPager by bindView<ViewPager>(R.id.viewpager)
     override val travelerWidgetV2: TravelerWidgetV2 by lazy {
-        adapter.searchWidget.travelerWidget
+        searchWidget.travelerWidget
     }
     override val originCardView: SearchInputCardView by lazy {
-        adapter.searchWidget.locationWidget.originLocationText
+        searchWidget.locationWidget.originLocationText
     }
     override val destinationCardView: SearchInputCardView by lazy {
-        adapter.searchWidget.locationWidget.destinationLocationText
+        searchWidget.locationWidget.destinationLocationText
     }
 
     var adapter by Delegates.notNull<RailSearchPagerAdapter>()
 
-    var searchViewModel: RailSearchViewModel by notNullAndObservable {
-        adapter.searchViewModel = it
+    var searchViewModel: RailSearchViewModel by notNullAndObservable { vm ->
+        searchWidget.searchViewModel = vm
+        searchViewModel.resetDatesAndTimes()
 
         originSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, false, CurrentLocationObservable.create(context))
         destinationSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, true, null)
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
         destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
-    }
 
-    override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
-        //no-op
+        searchViewModel.searchButtonObservable.subscribe { enable ->
+            searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.white) else ContextCompat.getColor(context, R.color.white_disabled))
+        }
+
+        searchButton.subscribeOnClick(vm.searchObserver)
     }
 
     init {
         Ui.getApplication(context).railComponent().inject(this)
+    }
+
+    override fun inflate() {
+        View.inflate(context, R.layout.widget_rail_search_params, this)
+        toolBarTitle.text = context.resources.getText(R.string.trains)
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.rail_primary_color)
@@ -93,34 +107,32 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
         adapter = RailSearchPagerAdapter(context)
         viewpager.adapter = adapter
-        viewpager.offscreenPageLimit = 2 //make sure that the first tab is always in the viewpager - we animate that one
+        viewpager.overScrollMode = ViewPager.OVER_SCROLL_NEVER
+
         tabs.setupWithViewPager(viewpager)
 
-        tabs.singleToReturnScrollObservable.subscribe({
-            //todo - animate calendar card 0->1 for single date vs 2 dates
-        })
-
-        tabs.returnToOpenReturnScrollObservable.subscribe({
-            //todo - animate calendar card 0->1 for 2 dates vs "open return"
-        })
-
-        searchButton.setOnClickListener({
-            searchViewModel.searchObserver.onNext(Unit)
-        })
-
         tabs.singleToReturnScrollObservable.subscribe() {
-            val view = viewpager.getChildAt(0);
-            if (view != null) {
-                view.translationX = viewpager.scrollX.toFloat()
-            }
+         val view = viewpager.getChildAt(0);
+           if (view != null) {
+               view.translationX = Math.min(viewpager.scrollX.toFloat(), (view.measuredWidth * 1).toFloat())
+           }
         }
 
-        tabs.returnToOpenReturnScrollObservable.subscribe() {
-            val view = viewpager.getChildAt(0);
-            if (view != null) {
-                view.translationX = Math.min(viewpager.scrollX.toFloat(), (view.measuredWidth * 2).toFloat())
+        tabs.setOnTabSelectedListener(object: TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
+                // do nothing
             }
-        }
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
+                // do nothing
+            }
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                val isRoundTripSearch = tab.position == 1
+                searchViewModel.isRoundTripSearchObservable.onNext(isRoundTripSearch)
+                searchViewModel.resetDatesAndTimes()
+            }
+        })
     }
 
     override fun getOriginSearchBoxPlaceholderText(): String {

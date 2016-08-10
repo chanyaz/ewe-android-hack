@@ -10,38 +10,20 @@ import com.expedia.bookings.data.TripResponse;
 public class RailCreateTripResponse extends TripResponse {
 
 	public Money totalPrice;
-	public List<RailProduct> railsProducts;
 	public String offerToken;
+	public RailDomainProduct railDomainProduct;
 
-	public static class RailProduct {
-		public String productToken;
-		public Money productPrice;
-		public List<RailLegOption> legList;
-		public RailDateTime productHoldExpirationDateTime;
-		public RailBookingOptions additionalBookingOptions;
-		public List<FareBreakdown> fareBreakdown;
-
-		public static class FareBreakdown {
-			public Money fare;
-			public List<SegmentClass> segmentClass;
-
-			public class SegmentClass {
-				public String serviceClass;
-				public String fareClass;
-			}
-		}
+	public static class RailDomainProduct {
+		public RailTripOffer railOffer;
 	}
 
-	public static class RailBookingOptions {
-		public List<TicketDeliveryOption> ticketDeliveryOptions;
+	public static class RailTripOffer extends BaseRailOffer {
+		public List<RailTripProduct> railProductList;
+		//TODO add ticket delivery options
+	}
 
-		public static class TicketDeliveryOption {
-			public String description;
-			public String code;
-			public String destination;
-			public boolean isRefundable;
-			public Money fee;
-		}
+	public static class RailTripProduct extends RailProduct {
+		public List<RailLegOption> legList;
 	}
 
 	@NotNull

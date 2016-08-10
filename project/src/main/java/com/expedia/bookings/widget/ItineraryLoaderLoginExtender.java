@@ -116,6 +116,11 @@ public class ItineraryLoaderLoginExtender extends LoginExtender implements Itine
 	}
 
 	@Override
+	public void onTripFailedFetchingRegisteredUserItinerary() {
+		//Do nothing
+	}
+
+	@Override
 	public void onTripUpdateFailed(Trip trip) {
 		mCurrentSyncHasErrors = true;
 	}

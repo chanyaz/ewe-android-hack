@@ -64,9 +64,12 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         bundleOverviewHeader.toolbar.inflateMenu(R.menu.menu_package_checkout)
         bundleWidget.toggleMenuObservable.subscribe(bundleOverviewHeader.toolbar.toggleMenuObserver)
 
+        getCheckoutPresenter().getCheckoutViewModel().slideToBookA11yActivateObservable.subscribe(checkoutSliderSlidObserver)
+
         changeHotel.setOnMenuItemClickListener({
             bundleOverviewHeader.toggleOverviewHeader(false)
             checkoutPresenter.toggleCheckoutButton(false)
+            getCheckoutPresenter().totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
@@ -79,6 +82,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         changeHotelRoom.setOnMenuItemClickListener({
             checkoutPresenter.toggleCheckoutButton(false)
             bundleWidget.collapseBundleWidgets()
+            getCheckoutPresenter().totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_HOTEL
             val intent = Intent(context, PackageHotelActivity::class.java)
@@ -91,6 +95,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         changeFlight.setOnMenuItemClickListener({
             bundleOverviewHeader.toggleOverviewHeader(false)
             checkoutPresenter.toggleCheckoutButton(false)
+            getCheckoutPresenter().totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             bundleWidget.collapseBundleWidgets()
             val params = Db.getPackageParams()
             params.pageType = Constants.PACKAGE_CHANGE_FLIGHT

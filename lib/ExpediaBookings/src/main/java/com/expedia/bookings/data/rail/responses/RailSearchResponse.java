@@ -1,15 +1,11 @@
 package com.expedia.bookings.data.rail.responses;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.rail.RailPassenger;
 
 public class RailSearchResponse {
@@ -18,7 +14,7 @@ public class RailSearchResponse {
 	public List<RailLeg> legList;
 	public List<RailOffer> offerList;
 
-	public RailOffer findOfferForLeg(@NotNull LegOption it) {
+	public RailOffer findOfferForLeg(@NotNull RailLegOption it) {
 		for (RailOffer offer : offerList) {
 			if (offer.containsLegOptionId(it.legOptionIndex)) {
 				return offer;
@@ -27,7 +23,7 @@ public class RailSearchResponse {
 		return null;
 	}
 
-	public List<RailOffer> findOffersForLegOption(LegOption legOption) {
+	public List<RailOffer> findOffersForLegOption(RailLegOption legOption) {
 		List<RailOffer> offers = new ArrayList<>();
 
 		for (RailOffer offer : offerList) {
@@ -44,20 +40,17 @@ public class RailSearchResponse {
 		public Integer legIndex;
 		public RailStation departureStation;
 		public RailStation arrivalStation;
-		public List<SearchLegOption> legOptionList;
+		public List<RailLegOption> legOptionList;
 	}
 
-	public static class RailOffer {
-		public Money totalPrice;
-		public List<RailSearchProduct> railProductList;
-		public String railOfferToken;
-		//TODO Add price breakdown
+	public static class RailOffer extends BaseRailOffer {
+		public List<RailProduct> railProductList;
 
 		@Nullable
-		public LegOption outboundLeg; //set in code on the offer when the leg/offer combo is selected
+		public RailLegOption outboundLeg; //set in code on the offer when the leg/offer combo is selected
 
 		public boolean containsLegOptionId(Integer legOptionId) {
-			for (RailSearchProduct product : railProductList) {
+			for (RailProduct product : railProductList) {
 				for (Integer legId : product.legOptionIndexList) {
 					if (legOptionId.equals(legId)) {
 						return true;
@@ -65,36 +58,6 @@ public class RailSearchResponse {
 				}
 			}
 			return false;
-		}
-
-		public static class RailSearchProduct {
-			public Money totalPrice;
-			public List<Integer> legOptionIndexList;
-			public List<FareBreakdown> fareBreakdownList;
-			public boolean refundable;
-			public List<String> refundableRules;
-			public List<String> fareNotes;
-			public String aggregatedCarrierServiceClassDisplayName;
-			public String aggregatedCarrierFareClassDisplayName;
-			public String aggregatedFareDescription;
-
-			public static class FareBreakdown {
-				public List<PassengerFare> passengerFareList;
-			}
-
-			public static class PassengerFare {
-				public Integer passengerIndex;
-				public List<PassengerSegmentFare> passengerSegmentFareList;
-
-				@NotNull
-				public Map<Integer, PassengerSegmentFare> getSegmentToFareMapping() {
-					Map<Integer, PassengerSegmentFare> mapping = new HashMap<>();
-					for (PassengerSegmentFare segmentFare : passengerSegmentFareList) {
-						mapping.put(segmentFare.travelSegmentIndex, segmentFare);
-					}
-					return Collections.unmodifiableMap(mapping);
-				}
-			}
 		}
 	}
 }

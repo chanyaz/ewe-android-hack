@@ -17,9 +17,11 @@ import android.widget.SeekBar
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.widget.TimeSlider
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.rail.RailSearchViewModel
 import rx.Subscription
 import kotlin.properties.Delegates
+import org.joda.time.DateTime
 
 class TimeAndCalendarDialogFragment(val viewModel: RailSearchViewModel) : CalendarDialogFragment(viewModel) {
 
@@ -54,6 +56,7 @@ class TimeAndCalendarDialogFragment(val viewModel: RailSearchViewModel) : Calend
         sliderContainer = calendarDialogView.findViewById(R.id.slider_container) as ViewGroup
         departTimeSlider = calendarDialogView.findViewById(R.id.depart_time_slider) as TimeSlider
         returnTimeSlider = calendarDialogView.findViewById(R.id.return_time_slider) as TimeSlider
+        val returnSliderContainer = calendarDialogView.findViewById(R.id.return_slider_container) as ViewGroup
 
         pickupTimePopupContainer = calendarDialogView.findViewById(R.id.pickup_time_popup_container) as LinearLayout
         pickupTimePopupContainerText = calendarDialogView.findViewById(R.id.pickup_time_popup_text_container) as LinearLayout
@@ -80,11 +83,13 @@ class TimeAndCalendarDialogFragment(val viewModel: RailSearchViewModel) : Calend
             setUpTooltipColor(it)
         }
 
+        viewModel.isRoundTripSearchObservable.subscribeVisibility(returnSliderContainer)
         return dialog
     }
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
+
         departTimeSubscription.unsubscribe()
         returnTimeSubscription.unsubscribe()
         departSliderColorSubscription.unsubscribe()
@@ -142,6 +147,7 @@ class TimeAndCalendarDialogFragment(val viewModel: RailSearchViewModel) : Calend
 
         override fun onStopTrackingTouch(seekBar: SeekBar) {
             pickupTimePopupContainer.visibility = View.GONE
+            validateTimes()
         }
 
         override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
@@ -152,9 +158,36 @@ class TimeAndCalendarDialogFragment(val viewModel: RailSearchViewModel) : Calend
                 } else if (seekBar.id == R.id.return_time_slider) {
                     viewModel.returnTimeSubject.onNext(TimeSlider.convertProgressToMillis(progress))
                 }
-
                 drawSliderTooltip(seekBar as TimeSlider)
             }
+        }
+
+        // Reset times if the start is equal to today and the selected time is before the current time
+        // or if the end time is earlier or equal to the start time and its the same day.
+        fun validateTimes() {
+            val now = DateTime.now()
+            if (isStartTimeBeforeAllowedTime(now)) {
+                // Adding min search hours to current time for same day search
+                // TODO update this with minimum search out time and handle end of day case
+                departTimeSlider.progress = getAllowedMinProgress(now)
+            }
+            if (isEndTimeBeforeStartTime()) {
+                returnTimeSlider.progress = departTimeSlider.progress + 1
+            }
+            viewModel.onTimesChanged(Pair(departTimeSlider.progress, returnTimeSlider.progress))
+        }
+
+        private fun getAllowedMinProgress(now: DateTime): Int {
+            return TimeSlider.convertMillisToProgress(now.millisOfDay) + R.integer.calendar_min_search_time_rail
+        }
+
+        private fun isStartTimeBeforeAllowedTime(now: DateTime): Boolean {
+            val nowProgress = TimeSlider.convertMillisToProgress(now.millisOfDay)
+            return departTimeSlider.progress <= (nowProgress + R.integer.calendar_min_search_time_rail) && viewModel.isStartDateEqualToToday()
+        }
+
+        private fun isEndTimeBeforeStartTime(): Boolean {
+            return returnTimeSlider.progress <= departTimeSlider.progress && viewModel.isStartEqualToEnd()
         }
     }
 }

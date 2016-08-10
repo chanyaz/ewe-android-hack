@@ -1,20 +1,13 @@
 package com.expedia.bookings.presenter.packages
 
 import android.content.Context
-import android.graphics.Point
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.view.Gravity
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.TextView
@@ -34,11 +27,11 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 
         vm.titleSubject.subscribe {
-            toolbar.title = context.getString(R.string.package_hotel_results_toolbar_title_TEMPLATE, it)
+            toolbarTitle.text = context.getString(R.string.package_hotel_results_toolbar_title_TEMPLATE, it)
         }
 
         vm.subtitleSubject.subscribe {
-            toolbar.subtitle = it
+            toolbarSubtitle.text = it
         }
 
         vm.paramsSubject.subscribe { params ->
@@ -74,7 +67,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         }
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
     }
-    
+
     override fun getFilterViewModel(): HotelFilterViewModel {
         return HotelFilterViewModel(LineOfBusiness.PACKAGES)
     }

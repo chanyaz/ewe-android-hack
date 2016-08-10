@@ -1,28 +1,38 @@
 package com.expedia.bookings.test.robolectric;
 
+import java.util.concurrent.TimeUnit;
+
+import org.joda.time.LocalDate;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
 import org.robolectric.annotation.Config;
 
 import android.app.Application;
+import android.content.Context;
 import android.text.Html;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
+import com.expedia.bookings.data.packages.PackageSearchParams;
+import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
+import com.expedia.bookings.testrule.ServicesRule;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.vm.hotel.HotelViewModel;
@@ -36,9 +46,15 @@ import static org.junit.Assert.assertTrue;
 @RunWith(RobolectricRunner.class)
 @Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class })
 public class HotelViewModelTest {
+	@Rule
+	public ServicesRule<PackageServices> serviceRule = new ServicesRule<>(PackageServices.class, "../lib/mocked/templates", true);
 
 	HotelViewModel vm;
 	Hotel hotel;
+
+	private Context getContext() {
+		return RuntimeEnvironment.application;
+	}
 
 	@Before
 	public void before() {
@@ -60,6 +76,63 @@ public class HotelViewModelTest {
 
 		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
 		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
+	}
+
+	@Test
+	public void strikeThroughPriceShowForPackages() {
+		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+
+		serviceRule.getServices().packageSearch(params).subscribe(observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertValueCount(1);
+		PackageSearchResponse response = observer.getOnNextEvents().get(0);
+		Hotel firstHotel = response.packageResult.hotelsPackage.hotels.get(0);
+
+		HotelViewModel vm = new HotelViewModel(getContext(), firstHotel);
+		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
+		assertEquals("$538", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
+	}
+
+	@Test
+	public void strikeThroughPriceDontShowForPackages() {
+		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
+		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
+			.origin(getDummySuggestion())
+			.destination(getDummySuggestion())
+			.startDate(LocalDate.now())
+			.endDate(LocalDate.now().plusDays(1))
+			.build();
+
+		serviceRule.getServices().packageSearch(params).subscribe(observer);
+		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
+
+		observer.assertValueCount(1);
+		PackageSearchResponse response = observer.getOnNextEvents().get(0);
+		Hotel firstHotel = response.packageResult.hotelsPackage.hotels.get(1);
+
+		HotelViewModel vm = new HotelViewModel(getContext(), firstHotel);
+		assertFalse(vm.getHotelStrikeThroughPriceVisibility().getValue());
+	}
+
+	private SuggestionV4 getDummySuggestion()  {
+		SuggestionV4 suggestion = new SuggestionV4();
+		suggestion.gaiaId = "";
+		suggestion.regionNames = new SuggestionV4.RegionNames();
+		suggestion.regionNames.displayName = "";
+		suggestion.regionNames.fullName = "";
+		suggestion.regionNames.shortName = "";
+		suggestion.hierarchyInfo = new SuggestionV4.HierarchyInfo();
+		suggestion.hierarchyInfo.airport = new SuggestionV4.Airport();
+		suggestion.hierarchyInfo.airport.airportCode = "";
+		suggestion.hierarchyInfo.airport.multicity = "happy";
+		return suggestion;
 	}
 
 	@Test

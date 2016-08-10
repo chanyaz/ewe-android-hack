@@ -1,9 +1,10 @@
 package com.expedia.vm.test.robolectric
 
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.vm.FlightOverviewViewModel
+import com.expedia.vm.packages.FlightOverviewViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -17,10 +18,8 @@ class FlightOverviewViewModelTest {
     lateinit private var sut: FlightOverviewViewModel
     lateinit private var flightLeg: FlightLeg
 
-    private val showBundlePrice = true
-
     private fun setupSystemUnderTest() {
-        sut = FlightOverviewViewModel(context, showBundlePrice)
+        sut = FlightOverviewViewModel(context)
     }
 
     private fun setupFlightLeg() {
@@ -30,6 +29,8 @@ class FlightOverviewViewModelTest {
         flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
         flightLeg.packageOfferModel.price.differentialPriceFormatted = "$646.00"
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "$646.00"
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money()
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket.formattedPrice = "$646.00"
     }
 
     @Test
@@ -37,21 +38,34 @@ class FlightOverviewViewModelTest {
         setupSystemUnderTest()
         setupFlightLeg()
 
+        sut.numberOfTravelers.onNext(1)
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 1
         sut.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals("1 seat left, $646.00", sut.urgencyMessagingSubject.value)
 
+        sut.numberOfTravelers.onNext(3)
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 2
         sut.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("2 seats left, $646.00", sut.urgencyMessagingSubject.value)
+        assertEquals("2 seats left, $646.00 per person", sut.urgencyMessagingSubject.value)
 
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 6
         sut.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("$646.00", sut.urgencyMessagingSubject.value)
+        assertEquals("$646.00 per person", sut.urgencyMessagingSubject.value)
 
         flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 0
         sut.selectedFlightLegSubject.onNext(flightLeg)
-        assertEquals("$646.00", sut.urgencyMessagingSubject.value)
+        assertEquals("$646.00 per person", sut.urgencyMessagingSubject.value)
+
+        sut.numberOfTravelers.onNext(1)
+        flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 3
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("3 seats left, $646.00", sut.urgencyMessagingSubject.value)
+
+        sut.numberOfTravelers.onNext(3)
+        flightLeg.packageOfferModel.price.deltaPositive = true
+        flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 2
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("2 seats left, +$646.00 per person", sut.urgencyMessagingSubject.value)
     }
 
     @Test

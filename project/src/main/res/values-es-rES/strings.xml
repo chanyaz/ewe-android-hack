@@ -123,8 +123,6 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hoteles</string>
-    <!-- Label for recent searches -->
-    <string name="recent_searches">Búsquedas recientes</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Ubicación de recogida</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -144,7 +142,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">¡Próximamente! Estamos trabajando para añadir reservas de coche de alquiler con recogida y entrega en distintas ubicaciones a la próxima versión.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">No se han obtenido resultados. Cambia los criterios de búsqueda.</string>
+    <string name="error_no_result_message">No se han obtenido resultados. Cambia los criterios de búsqueda y vuelve a intentarlo.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">No se han obtenido resultados. Elimina alguno de los filtros.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -1679,6 +1677,28 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Se cargará una &lt;a href=\"{airline_fee_url}\"&gt;tasa de la aerolínea&lt;/a&gt; a la cantidad total en función del tipo de tarjeta utilizado. Esta tasa se añadirá al total en el momento del pago.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">No se aceptan tarjetas de débito.</string>
+    <!-- Flights Sold out error screen: Select New Flight button label -->
+    <string name="flights_select_new_flight">Seleccionar nuevo vuelo.</string>
+    <!-- Flights Sold out error screen:- warning message -->
+    <string name="flight_sold_out_warning">Lo sentimos. Ya no quedan más asientos en este vuelo.</string>
+    <!-- Flights Sold out error screen:- toolbar title -->
+    <string name="flight_sold_out_toolbar_title">Sin plazas</string>
+    <!-- Flight Unavailable error screen:- toolbar title -->
+    <string name="flight_unavailable_toolbar_title">Vuelo no disponible</string>
+    <!-- Flight Unavailable error screen:- warning -->
+    <string name="flight_unavailable_warning">Lo sentimos. El vuelo ya no está disponible.</string>
+    <!-- Flight Session expired error screen:- warning -->
+    <string name="flight_session_expired_warning">¿Aún sigues ahí? La sesión ha caducado. Vuelve a intentarlo.</string>
+    <!-- Flight Session expired error screen:- toolbar title -->
+    <string name="flight_session_expired_toolbar_title">La sesión ha caducado</string>
+    <!-- Flight Session expired error screen:- new search button label -->
+    <string name="flight_new_search">Nueva búsqueda</string>
+    <!-- Flights unknown error screen:- title -->
+    <string name="flight_generic_error_title">Se ha producido un error</string>
+    <!-- Flights unknown error screen:- warning -->
+    <string name="flight_error_try_again_warning">Vamos a volver a intentarlo.</string>
+    <!-- Flights unknown error screen:- retry button label -->
+    <string name="flight_error_retry">Reintentar</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1808,6 +1828,9 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Selecciona la fecha de entrada</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
+    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
+
     <string name="room_with_guests_TEMPLATE">1 habitación, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Cancelación gratuita antes del {date}</string>
 
@@ -1902,7 +1925,10 @@
     <string name="select_payment_callout">Introducir datos</string>
     <!-- Add new card -->
     <string name="add_new_card">Añadir nueva tarjeta</string>
+    <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Nueva de tarjeta de crédito o débito</string>
+    <!-- New Credit card toolbar title shown on payment form -->
+    <string name="new_credit_card">Nueva tarjeta de crédito</string>
     <!-- Overview button -->
     <string name="overview_btn">Resumen</string>
     <!-- Stored Payment label -->
@@ -2059,7 +2085,10 @@
     <string name="ab_test_flights_free_cancellation">Cancelación gratuita durante las 24 horas posteriores a la reserva.</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">Introduce los datos del viajero</string>
-
+    <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
+    <string name="brand_account_cont_desc_TEMPLATE">Cuenta de {brand}</string>
+    <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
+    <string name="signed_in_account_cont_desc_TEMPLATE">Registrado como {email}</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
     <string name="travelers">Viajeros</string>
@@ -2141,7 +2170,7 @@
     <!-- Warning shown to users when they enter their name -->
     <string name="name_must_match_warning">El operador de la aerolínea puede denegar el embarque si el nombre del pasajero no coincide con el de alguna identificación oficial con fotografía.</string>
     <!-- Warning shown to users when they enter their name (Material design message) -->
-    <string name="name_must_match_warning_new">El nombre de los pasajeros debe coincidir exactamente con el del documento oficial.</string>
+    <string name="name_must_match_warning_new">El nombre de los viajeros debe coincidir exactamente con el del documento oficial.</string>
 
     <!-- Special Assistance label template -->
     <string name="special_assistance_label_TEMPLATE">Necesidades especiales: %1$s</string>
@@ -3978,8 +4007,19 @@
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Buscando hoteles en {destination}, del {startdate} al {enddate}, para {guests}. Un momento, por favor</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">Has seleccionado el hotel {hotel}, del {startdate} al {enddate}, para {guests}. {expandstate} detalles del hotel.</string>
-    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
-    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. {expandstate} detalles del vuelo.</string>
+    <!-- Bundle Overview flight card accessibility content description after search completed Eg. Search completed. Select a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button -->
+    <string name="select_flight_cont_desc_TEMPLATE">Se ha completado la búsqueda. Seleccionar un vuelo a {flight} el {date} para {travelers}. Botón</string>
+    <!-- Bundle Overview flight card accessibility content description while searching Eg. Searching for a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please wait -->
+    <string name="select_flight_searching_cont_desc_TEMPLATE">Buscando vuelos a {flight} el {date} para {travelers}. Un momento, por favor.</string>
+    <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">Has seleccionado vuelos a {flight} el {datetraveler}. {expandstate} detalles del vuelo.</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">Vuelo a {flight} el {date} para {travelers}. Selecciona {previous} primero. Botón desactivado.</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
+    <string name="select_flight_disabled_choose_outbound">Vuelo de ida</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
+    <string name="select_flight_disabled_choose_hotel">Hotel</string>
+
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Seleccionar hotel en %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4017,11 +4057,17 @@
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
     <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} - {arrivaltime}</string>
+    <!-- Carrier name and code when flight operated by different carrier e.g. Operated by Alaska Airlines (AS) -->
+    <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">Operado por {operatingairlinename} ({operatingairlinecode})</string>
+    <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
+    <string name="flight_operated_by_carrier_name_only_TEMPLATE">Operado por {operatingairlinename}</string>
 
     <!-- Select flight to template -->
     <string name="select_flight_to">Seleccionar vuelo a %1$s</string>
     <!-- Flight to template -->
     <string name="flight_to">Vuelo a %1$s</string>
+    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
+    <string name="flight_to_card_TEMPLATE">Vuelo a {airportcity} ({airportcode})</string>
     <!-- Select return flight -->
     <string name="select_return_flight">Seleccionar vuelo de vuelta</string>
     <!-- Flight overview - flight to template -->
@@ -4084,7 +4130,11 @@
     <string name="pwp_total_due_today_TEMPLATE">Total a pagar hoy:</string>
 
     <!-- Package Flight Overview -->
-    <string name="package_flight_overview_urgency_message_TEMPLATE">Solo quedan {seats} asientos</string>
+    <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
+    <plurals name="package_flight_overview_urgency_message_TEMPLATE">
+        <item quantity="one">Solo queda {seats} asiento</item>
+        <item quantity="other">Solo quedan {seats} asientos</item>
+    </plurals>
     <string name="package_flight_overview_baggage_fees">Información sobre tasas de equipaje</string>
     <string name="package_flight_overview_select_flight">Seleccionar este vuelo</string>
     <string name="package_flight_overview_bundle_total_label">Total del paquete</string>
@@ -4139,6 +4189,18 @@
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
+
+    <!-- Label for the tab on fare rules/amenities screen -->
+    <string name="fare_rules">Condiciones de la tarifa</string>
+
+    <!-- Label for no segment amenities amenities screen -->
+    <string name="no_amenities">Sin servicios</string>
+
+    <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
+    <string name="rail_station_info_TEMPLATE">{departure} - {arrival}</string>
+
+    <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Se ha producido un problema en el servidor. Vuelve a intentarlo.</string>
     <string name="pwp_trip_service_error">Se ha producido un problema en el servidor. Vuelve a intentarlo.</string>
@@ -4310,6 +4372,7 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/día</string>
     <string name="insurance_price_per_person">/persona</string>
+
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Calificación de {rating} sobre 5</string>
     <!--LX accessibility -->

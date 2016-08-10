@@ -113,7 +113,8 @@ class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context,
         googleMap ?: return
         val marker = MarkerOptions()
         marker.position(LatLng(hotelLatLng[0], hotelLatLng[1]))
-        marker.icon(BitmapDescriptorFactory.fromResource(R.drawable.hotels_pin))
+        val drawableId = Ui.obtainThemeResID(context, R.attr.map_pin_drawable)
+        marker.icon(BitmapDescriptorFactory.fromResource(drawableId))
         googleMap.addMarker(marker)
     }
 

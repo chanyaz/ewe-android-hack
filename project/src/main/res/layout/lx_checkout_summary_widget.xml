@@ -73,6 +73,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="8dp"
             android:layout_marginRight="12dp"
+            android:contentDescription="@string/lx_free_cancellation_cont_desc"
             android:drawableLeft="@drawable/check"
             android:drawableRight="@drawable/info"
             android:drawablePadding="8dp"
@@ -88,7 +89,8 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_weight="2"
-        android:layout_marginTop="3dp">
+        android:layout_marginTop="3dp"
+        android:importantForAccessibility="no">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/grand_total_text"

@@ -1498,7 +1498,7 @@ public class OmnitureTracking {
 			addProducts(s);
 		}
 
-		s.setCurrencyCode(newestFlightOffer.getTotalFare().getCurrency());
+		s.setCurrencyCode(newestFlightOffer.getTotalPrice().getCurrency());
 		s.setEvents("purchase");
 
 		// order number with an "onum" prefix, described here: http://confluence/pages/viewpage.action?pageId=419913476
@@ -1521,7 +1521,7 @@ public class OmnitureTracking {
 		String airlineCode = trip.getLeg(0).getPrimaryAirlines().iterator().next();
 		String tripType = getOmnitureStringCodeRepresentingTripTypeByNumLegs(trip.getLegCount());
 		String numTravelers = Integer.toString(Db.getTripBucket().getFlight().getFlightSearchParams().getNumAdults());
-		String price = trip.getTotalFare().getAmount().toString();
+		String price = trip.getTotalPrice().getAmount().toString();
 
 		s.setProducts("Flight;Agency Flight:" + airlineCode + ":" + tripType + ";" + numTravelers + ";" + price);
 	}
@@ -2801,7 +2801,7 @@ public class OmnitureTracking {
 			boolean isSplitTicket = newestFlightOffer.isSplitTicket();
 			FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 			FlightSearchParams params = Db.getTripBucket().getFlight().getFlightSearchParams();
-			s.setCurrencyCode(trip.getTotalFare().getCurrency());
+			s.setCurrencyCode(trip.getTotalPrice().getCurrency());
 
 			addStandardFlightFields(s);
 			setEvar30(s, trip, params);
@@ -3499,7 +3499,6 @@ public class OmnitureTracking {
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
 		s.setEvar(18, LOGIN_SCREEN);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppSignInMessagingTest);
 		s.track();
 	}
 
@@ -5176,11 +5175,13 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_FLIGHT_AIRLINES = "App.Flight.Search.Filter.Airline";
 	private static final String FLIGHTS_V2_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.ViewDetails";
+	private static final String FLIGHTS_V2_COST_SUMMARY = "App.Flight.RD.TotalCost";
 	private static final String FLIGHTS_V2_PRICE_CHANGE = "App.Flight.CKO.PriceChange";
 	private static final String FLIGHTS_V2_SELECT_TRAVELER = "App.Flight.CKO.Traveler.Select.Existing";
 	private static final String FLIGHTS_V2_ENTER_TRAVELER = "App.Flight.CKO.Traveler.EnterManually";
 	private static final String FLIGHTS_V2_SELECT_CARD = "App.Flight.CKO.Payment.Select.Existing";
 	private static final String FLIGHTS_V2_ENTER_CARD = "App.Flight.CKO.Payment.EnterManually";
+	private static final String FLIGHTS_V2_CHECKOUT_PAYMENT_SELECT = "App.Flight.CKO.Payment.Select";
 	private static final String FLIGHTS_V2_SLIDE_TO_PURCHASE = "App.Flight.Checkout.Payment.SlideToPurchase";
 	private static final String FLIGHTS_V2_PAYMENT_CID = "App.Flight.Checkout.Payment.CID";
 	private static final String FLIGHTS_V2_ERROR = "App.Flight.Error";
@@ -5247,14 +5248,31 @@ public class OmnitureTracking {
 
 		String itineraryType;
 		switch (getFlightItineraryType()) {
-			case SPLIT_TICKET: itineraryType = "ST"; break;
-			case ONE_WAY:      itineraryType = "OW"; break;
-			case ROUND_TRIP:   itineraryType = "RT"; break;
-			default:           itineraryType = "MD"; break;
+		case SPLIT_TICKET:
+			itineraryType = "ST";
+			break;
+		case ONE_WAY:
+			itineraryType = "OW";
+			break;
+		case ROUND_TRIP:
+			itineraryType = "RT";
+			break;
+		default:
+			itineraryType = "MD";
+			break;
 		}
 
-		return String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.first.airlineCode,
+		String outBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.first.airlineCode,
 			itineraryType, trip.getDetails().offer.numberOfTickets, trip.totalPrice.amount);
+
+		if (itineraryType.equalsIgnoreCase("ST")) {
+			String inBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.second.airlineCode,
+				itineraryType, trip.getDetails().offer.numberOfTickets, trip.totalPrice.amount);
+
+			return outBoundFlight + inBoundFlight;
+
+		}
+		return outBoundFlight;
 	}
 
 	public static Pair<String, String> getFlightSearchDepartureAndArrivalAirportCodes() {
@@ -5520,6 +5538,10 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(FLIGHTS_V2_DETAILS_EXPAND, "Rate Details");
 	}
 
+	public static void trackFlightCostBreakdownClick() {
+		createAndtrackLinkEvent(FLIGHTS_V2_COST_SUMMARY, "Rate Details");
+	}
+
 	public static void trackFlightPriceChange(int priceChangePercentage) {
 		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_PRICE_CHANGE + "\" click...");
 		ADMS_Measurement s = getFreshTrackingObject();
@@ -5544,6 +5566,10 @@ public class OmnitureTracking {
 
 	public static void trackShowPaymentEdit() {
 		createAndtrackLinkEvent(FLIGHTS_V2_ENTER_CARD, "Flight Checkout");
+	}
+
+	public static void trackPaymentSelect() {
+		trackPackagePageLoadEventStandard(FLIGHTS_V2_CHECKOUT_PAYMENT_SELECT);
 	}
 
 	public static void trackSlideToPurchase(String cardType) {

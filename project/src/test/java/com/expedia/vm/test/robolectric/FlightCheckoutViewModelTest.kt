@@ -1,7 +1,9 @@
 package com.expedia.vm.test.robolectric
 
+import android.app.Activity
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Money
@@ -22,6 +24,7 @@ import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import rx.subjects.PublishSubject
@@ -40,6 +43,8 @@ class FlightCheckoutViewModelTest {
 
 
     private fun setupSystemUnderTest() {
+        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        activity.setTheme(R.style.FlightTheme)
         Ui.getApplication(context).defaultTravelerComponent()
         sut = FlightCheckoutViewModel(context, mockFlightServices, selectedCardTypeSubject)
     }

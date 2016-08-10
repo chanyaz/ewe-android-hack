@@ -233,7 +233,7 @@ public class JodaUtilsTest {
 
 		FlightTrip flightTrip = new FlightTrip();
 		flightTrip.setBaseFare(baseFare);
-		flightTrip.setTotalFare(baseFare);
+		flightTrip.setTotalPrice(baseFare);
 
 		Itinerary itinerary = new Itinerary();
 		List<Traveler> travelers = new ArrayList<Traveler>();

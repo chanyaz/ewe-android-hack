@@ -1,11 +1,10 @@
 package com.expedia.vm.test.rail
 
-import com.expedia.bookings.data.rail.responses.LegOption
 import com.expedia.bookings.data.rail.responses.PassengerSegmentFare
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.data.rail.responses.RailSearchSegment
+import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailProduct
+import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSegment
-import com.expedia.bookings.data.rail.responses.SearchLegOption
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.rail.RailAmenitiesViewModel
 import org.junit.Test
@@ -23,7 +22,7 @@ class RailAmenitiesViewModelTest {
     @Test
     fun outboundLegNotSet() {
         amenitiesVM = RailAmenitiesViewModel()
-        amenitiesVM.offerObservable.onNext(RailSearchResponse.RailOffer())
+        amenitiesVM.offerObservable.onNext(RailOffer())
 
         assertTrue(amenitiesVM.segmentAmenitiesSubject.value.isEmpty())
     }
@@ -59,13 +58,13 @@ class RailAmenitiesViewModelTest {
         assertNull(pairs[1].second)
     }
 
-    private fun buildRailOfferWithFareBreakdowns(): RailSearchResponse.RailOffer {
+    private fun buildRailOfferWithFareBreakdowns(): RailOffer {
         var offer = buildRailOfferWithNoFareBreakdown()
         //quite an atrocity
-        offer.railProductList[0].fareBreakdownList = ArrayList<RailSearchResponse.RailOffer.RailSearchProduct.FareBreakdown>()
-        offer.railProductList[0].fareBreakdownList.add(RailSearchResponse.RailOffer.RailSearchProduct.FareBreakdown())
-        offer.railProductList[0].fareBreakdownList[0].passengerFareList = ArrayList<RailSearchResponse.RailOffer.RailSearchProduct.PassengerFare>()
-        offer.railProductList[0].fareBreakdownList[0].passengerFareList.add(RailSearchResponse.RailOffer.RailSearchProduct.PassengerFare())
+        offer.railProductList[0].fareBreakdownList = ArrayList<RailProduct.FareBreakdown>()
+        offer.railProductList[0].fareBreakdownList.add(RailProduct.FareBreakdown())
+        offer.railProductList[0].fareBreakdownList[0].passengerFareList = ArrayList<RailProduct.PassengerFare>()
+        offer.railProductList[0].fareBreakdownList[0].passengerFareList.add(RailProduct.PassengerFare())
         offer.railProductList[0].fareBreakdownList[0].passengerFareList[0].passengerSegmentFareList = ArrayList<PassengerSegmentFare>()
 
         var segmentFare1 = PassengerSegmentFare()
@@ -77,22 +76,22 @@ class RailAmenitiesViewModelTest {
         return offer
     }
 
-    private fun buildRailOfferWithNoFareBreakdown(): RailSearchResponse.RailOffer {
+    private fun buildRailOfferWithNoFareBreakdown(): RailOffer {
         var legOption = buildLegOptionWithSegments()
-        var offer = RailSearchResponse.RailOffer()
+        var offer = RailOffer()
         offer.outboundLeg = legOption
 
-        offer.railProductList = ArrayList<RailSearchResponse.RailOffer.RailSearchProduct>()
-        offer.railProductList.add(RailSearchResponse.RailOffer.RailSearchProduct())
+        offer.railProductList = ArrayList<RailProduct>()
+        offer.railProductList.add(RailProduct())
         return offer
     }
 
-    private fun buildLegOptionWithSegments(): LegOption {
-        var legOption = SearchLegOption()
-        legOption.travelSegmentList = ArrayList<RailSearchSegment>()
-        var segment1 = RailSearchSegment()
+    private fun buildLegOptionWithSegments(): RailLegOption {
+        var legOption = RailLegOption()
+        legOption.travelSegmentList = ArrayList<RailSegment>()
+        var segment1 = RailSegment()
         segment1.travelSegmentIndex = 1
-        var segment2 = RailSearchSegment()
+        var segment2 = RailSegment()
         segment2.travelSegmentIndex = 2
 
         legOption.travelSegmentList.add(segment1)

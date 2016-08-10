@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.vm.hotel.HotelViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
@@ -20,13 +21,17 @@ class PackageHotelViewModel(context: Context, hotel: Hotel) : HotelViewModel(con
 
     private fun getUnrealDeal(): String {
         if (hotel.packageOfferModel?.featuredDeal ?: false) {
-            val dealVariation = hotel.packageOfferModel?.brandedDealData?.dealVariation ?: ""
-            return when (dealVariation) {
-                PackageOfferModel.DealVariation.FreeHotel -> resources.getString(R.string.free_hotel_deal)
-                PackageOfferModel.DealVariation.FreeFlight -> resources.getString(R.string.free_flight_deal)
-                PackageOfferModel.DealVariation.HotelDeal -> getHotelDealMessage()
-                PackageOfferModel.DealVariation.FreeOneNightHotel -> getFreeNightHotelMessage()
-                else -> ""
+            if (PointOfSale.getPointOfSale().shouldShowFreeUnrealDeal()) {
+                val dealVariation = hotel.packageOfferModel?.brandedDealData?.dealVariation ?: ""
+                return when (dealVariation) {
+                    PackageOfferModel.DealVariation.FreeHotel -> resources.getString(R.string.free_hotel_deal)
+                    PackageOfferModel.DealVariation.FreeFlight -> resources.getString(R.string.free_flight_deal)
+                    PackageOfferModel.DealVariation.HotelDeal -> getHotelDealMessage()
+                    PackageOfferModel.DealVariation.FreeOneNightHotel -> getFreeNightHotelMessage()
+                    else -> ""
+                }
+            } else {
+                return getHotelDealMessage()
             }
         }
         return ""

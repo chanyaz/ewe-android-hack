@@ -18,7 +18,7 @@ public class FlightFilterButtonWithCountWidget extends FilterButtonWithCountWidg
 	public void setTextAndFilterIconColor(@ColorRes int color) {
 		int textAndFilterIconColor = ContextCompat.getColor(getContext(), color);
 		filterText.setTextColor(textAndFilterIconColor);
-		int filterNumberColor = ContextCompat.getColor(getContext(), R.color.lob_packages_primary_color);
+		int filterNumberColor = ContextCompat.getColor(getContext(), R.color.filter_number_text_color);
 		filterNumber.setBackgroundResource(R.drawable.filter_number_bg_white);
 		filterNumber.setTextColor(filterNumberColor);
 		((ImageView) filterIcon).setColorFilter(textAndFilterIconColor);

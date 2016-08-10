@@ -123,8 +123,6 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Khách\nsạn</string>
-    <!-- Label for recent searches -->
-    <string name="recent_searches">Tìm gần đây</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Địa điểm nhận xe</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -144,7 +142,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Sắp ra mắt! Chúng tôi đang nỗ lực hết sức để thêm tính năng đặt thuê xe một chiều trong phiên bản sắp ra mắt.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
+    <string name="error_no_result_message">Không tìm được kết quả. Vui lòng thử tìm lại với dữ liệu khác.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Không tìm được kết quả. Vui lòng giảm số bộ lọc.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -241,7 +239,7 @@
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Thẻ đã lưu</string>
     <!-- text that goes underneath the camera button for card_io -->
-    <string name="card_io_btn_text">Quét</string>
+    <string name="card_io_btn_text">QUÉT</string>
     <!-- Card.io scan text -->
     <string name="scan_card_text">Quét thẻ</string>
 
@@ -1679,6 +1677,28 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Sẽ thu bổ sung &lt;a href=\"{airline_fee_url}\"&gt;phí hãng hàng không&lt;/a&gt;, tùy loại thẻ, khi thanh toán. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Không nhận thanh toán bằng thẻ ghi nợ.</string>
+    <!-- Flights Sold out error screen: Select New Flight button label -->
+    <string name="flights_select_new_flight">Chọn chuyến bay mới</string>
+    <!-- Flights Sold out error screen:- warning message -->
+    <string name="flight_sold_out_warning">Rất tiếc. Chuyến bay đã hết chỗ.</string>
+    <!-- Flights Sold out error screen:- toolbar title -->
+    <string name="flight_sold_out_toolbar_title">Hết chỗ</string>
+    <!-- Flight Unavailable error screen:- toolbar title -->
+    <string name="flight_unavailable_toolbar_title">Không có chuyến bay</string>
+    <!-- Flight Unavailable error screen:- warning -->
+    <string name="flight_unavailable_warning">Rất tiếc. Hiện không còn chuyến bay này</string>
+    <!-- Flight Session expired error screen:- warning -->
+    <string name="flight_session_expired_warning">Vẫn đang tìm? Phiên truy cập của quý vị đã hết hạn. Vui lòng tìm lại.</string>
+    <!-- Flight Session expired error screen:- toolbar title -->
+    <string name="flight_session_expired_toolbar_title">Hết phiên truy cập</string>
+    <!-- Flight Session expired error screen:- new search button label -->
+    <string name="flight_new_search">Tìm kiếm mới</string>
+    <!-- Flights unknown error screen:- title -->
+    <string name="flight_generic_error_title">Lỗi</string>
+    <!-- Flights unknown error screen:- warning -->
+    <string name="flight_error_try_again_warning">Ồ. Hãy thử lại.</string>
+    <!-- Flights unknown error screen:- retry button label -->
+    <string name="flight_error_retry">Thử lại</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1808,6 +1828,9 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Chọn ngày nhận phòng</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
+    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
+
     <string name="room_with_guests_TEMPLATE">1 phòng, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Hủy miễn phí đến {date}</string>
 
@@ -1902,7 +1925,10 @@
     <string name="select_payment_callout">Nhập chi tiết</string>
     <!-- Add new card -->
     <string name="add_new_card">Thêm thẻ mới</string>
+    <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Thẻ tín dụng/ghi nợ mới</string>
+    <!-- New Credit card toolbar title shown on payment form -->
+    <string name="new_credit_card">Thẻ tín dụng mới</string>
     <!-- Overview button -->
     <string name="overview_btn">Tổng quan</string>
     <!-- Stored Payment label -->
@@ -2059,7 +2085,10 @@
     <string name="ab_test_flights_free_cancellation">Hủy miễn phí trong vòng 24 giờ từ khi đặt</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">Nhập thông tin khách</string>
-
+    <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
+    <string name="brand_account_cont_desc_TEMPLATE">Tài khoản {brand}</string>
+    <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
+    <string name="signed_in_account_cont_desc_TEMPLATE">Đăng nhập bằng {email}</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
     <string name="travelers">Khách</string>
@@ -3920,7 +3949,7 @@
     <string name="airline_fee_notice">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy loại thẻ.</string>
     <string name="airline_charge_notice">Hãng hàng không sẽ thu thêm phụ phí khi thanh toán, tùy hình thức thanh toán.</string>
     <string name="airline_fee_notice_payment">Phí hãng hàng không tùy hình thức thanh toán</string>
-    <string name="airline_notice_fee_added">Sẽ bổ sung thêm <u><b>phí hãng hàng không</b></u>, tùy loại thẻ, khi thanh toán. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
+    <string name="airline_notice_fee_added">Sẽ thu bổ sung <u><b>phí hãng hàng không</b></u>, tùy loại thẻ, khi thanh toán. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
     <string name="airline_notice_fee_added_tablet">Sẽ thu bổ sung &lt;u&gt;&lt;b&gt;phí hãng hàng không&lt;/b&gt;&lt;/u&gt;, tùy loại thẻ, khi thanh toán. Loại phí này sẽ được tính vào tổng giá khi thanh toán.</string>
 
     <!-- Packages -->
@@ -3978,8 +4007,19 @@
     <string name="select_hotel_searching_cont_desc_TEMPLATE">Đang tìm khách sạn tại {destination} từ {startdate} đến {enddate}, cho {guests}. Vui lòng đợi</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">Quý vị đã chọn khách sạn {hotel} từ {startdate} đến {enddate}, cho {guests}. {expandstate} chi tiết khách sạn.</string>
-    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
-    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. {expandstate} chi tiết chuyến bay.</string>
+    <!-- Bundle Overview flight card accessibility content description after search completed Eg. Search completed. Select a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button -->
+    <string name="select_flight_cont_desc_TEMPLATE">Hoàn tất tìm kiếm. Chọn chuyến bay đến {flight} vào {date} cho {travelers}. Nút</string>
+    <!-- Bundle Overview flight card accessibility content description while searching Eg. Searching for a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please wait -->
+    <string name="select_flight_searching_cont_desc_TEMPLATE">Đang tìm chuyến bay đến {flight} vào {date} cho {travelers}. Vui lòng đợi</string>
+    <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">Quý vị đã chọn chuyến bay đến {flight} vảo {datetraveler}. {expandstate} chi tiết chuyến bay.</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">Chuyến bay đến {flight} vào {date} cho {travelers}. Vui lòng chọn {previous} trước. Nút tắt.</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
+    <string name="select_flight_disabled_choose_outbound">Chuyến bay đi</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
+    <string name="select_flight_disabled_choose_hotel">Khách sạn</string>
+
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Chọn khách sạn tại %s</string>
     <!-- Bundle Overview searching flight -->
@@ -4017,11 +4057,17 @@
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
     <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} đến {arrivaltime}</string>
+    <!-- Carrier name and code when flight operated by different carrier e.g. Operated by Alaska Airlines (AS) -->
+    <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">Điều hành bởi {operatingairlinename} ({operatingairlinecode})</string>
+    <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
+    <string name="flight_operated_by_carrier_name_only_TEMPLATE">Điều hành bởi {operatingairlinename}</string>
 
     <!-- Select flight to template -->
     <string name="select_flight_to">Chọn chuyến bay đến %1$s</string>
     <!-- Flight to template -->
     <string name="flight_to">Bay đến %1$s</string>
+    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
+    <string name="flight_to_card_TEMPLATE">Chuyến bay đến ({airportcode}) {airportcity}</string>
     <!-- Select return flight -->
     <string name="select_return_flight">Chọn chuyến bay về</string>
     <!-- Flight overview - flight to template -->
@@ -4084,7 +4130,11 @@
     <string name="pwp_total_due_today_TEMPLATE">Tổng cần thanh toán hôm nay:</string>
 
     <!-- Package Flight Overview -->
-    <string name="package_flight_overview_urgency_message_TEMPLATE">Còn {seats} chỗ</string>
+    <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
+    <plurals name="package_flight_overview_urgency_message_TEMPLATE">
+        <item quantity="one">Còn {seats} chỗ</item>
+        <item quantity="other">Còn {seats} chỗ</item>
+    </plurals>
     <string name="package_flight_overview_baggage_fees">Thông tin phí hành lý</string>
     <string name="package_flight_overview_select_flight">Chọn chuyến bay này</string>
     <string name="package_flight_overview_bundle_total_label">Tổng gói</string>
@@ -4139,6 +4189,18 @@
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Tổng cộng</string>
+
+    <!-- Label for the tab on fare rules/amenities screen -->
+    <string name="fare_rules">Quy tắc giá vé</string>
+
+    <!-- Label for no segment amenities amenities screen -->
+    <string name="no_amenities">Không có tiện nghi, dịch vụ</string>
+
+    <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
+    <string name="rail_station_info_TEMPLATE">{departure} đến {arrival}</string>
+
+    <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
     <string name="pwp_trip_service_error">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
@@ -4310,6 +4372,7 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/ngày</string>
     <string name="insurance_price_per_person">/người</string>
+
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Điểm đánh giá {rating}/5</string>
     <!--LX accessibility -->

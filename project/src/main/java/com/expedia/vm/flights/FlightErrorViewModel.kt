@@ -22,6 +22,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     val showOutboundResults = PublishSubject.create<Unit>()
     val showPaymentForm = PublishSubject.create<Unit>()
     val showConfirmation = PublishSubject.create<Unit>()
+    val showSearch = PublishSubject.create<Unit>()
     val paramsSubject = PublishSubject.create<com.expedia.bookings.data.flights.FlightSearchParams>()
 
     private val retryCreateTripBtnClicked = PublishSubject.create<Unit>()
@@ -43,6 +44,9 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
+                    buttonOneClickedObservable.subscribe {
+                       showSearch.onNext(Unit)
+                    }
                     FlightsV2Tracking.trackFlightNoResult()
                 }
                 else -> {

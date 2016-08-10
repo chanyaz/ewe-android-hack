@@ -58,6 +58,11 @@ class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Trave
             if (travelers[i].assistance != null) {
                 params.put(key + "specialAssistanceOption", travelers[i].assistance)
             }
+
+            params.put(key + "seatPreference", travelers[i].seatPreference.name)
+            if (traveler.redressNumber?.isNotEmpty() ?: false) {
+                params.put(key + "TSARedressNumber", traveler.redressNumber)
+            }
         }
 
         //TRIP

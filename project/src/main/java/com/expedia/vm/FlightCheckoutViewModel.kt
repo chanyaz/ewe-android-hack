@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -18,6 +19,7 @@ import com.expedia.bookings.data.utils.getFee
 import com.expedia.bookings.data.utils.getPaymentType
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.BookingSuppressionUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -47,7 +49,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
     init {
         val pointOfSale = PointOfSale.getPointOfSale()
 
-        legalText.onNext(SpannableStringBuilder(pointOfSale.stylizedFlightBookingStatement))
+        legalText.onNext(SpannableStringBuilder(pointOfSale.getColorizedFlightBookingStatement(ContextCompat.getColor(context, R.color.flight_primary_color))))
 
         tripResponseObservable.subscribe { it as FlightCreateTripResponse
             builder.tripId(it.newTrip.tripId)
@@ -92,7 +94,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
                         Phrase.from(context, R.string.flights_fee_added_based_on_payment_TEMPLATE)
                                 .put("airline_fee_url", obFeeDetailsUrl)
                                 .format().toString()
-                cardFeeWarningTextSubject.onNext(Html.fromHtml(airlineFeeWithLink))
+                cardFeeWarningTextSubject.onNext(StrUtils.getSpannableTextByColor(airlineFeeWithLink, ContextCompat.getColor(context, R.color.flight_primary_color), true))
             }
             else {
                 cardFeeWarningTextSubject.onNext(null)

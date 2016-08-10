@@ -75,6 +75,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getViewModel().showConfirmation.subscribe {
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
+        presenter.getViewModel().showSearch.subscribe {
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
         presenter
     }
 
@@ -137,7 +140,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                     val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
                     val baggageFeesTextWithLinks = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
                                                     .put("departurelink", outboundBaggageFeeUrl)
-                                                    .put("returnlink", inboundBaggageFeeUrl).toString()
+                                                    .put("returnlink", inboundBaggageFeeUrl).format().toString()
                     val spannableStringBuilder = StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, ContextCompat.getColor(context, R.color.flight_primary_color), true)
                     val destinationCity = outbound.segments?.last()?.arrivalAirportAddress?.city
                     confirmationPresenter.viewModel.destinationObservable.onNext(destinationCity)

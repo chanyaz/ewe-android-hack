@@ -31,6 +31,7 @@
         style="@style/MaterialCardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/card_view_container_margin"
         android:layout_marginRight="@dimen/card_view_container_margin"
         android:animateLayoutChanges="true"
@@ -44,11 +45,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left"
         android:layout_marginLeft="20dp"
-        android:layout_marginBottom="4dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:drawableLeft="@drawable/check"
         android:drawablePadding="10dp"
         android:textSize="12sp"
+        android:textColor="@color/defaultTextColor"
         android:text="@string/flights_free_cancellation" />
 
     <include

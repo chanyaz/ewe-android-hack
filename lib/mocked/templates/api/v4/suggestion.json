@@ -612,6 +612,45 @@
       },
       "isMinorAirport": "false",
       "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "16",
+      "gaiaId": "search_no_result",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "SearchNoResult Airport, PC",
+        "shortName": "SearchNoResult Airport, PC",
+        "displayName": "SearchNoResult Airport, PC",
+        "lastSearchName": "SearchNoResult Airport, PC"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "-37.008038",
+        "long": "174.785255"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SearchError",
+          "multicity": "111111"
+        },
+        "country": {
+          "name": "Session timeout Create Trip Kingdom",
+          "isoCode2": "NZ",
+          "isoCode3": "NZL"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "87"
+      },
+      "regionGrades": {
+        "globalGrade": "97"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
     }
   ]
 }

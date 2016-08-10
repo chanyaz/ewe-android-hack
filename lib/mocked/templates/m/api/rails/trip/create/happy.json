@@ -1,319 +1,971 @@
 {
-  "tripId": "e6f8caad-9115-4c8c-9e45-db0002c4e3cd",
+  "tripId": "f5c20d55-067f-40c0-a2d4-04265ceeb10c",
   "totalPrice": {
-    "amount": "203.00",
-    "formattedPrice": "£203.00",
-    "formattedWholePrice": "£203",
+    "amount": "196.00",
+    "formattedPrice": "£196.00",
+    "formattedWholePrice": "£196",
     "currencyCode": "GBP"
   },
-  "offerToken": "CAISBAjQxzAabQjLxzAQmskwGhoIpoChBhCmgKEKGMvHMCDNyDAqBlZUNzYwNRoUCKaAoQoQpoDhBxjNyDAg-MgwKgAaGgimgOEHEKaIhwMY-sgwIJrJMCoGR1c3NTEzIhUKB0FOWVRJTUUQAxoIU3RhbmRhcmQiAwiBAQ==",
-  "railsProducts": [
-    {
-      "productToken": "CMvHMBCayTAaGgimgKEGEKaAoQoYy8cwIM3IMCoGVlQ3NjA1GhQIpoChChCmgOEHGM3IMCD4yDAqABoaCKaA4QcQpoiHAxj6yDAgmskwKgZHVzc1MTMiFQoHQU5ZVElNRRADGghTdGFuZGFyZA==",
-      "productPrice": {
-        "amount": "195.00",
-        "formattedPrice": "£195.00",
-        "formattedWholePrice": "£195",
-        "currencyCode": "GBP"
+  "offerToken": "eNrjYBZK4YrhuNAsLMAgMbtFWOFFq7CWFMeyhoVsAkCCCyy2CCjGFhZibmZkqiUCkuMCyj1klwCKK5wFyjGAdTxkF1jW0c4scb4VYgqbe7iZoaGREAsHowCzFDNHIyMA3LYehA==",
+  "railDomainProduct": {
+    "railOffer": {
+      "totalPrice": {
+        "amount": "196.00",
+        "currencyCode": "GBP",
+        "mainCurrency": 196,
+        "fractionalCurrency": 0,
+        "currencySymbol": "£",
+        "formattedPrice": "£196.0",
+        "formattedWholePrice": "£196"
       },
-      "legList": [
+      "priceBreakdown": [
         {
-          "legOptionIndex": "1",
-          "departureDateTime": {
-            "raw": "2016-07-06T11:55:00-07:00",
-            "localized": "Jul 6, 2016 11:55:00 AM",
-            "epochSeconds": 1467831300,
-            "timeZoneOffsetSeconds": -25200,
-            "localizedShortDate": "Wed, 6 Jul"
-          },
-          "departureStation": {
-            "stationCode": "GBQQM",
-            "stationDisplayName": "Manchester Piccadilly"
-          },
-          "arrivalDateTime": {
-            "raw": "2016-07-06T15:22:00-07:00",
-            "localized": "Jul 6, 2016 3:22:00 PM",
-            "epochSeconds": 1467843720,
-            "timeZoneOffsetSeconds": -25200,
-            "localizedShortDate": "Wed, 6 Jul"
-          },
-          "arrivalStation": {
-            "stationCode": "GBRDG",
-            "stationDisplayName": "Reading"
-          },
-          "duration": {
-            "time": 207,
-            "unit": "MIN"
-          },
-          "travelSegmentList": [
+          "amount": "1",
+          "currencyCode": "GBP",
+          "mainCurrency": 1,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£1.0",
+          "formattedWholePrice": "£1",
+          "priceCategory": "Expedia Booking Fee",
+          "priceCategoryCode": "EXPEDIA_SERVICE_FEE"
+        },
+        {
+          "amount": "195.00",
+          "currencyCode": "GBP",
+          "mainCurrency": 195,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£195.0",
+          "formattedWholePrice": "£195",
+          "priceCategory": "Ticket Price",
+          "priceCategoryCode": "TICKET"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "anytime single",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid only for travel via (changing trains or passing through) London."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 3 Sep, 2016 01:30",
+            "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."
+          ],
+          "legOptionList": [
             {
-              "travelSegmentIndex": "1",
-              "travelMode": "Train",
-              "departureDateTime": {
-                "raw": "2016-07-06T11:55:00-07:00",
-                "localized": "Jul 6, 2016 11:55:00 AM",
-                "epochSeconds": 1467831300,
-                "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Wed, 6 Jul"
-              },
+              "legOptionIndex": 5,
               "departureStation": {
                 "stationCode": "GBQQM",
                 "stationDisplayName": "Manchester Piccadilly"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-07-06T14:05:00-07:00",
-                "localized": "Jul 6, 2016 2:05:00 PM",
-                "epochSeconds": 1467839100,
-                "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Wed, 6 Jul"
-              },
-              "arrivalStation": {
-                "stationCode": "GBQQU",
-                "stationDisplayName": "London Euston"
-              },
-              "duration": {
-                "time": 130,
-                "unit": "MIN"
-              },
-              "marketingCarrier": "Virgin",
-              "operatingCarrier": "Virgin",
-              "travelMedium": {
-                "travelMediumCode": "ICY",
-                "travelMediumName": "Inter-City",
-                "supplierTravelMediumName": "Virgin-ICY"
-              }
-            },
-            {
-              "travelSegmentIndex": "2",
-              "travelMode": "Transfer",
-              "departureDateTime": {
-                "raw": "2016-07-06T14:05:00-07:00",
-                "localized": "Jul 6, 2016 2:05:00 PM",
-                "epochSeconds": 1467839100,
-                "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Wed, 6 Jul"
-              },
-              "departureStation": {
-                "stationCode": "GBQQU",
-                "stationDisplayName": "London Euston"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-07-06T14:48:00-07:00",
-                "localized": "Jul 6, 2016 2:48:00 PM",
-                "epochSeconds": 1467841680,
-                "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Wed, 6 Jul"
-              },
-              "arrivalStation": {
-                "stationCode": "GBQQP",
-                "stationDisplayName": "London Paddington"
-              },
-              "duration": {
-                "time": 43,
-                "unit": "MIN"
-              },
-              "marketingCarrier": "LonUnderground",
-              "operatingCarrier": "LonUnderground",
-              "travelMedium": {
-                "travelMediumCode": "MCT",
-                "travelMediumName": "Metro/City-Transit",
-                "supplierTravelMediumName": "LonUnderground-MCT"
-              }
-            },
-            {
-              "travelSegmentIndex": "3",
-              "travelMode": "Train",
-              "departureDateTime": {
-                "raw": "2016-07-06T14:50:00-07:00",
-                "localized": "Jul 6, 2016 2:50:00 PM",
-                "epochSeconds": 1467841800,
-                "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Wed, 6 Jul"
-              },
-              "departureStation": {
-                "stationCode": "GBQQP",
-                "stationDisplayName": "London Paddington"
-              },
-              "arrivalDateTime": {
-                "raw": "2016-07-06T15:22:00-07:00",
-                "localized": "Jul 6, 2016 3:22:00 PM",
-                "epochSeconds": 1467843720,
-                "timeZoneOffsetSeconds": -25200,
-                "localizedShortDate": "Wed, 6 Jul"
               },
               "arrivalStation": {
                 "stationCode": "GBRDG",
                 "stationDisplayName": "Reading"
               },
-              "duration": {
-                "time": 32,
-                "unit": "MIN"
+              "departureDateTime": {
+                "raw": "2016-08-04T13:15:00",
+                "epochSeconds": 1470316500,
+                "localized": "4 Aug, 2016 13:15",
+                "localizedShortDate": "Thu 4, Aug"
               },
-              "marketingCarrier": "FirstGrtWest",
-              "operatingCarrier": "FirstGrtWest",
-              "travelMedium": {
-                "travelMediumCode": "ICY",
-                "travelMediumName": "Inter-City",
-                "supplierTravelMediumName": "FirstGrtWest-ICY"
-              }
+              "arrivalDateTime": {
+                "raw": "2016-08-04T16:40:00",
+                "epochSeconds": 1470328800,
+                "localized": "4 Aug, 2016 16:40",
+                "localizedShortDate": "Thu 4, Aug"
+              },
+              "duration": "PT3H25M",
+              "aggregatedMarketingCarrier": "Multiple train lines",
+              "aggregatedOperatingCarrier": "Multiple train lines",
+              "travelSegmentList": [
+                {
+                  "travelSegmentIndex": 13,
+                  "travelMode": "Train",
+                  "departureStation": {
+                    "stationCode": "GBQQM",
+                    "stationDisplayName": "Manchester Piccadilly"
+                  },
+                  "arrivalStation": {
+                    "stationCode": "GBQQU",
+                    "stationDisplayName": "London Euston"
+                  },
+                  "departureDateTime": {
+                    "raw": "2016-08-04T13:15:00",
+                    "epochSeconds": 1470316500,
+                    "localized": "4 Aug, 2016 13:15",
+                    "localizedShortDate": "Thu 4, Aug"
+                  },
+                  "arrivalDateTime": {
+                    "raw": "2016-08-04T15:30:00",
+                    "epochSeconds": 1470324600,
+                    "localized": "4 Aug, 2016 15:30",
+                    "localizedShortDate": "Thu 4, Aug"
+                  },
+                  "marketingCarrier": "Virgin Trains",
+                  "operatingCarrier": "Virgin Trains",
+                  "travelMedium": {
+                    "travelMediumName": "Inter-City",
+                    "travelMediumCode": "ICY",
+                    "supplierTravelMediumId": "VT7625"
+                  },
+                  "duration": "PT2H15M"
+                },
+                {
+                  "travelSegmentIndex": 14,
+                  "travelMode": "Transfer",
+                  "departureStation": {
+                    "stationCode": "GBQQU",
+                    "stationDisplayName": "London Euston"
+                  },
+                  "arrivalStation": {
+                    "stationCode": "GBQQP",
+                    "stationDisplayName": "London Paddington"
+                  },
+                  "departureDateTime": {
+                    "raw": "2016-08-04T15:30:00",
+                    "epochSeconds": 1470324600,
+                    "localized": "4 Aug, 2016 15:30",
+                    "localizedShortDate": "Thu 4, Aug"
+                  },
+                  "arrivalDateTime": {
+                    "raw": "2016-08-04T16:13:00",
+                    "epochSeconds": 1470327180,
+                    "localized": "4 Aug, 2016 16:13",
+                    "localizedShortDate": "Thu 4, Aug"
+                  },
+                  "marketingCarrier": "London Underground",
+                  "operatingCarrier": "London Underground",
+                  "travelMedium": {
+                    "travelMediumName": "Metro/City-Transit",
+                    "travelMediumCode": "MCT"
+                  },
+                  "duration": "PT43M"
+                },
+                {
+                  "travelSegmentIndex": 15,
+                  "travelMode": "Train",
+                  "departureStation": {
+                    "stationCode": "GBQQP",
+                    "stationDisplayName": "London Paddington"
+                  },
+                  "arrivalStation": {
+                    "stationCode": "GBRDG",
+                    "stationDisplayName": "Reading"
+                  },
+                  "departureDateTime": {
+                    "raw": "2016-08-04T16:15:00",
+                    "epochSeconds": 1470327300,
+                    "localized": "4 Aug, 2016 16:15",
+                    "localizedShortDate": "Thu 4, Aug"
+                  },
+                  "arrivalDateTime": {
+                    "raw": "2016-08-04T16:40:00",
+                    "epochSeconds": 1470328800,
+                    "localized": "4 Aug, 2016 16:40",
+                    "localizedShortDate": "Thu 4, Aug"
+                  },
+                  "marketingCarrier": "First Great Western",
+                  "operatingCarrier": "First Great Western",
+                  "travelMedium": {
+                    "travelMediumName": "Inter-City",
+                    "travelMediumCode": "ICY",
+                    "supplierTravelMediumId": "GW6112"
+                  },
+                  "duration": "PT25M"
+                }
+              ],
+              "noOfChanges": 2,
+              "legBoundOrder": 1,
+              "showTrainIcon": false,
+              "overtakenJourney": false
             }
           ],
-          "aggregatedMarketingCarrier": "Multiple trains",
-          "aggregatedOperatingCarrier": "Multiple trains"
-        }
-      ],
-      "productHoldExpirationDateTime": {
-        "raw": "2016-06-28T15:36:41-07:00",
-        "localized": "Jun 28, 2016 3:36:41 PM",
-        "epochSeconds": 1467153401,
-        "timeZoneOffsetSeconds": -25200,
-        "localizedShortDate": "Tue, 28 Jun"
-      },
-      "additionalBookingOptions": {
-        "ticketDeliveryOptions": [
-          {
-            "description": "Ticket by Royal Mail Special Delivery ",
-            "isRefundable": false,
-            "fee": {
-              "amount": "6.00",
-              "formattedPrice": "£6.00",
-              "formattedWholePrice": "£6",
-              "currencyCode": "GBP"
-            },
-            "code": "SEND_BY_POST",
-            "destination": "UK"
-          },
-          {
-            "description": "Ticket by International DHL Next Day",
-            "isRefundable": false,
-            "fee": {
-              "amount": "25.00",
-              "formattedPrice": "£25.00",
-              "formattedWholePrice": "£25",
-              "currencyCode": "GBP"
-            },
-            "code": "SEND_BY_OVERNIGHT_POST",
-            "destination": "GLOBAL"
-          },
-          {
-            "description": "Ticket by International DHL Next Day",
-            "isRefundable": false,
-            "fee": {
-              "amount": "20.00",
-              "formattedPrice": "£20.00",
-              "formattedWholePrice": "£20",
-              "currencyCode": "GBP"
-            },
-            "code": "SEND_BY_OVERNIGHT_POST",
-            "destination": "EU"
-          },
-          {
-            "description": "Ticket by DHL Next Day",
-            "isRefundable": false,
-            "fee": {
-              "amount": "10.00",
-              "formattedPrice": "£10.00",
-              "formattedWholePrice": "£10",
-              "currencyCode": "GBP"
-            },
-            "code": "SEND_BY_OVERNIGHT_POST",
-            "destination": "UK"
-          },
-          {
-            "description": "Ticket by Courier London Area",
-            "isRefundable": false,
-            "fee": {
-              "amount": "50.00",
-              "formattedPrice": "£50.00",
-              "formattedWholePrice": "£50",
-              "currencyCode": "GBP"
-            },
-            "code": "SEND_BY_EXPRESS_POST",
-            "destination": "UK"
-          },
-          {
-            "description": "Collect at Ticket Office",
-            "isRefundable": false,
-            "fee": {
-              "amount": "0.00",
-              "formattedPrice": "£0.00",
-              "formattedWholePrice": "£0",
-              "currencyCode": "GBP"
-            },
-            "code": "PICK_UP_AT_TICKETING_OFFICE"
-          },
-          {
-            "description": "Collect at Ticket Vending Machine",
-            "isRefundable": false,
-            "fee": {
-              "amount": "0.00",
-              "formattedPrice": "£0.00",
-              "formattedWholePrice": "£0",
-              "currencyCode": "GBP"
-            },
-            "code": "KIOSK"
-          }
-        ]
-      },
-      "fareBreakdown": [
-        {
-          "fare": {
-            "amount": "195.00",
-            "formattedPrice": "£195.00",
-            "formattedWholePrice": "£195",
-            "currencyCode": "GBP"
-          },
-          "segmentFareList": [
+          "fareBreakdownList": [
             {
-              "serviceClass": "Standard",
-              "fareClass": "Anytime Single",
-              "amenityList": []
-            },
-            {
-              "serviceClass": "Standard",
-              "fareClass": "Anytime Single",
-              "amenityList": [
-                "Buffet Service",
-                "WiFi Access (Additional Cost)"
-              ]
-            },
-            {
-              "serviceClass": "Standard",
-              "fareClass": "Anytime Single",
-              "amenityList": [
-                "Snack Trolley Service"
+              "farePrice": {
+                "amount": "195.00",
+                "currencyCode": "GBP",
+                "mainCurrency": 195,
+                "fractionalCurrency": 0,
+                "currencySymbol": "£",
+                "formattedPrice": "£195.0",
+                "formattedWholePrice": "£195"
+              },
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "travelSegmentIndex": 13,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Additional Cost)"
+                        }
+                      ]
+                    },
+                    {
+                      "travelSegmentIndex": 14,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day"
+                    },
+                    {
+                      "travelSegmentIndex": 15,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "anytime single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
               ]
             }
           ]
         }
       ],
-      "priceBreakdown": [
+      "railOfferToken": "eNrjYBZK4YrhuNAsLMAgMbtFWOFFq7CWFMeyhoVsAkCCCyy2CCjGFhZibmZkqiUCkuMCyj1klwCKK5wFyjGAdTxkF1jW0c4scb4VYgqbe7iZoaGREAsHowCzFDNHIyMA3LYehA==",
+      "passengerList": [
         {
-          "priceCategory": "TICKET",
-          "price": {
-            "amount": "195.00",
-            "formattedPrice": "£195.00",
-            "formattedWholePrice": "£195",
+          "passengerIndex": 1,
+          "age": 65,
+          "primaryTraveler": true,
+          "passengerAgeGroup": "SENIOR"
+        }
+      ],
+      "ticketDeliveryOptionList": [
+        {
+          "ticketDeliveryOptionToken": "SEND_BY_POST_UK",
+          "ticketDeliveryOptionCategoryCode": "SEND_BY_POST",
+          "ticketDeliveryDescription": "Ticket by Royal Mail Special Delivery ",
+          "ticketDeliveryFee": {
+            "amount": "6.00",
+            "currencyCode": "GBP"
+          },
+          "ticketDeliveryCountryCodeList": [
+            "GB"
+          ]
+        },
+        {
+          "ticketDeliveryOptionToken": "SEND_BY_OVERNIGHT_POST_GLOBAL",
+          "ticketDeliveryOptionCategoryCode": "SEND_BY_OVERNIGHT_POST",
+          "ticketDeliveryDescription": "Ticket by International DHL Next Day",
+          "ticketDeliveryFee": {
+            "amount": "25.00",
+            "currencyCode": "GBP"
+          },
+          "ticketDeliveryCountryCodeList": [
+            "ALL"
+          ]
+        },
+        {
+          "ticketDeliveryOptionToken": "SEND_BY_OVERNIGHT_POST_EU",
+          "ticketDeliveryOptionCategoryCode": "SEND_BY_OVERNIGHT_POST",
+          "ticketDeliveryDescription": "Ticket by International DHL Next Day",
+          "ticketDeliveryFee": {
+            "amount": "20.00",
+            "currencyCode": "GBP"
+          },
+          "ticketDeliveryCountryCodeList": [
+            "IE",
+            "IT",
+            "FR",
+            "AT",
+            "BE",
+            "DK",
+            "FI",
+            "DE",
+            "LU",
+            "NL",
+            "PT",
+            "ES",
+            "SE"
+          ]
+        },
+        {
+          "ticketDeliveryOptionToken": "SEND_BY_OVERNIGHT_POST_UK",
+          "ticketDeliveryOptionCategoryCode": "SEND_BY_OVERNIGHT_POST",
+          "ticketDeliveryDescription": "Ticket by DHL Next Day",
+          "ticketDeliveryFee": {
+            "amount": "10.00",
+            "currencyCode": "GBP"
+          },
+          "ticketDeliveryCountryCodeList": [
+            "GB"
+          ]
+        },
+        {
+          "ticketDeliveryOptionToken": "SEND_BY_EXPRESS_POST_UK",
+          "ticketDeliveryOptionCategoryCode": "SEND_BY_EXPRESS_POST",
+          "ticketDeliveryDescription": "Ticket by Courier London Area",
+          "ticketDeliveryFee": {
+            "amount": "50.00",
+            "currencyCode": "GBP"
+          },
+          "ticketDeliveryCountryCodeList": [
+            "GB"
+          ]
+        },
+        {
+          "ticketDeliveryOptionToken": "PICK_UP_AT_TICKETING_OFFICE_NONE",
+          "ticketDeliveryOptionCategoryCode": "PICK_UP_AT_TICKETING_OFFICE",
+          "ticketDeliveryDescription": "Collect at Ticket Office",
+          "ticketDeliveryFee": {
+            "amount": "0.00",
+            "currencyCode": "GBP"
+          }
+        },
+        {
+          "ticketDeliveryOptionToken": "KIOSK_NONE",
+          "ticketDeliveryOptionCategoryCode": "KIOSK",
+          "ticketDeliveryDescription": "Collect at Ticket Vending Machine",
+          "ticketDeliveryFee": {
+            "amount": "0.00",
             "currencyCode": "GBP"
           }
         }
       ]
     }
-  ],
+  },
   "validFormsOfPayment": [
     {
-      "name": "AmericanExpress"
+      "name": "AmericanExpress",
+      "fees": {
+        "SEND_BY_EXPRESS_POST_UK": {
+          "feePrice": {
+            "amount": "6.15",
+            "formattedPrice": "£6.15",
+            "formattedWholePrice": "£6",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "252.15",
+            "formattedPrice": "£252.15",
+            "formattedWholePrice": "£252",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_GLOBAL": {
+          "feePrice": {
+            "amount": "5.53",
+            "formattedPrice": "£5.53",
+            "formattedWholePrice": "£6",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "226.53",
+            "formattedPrice": "£226.53",
+            "formattedWholePrice": "£227",
+            "currencyCode": "GBP"
+          }
+        },
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "4.90",
+            "formattedPrice": "£4.90",
+            "formattedWholePrice": "£5",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "200.90",
+            "formattedPrice": "£200.90",
+            "formattedWholePrice": "£201",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_EU": {
+          "feePrice": {
+            "amount": "5.40",
+            "formattedPrice": "£5.40",
+            "formattedWholePrice": "£5",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "221.40",
+            "formattedPrice": "£221.40",
+            "formattedWholePrice": "£221",
+            "currencyCode": "GBP"
+          }
+        },
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "4.90",
+            "formattedPrice": "£4.90",
+            "formattedWholePrice": "£5",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "200.90",
+            "formattedPrice": "£200.90",
+            "formattedWholePrice": "£201",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "5.05",
+            "formattedPrice": "£5.05",
+            "formattedWholePrice": "£5",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "207.05",
+            "formattedPrice": "£207.05",
+            "formattedWholePrice": "£207",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "5.15",
+            "formattedPrice": "£5.15",
+            "formattedWholePrice": "£5",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "211.15",
+            "formattedPrice": "£211.15",
+            "formattedWholePrice": "£211",
+            "currencyCode": "GBP"
+          }
+        }
+      }
     },
     {
-      "name": "Diner's Club International"
+      "name": "Maestro",
+      "fees": {
+        "SEND_BY_EXPRESS_POST_UK": {
+          "feePrice": {
+            "amount": "3.69",
+            "formattedPrice": "£3.69",
+            "formattedWholePrice": "£4",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "249.69",
+            "formattedPrice": "£249.69",
+            "formattedWholePrice": "£250",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_GLOBAL": {
+          "feePrice": {
+            "amount": "3.31",
+            "formattedPrice": "£3.31",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "224.31",
+            "formattedPrice": "£224.31",
+            "formattedWholePrice": "£224",
+            "currencyCode": "GBP"
+          }
+        },
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "2.94",
+            "formattedPrice": "£2.94",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "198.94",
+            "formattedPrice": "£198.94",
+            "formattedWholePrice": "£199",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_EU": {
+          "feePrice": {
+            "amount": "3.24",
+            "formattedPrice": "£3.24",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "219.24",
+            "formattedPrice": "£219.24",
+            "formattedWholePrice": "£219",
+            "currencyCode": "GBP"
+          }
+        },
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "2.94",
+            "formattedPrice": "£2.94",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "198.94",
+            "formattedPrice": "£198.94",
+            "formattedWholePrice": "£199",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "3.03",
+            "formattedPrice": "£3.03",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "205.03",
+            "formattedPrice": "£205.03",
+            "formattedWholePrice": "£205",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "3.09",
+            "formattedPrice": "£3.09",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "209.09",
+            "formattedPrice": "£209.09",
+            "formattedWholePrice": "£209",
+            "currencyCode": "GBP"
+          }
+        }
+      }
     },
     {
-      "name": "MasterCard"
+      "name": "MasterCard",
+      "fees": {
+        "SEND_BY_EXPRESS_POST_UK": {
+          "feePrice": {
+            "amount": "3.69",
+            "formattedPrice": "£3.69",
+            "formattedWholePrice": "£4",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "249.69",
+            "formattedPrice": "£249.69",
+            "formattedWholePrice": "£250",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_GLOBAL": {
+          "feePrice": {
+            "amount": "3.31",
+            "formattedPrice": "£3.31",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "224.31",
+            "formattedPrice": "£224.31",
+            "formattedWholePrice": "£224",
+            "currencyCode": "GBP"
+          }
+        },
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "2.94",
+            "formattedPrice": "£2.94",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "198.94",
+            "formattedPrice": "£198.94",
+            "formattedWholePrice": "£199",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_EU": {
+          "feePrice": {
+            "amount": "3.24",
+            "formattedPrice": "£3.24",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "219.24",
+            "formattedPrice": "£219.24",
+            "formattedWholePrice": "£219",
+            "currencyCode": "GBP"
+          }
+        },
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "2.94",
+            "formattedPrice": "£2.94",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "198.94",
+            "formattedPrice": "£198.94",
+            "formattedWholePrice": "£199",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "3.03",
+            "formattedPrice": "£3.03",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "205.03",
+            "formattedPrice": "£205.03",
+            "formattedWholePrice": "£205",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "3.09",
+            "formattedPrice": "£3.09",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "209.09",
+            "formattedPrice": "£209.09",
+            "formattedWholePrice": "£209",
+            "currencyCode": "GBP"
+          }
+        }
+      }
     },
     {
-      "name": "Visa"
+      "name": "Visa",
+      "fees": {
+        "SEND_BY_EXPRESS_POST_UK": {
+          "feePrice": {
+            "amount": "3.69",
+            "formattedPrice": "£3.69",
+            "formattedWholePrice": "£4",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "249.69",
+            "formattedPrice": "£249.69",
+            "formattedWholePrice": "£250",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_GLOBAL": {
+          "feePrice": {
+            "amount": "3.31",
+            "formattedPrice": "£3.31",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "224.31",
+            "formattedPrice": "£224.31",
+            "formattedWholePrice": "£224",
+            "currencyCode": "GBP"
+          }
+        },
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "2.94",
+            "formattedPrice": "£2.94",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "198.94",
+            "formattedPrice": "£198.94",
+            "formattedWholePrice": "£199",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_EU": {
+          "feePrice": {
+            "amount": "3.24",
+            "formattedPrice": "£3.24",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "219.24",
+            "formattedPrice": "£219.24",
+            "formattedWholePrice": "£219",
+            "currencyCode": "GBP"
+          }
+        },
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "2.94",
+            "formattedPrice": "£2.94",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "198.94",
+            "formattedPrice": "£198.94",
+            "formattedWholePrice": "£199",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "3.03",
+            "formattedPrice": "£3.03",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "205.03",
+            "formattedPrice": "£205.03",
+            "formattedWholePrice": "£205",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "3.09",
+            "formattedPrice": "£3.09",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "209.09",
+            "formattedPrice": "£209.09",
+            "formattedWholePrice": "£209",
+            "currencyCode": "GBP"
+          }
+        }
+      }
+    },
+    {
+      "name": "Visa Delta",
+      "fees": {
+        "SEND_BY_EXPRESS_POST_UK": {
+          "feePrice": {
+            "amount": "3.69",
+            "formattedPrice": "£3.69",
+            "formattedWholePrice": "£4",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "249.69",
+            "formattedPrice": "£249.69",
+            "formattedWholePrice": "£250",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_GLOBAL": {
+          "feePrice": {
+            "amount": "3.31",
+            "formattedPrice": "£3.31",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "224.31",
+            "formattedPrice": "£224.31",
+            "formattedWholePrice": "£224",
+            "currencyCode": "GBP"
+          }
+        },
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "2.94",
+            "formattedPrice": "£2.94",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "198.94",
+            "formattedPrice": "£198.94",
+            "formattedWholePrice": "£199",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_EU": {
+          "feePrice": {
+            "amount": "3.24",
+            "formattedPrice": "£3.24",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "219.24",
+            "formattedPrice": "£219.24",
+            "formattedWholePrice": "£219",
+            "currencyCode": "GBP"
+          }
+        },
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "2.94",
+            "formattedPrice": "£2.94",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "198.94",
+            "formattedPrice": "£198.94",
+            "formattedWholePrice": "£199",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "3.03",
+            "formattedPrice": "£3.03",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "205.03",
+            "formattedPrice": "£205.03",
+            "formattedWholePrice": "£205",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "3.09",
+            "formattedPrice": "£3.09",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "209.09",
+            "formattedPrice": "£209.09",
+            "formattedWholePrice": "£209",
+            "currencyCode": "GBP"
+          }
+        }
+      }
+    },
+    {
+      "name": "Visa Electron",
+      "fees": {
+        "SEND_BY_EXPRESS_POST_UK": {
+          "feePrice": {
+            "amount": "3.69",
+            "formattedPrice": "£3.69",
+            "formattedWholePrice": "£4",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "249.69",
+            "formattedPrice": "£249.69",
+            "formattedWholePrice": "£250",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_GLOBAL": {
+          "feePrice": {
+            "amount": "3.31",
+            "formattedPrice": "£3.31",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "224.31",
+            "formattedPrice": "£224.31",
+            "formattedWholePrice": "£224",
+            "currencyCode": "GBP"
+          }
+        },
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "2.94",
+            "formattedPrice": "£2.94",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "198.94",
+            "formattedPrice": "£198.94",
+            "formattedWholePrice": "£199",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_EU": {
+          "feePrice": {
+            "amount": "3.24",
+            "formattedPrice": "£3.24",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "219.24",
+            "formattedPrice": "£219.24",
+            "formattedWholePrice": "£219",
+            "currencyCode": "GBP"
+          }
+        },
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "2.94",
+            "formattedPrice": "£2.94",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "198.94",
+            "formattedPrice": "£198.94",
+            "formattedWholePrice": "£199",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "3.03",
+            "formattedPrice": "£3.03",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "205.03",
+            "formattedPrice": "£205.03",
+            "formattedWholePrice": "£205",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "3.09",
+            "formattedPrice": "£3.09",
+            "formattedWholePrice": "£3",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "209.09",
+            "formattedPrice": "£209.09",
+            "formattedWholePrice": "£209",
+            "currencyCode": "GBP"
+          }
+        }
+      }
     }
   ],
-  "activityId": "d73fc400-5831-4a71-b61c-a6d800e124e1",
+  "activityId": "88e22b13-2f7d-4174-b5f1-1482c2036919",
   "guestUserPromoEmailOptInStatus": "CONSENT_TO_OPT_OUT"
 }

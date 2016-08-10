@@ -20,7 +20,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppCarInsuranceIncludedCKO = 7774;
 	public static final int EBAndroidAppHotelHCKOTraveler = 7775;
 	public static final int EBAndroidAppHotelPayLaterCouponMessaging = 7777;
-	public static final int EBAndroidAppHotel3xMessaging = 7973;
 	public static final int EBAndroidAppHotelCollapseAmenities = 8126;
 	public static final int EBAndroidAppHotelShowAddressMapInReceipt = 8129;
 	public static final int EBAndroidHotelCKOMerEmailGuestOpt = 8127;
@@ -30,7 +29,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppLXFirstActivityListingExpanded = 9467;
 	public static final int EBAndroidAppHotelTravelerTest = 9478;
 	public static final int EBAndroidAppHotelPriceBreakDownTest = 9477;
-	public static final int EBAndroidAppSignInMessagingTest = 9476;
 	public static final int EBAndroidAppHotelsMemberDealTest = 9044;
 	public static final int EBAndroidAppHotelCKOCreditDebitTest = 9642;
 	public static final int EBAndroidAppFlightsRoundtripMessageTest = 9636;
@@ -80,13 +78,6 @@ public class AbacusUtils {
 		TRIP_TOTAL
 	}
 
-	public enum HotelSignInMessagingVariate {
-		CONTROL,
-		EXCLUSIVE_MEMBER_MESSAGE,
-		TRIPLE_POINT_MESSAGE,
-		TRIP_ALERT_MESSAGE
-	}
-
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
@@ -97,7 +88,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppCarInsuranceIncludedCKO);
 		testIDs.add(EBAndroidAppHotelHCKOTraveler);
 		testIDs.add(EBAndroidAppHotelPayLaterCouponMessaging);
-		testIDs.add(EBAndroidAppHotel3xMessaging);
 		testIDs.add(EBAndroidAppHotelCollapseAmenities);
 		testIDs.add(EBAndroidAppHotelShowAddressMapInReceipt);
 		testIDs.add(EBAndroidHotelCKOMerEmailGuestOpt);
@@ -107,7 +97,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded);
 		testIDs.add(EBAndroidAppHotelTravelerTest);
 		testIDs.add(EBAndroidAppHotelPriceBreakDownTest);
-		testIDs.add(EBAndroidAppSignInMessagingTest);
 		testIDs.add(EBAndroidAppHotelsMemberDealTest);
 		testIDs.add(EBAndroidAppHotelCKOCreditDebitTest);
 		testIDs.add(EBAndroidAppFlightsRoundtripMessageTest);

@@ -90,7 +90,7 @@ public class FlightSearchResponse extends Response {
 			if (usedStringMap.containsKey(currency)) {
 				currency = usedStringMap.get(currency);
 				trip.getBaseFare().setCurrency(currency);
-				trip.getTotalFare().setCurrency(currency);
+				trip.getTotalPrice().setCurrency(currency);
 				trip.getTaxes().setCurrency(currency);
 				trip.getFees().setCurrency(currency);
 			}

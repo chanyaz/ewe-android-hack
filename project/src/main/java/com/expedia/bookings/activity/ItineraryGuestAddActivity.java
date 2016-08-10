@@ -15,6 +15,7 @@ import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 public class ItineraryGuestAddActivity extends FragmentActivity {
 
 	public static final String ERROR_FETCHING_GUEST_ITINERARY = "ERROR_FETCHING_GUEST_ITINERARY";
+	public static final String ERROR_FETCHING_REGISTERED_USER_ITINERARY = "ERROR_FETCHING_REGISTERED_USER_ITINERARY";
 
 	private static final String TAG_GUEST_ADD_FRAGMENT = "TAG_GUEST_ADD_FRAGMENT";
 	private ItinGuestAddFragment mAddGuestItinFragment;
@@ -45,7 +46,12 @@ public class ItineraryGuestAddActivity extends FragmentActivity {
 		if (mAddGuestItinFragment == null) {
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 			if (ERROR_FETCHING_GUEST_ITINERARY.equals(this.getIntent().getAction())) {
-				mAddGuestItinFragment = ItinGuestAddFragment.fetchingGuestItinFailedInstance(new ItineraryLoaderLoginExtender());
+				mAddGuestItinFragment = ItinGuestAddFragment
+					.fetchingGuestItinFailedInstance(new ItineraryLoaderLoginExtender());
+			}
+			else if (ERROR_FETCHING_REGISTERED_USER_ITINERARY.equals(this.getIntent().getAction())) {
+				mAddGuestItinFragment = ItinGuestAddFragment
+					.fetchingRegisteredUserItinFailedInstance(new ItineraryLoaderLoginExtender());
 			}
 			else {
 				mAddGuestItinFragment = ItinGuestAddFragment.newInstance(new ItineraryLoaderLoginExtender());

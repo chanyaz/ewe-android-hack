@@ -123,8 +123,6 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotels</string>
-    <!-- Label for recent searches -->
-    <string name="recent_searches">Letzte Suchen</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Abholort</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -144,7 +142,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Bald ist es soweit! Wir arbeiten mit Hochdruck daran, Mietwagenbuchungen mit Rückgabe an einem anderen Standort in den kommenden Versionen aufzunehmen.</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">Für Ihre Suche gab es keine Ergebnisse. Bitte versuchen Sie es mit anderen Suchkriterien.</string>
+    <string name="error_no_result_message">Für Ihre Suche gab es keine Ergebnisse. Bitte versuchen Sie es mit anderen Suchkriterien.</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">Für Ihre Suche gab es keine Ergebnisse. Bitte versuchen Sie es mit weniger Filtern.</string>
     <!-- Transmission options filter label for a car rental -->
@@ -241,7 +239,7 @@
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Gespeicherte Karten</string>
     <!-- text that goes underneath the camera button for card_io -->
-    <string name="card_io_btn_text">Scannen</string>
+    <string name="card_io_btn_text">SCANNEN</string>
     <!-- Card.io scan text -->
     <string name="scan_card_text">Karte scannen</string>
 
@@ -1679,6 +1677,28 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Bei der Zahlung wird je nach Kartentyp eine &lt;a href=\"{airline_fee_url}\"&gt;Flugliniengebühr&lt;/a&gt; hinzugefügt. Diese Gebühr wird bei der Zahlung zum Gesamtpreis hinzugefügt.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debitkarten werden nicht akzeptiert.</string>
+    <!-- Flights Sold out error screen: Select New Flight button label -->
+    <string name="flights_select_new_flight">Neuen Flug auswählen</string>
+    <!-- Flights Sold out error screen:- warning message -->
+    <string name="flight_sold_out_warning">Tut uns leid! Dieser Flug ist ausgebucht.</string>
+    <!-- Flights Sold out error screen:- toolbar title -->
+    <string name="flight_sold_out_toolbar_title">Ausgebucht</string>
+    <!-- Flight Unavailable error screen:- toolbar title -->
+    <string name="flight_unavailable_toolbar_title">Flug nicht verfügbar</string>
+    <!-- Flight Unavailable error screen:- warning -->
+    <string name="flight_unavailable_warning">Tut uns leid! Dieser Flug ist nicht mehr verfügbar</string>
+    <!-- Flight Session expired error screen:- warning -->
+    <string name="flight_session_expired_warning">Sind Sie noch da? Ihre Sitzung ist abgelaufen. Bitte suchen Sie erneut.</string>
+    <!-- Flight Session expired error screen:- toolbar title -->
+    <string name="flight_session_expired_toolbar_title">Sitzung abgelaufen</string>
+    <!-- Flight Session expired error screen:- new search button label -->
+    <string name="flight_new_search">Neue Suche</string>
+    <!-- Flights unknown error screen:- title -->
+    <string name="flight_generic_error_title">Fehler</string>
+    <!-- Flights unknown error screen:- warning -->
+    <string name="flight_error_try_again_warning">Hoppla. Das versuchen wir noch mal.</string>
+    <!-- Flights unknown error screen:- retry button label -->
+    <string name="flight_error_retry">Wiederholen</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1808,6 +1828,9 @@
     <string name="calendar_instructions_hotels_no_dates_selected">Anreisedatum auswählen</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}, {guests}</string>
+    <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
+    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
+
     <string name="room_with_guests_TEMPLATE">1 Zimmer, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Kostenlos stornieren bis {date}</string>
 
@@ -1902,7 +1925,10 @@
     <string name="select_payment_callout">Details eingeben</string>
     <!-- Add new card -->
     <string name="add_new_card">Neue Karte hinzufügen</string>
+    <!-- New Debit/Credit card toolbar title shown on payment form -->
     <string name="new_credit_debit_card">Neue Debit-/Kreditkarte</string>
+    <!-- New Credit card toolbar title shown on payment form -->
+    <string name="new_credit_card">Neue Kreditkarte</string>
     <!-- Overview button -->
     <string name="overview_btn">Überblick</string>
     <!-- Stored Payment label -->
@@ -2059,7 +2085,10 @@
     <string name="ab_test_flights_free_cancellation">Kostenlose Stornierung innerhalb von 24 Stunden</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">Angaben zum Reisenden eingeben</string>
-
+    <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
+    <string name="brand_account_cont_desc_TEMPLATE">{brand}-Konto</string>
+    <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
+    <string name="signed_in_account_cont_desc_TEMPLATE">Angemeldet als {email}</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
     <string name="travelers">Reisende</string>
@@ -3976,11 +4005,22 @@
     <!-- Bundle Overview select hotel accessibility content description Eg. Search completed. Select a hotel in Detroit from Jun 23 to Jun 24, for 1 guest. Button -->
     <string name="select_hotel_cont_desc_TEMPLATE">Suche beendet. Wählen Sie ein Hotel in {destination} für den {startdate} bis {enddate}, für {guests}. Schaltfläche</string>
     <!-- Bundle Overview select hotel accessibility content description when still searching Eg. Searching for hotels in Detroit from Jun 23 to Jun 24, for 1 guest. Please wait -->
-    <string name="select_hotel_searching_cont_desc_TEMPLATE">Suche nach Hotels in {destination} vom {startdate} bis {enddate} für {guests}. Bitte warten</string>
+    <string name="select_hotel_searching_cont_desc_TEMPLATE">Suche nach Hotels in {destination} vom {startdate} bis {enddate} für {guests} läuft. Bitte warten</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">Sie haben das Hotel {hotel} vom {startdate} bis {enddate} für {guests} ausgewählt. {expandstate} der Hoteldetails.</string>
-    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
-    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}. {travelerinfotext}. {expandstate} der Flugdetails.</string>
+    <!-- Bundle Overview flight card accessibility content description after search completed Eg. Search completed. Select a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button -->
+    <string name="select_flight_cont_desc_TEMPLATE">Suche beendet. Wählen Sie einen Flug nach {flight} am {date} für {travelers}. Schaltfläche</string>
+    <!-- Bundle Overview flight card accessibility content description while searching Eg. Searching for a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please wait -->
+    <string name="select_flight_searching_cont_desc_TEMPLATE">Suche nach einem Flug nach {flight} am {date} für {travelers} läuft. Bitte warten</string>
+    <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">Sie haben den Flug nach {flight} am {datetraveler} ausgewählt. {expandstate} der Flugdetails.</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">Flug nach {flight} am {date} für {travelers}. Bitte wählen Sie zunächst {previous}. Schaltfläche noch nicht aktiv.</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
+    <string name="select_flight_disabled_choose_outbound">Ihren Hinflug</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
+    <string name="select_flight_disabled_choose_hotel">Ihr Hotel</string>
+
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">Hotel in %s auswählen</string>
     <!-- Bundle Overview searching flight -->
@@ -4018,11 +4058,17 @@
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
     <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime} bis {arrivaltime}</string>
+    <!-- Carrier name and code when flight operated by different carrier e.g. Operated by Alaska Airlines (AS) -->
+    <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">Durchgeführt von {operatingairlinename} ({operatingairlinecode})</string>
+    <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
+    <string name="flight_operated_by_carrier_name_only_TEMPLATE">Durchgeführt von {operatingairlinename}</string>
 
     <!-- Select flight to template -->
     <string name="select_flight_to">Flug nach %1$s auswählen</string>
     <!-- Flight to template -->
     <string name="flight_to">Flug nach %1$s</string>
+    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
+    <string name="flight_to_card_TEMPLATE">Flug nach {airportcity} ({airportcode})</string>
     <!-- Select return flight -->
     <string name="select_return_flight">Rückflug auswählen</string>
     <!-- Flight overview - flight to template -->
@@ -4085,7 +4131,11 @@
     <string name="pwp_total_due_today_TEMPLATE">Heute fälliger Betrag:</string>
 
     <!-- Package Flight Overview -->
-    <string name="package_flight_overview_urgency_message_TEMPLATE">Nur noch {seats} Plätze</string>
+    <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
+    <plurals name="package_flight_overview_urgency_message_TEMPLATE">
+        <item quantity="one">Nur noch {seats} Platz</item>
+        <item quantity="other">Nur noch {seats} Plätze</item>
+    </plurals>
     <string name="package_flight_overview_baggage_fees">Informationen zur Gepäckgebühr</string>
     <string name="package_flight_overview_select_flight">Diesen Flug auswählen</string>
     <string name="package_flight_overview_bundle_total_label">Gesamtpreis der Click&amp;Mix-Reise</string>
@@ -4140,6 +4190,18 @@
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Gesamtbetrag</string>
+
+    <!-- Label for the tab on fare rules/amenities screen -->
+    <string name="fare_rules">Tarifregeln</string>
+
+    <!-- Label for no segment amenities amenities screen -->
+    <string name="no_amenities">Keine Annehmlichkeiten</string>
+
+    <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
+    <string name="rail_station_info_TEMPLATE">Von {departure} nach {arrival}</string>
+
+    <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Es ist ein Server-Problem aufgetreten. Wir bitten, dies zu entschuldigen. Bitte versuchen Sie es erneut.</string>
     <string name="pwp_trip_service_error">Es ist ein Server-Problem aufgetreten. Wir bitten, dies zu entschuldigen. Bitte versuchen Sie es erneut.</string>
@@ -4311,6 +4373,7 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/Tag</string>
     <string name="insurance_price_per_person">/Person</string>
+
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Bewertet mit {rating} von 5</string>
     <!--LX accessibility -->

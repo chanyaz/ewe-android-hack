@@ -28,4 +28,35 @@ public class HotelPaymentFailedErrorTest extends HotelTestCase {
 		assertViewIsDisplayed(R.id.section_billing_info);
 	}
 
+	public void testPaymentFailedErrorWithBack() throws Throwable {
+		SearchScreen.doGenericHotelSearch();
+		HotelScreen.selectHotel("error_checkout_card_limit_exceeded");
+		Common.delay(1);
+		HotelScreen.selectRoom();
+		HotelScreen.checkout(true);
+		CheckoutViewModel.performSlideToPurchase(false);
+		HotelScreen.enterCVVAndBook();
+		HotelScreen.waitForErrorDisplayed();
+		Common.pressBack();
+
+		onView(withId(R.id.section_billing_info)).perform(ViewActions.waitForViewToDisplay());
+		assertViewIsDisplayed(R.id.section_billing_info);
+	}
+
+	public void testPaymentFailedErrorWithToolbarBack() throws Throwable {
+		SearchScreen.doGenericHotelSearch();
+		HotelScreen.selectHotel("error_checkout_card_limit_exceeded");
+		Common.delay(1);
+		HotelScreen.selectRoom();
+		HotelScreen.checkout(true);
+		CheckoutViewModel.performSlideToPurchase(false);
+		HotelScreen.enterCVVAndBook();
+		HotelScreen.waitForErrorDisplayed();
+		ErrorScreen.clickToolbarBack();
+
+		onView(withId(R.id.section_billing_info)).perform(ViewActions.waitForViewToDisplay());
+		assertViewIsDisplayed(R.id.section_billing_info);
+	}
+
+
 }

@@ -1,23 +1,28 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
-import com.expedia.bookings.data.trips.TripBucketItemCar
-import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.trips.TripBucketItemCar
+import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
+import com.expedia.bookings.widget.PaymentWidgetV2
 import com.squareup.phrase.Phrase
+import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import org.joda.time.LocalDate
 import rx.Observable
@@ -36,11 +41,13 @@ class PaymentViewModel(val context: Context) {
     val showingPaymentForm = PublishSubject.create<Boolean>()
 
     val cardTypeSubject = PublishSubject.create<PaymentType?>()
+    val moveFocusToPostalCodeSubject = PublishSubject.create<Unit>()
     val userLogin = PublishSubject.create<Boolean>()
     val isCreditCardRequired = BehaviorSubject.create<Boolean>(false)
     val isZipValidationRequired = BehaviorSubject.create<Boolean>(false)
     val lineOfBusiness = BehaviorSubject.create<LineOfBusiness>(LineOfBusiness.HOTELSV2)
     val cardIoScanResult = PublishSubject.create<CreditCard>()
+    val startCreditCardScan = PublishSubject.create<Unit>()
     val expandObserver = PublishSubject.create<Boolean>()
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>(false)
 
@@ -57,7 +64,23 @@ class PaymentViewModel(val context: Context) {
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
 
+    val creditCardScanIntent: Intent by lazy {
+        val scanIntent = Intent(context, CardIOActivity::class.java)
+        scanIntent.putExtra(CardIOActivity.EXTRA_USE_CARDIO_LOGO, true)  // No pesky PayPal logo!
+        scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, true)
+        scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_CONFIRMATION, true)
+        scanIntent.putExtra(CardIOActivity.EXTRA_GUIDE_COLOR, ContextCompat.getColor(context, R.color.hotels_primary_color))
+        scanIntent.putExtra(CardIOActivity.EXTRA_SCAN_INSTRUCTIONS, resources.getString(R.string.scan_card_instruction_text))
+        scanIntent
+    }
+
     init {
+        startCreditCardScan.subscribe {
+            HotelV2Tracking().trackHotelV2CardIOButtonClicked()
+            val activity = context as AppCompatActivity
+            activity.startActivityForResult(creditCardScanIntent, PaymentWidgetV2.CARD_IO_REQUEST_CODE)
+        }
+
         Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType) {
             infoAndStatus, isRedeemable, splitsType ->
             object {
@@ -148,14 +171,17 @@ class PaymentViewModel(val context: Context) {
         cardIoScanResult.subscribe { card ->
             val billingInfo = BillingInfo()
             billingInfo.number = card.cardNumber
-            val localDateForExp = LocalDate.now().withYear(card.expiryYear).withMonthOfYear(card.expiryMonth)
-            billingInfo.expirationDate = localDateForExp
+            if (card.expiryYear != 0 && card.expiryMonth != 0) {
+                val localDateForExp = LocalDate.now().withYear(card.expiryYear).withMonthOfYear(card.expiryMonth)
+                billingInfo.expirationDate = localDateForExp
+            }
             billingInfo.securityCode = card.cvv
-            billingInfo.isCardIO = true;
+            billingInfo.isCardIO = true
             val location = Location()
             location.postalCode = card.postalCode
             billingInfo.location = location
             cardIOBillingInfo.onNext(billingInfo)
+            moveFocusToPostalCodeSubject.onNext(Unit)
         }
     }
 

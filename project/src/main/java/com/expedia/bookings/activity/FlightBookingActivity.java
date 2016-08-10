@@ -127,8 +127,8 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 				// thinks there has been a price change.  Note that you can't have the
 				// fake price change == -fake ob fees, or else we'll end up with the
 				// correct price and it'll just book.  :P
-				trip.getTotalFare().add(fakePriceChange);
-				trip.getTotalFare().subtract(fakeObFees);
+				trip.getTotalPrice().add(fakePriceChange);
+				trip.getTotalPrice().subtract(fakeObFees);
 			}
 		}
 	}
@@ -397,7 +397,7 @@ public class FlightBookingActivity extends FragmentActivity implements CVVEntryF
 		if (BuildConfig.DEBUG && response != null && response.getNewOffer() != null) {
 			BigDecimal fakeObFees = getFakeObFeesAmount();
 			if (!fakeObFees.equals(BigDecimal.ZERO)) {
-				Money amount = new Money(response.getNewOffer().getTotalFare());
+				Money amount = new Money(response.getNewOffer().getTotalPrice());
 				amount.setAmount(fakeObFees);
 				response.getNewOffer().setOnlineBookingFeesAmount(amount);
 			}

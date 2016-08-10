@@ -2,7 +2,6 @@ package com.expedia.bookings.presenter.rail
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView

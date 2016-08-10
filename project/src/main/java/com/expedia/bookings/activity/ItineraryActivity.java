@@ -440,7 +440,13 @@ public class ItineraryActivity extends FragmentActivity implements ItinItemListF
 		// Do nothing
 	}
 
+	@Override
 	public void onTripFailedFetchingGuestItinerary() {
+		// Do nothing
+	}
+
+	@Override
+	public void onTripFailedFetchingRegisteredUserItinerary() {
 		// Do nothing
 	}
 

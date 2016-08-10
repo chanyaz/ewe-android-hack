@@ -1,10 +1,11 @@
 package com.expedia.bookings.presenter.shared
 
 import android.view.View
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.vm.FlightOverviewViewModel
+import com.expedia.vm.flights.FlightOverviewViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -24,7 +25,7 @@ class FlightOverviewPresenterTest {
     @Before
     fun setup() {
         sut = FlightOverviewPresenter(context, null)
-        sut.vm = FlightOverviewViewModel(context, false)
+        sut.vm = FlightOverviewViewModel(context)
     }
 
     @Test
@@ -80,6 +81,8 @@ class FlightOverviewPresenterTest {
         flightLeg.packageOfferModel = PackageOfferModel()
         flightLeg.packageOfferModel.price = PackageOfferModel.PackagePrice()
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "$42"
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money()
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket.formattedPrice = "$42.00"
         flightLeg.baggageFeesUrl = BAGGAGE_FEES_URL_PATH
         sut.vm.selectedFlightLegSubject.onNext(flightLeg)
     }

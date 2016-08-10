@@ -209,8 +209,8 @@ public abstract class BookingFragment<T extends Response> extends Fragment {
 					String val = SettingUtils.get(getActivity(),
 						getString(R.string.preference_fake_flight_price_change),
 						getString(R.string.preference_fake_price_change_default));
-					currentOffer.getTotalFare().add(new BigDecimal(val));
-					newOffer.getTotalFare().add(new BigDecimal(val));
+					currentOffer.getTotalPrice().add(new BigDecimal(val));
+					newOffer.getTotalPrice().add(new BigDecimal(val));
 				}
 
 				FlightPriceChangeDialogFragment fragment = FlightPriceChangeDialogFragment.newInstance(currentOffer, newOffer);

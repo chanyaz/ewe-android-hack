@@ -123,8 +123,6 @@
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">飯店</string>
-    <!-- Label for recent searches -->
-    <string name="recent_searches">最近的搜尋</string>
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">取車地點</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
@@ -144,7 +142,7 @@
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">即將推出，敬請期待…我們正在致力於在未來版本中加入不需回原地點還車的租車預訂服務。</string>
     <!-- Car search error -->
-    <string name="error_car_search_message">沒有搜尋結果。請使用其他條件再次搜尋。</string>
+    <string name="error_no_result_message">沒有搜尋結果。請使用其他條件再搜尋一次。</string>
     <!-- Car no filtered search results -->
     <string name="filter_no_car_search_results_message">沒有搜尋結果。請嘗試減少篩選條件。</string>
     <!-- Transmission options filter label for a car rental -->
@@ -253,7 +251,7 @@
     <!-- Message for user that increase your reservation duration. -->
     <string name="reservation_time_too_short">請延長您的預訂時間。</string>
     <!-- Shown to user in case the reservation timed out -->
-    <string name="reservation_time_out">還在嗎？您的工作階段已經逾時。請再次嘗試搜尋。</string>
+    <string name="reservation_time_out">有人在嗎？您的工作階段已經逾時。請再次嘗試搜尋。</string>
     <!-- Shown to user when they try to book something already booked in new Hotels -->
     <string name="reservation_already_exists_new_hotels">此預訂已完成。請檢查您的行程或電子郵件。</string>
     <!-- Shown to user when they try to book something already booked -->
@@ -1679,6 +1677,28 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">付款時會加入根據不同信用卡類型所收取的&lt;a href=\"{airline_fee_url}\"&gt;航空公司手續費&lt;/a&gt;。此費用會在付款時加入總金額中。</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">不接受金融卡。</string>
+    <!-- Flights Sold out error screen: Select New Flight button label -->
+    <string name="flights_select_new_flight">選擇新的班機</string>
+    <!-- Flights Sold out error screen:- warning message -->
+    <string name="flight_sold_out_warning">很抱歉！此班機已訂滿。</string>
+    <!-- Flights Sold out error screen:- toolbar title -->
+    <string name="flight_sold_out_toolbar_title">已搶訂一空</string>
+    <!-- Flight Unavailable error screen:- toolbar title -->
+    <string name="flight_unavailable_toolbar_title">無法預訂此班機</string>
+    <!-- Flight Unavailable error screen:- warning -->
+    <string name="flight_unavailable_warning">很抱歉！無法班機已經無法預訂</string>
+    <!-- Flight Session expired error screen:- warning -->
+    <string name="flight_session_expired_warning">有人在嗎？您的工作階段已經逾時。請再次嘗試搜尋。</string>
+    <!-- Flight Session expired error screen:- toolbar title -->
+    <string name="flight_session_expired_toolbar_title">工作階段已逾期</string>
+    <!-- Flight Session expired error screen:- new search button label -->
+    <string name="flight_new_search">新的搜尋</string>
+    <!-- Flights unknown error screen:- title -->
+    <string name="flight_generic_error_title">錯誤</string>
+    <!-- Flights unknown error screen:- warning -->
+    <string name="flight_error_try_again_warning">很抱歉！請再試一次！</string>
+    <!-- Flights unknown error screen:- retry button label -->
+    <string name="flight_error_retry">重試</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1808,6 +1828,9 @@
     <string name="calendar_instructions_hotels_no_dates_selected">選擇入住日期</string>
     <!-- Calendar instruction text hotels date range template. %1$s = Formatted start date, %2$s = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_with_guests_TEMPLATE">{startdate} - {enddate}，{guests}</string>
+    <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
+    <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}，{guests}</string>
+
     <string name="room_with_guests_TEMPLATE">1 間客房，{guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">{date} 前免費取消</string>
 
@@ -1902,7 +1925,10 @@
     <string name="select_payment_callout">輸入詳細資訊</string>
     <!-- Add new card -->
     <string name="add_new_card">新增信用卡</string>
-    <string name="new_credit_debit_card">新的金融卡/信用卡號碼</string>
+    <!-- New Debit/Credit card toolbar title shown on payment form -->
+    <string name="new_credit_debit_card">新的金融卡/信用卡</string>
+    <!-- New Credit card toolbar title shown on payment form -->
+    <string name="new_credit_card">新的信用卡</string>
     <!-- Overview button -->
     <string name="overview_btn">摘要</string>
     <!-- Stored Payment label -->
@@ -2059,7 +2085,10 @@
     <string name="ab_test_flights_free_cancellation">24 小時內可免費取消</string>
     <!-- Flights AB Test Traveler info missing callout label -->
     <string name="ab_test_flights_missing_info_callout">輸入旅客資訊</string>
-
+    <!-- Content description for Expedia logo icon on checkout account view  e.g. Expedia Account -->
+    <string name="brand_account_cont_desc_TEMPLATE">{brand} 帳戶</string>
+    <!-- Content description for signed in Expedia account e.g. Signed in as qa-ehcc@mobiata.com -->
+    <string name="signed_in_account_cont_desc_TEMPLATE">已使用 {email} 登入</string>
     <!-- Tablet Checkout Activity -->
     <!-- Travelers -->
     <string name="travelers">旅客</string>
@@ -3978,8 +4007,19 @@
     <string name="select_hotel_searching_cont_desc_TEMPLATE">搜尋 {startdate}至 {enddate}，{guests} 位旅客入住的{destination}飯店。請稍候</string>
     <!-- Bundle Overview selected hotel accessibility content description Eg. You have selected hotel Orion from Jun 23 to June 24, for 1 guest. Button to expand hotel details. -->
     <string name="select_hotel_selected_cont_desc_TEMPLATE">您已選擇了{startdate}　至　{enddate}，{guests} 位旅客入住於{hotel}飯店。{expandstate}飯店詳情。</string>
-    <!-- Bundle Overview selected flight accessibility content description Eg. Flight to (DTW) Detroit. Jul 10 at 9:00 am, 1 Traveler. Button to expand flight details. -->
-    <string name="select_flight_selected_cont_desc_TEMPLATE">{flighttext}。{travelerinfotext}。班機詳細資料{expandstate}。</string>
+    <!-- Bundle Overview flight card accessibility content description after search completed Eg. Search completed. Select a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button -->
+    <string name="select_flight_cont_desc_TEMPLATE">搜尋完成。選擇班機前往{flight}，{date}，{travelers}按鈕</string>
+    <!-- Bundle Overview flight card accessibility content description while searching Eg. Searching for a flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please wait -->
+    <string name="select_flight_searching_cont_desc_TEMPLATE">正在搜尋班機前往{flight}，{date}，{travelers}請稍候</string>
+    <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
+    <string name="select_flight_selected_cont_desc_TEMPLATE">您已選擇班機前往{flight}，{datetraveler}班機詳細資料{expandstate}。</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">班機前往{flight}，{date}，{travelers}請先選擇{previous}。按鈕已停用。</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
+    <string name="select_flight_disabled_choose_outbound">去程班機</string>
+    <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
+    <string name="select_flight_disabled_choose_hotel">飯店</string>
+
     <!-- Bundle Overview select hotel -->
     <string name="select_hotel_template">選擇%s飯店</string>
     <!-- Bundle Overview searching flight -->
@@ -4017,11 +4057,17 @@
     <string name="flight_departure_arrival_time_template">%1$s - %2$s</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm -->
     <string name="flight_departure_arrival_time_cont_desc_TEMPLATE">{departuretime}到{arrivaltime}</string>
+    <!-- Carrier name and code when flight operated by different carrier e.g. Operated by Alaska Airlines (AS) -->
+    <string name="flight_operated_by_carrier_name_and_code_TEMPLATE">營運公司：{operatingairlinename} ({operatingairlinecode})</string>
+    <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
+    <string name="flight_operated_by_carrier_name_only_TEMPLATE">營運公司：{operatingairlinename}</string>
 
     <!-- Select flight to template -->
     <string name="select_flight_to">選擇前往%1$s的班機</string>
     <!-- Flight to template -->
     <string name="flight_to">班機前往%1$s</string>
+    <!-- Flight Confirmation Cards - flight to template E.g. Flight to (SFO) San Francisco-->
+    <string name="flight_to_card_TEMPLATE">前往{airportcity} ({airportcode}) 的航班</string>
     <!-- Select return flight -->
     <string name="select_return_flight">選擇回程班機</string>
     <!-- Flight overview - flight to template -->
@@ -4084,7 +4130,11 @@
     <string name="pwp_total_due_today_TEMPLATE">今日應付總額：</string>
 
     <!-- Package Flight Overview -->
-    <string name="package_flight_overview_urgency_message_TEMPLATE">剩下 {seats} 個座位</string>
+    <!-- Seats left message if 1 - 5 tickets left. e.g. "1 seat left" -->
+    <plurals name="package_flight_overview_urgency_message_TEMPLATE">
+        <item quantity="one">剩下 {seats} 個座位</item>
+        <item quantity="other">剩下 {seats} 個座位</item>
+    </plurals>
     <string name="package_flight_overview_baggage_fees">行李費資訊</string>
     <string name="package_flight_overview_select_flight">選擇此班機</string>
     <string name="package_flight_overview_bundle_total_label">套裝行程總價</string>
@@ -4139,6 +4189,18 @@
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">總計</string>
+
+    <!-- Label for the tab on fare rules/amenities screen -->
+    <string name="fare_rules">票價規則</string>
+
+    <!-- Label for no segment amenities amenities screen -->
+    <string name="no_amenities">不提供設施</string>
+
+    <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
+    <string name="rail_station_info_TEMPLATE">{departure}到{arrival}</string>
+
+    <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">很抱歉，伺服器出現問題。請再試一次。</string>
     <string name="pwp_trip_service_error">很抱歉，伺服器出現問題。請再試一次。</string>
@@ -4310,6 +4372,7 @@
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/天</string>
     <string name="insurance_price_per_person">/人</string>
+
     <!-- Content description for rating bar e.g. Rated 3 out of 5-->
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">評分為 {rating}/5</string>
     <!--LX accessibility -->

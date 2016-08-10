@@ -27,8 +27,8 @@ import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.BaseFlightFilterViewModel
-import com.expedia.vm.FlightOverviewViewModel
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.FlightToolbarViewModel
 import com.expedia.vm.WebViewViewModel
@@ -94,7 +94,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val overviewPresenter: FlightOverviewPresenter by lazy {
         val viewStub = findViewById(R.id.overview_stub) as ViewStub
         val presenter = viewStub.inflate() as FlightOverviewPresenter
-        presenter.vm = FlightOverviewViewModel(context, shouldShowBundlePrice())
+        presenter.vm = makeFlightOverviewModel()
         presenter
     }
 
@@ -160,7 +160,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             overviewPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             baggageFeeInfoWebView.visibility = View.GONE
             paymentFeeInfoWebView.visibility = View.GONE
-            filter.visibility = View.GONE
+            filter.visibility = View.INVISIBLE
         }
     }
 
@@ -258,6 +258,10 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         defaultTransition.endTransition(true)
     }
 
+    fun backToOutboundResults() {
+        back()
+    }
+
     override fun back(): Boolean {
         if (BaseFlightFilterWidget::class.java.name == currentState) {
             if (filter.viewModelBase.isFilteredToZeroResults()) {
@@ -278,9 +282,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         setupToolbarMenu()
     }
 
+    abstract fun makeFlightOverviewModel(): AbstractFlightOverviewViewModel
     abstract fun setupToolbarMenu()
     abstract fun getLineOfBusiness(): LineOfBusiness
-    abstract fun shouldShowBundlePrice(): Boolean
     abstract fun isOutboundResultsPresenter(): Boolean
     abstract fun trackFlightResultsLoad()
     abstract fun trackFlightOverviewLoad()

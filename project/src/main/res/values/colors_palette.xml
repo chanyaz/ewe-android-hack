@@ -1,33 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <!-- Expedia Styleguide colors -->
-    <!-- These are base colors that we intend to use throughout all LOB and portions of the app.
-            The goal is that future mockups and styles just reference these values instead of
-            each rewriting the hex values on their own.-->
-    <color name="temporary_savings">#4CBD08</color>
-
-    <!-- Launch Screen colors -->
-    <color name="launchscreen_primary_color_old">#495863</color> <!-- Slate Gray -->
-    <color name="launch_blue">#0063BB</color> <!-- Blue -->
-    <color name="launchscreen_tab_indicator_color">#FFED18</color> <!-- Yellow -->
-
-
+    <!-- When editing/adding colors to this file please first refer to the following wiki:
+    https://github.com/ExpediaInc/ewe-android-eb/wiki/Design:-colors.xml-&-colors_palette.xml-best-practices.-->
     <!-- LOB colors -->
-    <color name="lob_hotels_primary_color">#009688</color> <!-- Green -->
-    <color name="lob_hotels_secondary_color">#00877B</color> <!-- Green (Dark) -->
-    <color name="lob_packages_primary_color">#0888BD</color> <!-- Blue -->
-    <color name="expDarkBlue">#0B75A1</color> <!-- Blue (Dark) -->
-    <color name="lob_packages_ripple_color">#09688F</color> <!-- Blue (Ripple) -->
+    <color name="exp_lob_blue">#0888BD</color>
+    <color name="exp_lob_dark_blue">#0B75A1</color>
+    <color name="exp_lob_ripple_blue">#09688F</color>
 
-    <color name="lob_cars_primary_maroon">#9E4E7F</color> <!-- Maroon -->
-    <color name="lob_cars_secondary_maroon">#915B7C</color> <!-- Maroon (Dark) -->
+    <color name="exp_hotel_green">#009688</color>
+    <color name="exp_hotel_dark_green">#00877B</color>
 
-    <color name="lob_gt_primary_color">#B93F62</color> <!-- Red -->
-    <color name="lob_rail_primary_color">#1369B3</color> <!-- Navy -->
+    <color name="exp_car_maroon">#9E4E7F</color>
+    <color name="exp_car_dark_maroon">#915B7C</color>
 
-    <color name="lob_lx_primary_orange">#E88534</color>
-    <color name="lob_lx_secondary_orange">#F7840D</color>
+    <color name="exp_gt_red">#B93F62</color>
+
+    <color name="exp_lx_orange">#E88534</color>
+    <color name="exp_lx_secondary_orange">#F7840D</color>
+
+    <color name="exp_rail_navy">#1369B3</color>
 
     <color name="transparent">#00000000</color>
     <color name="white">#FFFFFFFF</color>
@@ -51,23 +42,23 @@
     <color name="gray6_65">#A6767676</color>
     <color name="black_40">#64000000</color>
 
-    <!-- Colors on new launch screen-->
-    <color name="new_lob_hotels_color">#8BC349</color>
-    <color name="new_lob_flights_color">#4FC3F7</color>
-    <color name="new_lob_cars_color">#CC6595</color>
-    <color name="new_lob_gt_color">#E07172</color>
-    <color name="new_lob_lx_color">#EE9449</color>
-    <color name="new_lob_packages_color">#43A2E0</color>
-    <color name="new_lob_rail_color">#2BB07F</color>
-    <color name="new_lob_text_color">#3E6A85</color>
+    <!-- Launch Screen colors -->
+    <color name="exp_old_launch">#495863</color> <!-- Slate Gray -->
 
+    <color name="exp_launch_blue">#0063BB</color>
+    <color name="exp_launch_yellow">#FFED18</color>
+
+    <!-- Colors on new launch screen-->
+    <color name="exp_launch_hotel_green">#8BC349</color>
+    <color name="exp_launch_flights_blue">#4FC3F7</color>
+    <color name="exp_launch_car_pink">#CC6595</color>
+    <color name="exp_launch_gt_red">#E07172</color>
+    <color name="exp_launch_lx_orange">#EE9449</color>
+    <color name="exp_launch_packages_blue">#43A2E0</color>
+    <color name="exp_launch_rail_teal">#2BB07F</color>
+    <color name="exp_launch_dark_teal">#3E6A85</color> <!-- TODO wtf to call this color -->
 
     <color name="orange_crush">#FC9F23</color> <!-- This is used mainly for error states -->
     <color name="reddish_orange">#F25F31</color> <!-- This is used mostly for error states -->
-    <color name="greener_pastures">#19BF00</color> <!-- This is used for "savings" -->
-
-    <!-- This color is for divider lines within cardviews.  -->
-    <color name="cardview_divider_lines_gray">#DFDFDF</color>
-
-    <color name="search_dialog_gray">#6A6A6A</color>
+    <color name="green_savings">#4CBD08</color>
 </resources>

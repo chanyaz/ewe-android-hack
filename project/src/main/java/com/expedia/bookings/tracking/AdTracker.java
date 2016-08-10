@@ -98,7 +98,7 @@ public class AdTracker {
 		try {
 			if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null) {
 				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-				Money totalFare = trip.getTotalFare();
+				Money totalFare = trip.getTotalPrice();
 				Money averageTotalFare = trip.getAverageTotalFare();
 				if (totalFare != null) {
 					String orderNumber = Db.getTripBucket().getFlight().getCheckoutResponse() != null ?
@@ -135,7 +135,7 @@ public class AdTracker {
 
 	public static void trackFlightCheckoutStarted() {
 		if (Db.getTripBucket().getFlight() != null && Db.getTripBucket().getFlight().getFlightTrip() != null) {
-			Money totalPrice = Db.getTripBucket().getFlight().getFlightTrip().getTotalFare();
+			Money totalPrice = Db.getTripBucket().getFlight().getFlightTrip().getTotalPrice();
 			LeanPlumUtils
 				.trackFlightCheckoutStarted(Db.getTripBucket().getFlight().getFlightSearch(), totalPrice.getCurrency(),
 					totalPrice.getAmount().doubleValue());

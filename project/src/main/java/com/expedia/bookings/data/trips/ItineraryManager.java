@@ -51,6 +51,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -622,7 +623,9 @@ public class ItineraryManager implements JSONable {
 		 */
 		void onTripUpdateFailed(Trip trip);
 
-		public void onTripFailedFetchingGuestItinerary();
+		void onTripFailedFetchingGuestItinerary();
+
+		void onTripFailedFetchingRegisteredUserItinerary();
 
 		/**
 		 * Notification for when a Trip has been removed, either automatically
@@ -666,6 +669,9 @@ public class ItineraryManager implements JSONable {
 		}
 
 		public void onTripFailedFetchingGuestItinerary() {
+		}
+
+		public void onTripFailedFetchingRegisteredUserItinerary() {
 		}
 
 		public void onTripRemoved(Trip trip) {
@@ -719,6 +725,13 @@ public class ItineraryManager implements JSONable {
 		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
 		for (ItinerarySyncListener listener : listeners) {
 			listener.onTripFailedFetchingGuestItinerary();
+		}
+	}
+
+	private void onTripFailedFetchingRegisteredUserItinerary() {
+		Set<ItinerarySyncListener> listeners = new HashSet<ItineraryManager.ItinerarySyncListener>(mSyncListeners);
+		for (ItinerarySyncListener listener : listeners) {
+			listener.onTripFailedFetchingRegisteredUserItinerary();
 		}
 	}
 
@@ -1206,6 +1219,9 @@ public class ItineraryManager implements JSONable {
 			case FAILED_FETCHING_GUEST_ITINERARY:
 				onTripFailedFetchingGuestItinerary();
 				break;
+			case FAILED_FETCHING_REGISTERED_USER_ITINERARY:
+				onTripFailedFetchingRegisteredUserItinerary();
+				break;
 			case REMOVED:
 				onTripRemoved(update.mTrip);
 				break;
@@ -1434,7 +1450,16 @@ public class ItineraryManager implements JSONable {
 					}
 
 					if (isTripGuestAndFailedToRetrieve) {
-						publishProgress(new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
+						String errorCode = response.getErrors().get(0).getCode().toString();
+						if (Strings.isNotEmpty(errorCode) && errorCode.equalsIgnoreCase("NOT_AUTHENTICATED")) {
+							publishProgress(
+								new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_REGISTERED_USER_ITINERARY,
+									trip));
+						}
+						else {
+							publishProgress(
+								new ProgressUpdate(ProgressUpdate.Type.FAILED_FETCHING_GUEST_ITINERARY, trip));
+						}
 					}
 					else {
 						publishProgress(new ProgressUpdate(ProgressUpdate.Type.UPDATE_FAILED, trip));
@@ -1784,6 +1809,7 @@ public class ItineraryManager implements JSONable {
 			UPDATED,
 			UPDATE_FAILED,
 			FAILED_FETCHING_GUEST_ITINERARY,
+			FAILED_FETCHING_REGISTERED_USER_ITINERARY,
 			REMOVED,
 			SYNC_ERROR,
 			USER_ADDED_COMPLETED_TRIP,

@@ -426,7 +426,10 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 
 		if (!TextUtils.isEmpty(currencyCode)) {
 			trip.setBaseFare(ParserUtils.createMoney(baseFare, currencyCode));
-			trip.setTotalFare(ParserUtils.createMoney(totalFare, currencyCode));
+			Money totalFareMoney = ParserUtils.createMoney(totalFare, currencyCode);
+			trip.setTotalFare(totalFareMoney);
+			// Setting total price equal to total fare for search response.
+			trip.setTotalPrice(totalFareMoney);
 			trip.setAverageTotalFare(ParserUtils.createMoney(avgTotalFare, currencyCode));
 			trip.setTaxes(ParserUtils.createMoney(taxes, currencyCode));
 			trip.setFees(ParserUtils.createMoney(fees, currencyCode));

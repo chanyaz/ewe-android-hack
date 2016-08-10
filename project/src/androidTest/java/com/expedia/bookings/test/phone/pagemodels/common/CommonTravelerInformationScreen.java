@@ -5,12 +5,16 @@ import android.support.test.espresso.ViewInteraction;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.ViewActions;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.instanceOf;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.core.Is.is;
 
 public class CommonTravelerInformationScreen {
 
@@ -20,6 +24,7 @@ public class CommonTravelerInformationScreen {
 	private static final int PHONE_NUMBER_EDIT_TEXT_ID = R.id.edit_phone_number;
 	private static final int EMAIL_EDIT_TEXT_ID = R.id.edit_email_address;
 	private static final int BIRTHDATE_SPINNER_BUTTON_ID = R.id.edit_birth_date_text_btn;
+	private static final int GENDER_SPINNER_BUTTON_ID = R.id.edit_gender_spinner;
 	private static final int DONE_STRING_ID = R.string.done;
 	private static final int NEXT_BUTTON_ID = R.id.menu_next;
 	private static final int DONE_BUTTON_ID = R.id.menu_done;
@@ -78,6 +83,11 @@ public class CommonTravelerInformationScreen {
 
 	public static void clickBirthDateButton() {
 		birthDateSpinnerButton().perform(click());
+	}
+
+	public static void selectGender(String genderType) {
+		onView(withId(R.id.edit_gender_spinner)).perform(click());
+		onData(allOf(is(instanceOf(String.class)),is(genderType))).perform(click());
 	}
 
 	public static void clickDoneString() {

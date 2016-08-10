@@ -35,6 +35,7 @@ import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.HotelV2Tracking
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.FontCache
@@ -43,6 +44,7 @@ import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
+import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -67,8 +69,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val sectionBillingInfo: SectionBillingInfo by bindView(R.id.section_billing_info)
     val sectionLocation: SectionLocation by bindView(R.id.section_location_address)
     val creditCardNumber: NumberMaskEditText by bindView(R.id.edit_creditcard_number)
-    val creditCardName: EditText by bindView(R.id.edit_name_on_card)
-    val creditCardPostalCode: EditText by bindView(R.id.edit_address_postal_code)
+    val creditCardName: AccessibleEditText by bindView(R.id.edit_name_on_card)
+    val creditCardPostalCode: AccessibleEditText by bindView(R.id.edit_address_postal_code)
     val cardInfoIcon: ImageView by bindView(R.id.card_info_icon)
     val cardInfoName: TextView by bindView(R.id.card_info_name)
     val cardInfoExpiration: TextView by bindView(R.id.card_info_expiration)
@@ -183,6 +185,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         vm.onStoredCardChosen.map { true }.subscribe(enableMenuItem)
 
         viewmodel.isZipValidationRequired.subscribeVisibility(sectionLocation)
+
+        vm.moveFocusToPostalCodeSubject.subscribe {
+            creditCardPostalCode.requestFocus()
+        }
     }
 
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
@@ -619,20 +625,29 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
      * Don't make this class abstract, since this is a persenter and could have it's own view .xml implementation
      */
     open fun trackShowPaymentOptions() {
-        // Let inheriting class call their respective tracking.
+        if (viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
+            FlightsV2Tracking.trackCheckoutSelectPaymentClick()
+        } else if (viewmodel.lineOfBusiness.value == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackCheckoutSelectPaymentClick()
+        }
     }
 
     open fun trackShowPaymentEdit() {
         // Let inheriting class call their respective tracking.
-        if(viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
+        if (viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
             FlightsV2Tracking.trackShowPaymentEdit()
+        } else if (viewmodel.lineOfBusiness.value == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackCheckoutAddPaymentType()
         }
     }
 
     open fun trackPaymentStoredCCSelect() {
         // Let inheriting class call their respective tracking.
-        if(viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
+        if (viewmodel.lineOfBusiness.value == LineOfBusiness.FLIGHTS_V2) {
             FlightsV2Tracking.trackPaymentStoredCCSelect()
+        } else if (viewmodel.lineOfBusiness.value == LineOfBusiness.PACKAGES) {
+            PackagesTracking().trackCheckoutPaymentSelectStoredCard()
         }
     }
+
 }

@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
@@ -67,7 +68,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         resultsPresenter.viewmodel.paramsSubject.onNext(params)
     }
 
-    val offerSelectedObserver: Observer<RailSearchResponse.RailOffer> = endlessObserver { selectedOffer ->
+    val offerSelectedObserver: Observer<RailOffer> = endlessObserver { selectedOffer ->
         transitionToDetails()
         detailsPresenter.viewmodel.offerViewModel.offerSubject.onNext(selectedOffer)
     }

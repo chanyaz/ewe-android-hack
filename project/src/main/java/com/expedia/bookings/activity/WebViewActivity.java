@@ -14,7 +14,6 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 
 public class WebViewActivity extends FragmentActivity implements WebViewFragment.WebViewFragmentListener {
@@ -30,8 +29,6 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
 	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
 	private static final String ARG_RETURN_FROM_CANCEL_ROOM_BOOKING = "ARG_RETURN_FROM_CANCEL_ROOM_BOOKING";
-
-	private WebViewFragment mFragment;
 
 	public static class IntentBuilder {
 
@@ -167,34 +164,43 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 			boolean allowMobileRedirects = extras.getBoolean(ARG_ALLOW_MOBILE_REDIRECTS, true);
 			String name = extras.getString(ARG_TRACKING_NAME);
 
-			if (extras.containsKey(ARG_HTML_DATA)) {
-				String htmlData = extras.getString(ARG_HTML_DATA);
-				Log.v("WebView html data: " + htmlData);
-				mFragment = WebViewFragment.newInstance(htmlData);
-			}
-			else {
-				String url = extras.getString(ARG_URL);
-				Log.v("WebView url: " + url);
-
-				// Some error checking: if not given a URL, display a toast and finish
-				if (TextUtils.isEmpty(url)) {
-					String t = getString(R.string.web_view_loading_error_TEMPLATE, getString(R.string.web_view_no_url));
-					Toast.makeText(this, t, Toast.LENGTH_SHORT).show();
-					finish();
-					return;
-				}
-				boolean attemptForceMobileWeb = extras.getBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, false);
-				mFragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects, attemptForceMobileWeb,
-						name);
+			WebViewFragment webViewFragment =
+				createWebViewFragment(extras, enableLogin, injectExpediaCookies, allowMobileRedirects, name);
+			if (webViewFragment == null) {
+				finish();
+				return;
 			}
 
 			FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-			ft.replace(android.R.id.content, mFragment, WebViewFragment.TAG);
+			ft.replace(android.R.id.content, webViewFragment, WebViewFragment.TAG);
 			ft.commit();
 		}
-		else {
-			mFragment = Ui.findSupportFragment(this, WebViewFragment.TAG);
+	}
+
+	protected WebViewFragment createWebViewFragment(Bundle extras, boolean enableLogin, boolean injectExpediaCookies,
+			boolean allowMobileRedirects, String name) {
+		WebViewFragment fragment;
+
+		if (extras.containsKey(ARG_HTML_DATA)) {
+			String htmlData = extras.getString(ARG_HTML_DATA);
+			Log.v("WebView html data: " + htmlData);
+			fragment = WebViewFragment.newInstance(htmlData);
 		}
+		else {
+			String url = extras.getString(ARG_URL);
+			Log.v("WebView url: " + url);
+
+			// Some error checking: if not given a URL, display a toast and finish
+			if (TextUtils.isEmpty(url)) {
+				String t = getString(R.string.web_view_loading_error_TEMPLATE, getString(R.string.web_view_no_url));
+				Toast.makeText(this, t, Toast.LENGTH_SHORT).show();
+				return null;
+			}
+			boolean attemptForceMobileWeb = extras.getBoolean(ARG_ATTEMPT_FORCE_MOBILE_SITE, false);
+			fragment = WebViewFragment.newInstance(url, enableLogin, injectExpediaCookies, allowMobileRedirects,
+				attemptForceMobileWeb, name);
+		}
+		return fragment;
 	}
 
 	@Override

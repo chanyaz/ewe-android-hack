@@ -19,9 +19,8 @@ class InfantSeatPreferenceAdapter(val context: Context, val list: List<String>) 
         val view = createViewFromResource(position, convertView, parent, R.layout.child_spinner_item)
         val textView = view as TextView
         val icon = ContextCompat.getDrawable(parent.context, R.drawable.search_form_traveler_picker_infant).mutate()
-        icon.setColorFilter(ContextCompat.getColor(parent.context, R.color.search_dialog_gray), PorterDuff.Mode.SRC_IN)
+        icon.setColorFilter(ContextCompat.getColor(parent.context, R.color.search_dialog_icon_color), PorterDuff.Mode.SRC_IN)
         textView.setCompoundDrawablesRelativeWithIntrinsicBounds(icon, null, null, null)
-//        textView.setPadding(padding, 0, 0, 0)
         return view
     }
 

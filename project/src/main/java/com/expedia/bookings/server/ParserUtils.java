@@ -170,6 +170,9 @@ public class ParserUtils {
 		if ("400".equals(code)) {
 			serverError.setCode("INVALID_INPUT");
 		}
+		else if ("403".equals(code)) {
+			serverError.setCode("NOT_AUTHENTICATED");
+		}
 		else {
 			serverError.setCode(code);
 		}

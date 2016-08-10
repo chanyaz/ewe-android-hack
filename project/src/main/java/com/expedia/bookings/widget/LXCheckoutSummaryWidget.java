@@ -26,6 +26,7 @@ import com.expedia.bookings.utils.CheckoutSummaryWidgetUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.Ui;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -101,8 +102,10 @@ public class LXCheckoutSummaryWidget extends LinearLayout {
 
 		freeCancellationText.setVisibility(lxState.offer.freeCancellation ? VISIBLE : GONE);
 
-		tripTotalText.setText(
-			latestPrice.getFormattedMoneyFromAmountAndCurrencyCode(latestPrice.getAmount(), latestPrice.getCurrency()));
+		String tripTotal = latestPrice.getFormattedMoneyFromAmountAndCurrencyCode(latestPrice.getAmount(), latestPrice.getCurrency());
+		tripTotalText.setText(tripTotal);
+		tripTotalText.setContentDescription(Phrase.from(getContext(), R.string.lx_selection_cost_summary_cont_desc_TEMPLATE)
+				.put("trip_total", tripTotal).format().toString());
 
 		// Price change
 		isInPriceChangeFlow = (originalPrice != null);
