@@ -42,6 +42,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/toolbar_nav_icon_close_cont_desc"
                     android:padding="8dp"
                     android:paddingTop="7dp"
                     android:src="?attr/skin_itinCardActionBarCheckmark" />
