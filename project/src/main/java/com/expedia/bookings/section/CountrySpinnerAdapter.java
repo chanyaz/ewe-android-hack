@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,11 +121,16 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		View viewImpl = getViewImpl(
 			mShowEmptyRow || usePrefix() ? getFormattedText(getItem(position)) : getItem(position),
 			convertView, parent, mItemResId);
+		TextView tv = Ui.findView(viewImpl, android.R.id.text1);
 
 		boolean noCountrySelected = (position == 0);
 		if (mShowEmptyRow) {
 			drawErrorIcon(viewImpl, noCountrySelected);
 		}
+		if (!noCountrySelected) {
+			tv.setTextColor(ContextCompat.getColor(tv.getContext(), R.color.black));
+		}
+
 		return viewImpl;
 	}
 
