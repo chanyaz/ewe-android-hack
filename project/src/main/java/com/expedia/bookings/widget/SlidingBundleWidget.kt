@@ -37,6 +37,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
     val bundlePriceWidget: TotalPriceWidget by bindView(R.id.bundle_price_widget)
     val bundleOverViewWidget: BundleWidget by bindView(R.id.bundle_widget)
     val bundlePriceFooter: TotalPriceWidget by bindView(R.id.total_price_widget)
+    val bundleWidgetShadow: View by bindView(R.id.bundle_price_widget_shadow)
 
     var translationDistance = 0f
     val statusBarHeight = Ui.getStatusBarHeight(context)
@@ -82,6 +83,11 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundlePriceWidget.bundleTotalIncludes.visibility = View.VISIBLE
         bundlePriceWidget.bundleTotalPrice.visibility = View.VISIBLE
         bundlePriceWidget.setBackgroundColor(if (forward) Color.WHITE else ContextCompat.getColor(context, R.color.packages_primary_color))
+        if (forward) {
+            bundleWidgetShadow.visibility = View.GONE
+        } else {
+            bundleWidgetShadow.visibility = View.VISIBLE
+        }
     }
 
     fun updateBundleTransition(f: Float, forward: Boolean) {
