@@ -23,7 +23,6 @@
         android:layout_weight="3"
         android:hint="@string/phone_number_hint"
         android:nextFocusForward="@+id/edit_birth_date_text_btn"
-        android:imeOptions="actionDone"
         android:inputType="phone"
         android:singleLine="true"
         android:textSize="@dimen/traveler_input_text_size"

@@ -16,6 +16,7 @@ import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Space
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightRulesActivity
@@ -64,11 +65,13 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val chevron: View by bindView(R.id.chevron)
     val mainContent: LinearLayout by bindView(R.id.main_content)
     val scrollView: ScrollView by bindView(R.id.scrollView)
+    val contentView: LinearLayout by bindView(R.id.checkout_widget_container)
     val loginWidget: AccountButton by bindView(R.id.login_widget)
     val cardProcessingFeeTextView: TextView by bindView(R.id.card_processing_fee)
     val cardFeeWarningTextView: TextView by bindView(R.id.card_fee_warning_text)
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
     val insuranceWidget: InsuranceWidget by bindView(R.id.insurance_widget)
+    val space: Space by bindView(R.id.scrollview_space)
 
     var paymentWidget: PaymentWidget by Delegates.notNull()
     val travelerDefaultState: TravelerDefaultState by lazy {
@@ -96,7 +99,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
-
     val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
     val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
@@ -115,14 +117,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var checkoutTranslationObserver = PublishSubject.create<Float>()
-    var userAccountRefresher = UserAccountRefresher(context, getLineOfBusiness(), this)
-
-    var sliderHeight = 0f
-    var checkoutButtonHeight = 0f
+    val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
 
     val paymentWidgetViewModel = PaymentViewModel(context)
-
-    val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
+    var userAccountRefresher = UserAccountRefresher(context, getLineOfBusiness(), this)
+    var sliderHeight = 0f
+    var checkoutButtonHeight = 0f
 
     protected var ckoViewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
         vm.creditCardRequired.subscribe { required ->
@@ -290,7 +290,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 animateInSlideToPurchase(true)
                 travelerPresenter.setFocusForView()
                 travelerDefaultState.setFocusForView()
+            } else {
+                val lp = space.layoutParams
+                lp.height = 0
+                space.layoutParams = lp
             }
+
         }
     }
 
@@ -321,6 +326,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 Ui.hideKeyboard(paymentWidget)
                 animateInSlideToPurchase(true)
                 paymentWidget.setFocusForView()
+            } else {
+                val lp = space.layoutParams
+                lp.height = 0
+                space.layoutParams = lp
             }
             showingPaymentWidgetSubject.onNext(forward)
         }
@@ -352,12 +361,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     //Abstract methods
-    override fun onSlideStart() {
-    }
-
-    override fun onSlideProgress(pixels: Float, total: Float) {
-    }
-
+    override fun onSlideStart() { }
+    override fun onSlideProgress(pixels: Float, total: Float) { }
     override fun onSlideAllTheWay() {
         if (ckoViewModel.builder.hasValidParams()) {
             ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
@@ -365,10 +370,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             slideAllTheWayObservable.onNext(Unit)
         }
     }
-
-    override fun onSlideAbort() {
-        slideToPurchase.resetSlider()
-    }
+    override fun onSlideAbort() { slideToPurchase.resetSlider() }
 
     override fun onUserAccountRefreshed() {
         doCreateTrip()
@@ -444,11 +446,25 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
         val distance = if (!isSlideToPurchaseLayoutVisible) slideToPurchaseLayout.height.toFloat() else 0f
         if (bottomContainer.translationY == distance) {
+            val lp = space.layoutParams
+            lp.height = adjustScrollingSpace()
+            space.layoutParams = lp
             return
         }
         val animator = ObjectAnimator.ofFloat(bottomContainer, "translationY", distance)
         animator.duration = 300
         animator.start()
+        animator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationCancel(p0: Animator?) { }
+            override fun onAnimationStart(p0: Animator?) { }
+            override fun onAnimationRepeat(p0: Animator?) { }
+            override fun onAnimationEnd(p0: Animator?) {
+                val lp = space.layoutParams
+                lp.height = adjustScrollingSpace()
+                space.layoutParams = lp
+            }
+        })
+
     }
 
     fun toggleCheckoutButton(isEnabled: Boolean) {
@@ -537,7 +553,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             val decorView = rootWindow.decorView
             val windowVisibleDisplayFrameRect = Rect()
             decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
-            var location = IntArray(2)
+            val location = IntArray(2)
             scrollView.getLocationOnScreen(location)
             val lp = scrollView.layoutParams
             val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - offset
@@ -549,5 +565,19 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         })
 
         return layoutListener
+    }
+
+    private fun adjustScrollingSpace() : Int {
+        val contentViewLocation = IntArray(2)
+        val bottomContainerLocation = IntArray(2)
+        val scrollViewContainerLocation = IntArray(2)
+        contentView.getLocationOnScreen(contentViewLocation)
+        bottomContainer.getLocationOnScreen(bottomContainerLocation)
+        scrollView.getLocationOnScreen(scrollViewContainerLocation)
+
+        val contentViewBottomPosition = contentViewLocation[1] + contentView.height - space.height
+        val bottomContainerTopPosition = bottomContainerLocation[1]
+        val spaceHeight = Math.max(0, scrollViewContainerLocation[1] + scrollView.height - contentViewBottomPosition)
+        return Math.max(0, contentViewBottomPosition - bottomContainerTopPosition) + spaceHeight
     }
 }
