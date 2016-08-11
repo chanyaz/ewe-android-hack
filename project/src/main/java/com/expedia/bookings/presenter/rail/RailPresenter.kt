@@ -57,6 +57,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     }
 
     private val detailsToAmenities = ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
+    private val overviewToAmenities = ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
 
     var railSearchParams: RailSearchRequest by Delegates.notNull()
 
@@ -109,6 +110,12 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             show(amenitiesFareRulesWidget)
             amenitiesFareRulesWidget.showFareRulesForOffer(offer)
         }
+
+        tripOverviewPresenter.railTripSummary.outboundLegSummary.viewModel.showLegInfoObservable.subscribe {
+            show(amenitiesFareRulesWidget)
+            amenitiesFareRulesWidget.showFareRulesForOffer(tripOverviewPresenter.railTripSummary.outboundLegSummary.viewModel.railOfferObserver.value)
+        }
+
         show(searchPresenter)
     }
 
@@ -118,6 +125,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         addTransition(detailsToOverview)
         addTransition(detailsToAmenities)
         addTransition(checkoutToSearch)
+        addTransition(overviewToAmenities)
     }
 
     private fun transitionToSearch() {
