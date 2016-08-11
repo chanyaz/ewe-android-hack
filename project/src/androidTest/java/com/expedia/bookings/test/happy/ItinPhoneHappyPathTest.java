@@ -15,6 +15,8 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -23,6 +25,7 @@ import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTex
 import static com.expedia.bookings.test.espresso.EspressoUtils.getListItemValues;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.core.AllOf.allOf;
 
 public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
@@ -80,7 +83,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "11:32 AM");
 		assertViewWithTextIsDisplayed(R.id.arrival_time_text_view, "6:04 PM");
 		assertViewWithTextIsDisplayed("Detroit Metropolitan Wayne County Airport");
-		onView(withId(R.id.terminal_map_or_directions_btn)).check(matches(withContentDescription("Terminal Maps and Directions button")));
+		onView(allOf(withId(R.id.terminal_map_or_directions_btn), hasSibling(withChild(withText("San Francisco Int'l Airport")))))
+			.check(matches(withContentDescription("Terminal Maps and Directions")));
 		assertViewWithTextIsDisplayed(R.id.passengers_label, "Passengers");
 		assertViewWithTextIsDisplayed(R.id.passenger_name_list, "Philip J. Fry, Turanga Leela");
 		assertViewWithTextIsDisplayed("Airline Confirmation");
