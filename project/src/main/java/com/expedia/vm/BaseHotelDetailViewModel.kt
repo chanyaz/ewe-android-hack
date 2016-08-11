@@ -208,8 +208,8 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             if (rate.packagePricePerPerson != null && rate.packageTotalPrice != null && rate.packageSavings != null) {
                 bundlePricePerPersonObservable.onNext(Money(BigDecimal(rate.packagePricePerPerson.amount.toDouble()), rate.packagePricePerPerson.currencyCode))
-                bundleTotalPriceObservable.onNext(Money(BigDecimal(rate.packageTotalPrice.amount.toDouble()), rate.packageTotalPrice.currencyCode))
-                bundleSavingsObservable.onNext(Money(BigDecimal(rate.packageSavings.amount.toDouble()), rate.packageSavings.currencyCode))
+                bundleTotalPriceObservable.onNext(rate.packageTotalPrice)
+                bundleSavingsObservable.onNext(rate.packageSavings)
             }
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)

@@ -40,7 +40,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		assertInboundFlightResultBundlePrice("$2,105.95");
 
 		Common.pressBack();
-		onView(allOf(withId(R.id.bundle_total_price), withText("$3863.38"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_price), withText("$3,863.38"))).check(matches(isDisplayed()));
 
 		//back to outbound flight overview
 		Common.pressBack();
@@ -60,7 +60,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 
 		Common.pressBack();
 
-		onView(allOf(withId(R.id.bundle_total_price), withText("$2054.67"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_price), withText("$2,054.67"))).check(matches(isDisplayed()));
 
 		//back to hotel infosite
 		Common.pressBack();
@@ -90,11 +90,11 @@ public class PackageBackNavigationTest extends PackageTestCase {
 	}
 
 	private void assertOutboundFlightResultBundlePrice(String price) {
-		onView(allOf(withId(R.id.bundle_total_price), withText(price + "/person"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
 	}
 
 	private void assertInboundFlightResultBundlePrice(String price) {
-		onView(allOf(withId(R.id.bundle_total_price), withText(price + "/person"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
 	}
 
 	private void assertHotelSRP() {
