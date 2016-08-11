@@ -20,8 +20,7 @@ import android.widget.LinearLayout
 import android.widget.Space
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
-import com.expedia.bookings.activity.FlightRulesActivity
-import com.expedia.bookings.activity.HotelRulesActivity
+import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
@@ -215,11 +214,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() }
 
         legalInformationText.setOnClickListener {
-            if (getLineOfBusiness() == LineOfBusiness.PACKAGES) {
-                context.startActivity(HotelRulesActivity.createIntent(context, getLineOfBusiness()))
-            } else {
-                context.startActivity(FlightRulesActivity.createIntent(context, getLineOfBusiness()))
-            }
+            context.startActivity(FlightAndPackagesRulesActivity.createIntent(context, getLineOfBusiness()))
         }
 
         handle.setOnTouchListener(HandleTouchListener())

@@ -5,28 +5,34 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.flights.FlightCreateTripResponse;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.Ui;
 
-public class FlightRulesFragmentV2 extends BaseRulesFragment {
+public class PackagesRulesFragment extends BaseRulesFragment {
 
-	private FlightCreateTripResponse flightCreateTripResponse;
+	private PackageCreateTripResponse packageCreateTripResponse;
+	private PackageCreateTripResponse.FlightProduct flightCreateTripResponse;
+	private HotelOffersResponse.HotelRoomResponse hotelRoomResponse;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		flightCreateTripResponse = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
+		packageCreateTripResponse = Db.getTripBucket().getPackage().mPackageTripResponse;
+		flightCreateTripResponse = packageCreateTripResponse.packageDetails.flight;
+		hotelRoomResponse = packageCreateTripResponse.packageDetails.hotel.hotelRoomResponse;
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
-		cancellationPolicyContainer.setVisibility(View.GONE);
 		if (flightCreateTripResponse != null) {
-			String completeRuleUrl = flightCreateTripResponse.flightRules.rulesToUrl
-				.get(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
+			String completeRuleUrl = packageCreateTripResponse.packageRulesAndRestrictions;
 			setRulesAndRestrictionHeader(v, completeRuleUrl);
 			populateHeaderRows(v);
 			populateBody(v);
@@ -55,9 +61,19 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 			populateTextViewThatLooksLikeAUrlThatOpensAWebViewActivity(
 				airlineFeeRuleText, airlineFeeRuleUrl, mAdditionalFeesTextView);
 
-			mFareInformation.setText(R.string.fare_information);
+			mFareInformation.setText(R.string.packages_fare_information);
 		}
 
+		String cancellationPolicy = "";
+		if (hotelRoomResponse != null) {
+			cancellationPolicy = hotelRoomResponse.cancellationPolicy;
+		}
+
+		if (Strings.isNotEmpty(cancellationPolicy)) {
+			cancellationPolicyContainer.setVisibility(View.VISIBLE);
+			TextView cancellationPolicyTextView = Ui.findView(v, R.id.cancellation_policy_text_view);
+			cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy));
+		}
 		return v;
 	}
 
@@ -100,4 +116,5 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 			mLccTextView.setVisibility(View.VISIBLE);
 		}
 	}
+
 }

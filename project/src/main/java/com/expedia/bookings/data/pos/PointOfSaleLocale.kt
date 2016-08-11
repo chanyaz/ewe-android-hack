@@ -43,6 +43,9 @@ class PointOfSaleLocale(private val data: JSONObject) {
     /** The rules & restrictions disclaimer for every flight booking */
     val flightBookingStatement by lazy { data.optString("flightBookingStatement", null) }
 
+    /** The rules & restrictions disclaimer for every packages booking */
+    val packagesBookingStatement by lazy { data.optString("packagesBookingStatement", null) ?: flightBookingStatement }
+
     /** The URL for Terms and Conditions for this POS */
     val termsAndConditionsUrl by lazy { data.optString("termsAndConditionsURL", null) }
 

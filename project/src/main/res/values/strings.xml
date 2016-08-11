@@ -3254,6 +3254,10 @@
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
     <string name="cancellation_policy">Cancellation Policy</string>
+    <!-- Cancellation policy label for packages-->
+    <string name="packages_cancellation_policy">Hotel Cancellation Policy</string>
+    <!-- Cancellation policy label for packages-->
+    <string name="packages_fare_information">Flight Fare Information</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->

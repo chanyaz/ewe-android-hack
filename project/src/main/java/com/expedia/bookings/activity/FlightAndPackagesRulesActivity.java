@@ -11,14 +11,15 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.fragment.FlightRulesFragmentV1;
 import com.expedia.bookings.fragment.FlightRulesFragmentV2;
+import com.expedia.bookings.fragment.PackagesRulesFragment;
 import com.expedia.bookings.tracking.OmnitureTracking;
 
-public class FlightRulesActivity extends FragmentActivity {
+public class FlightAndPackagesRulesActivity extends FragmentActivity {
 
 	public static final String LOB_KEY = "LOB";
 
 	public static Intent createIntent(Context context, LineOfBusiness lob) {
-		Intent intent = new Intent(context, FlightRulesActivity.class);
+		Intent intent = new Intent(context, FlightAndPackagesRulesActivity.class);
 		intent.putExtra(LOB_KEY, lob);
 		return intent;
 	}
@@ -34,12 +35,19 @@ public class FlightRulesActivity extends FragmentActivity {
 			return;
 		}
 
-		setContentView(R.layout.activity_flight_rules);
-		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(LOB_KEY)) {
-			FlightRulesFragmentV2 flightRulesFragmentV2 = new FlightRulesFragmentV2();
-			getSupportFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, flightRulesFragmentV2).commit();
+		setContentView(R.layout.activity_flight_and_packages_rules);
 
+		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(LOB_KEY)) {
+			if (getIntent().getExtras().get(LOB_KEY).equals(LineOfBusiness.PACKAGES)) {
+				PackagesRulesFragment packagesRulesFragment = new PackagesRulesFragment();
+				getSupportFragmentManager().beginTransaction()
+					.add(R.id.fragment_container, packagesRulesFragment).commit();
+			}
+			else {
+				FlightRulesFragmentV2 flightRulesFragmentV2 = new FlightRulesFragmentV2();
+				getSupportFragmentManager().beginTransaction()
+					.add(R.id.fragment_container, flightRulesFragmentV2).commit();
+			}
 		}
 		else {
 			FlightRulesFragmentV1 flightRulesFragmentV1 = new FlightRulesFragmentV1();

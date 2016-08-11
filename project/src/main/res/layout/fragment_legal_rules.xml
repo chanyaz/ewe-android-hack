@@ -47,8 +47,9 @@
             android:text="@string/lawyer_label_atol_information" />
 
         <TextView
+            android:id="@+id/fare_information"
             style="@style/LegalInformationTextView.Blue"
-            android:text="@string/fare_information" />
+            android:text="@string/packages_fare_information" />
 
         <View style="@style/LegalInformationDivider.Blue" />
 
@@ -72,6 +73,27 @@
             android:id="@+id/lcc_text_view"
             style="@style/LegalInformationTextView"
             android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/cancellation_policy_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingTop="10dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/cancellation_policy_header_text_view"
+                style="@style/LegalInformationTextView.Blue"
+                android:text="@string/packages_cancellation_policy" />
+
+            <View style="@style/LegalInformationDivider.Blue" />
+
+            <TextView
+                android:id="@+id/cancellation_policy_text_view"
+                style="@style/LegalInformationTextView" />
+        </LinearLayout>
+
     </LinearLayout>
 
 </ScrollView>
