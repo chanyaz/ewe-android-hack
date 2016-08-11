@@ -270,4 +270,22 @@ public class StrUtilsTest {
 		suggestion.hierarchyInfo.airport.airportCode = "CHI";
 		return suggestion;
 	}
+
+	@Test
+	public void testFormatRoomString() {
+		assertEquals("1 room", StrUtils.formatRoomString(getContext(), 1));
+		assertEquals("3 rooms", StrUtils.formatRoomString(getContext(), 3));
+	}
+
+	@Test
+	public void testFormatNightsString() {
+		assertEquals("1 night", StrUtils.formatNightsString(getContext(), 1));
+		assertEquals("3 nights", StrUtils.formatNightsString(getContext(), 3));
+	}
+
+	@Test
+	public void testFormatLowerCaseGuestString() {
+		assertEquals("1 guest", StrUtils.formatLowerCaseGuestString(getContext(), 1));
+		assertEquals("3 guests", StrUtils.formatLowerCaseGuestString(getContext(), 3));
+	}
 }

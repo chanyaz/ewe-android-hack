@@ -1,43 +1,134 @@
 package com.expedia.vm.packages
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.utils.FontCache
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
-class PackageCostSummaryBreakdownViewModel(context: Context): BaseCostSummaryBreakdownViewModel(context) {
+class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreakdownViewModel(context) {
     val packageCostSummaryObservable = PublishSubject.create<PackageCreateTripResponse.PackageDetails>()
+
     init {
         packageCostSummaryObservable.subscribe { packageDetails ->
-            val breakdowns = arrayListOf<CostSummaryBreakdown>()
-            var title: String
+            val breakdowns = arrayListOf<CostSummaryBreakdownRow>()
+            // Hotel + Flights    $330
+            breakdowns.add(
+                    makeHotelsAndFlightsRow(packageDetails.pricing.basePrice.formattedPrice)
+            )
 
-            if (packageDetails.pricing.taxesAndFeesIncluded) {
-                breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(context.getString(R.string.cost_summary_breakdown_hotel_flight_summary)).cost(packageDetails.pricing.packageTotal.formattedPrice).build())
+            // 1 room, 6 nights, 2 guests
+            breakdowns.add(
+                    makeRoomNightsAndGuestRow(packageDetails.hotel.adultCount.toInt(),
+                            packageDetails.hotel.numberOfNights.toInt(),
+                            packageDetails.hotel.numberOfRooms.toInt()))
 
-                title = Phrase.from(context, R.string.cost_summary_breakdown_taxes_fees_included_TEMPLATE).put("taxes", packageDetails.pricing.totalTaxesAndFees.formattedPrice).format().toString()
-                breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).build())
-            } else {
-                breakdowns.add(CostSummaryBreakdown(context.getString(R.string.cost_summary_breakdown_hotel_flight_summary), null, packageDetails.pricing.basePrice.formattedPrice, false, false, false, false))
-                title = context.getString(R.string.cost_summary_breakdown_taxes_fees)
-                breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(packageDetails.pricing.totalTaxesAndFees.formattedPrice).build())
+            // Taxes and Fees     $50
+            breakdowns.add(
+                    makeTaxesAndFeesRow(packageDetails.pricing.totalTaxesAndFees.formattedPrice,
+                            packageDetails.pricing.taxesAndFeesIncluded))
+
+            // Bundle Discount    -$200
+            breakdowns.add(makeTotalSavingRow(packageDetails.pricing.savings.formattedPrice))
+
+            if (packageDetails.pricing.hasResortFee() && PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
+                // Local charges due at hotel
+                breakdowns.add(makeDueAtHotelRow(packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoney))
             }
 
-            // Adding divider line
-            breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
+            // -------------------------
+            breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
 
-            title = context.getString(R.string.cost_summary_breakdown_total_savings)
-            breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(packageDetails.pricing.savings.formattedPrice).discount(true).build())
+            if (!packageDetails.pricing.hasResortFee() || PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
+                // Bundle Total     $380
+                breakdowns.add(makeBundleTotalRow(packageDetails.pricing.getBundleTotal().formattedPrice))
+            }
+            if (packageDetails.pricing.hasResortFee()) {
+                // Total Due Today  $900
+                breakdowns.add(makeTotalDueTodayRow(packageDetails.pricing.packageTotal.formattedPrice, PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()))
+            }
 
-            title = context.getString(R.string.cost_summary_breakdown_total_due_today)
-            breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(packageDetails.pricing.packageTotal.formattedPrice).totalDue(true).build())
-
+            if (packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
+                // Local charges due at hotel
+                breakdowns.add(makeDueAtHotelRow(packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoney))
+            }
             addRows.onNext(breakdowns)
             iconVisibilityObservable.onNext(true)
         }
-
     }
 
+    private fun makeRoomNightsAndGuestRow(roomsCount: Int, nightsCount: Int, guestsCount: Int): CostSummaryBreakdownRow {
+        val title = Phrase.from(context, R.string.packages_guest_room_night_TEMPLATE)
+                .put("room", StrUtils.formatRoomString(context, roomsCount))
+                .put("night", StrUtils.formatNightsString(context, nightsCount))
+                .put("guest", StrUtils.formatLowerCaseGuestString(context, guestsCount))
+                .format().toString()
+
+        return CostSummaryBreakdownRow.Builder()
+                .title(title)
+                .build()
+    }
+
+    private fun makeDueAtHotelRow(formattedPrice: String): CostSummaryBreakdownRow {
+        return CostSummaryBreakdownRow.Builder()
+                .title(context.getString(R.string.local_charges_due_at_hotel))
+                .cost(formattedPrice)
+                .build()
+    }
+
+    private fun makeHotelsAndFlightsRow(formattedPrice: String): CostSummaryBreakdownRow {
+        return CostSummaryBreakdownRow.Builder()
+                .title(context.getString(R.string.cost_summary_breakdown_hotel_flight_summary))
+                .cost(formattedPrice)
+                .build()
+    }
+
+    private fun makeTaxesAndFeesRow(formattedPrice: String, isTaxesAndFeesIncluded: Boolean): CostSummaryBreakdownRow {
+        if (isTaxesAndFeesIncluded) {
+            val title = Phrase.from(context, R.string.cost_summary_breakdown_taxes_fees_included_TEMPLATE)
+                    .put("taxes", formattedPrice)
+                    .format().toString()
+            return CostSummaryBreakdownRow.Builder()
+                    .title(title)
+                    .build()
+        } else {
+            return CostSummaryBreakdownRow.Builder()
+                    .title(context.getString(R.string.cost_summary_breakdown_taxes_fees))
+                    .cost(formattedPrice)
+                    .build()
+        }
+    }
+
+    private fun makeTotalSavingRow(formattedPrice: String): CostSummaryBreakdownRow {
+        val cost = Phrase.from(context, R.string.discount_minus_amount)
+                .put("amount", formattedPrice)
+                .format().toString()
+
+        return CostSummaryBreakdownRow.Builder()
+                .title(context.getString(R.string.cost_summary_breakdown_total_savings))
+                .cost(cost)
+                .color(ContextCompat.getColor(context, R.color.cost_summary_breakdown_savings_cost_color))
+                .build()
+    }
+
+    private fun makeTotalDueTodayRow(formattedPrice: String, shouldShowBundleTotalWhenResortFees: Boolean): CostSummaryBreakdownRow {
+        return CostSummaryBreakdownRow.Builder()
+                .title(context.getString(R.string.cost_summary_breakdown_total_due_today))
+                .cost(formattedPrice)
+                .typeface(if (shouldShowBundleTotalWhenResortFees) null else FontCache.Font.ROBOTO_MEDIUM)
+                .build()
+    }
+
+    private fun makeBundleTotalRow(formattedPrice: String): CostSummaryBreakdownRow {
+        return CostSummaryBreakdownRow.Builder()
+                .title(context.getString(R.string.bundle_total_text))
+                .cost(formattedPrice)
+                .typeface(FontCache.Font.ROBOTO_MEDIUM)
+                .build()
+    }
 }

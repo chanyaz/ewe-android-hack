@@ -4279,7 +4279,7 @@
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
     <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Taxes &amp; Fees Included ({taxes})</string>
     <!-- Cost summary breakdown line item for savings -->
-    <string name="cost_summary_breakdown_total_savings">Total Savings</string>
+    <string name="cost_summary_breakdown_total_savings">Bundle Discount</string>
     <!-- Cost summary breakdown line item for total -->
     <string name="cost_summary_breakdown_total_due_today">Total Due Today</string>
 
@@ -4506,4 +4506,33 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Checkbox. Unchecked.</string>
     <string name="base_search_dates_cont_desc">Select dates. Button. Opens dialog</string>
+
+    <!-- Discount amount shown with minus e.g. -$30 -->
+    <string name="discount_minus_amount">-{amount}</string>
+    <string name="local_charges_due_at_hotel">Local charges due at hotel</string>
+    <!-- Legal disclaimer for package resort fees (at bottom of checkout) -->
+    <string name="package_resort_fee_disclaimer_TEMPLATE">A &lt;b&gt;{amount} resort fee&lt;/b&gt; will be collected at the hotel in the hotel\'s local currency.</string>
+    <!-- Package cost summary row  e.g. 2 rooms, 1 night, 3 guests -->
+    <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
+    <!-- Package cost summary row snippet  e.g. 2 rooms-->
+    <plurals name="number_of_room_TEMPLATE">
+        <item quantity="one">{room} room</item>
+        <item quantity="other">{room} rooms</item>
+    </plurals>
+    <!-- Package cost summary row snippet  e.g. 1 night-->
+    <plurals name="number_of_nights_TEMPLATE">
+        <item quantity="zero">{night} nights</item>
+        <item quantity="one">{night} night</item>
+        <item quantity="two">{night} nights</item>
+        <item quantity="many">{night} nights</item>
+        <item quantity="other">{night} nights</item>
+    </plurals>
+    <!-- Package cost summary row snippet  e.g. 4 guests-->
+    <plurals name="number_of_guest_TEMPLATE">
+        <item quantity="zero">{guest} guests</item>
+        <item quantity="one">{guest} guest</item>
+        <item quantity="two">{guest} guests</item>
+        <item quantity="many">{guest} guests</item>
+        <item quantity="other">{guest} guests</item>
+    </plurals>
 </resources>

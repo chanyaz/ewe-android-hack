@@ -17,6 +17,8 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import java.util.ArrayList
+import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class FlightCostSummaryBreakdownViewModelTest {
@@ -37,22 +39,22 @@ class FlightCostSummaryBreakdownViewModelTest {
         setupSystemUnderTest()
         givenGoodTripResponse()
 
-        val breakdownRowsTestObservable = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown>>()
+        val breakdownRowsTestObservable = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
         sut.flightCostSummaryObservable.onNext(newTripResponse)
-        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown>()
+        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
 
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Adult 1 details").cost("$55.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Flight").cost("$50.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Taxes & Fees").cost("$5.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Expedia Booking Fee").cost("$0.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Total Due Today").cost("$55.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Adult 1 details").cost("$55.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Flight").cost("$50.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Taxes & Fees").cost("$5.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Expedia Booking Fee").cost("$0.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total Due Today").cost("$55.00").build())
 
         val expectedBreakdown = listOf(breakdowns[0], breakdowns[1], breakdowns[2], breakdowns[3], breakdowns[4], breakdowns[5], breakdowns[6])
 
-        breakdownRowsTestObservable.assertReceivedOnNext(listOf(expectedBreakdown))
+        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
     }
 
     @Test
@@ -61,20 +63,20 @@ class FlightCostSummaryBreakdownViewModelTest {
         givenGoodTripResponse()
         newTripResponse.selectedCardFees = Money("2.50", "USD")
 
-        val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown>>()
+        val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
         sut.flightCostSummaryObservable.onNext(newTripResponse)
 
-        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown>()
+        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
 
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Adult 1 details").cost("$55.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Flight").cost("$50.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Taxes & Fees").cost("$5.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Expedia Booking Fee").cost("$0.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Airline Card Fee").cost("$2.50").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Total Due Today").cost("$57.50").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Adult 1 details").cost("$55.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Flight").cost("$50.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Taxes & Fees").cost("$5.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Expedia Booking Fee").cost("$0.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Airline Card Fee").cost("$2.50").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total Due Today").cost("$57.50").build())
 
         val expectedBreakdown = listOf(
                 breakdowns[0],
@@ -86,8 +88,7 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[6],
                 breakdowns[7]
         )
-
-        breakdownRowsTestObservable.assertReceivedOnNext(listOf(expectedBreakdown))
+        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
     }
 
     @Test
@@ -96,25 +97,25 @@ class FlightCostSummaryBreakdownViewModelTest {
         givenGoodTripResponse()
         setupInsuranceFees()
 
-        val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown>>()
+        val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
         sut.flightCostSummaryObservable.onNext(newTripResponse)
 
-        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown>()
+        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
 
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Adult 1 details").cost("$55.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Flight").cost("$50.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Taxes & Fees").cost("$5.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Expedia Booking Fee").cost("$0.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder()
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Adult 1 details").cost("$55.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Flight").cost("$50.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Taxes & Fees").cost("$5.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Expedia Booking Fee").cost("$0.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder()
                 .title("Flight Protection")
                 .cost("$10.00")
                 .color(Ui.obtainThemeColor(context, R.attr.primary_color)).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Total Due Today").cost("$65.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total Due Today").cost("$65.00").build())
 
-        val expectedBreakdown = listOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown>(
+        val expectedBreakdown = listOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>(
                 breakdowns[0],
                 breakdowns[1],
                 breakdowns[2],
@@ -125,7 +126,7 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[7]
         )
 
-        breakdownRowsTestObservable.assertReceivedOnNext(listOf(expectedBreakdown))
+        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
     }
 
     @Test
@@ -135,24 +136,24 @@ class FlightCostSummaryBreakdownViewModelTest {
         setupInsuranceFees()
         newTripResponse.selectedCardFees = Money("2.50", "USD")
 
-        val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown>>()
+        val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
         sut.flightCostSummaryObservable.onNext(newTripResponse)
 
-        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown>()
+        val breakdowns = arrayListOf<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
 
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Adult 1 details").cost("$55.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Flight").cost("$50.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Taxes & Fees").cost("$5.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Expedia Booking Fee").cost("$0.00").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder()
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Adult 1 details").cost("$55.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Flight").cost("$50.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Taxes & Fees").cost("$5.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Expedia Booking Fee").cost("$0.00").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder()
                 .title("Flight Protection")
                 .cost("$10.00")
                 .color(Ui.obtainThemeColor(context, R.attr.primary_color)).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Airline Card Fee").cost("$2.50").build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
-        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdown.CostSummaryBuilder().title("Total Due Today").cost("$67.50").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Airline Card Fee").cost("$2.50").build())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().separator())
+        breakdowns.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow.Builder().title("Total Due Today").cost("$67.50").build())
 
         val expectedBreakdown = listOf(
                 breakdowns[0],
@@ -166,7 +167,7 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[8]
         )
 
-        breakdownRowsTestObservable.assertReceivedOnNext(listOf(expectedBreakdown))
+        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
     }
 
     private fun setupInsuranceFees()  {
@@ -218,5 +219,12 @@ class FlightCostSummaryBreakdownViewModelTest {
         newTripResponse.details.offer.pricePerPassengerCategory[0].totalPrice.formattedPrice = totalPrice.getFormattedMoneyFromAmountAndCurrencyCode()
         newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice = basePrice
         newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice.formattedPrice = basePrice.getFormattedMoneyFromAmountAndCurrencyCode()
+    }
+
+    private fun assertEvents(expectedBreakdown: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>,
+                             list: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>) {
+        for (index in 0..expectedBreakdown.size - 1) {
+            assertTrue(expectedBreakdown[index].equals(list[index]))
+        }
     }
 }

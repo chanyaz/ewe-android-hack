@@ -30,6 +30,25 @@ public class PackageCreateTripResponse extends TripResponse {
 		public Money flightPrice;
 		public Money savings;
 		public boolean taxesAndFeesIncluded;
+		public HotelPricing hotelPricing;
+		public Money bundleTotal;
+
+		public Money getBundleTotal() {
+			return bundleTotal != null ? bundleTotal : packageTotal;
+		}
+
+		public boolean hasResortFee() {
+			return hotelPricing != null && hotelPricing.mandatoryFees != null &&
+				!hotelPricing.mandatoryFees.feeTotal.isZero();
+		}
+	}
+
+	public static class HotelPricing {
+		public MandatoryFees mandatoryFees;
+	}
+
+	public static class MandatoryFees {
+		public Money feeTotal;
 	}
 
 	public static class FlightProduct {

@@ -75,6 +75,7 @@
     "shouldShowFlightsFreeCancellation": true,
     "marketingOptIn" : "DO_NOT_SHOW_AUTO_ENROLL",
     "showMultiBrandCreateAccountText" : false,
-    "realTimeReviewLXEnabled" : true
+    "realTimeReviewLXEnabled" : true,
+    "showBundleTotalWhenResortFees" : true
   }
 }
