@@ -72,6 +72,7 @@
         android:layout_weight="0"
         android:background="?android:attr/selectableItemBackground"
         android:scaleType="centerInside"
-        android:src="@drawable/ic_airport_map_actions" />
+        android:src="@drawable/ic_airport_map_actions"
+        android:contentDescription="@string/terminal_maps_directions_cont_desc"/>
 
 </LinearLayout>

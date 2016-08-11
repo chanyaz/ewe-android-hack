@@ -1284,6 +1284,8 @@
     <string name="Terminal_Map">Terminal Map</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Terminal Maps</string>
+    <!-- Accessibility label for Terminal Maps/Directions button on itins -->
+    <string name="terminal_maps_directions_cont_desc">Terminal Maps and Directions</string>
     <!-- Legend -->
     <string name="legend">Legend</string>
     <!-- Flight has been cancelled -->

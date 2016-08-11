@@ -15,6 +15,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
@@ -79,6 +80,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "11:32 AM");
 		assertViewWithTextIsDisplayed(R.id.arrival_time_text_view, "6:04 PM");
 		assertViewWithTextIsDisplayed("Detroit Metropolitan Wayne County Airport");
+		onView(withId(R.id.terminal_map_or_directions_btn)).check(matches(withContentDescription("Terminal Maps and Directions button")));
 		assertViewWithTextIsDisplayed(R.id.passengers_label, "Passengers");
 		assertViewWithTextIsDisplayed(R.id.passenger_name_list, "Philip J. Fry, Turanga Leela");
 		assertViewWithTextIsDisplayed("Airline Confirmation");
