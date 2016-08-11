@@ -42,7 +42,7 @@ class HotelFilterViewTest {
         activity.setTheme(R.style.V2_Theme_Hotels);
         Ui.getApplication(activity).defaultHotelComponents()
         hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelFilterView
-        hotelFilterView.viewmodel = HotelFilterViewModel(LineOfBusiness.HOTELS)
+        hotelFilterView.viewmodel = HotelFilterViewModel(activity, LineOfBusiness.HOTELS)
         hotelFilterView.sortByButtonGroup.onItemSelectedListener = null
         hotelFilterView.sortByButtonGroup.setOnTouchListener { view, motionEvent -> false }
         hotelFilterView.shopWithPointsViewModel = shopWithPointsViewModel

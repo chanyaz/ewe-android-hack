@@ -12,6 +12,7 @@ import com.google.maps.android.ui.IconGenerator
 class MapItem(val context: Context, val pos: LatLng, val title: String, val icon: BitmapDescriptor, val iconGenerator: IconGenerator, val hotel: Hotel) : ClusterItem {
 
     var isSelected = false
+    val isFavorite = false
     var isClustered = false
     val price: HotelRate? by lazy {
         if (hotel.isSoldOut) null else hotel.lowRateInfo

@@ -23,10 +23,12 @@ import android.widget.RelativeLayout
 import android.widget.Spinner
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
@@ -44,9 +46,11 @@ import rx.Observer
 
 class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.filter_toolbar)
-    val filterVipBadge: TextView by bindView(R.id.vip_badge)
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
+    val filterHotelFavorite: CheckBox by bindView(R.id.filter_hotel_favorite)
     val filterVipContainer: View by bindView(R.id.filter_vip_container)
+    val filterVipBadge: TextView by bindView(R.id.vip_badge)
+    val filterFavoriteContainer: View by bindView(R.id.filter_favorite_container)
     val filterStarOne: ImageButton by bindView(R.id.filter_hotel_star_rating_one)
     val filterStarTwo: ImageButton by bindView(R.id.filter_hotel_star_rating_two)
     val filterStarThree: ImageButton by bindView(R.id.filter_hotel_star_rating_three)
@@ -134,6 +138,15 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             vm.vipFilteredObserver.onNext(filterHotelVip.isChecked)
         }
 
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+            filterFavoriteContainer.setOnClickListener {
+                clearHotelNameFocus()
+                filterHotelFavorite.isChecked = !filterHotelFavorite.isChecked
+                vm.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
+                HotelTracking().trackHotelFilterFavoriteClicked(filterHotelFavorite.isChecked)
+            }
+        }
+
         filterStarOne.subscribeOnClick(vm.oneStarFilterObserver)
         filterStarTwo.subscribeOnClick(vm.twoStarFilterObserver)
         filterStarThree.subscribeOnClick(vm.threeStarFilterObserver)
@@ -156,6 +169,9 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             resetStars()
 
             filterHotelVip.isChecked = false
+            if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+                filterHotelFavorite.isChecked = false
+            }
 
             for (i in 0..amenityContainer.childCount - 1) {
                 val v = amenityContainer.getChildAt(i)
@@ -370,11 +386,15 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     init {
-        View.inflate(getContext(), R.layout.widget_hotel_filter, this)
+        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(context)
+        val layoutId = if (bucketed) R.layout.widget_hotel_filter_fav else R.layout.widget_hotel_filter
+        View.inflate(getContext(), layoutId, this)
 
         if (PointOfSale.getPointOfSale().supportsVipAccess()) {
             filterVipContainer.visibility = View.VISIBLE
-            filterVipBadge.visibility = View.VISIBLE
+            if (!bucketed) {
+                filterVipBadge.visibility = View.VISIBLE
+            }
         }
 
         if (shouldShowCircleForRatings()) {
@@ -424,6 +444,17 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         } else {
             star.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
             background.setBackgroundColor(ContextCompat.getColor(context, android.R.color.white))
+        }
+    }
+
+    fun refreshFavoriteCheckbox() {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+            val favSize = HotelFavoriteHelper.getHotelFavorites(context).size
+            if (favSize == 0 && !viewmodel.userFilterChoices.favorites) {
+                filterFavoriteContainer.visibility = View.GONE
+            } else {
+                filterFavoriteContainer.visibility = View.VISIBLE
+            }
         }
     }
 

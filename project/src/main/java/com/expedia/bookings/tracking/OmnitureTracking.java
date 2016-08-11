@@ -97,11 +97,13 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.PackageFlightUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.util.ToggleFeatureConfiguration;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -190,6 +192,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SORT = "App.Hotels.Search.Sort.";
 	private static final String HOTELSV2_SORT_PRICE_SLIDER = "App.Hotels.Search.Price";
 	private static final String HOTELSV2_SEARCH_FILTER_VIP = "App.Hotels.Search.Filter.VIP.";
+	private static final String HOTELSV2_SEARCH_FILTER_FAVORITE = "App.Hotels.Search.Filter.Favorite.";
 	private static final String HOTELSV2_SEARCH_FILTER_NEIGHBOURHOOD = "App.Hotels.Search.Neighborhood";
 	private static final String HOTELSV2_SEARCH_FILTER_BY_NAME = "App.Hotels.Search.HotelName";
 	private static final String HOTELSV2_CLEAR_FILTER = "App.Hotels.Search.ClearFilter";
@@ -353,6 +356,11 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsMemberDealTest);
 
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppHotelFavoriteTest,
+			R.string.preference_enable_hotel_favorite, ToggleFeatureConfiguration.HOTEL_FAVORITE_FEATURE)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
+		}
+
 		// Send the tracking data
 		s.track();
 	}
@@ -378,6 +386,18 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_SPONSORED_LISTING_CLICK);
 		s.trackLink(null, "o", "Sponsored Click", null, null);
 
+	}
+
+	public static void trackHotelV2FavoriteClick(String hotelId, Boolean favorite, int parent) {
+		Log.d(TAG, "Tracking \"" + HOTELS_FAVORITE_CLICK + "\" click...");
+
+		String event = (favorite) ? HOTELS_FAVORITE_CLICK : HOTELS_UNFAVORITE_CLICK;
+		String pageName = (parent == R.id.hotel_cell_heart_container) ? PAGE_NAME_HOTEL_SEARCH : HOTELSV2_DETAILS_PAGE;
+		ADMS_Measurement s = createTrackLinkEvent(event);
+		s.setProducts(String.format(";Hotel:%s;;", hotelId));
+		s.setEvents((favorite) ? "event214" : "event215");
+		s.setEvar(18, pageName);
+		s.trackLink(null, "o", "Hotel Favorite", null, null);
 	}
 
 	public static void trackHotelV2Filter() {
@@ -422,6 +442,14 @@ public class OmnitureTracking {
 
 	public static void trackLinkHotelV2FilterVip(String state) {
 		String pageName = HOTELSV2_SEARCH_FILTER_VIP + state;
+		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.trackLink(null, "o", "Search Results Sort", null, null);
+	}
+
+	public static void trackLinkHotelV2FilterFavorite(String state) {
+		String pageName = HOTELSV2_SEARCH_FILTER_FAVORITE + state;
 		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
@@ -1127,6 +1155,8 @@ public class OmnitureTracking {
 	public static final String HOTELS_SEARCH_SPONSORED_PRESENT = "App.Hotels.Search.Sponsored.Yes";
 	public static final String HOTELS_SEARCH_SPONSORED_NOT_PRESENT = "App.Hotels.Search.Sponsored.No";
 	public static final String HOTELS_SPONSORED_LISTING_CLICK = "App.Hotels.Search.Sponsored.Click";
+	public static final String HOTELS_FAVORITE_CLICK = "App.Hotels.Favorite";
+	public static final String HOTELS_UNFAVORITE_CLICK = "App.Hotels.Unfavorite";
 
 	public static final String HOTELS_REFINE_REVIEWS_FAV = "App.Hotels.Review.Fav";
 	public static final String HOTELS_REFINE_REVIEWS_CRIT = "App.Hotels.Review.Crit";

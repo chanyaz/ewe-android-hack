@@ -47,6 +47,11 @@ class HotelTracking {
         OmnitureTracking.trackHotelV2Filter()
     }
 
+    fun trackHotelFilterFavoriteClicked(checked: Boolean) {
+        val state = if(checked) "On" else "Off"
+        OmnitureTracking.trackLinkHotelV2FilterFavorite(state)
+    }
+
     fun trackHotelSortBy(type: String) {
         OmnitureTracking.trackHotelV2SortBy(type)
     }
@@ -321,5 +326,9 @@ class HotelTracking {
 
     fun trackPayWithPointsError(error: PayWithPointsErrorTrackingEnum) {
         OmnitureTracking.trackPayWithPointsError(error.errorMessage)
+    }
+
+    fun trackHotelV2FavoriteClick(hotelId: String, parent: Int, favorite: Boolean) {
+        OmnitureTracking.trackHotelV2FavoriteClick(hotelId, favorite, parent)
     }
 }

@@ -22,6 +22,13 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences_feature_toggle);
+
+		// Hotel Features
+		String hotelFavoriteKey = getString(R.string.preference_enable_hotel_favorite);
+		CheckBoxPreference hotelFavoritePreference = (CheckBoxPreference) findPreference(hotelFavoriteKey);
+		hotelFavoritePreference.setChecked(ToggleFeatureConfiguration.HOTEL_FAVORITE_FEATURE);
+
+		// Login Features
 		String smartLockKey = getString(R.string.preference_enable_smart_lock);
 		CheckBoxPreference smartLockPreference = (CheckBoxPreference) findPreference(smartLockKey);
 		boolean isSmartLockFeatureEnabled = FeatureToggleUtil

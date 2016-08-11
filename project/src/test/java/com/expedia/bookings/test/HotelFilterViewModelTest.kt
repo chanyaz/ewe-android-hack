@@ -11,6 +11,7 @@ import com.expedia.vm.HotelFilterViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.robolectric.RuntimeEnvironment
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -23,7 +24,8 @@ class HotelFilterViewModelTest {
 
     @Before
     fun before() {
-        vm = HotelFilterViewModel(LineOfBusiness.HOTELS)
+        val context = RuntimeEnvironment.application
+        vm = HotelFilterViewModel(context, LineOfBusiness.HOTELS)
     }
 
     @Test

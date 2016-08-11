@@ -1,7 +1,9 @@
 package com.expedia.vm
 
+import android.content.Context
 import android.support.annotation.StringRes
 import com.expedia.bookings.R
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
@@ -21,7 +23,7 @@ import java.util.Comparator
 import java.util.HashSet
 import java.util.regex.Pattern
 
-class HotelFilterViewModel(val lob: LineOfBusiness) {
+class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
@@ -46,7 +48,8 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
                                  var minPrice: Int = 0,
                                  var maxPrice: Int = 0,
                                  var amenity: HashSet<Int> = HashSet<Int>(),
-                                 var neighborhoods: HashSet<String> = HashSet<String>()) {
+                                 var neighborhoods: HashSet<String> = HashSet<String>(),
+                                 var favorites: Boolean = false) {
 
         fun filterCount(): Int {
             var count = 0
@@ -55,7 +58,8 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
             if (hotelStarRating.three) count++
             if (hotelStarRating.four) count++
             if (hotelStarRating.five) count++
-            if (isVipOnlyAccess == true) count++
+            if (isVipOnlyAccess) count++
+            if (favorites) count++
             if (name.isNotEmpty()) count++
             if (neighborhoods.isNotEmpty()) count += neighborhoods.size
             if (amenity.isNotEmpty()) count += amenity.size
@@ -152,6 +156,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
         userFilterChoices.maxPrice = 0
         userFilterChoices.amenity = HashSet<Int>()
         userFilterChoices.neighborhoods = HashSet<String>()
+        userFilterChoices.favorites = false
     }
 
     fun isAllowed(hotel: Hotel): Boolean {
@@ -161,6 +166,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
                 && filterPriceRange(hotel)
                 && filterAmenity(hotel)
                 && filterNeighborhood(hotel)
+                && filterFavorites(hotel)
     }
 
     fun filterIsVipAccess(hotel: Hotel): Boolean {
@@ -224,6 +230,16 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
     fun filterNeighborhood(hotel: Hotel): Boolean {
         if (userFilterChoices.neighborhoods.isEmpty()) return true
         return userFilterChoices.neighborhoods.contains(hotel.locationDescription)
+    }
+
+    fun filterFavorites(hotel: Hotel): Boolean {
+        if (!userFilterChoices.favorites) return true
+        return HotelFavoriteHelper.isHotelFavorite(context, hotel.hotelId)
+    }
+
+    val favoriteFilteredObserver: Observer<Boolean> = endlessObserver {
+        userFilterChoices.favorites = it
+        handleFiltering()
     }
 
     val vipFilteredObserver: Observer<Boolean> = endlessObserver {
