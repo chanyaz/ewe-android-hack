@@ -4,6 +4,8 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -212,6 +214,42 @@ public class PersistentCookieManagerTest {
 
 		manager = new PersistentCookieManager(storage);
 		expectCookies(0);
+	}
+
+	@Test
+	public void setNewMC1CookieEmptyCookieStoreCase() {
+		manager.setMC1Cookie("GUID=1111", "expedia.com");
+		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get("www.expedia.com");
+		expectMC1CookieValues(expediaCookies);
+		Assert.assertEquals(1, manager.getCookieStore().size());
+	}
+
+	@Test
+	public void setNewMC1CookieNonExpediaCookiesCase() {
+		manager.saveFromResponse(reviews, NO_COOKIES);
+		manager.setMC1Cookie("GUID=1111", "expedia.com");
+		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get("www.expedia.com");
+		expectMC1CookieValues(expediaCookies);
+		Assert.assertEquals(2, manager.getCookieStore().size());
+	}
+
+	@Test
+	public void setNewMC1CookieExpediaCookiesExistsCase() {
+		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
+		manager.setMC1Cookie("GUID=1111", "expedia.com");
+		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get("www.expedia.com");
+		expectMC1CookieValues(expediaCookies);
+		Assert.assertEquals(1, manager.getCookieStore().size());
+	}
+
+	public void expectMC1CookieValues(HashMap<String, Cookie> expediaCookies) {
+		Cookie mc1Cookie = expediaCookies.get("MC1");
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.YEAR, 5);
+		Assert.assertEquals("GUID=1111", mc1Cookie.value());
+		Assert.assertEquals("expedia.com", mc1Cookie.domain());
+		Assert.assertTrue(Math.abs(calendar.getTimeInMillis() - mc1Cookie.expiresAt()) < 60000);
 	}
 
 	public void expectCookies(int num) {

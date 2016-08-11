@@ -143,9 +143,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		JodaTimeAndroid.init(this);
 		startupTimer.addSplit("Joda TZ Provider Init");
 
-		AbacusHelperUtils.generateAbacusGuid(this);
-		startupTimer.addSplit("Generate Abacus GUID");
-
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
 
@@ -220,6 +217,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// Initialize some parts of the code that require a Context
 		initializePointOfSale();
 		startupTimer.addSplit("PointOfSale Init");
+
+		AbacusHelperUtils.generateAbacusGuid(this);
+		startupTimer.addSplit("Generate Abacus GUID");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration()) {
 

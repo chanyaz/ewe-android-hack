@@ -11,6 +11,7 @@ import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.InsuranceServices;
 import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.model.UserLoginStateChangedModel;
 
@@ -24,6 +25,7 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public interface AppComponent {
 	void inject(ExpediaServices services);
 	void inject(UserAccountRefresher userAccountRefresher);
+	void inject(AbacusHelperUtils.CookiesReference cookiesReference);
 
 	Context appContext();
 	EndpointProvider endpointProvider();
