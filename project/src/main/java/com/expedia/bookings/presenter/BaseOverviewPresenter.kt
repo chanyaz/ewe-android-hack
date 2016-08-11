@@ -117,7 +117,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
     }
 
-    val checkoutTransition = object : Transition(BundleDefault::class.java, getCheckoutTransitionClass(), AccelerateDecelerateInterpolator(), ANIMATION_DURATION) {
+    val checkoutTransition = object : Transition(BundleDefault::class.java, checkoutPresenter.javaClass, AccelerateDecelerateInterpolator(), ANIMATION_DURATION) {
         var translationDistance = 0f
         var range = 0f
         var userStoppedScrollingAt = 0
@@ -167,6 +167,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 checkoutPresenter.trackShowBundleOverview()
             }
             bundleOverviewHeader.toolbar.subtitle = ""
+            if (forward) checkoutPresenter.adjustScrollingSpace()
         }
 
         private fun translateHeader(f: Float, forward: Boolean) {
@@ -209,7 +210,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
     }
 
-    private val checkoutToCvv = object : VisibilityTransition(this, getCheckoutTransitionClass(), CVVEntryWidget::class.java) {
+    private val checkoutToCvv = object : VisibilityTransition(this, checkoutPresenter.javaClass, CVVEntryWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
@@ -248,7 +249,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     class BundleDefault
 
     open fun toggleToolbar(forward: Boolean) { }
-    abstract fun getCheckoutTransitionClass() : Class<out Any>
     abstract fun trackCheckoutPageLoad()
     abstract fun trackPaymentCIDLoad()
 }

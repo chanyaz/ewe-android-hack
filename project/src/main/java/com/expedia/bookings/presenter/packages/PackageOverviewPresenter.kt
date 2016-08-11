@@ -135,10 +135,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         return checkoutPresenter as PackageCheckoutPresenter
     }
 
-    override fun getCheckoutTransitionClass(): Class<out Any> {
-        return PackageCheckoutPresenter::class.java
-    }
-
     override fun trackCheckoutPageLoad() {
         PackagesTracking().trackCheckoutStart(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType))
     }

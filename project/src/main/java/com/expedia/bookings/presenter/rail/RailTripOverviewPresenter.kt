@@ -34,10 +34,6 @@ class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOve
         return checkoutPresenter as RailCheckoutPresenter
     }
 
-    override fun getCheckoutTransitionClass(): Class<out Any> {
-        return RailCheckoutPresenter::class.java
-    }
-
     override fun trackCheckoutPageLoad() {
     }
 
