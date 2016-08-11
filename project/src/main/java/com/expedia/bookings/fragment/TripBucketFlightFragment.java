@@ -1,6 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Locale;
+
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
+import com.mobiata.android.Log;
 
 /**
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
@@ -192,7 +194,14 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			String dateRange = DateFormatUtils.formatDateRange(getActivity(), params, DateFormatUtils.FLAGS_DATE_NO_YEAR_ABBREV_MONTH_ABBREV_WEEKDAY);
 			mDatesTv.setText(dateRange);
 
-			String price = mFlightTrip.getTotalPrice().getFormattedMoney();
+			String price;
+			if (mFlightTrip.getTotalPrice() != null) {
+				price = mFlightTrip.getTotalPrice().getFormattedMoney();
+			}
+			else {
+				Log.e("Trip Flight Bucket total price is null");
+				price = mFlightTrip.getTotalFare().getFormattedMoney();
+			}
 			mPriceTv.setText(price);
 
 			if (mNowBookingTv != null) {
