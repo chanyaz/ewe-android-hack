@@ -45,6 +45,10 @@
     <string name="hotel_results_map_view_cont_desc">Google Map, Search hotel results using map view</string>
 
     <!-- Cars -->
+    <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="car_toolbar_date_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
+    <!-- Cars Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="car_toolbar_date_range_cont_desc_TEMPLATE">{from_date_time} to {to_date_time}</string>
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
     <string name="cars_calendar_start_date_label">Next: Select drop-off date</string>
@@ -120,6 +124,8 @@
     <string name="calendar_desc_itinerary_TEMPLATE">{brand} Itinerary #: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_desc_support_TEMPLATE">{brand} Customer Support: {localphone} and {phone}</string>
+    <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
+    <string name="car_search_date_range_cont_desc_TEMPLATE">Car dates. Button. Opens dialog. {date_time_range}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotels</string>

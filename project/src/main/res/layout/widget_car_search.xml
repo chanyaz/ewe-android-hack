@@ -94,7 +94,7 @@
                                 style="@style/MaterialCardTextView"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/default_search_card_height"
-                                android:contentDescription="@string/location_edit_box_cont_desc"
+                                android:contentDescription="@string/pick_up_location"
                                 app:input_icon="@drawable/location"
                                 app:input_icon_tint_color="@color/search_screen_icon_color_v2"
                                 app:input_text="@string/pick_up_location" />
@@ -104,7 +104,7 @@
                                 style="@style/MaterialCardTextView"
                                 android:layout_width="match_parent"
                                 android:layout_height="@dimen/default_search_card_height"
-                                android:contentDescription="@string/location_edit_box_cont_desc"
+                                android:contentDescription="@string/drop_off_location"
                                 android:focusable="false"
                                 app:input_icon="@drawable/location"
                                 app:input_icon_tint_color="@color/search_screen_icon_color_v2"

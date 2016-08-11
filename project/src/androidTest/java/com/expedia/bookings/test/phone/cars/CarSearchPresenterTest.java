@@ -112,7 +112,7 @@ public final class CarSearchPresenterTest {
 		int minutesToMillis = 30 * 60 * 1000;
 		String expected = DateFormatUtils.formatCarDateTimeRange(playground.getActivity(),
 			tomorrow.withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis),
-			tomorrowsTomorrow.withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis));
+			tomorrowsTomorrow.withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis), false);
 		CarScreen.selectDateButton().check(matches(withText(expected)));
 	}
 
@@ -191,7 +191,7 @@ public final class CarSearchPresenterTest {
 		int millisInOneStep = 30 * 60 * 1000;
 		String expected = DateFormatUtils.formatCarDateTimeRange(playground.getActivity(),
 			today.withTimeAtStartOfDay().plusMillis(currentTimeSteps * millisInOneStep),
-			tomorrow.withTimeAtStartOfDay().plusMillis(ninePMSteps * millisInOneStep));
+			tomorrow.withTimeAtStartOfDay().plusMillis(ninePMSteps * millisInOneStep), false);
 		CarScreen.selectDateButton().check(matches(withText(expected)));
 	}
 
@@ -214,7 +214,7 @@ public final class CarSearchPresenterTest {
 		int minutesToMillis = 30 * 60 * 1000;
 		String expected = DateFormatUtils.formatCarDateTimeRange(playground.getActivity(),
 			date.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis),
-			date.withTimeAtStartOfDay().plusMillis((ninePmProgress + 4) * minutesToMillis));
+			date.withTimeAtStartOfDay().plusMillis((ninePmProgress + 4) * minutesToMillis), false);
 		CarScreen.selectDateButton().check(matches(withText(expected)));
 	}
 }
