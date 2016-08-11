@@ -122,7 +122,8 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
         getParamsBuilder().startDateTimeAsMillis(startMillis)
         getParamsBuilder().endDateTimeAsMillis(endMillis)
 
-        dateTextObservable.onNext(computeCalendarCardViewText(startMillis, endMillis))
+        dateTextObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, false))
+        dateAccessibilityObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, true))
     }
 
     override fun validateTimes() {
@@ -173,12 +174,27 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
     }
 
 
-    fun computeCalendarCardViewText(startMillis: Int, endMillis: Int): String? {
-        if (startDate() == null ) {
-            return context.resources.getString(R.string.select_pickup_and_dropoff_dates)
+    fun computeCalendarCardViewText(startMillis: Int, endMillis: Int, isContentDescription: Boolean): CharSequence {
+        val dateTimeRangeText = computeDateTimeRangeText(startMillis, endMillis, isContentDescription)
+        val sb = SpannableBuilder()
+
+        if (startDate() != null && isContentDescription) {
+            sb.append(Phrase.from(context, R.string.car_search_date_range_cont_desc_TEMPLATE)
+                    .put("date_time_range", dateTimeRangeText)
+                    .format().toString())
+        } else {
+            sb.append(dateTimeRangeText)
+        }
+        return sb.build()
+    }
+
+    fun computeDateTimeRangeText(startMillis: Int, endMillis: Int, isContentDescription: Boolean): String? {
+        if (startDate() == null) {
+            var stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_pickup_and_dropoff_dates
+            return context.resources.getString(stringID)
         } else {
             return DateFormatUtils.formatCarDateTimeRange(context, DateUtils.localDateAndMillisToDateTime(startDate(), startMillis),
-                    DateUtils.localDateAndMillisToDateTime(endDate(), endMillis));
+                    DateUtils.localDateAndMillisToDateTime(endDate(), endMillis), isContentDescription);
         }
     }
 

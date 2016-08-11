@@ -114,19 +114,25 @@ public class DateFormatUtils {
 		return JodaUtils.formatLocalDate(context, params.getStartDate(), flags);
 	}
 
-	public static String formatCarDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime) {
+	public static String formatCarDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime,
+		boolean isContDesc) {
 		String formattedStartDateTime = com.expedia.bookings.utils.DateUtils
 			.dateTimeToMMMdhmma(startDateTime);
 		if (endDateTime != null) {
 			String formattedEndDateTime = com.expedia.bookings.utils.DateUtils.dateTimeToMMMdhmma(
 				endDateTime);
-			return context.getResources()
-				.getString(R.string.date_time_range_TEMPLATE, formattedStartDateTime, formattedEndDateTime);
+			return Phrase.from(context,
+				isContDesc ? R.string.car_toolbar_date_range_cont_desc_TEMPLATE
+					: R.string.car_toolbar_date_range_TEMPLATE)
+				.put("from_date_time", formattedStartDateTime)
+				.put("to_date_time", formattedEndDateTime)
+				.format().toString();
 		}
 
 		return Phrase.from(context.getResources(), R.string.select_return_date_TEMPLATE)
-						.put("startdate", formattedStartDateTime)
-						.format().toString();
+			.put("startdate", formattedStartDateTime)
+			.format().toString();
+
 	}
 
 	public static String formatCarDateTimeRange(Context context, LocalDate startDate, LocalDate endDate) {

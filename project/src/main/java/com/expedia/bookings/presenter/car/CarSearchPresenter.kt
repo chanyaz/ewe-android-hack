@@ -25,6 +25,7 @@ import android.content.DialogInterface
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.CarDataUtils
+import com.squareup.phrase.Phrase
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
@@ -41,6 +42,10 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         calendarWidget.viewModel = vm
         vm.formattedOriginObservable.subscribe {
             text -> originCardView.setText(text)
+            originCardView.contentDescription = Phrase.from(context, R.string.location_edit_box_cont_desc_TEMPLATE)
+                    .put("location", text)
+                    .format().toString()
+
             if (this.visibility == VISIBLE && vm.startDate() == null) {
                 calendarWidget.showCalendarDialog()
             }

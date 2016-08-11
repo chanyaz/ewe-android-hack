@@ -104,7 +104,7 @@ public class CarCheckoutSummaryWidgetTest {
 		assertEquals(View.GONE, priceChangeContainer.getVisibility());
 		String expedtedDate = DateFormatUtils
 			.formatCarDateTimeRange(activity, carCreateTripResponse.carProduct.getPickupTime(),
-				carCreateTripResponse.carProduct.getDropOffTime());
+				carCreateTripResponse.carProduct.getDropOffTime(), false);
 		assertEquals(expedtedDate, dateTime.getText());
 	}
 

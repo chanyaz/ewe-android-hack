@@ -684,6 +684,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.new_launch_lob_disabled_color,
 		R.dimen.new_launch_lob_divider_stroke_width,
 		R.drawable.ic_lob_cars,
+		R.string.car_search_date_range_cont_desc_TEMPLATE,
 		R.drawable.ic_lob_gt,
 		R.drawable.ic_lob_hotels,
 		R.drawable.ic_lob_lx,
