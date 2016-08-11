@@ -57,7 +57,7 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
         isRoundTripSearchObservable.onNext(true)
 
         departTimeSubject.subscribe {
-            val isValid = !isStartTimeBeforeAllowedTime(DateTime.now())
+            val isValid = !isStartTimeBeforeNow()
             departTimeSliderTooltipColor.onNext(if (isValid) defaultTimeTooltipColor else errorTimeTooltipColor)
         }
 
@@ -129,7 +129,7 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
     override fun validateTimes() {
         val now = DateTime.now();
 
-        if (isStartTimeBeforeAllowedTime(now)) {
+        if (isStartTimeBeforeNow()) {
             departTimeSubject.onNext(now.plusHours(1).millisOfDay);
         }
         if (isEndTimeBeforeStartTime()) {
@@ -142,15 +142,6 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
         return TimeSlider.convertMillisToProgress(now.millisOfDay) + R.integer.calendar_min_search_time_car
     }
 
-    override fun isStartTimeBeforeAllowedTime(now: DateTime): Boolean {
-        return isStartDateEqualToToday() && getStartDateTimeAsMillis() < DateTime.now().millisOfDay;
-    }
-
-    //end time should always be at least 2 hours ahead of start time
-    override fun isEndTimeBeforeStartTime(): Boolean {
-        return isStartEqualToEnd() &&
-                getEndDateTimeAsMillis() < getStartDateTimeAsMillis() + TimeUnit.MILLISECONDS.convert(2, TimeUnit.HOURS);
-    }
 
     override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
@@ -193,7 +184,7 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
             var stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_pickup_and_dropoff_dates
             return context.resources.getString(stringID)
         } else {
-            return DateFormatUtils.formatCarDateTimeRange(context, DateUtils.localDateAndMillisToDateTime(startDate(), startMillis),
+            return DateFormatUtils.formatStartEndDateTimeRange(context, DateUtils.localDateAndMillisToDateTime(startDate(), startMillis),
                     DateUtils.localDateAndMillisToDateTime(endDate(), endMillis), isContentDescription);
         }
     }

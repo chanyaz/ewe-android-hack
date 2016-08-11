@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.rail;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.R;
@@ -26,14 +27,16 @@ public class RailSearchPresenterTest extends RailTestCase {
 
 		SearchScreen.selectRailOriginAndDestination();
 		RailScreen.calendarButton().perform(click());
-		LocalDate startDate = LocalDate.now().plusDays(3);
+
+		DateTime startDateTime = DateTime.now().plusDays(3).withTimeAtStartOfDay();
+		LocalDate startDate = startDateTime.toLocalDate();
 		RailScreen.selectDates(startDate, null);
 
 		EspressoUtils.assertViewIsDisplayed(R.id.depart_slider_container);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.return_slider_container);
 		RailScreen.dialogDoneButton().perform(click());
-		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
-		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDate + " (One Way)");
+		String expectedStartDateTime = DateUtils.dateTimeToMMMdhmma(startDateTime);
+		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDateTime);
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
 		onView(withText("3:55 PM – 7:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
@@ -47,16 +50,21 @@ public class RailSearchPresenterTest extends RailTestCase {
 
 		SearchScreen.selectRailOriginAndDestination();
 		RailScreen.calendarButton().perform(click());
-		LocalDate startDate = LocalDate.now().plusDays(3);
-		LocalDate endDate = startDate.plusDays(1);
+
+		DateTime startDateTime = DateTime.now().plusDays(3).withTimeAtStartOfDay();
+		LocalDate startDate = startDateTime.toLocalDate();
+		String expectedStartDateTime = DateUtils.dateTimeToMMMdhmma(startDateTime);
+
+		DateTime endDateTime = startDateTime.plusDays(1).withTimeAtStartOfDay();
+		LocalDate endDate = endDateTime.toLocalDate();
+		String expectedEndDateTime = DateUtils.dateTimeToMMMdhmma(endDateTime);
 		RailScreen.selectDates(startDate, endDate);
 
 		EspressoUtils.assertViewIsDisplayed(R.id.depart_slider_container);
 		EspressoUtils.assertViewIsDisplayed(R.id.return_slider_container);
 		RailScreen.dialogDoneButton().perform(click());
-		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
-		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
-		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDate + " - " + expectedEndDate);
+
+		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDateTime + " – " + expectedEndDateTime);
 		SearchScreen.searchButton().perform(click());
 		onView(withText("3:55 PM – 7:22 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 	}

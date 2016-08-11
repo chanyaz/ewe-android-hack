@@ -114,7 +114,7 @@ public class DateFormatUtils {
 		return JodaUtils.formatLocalDate(context, params.getStartDate(), flags);
 	}
 
-	public static String formatCarDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime,
+	public static String formatStartEndDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime,
 		boolean isContDesc) {
 		String formattedStartDateTime = com.expedia.bookings.utils.DateUtils
 			.dateTimeToMMMdhmma(startDateTime);
@@ -135,18 +135,16 @@ public class DateFormatUtils {
 
 	}
 
-	public static String formatCarDateTimeRange(Context context, LocalDate startDate, LocalDate endDate) {
-		String formattedStartDateTime = com.expedia.bookings.utils.DateUtils
-			.dateTimeToMMMdhmma(startDate);
-		if (endDate != null) {
-			String formattedEndDateTime = com.expedia.bookings.utils.DateUtils.dateTimeToMMMdhmma(endDate);
-			return context.getResources()
-				.getString(R.string.date_time_range_TEMPLATE, formattedStartDateTime, formattedEndDateTime);
+	public static String formatRailDateTimeRange(Context context, LocalDate startDate, int startMillis,
+											LocalDate endDate, int endMillis, Boolean isRoundTrip) {
+		DateTime startDateTime = com.expedia.bookings.utils.DateUtils.localDateAndMillisToDateTime(startDate, startMillis);
+		if (isRoundTrip) {
+			DateTime endDateTime = com.expedia.bookings.utils.DateUtils.localDateAndMillisToDateTime(endDate, endMillis);
+			return formatStartEndDateTimeRange(context, startDateTime, endDateTime, false);
 		}
-
-		return Phrase.from(context.getResources(), R.string.select_return_date_TEMPLATE)
-			.put("startdate", formattedStartDateTime)
-			.format().toString();
+		else {
+			return com.expedia.bookings.utils.DateUtils.dateTimeToMMMdhmma(startDateTime);
+		}
 	}
 
 	/**

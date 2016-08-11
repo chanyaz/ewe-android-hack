@@ -34,7 +34,7 @@
     <integer name="calendar_max_days_rail_return">30</integer>
 
     <!-- The minimum number of hours out from current time -->
-    <integer name="calendar_min_search_time_rail">12</integer>
+    <integer name="calendar_min_search_time_rail">8</integer>
 
     <!-- The minimum number of hours out from current time -->
     <integer name="calendar_min_search_time_car">1</integer>
