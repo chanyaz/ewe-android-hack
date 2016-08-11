@@ -65,6 +65,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
             filterView.toolbar.title = if (isResults) resources.getString(R.string.sort_and_filter) else resources.getString(R.string.filter)
         }
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
+        filterView.viewmodel.priceRangeContainerVisibility.onNext(false)
     }
 
     override fun getFilterViewModel(): HotelFilterViewModel {

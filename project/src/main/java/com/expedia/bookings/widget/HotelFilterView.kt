@@ -39,6 +39,7 @@ import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel.Sort
 import com.expedia.vm.ShopWithPointsViewModel
@@ -82,6 +83,8 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
     val toolbarDropshadow: View by bindView(R.id.toolbar_dropshadow)
     val priceRangeBar: FilterRangeSeekBar by bindView(R.id.price_range_bar)
+    val priceRangeContainer: View by bindView(R.id.price_range_container)
+    val priceHeader: View by bindView(R.id.price)
     val priceRangeMinText: TextView by bindView(R.id.price_range_min_text)
     val priceRangeMaxText: TextView by bindView(R.id.price_range_max_text)
     val neighborhoodLabel: TextView by bindView(R.id.neighborhood_label)
@@ -132,6 +135,8 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     var viewmodel: HotelFilterViewModel by notNullAndObservable { vm ->
         doneButton.subscribeOnClick(vm.doneObservable)
+        vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeContainer)
+        vm.priceRangeContainerVisibility.subscribeVisibility(priceHeader)
         filterVipContainer.setOnClickListener {
             clearHotelNameFocus()
             filterHotelVip.isChecked = !filterHotelVip.isChecked
