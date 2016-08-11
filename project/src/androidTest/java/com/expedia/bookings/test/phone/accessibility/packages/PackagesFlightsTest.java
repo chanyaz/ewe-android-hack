@@ -13,12 +13,17 @@ import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.atFlightListPosition;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static org.hamcrest.core.AllOf.allOf;
 
 public class PackagesFlightsTest extends PackageTestCase {
 
@@ -37,6 +42,8 @@ public class PackagesFlightsTest extends PackageTestCase {
 			"Flight time is 9:00 am to 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops SFO to HNL. 5 hours 12 minutes  Button"))));
 		PackageScreen.flightList().check(matches(atFlightListPosition(4, withContentDescription(
 			"Flight time is 9:50 am to 11:40 pm with price difference of +$0. Flying with Hawaiian Airlines. The flight duration is 16 hours 50 minutes with 3 stops SFO to SAN. 4 hours 37 minutes  Layover 0 hours 48 minutes  SAN to LAX. 0 hours 54 minutes  Layover 1 hour 1 minute  LAX to OGG. 5 hours 40 minutes  Layover 1 hour 40 minutes  OGG to HNL. 0 hours 40 minutes  Button"))));
+		PackageScreen.selectFlight(1);
+		onView(allOf(withId(R.id.flight_segment_layover_duration), hasSibling(withText("Layover in (SAN) San Diego")))).check(matches(withContentDescription("48 minutes")));
 	}
 
 	public void testPackageFlightsFilters() throws Throwable {
