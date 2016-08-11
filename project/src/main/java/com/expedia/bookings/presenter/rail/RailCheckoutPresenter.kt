@@ -8,8 +8,10 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.rail.RailCheckoutViewModel
+import com.expedia.vm.rail.RailCostSummaryBreakdownViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
 
 class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckoutPresenter(context, attrs) {
@@ -50,6 +52,10 @@ class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckou
         return tripViewModel as RailCreateTripViewModel
     }
 
+    override fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel {
+        return RailCostSummaryBreakdownViewModel(context)
+    }
+
     override fun trackShowSlideToPurchase() {
     }
 
@@ -61,8 +67,8 @@ class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckou
 
     private fun updatePricing(response: RailCreateTripResponse) {
         totalPriceWidget.viewModel.total.onNext(response.totalPrice)
-        totalPriceWidget.viewModel.savings.onNext(response.totalPrice)
-        //TODO Cost Breakdown
+        totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
+        (totalPriceWidget.breakdown.viewmodel as RailCostSummaryBreakdownViewModel).railCostSummaryBreakdownObservable.onNext(response.railDomainProduct.railOffer)
     }
 }
 

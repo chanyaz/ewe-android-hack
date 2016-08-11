@@ -261,7 +261,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.hotel_result_background,
 		R.string.hotels_guest_TEMPLATE,
 		R.layout.bundle_hotel_widget,
-		R.layout.widget_base_checkout,
+		R.layout.base_checkout_presenter,
 		R.drawable.ic_chevron_up_black_48dp,
 		R.string.trip_overview,
 		R.drawable.search_form_traveler_picker_infant,
@@ -850,6 +850,12 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.discount_minus_amount,
 		R.string.local_charges_due_at_hotel,
 		R.string.packages_guest_room_night_TEMPLATE,
-		R.string.package_resort_fee_disclaimer_TEMPLATE
+		R.string.package_resort_fee_disclaimer_TEMPLATE,
+		R.string.rail_adult_number_TEMPLATE,
+		R.string.rail_child_number_TEMPLATE,
+		R.string.rail_youth_number_TEMPLATE,
+		R.string.rail_senior_number_TEMPLATE,
+		R.string.rail_ticket_delivery_fee,
+		R.string.rail_credit_card_fee
 	};
 }

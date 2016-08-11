@@ -144,6 +144,10 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         return tripViewModel as FlightCreateTripViewModel
     }
 
+    override fun getCostSummaryBreakdownViewModel(): FlightCostSummaryBreakdownViewModel {
+        return FlightCostSummaryBreakdownViewModel(context)
+    }
+
     private fun getFlightServices(): FlightServices {
         return Ui.getApplication(context).flightComponent().flightServices()
     }

@@ -21,12 +21,13 @@ import java.math.BigDecimal
 
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
 
-    override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
+    override fun setupCreateTripViewModel(vm: BaseCreateTripViewModel) {
         vm as PackageCreateTripViewModel
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
-        vm.tripResponseObservable.subscribe { response -> response as PackageCreateTripResponse
+        vm.tripResponseObservable.subscribe { response ->
+            response as PackageCreateTripResponse
             clearCCNumber()
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
@@ -79,11 +80,11 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         PackagesTracking().trackBundleOverviewPageLoad(Db.getTripBucket().`package`.mPackageTripResponse.packageDetails)
     }
 
-    override fun makeCheckoutViewModel() : PackageCheckoutViewModel {
+    override fun makeCheckoutViewModel(): PackageCheckoutViewModel {
         return PackageCheckoutViewModel(context, Ui.getApplication(context).packageComponent().packageServices())
     }
 
-    override fun makeCreateTripViewModel() : PackageCreateTripViewModel {
+    override fun makeCreateTripViewModel(): PackageCreateTripViewModel {
         return PackageCreateTripViewModel(Ui.getApplication(context).packageComponent().packageServices(), context)
     }
 
@@ -98,5 +99,9 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     override fun clearCCNumber() {
         clearCVV()
         super.clearCCNumber()
+    }
+
+    override fun getCostSummaryBreakdownViewModel(): PackageCostSummaryBreakdownViewModel {
+        return PackageCostSummaryBreakdownViewModel(context)
     }
 }
