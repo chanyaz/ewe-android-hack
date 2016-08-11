@@ -7,7 +7,7 @@ public class AbacusTest {
 	public int instanceId;
 
 	public boolean isUserInBucket() {
-		return value != 0;
+		return value != 0 && value != AbacusUtils.ABTEST_IGNORE_DEBUG;
 	}
 
 	public int getBucketVariate() {
