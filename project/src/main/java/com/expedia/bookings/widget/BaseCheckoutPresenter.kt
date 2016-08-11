@@ -10,6 +10,7 @@ import android.content.Context
 import android.graphics.Rect
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewStub
@@ -468,34 +469,42 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         checkoutButton.isEnabled = isEnabled
     }
 
-    inner class HandleTouchListener() : View.OnTouchListener {
+    val gestureDetector = GestureDetector(context, SingleTapUp())
+
+    private inner class SingleTapUp : GestureDetector.SimpleOnGestureListener() {
+        override fun onSingleTapUp(e: MotionEvent): Boolean {
+            return true
+        }
+
+        override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
+            return true
+        }
+
+    }
+    private inner class HandleTouchListener() : View.OnTouchListener {
         internal var originY: Float = 0.toFloat()
-        var isClicked = false
         override fun onTouch(v: View, event: MotionEvent): Boolean {
+            if (gestureDetector.onTouchEvent(event)) {
+                (context as AppCompatActivity).onBackPressed()
+                return true
+            }
             when (event.action) {
                 (MotionEvent.ACTION_DOWN) -> {
-                    isClicked = true
                     originY = event.rawY
                     toolbarDropShadow.visibility = View.GONE
                 }
                 (MotionEvent.ACTION_UP) -> {
-                    if (isClicked) {
+                    val diff = event.rawY - originY
+                    val distance = Math.max(diff, 0f)
+                    val distanceGoal = height / 3f
+                    if (distance > distanceGoal) {
                         (context as AppCompatActivity).onBackPressed()
-                        isClicked = false
                     } else {
-                        val diff = event.rawY - originY
-                        val distance = Math.max(diff, 0f)
-                        val distanceGoal = height / 3f
-                        if (distance > distanceGoal) {
-                            (context as AppCompatActivity).onBackPressed()
-                        } else {
-                            animCheckoutToTop()
-                        }
-                        originY = 0f
+                        animCheckoutToTop()
                     }
+                    originY = 0f
                 }
                 (MotionEvent.ACTION_MOVE) -> {
-                    isClicked = false
                     val diff = event.rawY - originY
                     rotateChevron(Math.max(diff, 0f))
                 }
