@@ -39,7 +39,6 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
     val validFormsOfPaymentSubject = BehaviorSubject.create<List<ValidFormOfPayment>>()
     val selectedFlightChargesFees = PublishSubject.create<String>()
     val obFeeDetailsUrlSubject = PublishSubject.create<String>()
-    val performCheckout = PublishSubject.create<Unit>()
 
     // outputs
     val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
@@ -59,7 +58,7 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
             builder.expectedTotalFare(it.totalPrice.amount.toString())
             builder.expectedFareCurrencyCode(it.totalPrice.currency)
             builder.tealeafTransactionId(it.tealeafTransactionId)
-
+            builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
             val totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
                     .put("dueamount", it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
                     .format()
@@ -75,16 +74,14 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
             }
         }
 
-        checkoutParams.map { Unit }.subscribe(performCheckout)
-        Observable.combineLatest(checkoutParams, performCheckout, { params, performCheckout ->
+        checkoutParams.subscribe { params ->
             params as FlightCheckoutParams
             if (User.isLoggedIn(context)) {
                 params.billingInfo.email = Db.getUser().primaryTraveler.email
             }
-            builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
             flightServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.billingInfo.email
-        }).subscribe()
+        }
 
         setupCardFeeSubjects()
         showDebitCardsNotAcceptedSubject.onNext(pointOfSale.doesNotAcceptDebitCardsForFlights())

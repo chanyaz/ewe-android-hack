@@ -44,4 +44,10 @@ class TravelerTest {
         testTraveler.birthDate = infantBirthDate
         assertEquals(PassengerCategory.INFANT_IN_SEAT, testTraveler.getPassengerCategory(tomorrow, false))
     }
+
+    @Test
+    fun testGetSeatPreferenceDefault() {
+        testTraveler.seatPreference = Traveler.SeatPreference.ANY
+        assertEquals(Traveler.SeatPreference.WINDOW, testTraveler.seatPreference)
+    }
 }
