@@ -444,9 +444,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
         val distance = if (!isSlideToPurchaseLayoutVisible) slideToPurchaseLayout.height.toFloat() else 0f
         if (bottomContainer.translationY == distance) {
-            val lp = space.layoutParams
-            lp.height = adjustScrollingSpace()
-            space.layoutParams = lp
+            adjustScrollingSpace()
             return
         }
         val animator = ObjectAnimator.ofFloat(bottomContainer, "translationY", distance)
@@ -457,9 +455,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             override fun onAnimationStart(p0: Animator?) { }
             override fun onAnimationRepeat(p0: Animator?) { }
             override fun onAnimationEnd(p0: Animator?) {
-                val lp = space.layoutParams
-                lp.height = adjustScrollingSpace()
-                space.layoutParams = lp
+                adjustScrollingSpace()
             }
         })
 
@@ -566,17 +562,24 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         return layoutListener
     }
 
-    private fun adjustScrollingSpace() : Int {
-        val contentViewLocation = IntArray(2)
-        val bottomContainerLocation = IntArray(2)
-        val scrollViewContainerLocation = IntArray(2)
-        contentView.getLocationOnScreen(contentViewLocation)
-        bottomContainer.getLocationOnScreen(bottomContainerLocation)
-        scrollView.getLocationOnScreen(scrollViewContainerLocation)
+    fun adjustScrollingSpace() {
+        postDelayed({
+            val contentViewLocation = IntArray(2)
+            val bottomContainerLocation = IntArray(2)
+            val scrollViewContainerLocation = IntArray(2)
+            contentView.getLocationOnScreen(contentViewLocation)
+            bottomContainer.getLocationOnScreen(bottomContainerLocation)
+            scrollView.getLocationOnScreen(scrollViewContainerLocation)
 
-        val contentViewBottomPosition = contentViewLocation[1] + contentView.height - space.height
-        val bottomContainerTopPosition = bottomContainerLocation[1]
-        val spaceHeight = Math.max(0, scrollViewContainerLocation[1] + scrollView.height - contentViewBottomPosition)
-        return Math.max(0, contentViewBottomPosition - bottomContainerTopPosition) + spaceHeight
+            val contentViewBottomPosition = contentViewLocation[1] + contentView.height - space.height
+            val bottomContainerTopPosition = bottomContainerLocation[1]
+            val spaceHeight = Math.max(0, scrollViewContainerLocation[1] + scrollView.height - contentViewBottomPosition)
+            val distance = Math.max(0, contentViewBottomPosition - bottomContainerTopPosition) + spaceHeight
+
+            val lp = space.layoutParams
+            lp.height = distance
+            space.layoutParams = lp
+
+        }, 50L)
     }
 }

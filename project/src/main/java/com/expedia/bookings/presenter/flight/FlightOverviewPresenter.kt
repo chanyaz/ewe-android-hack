@@ -36,7 +36,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
         airlineFeeWebview
     }
 
-    private val overviewToAirlineFeeWebView = object : Transition(getCheckoutTransitionClass(), PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), AIRLINEFEE_VIEW_TRANSITION_DURATION) {
+    private val overviewToAirlineFeeWebView = object : Transition(checkoutPresenter.javaClass, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), AIRLINEFEE_VIEW_TRANSITION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
@@ -85,10 +85,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
 
     fun getCheckoutPresenter(): FlightCheckoutPresenter {
         return checkoutPresenter as FlightCheckoutPresenter
-    }
-
-    override fun getCheckoutTransitionClass(): Class<out Any> {
-        return FlightCheckoutPresenter::class.java
     }
 
     override fun trackCheckoutPageLoad() {
