@@ -17,6 +17,7 @@ import com.expedia.bookings.data.rail.requests.RailCheckoutRequest;
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
+import com.expedia.bookings.data.rail.responses.RailProduct;
 import com.expedia.bookings.data.rail.responses.RailSearchResponse;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.RailServices;
@@ -32,6 +33,7 @@ import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class RailServicesTest {
 
@@ -76,6 +78,12 @@ public class RailServicesTest {
 		assertEquals(1, passengers.size());
 		assertEquals(25, passengers.get(0).age);
 		assertEquals(true, passengers.get(0).primaryTraveler);
+		assertTrue(railSearchResponse.offerList.size() > 0);
+		List<RailSearchResponse.RailOffer> railOffers = railSearchResponse.offerList;
+		assertTrue(railOffers.get(0).railProductList.size() > 0);
+		RailProduct railProduct = railOffers.get(0).railProductList.get(0);
+		assertEquals(3, railProduct.segmentFareDetailList.size());
+		assertEquals(3, railProduct.getSegmentToFareMapping().size());
 	}
 
 	@Test

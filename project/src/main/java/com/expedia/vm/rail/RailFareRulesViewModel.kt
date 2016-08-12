@@ -2,9 +2,8 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
+import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import java.util.ArrayList

@@ -1,8 +1,8 @@
 package com.expedia.vm.test.rail
 
 import android.app.Activity
-import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
+import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.rail.RailFareRulesViewModel
