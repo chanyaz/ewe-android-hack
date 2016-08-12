@@ -112,7 +112,7 @@ public class RailScreen {
 
 		onView(withText("3:55 PM – 7:22 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
-		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));
+		onView(withText("You have 43m to get from London Euston to London Paddington")).check(matches(isDisplayed()));
 	}
 
 	public static void navigateToTripOverview() throws Throwable {
