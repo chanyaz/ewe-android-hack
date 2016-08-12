@@ -53,8 +53,8 @@ public class TravelerButton extends LinearLayout {
 
 	private TravelerAutoCompleteAdapter mTravelerAdapter;
 	private ListPopupWindow mStoredTravelerPopup;
-	private Traveler mTraveler;
 	private ITravelerButtonListener mTravelerButtonListener;
+	private String mLastSelectedTravelerTuid;
 
 	public interface ITravelerButtonListener {
 		void onTravelerChosen(Traveler traveler);
@@ -113,8 +113,9 @@ public class TravelerButton extends LinearLayout {
 		if (position == 0) {
 			return;
 		}
-		mTraveler = mTravelerAdapter.getItem(position);
-		if (mTraveler.isSelectable()) {
+		final Traveler selectedTraveler = mTravelerAdapter.getItem(position);
+		mLastSelectedTravelerTuid = selectedTraveler.getTuid().toString();
+		if (selectedTraveler.isSelectable()) {
 			if (lineOfBusiness == LineOfBusiness.PACKAGES) {
 				new PackagesTracking().trackCheckoutSelectTraveler();
 			}
@@ -126,13 +127,22 @@ public class TravelerButton extends LinearLayout {
 				dl.cancelDownload(getTravelerDownloadKey());
 			}
 
+			BackgroundDownloader.Download<SignInResponse> travelerDetailsDownload =
+				new BackgroundDownloader.Download<SignInResponse>() {
+					@Override
+					public SignInResponse doDownload() {
+						ExpediaServices services = new ExpediaServices(getContext());
+						BackgroundDownloader.getInstance().addDownloadListener(getTravelerDownloadKey(), services);
+						return services.travelerDetails(selectedTraveler, 0);
+					}
+				};
+
 			// Begin loading flight details in the background, if we haven't already
 			// Show a loading dialog
 			ThrobberDialog df = ThrobberDialog
 				.newInstance(getResources().getString(R.string.loading_traveler_info));
 			df.show(((AppCompatActivity) getContext()).getSupportFragmentManager(), FTAG_FETCH_TRAVELER_INFO);
-			dl.startDownload(getTravelerDownloadKey(), mTravelerDetailsDownload,
-				mTravelerDetailsCallback);
+			dl.startDownload(getTravelerDownloadKey(), travelerDetailsDownload, mTravelerDetailsCallback);
 			mStoredTravelerPopup.dismiss();
 		}
 
@@ -156,15 +166,6 @@ public class TravelerButton extends LinearLayout {
 		mStoredTravelerPopup.setModal(true);
 		mStoredTravelerPopup.show();
 	}
-
-	private BackgroundDownloader.Download<SignInResponse> mTravelerDetailsDownload = new BackgroundDownloader.Download<SignInResponse>() {
-		@Override
-		public SignInResponse doDownload() {
-			ExpediaServices services = new ExpediaServices(getContext());
-			BackgroundDownloader.getInstance().addDownloadListener(getTravelerDownloadKey(), services);
-			return services.travelerDetails(mTraveler, 0);
-		}
-	};
 
 	private BackgroundDownloader.OnDownloadComplete<SignInResponse> mTravelerDetailsCallback = new BackgroundDownloader.OnDownloadComplete<SignInResponse>() {
 		@Override
@@ -190,18 +191,18 @@ public class TravelerButton extends LinearLayout {
 			}
 			else {
 				deselectCurrentTraveler();
-				Traveler selectedTraveler = results.getTraveler();
-				Db.getWorkingTravelerManager().shiftWorkingTraveler(selectedTraveler);
-				selectTraveler.setText(selectedTraveler.getFullName());
+				Traveler mainTraveler = results.getTraveler();
+				Db.getWorkingTravelerManager().shiftWorkingTraveler(mainTraveler);
+				selectTraveler.setText(mainTraveler.getFullName());
 				if (mTravelerButtonListener != null) {
-					mTravelerButtonListener.onTravelerChosen(selectedTraveler);
+					mTravelerButtonListener.onTravelerChosen(mainTraveler);
 				}
 			}
 		}
 	};
 
 	private String getTravelerDownloadKey() {
-		return DL_FETCH_TRAVELER_INFO + (mTraveler != null ? mTraveler.getTuid().toString() : "");
+		return DL_FETCH_TRAVELER_INFO + mLastSelectedTravelerTuid;
 	}
 
 	public void dismissPopup() {

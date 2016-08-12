@@ -125,10 +125,11 @@ public class TravelerUtils {
 
 	public static boolean travelerFormRequiresPassport(LineOfBusiness lob) {
 		if (lob == LineOfBusiness.FLIGHTS) {
-			return lob == LineOfBusiness.FLIGHTS && Db.getTripBucket().getFlight() != null
-				&& Db.getTripBucket().getFlight().getFlightTrip() != null && (Db.getTripBucket().getFlight().getFlightTrip()
-				.isInternational() || Db.getTripBucket().getFlight().getFlightTrip()
-				.isPassportNeeded());
+			return Db.getTripBucket().getFlight() != null &&
+				Db.getTripBucket().getFlight().getFlightTrip() != null &&
+				(Db.getTripBucket().getFlight().getFlightTrip()
+					.isInternational() || Db.getTripBucket().getFlight().getFlightTrip()
+					.isPassportNeeded());
 		}
 		return false;
 	}
