@@ -56,8 +56,7 @@ import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import java.text.NumberFormat
 
-class AccountSettingsFragment : Fragment(),
-        UserAccountRefresher.IUserAccountRefreshListener {
+class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRefreshListener {
 
     private val TAG_SUPPORT = "TAG_SUPPORT"
     private val TAG_ALSO_BY_US = "TAG_ALSO_BY_US"
@@ -132,6 +131,7 @@ class AccountSettingsFragment : Fragment(),
     val memberNameView: TextView by bindView(R.id.toolbar_name)
     val memberEmailView: TextView by bindView(R.id.toolbar_email)
     val memberTierView: TextView by bindView(R.id.toolbar_loyalty_tier_text)
+    lateinit var userAccountRefresher: UserAccountRefresher
 
     val debugMenu: DebugMenu by lazy {
         DebugMenu(activity, ExpediaBookingPreferenceActivity::class.java)
@@ -166,6 +166,7 @@ class AccountSettingsFragment : Fragment(),
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_account_settings, null)
+        userAccountRefresher = UserAccountRefresher(context, LineOfBusiness.PROFILE, this)
         return view
     }
 
@@ -173,7 +174,6 @@ class AccountSettingsFragment : Fragment(),
         super.onViewCreated(view, savedInstanceState)
 
         gestureDetector = GestureDetectorCompat(context, mOnGestureListener)
-
         var builder: AboutSectionFragment.Builder
         val ft = activity.supportFragmentManager.beginTransaction()
 
@@ -331,6 +331,14 @@ class AccountSettingsFragment : Fragment(),
         scrollContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
     }
 
+    override fun onUserAccountRefreshed() {
+        adjustLoggedInViews()
+    }
+
+    fun refreshUserInfo() {
+        userAccountRefresher.forceAccountRefresh()
+    }
+
     val scrollListener = ViewTreeObserver.OnScrollChangedListener {
         if (User.isLoggedIn(context)) {
             val value = scrollContainer.scrollY / toolBarHeight
@@ -406,10 +414,6 @@ class AccountSettingsFragment : Fragment(),
         scrollContainer.smoothScrollTo(0, 0)
         adjustLoggedInViews()
         toolbarShadow.alpha = 1.0f
-    }
-
-    override fun onUserAccountRefreshed() {
-        adjustLoggedInViews()
     }
 
     fun onPrivateDataCleared() {
