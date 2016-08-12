@@ -59,6 +59,7 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
                     .put("airportcode", breakdown.segment.arrivalAirportCode)
                     .format().toString()
         layoverDuration.text = PackageFlightUtils.getFlightSegmentLayoverDurationString(context, breakdown.segment)
+        layoverDuration.contentDescription = PackageFlightUtils.getFlightSegmentLayoverDurationContentDescription(context, breakdown.segment)
         return row
     }
 }

@@ -25,6 +25,9 @@ object PackageFlightUtils {
         return getDurationString(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
     }
 
+    @JvmStatic fun getFlightSegmentLayoverDurationContentDescription(context: Context, segment: FlightLeg.FlightSegment): String {
+        return getDurationContentDesc(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
+    }
 
     @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int): CharSequence {
         val flightDuration = PackageFlightUtils.getFlightDurationString(context, flight)
@@ -65,6 +68,18 @@ object PackageFlightUtils {
             return context.resources.getString(R.string.flight_hour_min_duration_template, durationHour, durationMinute)
         }
         return context.resources.getString(R.string.flight_min_duration_template, durationMinute)
+    }
+
+    private fun getDurationContentDesc(context: Context, durationHour: Int, durationMinute: Int): String {
+        if (durationHour > 0) {
+            return Phrase.from(context, R.string.flight_hour_min_duration_template_cont_desc)
+                    .put("h", durationHour)
+                    .put("m", durationMinute)
+                    .format().toString()
+        }
+        return Phrase.from(context, R.string.flight_min_duration_template_cont_desc)
+                .put("m", durationMinute)
+                .format().toString()
     }
 
     @JvmStatic fun getFlightStopString(context: Context, flight: FlightLeg): String {
