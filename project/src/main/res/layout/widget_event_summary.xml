@@ -46,6 +46,7 @@
         android:layout_width="48dp"
         android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
+        android:contentDescription="@string/location_map_button_label_cont_desc"
         android:src="@drawable/ic_location_pin" />
 
 </merge>
