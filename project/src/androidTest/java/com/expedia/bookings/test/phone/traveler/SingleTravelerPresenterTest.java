@@ -14,6 +14,8 @@ import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 
+import kotlin.Unit;
+
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -49,7 +51,12 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(06,20,1990);
 		PackageScreen.selectGender(testGender);
-		PackageScreen.clickTravelerDone();
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				testTravelerPresenter.getDoneClicked().onNext(Unit.INSTANCE);
+			}
+		});
 
 		onView(CustomMatchers.withCompoundDrawable(R.drawable.invalid)).check(matches(isDisplayed()));
 	}

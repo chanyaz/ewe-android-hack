@@ -102,6 +102,11 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         vm.tsaViewModel.genderSubject.subscribe {
             filledIn.onNext(isCompletelyFilled())
         }
+
+        vm.passportValidSubject.subscribe { isValid ->
+            val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
+            adapter.setErrorVisible(!isValid)
+        }
     }
 
     var compositeSubscription: CompositeSubscription? = null
@@ -211,6 +216,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
             viewModel.passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+            if (position == 0) {
+                adapter.setErrorVisible(true)
+            }
         }
     }
 
@@ -224,7 +232,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         return nameEntryView.firstName.text.isNotEmpty() &&
                 nameEntryView.lastName.text.isNotEmpty() &&
                 (!TravelerUtils.isMainTraveler(viewModel.travelerIndex) || phoneEntryView.phoneNumber.text.isNotEmpty()) &&
-                tsaEntryView.viewModel.validate()
+                (tsaEntryView.dateOfBirth.text.isNotEmpty() && tsaEntryView.genderSpinner.selectedItemPosition != 0)
     }
 
     fun resetStoredTravelerSelection() {
@@ -237,8 +245,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
     }
 
     private fun selectPassport(countryCode: String?) {
+        passportCountrySpinner.onItemSelectedListener = null
         val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
         val position = if (countryCode?.isNullOrEmpty() ?: true) DEFAULT_EMPTY_PASSPORT else adapter.getPositionByCountryThreeLetterCode(countryCode)
-        passportCountrySpinner.setSelection(position)
+        passportCountrySpinner.setSelection(position, false)
+        passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
     }
 }

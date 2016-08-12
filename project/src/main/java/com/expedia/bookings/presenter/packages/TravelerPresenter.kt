@@ -133,13 +133,13 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             show(travelerSelectState)
         } else {
             val travelerViewModel = TravelerViewModel(context, 0)
-            currentState ?: show(travelerSelectState, FLAG_CLEAR_BACKSTACK)
             travelerEntryWidget.viewModel = travelerViewModel
             travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
             toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
             if (viewModel.travelerCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
                 travelerEntryWidget.viewModel.validate()
             }
+            currentState ?: show(travelerSelectState, FLAG_CLEAR_BACKSTACK)
             show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
         }
     }

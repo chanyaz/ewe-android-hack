@@ -33,6 +33,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 	private boolean mShowEmptyRow = false;
 	private String prefix;
 	private boolean isColoredPrefix = true;
+	private boolean hasError = false;
 
 	public enum CountryDisplayType {
 		FULL_NAME,
@@ -124,7 +125,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		TextView tv = Ui.findView(viewImpl, android.R.id.text1);
 
 		boolean noCountrySelected = (position == 0);
-		if (mShowEmptyRow) {
+		if (mShowEmptyRow && hasError) {
 			drawErrorIcon(viewImpl, noCountrySelected);
 		}
 		if (!noCountrySelected) {
@@ -272,5 +273,10 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 			}
 		}
 		return 0;
+	}
+
+	public void setErrorVisible(boolean hasError) {
+		this.hasError = hasError;
+		notifyDataSetChanged();
 	}
 }

@@ -19,11 +19,11 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
 
     var viewModel: TravelerPhoneViewModel by notNullAndObservable { vm ->
-        viewModel.phoneNumberSubject.subscribeEditText(phoneNumber)
-        phoneNumber.subscribeToError(viewModel.phoneErrorSubject)
-        phoneNumber.addTextChangedSubscriber(viewModel.phoneNumberObserver)
+        vm.phoneNumberSubject.subscribeEditText(phoneNumber)
+        phoneNumber.subscribeToError(vm.phoneErrorSubject)
+        phoneNumber.addTextChangedSubscriber(vm.phoneNumberObserver)
 
-        viewModel.phoneCountyCodeSubject.subscribe { countryCode ->
+        vm.phoneCountyCodeSubject.subscribe { countryCode ->
             if (!TextUtils.isEmpty(countryCode)) {
                 phoneSpinner.update(countryCode, "")
             }
