@@ -9,6 +9,7 @@ import com.expedia.bookings.widget.RailViewModel
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 
 class RailLegSummaryViewModel(context: Context) {
     val railOfferObserver = BehaviorSubject.create<RailOffer>()
@@ -20,6 +21,7 @@ class RailLegSummaryViewModel(context: Context) {
     val legOptionObservable = BehaviorSubject.create<RailLegOption>()
     val selectedRailOfferObservable = BehaviorSubject.create<RailOffer>()
     val fareDescriptionLabelObservable = BehaviorSubject.create<String>()
+    val showLegInfoObservable = PublishSubject.create<Unit>()
 
     init {
         railOfferObserver.subscribe {
