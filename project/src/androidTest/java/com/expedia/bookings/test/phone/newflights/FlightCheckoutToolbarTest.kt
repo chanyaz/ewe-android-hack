@@ -223,7 +223,7 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
     }
 
     private fun waitForPaymentInfoCardView() {
-        Espresso.onView(ViewMatchers.withId(R.id.payment_info_card_view)).perform(com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay())
+        Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.payment_info_card_view), ViewMatchers.isCompletelyDisplayed()))
 
     }
 
