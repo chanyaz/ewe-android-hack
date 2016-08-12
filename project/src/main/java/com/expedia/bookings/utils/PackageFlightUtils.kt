@@ -29,6 +29,10 @@ object PackageFlightUtils {
         return getDurationContentDesc(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
     }
 
+    @JvmStatic fun getFlightSegmentDurationContentDescription(context: Context, segment: FlightLeg.FlightSegment): String {
+        return getDurationContentDesc(context, segment.durationHours, segment.durationMinutes)
+    }
+
     @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int): CharSequence {
         val flightDuration = PackageFlightUtils.getFlightDurationString(context, flight)
         var totalDuration = Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
