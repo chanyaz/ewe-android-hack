@@ -13,11 +13,12 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.subscribeVisibility
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibilityInvisible
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
@@ -51,6 +52,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     }
 
     var vm: AbstractFlightOverviewViewModel by notNullAndObservable {
+        vm.chargesObFeesTextSubject.subscribeTextAndVisibility(paymentFeesMayApplyTextView)
         vm.bundlePriceSubject.subscribeText(bundlePriceTextView)
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceLabelTextView)
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceTextView)

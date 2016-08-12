@@ -4,10 +4,12 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.PackageFlightUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 
 abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val selectedFlightLegSubject = BehaviorSubject.create<FlightLeg>()
@@ -16,13 +18,17 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val totalDurationSubject = BehaviorSubject.create<CharSequence>()
     val baggageFeeURLSubject = BehaviorSubject.create<String>()
     val selectedFlightClickedSubject = BehaviorSubject.create<FlightLeg>()
+    val chargesObFeesTextSubject = PublishSubject.create<String>()
     var numberOfTravelers = BehaviorSubject.create<Int>(0)
+    val obFeeDetailsUrlObservable = PublishSubject.create<String>()
+    val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
 
     abstract val showBundlePriceSubject: BehaviorSubject<Boolean>
 
     init {
         selectedFlightLegSubject.subscribe { selectedFlight ->
             updateUrgencyMessage(selectedFlight)
+            updateOBFees(selectedFlight)
 
             totalDurationSubject.onNext(PackageFlightUtils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
 
@@ -62,6 +68,21 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
             urgencyMessage.append(pricePerPersonMessage)
         }
         urgencyMessagingSubject.onNext(urgencyMessage.toString())
+    }
+
+    fun updateOBFees(selectedFlight: FlightLeg){
+        if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
+            val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
+            chargesObFeesTextSubject.onNext(paymentFeeText)
+            val hasAirlineFeeLink = selectedFlight.airlineMessageModel?.airlineFeeLink != null
+            if (hasAirlineFeeLink){
+                obFeeDetailsUrlObservable.onNext(e3EndpointUrl + selectedFlight.airlineMessageModel.airlineFeeLink)
+            }
+        }
+        else{
+            chargesObFeesTextSubject.onNext("")
+            obFeeDetailsUrlObservable.onNext("")
+        }
     }
 
     val selectFlightClickObserver: Observer<Unit> = endlessObserver {
