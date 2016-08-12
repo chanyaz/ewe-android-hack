@@ -92,7 +92,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			return true;
 		}
 		else if (getString(R.string.preference_clear_user_cookies).equals(key)) {
-			ExpediaServices.removeUserCookieFromUserLoginCookies(getContext());
+			ExpediaServices.removeUserCookieFromUserLoginCookies(getActivity());
 		}
 
 		return super.onPreferenceTreeClick(preferenceScreen, preference);
