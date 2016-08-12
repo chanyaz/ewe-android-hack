@@ -16,6 +16,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageHotelDetailsTest extends PackageTestCase {
@@ -34,8 +35,7 @@ public class PackageHotelDetailsTest extends PackageTestCase {
 		EspressoUtils.assertViewIsDisplayed(R.id.search_dates_info);
 
 		HotelScreen.selectRoomButton().perform(click());
-		onView(allOf(withId(R.id.daily_price_per_night), withText("+$0"))).check(
-			matches(isDisplayed()));
+		onView(allOf(withId(R.id.daily_price_per_night), withText("+$0"))).perform(waitForViewToDisplay());
 		onView(allOf(withId(R.id.per_night),
 			hasSibling(allOf(withId(R.id.daily_price_per_night), withText("+$0"))))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.per_night),

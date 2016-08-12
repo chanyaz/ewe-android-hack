@@ -3,6 +3,7 @@ package com.expedia.bookings.data;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
+import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Currency;
 import java.util.HashMap;
@@ -316,15 +317,17 @@ public class Money {
 		// We want a different NumberFormat cached for each currencyCode/flags combination
 		int key = (currencyCode + flags).hashCode();
 
-		NumberFormat nf = sFormats.get(key);
+		DecimalFormat nf = (DecimalFormat) sFormats.get(key);
 		if (nf == null) {
 			// We use the default user locale for both of these, as it should
 			// be properly set by the Android system.
 			Currency currency = Currency.getInstance(currencyCode);
-			nf = NumberFormat.getCurrencyInstance();
+			nf = (DecimalFormat) NumberFormat.getCurrencyInstance();
 			if (currency != null) {
 				nf.setCurrency(currency);
 				nf.setMaximumFractionDigits(currency.getDefaultFractionDigits());
+				nf.setNegativePrefix("-" + Currency.getInstance(currencyCode).getSymbol());
+				nf.setNegativeSuffix("");
 			}
 
 			if ((flags & F_NO_DECIMAL) != 0) {
@@ -335,13 +338,13 @@ public class Money {
 
 		//Handle F_ALWAYS_TWO_PLACES_AFTER_DECIMAL which trumps all other flags
 		if ((flags & F_ALWAYS_TWO_PLACES_AFTER_DECIMAL) != 0) {
-			nf = (NumberFormat) nf.clone();
+			nf = (DecimalFormat) nf.clone();
 			nf.setMaximumFractionDigits(2);
 			nf.setMinimumFractionDigits(2);
 		}
 		//Handle F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL flag
 		else if ((flags & F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL) != 0) {
-			nf = (NumberFormat) nf.clone();
+			nf = (DecimalFormat) nf.clone();
 			nf.setMaximumFractionDigits(amount.stripTrailingZeros().scale() <= 0 ? 0 : 2);
 		}
 		//Handle Rounding Flags
