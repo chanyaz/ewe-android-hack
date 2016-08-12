@@ -7,7 +7,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.FontCache
-import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
@@ -15,7 +14,7 @@ import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import javax.inject.Inject
 
-open class TravelerPickerTravelerViewModel(val context: Context, val index: Int, val age: Int) {
+open class TravelerPickerTravelerViewModel(val context: Context, val index: Int, val age: Int, val isPassportRequired: Boolean) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
     val resources = context.resources
@@ -42,9 +41,9 @@ open class TravelerPickerTravelerViewModel(val context: Context, val index: Int,
     fun updateStatus(status: TravelerCheckoutStatus) {
         this.status = status
         val traveler = getTraveler()
-        val validForPackageBooking = travelerValidator.isValidForPackageBooking(traveler, index)
+        val validForBooking = travelerValidator.isValidForBooking(traveler, index, isPassportRequired)
         if (status != TravelerCheckoutStatus.CLEAN) {
-            if (!validForPackageBooking) {
+            if (!validForBooking) {
                 setTravelerSummaryInfo(getTitle(traveler), getErrorSubtitle(),
                         ContactDetailsCompletenessStatus.INCOMPLETE, getFont(traveler))
             } else {
