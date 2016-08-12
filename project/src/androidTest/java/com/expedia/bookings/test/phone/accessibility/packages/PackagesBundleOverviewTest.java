@@ -61,14 +61,14 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 
 		Common.pressBack();
 		checkBundleOverviewHotelContentDescription("Package Happy Path");
-		checkBundleTotalWidgetContentDescription("$3,863.38", "$595.24", false);
+		checkBundleTotalWidgetContentDescription("$2,054.67", "$21.61", false);
 		onView(withId(R.id.toolbar)).check(matches(withNavigationContentDescription("Back")));
 
 		PackageScreen.outboundFlight().perform(click());
 		PackageScreen.selectFlight(0);
 		PackageScreen.selectThisFlight().perform(click());
 		Common.pressBack();
-		checkBundleTotalWidgetContentDescription("$4,211.90", "$540.62", false);
+		checkBundleTotalWidgetContentDescription("$3,863.38", "$595.24", false);
 		checkBundleOverviewFlightContentDescription(PackageScreen.outboundFlightInfoRowContainer(), "Jul 10 at 9:00 am", "(DTW) Detroit", false, false);
 
 		PackageScreen.inboundFLight().perform(click());

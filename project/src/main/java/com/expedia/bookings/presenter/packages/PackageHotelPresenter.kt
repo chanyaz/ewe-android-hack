@@ -21,6 +21,7 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -37,6 +38,7 @@ import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.SlidingBundleWidget
@@ -305,6 +307,9 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         override fun startTransition(forward: Boolean) {
             if (!forward) {
                 detailPresenter.hotelDetailView.resetViews()
+                val countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
+                val currencyCode = CurrencyUtils.currencyForLocale(countryCode)
+                bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPersonObservable.onNext(Money(BigDecimal("0.00"), currencyCode).formattedMoney)
             } else {
                 detailPresenter.hotelDetailView.refresh()
             }
@@ -362,7 +367,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         activity.finish()
     }
 
-    private fun updatePackagePrice(offer : HotelOffersResponse.HotelRoomResponse) {
+    private fun updatePackagePrice(offer: HotelOffersResponse.HotelRoomResponse) {
         var response = Db.getPackageResponse()
         val currentOffer = PackageOfferModel()
         currentOffer.price = PackageOfferModel.PackagePrice()

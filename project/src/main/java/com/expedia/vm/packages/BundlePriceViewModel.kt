@@ -33,7 +33,7 @@ class BundlePriceViewModel(val context: Context, val isSlidable: Boolean = false
 
         savings.filter { !it.isZero }.subscribe { savings ->
             val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", savings.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+                    .put("savings", savings.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
                     .format().toString()
             savingsPriceObservable.onNext(packageSavings)
             contentDescriptionObservable.onNext(getAccessibleContentDescription(isSlidable))
@@ -44,9 +44,14 @@ class BundlePriceViewModel(val context: Context, val isSlidable: Boolean = false
         }
 
         total.subscribe { total ->
-            totalPriceObservable.onNext(total.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+            totalPriceObservable.onNext(total.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
             contentDescriptionObservable.onNext(getAccessibleContentDescription(false, isSlidable))
         }
+    }
+
+    fun setPriceValues(packageTotalPrice: Money, tripSavings: Money) {
+        total.onNext(packageTotalPrice)
+        savings.onNext(tripSavings)
     }
 
     fun getAccessibleContentDescription(isCostBreakdownShown: Boolean = false, isSlidable: Boolean = false, isExpanded: Boolean = false): String {

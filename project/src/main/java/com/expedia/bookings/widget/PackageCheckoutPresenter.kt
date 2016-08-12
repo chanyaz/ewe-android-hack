@@ -42,10 +42,8 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
 
             val packageTotalPrice = response.packageDetails.pricing
-            totalPriceWidget.viewModel.total.onNext(Money(BigDecimal(packageTotalPrice.packageTotal.amount.toDouble()),
-                    packageTotalPrice.packageTotal.currencyCode))
-            totalPriceWidget.viewModel.savings.onNext(Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
-                    packageTotalPrice.savings.currencyCode))
+            totalPriceWidget.viewModel.total.onNext(packageTotalPrice.packageTotal)
+            totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
             isPassportRequired(response)
             trackShowBundleOverview()
         }

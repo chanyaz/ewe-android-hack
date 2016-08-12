@@ -36,8 +36,11 @@ public class PackageBackNavigationTest extends PackageTestCase {
 			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Select return flight")))));
 		PackageScreen.flightsToolbarSearchMenu().check(doesNotExist());
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
+		Common.delay(5);
+		assertInboundFlightResultBundlePrice("$2,105.95");
 
 		Common.pressBack();
+		onView(allOf(withId(R.id.bundle_total_price), withText("$3,863.38"))).check(matches(isDisplayed()));
 
 		//back to outbound flight overview
 		Common.pressBack();
@@ -53,8 +56,11 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		PackageScreen.flightsToolbar()
 			.check(matches(hasDescendant(allOf(isDisplayed(), withText("Select flight to Detroit, MI")))));
 		PackageScreen.checkFlightToolBarMenuItemsVisibility(true);
+		assertOutboundFlightResultBundlePrice("$1,931.69");
 
 		Common.pressBack();
+
+		onView(allOf(withId(R.id.bundle_total_price), withText("$2,054.67"))).check(matches(isDisplayed()));
 
 		//back to hotel infosite
 		Common.pressBack();
@@ -66,6 +72,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		assertHotelSRP();
 
 		Common.pressBack();
+		onView(allOf(withId(R.id.bundle_total_price), withText("$0.00"))).check(matches(isDisplayed()));
 
 		//back to search
 		Common.pressBack();
@@ -80,6 +87,14 @@ public class PackageBackNavigationTest extends PackageTestCase {
 	private void assertInboundFlightBundlePrice(String price) {
 		onView(allOf(withId(R.id.bundle_price_label), withText("Bundle Total"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_price), withText(price + "/person"))).check(matches(isDisplayed()));
+	}
+
+	private void assertOutboundFlightResultBundlePrice(String price) {
+		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
+	}
+
+	private void assertInboundFlightResultBundlePrice(String price) {
+		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
 	}
 
 	private void assertHotelSRP() {
