@@ -805,7 +805,7 @@
     </string-array>
 
     <string-array name="sort_options_hotels">
-        <item>@string/popular</item>
+        <item>@string/recommended</item>
         <item>@string/price</item>
         <item>@string/discounts</item>
         <item>@string/rating</item>

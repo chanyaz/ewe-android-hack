@@ -17,9 +17,9 @@ import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.ArrayList
-import java.util.Collections
-import java.util.Comparator
+import java.util.ArrayList		
+import java.util.Collections		
+import java.util.Comparator		
 import java.util.HashSet
 import java.util.regex.Pattern
 
@@ -42,7 +42,7 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
 
-    data class UserFilterChoices(var userSort: Sort = Sort.POPULAR,
+    data class UserFilterChoices(var userSort: Sort = Sort.RECOMMENDED,
                                  var isVipOnlyAccess: Boolean = false,
                                  var hotelStarRating: StarRatings = StarRatings(),
                                  var name: String = "",
@@ -98,13 +98,13 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     val newPriceRangeObservable = PublishSubject.create<PriceRange>()
     val amenityMapObservable = BehaviorSubject.create<Map<FilterAmenity, Int>>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
-    var previousSort = Sort.POPULAR
+    var previousSort = Sort.RECOMMENDED
     var isNeighborhoodExpanded = false
 
     init {
         doneObservable.subscribe { params ->
             //if previousSort and userSort is both by popular(default), no need to call sort method. Otherwise, always do sort.
-            if (userFilterChoices.userSort != Sort.POPULAR || previousSort != Sort.POPULAR) {
+            if (userFilterChoices.userSort != Sort.RECOMMENDED || previousSort != Sort.RECOMMENDED) {
                 previousSort = userFilterChoices.userSort
                 sortObserver.onNext(userFilterChoices.userSort)
                 var sortByString: String = Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString())
@@ -149,7 +149,7 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     }
 
     fun resetUserFilters() {
-        userFilterChoices.userSort = Sort.POPULAR
+        userFilterChoices.userSort = Sort.RECOMMENDED
         userFilterChoices.isVipOnlyAccess = false
         userFilterChoices.hotelStarRating = StarRatings()
         userFilterChoices.name = ""
@@ -352,7 +352,7 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
 
         sendNewPriceRange()
         isNeighborhoodExpanded = false
-        previousSort = Sort.POPULAR
+        previousSort = Sort.RECOMMENDED
     }
 
     private fun sendNewPriceRange() {
@@ -368,7 +368,7 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     }
 
     enum class Sort(@StringRes val resId: Int) {
-        POPULAR(R.string.popular),
+        RECOMMENDED(R.string.recommended),
         PRICE(R.string.price),
         DEALS(R.string.sort_description_deals),
         PACKAGE_DISCOUNT(R.string.sort_description_package_discount),
@@ -380,7 +380,7 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         val hotels: List<Hotel> = filteredResponse.hotelList
 
         when (sort) {
-            Sort.POPULAR -> Collections.sort(hotels, popular_comparator)
+            Sort.RECOMMENDED -> Collections.sort(hotels, popular_comparator)
             Sort.PRICE -> Collections.sort(hotels, price_comparator)
             Sort.RATING -> Collections.sort(hotels, rating_comparator_fallback_price)
             Sort.DEALS -> Collections.sort(hotels, deals_comparator)
