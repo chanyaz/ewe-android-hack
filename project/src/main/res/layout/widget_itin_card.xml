@@ -42,7 +42,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="?android:attr/selectableItemBackground"
-                    android:contentDescription="@string/toolbar_nav_icon_close_cont_desc"
+                    android:contentDescription="@string/trips_back_button_label_cont_desc"
                     android:padding="8dp"
                     android:paddingTop="7dp"
                     android:src="?attr/skin_itinCardActionBarCheckmark" />
@@ -225,6 +225,7 @@
                             android:layout_height="48dp"
                             android:layout_marginRight="8dp"
                             android:scaleType="centerInside"
+                            android:contentDescription="@string/trips_back_button_label_cont_desc"
                             android:src="@drawable/ic_expand_collapse" />
                     </LinearLayout>
 
