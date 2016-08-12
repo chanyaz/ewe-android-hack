@@ -39,6 +39,7 @@
                 style="@style/Widget.ShareView.Invisible"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
+                android:visibility="invisible"
                 android:layout_gravity="top"
                 android:layout_marginTop="-3dp" />
 
@@ -49,6 +50,7 @@
                 android:layout_marginRight="3dp"
                 android:background="?android:attr/selectableItemBackground"
                 android:paddingBottom="6dp"
+                android:contentDescription="@string/share_menu_btn_cont_desc"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingTop="6dp"

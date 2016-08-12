@@ -1142,6 +1142,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 				break;
 			}
 			case R.id.itin_overflow_image_button: {
+				mShareView.setVisibility(View.VISIBLE);
 				onOverflowButtonClicked(v);
 				break;
 			}
@@ -1172,7 +1173,12 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private void onOverflowButtonClicked(View anchor) {
 		PopupMenu popup = new PopupMenu(getContext(), anchor);
 		popup.setOnMenuItemClickListener(this);
-
+		popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
+			@Override
+			public void onDismiss(PopupMenu popupMenu) {
+				mShareView.setVisibility(View.INVISIBLE);
+			}
+		});
 		MenuInflater inflater = popup.getMenuInflater();
 		inflater.inflate(R.menu.menu_itin_expanded_overflow, popup.getMenu());
 
