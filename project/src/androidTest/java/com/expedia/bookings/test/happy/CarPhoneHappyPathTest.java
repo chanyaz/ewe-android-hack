@@ -10,8 +10,11 @@ import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withNavigationContentDescription;
 
 public class CarPhoneHappyPathTest extends PhoneTestCase {
 
@@ -56,7 +59,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.enterTravelerInfo();
-
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		slideToPurchase();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
 	}
@@ -104,6 +107,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		doLogin();
 
 		CheckoutViewModel.clickTravelerInfo();
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Close")));
 		CheckoutViewModel.clickStoredTravelerButton();
 		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
 		CheckoutViewModel.pressClose();
@@ -119,6 +123,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		doLogin();
 
 		CheckoutViewModel.clickTravelerInfo();
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Close")));
 		CheckoutViewModel.clickStoredTravelerButton();
 		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
 
