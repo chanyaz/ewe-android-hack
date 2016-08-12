@@ -11,7 +11,6 @@ import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.subscribeTextChange
 import rx.Observer
@@ -74,17 +73,9 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
 
     override fun onInitializeAccessibilityNodeInfo(nodeInfo: AccessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(nodeInfo)
-        if (!valid && Strings.isNotEmpty(errorContDesc)) {
-            nodeInfo.text = nodeInfo.text.toString() + " " + errorContDesc
-        } else {
-            val text = this.text.toString()
-            val hint = this.hint.toString()
-            if (text.isEmpty()) {
-                nodeInfo.text = " $hint"
-            } else {
-                nodeInfo.text = " $hint, $text"
-            }
-        }
+        val text = this.text.toString()
+        val hint = this.hint.toString()
+        nodeInfo.text = if (!valid) " $hint, $text, $errorContDesc" else " $hint, $text"
     }
 
     private fun resetError() {

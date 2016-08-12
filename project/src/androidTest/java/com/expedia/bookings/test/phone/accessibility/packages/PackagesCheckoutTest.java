@@ -24,12 +24,12 @@ public class PackagesCheckoutTest extends PackageTestCase {
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		Espresso.closeSoftKeyboard();
-		onView(withId(R.id.first_name_input)).check(matches(withInfoText(" First Name")));
-		onView(withId(R.id.last_name_input)).check(matches(withInfoText(" Last Name")));
-		onView(withId(R.id.edit_phone_number)).check(matches(withInfoText(" Phone Number")));
-		onView(withId(R.id.edit_birth_date_text_btn)).check(matches(withInfoText(" Date of Birth")));
+		onView(withId(R.id.first_name_input)).check(matches(withInfoText(" First Name, ")));
+		onView(withId(R.id.last_name_input)).check(matches(withInfoText(" Last Name, ")));
+		onView(withId(R.id.edit_phone_number)).check(matches(withInfoText(" Phone Number, ")));
+		onView(withId(R.id.edit_birth_date_text_btn)).check(matches(withInfoText(" Date of Birth, ")));
 		PackageScreen.clickTravelerAdvanced();
-		onView(withId(R.id.redress_number)).check(matches(withInfoText(" Redress # (if applicable)")));
+		onView(withId(R.id.redress_number)).check(matches(withInfoText(" Redress # (if applicable), ")));
 		PackageScreen.clickTravelerAdvanced();
 		Common.pressBack();
 
