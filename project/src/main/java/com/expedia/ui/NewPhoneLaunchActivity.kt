@@ -220,6 +220,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                     }
                     PAGER_POS_ITIN -> gotoItineraries()
                     PAGER_POS_ACCOUNT -> {
+                        accountFragment?.refreshUserInfo()
                         viewPager.currentItem = PAGER_POS_ACCOUNT
                         OmnitureTracking.trackAccountPageLoad()
                     }
