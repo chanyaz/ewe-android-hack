@@ -52,7 +52,6 @@ import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.mobiata.android.Log
-import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
@@ -114,10 +113,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     val checkoutDialog = ProgressDialog(context)
     val createTripDialog = ProgressDialog(context)
-
-    var slideAllTheWayObservable = PublishSubject.create<Unit>()
-    var checkoutTranslationObserver = PublishSubject.create<Float>()
-    val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
 
     val paymentWidgetViewModel = PaymentViewModel(context)
     var userAccountRefresher = UserAccountRefresher(context, getLineOfBusiness(), this)
@@ -329,7 +324,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 lp.height = 0
                 space.layoutParams = lp
             }
-            showingPaymentWidgetSubject.onNext(forward)
+            ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
         }
     }
 
@@ -338,7 +333,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         val distanceGoal = height
         mainContent.translationY = distance
         chevron.rotation = Math.min(1f, distance / distanceGoal) * (180)
-        checkoutTranslationObserver.onNext(distance)
+        ckoViewModel.checkoutTranslationObserver.onNext(distance)
     }
 
     private fun animCheckoutToTop() {
@@ -347,11 +342,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         animator.duration = 400L
         animator.addUpdateListener(ValueAnimator.AnimatorUpdateListener { anim ->
             chevron.rotation = Math.min(1f, mainContent.translationY / distanceGoal) * (180)
-            checkoutTranslationObserver.onNext(mainContent.translationY)
+            ckoViewModel.checkoutTranslationObserver.onNext(mainContent.translationY)
         })
         animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
-                checkoutTranslationObserver.onNext(mainContent.translationY)
+                ckoViewModel.checkoutTranslationObserver.onNext(mainContent.translationY)
                 toolbarDropShadow.visibility = View.VISIBLE
             }
         })
@@ -365,7 +360,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         if (ckoViewModel.builder.hasValidParams()) {
             ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
         } else {
-            slideAllTheWayObservable.onNext(Unit)
+            ckoViewModel.slideAllTheWayObservable.onNext(Unit)
         }
     }
     override fun onSlideAbort() { slideToPurchase.resetSlider() }

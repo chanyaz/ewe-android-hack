@@ -73,7 +73,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
 
         bundleOverviewHeader.setUpCollapsingToolbar()
-        checkoutPresenter.checkoutTranslationObserver.subscribe { y ->
+        checkoutPresenter.getCheckoutViewModel().checkoutTranslationObserver.subscribe { y ->
             val distance = -bundleOverviewHeader.appBarLayout.totalScrollRange + (y / checkoutPresenter.height * bundleOverviewHeader.appBarLayout.totalScrollRange).toInt()
             val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
@@ -101,7 +101,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         addTransition(checkoutToCvv)
         show(BundleDefault())
         cvv.setCVVEntryListener(this)
-        checkoutPresenter.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        checkoutPresenter.getCheckoutViewModel().slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
 
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)

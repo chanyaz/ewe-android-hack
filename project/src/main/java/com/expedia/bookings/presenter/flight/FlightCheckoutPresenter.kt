@@ -154,7 +154,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     private fun setupDontShowDebitCardVisibility() {
         Observable.combineLatest(getCheckoutViewModel().showDebitCardsNotAcceptedSubject,
-                showingPaymentWidgetSubject,
+                ckoViewModel.showingPaymentWidgetSubject,
                 { showDebitCards, showingPaymentWidget ->
                     val visibility = if (showDebitCards && showingPaymentWidget) VISIBLE else GONE
                     debitCardsNotAcceptedTextView.visibility = visibility
