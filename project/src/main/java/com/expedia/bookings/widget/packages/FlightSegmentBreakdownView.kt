@@ -47,6 +47,7 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
         val operatedByString = PackageFlightUtils.getOperatingAirlineNameString(context, breakdown.segment)
         if (Strings.isEmpty(operatedByString)) operatedBy.visibility = View.GONE else operatedBy.text = operatedByString
         segmentDuration.text = PackageFlightUtils.getFlightSegmentDurationString(context, breakdown.segment)
+        segmentDuration.contentDescription = PackageFlightUtils.getFlightSegmentDurationContentDescription(context, breakdown.segment)
         return row
     }
 
