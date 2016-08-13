@@ -108,7 +108,8 @@
     
     <!-- Flights V2 colors -->
     <color name="flight_warning_bar_color">@color/exp_lob_dark_blue</color>
-    <color name="flight_primary_color">@color/exp_lob_dark_blue</color>
+    <color name="flight_primary_color">@color/exp_lob_blue</color>
+    <color name="flight_secondary_color">@color/exp_lob_dark_blue</color>
     <color name="flight_overview_color_filter">@color/exp_lob_blue</color>
     <color name="filter_number_text_color">@color/exp_lob_blue</color>
     <color name="cardview_divider_lines_gray">@color/gray2</color>
