@@ -4,6 +4,8 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.ViewInteraction;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
@@ -22,6 +24,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withContentDesc
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithContentDescription;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.getListItemValues;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
@@ -45,6 +48,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		String hotelTitle = getListItemValues(hotelRow, R.id.header_text_view);
 		final String expectedHotelTitle = "Orchard Hotel";
 		assertEquals(expectedHotelTitle, hotelTitle);
+		ViewInteraction chevronButton = onView(allOf(withId(R.id.chevron_image_view),hasSibling(withChild(withText(containsString("Check in"))))));
+		assertViewWithContentDescription(chevronButton, "Button to expand trip");
 		hotelRow.onChildView(withText(containsString("Check in"))).perform(click());
 
 		onView(withId(R.id.bed_type_text_view)).perform(scrollTo());
@@ -56,6 +61,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.non_price_promotion_text_view, "The minibar is free");
 		assertViewWithTextIsDisplayed(R.id.bed_type_header_text_view, "Bed Type");
 		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
+		assertViewWithContentDescription(chevronButton, "Back to trips screen button");
 		onView(withId(R.id.cancel_hotel_room)).perform(scrollTo(), click());
 		assertViewWithTextIsDisplayed("Cancel Hotel Room");
 		Common.pressBack();

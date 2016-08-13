@@ -29,6 +29,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable;
 import static com.expedia.bookings.test.espresso.ViewActions.getChildCount;
 import static com.expedia.bookings.test.espresso.ViewActions.getCount;
@@ -71,6 +72,10 @@ public class EspressoUtils {
 
 	public static void assertViewIsNotDisplayed(@IdRes int id) {
 		onView(withId(id)).check(matches(not(isDisplayed())));
+	}
+
+	public static void assertViewWithContentDescription(ViewInteraction view, String description) {
+		view.check(matches(withContentDescription(description)));
 	}
 
 	public static void assertViewWithSubstringIsDisplayed(String substring) {

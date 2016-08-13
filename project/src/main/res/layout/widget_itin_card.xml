@@ -226,7 +226,7 @@
                             android:layout_height="48dp"
                             android:layout_marginRight="8dp"
                             android:scaleType="centerInside"
-                            android:contentDescription="@string/trips_back_button_label_cont_desc"
+                            android:contentDescription="@string/trips_expand_button_label_cont_desc"
                             android:src="@drawable/ic_expand_collapse" />
                     </LinearLayout>
 

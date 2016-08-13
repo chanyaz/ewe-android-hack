@@ -1224,8 +1224,10 @@
     <string name="car_rental_confirmation_code_label">Agency Confirmation Code</string>
     <!-- Content Description Text for Location Map Button on Car Trips " -->
     <string name="location_map_button_label_cont_desc">Double tap to open map</string>
-    <!-- Content Description Text for Back Button of Trips" -->
-    <string name="trips_back_button_label_cont_desc">Back to trips screen</string>
+    <!-- Content Description for chevron image to back to itinerary screen -->
+    <string name="trips_back_button_label_cont_desc">Back to trips screen button</string>
+    <!-- Content Description for chevron image to expand selected itinerary/trip -->
+    <string name="trips_expand_button_label_cont_desc">Button to expand trip</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Hotel Confirmation Code</string>
     <!-- Passengers Label -->
