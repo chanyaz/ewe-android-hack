@@ -123,7 +123,9 @@ public class EndpointProvider {
 			urlMap.put(Constants.MOCK_MODE, getCustomServerAddress());
 		}
 		else {
-			urlMap.put(Constants.DOMAIN, "http://rails-web.us-west-2.int.expedia.com");
+			// hate to say this but this is a hack to get rail search to work again for now - endpoint config will be fixed in one of the upcoming stories
+			//urlMap.put(Constants.DOMAIN, "http://rails-domain-service.us-west-2.int.expedia.com");
+			urlMap.put(Constants.DOMAIN, "http://rails-domain-service.us-west-2.test.expedia.com");
 			urlMap.put(Constants.MOBILE, "https://wwwexpediacouk.integration.sb.karmalab.net");
 		}
 		return urlMap;
