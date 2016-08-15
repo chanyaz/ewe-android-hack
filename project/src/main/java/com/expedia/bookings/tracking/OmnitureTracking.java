@@ -98,6 +98,7 @@ import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.PackageFlightUtils;
@@ -859,6 +860,9 @@ public class OmnitureTracking {
 		s.setAppState(HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest);
+		if (HotelUtils.isCardIoAvailable()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHCKOCardIOTest);
+		}
 		s.track();
 	}
 

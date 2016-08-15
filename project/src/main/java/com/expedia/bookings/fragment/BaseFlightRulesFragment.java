@@ -9,10 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.HtmlUtils;
@@ -176,6 +176,12 @@ public abstract class BaseFlightRulesFragment extends Fragment {
 	abstract String constructHtmlBodySectionOne();
 	abstract void populateLccInfo();
 
+	protected void appendStringWithBreak(StringBuilder builder, Rule rule) {
+		if (rule != null) {
+			appendStringWithBreak(builder, rule.getText());
+		}
+	}
+
 	protected void appendStringWithBreak(StringBuilder builder, String text) {
 		if (Strings.isNotEmpty(text)) {
 			builder.append(text);
@@ -183,9 +189,23 @@ public abstract class BaseFlightRulesFragment extends Fragment {
 		}
 	}
 
+	protected void appendBodyWithRuleWithoutBreaks(StringBuilder builder, Rule rule) {
+		if (rule != null) {
+			String text = rule.getText();
+			appendBodyWithRuleWithoutBreaks(builder, text);
+		}
+	}
+
 	protected void appendBodyWithRuleWithoutBreaks(StringBuilder builder, String text) {
 		if (Strings.isNotEmpty(text)) {
 			builder.append(text);
+		}
+	}
+
+	protected void appendBodyWithBoldedRule(StringBuilder builder, Rule rule) {
+		if (rule != null) {
+			String text = rule.getText();
+			appendBodyWithBoldedRule(builder, text);
 		}
 	}
 

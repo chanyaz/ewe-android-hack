@@ -13,6 +13,9 @@ import com.expedia.bookings.data.FlightCheckoutResponse;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 
 public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightCheckoutResponse> {
@@ -41,7 +44,12 @@ public class FlightCheckoutResponseHandler extends JsonResponseHandler<FlightChe
 					// Online booking fees parsing
 					String obFeeTotalAmount = detailResponse.optString("obFeeTotalAmount", null);
 					if (!TextUtils.isEmpty(obFeeTotalAmount)) {
-						Money obFees = ParserUtils.createMoney(obFeeTotalAmount, newOffer.getTotalPrice().getCurrency());
+						String currency = newOffer.getBaseFare().getCurrency();
+						if (Strings.isEmpty(currency)) {
+							String countryCode = PointOfSale.getPointOfSale().getThreeLetterCountryCode();
+							currency = CurrencyUtils.currencyForLocale(countryCode);
+						}
+						Money obFees = ParserUtils.createMoney(obFeeTotalAmount, currency);
 						if (!obFees.isZero()) {
 							newOffer.setOnlineBookingFeesAmount(obFees);
 						}
