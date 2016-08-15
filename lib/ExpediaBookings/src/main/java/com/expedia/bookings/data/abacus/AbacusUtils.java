@@ -28,7 +28,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppLXCategoryABTest = 9165;
 	public static final int EBAndroidAppLXFirstActivityListingExpanded = 9467;
 	public static final int EBAndroidAppHotelTravelerTest = 9478;
-	public static final int EBAndroidAppHotelPriceBreakDownTest = 9477;
 	public static final int EBAndroidAppHotelsMemberDealTest = 9044;
 	public static final int EBAndroidAppHotelCKOCreditDebitTest = 9642;
 	public static final int EBAndroidAppFlightsRoundtripMessageTest = 9636;
@@ -53,30 +52,11 @@ public class AbacusUtils {
 		BUCKETED
 	}
 
-	public enum HSearchInfluenceMessagingVariate {
-		CONTROL,
-		WORKING_HARD,
-		SEARCHING_HUNDREDS,
-		NO_TEXT
-	}
-
-	public enum HISMapIconVariate {
-		CONTROL,
-		MAP_PIN,
-		TEXT_ONLY
-	}
-
 	public enum HotelSuperlativeReviewsVariate {
 		CONTROL,
 		WITH_COLOR_NO_SUPERLATIVES,
 		NO_COLOR_WITH_SUPERLATIVES,
 		WITH_COLOR_WITH_SUPERLATIVES
-	}
-
-	public enum HotelPriceBreakDownVariate {
-		CONTROL,
-		DUE_TODAY,
-		TRIP_TOTAL
 	}
 
 	// Test ID's that we are bucketing the user for.
@@ -97,7 +77,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLXCategoryABTest);
 		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded);
 		testIDs.add(EBAndroidAppHotelTravelerTest);
-		testIDs.add(EBAndroidAppHotelPriceBreakDownTest);
 		testIDs.add(EBAndroidAppHotelsMemberDealTest);
 		testIDs.add(EBAndroidAppHotelCKOCreditDebitTest);
 		testIDs.add(EBAndroidAppFlightsRoundtripMessageTest);

@@ -819,10 +819,6 @@ public class OmnitureTracking {
 
 
 		addStandardHotelV2Fields(s, searchParams);
-		if (hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees != 0f
-			|| hotelProductResponse.hotelRoomResponse.depositRequired) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPriceBreakDownTest);
-		}
 		s.track();
 	}
 
