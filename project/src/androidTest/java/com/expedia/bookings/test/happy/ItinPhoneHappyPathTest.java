@@ -16,6 +16,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -70,7 +71,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(2);
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).check(matches(withText("From SFO at 11:32 AM")));
 		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
-
+		onView(allOf(withId(R.id.itin_overflow_image_button), isDisplayed()))
+			.check(matches(withContentDescription("Press to view itinerary sharing options")));
 		assertViewWithTextIsDisplayed(R.id.departure_time, "11:32 AM");
 		assertViewWithTextIsDisplayed(R.id.departure_time_tz, isOutboundFlightDepartureAtStandardOffset ? "Depart (PST)" : "Depart (PDT)");
 		assertViewWithTextIsDisplayed(R.id.arrival_time, "6:04 PM");

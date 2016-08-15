@@ -57,6 +57,7 @@ public class ItinCardFragment extends Fragment implements PopupMenu.OnMenuItemCl
 			Ui.setOnClickListener(view, R.id.itin_overflow_image_button, new OnClickListener() {
 				@Override
 				public void onClick(View v) {
+					mShareView.setVisibility(View.VISIBLE);
 					onOverflowButtonClicked(v);
 				}
 			});
@@ -115,6 +116,12 @@ public class ItinCardFragment extends Fragment implements PopupMenu.OnMenuItemCl
 	private void onOverflowButtonClicked(View anchorView) {
 		PopupMenu popup = new PopupMenu(getActivity(), anchorView);
 		popup.setOnMenuItemClickListener(ItinCardFragment.this);
+		popup.setOnDismissListener(new PopupMenu.OnDismissListener() {
+			@Override
+			public void onDismiss(PopupMenu popupMenu) {
+				mShareView.setVisibility(View.INVISIBLE);
+			}
+		});
 
 		MenuInflater inflater = popup.getMenuInflater();
 		inflater.inflate(R.menu.menu_itin_expanded_overflow, popup.getMenu());

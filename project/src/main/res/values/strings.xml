@@ -2471,7 +2471,10 @@
     <string name="air_attach_add_hotel">Add Hotel</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">with discounts</string>
-
+    <!-- Accessibility label for arriving icon on itin  -->
+    <string name="itin_arriving_cont_desc">Arriving</string>
+    <!-- Accessibility label for departing icon on itin  -->
+    <string name="itin_departing_cont_desc">Departing</string>
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
