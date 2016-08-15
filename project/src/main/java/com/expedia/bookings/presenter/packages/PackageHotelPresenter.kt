@@ -310,6 +310,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 val countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
                 val currencyCode = CurrencyUtils.currencyForLocale(countryCode)
                 bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPersonObservable.onNext(Money(BigDecimal("0.00"), currencyCode).formattedMoney)
+                Db.clearPackageHotelRoomSelection()
             } else {
                 detailPresenter.hotelDetailView.refresh()
             }
