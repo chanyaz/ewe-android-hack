@@ -34,6 +34,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -1200,42 +1201,25 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (info == null || info.getPaymentType() == null) {
 			return false;
 		}
-		if (lob == LineOfBusiness.PACKAGES) {
-			return Db.getTripBucket().getPackage() != null &&
-				Db.getTripBucket().getPackage().isPaymentTypeSupported(info.getPaymentType());
-		}
-		if (lob == LineOfBusiness.HOTELS) {
-			if (!ExpediaBookingApp.isTablet()) {
-				return Db.getTripBucket().getHotelV2() != null &&
-					Db.getTripBucket().getHotelV2().isPaymentTypeSupported(info.getPaymentType());
-			}
-			else {
-				return Db.getTripBucket().getHotel() != null &&
-					Db.getTripBucket().getHotel().isPaymentTypeSupported(info.getPaymentType());
-			}
-		}
-		if (lob == LineOfBusiness.FLIGHTS) {
-			return Db.getTripBucket().getFlight() != null
-				&& Db.getTripBucket().getFlight().isPaymentTypeSupported(info.getPaymentType());
-		}
-		if (lob == LineOfBusiness.FLIGHTS_V2) {
-			return Db.getTripBucket().getFlightV2() != null
-				&& Db.getTripBucket().getFlightV2().isPaymentTypeSupported(info.getPaymentType());
-		}
-		if (lob == LineOfBusiness.CARS) {
-			return Db.getTripBucket().getCar() != null
-				&& Db.getTripBucket().getCar().isPaymentTypeSupported(info.getPaymentType());
-		}
-		if (lob == LineOfBusiness.LX) {
-			return Db.getTripBucket().getLX() != null
-				&& Db.getTripBucket().getLX().isPaymentTypeSupported(info.getPaymentType());
-		}
-		if (lob == LineOfBusiness.TRANSPORT) {
-			return Db.getTripBucket().getTransport() != null
-				&& Db.getTripBucket().getTransport().isPaymentTypeSupported(info.getPaymentType());
+
+		if (lob == null) {
+			throw new RuntimeException("Line of business required");
 		}
 
-		throw new RuntimeException("Line of business required");
+		TripBucketItem bucketItem;
+
+		if (lob == LineOfBusiness.HOTELS) {
+			if (!ExpediaBookingApp.isTablet()) {
+				bucketItem = Db.getTripBucket().getHotelV2();
+			}
+			else {
+				bucketItem = Db.getTripBucket().getHotel();
+			}
+		}
+		else {
+			bucketItem = Db.getTripBucket().getItem(lob);
+		}
+		return bucketItem != null && bucketItem.isPaymentTypeSupported(info.getPaymentType());
 	}
 }
 

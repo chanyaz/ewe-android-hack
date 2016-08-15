@@ -53,8 +53,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
                 || creditCardCvv.text.toString().isNotEmpty()
                 || addressLineOne.text.toString().isNotEmpty()
                 || addressCity.text.toString().isNotEmpty()
-                || addressState.text.toString().isNotEmpty()
-
+                || (isStateRequired() && addressState.text.toString().isNotEmpty())
     }
 
     override fun isCompletelyFilled(): Boolean {
@@ -62,7 +61,7 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
                 && creditCardCvv.text.toString().isNotEmpty()
                 && addressLineOne.text.toString().isNotEmpty()
                 && addressCity.text.toString().isNotEmpty()
-                && addressState.text.toString().isNotEmpty()
+                && (!isStateRequired() || addressState.text.toString().isNotEmpty())
     }
 
     override fun isSecureToolbarBucketed(): Boolean {
