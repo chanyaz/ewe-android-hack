@@ -505,6 +505,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackAnalytics()
             if (!forward) validateAndBind()
             if (forward) {
+                showMaskedCreditCardNumber()
                 filledIn.onNext(isCompletelyFilled())
             }
             viewmodel.showingPaymentForm.onNext(forward)
@@ -522,6 +523,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             creditCardNumber.requestFocus()
             onFocusChange(creditCardNumber, true)
             if (forward) {
+                showMaskedCreditCardNumber()
                 removeStoredCard()
                 temporarilySavedCardIsSelected(false,Db.getTemporarilySavedCard())
                 filledIn.onNext(isCompletelyFilled())
@@ -646,6 +648,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         } else if (viewmodel.lineOfBusiness.value == LineOfBusiness.PACKAGES) {
             PackagesTracking().trackCheckoutPaymentSelectStoredCard()
         }
+    }
+
+    open fun showMaskedCreditCardNumber() {
     }
 
 }

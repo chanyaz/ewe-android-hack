@@ -3,6 +3,7 @@ package com.expedia.ui
 import android.os.Bundle
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
+import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.flight.FlightPresenter
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.Ui
@@ -22,6 +23,19 @@ class FlightActivity : AbstractAppCompatActivity() {
             handleDeeplink()
         } else {
             flightsPresenter.setDefaultTransition(Screen.SEARCH)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        Events.post(Events.AppBackgroundedOnResume())
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (isFinishing) {
+            clearCCNumber()
+            clearStoredCard()
         }
     }
 

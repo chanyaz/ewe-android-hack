@@ -12,12 +12,12 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
-import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -26,7 +26,6 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.PaymentWidgetV2
-import com.expedia.bookings.widget.RoundImageView
 import com.expedia.bookings.widget.StoredCreditCardList
 import com.expedia.bookings.widget.TextView
 import com.expedia.model.UserLoginStateChangedModel
@@ -78,7 +77,7 @@ class PaymentWidgetV2Test {
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.V2_Theme_Hotels);
+        activity.setTheme(R.style.V2_Theme_Hotels)
         Ui.getApplication(activity).defaultHotelComponents()
         sut = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         viewModel = PaymentViewModel(activity)
@@ -182,7 +181,7 @@ class PaymentWidgetV2Test {
             createTripResponse = mockHotelServiceTestRule.getLoggedInUserWithNonRedeemablePointsCreateTripResponse()
 
         createTripResponse.tripId = "happy"
-        Db.clear()
+        Db.getTripBucket().clearHotelV2()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
 
         return createTripResponse
