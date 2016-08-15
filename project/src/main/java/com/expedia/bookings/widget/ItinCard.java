@@ -477,6 +477,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		else {
 			mHeaderShadeView.setVisibility(View.GONE);
 		}
+		updateContDesc();
 	}
 
 	private void showCheckInWebView(T itinCardData) {
@@ -826,6 +827,15 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mDetailsLayout.setVisibility(GONE);
 
 		destroyDetailsView();
+	}
+
+	public void updateContDesc() {
+		if (mDisplayState == DisplayState.EXPANDED) {
+			mChevronImageView.setContentDescription(getContext().getString(R.string.trips_back_button_label_cont_desc));
+		}
+		else {
+			mChevronImageView.setContentDescription(getContext().getString(R.string.trips_expand_button_label_cont_desc));
+		}
 	}
 
 	public AnimatorSet expand(boolean animate) {

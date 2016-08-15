@@ -11,6 +11,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.widget.itin.SummaryButton;
 import com.mobiata.android.util.Ui;
 
@@ -65,6 +66,7 @@ public class ItinActionsSection extends android.widget.LinearLayout implements O
 	private void setSummaryButton(final TextView textView, final SummaryButton summaryButton) {
 		textView.setCompoundDrawablesWithIntrinsicBounds(summaryButton.getIconResId(), 0, 0, 0);
 		textView.setText(summaryButton.getText());
+		AccessibilityUtil.appendRoleContDesc(textView, summaryButton.getText(), R.string.accessibility_cont_desc_role_button);
 	}
 
 	//////////////////////////////////////////////////////////////////////////
