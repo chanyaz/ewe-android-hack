@@ -53,6 +53,8 @@ public class SuggestionV4 {
 
 	public static class Country {
 		public String name;
+		@SerializedName("isoCode3")
+		public String countryCode;
 	}
 
 	public static class Rails {

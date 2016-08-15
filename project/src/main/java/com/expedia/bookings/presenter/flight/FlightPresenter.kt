@@ -192,7 +192,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
 
             show(confirmationPresenter)
-            FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
+            FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse)
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
