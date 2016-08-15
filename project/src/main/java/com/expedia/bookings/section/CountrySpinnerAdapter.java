@@ -155,7 +155,8 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 	private void drawErrorIcon(View view, boolean noCountrySelected) {
 		android.widget.TextView textView = ((CountrySpinnerAdapter.ViewHolder) view.getTag()).text;
 		if (noCountrySelected) {
-			Drawable errorIcon = textView.getContext().getResources().getDrawable(R.drawable.ic_error_blue);
+			Drawable errorIcon = ContextCompat.getDrawable(mContext,
+				Ui.obtainThemeResID(mContext, R.attr.skin_errorIndicationExclaimationDrawable));
 			errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
 			Drawable[] compounds = textView.getCompoundDrawables();
 			textView.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3]);
