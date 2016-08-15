@@ -41,17 +41,15 @@
     <string name="change_dates">Ændr datoer</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">Sikker betaling</string>
+    <!-- Accessibility content description for google map view on hotel results -->
+    <string name="hotel_results_map_view_cont_desc">Google Maps, Søg i hotelresultater ved brug af kort</string>
 
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">Næste trin: Vælg afleveringsdato</string>
-    <!-- Tooltip description when both start and end dates are selected -->
-    <string name="cars_calendar_end_date_label">Træk for at ændre</string>
-    <!-- SeekBar tooltip description for pick up time-->
-    <string name="cars_time_slider_pick_up_label">Afhentningstidspunkt</string>
-    <!-- SeekBar tooltip description for drop off time-->
-    <string name="cars_time_slider_drop_off_label">Afleveringstidspunkt</string>
+    <string name="cars_calendar_start_date_label">Næste: Vælg afleveringsdato</string>
+    <!-- When user hasn't picked drop-off date, we show something like: "Jan 21 - Select drop-off date" -->
+    <string name="select_drop_off_date_TEMPLATE">%1$s - Vælg afleveringsdato</string>
     <!-- Cars price templates-->
     <string name="cars_hourly_text">pr. time</string>
     <!-- Cars price templates-->
@@ -90,6 +88,8 @@
     <string name="cars_driver_details_text">Oplysninger om fører</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Indtast oplysninger om fører</string>
+    <!-- Content description for enter driver details-->
+    <string name="enter_driver_details_cont_desc">Knappen Indtast oplysninger om fører</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Vælg gemte kontakter</string>
     <!-- Text for enter payment details-->
@@ -126,7 +126,7 @@
     <!-- Label for pickup location selector -->
     <string name="pick_up_location">Afhentningssted</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="drop_off_location">Aflevering</string>
+    <string name="drop_off_location">Aflevering (samme som afhentning)</string>
     <!-- Label for Car Search Screen header -->
     <string name="toolbar_search_cars">Søg efter udlejningsbiler</string>
     <!-- Label for Cars date button -->
@@ -135,12 +135,16 @@
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} – Vælg afleveringsdato</string>
+    <!-- Car Calendar Strings -->
+    <string name="select_pickup_date">Vælg afhentningsdato</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">Afhentning</string>
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">Aflevering</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Kommer snart! Vi arbejder hårdt på at tilføje envejsudlejning i en kommende version.</string>
+    <!-- Label for hint for car pick-up-->
+    <string name="car_pick_up_hint">Afhentning</string>
     <!-- Car search error -->
     <string name="error_no_result_message">Din søgning gav ingen resultater. Prøv at søge igen med andre søgekriterier.</string>
     <!-- Car no filtered search results -->
@@ -242,6 +246,8 @@
     <string name="card_io_btn_text">SCAN</string>
     <!-- Card.io scan text -->
     <string name="scan_card_text">Scan kort</string>
+    <!-- Card.io instruction text -->
+    <string name="scan_card_instruction_text">Hold kortet her. Det scannes automatisk.</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -747,7 +753,8 @@
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Sorter og filtrer</string>
-
+    <!-- Accessibility content description for Sort & Filter button -->
+    <string name="sort_and_filter_cont_desc">Knappen Sorter og filtrer</string>
     <!-- Tablet Results strings -->
     <!-- "Done" list header label -->
     <string name="Done">Afslut</string>
@@ -988,6 +995,8 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">Log på med {brand}</string>
+    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <string name="Sign_in_with_cont_desc_TEMPLATE">Knappen Log på med {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Log på for at optjene {reward} Expedia+ point</string>
     <!-- or -->
@@ -1000,17 +1009,25 @@
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
     <string name="nav_hotels">Hoteller</string>
+    <string name="nav_hotels_cont_desc">Knappen Hoteller</string>
     <!-- Cars -->
     <string name="nav_cars">Biler</string>
+    <string name="nav_cars_cont_desc">Knappen Biler</string>
     <!-- Activities -->
     <string name="nav_lx">Aktiviteter</string>
+    <string name="nav_lx_cont_desc">Knappen Aktiviteter</string>
     <!-- Ground Transport -->
     <string name="nav_transport">Transport</string>
+    <string name="nav_transport_cont_desc">Knappen Transport</string>
     <!-- Packages -->
     <string name="nav_packages">Pakkerejser</string>
     <!-- Rail -->
     <string name="nav_rail">Tog</string>
 
+    <!-- Rail from hint -->
+    <string name="from_hint">Fra</string>
+    <!-- Rail to hint -->
+    <string name="to_hint">Til</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1102,10 +1119,12 @@
     <string name="shop">Søg</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">Find rejseplan</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">Rejseplanen blev ikke fundet. Bekræft venligst, at dit land (i indstillingerne) matcher hjemmesideadressen for din reservation.</string>
+    <!-- Unable to find itinerary for guest user -->
+    <string name="unable_to_find_guest_itinerary">Rejseplanen blev ikke fundet. Bekræft på kontoskærmen, at indstillingen for land stemmer overens med webadressen for din reservation.</string>
+    <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
+    <string name="unable_to_find_registered_user_itinerary_template">Denne rejseplan er ikke blevet reserveret som gæst. Log venligst på den {brand}-konto, der er tilknyttet denne rejseplan.</string>
     <!-- Find Guest Itinerary -->
-    <string name="find_guest_itinerary">Find gæsterejseplan</string>
+    <string name="find_guest_itinerary">Find rejseplan reserveret som gæst</string>
     <!-- Enter Itinerary Details -->
     <string name="enter_itinerary_details">Indtast oplysninger om rejseplan</string>
     <!-- Find Itinerary # -->
@@ -1665,6 +1684,7 @@
     <string name="flights_outbound_label">Udrejse</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Fly</string>
+    <string name="flights_title_cont_desc">Knappen Fly</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">Oplysninger om betalingsgebyrer</string>
     <!-- Flights Free Cancellation messaging -->
@@ -1677,8 +1697,6 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Der opkræves et &lt;a href=\"{airline_fee_url}\"&gt;gebyr til flyselskabet&lt;/a&gt; ved betaling afhængigt af din korttype. Et sådant gebyr lægges til rejsens samlede beløb ved betaling.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debetkort accepteres ikke.</string>
-    <!-- Flights Sold out error screen: Select New Flight button label -->
-    <string name="flights_select_new_flight">Vælg en ny flyrejse</string>
     <!-- Flights Sold out error screen:- warning message -->
     <string name="flight_sold_out_warning">Vi beklager. Denne flyrejse er udsolgt.</string>
     <!-- Flights Sold out error screen:- toolbar title -->
@@ -1764,7 +1782,7 @@
     <string name="invalid_flights_pos">Vi beklager, men flyreservation via mobilen er endnu ikke tilgængelig, hvor du befinder dig.</string>
     <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
     <string name="tablet_drop_down_flight_pos_unavailable_TEMPLATE">Vi beklager, men vi understøtter ikke flyrejser for din region endnu. Men de er tilgængelige på &lt;a href=\"%1$s\"&gt;vores hjemmeside&lt;/a&gt;.</string>
-    <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
+    <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">Afgangs- og ankomstlufthavne skal være forskellige.</string>
 
     <!-- Flight search params fragment -->
@@ -1876,6 +1894,8 @@
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s.</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
+    <!-- Price per person. For example: "$20.31 per person" -->
+    <string name="flight_details_price_per_person_TEMPLATE">{price} pr. person</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">Økonomi</string>
     <!-- Label for "premium coach" cabin code -->
@@ -2041,8 +2061,6 @@
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis afbestilling&lt;/b&gt; inden &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">Log af</string>
-    <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">Optjen %1$s point — 3 gange så mange for at reservere gennem appen!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">Du optjener {reward_currency} point for denne reservation!</string>
     <!-- You are a valued member -->
@@ -2057,6 +2075,7 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">Vi har gode nyheder! Prisen på dit ophold er lige blevet sat ned fra %1$s til %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Afslut</string>
+    <string name="done_cont_desc">Knappen Afslut</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Anvend latinske bogstaver</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -2176,6 +2195,7 @@
     <string name="special_assistance_label_TEMPLATE">Særlig assistance: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
+    <string name="phone_number_country_code_dropdown_cont_desc">Landekode</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Født %1$s</string>
     <!-- Born on colored -->
@@ -2240,6 +2260,8 @@
     <string name="address_city_hint">By</string>
     <!-- Address state hint -->
     <string name="address_state_hint">Stat</string>
+    <!-- Address country content desctiption -->
+    <string name="address_state_country_cont_desc">Land</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postnummer</string>
     <!-- Zip Code hint for Packages -->
@@ -2257,7 +2279,7 @@
 
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Oplysninger om rejsende</string>
-    <string name="checkout_enter_traveler_details_line2">Indtast dine oplysninger</string>
+    <string name="enter_missing_traveler_details">Indtast manglende oplysninger om rejsende</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ {travelercount} rejsende til</item>
@@ -2306,6 +2328,7 @@
     <string name="female">Kvinde</string>
     <!-- next page buttn -->
     <string name="next">Næste</string>
+    <string name="next_cont_desc">Knappen Næste</string>
     <!-- Passport country label -->
     <string name="passport_country">Land i pas</string>
     <!-- Passport country / origin heading -->
@@ -2486,13 +2509,13 @@
     <!-- split ticket rules header -->
     <string name="split_ticket_important_flight_information_header">Vigtige oplysninger om din flyrejse</string>
     <!-- split ticket rules and restrictions -->
-    <string name="split_ticket_rules_with_link_TEMPLATE">• Din flyrejse er en kombination af priserne for to enkeltbilletter, der har individuelle regler og begrænsninger.</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE">Din flyrejse er en kombination af priserne for to enkeltbilletter, der har individuelle regler og begrænsninger.</string>
     <string name="split_ticket_rules_with_link_TEMPLATE_tablet">Din flyrejse er en kombination af priserne for to enkeltbilletter, der har individuelle regler og begrænsninger.</string>
     <!-- split ticket rules - cancellation policy -->
-    <string name="split_ticket_rules_cancellation_policy">• Hvis én af dine flyrejser bliver ændret eller afbestilt, vil det ikke automatisk ændre den anden flyrejse. Det er muligt, at der pålægges et gebyr for ændring af den anden flyrejse.</string>
-    <string name="split_ticket_rules_cancellation_policy_tablet">Hvis én af dine flyrejser bliver ændret eller afbestilt, vil det ikke automatisk ændre den anden flyrejse. Det er muligt, at der pålægges et gebyr for ændring af den anden flyrejse.</string>
-    <!-- split ticket baggage fees -->
-    <string name="split_ticket_baggage_fees">• &lt;a href=\"%1$s\"&gt;Udrejsen&lt;/a&gt; og &lt;a href=\"%2$s\"&gt;hjemrejsen&lt;/a&gt; har separate bagagegebyrer</string>
+    <string name="split_ticket_rules_cancellation_policy">Hvis én af dine flyrejser bliver ændret eller afbestilt, vil den anden flyrejse ikke automatisk blive ændret. Det er muligt, at der pålægges et gebyr for ændring af den anden flyrejse.</string>
+    <string name="split_ticket_rules_cancellation_policy_tablet">Hvis én af dine flyrejser bliver ændret eller afbestilt, vil den anden flyrejse ikke automatisk blive ændret. Det er muligt, at der pålægges et gebyr for ændring af den anden flyrejse.</string>
+    <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
+    <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Udrejsen&lt;/a&gt; og &lt;a href=\"{returnlink}\"&gt;hjemrejsen&lt;/a&gt; har separate bagagegebyrer</string>
     <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;Udrejsen&lt;/a&gt; og &lt;a href=\"%2$s\"&gt;hjemrejsen&lt;/a&gt; har separate bagagegebyrer</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2547,8 +2570,8 @@
     <string name="pick_new_hotel">Vælg et nyt hotel</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">Vi beklager, men det ser ud til, at vi ikke kan gennemføre din reservation i øjeblikket. Prøv venligst igen.</string>
-    <!-- Text for hotel error toolbar payment failed-->
-    <string name="hotel_payment_failed_text">Betalingen mislykkedes</string>
+    <!-- Error Screen toolbar title for payment failed screen -->
+    <string name="payment_failed_label">Betalingen mislykkedes</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">Sessionen er udløbet</string>
 
@@ -2782,6 +2805,8 @@
     <string name="sold_out">Udsolgt</string>
     <!-- Map cluster text for number of hotels-->
     <string name="cluster_number_of_hotels_template">%s hoteller</string>
+    <!-- Map cluster text for number of packages-->
+    <string name="cluster_number_of_packages_template">%s resultater</string>
     <!-- Map cluster price from range-->
     <string name="cluster_price_from_range_template">Fra %s</string>
 
@@ -3013,10 +3038,14 @@
     </plurals>
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">Værelsesoplysninger</string>
+    <!-- Accessibility label for the text we use to show room info for expanded room -->
+    <string name="room_information_button_cont_desc">Knappen Værelsesoplysninger</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Kan ikke refunderes</string>
     <!-- Label for free nights -->
     <string name="free">GRATIS!</string>
+    <!-- Delimiter for multiple bed types in hotel offer-->
+    <string name="delimiter_multiple_bed">" eller "</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">Inkluderer %s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
@@ -3090,12 +3119,6 @@
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">{points} point</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for messaging on sign in Variate 1 -->
-    <string name="sign_in_messaging">Spar penge med eksklusive medlemstilbud</string>
-    <!-- Label for messaging on sign in Variate 2 -->
-    <string name="triple_point_messaging">Optjen TRE gange så mange Expedia+ point</string>
-    <!-- Label for messaging on sign in Variate 3 -->
-    <string name="trip_alert_messaging">Få tilsendt vigtige opdateringer om din rejse</string>
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">Konto</string>
     <!-- Label for menu item to sign into account -->
@@ -3197,6 +3220,8 @@
     <string name="contact_expedia_website">Hjemmeside</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">{brand}s hjemmeside</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">Ansøg om {brand_reward_name} Visa®-kortet</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">App Support</string>
     <!-- Section label for app settings functionality -->
@@ -3831,7 +3856,7 @@
     <string name="pay_later_cont_desc">Tryk på knappen for at betale senere</string>
 
     <!-- Content description for Cars filter button -->
-    <string name="cars_filter_button_cont_desc">Filterknap</string>
+    <string name="cars_filter_button_cont_desc">Knappen Filtrer</string>
     <!-- Content description for car result door count e.g. Doors 2-4 -->
     <string name="cars_door_count_cont_desc_TEMPLATE">Døre {doorcount}</string>
     <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
@@ -3849,18 +3874,20 @@
     <string name="cars_filter_transmission_all_button_cont_desc">Alle geartyper</string>
 
     <!-- Content description for car offer reserve button e.g. Dollar, Chevrolet Spark or Similar, Reserve button-->
-    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, reservationsknap</string>
+    <string name="cars_offer_reserve_button_cont_desc_TEMPLATE">{vendor}, {make}, knappen Reserver</string>
     <!-- Content description for car offer view details button e.g. Dollar, Chevrolet Spark or Similar, View details button-->
-    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, knap til at se oplysninger</string>
+    <string name="cars_offer_view_details_button_cont_desc_TEMPLATE">{vendor}, {make}, knappen Se oplysninger</string>
 
     <!-- Car confirmation directions content description e.g. Directions to Fox button-->
-    <string name="car_confirmation_directions_cont_desc_TEMPLATE">Viderestilling til {vendor}</string>
+    <string name="car_confirmation_directions_cont_desc_TEMPLATE">Knappen Rutevejledning til {vendor}</string>
     <!-- Car confirmation add to calendar content description-->
-    <string name="car_confirmation_add_to_calendar_cont_desc">Knap for tilføjelse til kalender</string>
+    <string name="car_confirmation_add_to_calendar_cont_desc">Knappen Tilføj til kalender</string>
     <!-- Successful checkout hotel cross sell content description e.g. Hotels in Seattle button-->
-    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Knap for hoteller i {location}</string>
+    <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Knappen Hoteller i {location}</string>
     <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
-    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Knap for flyrejser til {location}</string>
+    <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Knappen Flyrejser til {location}</string>
+    <!-- Content description for action: $500. Cost summary information button -->
+    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Knappen Prisoversigt.</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3920,6 +3947,8 @@
     <string name="account_creation_legal_TEMPLATE">Jeg har læst og accepterer {terms_of_use} samt virksomhedens {privacy_policy}. Ved at tilmelde mig {brand_reward_name} accepterer jeg alle {terms_and_conditions}.</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Jeg har læst og accepterer {terms_of_use} samt virksomhedens {privacy_policy}.</string>
+    <!-- Account creation legal template for reward points -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Optjen rejsefordele med {brand_reward_name_link}. Ved at tilmelde mig {brand_reward_name} accepterer jeg alle {terms_and_conditions}</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Vælg hvert barns alder</string>
@@ -3968,6 +3997,8 @@
     <string name="increase_year_cont_desc">Gå et år frem</string>
     <!-- Accessibility - Content Description for Expiration date: decrease year -->
     <string name="decrease_year_cont_desc">Gå et år tilbage</string>
+    <!-- Accessibility - Content Description for hotel map view on hotel details -->
+    <string name="hotel_map_view_cont_desc">Hotellets beliggenhed på Google Maps</string>
     <!-- Label for per person -->
     <string name="per_person">pr. person</string>
     <!-- Label for package bundle price on overview-->
@@ -4013,8 +4044,8 @@
     <string name="select_flight_searching_cont_desc_TEMPLATE">Søger efter en flyrejse til {flight} den {date} for {travelers}. Vent venligst</string>
     <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
     <string name="select_flight_selected_cont_desc_TEMPLATE">Du har valgt en flyrejse til {flight} den {datetraveler}. {expandstate} oplysninger om flyrejse.</string>
-    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
-    <string name="select_flight_disabled_cont_desc_TEMPLATE">Flyrejse til {flight} den {date} for {travelers}. Vælg venligst {previous} først. Knap deaktiveret.</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">Flyrejse til {flight} den {date} for {travelers}. Vælg venligst {previous} først. Knap.</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
     <string name="select_flight_disabled_choose_outbound">Udgående flyrejse</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
@@ -4032,6 +4063,10 @@
     <string name="best_flight_description">billig • kort • populær afgang</string>
     <!-- Package search error -->
     <string name="error_package_search_message">Vi fandt ingen resultater. Tilpas din søgning.</string>
+    <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
+    <string name="error_package_origin_resolution_message_TEMPLATE">Kunne ikke finde afrejsested for {origin}</string>
+    <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
+    <string name="error_package_destination_resolution_message_TEMPLATE">Kunne ikke finde destination for {destination}</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">Direkte</item>
@@ -4091,7 +4126,7 @@
     <!-- Text indicating that the user can drag this button to view their trip -->
     <string name="trip_overview">Se rejseoplysninger</string>
     <!-- Content description to View Trip Details view -->
-    <string name="trip_overview_cont_desc">Knap for visning af rejseoplysninger</string>
+    <string name="trip_overview_cont_desc">Knappen Se rejseoplysninger</string>
 
     <!-- Slide to book -->
     <string name="package_slider_text">Skub for at reservere</string>
@@ -4193,14 +4228,26 @@
     <!-- Label for the tab on fare rules/amenities screen -->
     <string name="fare_rules">Prisregler</string>
 
-    <!-- Label for no segment amenities amenities screen -->
-    <string name="no_amenities">Ingen faciliteter</string>
+    <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
+    <string name="rail_segment_no_amenities">Ingen faciliteter</string>
+
+    <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
+    <string name="no_fare_rules_available">Ingen oplysninger om prisregler tilgængelige</string>
 
     <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
     <string name="rail_station_info_TEMPLATE">{departure} til {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
     <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+
+    <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
+    <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
+
+    <!-- rail search error for date out of range  e.g.. more than 30 days apart -->
+    <string name="rail_search_range_error_TEMPLATE">Vi beklager, men vi kan ikke søge efter tur-returrejser med tog med mere end %1$s dages mellemrum.</string>
+
+    <string name="rail_location_hint">By eller station</string>
+    <string name="error_same_station_departure_arrival">Afrejse- og ankomststationer skal være forskellige.</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Vi beklager, men vi oplevede et problem med serveren. Prøv venligst igen.</string>
     <string name="pwp_trip_service_error">Vi beklager, men vi oplevede et problem med serveren. Prøv venligst igen.</string>
@@ -4292,8 +4339,15 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
+    <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">Flyvetiden er {time} med en prisforskel på {pricedifference}. Flyrejsen er med {airline}. Flyrejsen varer {hours} og {minutes} med {stops} mellemlandinger\u0020</string>
+    <!-- Hotel card view content description for accessibility. Eg. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} med gæstebedømmelsen {starrating} ud af 5. Gæstebedømmelse på {guestrating} ud af 5. Pris {price}. Inkluderer hotel og fly\u0020</string>
+    <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
+    <string name="hotel_price_cont_desc_TEMPLATE">Tidligere pris {strikethroughprice}\u0020</string>
+    <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Utroligt tilbud {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
     <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} til {arrivalairport}. {durationhours} {durationmins} \u0020</string>
     <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
@@ -4327,6 +4381,11 @@
     <string name="packages_remove_child_traveler_cont_desc">Fjern et barn</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Vælg barnets alder {childnumber}.</string>
+    <!--Packages search alternate datepicker announce for accessibility-->
+    <!--Announce for choosing start date before showing datepicker dialog-->
+    <string name="packages_search_datepicker_announce_accessibility_start_date">Vælg din startdato.</string>
+    <!--Announce for choosing end date before showing datepicker dialog-->
+    <string name="packages_search_datepicker_announce_accessibility_end_date">Vælg din slutdato.</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">Vis flere flyselskaber. Knap</string>
@@ -4339,7 +4398,7 @@
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Den samlede pris for pakkerejsen er {totalprice}. Denne pris inkluderer skatter og gebyrer for både fly og hotel. {savings}. Dialogvindue for prisoversigt. Knap.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakkerejseprisen er {price_per_person} pr. person. Denne pris inkluderer skatter og gebyrer for både fly og hotel. Knap til at se pakkerejse.</string>
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakkerejseprisen er {price_per_person} pr. person. Denne pris inkluderer skatter og gebyrer for både fly og hotel. Knap til at se pakkerejser.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Viser oplysninger om pakkerejse. Knap til at lukke.</string>
     <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
@@ -4355,8 +4414,10 @@
     <string name="insurance_adding">Tilføjer rejseforsikring…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
     <string name="insurance_add_error">Beklager, vi var ikke i stand til at tilføje rejseforsikring. Prøv igen, eller fortsæt med reservationen uden rejseforsikring.</string>
-    <!-- Benefits of purchasing insurance -->
-    <string name="insurance_benefits">1. Din billet kan ikke refunderes, og du er for syg til at rejse.&lt;br/&gt;&lt;br/&gt;2. Du kommer til skade, og kan ikke nå din flyrejse hjem.&lt;br/&gt;&lt;br/&gt;3. Din rejseledsager har et medicinsk nødstilfælde, som er dækket af forsikringen, og er ikke i stand til at rejse.</string>
+    <!-- Benefits of purchasing insurance for domestic flights -->
+    <string name="insurance_benefits_domestic">1. Din billet kan ikke refunderes, og du er for syg til at rejse.&lt;br/&gt;&lt;br/&gt;2. Du kommer til skade og kan ikke nå din flyrejse hjem.&lt;br/&gt;&lt;br/&gt;3. Din rejseledsager har et medicinsk nødstilfælde, som er dækket af forsikringen, og er ikke i stand til at rejse.</string>
+    <!-- Benefits of purchasing insurance for international flights -->
+    <string name="insurance_benefits_international">1. Din billet kan ikke refunderes, og du er for syg til at rejse.&lt;br/&gt;&lt;br/&gt;2. Du er nødt til at erstatte mistet bagage, inklusive bærbar computer, telefon eller kamera.&lt;br/&gt;&lt;br/&gt;3. Din forsikring dækker muligvis ikke lægebehandling, når du rejser.</string>
     <!-- Insurance call to action; links to list of benefits -->
     <string name="insurance_description">3 grunde til, at du muligvis har brug for en rejseforsikring</string>
     <!-- Error message displayed when insurance fails to be removed from a trip -->
@@ -4366,9 +4427,9 @@
     <!-- Label of link to insurance terms and conditions -->
     <string name="insurance_terms">Vilkår, betingelser og policeudbydere</string>
     <!-- Title of insurance widget when trip is protected, e.g. Your trip is protected for $19/person -->
-    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;Din rejse er forsikret for ${price} (&lt;/b&gt;){price_type}</string>
+    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;Din rejse er forsikret for {price} (&lt;/b&gt;){price_type}</string>
     <!-- Title of insurance widget when trip is not protected, e.g. Add protection for $19/person -->
-    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Tilføj forsikring for ${price} &lt;/b&gt;{price_type}</string>
+    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Tilføj forsikring for {price} &lt;/b&gt;{price_type}</string>
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">pr. dag</string>
     <string name="insurance_price_per_person">/person</string>
@@ -4377,22 +4438,33 @@
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">Bedømt som nummer {rating} ud af 5</string>
     <!--LX accessibility -->
     <!--LX search accessibility -->
-    <string name="lx_location_edit_box_cont_desc">Sted for aktivitet</string>
+    <string name="location_edit_box_cont_desc">Beliggenhed. Knap</string>
+    <!-- Content description for location entered, e.g- Location. Gurgaon,India. Button-->
+    <string name="location_edit_box_cont_desc_TEMPLATE">Beliggenhed. {location}. Knap</string>
 
     <!--LX infosite accessibility -->
     <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
-    <string name="lx_read_more_cont_desc">Knap til at se mere</string>
+    <string name="lx_read_more_cont_desc">Knappen Læs mere</string>
     <!-- LX infosite section Highlights, description etc have a caret icon to read less content -->
-    <string name="lx_read_less_cont_desc">Knap til at se mindre</string>
+    <string name="lx_read_less_cont_desc">Knappen Læs mindre</string>
     <!-- Content description for LX add ticket button e.g. Add adult Button -->
     <string name="lx_add_ticket_button_cont_desc_TEMPLATE">Tilføj {traveler}</string>
     <!-- Content description for LX remove ticket button e.g. Remove child Button -->
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Fjern {traveler}</string>
+    <!-- Append 'Button' to Content description for LX search results card button -->
+    <string name="lx_card_announce_button_cont_desc">. Knap</string>
+    <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
+    <string name="lx_search_date_range_cont_desc_TEMPLATE">Aktivitetsdatoer. Knap. Åbner dialogvindue. {date_range}</string>
+
+    <!-- Content description for action: $44. Cost summary information button. -->
+    <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Knappen Prisoversigt.</string>
+    <!-- Content description for action: Free cancellation. Legal information button. -->
+    <string name="lx_free_cancellation_cont_desc">Gratis afbestilling. Knappen Juridiske oplysninger.</string>
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
-    <string name="toolbar_search_nav_icon_cont_desc">Tilbage</string>
-    <string name="toolbar_search_nav_icon_close_cont_desc">Luk</string>
+    <string name="toolbar_nav_icon_cont_desc">Tilbage</string>
+    <string name="toolbar_nav_icon_close_cont_desc">Luk</string>
     <string name="search_button_cont_desc">Søgeknap</string>
     <!-- Content description for LX Duration e.g. Duration 2d -->
     <string name="search_result_duration_cont_desc_TEMPLATE">Varighed {duration}</string>
@@ -4409,6 +4481,8 @@
     <string name="accessibility_cont_desc_role_button_expand">Knap til at udvide</string>
     <!--Packages accessibility content description for role - Button to collapse -->
     <string name="accessibility_cont_desc_role_button_collapse">Knap til at skjule</string>
+    <!--Packages accessibility content description for dialogs - Opens dialog -->
+    <string name="accessibility_cont_desc_opens_dialog">Åbner dialogvindue</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">Prisen er {activity_price}</string>
@@ -4419,4 +4493,5 @@
     <string name="accessibility_cont_desc_role_checkbox_checked">Afkrydsningsfelt. Markeret.</string>
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Afkrydsningsfelt. Ikke markeret.</string>
+    <string name="base_search_dates_cont_desc">Vælg datoer. Knap. Åbner dialogvindue</string>
 </resources>
