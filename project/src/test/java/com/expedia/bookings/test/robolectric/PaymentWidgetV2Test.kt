@@ -146,20 +146,6 @@ class PaymentWidgetV2Test {
         assertFalse(sut.isSecureToolbarBucketed())
     }
 
-    @Test
-    fun testCreditDebitCardBucketed() {
-        updateABTest(AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest,
-                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
-        assertEquals(R.string.credit_debit_card_hint, sut.getCreditCardNumberHintResId())
-    }
-
-    @Test
-    fun testCreditDebitCardControl() {
-        updateABTest(AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest,
-                AbacusUtils.DefaultVariate.CONTROL.ordinal)
-        assertEquals(R.string.credit_card_hint, sut.getCreditCardNumberHintResId())
-    }
-
     private fun updateABTest(key: Int, value: Int) {
         val abacusResponse = AbacusResponse()
         abacusResponse.updateABTestForDebug(key, value)

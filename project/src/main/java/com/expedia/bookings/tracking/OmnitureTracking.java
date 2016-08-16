@@ -859,7 +859,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest);
 		if (HotelUtils.isCardIoAvailable()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHCKOCardIOTest);
 		}
