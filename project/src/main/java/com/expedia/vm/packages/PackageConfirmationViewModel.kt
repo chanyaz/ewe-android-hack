@@ -46,9 +46,9 @@ class PackageConfirmationViewModel(val context: Context) {
             destinationTitleObservable.onNext(Db.getPackageSelectedHotel().localizedName)
             destinationSubTitleObservable.onNext(getHotelSubtitle())
             outboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().destination)))
-            outboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageSelectedOutboundFlight()))
+            outboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageFlightBundle().first))
             inboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
-            inboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageSelectedInboundFlight()))
+            inboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageFlightBundle().second))
             val itinNumberMessage = Phrase.from(context, R.string.package_itinerary_confirmation_TEMPLATE)
                     .put("itinerary", itinNumber)
                     .put("email", email)
@@ -93,8 +93,9 @@ class PackageConfirmationViewModel(val context: Context) {
     fun searchForCarRentalsForTripObserver(context: Context): Observer<Unit> {
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
-                val originSuggestion = CarDataUtils.getSuggestionFromLocation(Db.getPackageSelectedOutboundFlight().destinationAirportCode,
-                        null, StrUtils.formatCarOriginDescription(context, Db.getPackageSelectedOutboundFlight()))
+                val outbound = Db.getPackageFlightBundle().first
+                val originSuggestion = CarDataUtils.getSuggestionFromLocation(outbound.destinationAirportCode,
+                        null, StrUtils.formatCarOriginDescription(context, outbound))
                 val carSearchParams = CarSearchParam.Builder()
                         .startDate(Db.getPackageParams().startDate).endDate(Db.getPackageParams().endDate)
                         .origin(originSuggestion).build() as CarSearchParam

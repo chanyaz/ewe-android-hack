@@ -44,7 +44,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             Db.setPackageSelectedOutboundFlight(flight)
             params.currentFlights[0] = flight.legId
         } else {
-            Db.setPackageSelectedInboundFlight(flight)
+            Db.setPackageFlightBundle(Db.getPackageSelectedOutboundFlight(), flight)
             params.currentFlights[1] = flight.legId
         }
         params.selectedLegId = flight.departureLeg
@@ -137,7 +137,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             selectedFlightResults.onNext(Db.getPackageSelectedOutboundFlight())
         } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
             addBackFlowTransition()
-            selectedFlightResults.onNext(Db.getPackageSelectedInboundFlight())
+            selectedFlightResults.onNext(Db.getPackageFlightBundle().second)
         } else {
             super.addResultOverViewTransition()
             show(resultsPresenter)

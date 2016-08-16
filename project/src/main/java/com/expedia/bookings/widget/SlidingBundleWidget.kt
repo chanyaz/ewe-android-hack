@@ -193,7 +193,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
             bundleOverViewWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
             bundleOverViewWidget.outboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedOutboundFlight())
             bundleOverViewWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-            bundleOverViewWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedInboundFlight())
+            bundleOverViewWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
         }
     }
 

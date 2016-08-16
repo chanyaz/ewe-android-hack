@@ -58,7 +58,7 @@ class PackageConfirmationViewModelTest {
         val leg = FlightLeg()
         leg.destinationAirportCode = "SEA"
         leg.destinationAirportLocalName = "Tacoma Intl."
-        Db.setPackageSelectedOutboundFlight(leg)
+        Db.setPackageFlightBundle(leg, FlightLeg())
 
         vm!!.searchForCarRentalsForTripObserver(getContext()).onNext(null)
         val intent = shadowApplication!!.nextStartedActivity

@@ -64,7 +64,7 @@ public class PackageChangePathBackNavTest extends PackageTestCase {
 
 		Common.pressBack();
 		Common.delay(1);
-		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(allOf(isDisplayed(), withText("Package Happy Path")))));
+		assertAfterChange();
 	}
 
 	private void assertAfterChange() {
