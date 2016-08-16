@@ -62,6 +62,7 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.bed_type_header_text_view, "Bed Type");
 		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
 		assertViewWithContentDescription(chevronButton, "Back to trips screen button");
+		assertViewWithContentDescription(onView(withId(R.id.close_image_button)), "Close");
 		onView(withId(R.id.cancel_hotel_room)).perform(scrollTo(), click());
 		assertViewWithTextIsDisplayed("Cancel Hotel Room");
 		Common.pressBack();
