@@ -40,7 +40,7 @@
                 <com.expedia.bookings.widget.packages.CheckoutOverviewHeader
                     android:id="@+id/checkout_overview_header_toolbar"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="@dimen/overview_height"
                     android:gravity="left|center_horizontal" />
 
             </com.expedia.bookings.widget.CheckoutToolbar>
@@ -65,7 +65,7 @@
     <com.expedia.bookings.widget.packages.CheckoutOverviewHeader
         android:id="@+id/checkout_overview_floating_toolbar"
         android:layout_width="match_parent"
-        android:layout_height="165dp"
+        android:layout_height="@dimen/overview_height"
         android:layout_above="@+id/nested_scrollview"
         android:gravity="center"
         app:layout_behavior="com.expedia.bookings.widget.CheckoutHeaderBehavior" />

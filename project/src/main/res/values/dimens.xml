@@ -432,4 +432,5 @@
     <dimen name="air_attach_banner_divider_margin_left">8dp</dimen>
 
     <dimen name="earn_message_icon_dimen">0dp</dimen>
+    <dimen name="overview_height">165dp</dimen>
 </resources>
