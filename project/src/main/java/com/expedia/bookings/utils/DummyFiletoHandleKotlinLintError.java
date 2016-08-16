@@ -866,6 +866,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.one_way_from,
 		R.string.total_from,
 		R.layout.trip_header,
-		R.string.calendar_instructions_date_rail_one_way_TEMPLATE
+		R.string.calendar_instructions_date_rail_one_way_TEMPLATE,
+		R.string.hotel_confirmation_toolbar_close_cont_desc
 	};
 }
