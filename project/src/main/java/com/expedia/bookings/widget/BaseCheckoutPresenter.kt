@@ -219,12 +219,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         getCreateTripViewModel().noNetworkObservable.subscribe {
             createTripDialog.dismiss()
         }
-
-        if (AccessibilityUtil.isTalkBackEnabled(context)) {
-            slideToPurchaseLayout.setOnClickListener {
-                ckoViewModel.slideToBookA11yActivateObservable.onNext(Unit)
-            }
-        }
     }
 
     override fun onFinishInflate() {
@@ -435,6 +429,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     fun animateInSlideToPurchase(visible: Boolean) {
         val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
         if (isSlideToPurchaseLayoutVisible) {
+            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                slideToPurchaseLayout.setOnClickListener {
+                    ckoViewModel.slideToBookA11yActivateObservable.onNext(Unit)
+                }
+            }
             trackShowSlideToPurchase()
         }
         slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
