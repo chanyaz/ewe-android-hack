@@ -45,12 +45,18 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 		// Hotel assertions
 		DataInteraction hotelRow = TripsScreen.tripsListItem().atPosition(0);
+		DateTimeZone pacificTimeZone = DateTimeZone.forID("America/Los_Angeles");
+		DateTime startOfTodayPacific = DateTime.now().withZone(pacificTimeZone).withTimeAtStartOfDay();
+		DateTime hotelCheckIn = startOfTodayPacific.plusDays(10).withHourOfDay(11).withMinuteOfHour(32);
+		String checkinDateString = "Check in " + hotelCheckIn.toString("MMM dd");
+		DataInteraction checkinRow = hotelRow.onChildView(withText(checkinDateString));
 		String hotelTitle = getListItemValues(hotelRow, R.id.header_text_view);
 		final String expectedHotelTitle = "Orchard Hotel";
 		assertEquals(expectedHotelTitle, hotelTitle);
-		ViewInteraction chevronButton = onView(allOf(withId(R.id.chevron_image_view),hasSibling(withChild(withText(containsString("Check in"))))));
+		ViewInteraction chevronButton = onView(allOf(withId(R.id.chevron_image_view),hasSibling(withChild(withText(checkinDateString)))));
 		assertViewWithContentDescription(chevronButton, "Button to expand trip");
-		hotelRow.onChildView(withText(containsString("Check in"))).perform(click());
+
+		checkinRow.perform(click());
 
 		onView(withId(R.id.bed_type_text_view)).perform(scrollTo());
 		assertViewWithTextIsDisplayed(R.id.local_phone_number_header_text_view, "Local Phone");
@@ -63,6 +69,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
 		assertViewWithContentDescription(chevronButton, "Back to trips screen button");
 		assertViewWithContentDescription(onView(withId(R.id.close_image_button)), "Close");
+		assertViewWithContentDescription(onView(withId(R.id.summary_left_button)), "Directions Button");
+		assertViewWithContentDescription(onView(withId(R.id.summary_right_button)), "Call Hotel Button");
 		onView(withId(R.id.cancel_hotel_room)).perform(scrollTo(), click());
 		assertViewWithTextIsDisplayed("Cancel Hotel Room");
 		Common.pressBack();
@@ -104,6 +112,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed("Additional Information");
 		Common.pressBack();
 
+		assertViewWithContentDescription(onView(withId(R.id.summary_left_button)), "Directions Button");
+		assertViewWithContentDescription(onView(withId(R.id.summary_right_button)), "GWF4NY Button");
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).perform(scrollTo(), click());
 
 		// Air attach assertions
