@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator
 import android.content.Context
 import android.graphics.Color
 import android.support.v4.content.ContextCompat
-import android.text.SpannableStringBuilder
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -182,16 +181,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.flightOfferSelected.subscribe { presenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
 
         presenter.getCheckoutPresenter().toggleCheckoutButton(false)
-
-        checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
-            show(confirmationPresenter)
-            FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
-        }
-
-
-
-        presenter.getCheckoutPresenter().toggleCheckoutButton(false)
-
 
         checkoutViewModel.tripResponseObservable.subscribe { trip ->
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
