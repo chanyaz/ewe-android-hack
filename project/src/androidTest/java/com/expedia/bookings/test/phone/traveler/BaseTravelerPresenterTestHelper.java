@@ -244,10 +244,14 @@ public class BaseTravelerPresenterTestHelper {
 		return mockViewModel;
 	}
 
-	protected CheckoutTravelerViewModel getMockviewModel() {
-		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES);
+	protected CheckoutTravelerViewModel getMockviewModel(boolean showMainTravelerMinAge) {
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, showMainTravelerMinAge);
 		mockViewModel.getTravelerCompletenessStatus().subscribe(testTravelerDefault.getViewModel().getTravelerStatusObserver());
 		return mockViewModel;
+	}
+
+	protected CheckoutTravelerViewModel getMockviewModel() {
+		return getMockviewModel(false);
 	}
 
 	protected void setIncompleteTraveler(Traveler validTraveler) {

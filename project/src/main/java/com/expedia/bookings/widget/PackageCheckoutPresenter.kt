@@ -102,4 +102,8 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     override fun getCostSummaryBreakdownViewModel(): PackageCostSummaryBreakdownViewModel {
         return PackageCostSummaryBreakdownViewModel(context)
     }
+
+    override fun showMainTravelerMinimumAgeMessaging(): Boolean {
+        return true
+    }
 }

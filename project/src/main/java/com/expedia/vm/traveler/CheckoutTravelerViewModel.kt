@@ -10,19 +10,21 @@ import com.expedia.bookings.utils.validation.TravelerValidator
 import rx.subjects.BehaviorSubject
 import javax.inject.Inject
 
-open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness) {
+open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness, showMainTravelerMinAgeMessaging: Boolean) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
-
-    init {
-        Ui.getApplication(context).travelerComponent().inject(this)
-    }
 
     val allTravelersCompleteSubject = BehaviorSubject.create<List<Traveler>>()
     val invalidTravelersSubject = BehaviorSubject.create<Unit>()
     val emptyTravelersSubject = BehaviorSubject.create<Unit>()
     val travelerCompletenessStatus = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
     val passportRequired = BehaviorSubject.create<Boolean>(false)
+    val showMainTravelerMinAgeMessaging = BehaviorSubject.create<Boolean>(false)
+
+    init {
+        Ui.getApplication(context).travelerComponent().inject(this)
+        this.showMainTravelerMinAgeMessaging.onNext(showMainTravelerMinAgeMessaging)
+    }
 
     fun refresh() {
         if (areTravelersEmpty()) {

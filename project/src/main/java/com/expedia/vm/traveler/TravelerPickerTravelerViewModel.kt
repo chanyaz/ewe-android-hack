@@ -15,7 +15,7 @@ import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import javax.inject.Inject
 
-open class TravelerSelectViewModel(val context: Context, val index: Int, val age: Int) {
+open class TravelerPickerTravelerViewModel(val context: Context, val index: Int, val age: Int) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
     val resources = context.resources

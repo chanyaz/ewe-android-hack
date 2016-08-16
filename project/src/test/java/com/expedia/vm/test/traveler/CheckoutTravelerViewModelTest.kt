@@ -20,6 +20,7 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class CheckoutTravelerViewModelTest {
+    val context = RuntimeEnvironment.application
     val mockTravelerProvider = MockTravelerProvider()
     lateinit var testViewModel: CheckoutTravelerViewModel
     lateinit var searchParams: PackageSearchParams
@@ -28,10 +29,21 @@ class CheckoutTravelerViewModelTest {
     @Before
     fun setUp() {
         searchParams = setUpParams()
-        var context = RuntimeEnvironment.application
         Ui.getApplication(context).defaultTravelerComponent()
-        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES)
+        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, false)
         testViewModel.travelerValidator.updateForNewSearch(searchParams)
+    }
+
+    @Test
+    fun testMainTravelerMinAgeShow() {
+        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, true)
+        assertTrue(testViewModel.showMainTravelerMinAgeMessaging.value)
+    }
+
+    @Test
+    fun testMainTravelerMinAgeHide() {
+        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, false)
+        assertFalse(testViewModel.showMainTravelerMinAgeMessaging.value)
     }
 
     @Test
