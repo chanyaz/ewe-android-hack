@@ -151,6 +151,10 @@
     <string name="drop_off_same_as_pick_up">Coming soon! We\'re working hard to add one way bookings in an upcoming version.</string>
     <!-- Label for hint for car pick-up-->
     <string name="car_pick_up_hint">Picking up</string>
+    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Pick up time 9:00 am-->
+    <string name="pick_up_slider_cont_desc_TEMPLATE">Pick up time {time}</string>
+    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
+    <string name="drop_off_slider_cont_desc_TEMPLATE">Drop off time {time}</string>
     <!-- Car search error -->
     <string name="error_no_result_message">Your search returned no results. Please retry your search with different criteria.</string>
     <!-- Car no filtered search results -->

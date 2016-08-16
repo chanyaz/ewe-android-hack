@@ -137,6 +137,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_cost_summary_date_row,
 		R.layout.widget_hotel_filter,
 		R.layout.section_hotel_neighborhood_row,
+		R.string.pick_up_slider_cont_desc_TEMPLATE,
+		R.string.drop_off_slider_cont_desc_TEMPLATE,
 		R.color.hotel_guest_selector_enabled_color,
 		R.color.hotel_guest_selector_disabled_color,
 		R.color.hotel_filter_hotel_name_icon,

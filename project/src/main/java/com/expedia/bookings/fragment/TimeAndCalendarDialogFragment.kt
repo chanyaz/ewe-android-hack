@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
+import android.text.format.DateUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -16,9 +17,11 @@ import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
+import com.squareup.phrase.Phrase
 import rx.Subscription
 import kotlin.properties.Delegates
 import org.joda.time.DateTime
@@ -155,12 +158,21 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
                 // if not from the user, then the VM already has this info, don't need to notify of update
                 if (seekBar.id == R.id.depart_time_slider) {
                     viewModel.departTimeSubject.onNext(TimeSlider.convertProgressToMillis(progress))
+                    departTimeSlider.contentDescription =  setContentDescriptionForTimeSlider(seekBar as TimeSlider, true, progress)
                 } else if (seekBar.id == R.id.return_time_slider) {
                     viewModel.returnTimeSubject.onNext(TimeSlider.convertProgressToMillis(progress))
+                    returnTimeSlider.contentDescription = setContentDescriptionForTimeSlider(seekBar as TimeSlider, false, progress)
                 }
-
             if (fromUser)
                 drawSliderTooltip(seekBar as TimeSlider)
         }
+    }
+
+     fun setContentDescriptionForTimeSlider(seekBar: TimeSlider, isPickup: Boolean, progress: Int): String {
+        val time = seekBar.calculateProgress(progress)
+        if (isPickup)
+            return Phrase.from(context, R.string.pick_up_slider_cont_desc_TEMPLATE).put("time", time).format().toString()
+        else
+            return Phrase.from(context, R.string.drop_off_slider_cont_desc_TEMPLATE).put("time", time).format().toString()
     }
 }
