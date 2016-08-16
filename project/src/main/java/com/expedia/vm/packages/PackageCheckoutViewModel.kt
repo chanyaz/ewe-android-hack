@@ -24,7 +24,8 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
     override val builder = PackageCheckoutParams.Builder()
 
     init {
-        tripResponseObservable.subscribe { it as PackageCreateTripResponse
+        tripResponseObservable.subscribe {
+            it as PackageCreateTripResponse
             builder.tripId(it.packageDetails.tripId)
             builder.expectedTotalFare(it.packageDetails.pricing.packageTotal.amount.toString())
             builder.expectedFareCurrencyCode(it.packageDetails.pricing.packageTotal.currencyCode)
@@ -40,10 +41,16 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             depositPolicyText.onNext(Html.fromHtml(depositText))
 
             legalText.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
-            sliderPurchaseTotalText.onNext(Phrase.from(context, R.string.your_card_will_be_charged_template).put("dueamount", it.getTripTotalExcludingFee().formattedMoneyFromAmountAndCurrencyCode).format())
+            val totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
+                    .put("dueamount", it.getTripTotalExcludingFee().formattedMoneyFromAmountAndCurrencyCode)
+                    .format().toString()
+            sliderPurchaseTotalText.onNext(totalPrice)
+            val sliderPurchaseContDesc = totalPrice + "," + context.getString(R.string.package_slider_text) + "," + context.getString(R.string.accessibility_cont_desc_role_button)
+            sliderPurchaseLayoutContentDescription.onNext(sliderPurchaseContDesc)
         }
 
-        checkoutParams.subscribe { params -> params as PackageCheckoutParams
+        checkoutParams.subscribe { params ->
+            params as PackageCheckoutParams
             if (User.isLoggedIn(context)) {
                 params.billingInfo.email = Db.getUser().primaryTraveler.email
             }

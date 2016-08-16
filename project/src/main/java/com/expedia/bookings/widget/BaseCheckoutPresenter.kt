@@ -107,8 +107,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val rootWindow by lazy { (context as Activity).window }
     val decorView by lazy { rootWindow.decorView.findViewById(android.R.id.content) }
-    var paymentLayoutListener : ViewTreeObserver.OnGlobalLayoutListener? = null
-    var travelerLayoutListener : ViewTreeObserver.OnGlobalLayoutListener? = null
+    var paymentLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+    var travelerLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
 
     val checkoutDialog = ProgressDialog(context)
@@ -128,6 +128,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
         vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
+        vm.sliderPurchaseLayoutContentDescription.subscribe { slideToPurchaseLayout.contentDescription = it }
         vm.checkoutParams.subscribe {
             checkoutDialog.show()
         }
@@ -348,8 +349,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     //Abstract methods
-    override fun onSlideStart() { }
-    override fun onSlideProgress(pixels: Float, total: Float) { }
+    override fun onSlideStart() {
+    }
+
+    override fun onSlideProgress(pixels: Float, total: Float) {
+    }
+
     override fun onSlideAllTheWay() {
         if (ckoViewModel.builder.hasValidParams()) {
             ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
@@ -357,7 +362,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             ckoViewModel.slideAllTheWayObservable.onNext(Unit)
         }
     }
-    override fun onSlideAbort() { slideToPurchase.resetSlider() }
+
+    override fun onSlideAbort() {
+        slideToPurchase.resetSlider()
+    }
 
     override fun onUserAccountRefreshed() {
         doCreateTrip()
@@ -446,9 +454,15 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         animator.duration = 300
         animator.start()
         animator.addListener(object : Animator.AnimatorListener {
-            override fun onAnimationCancel(p0: Animator?) { }
-            override fun onAnimationStart(p0: Animator?) { }
-            override fun onAnimationRepeat(p0: Animator?) { }
+            override fun onAnimationCancel(p0: Animator?) {
+            }
+
+            override fun onAnimationStart(p0: Animator?) {
+            }
+
+            override fun onAnimationRepeat(p0: Animator?) {
+            }
+
             override fun onAnimationEnd(p0: Animator?) {
                 adjustScrollingSpace()
             }
@@ -475,6 +489,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         }
 
     }
+
     private inner class HandleTouchListener() : View.OnTouchListener {
         internal var originY: Float = 0.toFloat()
         override fun onTouch(v: View, event: MotionEvent): Boolean {
@@ -546,7 +561,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     abstract fun isPassportRequired(response: TripResponse)
     abstract fun showMainTravelerMinimumAgeMessaging(): Boolean
 
-    private fun makeKeyboardListener(scrollView: ScrollView, offset: Int = toolbarHeight) : ViewTreeObserver.OnGlobalLayoutListener {
+    private fun makeKeyboardListener(scrollView: ScrollView, offset: Int = toolbarHeight): ViewTreeObserver.OnGlobalLayoutListener {
         val rootWindow = (context as Activity).window
         val layoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
             val decorView = rootWindow.decorView
