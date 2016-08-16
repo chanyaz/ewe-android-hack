@@ -228,19 +228,6 @@
                     android:hint="@string/cardholder_name_hint"
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
-                    android:nextFocusForward="@+id/edit_email_address"
-                    android:singleLine="true"
-                    android:textSize="@dimen/traveler_input_text_size" />
-
-                <com.expedia.bookings.widget.accessibility.AccessibleEditText
-                    android:id="@+id/edit_email_address"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:focusable="true"
-                    android:focusableInTouchMode="true"
-                    android:hint="@string/email_address_hint_confirmation"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
                     android:nextFocusForward="@+id/edit_address_line_one"
                     android:singleLine="true"
                     android:textSize="@dimen/traveler_input_text_size" />

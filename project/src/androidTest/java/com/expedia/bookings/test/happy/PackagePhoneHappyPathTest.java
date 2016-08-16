@@ -88,9 +88,14 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.boarding_warning), withText(mRes.getString(R.string.name_must_match_warning_new)))).check(matches(isDisplayed()));
 		PackageScreen.enterFirstName("FiveStar");
 		PackageScreen.enterLastName("Bear");
+		PackageScreen.enterEmail("test@email.com");
+		Espresso.closeSoftKeyboard();
 		PackageScreen.enterPhoneNumber("7732025862");
+		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(1989, 6, 9);
+		Espresso.closeSoftKeyboard();
 		PackageScreen.selectGender("Male");
+		Espresso.closeSoftKeyboard();
 
 		PackageScreen.clickTravelerAdvanced();
 		PackageScreen.enterRedressNumber("1234567");

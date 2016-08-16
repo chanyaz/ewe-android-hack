@@ -21,7 +21,7 @@ class TravelerValidatorTest {
     val validFirstName = "Oscar"
     val validMiddleName = "T"
     val validLastName = "Grouch"
-
+    val TEST_EMAIL = "test@gmail.com"
     val TEST_NUMBER = " 773 202 5862"
 
     val TOMORROW = LocalDate.now().plusDays(1)
@@ -94,6 +94,16 @@ class TravelerValidatorTest {
         assertFalse(travelerValidator.isLastNameValid("1"))
         assertFalse(travelerValidator.isLastNameValid("a1"))
         assertTrue(travelerValidator.isLastNameValid("Sn"))
+    }
+
+    @Test
+    fun testEmailValidator() {
+        assertFalse(travelerValidator.isValidEmail("qa-ehcc"))
+        assertFalse(travelerValidator.isValidEmail("qa-ehcc@"))
+        assertFalse(travelerValidator.isValidEmail("qa-ehcc@mobiata"))
+        assertTrue(travelerValidator.isValidEmail("TEST@email.com"))
+        assertTrue(travelerValidator.isValidEmail("test@email.com"))
+        assertFalse(travelerValidator.isValidEmail("qa-ehcc"))
     }
 
     @Test
@@ -226,6 +236,9 @@ class TravelerValidatorTest {
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
         assertFalse(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, false))
 
+        Mockito.`when`(mockTraveler.email).thenReturn(TEST_EMAIL)
+        assertFalse(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, false))
+
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
         assertTrue(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, false))
     }
@@ -307,6 +320,7 @@ class TravelerValidatorTest {
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
 
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
+        Mockito.`when`(mockTraveler.email).thenReturn(TEST_EMAIL)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
 
         return mockTraveler

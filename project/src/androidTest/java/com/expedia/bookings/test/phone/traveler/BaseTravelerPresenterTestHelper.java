@@ -54,6 +54,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String testFirstName = "Oscar";
 	protected final String testMiddleName = "T";
 	protected final String testLastName = "Grouch";
+	protected final String testEmail = "Grouch@gmail.com";
 	protected final String testChildLastName = "Grouch Jr.";
 	protected final String testPhone = "7732025862";
 	protected final String testBirthDay = "Jan 27, 1991";
@@ -132,8 +133,16 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected void enterValidTraveler(boolean withPhoneNumber) {
+		enterValidTraveler(withPhoneNumber, true);
+	}
+
+	protected void enterValidTraveler(boolean withPhoneNumber, boolean withEmail) {
 		PackageScreen.enterFirstName(testFirstName);
 		PackageScreen.enterLastName(testLastName);
+		if (withEmail) {
+			PackageScreen.enterEmail(testEmail);
+		}
+		Espresso.closeSoftKeyboard();
 		if (withPhoneNumber) {
 			PackageScreen.enterPhoneNumber(testPhone);
 		}
@@ -203,6 +212,7 @@ public class BaseTravelerPresenterTestHelper {
 
 
 	protected void assertValidTravelerFields() {
+		Espresso.closeSoftKeyboard();
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.first_name_input, testFirstName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, testLastName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
@@ -261,6 +271,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected void setValidTraveler(Traveler validTraveler) {
 		validTraveler.setFirstName(testFirstName);
 		validTraveler.setLastName(testLastName);
+		validTraveler.setEmail(testEmail);
 		validTraveler.setGender(Traveler.Gender.MALE);
 		validTraveler.setPhoneNumber(testPhone);
 		validTraveler.setBirthDate(LocalDate.now().minusYears(18));
@@ -269,6 +280,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected void setChildTraveler(Traveler childTraveler, int yearsOld) {
 		childTraveler.setFirstName(testFirstName);
 		childTraveler.setLastName(testChildLastName);
+		childTraveler.setEmail(testEmail);
 		childTraveler.setGender(Traveler.Gender.MALE);
 		childTraveler.setPhoneNumber(testPhone);
 		childTraveler.setBirthDate(LocalDate.now().minusYears(yearsOld));
@@ -279,6 +291,7 @@ public class BaseTravelerPresenterTestHelper {
 		storedTraveler.setFirstName(testFirstName);
 		storedTraveler.setMiddleName(testMiddleName);
 		storedTraveler.setLastName(testLastName);
+		storedTraveler.setEmail(testEmail);
 		storedTraveler.setGender(Traveler.Gender.MALE);
 		storedTraveler.setPhoneNumber(testPhone);
 		storedTraveler.addPassportCountry(passport);

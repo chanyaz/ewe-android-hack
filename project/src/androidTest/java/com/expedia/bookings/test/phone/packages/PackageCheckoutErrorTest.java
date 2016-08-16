@@ -31,7 +31,6 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextCvv("666");
 		CardInfoScreen.typeTextNameOnCardEditText("errorcheckoutcard");
-		CardInfoScreen.typeTextEmailEditText("test@email.com");
 
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
@@ -62,7 +61,7 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
 
-		onView(allOf(withId(R.id.itin_number), withText("#1126420960431 sent to test@email.com"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.itin_number), withText("#1126420960431 sent to noah@mobiata.com"))).check(matches(isDisplayed()));
 	}
 
 }

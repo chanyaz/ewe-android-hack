@@ -9,7 +9,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
@@ -20,14 +19,12 @@ import com.expedia.bookings.data.utils.getPaymentType
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.BookingSuppressionUtils
-import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -74,13 +71,9 @@ class FlightCheckoutViewModel(context: Context, val flightServices: FlightServic
             }
         }
 
-        checkoutParams.subscribe { params ->
-            params as FlightCheckoutParams
-            if (User.isLoggedIn(context)) {
-                params.billingInfo.email = Db.getUser().primaryTraveler.email
-            }
+        checkoutParams.subscribe { params -> params as FlightCheckoutParams
             flightServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
-            email = params.billingInfo.email
+            email = params.travelers.first().email
         }
 
         setupCardFeeSubjects()

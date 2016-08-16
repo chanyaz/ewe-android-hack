@@ -54,6 +54,8 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             travelerEntryWidget.viewModel = TravelerViewModel(context, selectedTraveler.first)
             travelerEntryWidget.viewModel.showPassportCountryObservable.subscribe(travelerPickerWidget.passportRequired)
             travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
+            val isLoggedIn = User.isLoggedIn(context)
+            travelerEntryWidget.viewModel.showEmailObservable.onNext(!User.isLoggedIn(context) && selectedTraveler.first == 0)
             show(travelerEntryWidget)
         }
 
@@ -147,6 +149,10 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             }
             show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
         }
+    }
+
+    fun onLogin(isLoggedIn: Boolean) {
+        travelerEntryWidget.emailEntryView.visibility = if (isLoggedIn) GONE else VISIBLE
     }
 
     override fun back(): Boolean {

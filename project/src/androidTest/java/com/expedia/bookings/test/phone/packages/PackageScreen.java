@@ -299,10 +299,10 @@ public class PackageScreen {
 		travelerInfo().perform(scrollTo(), click());
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
-		// TODO fix after adding email
-		//CheckoutViewModel.enterEmail("noah@mobiata.com");
-		//Common.closeSoftKeyboard(CheckoutViewModel.email());
+		enterEmail("noah@mobiata.com");
+		Espresso.closeSoftKeyboard();
 		enterPhoneNumber("7732025862");
+		Espresso.closeSoftKeyboard();
 		selectBirthDate(9, 6, 1989);
 		selectGender("Male");
 
@@ -327,6 +327,10 @@ public class PackageScreen {
 
 	public static void enterPhoneNumber(String phoneNumber) {
 		onView(withId(R.id.edit_phone_number)).perform(typeText(phoneNumber));
+	}
+
+	public static void enterEmail(String email) {
+		onView(withId(R.id.edit_email_address)).perform(typeText(email));
 	}
 
 	public static void selectGender(String genderType) {
@@ -387,7 +391,6 @@ public class PackageScreen {
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextCvv("666");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
-		CardInfoScreen.typeTextEmailEditText("test@email.com");
 
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");

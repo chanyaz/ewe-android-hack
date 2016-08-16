@@ -88,6 +88,7 @@ class PackageCheckoutViewModelTest {
         traveler.firstName = "malcolm"
         traveler.lastName = "nguyen"
         traveler.fullName = "malcolm nguyen"
+        traveler.email = "malcolmnguyen@gmail.com"
         traveler.gender = Traveler.Gender.MALE
         traveler.phoneNumber = "9163355329"
         traveler.phoneCountryCode = "1"
