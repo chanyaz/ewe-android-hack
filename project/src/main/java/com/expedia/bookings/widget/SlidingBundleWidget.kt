@@ -110,6 +110,9 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         if (forward && trackLoad) {
             PackagesTracking().trackViewBundlePageLoad()
         }
+        else {
+            bundlePriceWidget.enable()
+        }
     }
 
     fun translateBundleOverview(distance: Float) {
