@@ -243,7 +243,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.rail_activity,
 		R.layout.rail_presenter,
 		R.layout.widget_rail_search_params,
-		R.color.favorite_button_burst_red,
+		R.color.hotel_favorite_button,
 		R.layout.widget_rail_results,
 		R.layout.rail_details_presenter,
 		R.layout.rail_checkout_presenter,

@@ -59,7 +59,7 @@ class FavoriteButton(context: Context, attrs : AttributeSet) : ImageView(context
             if (animated) {
                 val displayMetrics = resources.displayMetrics
                 val px = Math.round(HEART_BURST_RADIUS * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
-                val burstDrawable = HotelFavoriteBurstAnimation(ContextCompat.getColor(context, R.color.favorite_button_burst_red), px, HEART_BURST_DURATION)
+                val burstDrawable = HotelFavoriteBurstAnimation(ContextCompat.getColor(context, R.color.hotel_favorite_button), px, HEART_BURST_DURATION)
                 background = burstDrawable
                 burstDrawable.startAnimation()
             }
