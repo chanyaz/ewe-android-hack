@@ -4183,9 +4183,6 @@
     <!--Rail search screen title-->
     <string name="trains">기차</string>
 
-    <!--used on the rail search screen - this is equivalent to a one way air ticket -->
-    <string name="rail_single">편도</string>
-
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">왕복</string>
 

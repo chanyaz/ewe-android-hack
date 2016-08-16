@@ -22,10 +22,22 @@ class RailResultsViewModel(val context: Context, private val railServices: RailS
     val railResultsObservable = PublishSubject.create<RailSearchResponse>()
     val titleSubject = BehaviorSubject.create<String>()
     val subtitleSubject = BehaviorSubject.create<CharSequence>()
+    val directionHeaderSubject = BehaviorSubject.create<CharSequence>()
+    val priceHeaderSubject = BehaviorSubject.create<CharSequence>()
 
-    var searchViewModel: RailSearchViewModel by notNullAndObservable {
-        val title = "${it.railOriginObservable.value.regionNames.shortName} - ${it.railDestinationObservable.value.regionNames.shortName}"
+    var searchViewModel: RailSearchViewModel by notNullAndObservable { vm ->
+        val title = "${vm.railOriginObservable.value.regionNames.shortName} - ${vm.railDestinationObservable.value.regionNames.shortName}"
         titleSubject.onNext(title)
+
+        var directionHeaderStringResId = R.string.select_outbound
+        var priceHeaderStringResId = R.string.one_way_from
+
+        if (vm.isRoundTripSearchObservable.value) {
+            directionHeaderStringResId = R.string.select_return
+            priceHeaderStringResId = R.string.total_from
+        }
+        directionHeaderSubject.onNext(context.resources.getText(directionHeaderStringResId))
+        priceHeaderSubject.onNext(context.resources.getText(priceHeaderStringResId))
     }
 
     init {

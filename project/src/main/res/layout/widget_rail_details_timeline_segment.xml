@@ -14,7 +14,7 @@
 
         <TextView
             android:id="@+id/rail_timeline_departure_time"
-            style="@style/RailPrimaryText"
+            style="@style/RailCell.PrimaryText"
             android:layout_gravity="center"
             android:gravity="top"
             android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         <TextView
             android:layout_gravity="center"
             android:id="@+id/rail_timeline_arrival_time"
-            style="@style/RailPrimaryText"
+            style="@style/RailCell.PrimaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,7 +52,7 @@
 
         <TextView
             android:id="@+id/rail_timeline_departure_station"
-            style="@style/RailPrimaryText"
+            style="@style/RailCell.PrimaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="London Euston" />
@@ -73,7 +73,7 @@
 
         <TextView
             android:id="@+id/rail_timeline_arrival_station"
-            style="@style/RailPrimaryText"
+            style="@style/RailCell.PrimaryText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

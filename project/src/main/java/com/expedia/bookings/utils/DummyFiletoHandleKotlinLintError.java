@@ -250,7 +250,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_arrow_back,
 		R.drawable.ic_arrow_forward,
 		R.drawable.ic_swap,
-		R.string.rail_single,
+		R.string.rail_one_way,
 		R.string.rail_return,
 		R.string.rail_open_return,
 		R.layout.widget_rail_details_fare_option,
@@ -860,6 +860,12 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_youth_number_TEMPLATE,
 		R.string.rail_senior_number_TEMPLATE,
 		R.string.rail_ticket_delivery_fee,
-		R.string.rail_credit_card_fee
+		R.string.rail_credit_card_fee,
+		R.string.select_outbound,
+		R.string.select_return,
+		R.string.one_way_from,
+		R.string.total_from,
+		R.layout.trip_header,
+		R.string.calendar_instructions_date_rail_one_way_TEMPLATE
 	};
 }
