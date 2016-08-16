@@ -83,6 +83,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             }
         }
         vm.stepOneTextObservable.subscribeText(stepOneText)
+        vm.stepOneContentDescriptionObservable.subscribe { stepOneText.contentDescription = it }
         vm.stepTwoTextObservable.subscribeText(stepTwoText)
 
         vm.cancelSearchSubject.subscribe {
