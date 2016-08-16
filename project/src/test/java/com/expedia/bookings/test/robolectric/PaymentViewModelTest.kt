@@ -64,6 +64,7 @@ class PaymentViewModelTest {
     @Before
     fun setup() {
         viewModel = PaymentViewModel(getContext())
+        Db.getTripBucket().clear()
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
     }
 
