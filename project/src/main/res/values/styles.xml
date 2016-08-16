@@ -1074,6 +1074,10 @@
         <item name="textStyle">normal</item>
     </style>
 
+    <style name="FlightWarningBarRed" parent="FlightWarningBar">
+        <item name="android:background">@color/flight_red_warning_bar_color</item>
+    </style>
+
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->
     <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>

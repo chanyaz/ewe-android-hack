@@ -52,6 +52,7 @@ import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.mobiata.android.Log
+import rx.Observable
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
@@ -68,6 +69,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val loginWidget: AccountButton by bindView(R.id.login_widget)
     val cardProcessingFeeTextView: TextView by bindView(R.id.card_processing_fee)
     val cardFeeWarningTextView: TextView by bindView(R.id.card_fee_warning_text)
+    val invalidPaymentTypeWarningTextView: TextView by bindView(R.id.invalid_payment_type_warning)
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
     val insuranceWidget: InsuranceWidget by bindView(R.id.insurance_widget)
     val space: Space by bindView(R.id.scrollview_space)
@@ -162,7 +164,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         travelerManager = Ui.getApplication(context).travelerComponent().travelerManager()
 
         paymentWidget = paymentViewStub.inflate() as PaymentWidget
+
+        paymentWidgetViewModel.paymentTypeWarningHandledByCkoView.onNext(true)
         paymentWidget.viewmodel = paymentWidgetViewModel
+
         insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
 
@@ -249,6 +254,20 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         })
         paymentLayoutListener = makeKeyboardListener(scrollView)
         travelerLayoutListener = makeKeyboardListener(travelerPresenter.travelerEntryWidget, toolbarHeight * 2)
+
+        Observable.combineLatest(
+                paymentWidget.viewmodel.showingPaymentForm,
+                paymentWidget.viewmodel.invalidPaymentTypeWarning,
+                { showingGuestPaymentForm, invalidPaymentTypeWarning ->
+                    val hasPaymentTypeWarning = invalidPaymentTypeWarning.isNotBlank()
+                    val invalidPaymentWarningVisibility = if (hasPaymentTypeWarning && showingGuestPaymentForm) View.VISIBLE else View.GONE
+                    invalidPaymentTypeWarningTextView.text = invalidPaymentTypeWarning
+                    invalidPaymentTypeWarningTextView.visibility = invalidPaymentWarningVisibility
+                    if (invalidPaymentWarningVisibility == View.VISIBLE) {
+                        toolbarDropShadow.visibility = invalidPaymentWarningVisibility
+                    }
+                }).subscribe()
+
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {

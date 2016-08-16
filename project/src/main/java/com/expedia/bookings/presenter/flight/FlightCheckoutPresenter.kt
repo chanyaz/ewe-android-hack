@@ -38,7 +38,9 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
                                     { haveCardFee, showingGuestPaymentForm ->
                                         val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
                                         cardProcessingFeeTextView.visibility = cardFeeVisibility
-                                        toolbarDropShadow.visibility = cardFeeVisibility
+                                        if (cardFeeVisibility == VISIBLE) { // only show. hide handled in BaseCheckoutPresenter
+                                            toolbarDropShadow.visibility = visibility
+                                        }
                                     }).subscribe()
 
         getCheckoutViewModel().cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)

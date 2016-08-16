@@ -52,10 +52,10 @@ import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextChange
-import com.expedia.util.subscribeTextNotBlankVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
+import rx.Observable
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
@@ -66,6 +66,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val billingInfoContainer: ViewGroup by bindView(R.id.section_billing_info_container)
     val paymentOptionCreditDebitCard: TextView by bindView(R.id.payment_option_credit_debit)
     val paymentOptionGoogleWallet: TextView by bindView(R.id.payment_option_google_wallet)
+    val cardInfoLabel by bindOptionalView<TextView>(R.id.card_info_label) // not used in all payment widget implementations. Yes, this is messy :(
     val sectionBillingInfo: SectionBillingInfo by bindView(R.id.section_billing_info)
     val sectionLocation: SectionLocation by bindView(R.id.section_location_address)
     val creditCardNumber: NumberMaskEditText by bindView(R.id.edit_creditcard_number)
@@ -124,8 +125,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         vm.iconStatus.subscribe {
             paymentStatusIcon.status = it
         }
-        vm.invalidPaymentTypeWarning.subscribeTextAndVisibility(invalidPaymentText)
-        vm.invalidPaymentTypeWarning.subscribeTextNotBlankVisibility(invalidPaymentContainer)
+        vm.invalidPaymentTypeWarning.subscribeText(invalidPaymentText)
+        Observable.combineLatest( vm.paymentTypeWarningHandledByCkoView,
+                                  vm.invalidPaymentTypeWarning,
+                                  showInvalidPaymentWarningFun).subscribe()
+
         vm.lineOfBusiness.subscribe { lob ->
             sectionBillingInfo.setLineOfBusiness(lob)
             sectionLocation.setLineOfBusiness(lob)
@@ -186,6 +190,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
         vm.moveFocusToPostalCodeSubject.subscribe {
             creditCardPostalCode.requestFocus()
+        }
+
+        if (cardInfoLabel != null) {
+            vm.showCardFeeInfoLabel.subscribeVisibility(cardInfoLabel)
         }
     }
 
@@ -590,6 +598,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     private fun temporarilySavedCardIsSelected(isSelected: Boolean, info: BillingInfo?) {
         info?.saveCardToExpediaAccount = isSelected
+    }
+
+    private val showInvalidPaymentWarningFun = fun(paymentWarningHandledByCkoView: Boolean, warningText: String) {
+        val visibility = if (!paymentWarningHandledByCkoView && warningText.isNotBlank()) View.VISIBLE else View.GONE
+        invalidPaymentContainer.visibility = visibility
     }
 
     fun userChoosesToSaveCard() {

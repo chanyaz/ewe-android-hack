@@ -21,6 +21,12 @@
             android:text="@string/flights_debit_cards_not_accepted"
             android:visibility="gone" />
 
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/invalid_payment_type_warning"
+            style="@style/FlightWarningBarRed"
+            android:singleLine="true"
+            android:visibility="gone" />
+
         <com.expedia.bookings.widget.FrameLayout
             android:id="@+id/handle"
             android:layout_width="match_parent"
