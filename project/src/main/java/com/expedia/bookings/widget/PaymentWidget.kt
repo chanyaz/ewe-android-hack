@@ -51,6 +51,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeImageDrawable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeTextNotBlankVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.jakewharton.rxbinding.widget.RxTextView
@@ -124,10 +125,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         vm.iconStatus.subscribe {
             paymentStatusIcon.status = it
         }
-        vm.invalidPayment.subscribe { text ->
-            invalidPaymentText.text = text
-            invalidPaymentContainer.visibility = if (text.isNullOrBlank()) GONE else VISIBLE
-        }
+        vm.invalidPaymentTypeWarning.subscribeTextAndVisibility(invalidPaymentText)
+        vm.invalidPaymentTypeWarning.subscribeTextNotBlankVisibility(invalidPaymentContainer)
         vm.lineOfBusiness.subscribe { lob ->
             sectionBillingInfo.setLineOfBusiness(lob)
             sectionLocation.setLineOfBusiness(lob)
