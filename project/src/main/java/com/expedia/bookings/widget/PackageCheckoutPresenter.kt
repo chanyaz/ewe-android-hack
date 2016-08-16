@@ -26,7 +26,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         }
         vm.tripResponseObservable.subscribe { response ->
             response as PackageCreateTripResponse
-            clearCCNumber()
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
             priceChangeWidget.viewmodel.newPrice.onNext(response.packageDetails.pricing.packageTotal)
@@ -93,11 +92,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
 
     override fun getCreateTripViewModel(): PackageCreateTripViewModel {
         return tripViewModel as PackageCreateTripViewModel
-    }
-
-    override fun clearCCNumber() {
-        clearCVV()
-        super.clearCCNumber()
     }
 
     override fun getCostSummaryBreakdownViewModel(): PackageCostSummaryBreakdownViewModel {

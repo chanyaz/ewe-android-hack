@@ -81,6 +81,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         changeHotel.setOnMenuItemClickListener({
             bundleOverviewHeader.toggleOverviewHeader(false)
             checkoutPresenter.resetAndShowTotalPriceWidget()
+            checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.toggleCheckoutButton(false)
             getCheckoutPresenter().totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
             bundleWidget.collapseBundleWidgets()
@@ -94,6 +95,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
 
         changeHotelRoom.setOnMenuItemClickListener({
             checkoutPresenter.resetAndShowTotalPriceWidget()
+            checkoutPresenter.clearPaymentInfo()
             checkoutPresenter.toggleCheckoutButton(false)
             bundleWidget.collapseBundleWidgets()
             getCheckoutPresenter().totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
@@ -108,6 +110,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
 
         changeFlight.setOnMenuItemClickListener({
             checkoutPresenter.resetAndShowTotalPriceWidget()
+            checkoutPresenter.clearPaymentInfo()
             bundleOverviewHeader.toggleOverviewHeader(false)
             checkoutPresenter.toggleCheckoutButton(false)
             getCheckoutPresenter().totalPriceWidget.toggleBundleTotalCompoundDrawable(false)

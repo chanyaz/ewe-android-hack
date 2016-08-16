@@ -304,7 +304,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
-    protected fun reset() {
+    fun reset() {
         sectionBillingInfo.bind(BillingInfo())
         val location = Location()
         sectionBillingInfo.billingInfo.location = location
