@@ -585,4 +585,7 @@
     <color name="hotelsv2_loyalty_applied_text_color">@color/hotelsv2_checkout_text_color</color>
     <color name="search_screen_swp_icon_color_v2">@color/search_screen_icon_color_v2</color>
 
+    <!-- Rail Card Picker button colors-->
+    <color name="card_picker_add_button_color">@color/gray9</color>
+    <color name="card_picker_remove_button_color">@color/gray3</color>
 </resources>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <Spinner
+        android:id="@+id/card_type_spinner"
+        style="@style/Core.Widget.Spinner"
+        android:layout_width="0dp"
+        android:layout_weight="3"
+        android:layout_marginLeft="10dp"
+        android:dropDownWidth="180dp" />
+
+    <Spinner
+        android:id="@+id/card_quantity_spinner"
+        style="@style/Core.Widget.Spinner"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_marginRight="10dp"
+        android:dropDownWidth="50dp" />
+
+</merge>
