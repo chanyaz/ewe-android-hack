@@ -13,6 +13,7 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.StarRatingBar
 import com.google.android.gms.maps.GoogleMap
+import com.jakewharton.rxbinding.widget.RxTextView
 import rx.Observable
 import rx.Observer
 import rx.Subscription
@@ -189,4 +190,8 @@ fun Observable<Boolean>.subscribeChecked(compoundButton: CompoundButton) {
 
 fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
     this.subscribe { textView.isCursorVisible = it }
+}
+
+fun EditText.subscribeTextChange(observer: Observer<String>): Subscription {
+    return RxTextView.afterTextChangeEvents(this).map({ it.editable().toString() }).distinctUntilChanged().subscribe(observer)
 }

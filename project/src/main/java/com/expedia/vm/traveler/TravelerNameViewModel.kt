@@ -24,18 +24,18 @@ class TravelerNameViewModel(context: Context): InvalidCharacterHelper.InvalidCha
 
     val fullNameSubject = BehaviorSubject.create<String>()
 
-    val firstNameObserver = endlessObserver<TextViewAfterTextChangeEvent>() { name ->
-        travelerName.firstName = name.editable().toString()
+    val firstNameObserver = endlessObserver<String>() {
+        travelerName.firstName = it
         nameUpdated()
     }
 
-    val middleNameObserver = endlessObserver<TextViewAfterTextChangeEvent>() { name ->
-        travelerName.middleName = name.editable().toString()
+    val middleNameObserver = endlessObserver<String>() {
+        travelerName.middleName = it
         nameUpdated()
     }
 
-    val lastNameObserver = endlessObserver<TextViewAfterTextChangeEvent>() { name ->
-        travelerName.lastName = name.editable().toString()
+    val lastNameObserver = endlessObserver<String>() {
+        travelerName.lastName = it
         nameUpdated()
     }
 

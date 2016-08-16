@@ -29,9 +29,7 @@ class TravelerPhoneViewModel(context: Context) {
         phone.countryCode = countryCode.toString()
     }
 
-    val phoneNumberObserver = endlessObserver<TextViewAfterTextChangeEvent>() { phoneNumber ->
-        phone.number = phoneNumber.editable().toString()
-    }
+    val phoneNumberObserver = endlessObserver<String>() { phone.number = it }
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)

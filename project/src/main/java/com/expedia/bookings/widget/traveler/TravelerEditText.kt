@@ -13,8 +13,7 @@ import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
-import com.jakewharton.rxbinding.widget.RxTextView
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
+import com.expedia.util.subscribeTextChange
 import rx.Observer
 import rx.Subscription
 import rx.subjects.PublishSubject
@@ -43,8 +42,8 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         }
     }
 
-    fun addTextChangedSubscriber(observer: Observer<TextViewAfterTextChangeEvent>) {
-        textChangedSubscription = RxTextView.afterTextChangeEvents(this).distinctUntilChanged().subscribe(observer)
+    fun addTextChangedSubscriber(observer: Observer<String>) {
+        textChangedSubscription = this.subscribeTextChange(observer)
     }
 
     fun subscribeToError(errorSubject: PublishSubject<Boolean>) {

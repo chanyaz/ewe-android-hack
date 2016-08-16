@@ -22,10 +22,9 @@ import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.bookings.widget.traveler.TSAEntryView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeTextChange
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.TravelerViewModel
-import com.jakewharton.rxbinding.widget.RxTextView
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
@@ -110,7 +109,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
     }
 
     var compositeSubscription: CompositeSubscription? = null
-    val formFilledSubscriber = endlessObserver<TextViewAfterTextChangeEvent>() {
+    val formFilledSubscriber = endlessObserver<String>() {
         filledIn.onNext(isCompletelyFilled())
     }
 
@@ -159,9 +158,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == View.VISIBLE) {
             compositeSubscription = CompositeSubscription()
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(nameEntryView.firstName).distinctUntilChanged().subscribe(formFilledSubscriber))
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(nameEntryView.lastName).distinctUntilChanged().subscribe(formFilledSubscriber))
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(phoneEntryView.phoneNumber).distinctUntilChanged().subscribe(formFilledSubscriber))
+            compositeSubscription?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
         } else {
             compositeSubscription?.unsubscribe()
         }

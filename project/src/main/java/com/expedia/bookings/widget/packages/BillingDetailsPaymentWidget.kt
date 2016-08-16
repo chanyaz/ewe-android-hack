@@ -10,7 +10,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.accessibility.AccessibleTextViewForSpinner
-import com.jakewharton.rxbinding.widget.RxTextView
+import com.expedia.util.subscribeTextChange
 
 
 class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
@@ -35,11 +35,11 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == View.VISIBLE) {
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(editEmailAddress).distinctUntilChanged().subscribe(formFilledSubscriber))
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(creditCardCvv).distinctUntilChanged().subscribe(formFilledSubscriber))
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(addressLineOne).distinctUntilChanged().subscribe(formFilledSubscriber))
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(addressCity).distinctUntilChanged().subscribe(formFilledSubscriber))
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(addressState).distinctUntilChanged().subscribe(formFilledSubscriber))
+            compositeSubscription?.add(editEmailAddress.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(creditCardCvv.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(addressLineOne.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(addressCity.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(addressState.subscribeTextChange(formFilledSubscriber))
         }
     }
 
