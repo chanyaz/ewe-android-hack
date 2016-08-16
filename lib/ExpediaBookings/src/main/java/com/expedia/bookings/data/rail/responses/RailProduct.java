@@ -10,7 +10,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class RailProduct {
 	public List<Integer> legOptionIndexList;
-	public List<PassengerSegmentFare> segmentFareDetailList = new ArrayList<>();
+	public List<PassengerSegmentFare> segmentFareDetailList = new ArrayList();
+	public List<RailCard> fareQualifierList = new ArrayList();
 	public boolean refundable;
 	public List<String> refundableRules;
 	public List<String> fareNotes;

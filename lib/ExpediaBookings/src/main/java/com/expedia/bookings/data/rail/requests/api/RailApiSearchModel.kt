@@ -2,6 +2,7 @@ package com.expedia.bookings.data.rail.requests.api
 
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.utils.DateUtils
 import org.joda.time.LocalDate
 import java.util.*
@@ -10,7 +11,7 @@ import java.util.*
             model is getting serialized to json and sent to the search endpoint
  */
 class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, departDate: LocalDate, returnDate: LocalDate?,
-                         departTimeMillis: Int, returnTimeMillis: Int?, isSearchRoundTrip: Boolean) {
+                         departTimeMillis: Int, returnTimeMillis: Int?, isSearchRoundTrip: Boolean, val fareQualifierList: List<RailCard>) {
 
     var pos = PointOfSaleKey()
     var clientCode = "1001" //TODO - what is this?
@@ -65,7 +66,7 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
         fun fromSearchParams(request: RailSearchRequest): RailApiSearchModel {
             //TODO - set passenger and railcards data
             return RailApiSearchModel(request.origin!!, request.destination!!, request.departDate, request.returnDate,
-                    request.departDateTimeMillis, request.returnDateTimeMillis, request.isRoundTripSearch())
+                    request.departDateTimeMillis, request.returnDateTimeMillis, request.isRoundTripSearch(), request.selectedRailCards)
 
         }
     }

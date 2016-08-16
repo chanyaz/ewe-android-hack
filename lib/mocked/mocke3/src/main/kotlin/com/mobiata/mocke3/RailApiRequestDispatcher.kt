@@ -25,6 +25,10 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
                 getMockResponse("m/api/rails/trip/checkout/happy.json")
             }
 
+            RailApiRequestMatcher.isRailApiCardsRequest(urlPath) -> {
+                getMockResponse("rails/v1/shopping/cards/en_GB.json")
+            }
+
             else -> make404()
         }
     }
@@ -46,6 +50,10 @@ class RailApiRequestMatcher {
 
         fun isRailApiCheckoutRequest(urlPath: String): Boolean {
             return doesItMatch("^/m/api/rails/trip/checkout.*", urlPath)
+        }
+
+        fun isRailApiCardsRequest(urlPath: String): Boolean {
+            return doesItMatch("^/rails/domain/m/api/v1/static/RailCards.*$", urlPath)
         }
 
     }

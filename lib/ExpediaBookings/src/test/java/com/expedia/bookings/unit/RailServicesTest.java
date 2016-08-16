@@ -2,6 +2,7 @@ package com.expedia.bookings.unit;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,6 +16,8 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.rail.RailPassenger;
 import com.expedia.bookings.data.rail.requests.RailCheckoutRequest;
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
+import com.expedia.bookings.data.rail.responses.RailCard;
+import com.expedia.bookings.data.rail.responses.RailCardsResponse;
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
 import com.expedia.bookings.data.rail.responses.RailProduct;
@@ -84,6 +87,7 @@ public class RailServicesTest {
 		RailProduct railProduct = railOffers.get(0).railProductList.get(0);
 		assertEquals(3, railProduct.segmentFareDetailList.size());
 		assertEquals(3, railProduct.getSegmentToFareMapping().size());
+		assertEquals(1, railProduct.fareQualifierList.size());
 	}
 
 	@Test
@@ -115,12 +119,21 @@ public class RailServicesTest {
 		assertEquals("8009690310416", checkoutResponse.orderId);
 	}
 
+	@Test
+	public void happyGetRailCards() {
+		TestSubscriber<RailCardsResponse> railCardsResponseTestSubscriber = new TestSubscriber<>();
+		service.railGetCards("en_GB", railCardsResponseTestSubscriber);
+		railCardsResponseTestSubscriber.awaitTerminalEvent();
+		railCardsResponseTestSubscriber.assertValueCount(1);
+		assertEquals(12, railCardsResponseTestSubscriber.getOnNextEvents().get(0).getRailCards().size());
+	}
+
 	private void givenHappySearchRequest() {
 		SuggestionV4 origin = new SuggestionV4();
 		SuggestionV4 destination = new SuggestionV4();
 		DateTime startDateTime = DateTime.now().plusDays(1);
 		LocalDate startDate = startDateTime.toLocalDate();
 		Integer startTime = startDateTime.toLocalTime().getMillisOfDay();
-		railSearchRequest = new RailApiSearchModel(origin, destination, startDate, null, startTime, null, false);
+		railSearchRequest = new RailApiSearchModel(origin, destination, startDate, null, startTime, null, false, Collections.<RailCard>emptyList());
 	}
 }

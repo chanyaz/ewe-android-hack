@@ -2,6 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.rail.requests.RailCheckoutRequest
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
+import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
@@ -63,6 +64,13 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
 
     fun railCheckoutTrip(params: RailCheckoutRequest, observer: Observer<RailCheckoutResponse>): Subscription {
         return railMApi.railCheckout(params)
+                .subscribeOn(subscribeOn)
+                .observeOn(observeOn)
+                .subscribe(observer)
+    }
+
+    fun railGetCards(locale: String, observer: Observer<RailCardsResponse>): Subscription {
+        return railApi.railCards(locale)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
