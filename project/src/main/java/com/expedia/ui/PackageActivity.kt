@@ -9,6 +9,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCreateTripParams
+import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
@@ -22,7 +23,7 @@ import java.math.BigDecimal
 
 class PackageActivity : AbstractAppCompatActivity() {
 
-    var changedOutboundFlight = false;
+    var changedOutboundFlight = false
 
     val packagePresenter: PackagePresenter by lazy {
         findViewById(R.id.package_presenter) as PackagePresenter
@@ -172,9 +173,14 @@ class PackageActivity : AbstractAppCompatActivity() {
         }
     }
 
+
+    override fun onResume() {
+        super.onResume()
+        Events.post(Events.AppBackgroundedOnResume())
+    }
+
     override fun onPause() {
         super.onPause()
-
         if (isFinishing) {
             clearCCNumber()
             clearStoredCard()

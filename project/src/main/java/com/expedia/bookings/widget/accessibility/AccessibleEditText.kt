@@ -6,7 +6,7 @@ import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
 import com.expedia.bookings.R
 
-open class AccessibleEditText(context: Context, attributeSet: AttributeSet) : EditText(context, attributeSet) {
+open class AccessibleEditText(context: Context, attributeSet: AttributeSet?) : EditText(context, attributeSet) {
     var valid: Boolean = true
 
     open fun getAccessibilityNodeInfo(): String {

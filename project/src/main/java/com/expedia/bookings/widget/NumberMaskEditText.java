@@ -82,8 +82,8 @@ public class NumberMaskEditText extends AccessibleEditText {
 	/**
 	 * Returns the full, formatted text value of this view.
 	 */
-	public void toFormattedString() {
-		mFormatter.applyTo(getEditableText().toString());
+	public String toFormattedString() {
+		return mFormatter.applyTo(getEditableText().toString());
 	}
 }
 
