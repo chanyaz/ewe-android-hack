@@ -86,7 +86,6 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     var etpOffersList = ArrayList<HotelOffersResponse.HotelRoomResponse>()
     var sectionBody: String by Delegates.notNull()
-    var commonList = ArrayList<HotelOffersResponse.ValueAdds>()
 
     var isSectionExpanded = false
     val sectionBodyObservable = BehaviorSubject.create<String>()
@@ -468,19 +467,9 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         if (CollectionUtils.isNotEmpty(hotelOffersResponse.hotelRoomResponse)) {
             val atLeastOneRoomHasNoValueAdds = hotelOffersResponse.hotelRoomResponse.any { it.valueAdds == null }
             if (!atLeastOneRoomHasNoValueAdds) {
-                val allValueAdds: List<List<String>> = hotelOffersResponse.hotelRoomResponse
-                        .filter { it.valueAdds != null }
-                        .map {
-                            it.valueAdds.map { it.description }
-                        }
-
+                val allValueAdds: List<List<String>> = getAllValueAdds(hotelOffersResponse)
                 if (!allValueAdds.isEmpty()) {
-                    val commonValueAdds: List<String> = allValueAdds
-                            .drop(1)
-                            .fold(allValueAdds.first().toMutableList(), { initial, nextValueAdds ->
-                                initial.retainAll(nextValueAdds)
-                                initial
-                            })
+                    val commonValueAdds: List<String> = getCommonValueAdds(allValueAdds)
 
                     if (!commonValueAdds.isEmpty()) {
                         val commonValueAddsString = context.getString(R.string.common_value_add_template, FormatUtils.series(context, commonValueAdds, ",", FormatUtils.Conjunction.AND)
@@ -518,6 +507,31 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         trackHotelDetailLoad(hotelOffersResponse, paramsSubject.value, hasETPOffer, isCurrentLocationSearch, hotelSoldOut.value, false)
     }
 
+    private fun getAllValueAdds(hotelOffersResponse: HotelOffersResponse): List<List<String>> {
+        val allValueAdds: List<List<String>> = hotelOffersResponse.hotelRoomResponse
+                .filter { it.valueAdds != null }
+                .map {
+                    it.valueAdds.map { it.description }
+                }
+        return allValueAdds
+    }
+
+    private fun getCommonValueAdds(hotelOffersResponse: HotelOffersResponse): List<String> {
+        return getCommonValueAdds(getAllValueAdds(hotelOffersResponse))
+    }
+
+    private fun getCommonValueAdds(allValueAdds: List<List<String>>): List<String> {
+        if (!allValueAdds?.isEmpty()) {
+            return allValueAdds
+                    .drop(1)
+                    .fold(allValueAdds.first().toMutableList(), { initial, nextValueAdds ->
+                        initial.retainAll(nextValueAdds)
+                        initial
+                    })
+        }
+        return emptyList()
+    }
+
     fun hasEtpOffer(response: HotelOffersResponse): Boolean {
         return CollectionUtils.isNotEmpty(response.hotelRoomResponse) && response.hotelRoomResponse.any { it.payLaterOffer != null }
     }
@@ -528,15 +542,12 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         if (CollectionUtils.isEmpty(hotelRooms)) {
             return emptyList()
         }
-
+        val commonValueAdds = getCommonValueAdds(hotelOffersResponse)
         var list = Array(hotelRooms!!.size, { i -> "" }).toMutableList()
         for (iRoom in 0..hotelRooms.size - 1) {
             val rate = hotelOffersResponse.hotelRoomResponse.get(iRoom)
             if (rate.valueAdds != null) {
-                var unique = rate.valueAdds
-                if (!commonList.isEmpty()) {
-                    unique.removeAll(commonList)
-                }
+                val unique = rate.valueAdds.filter { !commonValueAdds.contains(it.description) }
                 if (unique.size > 0) {
                     list.add(iRoom, context.getString(R.string.value_add_template, unique.get(0).description.toLowerCase(Locale.getDefault())))
                 }
