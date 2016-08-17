@@ -29,9 +29,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
     val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
         val viewStub = findViewById(R.id.payment_fee_info_webview_stub) as ViewStub
         val airlineFeeWebview = viewStub.inflate() as PaymentFeeInfoWebView
-        airlineFeeWebview.setExitButtonOnClickListener(View.OnClickListener { this.back() })
-        airlineFeeWebview.toolbar.title = resources.getString(if (airlinesChargePaymentFees) R.string.Airline_fee else R.string.flights_flight_overview_payment_fees)
-        airlineFeeWebview.toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
         airlineFeeWebview.viewModel = WebViewViewModel()
         airlineFeeWebview
     }
