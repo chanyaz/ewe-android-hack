@@ -4522,8 +4522,6 @@
     <string name="lx_add_ticket_button_cont_desc_TEMPLATE">Add {traveler}</string>
     <!-- Content description for LX remove ticket button e.g. Remove child Button -->
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Remove {traveler}</string>
-    <!-- Append 'Button' to Content description for LX search results card button -->
-    <string name="lx_card_announce_button_cont_desc">. Button</string>
     <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
     <string name="lx_search_date_range_cont_desc_TEMPLATE">Activity dates. Button. Opens dialog. {date_range}</string>
 
@@ -4533,6 +4531,8 @@
     <string name="lx_free_cancellation_cont_desc">Free cancellation. Legal information button.</string>
 
     <!-- Generic content description -->
+    <!-- Append 'Button' to Content description for LX/Cars search results card button -->
+    <string name="list_card_announce_button_cont_desc">. Button</string>
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_nav_icon_cont_desc">Back</string>
     <string name="toolbar_nav_icon_close_cont_desc">Close</string>
