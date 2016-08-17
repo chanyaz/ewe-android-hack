@@ -4459,13 +4459,13 @@
         <item quantity="other">旅行者数。ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">大人 1 名の旅行者を追加します</string>
+    <string name="add_adult_traveler_cont_desc">大人 1 名の旅行者を追加します</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">大人 1 名の旅行者を削除します</string>
+    <string name="remove_adult_traveler_cont_desc">大人 1 名の旅行者を削除します</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">お子様 1 名の旅行者を追加します</string>
+    <string name="add_child_traveler_cont_desc">お子様 1 名の旅行者を追加します</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">お子様 1 名の旅行者を削除します</string>
+    <string name="remove_child_traveler_cont_desc">お子様 1 名の旅行者を削除します</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">お子様 {childnumber} の年齢を選択してください。</string>
     <!--Packages search alternate datepicker announce for accessibility-->

@@ -4459,13 +4459,13 @@
         <item quantity="other">Number of travellers. Button. Opens dialog. {travelers} travellers</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">Add one adult traveller</string>
+    <string name="add_adult_traveler_cont_desc">Add one adult traveller</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">Remove one adult traveller</string>
+    <string name="remove_adult_traveler_cont_desc">Remove one adult traveller</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">Add one child traveller</string>
+    <string name="add_child_traveler_cont_desc">Add one child traveller</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">Remove one child traveller</string>
+    <string name="remove_child_traveler_cont_desc">Remove one child traveller</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Select age for child {childnumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->

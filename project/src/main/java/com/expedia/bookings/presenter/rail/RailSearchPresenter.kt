@@ -15,7 +15,7 @@ import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.TravelerWidgetV2
+import com.expedia.bookings.widget.RailTravelerWidgetV2
 import com.expedia.bookings.widget.rail.PositionObservableTabLayout
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
@@ -57,8 +57,8 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         return searchViewModel
     }
 
-    override val travelerWidgetV2: TravelerWidgetV2 by lazy {
-        searchWidget.travelerWidget
+    override val travelerWidgetV2 by lazy {
+        travelerCardViewStub.inflate().findViewById(R.id.traveler_card) as RailTravelerWidgetV2
     }
     override val originCardView: SearchInputTextView by lazy {
         searchWidget.locationWidget.originLocationText

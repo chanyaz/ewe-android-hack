@@ -4459,13 +4459,13 @@
         <item quantity="other">Số khách. Nút. Mở hộp thoại. {travelers} khách</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">Thêm một khách người lớn</string>
+    <string name="add_adult_traveler_cont_desc">Thêm một khách người lớn</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">Xóa một khách người lớn</string>
+    <string name="remove_adult_traveler_cont_desc">Xóa một khách người lớn</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">Thêm một khách trẻ em</string>
+    <string name="add_child_traveler_cont_desc">Thêm một khách trẻ em</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">Xóa một khách trẻ em</string>
+    <string name="remove_child_traveler_cont_desc">Xóa một khách trẻ em</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Chọn tuổi trẻ {childnumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->

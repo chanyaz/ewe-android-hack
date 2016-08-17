@@ -4459,13 +4459,13 @@
         <item quantity="other">จำนวนผู้เดินทาง ปุ่ม เปิดกล่องโต้ตอบ ผู้เดินทาง {travelers} คน</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">เพิ่มผู้เดินทางผู้ใหญ่ 1 คน</string>
+    <string name="add_adult_traveler_cont_desc">เพิ่มผู้เดินทางผู้ใหญ่ 1 คน</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">ลบผู้เดินทางผู้ใหญ่ 1 คน</string>
+    <string name="remove_adult_traveler_cont_desc">ลบผู้เดินทางผู้ใหญ่ 1 คน</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">เพิ่มผู้เดินทางเด็ก 1 คน</string>
+    <string name="add_child_traveler_cont_desc">เพิ่มผู้เดินทางเด็ก 1 คน</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">ลบผู้เดินทางเด็ก 1 คน</string>
+    <string name="remove_child_traveler_cont_desc">ลบผู้เดินทางเด็ก 1 คน</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">แสดงอายุเด็ก {childnumber}</string>
     <!--Packages search alternate datepicker announce for accessibility-->

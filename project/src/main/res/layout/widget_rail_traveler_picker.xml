@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:ignore="UnusedResources">
+
+    <ScrollView
+        android:id="@+id/scroll_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="16dp">
+
+                <com.expedia.bookings.widget.shared.TravelerCountSelector
+                    android:id="@+id/adult_count_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/traveler_table_margin"
+                    android:orientation="horizontal"
+                    app:traveler_age_label="@string/rail_adult_age_label"
+                    app:traveler_minus="@string/remove_adult_traveler_cont_desc"
+                    app:traveler_plus="@string/add_adult_traveler_cont_desc"/>
+
+                <com.expedia.bookings.widget.shared.TravelerCountSelector
+                    android:id="@+id/child_count_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/traveler_table_margin"
+                    android:orientation="horizontal"
+                    app:traveler_age_label="@string/rail_children_age_label"
+                    app:traveler_minus="@string/remove_child_traveler_cont_desc"
+                    app:traveler_plus="@string/add_child_traveler_cont_desc"/>
+
+                <LinearLayout
+                    android:id="@+id/children_ages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:textSize="15sp">
+
+                    <LinearLayout
+                        android:id="@+id/children_ages_bottom_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/child_spinner_1"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                        <Spinner
+                            android:id="@+id/child_spinner_2"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/children_ages_bottom_container1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/child_spinner_3"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                        <Spinner
+                            android:id="@+id/child_spinner_4"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/children_ages_bottom_container2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/child_spinner_5"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                        <Spinner
+                            android:id="@+id/child_spinner_6"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/children_ages_bottom_container3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/child_spinner_7"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                        <Spinner
+                            android:id="@+id/child_spinner_8"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.expedia.bookings.widget.shared.TravelerCountSelector
+                    android:id="@+id/youth_count_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/traveler_table_margin"
+                    android:orientation="horizontal"
+                    app:traveler_age_label="@string/rail_youth_age_label"
+                    app:traveler_minus="@string/rails_remove_youth_traveler_cont_desc"
+                    app:traveler_plus="@string/rails_add_youth_traveler_cont_desc"/>
+
+                <LinearLayout
+                    android:id="@+id/youth_ages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:textSize="15sp">
+
+                    <LinearLayout
+                        android:id="@+id/youth_ages_bottom_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/youth_spinner_1"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                        <Spinner
+                            android:id="@+id/youth_spinner_2"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/youth_ages_bottom_container1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/youth_spinner_3"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+
+                        <Spinner
+                            android:id="@+id/youth_spinner_4"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/youth_ages_bottom_container2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/youth_spinner_5"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+
+                        <Spinner
+                            android:id="@+id/youth_spinner_6"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/youth_ages_bottom_container3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/youth_spinner_7"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+
+                        <Spinner
+                            android:id="@+id/youth_spinner_8"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+                <com.expedia.bookings.widget.shared.TravelerCountSelector
+                    android:id="@+id/senior_count_selector"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/traveler_table_margin"
+                    android:orientation="horizontal"
+                    app:traveler_age_label="@string/rail_senior_age_label"
+                    app:traveler_minus="@string/rails_remove_senior_traveler_cont_desc"
+                    app:traveler_plus="@string/rails_add_senior_traveler_cont_desc"/>
+
+                <LinearLayout
+                    android:id="@+id/senior_ages"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:textSize="15sp">
+
+                    <LinearLayout
+                        android:id="@+id/senior_ages_bottom_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/senior_spinner_1"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                        <Spinner
+                            android:id="@+id/senior_spinner_2"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/senior_ages_bottom_container1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/senior_spinner_3"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                        <Spinner
+                            android:id="@+id/senior_spinner_4"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/senior_ages_bottom_container2"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/senior_spinner_5"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                        <Spinner
+                            android:id="@+id/senior_spinner_6"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+                    <LinearLayout
+                        android:id="@+id/senior_ages_bottom_container3"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <Spinner
+                            android:id="@+id/senior_spinner_7"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                        <Spinner
+                            android:id="@+id/senior_spinner_8"
+                            style="@style/SelectTravelerAgeSpinner" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</merge>

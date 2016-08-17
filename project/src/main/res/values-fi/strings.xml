@@ -4459,13 +4459,13 @@
         <item quantity="other">Matkustajien lukumäärä. Painike. Avaa dialogin. {travelers} matkustajaa</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">Lisää yksi aikuinen matkustaja</string>
+    <string name="add_adult_traveler_cont_desc">Lisää yksi aikuinen matkustaja</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">Poista yksi aikuinen matkustaja</string>
+    <string name="remove_adult_traveler_cont_desc">Poista yksi aikuinen matkustaja</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">Lisää yksi lapsimatkustaja</string>
+    <string name="add_child_traveler_cont_desc">Lisää yksi lapsimatkustaja</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">Poista yksi lapsimatkustaja</string>
+    <string name="remove_child_traveler_cont_desc">Poista yksi lapsimatkustaja</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Valitse lapsen {childnumber} ikä.</string>
     <!--Packages search alternate datepicker announce for accessibility-->

@@ -4459,13 +4459,13 @@
         <item quantity="other">Aantal reizigers. Knop. Opent dialoogvenster. {travelers} reizigers</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">Voeg 1 volwassene reiziger toe</string>
+    <string name="add_adult_traveler_cont_desc">Voeg 1 volwassene reiziger toe</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">Verwijder 1 volwassene reiziger</string>
+    <string name="remove_adult_traveler_cont_desc">Verwijder 1 volwassene reiziger</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">Voeg 1 minderjarige reiziger toe</string>
+    <string name="add_child_traveler_cont_desc">Voeg 1 minderjarige reiziger toe</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">Verwijder 1 minderjarige reiziger</string>
+    <string name="remove_child_traveler_cont_desc">Verwijder 1 minderjarige reiziger</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor kind {childnumber}</string>
     <!--Packages search alternate datepicker announce for accessibility-->

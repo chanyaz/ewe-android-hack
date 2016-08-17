@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true">
 
-        <com.expedia.bookings.widget.TravelerWidgetV2
+        <com.expedia.bookings.widget.RailTravelerWidgetV2
             android:id="@+id/traveler_card"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_search_card_height"

@@ -4459,13 +4459,13 @@
         <item quantity="other">여행객 수. 버튼. 대화상자 열림. 여행객 {travelers}명</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">성인 1명 추가</string>
+    <string name="add_adult_traveler_cont_desc">성인 1명 추가</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">성인 1명 삭제</string>
+    <string name="remove_adult_traveler_cont_desc">성인 1명 삭제</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">아동 1명 추가</string>
+    <string name="add_child_traveler_cont_desc">아동 1명 추가</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">아동 1명 삭제</string>
+    <string name="remove_child_traveler_cont_desc">아동 1명 삭제</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">아동 {childnumber}의 나이를 선택하세요.</string>
     <!--Packages search alternate datepicker announce for accessibility-->

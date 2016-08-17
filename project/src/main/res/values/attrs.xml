@@ -348,4 +348,11 @@
     <declare-styleable name="AccessibleSpinner">
         <attr name="spinner_label" format="reference" />
     </declare-styleable>
+
+    <declare-styleable name="TravelerCountSelector">
+        <attr name="traveler_minus" format="string" />
+        <attr name="traveler_age_label" format="string" />
+        <attr name="traveler_plus" format="string" />
+    </declare-styleable>
+
 </resources>

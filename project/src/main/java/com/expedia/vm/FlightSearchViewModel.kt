@@ -180,7 +180,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         if (arrivalSuggestion != null) {
             destinationLocationObserver.onNext(arrivalSuggestion)
         }
-        travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList()))
+        travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
 
         if (flightParamsBuilder.areRequiredParamsFilled()) {
             deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.RESULTS)
