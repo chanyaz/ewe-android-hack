@@ -2450,11 +2450,7 @@ public class OmnitureTracking {
 		AbacusTest test = Db.getAbacusResponse().testForKey(testKey);
 
 		if (test == null) {
-			// Just log control
-			test = new AbacusTest();
-			test.id = testKey;
-			test.value = AbacusUtils.DefaultVariate.CONTROL.ordinal();
-			test.instanceId = 0;
+			return;
 		}
 
 		// Adds piping for multivariate AB Tests.

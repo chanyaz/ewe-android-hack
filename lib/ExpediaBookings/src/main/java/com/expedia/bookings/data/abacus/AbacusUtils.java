@@ -23,7 +23,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelCollapseAmenities = 8126;
 	public static final int EBAndroidAppHotelShowAddressMapInReceipt = 8129;
 	public static final int EBAndroidHotelCKOMerEmailGuestOpt = 8127;
-	public static final int ExpediaAndroidAppAATestSep2015 = 8706;
+	public static final int ExpediaAndroidAppAATestSep2015 = 11455;
 	public static final int EBAndroidAppHotelsV2SuperlativeReviewsABTest = 8688;
 	public static final int EBAndroidAppLXCategoryABTest = 9165;
 	public static final int EBAndroidAppLXFirstActivityListingExpanded = 9467;
