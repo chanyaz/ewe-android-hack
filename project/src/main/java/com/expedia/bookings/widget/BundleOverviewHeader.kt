@@ -50,7 +50,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     /** Collapsing Toolbar **/
     fun setUpCollapsingToolbar() {
         //we need to set this empty space inorder to remove the title string
-        collapsingToolbarLayout.title = " ";
+        collapsingToolbarLayout.title = " "
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(context, primaryColorId))
         collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(context, primaryColorId))
 
@@ -82,9 +82,9 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
-        var maxScroll = appBarLayout.totalScrollRange;
+        val maxScroll = appBarLayout.totalScrollRange;
         if (maxScroll != 0) {
-            var percentage = Math.abs(offset) / maxScroll.toFloat()
+            val percentage = Math.abs(offset) / maxScroll.toFloat()
 
             if (isHideToolbarView) {
                 if (percentage == 1f) {
