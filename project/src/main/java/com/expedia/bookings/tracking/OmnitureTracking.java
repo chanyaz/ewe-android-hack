@@ -5373,16 +5373,15 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackFlightCheckoutInfoPageLoad() {
+	public static void trackFlightCheckoutInfoPageLoad(FlightCreateTripResponse tripResponse) {
 		String pageName = FLIGHT_CHECKOUT_INFO;
 		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 
 		// events
-		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
 		s.setEvents("event36, event71" /* checkout start, flight checkout start */ +
-			(trip.getAvailableInsuranceProducts().isEmpty() ? "" : ", event122" /* insurance present */));
+			(tripResponse.getAvailableInsuranceProducts().isEmpty() ? "" : ", event122" /* insurance present */));
 
 		// products
 		s.setProducts(String.format(Locale.ENGLISH, "%seVar63=%s:SA%s", getFlightProductString(),

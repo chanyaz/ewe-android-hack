@@ -1,8 +1,11 @@
 package com.expedia.bookings.tracking
 
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.utils.LeanPlumUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
 
@@ -17,6 +20,7 @@ object FlightsV2Tracking {
 
     fun trackResultOutBoundFlights(flightSearchParams: FlightSearchParams) {
         OmnitureTracking.trackResultOutBoundFlights(flightSearchParams)
+        LeanPlumUtils.trackFlightV2Search(flightSearchParams)
     }
 
     fun trackFlightOverview(isOutboundFlight: Boolean) {
@@ -75,7 +79,10 @@ object FlightsV2Tracking {
     }
 
     fun trackCheckoutInfoPageLoad() {
-        OmnitureTracking.trackFlightCheckoutInfoPageLoad()
+        val tripResponse = Db.getTripBucket().flightV2.flightCreateTripResponse
+        val searchParams = Db.getFlightSearchParams()
+        OmnitureTracking.trackFlightCheckoutInfoPageLoad(tripResponse)
+        LeanPlumUtils.trackFlightV2CheckoutStarted(tripResponse, searchParams)
     }
 
     fun trackInsuranceUpdated(insuranceAction: InsuranceViewModel.InsuranceAction) {
@@ -132,8 +139,10 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightCheckoutPaymentCID()
     }
 
-    fun trackCheckoutConfirmationPageLoad() {
+    fun trackCheckoutConfirmationPageLoad(flightCheckoutResponse: FlightCheckoutResponse) {
+        val searchParams = Db.getFlightSearchParams()
         OmnitureTracking.trackFlightCheckoutConfirmationPageLoad()
+        LeanPlumUtils.trackFlightV2Booked(flightCheckoutResponse, searchParams)
     }
 
     fun trackFlightNoResult() {
