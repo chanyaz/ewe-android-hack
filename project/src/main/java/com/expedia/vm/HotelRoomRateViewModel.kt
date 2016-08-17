@@ -69,6 +69,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     val shouldShowDiscountPercentage = BehaviorSubject.create<Boolean>()
     val discountPercentage = BehaviorSubject.create<String>()
     val depositTerms = BehaviorSubject.create<List<String>>()
+    val setViewRoomContentDescription = BehaviorSubject.create<CharSequence>()
 
     // TODO - create sepearate observable+observer for room selection.
     // -- This should only take care of the expanding and collapsing of the view
@@ -83,6 +84,8 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     val expandCollapseRoomRate: Observer<Boolean> = endlessObserver {
         isChecked ->
         if (!isChecked) {
+            setViewRoomContentDescription.onNext(context.getString(R.string.hotel_room_expand_cont_desc))
+
             roomSelectedObservable.onNext(hotelRoomResponse)
             //don't change the state of toggle button
             viewRoomObservable.onNext(Unit)
@@ -98,6 +101,8 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
                 HotelTracking().trackLinkHotelAirAttachEligible(hotelRoomResponse, hotelId)
             }
         } else {
+            setViewRoomContentDescription.onNext(context.getString(R.string.hotel_expanded_room_select_cont_desc))
+
             // expand row
             expandRoomObservable.onNext(true)
             if (lob == LineOfBusiness.PACKAGES) {
