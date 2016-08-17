@@ -45,6 +45,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.ItinUtils;
@@ -54,6 +55,7 @@ import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
+import com.squareup.phrase.Phrase;
 
 public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	implements PopupMenu.OnMenuItemClickListener, ShareView.OnShareTargetSelectedListener {
@@ -111,6 +113,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private ViewGroup mTitleContentLayout;
 	private ViewGroup mHeaderLayout;
 	private ViewGroup mHeaderTextLayout;
+	private View mHeaderItinCardContentDescription;
 	private ViewGroup mSummarySectionLayout;
 	private ViewGroup mCheckInLayout;
 	private ViewGroup mSummaryLayout;
@@ -171,6 +174,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mTitleContentLayout = Ui.findView(this, R.id.title_content_layout);
 		mHeaderLayout = Ui.findView(this, R.id.header_layout);
 		mHeaderTextLayout = Ui.findView(this, R.id.header_text_layout);
+		mHeaderItinCardContentDescription = Ui.findView(this, R.id.header_itin_card_content_description_view);
 		mSummarySectionLayout = Ui.findView(this, R.id.summary_section_layout);
 		mSummaryLayout = Ui.findView(this, R.id.summary_layout);
 		mCheckInLayout = Ui.findView(this, R.id.checkin_layout);
@@ -400,6 +404,15 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		// Header text
 		mHeaderTextView.setText(mItinContentGenerator.getHeaderText());
 		mHeaderTextDateView.setText(mItinContentGenerator.getHeaderTextDate());
+
+		if (AccessibilityUtil.isTalkBackEnabled(getContext())) {
+			mHeaderItinCardContentDescription
+				.setContentDescription(Phrase.from(getContext(), R.string.header_itin_card_content_description_TEMPLATE)
+					.put("type", mItinContentGenerator.getType().toString())
+					.format());
+		}
+		mHeaderItinCardContentDescription
+			.setVisibility(AccessibilityUtil.isTalkBackEnabled(getContext()) ? VISIBLE : GONE);
 
 		boolean shouldShowCheckInLink = shouldShowCheckInLink(itinCardData);
 		if (shouldShowCheckInLink) {

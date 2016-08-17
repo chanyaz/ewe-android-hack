@@ -4594,4 +4594,6 @@
         <item quantity="many">{guest} guests</item>
         <item quantity="other">{guest} guests</item>
     </plurals>
+    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">{type} Itinerary card button.</string>
 </resources>
