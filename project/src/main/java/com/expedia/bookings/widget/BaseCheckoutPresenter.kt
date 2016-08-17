@@ -146,6 +146,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             if (show) {
                 createTripDialog.show()
                 createTripDialog.setContentView(R.layout.process_dialog_layout)
+                AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.create_trip_dialog), 0)
+                createTripDialog.findViewById(R.id.create_trip_dialog).contentDescription = context.getString(R.string.spinner_text_hotel_create_trip)
             } else {
                 createTripDialog.hide()
             }

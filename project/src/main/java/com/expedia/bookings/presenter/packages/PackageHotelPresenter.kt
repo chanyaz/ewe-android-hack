@@ -32,6 +32,7 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
@@ -229,6 +230,8 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     private fun getDetails(piid: String, hotelId: String, checkIn: String, checkOut: String, ratePlanCode: String?, roomTypeCode: String?, numberOfAdultTravelers: Int, childTravelerAge: Int?) {
         loadingOverlay.visibility = View.VISIBLE
+        AccessibilityUtil.delayedFocusToView(loadingOverlay, 0)
+        loadingOverlay.setAccessibilityHoverFocus()
         loadingOverlay.animate(true)
         bundleSlidingWidget.bundlePriceWidget.disable()
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(null)
