@@ -1,7 +1,6 @@
 package com.expedia.bookings.widget.shared
 
 import android.content.Context
-import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
 import android.webkit.WebView
@@ -14,16 +13,12 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebViewViewModel
 
 abstract class AbstractWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    val toolbar: Toolbar by bindView(R.id.toolbar)
     val webView: WebView by bindView(R.id.web_view)
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
 
     init {
         View.inflate(getContext(), R.layout.widget_web_view, this)
         this.orientation = LinearLayout.VERTICAL
-        if (statusBarHeight > 0) {
-            toolbar.setPadding(0, statusBarHeight, 0, 0)
-        }
     }
 
     var viewModel: WebViewViewModel by notNullAndObservable { vm ->
@@ -39,9 +34,5 @@ abstract class AbstractWebViewWidget(context: Context, attrs: AttributeSet) : Li
             view?.loadUrl(url)
             return true
         }
-    }
-
-    fun setExitButtonOnClickListener(listener: OnClickListener) {
-        toolbar.setNavigationOnClickListener(listener)
     }
 }
