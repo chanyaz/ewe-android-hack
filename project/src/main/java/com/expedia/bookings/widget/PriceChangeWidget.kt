@@ -8,14 +8,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PriceChangeViewModel
 
 class PriceChangeWidget(context: Context, attr: AttributeSet) : LinearLayout(context, attr) {
     val priceChange: TextView by bindView(R.id.price_change_text)
 
     var viewmodel: PriceChangeViewModel by notNullAndObservable { vm ->
-        vm.priceChangeVisibility.subscribeVisibility(this)
         vm.priceChangeText.subscribeText(priceChange)
         vm.priceChangeDrawable.subscribe { drawable ->
             val icons = priceChange.compoundDrawables

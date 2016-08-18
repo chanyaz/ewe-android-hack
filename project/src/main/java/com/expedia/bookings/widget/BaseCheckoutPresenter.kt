@@ -32,6 +32,7 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -62,6 +63,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     val handle: FrameLayout by bindView(R.id.handle)
     val toolbarDropShadow: View by bindView(R.id.drop_shadow)
+    val bottomContainerDropShadow: View by bindView(R.id.bottom_container_drop_shadow)
     val chevron: View by bindView(R.id.chevron)
     val mainContent: LinearLayout by bindView(R.id.main_content)
     val scrollView: ScrollView by bindView(R.id.scrollView)
@@ -170,6 +172,19 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
+        priceChangeWidget.viewmodel.priceChangeVisibility.subscribe { visible ->
+            if (priceChangeWidget.measuredHeight == 0) {
+                priceChangeWidget.measure(View.MeasureSpec.makeMeasureSpec(this.width, View.MeasureSpec.AT_MOST),
+                        View.MeasureSpec.makeMeasureSpec(this.height, View.MeasureSpec.UNSPECIFIED))
+            }
+            val height = priceChangeWidget.measuredHeight
+            if (visible) {
+                AnimUtils.slideInOut(priceChangeWidget, height)
+                AnimUtils.slideInOut(bottomContainerDropShadow, height)
+            } else {
+                priceChangeWidget.translationY = height.toFloat()
+            }
+        }
 
         totalPriceWidget.breakdown.viewmodel = getCostSummaryBreakdownViewModel()
 
