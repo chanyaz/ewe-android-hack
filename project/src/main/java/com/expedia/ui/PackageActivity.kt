@@ -1,8 +1,11 @@
 package com.expedia.ui
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.widget.AppCompatTextView
+import android.util.TypedValue
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
@@ -16,10 +19,8 @@ import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchType
-import java.math.BigDecimal
 
 class PackageActivity : AbstractAppCompatActivity() {
 
@@ -139,7 +140,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                     packagePresenter.bundlePresenter.getCheckoutPresenter().toolbarDropShadow.visibility = View.GONE
 
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedInboundFlight())
+                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
                     packageCreateTrip()
                     packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
                 }
@@ -152,19 +153,25 @@ class PackageActivity : AbstractAppCompatActivity() {
 
         //for change package path
         if (packagePresenter.backStack.peek() is PackageOverviewPresenter && Db.getPackageParams()?.isChangePackageSearch() ?: false) {
-            Db.getPackageParams().pageType = null
             if (changedOutboundFlight) {
-                //when cancel changed outbound flight, packagePresenter's backStack is:
-                //Search, Overview, Hotel Intent, Outbound Flight Intent, InboundFlightIntent, Overview
-                //Remove last three objects in the backStack, so that it backs to hotel InfoSite.
                 changedOutboundFlight = false
-                packagePresenter.show(Intent(this, PackageHotelActivity::class.java), Presenter.FLAG_CLEAR_TOP)
-                packagePresenter.bundlePresenter.bundleWidget.revertBundleViewAfterChangedOutbound()
-            } else {
-                packageCreateTrip()
-                packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
-                packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-                packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+                val outbound = Db.getPackageFlightBundle().first
+                val inbound = Db.getPackageFlightBundle().second
+                Db.getPackageParams().packagePIID = inbound.packageOfferModel.piid
+                Db.getPackageParams().currentFlights[0] = outbound.legId
+                Db.setPackageSelectedOutboundFlight(outbound)
+                packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(outbound)
+            }
+            packageCreateTrip()
+            packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+            packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+            packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+            return
+        }
+        if (packagePresenter.backStack.size > 2 && packagePresenter.backStack.peek() is PackageOverviewPresenter) {
+            val currentState = (packagePresenter.backStack.peek() as PackageOverviewPresenter).currentState
+            if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name) {
+                showBackToSearchDialog()
                 return
             }
         }
@@ -173,6 +180,17 @@ class PackageActivity : AbstractAppCompatActivity() {
         }
     }
 
+    private fun showBackToSearchDialog() {
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle(R.string.package_checkout_back_dialog_title)
+        builder.setMessage(R.string.package_checkout_back_dialog_message)
+        builder.setNegativeButton(getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
+        builder.setPositiveButton(getString(R.string.start_over)) { dialog, which ->
+            packagePresenter.show(packagePresenter.searchPresenter, Presenter.FLAG_CLEAR_TOP)
+        }
+        val dialog = builder.create()
+        dialog.show()
+    }
 
     override fun onResume() {
         super.onResume()
@@ -194,6 +212,7 @@ class PackageActivity : AbstractAppCompatActivity() {
 
     private fun packageCreateTrip() {
         Db.getPackageParams().pageType = null
+        changedOutboundFlight = false
         val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
         if (params.isValid) {
             packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().tripParams.onNext(params)

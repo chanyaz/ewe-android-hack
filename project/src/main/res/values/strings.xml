@@ -4124,6 +4124,12 @@
         <item quantity="two">2+ Stops</item>
         <item quantity="other">2+ Stops</item>
     </plurals>
+    <!-- Title of alert dialog when user taps back button on package checkout overview page -->
+    <string name="package_checkout_back_dialog_title">Are you sure?</string>
+    <!-- Message of alert dialog when user taps back button on package checkout overview page -->
+    <string name="package_checkout_back_dialog_message">You are about to start your search over. If you want to modify your hotel or flight, tap the \'Edit\' button on the top right.</string>
+    <!-- Button label for start over -->
+    <string name="start_over">START OVER</string>
 
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">Nonstop</string>

@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Process;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -133,7 +134,10 @@ public class Db {
 	private Hotel mPackageSelectedHotel;
 	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
 	private FlightLeg mPackageSelectedOutboundFlight;
-	private FlightLeg mPackageSelectedInboundFlight;
+
+	//Package outbound and inbound flight pair
+	//Save inbound flight in this pair, to avoid stale inbound info if outbound is changed
+	private Pair<FlightLeg, FlightLeg> mPackageFlightBundle;
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -180,8 +184,8 @@ public class Db {
 	}
 
 	public static void clearPackageFlightSelection() {
-		sDb.mPackageSelectedInboundFlight = null;
 		sDb.mPackageSelectedOutboundFlight = null;
+		sDb.mPackageFlightBundle = null;
 	}
 
 	public static void clearPackageSelection() {
@@ -201,12 +205,12 @@ public class Db {
 		sDb.mPackageSelectedOutboundFlight = mPackageSelectedFlight;
 	}
 
-	public static FlightLeg getPackageSelectedInboundFlight() {
-		return sDb.mPackageSelectedInboundFlight;
+	public static Pair<FlightLeg, FlightLeg> getPackageFlightBundle() {
+		return sDb.mPackageFlightBundle;
 	}
 
-	public static void setPackageSelectedInboundFlight(FlightLeg mPackageSelectedFlight) {
-		sDb.mPackageSelectedInboundFlight = mPackageSelectedFlight;
+	public static void setPackageFlightBundle(FlightLeg outbound, FlightLeg inbound) {
+		sDb.mPackageFlightBundle = new Pair<>(outbound, inbound);
 	}
 
 	public static void setPackageParams(PackageSearchParams params) {
