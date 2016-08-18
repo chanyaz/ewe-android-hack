@@ -24,7 +24,7 @@ class FlightOffersViewModel( context: Context,
     val flightOfferSelected = PublishSubject.create<FlightTripDetails.FlightOffer>()
     val flightProductId = PublishSubject.create<String>()
     val showChargesObFeesSubject = PublishSubject.create<Boolean>()
-    val outboundResultsObservable = PublishSubject.create<List<FlightLeg>>()
+    val outboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
 

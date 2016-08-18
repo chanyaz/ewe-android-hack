@@ -29,6 +29,7 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
     }
 
     override fun trackFlightResultsLoad() {
-        FlightsV2Tracking.trackResultOutBoundFlights(Db.getFlightSearchParams())
+        val flightLegs = flightOfferViewModel.outboundResultsObservable.value
+        FlightsV2Tracking.trackResultOutBoundFlights(Db.getFlightSearchParams(), flightLegs)
     }
 }
