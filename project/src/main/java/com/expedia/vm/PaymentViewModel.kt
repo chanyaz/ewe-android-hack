@@ -6,6 +6,7 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
@@ -26,10 +27,12 @@ import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import org.joda.time.LocalDate
 import rx.Observable
+import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.concurrent.TimeUnit
 
-class PaymentViewModel(val context: Context) {
+open class PaymentViewModel(val context: Context) {
     val resources = context.resources
 
     // inputs
@@ -61,10 +64,11 @@ class PaymentViewModel(val context: Context) {
     val tempCard = PublishSubject.create<Pair<String, Drawable>>()
     val paymentTypeWarningHandledByCkoView = BehaviorSubject.create<Boolean>(false)
     val invalidPaymentTypeWarning = PublishSubject.create<String>()
+    val showCardFeeInfoLabel = PublishSubject.create<Boolean>()
+    val showInvalidPaymentWarning = PublishSubject.create<Boolean>()
     val cardIOBillingInfo = PublishSubject.create<BillingInfo>()
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
-    val showCardFeeInfoLabel = PublishSubject.create<Boolean>()
 
     val creditCardScanIntent: Intent by lazy {
         val scanIntent = Intent(context, CardIOActivity::class.java)
@@ -141,51 +145,51 @@ class PaymentViewModel(val context: Context) {
             }
         }
 
-        cardTypeSubject.subscribe { cardType ->
-            val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
-            var message = ""
-            if (tripItem != null &&
-                    cardType != null &&
-                    !tripItem.isPaymentTypeSupported(cardType)) {
-                val cardName = CreditCardUtils.getHumanReadableName(context, cardType)
-                message = when (lineOfBusiness.value) {
-                    LineOfBusiness.CARS -> {
-                        resources.getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
-                                (tripItem as TripBucketItemCar).mCarTripResponse.carProduct.vendor.name, cardName)
-                    }
+        cardTypeSubject
+                .debounce(1, TimeUnit.SECONDS, getScheduler())
+                .subscribe { cardType ->
+                    val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
+                    val showingPaymentFeeWarning = tripItem?.hasPaymentFee(cardType) ?: false
+                    var invalidPaymentWarningMsg = ""
 
-                    LineOfBusiness.LX, LineOfBusiness.TRANSPORT -> {
-                        resources.getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName)
-                    }
+                    if (tripItem != null &&
+                            cardType != null &&
+                            !tripItem.isPaymentTypeSupported(cardType)) {
+                        val cardName = CreditCardUtils.getHumanReadableName(context, cardType)
+                        invalidPaymentWarningMsg = when (lineOfBusiness.value) {
+                            LineOfBusiness.CARS -> {
+                                resources.getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
+                                        (tripItem as TripBucketItemCar).mCarTripResponse.carProduct.vendor.name, cardName)
+                            }
 
-                    LineOfBusiness.HOTELS -> {
-                        resources.getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName)
-                    }
+                            LineOfBusiness.LX, LineOfBusiness.TRANSPORT -> {
+                                resources.getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName)
+                            }
 
-                    LineOfBusiness.FLIGHTS_V2 -> {
-                        resources.getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName)
-                    }
+                            LineOfBusiness.HOTELS -> {
+                                resources.getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName)
+                            }
 
-                    LineOfBusiness.PACKAGES -> {
-                        Phrase.from(resources, R.string.package_does_not_accept_cardtype_TEMPLATE)
-                                .put("card_type", cardName)
-                                .format().toString()
-                    }
+                            LineOfBusiness.FLIGHTS_V2 -> {
+                                resources.getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName)
+                            }
 
-                    else -> ""
+                            LineOfBusiness.PACKAGES -> {
+                                Phrase.from(resources, R.string.package_does_not_accept_cardtype_TEMPLATE)
+                                        .put("card_type", cardName)
+                                        .format().toString()
+                            }
+
+                            else -> ""
+                        }
+                    }
+                    val showLabel = !paymentTypeWarningHandledByCkoView.value || !showingPaymentFeeWarning && invalidPaymentWarningMsg.isBlank()
+                    invalidPaymentTypeWarning.onNext(invalidPaymentWarningMsg)
+                    showCardFeeInfoLabel.onNext(showLabel)
                 }
-            }
-            invalidPaymentTypeWarning.onNext(message)
-        }
 
-        val showCardFeeLabelFun = fun(invalidPaymentTypeWarning: String, cardTypeSelected: PaymentType?) {
-            val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
-            val showingPaymentFeeWarning = tripItem?.hasPaymentFee(cardTypeSelected) ?: false
-            val showingInvalidPaymentTypeWarning = invalidPaymentTypeWarning.isNotBlank()
-            val showLabel = !paymentTypeWarningHandledByCkoView.value || (!showingPaymentFeeWarning && !showingInvalidPaymentTypeWarning)
-            showCardFeeInfoLabel.onNext(showLabel)
-        }
-        Observable.combineLatest(invalidPaymentTypeWarning, cardTypeSubject, showCardFeeLabelFun).subscribe()
+        invalidPaymentTypeWarning.map { !paymentTypeWarningHandledByCkoView.value && it.isNotBlank() }
+                                 .subscribe(showInvalidPaymentWarning)
 
         lineOfBusiness.subscribe { lob ->
             isCreditCardRequired.onNext(lobRequiresCreditCard(lob))
@@ -247,6 +251,9 @@ class PaymentViewModel(val context: Context) {
             return ContextCompat.getDrawable(context, BookingInfoUtils.getTabletCardIcon(type))
         }
     }
+
+    // protected so we can override in test
+    protected open fun getScheduler() = AndroidSchedulers.mainThread()!!
 
     private fun getCardTypeAndLast4Digits(paymentType: PaymentType?, cardNumber: String): String {
         return Phrase.from(context, R.string.checkout_selected_card)

@@ -126,9 +126,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             paymentStatusIcon.status = it
         }
         vm.invalidPaymentTypeWarning.subscribeText(invalidPaymentText)
-        Observable.combineLatest( vm.paymentTypeWarningHandledByCkoView,
-                                  vm.invalidPaymentTypeWarning,
-                                  showInvalidPaymentWarningFun).subscribe()
+        vm.showInvalidPaymentWarning.subscribeVisibility(invalidPaymentContainer)
 
         vm.lineOfBusiness.subscribe { lob ->
             sectionBillingInfo.setLineOfBusiness(lob)
@@ -594,11 +592,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     private fun temporarilySavedCardIsSelected(isSelected: Boolean, info: BillingInfo?) {
         info?.saveCardToExpediaAccount = isSelected
-    }
-
-    private val showInvalidPaymentWarningFun = fun(paymentWarningHandledByCkoView: Boolean, warningText: String) {
-        val visibility = if (!paymentWarningHandledByCkoView && warningText.isNotBlank()) View.VISIBLE else View.GONE
-        invalidPaymentContainer.visibility = visibility
     }
 
     fun userChoosesToSaveCard() {

@@ -40,7 +40,7 @@ class FlightCheckoutInvalidPaymentTypeTest: NewFlightTestCase() {
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
 
         assertWarningNotShown()
-        CardInfoScreen.assertCardInfoLabelNotShown()
+        CardInfoScreen.assertCardInfoLabelShown()
         PackageScreen.completePaymentForm()
         CheckoutViewModel.clickDone()
 

@@ -1,6 +1,7 @@
 package com.expedia.vm.test.robolectric
 
 import android.app.Activity
+import android.content.Context
 import android.content.DialogInterface
 import android.text.SpannableStringBuilder
 import android.text.Spanned
@@ -28,9 +29,11 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
-import org.robolectric.internal.Shadow
 import org.robolectric.shadows.ShadowAlertDialog
+import rx.Scheduler
+import rx.android.schedulers.AndroidSchedulers
 import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.io.IOException
@@ -52,7 +55,7 @@ class FlightCheckoutViewModelTest {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.FlightTheme)
         Ui.getApplication(context).defaultTravelerComponent()
-        sut = FlightCheckoutViewModel(context, mockFlightServices, selectedCardTypeSubject)
+        sut = TestFlightCheckoutViewModelClass(context, mockFlightServices, selectedCardTypeSubject)
     }
 
     @Test
@@ -186,9 +189,9 @@ class FlightCheckoutViewModelTest {
         sut.validFormsOfPaymentSubject.onNext(listOf(createPaymentWithZeroFees()))
 
         hasCardFeeTestSubscriber.assertValue(false)
-        cardFeeTextSubscriber.assertNoValues()
-        cardFeeWarningTextSubscriber.assertNoValues()
-        cardFeeForSelectedSubscriber.assertNoValues()
+        assertEquals("", cardFeeTextSubscriber.onNextEvents[0].toString())
+        assertEquals("", cardFeeWarningTextSubscriber.onNextEvents[0].toString())
+        cardFeeForSelectedSubscriber.assertValue(null)
     }
 
     @Test
@@ -204,13 +207,13 @@ class FlightCheckoutViewModelTest {
         val cardFeeForSelectedSubscriber = TestSubscriber<ValidFormOfPayment>()
         val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
 
-        sut.cardFeeTextSubject.subscribe(cardFeeTextSubscriber)
-        sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
-        sut.cardFeeForSelectedCard.subscribe(cardFeeForSelectedSubscriber)
-        sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
+        sut.cardFeeTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeTextSubscriber)
+        sut.cardFeeWarningTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeWarningTextSubscriber)
+        sut.cardFeeForSelectedCard.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeForSelectedSubscriber)
+        sut.paymentTypeSelectedHasCardFee.subscribeOn(AndroidSchedulers.mainThread()).subscribe(hasCardFeeTestSubscriber)
 
-        selectedCardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
         sut.validFormsOfPaymentSubject.onNext(listOf(formOfPaymentWithFee))
+        selectedCardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
 
         cardFeeTextSubscriber.assertValueCount(1)
         assertEquals("Airline processing fee for this card: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
@@ -219,9 +222,47 @@ class FlightCheckoutViewModelTest {
         assertEquals("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).",
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
 
-        hasCardFeeTestSubscriber.assertValues(false, true)
+        hasCardFeeTestSubscriber.assertValues(true)
         cardFeeForSelectedSubscriber.assertValueCount(1)
         cardFeeForSelectedSubscriber.assertValue(formOfPaymentWithFee)
+    }
+
+    @Test
+    fun cardFeeClearedOnCardChange() {
+        givenGoodCheckoutParams()
+        createMockFlightServices()
+        setupSystemUnderTest()
+
+        val formOfPaymentWithFee = createPaymentWithCardFee()
+
+        val cardFeeTextSubscriber = TestSubscriber<Spanned>()
+        val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
+        val cardFeeForSelectedSubscriber = TestSubscriber<ValidFormOfPayment?>()
+        val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
+
+        sut.cardFeeTextSubject.subscribe(cardFeeTextSubscriber)
+        sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
+        sut.cardFeeForSelectedCard.subscribe(cardFeeForSelectedSubscriber)
+        sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
+
+        sut.validFormsOfPaymentSubject.onNext(listOf(formOfPaymentWithFee))
+        selectedCardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
+
+        Thread.sleep(1001) // sleep till previous selected card causes action
+        selectedCardTypeSubject.onNext((PaymentType.CARD_MASTERCARD))
+
+        cardFeeTextSubscriber.assertValueCount(2)
+        assertEquals("Airline processing fee for this card: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
+        assertEquals("", cardFeeTextSubscriber.onNextEvents[1].toString())
+
+        cardFeeWarningTextSubscriber.assertValueCount(2)
+        assertEquals("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).",
+                cardFeeWarningTextSubscriber.onNextEvents[0].toString())
+        assertEquals("", cardFeeWarningTextSubscriber.onNextEvents[1].toString())
+
+        hasCardFeeTestSubscriber.assertValues(true, false)
+        cardFeeForSelectedSubscriber.assertValueCount(2)
+        cardFeeForSelectedSubscriber.assertValues(formOfPaymentWithFee, null)
     }
 
     @Test
@@ -359,5 +400,11 @@ class FlightCheckoutViewModelTest {
         val checkoutResponseObservable = PublishSubject.create<FlightCheckoutResponse>()
         Mockito.`when`(mockFlightServices.checkout(params.toQueryMap()))
                 .thenReturn(checkoutResponseObservable)
+    }
+
+    class TestFlightCheckoutViewModelClass(context: Context, flightServices: FlightServices, selectedCardTypeSubject: PublishSubject<PaymentType?>): FlightCheckoutViewModel(context, flightServices, selectedCardTypeSubject) {
+        override fun getScheduler(): Scheduler {
+            return Schedulers.immediate()
+        }
     }
 }
