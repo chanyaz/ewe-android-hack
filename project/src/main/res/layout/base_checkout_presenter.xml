@@ -17,8 +17,8 @@
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flights_debit_cards_not_accepted"
             style="@style/FlightWarningBar"
-            android:text="@string/flights_debit_cards_not_accepted"
             android:singleLine="true"
+            android:text="@string/flights_debit_cards_not_accepted"
             android:visibility="gone" />
 
         <com.expedia.bookings.widget.FrameLayout
@@ -37,11 +37,11 @@
                     android:id="@+id/view_trip_details"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:contentDescription="@string/trip_overview_cont_desc"
                     android:singleLine="true"
                     android:text="@string/trip_overview"
                     android:textSize="16sp"
-                    app:textStyle="medium"
-                    android:contentDescription="@string/trip_overview_cont_desc"/>
+                    app:textStyle="medium" />
 
                 <ImageView
                     android:id="@+id/chevron"
@@ -135,14 +135,14 @@
                 <!-- Insurance -->
                 <com.expedia.bookings.widget.InsuranceWidget
                     android:id="@+id/insurance_widget"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/card_view_container_margin"
                     android:layout_marginRight="@dimen/card_view_container_margin"
                     android:layout_marginTop="16dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:layout_width="match_parent"
-                    android:visibility="gone"/>
+                    android:visibility="gone" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/legal_information_text_view"
@@ -166,8 +166,8 @@
                     android:layout_marginTop="5dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:textSize="10sp"
                     android:textColor="@color/defaultTextColor"
+                    android:textSize="10sp"
                     android:visibility="gone" />
 
 
@@ -180,8 +180,8 @@
                     android:layout_marginTop="5dp"
                     android:paddingLeft="8dp"
                     android:paddingRight="8dp"
-                    android:textSize="10sp"
                     android:textColor="@color/defaultTextColor"
+                    android:textSize="10sp"
                     android:visibility="gone" />
 
                 <com.expedia.bookings.widget.TextView
@@ -245,11 +245,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FDFDFD"
-            android:visibility="invisible"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingBottom="8dp"
-            android:paddingTop="8dp">
+            android:paddingTop="8dp"
+            android:visibility="invisible">
 
             <com.expedia.bookings.widget.SlideToWidgetLL
                 android:id="@+id/slide_to_purchase_widget"
@@ -282,8 +282,8 @@
         android:id="@+id/checkout_button"
         style="@style/MaterialFooterButtonText"
         android:layout_width="match_parent"
-        android:background="?attr/hotel_select_room_ripple_drawable"
         android:layout_gravity="bottom"
+        android:background="?attr/hotel_select_room_ripple_drawable"
         android:text="@string/Checkout" />
 
     <com.expedia.bookings.presenter.packages.TravelerPresenter

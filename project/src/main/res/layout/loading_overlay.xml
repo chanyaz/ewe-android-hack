@@ -17,6 +17,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/loading_header"
+                android:contentDescription="@string/loading_hotels"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:layout_gravity="center" />

@@ -4178,6 +4178,12 @@
         <item quantity="other">Hotel in {city} - 1 room, {number} nights</item>
     </plurals>
 
+    <!-- Accessibility Label for hotel on checkout overview of Packages -->
+    <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
+        <item quantity="one">Hotel in {city}, 1 room, {number} night</item>
+        <item quantity="other">Hotel in {city}, 1 room, {number} nights</item>
+    </plurals>
+
     <!-- Text indicating that the user can drag this button to view their trip -->
     <string name="trip_overview">View Trip Details</string>
     <!-- Content description to View Trip Details view -->
@@ -4559,6 +4565,10 @@
     <string name="accessibility_cont_desc_role_button_collapse">Button to collapse</string>
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">Opens dialog</string>
+    <!--Packages accessibility content description for hotel room selection expand -->
+    <string name="hotel_room_expand_cont_desc">Expand to view room info and select room</string>
+    <!--Packages accessibility content description for hotel room selection collapse -->
+    <string name="hotel_expanded_room_select_cont_desc">Select room</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">Price is {activity_price}</string>
