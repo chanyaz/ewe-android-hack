@@ -14,32 +14,6 @@
         android:paddingTop="14dp">
 
         <com.expedia.bookings.widget.TextView
-            android:id="@+id/car_vendor_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:paddingBottom="8dp"
-            android:paddingLeft="14dp"
-            android:paddingRight="16dp"
-            android:textColor="#3C3C3C"
-            android:textSize="17sp"
-            app:textStyle="medium" />
-
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/category_title_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBaseline="@+id/due_at_text"
-            android:layout_alignParentLeft="true"
-            android:layout_below="@id/car_vendor_text"
-            android:layout_toLeftOf="@id/due_at_text"
-            android:paddingLeft="14dp"
-            android:paddingRight="16dp"
-            android:textColor="@color/cars_checkout_text_color"
-            android:textSize="12sp"
-            android:textStyle="bold" />
-
-        <com.expedia.bookings.widget.TextView
             android:id="@+id/grand_total_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -81,10 +55,26 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_below="@id/category_title_text"
             android:orientation="vertical"
             android:paddingLeft="14dp"
             android:paddingRight="16dp">
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/car_vendor_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="8dp"
+                android:layout_gravity="top"
+                android:textColor="#3C3C3C"
+                android:textSize="17sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/category_title_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/cars_checkout_text_color"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/car_model_text"
