@@ -179,7 +179,7 @@ public class ProfileScreenTest {
 	}
 
 	private static void assertIntentFiredToStartAboutWebViewWithUrl(String url) {
-		assertIntentFiredToStartActivityWithExtra(AboutWebViewActivity.class, equalTo("ARG_URL"), equalTo(url));
+		assertIntentFiredToStartActivityWithExtra(AboutWebViewActivity.class, equalTo("ARG_URL"), containsString(url));
 	}
 
 	private static void assertIntentFiredToStartWebViewWithRawHtmlContaining(String html) {
