@@ -44,6 +44,9 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
+import com.squareup.phrase.Phrase;
+
+import static com.expedia.bookings.utils.TuneUtils.context;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
 
@@ -170,7 +173,13 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		final ItinCardDataHotel itinCardData = getItinCardData();
 		vh.mHotelNameTextView.setText(itinCardData.getPropertyName());
-		vh.mHotelRatingBar.setRating(itinCardData.getPropertyRating());
+		float propertyRating = itinCardData.getPropertyRating();
+		String hotelRatingContentDescription = Phrase.from(getContext().getResources().getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, (int)propertyRating))
+			.put("rating", (int)propertyRating)
+			.format()
+			.toString();
+		vh.mHotelRatingBar.setContentDescription(hotelRatingContentDescription);
+		vh.mHotelRatingBar.setRating(propertyRating);
 
 		return convertView;
 	}
