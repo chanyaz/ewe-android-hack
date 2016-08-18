@@ -69,9 +69,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	public Traveler getItem(int position) {
 		int itemType = getItemViewType(position);
 		if (itemType == ITEM_VIEW_TYPE_TRAVELER) {
-			if (getCount() > position - 1) {
-				return getAvailableTravelers().get(position - 1);
-			}
+			return getAvailableTravelers().get(position - 2);
 		}
 		return null;
 	}
@@ -168,7 +166,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	@Override
 	public int getItemViewType(int position) {
-		boolean isAddNewTraveler = position == getCount() - 1;
+		boolean isAddNewTraveler = position == 1;
 		if (isAddNewTraveler) {
 			return ITEM_VIEW_TYPE_ADD_TRAVELER;
 		}

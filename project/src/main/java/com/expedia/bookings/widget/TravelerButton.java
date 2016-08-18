@@ -55,6 +55,7 @@ public class TravelerButton extends LinearLayout {
 	private ListPopupWindow mStoredTravelerPopup;
 	private ITravelerButtonListener mTravelerButtonListener;
 	private String mLastSelectedTravelerTuid;
+	private int addNewTravelerPosition = 1;
 
 	public interface ITravelerButtonListener {
 		void onTravelerChosen(Traveler traveler);
@@ -66,8 +67,13 @@ public class TravelerButton extends LinearLayout {
 
 	@OnClick(R.id.select_traveler_button)
 	public void onShowTraveler() {
-		showSavedTravelers();
 		Ui.hideKeyboard((Activity) getContext());
+		postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				showSavedTravelers();
+			}
+		}, 100L);
 	}
 
 	@Override
@@ -92,7 +98,7 @@ public class TravelerButton extends LinearLayout {
 	}
 
 	private void onStoredTravelerSelected(int position) {
-		boolean isAddNewTravelerSelected = (position == mTravelerAdapter.getCount() - 1);
+		boolean isAddNewTravelerSelected = (position == addNewTravelerPosition);
 		if (isAddNewTravelerSelected) {
 			Traveler emptyTraveler = new Traveler();
 			emptyTraveler.setIsSelectable(false);
@@ -109,10 +115,6 @@ public class TravelerButton extends LinearLayout {
 			return;
 		}
 
-		// If adapter header do nothing.
-		if (position == 0) {
-			return;
-		}
 		final Traveler selectedTraveler = mTravelerAdapter.getItem(position);
 		mLastSelectedTravelerTuid = selectedTraveler.getTuid().toString();
 		if (selectedTraveler.isSelectable()) {
