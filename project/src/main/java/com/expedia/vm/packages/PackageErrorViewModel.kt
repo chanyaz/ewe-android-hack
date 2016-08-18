@@ -63,7 +63,12 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             }
         }).subscribe {
             error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
-            PackagesTracking().trackSearchError(it.errorCode.toString())
+            if (it.errorCode != null) {
+                PackagesTracking().trackSearchError(it.errorCode.toString())
+            }
+            else {
+                PackagesTracking().trackSearchError("Error Code is null")
+            }
             when (it.errorCode) {
                 PackageApiError.Code.pkg_unknown_error,
                 PackageApiError.Code.search_response_null,
