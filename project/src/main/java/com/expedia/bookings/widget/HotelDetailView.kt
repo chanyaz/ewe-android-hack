@@ -33,6 +33,7 @@ import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -188,7 +189,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             gallery.setDataSource(galleryUrls)
             gallery.setProgressBarOnImageViewsEnabled(true)
             gallery.scrollToPosition(0)
-            gallery.startFlipping()
+            if (!AccessibilityUtil.isTalkBackEnabled(context)) {
+                gallery.startFlipping()
+            }
 
             val galleryItemCount = gallery.adapter.itemCount
             if (galleryItemCount > 0) {
@@ -575,7 +578,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         val hitRect = Rect()
         detailContainer.getHitRect(hitRect)
         val isGalleryShowingOnDisplay = gallery.getLocalVisibleRect(hitRect)
-        if (isGalleryShowingOnDisplay && !gallery.isFlipping) {
+        if (isGalleryShowingOnDisplay && !gallery.isFlipping && !AccessibilityUtil.isTalkBackEnabled(context)) {
             gallery.startFlipping()
         } else if (!isGalleryShowingOnDisplay && gallery.isFlipping) {
             gallery.stopFlipping()
