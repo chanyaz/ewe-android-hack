@@ -6,6 +6,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.packages.TravelerPresenter
@@ -25,8 +26,11 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
     protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter }
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
-
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
+
+    val viewLocation = IntArray(2)
+    var scrollSpaceView: View? = null
+    var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
     abstract fun inflate()
 
@@ -85,6 +89,8 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.nestedScrollView.foreground.alpha = (255 * range).toInt()
             translateBottomContainer(range, true)
         }
+
+        overviewLayoutListener = OverviewLayoutListener()
     }
 
     fun showCheckout() {
@@ -124,7 +130,13 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         var range = 0f
         var userStoppedScrollingAt = 0
         override fun startTransition(forward: Boolean) {
-            if (!forward) checkoutPresenter.toolbarDropShadow.visibility = View.GONE
+            if (!forward) {
+                checkoutPresenter.toolbarDropShadow.visibility = View.GONE
+                resetScrollSpaceHeight()
+                scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(overviewLayoutListener)
+            } else {
+                scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(overviewLayoutListener)
+            }
             bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
             setToolbarMenu(forward)
             setToolbarNavIcon(forward)
@@ -254,4 +266,53 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     open fun setToolbarNavIcon(forward: Boolean) { }
     abstract fun trackCheckoutPageLoad()
     abstract fun trackPaymentCIDLoad()
+
+
+    inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout () {
+            lockScrollingByContentSize(scrollSpaceView)
+            updateScrollingSpace(scrollSpaceView)
+        }
+    }
+
+    private fun lockScrollingByContentSize(scrollSpaceView: View?) {
+        if (scrollSpaceView != null) {
+            scrollSpaceView.getLocationOnScreen(viewLocation)
+            val scrollSpaceCoordinateY = viewLocation[1]
+            checkoutPresenter.totalPriceWidget.getLocationOnScreen(viewLocation)
+            val bottomContainerCoordinateY = viewLocation[1] - checkoutPresenter.bottomContainerDropShadow.height
+            // content more than viewport
+            if (scrollSpaceCoordinateY > bottomContainerCoordinateY) {
+                if (!bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled) {
+                    bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled = true
+                }
+            } else {
+                if (bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled && bundleOverviewHeader.isFullyExpanded) {
+                    bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled = false
+                }
+            }
+        }
+    }
+
+    private fun updateScrollingSpace(scrollSpaceView: View?) {
+        val scrollSpaceViewLp = scrollSpaceView?.layoutParams
+        var scrollspaceheight = checkoutPresenter.bottomContainer.height + checkoutPresenter.checkoutButton.height
+        if (checkoutPresenter.slideToPurchaseLayout.height > 0) {
+            scrollspaceheight -= checkoutPresenter.slideToPurchaseLayout.height
+        }
+        if (checkoutPresenter.priceChangeWidget.height > 0) {
+            scrollspaceheight -= checkoutPresenter.priceChangeWidget.height
+        }
+        if (scrollSpaceViewLp?.height != scrollspaceheight) {
+            scrollSpaceViewLp?.height = scrollspaceheight
+            scrollSpaceView?.layoutParams = scrollSpaceViewLp
+            scrollSpaceView?.requestLayout()
+        }
+    }
+
+    fun resetScrollSpaceHeight() {
+        val layoutParams = scrollSpaceView?.layoutParams
+        layoutParams?.height = 0
+        scrollSpaceView?.layoutParams = layoutParams
+    }
 }

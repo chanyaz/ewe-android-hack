@@ -387,10 +387,15 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
+                flightOverviewPresenter.resetFlightSummary()
+                flightOverviewPresenter.resetScrollSpaceHeight()
                 flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                 flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
                 flightOverviewPresenter.getCheckoutPresenter().resetTravelers()
                 flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
+                flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
+            } else {
+                flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
             }
         }
 
@@ -406,10 +411,15 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
+                flightOverviewPresenter.resetFlightSummary()
+                flightOverviewPresenter.resetScrollSpaceHeight()
                 flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                 flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
                 flightOverviewPresenter.getCheckoutPresenter().resetTravelers()
                 flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
+                flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
+            } else {
+                flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
             }
         }
 
