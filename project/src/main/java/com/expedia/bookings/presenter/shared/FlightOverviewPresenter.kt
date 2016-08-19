@@ -64,7 +64,12 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
                 segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
             }
             showBaggageFeesButton.setOnClickListener {
-                baggageFeeShowSubject.onNext(e3EndpointUrl + selectedFlight.baggageFeesUrl)
+                if(selectedFlight.baggageFeesUrl.contains("http")){
+                    baggageFeeShowSubject.onNext(selectedFlight.baggageFeesUrl)
+                }
+                else {
+                    baggageFeeShowSubject.onNext(e3EndpointUrl + selectedFlight.baggageFeesUrl)
+                }
             }
             paymentFeesMayApplyTextView.setOnClickListener {
                 showPaymentFeesObservable.onNext(Unit)
