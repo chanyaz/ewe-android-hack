@@ -132,7 +132,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	private void checkOscarInvalid(@IdRes int viewId, @DrawableRes int drawableId, String siblingText) {
 		onView(allOf(withId(viewId),
 			hasSibling(
-				withChild(allOf(withId(R.id.primary_details_text), withText(siblingText)))
+				withChild(allOf(withId(R.id.primary_details_text), isDescendantOfA(withId(R.id.traveler_picker_widget)),  withText(siblingText)))
 			))).check(matches(withImageDrawable(drawableId)));
 	}
 

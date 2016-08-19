@@ -51,7 +51,7 @@ open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness, 
         if (travelerList.isEmpty()) return false
 
         travelerList.forEachIndexed { index, traveler ->
-            if (!travelerValidator.isValidForPackageBooking(traveler, index)) {
+            if (!travelerValidator.isValidForBooking(traveler, index, passportRequired.value)) {
                 return false
             }
         }

@@ -52,6 +52,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         travelerPickerWidget.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
             toolbarTitleSubject.onNext(selectedTraveler.second)
             travelerEntryWidget.viewModel = TravelerViewModel(context, selectedTraveler.first)
+            travelerEntryWidget.viewModel.showPassportCountryObservable.subscribe(travelerPickerWidget.passportRequired)
             travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
             show(travelerEntryWidget)
         }
@@ -114,7 +115,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                     FlightsV2Tracking.trackCheckoutEditTraveler()
                 }
             } else {
-                travelerEntryWidget.viewModel.validate()
+               viewModel.refresh()
             }
         }
     }

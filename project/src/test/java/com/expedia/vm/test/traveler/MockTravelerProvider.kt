@@ -19,6 +19,7 @@ class MockTravelerProvider {
     val testEmptyNumber = ""
     val testGender = Traveler.Gender.MALE
     val adultBirthDate = LocalDate.now().minusYears(24)
+    val testPassportCountry = "Mexico"
 
     fun getCompleteMockTraveler(): Traveler {
         val mockPhone = Mockito.mock(Phone::class.java)
@@ -34,6 +35,11 @@ class MockTravelerProvider {
         Mockito.`when`(mockTraveler.birthDate).thenReturn(adultBirthDate)
 
         return mockTraveler
+    }
+
+    fun addPassportToTraveler(traveler: Traveler): Traveler {
+        Mockito.`when`(traveler.primaryPassportCountry).thenReturn(testPassportCountry)
+        return traveler
     }
 
     fun getCompleteMockTravelerWithoutPhone(): Traveler {
