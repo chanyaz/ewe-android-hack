@@ -37,12 +37,10 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             outboundFlightWidget.updateHotelParams(param)
             inboundFlightWidget.updateHotelParams(param)
 
-            if (!param.isChangePackageSearch()) {
-                outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-                inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-            } else {
-                toggleMenuObservable.onNext(false)
-            }
+            outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+            inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+
+            toggleMenuObservable.onNext(false)
             viewModel.resetStepText()
         }
         vm.hotelResultsObservable.subscribe {
@@ -62,7 +60,6 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 bundleHotelWidget.toggleHotelWidget(opacity, false)
                 outboundFlightWidget.disableFlightIcon()
                 inboundFlightWidget.disable()
-                toggleMenuObservable.onNext(false)
             }
             if (param.isOutboundSearch()) {
                 outboundFlightWidget.showLoading()
@@ -73,6 +70,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 }
                 inboundFlightWidget.showLoading()
             }
+            toggleMenuObservable.onNext(false)
             viewModel.resetStepText()
         }
         vm.flightResultsObservable.subscribe { searchType ->
@@ -102,18 +100,6 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     fun revertBundleViewToSelectOutbound() {
         outboundFlightWidget.enable()
         inboundFlightWidget.disable()
-    }
-
-    fun revertBundleViewToSelectInbound() {
-        inboundFlightWidget.enable()
-    }
-
-    fun revertBundleViewAfterChangedOutbound() {
-        revertBundleViewToSelectInbound()
-        revertBundleViewToSelectOutbound()
-        bundleHotelWidget.toggleHotelWidget(1f, true)
-        outboundFlightWidget.toggleFlightWidget(1f, true)
-        inboundFlightWidget.toggleFlightWidget(1f, true)
     }
 
     init {

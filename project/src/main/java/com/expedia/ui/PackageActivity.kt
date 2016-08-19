@@ -1,20 +1,15 @@
 package com.expedia.ui
 
 import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.widget.AppCompatTextView
-import android.util.TypedValue
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseOverviewPresenter
-import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -51,19 +46,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                 onBackPressed()
             } else {
                 PackagesTracking().trackViewBundlePageLoad()
-                if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
-                    packagePresenter.bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().toggleCheckoutButton(false)
-                    packagePresenter.bundlePresenter.bundleWidget.toggleMenuObservable.onNext(false)
-
-                    //revert bundle view to be the state loaded inbound flights
-                    packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectInbound()
-                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-
-                    val rate = Db.getPackageSelectedOutboundFlight().packageOfferModel.price
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.tripSavings)
-
-                } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
+                if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
                     Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
 
                     //revert bundle view to be the state loaded outbound flights
@@ -168,28 +151,10 @@ class PackageActivity : AbstractAppCompatActivity() {
             packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
             return
         }
-        if (packagePresenter.backStack.size > 2 && packagePresenter.backStack.peek() is PackageOverviewPresenter) {
-            val currentState = (packagePresenter.backStack.peek() as PackageOverviewPresenter).currentState
-            if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name) {
-                showBackToSearchDialog()
-                return
-            }
-        }
+
         if (!packagePresenter.back()) {
             super.onBackPressed()
         }
-    }
-
-    private fun showBackToSearchDialog() {
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle(R.string.package_checkout_back_dialog_title)
-        builder.setMessage(R.string.package_checkout_back_dialog_message)
-        builder.setNegativeButton(getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
-        builder.setPositiveButton(getString(R.string.start_over)) { dialog, which ->
-            packagePresenter.show(packagePresenter.searchPresenter, Presenter.FLAG_CLEAR_TOP)
-        }
-        val dialog = builder.create()
-        dialog.show()
     }
 
     override fun onResume() {

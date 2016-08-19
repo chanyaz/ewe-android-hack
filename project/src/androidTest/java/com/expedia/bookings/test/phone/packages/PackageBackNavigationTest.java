@@ -39,7 +39,7 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		assertInboundFlightResultBundlePrice("$2,105.95");
 
 		Common.pressBack();
-		onView(allOf(withId(R.id.bundle_total_price), withText("$3,863.38"))).perform(waitForViewToDisplay());
+		onView(allOf(withId(R.id.bundle_total_price), withText("$4,211.90"))).perform(waitForViewToDisplay());
 
 		//back to outbound flight overview
 		Common.pressBack();

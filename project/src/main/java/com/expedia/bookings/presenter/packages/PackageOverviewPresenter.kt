@@ -1,5 +1,6 @@
 package com.expedia.bookings.presenter.packages
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +12,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
@@ -18,12 +20,16 @@ import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import org.joda.time.format.DateTimeFormat
+import rx.subjects.PublishSubject
 
 class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
     val changeHotel by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel) }
     val changeHotelRoom by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel_room) }
     val changeFlight by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_flight) }
+
+    val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
+    val toolbarNavIconContDescSubject = PublishSubject.create<String>()
 
     override fun inflate() {
         View.inflate(context, R.layout.package_overview, this)
@@ -32,6 +38,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     init {
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
+        toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
+        toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
     }
 
     override fun onFinishInflate() {
@@ -57,6 +65,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
             bundleWidget.outboundFlightWidget.collapseFlightDetails()
             bundleWidget.inboundFlightWidget.collapseFlightDetails()
 
+            setToolbarNavIcon(false)
             setCheckoutHeaderOverviewDates()
         }
 
@@ -127,8 +136,24 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     }
 
     override fun back(): Boolean {
+        if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name && bundleOverviewHeader.appBarLayout.isActivated) {
+            showBackToSearchDialog()
+            return true
+        }
         bundleWidget.collapseBundleWidgets()
         return super.back()
+    }
+
+    private fun showBackToSearchDialog() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(R.string.package_checkout_back_dialog_title)
+        builder.setMessage(R.string.package_checkout_back_dialog_message)
+        builder.setNegativeButton(context.getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
+        builder.setPositiveButton(context.getString(R.string.start_over)) { dialog, which ->
+            bundleWidget.viewModel.showSearchObservable.onNext(Unit)
+        }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     fun getCheckoutPresenter(): PackageCheckoutPresenter {
@@ -143,7 +168,18 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         PackagesTracking().trackCheckoutPaymentCID()
     }
 
-    override fun toggleToolbar(forward: Boolean) {
+    override fun setToolbarMenu(forward: Boolean) {
         bundleWidget.toggleMenuObservable.onNext(!forward)
+    }
+
+    override fun setToolbarNavIcon(forward : Boolean) {
+        if(forward) {
+            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
+            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
+        }
+        else {
+            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_close_cont_desc))
+            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        }
     }
 }
