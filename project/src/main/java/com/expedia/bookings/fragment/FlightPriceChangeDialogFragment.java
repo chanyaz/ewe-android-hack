@@ -15,6 +15,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.mobiata.android.json.JSONUtils;
 
 public class FlightPriceChangeDialogFragment extends DialogFragment {
@@ -74,7 +75,14 @@ public class FlightPriceChangeDialogFragment extends DialogFragment {
 		// Reset the price to always be positive for formatting purposes
 		diff.setAmount(diff.getAmount().abs());
 		String diffFormatted = diff.getFormattedMoney();
-		String totalFareFormatted = newOffer.getTotalPrice().getFormattedMoney();
+		String totalFareFormatted = "";
+		if (newOffer.getTotalPrice() != null) {
+			totalFareFormatted = newOffer.getTotalPrice().getFormattedMoney();
+		}
+		else {
+			totalFareFormatted = newOffer.getTotalFare().getFormattedMoney();
+			OmnitureTracking.trackFlightPriceChangeError();
+		}
 		if (compareTo < 0) {
 			if (obFeesFormatted != null) {
 				message = getString(R.string.error_flight_price_increased_with_fee, obFeesFormatted, diffFormatted,

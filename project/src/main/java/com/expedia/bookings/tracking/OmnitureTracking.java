@@ -1489,6 +1489,14 @@ public class OmnitureTracking {
 	private static final String FLIGHT_CONF_SHARE_EMAIL = "App.Flight.Checkout.Confirmation.Share.Mail";
 
 	private static final String FLIGHT_INFANT_ALERT = "App.Flight.Search.LapAlert";
+	private static final String FLIGHT_PRICE_CHANGE_ERROR = "App.Flight.PriceChange.Error";
+
+	public static void trackFlightPriceChangeError() {
+		Log.d(TAG, "Tracking \"" + FLIGHT_PRICE_CHANGE_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_PRICE_CHANGE_ERROR);
+		s.setProp(36, "Total Price is null");
+		s.track();
+	}
 
 	public static void trackPageLoadFlightCheckoutConfirmation() {
 		String pageName = FLIGHT_CHECKOUT_CONFIRMATION;
