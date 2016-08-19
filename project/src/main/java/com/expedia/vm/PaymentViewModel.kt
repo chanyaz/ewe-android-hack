@@ -59,10 +59,12 @@ class PaymentViewModel(val context: Context) {
     val pwpSmallIcon = PublishSubject.create<Boolean>()
     val cardIO = BehaviorSubject.create<String>()
     val tempCard = PublishSubject.create<Pair<String, Drawable>>()
+    val paymentTypeWarningHandledByCkoView = BehaviorSubject.create<Boolean>(false)
     val invalidPaymentTypeWarning = PublishSubject.create<String>()
     val cardIOBillingInfo = PublishSubject.create<BillingInfo>()
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
+    val showCardFeeInfoLabel = PublishSubject.create<Boolean>()
 
     val creditCardScanIntent: Intent by lazy {
         val scanIntent = Intent(context, CardIOActivity::class.java)
@@ -142,7 +144,9 @@ class PaymentViewModel(val context: Context) {
         cardTypeSubject.subscribe { cardType ->
             val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
             var message = ""
-            if (tripItem != null && cardType != null && !tripItem.isPaymentTypeSupported(cardType)) {
+            if (tripItem != null &&
+                    cardType != null &&
+                    !tripItem.isPaymentTypeSupported(cardType)) {
                 val cardName = CreditCardUtils.getHumanReadableName(context, cardType)
                 message = when (lineOfBusiness.value) {
                                 LineOfBusiness.CARS -> {
@@ -173,6 +177,15 @@ class PaymentViewModel(val context: Context) {
             }
             invalidPaymentTypeWarning.onNext(message)
         }
+
+        val showCardFeeLabelFun = fun(invalidPaymentTypeWarning: String, cardTypeSelected: PaymentType?) {
+            val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
+            val showingPaymentFeeWarning = tripItem?.hasPaymentFee(cardTypeSelected) ?: false
+            val showingInvalidPaymentTypeWarning = invalidPaymentTypeWarning.isNotBlank()
+            val showLabel = !paymentTypeWarningHandledByCkoView.value || (!showingPaymentFeeWarning && !showingInvalidPaymentTypeWarning)
+            showCardFeeInfoLabel.onNext(showLabel)
+        }
+        Observable.combineLatest(invalidPaymentTypeWarning, cardTypeSubject, showCardFeeLabelFun).subscribe()
 
         lineOfBusiness.subscribe { lob ->
             isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2)

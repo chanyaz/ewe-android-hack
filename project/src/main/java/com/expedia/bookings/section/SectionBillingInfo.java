@@ -14,7 +14,6 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -46,6 +45,7 @@ import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
+import com.expedia.bookings.widget.TextViewExtensionsKt;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.MultiValidator;
@@ -502,7 +502,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				@Override
 				public void afterTextChanged(Editable s) {
 					boolean isCreditField = field.getId() == R.id.edit_creditcard_number;
-					int greyedOutTextColor = ContextCompat.getColor(mContext, R.color.flight_card_invalid_cc_type_text_color);
 					if (hasBoundData()) {
 						if (getData().getNumber() == null || !s.toString().equalsIgnoreCase(getData().getNumber()) || getData().getIsCardIO()) {
 							if (!getData().getIsCardIO()) {
@@ -511,10 +510,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							getData().setNumber(s.toString());
 
 							//this will ensure that the credit card text is not grayed out when the credit card field is empty
-							if (isCreditField && getData().getNumber().isEmpty() && field.getCurrentTextColor() == greyedOutTextColor) {
+							if (isCreditField && getData().getNumber().isEmpty()) {
 								getData().setBrandCode(null);
 								getData().setBrandName(null);
-								field.setTextColor(mOriginalTextColors);
+								TextViewExtensionsKt.removeErrorExclamation(field, null);
 							}
 
 							//A strange special case, as when we load billingInfo from disk, we don't have number, but we retain brandcode
@@ -543,11 +542,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 									getData().setBrandName(type.name());
 
 									if (!hasValidPaymentType(mLineOfBusiness, getData())) {
-										field.setTextColor(getResources().getColor(
-											R.color.flight_card_invalid_cc_type_text_color));
+										TextViewExtensionsKt.addErrorExclamation(field);
 									}
 									else {
-										field.setTextColor(mOriginalTextColors);
+										TextViewExtensionsKt.removeErrorExclamation(field, null);
 									}
 								}
 							}

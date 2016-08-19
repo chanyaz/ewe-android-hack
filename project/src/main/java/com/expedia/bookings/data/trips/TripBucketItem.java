@@ -154,6 +154,11 @@ public abstract class TripBucketItem implements JSONable {
 		return null;
 	}
 
+	public boolean hasPaymentFee(PaymentType paymentType) {
+		Money paymentFee = getPaymentFee(paymentType);
+		return paymentFee != null && !paymentFee.isZero();
+	}
+
 	//////////////////////////////////////////////////////////////////
 	// JSONable
 

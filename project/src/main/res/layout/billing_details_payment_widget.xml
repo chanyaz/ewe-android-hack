@@ -120,6 +120,7 @@
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
+                android:id="@+id/card_info_label"
                 style="@style/HeaderTextAboveCardviews"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
