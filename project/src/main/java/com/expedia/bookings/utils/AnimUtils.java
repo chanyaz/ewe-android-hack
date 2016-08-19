@@ -1,5 +1,8 @@
 package com.expedia.bookings.utils;
 
+import java.util.Collection;
+import java.util.Stack;
+
 import android.animation.Animator;
 import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
@@ -20,9 +23,6 @@ import android.view.animation.TranslateAnimation;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.widget.FrameLayout;
-
-import java.util.Collection;
-import java.util.Stack;
 
 public class AnimUtils {
 
@@ -160,6 +160,26 @@ public class AnimUtils {
 		slideDown.setDuration(400);
 		slideDown.setFillAfter(true);
 		v.startAnimation(slideDown);
+	}
+
+	public static void slideInOut(final View view, final int height) {
+		final long animDuration = 400L;
+		final long startDelay = 5000L;
+
+		view.setTranslationY(height);
+		view.setVisibility(View.VISIBLE);
+
+		AnimatorSet animatorSet = new AnimatorSet();
+
+		ObjectAnimator objectAnimatorIn = ObjectAnimator.ofFloat(view, "translationY", height, 0);
+		objectAnimatorIn.setDuration(animDuration);
+
+		ObjectAnimator objectAnimatorOut = ObjectAnimator.ofFloat(view, "translationY", 0, height);
+		objectAnimatorOut.setDuration(animDuration);
+		objectAnimatorOut.setStartDelay(startDelay);
+
+		animatorSet.playSequentially(objectAnimatorIn, objectAnimatorOut);
+		animatorSet.start();
 	}
 
 	public static void fadeIn(View v) {

@@ -223,6 +223,7 @@
         android:orientation="vertical">
 
         <View
+            android:id="@+id/bottom_container_drop_shadow"
             android:layout_width="match_parent"
             android:layout_height="4dp"
             android:background="@drawable/drop_shadow" />
