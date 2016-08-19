@@ -1227,6 +1227,7 @@
         <item name="textStyle">medium</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:layout_height">@dimen/footer_button_height</item>
+        <item name="android:background">@drawable/exp_blue_button_ripple</item>
     </style>
 
     <!--Material CardView Style-->

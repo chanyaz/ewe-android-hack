@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <View
+        android:id="@+id/accept_terms_text_shadow"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@drawable/drop_shadow"
+        android:visibility="gone"/>
+
+    <com.expedia.bookings.widget.TextView
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:id="@+id/do_you_accept_label"
+        android:singleLine="true"
+        android:text="@string/Do_you_accept"
+        style="@style/FlightWarningBar" />
+
+    <Button
+        android:id="@+id/i_accept_terms_button"
+        style="@style/MaterialFooterButtonText"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        android:gravity="center"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:text="@string/I_Accept"
+        android:textSize="16sp" />
+
+</merge>

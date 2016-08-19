@@ -261,45 +261,61 @@
             android:layout_height="1px"
             android:background="@color/divider_gray" />
 
-        <LinearLayout
-            android:id="@+id/slide_to_purchase_layout"
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FDFDFD"
             android:gravity="center_horizontal"
-            android:orientation="vertical"
-            android:paddingBottom="8dp"
-            android:paddingTop="8dp"
-            android:visibility="gone">
+            android:orientation="vertical">
 
-            <com.expedia.bookings.widget.SlideToWidgetLL
-                android:id="@+id/slide_to_purchase_widget"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/slide_to_purchase_layout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/car_slide_to_purchase_padding"
-                android:layout_marginRight="@dimen/car_slide_to_purchase_padding"
-                android:background="#FFFFFF" />
+                android:background="#FDFDFD"
+                android:gravity="center_horizontal"
+                android:orientation="vertical"
+                android:visibility="invisible">
 
-            <com.expedia.bookings.widget.SlideToWidgetLL
-                android:id="@+id/purchase_button_widget"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:layout_marginLeft="@dimen/car_slide_to_purchase_padding"
-                android:layout_marginRight="@dimen/car_slide_to_purchase_padding"
-                android:background="#FFFFFF" />
+                <com.expedia.bookings.widget.SlideToWidgetLL
+                    android:id="@+id/slide_to_purchase_widget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/car_slide_to_purchase_padding"
+                    android:layout_marginRight="@dimen/car_slide_to_purchase_padding"
+                    android:layout_marginTop="8dp"
+                    android:background="#FFFFFF" />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/purchase_total_text_view"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:padding="8dp"
-                android:textColor="?attr/primary_color"
-                android:textSize="@dimen/car_slide_to_purchase_price_text_size" />
+                <com.expedia.bookings.widget.SlideToWidgetLL
+                    android:id="@+id/purchase_button_widget"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:layout_marginLeft="@dimen/car_slide_to_purchase_padding"
+                    android:layout_marginRight="@dimen/car_slide_to_purchase_padding"
+                    android:background="#FFFFFF" />
 
-        </LinearLayout>
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/purchase_total_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center"
+                    android:padding="8dp"
+                    android:textColor="?attr/primary_color"
+                    android:textSize="@dimen/car_slide_to_purchase_price_text_size" />
 
+            </LinearLayout>
+
+               <ViewStub
+                   android:id="@+id/accept_terms_viewStub"
+                   android:layout_height="wrap_content"
+                   android:layout_width="match_parent"
+                   android:layout_alignTop="@+id/slide_to_purchase_layout"
+                   android:layout_alignBottom="@+id/slide_to_purchase_layout"
+                   android:layout="@layout/accept_terms_stub" />
+
+        </RelativeLayout>
     </LinearLayout>
 
     <View
@@ -313,7 +329,6 @@
         style="@style/MaterialFooterButtonText"
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
-        android:background="?attr/hotel_select_room_ripple_drawable"
         android:text="@string/Checkout" />
 
     <com.expedia.bookings.presenter.packages.TravelerPresenter

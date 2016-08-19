@@ -258,6 +258,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_one_way,
 		R.string.rail_return,
 		R.string.rail_open_return,
+		R.layout.accept_terms_layout,
 		R.layout.widget_rail_details_fare_option,
 		R.layout.widget_rail_calendar,
 		R.layout.widget_rail_locations,

@@ -154,38 +154,6 @@
         android:orientation="vertical"
         android:visibility="invisible">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="4dp"
-            android:background="@drawable/drop_shadow" />
-
-        <TextView
-            android:id="@+id/do_you_accept_label"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/Do_you_accept"
-            android:gravity="center"
-            android:paddingTop="8dp"
-            android:paddingBottom="9dp"
-            android:textColor="?attr/primary_color"
-            android:background="#FFFFFF"
-            android:textSize="12sp" />
-
-        <!-- We build this whole oval manually instead of as a simple 9patch for l337 animation effects -->
-
-        <Button
-            android:id="@+id/i_accept_terms_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:paddingLeft="8dp"
-            android:paddingRight="8dp"
-            android:paddingBottom="20dp"
-            android:paddingTop="19dp"
-            android:text="@string/I_Accept"
-            android:textColor="@color/slide_to_purchase_text"
-            android:textSize="16sp"
-            android:background="?attr/skin_rippleDrawable" />
     </com.expedia.bookings.widget.AcceptTermsWidget>
 
     <LinearLayout
