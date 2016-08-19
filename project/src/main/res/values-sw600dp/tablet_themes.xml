@@ -33,6 +33,7 @@
         <item name="waypointFragmentTopMargin">23dp</item>
         <item name="spinner_text_color_drawable">@drawable/traveler_text_color</item>
         <item name="primary_color">@color/hotels_primary_color</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/traveler_text_color</item>
     </style>
 
     <style name="V2.Theme.Activity.TabletWeb">
