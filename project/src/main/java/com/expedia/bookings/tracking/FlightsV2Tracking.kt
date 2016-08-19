@@ -4,8 +4,10 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.utils.LeanPlumUtils
+import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
 import com.expedia.vm.InsuranceViewModel
 
@@ -18,17 +20,19 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightTravelerPickerClick(actionLabel)
     }
 
-    fun trackResultOutBoundFlights(flightSearchParams: FlightSearchParams) {
+    fun trackResultOutBoundFlights(flightSearchParams: FlightSearchParams,flightLegs: List<FlightLeg>) {
         OmnitureTracking.trackResultOutBoundFlights(flightSearchParams)
         LeanPlumUtils.trackFlightV2Search(flightSearchParams)
+        TuneUtils.trackFlightV2OutBoundResults(flightSearchParams, flightLegs)
     }
 
     fun trackFlightOverview(isOutboundFlight: Boolean) {
         OmnitureTracking.trackFlightOverview(isOutboundFlight)
     }
 
-    fun trackResultInBoundFlights() {
+    fun trackResultInBoundFlights(flightSearchParams: FlightSearchParams,flightLegs: List<FlightLeg>) {
         OmnitureTracking.trackResultInBoundFlights()
+        TuneUtils.trackFlightV2InBoundResults(flightSearchParams, flightLegs)
     }
 
     fun trackFlightBaggageFeeClick() {
@@ -68,6 +72,7 @@ object FlightsV2Tracking {
 
     fun trackShowFlightOverView(flightSearchParams: FlightSearchParams) {
         OmnitureTracking.trackShowFlightOverView(flightSearchParams)
+        TuneUtils.trackFlightV2RateDetailOverview(flightSearchParams)
     }
 
     fun trackOverviewFlightExpandClick() {
@@ -143,6 +148,7 @@ object FlightsV2Tracking {
         val searchParams = Db.getFlightSearchParams()
         OmnitureTracking.trackFlightCheckoutConfirmationPageLoad()
         LeanPlumUtils.trackFlightV2Booked(flightCheckoutResponse, searchParams)
+        TuneUtils.trackFlightV2Booked(flightCheckoutResponse, searchParams)
     }
 
     fun trackFlightNoResult() {

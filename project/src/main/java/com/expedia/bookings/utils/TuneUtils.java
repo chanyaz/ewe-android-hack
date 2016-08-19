@@ -2,8 +2,10 @@ package com.expedia.bookings.utils;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -26,22 +28,25 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.cars.CarSearchParam;
-import com.expedia.bookings.data.trips.TripBucketItemFlight;
-import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarSearch;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
+import com.expedia.bookings.data.flights.FlightCheckoutResponse;
+import com.expedia.bookings.data.flights.FlightCreateTripResponse;
+import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.lx.LXActivity;
-import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.TripBucketItemFlight;
+import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.mobiata.android.Log;
@@ -465,6 +470,35 @@ public class TuneUtils {
 		}
 	}
 
+	public static void trackFlightV2RateDetailOverview(
+		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
+		if (initialized) {
+			FlightCreateTripResponse flightCreateTripResponse = Db.getTripBucket()
+				.getFlightV2().flightCreateTripResponse;
+
+			MATEvent event = new MATEvent("flight_rate_details");
+			MATEventItem eventItem = new MATEventItem("flight_rate_details_item");
+			eventItem.withQuantity(flightSearchParams.getGuests())
+				.withAttribute2(flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode)
+				.withAttribute3(flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode)
+				.withAttribute4(flightCreateTripResponse.getDetails().legs.get(0).segments.get(0).airlineCode);
+
+			Date departureDate = flightSearchParams.getDepartureDate().toDate();
+			if (flightSearchParams.getReturnDate() != null) {
+				Date returnDate = flightSearchParams.getReturnDate().toDate();
+				event.withDate2(returnDate);
+			}
+			withTuidAndMembership(event)
+				.withRevenue(flightCreateTripResponse.totalPrice.amount.doubleValue())
+				.withCurrencyCode(flightCreateTripResponse.totalPrice.currencyCode)
+				.withAttribute2(isUserLoggedIn())
+				.withEventItems(Arrays.asList(eventItem))
+				.withDate1(departureDate);
+
+			trackEvent(event);
+		}
+	}
+
 	public static void trackPageLoadFlightSearchResults(int legPosition) {
 		if (legPosition == 0) {
 			trackFlightOutBoundResults();
@@ -508,6 +542,53 @@ public class TuneUtils {
 			Date departureDate = searchParams.getDepartureDate().toDate();
 			if (searchParams.isRoundTrip()) {
 				Date returnDate = searchParams.getReturnDate().toDate();
+				event.withDate2(returnDate);
+			}
+			withTuidAndMembership(event)
+				.withAttribute2(isUserLoggedIn())
+				.withEventItems(Arrays.asList(eventItem))
+				.withSearchString("flight")
+				.withDate1(departureDate);
+
+			trackEvent(event);
+		}
+
+	}
+
+	public static void trackFlightV2OutBoundResults(
+		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
+		List<FlightLeg> flightLegList) {
+		if (initialized) {
+			MATEvent event = new MATEvent("flight_outbound_result");
+			MATEventItem eventItem = new MATEventItem("flight_outbound_result_item");
+			eventItem.withAttribute2(flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode)
+				.withAttribute3(flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode);
+
+			if (flightLegList != null && !flightLegList.isEmpty()) {
+				int propertiesCount = flightLegList.size();
+				StringBuilder sb = new StringBuilder();
+				if (propertiesCount >= 0) {
+					for (int i = 0; (i < 5 && i < propertiesCount); i++) {
+						String carrier = flightLegList.get(i).segments.get(0).airlineCode;
+						String currency = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.currencyCode;
+						String price = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.amount.toString();
+						String routeType = flightSearchParams.getReturnDate() != null ? "RT" : "OW";
+						String route = String.format("%s-%s", flightSearchParams.getDepartureAirport().gaiaId,
+							flightSearchParams.getArrivalAirport().gaiaId
+						);
+
+						sb.append(
+							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
+						if (i != 4) {
+							sb.append(":");
+						}
+					}
+				}
+				eventItem.withAttribute5(sb.toString());
+			}
+			Date departureDate = flightSearchParams.getDepartureDate().toDate();
+			if (flightSearchParams.getReturnDate() != null) {
+				Date returnDate = flightSearchParams.getReturnDate().toDate();
 				event.withDate2(returnDate);
 			}
 			withTuidAndMembership(event)
@@ -567,6 +648,51 @@ public class TuneUtils {
 		}
 	}
 
+	public static void trackFlightV2InBoundResults(
+		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
+		List<FlightLeg> flightLegList) {
+		if (initialized) {
+			MATEvent event = new MATEvent("flight_inbound_result");
+			MATEventItem eventItem = new MATEventItem("flight_inbound_result_item");
+			eventItem.withAttribute2(flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode)
+				.withAttribute3(flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode);
+
+			if (flightLegList != null && !flightLegList.isEmpty()) {
+				int propertiesCount = flightLegList.size();
+				StringBuilder sb = new StringBuilder();
+				if (propertiesCount >= 0) {
+					for (int i = 0; (i < 5 && i < propertiesCount); i++) {
+						String carrier = flightLegList.get(i).segments.get(0).airlineCode;
+						String currency = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.currencyCode;
+						String price = flightLegList.get(i).packageOfferModel.price.packageTotalPrice.amount.toString();
+						String routeType = flightSearchParams.getReturnDate() != null ? "RT" : "OW";
+						String route = String.format("%s-%s", flightSearchParams.getArrivalAirport().gaiaId,
+							flightSearchParams.getDepartureAirport().gaiaId);
+
+						sb.append(
+							String.format("%s|%s|%s|%s|%s", carrier, currency, price, routeType, route));
+						if (i != 4) {
+							sb.append(":");
+						}
+					}
+				}
+				eventItem.withAttribute5(sb.toString());
+			}
+			Date departureDate = flightSearchParams.getDepartureDate().toDate();
+			if (flightSearchParams.getReturnDate() != null) {
+				Date returnDate = flightSearchParams.getReturnDate().toDate();
+				event.withDate2(returnDate);
+			}
+			withTuidAndMembership(event)
+				.withAttribute2(isUserLoggedIn())
+				.withEventItems(Arrays.asList(eventItem))
+				.withSearchString("flight")
+				.withDate1(departureDate);
+
+			trackEvent(event);
+		}
+	}
+
 	public static void trackFlightBooked(TripBucketItemFlight tripBucketItemFlight, String orderId, String currency,
 		double totalPrice, double averagePrice) {
 		if (initialized) {
@@ -590,6 +716,43 @@ public class TuneUtils {
 				.withCurrencyCode(currency)
 				.withQuantity(tripBucketItemFlight.getFlightSearchParams().getNumTravelers())
 				.withAdvertiserRefId(orderId)
+				.withEventItems(Arrays.asList(eventItem))
+				.withDate1(departureDate);
+
+			trackEvent(event);
+		}
+
+	}
+
+	public static void trackFlightV2Booked(FlightCheckoutResponse flightCheckoutResponse, com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
+		if (initialized) {
+			MATEvent event = new MATEvent("flight_confirmation");
+			MATEventItem eventItem = new MATEventItem("flight_confirmation_item");
+			double totalPrice = flightCheckoutResponse.getTotalChargesPrice().amount.doubleValue();
+			int totalGuests = flightSearchParams.getGuests();
+			double averagePrice = totalPrice/totalGuests;
+			List<FlightLeg> flightLegs = flightCheckoutResponse.getDetails().legs;
+			FlightLeg.FlightSegment firstFlightSegment = flightLegs.get(0).segments.get(0);
+			eventItem.withQuantity(totalGuests)
+				.withRevenue(totalPrice)
+				.withUnitPrice(averagePrice)
+				.withAttribute2(flightSearchParams.getDepartureAirport().gaiaId)
+				.withAttribute3(flightSearchParams.getArrivalAirport().gaiaId)
+				.withAttribute4(firstFlightSegment.airlineCode);
+
+
+			Date departureDate = new DateTime(firstFlightSegment.departureTimeRaw).toDate();
+			if (flightSearchParams.getReturnDate() != null) {
+				int lastReturnFlightSegment = flightLegs.get(1).segments.size() - 1;
+				Date returnDate = new DateTime(flightLegs.get(1).segments.get(lastReturnFlightSegment).departureTimeRaw).toDate();
+				event.withDate2(returnDate);
+			}
+			withTuidAndMembership(event)
+				.withAttribute2(isUserLoggedIn())
+				.withRevenue(totalPrice)
+				.withCurrencyCode(flightCheckoutResponse.getTotalChargesPrice().currencyCode)
+				.withQuantity(totalGuests)
+				.withAdvertiserRefId(flightCheckoutResponse.getOrderId())
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);
 
