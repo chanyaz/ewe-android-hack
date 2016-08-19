@@ -67,19 +67,18 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                     when (response.firstError.errorCode) {
                         ApiError.Code.INVALID_INPUT -> {
                             val field = response.firstError.errorInfo.field
+                            val apiError: ApiError
                             if (field == "mainMobileTraveler.lastName" ||
                                     field == "mainMobileTraveler.firstName" ||
                                     field == "phone") {
-                                val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS)
-                                apiError.errorInfo = ApiError.ErrorInfo()
-                                apiError.errorInfo.field = field
-                                checkoutErrorObservable.onNext(apiError)
+                                apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_TRAVELLER_DETAILS)
+
                             } else {
-                                val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS)
-                                apiError.errorInfo = ApiError.ErrorInfo()
-                                apiError.errorInfo.field = field
-                                checkoutErrorObservable.onNext(apiError)
+                                apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS)
                             }
+                            apiError.errorInfo = ApiError.ErrorInfo()
+                            apiError.errorInfo.field = field
+                            checkoutErrorObservable.onNext(apiError)
                         }
                         ApiError.Code.INVALID_CARD_NUMBER -> {
                             checkoutErrorObservable.onNext(response.firstError)
@@ -95,6 +94,9 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                         }
                         ApiError.Code.PRICE_CHANGE -> {
                             priceChangeObservable.onNext(response)
+                        }
+                        ApiError.Code.PAYMENT_FAILED -> {
+                            checkoutErrorObservable.onNext(response.firstError)
                         }
                         else -> {
                             checkoutErrorObservable.onNext(ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN))

@@ -32,6 +32,7 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 ApiError.Code.INVALID_CARD_NUMBER,
                 ApiError.Code.CID_DID_NOT_MATCHED,
                 ApiError.Code.INVALID_CARD_EXPIRATION_DATE,
+                ApiError.Code.PAYMENT_FAILED,
                 ApiError.Code.CARD_LIMIT_EXCEEDED -> {
                     checkoutCardErrorObservable.onNext(Unit)
                     PackagesTracking().trackCheckoutErrorRetry()
@@ -145,6 +146,13 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     } else {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     }
+                    buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
+                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
+                    subTitleObservable.onNext("")
+                }
+                ApiError.Code.PAYMENT_FAILED -> {
+                    imageObservable.onNext(R.drawable.error_payment)
+                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
