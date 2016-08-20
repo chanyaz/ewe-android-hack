@@ -10,7 +10,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.tracking.HotelTracking
-import com.expedia.bookings.utils.Strings
 import com.expedia.util.getABTestGuestRatingBackground
 import com.expedia.util.getABTestGuestRatingText
 import com.expedia.vm.BaseHotelDetailViewModel
@@ -62,11 +61,5 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
 
     override fun trackHotelDetailMapViewClick() {
         HotelTracking().trackHotelDetailMapView()
-    }
-
-    override fun addViewsAfterTransition() {
-        super.addViewsAfterTransition()
-        showBookByPhoneObservable.onNext(!hotelOffersResponse.deskTopOverrideNumber
-                && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
     }
 }

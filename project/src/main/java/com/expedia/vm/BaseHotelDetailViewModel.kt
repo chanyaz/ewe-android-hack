@@ -47,9 +47,9 @@ import kotlin.properties.Delegates
 abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
-    abstract fun getLOB() : LineOfBusiness
+    abstract fun getLOB(): LineOfBusiness
     abstract fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean
-    abstract fun getGuestRatingRecommendedText(rating: Float, resources: Resources) : String
+    abstract fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String
     abstract fun getGuestRatingBackground(rating: Float, context: Context): Drawable
     abstract fun trackHotelResortFeeInfoClick()
     abstract fun trackHotelRenovationInfoClick()
@@ -277,7 +277,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             else -> hotelOffersResponse.telesalesNumber
         }
 
-        if(supportPhoneNumber == null) {
+        if (supportPhoneNumber == null) {
             supportPhoneNumber = PointOfSale.getPointOfSale().getDefaultSupportPhoneNumber()
         }
 
@@ -428,7 +428,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
 
     }
 
-    open fun addViewsAfterTransition() {
+    fun addViewsAfterTransition() {
 
         if (hotelOffersResponse.hotelRoomResponse != null && hotelOffersResponse.hotelRoomResponse.isNotEmpty()) {
             uniqueValueAddForRooms = getValueAdd(hotelOffersResponse.hotelRoomResponse)
@@ -501,6 +501,13 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             hotelResortFeeIncludedTextObservable.onNext(null)
         }
         trackHotelDetailLoad(hotelOffersResponse, paramsSubject.value, hasETPOffer, isCurrentLocationSearch, hotelSoldOut.value, false)
+
+        if (getLOB() == LineOfBusiness.HOTELS) {
+            showBookByPhoneObservable.onNext(!hotelOffersResponse.deskTopOverrideNumber
+                    && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
+        } else {
+            showBookByPhoneObservable.onNext(false)
+        }
     }
 
     private fun getAllValueAdds(hotelOffersResponse: HotelOffersResponse): List<List<String>> {
