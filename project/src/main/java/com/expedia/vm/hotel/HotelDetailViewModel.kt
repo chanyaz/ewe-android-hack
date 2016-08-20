@@ -10,13 +10,14 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.utils.Strings
 import com.expedia.util.getABTestGuestRatingBackground
 import com.expedia.util.getABTestGuestRatingText
 import com.expedia.vm.BaseHotelDetailViewModel
 import rx.Observer
 
 open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
-        BaseHotelDetailViewModel(context, roomSelectedObserver){
+        BaseHotelDetailViewModel(context, roomSelectedObserver) {
 
     override fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
         HotelTracking().trackPageLoadHotelInfosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, currentLocationSearch, hotelSoldOut, isRoomSoldOut)
@@ -26,12 +27,12 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
         return LineOfBusiness.HOTELS
     }
 
-    override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse) : Boolean {
+    override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean {
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         return roomOffer.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
     }
 
-    override fun getGuestRatingRecommendedText(rating: Float, resources: Resources) : String {
+    override fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
         return getABTestGuestRatingText(rating, context.resources)
     }
 
@@ -61,5 +62,11 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
 
     override fun trackHotelDetailMapViewClick() {
         HotelTracking().trackHotelDetailMapView()
+    }
+
+    override fun addViewsAfterTransition() {
+        super.addViewsAfterTransition()
+        showBookByPhoneObservable.onNext(!hotelOffersResponse.deskTopOverrideNumber
+                && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
     }
 }

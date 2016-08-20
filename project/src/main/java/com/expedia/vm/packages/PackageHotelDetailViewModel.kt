@@ -59,4 +59,8 @@ class PackageHotelDetailViewModel(context: Context, roomSelectedObserver: Observ
         PackagesTracking().trackHotelDetailLoad(hotelOffersResponse.hotelId)
     }
 
+    override fun addViewsAfterTransition(){
+        super.addViewsAfterTransition()
+        showBookByPhoneObservable.onNext(false)
+    }
 }

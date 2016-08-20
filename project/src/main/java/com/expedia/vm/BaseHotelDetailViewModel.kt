@@ -428,7 +428,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
 
     }
 
-    fun addViewsAfterTransition() {
+    open fun addViewsAfterTransition() {
 
         if (hotelOffersResponse.hotelRoomResponse != null && hotelOffersResponse.hotelRoomResponse.isNotEmpty()) {
             uniqueValueAddForRooms = getValueAdd(hotelOffersResponse.hotelRoomResponse)
@@ -500,10 +500,6 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             hotelResortFeeObservable.onNext(null)
             hotelResortFeeIncludedTextObservable.onNext(null)
         }
-
-        showBookByPhoneObservable.onNext(!hotelOffersResponse.deskTopOverrideNumber
-                && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
-
         trackHotelDetailLoad(hotelOffersResponse, paramsSubject.value, hasETPOffer, isCurrentLocationSearch, hotelSoldOut.value, false)
     }
 
