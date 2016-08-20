@@ -168,6 +168,9 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
 
             if (filteredList.isNotEmpty()) {
                 filterObservable.onNext(filteredList)
+                if(lob == LineOfBusiness.FLIGHTS_V2) {
+                    FlightsV2Tracking.trackFlightFilterDone(filteredList)
+                }
             } else {
                 filteredZeroResultObservable.onNext(Unit)
             }
