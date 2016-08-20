@@ -28,9 +28,10 @@ import com.expedia.bookings.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.packages.FlightOverviewViewModel
 
@@ -100,9 +101,9 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().startDate else Db.getPackageParams().endDate)
         bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.package_price_include_flights))
         bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.package_price_include_flights))
+        overviewPresenter.vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
         trackFlightResultsLoad()
     }
-
 
     private fun setupMenuFilter() {
         val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
