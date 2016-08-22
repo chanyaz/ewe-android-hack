@@ -102,7 +102,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val presenter = viewStub.inflate() as HotelDetailPresenter
         val detailsStub = presenter.hotelMapView.findViewById(R.id.stub_map) as FrameLayout
         detailsMapView.visibility = View.VISIBLE
-        removeView(detailsMapView);
+        removeView(detailsMapView)
         detailsStub.addView(detailsMapView)
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
@@ -153,7 +153,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 } else {
                     AccessibilityUtil.setFocusToToolbarNavigationIcon(detailPresenter.hotelDetailView.hotelDetailsToolbar.toolbar)
                 }
-                bundleSlidingWidget.setVisibility(!forward)
             }
         }
         addTransition(transition)
@@ -186,7 +185,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     }
 
     fun updateOverviewAnimationDuration(duration: Int) {
-        detailsToOverview.animationDuration = duration
         resultsToOverview.animationDuration = duration
     }
 
@@ -194,7 +192,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         super.onFinishInflate()
         addTransition(resultsToDetail)
         addTransition(resultsToOverview)
-        addTransition(detailsToOverview)
         bundleSlidingWidget.bundleOverViewWidget.bundleHotelWidget.rowContainer.setOnClickListener {
             back()
         }
@@ -308,6 +305,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         private var detailsHeight: Int = 0
 
         override fun startTransition(forward: Boolean) {
+            hideBundlePriceOverviewObserver.onNext(forward)
             if (!forward) {
                 detailPresenter.hotelDetailView.resetViews()
                 val countryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
@@ -358,7 +356,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
     }
 
-    private val detailsToOverview = bundleSlidingWidget.addBundleTransitionFrom(HotelDetailPresenter::class.java.name)
     private val resultsToOverview = bundleSlidingWidget.addBundleTransitionFrom(PackageHotelResultsPresenter::class.java.name)
 
     private val selectedRoomObserver = endlessObserver<HotelOffersResponse.HotelRoomResponse> { offer ->

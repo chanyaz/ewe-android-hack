@@ -36,7 +36,6 @@ public class PackageCostBreakdownTest extends PackageTestCase {
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 
-		assertBundleTotalIconVisibility("View your bundle", false);
 		PackageScreen.selectRoom();
 		Common.delay(1);
 

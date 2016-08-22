@@ -53,7 +53,6 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 
 		onView(withId(R.id.hotel_results_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		HotelScreen.selectHotel("Package Happy Path");
-		openCloseSlidingBundleWidget("$1,027.34", "$21.61", "$2,054.67");
 
 		onView(withId(R.id.hotel_star_rating_bar)).check(matches(hasContentDescription()));
 
