@@ -54,6 +54,7 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextChange
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
+import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
@@ -324,6 +325,19 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             sectionBillingInfo.billingInfo.storedCard = card
             temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
+        }
+    }
+
+    fun clearCCNumber() {
+        try {
+            creditCardNumber.setText("")
+            Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
+            Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
+            Db.getBillingInfo().number = null
+            Db.getBillingInfo().securityCode = null
+            validateAndBind()
+        } catch (ex: Exception) {
+            Log.e("Error clearing billingInfo card number", ex)
         }
     }
 

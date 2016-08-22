@@ -616,7 +616,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flights_one_way_label,
 		R.dimen.flights_search_form_top_margin,
 		R.layout.rail_leg_summary,
-		R.layout.rail_overview,
+		R.layout.rail_overview_presenter,
 		R.layout.rail_summary,
 		R.color.dividerColor,
 		R.string.select_flight_cont_desc_TEMPLATE,

@@ -27,6 +27,13 @@
         android:background="@color/rail_background_color"
         android:visibility="gone" />
 
+    <com.expedia.bookings.presenter.rail.RailCheckoutPresenter
+        android:id="@+id/widget_rail_checkout_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/rail_background_color"
+        android:visibility="gone" />
+
     <ViewStub
         android:id="@+id/amenities_stub"
         android:layout_width="match_parent"

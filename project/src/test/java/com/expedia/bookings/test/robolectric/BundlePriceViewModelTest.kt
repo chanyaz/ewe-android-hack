@@ -3,7 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
-import com.expedia.vm.packages.BundlePriceViewModel
+import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Test
@@ -15,12 +15,12 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class BundlePriceViewModelTest {
-    var testViewModel: BundlePriceViewModel by Delegates.notNull()
+    var testViewModel: BundleTotalPriceViewModel by Delegates.notNull()
     val context: Context = RuntimeEnvironment.application
 
     @Before
     fun before() {
-        testViewModel = BundlePriceViewModel(context)
+        testViewModel = BundleTotalPriceViewModel(context)
     }
 
     @Test

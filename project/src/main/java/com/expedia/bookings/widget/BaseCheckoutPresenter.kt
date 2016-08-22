@@ -48,10 +48,9 @@ import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
-import com.expedia.vm.packages.BundlePriceViewModel
+import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
-import com.mobiata.android.Log
 import rx.Observable
 import kotlin.properties.Delegates
 
@@ -191,7 +190,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
         }
-        totalPriceWidget.viewModel = BundlePriceViewModel(context)
+        totalPriceWidget.viewModel = BundleTotalPriceViewModel(context)
         totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
@@ -443,16 +442,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     open fun clearCCNumber() {
-        try {
-            paymentWidget.creditCardNumber.setText("")
-            Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
-            Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
-            Db.getBillingInfo().number = null
-            Db.getBillingInfo().securityCode = null
-            paymentWidget.validateAndBind()
-        } catch (ex: Exception) {
-            Log.e("Error clearing billingInfo card number", ex)
-        }
+        paymentWidget.clearCCNumber()
     }
 
 
