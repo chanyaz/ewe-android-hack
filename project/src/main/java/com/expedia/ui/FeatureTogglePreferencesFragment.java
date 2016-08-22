@@ -26,6 +26,8 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_hotel_favorite, ToggleFeatureConfiguration.HOTEL_FAVORITE_FEATURE);
 		// Login Features
 		initializeFeatureCheck(R.string.preference_enable_smart_lock, ToggleFeatureConfiguration.SMART_LOCK_FEATURE);
+		initializeFeatureCheck(R.string.preference_enable_packages, ToggleFeatureConfiguration.PACKAGES_FEATURE);
+		initializeFeatureCheck(R.string.preference_enable_rail, ToggleFeatureConfiguration.RAIL_FEATURE);
 
 	}
 
