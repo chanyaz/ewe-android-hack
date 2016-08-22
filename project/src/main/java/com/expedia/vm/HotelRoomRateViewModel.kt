@@ -156,8 +156,12 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         discountPercentage.onNext("")
         expandedAmenityObservable.onNext("")
 
-        shouldShowDiscountPercentage.onNext(chargeableRateInfo.isDiscountPercentNotZero && !isBurnApplied && !chargeableRateInfo.isShowAirAttached())
-
+        if (lob == LineOfBusiness.PACKAGES) {
+            shouldShowDiscountPercentage.onNext(false)
+        }
+        else {
+            shouldShowDiscountPercentage.onNext(chargeableRateInfo.isDiscountPercentNotZero && !isBurnApplied && !chargeableRateInfo.isShowAirAttached())
+        }
         discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
         if (!isPayLater && (chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers)) {
             val strikeThroughPriceToShowUsers = Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney

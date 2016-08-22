@@ -58,5 +58,4 @@ class PackageHotelDetailViewModel(context: Context, roomSelectedObserver: Observ
     override fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
         PackagesTracking().trackHotelDetailLoad(hotelOffersResponse.hotelId)
     }
-
 }

@@ -16,6 +16,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.vm.packages.PackageHotelDetailViewModel
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -39,6 +40,7 @@ class HotelRoomRateViewModelTest {
     lateinit private var mockHotelDetailViewModel: HotelDetailViewModel
     lateinit private var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse
     lateinit private var hotelOfferResponse: HotelOffersResponse
+    lateinit private var mockPackageHotelDetailViewModel: PackageHotelDetailViewModel
 
     private var expectedAmenity = ""
 
@@ -46,6 +48,12 @@ class HotelRoomRateViewModelTest {
     fun before() {
         hotelOfferResponse = mockHotelServiceTestRule.getHappyOfferResponse()
         hotelRoomResponse = hotelOfferResponse.hotelRoomResponse.first()
+    }
+
+    @Test
+    fun packageRoomDiscountNotDisplayed() {
+        setupPackageRoomUnderTest()
+        assertFalse(sut.shouldShowDiscountPercentage.value)
     }
 
     @Test
@@ -200,6 +208,14 @@ class HotelRoomRateViewModelTest {
         mockHotelDetailViewModel = HotelDetailViewModel(context, endlessObserver { /*ignore*/ })
 
         sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.HOTELS)
+    }
+
+    private fun setupPackageRoomUnderTest() {
+        val rowIndex = 0
+        expectedAmenity = "Free wifi"
+        mockPackageHotelDetailViewModel = PackageHotelDetailViewModel(context, endlessObserver { /*ignore*/ })
+
+        sut = HotelRoomRateViewModel(context, hotelOfferResponse.hotelId, hotelRoomResponse, expectedAmenity, rowIndex, mockPackageHotelDetailViewModel.rowExpandingObservable, endlessObserver { }, false, LineOfBusiness.PACKAGES)
     }
 
     private fun setupSoldOutRoomUnderTest() {

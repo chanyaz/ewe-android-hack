@@ -16,7 +16,7 @@ import com.expedia.vm.BaseHotelDetailViewModel
 import rx.Observer
 
 open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
-        BaseHotelDetailViewModel(context, roomSelectedObserver){
+        BaseHotelDetailViewModel(context, roomSelectedObserver) {
 
     override fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
         HotelTracking().trackPageLoadHotelInfosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, currentLocationSearch, hotelSoldOut, isRoomSoldOut)
@@ -26,12 +26,12 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
         return LineOfBusiness.HOTELS
     }
 
-    override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse) : Boolean {
+    override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean {
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         return roomOffer.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
     }
 
-    override fun getGuestRatingRecommendedText(rating: Float, resources: Resources) : String {
+    override fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
         return getABTestGuestRatingText(rating, context.resources)
     }
 
