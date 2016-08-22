@@ -104,7 +104,7 @@ public class Db {
 	private TripBucket mTripBucket = new TripBucket();
 
 	// Flight Travelers (this is the list of travelers going on the trip, these must be valid for checking out)
-	private List<Traveler> mTravelers = new ArrayList<Traveler>();
+	private ArrayList<Traveler> mTravelers = new ArrayList();
 
 	// This is the Traveler we've generated from Google Wallet data.
 	// It is expected that you will generate this when you first
@@ -381,7 +381,7 @@ public class Db {
 	}
 
 	public static void setTravelers(List<Traveler> travelers) {
-		sDb.mTravelers = travelers;
+		sDb.mTravelers = new ArrayList<>(travelers);
 	}
 
 	public static void setGoogleWalletTraveler(Traveler traveler) {
