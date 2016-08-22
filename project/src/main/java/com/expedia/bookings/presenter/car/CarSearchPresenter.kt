@@ -162,5 +162,6 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         searchViewModel.onTimesChanged(times)
         selectDates(dates.first, dates.second)
         searchViewModel.searchButtonObservable.onNext(true)
+        showDefault()
     }
 }

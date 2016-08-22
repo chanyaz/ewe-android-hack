@@ -332,7 +332,8 @@ public class NavUtils {
 		Intent intent = new Intent(context, CarActivity.class);
 		if (searchParams != null) {
 			Gson gson = CarServices.generateGson();
-			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
+			intent.putExtra("carSearchParams", gson.toJson(searchParams));
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS,true);
 		}
 
 		if ((flags & FLAG_OPEN_SEARCH) != 0) {
