@@ -3,6 +3,7 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.FontCache
@@ -24,9 +25,9 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
 
             // 1 room, 6 nights, 2 guests
             breakdowns.add(
-                    makeRoomNightsAndGuestRow(packageDetails.hotel.adultCount.toInt(),
+                    makeRoomNightsAndGuestRow(packageDetails.hotel.numberOfRooms.toInt(),
                             packageDetails.hotel.numberOfNights.toInt(),
-                            packageDetails.hotel.numberOfRooms.toInt()))
+                            packageDetails.hotel.adultCount.toInt()))
 
             // Taxes and Fees     $50
             breakdowns.add(

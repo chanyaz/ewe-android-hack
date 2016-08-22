@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
@@ -17,7 +16,6 @@ import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageCreateTripViewModel
 import com.squareup.otto.Subscribe
-import java.math.BigDecimal
 
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
 
@@ -42,7 +40,11 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
 
             val packageTotalPrice = response.packageDetails.pricing
-            totalPriceWidget.viewModel.total.onNext(packageTotalPrice.packageTotal)
+            val priceToShow = if (PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) packageTotalPrice.getBundleTotal() else packageTotalPrice.packageTotal
+            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(
+                    if (!PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees() && response.packageDetails.pricing.hasResortFee()) R.string.includes_flights_hotel else R.string.includes_taxes_fees_flights_hotel))
+
+            totalPriceWidget.viewModel.total.onNext(priceToShow)
             totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
             isPassportRequired(response)
             trackShowBundleOverview()

@@ -2018,6 +2018,8 @@
     <string name="includes_taxes_and_fees">Includes taxes and fees</string>
     <!-- Includes taxes, fees, flights+hotels -->
     <string name="includes_taxes_fees_flights_hotel">Includes taxes, fees, flights + hotel</string>
+    <!-- Includes flights+hotels -->
+    <string name="includes_flights_hotel">Includes flights + hotel</string>
     <!-- Includes taxes (but not necessarily fees) -->
     <string name="includes_taxes">Includes taxes</string>
     <!-- Date and trip from _ to _ -->
@@ -4590,8 +4592,10 @@
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>
     <string name="local_charges_due_at_hotel">Local charges due at hotel</string>
-    <!-- Legal disclaimer for package resort fees (at bottom of checkout) -->
-    <string name="package_resort_fee_disclaimer_TEMPLATE">A &lt;b&gt;{amount} resort fee&lt;/b&gt; will be collected at the hotel in the hotel\'s local currency.</string>
+    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for US eg. $150 in local taxes and/or hotel charges will be collected at the hotel. The total price for your stay will be 1050 -->
+    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt; in local taxes and/or hotel charges will be collected at the hotel. The total price for &lt;b&gt;your stay will be {trip_total}&lt;/b&gt;</string>
+    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for UK eg. $150 in local taxes and/or hotel charges will be collected at the hotel in the hotel's local currency. -->
+    <string name="package_resort_fees_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt; in local taxes and/or hotel charges will be collected at the hotel in the hotel\'s local currency.</string>
     <!-- Package cost summary row  e.g. 2 rooms, 1 night, 3 guests -->
     <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
     <!-- Package cost summary row snippet  e.g. 2 rooms-->
