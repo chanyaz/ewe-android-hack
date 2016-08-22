@@ -18,6 +18,7 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
@@ -46,18 +47,13 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 		// Hotel assertions
 		DataInteraction hotelRow = TripsScreen.tripsListItem().atPosition(0);
-		DateTimeZone pacificTimeZone = DateTimeZone.forID("America/Los_Angeles");
-		DateTime startOfTodayPacific = DateTime.now().withZone(pacificTimeZone).withTimeAtStartOfDay();
-		DateTime hotelCheckIn = startOfTodayPacific.plusDays(10).withHourOfDay(11).withMinuteOfHour(32);
-		String checkinDateString = "Check in " + hotelCheckIn.toString("MMM dd");
-		DataInteraction checkinRow = hotelRow.onChildView(withText(checkinDateString));
 		String hotelTitle = getListItemValues(hotelRow, R.id.header_text_view);
 		final String expectedHotelTitle = "Orchard Hotel";
 		assertEquals(expectedHotelTitle, hotelTitle);
-		ViewInteraction chevronButton = onView(allOf(withId(R.id.chevron_image_view),hasSibling(withChild(withText(checkinDateString)))));
+		ViewInteraction chevronButton = onView(allOf(withId(R.id.chevron_image_view), hasSibling(hasDescendant(withText(containsString("Check in"))))));
 		assertViewWithContentDescription(chevronButton, "Button to expand trip");
 
-		checkinRow.perform(click());
+		onView(allOf(withId(R.id.summary_layout), hasDescendant(withText(containsString("Check in"))))).perform(click());
 
 		float hotelRating = 3.5f;
 		assertEquals(hotelRating, EspressoUtils.getRatingValue(onView(withId(R.id.hotel_rating_bar))));
