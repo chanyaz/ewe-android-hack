@@ -192,7 +192,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         checkoutViewModel.tripResponseObservable.subscribe { trip ->
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
-            confirmationPresenter.viewModel.rewardPointsObservable.onNext(expediaRewards)
+            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
         }
         checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val flightCheckoutResponse = pair.first as FlightCheckoutResponse

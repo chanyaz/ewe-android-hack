@@ -4201,7 +4201,7 @@
     <string name="slide_to_book_text">Glisser pour réserver</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package -->
-    <string name="package_confirmation_reward_points">{rewardpoints} points {brand}+</string>
+    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} points {brand}+</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Durée du vol</string>

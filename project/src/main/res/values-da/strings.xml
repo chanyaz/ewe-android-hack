@@ -4201,7 +4201,7 @@
     <string name="slide_to_book_text">Skub for at reservere</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package -->
-    <string name="package_confirmation_reward_points">{rewardpoints} {brand}+ point</string>
+    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand}+ point</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Flyrejsens varighed</string>

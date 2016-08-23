@@ -83,7 +83,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             val response = pair.first as PackageCheckoutResponse
             show(confirmationPresenter)
             confirmationPresenter.viewModel.showConfirmation.onNext(Pair(response.newTrip?.itineraryNumber, pair.second))
-            confirmationPresenter.viewModel.setExpediaRewardsPoints.onNext(expediaRewards)
+            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
             PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType))
         }
 
