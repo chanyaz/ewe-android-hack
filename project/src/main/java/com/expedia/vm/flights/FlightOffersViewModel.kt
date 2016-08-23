@@ -38,23 +38,21 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
     val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
     val cancelSearchObservable = PublishSubject.create<Unit>()
-    val flightSearchResponseSubject = PublishSubject.create<FlightSearchResponse>()
     val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
 
     private var isRoundTripSearch = true
     private lateinit var flightMap: HashMap<String, LinkedHashSet<FlightLeg>>
     private lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
-    private var flightSearchResponseSubjectSubscription: Subscription? = null
+
+    private var flightSearchSubscription: Subscription? = null
 
     init {
-        makeNewFlightSearchResponseSubject()
-
         searchParamsObservable.subscribe { params ->
             isRoundTripSearchSubject.onNext(params.isRoundTrip())
-            flightServices.flightSearch(params).subscribe(makeResultsObserver())
+            flightSearchSubscription = flightServices.flightSearch(params, makeResultsObserver())
         }
         cancelSearchObservable.subscribe {
-            makeNewFlightSearchResponseSubject()
+            flightSearchSubscription?.unsubscribe()
         }
 
         isRoundTripSearchSubject.subscribe {
@@ -76,20 +74,6 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
                 val paymentFeeText = context.resources.getString(if (doAirlinesChargeAdditionalFees()) R.string.airline_fee_notice_payment else R.string.payment_and_baggage_fees_may_apply)
                 offerSelectedChargesObFeesSubject.onNext(paymentFeeText)
             }
-        }
-    }
-
-    private fun makeNewFlightSearchResponseSubject() {
-        flightSearchResponseSubjectSubscription?.unsubscribe()
-        flightSearchResponseSubjectSubscription = flightSearchResponseSubject.subscribe {
-            val obFeeDetailsUrl =
-                    if (getAirlineChargesPaymentFees()) {
-                        PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL
-                    } else {
-                        it.obFeesDetails
-                    }
-            obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
-            createFlightMap(it)
         }
     }
 
@@ -218,14 +202,21 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
                 } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
                     errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
                 } else {
-                    flightSearchResponseSubject.onNext(response)
+                    val obFeeDetailsUrl =
+                            if (getAirlineChargesPaymentFees()) {
+                                PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL
+                            } else {
+                                response.obFeesDetails
+                            }
+                    obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
+                    createFlightMap(response)
                 }
             }
 
             override fun onError(e: Throwable) {
                 if (RetrofitUtils.isNetworkError(e)) {
                     val retryFun = fun() {
-                        flightServices.flightSearch(searchParamsObservable.value).subscribe(makeResultsObserver())
+                        flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver())
                     }
                     val cancelFun = fun() {
                         noNetworkObservable.onNext(Unit)

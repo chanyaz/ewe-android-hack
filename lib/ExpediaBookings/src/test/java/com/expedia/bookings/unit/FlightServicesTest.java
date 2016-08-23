@@ -57,7 +57,7 @@ public class FlightServicesTest {
 			.adults(1)
 			.build();
 
-		service.flightSearch(params).subscribe(observer);
+		service.flightSearch(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoValues();
@@ -79,7 +79,7 @@ public class FlightServicesTest {
 			.adults(1)
 			.build();
 
-		service.flightSearch(params).subscribe(observer);
+		service.flightSearch(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();
@@ -109,7 +109,7 @@ public class FlightServicesTest {
 			.adults(1)
 			.build();
 
-		service.flightSearch(params).subscribe(observer);
+		service.flightSearch(params, observer);
 		observer.awaitTerminalEvent(10, TimeUnit.SECONDS);
 
 		observer.assertNoErrors();

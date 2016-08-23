@@ -14,6 +14,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
@@ -26,6 +28,8 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.Observer
+import rx.Scheduler
+import rx.Subscription
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import rx.subjects.BehaviorSubject
@@ -75,6 +79,28 @@ class FlightOffersViewModelTest {
         testSubscriber.assertValueCount(1)
     }
 
+//    @Test
+//    fun testNetworkErrorDialogCancel() {
+//        val testSubscriber = TestSubscriber<Unit>()
+//        val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
+//
+//        givenDefaultTravelerComponent()
+//        givenGoodSearchParams()
+//        givenFlightSearchThrowsIOException()
+//        createSystemUnderTest()
+//        sut.noNetworkObservable.subscribe(testSubscriber)
+//
+//        doFlightSearch()
+//        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
+//        val shadowOfNoInternetDialog = Shadows.shadowOf(noInternetDialog)
+//        val cancelBtn = noInternetDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
+//        cancelBtn.performClick()
+//
+//        assertEquals("", shadowOfNoInternetDialog.title)
+//        assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
+//        testSubscriber.assertValueCount(1)
+//    }
+
     @Test
     fun testNetworkErrorDialogRetry() {
         val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
@@ -89,15 +115,35 @@ class FlightOffersViewModelTest {
 
         assertEquals("", shadowOfNoInternetDialog.title)
         assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
-        Mockito.verify(flightServices, Mockito.times(3)).flightSearch(flightSearchParams) // 1 original, 2 retries
+        assertEquals(3, (flightServices as TestFlightServiceSearchThrowsException).searchCount) // 1 original, 2 retries
     }
 
+//    @Test
+//    fun testNetworkErrorDialogRetry() {
+//        val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
+//
+//        givenDefaultTravelerComponent()
+//        givenGoodSearchParams()
+//        givenFlightSearchThrowsIOException()
+//        createSystemUnderTest()
+//
+//        doFlightSearch()
+//        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
+//        val shadowOfNoInternetDialog = Shadows.shadowOf(noInternetDialog)
+//        val retryBtn = noInternetDialog.getButton(DialogInterface.BUTTON_POSITIVE)
+//        retryBtn.performClick()
+//        retryBtn.performClick()
+//
+//        assertEquals("", shadowOfNoInternetDialog.title)
+//        assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
+//        assertEquals(3, (service as TestFlightServiceSearchThrowsException).searchCount) // 1 original, 2 retries
+//    }
 
     @Test
     fun testGoodSearchResponse() {
-        val testSubscriber = TestSubscriber<FlightSearchResponse>()
+        val testSubscriber = TestSubscriber<List<FlightLeg>>()
 
-        sut.flightSearchResponseSubject.subscribe(testSubscriber)
+        sut.outboundResultsObservable.subscribe(testSubscriber)
         performFlightSearch(false)
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
@@ -350,11 +396,15 @@ class FlightOffersViewModelTest {
     }
 
     private fun givenFlightSearchThrowsIOException() {
-        val observableWithIOException = BehaviorSubject.create<FlightSearchResponse>()
-        observableWithIOException.onError(IOException())
-        flightServices = Mockito.mock(FlightServices::class.java)
-        Mockito.`when`(flightServices.flightSearch(flightSearchParams))
-                .thenReturn(observableWithIOException)
+        val logger = HttpLoggingInterceptor()
+        val root = File("../lib/mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        val interceptor = MockInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        server.setDispatcher(ExpediaDispatcher(opener))
+        flightServices = TestFlightServiceSearchThrowsException("http://localhost:" + server.port,
+                OkHttpClient.Builder().addInterceptor(logger).build(),
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 
     private fun getMakeResultsObserver(): Observer<FlightSearchResponse> {
@@ -363,5 +413,14 @@ class FlightOffersViewModelTest {
         return makeResultsObserverMethod.invoke(sut) as Observer<FlightSearchResponse>
     }
 
+    class TestFlightServiceSearchThrowsException(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, observeOn: Scheduler, subscribeOn: Scheduler) : FlightServices(endpoint, okHttpClient, interceptor, observeOn, subscribeOn) {
+        var searchCount = 0
+
+        override fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>): Subscription {
+            searchCount++
+            observer.onError(IOException())
+            return Mockito.mock(Subscription::class.java)
+        }
+    }
 
 }

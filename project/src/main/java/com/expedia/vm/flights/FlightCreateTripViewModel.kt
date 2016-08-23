@@ -28,11 +28,11 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
 
         performCreateTrip.subscribe {
             showCreateTripDialogObservable.onNext(true)
-            flightServices.createTrip(tripParams.value).subscribe(makeCreateTripResponseObserver())
+            flightServices.createTrip(tripParams.value, makeCreateTripResponseObserver())
         }
     }
 
-    private fun makeCreateTripResponseObserver(): Observer<FlightCreateTripResponse> {
+    fun makeCreateTripResponseObserver(): Observer<FlightCreateTripResponse> {
         return object : Observer<FlightCreateTripResponse> {
             override fun onNext(response: FlightCreateTripResponse) {
                 showCreateTripDialogObservable.onNext(false)
