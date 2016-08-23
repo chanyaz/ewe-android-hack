@@ -310,7 +310,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
             animate
         }.subscribe { animate ->
             viewRoom.isChecked = false
-
+            viewRoom.contentDescription = context.getString(R.string.hotel_room_expand_cont_desc)
             viewsToHideInExpandedState.forEach {
                 val alphaAnimation = newAlphaZeroToOneAnimation(it)
                 if (!animate) alphaAnimation.duration = 0
