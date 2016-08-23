@@ -41,17 +41,15 @@
     <string name="change_dates">เปลี่ยนวันที่</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">การชำระเงินอย่างปลอดภัย</string>
+    <!-- Accessibility content description for google map view on hotel results -->
+    <string name="hotel_results_map_view_cont_desc">แผนที่ Google ค้นหาผลลัพธ์โรงแรมโดยใช้มุมมองแผนที่</string>
 
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
     <string name="cars_calendar_start_date_label">ถัดไป: เลือกวันส่งคืนรถ</string>
-    <!-- Tooltip description when both start and end dates are selected -->
-    <string name="cars_calendar_end_date_label">ลากเพื่อปรับเปลี่ยน</string>
-    <!-- SeekBar tooltip description for pick up time-->
-    <string name="cars_time_slider_pick_up_label">เวลารับรถ</string>
-    <!-- SeekBar tooltip description for drop off time-->
-    <string name="cars_time_slider_drop_off_label">เวลาส่งคืนรถ</string>
+    <!-- When user hasn't picked drop-off date, we show something like: "Jan 21 - Select drop-off date" -->
+    <string name="select_drop_off_date_TEMPLATE">%1$s - เลือกวันส่งคืนรถ</string>
     <!-- Cars price templates-->
     <string name="cars_hourly_text">ราคาต่อชั่วโมง</string>
     <!-- Cars price templates-->
@@ -90,6 +88,8 @@
     <string name="cars_driver_details_text">รายละเอียดผู้ขับรถ</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">ป้อนรายละเอียดผู้ขับรถ</string>
+    <!-- Content description for enter driver details-->
+    <string name="enter_driver_details_cont_desc">ปุ่มป้อนรายละเอียดผู้ขับรถ</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">เลือกจากรายชื่อที่บันทึกไว้</string>
     <!-- Text for enter payment details-->
@@ -124,9 +124,9 @@
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">โรงแรม</string>
     <!-- Label for pickup location selector -->
-    <string name="pick_up_location">สถานที่รับรถ</string>
+    <string name="pick_up_location">สถานที่รับรถ:</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="drop_off_location">ส่งคืนรถ</string>
+    <string name="drop_off_location">ส่งคืนรถ (เหมือนกับสถานที่รับรถ)</string>
     <!-- Label for Car Search Screen header -->
     <string name="toolbar_search_cars">ค้นหารถ</string>
     <!-- Label for Cars date button -->
@@ -135,12 +135,16 @@
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} – เลือกวันส่งคืนรถ</string>
+    <!-- Car Calendar Strings -->
+    <string name="select_pickup_date">เลือกวันรับรถ</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">รับรถ</string>
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">ส่งคืนรถ</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">เร็วๆ นี้! เรากำลังทำงานอย่างเต็มที่เพื่อเพิ่มการจองรถเช่าที่ให้คุณรับและส่งคืนรถคนละสถานที่ได้ในแอพเวอร์ชั่นถัดไป</string>
+    <!-- Label for hint for car pick-up-->
+    <string name="car_pick_up_hint">รับรถ</string>
     <!-- Car search error -->
     <string name="error_no_result_message">ไม่พบผลลัพธ์สำหรับการค้นหาของคุณ โปรดลองเปลี่ยนเกณฑ์การค้นหาใหม่</string>
     <!-- Car no filtered search results -->
@@ -242,6 +246,8 @@
     <string name="card_io_btn_text">สแกน</string>
     <!-- Card.io scan text -->
     <string name="scan_card_text">สแกนบัตร</string>
+    <!-- Card.io instruction text -->
+    <string name="scan_card_instruction_text">วางบัตรตรงนี้ ระบบจะสแกนบัตรโดยอัตโนมัติ</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -747,7 +753,8 @@
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">จำกัดผลการค้นหา</string>
-
+    <!-- Accessibility content description for Sort & Filter button -->
+    <string name="sort_and_filter_cont_desc">ปุ่มจำกัดผลการค้นหา</string>
     <!-- Tablet Results strings -->
     <!-- "Done" list header label -->
     <string name="Done">เสร็จ</string>
@@ -988,6 +995,8 @@
 
     <!-- Sign in with Expedia -->
     <string name="Sign_in_with_TEMPLATE">เข้าสู่ระบบด้วย {brand}</string>
+    <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
+    <string name="Sign_in_with_cont_desc_TEMPLATE">ปุ่มเข้าสู่ระบบด้วย {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">เข้าสู่ระบบเพื่อรับคะแนน Expedia+ {reward} คะแนน</string>
     <!-- or -->
@@ -1000,17 +1009,25 @@
     <!-- Nav Dropdown menu -->
     <!-- Hotels -->
     <string name="nav_hotels">โรงแรม</string>
+    <string name="nav_hotels_cont_desc">ปุ่มโรงแรม</string>
     <!-- Cars -->
     <string name="nav_cars">รถ</string>
+    <string name="nav_cars_cont_desc">ปุ่มรถ</string>
     <!-- Activities -->
     <string name="nav_lx">กิจกรรม</string>
+    <string name="nav_lx_cont_desc">ปุ่มกิจกรรม</string>
     <!-- Ground Transport -->
     <string name="nav_transport">การเดินทางภาคพื้นดิน</string>
+    <string name="nav_transport_cont_desc">ปุ่มการเดินทางภาคพื้นดิน</string>
     <!-- Packages -->
     <string name="nav_packages">ดีลแพ็คเกจ</string>
     <!-- Rail -->
     <string name="nav_rail">รถไฟ</string>
 
+    <!-- Rail from hint -->
+    <string name="from_hint">เริ่มจาก</string>
+    <!-- Rail to hint -->
+    <string name="to_hint">ถึง</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1102,8 +1119,10 @@
     <string name="shop">จอง</string>
     <!-- Find Itinerary -->
     <string name="find_itinerary">ค้นหาแผนการเดินทาง</string>
-    <!-- Unable to find itinerary -->
-    <string name="unable_to_find_itinerary">หาแผนการเดินทางไม่พบ โปรดตรวจสอบว่าประเทศ (ในการตั้งค่าของแอพ) ตรงกับประเทศของเว็บไซต์ที่คุณทำการจอง</string>
+    <!-- Unable to find itinerary for guest user -->
+    <string name="unable_to_find_guest_itinerary">หาแผนการเดินทางไม่พบ โปรดยืนยันที่หน้าจอบัญชีว่าการตั้งค่าประเทศตรงกับที่อยู่เว็บไซต์สำหรับการจองของคุณ</string>
+    <!-- Unable to find itinerary for registered user  example: This is not a guest itinerary. Please sign into the Expedia account associated with this itinerary.-->
+    <string name="unable_to_find_registered_user_itinerary_template">นี่ไม่ใช่แผนการเดินทาง โปรดเข้าสู่ระบบ {brand} ด้วยบัญชีที่เชื่อมโยงกับแผนการเดินทางนี้</string>
     <!-- Find Guest Itinerary -->
     <string name="find_guest_itinerary">ค้นหาแผนการเดินทาง</string>
     <!-- Enter Itinerary Details -->
@@ -1665,6 +1684,7 @@
     <string name="flights_outbound_label">ขาออก</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">เที่ยวบิน</string>
+    <string name="flights_title_cont_desc">ปุ่มเที่ยวบิน</string>
     <!-- Flights payment fees info web view title -->
     <string name="flights_flight_overview_payment_fees">ข้อมูลค่าธรรมเนียมการชำระเงิน</string>
     <!-- Flights Free Cancellation messaging -->
@@ -1677,8 +1697,6 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">&lt;a href=\"{airline_fee_url}\"&gt;ค่าธรรมเนียมสายการบิน&lt;/a&gt; จะถูกเพิ่มเข้าไปในการชำระเงิน โดยขึ้นอยู่กับประเภทบัตร ค่าธรรมเนียมนี้จะบวกเพิ่มเข้ากับยอดการชำระเงินรวม</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">ไม่รับบัตรเดบิต</string>
-    <!-- Flights Sold out error screen: Select New Flight button label -->
-    <string name="flights_select_new_flight">เลือกเที่ยวบินใหม่</string>
     <!-- Flights Sold out error screen:- warning message -->
     <string name="flight_sold_out_warning">ขออภัย เที่ยวบินเต็มแล้ว</string>
     <!-- Flights Sold out error screen:- toolbar title -->
@@ -1764,7 +1782,7 @@
     <string name="invalid_flights_pos">ขออภัย การจองเที่ยวบินทางมือถือยังไม่มีให้บริการในพื้นที่ของคุณ</string>
     <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
     <string name="tablet_drop_down_flight_pos_unavailable_TEMPLATE">ขออภัย เรายังไม่รองรับการจองเที่ยวบินในพื้นที่ของคุณ แต่คุณสามารถจองบน&lt;a href=\"%1$s\"&gt;เว็บไซต์ของเรา&lt;/a&gt;ได้</string>
-    <!-- Error message when we the user picks the same airport for both the departure and arrival airports -->
+    <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
     <string name="error_same_flight_departure_arrival">สนามบินที่ออกเดินทางกับสนามบินปลายทางต้องไม่ใช่สนามบินเดียวกัน</string>
 
     <!-- Flight search params fragment -->
@@ -1876,6 +1894,8 @@
     <string name="flight_details_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s), %4$s</string>
     <!-- Extra details about a flight segment.  %1$s is the duration, %2$s is the cabin code, %3$s is the class. For example: "4h 10m - Economy (K)" -->
     <string name="flight_details_no_plane_info_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; – %2$s (%3$s)</string>
+    <!-- Price per person. For example: "$20.31 per person" -->
+    <string name="flight_details_price_per_person_TEMPLATE">{price}ต่อคน</string>
     <!-- Label for "coach" cabin code -->
     <string name="cabin_code_coach">ชั้นประหยัด</string>
     <!-- Label for "premium coach" cabin code -->
@@ -2041,8 +2061,6 @@
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;ยกเลิกฟรี&lt;/b&gt; ภายใน &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
     <string name="sign_out">ออกจากระบบ</string>
-    <!-- AB Test 3x messaging for hotel points -->
-    <string name="youll_earn_points_ab_test_3x_TEMPLATE">รับ %1$s คะแนน — 3 เท่าของคะแนนปกติเพราะคุณจองผ่านแอพ!</string>
     <!-- You'll earn points for this trip -->
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ {reward_currency} คะแนนจากการจองนี้!</string>
     <!-- You are a valued member -->
@@ -2056,7 +2074,8 @@
     <!-- String to use when a price change alert should be shown to the user -->
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">เรามีข่าวดี! ราคาห้องพักของคุณเพิ่งลดลงจาก %1$s เป็น %2$s</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
-    <string name="done">เสร็จ</string>
+    <string name="done">เสร็จสิ้น</string>
+    <string name="done_cont_desc">ปุ่มเสร็จสิ้น</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">โปรดใช้ตัวอักษรภาษาอังกฤษ</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -2176,6 +2195,7 @@
     <string name="special_assistance_label_TEMPLATE">ความช่วยเหลือพิเศษ: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
+    <string name="phone_number_country_code_dropdown_cont_desc">รหัสประเทศ</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">วันเกิด %1$s</string>
     <!-- Born on colored -->
@@ -2240,6 +2260,8 @@
     <string name="address_city_hint">เขต/อำเภอ</string>
     <!-- Address state hint -->
     <string name="address_state_hint">จังหวัด</string>
+    <!-- Address country content desctiption -->
+    <string name="address_state_country_cont_desc">ประเทศ</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">รหัสไปรษณีย์</string>
     <!-- Zip Code hint for Packages -->
@@ -2257,7 +2279,7 @@
 
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">รายละเอียดผู้เดินทาง</string>
-    <string name="checkout_enter_traveler_details_line2">ป้อนข้อมูลของคุณ</string>
+    <string name="enter_missing_traveler_details">ป้อนรายละเอียดผู้เดินทางที่ขาดไป</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
         <item quantity="one">+ ผู้เดินทางอีก {travelercount} คน</item>
@@ -2306,6 +2328,7 @@
     <string name="female">หญิง</string>
     <!-- next page buttn -->
     <string name="next">ถัดไป</string>
+    <string name="next_cont_desc">ปุ่มถัดไป</string>
     <!-- Passport country label -->
     <string name="passport_country">ประเทศที่ทำหนังสือเดินทาง</string>
     <!-- Passport country / origin heading -->
@@ -2486,13 +2509,13 @@
     <!-- split ticket rules header -->
     <string name="split_ticket_important_flight_information_header">ข้อมูลสำคัญของเที่ยวบิน</string>
     <!-- split ticket rules and restrictions -->
-    <string name="split_ticket_rules_with_link_TEMPLATE">• การจองเที่ยวบินของคุณประกอบด้วยค่าโดยสารแบบเที่ยวเดียวสองรายการ ซึ่งมีกฎและข้อจำกัดที่แยกออกจากกัน</string>
+    <string name="split_ticket_rules_with_link_TEMPLATE">การจองเที่ยวบินของคุณประกอบด้วยค่าโดยสารแบบเที่ยวเดียวสองรายการ ซึ่งมีกฎและข้อจำกัดที่แยกออกจากกัน</string>
     <string name="split_ticket_rules_with_link_TEMPLATE_tablet">การจองเที่ยวบินของคุณประกอบด้วยค่าโดยสารแบบเที่ยวเดียวสองรายการ ซึ่งมีกฎและข้อจำกัดที่แยกออกจากกัน</string>
     <!-- split ticket rules - cancellation policy -->
-    <string name="split_ticket_rules_cancellation_policy">• หากคุณเปลี่ยนแปลงหรือยกเลิกเที่ยวบินใดเที่ยวบินหนึ่ง เที่ยวบินอีกเที่ยวจะไม่เปลี่ยนแปลงตามไปด้วยโดยอัตโนมัติ การแก้ไขเปลี่ยนแปลงเที่ยวบินอีกเที่ยวนั้นอาจมีค่าธรรมเนียมเพิ่มเติม</string>
+    <string name="split_ticket_rules_cancellation_policy">หากคุณเปลี่ยนแปลงหรือยกเลิกเที่ยวบินใดเที่ยวบินหนึ่ง เที่ยวบินอีกเที่ยวจะไม่เปลี่ยนแปลงตามไปด้วยโดยอัตโนมัติ การแก้ไขเปลี่ยนแปลงเที่ยวบินอีกเที่ยวนั้นอาจมีค่าธรรมเนียมเพิ่มเติม</string>
     <string name="split_ticket_rules_cancellation_policy_tablet">หากคุณเปลี่ยนแปลงหรือยกเลิกเที่ยวบินใดเที่ยวบินหนึ่ง เที่ยวบินอีกเที่ยวจะไม่เปลี่ยนแปลงตามไปด้วยโดยอัตโนมัติ การแก้ไขเปลี่ยนแปลงเที่ยวบินอีกเที่ยวนั้นอาจมีค่าธรรมเนียมเพิ่มเติม</string>
-    <!-- split ticket baggage fees -->
-    <string name="split_ticket_baggage_fees">• &lt;a href=\"%1$s\"&gt;เที่ยวบินขาไป&lt;/a&gt; และ &lt;a href=\"%2$s\"&gt;เที่ยวบินขากลับ&lt;/a&gt; มีค่าธรรมเนียมสัมภาระที่แยกออกจากกัน</string>
+    <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
+    <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;เที่ยวบินขาไป&lt;/a&gt; และ &lt;a href=\"{returnlink}\"&gt;เที่ยวบินขากลับ&lt;/a&gt; มีค่าธรรมเนียมสัมภาระที่แยกออกจากกัน</string>
     <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;เที่ยวบินขาไป&lt;/a&gt; และ &lt;a href=\"%2$s\"&gt;เที่ยวบินขากลับ&lt;/a&gt; มีค่าธรรมเนียมสัมภาระที่แยกออกจากกัน</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
@@ -2547,7 +2570,7 @@
     <string name="pick_new_hotel">เลือกโรงแรมใหม่</string>
     <!-- Text for hotel error unknown -->
     <string name="error_hotel_unhandled">ขออภัย เราไม่สามารถดำเนินการกับคำสั่งซื้อของคุณได้ในตอนนี้ โปรดลองอีกครั้ง</string>
-    <!-- Text for hotel error toolbar payment failed-->
+    <!-- Error Screen toolbar title for payment failed screen -->
     <string name="payment_failed_label">การชำระเงินล้มเหลว</string>
     <!-- Text for error toolbar session expired-->
     <string name="session_timeout">เซสชั่นหมดอายุ</string>
@@ -2782,6 +2805,8 @@
     <string name="sold_out">หมดแล้ว</string>
     <!-- Map cluster text for number of hotels-->
     <string name="cluster_number_of_hotels_template">%s โรงแรม</string>
+    <!-- Map cluster text for number of packages-->
+    <string name="cluster_number_of_packages_template">%s ผลลัพธ์</string>
     <!-- Map cluster price from range-->
     <string name="cluster_price_from_range_template">เริ่มที่ %s</string>
 
@@ -3013,10 +3038,14 @@
     </plurals>
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">ข้อมูลห้องพัก</string>
+    <!-- Accessibility label for the text we use to show room info for expanded room -->
+    <string name="room_information_button_cont_desc">ปุ่มข้อมูลห้องพัก</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">ไม่สามารถคืนเงินได้</string>
     <!-- Label for free nights -->
     <string name="free">ฟรี!</string>
+    <!-- Delimiter for multiple bed types in hotel offer-->
+    <string name="delimiter_multiple_bed">" หรือ "</string>
     <!-- Prefix for the value-adds for a room (e.g. "Includes continental breakfast") where %s represents free-form text for value adds -->
     <string name="value_add_template">รวม%s</string>
     <!-- Prefix for the value-adds for all rooms (e.g. "All rooms include continental breakfast") where %s represents common value-adds to all rooms -->
@@ -3090,12 +3119,6 @@
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">{points} คะแนน</string>
 
     <!-- Expedia Accounts -->
-    <!-- Label for messaging on sign in Variate 1 -->
-    <string name="sign_in_messaging">ประหยัดด้วยดีลพิเศษสำหรับสมาชิกเท่านั้น</string>
-    <!-- Label for messaging on sign in Variate 2 -->
-    <string name="triple_point_messaging">รับคะแนน Expedia+ สามเท่า</string>
-    <!-- Label for messaging on sign in Variate 3 -->
-    <string name="trip_alert_messaging">รับการแจ้งเตือนสำคัญเกี่ยวกับทริปของคุณ</string>
     <!-- Label for menu item to open account settings screen -->
     <string name="account_settings_menu_label">บัญชี</string>
     <!-- Label for menu item to sign into account -->
@@ -3197,6 +3220,8 @@
     <string name="contact_expedia_website">เว็บไซต์</string>
     <!-- Label for "Expedia website" button in info page -->
     <string name="website_TEMPLATE">เว็บไซต์ {brand}</string>
+    <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
+    <string name="rewards_visa_card_TEMPLATE">สมัครใช้บัตร {brand_reward_name} Visa®</string>
     <!-- Label for "app support" button in info page -->
     <string name="app_support">ฝ่ายสนับสนุนแอพ</string>
     <!-- Section label for app settings functionality -->
@@ -3861,6 +3886,8 @@
     <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">ปุ่มโรงแรมใน{location}</string>
     <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
     <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">ปุ่มเที่ยวบินไปยัง{location}</string>
+    <!-- Content description for action: $500. Cost summary information button -->
+    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total} ปุ่มข้อมูลสรุปค่าใช้จ่าย</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3920,6 +3947,8 @@
     <string name="account_creation_legal_TEMPLATE">ฉันได้อ่านและยอมรับใน{terms_of_use}และ{privacy_policy} โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">ฉันได้อ่านและยอมรับ{terms_of_use}และ{privacy_policy}</string>
+    <!-- Account creation legal template for reward points -->
+    <string name="account_creation_legal_rewards_TEMPLATE">รับการเดินทางฟรีไปกับ {brand_reward_name_link} โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">โปรดระบุอายุเด็ก</string>
@@ -3968,6 +3997,8 @@
     <string name="increase_year_cont_desc">เพิ่มเลขปี</string>
     <!-- Accessibility - Content Description for Expiration date: decrease year -->
     <string name="decrease_year_cont_desc">ลดเลขปี</string>
+    <!-- Accessibility - Content Description for hotel map view on hotel details -->
+    <string name="hotel_map_view_cont_desc">มุมมองแผนที่ Google สถานที่ตั้งโรงแรม</string>
     <!-- Label for per person -->
     <string name="per_person">ต่อคน</string>
     <!-- Label for package bundle price on overview-->
@@ -4013,8 +4044,8 @@
     <string name="select_flight_searching_cont_desc_TEMPLATE">กำลังค้นหาเที่ยวบินไป {flight} วันที่ {date} สำหรับ {travelers} โปรดรอสักครู่</string>
     <!-- Bundle Overview flight card accessibility content description after flight selected Eg. You have selected flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Button to expand flight details. -->
     <string name="select_flight_selected_cont_desc_TEMPLATE">คุณได้เลือกเที่ยวบินไป {flight} วันที่ {datetraveler} รายละเอียดเที่ยวบิน {expandstate}</string>
-    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco from Jun 23 to Jun 24, for 1 Traveler. Please select Outbound Flight first. Button Disabled -->
-    <string name="select_flight_disabled_cont_desc_TEMPLATE">เที่ยวบินไป {flight} วันที่ {date} สำหรับ {travelers} โปรดเลือก{previous}ก่อน ปุ่มปิดใช้งานอยู่</string>
+    <!-- Bundle Overview flight card accessibility content description when it's disabled Eg. Flight to (SFO) San Francisco on Jun 23, for 1 Traveler. Please select Outbound Flight first. Button. -->
+    <string name="select_flight_disabled_cont_desc_TEMPLATE">เที่ยวบินไป {flight} วันที่ {date} สำหรับ {travelers} โปรดเลือก{previous}ก่อน ปุ่ม</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Outbound Flight first.-->
     <string name="select_flight_disabled_choose_outbound">เที่ยวบินขาไป</string>
     <!-- Bundle Overview Flight card accessibility content description asking what to select, since it's disabled. From above ^ Example: Please select Hotel first.-->
@@ -4032,6 +4063,10 @@
     <string name="best_flight_description">ราคาถูก • ระยะทางสั้น • เวลาออกเดินทางที่นิยม</string>
     <!-- Package search error -->
     <string name="error_package_search_message">เราไม่พบผลลัพธ์ใดๆ โปรดปรับเปลี่ยนการค้นหาของคุณ</string>
+    <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
+    <string name="error_package_origin_resolution_message_TEMPLATE">ไม่สามารถหาเมืองต้นทางสำหรับ {origin}</string>
+    <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
+    <string name="error_package_destination_resolution_message_TEMPLATE">ไม่สามารถหาเมืองปลายทางสำหรับ {destination}</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">ไม่แวะพัก</item>
@@ -4193,14 +4228,26 @@
     <!-- Label for the tab on fare rules/amenities screen -->
     <string name="fare_rules">กฎค่าโดยสาร</string>
 
-    <!-- Label for no segment amenities amenities screen -->
-    <string name="no_amenities">ไม่มีสิ่งอำนวยความสะดวก</string>
+    <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
+    <string name="rail_segment_no_amenities">ไม่มีสิ่งอำนวยความสะดวก</string>
+
+    <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
+    <string name="no_fare_rules_available">ไม่มีข้อมูลเกี่ยวกับกฎค่าโดยสาร</string>
 
     <!-- rail amenities station info e.g. "Manchester Piccadilly to London Euston" -->
     <string name="rail_station_info_TEMPLATE">{departure} ไป {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
     <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+
+    <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
+    <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
+
+    <!-- rail search error for date out of range  e.g.. more than 30 days apart -->
+    <string name="rail_search_range_error_TEMPLATE">ขออภัย เราไม่สามารถค้นหารถไฟไป-กลับที่เวลาเดินทางห่างกันเกิน %1$s วัน</string>
+
+    <string name="rail_location_hint">เมืองหรือสถานี</string>
+    <string name="error_same_station_departure_arrival">สถานีรถไฟที่ออกเดินทางกับสถานีปลายทางต้องไม่ใช่สถานีเดียวกัน</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">ขออภัย เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง</string>
     <string name="pwp_trip_service_error">ขออภัย เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง</string>
@@ -4292,8 +4339,15 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
+    <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">เวลาเที่ยวบินคือ {time} ในส่วนต่างราคา {pricedifference} บินกับ {airline} ระยะเวลาเที่ยวบินคือ {hours} {minutes} แวะพัก {stops} ครั้ง\u0020</string>
+    <!-- Hotel card view content description for accessibility. Eg. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} ระดับโรงแรม {starrating} จาก 5 คะแนนจากผู้เข้าพัก {guestrating} จาก 5 ราคา {price} รวมโรงแรมและเที่ยวบิน\u0020</string>
+    <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
+    <string name="hotel_price_cont_desc_TEMPLATE">ราคาเดิม {strikethroughprice}\u0020</string>
+    <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">ดีลถูกเหลือเชื่อ {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
     <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} ไปยัง {arrivalairport} {durationhours} {durationmins} \u0020</string>
     <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
@@ -4327,6 +4381,11 @@
     <string name="packages_remove_child_traveler_cont_desc">ลบผู้เดินทางเด็ก 1 คน</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">แสดงอายุเด็ก {childnumber}</string>
+    <!--Packages search alternate datepicker announce for accessibility-->
+    <!--Announce for choosing start date before showing datepicker dialog-->
+    <string name="packages_search_datepicker_announce_accessibility_start_date">เลือกวันเริ่มต้นการเดินทาง</string>
+    <!--Announce for choosing end date before showing datepicker dialog-->
+    <string name="packages_search_datepicker_announce_accessibility_end_date">เลือกวันสิ้นสุดการเดินทาง</string>
     <!--Packages accessibility flight search filter-->
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="packages_flight_search_filter_show_more_cont_desc">แสดงสายการบินมากขึ้น ปุ่ม</string>
@@ -4355,8 +4414,10 @@
     <string name="insurance_adding">กำลังเพิ่มประกันภัยการเดินทาง…</string>
     <!-- Error message displayed when insurance fails to be added to a trip -->
     <string name="insurance_add_error">ขออภัย เราไม่สามารถเพิ่มประกันภัยการเดินทางได้ โปรดลองอีกครั้งหรือจองต่อไปโดยไม่มีประกันภัยการเดินทาง</string>
-    <!-- Benefits of purchasing insurance -->
-    <string name="insurance_benefits">1. ตั๋วของคุณไม่สามารถขอเงินคืนได้ คุณเองก็ไม่สบายจนเดินทางไม่ไหว&lt;br/&gt;&lt;br/&gt;2. คุณประสบอุบัติเหตุ ไม่สามารถบินกลับได้&lt;br/&gt;&lt;br/&gt;3. เพื่อนที่จะเดินทางด้วยกันเกิดป่วยกะทันหัน ไม่สามารถเดินทางได้</string>
+    <!-- Benefits of purchasing insurance for domestic flights -->
+    <string name="insurance_benefits_domestic">1. ตั๋วของคุณไม่สามารถขอเงินคืนได้ คุณเองก็ไม่สบายจนเดินทางไม่ไหว&lt;br/&gt;&lt;br/&gt;2. คุณประสบอุบัติเหตุ ไม่สามารถบินกลับได้&lt;br/&gt;&lt;br/&gt;3. เพื่อนที่จะเดินทางด้วยกันเกิดป่วยกะทันหัน ไม่สามารถเดินทางได้</string>
+    <!-- Benefits of purchasing insurance for international flights -->
+    <string name="insurance_benefits_international">1. ตั๋วของคุณไม่สามารถขอเงินคืนได้ คุณเองก็ไม่สบายจนเดินทางไม่ไหว&lt;br/&gt;&lt;br/&gt;2. คุณต้องหาซื้อข้าวของเครื่องใช้ที่จำเป็น รวมถึงโน้ตบุ๊ก โทรศัพท์ หรือกล้องถ่ายรูปที่หายไปกับกระเป๋าสัมภาระ&lt;br/&gt;&lt;br/&gt;3. แผนประกันภัยของคุณอาจไม่ครอบคลุมถึงค่ารักษาพยาบาลขณะเดินทาง</string>
     <!-- Insurance call to action; links to list of benefits -->
     <string name="insurance_description">เหตุผล 3 ข้อที่คุณอาจต้องการประกันภัยการเดินทาง</string>
     <!-- Error message displayed when insurance fails to be removed from a trip -->
@@ -4366,9 +4427,9 @@
     <!-- Label of link to insurance terms and conditions -->
     <string name="insurance_terms">ข้อจำกัด เงื่อนไข และผู้บริหารกองทุน</string>
     <!-- Title of insurance widget when trip is protected, e.g. Your trip is protected for $19/person -->
-    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;การเดินทางของคุณได้รับความคุ้มครอง ${price}&lt;/b&gt;{price_type}</string>
+    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;การเดินทางของคุณได้รับความคุ้มครอง {price}&lt;/b&gt;{price_type}</string>
     <!-- Title of insurance widget when trip is not protected, e.g. Add protection for $19/person -->
-    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;เพิ่มประกันภัย ${price}&lt;/b&gt;{price_type}</string>
+    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;เพิ่มประกันภัย {price}&lt;/b&gt;{price_type}</string>
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/วัน</string>
     <string name="insurance_price_per_person">/คน</string>
@@ -4377,7 +4438,9 @@
     <string name="hotel_rating_bar_cont_desc_TEMPLATE">ได้รับ {rating} เต็ม 5 คะแนน</string>
     <!--LX accessibility -->
     <!--LX search accessibility -->
-    <string name="lx_location_edit_box_cont_desc">สถานที่สำหรับกิจกรรม</string>
+    <string name="location_edit_box_cont_desc">สถานที่ ปุ่ม</string>
+    <!-- Content description for location entered, e.g- Location. Gurgaon,India. Button-->
+    <string name="location_edit_box_cont_desc_TEMPLATE">สถานที่ {location} ปุ่ม</string>
 
     <!--LX infosite accessibility -->
     <!-- LX infosite section Highlights, description etc have a caret icon to read more content -->
@@ -4388,6 +4451,15 @@
     <string name="lx_add_ticket_button_cont_desc_TEMPLATE">เพิ่ม{traveler}</string>
     <!-- Content description for LX remove ticket button e.g. Remove child Button -->
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">ลบ{traveler}</string>
+    <!-- Append 'Button' to Content description for LX search results card button -->
+    <string name="lx_card_announce_button_cont_desc">ปุ่ม</string>
+    <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
+    <string name="lx_search_date_range_cont_desc_TEMPLATE">วันที่ทำกิจกรรม ปุ่ม เปิดกล่องโต้ตอบ {date_range}</string>
+
+    <!-- Content description for action: $44. Cost summary information button. -->
+    <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total} ปุ่มข้อมูลสรุปค่าใช้จ่าย</string>
+    <!-- Content description for action: Free cancellation. Legal information button. -->
+    <string name="lx_free_cancellation_cont_desc">ยกเลิกฟรี ปุ่มข้อมูลทางกฎหมาย</string>
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->
@@ -4409,6 +4481,8 @@
     <string name="accessibility_cont_desc_role_button_expand">แตะปุ่มเพื่อแสดงทั้งหมด</string>
     <!--Packages accessibility content description for role - Button to collapse -->
     <string name="accessibility_cont_desc_role_button_collapse">แตะปุ่มเพื่อแสดงบางส่วน</string>
+    <!--Packages accessibility content description for dialogs - Opens dialog -->
+    <string name="accessibility_cont_desc_opens_dialog">เปิดกล่องโต้ตอบ</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">ราคา {activity_price}</string>
@@ -4419,4 +4493,5 @@
     <string name="accessibility_cont_desc_role_checkbox_checked">ช่องทำเครื่องหมาย ทำเครื่องหมายแล้ว</string>
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">ช่องทำเครื่องหมาย ยังไม่ได้ทำเครื่องหมาย</string>
+    <string name="base_search_dates_cont_desc">เลือกวันที่ ปุ่ม เปิดกล่องโต้ตอบ</string>
 </resources>

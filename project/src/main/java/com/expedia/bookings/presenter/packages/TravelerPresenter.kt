@@ -33,6 +33,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     val doneClicked = PublishSubject.create<Unit>()
     val closeSubject = PublishSubject.create<Unit>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
+    val toolbarNavIconContDescSubject = PublishSubject.create<String>()
 
     var viewModel: CheckoutTravelerViewModel by notNullAndObservable { vm ->
         vm.invalidTravelersSubject.subscribe {
@@ -48,6 +49,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         travelerSelectState.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
             toolbarTitleSubject.onNext(selectedTraveler.second)
             travelerEntryWidget.viewModel = TravelerViewModel(context, selectedTraveler.first)
+            travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
             show(travelerEntryWidget)
         }
         doneClicked.subscribe {
@@ -113,8 +115,14 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     }
 
     private fun setToolbarNavIcon(forward : Boolean) {
-        toolbarNavIcon.onNext(if (!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
-        else ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        if(!forward) {
+            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
+            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
+        }
+        else {
+            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_close_cont_desc))
+            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        }
     }
 
     fun showSelectOrEntryState(status : TravelerCheckoutStatus) {
@@ -126,11 +134,17 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             val travelerViewModel = TravelerViewModel(context, 0)
             currentState ?: show(travelerSelectState, FLAG_CLEAR_BACKSTACK)
             travelerEntryWidget.viewModel = travelerViewModel
+            travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
             toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
             if (viewModel.travelerCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
                 travelerEntryWidget.viewModel.validate()
             }
             show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
         }
+    }
+
+    override fun back(): Boolean {
+        menuVisibility.onNext(false)
+        return super.back()
     }
 }

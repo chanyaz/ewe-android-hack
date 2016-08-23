@@ -9,6 +9,7 @@ import rx.Observable;
 
 public interface SuggestApi {
 
+	// siteId passed only for rails
 	@GET("/api/v4/typeahead/{query}")
 	Observable<SuggestionV4Response> suggestV4(
 		@Path("query") String query,
@@ -17,7 +18,8 @@ public interface SuggestApi {
 		@Query("dest") boolean isDest,
 		@Query("features") String features,
 		@Query("client") String client,
-		@Query("lob") String lineOfBusiness);
+		@Query("lob") String lineOfBusiness,
+		@Query("siteid") Integer siteId);
 
 	@GET("/api/v4/nearby/")
 	Observable<SuggestionV4Response> suggestNearbyV4(

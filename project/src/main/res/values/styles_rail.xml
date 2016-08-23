@@ -17,7 +17,7 @@
         <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
         <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
-        <item name="paymentWidgetLayout">@layout/package_payment_widget</item>
+        <item name="paymentWidgetLayout">@layout/billing_details_payment_widget</item>
         <item name="sliderText">@string/package_slider_text</item>
         <item name="hotel_promo_background_colors">@color/packages_secondary_color</item>
         <item name="hotel_toggle_text_drawable">@drawable/hotel_package_toggle_text</item>
@@ -28,6 +28,10 @@
         <item name="hotel_map_tooltip_drawable">@drawable/packages_tooltip</item>
         <item name="spinner_text_color_drawable">@drawable/package_traveler_text_color</item>
         <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
+        <item name="pickup_time_title">@string/rail_departing_at</item>
+        <item name="dropoff_time_title">@string/rail_returning_at</item>
+        <item name="search_calendar_card_view_text">@string/select_dates</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/rail_traveler_text_color</item>
     </style>
 
     <style name="RailCell.CarrierText" parent="MaterialFlightCell.CarrierText" />

@@ -33,7 +33,7 @@ class HotelBillingInfoTest {
         val paymentWidget = android.view.LayoutInflater.from(activity).inflate(R.layout.payment_widget_v2, null) as PaymentWidgetV2
         paymentWidget.viewmodel = PaymentViewModel(activity)
         sectionBillingInfo = paymentWidget.findViewById(R.id.section_billing_info) as SectionBillingInfo
-        sectionBillingInfo.setLineOfBusiness(LineOfBusiness.HOTELSV2)
+        sectionBillingInfo.setLineOfBusiness(LineOfBusiness.HOTELS)
 
         cardNumbFieldEditable = sectionBillingInfo.mEditCreditCardNumber
         cardNumbField = cardNumbFieldEditable.field as NumberMaskEditText

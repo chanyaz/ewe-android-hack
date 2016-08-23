@@ -20,7 +20,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.cars.CarCheckoutResponse
 import com.expedia.bookings.data.cars.CarLocation
 import com.expedia.bookings.data.cars.CarSearch
-import com.expedia.bookings.data.cars.CarSearchParams
+import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.cars.CreateTripCarOffer
 import com.expedia.bookings.data.cars.RateTerm
 import com.expedia.bookings.data.cars.SearchCarOffer
@@ -311,7 +311,7 @@ class FacebookEvents() {
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
 
-    fun trackCarSearch(search: CarSearchParams, carSearch: CarSearch) {
+    fun trackCarSearch(search: CarSearchParam, carSearch: CarSearch) {
         val searchCarOffer = carSearch.lowestTotalPriceOffer
         val startDate = search.startDateTime.toLocalDate()
         val endDate = search.endDateTime.toLocalDate()
@@ -331,7 +331,7 @@ class FacebookEvents() {
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
 
-    fun trackCarDetail(search: CarSearchParams, searchCarOffer: SearchCarOffer) {
+    fun trackCarDetail(search: CarSearchParam, searchCarOffer: SearchCarOffer) {
         var parameters = Bundle()
         val startDate = search.startDateTime.toLocalDate()
         val endDate = search.endDateTime.toLocalDate()

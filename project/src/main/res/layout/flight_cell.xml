@@ -45,10 +45,9 @@
                 <com.expedia.bookings.widget.TextView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:alpha="0.8"
                     android:gravity="center_vertical|right"
                     android:text="@string/best_flight_description"
-                    android:textColor="#FFF"
+                    android:textColor="#FFFFFF"
                     android:textSize="12sp"
                     android:textStyle="normal" />
             </LinearLayout>

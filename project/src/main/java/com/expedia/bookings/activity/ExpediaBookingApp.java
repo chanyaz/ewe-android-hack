@@ -13,6 +13,8 @@ import android.graphics.Point;
 import android.support.multidex.MultiDexApplication;
 import android.text.format.DateUtils;
 
+import net.danlew.android.joda.JodaTimeAndroid;
+
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
@@ -69,9 +71,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import io.fabric.sdk.android.Fabric;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
@@ -96,6 +95,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private static boolean sIsInstrumentation = false;
 	private static boolean sIsFirstLaunchEver = true;
 	private static boolean sIsFirstLaunchOfAppVersion = true;
+	private static boolean sIsTablet = false;
 
 	public static boolean isFirstLaunchOfAppVersion() {
 		return sIsFirstLaunchOfAppVersion;
@@ -111,6 +111,10 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 
 	public static boolean isInstrumentation() {
 		return sIsInstrumentation;
+	}
+
+	public static boolean isTablet() {
+		return sIsTablet;
 	}
 
 	public static boolean isRobolectric() {
@@ -132,6 +136,8 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	@Override
 	public void onCreate() {
 		TimingLogger startupTimer = new TimingLogger("ExpediaBookings", "startUp");
+
+		sIsTablet = AndroidUtils.isTablet(this);
 
 		// We want this first so that we set this as the Provider before anything tries to use Joda time
 		JodaTimeAndroid.init(this);

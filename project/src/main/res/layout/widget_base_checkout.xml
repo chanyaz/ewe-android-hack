@@ -240,6 +240,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#FDFDFD"
+            android:visibility="invisible"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:paddingBottom="8dp"

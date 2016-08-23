@@ -12,8 +12,9 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelListAdapter
@@ -134,7 +135,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun getFilterViewModel(): HotelFilterViewModel {
-        return HotelFilterViewModel()
+        return HotelFilterViewModel(LineOfBusiness.HOTELS)
     }
 
     override fun doAreaSearch() {
@@ -186,27 +187,27 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun trackSearchMap() {
-        HotelV2Tracking().trackHotelV2SearchMap()
+        HotelTracking().trackHotelSearchMap()
     }
 
     override fun trackMapToList() {
-        HotelV2Tracking().trackHotelV2MapToList()
+        HotelTracking().trackHotelMapToList()
     }
 
     override fun trackCarouselScroll() {
-        HotelV2Tracking().trackHotelV2CarouselScroll()
+        HotelTracking().trackHotelCarouselScroll()
     }
 
     override fun trackMapPinTap() {
-        HotelV2Tracking().trackHotelV2MapTapPin()
+        HotelTracking().trackHotelMapTapPin()
     }
 
     override fun trackFilterShown() {
-        HotelV2Tracking().trackHotelV2Filter()
+        HotelTracking().trackHotelFilter()
     }
 
     override fun trackMapSearchAreaClick() {
-        HotelV2Tracking().trackHotelsV2SearchAreaClick()
+        HotelTracking().trackHotelsSearchAreaClick()
     }
 
     override fun getHotelListAdapter(): BaseHotelListAdapter {

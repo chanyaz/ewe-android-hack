@@ -6,8 +6,7 @@ import com.expedia.bookings.R;
  * Dummy file so that lint don't complain about unused resources which are used only in kotlin files.
  * Have to delete this file once Lint is able to read kotlin files.
  */
-public class
-DummyFiletoHandleKotlinLintError {
+public class DummyFiletoHandleKotlinLintError {
 
 	/**
 	 * Add resources which are only used in kotlin files.
@@ -29,6 +28,10 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.widget_hotel_results,
 		R.layout.activity_hotel,
 		R.layout.widget_hotel_detail,
+		R.string.hotel_results_map_view_cont_desc,
+		R.string.hotel_details_cont_desc_TEMPLATE,
+		R.string.hotel_price_cont_desc_TEMPLATE,
+		R.string.hotel_unreal_deal_cont_desc_TEMPLATE,
 		R.layout.hotel_room_row,
 		R.layout.widget_hotel_info,
 		R.layout.widget_pay_later_info,
@@ -250,7 +253,6 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.widget_rail_search_content,
 		R.drawable.packages_search_arrival,
 		R.drawable.packages_search_departure,
-		R.layout.widget_search_autocomplete,
 		R.layout.suggestion_popup,
 		R.integer.calendar_max_days_package_stay,
 		R.integer.calendar_max_days_rail_search,
@@ -289,7 +291,6 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.package_confirmation_presenter,
 		R.layout.bundle_total_price_widget,
 		R.dimen.material_search_field_height,
-		R.layout.cardview_search_input,
 		R.string.bundle_total_savings_TEMPLATE,
 		R.layout.hotel_details_toolbar,
 		R.string.package_overview_flight_travel_info_TEMPLATE,
@@ -372,7 +373,6 @@ DummyFiletoHandleKotlinLintError {
 		R.color.traveler_incomplete_text_color,
 		R.string.select_travelers,
 		R.string.checkout_enter_traveler_details,
-		R.string.checkout_enter_traveler_details_line2,
 		R.plurals.checkout_more_travelers_TEMPLATE,
 		R.plurals.checkout_more_travelers_TEMPLATE,
 		R.string.checkout_edit_traveler_TEMPLATE,
@@ -584,7 +584,7 @@ DummyFiletoHandleKotlinLintError {
 		R.string.etp_pay_now_currency_text_TEMPLATE,
 		R.string.etp_pay_later_currency_text_TEMPLATE,
 		R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE,
-		R.integer.calendar_max_package_selectable_date_range,
+		R.integer.max_calendar_selectable_date_range,
 		R.bool.acct__isGoogleAccountChangeEnabled,
 		R.string.loading_flights_from_400_airlines,
 		R.layout.flight_results_loading_tile_widget,
@@ -598,7 +598,6 @@ DummyFiletoHandleKotlinLintError {
 		R.layout.flight_results_loading_header_cell,
 		R.string.select_hotel_cont_desc_TEMPLATE,
 		R.string.select_hotel_searching_cont_desc_TEMPLATE,
-		R.integer.calendar_max_package_selectable_date_range,
 		R.string.calendar_instructions_date_range_flight_select_return_date,
 		R.string.flights_round_trip_label,
 		R.string.flights_one_way_label,
@@ -716,7 +715,6 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.package_suggestion_margin_bottom,
 		R.layout.package_dropdown_item,
 		R.layout.lx_dropdown_item,
-		R.string.lx_location_edit_box_cont_desc,
 		R.layout.widget_search_params,
 		R.integer.calendar_max_selection_date_range_lx,
 		R.string.select_lx_search_dates,
@@ -769,6 +767,24 @@ DummyFiletoHandleKotlinLintError {
 		R.string.rail_station_info_TEMPLATE,
 		R.string.rail_fare_info_TEMPLATE,
 		R.string.fare_rules,
+		R.dimen.car_calendar_month_view_max_text_size,
+		R.integer.calendar_max_days_car_search,
+		R.string.cars_calendar_start_date_label,
+		R.string.select_drop_off_date_TEMPLATE,
+		R.string.pick_up_location,
+		R.string.drop_off_location,
+		R.string.select_pickup_and_dropoff_dates,
+		R.string.select_pickup_date,
+		R.string.drop_off_same_as_pick_up,
+		R.string.car_pick_up_hint,
+		R.style.CarSearchButtonStyle,
+		R.layout.widget_car_search,
+		R.integer.calendar_min_search_time_car,
+		R.drawable.location,
+		R.color.cars_tooltip_disabled_color,
+		R.drawable.recents,
+		R.drawable.search_type_icon,
+		R.layout.car_dropdown_item,
 		R.drawable.brand_tablet_checkout_login_logo_drawable,
 		R.drawable.rails_bus_icon,
 		R.drawable.rails_ferry_icon,
@@ -799,6 +815,15 @@ DummyFiletoHandleKotlinLintError {
 		R.dimen.temporary_tiny_padding,
 		R.string.cluster_number_of_packages_template,
 		R.string.flight_details_price_per_person_TEMPLATE,
-		R.string.accessibility_cont_desc_opens_dialog
+		R.string.accessibility_cont_desc_opens_dialog,
+		R.string.error_package_origin_resolution_message_TEMPLATE,
+		R.string.error_package_destination_resolution_message_TEMPLATE,
+		R.string.from_hint,
+		R.string.to_hint,
+		R.string.rail_location_hint,
+		R.string.error_same_station_departure_arrival,
+		R.string.done_cont_desc,
+		R.string.next_cont_desc,
+		R.drawable.ic_airline_backup
 	};
 }

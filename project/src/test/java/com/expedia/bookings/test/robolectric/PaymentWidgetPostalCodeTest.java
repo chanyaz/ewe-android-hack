@@ -45,7 +45,7 @@ public class PaymentWidgetPostalCodeTest {
 		PaymentWidget paymentWidget = (PaymentWidget) LayoutInflater.from(activity)
 			.inflate(R.layout.payment_widget, null);
 		paymentWidget.setViewmodel(new PaymentViewModel(activity));
-		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELSV2);
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELS);
 		return paymentWidget;
 	}
 

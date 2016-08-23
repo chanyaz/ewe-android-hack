@@ -32,6 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:padding="5dp"
+        android:contentDescription="@string/sort_and_filter_cont_desc"
         android:src="@drawable/ic_toolbar_filter_sort"/>
 
     <com.expedia.bookings.widget.TextView

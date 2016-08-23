@@ -11,15 +11,17 @@ import android.widget.EditText
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.interfaces.ToolbarListener
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
+import rx.Observable
 import kotlin.properties.Delegates
 
-class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, attrs), ToolbarListener {
+class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context, attrs), ToolbarListener {
     var menuItem: MenuItem by Delegates.notNull()
-    var currentFocus: EditText? = null
+    var currentFocus: View? = null
     var toolbarNavIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK);
 
     var viewModel: CheckoutToolbarViewModel by notNullAndObservable { vm ->
@@ -63,6 +65,17 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
         vm.formFilledIn.subscribe { isFilledIn ->
             vm.menuTitle.onNext(if (isFilledIn) context.getString(R.string.done) else context.getString(R.string.next))
         }
+
+        vm.toolbarNavIconContentDesc.subscribe {
+            navigationContentDescription = it
+        }
+
+        Observable.combineLatest(vm.menuVisibility, vm.formFilledIn, { menuVisibility, formFilledIn -> Pair(menuVisibility, formFilledIn) })
+                .filter { it.first }
+                .subscribe {
+                    AccessibilityUtil.setMenuItemContentDescription(this, if (it.second) context.getString(R.string.done_cont_desc) else context.getString(R.string.next_cont_desc))
+                }
+
     }
 
     init {
@@ -121,13 +134,18 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet) : Toolbar(context, 
         toolbarNavIcon.parameter = arrowDrawableType.type.toFloat()
     }
 
-    override fun editTextFocus(edittext: EditText) {
-        viewModel.currentFocus.onNext(edittext)
+    override fun setCurrentViewFocus(view: View) {
+        viewModel.currentFocus.onNext(view)
     }
 
     private fun setNextFocus()
     {
-        currentFocus?.focusSearch(View.FOCUS_FORWARD)?.requestFocus()
+        val nextFocusId = currentFocus?.nextFocusForwardId ?: 0
+        var nextView = currentFocus?.focusSearch(View.FOCUS_FORWARD)
+        if (nextView?.id != nextFocusId) {
+            nextView = currentFocus?.rootView?.findViewById(nextFocusId)
+        }
+        nextView?.requestFocus()
     }
 
     override fun enableRightActionButton(enable: Boolean) {

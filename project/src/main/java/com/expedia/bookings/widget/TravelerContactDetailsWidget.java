@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -25,10 +24,11 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.MerchandiseSpam;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.SectionTravelerInfo;
-import com.expedia.bookings.tracking.HotelV2Tracking;
+import com.expedia.bookings.tracking.HotelTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 import com.jakewharton.rxbinding.widget.RxTextView;
 import com.squareup.phrase.Phrase;
 import rx.Observer;
@@ -59,19 +59,19 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 	TextView travelerPhoneText;
 
 	@InjectView(R.id.edit_first_name)
-	public EditText firstName;
+	public AccessibleEditText firstName;
 
 	@InjectView(R.id.edit_last_name)
-	public EditText lastName;
+	public AccessibleEditText lastName;
 
 	@InjectView(R.id.edit_email_address)
-	public EditText emailAddress;
+	public AccessibleEditText emailAddress;
 
 	@InjectView(R.id.edit_phone_number_country_code_spinner)
 	public TelephoneSpinner phoneSpinner;
 
 	@InjectView(R.id.edit_phone_number)
-	public EditText phoneNumber;
+	public AccessibleEditText phoneNumber;
 
 	@InjectView(R.id.traveler_contact_info_container)
 	ViewGroup travelerContactInfoContainer;
@@ -159,7 +159,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public void setUPEMailOptCheckBox(MerchandiseSpam value) {
 		emailOptInStatus = value;
-		if (lineOfBusiness == LineOfBusiness.HOTELSV2 && !User.isLoggedIn(getContext())) {
+		if (lineOfBusiness == LineOfBusiness.HOTELS && !User.isLoggedIn(getContext())) {
 			if (emailOptInStatus != null) {
 				switch (emailOptInStatus) {
 				case ALWAYS:
@@ -200,6 +200,10 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	public void setEnterDetailsText(String text) {
 		enterDetailsText.setText(text);
+	}
+
+	public void setEnterDetailsContentDescription(String text) {
+		enterDetailsText.setContentDescription(text);
 	}
 
 	public void bind() {
@@ -243,7 +247,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 		}
 
 		if (TextUtils.isEmpty(traveler.getFullName())) {
-			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+			if (lineOfBusiness == LineOfBusiness.HOTELS) {
 				FontCache.setTypeface(enterDetailsText, FontCache.Font.ROBOTO_MEDIUM);
 				enterDetailsText.setText(getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1));
 				travelerPhoneText.setVisibility(VISIBLE);
@@ -292,8 +296,8 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 				travelerButton.setVisibility(GONE);
 			}
 			bind();
-			if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
-				new HotelV2Tracking().trackHotelV2CheckoutTraveler();
+			if (lineOfBusiness == LineOfBusiness.HOTELS) {
+				new HotelTracking().trackHotelCheckoutTraveler();
 			}
 			else {
 				OmnitureTracking.trackCheckoutTraveler(lineOfBusiness);
@@ -341,7 +345,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 
 	@Override
 	public String getActionBarTitle() {
-		if (lineOfBusiness == LineOfBusiness.HOTELSV2) {
+		if (lineOfBusiness == LineOfBusiness.HOTELS) {
 			return getResources().getString(R.string.checkout_hotelsv2_enter_guest_details_line1);
 		}
 		else {

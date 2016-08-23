@@ -25,7 +25,7 @@
         <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
         <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
-        <item name="paymentWidgetLayout">@layout/package_payment_widget</item>
+        <item name="paymentWidgetLayout">@layout/billing_details_payment_widget</item>
         <item name="sliderText">@string/package_slider_text</item>
         <item name="hotel_promo_background_colors">@color/packages_secondary_color</item>
         <item name="hotel_toggle_text_drawable">@drawable/hotel_package_toggle_text</item>
@@ -37,6 +37,7 @@
         <item name="spinner_text_color_drawable">@drawable/package_traveler_text_color</item>
         <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
         <item name="map_pin_drawable">@drawable/map_marker_blue</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/package_traveler_text_color</item>
     </style>
 
     <!--

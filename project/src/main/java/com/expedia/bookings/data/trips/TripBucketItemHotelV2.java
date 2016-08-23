@@ -30,6 +30,6 @@ public class TripBucketItemHotelV2 extends TripBucketItem {
 
 	@Override
 	public LineOfBusiness getLineOfBusiness() {
-		return LineOfBusiness.HOTELSV2;
+		return LineOfBusiness.HOTELS;
 	}
 }

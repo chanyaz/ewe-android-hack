@@ -7,6 +7,7 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import android.view.View;
 
 import com.expedia.bookings.test.espresso.RailTestCase;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -18,11 +19,12 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 public class RailAmenitiesTest extends RailTestCase {
 
 	public void testRailAmenities() throws Throwable {
-		navigateFromLaunchToAmenities();
+		SearchScreen.selectRailOriginAndDestination();
+		navigateFromSearchToAmenities();
 		assertAmenities();
 	}
 
-	private void navigateFromLaunchToAmenities() {
+	private void navigateFromSearchToAmenities() {
 		RailScreen.navigateToDetails();
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));

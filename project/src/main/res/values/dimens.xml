@@ -292,7 +292,7 @@
 
     <!-- Dimensions for hotel filter -->
     <dimen name="hotel_neighborhood_height">40dp</dimen>
-    <dimen name="airlines_filter_height">40dp</dimen>
+    <dimen name="airlines_filter_height">45dp</dimen>
 
     <!-- hotel V2 Checkout -->
     <dimen name="hotel_special_and_etp_margin">15dp</dimen>
@@ -346,7 +346,6 @@
     <dimen name="hotel_row_strikethrough_price_text_size">12dp</dimen>
 
     <!-- Common Dimensions, Shared among LOBs -->
-    <dimen name="location_suggestion_row_height">60dp</dimen>
     <dimen name="toolbar_dropshadow_height">5dp</dimen>
 
     <!-- Misc Dimensions -->

@@ -11,7 +11,7 @@ import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoScrollListener;
-import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
@@ -36,7 +36,7 @@ public class CarCategoryListWidget extends FrameLayout {
 	private static final int LIST_DIVIDER_HEIGHT = 12;
 	private static final int CARDS_FOR_LOADING_ANIMATION = 3;
 
-	private CarSearchParams mParams;
+	private CarSearchParam mParams;
 
 	@Override
 	protected void onFinishInflate() {

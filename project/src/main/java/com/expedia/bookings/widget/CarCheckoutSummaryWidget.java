@@ -245,7 +245,7 @@ public class CarCheckoutSummaryWidget extends RelativeLayout {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
 					dialog.dismiss();
-					AccessibilityUtil.delayedFocusToView(tripTotalText, 100);
+					AccessibilityUtil.delayedFocusToView(tripTotalText, 300);
 				}
 			});
 		builder.create().show();

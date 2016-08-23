@@ -2,8 +2,8 @@ package com.expedia.bookings.presenter.rail
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
@@ -11,7 +11,6 @@ import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.rail.RailCheckoutViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
-import com.expedia.vm.traveler.CheckoutTravelerViewModel
 
 class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckoutPresenter(context, attrs) {
 
@@ -29,7 +28,7 @@ class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckou
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
-        return LineOfBusiness.RAIL
+        return LineOfBusiness.RAILS
     }
 
     override fun updateDbTravelers() {
@@ -55,6 +54,9 @@ class RailCheckoutPresenter(context: Context, attrs: AttributeSet) : BaseCheckou
     }
 
     override fun trackShowBundleOverview() {
+    }
+
+    override fun isPassportRequired(response: TripResponse) {
     }
 
     private fun updatePricing(response: RailCreateTripResponse) {

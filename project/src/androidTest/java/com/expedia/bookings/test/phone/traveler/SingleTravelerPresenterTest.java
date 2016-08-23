@@ -16,10 +16,11 @@ import com.expedia.bookings.test.phone.packages.PackageScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static junit.framework.Assert.assertEquals;
-import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper {
@@ -119,7 +120,12 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 	@Test
 	public void testStoredTravelerWorks() throws Throwable {
-		mockViewModel = getMockViewModelEmptyTravelers(1);
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(1);
+			}
+		});
 		testTravelerPresenter.setViewModel(mockViewModel);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
@@ -128,7 +134,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 			@Override
 			public void run() {
 				testTravelerPresenter.getTravelerEntryWidget().getViewModel().getShowPassportCountryObservable().onNext(true);
-				testTravelerPresenter.getTravelerEntryWidget().onTravelerChosen(makeStoredTraveler());
+				testTravelerPresenter.getTravelerEntryWidget().onTravelerChosen(makeStoredTraveler("VNM"));
 			}
 		});
 
@@ -138,7 +144,32 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, testLastName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_birth_date_text_btn, testBirthDay);
- 		onView(allOf(withSpinnerText(testPassport)));
+		onView(withId(R.id.passport_country_spinner)).check(matches(hasDescendant(withText(testPassport))));
+	}
+
+	@Test
+	public void testStoredTravelerNoPassport() throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(1);
+			}
+		});
+		testTravelerPresenter.setViewModel(mockViewModel);
+
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				testTravelerPresenter.getTravelerEntryWidget().getViewModel().getShowPassportCountryObservable().onNext(true);
+				testTravelerPresenter.getTravelerEntryWidget().onTravelerChosen(makeStoredTraveler(null));
+			}
+		});
+
+		Espresso.closeSoftKeyboard();
+		onView(withId(R.id.passport_country_spinner)).check(matches(hasDescendant(withText(testEmptyPassport))));
+
 	}
 
 	@Test

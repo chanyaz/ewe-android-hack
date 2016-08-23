@@ -8,11 +8,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
 import com.expedia.account.PanningImageView;
-import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Db;
@@ -24,15 +25,14 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LoginExtender;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+import com.expedia.util.ToggleFeatureConfiguration;
 
 public class AccountLibActivity extends AppCompatActivity
 	implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
@@ -58,9 +58,6 @@ public class AccountLibActivity extends AppCompatActivity
 	private UserAccountRefresher userAccountRefresher;
 	private boolean loginWithFacebook = false;
 	private Listener listener = new Listener();
-
-	private boolean isUserBucketedForSmartLockTest = Db.getAbacusResponse()
-		.isUserBucketedForTest(AbacusUtils.EBAndroidAppSmartLockTest);
 
 	public static Intent createIntent(Context context, Bundle bundle) {
 		Intent loginIntent = new Intent(context, AccountLibActivity.class);
@@ -151,8 +148,8 @@ public class AccountLibActivity extends AppCompatActivity
 			.setUserRewardsEnrollmentCheck(ProductFlavorFeatureConfiguration.getInstance().showUserRewardsEnrollmentCheck())
 			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this));
 
-
-		if (BuildConfig.DEBUG && isUserBucketedForSmartLockTest) {
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSmartLockTest,
+			R.string.preference_enable_smart_lock, ToggleFeatureConfiguration.SMART_LOCK_FEATURE)) {
 			config.setParentActivity(this);
 		}
 
@@ -274,7 +271,7 @@ public class AccountLibActivity extends AppCompatActivity
 
 		@Override
 		public void userSignedInUsingSmartPassword() {
-			OmnitureTracking.trackSmartLockPasswordAccountCreation();
+			OmnitureTracking.trackSmartLockPasswordSignIn();
 		}
 	};
 

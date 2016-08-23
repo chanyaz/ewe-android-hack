@@ -38,7 +38,7 @@ class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, intercept
         val type = getTypeForCarSuggestions()
         val lob = "CARS";
         val features = "cars_rental"
-        return suggestV4(query, type, locale, features, client, lob)
+        return suggestV4(query, type, locale, features, client, lob, null)
                 .doOnNext { list -> sortCarSuggestions(list) }
                 .subscribe(observer);
     }
@@ -82,11 +82,11 @@ class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, intercept
                 SuggestionResultType.POINT_OF_INTEREST
         val lob = "ACTIVITIES"
         val features = "ta_hierarchy"
-        return suggestV4(query, type, locale, features, client, lob).subscribe(observer)
+        return suggestV4(query, type, locale, features, client, lob, null).subscribe(observer)
     }
 
-    private fun suggestV4(query: String, regiontype: Int, locale: String, features: String, client: String, lob: String?): Observable<MutableList<SuggestionV4>> {
-        return suggestApi.suggestV4(query, locale, regiontype, false, features, client, lob)
+    private fun suggestV4(query: String, regiontype: Int, locale: String, features: String, client: String, lob: String?, siteId: Int?): Observable<MutableList<SuggestionV4>> {
+        return suggestApi.suggestV4(query, locale, regiontype, false, features, client, lob, siteId)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .map { response -> response.suggestions}

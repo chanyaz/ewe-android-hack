@@ -66,7 +66,7 @@ import com.expedia.bookings.data.abacus.AbacusLogQuery;
 import com.expedia.bookings.data.abacus.AbacusTest;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
-import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.CarTrackingData;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
@@ -88,10 +88,8 @@ import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
-import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.enums.CheckoutTripBucketState;
-import com.expedia.bookings.enums.TripBucketItemState;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
@@ -99,6 +97,7 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.PackageFlightUtils;
@@ -837,6 +836,9 @@ public class OmnitureTracking {
 		s.setAppState(HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest);
+		if (HotelUtils.isCardIoAvailable()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHCKOCardIOTest);
+		}
 		s.track();
 	}
 
@@ -3488,9 +3490,9 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
-	public static void trackSmartLockPasswordAccountCreation() {
-		ADMS_Measurement s = createTrackLinkEvent(LOGIN_ACCOUNT_CREATE_SUCCESS);
-		s.setEvents("event25,event26,event216");
+	public static void trackSmartLockPasswordSignIn() {
+		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
+		s.setEvents("event26,event218");
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 
@@ -3499,6 +3501,7 @@ public class OmnitureTracking {
 		// set the pageName
 		s.setAppState(LOGIN_SCREEN);
 		s.setEvar(18, LOGIN_SCREEN);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppSmartLockTest);
 		s.track();
 	}
 
@@ -4025,15 +4028,6 @@ public class OmnitureTracking {
 
 		// TripBucket State
 		if (Db.getTripBucket() != null) {
-			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-			String hotelState = hotel == null ? "No Hotel" : (hotel.getState() == TripBucketItemState.PURCHASED ? "Hotel" : "UB Hotel");
-
-			TripBucketItemFlight flight = Db.getTripBucket().getFlight();
-			String flightState = flight == null ? "No Flight" : (flight.getState() == TripBucketItemState.PURCHASED ? "Flight" : "UB Flight");
-
-			String tbState = hotelState + "|" + flightState;
-			s.setEvar(23, tbState);
-
 			// Air attach state
 			boolean userIsAttachEligible = Db.getTripBucket() != null && Db.getTripBucket().isUserAirAttachQualified();
 			String airAttachState = userIsAttachEligible ? "Attach|Hotel Eligible" : "Attach|Non Eligible";
@@ -4370,7 +4364,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackAppCarSearch(CarSearchParams carSearchParams, int resultSize) {
+	public static void trackAppCarSearch(CarSearchParam carSearchParams, int resultSize) {
 		Log.d(TAG, "Tracking \"" + CAR_SEARCH + "\" pageLoad...");
 		ADMS_Measurement s = internalTrackAppCar(CAR_SEARCH);
 
@@ -4383,16 +4377,16 @@ public class OmnitureTracking {
 
 		//Search Origin
 		s.setEvar(3, "D=c3");
-		s.setProp(3, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.origin));
+		s.setProp(3, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.getOriginLocation()));
 
 		//Search Destination
-		s.setProp(4, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.origin));
+		s.setProp(4, "CAR:" + (isOffAirportSearch ? "Non-Airport" : carSearchParams.getOriginLocation()));
 		s.setEvar(4, "D=c4");
 
-		setDateValues(s, carSearchParams.startDateTime.toLocalDate(), carSearchParams.endDateTime.toLocalDate());
+		setDateValues(s, carSearchParams.getStartDateTime().toLocalDate(), carSearchParams.getEndDateTime().toLocalDate());
 
 		s.setEvar(47, getEvar47String(carSearchParams));
-		s.setEvar(48, carSearchParams.originDescription);
+		s.setEvar(48, carSearchParams.getOriginDescription());
 
 		s.track();
 	}
@@ -4532,12 +4526,12 @@ public class OmnitureTracking {
 				+ carOffer.detailedFare.grandTotal.amount);
 	}
 
-	private static String getEvar47String(CarSearchParams params) {
+	private static String getEvar47String(CarSearchParam params) {
 		StringBuilder sb = new StringBuilder("CAR|RT|");
 		SimpleDateFormat sdf = new SimpleDateFormat(CAR_DATE_FORMAT, Locale.US);
-		sb.append(sdf.format(params.startDateTime.toDate()));
+		sb.append(sdf.format(params.getStartDateTime().toDate()));
 		sb.append("|");
-		sb.append(sdf.format(params.endDateTime.toDate()));
+		sb.append(sdf.format(params.getEndDateTime().toDate()));
 		return sb.toString();
 	}
 

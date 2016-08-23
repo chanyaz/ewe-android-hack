@@ -29,10 +29,9 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
@@ -56,9 +55,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseHotelDetailViewModel
-import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
-import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.Observable
 import rx.Observer
@@ -339,6 +336,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     vm.lastExpandedRowObservable.onNext(-1)
                     vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
                     roomContainer.startAnimation(roomContainerAlphaZeroToOneAnimation)
+
+                    //set focus on first room row for accessibility
+                    (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
                 }
 
                 override fun onAnimationStart(p0: Animation?) {
@@ -526,7 +526,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             roomRateRegularLoyaltyAppliedView.visibility = View.VISIBLE
         }
 
-        HotelV2Tracking().trackPayNowContainerClick()
+        HotelTracking().trackPayNowContainerClick()
     }
 
     val payLaterObserver: Observer<Unit> = endlessObserver {
@@ -535,7 +535,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         viewmodel.etpRoomResponseListObservable.onNext(Pair(viewmodel.etpOffersList, viewmodel.etpUniqueValueAddForRooms))
         roomRateVIPLoyaltyAppliedContainer.visibility = View.GONE
         roomRateRegularLoyaltyAppliedView.visibility = View.GONE
-        HotelV2Tracking().trackPayLaterContainerClick()
+        HotelTracking().trackPayLaterContainerClick()
     }
 
     fun payNowLaterSelectionChanged(payNowSelected: Boolean) {
@@ -699,13 +699,12 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     fun scrollToRoom(animate: Boolean) {
         roomContainer.getLocationOnScreen(roomContainerPosition)
-
         var scrollToAmount = roomContainerPosition[1] - offset + detailContainer.scrollY
         if (etpContainer.visibility == View.VISIBLE) scrollToAmount -= etpContainer.height
         if (roomRateHeader.visibility == View.VISIBLE) scrollToAmount -= roomRateHeader.height
         val smoothScrollAnimation = ValueAnimator.ofInt(detailContainer.scrollY, scrollToAmount.toInt())
 
-        smoothScrollAnimation.setDuration(if (animate) SELECT_ROOM_ANIMATION else 0)
+        smoothScrollAnimation.duration = if (animate) SELECT_ROOM_ANIMATION else 0
         smoothScrollAnimation.interpolator = (AccelerateDecelerateInterpolator())
         smoothScrollAnimation.addUpdateListener({ animation ->
             val scrollTo = animation.animatedValue as Int
@@ -713,6 +712,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         })
 
         smoothScrollAnimation.start()
+
+        //request focus for accessibility on first room row after scrolling
+        (roomContainer.getChildAt(0) as HotelRoomRateView).row.requestFocus()
     }
 
 

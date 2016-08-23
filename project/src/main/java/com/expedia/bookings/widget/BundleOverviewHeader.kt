@@ -43,6 +43,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         toolbar.setNavigationOnClickListener {
             val activity = context as AppCompatActivity
             activity.onBackPressed()
+            toolbar.viewModel.menuVisibility.onNext(false)
         }
     }
 
@@ -88,13 +89,13 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
             if (isHideToolbarView) {
                 if (percentage == 1f) {
                     if (!isDisabled) {
-                        checkoutOverviewHeaderToolbar.visibility = View.VISIBLE;
+                        checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                     }
                     checkoutOverviewHeaderToolbar.destinationText.visibility = View.VISIBLE
                     checkoutOverviewHeaderToolbar.checkInOutDates.alpha = 1f
                     val distance = checkoutOverviewFloatingToolbar.destinationText.height * .25f
                     checkoutOverviewHeaderToolbar.checkInOutDates.translationY = -distance
-                    isHideToolbarView = !isHideToolbarView;
+                    isHideToolbarView = !isHideToolbarView
                 } else if (percentage >= .7f) {
                     checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                     val alpha = (percentage - .7f) / .3f
@@ -108,7 +109,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
             } else {
                 if (percentage < 1f) {
                     checkoutOverviewHeaderToolbar.destinationText.visibility = View.INVISIBLE;
-                    isHideToolbarView = !isHideToolbarView;
+                    isHideToolbarView = !isHideToolbarView
                 }
             }
         }

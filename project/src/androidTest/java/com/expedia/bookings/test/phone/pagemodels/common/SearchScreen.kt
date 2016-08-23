@@ -4,9 +4,6 @@ import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
-import android.support.test.espresso.action.ViewActions.scrollTo
-import android.support.test.espresso.action.ViewActions.swipeDown
-import android.support.test.espresso.action.ViewActions.swipeUp
 import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
@@ -16,8 +13,6 @@ import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
-import com.expedia.bookings.test.espresso.EspressoUtils
-import com.expedia.bookings.test.espresso.RecyclerViewAssertions
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
 import com.expedia.bookings.test.espresso.TabletViewActions
 import com.expedia.bookings.test.espresso.TestValues
@@ -33,6 +28,10 @@ object SearchScreen {
 
     @JvmStatic fun origin(): ViewInteraction {
         return onView(withId(R.id.origin_card))
+    }
+
+    @JvmStatic fun destination(): ViewInteraction {
+        return onView(withId(R.id.destination_card))
     }
 
     @JvmStatic fun calendar(): ViewInteraction {
@@ -59,15 +58,15 @@ object SearchScreen {
     }
 
     @JvmStatic fun selectDateButton(): ViewInteraction {
-        return onView(allOf<View>(withId(R.id.input_label), withParent(withId(R.id.calendar_card))))
+        return onView(withId(R.id.calendar_card))
     }
 
     @JvmStatic fun selectTravelerText(): ViewInteraction {
-        return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.traveler_card))))
+        return onView(withId(R.id.traveler_card))
     }
 
     @JvmStatic fun selectDestinationTextView(): ViewInteraction {
-        return onView(allOf(withId(R.id.input_label), withParent(withId(R.id.destination_card))))
+        return onView(withId(R.id.destination_card))
     }
 
     @JvmStatic fun selectGuestsButton(): ViewInteraction {
@@ -124,10 +123,6 @@ object SearchScreen {
         }
     }
 
-    @JvmStatic fun destination(): ViewInteraction {
-        return onView(withId(R.id.destination_card))
-    }
-
     @Throws(Throwable::class)
     @JvmStatic fun search(adults: Int, children: Int, clickSwP: Boolean = false, hotelSearch: Boolean = false) {
         if (hotelSearch) {
@@ -149,9 +144,18 @@ object SearchScreen {
     }
 
     @JvmStatic fun doGenericLXSearch() {
-        selectDestinationForLX()
+        selectSearchLocation()
         val startDate = LocalDate.now()
         selectDates(startDate, null)
+
+        searchButton().perform(click())
+    }
+
+    @JvmStatic fun doGenericCarSearch() {
+        selectSearchLocation()
+        val startDate = LocalDate.now()
+        val endDate = startDate.plusDays(3)
+        selectDates(startDate, endDate)
 
         searchButton().perform(click())
     }
@@ -234,13 +238,33 @@ object SearchScreen {
     }
 
     @Throws(Throwable::class)
+    @JvmStatic fun selectRailOriginAndDestination() {
+        origin().perform(click())
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_LONDON))
+        Espresso.closeSoftKeyboard()
+        val originPosition = 17 // origin suggestion position in suggestion list
+        suggestionList().perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(originPosition))
+        selectLocation(TestValues.RAIL_ORIGIN_STATION)
+        //Delay from the auto advance anim
+
+        destination().perform(ViewActions.waitForViewToDisplay())
+        destination().perform(click())
+        searchEditText().perform(ViewActions.waitForViewToDisplay())
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_GLASGOW))
+        Espresso.closeSoftKeyboard()
+        val destinationPosition = 18 // destination suggestion position in suggestion list
+        suggestionList().perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(destinationPosition))
+        selectLocation(TestValues.RAIL_DESTINATION_STATION)
+    }
+
+    @Throws(Throwable::class)
     @JvmStatic fun selectDestination() {
         searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
         selectLocation(TestValues.DESTINATION_LOCATION_SFO)
     }
 
     @Throws(Throwable::class)
-    @JvmStatic fun selectDestinationForLX() {
+    @JvmStatic fun selectSearchLocation() {
         searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
         selectLocation(TestValues.ACTIVITY_DESTINATION_LOCATION_SFO)
     }

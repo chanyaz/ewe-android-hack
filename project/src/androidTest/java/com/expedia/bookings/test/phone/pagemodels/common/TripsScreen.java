@@ -14,6 +14,10 @@ import static org.hamcrest.Matchers.anything;
 public class TripsScreen {
 	private static final int LOG_IN_BUTTON_ID = R.id.login_button;
 
+	public static ViewInteraction addGuestItinButton() {
+		return onView(withId(R.id.add_guest_itin_text_view));
+	}
+
 	public static ViewInteraction logInButton() {
 		return onView(withId(LOG_IN_BUTTON_ID));
 	}
@@ -26,4 +30,7 @@ public class TripsScreen {
 		return onData(anything()).inAdapterView(withId(android.R.id.list));
 	}
 
+	public static ViewInteraction enterItinDetailsView() {
+		return onView(withId(R.id.itin_heading_textview));
+	}
 }

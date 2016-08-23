@@ -66,9 +66,10 @@ class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destin
             return this
         }
 
-        // TODO - implement this once we know where to get rail origin/destination from
         override fun isOriginSameAsDestination(): Boolean {
-            return false
+            val departureStationCode = originLocation?.hierarchyInfo?.rails?.stationCode ?: ""
+            val arrivalStationCode = destinationLocation?.hierarchyInfo?.rails?.stationCode ?: ""
+            return departureStationCode.equals(arrivalStationCode)
         }
 
         override fun isWithinDateRange(): Boolean {
@@ -76,14 +77,6 @@ class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destin
                 return Days.daysBetween(LocalDate.now(), endDate).days <= maxRange
             } else {
                 return Days.daysBetween(LocalDate.now(), startDate).days <= maxRange
-            }
-        }
-
-        fun hasOriginAndOrDestination(): Boolean {
-            if (searchType == SearchType.ROUND_TRIP) {
-                return hasOriginAndDestination()
-            } else {
-                return hasOriginLocation()
             }
         }
 

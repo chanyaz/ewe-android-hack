@@ -5,7 +5,6 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Rule;
@@ -54,15 +53,15 @@ public class FlightRulesFragmentV1 extends BaseFlightRulesFragment {
 		if (mFlightTrip != null) {
 			// intro rule
 			Rule introRule = mFlightTrip.getRule(RulesKeys.CANCEL_CHANGE_INTRODUCTION_TEXT.getKey());
-			appendStringWithBreak(rulesBodyBuilder, introRule.getText());
+			appendStringWithBreak(rulesBodyBuilder, introRule);
 
 			// refundability
 			Rule refundRule = mFlightTrip.getRule(RulesKeys.REFUNDABILITY_TEXT.getKey());
-			appendBodyWithBoldedRule(rulesBodyBuilder, refundRule.getText());
+			appendBodyWithBoldedRule(rulesBodyBuilder, refundRule);
 
 			// change penalty
 			Rule penaltyRule = mFlightTrip.getRule(RulesKeys.CHANGE_PENALTY_TEXT.getKey());
-			appendBodyWithRuleWithoutBreaks(rulesBodyBuilder, penaltyRule.getText());
+			appendBodyWithRuleWithoutBreaks(rulesBodyBuilder, penaltyRule);
 
 
 		}
@@ -73,9 +72,9 @@ public class FlightRulesFragmentV1 extends BaseFlightRulesFragment {
 	void populateLccInfo() {
 		StringBuilder builder = new StringBuilder();
 		if (mFlightTrip != null && mFlightTrip.getRule(RulesKeys.LCC_IMPORTANT_TEXT.getKey()) != null) {
-			appendStringWithBreak(builder, mFlightTrip.getRule(RulesKeys.LCC_IMPORTANT_TEXT.getKey()).getText());
-			appendStringWithBreak(builder, mFlightTrip.getRule(RulesKeys.LCC_CHECKIN_TEXT.getKey()).getText());
-			appendStringWithBreak(builder, mFlightTrip.getRule(RulesKeys.LCC_LITE_TEXT.getKey()).getText());
+			appendStringWithBreak(builder, mFlightTrip.getRule(RulesKeys.LCC_IMPORTANT_TEXT.getKey()));
+			appendStringWithBreak(builder, mFlightTrip.getRule(RulesKeys.LCC_CHECKIN_TEXT.getKey()));
+			appendStringWithBreak(builder, mFlightTrip.getRule(RulesKeys.LCC_LITE_TEXT.getKey()));
 			mLccTextView.setText(Html.fromHtml(builder.toString()));
 			mLccTextView.setVisibility(View.VISIBLE);
 		}

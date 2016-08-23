@@ -7,7 +7,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelRulesActivity;
@@ -39,16 +38,18 @@ public class HotelRulesFragment extends Fragment {
 		String cancellationPolicy = "";
 
 		if (lob == LineOfBusiness.HOTELS) {
-			Rate rate = Db.getTripBucket().getHotel().getRate();
-			if (rate != null) {
-				cancellationPolicy = rate.getCancellationPolicy();
+			if (ExpediaBookingApp.isTablet()) {
+				Rate rate = Db.getTripBucket().getHotel().getRate();
+				if (rate != null) {
+					cancellationPolicy = rate.getCancellationPolicy();
+				}
 			}
-		}
-		else if (lob == LineOfBusiness.HOTELSV2) {
-			HotelOffersResponse.HotelRoomResponse room = Db.getTripBucket()
-				.getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
-			if (room != null) {
-				cancellationPolicy = room.cancellationPolicy;
+			else {
+				HotelOffersResponse.HotelRoomResponse room = Db.getTripBucket()
+					.getHotelV2().mHotelTripResponse.newHotelProductResponse.hotelRoomResponse;
+				if (room != null) {
+					cancellationPolicy = room.cancellationPolicy;
+				}
 			}
 		}
 		else if (lob == LineOfBusiness.PACKAGES) {

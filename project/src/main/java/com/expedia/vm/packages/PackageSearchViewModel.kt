@@ -34,7 +34,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun getMaxDateRange(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_package_selectable_date_range)
+        return context.resources.getInteger(R.integer.max_calendar_selectable_date_range)
     }
 
     // Inputs

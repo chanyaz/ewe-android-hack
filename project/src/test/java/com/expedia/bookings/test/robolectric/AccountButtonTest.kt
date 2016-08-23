@@ -9,17 +9,16 @@ import com.expedia.bookings.data.FlightTrip
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.RewardsInfo
+import com.expedia.bookings.data.cars.CarCreateTripResponse
+import com.expedia.bookings.data.lx.LXCreateTripResponse
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemCar
 import com.expedia.bookings.data.trips.TripBucketItemFlight
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.data.trips.TripBucketItemLX
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.trips.TripBucketItemTransport
-import com.expedia.bookings.data.cars.CarCreateTripResponse
-import com.expedia.bookings.data.lx.LXCreateTripResponse
-import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
-import org.robolectric.shadows.ShadowResourcesEB
 import com.expedia.bookings.widget.AccountButton
 import org.junit.Before
 import org.junit.Rule
@@ -28,6 +27,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.properties.Delegates
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
@@ -59,7 +59,7 @@ class AccountButtonTest {
     fun testNoRewardsForHotelsV2() {
         val createTripResponse = mockHotelServiceTestRule.getHappyCreateTripResponse()
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
-        val rewards = accountButton.getRewardsForLOB(LineOfBusiness.HOTELSV2)
+        val rewards = accountButton.getRewardsForLOB(LineOfBusiness.HOTELS)
         assertNull(rewards)
     }
 
@@ -70,7 +70,7 @@ class AccountButtonTest {
         rewardsInfo.totalAmountToEarn = Money("1234", "USD")
         createTripResponse.rewards = rewardsInfo
         Db.getTripBucket().add(TripBucketItemHotelV2(createTripResponse))
-        val rewards = accountButton.getRewardsForLOB(LineOfBusiness.HOTELSV2)
+        val rewards = accountButton.getRewardsForLOB(LineOfBusiness.HOTELS)
         assertNotNull(rewards)
     }
 

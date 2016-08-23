@@ -1,6 +1,6 @@
 package com.expedia.bookings.interfaces;
 
-import android.widget.EditText;
+import android.view.View;
 
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.widget.ExpandableCardView;
@@ -20,7 +20,7 @@ public interface ToolbarListener {
 
 	void showRightActionButton(boolean show);
 
-	void editTextFocus(EditText editText);
+	void setCurrentViewFocus(View view);
 
 	void setNavArrowBarParameter(ArrowXDrawableUtil.ArrowDrawableType arrowDrawableType);
 }

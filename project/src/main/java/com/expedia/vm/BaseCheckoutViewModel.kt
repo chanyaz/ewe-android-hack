@@ -28,7 +28,7 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
 
     // Outputs
     val priceChangeObservable = PublishSubject.create<TripResponse>()
-    val notNetworkObservable = PublishSubject.create<Unit>()
+    val noNetworkObservable = PublishSubject.create<Unit>()
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = BehaviorSubject.create<SpannableStringBuilder>()
     val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()

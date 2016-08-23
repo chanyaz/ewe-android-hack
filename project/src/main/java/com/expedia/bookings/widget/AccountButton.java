@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.CreateTripResponse;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
@@ -94,7 +95,10 @@ public class AccountButton extends LinearLayout {
 		OnClickListener logoutListener = new OnClickListener() {
 			public void onClick(View v) {
 				if (mListener != null) {
-					clearCheckoutData();
+
+					if (ExpediaBookingApp.isTablet()) {
+						clearTabletCheckoutData();
+					}
 					mListener.accountLogoutClicked();
 				}
 			}
@@ -170,7 +174,7 @@ public class AccountButton extends LinearLayout {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 			lp.height = LayoutParams.WRAP_CONTENT;
 			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
-			if (lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.PACKAGES
+			if (lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.PACKAGES
 				|| lob == LineOfBusiness.CARS || lob == LineOfBusiness.LX) {
 				lpt.width = LayoutParams.WRAP_CONTENT;
 				lpt.gravity = Gravity.CENTER;
@@ -223,7 +227,7 @@ public class AccountButton extends LinearLayout {
 
 	private boolean isSignInEarnMessagingEnabled(LineOfBusiness lob) {
 		return ProductFlavorFeatureConfiguration.getInstance().isEarnMessageOnCheckoutSignInButtonEnabled() && (
-			lob == LineOfBusiness.HOTELSV2 || lob == LineOfBusiness.FLIGHTS) && !AndroidUtils.isTablet(getContext());
+			lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS) && !AndroidUtils.isTablet(getContext());
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
@@ -335,14 +339,16 @@ public class AccountButton extends LinearLayout {
 			break;
 
 		case HOTELS:
-			TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
-			CreateTripResponse hotelTrip = hotel == null ? null : hotel.getCreateTripResponse();
-			rewardPoints = hotelTrip == null ? "" : hotelTrip.getRewardsPoints();
-			break;
-		case HOTELSV2:
-			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
-			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
-			rewardPoints = trip == null ? "" : getRewardsString(trip.getRewards());
+			if (AndroidUtils.isTablet(getContext())) {
+				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
+				CreateTripResponse hotelTrip = hotel == null ? null : hotel.getCreateTripResponse();
+				rewardPoints = hotelTrip == null ? "" : hotelTrip.getRewardsPoints();
+			}
+			else {
+				TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
+				HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
+				rewardPoints = trip == null ? "" : getRewardsString(trip.getRewards());
+			}
 			break;
 		case LX:
 			TripBucketItemLX lx = Db.getTripBucket().getLX();
@@ -377,7 +383,6 @@ public class AccountButton extends LinearLayout {
 						.put("reward_currency", rewardPoints).format()
 						.toString());
 				break;
-			case HOTELSV2:
 			case HOTELS:
 			case PACKAGES:
 			case LX:
@@ -420,7 +425,7 @@ public class AccountButton extends LinearLayout {
 	}
 
 	public RewardsInfo getRewardsForLOB(LineOfBusiness lob) {
-		if (lob == LineOfBusiness.HOTELSV2) {
+		if (lob == LineOfBusiness.HOTELS) {
 			TripBucketItemHotelV2 hotelV2 = Db.getTripBucket().getHotelV2();
 			HotelCreateTripResponse trip = hotelV2 == null ? null : hotelV2.mHotelTripResponse;
 			//TODO Remove trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null. Currently we need to initialize it till we start getting this in production.
@@ -458,19 +463,19 @@ public class AccountButton extends LinearLayout {
 		rewardsContainer.setBackgroundResource(rewardsBgResId);
 	}
 
-	private void clearCheckoutData() {
-		clearHotelCheckoutData();
-		clearFlightCheckoutData();
+	private void clearTabletCheckoutData() {
+		clearTabletHotelCheckoutData();
+		clearTabletFlightCheckoutData();
 	}
 
-	private void clearHotelCheckoutData() {
+	private void clearTabletHotelCheckoutData() {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			hotel.clearCheckoutData();
 		}
 	}
 
-	private void clearFlightCheckoutData() {
+	private void clearTabletFlightCheckoutData() {
 		TripBucketItemFlight flight = Db.getTripBucket().getFlight();
 		if (flight != null) {
 			flight.clearCheckoutData();

@@ -7,6 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
@@ -75,6 +76,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
             (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(response)
+            isPassportRequired(response)
             trackShowBundleOverview()
         }
 
@@ -103,6 +105,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         onLoginSuccess()
     }
 
+    override fun isPassportRequired(response: TripResponse) {
+        val flightOffer = (response as FlightCreateTripResponse).details.offer
+        travelerPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
+    }
+
     override fun getLineOfBusiness() : LineOfBusiness {
         return LineOfBusiness.FLIGHTS_V2
     }
@@ -126,7 +133,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun makeCreateTripViewModel(): FlightCreateTripViewModel {
-        return FlightCreateTripViewModel(getFlightServices(), getCheckoutViewModel().cardFeeForSelectedCard)
+        return FlightCreateTripViewModel(context, getFlightServices(), getCheckoutViewModel().cardFeeForSelectedCard)
     }
 
     override fun getCheckoutViewModel(): FlightCheckoutViewModel {
@@ -151,5 +158,10 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
                         toolbarDropShadow.visibility = visibility
                     }
                 }).subscribe()
+    }
+
+    override fun clearCCNumber() {
+        clearCVV()
+        super.clearCCNumber()
     }
 }

@@ -1,18 +1,16 @@
 package com.expedia.bookings.test.phone.cars;
 
-import org.joda.time.DateTime;
-
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.CarTestCase;
+import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -29,8 +27,7 @@ public class CarFilterTest extends CarTestCase {
 	private final static String CATEGORY = "Standard";
 
 	public void testCarsFilters() throws Throwable {
-		enterSearchParams("SFO", "San Francisco, CA");
-		CarScreen.searchButton().perform(click());
+		SearchScreen.doGenericCarSearch();
 		Common.delay(1);
 		int unifilterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 
@@ -80,8 +77,7 @@ public class CarFilterTest extends CarTestCase {
 	}
 
 	public void testFilterByMultipleCategoriesOnSRP() throws Throwable {
-		enterSearchParams("SFO", "San Francisco, CA");
-		CarScreen.searchButton().perform(click());
+		SearchScreen.doGenericCarSearch();
 
 		Common.delay(1);
 
@@ -103,8 +99,7 @@ public class CarFilterTest extends CarTestCase {
 	}
 
 	public void testFilterBySupplierOnSRP() throws Throwable {
-		enterSearchParams("SFO", "San Francisco, CA");
-		CarScreen.searchButton().perform(click());
+		SearchScreen.doGenericCarSearch();
 
 		Common.delay(1);
 
@@ -118,8 +113,7 @@ public class CarFilterTest extends CarTestCase {
 	}
 
 	public void testFilterByAirConditioningOnSRP() throws Throwable {
-		enterSearchParams("SFO", "San Francisco, CA");
-		CarScreen.searchButton().perform(click());
+		SearchScreen.doGenericCarSearch();
 
 		int unifilterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 		screenshot("Car_Search_Results");
@@ -139,8 +133,7 @@ public class CarFilterTest extends CarTestCase {
 	}
 
 	public void testFilterByUnlimitedMileageOnSRP() throws Throwable {
-		enterSearchParams("SFO", "San Francisco, CA");
-		CarScreen.searchButton().perform(click());
+		SearchScreen.doGenericCarSearch();
 
 		int unifilterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 		screenshot("Car_Search_Results");
@@ -160,8 +153,7 @@ public class CarFilterTest extends CarTestCase {
 
 
 	public void testFilterByTransmissionTypeOnSRP() throws Throwable {
-		enterSearchParams("SFO", "San Francisco, CA");
-		CarScreen.searchButton().perform(click());
+		SearchScreen.doGenericCarSearch();
 
 		int unifilterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 		screenshot("Car_Search_Results");
@@ -224,15 +216,6 @@ public class CarFilterTest extends CarTestCase {
 					.check(RecyclerViewAssertions.assertionOnItemAtPosition(j, hasDescendant(withText(supplierName))));
 			}
 		}
-	}
-
-	public void enterSearchParams(String query, String location) throws Throwable {
-		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
-		final DateTime endDateTime = startDateTime.plusDays(3);
-		CarScreen.pickupLocation().perform(typeText(query));
-		CarScreen.selectPickupLocation(location);
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.selectDates(startDateTime.toLocalDate(), endDateTime.toLocalDate());
 	}
 
 	public int countOffers(int numberOfCategories) {

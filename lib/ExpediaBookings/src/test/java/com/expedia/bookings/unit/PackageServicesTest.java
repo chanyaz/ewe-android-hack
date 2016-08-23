@@ -18,6 +18,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.PackageServices;
+import com.expedia.bookings.utils.Constants;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
@@ -88,6 +89,9 @@ public class PackageServicesTest {
 		PackageSearchResponse response = observer.getOnNextEvents().get(0);
 		Assert.assertEquals(48, response.packageResult.hotelsPackage.hotels.size());
 		Assert.assertEquals(2, response.packageResult.flightsPackage.flights.size());
+		System.out.println(response.packageResult.flightsPackage.flights.get(0).flightSegments.get(0).airlineLogoURL);
+		Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "b6"), response.packageResult.flightsPackage.flights.get(0).flightSegments.get(0).airlineLogoURL);
+		Assert.assertEquals(null, response.packageResult.flightsPackage.flights.get(0).flightSegments.get(1).airlineLogoURL);
 	}
 
 	@Test

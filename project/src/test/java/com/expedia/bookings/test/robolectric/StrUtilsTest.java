@@ -17,10 +17,12 @@ import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.SuggestionV4;
-import com.expedia.bookings.data.flights.FlightLeg;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
+import com.expedia.bookings.utils.SuggestionStrUtils;
 import com.squareup.phrase.Phrase;
 
 import static org.hamcrest.CoreMatchers.allOf;
@@ -80,6 +82,26 @@ public class StrUtilsTest {
 			assertEquals(spans[2].getClass(), UnderlineSpan.class);
 			assertEquals(spans[3].getClass(), ForegroundColorSpan.class);
 		}
+	}
+
+	@Test
+	public void testBaggageFeesTextContent() {
+		FlightTrip flightTrip = createFlightTrip();
+		SpannableStringBuilder spannableStringBuilder = StrUtils.generateBaggageFeesTextWithClickableLinks(getContext(), flightTrip.getLeg(0).getBaggageFeesUrl(), flightTrip.getLeg(1).getBaggageFeesUrl());
+		assertEquals(spannableStringBuilder, "Departure and Return flights have their own baggage fees");
+		assertEquals(spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), LegalClickableSpan.class)[0].getUrl(), "www.expedia.com");
+		assertEquals(spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), LegalClickableSpan.class)[1].getUrl(), "www.travelocity.com");
+	}
+
+	private FlightTrip createFlightTrip() {
+		FlightTrip flightTrip = new FlightTrip();
+		FlightLeg outBoundFlightLeg = new FlightLeg();
+		FlightLeg returnFlightLeg = new FlightLeg();
+		outBoundFlightLeg.setBaggageFeesUrl("www.expedia.com");
+		returnFlightLeg.setBaggageFeesUrl("www.travelocity.com");
+		flightTrip.addLeg(outBoundFlightLeg);
+		flightTrip.addLeg(returnFlightLeg);
+		return flightTrip;
 	}
 
 	@Test
@@ -195,7 +217,7 @@ public class StrUtilsTest {
 	@Test
 	public void testAirportNameFormatting() {
 		String displayNameResponse = "New York, NY, United States (NYC-All Airports)";
-		String formattedString = StrUtils.formatAirportName(displayNameResponse);
+		String formattedString = SuggestionStrUtils.formatAirportName(displayNameResponse);
 		assertEquals(formattedString, "NYC - All Airports");
 	}
 
@@ -207,7 +229,7 @@ public class StrUtilsTest {
 
 	@Test
 	public void testCarOriginDescriptionFormatting() {
-		FlightLeg flight = new FlightLeg();
+		com.expedia.bookings.data.flights.FlightLeg flight = new com.expedia.bookings.data.flights.FlightLeg();
 		flight.destinationAirportCode = "EWR";
 		flight.destinationAirportLocalName = "Liberty Intl.";
 		String formattedString = StrUtils.formatCarOriginDescription(getContext(),flight);

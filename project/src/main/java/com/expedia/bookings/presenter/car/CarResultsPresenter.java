@@ -22,7 +22,7 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.cars.CarSearch;
-import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.SearchCarOffer;
 import com.expedia.bookings.otto.Events;
@@ -103,7 +103,7 @@ public class CarResultsPresenter extends Presenter {
 	LinearLayout toolbarTwo;
 
 	private Subscription searchSubscription;
-	private CarSearchParams searchedParams;
+	private CarSearchParam searchedParams;
 	private CategorizedCarOffers selectedCategorizedCarOffers;
 	private CarSearch unfilteredSearch = new CarSearch();
 	private int searchTop;
@@ -459,9 +459,9 @@ public class CarResultsPresenter extends Presenter {
 
 	private void setToolBarResultsText() {
 		if (searchedParams != null) {
-			String dateTimeRange = DateFormatUtils.formatCarDateTimeRange(getContext(), searchedParams.startDateTime,
-				searchedParams.endDateTime);
-			toolBarDetailText.setText(searchedParams.originDescription);
+			String dateTimeRange = DateFormatUtils.formatCarDateTimeRange(getContext(), searchedParams.getStartDateTime(),
+				searchedParams.getEndDateTime());
+			toolBarDetailText.setText(searchedParams.getOriginDescription());
 			toolBarSubtitleText.setText(dateTimeRange);
 		}
 	}

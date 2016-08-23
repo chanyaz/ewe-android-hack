@@ -8,7 +8,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelSearchResponse.Neighborhood
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
@@ -31,8 +31,8 @@ class HotelsNeighborhoodFilter(context: Context, attrs: AttributeSet) : Relative
             if (viewModel.lob == LineOfBusiness.PACKAGES) {
                 PackagesTracking().trackHotelFilterNeighbourhood()
             }
-            else {
-                HotelV2Tracking().trackLinkHotelV2FilterNeighbourhood()
+            else if (viewModel.lob == LineOfBusiness.HOTELS) {
+                HotelTracking().trackLinkHotelFilterNeighbourhood()
             }
         }
     }

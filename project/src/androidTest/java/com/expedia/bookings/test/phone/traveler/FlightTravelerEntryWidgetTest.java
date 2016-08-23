@@ -19,10 +19,16 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTravelerEntryWidget;
 import com.expedia.vm.traveler.TravelerViewModel;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static org.hamcrest.core.AllOf.allOf;
+
 @RunWith(AndroidJUnit4.class)
 public class FlightTravelerEntryWidgetTest {
 	private FlightTravelerEntryWidget entryWidget;
 	private TravelerViewModel testVM;
+
+	protected final String testEmptyPassport = "Passport:";
 
 	@Rule
 	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
@@ -47,6 +53,7 @@ public class FlightTravelerEntryWidgetTest {
 		PackageScreen.clickTravelerAdvanced();
 		EspressoUtils.assertViewIsDisplayed(R.id.redress_number);
 		EspressoUtils.assertViewIsDisplayed(R.id.passport_country_spinner);
+		onView(allOf(withSpinnerText(testEmptyPassport)));
 	}
 
 	@Test

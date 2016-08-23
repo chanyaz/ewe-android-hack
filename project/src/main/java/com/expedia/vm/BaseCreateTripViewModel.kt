@@ -13,4 +13,5 @@ open class BaseCreateTripViewModel() {
     val showCreateTripDialogObservable = PublishSubject.create<Boolean>()
     val createTripErrorObservable = PublishSubject.create<ApiError>()
     val priceChangeObservable = PublishSubject.create<TripResponse>()
+    val noNetworkObservable = PublishSubject.create<Unit>()
 }

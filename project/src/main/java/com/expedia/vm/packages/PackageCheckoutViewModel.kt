@@ -109,7 +109,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                         builder.cvv(null)
                         val activity = context as AppCompatActivity
                         activity.onBackPressed()
-                        notNetworkObservable.onNext(Unit)
+                        noNetworkObservable.onNext(Unit)
                     }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 }

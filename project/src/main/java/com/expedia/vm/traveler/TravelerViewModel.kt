@@ -3,11 +3,12 @@ package com.expedia.vm.traveler
 import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.util.endlessObserver
 import rx.subjects.BehaviorSubject
 
-open class TravelerViewModel(private val context: Context, val travelerIndex: Int) {
+open class TravelerViewModel(val context: Context, val travelerIndex: Int) {
     var nameViewModel = TravelerNameViewModel(context)
     var phoneViewModel = TravelerPhoneViewModel(context)
     var tsaViewModel = TravelerTSAViewModel(context)
@@ -23,7 +24,6 @@ open class TravelerViewModel(private val context: Context, val travelerIndex: In
 
     init {
         updateTraveler(getTraveler())
-        showPassportCountryObservable.onNext(shouldShowPassportDropdown())
         showPhoneNumberObservable.onNext(TravelerUtils.isMainTraveler(travelerIndex))
     }
 
@@ -40,17 +40,14 @@ open class TravelerViewModel(private val context: Context, val travelerIndex: In
         val nameValid = nameViewModel.validate()
         val phoneValid = !TravelerUtils.isMainTraveler(travelerIndex) || phoneViewModel.validate()
         val tsaValid = tsaViewModel.validate()
+        val requiresPassport = showPassportCountryObservable.value ?: false
+        val passportValid = !requiresPassport || (requiresPassport && Strings.isNotEmpty(getTraveler().primaryPassportCountry))
 
-        val valid = nameValid && phoneValid && tsaValid
+        val valid = nameValid && phoneValid && tsaValid && passportValid
         return valid
     }
 
     open fun getTraveler(): Traveler {
-        return Db.getTravelers()[travelerIndex];
-    }
-
-    fun shouldShowPassportDropdown(): Boolean {
-        val flightOffer = Db.getTripBucket().`package`?.mPackageTripResponse?.packageDetails?.flight?.details?.offer   //holy shit
-        return flightOffer != null && (flightOffer.isInternational || flightOffer.isPassportNeeded)
+        return Db.getTravelers()[travelerIndex]
     }
 }

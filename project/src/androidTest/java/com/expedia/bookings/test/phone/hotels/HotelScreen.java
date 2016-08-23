@@ -55,10 +55,6 @@ public class HotelScreen {
 		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(withId(R.id.filter_toolbar))));
 	}
 
-	public static ViewInteraction clearButton() {
-		return onView(withId(R.id.clear_location_button));
-	}
-
 	public static ViewInteraction etpAndFreeCancellationMessagingContainer() {
 		return onView(withId(R.id.etp_and_free_cancellation_messaging_container));
 	}

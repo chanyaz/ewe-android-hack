@@ -11,6 +11,7 @@ import org.json.JSONObject;
 
 import android.text.TextUtils;
 
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.AirAttach;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearch;
@@ -92,7 +93,7 @@ public class TripBucket implements JSONable {
 	}
 
 	public void clearHotelV2() {
-		clear(LineOfBusiness.HOTELSV2);
+		clear(LineOfBusiness.HOTELS);
 	}
 
 	public void clearPackages() {
@@ -100,7 +101,7 @@ public class TripBucket implements JSONable {
 	}
 
 	public void clearRails() {
-		clear(LineOfBusiness.RAIL);
+		clear(LineOfBusiness.RAILS);
 	}
 
 	/**
@@ -137,7 +138,7 @@ public class TripBucket implements JSONable {
 		mRefreshCount++;
 		mItems.add(hotel);
 
-		checkForMismatchedItems();
+		checkForTabletMismatchedItems();
 	}
 
 	/**
@@ -187,8 +188,9 @@ public class TripBucket implements JSONable {
 		mLastLOBAdded = tripBucketItem.getLineOfBusiness();
 		mRefreshCount++;
 		mItems.add(tripBucketItem);
-
-		checkForMismatchedItems();
+		if (ExpediaBookingApp.isTablet()) {
+			checkForTabletMismatchedItems();
+		}
 	}
 
 	public void add(FlightSearch flightSearch) {
@@ -249,7 +251,7 @@ public class TripBucket implements JSONable {
 	 * @return
 	 */
 	public TripBucketItemHotelV2 getHotelV2() {
-		int index = getIndexOf(LineOfBusiness.HOTELSV2);
+		int index = getIndexOf(LineOfBusiness.HOTELS);
 		return index == -1 ? null : (TripBucketItemHotelV2) mItems.get(index);
 	}
 
@@ -318,7 +320,7 @@ public class TripBucket implements JSONable {
 		}
 	}
 
-	private void checkForMismatchedItems() {
+	private void checkForTabletMismatchedItems() {
 		if (getFlight() == null || getHotel() == null) {
 			// Don't bother checking if we don't have both items
 			return;

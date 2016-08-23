@@ -5,10 +5,13 @@ import android.support.annotation.StringRes
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageApiError
+import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.packages.PackageErrorViewModel
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -17,6 +20,10 @@ import rx.observers.TestSubscriber
 @RunWith(RobolectricRunner::class)
 class PackageErrorViewModelTest {
 
+    val originFullName = "Origin fullname"
+    val originShortName = "Origin shortname"
+    val destinationFullName = "Destination fullname"
+    val destinationShortName = "Destination shortname"
     private fun getContext(): Context {
         return RuntimeEnvironment.application
     }
@@ -25,6 +32,7 @@ class PackageErrorViewModelTest {
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_unknown_error)
         observableEmissionsOnSearchError(PackageApiError.Code.search_response_null)
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_destination_resolution_failed)
+        observableEmissionsOnSearchError(PackageApiError.Code.pkg_origin_resolution_failed)
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_flight_no_longer_available)
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_too_many_children_in_lap)
         observableEmissionsOnSearchError(PackageApiError.Code.pkg_invalid_checkin_checkout_dates)
@@ -40,9 +48,38 @@ class PackageErrorViewModelTest {
         val errorMessageObservableTestSubscriber = TestSubscriber.create<String>()
         subjectUnderTest.errorMessageObservable.subscribe(errorMessageObservableTestSubscriber)
 
-        subjectUnderTest.packageSearchApiErrorObserver.onNext(apiError)
 
-        errorMessageObservableTestSubscriber.assertValues(RuntimeEnvironment.application.getString(R.string.error_package_search_message))
+        subjectUnderTest.paramsSubject.onNext(getPackageSearchParams())
+
+        subjectUnderTest.packageSearchApiErrorObserver.onNext(apiError)
+        var expectedErrorMessage = when (apiError) {
+            PackageApiError.Code.pkg_destination_resolution_failed -> "Could not resolve a destination for $destinationShortName"
+            PackageApiError.Code.pkg_origin_resolution_failed -> "Could not resolve an origin for $originShortName"
+            else -> RuntimeEnvironment.application.getString(R.string.error_package_search_message)
+        }
+
+        errorMessageObservableTestSubscriber.assertValues(expectedErrorMessage)
+    }
+
+    private fun getPackageSearchParams(): PackageSearchParams {
+        val origin = SuggestionV4()
+        val originRegionNames = SuggestionV4.RegionNames()
+        originRegionNames.fullName = originFullName
+        originRegionNames.shortName = originShortName
+        origin.regionNames = originRegionNames
+
+        val destination = SuggestionV4()
+        val destinationRegionNames = SuggestionV4.RegionNames()
+        destinationRegionNames.fullName = destinationFullName
+        destinationRegionNames.shortName = destinationShortName
+        destination.regionNames = destinationRegionNames
+
+        return PackageSearchParams.Builder(26, 329)
+                .startDate(LocalDate.now().plusDays(1))
+                .endDate(LocalDate.now().plusDays(2))
+                .origin(origin)
+                .destination(destination)
+                .build() as PackageSearchParams
     }
 
     @Test fun observableEmissionsOnPaymentCardApiError() {

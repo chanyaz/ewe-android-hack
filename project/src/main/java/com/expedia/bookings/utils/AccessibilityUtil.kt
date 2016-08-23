@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import android.support.v7.widget.ActionMenuView
 import android.support.v7.widget.Toolbar
 import android.view.View
 import android.view.accessibility.AccessibilityEvent
@@ -23,6 +24,18 @@ object AccessibilityUtil {
                     v.clearFocus()
                     v.requestFocus()
                     v.setAccessibilityHoverFocus()
+                    break
+                }
+            }
+        }
+    }
+
+    @JvmStatic fun setMenuItemContentDescription(toolbar: Toolbar, contentDescription: String) {
+        if (AccessibilityUtil.isTalkBackEnabled(toolbar.context)) {
+            for (i in 0..toolbar.childCount - 1) {
+                val v = toolbar.getChildAt(i)
+                if (v is ActionMenuView) {
+                    v.getChildAt(0)?.contentDescription = contentDescription
                     break
                 }
             }

@@ -41,17 +41,15 @@
     <string name="change_dates">Change Dates</string>
     <!-- checkout view toolbar title -->
     <string name="secure_checkout">Secure Checkout</string>
+    <!-- Accessibility content description for google map view on hotel results -->
+    <string name="hotel_results_map_view_cont_desc">Google Map, Search hotel results using map view</string>
 
     <!-- Cars -->
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
-    <string name="cars_calendar_start_date_label">Next: Select return date</string>
-    <!-- Tooltip description when both start and end dates are selected -->
-    <string name="cars_calendar_end_date_label">Drag to modify</string>
-    <!-- SeekBar tooltip description for pick up time-->
-    <string name="cars_time_slider_pick_up_label">Pick up time</string>
-    <!-- SeekBar tooltip description for drop off time-->
-    <string name="cars_time_slider_drop_off_label">Drop off time</string>
+    <string name="cars_calendar_start_date_label">Next: Select drop-off date</string>
+    <!-- When user hasn't picked drop-off date, we show something like: "Jan 21 - Select drop-off date" -->
+    <string name="select_drop_off_date_TEMPLATE">%1$s - Select drop-off date</string>
     <!-- Cars price templates-->
     <string name="cars_hourly_text">Hourly</string>
     <!-- Cars price templates-->
@@ -90,6 +88,8 @@
     <string name="cars_driver_details_text">Driver details</string>
     <!-- Text for enter driver details-->
     <string name="enter_driver_details">Enter driver details</string>
+    <!-- Content description for enter driver details-->
+    <string name="enter_driver_details_cont_desc">Enter driver details button</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Select saved contacts</string>
     <!-- Text for enter payment details-->
@@ -124,9 +124,9 @@
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotels</string>
     <!-- Label for pickup location selector -->
-    <string name="pick_up_location">Pick-up location</string>
+    <string name="pick_up_location">Pick up location</string>
     <!-- Label for car dropoff selector, indicates it cannot be different from pickup location -->
-    <string name="drop_off_location">Drop-off</string>
+    <string name="drop_off_location">Drop off (Same as pick-up)</string>
     <!-- Label for Car Search Screen header -->
     <string name="toolbar_search_cars">Search Cars</string>
     <!-- Label for Cars date button -->
@@ -135,12 +135,16 @@
     <string name="date_time_range_TEMPLATE">%1$s – %2$s</string>
     <!-- When user hasn't picked return date/time, we show something like: "Jan. 21, 2:00PM - Select return date" -->
     <string name="select_return_date_TEMPLATE">{startdate} – Select return date</string>
+    <!-- Car Calendar Strings -->
+    <string name="select_pickup_date">Select pick-up date</string>
     <!-- Label for pick-up time picker -->
     <string name="pick_up_time_label">Pick-up</string>
     <!-- Label for drop-up time picker -->
     <string name="drop_off_time_label">Drop-off</string>
     <!-- Label for showing users that drop-off location has to be same as pick-up location -->
     <string name="drop_off_same_as_pick_up">Coming soon! We\'re working hard to add one way bookings in an upcoming version.</string>
+    <!-- Label for hint for car pick-up-->
+    <string name="car_pick_up_hint">Picking up</string>
     <!-- Car search error -->
     <string name="error_no_result_message">Your search returned no results. Please retry your search with different criteria.</string>
     <!-- Car no filtered search results -->
@@ -749,7 +753,8 @@
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Sort &amp; Filter</string>
-
+    <!-- Accessibility content description for Sort & Filter button -->
+    <string name="sort_and_filter_cont_desc">Sort &amp; Filter button</string>
     <!-- Tablet Results strings -->
     <!-- "Done" list header label -->
     <string name="Done">Done</string>
@@ -1019,6 +1024,10 @@
     <!-- Rail -->
     <string name="nav_rail">Rail</string>
 
+    <!-- Rail from hint -->
+    <string name="from_hint">From</string>
+    <!-- Rail to hint -->
+    <string name="to_hint">To</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -2066,6 +2075,7 @@
     <string name="the_hotel_lowered_the_total_price_TEMPLATE">We\&apos;ve got great news! The cost of your stay just decreased from %1$s to %2$s.</string>
     <!-- Button showing for when the user can click it to close the cost breakdown dialog -->
     <string name="done">Done</string>
+    <string name="done_cont_desc">Done button</string>
     <!-- Label to show user when they use unsupported characters in their name or address -->
     <string name="please_use_the_roman_alphabet">Please use the Roman alphabet</string>
     <!-- Label to show user when they use unsupported characters in their email -->
@@ -2185,6 +2195,7 @@
     <string name="special_assistance_label_TEMPLATE">Special Assistance: %1$s</string>
     <!-- Phone number with country code  (This combines the country code, with an already formatted regular phone number) -->
     <string name="phone_number_with_country_code_TEMPLATE">(+%1$s) %2$s</string>
+    <string name="phone_number_country_code_dropdown_cont_desc">Country code</string>
     <!-- Born on -->
     <string name="born_on_TEMPLATE">Born %1$s</string>
     <!-- Born on colored -->
@@ -2249,6 +2260,8 @@
     <string name="address_city_hint">City</string>
     <!-- Address state hint -->
     <string name="address_state_hint">State</string>
+    <!-- Address country content desctiption -->
+    <string name="address_state_country_cont_desc">Country</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postal Code</string>
     <!-- Zip Code hint for Packages -->
@@ -2315,6 +2328,7 @@
     <string name="female">Female</string>
     <!-- next page buttn -->
     <string name="next">Next</string>
+    <string name="next_cont_desc">Next button</string>
     <!-- Passport country label -->
     <string name="passport_country">Passport Country</string>
     <!-- Passport country / origin heading -->
@@ -3024,6 +3038,8 @@
     </plurals>
     <!-- The text we use to show room info for expanded room -->
     <string name="room_information">Room Information</string>
+    <!-- Accessibility label for the text we use to show room info for expanded room -->
+    <string name="room_information_button_cont_desc">Room Information Button</string>
     <!-- The text we use to message that the room in non-refundable -->
     <string name="non_refundable">Non-refundable</string>
     <!-- Label for free nights -->
@@ -3870,8 +3886,8 @@
     <string name="successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE">Hotels in {location} button</string>
     <!-- Successful checkout flight cross sell content description e.g. Flights to Seattle button-->
     <string name="successful_checkout_cross_sell_flight_cont_desc_TEMPLATE">Flights to {location} button</string>
-    <!-- Content description for action: $500. Press to go to cost summary for your Car selection -->
-    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Press to see cost summary for your car selection</string>
+    <!-- Content description for action: $500. Cost summary information button -->
+    <string name="car_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Cost summary information button.</string>
 
     <!-- Tablet Confirmation Screen -->
     <!-- Header text to indicating booking confirmed for hotel -->
@@ -3981,6 +3997,8 @@
     <string name="increase_year_cont_desc">Increase Year</string>
     <!-- Accessibility - Content Description for Expiration date: decrease year -->
     <string name="decrease_year_cont_desc">Decrease Year</string>
+    <!-- Accessibility - Content Description for hotel map view on hotel details -->
+    <string name="hotel_map_view_cont_desc">Hotel location Google Map View</string>
     <!-- Label for per person -->
     <string name="per_person">per person</string>
     <!-- Label for package bundle price on overview-->
@@ -4045,6 +4063,10 @@
     <string name="best_flight_description">cheap • short • popular departure</string>
     <!-- Package search error -->
     <string name="error_package_search_message">We were unable to find any results. Please adjust your search.</string>
+    <!-- Package search origin resolution error e.g Could not resolve an origin for SFO -->
+    <string name="error_package_origin_resolution_message_TEMPLATE">Could not resolve an origin for {origin}</string>
+    <!-- Package search destination resolution error e.g Could not resolve an destination for SFO -->
+    <string name="error_package_destination_resolution_message_TEMPLATE">Could not resolve a destination for {destination}</string>
     <!-- Package Filters Strings -->
     <plurals name="flight_filter_stops">
         <item quantity="zero">Nonstop</item>
@@ -4224,6 +4246,9 @@
     <!-- rail search error for date out of range  e.g.. more than 30 days apart -->
     <string name="rail_search_range_error_TEMPLATE">We\&apos;re sorry, but we are unable to search for round trip trains more than %1$s days apart.</string>
 
+    <string name="rail_location_hint">City or station</string>
+    <string name="error_same_station_departure_arrival">Departure and arrival stations must be different.</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
@@ -4314,8 +4339,15 @@
     <string name="reward_top_tier_name_short">+gold</string>
 
     <!--Packages search accessibility -->
+    <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">Flight time is {time} with price difference of {pricedifference}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops\u0020</string>
+    <!-- Hotel card view content description for accessibility. Eg. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} with {starrating} of 5 rating. {guestrating} of 5 guest rating. Price {price}. Includes hotel and flights\u0020</string>
+    <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
+    <string name="hotel_price_cont_desc_TEMPLATE">Old price {strikethroughprice}\u0020</string>
+    <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
     <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} to {arrivalairport}. {durationhours} {durationmins} \u0020</string>
     <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
@@ -4395,9 +4427,9 @@
     <!-- Label of link to insurance terms and conditions -->
     <string name="insurance_terms">Terms, conditions and plan sponsors</string>
     <!-- Title of insurance widget when trip is protected, e.g. Your trip is protected for $19/person -->
-    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;Your trip is protected for ${price}&lt;/b&gt;{price_type}</string>
+    <string name="insurance_title_protected_TEMPLATE">&lt;b&gt;Your trip is protected for {price}&lt;/b&gt;{price_type}</string>
     <!-- Title of insurance widget when trip is not protected, e.g. Add protection for $19/person -->
-    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Add protection for ${price}&lt;/b&gt;{price_type}</string>
+    <string name="insurance_title_unprotected_TEMPLATE">&lt;b&gt;Add protection for {price}&lt;/b&gt;{price_type}</string>
     <!-- Insurance price type qualifiers -->
     <string name="insurance_price_per_day">/day</string>
     <string name="insurance_price_per_person">/person</string>
@@ -4424,9 +4456,10 @@
     <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
     <string name="lx_search_date_range_cont_desc_TEMPLATE">Activity dates. Button. Opens dialog. {date_range}</string>
 
-    <!-- Content description for action: Press to go to cost summary for your Activity selection -->
-    <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Press to see cost summary for your activity selection</string>
-    <string name="lx_free_cancellation_cont_desc">Free cancellation. Press to see legal information.</string>
+    <!-- Content description for action: $44. Cost summary information button. -->
+    <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Cost summary information button.</string>
+    <!-- Content description for action: Free cancellation. Legal information button. -->
+    <string name="lx_free_cancellation_cont_desc">Free cancellation. Legal information button.</string>
 
     <!-- Generic content description -->
     <!-- Content description for toolbar 'X' i.e. close/back button -->

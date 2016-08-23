@@ -22,6 +22,7 @@ open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness) 
     val invalidTravelersSubject = BehaviorSubject.create<Unit>()
     val emptyTravelersSubject = BehaviorSubject.create<Unit>()
     val travelerCompletenessStatus = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
+    val passportRequired = BehaviorSubject.create<Boolean>(false)
 
     fun refresh() {
         if (areTravelersEmpty()) {

@@ -8,7 +8,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.model.UserLoginStateChangedModel
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -53,7 +53,7 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
         }).subscribe(swpEffectiveAvailability)
 
         shopWithPointsToggleObservable.skip(1).subscribe {
-            HotelV2Tracking().trackSwPToggle(it)
+            HotelTracking().trackSwPToggle(it)
         }
         subscription = isShopWithPointsAvailableObservableIntermediateStream.subscribe(isShopWithPointsAvailableObservable)
     }

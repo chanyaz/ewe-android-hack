@@ -2,6 +2,7 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
@@ -9,26 +10,20 @@ import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.endlessObserver
-import com.expedia.vm.BaseSearchViewModel
+import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
-import org.joda.time.Days
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
+class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalendar(context) {
 
     val searchParamsObservable = PublishSubject.create<RailSearchRequest>()
     val railOriginObservable = BehaviorSubject.create<SuggestionV4>()
     val railDestinationObservable = BehaviorSubject.create<SuggestionV4>()
 
-    val departTimeSubject = BehaviorSubject.create<Int>()
-    val returnTimeSubject = BehaviorSubject.create<Int>()
-    val departTimeSliderTooltipColor = BehaviorSubject.create<Int>()
-    val returnTimeSliderTooltipColor = BehaviorSubject.create<Int>()
-    val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(false)
     val timesObservable = BehaviorSubject.create<Pair<Long, Long?>>()
     val railRequestBuilder = RailSearchRequest.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
@@ -38,9 +33,6 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     val errorTimeTooltipColor = ContextCompat.getColor(context, R.color.cars_tooltip_disabled_color)
 
     init {
-        railOriginObservable.onNext(buildFakeOrigin())
-        railDestinationObservable.onNext(buildFakeDestination())
-
         departTimeSubject.subscribe {
             val valid = it > DateTime.now().millisOfDay //todo more logic
             departTimeSliderTooltipColor.onNext(if (valid) defaultTimeTooltipColor else errorTimeTooltipColor)
@@ -52,6 +44,22 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
     }
 
+    override val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
+        getParamsBuilder().origin(suggestion)
+        railOriginObservable.onNext(suggestion)
+        val origin = Html.fromHtml(suggestion.regionNames.displayName).toString()
+        formattedOriginObservable.onNext(origin)
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
+        getParamsBuilder().destination(suggestion)
+        railDestinationObservable.onNext(suggestion)
+        val destination = Html.fromHtml(suggestion.regionNames.shortName).toString()
+        formattedDestinationObservable.onNext(destination)
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
     val searchObserver = endlessObserver<Unit> {
         getParamsBuilder().maxStay = getMaxSearchDurationDays()
         getParamsBuilder().origin(railOriginObservable.value)
@@ -59,13 +67,15 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         getParamsBuilder().startDate(datesObservable.value?.first)
         getParamsBuilder().departTime(timesObservable.value?.first)
         getParamsBuilder().searchType(isRoundTripSearchObservable.value)
-       if (isRoundTripSearchObservable.value) {
+        if (isRoundTripSearchObservable.value) {
             getParamsBuilder().endDate(datesObservable.value?.second)
             getParamsBuilder().returnTime(timesObservable.value?.second)
         }
 
         if (getParamsBuilder().areRequiredParamsFilled()) {
-            if (isRoundTripSearchObservable.value && !getParamsBuilder().hasValidDateDuration()) {
+            if (getParamsBuilder().isOriginSameAsDestination()) {
+                errorOriginSameAsDestinationObservable.onNext(context.getString(R.string.error_same_station_departure_arrival))
+            } else if (isRoundTripSearchObservable.value && !getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.rail_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else if (!getParamsBuilder().isWithinDateRange()) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
@@ -74,7 +84,7 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                 searchParamsObservable.onNext(searchParams)
             }
         } else {
-            if (!getParamsBuilder().hasOriginAndOrDestination()) {
+            if (!getParamsBuilder().hasOriginAndDestination()) {
                 errorNoDestinationObservable.onNext(Unit)
             } else if (!getParamsBuilder().hasStartAndOrEndDates()) {
                 errorNoDatesObservable.onNext(Unit)
@@ -84,8 +94,8 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     fun swapLocations() {
         val oldOrigin = railOriginObservable.value
-        railOriginObservable.onNext(railDestinationObservable.value)
-        railDestinationObservable.onNext(oldOrigin)
+        originLocationObserver.onNext(railDestinationObservable.value)
+        destinationLocationObserver.onNext(oldOrigin)
     }
 
     override fun getParamsBuilder(): RailSearchRequest.Builder {
@@ -99,24 +109,48 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     fun resetDatesAndTimes() {
         resetDates()
+        departTimeSubject.onNext(0)
+        returnTimeSubject.onNext(0)
         onTimesChanged(Pair(0, 0))
     }
 
-    fun onTimesChanged(times: Pair<Int , Int>) {
+    override fun onTimesChanged(times: Pair<Int , Int>) {
         val (departProgress, returnProgress) = times
-
-        departTimeSubject.onNext(TimeSlider.convertProgressToMillis(departProgress))
-        if (isRoundTripSearchObservable.value) {
-            returnTimeSubject.onNext(TimeSlider.convertProgressToMillis(returnProgress))
-        }
 
         requiredSearchParamsObserver.onNext(Unit)
         timesObservable.onNext(Pair(TimeSlider.getDateTime(departProgress).millis, TimeSlider.getDateTime(returnProgress).millis))
     }
 
+    // Reset times if the start is equal to today and the selected time is before the current time
+    // or if the end time is earlier or equal to the start time and its the same day.
+    override fun validateTimes() {
+        val now = DateTime.now()
+        if (isStartTimeBeforeAllowedTime(now)) {
+            // Adding min search hours to current time for same day search
+            // TODO update this with minimum search out time and handle end of day case
+            departTimeSubject.onNext(TimeSlider.convertProgressToMillis(getAllowedMinProgress(now)))
+        }
+        if (isEndTimeBeforeStartTime() && isRoundTripSearchObservable.value) {
+            returnTimeSubject.onNext(TimeSlider.convertProgressToMillis(getStartDateTimeAsMillis() + DateTime().withHourOfDay(1).withMinuteOfHour(0).millisOfDay))
+        }
+        onTimesChanged(Pair(getStartDateTimeAsMillis(), getEndDateTimeAsMillis()))
+    }
+
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         super.onDatesChanged(dates)
+    }
 
+    override fun getAllowedMinProgress(now: DateTime): Int {
+        return TimeSlider.convertMillisToProgress(now.millisOfDay) + R.integer.calendar_min_search_time_rail
+    }
+
+    override fun isStartTimeBeforeAllowedTime(now: DateTime): Boolean {
+        val nowProgress = TimeSlider.convertMillisToProgress(now.millisOfDay)
+        return getStartDateTimeAsMillis() <= (nowProgress + R.integer.calendar_min_search_time_rail) && isStartDateEqualToToday()
+    }
+
+    override fun isEndTimeBeforeStartTime(): Boolean {
+        return getEndDateTimeAsMillis() < getStartDateTimeAsMillis() && isStartEqualToEnd()
     }
 
     override fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
@@ -182,42 +216,15 @@ class RailSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         return context.resources.getInteger(R.integer.calendar_max_days_rail_search)
     }
 
-    //TODO - rip these out once we have an ESS service that works for Rail
-    private fun buildFakeOrigin(): SuggestionV4 {
-        val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "Manchester, UK"
-        suggestion.regionNames.fullName = "Manchester, UK"
-        suggestion.regionNames.shortName = "Manchester"
-        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestion.hierarchyInfo!!.airport!!.airportCode = ""
-        return suggestion
-    }
-
-    private fun buildFakeDestination(): SuggestionV4 {
-        val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
-        suggestion.regionNames = SuggestionV4.RegionNames()
-        suggestion.regionNames.displayName = "London, UK"
-        suggestion.regionNames.fullName = "London, UK"
-        suggestion.regionNames.shortName = "London"
-        suggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
-        suggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
-        suggestion.hierarchyInfo!!.airport!!.airportCode = ""
-        return suggestion
-    }
-
     override fun sameStartAndEndDateAllowed(): Boolean {
         return false
     }
 
-    fun isStartDateEqualToToday(): Boolean {
-        return if (startDate() != null) startDate()!!.isEqual(LocalDate.now()) else false
+    override fun getCalendarSliderTooltipStartTimeLabel(): String{
+        return context.resources.getString(R.string.rail_departing_at)
     }
 
-    fun isStartEqualToEnd(): Boolean {
-        return if (startDate() != null && endDate() != null) startDate()!!.isEqual(endDate()) else false
+    override fun getCalendarSliderTooltipEndTimeLabel(): String{
+        return context.resources.getString(R.string.rail_returning_at)
     }
 }

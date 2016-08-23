@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.cars;
 
 import org.joda.time.LocalDate;
 
+import android.app.Activity;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.view.View;
@@ -9,21 +10,19 @@ import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
+import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
-import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -42,17 +41,18 @@ public final class CarScreen {
 		EspressoUtils.assertViewIsDisplayed(R.id.search_container);
 	}
 
-	public static void showCalendar() {
-		calendar().check(matches((isDisplayed())));
+	public static ViewInteraction calendarCard() {
+		return onView(withId(R.id.car_calendar_card));
 	}
 
-	public static ViewInteraction calendar() {
-		return onView(withId(R.id.calendar));
+	public static ViewInteraction locationCardView() {
+		return onView(withId(R.id.origin_card));
 	}
 
 	public static ViewInteraction pickupLocation() {
-		return onView(withId(R.id.pickup_location));
+		return onView(withId(R.id.search_src_text));
 	}
+
 
 	public static void waitForSearchScreen() {
 		pickupLocation().perform(waitForViewToDisplay());
@@ -68,36 +68,32 @@ public final class CarScreen {
 
 	public static void selectPickupLocation(String airportCode) throws Throwable {
 		Common.delay(1);
-		onView(withText(airportCode))
-			.inRoot(withDecorView(
-				not(is(SpoonScreenshotUtils.getCurrentActivity(
-				).getWindow().getDecorView()))))
-			.perform(click());
+		SearchScreen.selectLocation(airportCode);
 	}
 
 	public static void selectAirport(String airportCode, String displayName) throws Throwable {
-		pickupLocation().perform(typeText(airportCode));
+		pickupLocation().perform(ViewActions.waitForViewToDisplay(), typeText(airportCode));
 		selectPickupLocation(displayName);
 	}
 
 	public static ViewInteraction dropOffLocation() {
-		return onView(withId(R.id.dropoff_location));
+		return onView(withId(R.id.destination_card));
 	}
 
 	public static ViewInteraction selectDateButton() {
-		return onView(withId(R.id.select_date));
+		return onView(allOf(withId(R.id.dateLabel), withParent(withId(R.id.car_calendar_card))));
 	}
 
 	public static void selectDates(LocalDate start, LocalDate end) {
-		calendar().perform(TabletViewActions.clickDates(start, end));
+		SearchScreen.selectDates(start, end);
 	}
 
-	public static ViewInteraction dropOffTimeBar() {
-		return onView(withId(R.id.dropoff_time_seek_bar));
+	public static ViewInteraction dropOffTimeBar(Activity activity) {
+		return onView(withId(R.id.return_time_slider)).inRoot(withDecorView(not(is((activity.getWindow().getDecorView())))));
 	}
 
-	public static ViewInteraction pickUpTimeBar() {
-		return onView(withId(R.id.pickup_time_seek_bar));
+	public static ViewInteraction pickUpTimeBar(Activity activity) {
+		return onView(withId(R.id.depart_time_slider)).inRoot(withDecorView(not(is(activity.getWindow().getDecorView()))));
 	}
 
 	public static ViewInteraction alertDialog() {
@@ -113,7 +109,7 @@ public final class CarScreen {
 	}
 
 	public static ViewInteraction searchButton() {
-		return onView(allOf(withId(R.id.search_btn), isDescendantOfA(hasSibling(withId(R.id.search_container)))));
+		return SearchScreen.searchButton();
 	}
 
 	// Results

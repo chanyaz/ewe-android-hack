@@ -77,6 +77,7 @@ public class FlightLeg {
 		public String airlineCode;
 		public String airlineName;
 		public String airlineLogoURL;
+		public String airlineLogo;
 		public String equipmentDescription;
 		public boolean displayOperatedByAirlineName;
 		public String operatingAirlineName;

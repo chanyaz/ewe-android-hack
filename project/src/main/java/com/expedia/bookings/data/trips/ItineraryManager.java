@@ -1,22 +1,5 @@
 package com.expedia.bookings.data.trips;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Set;
-import java.util.TimeZone;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.json.JSONException;
@@ -28,7 +11,6 @@ import android.os.AsyncTask;
 import android.support.annotation.VisibleForTesting;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
-
 import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -37,6 +19,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinShareInfo.ItinSharable;
@@ -59,6 +42,22 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
+import java.io.File;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+import java.util.Queue;
+import java.util.Set;
+import java.util.TimeZone;
 import rx.functions.Action1;
 
 /**
@@ -1542,9 +1541,15 @@ public class ItineraryManager implements JSONable {
 
 				if (response == null || response.hasErrors()) {
 					if (response != null && response.hasErrors()) {
+						for (ServerError serverError : response.getErrors()) {
+							String errorCode = serverError.getCode();
+							if (Strings.isNotEmpty(errorCode) && errorCode.equalsIgnoreCase("NOT_AUTHENTICATED")) {
+								User.signOut(mContext);
+								break;
+							}
+						}
 						Log.w(LOGGING_TAG, "Error updating trips: " + response.gatherErrorMessage(mContext));
 					}
-
 					publishProgress(new ProgressUpdate(SyncError.USER_LIST_REFRESH_FAILURE));
 				}
 				else {

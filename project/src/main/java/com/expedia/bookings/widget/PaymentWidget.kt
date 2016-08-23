@@ -33,7 +33,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.section.SectionBillingInfo
 import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.tracking.FlightsV2Tracking
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -132,7 +132,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             sectionBillingInfo.setLineOfBusiness(lob)
             sectionLocation.setLineOfBusiness(lob)
             storedCreditCardList.setLineOfBusiness(lob)
-            if (lob == LineOfBusiness.HOTELSV2) {
+            if (lob == LineOfBusiness.HOTELS) {
                 creditCardNumber.setHint(getCreditCardNumberHintResId())
             }
         }
@@ -406,7 +406,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     /** Save card to account **/
     private fun shouldShowSaveDialog(): Boolean {
-        return (getLineOfBusiness() == LineOfBusiness.HOTELSV2
+        return (getLineOfBusiness() == LineOfBusiness.HOTELS
                 || getLineOfBusiness() == LineOfBusiness.LX
                 || getLineOfBusiness() == LineOfBusiness.CARS
                 || getLineOfBusiness() == LineOfBusiness.TRANSPORT
@@ -552,8 +552,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     /** Tracking **/
     fun trackAnalytics() {
         if (!ExpediaBookingApp.isAutomation()) {
-            if (getLineOfBusiness() == LineOfBusiness.HOTELSV2) {
-                HotelV2Tracking().trackHotelV2PaymentEdit()
+            if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
+                HotelTracking().trackHotelPaymentEdit()
             } else {
                 OmnitureTracking.trackCheckoutPayment(getLineOfBusiness())
             }

@@ -5,7 +5,7 @@ import android.util.TypedValue
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.utils.Akeakamai
 import com.expedia.bookings.utils.Images
-import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.SuggestionStrUtils
 import com.mobiata.android.util.AndroidUtils
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
@@ -18,7 +18,7 @@ class FlightCheckoutOverviewViewModel(context: Context) : BaseCheckoutOverviewVi
     init {
         params.subscribe { params ->
             val formatter = DateTimeFormat.forPattern("yyyy-MM-dd")
-            val city = StrUtils.formatCityStateName(params.arrivalAirport?.regionNames?.shortName).trim()
+            val city = SuggestionStrUtils.formatCityName(params.arrivalAirport?.regionNames?.fullName).trim()
             val link = Akeakamai(Images.getFlightDestination(params?.arrivalAirport?.hierarchyInfo?.airport?.airportCode))
                     .resizeExactly(width, height)
                     .build()

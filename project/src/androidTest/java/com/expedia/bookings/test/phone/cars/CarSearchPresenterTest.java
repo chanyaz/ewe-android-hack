@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.cars;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,17 +10,18 @@ import org.junit.runner.RunWith;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.cars.CarSearchParams;
-import com.expedia.bookings.data.cars.CarSearchParamsBuilder;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.presenter.car.CarSearchPresenter;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.test.rules.ExpediaMockWebServerRule;
 import com.expedia.bookings.test.rules.PlaygroundRule;
-import com.expedia.bookings.test.espresso.ViewActions;
-import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.vm.cars.CarSearchViewModel;
 
-import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
@@ -33,61 +35,46 @@ public final class CarSearchPresenterTest {
 	private static final String DATE_TIME_PATTERN = "MMM d, h:mm a";
 
 	@Rule
-	public final PlaygroundRule playground = new PlaygroundRule(R.layout.widget_car_search_params);
+	public final PlaygroundRule playground = new PlaygroundRule(R.layout.test_car_search_presenter, R.style.V2_Theme_Cars);
+
 	@Rule
 	public final ExpediaMockWebServerRule server = new ExpediaMockWebServerRule();
 
+	CarSearchPresenter carSearchPresenter;
+
+	@Before
+	public void before() {
+		carSearchPresenter = (CarSearchPresenter) playground.getRoot();
+		carSearchPresenter.setSearchViewModel(new CarSearchViewModel(carSearchPresenter.getContext()));
+	}
+
 	@Test
 	public void testViewPopulatesSearchParams() throws Throwable {
+		CarSearchParam actual;
+
+
 		DateTime today = DateTime.now();
 		boolean isEleventhHour = today.getHourOfDay() == 23;
 		DateTime expectedStartDate = isEleventhHour ? today.plusDays(1) : today;
 
-		CarSearchPresenter widget = (CarSearchPresenter) playground.getRoot();
-		CarSearchParams actual;
-		CarSearchParamsBuilder.DateTimeBuilder dateTimeBuilder =
-			new CarSearchParamsBuilder.DateTimeBuilder()
-				.startDate(expectedStartDate.toLocalDate())
-				.endDate(expectedStartDate.plusDays(3).toLocalDate());
 
-		CarSearchParams expected = new CarSearchParamsBuilder()
-			.dateTimeBuilder(dateTimeBuilder)
-			.origin("SFO")
-			.build();
-
-		CarScreen.selectAirport("SFO", "San Francisco, CA");
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.selectDates(expected.startDateTime.toLocalDate(), expected.endDateTime.toLocalDate());
+		CarScreen.locationCardView().perform(click());
+		CarScreen.pickupLocation().perform(ViewActions.waitForViewToDisplay(), typeText("SFO"));
+		CarScreen.selectPickupLocation("San Francisco, CA");
+		CarScreen.selectDates(expectedStartDate.toLocalDate(), expectedStartDate.plusDays(3).toLocalDate());
 		CarScreen.searchButton().perform(click());
+		actual = carSearchPresenter.getSearchViewModel().getCarParamsBuilder().build();
 
-		actual = widget.getCurrentParams();
-		assertEquals(expected.origin, actual.origin);
-		assertEquals(expected.startDateTime, actual.startDateTime.withTimeAtStartOfDay());
-		assertEquals(expected.endDateTime, actual.endDateTime.withTimeAtStartOfDay());
+
+		CarSearchParam expected = (CarSearchParam) new CarSearchParam.Builder()
+			.origin(CarDataUtils.getSuggestionFromLocation("SFO", null, "San Francisco, CA"))
+			.startDate(expectedStartDate.toLocalDate()).endDate(expectedStartDate.plusDays(3).toLocalDate()).build();
+
+		assertEquals(expected.getOriginLocation(), actual.getOriginLocation());
+		assertEquals(expected.getStartDateTime(), actual.getStartDateTime().withTimeAtStartOfDay());
+		assertEquals(expected.getEndDateTime(), actual.getEndDateTime().withTimeAtStartOfDay());
 	}
 
-	@Test
-	public void testDateButtonTextPopulation() throws Throwable {
-		// Open calendar
-		CarScreen.selectAirport("SFO", "San Francisco, CA");
-		CarScreen.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
-		CarScreen.selectDateButton().perform(click());
-
-		final DateTime tomorrow = DateTime.now().plusDays(1);
-		final DateTime tomorrowsTomorrow = tomorrow.plusDays(1);
-		String tomorrowStr = generateDefaultStartDateTimeStrForDateTimeButton(tomorrow);
-		String tomorrowsTomorrowStr = generateDefaultEndDateTimeStrForDateTimeButton(tomorrowsTomorrow);
-
-		// Select start date
-		String expectedText = tomorrowStr + " – Select return date";
-		CarScreen.selectDates(tomorrow.toLocalDate(), null);
-		CarScreen.selectDateButton().check(matches(withText(expectedText)));
-
-		// Select end date
-		CarScreen.selectDates(tomorrow.toLocalDate(), tomorrowsTomorrow.toLocalDate());
-		String expected = tomorrowStr + " – " + tomorrowsTomorrowStr;
-		CarScreen.selectDateButton().check(matches(withText(expected)));
-	}
 
 	private static String generateDefaultStartDateTimeStrForDateTimeButton(DateTime dateTime) {
 		return JodaUtils.format(dateTime
@@ -111,12 +98,12 @@ public final class CarSearchPresenterTest {
 		int noonProgress = 24;
 		// 26 == 01:00 PM
 		int onePmProgress = 26;
-		CarScreen.selectAirport("SFO", "San Francisco, CA");
-		CarScreen.pickupLocation().perform(clearText());
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekBarTo(noonProgress));
-		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekBarTo(onePmProgress));
 		CarScreen.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
+
+		CarScreen.locationCardView().perform(click());
+		CarScreen.selectAirport("SFO", "San Francisco, CA");
+		CarScreen.pickUpTimeBar(playground.getActivity()).perform(ViewActions.setSeekBarTo(noonProgress));
+		CarScreen.dropOffTimeBar(playground.getActivity()).perform(ViewActions.setSeekBarTo(onePmProgress));
 
 		//Select dates from calendar
 		final DateTime tomorrow = DateTime.now().plusDays(1);
@@ -129,51 +116,23 @@ public final class CarSearchPresenterTest {
 		CarScreen.selectDateButton().check(matches(withText(expected)));
 	}
 
-	// FIXME
-	@Test
-	public void testSelectingOnlyPickupDateClearsDropoffDate() throws Throwable {
-		CarScreen.selectAirport("SFO", "San Francisco, CA");
-		CarScreen.selectDateButton().perform(click());
-		final DateTime twoDaysOut = DateTime.now().plusDays(3);
-		final DateTime threeDaysOut = DateTime.now().plusDays(3);
-		final DateTime fourDaysOut = threeDaysOut.plusDays(1);
-		CarScreen.selectDates(threeDaysOut.toLocalDate(), fourDaysOut.toLocalDate());
-		String expected = generateDefaultStartDateTimeStrForDateTimeButton(threeDaysOut) +
-			" – " + generateDefaultEndDateTimeStrForDateTimeButton(fourDaysOut);
-		CarScreen.selectDateButton().check(matches(withText(expected)));
-
-		CarScreen.selectDates(twoDaysOut.toLocalDate(), null);
-		String expected2 = generateDefaultStartDateTimeStrForDateTimeButton(twoDaysOut) + " – Select return date";
-		CarScreen.selectDateButton().check(matches(withText(expected2)));
-	}
-
 	@Test
 	public void testSearchButtonErrorMessageForIncompleteParams() throws Throwable {
 		// Test with all params missing
 		CarScreen.searchButton().perform(click());
 		CarScreen.didNotGoToResults();
 
-		// Test with only pickup location
-		CarScreen.selectAirport("SFO", "San Francisco, CA");
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.searchButton().perform(click());
-		CarScreen.didNotGoToResults();
-
 		// Test with only start date selected
-		CarScreen.selectDateButton().perform(click());
+		CarScreen.calendarCard().perform(click());
 		CarScreen.selectDates(LocalDate.now().plusDays(3), null);
 		CarScreen.searchButton().perform(click());
 		CarScreen.didNotGoToResults();
 
 		// Test with origin and start date selected
+		CarScreen.locationCardView().perform(click());
 		CarScreen.selectAirport("SFO", "San Francisco, CA");
 		CarScreen.searchButton().perform(click());
 		CarScreen.didNotGoToResults();
-
-		//Test with invalid airport code we dont show calendar
-		CarScreen.pickupLocation().perform(typeText("AAAA"));
-		CarScreen.searchButton().perform(click());
-		CarScreen.showCalendar();
 	}
 
 	@Test
@@ -181,17 +140,16 @@ public final class CarSearchPresenterTest {
 		//Test with only start and end date selected
 		CarScreen.dropOffLocation().perform(click());
 		CarScreen.alertDialogPositiveButton().perform(click());
-		CarScreen.selectDateButton().perform(click());
+		CarScreen.calendarCard().perform(click());
+		CarScreen.selectDates(LocalDate.now().plusDays(3), null);
 		CarScreen.didNotGoToResults();
 		EspressoUtils.assertViewIsDisplayed(R.id.search_container);
 	}
 
 	@Test
 	public void testSearchButtonHasNoErrorMessageForCompleteParams() throws Throwable {
-		CarScreen.selectAirport("SFO", "San Francisco, CA");
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.selectDates(LocalDate.now().plusDays(3), LocalDate.now().plusDays(4));
-		CarScreen.searchButton().perform(click());
+		CarScreen.locationCardView().perform(click());
+		SearchScreen.doGenericCarSearch();
 		CarScreen.alertDialog().check(doesNotExist());
 	}
 
@@ -221,12 +179,11 @@ public final class CarSearchPresenterTest {
 		}
 
 		int ninePMSteps = (12 + 9) * 2;
-		CarScreen.selectAirport("SFO", "San Francisco, CA");
-		CarScreen.pickupLocation().perform(clearText());
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekBarTo(startTimeSteps));
-		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekBarTo(ninePMSteps));
 		CarScreen.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
+		CarScreen.locationCardView().perform(click());
+		CarScreen.selectAirport("SFO", "San Francisco, CA");
+		CarScreen.pickUpTimeBar(playground.getActivity()).perform(ViewActions.setSeekBarTo(startTimeSteps));
+		CarScreen.dropOffTimeBar(playground.getActivity()).perform(ViewActions.setSeekBarTo(ninePMSteps));
 
 		//Select dates from calendar
 		final DateTime tomorrow = today.plusDays(1);
@@ -244,12 +201,12 @@ public final class CarSearchPresenterTest {
 		int twoPmProgress = 28;
 		// 42 == 09:00 PM
 		int ninePmProgress = 42;
-		CarScreen.selectAirport("SFO", "San Francisco, CA");
-		CarScreen.pickupLocation().perform(clearText());
-		CarScreen.selectDateButton().perform(click());
-		CarScreen.pickUpTimeBar().perform(ViewActions.setSeekBarTo(ninePmProgress));
-		CarScreen.dropOffTimeBar().perform(ViewActions.setSeekBarTo(twoPmProgress));
 		CarScreen.selectDateButton().check(matches(withText(R.string.select_pickup_and_dropoff_dates)));
+
+		CarScreen.locationCardView().perform(click());
+		CarScreen.selectAirport("SFO", "San Francisco, CA");
+		CarScreen.pickUpTimeBar(playground.getActivity()).perform(ViewActions.setSeekBarTo(ninePmProgress));
+		CarScreen.dropOffTimeBar(playground.getActivity()).perform(ViewActions.setSeekBarTo(twoPmProgress));
 
 		//Select dates from calendar
 		final DateTime date = DateTime.now().plusDays(1);

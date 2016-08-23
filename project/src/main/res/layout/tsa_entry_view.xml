@@ -11,19 +11,22 @@
         android:layout_weight="1"
         android:cursorVisible="false"
         android:drawableRight="@drawable/material_dropdown"
-        android:focusable="false"
-        android:focusableInTouchMode="false"
+        android:nextFocusForward="@+id/edit_gender_spinner"
         android:hint="@string/date_of_birth"
         android:inputType="none"
         android:textSize="@dimen/traveler_input_text_size"
         app:error_cont_desc="@string/accessibility_cont_desc_role_error"/>
 
-    <Spinner
+    <com.expedia.bookings.widget.accessibility.AccessibleSpinner
         android:id="@+id/edit_gender_spinner"
         style="@style/FakeSpinner.Light"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:nextFocusForward="@+id/first_name_input"
         android:popupBackground="@android:color/white"
-        android:textSize="@dimen/traveler_input_text_size" />
+        android:textSize="@dimen/traveler_input_text_size"
+        app:spinner_label="@string/gender" />
 </merge>

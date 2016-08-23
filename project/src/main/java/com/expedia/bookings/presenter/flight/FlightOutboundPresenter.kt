@@ -2,9 +2,19 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.util.AttributeSet
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.tracking.FlightsV2Tracking
 
 class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
+
+    override fun setupComplete() {
+        super.setupComplete()
+        flightOfferViewModel.outboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)
+        overviewPresenter.vm.selectedFlightClickedSubject.subscribe(flightOfferViewModel.confirmedOutboundFlightSelection)
+        overviewPresenter.vm.selectedFlightLegSubject.subscribe(flightOfferViewModel.outboundSelected)
+        resultsPresenter.setLoadingState()
+        showResults()
+    }
 
     override fun isOutboundResultsPresenter(): Boolean {
         return true
@@ -19,7 +29,6 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
     }
 
     override fun trackFlightResultsLoad() {
-        val flightSearchParams = this.flightSearchViewModel.searchParamsObservable.value
-        FlightsV2Tracking.trackResultOutBoundFlights(flightSearchParams)
+        FlightsV2Tracking.trackResultOutBoundFlights(Db.getFlightSearchParams())
     }
 }
