@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="V2.Theme.Cars" parent="Whitelabel.CarsTheme.ebookers" />
+
+    <style name="Whitelabel.CarsTheme.ebookers" parent="Whitelabel.CarsTheme.Base">
+        <item name="skin_errorWidgetEditButtonStyle">@style/ErrorActionButton</item>
+    </style>
+
+</resources>

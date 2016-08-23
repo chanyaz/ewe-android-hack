@@ -112,4 +112,7 @@
     <color name="sign_in_user_base_tier">#668193</color>
     <color name="sign_in_user_middle_tier">#FFC300</color>
     <color name="sign_in_user_top_tier">#085BA5</color>
+
+    <color name="error_widget_edit_button_selected_color">#162033</color>
+    <color name="error_button_color">@color/cars_primary_color</color>
 </resources>
