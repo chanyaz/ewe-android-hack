@@ -124,14 +124,14 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         override fun startTransition(forward: Boolean) {
             if (!forward) checkoutPresenter.toolbarDropShadow.visibility = View.GONE
             bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
-            toggleToolbar(forward)
+            setToolbarMenu(forward)
+            setToolbarNavIcon(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(true)
             translationDistance = checkoutPresenter.mainContent.translationY
             val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
             range = if (forward) 0f else (bundleOverviewHeader.appBarLayout.totalScrollRange - Math.abs(behavior.topAndBottomOffset)) / bundleOverviewHeader.appBarLayout.totalScrollRange.toFloat()
-            bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, !forward)
             checkoutPresenter.mainContent.visibility = View.VISIBLE
             bundleOverviewHeader.nestedScrollView.foreground = ContextCompat.getDrawable(context, R.drawable.dim_background)
             behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
@@ -248,7 +248,8 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     class BundleDefault
 
-    open fun toggleToolbar(forward: Boolean) { }
+    open fun setToolbarMenu(forward: Boolean) { }
+    open fun setToolbarNavIcon(forward: Boolean) { }
     abstract fun trackCheckoutPageLoad()
     abstract fun trackPaymentCIDLoad()
 }
