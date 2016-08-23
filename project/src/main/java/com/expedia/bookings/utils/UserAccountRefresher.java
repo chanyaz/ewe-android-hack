@@ -1,10 +1,7 @@
 package com.expedia.bookings.utils;
 
-import javax.inject.Inject;
-
 import android.content.Context;
 import android.support.annotation.Nullable;
-
 import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -18,7 +15,7 @@ import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
-
+import javax.inject.Inject;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -115,6 +112,7 @@ public class UserAccountRefresher {
 	}
 
 	private void doLogout() {
+		User.signOut(context);
 		BackgroundDownloader.getInstance().cancelDownload(keyRefreshUser);
 		mLastRefreshedUserTimeMillis = 0L;
 		Events.post(new Events.SignOut());
@@ -168,6 +166,6 @@ public class UserAccountRefresher {
 						userAccountRefreshListener.onUserAccountRefreshed();
 					}
 				}
-		});
+			});
 	}
 }

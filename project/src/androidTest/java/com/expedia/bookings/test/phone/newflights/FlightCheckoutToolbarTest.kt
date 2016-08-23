@@ -1,0 +1,237 @@
+package com.expedia.bookings.test.phone.newflights
+
+import android.support.test.espresso.Espresso
+import android.support.test.espresso.action.ViewActions
+import android.support.test.espresso.matcher.ViewMatchers
+import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.Common
+import com.expedia.bookings.test.espresso.NewFlightTestCase
+import com.expedia.bookings.test.phone.packages.PackageScreen
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import org.hamcrest.Matchers
+import org.joda.time.LocalDate
+import org.junit.Test
+
+
+class FlightCheckoutToolbarTest : NewFlightTestCase() {
+
+    @Test
+    fun testToolbarMenuButtonsDuringIncompleteCheckoutUsingImageButton() {
+        selectFlightsProceedToCheckout()
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.travelerInfo().perform(ViewActions.click())
+        assertToolbarMenuButtonSaysNext()
+
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.clickPaymentInfo()
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
+        assertToolbarMenuButtonNotVisible()
+    }
+
+    @Test
+    fun testToolbarMenuButtonsDuringIncompleteCheckoutUsingBackButton() {
+        selectFlightsProceedToCheckout()
+        PackageScreen.travelerInfo().perform(ViewActions.click())
+
+        assertToolbarMenuButtonSaysNext()
+
+        Espresso.closeSoftKeyboard()
+        Common.pressBack()
+
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.clickPaymentInfo()
+        waitForPaymentInfoCardView()
+        assertToolbarMenuButtonSaysNext()
+
+        Espresso.closeSoftKeyboard()
+        Common.pressBack()
+
+        assertToolbarMenuButtonNotVisible()
+    }
+
+    @Test
+    fun testToolbarMenuButtonsDuringCheckoutUsingDoneButton() {
+        selectFlightsProceedToCheckout()
+
+        PackageScreen.travelerInfo().perform(ViewActions.click())
+
+        enterTravelerInfo()
+        assertToolbarMenuButtonSaysDone()
+
+        PackageScreen.clickTravelerDone()
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.clickPaymentInfo()
+        waitForPaymentInfoCardView()
+
+        assertToolbarMenuButtonSaysNext()
+        enterPaymentInfo()
+
+        assertToolbarMenuButtonSaysDone()
+        PackageScreen.clickPaymentDone()
+
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.travelerInfo().perform(ViewActions.scrollTo(), ViewActions.click())
+        assertToolbarMenuButtonSaysDone()
+        PackageScreen.clickTravelerDone()
+
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.clickPaymentInfo()
+        assertToolbarMenuButtonSaysDone()
+        PackageScreen.clickPaymentDone()
+
+        assertToolbarMenuButtonNotVisible()
+    }
+
+    @Test
+    fun testToolbarMenuButtonsDuringCheckoutUsingImageButton() {
+        selectFlightsProceedToCheckout()
+
+        PackageScreen.travelerInfo().perform(ViewActions.scrollTo(), ViewActions.click())
+        enterTravelerInfo()
+
+        assertToolbarMenuButtonSaysDone()
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
+
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.clickPaymentInfo()
+        waitForPaymentInfoCardView()
+        assertToolbarMenuButtonSaysNext()
+
+        enterPaymentInfo()
+        assertToolbarMenuButtonSaysDone()
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
+
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.travelerInfo().perform(ViewActions.scrollTo(), ViewActions.click())
+        assertToolbarMenuButtonSaysDone()
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
+
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.clickPaymentInfo()
+        waitForPaymentInfoCardView()
+        assertToolbarMenuButtonSaysDone()
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
+
+        assertToolbarMenuButtonNotVisible()
+
+    }
+
+    @Test
+    fun testToolbarMenuButtonsDuringCheckoutUsingBackButton() {
+        selectFlightsProceedToCheckout()
+
+        PackageScreen.travelerInfo().perform(ViewActions.scrollTo(), ViewActions.click())
+        enterTravelerInfo()
+
+        assertToolbarMenuButtonSaysDone()
+        Espresso.closeSoftKeyboard()
+        Common.pressBack()
+
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.clickPaymentInfo()
+        waitForPaymentInfoCardView()
+        assertToolbarMenuButtonSaysNext()
+
+        enterPaymentInfo()
+        assertToolbarMenuButtonSaysDone()
+
+        Espresso.closeSoftKeyboard()
+        Common.pressBack()
+
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.travelerInfo().perform(ViewActions.scrollTo(), ViewActions.click())
+        
+        assertToolbarMenuButtonSaysDone()
+
+        Espresso.closeSoftKeyboard()
+        Common.pressBack()
+
+        assertToolbarMenuButtonNotVisible()
+
+        PackageScreen.clickPaymentInfo()
+        waitForPaymentInfoCardView()
+
+        assertToolbarMenuButtonSaysDone()
+
+        Espresso.closeSoftKeyboard()
+        Common.pressBack()
+
+        assertToolbarMenuButtonNotVisible()
+    }
+
+    private fun selectFlightsProceedToCheckout() {
+        SearchScreen.origin().perform(ViewActions.click())
+        SearchScreen.selectFlightOriginAndDestination()
+
+        val startDate = LocalDate.now().plusDays(3)
+        val endDate = LocalDate.now().plusDays(8)
+        SearchScreen.selectDates(startDate, endDate)
+        SearchScreen.searchButton().perform(ViewActions.click())
+        FlightTestHelpers.assertFlightOutbound()
+
+        FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0)
+
+        FlightsScreen.selectOutboundFlight().perform(ViewActions.click())
+        FlightTestHelpers.assertFlightInbound()
+        FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0)
+
+        FlightsScreen.selectInboundFlight().perform(ViewActions.click())
+        PackageScreen.checkout().perform(ViewActions.click())
+    }
+
+    private fun enterTravelerInfo() {
+        PackageScreen.enterFirstName("Eidur")
+        PackageScreen.enterLastName("Gudjohnsen")
+        PackageScreen.enterPhoneNumber("4155554321")
+        PackageScreen.selectBirthDate(1989, 6, 9)
+        PackageScreen.selectGender("Male")
+        PackageScreen.clickTravelerAdvanced()
+        PackageScreen.enterRedressNumber("1234567")
+    }
+
+    private fun enterPaymentInfo() {
+        PackageScreen.enterCreditCard()
+        PackageScreen.completePaymentForm()
+    }
+
+    private fun assertToolbarMenuButtonNotVisible() {
+        Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.menu_done),
+                ViewMatchers.withParent(ViewMatchers.withId(R.id.checkout_toolbar)),
+                Matchers.not(ViewMatchers.isCompletelyDisplayed()),
+                Matchers.not(ViewMatchers.isClickable()),
+                Matchers.not(ViewMatchers.withText("Next")),
+                Matchers.not(ViewMatchers.withText("Done"))))
+    }
+    private fun assertToolbarMenuButtonSaysNext() {
+        Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.menu_done),
+                ViewMatchers.withParent(ViewMatchers.withId(R.id.checkout_toolbar)),
+                ViewMatchers.isCompletelyDisplayed(),
+                ViewMatchers.isClickable(),
+                ViewMatchers.withText("Next")))
+    }
+
+    private fun waitForPaymentInfoCardView() {
+        Espresso.onView(ViewMatchers.withId(R.id.payment_info_card_view)).perform(com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay())
+
+    }
+
+    private fun assertToolbarMenuButtonSaysDone() {
+        Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.menu_done),
+                ViewMatchers.withParent(ViewMatchers.withId(R.id.checkout_toolbar)),
+                ViewMatchers.isCompletelyDisplayed(),
+                ViewMatchers.isClickable(),
+                ViewMatchers.withText("Done")))
+    }
+}

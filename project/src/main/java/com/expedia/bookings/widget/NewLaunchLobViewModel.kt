@@ -52,7 +52,7 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
 
         if (!ExpediaBookingApp.isAutomation() && BuildConfig.DEBUG && SettingUtils.get(context,
                 context.getString(R.string.preference_launch_screen_all_lob), false)) {
-            lobs.add(LobInfo.RAIL);
+            lobs.add(LobInfo.RAILS);
             // if we have odd lob then we should add Packages in the end other 3 index
             if (lobs.size % 2 == 0) {
                 lobs.add(LobInfo.PACKAGES)

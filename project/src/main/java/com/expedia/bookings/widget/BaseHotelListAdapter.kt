@@ -11,7 +11,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
@@ -26,10 +26,10 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
-                                val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+                                    val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     abstract fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder
-    abstract fun getHotelCellViewModel(context: Context, hotel: Hotel) : HotelViewModel
+    abstract fun getHotelCellViewModel(context: Context, hotel: Hotel): HotelViewModel
 
     val MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW = 0
     val PRICING_STRUCTURE_HEADER_VIEW = 1
@@ -103,7 +103,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val fixedPosition = position - numHeaderItemsInHotelsList()
         when (holder) {
-            is HotelCellViewHolder-> {
+            is HotelCellViewHolder -> {
                 val viewModel = getHotelCellViewModel(holder.itemView.context, hotels.get(fixedPosition))
                 hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
                 holder.bind(viewModel)
@@ -117,7 +117,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         hotelSelectedSubject.onNext(hotel)
         if (hotel.isSponsoredListing) {
             AdImpressionTracking.trackAdClickOrImpression(context, hotel.clickTrackingUrl, null)
-            HotelV2Tracking().trackHotelV2SponsoredListingClick()
+            HotelTracking().trackHotelSponsoredListingClick()
         }
     }
 
@@ -127,7 +127,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             var lp = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
             lp.height = if (ExpediaBookingApp.isAutomation() || ExpediaBookingApp.isDeviceShitty()) 0 else AndroidUtils.getScreenSize(parent.context).y
             header.layoutParams = lp
-
             return MapSwitchClickInterceptorTransparentHeaderViewHolder(header)
         } else if (viewType == LOADING_VIEW) {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_loading_cell, parent, false)
@@ -181,6 +180,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             itemView.setOnClickListener {
                 headerSubject.onNext(Unit)
             }
+            itemView.contentDescription = root.context.getString(R.string.hotel_results_map_view_cont_desc)
         }
     }
 }

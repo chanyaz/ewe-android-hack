@@ -31,7 +31,7 @@ class PackageSearchParamsTest {
     @Test
     fun testNumberOfGuests() {
         val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.calendar_max_package_selectable_date_range))
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
@@ -46,7 +46,7 @@ class PackageSearchParamsTest {
     @Test
     fun testGuestString() {
         val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.calendar_max_package_selectable_date_range))
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
@@ -61,7 +61,7 @@ class PackageSearchParamsTest {
     @Test
     fun testChildrenString() {
         val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.calendar_max_package_selectable_date_range))
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
                 .origin(getDummySuggestion("123"))
                 .destination(getDummySuggestion("456"))
                 .adults(1)
@@ -105,7 +105,7 @@ class PackageSearchParamsTest {
         vm.datesObserver.onNext(Pair(LocalDate.now(), null))
         vm.searchObserver.onNext(Unit)
         expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.calendar_max_package_selectable_date_range))
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
                 .origin(origin)
                 .destination(destination)
                 .startDate(LocalDate.now())
@@ -124,7 +124,7 @@ class PackageSearchParamsTest {
         vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
         vm.searchObserver.onNext(Unit)
         expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
-                activity.resources.getInteger(R.integer.calendar_max_package_selectable_date_range))
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
                 .origin(origin)
                 .destination(destination)
                 .startDate(LocalDate.now())

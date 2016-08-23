@@ -18,12 +18,24 @@
             android:layout="@layout/preference"
             android:summary="Click to view tests and change buckets" />
 
+        <Preference
+            android:title="Feature Toggle"
+            android:key="@string/preference_open_feature_toggle_settings"
+            android:layout="@layout/preference"
+            android:summary="Click for Features Toggle" />
+
         <EditTextPreference
             android:defaultValue="localhost:3000"
             android:key="@string/preference_proxy_server_address"
             android:layout="@layout/preference"
             android:summary="The address of your server/proxy (e.g., 192.168.0.5:3000 for proxy)"
             android:title="Server/Proxy Address" />
+
+        <Preference
+            android:key="@string/preference_clear_user_cookies"
+            android:layout="@layout/preference"
+            android:summary="Clears user cookies to simulate bad cookies scenario."
+            android:title="Clear user cookies" />
 
         <Preference
             android:key="@string/preference_force_fs_db_update"

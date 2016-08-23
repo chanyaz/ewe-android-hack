@@ -7,6 +7,7 @@ import android.content.res.TypedArray;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.AdapterView;
 import android.widget.TextView;
 
@@ -86,5 +87,11 @@ public class TelephoneSpinner extends Spinner {
 				break;
 			}
 		}
+	}
+
+	@Override
+	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+		super.onInitializeAccessibilityNodeInfo(info);
+		info.setText(getContext().getString(R.string.phone_number_country_code_dropdown_cont_desc));
 	}
 }

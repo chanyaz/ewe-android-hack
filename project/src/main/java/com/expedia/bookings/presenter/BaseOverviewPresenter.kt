@@ -16,7 +16,7 @@ import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
-import com.expedia.bookings.widget.packages.PackagePaymentWidget
+import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
 
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
@@ -43,9 +43,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
 
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
-        bundleOverviewHeader.toolbar.viewModel.showChangePackageMenuObservable.subscribe { visible ->
-            bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, visible)
-        }
 
         checkoutPresenter.paymentWidget.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         checkoutPresenter.paymentWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
@@ -56,13 +53,14 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.paymentWidget.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
 
         checkoutPresenter.travelerPresenter.toolbarTitleSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
+        checkoutPresenter.travelerPresenter.toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
         checkoutPresenter.travelerPresenter.travelerEntryWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
         checkoutPresenter.travelerPresenter.travelerEntryWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.formFilledIn)
         checkoutPresenter.travelerPresenter.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
         checkoutPresenter.travelerPresenter.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
 
         bundleOverviewHeader.toolbar.viewModel.doneClicked.subscribe {
-            if (checkoutPresenter.currentState == PackagePaymentWidget::class.java.name) {
+            if (checkoutPresenter.currentState == BillingDetailsPaymentWidget::class.java.name) {
                 checkoutPresenter.paymentWidget.doneClicked.onNext(Unit)
             } else if (checkoutPresenter.currentState == TravelerPresenter::class.java.name) {
                 checkoutPresenter.travelerPresenter.doneClicked.onNext(Unit)
@@ -71,6 +69,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
         checkoutPresenter.checkoutButton.setOnClickListener {
             showCheckout()
+            checkoutPresenter.slideToPurchaseLayout.visibility = View.VISIBLE
         }
 
         bundleOverviewHeader.setUpCollapsingToolbar()
@@ -141,6 +140,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 }
             });
             userStoppedScrollingAt = behavior.topAndBottomOffset
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(bundleOverviewHeader.toolbar)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -166,6 +166,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (!forward) {
                 checkoutPresenter.trackShowBundleOverview()
             }
+            bundleOverviewHeader.toolbar.subtitle = ""
         }
 
         private fun translateHeader(f: Float, forward: Boolean) {
@@ -235,6 +236,14 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.getCheckoutViewModel().cvvCompleted.onNext(cvv)
     }
 
+    override fun back(): Boolean {
+        val didHandleBack = super.back()
+        if (!didHandleBack) {
+            checkoutPresenter.resetPriceChange()
+            checkoutPresenter.totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+        }
+        return didHandleBack
+    }
 
     class BundleDefault
 

@@ -20,7 +20,7 @@ import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.data.payment.TripDetails
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.ServicesUtil
@@ -117,7 +117,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         } else {
             cvv.bind(billingInfo)
             show(cvv)
-            HotelV2Tracking().trackHotelV2CheckoutPaymentCid()
+            HotelTracking().trackHotelCheckoutPaymentCid()
         }
     }
 

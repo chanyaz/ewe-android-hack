@@ -17,7 +17,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
@@ -308,7 +308,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
 
     val payLaterInfoContainerClickObserver: Observer<Unit> = endlessObserver {
         hotelPayLaterInfoObservable.onNext(Pair(hotelOffersResponse.hotelCountry, hotelOffersResponse.hotelRoomResponse))
-        HotelV2Tracking().trackHotelV2EtpInfo()
+        HotelTracking().trackHotelEtpInfo()
     }
 
     val strikeThroughPriceVisibility = Observable.combineLatest(strikeThroughPriceGreaterThanPriceToShowUsersObservable, hotelSoldOut)

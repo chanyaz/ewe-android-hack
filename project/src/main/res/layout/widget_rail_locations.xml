@@ -14,23 +14,25 @@
         android:gravity="center"
         android:orientation="vertical">
 
-        <com.expedia.bookings.widget.SearchInputCardView
+        <com.expedia.bookings.widget.shared.SearchInputTextView
             android:id="@+id/origin_card"
+            style="@style/MaterialCardTextView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_search_card_height"
             app:cardCornerRadius="0dp"
-            app:input_icon="@drawable/packages_search_departure"
+            app:input_icon="@drawable/location"
             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-            app:input_text="@string/fly_from_hint" />
+            app:input_text="@string/from_hint" />
 
-        <com.expedia.bookings.widget.SearchInputCardView
+        <com.expedia.bookings.widget.shared.SearchInputTextView
             android:id="@+id/destination_card"
+            style="@style/MaterialCardTextView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_search_card_height"
             app:cardCornerRadius="0dp"
-            app:input_icon="@drawable/packages_search_arrival"
+            app:input_icon="@drawable/location"
             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
-            app:input_text="@string/fly_to_hint" />
+            app:input_text="@string/to_hint" />
     </LinearLayout>
 
     <ImageView

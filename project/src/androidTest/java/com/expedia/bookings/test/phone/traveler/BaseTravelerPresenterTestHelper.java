@@ -20,12 +20,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TravelerName;
-import com.expedia.bookings.data.flights.FlightTripDetails;
-import com.expedia.bookings.data.flights.ValidFormOfPayment;
-import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
-import com.expedia.bookings.data.trips.TripBucket;
-import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.presenter.packages.TravelerPresenter;
 import com.expedia.bookings.test.espresso.Common;
@@ -43,8 +38,6 @@ import com.squareup.phrase.Phrase;
 
 import kotlin.Unit;
 import rx.Observer;
-
-import static org.mockito.Mockito.mock;
 
 public class BaseTravelerPresenterTestHelper {
 
@@ -65,6 +58,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String testPhone = "7732025862";
 	protected final String testBirthDay = "Jan 27, 1991";
 	protected final String testPassport = "Passport: Vietnam";
+	protected final String testEmptyPassport = "Passport: ";
 	protected final String testGender = "Gender";
 
 	protected final String expectedMainText = "Main Traveler";
@@ -276,40 +270,15 @@ public class BaseTravelerPresenterTestHelper {
 		childTraveler.setBirthDate(LocalDate.now().minusYears(yearsOld));
 	}
 
-	protected Traveler makeStoredTraveler() {
+	protected Traveler makeStoredTraveler(String passport) {
 		Traveler storedTraveler = new Traveler();
 		storedTraveler.setFirstName(testFirstName);
 		storedTraveler.setMiddleName(testMiddleName);
 		storedTraveler.setLastName(testLastName);
 		storedTraveler.setGender(Traveler.Gender.MALE);
 		storedTraveler.setPhoneNumber(testPhone);
-		storedTraveler.addPassportCountry("VNM");
+		storedTraveler.addPassportCountry(passport);
 		storedTraveler.setBirthDate(LocalDate.now().withYear(1991).withMonthOfYear(1).withDayOfMonth(27));
 		return storedTraveler;
-	}
-
-	protected void generateMockTripWithPassport() {
-		PackageCreateTripResponse mockCreateTrip = mock(PackageCreateTripResponse.class);
-		mockCreateTrip.setValidFormsOfPayment(new ArrayList<ValidFormOfPayment>());
-
-		TripBucketItemPackages mockPackagesItem = new TripBucketItemPackages(mockCreateTrip);
-
-		PackageCreateTripResponse.PackageDetails mockPackageDetails = new PackageCreateTripResponse.PackageDetails();
-		mockCreateTrip.packageDetails = mockPackageDetails;
-
-		PackageCreateTripResponse.FlightProduct mockFlightProduct = new PackageCreateTripResponse.FlightProduct();
-		mockPackageDetails.flight = mockFlightProduct;
-
-		FlightTripDetails mockFlightDetails = new FlightTripDetails();
-		mockFlightProduct.details = mockFlightDetails;
-
-		FlightTripDetails.FlightOffer mockFlightOffer = new FlightTripDetails.FlightOffer();
-		mockFlightDetails.offer = mockFlightOffer;
-
-		mockFlightOffer.isInternational = true;
-
-		TripBucket dbTripBucket = Db.getTripBucket();
-		dbTripBucket.add(mockPackagesItem);
-		Db.saveTripBucket(InstrumentationRegistry.getTargetContext());
 	}
 }

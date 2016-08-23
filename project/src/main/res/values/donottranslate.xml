@@ -85,6 +85,7 @@
     <string name="preference_force_fs_db_update">preference_force_fs_db_update</string>
     <string name="preference_push_notification_gcm_id">preference_push_notification_gcm_id</string>
     <string name="preference_fake_invalid_google_wallet_line_item">preference_fake_invalid_google_wallet_line_item</string>
+    <string name="preference_clear_user_cookies">preference_clear_user_cookies</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
     <string name="preference_disable_modern_tls">preference_disable_modern_tls</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
@@ -96,6 +97,10 @@
     <string name="preference_abacus_setting_bucketed">Bucketed</string>
     <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
     <string name="preference_enable_tune">preference_enable_tune</string>
+
+    <!-- Preference keys for feature toggle -->
+    <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
+    <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

@@ -651,6 +651,66 @@
       },
       "isMinorAirport": "false",
       "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "17",
+      "gaiaId": "200000000000000119",
+      "type": "TRAINSTATION",
+      "regionNames": {
+        "fullName": "London (All Stations) Rail Station, United Kingdom (@LO)",
+        "shortName": "London (All Stations) Rail Station",
+        "displayName": "<B>Lond</B>on (All Stations) Rail Station, United Kingdom (@LO)",
+        "lastSearchName": "London (All Stations) Rail Station, United Kingdom (@LO)"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "200000000000000119"
+      },
+      "coordinates": null,
+      "hierarchyInfo": {
+        "rails": {
+          "stationCode": "GB@LO"
+        },
+        "country": {
+          "name": "United Kingdom",
+          "isoCode2": "GB",
+          "isoCode3": "GBR"
+        }
+      },
+      "packageable": "false",
+      "score": "1.0",
+      "popularity": "0.0"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "18",
+      "gaiaId": "200000000000000117",
+      "type": "TRAINSTATION",
+      "regionNames": {
+        "fullName": "Glasgow (All Stations) Rail Station, United Kingdom (@GL)",
+        "shortName": "Glasgow (All Stations) Rail Station",
+        "displayName": "<B>Glas</B>gow (All Stations) Rail Station, United Kingdom (@GL)",
+        "lastSearchName": "Glasgow (All Stations) Rail Station, United Kingdom (@GL)"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "200000000000000117"
+      },
+      "coordinates": null,
+      "hierarchyInfo": {
+        "rails": {
+          "stationCode": "GB@GL"
+        },
+        "country": {
+          "name": "United Kingdom",
+          "isoCode2": "GB",
+          "isoCode3": "GBR"
+        }
+      },
+      "packageable": "false",
+      "score": "1.0",
+      "popularity": "0.0"
     }
   ]
 }

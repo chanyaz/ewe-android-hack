@@ -212,7 +212,6 @@ public class PicassoHelper implements Target, Callback {
 
 	@Override
 	public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-
 	}
 
 	@Override

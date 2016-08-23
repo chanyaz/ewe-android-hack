@@ -1,20 +1,19 @@
 package com.expedia.ui;
 
-import java.io.IOException;
-
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceScreen;
-
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.MockModeShim;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
+import java.io.IOException;
 
 public class EBPreferencesFragment extends BasePreferenceFragment {
 
@@ -82,6 +81,18 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 				.addToBackStack(AbacusPreferencesFragment.class.getName())
 				.commit();
 			return true;
+		}
+
+		else if (getString(R.string.preference_open_feature_toggle_settings).equals(key)) {
+			getFragmentManager()
+				.beginTransaction()
+				.replace(R.id.fragment_container, new FeatureTogglePreferencesFragment())
+				.addToBackStack(FeatureTogglePreferencesFragment.class.getName())
+				.commit();
+			return true;
+		}
+		else if (getString(R.string.preference_clear_user_cookies).equals(key)) {
+			ExpediaServices.removeUserCookieFromUserLoginCookies(getContext());
 		}
 
 		return super.onPreferenceTreeClick(preferenceScreen, preference);

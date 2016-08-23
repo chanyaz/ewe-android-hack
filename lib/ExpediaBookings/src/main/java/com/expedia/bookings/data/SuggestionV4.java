@@ -42,6 +42,7 @@ public class SuggestionV4 {
 		@Nullable
 		public Airport airport;
 		public Country country;
+		public Rails rails;
 		public boolean isChild = false;
 	}
 
@@ -52,6 +53,10 @@ public class SuggestionV4 {
 
 	public static class Country {
 		public String name;
+	}
+
+	public static class Rails {
+		public String stationCode;
 	}
 
 	public static class LatLng {
@@ -72,6 +77,10 @@ public class SuggestionV4 {
 				v4.hierarchyInfo.airport.airportCode = hierarchyInfo.airport.airportCode;
 				v4.hierarchyInfo.airport.multicity = hierarchyInfo.airport.multicity;
 			}
+			v4.hierarchyInfo.rails = new Rails();
+			if (hierarchyInfo.rails != null) {
+				v4.hierarchyInfo.rails.stationCode = hierarchyInfo.rails.stationCode;
+			}
 			if (hierarchyInfo.country != null) {
 				v4.hierarchyInfo.country = new Country();
 				v4.hierarchyInfo.country.name = hierarchyInfo.country.name;
@@ -83,8 +92,10 @@ public class SuggestionV4 {
 		v4.regionNames.shortName = regionNames.shortName;
 		v4.hotelId = hotelId;
 		v4.coordinates = new LatLng();
-		v4.coordinates.lat = coordinates.lat;
-		v4.coordinates.lng = coordinates.lng;
+		if (coordinates != null) { //Rail sends null coordinates for parent stations
+			v4.coordinates.lat = coordinates.lat;
+			v4.coordinates.lng = coordinates.lng;
+		}
 		v4.iconType = iconType;
 		return v4;
 	}

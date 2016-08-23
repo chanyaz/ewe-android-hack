@@ -1,26 +1,28 @@
 package com.expedia.vm.flights
 
+import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.utils.getFee
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.vm.BaseCreateTripViewModel
-import rx.Observable
 import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class FlightCreateTripViewModel(val flightServices: FlightServices, val selectedCardFeeSubject: PublishSubject<ValidFormOfPayment>) : BaseCreateTripViewModel() {
-    val tripParams = PublishSubject.create<FlightCreateTripParams>()
+class FlightCreateTripViewModel(val context: Context, val flightServices: FlightServices, val selectedCardFeeSubject: PublishSubject<ValidFormOfPayment>) : BaseCreateTripViewModel() {
+    val tripParams = BehaviorSubject.create<FlightCreateTripParams>()
 
     init {
-        Observable.combineLatest(tripParams, performCreateTrip, { params, createTrip ->
+        performCreateTrip.subscribe {
             showCreateTripDialogObservable.onNext(true)
-            flightServices.createTrip(params).subscribe(makeCreateTripResponseObserver())
-        }).subscribe()
+            flightServices.createTrip(tripParams.value).subscribe(makeCreateTripResponseObserver())
+        }
 
         updateTripFeesOnCardSelection()
     }
@@ -61,7 +63,15 @@ class FlightCreateTripViewModel(val flightServices: FlightServices, val selected
             }
 
             override fun onError(e: Throwable) {
-                throw OnErrorNotImplementedException(e)
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() {
+                        flightServices.createTrip(tripParams.value).subscribe(makeCreateTripResponseObserver())
+                    }
+                    val cancelFun = fun() {
+                        noNetworkObservable.onNext(Unit)
+                    }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                }
             }
 
             override fun onCompleted() {

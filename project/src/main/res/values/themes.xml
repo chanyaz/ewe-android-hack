@@ -305,6 +305,7 @@
         <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_flight</item>
         <item name="primary_color">@color/flights_lob_btn</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/flight_traveler_text_color</item>
     </style>
 
     <style name="FlightTheme.DropDownSearch">

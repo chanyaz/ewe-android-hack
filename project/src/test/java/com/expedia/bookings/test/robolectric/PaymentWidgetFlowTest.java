@@ -102,7 +102,7 @@ public class PaymentWidgetFlowTest {
 		response.newHotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode = "USD";
 		response.newHotelProductResponse.hotelRoomResponse.supplierType = "MERCHANT";
 		TripBucketItemHotelV2 trip = new TripBucketItemHotelV2(response);
-		Db.getTripBucket().clear(LineOfBusiness.HOTELSV2);
+		Db.getTripBucket().clear(LineOfBusiness.HOTELS);
 		Db.getTripBucket().add(trip);
 	}
 
@@ -168,7 +168,7 @@ public class PaymentWidgetFlowTest {
 		PaymentWidgetV2 paymentWidget =  (PaymentWidgetV2) LayoutInflater.from(activity)
 			.inflate(R.layout.payment_widget_v2, null);
 		paymentWidget.setViewmodel(new PaymentViewModel(activity));
-		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELSV2);
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELS);
 		paymentWidget.getSectionBillingInfo().bind(storedCardBillingInfo);
 
 		SectionBillingInfo sectionBillingInfo = (SectionBillingInfo) paymentWidget.findViewById(R.id.section_billing_info);
@@ -190,7 +190,7 @@ public class PaymentWidgetFlowTest {
 		PaymentWidgetV2 paymentWidget =  (PaymentWidgetV2) LayoutInflater.from(activity)
 				.inflate(R.layout.payment_widget_v2, null);
 		paymentWidget.setViewmodel(new PaymentViewModel(activity));
-		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELSV2);
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELS);
 		paymentWidget.getSectionBillingInfo().bind(tempSavedCardBillingInfo);
 		paymentWidget.userChoosesToSaveCard();
 
@@ -205,7 +205,7 @@ public class PaymentWidgetFlowTest {
 		PaymentWidgetV2 paymentWidget =  (PaymentWidgetV2) LayoutInflater.from(activity)
 				.inflate(R.layout.payment_widget_v2, null);
 		paymentWidget.setViewmodel(new PaymentViewModel(activity));
-		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELSV2);
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.HOTELS);
 		paymentWidget.getSectionBillingInfo().bind(tempNotSavedCardBillingInfo);
 		paymentWidget.userChoosesNotToSaveCard();
 

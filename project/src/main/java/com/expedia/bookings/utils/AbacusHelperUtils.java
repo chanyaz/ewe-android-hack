@@ -15,7 +15,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.AbacusServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
-
 import rx.Observer;
 
 public class AbacusHelperUtils {

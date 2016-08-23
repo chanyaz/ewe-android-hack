@@ -6,20 +6,14 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.interceptors.MockInterceptor
-import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
-import com.expedia.vm.FlightSearchViewModel
-import okhttp3.OkHttpClient
-import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-import rx.schedulers.Schedulers
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.test.assertEquals
@@ -30,28 +24,22 @@ class FlightListAdapterTest {
     val context = RuntimeEnvironment.application
     lateinit var sut: FlightListAdapter
     lateinit var flightSelectedSubject: PublishSubject<FlightLeg>
-    lateinit var flightSearchViewModel: FlightSearchViewModel
+    lateinit var isRoundTripSubject: BehaviorSubject<Boolean>
     lateinit var flightLeg: FlightLeg
 
     @Before
     fun setup() {
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
-
-        val server = MockWebServer()
-        val service = FlightServices("http://localhost:" + server.port,
-                OkHttpClient.Builder().build(), MockInterceptor(),
-                Schedulers.immediate(), Schedulers.immediate())
-        Ui.getApplication(context).defaultTravelerComponent()
-        flightSearchViewModel = FlightSearchViewModel(context, service)
+        isRoundTripSubject = BehaviorSubject.create()
     }
 
     fun createSystemUnderTest() {
-        sut = FlightListAdapter(context, flightSelectedSubject, flightSearchViewModel)
+        sut = FlightListAdapter(context, flightSelectedSubject, isRoundTripSubject)
     }
 
     @Test
     fun allFlightsHeaderNotShownForFlightsLOB() {
-        sut = FlightListAdapter(context, flightSelectedSubject, flightSearchViewModel)
+        sut = FlightListAdapter(context, flightSelectedSubject, isRoundTripSubject)
         sut.setNewFlights(emptyList())
 
         val itemViewType = sut.getItemViewType(1)
@@ -61,6 +49,7 @@ class FlightListAdapterTest {
     @Test
     fun flightResultsHeaderRoundTrip() {
         createSystemUnderTest()
+        givenRoundTripFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals("Prices roundtrip per person", headerViewHolder.title.text)
@@ -69,7 +58,7 @@ class FlightListAdapterTest {
     @Test
     fun flightResultsHeaderOneWay() {
         createSystemUnderTest()
-        flightSearchViewModel.isRoundTripSearchObservable.onNext(false)
+        givenOneWayFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals("Prices one-way per person", headerViewHolder.title.text)
@@ -79,7 +68,7 @@ class FlightListAdapterTest {
     fun flightResultsHeaderOneWayMinPrice() {
         configurePointOfSale()
         createSystemUnderTest()
-        flightSearchViewModel.isRoundTripSearchObservable.onNext(false)
+        givenOneWayFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals("Prices one-way, per person, from", headerViewHolder.title.text)
@@ -89,6 +78,7 @@ class FlightListAdapterTest {
     fun flightResultsHeaderReturnMinPrice() {
         configurePointOfSale()
         createSystemUnderTest()
+        givenRoundTripFlight()
         val headerViewHolder = createHeaderViewHolder()
         sut.onBindViewHolder(headerViewHolder, 0)
         assertEquals("Prices roundtrip, per person, from", headerViewHolder.title.text)
@@ -106,6 +96,14 @@ class FlightListAdapterTest {
     fun adjustPosition() {
         createSystemUnderTest()
         assertEquals(1, sut.adjustPosition())
+    }
+
+    private fun givenOneWayFlight() {
+        isRoundTripSubject.onNext(false)
+    }
+
+    private fun givenRoundTripFlight() {
+        isRoundTripSubject.onNext(true)
     }
 
     private fun configurePointOfSale() {

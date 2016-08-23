@@ -35,7 +35,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     }
 
     fun updateUrgencyMessage(selectedFlight: FlightLeg) {
-        var urgencyMessage = StringBuilder()
+        val urgencyMessage = StringBuilder()
         if (selectedFlight.packageOfferModel.urgencyMessage != null) {
             val ticketsLeft = selectedFlight.packageOfferModel.urgencyMessage.ticketsLeft
             if (ticketsLeft > 0 && ticketsLeft < 5) {
@@ -49,10 +49,13 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
             urgencyMessage.append(", ")
         }
         val pricePerPerson = pricePerPersonString(selectedFlight)
-        var pricePerPersonMessage = if (numberOfTravelers.value == 1) pricePerPerson
-        else Phrase.from(context.resources.getString(R.string.flight_details_price_per_person_TEMPLATE))
+        val pricePerPersonMessage = if (numberOfTravelers.value == 1) {
+            pricePerPerson
+        } else {
+            Phrase.from(context.resources.getString(R.string.flight_details_price_per_person_TEMPLATE))
                 .put("price", pricePerPerson)
                 .format().toString()
+        }
         if (selectedFlight.packageOfferModel.price.deltaPositive) {
             urgencyMessage.append("+" + pricePerPersonMessage)
         } else {

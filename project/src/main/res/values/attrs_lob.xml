@@ -26,7 +26,11 @@
     <attr name="paymentWidgetLayout" format="reference" />
     <attr name="map_pin_drawable" format="reference" />
     <attr name="skin_searchToolbarText" format="reference" />
+    <attr name="pickup_time_title" format="reference" />
+    <attr name="dropoff_time_title" format="reference" />
+    <attr name="search_calendar_card_view_text" format="reference" />
     <attr name="skin_searchLocationText" format="reference" />
     <attr name="skin_searchButtonSelectorDrawable" format="reference" />
     <attr name="skin_searchButtonStyle" format="reference" />
+    <attr name="spinner_traveler_text_color_drawable" format="reference" />
 </resources>

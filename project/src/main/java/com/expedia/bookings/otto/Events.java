@@ -31,7 +31,7 @@ import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarCreateTripResponse;
 import com.expedia.bookings.data.cars.CarFilter;
 import com.expedia.bookings.data.cars.CarSearch;
-import com.expedia.bookings.data.cars.CarSearchParams;
+import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.collections.Collection;
@@ -570,14 +570,14 @@ public class Events {
 	}
 
 	public static class CarsNewSearchParams {
-		public CarSearchParams carSearchParams;
+		public CarSearchParam carSearchParams;
 		public String productKey;
 
-		public CarsNewSearchParams(CarSearchParams params) {
+		public CarsNewSearchParams(CarSearchParam params) {
 			carSearchParams = params;
 		}
 
-		public CarsNewSearchParams(CarSearchParams params, String productKey) {
+		public CarsNewSearchParams(CarSearchParam params, String productKey) {
 			carSearchParams = params;
 			this.productKey = productKey;
 		}
@@ -664,9 +664,9 @@ public class Events {
 	}
 
 	public static class CarsKickOffSearchCall {
-		public CarSearchParams carSearchParams;
+		public CarSearchParam carSearchParams;
 
-		public CarsKickOffSearchCall(CarSearchParams params) {
+		public CarsKickOffSearchCall(CarSearchParam params) {
 			this.carSearchParams = params;
 		}
 	}

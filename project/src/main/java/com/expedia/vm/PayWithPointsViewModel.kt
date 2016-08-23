@@ -9,7 +9,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.ProgramName
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.PayWithPointsErrorTrackingEnum
 import com.expedia.bookings.utils.NumberUtils
 import com.expedia.bookings.utils.Strings
@@ -216,11 +216,11 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
             val totalAmount = payingWithPointsAmount.plus(it.remainingPayableByCard!!.amount.amount)
             NumberUtils.getPercentagePaidWithPointsForOmniture(payingWithPointsAmount, totalAmount)
         }.subscribe {
-            HotelV2Tracking().trackPayWithPointsAmountUpdateSuccess(it)
+            HotelTracking().trackPayWithPointsAmountUpdateSuccess(it)
         }
 
         distinctBurnAmountEntered.filter { pwpOpted.value && it.compareTo(BigDecimal.ZERO) == 0}.subscribe {
-            HotelV2Tracking().trackPayWithPointsAmountUpdateSuccess(0)
+            HotelTracking().trackPayWithPointsAmountUpdateSuccess(0)
         }
 
         //User decides to toggle pay with points widget
@@ -232,18 +232,18 @@ class PayWithPointsViewModel<T : TripResponse>(val paymentModel: PaymentModel<T>
             }
         }).subscribe {
             if (!it.pwpSwitchState) {
-                HotelV2Tracking().trackPayWithPointsDisabled()
+                HotelTracking().trackPayWithPointsDisabled()
             }
             else {
                 val percentage  = if(Strings.isNotEmpty(it.userEnteredBurnAmount)) NumberUtils.getPercentagePaidWithPointsForOmniture(BigDecimal(it.userEnteredBurnAmount), it.trip.getTripTotalExcludingFee().amount) else 0
-                HotelV2Tracking().trackPayWithPointsReEnabled(percentage)
+                HotelTracking().trackPayWithPointsReEnabled(percentage)
             }
         }
 
         // User enters wrong pay with points amount or calculate points api gives error.
-        burnAmountGreaterThanTripTotalToBeHandledLocallyError.subscribe { HotelV2Tracking().trackPayWithPointsError(PayWithPointsErrorTrackingEnum.AMOUNT_ENTERED_GREATER_THAN_TRIP_TOTAL) }
-        burnAmountLessThanTripTotalAndGreaterThanAvailableInAccountToBeHandledLocallyError.subscribe { HotelV2Tracking().trackPayWithPointsError(PayWithPointsErrorTrackingEnum.AMOUNT_ENTERED_GREATER_THAN_AVAILABLE) }
-        paymentModel.burnAmountToPointsApiError.map { amountToPointsConversionAPIErrorTracking(it) }.subscribe {HotelV2Tracking().trackPayWithPointsError(it) }
+        burnAmountGreaterThanTripTotalToBeHandledLocallyError.subscribe { HotelTracking().trackPayWithPointsError(PayWithPointsErrorTrackingEnum.AMOUNT_ENTERED_GREATER_THAN_TRIP_TOTAL) }
+        burnAmountLessThanTripTotalAndGreaterThanAvailableInAccountToBeHandledLocallyError.subscribe { HotelTracking().trackPayWithPointsError(PayWithPointsErrorTrackingEnum.AMOUNT_ENTERED_GREATER_THAN_AVAILABLE) }
+        paymentModel.burnAmountToPointsApiError.map { amountToPointsConversionAPIErrorTracking(it) }.subscribe { HotelTracking().trackPayWithPointsError(it) }
         userToggledPwPSwitchWithUserEnteredBurnedAmountSubject.filter { it.first }.map { it.second }.subscribe(userEnteredBurnAmount)
     }
     private fun toBigDecimalWithScale2(string: String): BigDecimal = (if (Strings.isEmpty(string)) BigDecimal.ZERO else BigDecimal(string)).setScale(2)

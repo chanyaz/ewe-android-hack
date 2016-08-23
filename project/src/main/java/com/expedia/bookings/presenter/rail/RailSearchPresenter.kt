@@ -12,21 +12,20 @@ import com.expedia.bookings.adapter.RailSearchPagerAdapter
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
-import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.bookings.widget.TravelerWidgetV2
 import com.expedia.bookings.widget.rail.PositionObservableTabLayout
+import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeText
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.rail.RailSearchViewModel
 import com.expedia.vm.rail.RailSuggestionAdapterViewModel
-import org.joda.time.LocalDate
 import kotlin.properties.Delegates
 
 class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
@@ -61,10 +60,10 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
     override val travelerWidgetV2: TravelerWidgetV2 by lazy {
         searchWidget.travelerWidget
     }
-    override val originCardView: SearchInputCardView by lazy {
+    override val originCardView: SearchInputTextView by lazy {
         searchWidget.locationWidget.originLocationText
     }
-    override val destinationCardView: SearchInputCardView by lazy {
+    override val destinationCardView: SearchInputTextView by lazy {
         searchWidget.locationWidget.destinationLocationText
     }
 
@@ -74,16 +73,29 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         searchWidget.searchViewModel = vm
         searchViewModel.resetDatesAndTimes()
 
-        originSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, false, CurrentLocationObservable.create(context))
+        // we dont want to do current location now - TODO future enhancement
+        originSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, false, null)
         destinationSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, true, null)
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
         destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
 
+        vm.formattedOriginObservable.subscribeText(originCardView)
+        vm.formattedDestinationObservable.subscribeText(destinationCardView)
+
         searchViewModel.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.white) else ContextCompat.getColor(context, R.color.white_disabled))
         }
-
         searchButton.subscribeOnClick(vm.searchObserver)
+
+        vm.errorMaxDurationObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
+        vm.errorMaxRangeObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
+        vm.errorOriginSameAsDestinationObservable.subscribe { message ->
+            showErrorDialog(message)
+        }
     }
 
     init {
@@ -136,10 +148,10 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
     }
 
     override fun getOriginSearchBoxPlaceholderText(): String {
-        return "not set"
+        return context.resources.getString(R.string.rail_location_hint)
     }
 
     override fun getDestinationSearchBoxPlaceholderText(): String {
-        return "not set"
+        return context.resources.getString(R.string.rail_location_hint)
     }
 }

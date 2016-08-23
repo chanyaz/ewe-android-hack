@@ -5,15 +5,44 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.vm.hotel.HotelViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 
-class PackageHotelViewModel(context: Context, hotel: Hotel) : HotelViewModel(context, hotel) {
+class PackageHotelViewModel(var context: Context, hotel: Hotel) : HotelViewModel(context, hotel) {
     val unrealDealMessageObservable = BehaviorSubject.create(getUnrealDeal())
     val unrealDealMessageVisibilityObservable = BehaviorSubject.create<Boolean>(getUnrealDeal().isNotEmpty())
 
     val priceIncludesFlightsObservable = BehaviorSubject.create<Boolean>(hotel.isPackage)
+    var contentDescription = getHotelContentDesc()
+
+    private fun getHotelContentDesc(): CharSequence {
+        var result = SpannableBuilder()
+        if (unrealDealMessageVisibilityObservable.value) {
+            result.append(Phrase.from(context, R.string.hotel_unreal_deal_cont_desc_TEMPLATE)
+                    .put("unrealdeal", getUnrealDeal().replace("\\p{P}", ""))
+                    .format()
+                    .toString())
+        }
+        result.append(Phrase.from(context, R.string.hotel_details_cont_desc_TEMPLATE)
+                .put("hotel", hotel.localizedName)
+                .put("starrating", hotelStarRatingObservable.value.toString())
+                .put("guestrating", hotelGuestRatingObservable.value.toString())
+                .put("price", pricePerNightObservable.value)
+                .format()
+                .toString())
+
+        if (hotelStrikeThroughPriceVisibility.value) {
+            result.append(Phrase.from(context, R.string.hotel_price_cont_desc_TEMPLATE)
+                    .put("strikethroughprice", hotelStrikeThroughPriceFormatted.value)
+                    .format()
+                    .toString())
+        }
+        result.append(Phrase.from(context.resources.getString(R.string.accessibility_cont_desc_role_button)).format().toString())
+
+        return result.build()
+    }
 
     override fun hasMemberDeal(): Boolean {
         return false

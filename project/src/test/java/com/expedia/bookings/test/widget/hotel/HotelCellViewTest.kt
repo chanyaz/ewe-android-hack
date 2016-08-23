@@ -142,6 +142,7 @@ class HotelCellViewTest {
     private fun makeHotel(): Hotel {
         val hotel = Hotel()
         hotel.hotelId = "happy"
+        hotel.localizedName = "happy"
         hotel.lowRateInfo = HotelRate()
         hotel.distanceUnit = "Miles"
         hotel.lowRateInfo.currencyCode = "USD"

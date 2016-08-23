@@ -214,6 +214,7 @@
                     android:layout_below="@+id/parent_room_type_and_price_container"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="15dp"
+                    android:focusable="true"
                     android:layout_marginTop="3dp"
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
@@ -242,6 +243,7 @@
                 android:paddingBottom="12dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
+                android:contentDescription="@string/room_information_button_cont_desc"
                 android:paddingTop="12dp"
                 android:visibility="gone">
 
@@ -268,6 +270,8 @@
                     android:id="@+id/room_info_description_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:layout_below="@+id/room_info_header_text"
                     android:lineSpacingExtra="2dp"
                     android:paddingTop="8dp"

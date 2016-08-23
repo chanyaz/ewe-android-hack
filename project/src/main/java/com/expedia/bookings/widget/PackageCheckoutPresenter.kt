@@ -5,13 +5,14 @@ import android.util.AttributeSet
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
+import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageCreateTripViewModel
 import com.squareup.otto.Subscribe
 import java.math.BigDecimal
@@ -34,6 +35,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
                     packageTotalPrice.packageTotal.currencyCode))
             totalPriceWidget.viewModel.savings.onNext(Money(BigDecimal(packageTotalPrice.savings.amount.toDouble()),
                     packageTotalPrice.savings.currencyCode))
+            isPassportRequired(response)
             trackShowBundleOverview()
         }
         getCheckoutViewModel().priceChangeObservable.subscribe {
@@ -43,6 +45,11 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
+    }
+
+    override fun isPassportRequired(response: TripResponse) {
+        val flightOffer = (response as PackageCreateTripResponse).packageDetails.flight.details.offer
+        travelerPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
@@ -76,5 +83,10 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
 
     override fun getCreateTripViewModel(): PackageCreateTripViewModel {
         return tripViewModel as PackageCreateTripViewModel
+    }
+
+    override fun clearCCNumber() {
+        clearCVV()
+        super.clearCCNumber()
     }
 }

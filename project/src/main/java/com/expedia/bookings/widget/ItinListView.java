@@ -25,7 +25,6 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
@@ -38,7 +37,6 @@ import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinAirAttachCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.mobiata.android.Log;
-
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.Semaphore;
@@ -246,7 +244,6 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	// Touch overrides
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-
 		//If we are in detail mode, pass all touches to the ItinCard
 
 		if (isInDetailMode()) {
@@ -277,8 +274,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		MotionEvent childEvent = MotionEvent.obtain(event);
 		if (child != null) {
 			childEvent.offsetLocation(0, -child.getTop());
-
-			if (child instanceof ItinButtonCard
+			if (child.findViewById(R.id.add_guest_itin_text_view) != null) {
+				isChildConsumedTouch = true;
+			}
+			else if (child instanceof ItinButtonCard
 				|| (child instanceof ItinAirAttachCard
 				&& (((ItinAirAttachCard) child).isTouchOnAirAttachButton(childEvent)
 				|| ((ItinAirAttachCard) child).isTouchOnDismissButton(childEvent)))

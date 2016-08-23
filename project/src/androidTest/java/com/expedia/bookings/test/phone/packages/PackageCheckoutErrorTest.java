@@ -44,6 +44,7 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 		onView(withId(R.id.error_action_button)).perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		CardInfoScreen.typeTextCvv("666");
 		CardInfoScreen.nameOnCardEditText().perform(clearText());
 		CardInfoScreen.typeTextNameOnCardEditText("errorcheckoutunknown");
 

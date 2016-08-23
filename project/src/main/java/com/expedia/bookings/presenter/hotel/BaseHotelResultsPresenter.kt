@@ -169,7 +169,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 clusterMarkers()
             }
         }
-
         vm.carouselSwipedObservable.subscribe {
             selectMarker(it, true)
         }

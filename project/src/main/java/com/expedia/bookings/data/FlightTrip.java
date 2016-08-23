@@ -148,6 +148,10 @@ public class FlightTrip implements JSONable {
 		mTotalFare = totalFare;
 	}
 
+	public Money getTotalFare() {
+		return mTotalFare;
+	}
+
 	public void setAverageTotalFare(Money averageTotalFare) {
 		mAverageTotalFare = averageTotalFare;
 	}

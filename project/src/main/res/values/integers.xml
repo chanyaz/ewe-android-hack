@@ -16,7 +16,7 @@
     <integer name="calendar_max_selectable_date_range">500</integer>
 
     <!-- The maximum number of days for paging in the future (from now) users can select to search -->
-    <integer name="calendar_max_package_selectable_date_range">329</integer>
+    <integer name="max_calendar_selectable_date_range">329</integer>
 
     <!-- The maximum number of days for a hotel stay -->
     <integer name="calendar_max_days_hotel_stay">28</integer>
@@ -35,6 +35,9 @@
 
     <!-- The minimum number of hours out from current time -->
     <integer name="calendar_min_search_time_rail">12</integer>
+
+    <!-- The minimum number of hours out from current time -->
+    <integer name="calendar_min_search_time_car">1</integer>
 
     <!-- The maximum days range for a car search -->
     <integer name="calendar_max_days_car_search">330</integer>

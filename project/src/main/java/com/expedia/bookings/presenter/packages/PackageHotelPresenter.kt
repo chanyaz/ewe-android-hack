@@ -222,8 +222,6 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_selectable_date_range)))
         val packageHotelOffers = packageServices.hotelOffer(piid, checkIn, checkOut, ratePlanCode, roomTypeCode, numberOfAdultTravelers, childTravelerAge)
         val info = packageServices.hotelInfo(hotelId)
-        packageHotelOffers.subscribe (makeErrorSubscriber(false))
-        info.subscribe (makeErrorSubscriber(false))
 
         Observable.zip(packageHotelOffers.doOnError {}, info.doOnError {},
                 { packageHotelOffers, info ->
@@ -374,7 +372,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
                 addDefaultTransition(defaultResultsTransition)
                 show(resultsPresenter)
                 resultsPresenter.showDefault()
-                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.calendar_max_package_selectable_date_range)))
+                resultsPresenter.viewmodel.paramsSubject.onNext(convertPackageToSearchParams(Db.getPackageParams(), resources.getInteger(R.integer.calendar_max_days_hotel_stay), resources.getInteger(R.integer.max_calendar_selectable_date_range)))
                 trackSearchResult()
             }
             PackageHotelActivity.Screen.DETAILS_ONLY -> {

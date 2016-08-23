@@ -14,7 +14,7 @@ public class TripBucketItemRails extends TripBucketItem {
 
 	@Override
 	public LineOfBusiness getLineOfBusiness() {
-		return LineOfBusiness.RAIL;
+		return LineOfBusiness.RAILS;
 	}
 
 	private void addValidFormsOfPayment() {

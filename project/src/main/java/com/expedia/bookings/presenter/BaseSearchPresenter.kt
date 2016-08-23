@@ -42,10 +42,10 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.CalendarWidgetV2
 import com.expedia.bookings.widget.RecyclerDividerDecoration
-import com.expedia.bookings.widget.SearchInputCardView
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TravelerWidgetV2
+import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
@@ -72,7 +72,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     
     val suggestionRecyclerView: RecyclerView by bindView(R.id.suggestion_list)
     var navIcon: ArrowXDrawable
-    open val destinationCardView: SearchInputCardView by bindView(R.id.destination_card)
+    open val destinationCardView: SearchInputTextView by bindView(R.id.destination_card)
     open val travelerWidgetV2 by lazy {
         travellerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
     }

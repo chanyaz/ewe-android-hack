@@ -57,7 +57,7 @@ class GoogleWalletActivity : AppCompatActivity() {
                     Db.setMaskedWallet(wallet)
                     WalletUtils.bindWalletToBillingInfo(wallet, Db.getBillingInfo())
                     val traveler = WalletUtils.addWalletAsTraveler(this, wallet)
-                    BookingInfoUtils.insertTravelerDataIfNotFilled(this, traveler, LineOfBusiness.HOTELSV2);
+                    BookingInfoUtils.insertTravelerDataIfNotFilled(this, traveler, LineOfBusiness.HOTELS);
                     getFullWallet(wallet.googleTransactionId)
                     return
                 }

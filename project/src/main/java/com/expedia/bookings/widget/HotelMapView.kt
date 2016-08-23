@@ -12,7 +12,7 @@ import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.extension.shouldShowCircleForRatings
-import com.expedia.bookings.tracking.HotelV2Tracking
+import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -98,7 +98,7 @@ class HotelMapView(context: Context, attrs: AttributeSet) : FrameLayout(context,
                 PackagesTracking().trackHotelMapViewSelectRoomClick()
             }
             else {
-                HotelV2Tracking().trackLinkHotelV2MapSelectRoom()
+                HotelTracking().trackLinkHotelMapSelectRoom()
             }
         })
 
