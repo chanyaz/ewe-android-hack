@@ -77,13 +77,6 @@
             android:summary="(please kill the app and start again to see the changes.)"
             android:title="Show OverFlow Menu in New Launch Screen" />
 
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="@string/preference_launch_screen_all_lob"
-            android:layout="@layout/preference"
-            android:summary="(please kill the app and start again to see the changes.)"
-            android:title="Show All LOB's in New Launch Screen" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

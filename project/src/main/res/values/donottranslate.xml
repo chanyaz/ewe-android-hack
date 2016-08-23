@@ -63,7 +63,6 @@
     <!-- Preference keys -->
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_launch_screen_overflow">preference_launch_screen_overflow</string>
-    <string name="preference_launch_screen_all_lob">preference_launch_screen_all_lob</string>
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
     <string name="preference_fake_hotel_price_change">fake_hotel_price_change</string>
@@ -102,6 +101,8 @@
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_hotel_favorite">preference_enable_hotel_favorite</string>
+    <string name="preference_enable_packages">preference_enable_packages</string>
+    <string name="preference_enable_rail">preference_enable_rail</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
