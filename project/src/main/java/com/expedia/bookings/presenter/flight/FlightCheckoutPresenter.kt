@@ -127,7 +127,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun trackShowBundleOverview() {
         val flightSearchParams = Db.getFlightSearchParams()
-        FlightsV2Tracking.trackShowFlightOverView(flightSearchParams)
+        val flightCreateTripResponse = getCreateTripViewModel().tripResponseObservable.value as FlightCreateTripResponse
+        FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, flightCreateTripResponse)
     }
 
     override fun makeCheckoutViewModel(): FlightCheckoutViewModel {

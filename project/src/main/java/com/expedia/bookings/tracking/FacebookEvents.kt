@@ -14,8 +14,6 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Property
 import com.expedia.bookings.data.Rate
-import com.expedia.bookings.data.trips.TripBucketItemFlight
-import com.expedia.bookings.data.trips.TripBucketItemHotel
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.cars.CarCheckoutResponse
 import com.expedia.bookings.data.cars.CarLocation
@@ -24,13 +22,18 @@ import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.cars.CreateTripCarOffer
 import com.expedia.bookings.data.cars.RateTerm
 import com.expedia.bookings.data.cars.SearchCarOffer
+import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
-import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.LXSearchResponse
+import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.trips.TripBucketItemFlight
+import com.expedia.bookings.data.trips.TripBucketItemHotel
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.CollectionUtils
@@ -43,6 +46,8 @@ import com.mobiata.android.time.util.JodaUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.ISODateTimeFormat
 import java.math.BigDecimal
+import java.util.Collections
+import java.util.Comparator
 import java.util.Currency
 
 private val TAG = "FacebookTracking"
@@ -249,16 +254,45 @@ class FacebookEvents() {
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
 
+    fun trackFlightV2Search(flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams,
+                            flightLegList: List<FlightLeg>) {
+        val destinationAirport = flightSearchParams.arrivalAirport.gaiaId
+        val arrivalAirport = flightSearchParams.departureAirport.gaiaId
+        val parameters = Bundle()
+        val lastFlightSegment = flightLegList[0].flightSegments.size - 1
+        val arrivalAirportAddress = flightLegList[0].flightSegments[lastFlightSegment].arrivalAirportAddress
+        addCommonFlightV2Params(parameters, flightSearchParams, arrivalAirportAddress)
+        parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
+        parameters.putString("LowestSearch_Value", flightLegList[0].packageOfferModel.price.packageTotalPrice.amount.toString())
+
+        track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
+    }
+
     fun trackFilteredFlightSearch(search: FlightSearch, legNumber: Int) {
         val searchParams = search.searchParams
         val location = searchParams.arrivalLocation
         val destinationAirport = searchParams.arrivalLocation.destinationId
         val arrivalAirport = searchParams.departureLocation.destinationId
         val parameters = Bundle()
-        val trips = search.FlightTripQuery(legNumber).trips;
+        val trips = search.FlightTripQuery(legNumber).trips
         addCommonFlightParams(parameters, searchParams, location)
         parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
         parameters.putString("LowestSearch_Value", calculateLowestRateFlights(trips))
+
+        track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
+    }
+
+    fun trackFilteredFlightV2Search(flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams,
+                                    flightLegList: List<FlightLeg>) {
+        val destinationAirport = flightSearchParams.arrivalAirport.gaiaId
+        val arrivalAirport = flightSearchParams.departureAirport.gaiaId
+        val parameters = Bundle()
+        val lastFlightSegment = flightLegList[0].flightSegments.size - 1
+        val arrivalAirportAddress = flightLegList[0].flightSegments[lastFlightSegment].arrivalAirportAddress
+        addCommonFlightV2Params(parameters, flightSearchParams, arrivalAirportAddress)
+
+        parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, "$arrivalAirport - $destinationAirport")
+        parameters.putString("LowestSearch_Value", calculateLowestRateFlightsV2(flightLegList))
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
     }
@@ -274,6 +308,22 @@ class FacebookEvents() {
         parameters.putString("Flight_Value", money.getAmount().toString())
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightTrip.legs.get(0).firstAirlineCode)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, money.currency)
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
+
+        track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
+    }
+
+    fun trackFlightV2Detail(flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams,
+                            flightCreateTripResponse: FlightCreateTripResponse) {
+
+        val lastSegment = flightCreateTripResponse.details.legs[0].segments.size - 1
+        val arrivalAirportAddress = flightCreateTripResponse.details.legs[0].segments[lastSegment].arrivalAirportAddress
+
+        val parameters = Bundle()
+        addCommonFlightV2Params(parameters, flightSearchParams, arrivalAirportAddress)
+        parameters.putString("Flight_Value", flightCreateTripResponse.totalPrice.amount.toString())
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightCreateTripResponse.details.legs[0].segments[0].airlineCode)
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, flightCreateTripResponse.totalPrice.currencyCode)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
@@ -295,6 +345,20 @@ class FacebookEvents() {
         track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
     }
 
+    fun trackFlightV2Checkout(flightCreateTripResponse: FlightCreateTripResponse, flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams) {
+        val lastSegment = flightCreateTripResponse.details.legs[0].segments.size - 1
+        val arrivalAirportAddress = flightCreateTripResponse.details.legs[0].segments[lastSegment].arrivalAirportAddress
+
+        val parameters = Bundle()
+        addCommonFlightV2Params(parameters, flightSearchParams, arrivalAirportAddress)
+        parameters.putString("Booking_Value", flightCreateTripResponse.totalPrice.amount.toString())
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightCreateTripResponse.details.legs[0].segments[0].airlineCode)
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, flightCreateTripResponse.totalPrice.currencyCode)
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
+
+        track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
+    }
+
     fun trackFlightConfirmation(flight: TripBucketItemFlight) {
         val searchParams = flight.flightSearchParams
         val location = searchParams.arrivalLocation
@@ -308,6 +372,24 @@ class FacebookEvents() {
         parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, money.currency)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
         facebookLogger?.logPurchase(money.amount, Currency.getInstance(money.currencyCode));
+        track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
+    }
+
+    fun trackFlightV2Confirmation(flightCheckoutResponse: FlightCheckoutResponse, flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams) {
+        var arrivalAirportAddress: FlightLeg.FlightSegment.AirportAddress? = null
+        var airLineCode = ""
+        if(flightCheckoutResponse.details != null) {
+            val lastSegment = flightCheckoutResponse.details!!.legs[0].segments.size - 1
+            arrivalAirportAddress = flightCheckoutResponse.details!!.legs[0].segments[lastSegment].arrivalAirportAddress
+            airLineCode = flightCheckoutResponse.details!!.legs[0].segments[0].airlineCode
+        }
+        val parameters = Bundle()
+        addCommonFlightV2Params(parameters, flightSearchParams, arrivalAirportAddress)
+        parameters.putString("Booking_Value", flightCheckoutResponse.totalChargesPrice?.amount.toString())
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, airLineCode)
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, flightCheckoutResponse.totalChargesPrice?.currencyCode)
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
+        facebookLogger?.logPurchase(flightCheckoutResponse.totalChargesPrice?.amount, Currency.getInstance(flightCheckoutResponse.totalChargesPrice?.currencyCode))
         track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
     }
 
@@ -485,6 +567,14 @@ class FacebookEvents() {
         return minAmount.toString()
     }
 
+    private fun calculateLowestRateFlightsV2(flightLegList: List<FlightLeg>): String {
+        if (flightLegList.size == 0) {
+            return ""
+        }
+        Collections.sort(flightLegList, priceComparator)
+        return flightLegList[0].packageOfferModel.price.packageTotalPrice.amount.toString()
+    }
+
     private fun getLoyaltyTier(user: User?): String {
         var loyaltyTier = "N/A"
         if (user != null && user.primaryTraveler.loyaltyMembershipTier != LoyaltyMembershipTier.NONE) {
@@ -589,6 +679,38 @@ class FacebookEvents() {
         parameters.putString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
     }
 
+    private fun addCommonFlightV2Params(parameters: Bundle, searchParams: com.expedia.bookings.data.flights.FlightSearchParams,
+                                        arrivalAirportAddress: FlightLeg.FlightSegment.AirportAddress?) {
+        val dtf = ISODateTimeFormat.date()
+
+        searchParams.arrivalAirport.gaiaId
+        val destinationId = searchParams.arrivalAirport.gaiaId
+        parameters.putString("region_id", destinationId)
+        parameters.putString("destination_name", destinationId)
+        parameters.putString("LOB", "Flight")
+
+        if (arrivalAirportAddress != null) {
+            parameters.putString("destination_city", arrivalAirportAddress.city)
+            parameters.putString("destination_state", arrivalAirportAddress.state)
+            parameters.putString("destination_country", arrivalAirportAddress.country)
+        }
+
+        parameters.putString("Start_Date", dtf.print(searchParams.departureDate))
+        parameters.putString("End_Date", if (searchParams.returnDate != null) dtf.print(searchParams.returnDate) else "")
+
+        parameters.putInt("Booking_Window", getBookingWindow(searchParams.departureDate))
+        parameters.putString("FlightOrigin_AirportCode", searchParams.departureAirport.gaiaId)
+        parameters.putString("FlightDestination_AirportCode", destinationId)
+        parameters.putInt("Num_People", searchParams.guests)
+        parameters.putInt("Number_Children", searchParams.children.size)
+
+        if (facebookContext != null) {
+            parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
+        }
+        parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
+        parameters.putString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
+    }
+
     private fun addCommonLocationEvents(parameters: Bundle, location: Location) {
         parameters.putString("destination_city", location.city ?: "")
         parameters.putString("destination_state", location.stateCode ?: "")
@@ -656,4 +778,10 @@ class FacebookEvents() {
         return location
 
     }
+
+    private val priceComparator = Comparator<FlightLeg> { flightLeg1, flightLeg2 ->
+        flightLeg1.packageOfferModel.price.packageTotalPrice.amount.compareTo(flightLeg2.packageOfferModel.price.packageTotalPrice.amount)
+    }
+
+
 }

@@ -288,8 +288,10 @@ public class LeanPlumUtils {
 			String totalPrice = flightCheckoutResponse.getTotalChargesPrice().amount.toString();
 			Log.i("LeanPlum flight booking event currency=" + currencyCode + " total=" + totalPrice);
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
+			int lastSegment = flightCheckoutResponse.getDetails().legs.get(0).segments.size() - 1;
+			com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress = flightCheckoutResponse.getDetails().legs.get(0).segments.get(lastSegment).arrivalAirportAddress;
 
-			addFlightV2SearchInfo(flightSearchParams, eventParams);
+			addFlightV2SearchInfo(flightSearchParams, airportAddress, eventParams);
 
 			eventParams.put("DepartureTakeoffDatetime",
 				new DateTime(flightLegs.get(0).segments.get(0).departureTimeRaw).toString(DATE_PATTERN));
@@ -415,7 +417,10 @@ public class LeanPlumUtils {
 			String totalPrice = tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString();
 			Log.i("LeanPlum flight checkout started currency=" + currencyCode + " total=" + totalPrice);
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
-			addFlightV2SearchInfo(flightSearchParams, eventParams);
+			int lastSegment = tripResponse.getDetails().legs.get(0).segments.size() - 1;
+			com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress = tripResponse.getDetails().legs.get(0).segments.get(lastSegment).arrivalAirportAddress;
+
+			addFlightV2SearchInfo(flightSearchParams, airportAddress, eventParams);
 
 			String productId =
 				flightSearchParams.getArrivalAirport().gaiaId + "/" + flightSearchParams.getDepartureAirport().gaiaId;
@@ -510,21 +515,24 @@ public class LeanPlumUtils {
 		}
 	}
 
-	public static void trackFlightV2Search(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
+	public static void trackFlightV2Search(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
+		List<com.expedia.bookings.data.flights.FlightLeg> flightLegList) {
 		if (initialized) {
 			String eventName = "Search Flight";
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
-
-			addFlightV2SearchInfo(flightSearchParams, eventParams);
+			int lastSegment = flightLegList.get(0).segments.size() - 1;
+			com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress = flightLegList.get(0).segments.get(lastSegment).arrivalAirportAddress;
+			addFlightV2SearchInfo(flightSearchParams, airportAddress, eventParams);
 			tracking(eventName, eventParams);
 		}
 	}
 
 	public static void addFlightV2SearchInfo(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
+		com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress,
 		HashMap<String, Object> eventParams) {
 		String destinationAirport = flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode;
-		addCommonProductRetargeting(eventParams, StrUtils.formatCityName(flightSearchParams.getArrivalAirport()), "",
-			flightSearchParams.getArrivalAirport().hierarchyInfo.country.countryCode);
+		addCommonProductRetargeting(eventParams, airportAddress.city, airportAddress.state,
+			airportAddress.country);
 		eventParams.put("Destination", destinationAirport);
 		eventParams.put("DepartureId", flightSearchParams.getDepartureAirport().gaiaId);
 		eventParams.put("ArrivalId", flightSearchParams.getArrivalAirport().gaiaId);
