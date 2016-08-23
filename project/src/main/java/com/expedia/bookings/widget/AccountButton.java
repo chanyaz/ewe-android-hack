@@ -410,13 +410,14 @@ public class AccountButton extends LinearLayout {
 
 	public CharSequence getSignInWithRewardsAmountText(RewardsInfo rewardsInfo) {
 
-		//noinspection ConstantConditions This can never be null from api.
-		String rewardsToEarn = rewardsInfo.getTotalAmountToEarn()
-			.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
-		return Phrase.from(this, R.string.Sign_in_to_earn_TEMPLATE)
-			.put("reward", rewardsToEarn)
-			.format();
-	}
+			//noinspection ConstantConditions This can never be null from api.
+			String rewardsToEarn = rewardsInfo.getTotalAmountToEarn()
+				.getFormattedMoneyFromAmountAndCurrencyCode(
+					Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+			return Phrase.from(this, R.string.Sign_in_to_earn_TEMPLATE)
+				.put("reward", rewardsToEarn)
+				.format();
+		}
 
 	public CharSequence getSignInWithoutRewardsText() {
 		return Phrase.from(this, R.string.Sign_in_with_TEMPLATE)

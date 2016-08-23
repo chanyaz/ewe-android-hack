@@ -45,7 +45,7 @@
 
     <!-- Credit card input section -->
     <string name="book">Payer</string>
-    <string name="cvv_explanation_vsc">Veuillez saisir votre cryptogramme</string>
+    <string name="security_code_TEMPLATE">Veuillez saisir votre cryptogramme</string>
 
     <!-- Message displayed when search comes up with zero results -->
     <string name="no_hotels_availiable">Aucun hôtel disponible selon vos critères de voyage.</string>
@@ -93,6 +93,9 @@
 
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Merci d’avoir choisi l’application de L’Agence Voyages-sncf.com ! Votre réservation est confirmée : %1$s, pendant %2$s.</string>
+
+    <!-- Sign in string for VSC. Varies from the other multibrands. -->
+    <string name="Sign_in_with_TEMPLATE">Se connecter à son compte Agence</string>
 
     <!-- Account Creation Strings -->
     <!-- Button text for account creation button -->

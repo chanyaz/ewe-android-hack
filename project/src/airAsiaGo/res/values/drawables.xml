@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    <item name="border_horizontal_striped_drawable" type="drawable">@drawable/bg_breakdown_candycane</item>
     <item name="app_copyright_logo" type="drawable">@drawable/brand_logo_large</item>
     <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_brand_logo</item>
-
     <item name="old_checkout_account_logo" type="drawable">@drawable/ic_aag_logo</item>
     <item name="checkout_logout_logo" type="drawable">@drawable/ic_aag_logo</item>
-    <item name="old_checkout_account_button_background" type="drawable">@drawable/btn_login_hotels_aag</item>
-    <item name="tablet_checkout_login_logo" type="drawable">@drawable/ic_log_in_aag</item>
-    <item name="flights_cost_summary_dialog_stripe" type="drawable">@drawable/bg_breakdown_candycane</item>
-    <item name="flight_cko_acct_btn_rewards_bg" type="drawable">@drawable/btn_login_hotels_aag</item>
+    <item name="tablet_checkout_login_logo" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
+    <item name="brand_logo" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
+    <item name="material_checkout_account_logo" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
 </resources>
