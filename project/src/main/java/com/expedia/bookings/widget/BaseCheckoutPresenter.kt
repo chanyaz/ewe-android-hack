@@ -283,6 +283,16 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                     }
                 }).subscribe()
 
+        slideToPurchaseLayout.setOnClickListener {
+            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                if (ckoViewModel.builder.hasValidParams()) {
+                    ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
+                } else {
+                    ckoViewModel.slideAllTheWayObservable.onNext(Unit)
+                }
+            }
+        }
+
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
@@ -473,11 +483,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     fun animateInSlideToPurchase(visible: Boolean) {
         val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
         if (isSlideToPurchaseLayoutVisible) {
-            if (AccessibilityUtil.isTalkBackEnabled(context)) {
-                slideToPurchaseLayout.setOnClickListener {
-                    ckoViewModel.slideToBookA11yActivateObservable.onNext(Unit)
-                }
-            }
             trackShowSlideToPurchase()
         }
         slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible

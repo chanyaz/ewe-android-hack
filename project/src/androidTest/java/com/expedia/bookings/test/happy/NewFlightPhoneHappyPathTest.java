@@ -121,8 +121,8 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.enterCreditCard();
 		PackageScreen.completePaymentForm();
 		PackageScreen.clickPaymentDone();
-
 		PackageScreen.clickLegalInformation();
+
 		assertLegalInformation();
 		Common.pressBack();
 
