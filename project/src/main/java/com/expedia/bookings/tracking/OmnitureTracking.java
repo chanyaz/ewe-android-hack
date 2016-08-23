@@ -5270,9 +5270,11 @@ public class OmnitureTracking {
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
 
 		String itineraryType;
+		BigDecimal outBoundFlightPrice = trip.totalPrice.amount;
 		switch (getFlightItineraryType()) {
 		case SPLIT_TICKET:
 			itineraryType = "ST";
+			outBoundFlightPrice = trip.getDetails().offer.splitFarePrice.get(0).totalPrice.amount;
 			break;
 		case ONE_WAY:
 			itineraryType = "OW";
@@ -5286,11 +5288,12 @@ public class OmnitureTracking {
 		}
 
 		String outBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.first.airlineCode,
-			itineraryType, trip.getDetails().offer.numberOfTickets, trip.totalPrice.amount);
+			itineraryType, trip.getDetails().offer.numberOfTickets, outBoundFlightPrice);
 
 		if (itineraryType.equalsIgnoreCase("ST")) {
+			BigDecimal inBoundFlightPrice = trip.getDetails().offer.splitFarePrice.get(1).totalPrice.amount;
 			String inBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.second.airlineCode,
-				itineraryType, trip.getDetails().offer.numberOfTickets, trip.totalPrice.amount);
+				itineraryType, trip.getDetails().offer.numberOfTickets, inBoundFlightPrice);
 
 			return outBoundFlight + "," + inBoundFlight;
 

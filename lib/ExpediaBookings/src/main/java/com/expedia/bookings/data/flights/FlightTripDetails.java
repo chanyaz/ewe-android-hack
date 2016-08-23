@@ -37,6 +37,7 @@ public class FlightTripDetails {
 		public boolean mayChargeOBFees;
 		public String numberOfTickets;
 		public int seatsRemaining;
+		public List<SplitFarePrice> splitFarePrice;
 
 		public List<InsuranceProduct> availableInsuranceProducts;
 		public InsuranceProduct selectedInsuranceProduct;
@@ -44,6 +45,10 @@ public class FlightTripDetails {
 		public Money getBookingFee() {
 			return new Money(fees, currency);
 		}
+	}
+
+	public class SplitFarePrice {
+		public Money totalPrice;
 	}
 
 	public class PricePerPassengerCategory implements Comparable<PricePerPassengerCategory> {
