@@ -257,15 +257,6 @@
             android:layout="@layout/preference"
             android:title="Show hotel address and map in receipt - 8129" />
 
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="9642"
-            android:summary="%s"
-            android:layout="@layout/preference"
-            android:title="Hotels Checkout Show Debit/Credit Hint - 9642" />
-
     </PreferenceCategory>
 
     <PreferenceCategory

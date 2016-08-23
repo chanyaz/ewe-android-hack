@@ -159,7 +159,7 @@
                         android:layout_gravity="bottom"
                         android:focusable="true"
                         android:focusableInTouchMode="true"
-                        android:hint="@string/credit_card_hint"
+                        android:hint="@string/credit_debit_card_hint"
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/edit_creditcard_cvv"
                         android:paddingLeft="48dp"

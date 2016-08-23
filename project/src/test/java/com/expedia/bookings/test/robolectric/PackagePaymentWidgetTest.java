@@ -133,12 +133,6 @@ public class PackagePaymentWidgetTest {
 	}
 
 	@Test
-	public void testCreditCardHint() {
-		assertEquals("All Hotel A/B tests must be disabled for packages",
-			packagePaymentWidget.getCreditCardNumberHintResId(), R.string.credit_card_hint);
-	}
-
-	@Test
 	public void testIsAtLeastPartiallyFilled() {
 		packagePaymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
 		packagePaymentWidget.getCardInfoContainer().performClick();

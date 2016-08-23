@@ -135,7 +135,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             sectionLocation.setLineOfBusiness(lob)
             storedCreditCardList.setLineOfBusiness(lob)
             if (lob == LineOfBusiness.HOTELS) {
-                creditCardNumber.setHint(getCreditCardNumberHintResId())
+                creditCardNumber.setHint(R.string.credit_debit_card_hint)
             }
         }
         vm.cardIOBillingInfo.subscribe { info ->
@@ -204,7 +204,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             compositeSubscription?.add(creditCardNumber.subscribeTextChange(formFilledSubscriber))
             compositeSubscription?.add(creditCardName.subscribeTextChange(formFilledSubscriber))
             compositeSubscription?.add(creditCardPostalCode.subscribeTextChange(formFilledSubscriber))
-            creditCardNumber.setHint(getCreditCardNumberHintResId())
+            creditCardNumber.setHint(R.string.credit_debit_card_hint)
         } else {
             compositeSubscription?.unsubscribe();
         }
@@ -587,15 +587,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     open fun isSecureToolbarBucketed() : Boolean {
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)
     }
-
-    open fun getCreditCardNumberHintResId() : Int {
-        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest)) {
-            return R.string.credit_debit_card_hint
-        } else {
-            return R.string.credit_card_hint
-        }
-    }
-
+    
     private fun temporarilySavedCardIsSelected(isSelected: Boolean, info: BillingInfo?) {
         info?.saveCardToExpediaAccount = isSelected
     }

@@ -51,7 +51,7 @@ public class PackagesCheckoutTest extends PackageTestCase {
 
 		PackageScreen.clickPaymentInfo();
 		Espresso.closeSoftKeyboard();
-		onView(withId(R.id.edit_creditcard_number)).check(matches(withInfoText(" Credit Card number")));
+		onView(withId(R.id.edit_creditcard_number)).check(matches(withInfoText(" Enter new Debit/Credit Card")));
 		onView(withId(R.id.edit_creditcard_exp_text_btn))
 			.check(matches(withInfoText(" Expiration Date, Opens dialog")));
 		onView(withId(R.id.edit_creditcard_cvv)).check(matches(withInfoText(" CVV")));
@@ -68,7 +68,7 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		PackageScreen.enterCreditCard();
 		PackageScreen.completePaymentForm();
 		onView(withId(R.id.edit_creditcard_number))
-			.check(matches(withInfoText(" Credit Card number, 4111111111111111")));
+			.check(matches(withInfoText(" Enter new Debit/Credit Card, 4111111111111111")));
 		LocalDate monthDate = LocalDate.now();
 		LocalDate yearDate = LocalDate.now();
 		yearDate = yearDate.plusYears(1);

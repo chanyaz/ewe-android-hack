@@ -69,10 +69,6 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         return false
     }
 
-    override fun getCreditCardNumberHintResId(): Int {
-        return R.string.credit_card_hint
-    }
-
     override fun close() {
         clearBackStack()
         val activity = context as Activity
