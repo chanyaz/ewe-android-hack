@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -56,13 +54,9 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             sliderPurchaseLayoutContentDescription.onNext(sliderPurchaseContDesc)
         }
 
-        checkoutParams.subscribe { params ->
-            params as PackageCheckoutParams
-            if (User.isLoggedIn(context)) {
-                params.billingInfo.email = Db.getUser().primaryTraveler.email
-            }
+        checkoutParams.subscribe { params -> params as PackageCheckoutParams
             packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
-            email = params.billingInfo.email
+            email = params.travelers.first().email
         }
     }
 

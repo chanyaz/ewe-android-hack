@@ -54,7 +54,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             params.put(prefix + "phoneCountryCode", travelers[i].phoneCountryCode)
             params.put(prefix + "phone", travelers[i].phoneNumber)
             if (isPrimaryTraveler) {
-                params.put(prefix + "email", billingInfo.email)
+                params.put(prefix + "email", travelers[i].email)
             }
             params.put(prefix + "birthDate", dtf.print(travelers[i].birthDate))
             params.put(prefix + "gender", travelers[i].gender)

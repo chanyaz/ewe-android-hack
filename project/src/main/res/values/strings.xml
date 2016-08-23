@@ -2245,7 +2245,7 @@
     <string name="cardholder_name_hint">Cardholder name</string>
     <!-- email hint -->
     <string name="email_address_hint">Email Address</string>
-    <!-- email hint for packages billing info screen, used to send the confirmation email -->
+    <!-- email hint for packages traveler entry screen, used to send the confirmation email -->
     <string name="email_address_hint_confirmation">Email Address (for confirmation)</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Phone Number</string>

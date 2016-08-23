@@ -204,6 +204,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         slideToPurchase.addSlideToListener(this)
 
         loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), getLineOfBusiness())
+        travelerPresenter.onLogin(User.isLoggedIn(context))
         hintContainer.visibility = if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
         if (User.isLoggedIn(context)) {
             val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
@@ -427,7 +428,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         animateInSlideToPurchase(false)
         updateDbTravelers()
         updateTravelerPresenter()
-        paymentWidget.sectionBillingInfo.refreshOnLoginStatusChange()
+        travelerPresenter.onLogin(false)
         loginWidget.bind(false, false, null, getLineOfBusiness())
         paymentWidget.viewmodel.userLogin.onNext(false)
         hintContainer.visibility = View.VISIBLE
@@ -474,8 +475,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
         lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
         travelerManager.onSignIn(context)
+        travelerPresenter.onLogin(true)
         updateTravelerPresenter()
-        paymentWidget.sectionBillingInfo.refreshOnLoginStatusChange()
         animateInSlideToPurchase(true)
         doCreateTrip()
     }

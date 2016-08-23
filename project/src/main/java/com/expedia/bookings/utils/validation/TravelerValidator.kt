@@ -25,7 +25,7 @@ class TravelerValidator {
     fun isValidForBooking(traveler: Traveler, index: Int, passportRequired: Boolean): Boolean {
         return hasValidBirthDate(traveler) && hasValidName(traveler.name)
                 && (!TravelerUtils.isMainTraveler(index) || isValidPhone(traveler.phoneNumber)) && hasValidGender(traveler)
-                && (!passportRequired || hasValidPassport(traveler))
+                && (!passportRequired || hasValidPassport(traveler)) && (index > 0 || isValidEmail(traveler.email))
     }
 
     fun hasValidGender(traveler: Traveler): Boolean {
@@ -51,6 +51,10 @@ class TravelerValidator {
 
     fun isMiddleNameValid(name: String?) : Boolean {
         return hasAllValidChars(name)
+    }
+
+    fun isValidEmail(email: String?): Boolean {
+        return CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == ValidationError.NO_ERROR
     }
 
     fun hasAllValidChars(name: String?): Boolean {

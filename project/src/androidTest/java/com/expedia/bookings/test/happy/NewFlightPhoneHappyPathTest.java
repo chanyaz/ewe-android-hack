@@ -109,7 +109,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		PackageScreen.enterFirstName("Eidur");
 		PackageScreen.enterLastName("Gudjohnsen");
+		PackageScreen.enterEmail("test@gmail.com");
+		Espresso.closeSoftKeyboard();
 		PackageScreen.enterPhoneNumber("4155554321");
+		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(1989, 6, 9);
 		PackageScreen.selectGender("Male");
 		PackageScreen.clickTravelerAdvanced();
@@ -165,6 +168,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		PackageScreen.enterFirstName("Eidur");
 		PackageScreen.enterLastName("Gudjohnsen");
+		PackageScreen.enterEmail("test@gmail.com");
 		PackageScreen.enterPhoneNumber("4155554321");
 		PackageScreen.selectBirthDate(1989, 6, 9);
 		PackageScreen.selectGender("Male");

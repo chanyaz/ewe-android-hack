@@ -108,7 +108,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnText(expectedTravelerOneText);
 		enterValidTraveler(true);
 		EspressoUser.clickOnText(expectedTravelerTwoText);
-		enterValidTraveler(false);
+		enterValidTraveler(false, false);
 
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_default_state);
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.validated);
@@ -162,6 +162,10 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		PackageScreen.enterLastName(testLastName);
 		PackageScreen.clickTravelerDone();
 
+		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getEmailEntryView().getEmailAddress().hasFocus());
+		PackageScreen.enterEmail(testEmail);
+		PackageScreen.clickTravelerDone();
+
 		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getPhoneEntryView().getPhoneNumber().hasFocus());
 		PackageScreen.clickTravelerDone();
 
@@ -177,6 +181,8 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getFirstName().hasFocus());
 		PackageScreen.clickTravelerDone();
 		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getNameEntryView().getLastName().hasFocus());
+		PackageScreen.clickTravelerDone();
+		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getEmailEntryView().getEmailAddress().hasFocus());
 		PackageScreen.clickTravelerDone();
 		assertEquals(true, testTravelerPresenter.getTravelerEntryWidget().getPhoneEntryView().getPhoneNumber().hasFocus());
 		PackageScreen.enterPhoneNumber(testPhone);

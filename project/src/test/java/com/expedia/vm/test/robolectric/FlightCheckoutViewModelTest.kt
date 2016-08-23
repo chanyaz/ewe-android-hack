@@ -320,7 +320,6 @@ class FlightCheckoutViewModelTest {
         val billingInfo = BillingInfo()
         billingInfo.expirationDate = LocalDate()
         billingInfo.location = Location()
-        billingInfo.email = "test@expedia.com"
         return billingInfo
     }
 
@@ -329,6 +328,7 @@ class FlightCheckoutViewModelTest {
         val traveler = Traveler()
         traveler.middleName = ""
         traveler.birthDate = LocalDate()
+        traveler.email = ""
         traveler.setPassengerCategory(PassengerCategory.ADULT)
         traveler.redressNumber = ""
         params = FlightCheckoutParams.Builder()

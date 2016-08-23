@@ -26,6 +26,7 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		Espresso.closeSoftKeyboard();
 		onView(withId(R.id.first_name_input)).check(matches(withInfoText(" First Name, ")));
 		onView(withId(R.id.last_name_input)).check(matches(withInfoText(" Last Name, ")));
+		onView(withId(R.id.edit_email_address)).check(matches(withInfoText(" Email Address (for confirmation), ")));
 		onView(withId(R.id.edit_phone_number)).check(matches(withInfoText(" Phone Number, ")));
 		onView(withId(R.id.edit_birth_date_text_btn)).check(matches(withInfoText(" Date of Birth, ")));
 		PackageScreen.clickTravelerAdvanced();
@@ -36,6 +37,8 @@ public class PackagesCheckoutTest extends PackageTestCase {
 		PackageScreen.enterTravelerInfo();
 		onView(withId(R.id.first_name_input)).check(matches(withInfoText(" First Name, FiveStar")));
 		onView(withId(R.id.last_name_input)).check(matches(withInfoText(" Last Name, Bear")));
+		onView(withId(R.id.edit_email_address))
+			.check(matches(withInfoText(" Email Address (for confirmation), noah@mobiata.com")));
 		onView(withId(R.id.edit_phone_number)).check(matches(withInfoText(" Phone Number, 7732025862")));
 		onView(withId(R.id.edit_birth_date_text_btn)).check(matches(withInfoText(" Date of Birth, Jan 1, 1900")));
 		onView(withId(R.id.redress_number)).check(matches(withInfoText(" Redress # (if applicable), 1234567")));
@@ -53,7 +56,6 @@ public class PackagesCheckoutTest extends PackageTestCase {
 			.check(matches(withInfoText(" Expiration Date, Opens dialog")));
 		onView(withId(R.id.edit_creditcard_cvv)).check(matches(withInfoText(" CVV")));
 		onView(withId(R.id.edit_name_on_card)).check(matches(withInfoText(" Cardholder name")));
-		onView(withId(R.id.edit_email_address)).check(matches(withInfoText(" Email Address (for confirmation)")));
 		onView(withId(R.id.edit_address_line_one)).check(matches(withInfoText(" Address line 1")));
 		onView(withId(R.id.edit_address_line_two)).check(matches(withInfoText(" Address line 2 (optional)")));
 		onView(withId(R.id.edit_address_city)).check(matches(withInfoText(" City")));
@@ -76,8 +78,6 @@ public class PackagesCheckoutTest extends PackageTestCase {
 			.check(matches(withInfoText(" Expiration Date, " + dateString + ", Opens dialog")));
 		onView(withId(R.id.edit_creditcard_cvv)).check(matches(withInfoText(" CVV")));
 		onView(withId(R.id.edit_name_on_card)).check(matches(withInfoText(" Cardholder name, Mobiata Auto")));
-		onView(withId(R.id.edit_email_address))
-			.check(matches(withInfoText(" Email Address (for confirmation), test@email.com")));
 		onView(withId(R.id.edit_address_line_one))
 			.check(matches(withInfoText(" Address line 1, 123 California Street")));
 		onView(withId(R.id.edit_address_line_two)).check(matches(withInfoText(" Address line 2 (optional)")));

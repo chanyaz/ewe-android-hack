@@ -13,7 +13,7 @@ class MockTravelerProvider {
     val testFirstName = "Oscar"
     val testMiddleName = "The"
     val testLastName = "Grouch"
-
+    val testEmail = "test@gmail.com"
     val testFullName = "Oscar The Grouch"
     val testNumber = "773202LUNA"
     val testEmptyNumber = ""
@@ -28,6 +28,7 @@ class MockTravelerProvider {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidTravelerName())
         Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
+        Mockito.`when`(mockTraveler.email).thenReturn(testEmail)
         Mockito.`when`(mockTraveler.primaryPhoneNumber).thenReturn(mockPhone)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testNumber)
         Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
@@ -49,6 +50,7 @@ class MockTravelerProvider {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidTravelerName())
         Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
+        Mockito.`when`(mockTraveler.email).thenReturn(testEmail)
         Mockito.`when`(mockTraveler.primaryPhoneNumber).thenReturn(mockPhone)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testEmptyNumber)
         Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)
@@ -74,6 +76,7 @@ class MockTravelerProvider {
         val mockTraveler = Mockito.mock(Traveler::class.java)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidTravelerName())
         Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
+        Mockito.`when`(mockTraveler.email).thenReturn(testEmail)
         Mockito.`when`(mockTraveler.primaryPhoneNumber).thenReturn(mockPhone)
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(testNumber)
         Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.ADULT)

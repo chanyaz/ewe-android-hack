@@ -47,6 +47,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		PackageScreen.enterFirstName(testFirstName);
 		PackageScreen.enterLastName(testLastName);
+		PackageScreen.enterEmail(testEmail);
+		Espresso.closeSoftKeyboard();
 		PackageScreen.enterPhoneNumber(testPhone);
 		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(06,20,1990);
