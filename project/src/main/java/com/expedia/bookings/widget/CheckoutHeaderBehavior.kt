@@ -27,8 +27,7 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
 
             child.checkInOutDates.alpha = 1 - (percentage * 2)
             child.travelers.alpha = 1 - (percentage * 2)
-
-            if (textViewLeftX == 0 || textViewWidth == 0 || toolBarRightX == 0) {
+            if (percentage == 0f || textViewLeftX == 0 || textViewWidth == 0 || toolBarRightX == 0) {
                 setupValues(child, dependency)
             }
 
@@ -56,8 +55,10 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
 
     private fun setupValues(child: CheckoutOverviewHeader, dependency: View) {
         val toolbar = dependency.findViewById(R.id.checkout_toolbar) as CheckoutToolbar
-        textViewLeftX = getLocation(child.destinationText)[0]
         textViewWidth = child.destinationText.width
+        val fullWidth = child.width
+        child.destinationText.x = (fullWidth / 2f) - (textViewWidth/2f)
+        textViewLeftX = getLocation(child.destinationText)[0]
         toolBarRightX = getLocation(toolbar.getChildAt(0))[0] + toolbar.getChildAt(0).width
         child.destinationText.maxWidth = child.width - (toolBarRightX * 2)
         AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
