@@ -245,7 +245,7 @@
             android:theme="@style/FlightTheme.CheckoutForms"
             tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.activity.FlightRulesActivity"
+            android:name="com.expedia.bookings.activity.FlightAndPackagesRulesActivity"
             android:label="@string/legal_information"
             android:resizeableActivity="false"
             android:theme="@style/FlightTheme.Rules"

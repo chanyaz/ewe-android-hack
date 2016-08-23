@@ -1,8 +1,10 @@
 package com.expedia.vm.packages
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.text.Html
+import android.text.SpannableStringBuilder
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.packages.PackageCheckoutParams
@@ -45,7 +47,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             }
             depositPolicyText.onNext(Html.fromHtml(depositText))
 
-            legalText.onNext(StrUtils.generateHotelsBookingStatement(context, PointOfSale.getPointOfSale().hotelBookingStatement.toString(), false))
+            legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
             val totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
                     .put("dueamount", it.getTripTotalExcludingFee().formattedMoneyFromAmountAndCurrencyCode)
                     .format().toString()

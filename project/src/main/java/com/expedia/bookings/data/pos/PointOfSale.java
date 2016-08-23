@@ -861,6 +861,13 @@ public class PointOfSale {
 		return "FAIL FAIL FAIL LOC NEEDED: flightBookingStatement";
 	}
 
+	public CharSequence getColorizedPackagesBookingStatement(int color) {
+		if (!TextUtils.isEmpty(getPosLocale().getPackagesBookingStatement())) {
+			return StrUtils.getSpannableTextByColor(getPosLocale().getPackagesBookingStatement(), color, false);
+		}
+		return null;
+	}
+
 	public int getDualLanguageId() {
 		return getPosLocale().getLanguageId();
 	}

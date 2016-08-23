@@ -5,11 +5,13 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Rule;
 
-public class FlightRulesFragmentV1 extends BaseFlightRulesFragment {
+public class FlightRulesFragmentV1 extends BaseRulesFragment {
 
 	private FlightTrip mFlightTrip;
 
@@ -22,6 +24,7 @@ public class FlightRulesFragmentV1 extends BaseFlightRulesFragment {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = super.onCreateView(inflater, container, savedInstanceState);
+		cancellationPolicyContainer.setVisibility(View.GONE);
 		if (mFlightTrip != null) {
 			Rule completeRule = mFlightTrip.getRule(RulesKeys.COMPLETE_PENALTY_RULES.getKey());
 			setRulesAndRestrictionHeader(v, completeRule.getUrl());
@@ -40,6 +43,7 @@ public class FlightRulesFragmentV1 extends BaseFlightRulesFragment {
 				, mAdditionalFeesTextView);
 
 			populateLccInfo();
+			mFareInformation.setText(R.string.fare_information);
 		}
 
 		return v;

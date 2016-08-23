@@ -163,7 +163,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertCheckout() {
 		onView(allOf(withId(R.id.legal_information_text_view), withText(
-			"By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.")))
+			"By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy and Fare Information.")))
 			.perform(ViewActions.waitForViewToDisplay())
 			.check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.purchase_total_text_view), withText("Your card will be charged $2,538.62")))

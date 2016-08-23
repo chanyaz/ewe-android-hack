@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightRulesActivity;
+import com.expedia.bookings.activity.FlightAndPackagesRulesActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.BillingInfo;
@@ -525,7 +525,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				@Override
 				public void run() {
 					Intent intent = new Intent(getActivity(),
-						getLob() == LineOfBusiness.FLIGHTS ? FlightRulesActivity.class : HotelRulesActivity.class);
+						getLob() == LineOfBusiness.FLIGHTS ? FlightAndPackagesRulesActivity.class : HotelRulesActivity.class);
 					intent.putExtra("LOB", getLob());
 					startActivity(intent);
 				}

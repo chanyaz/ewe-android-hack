@@ -8,6 +8,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -18,7 +19,7 @@ import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.Ui;
 
-public abstract class BaseFlightRulesFragment extends Fragment {
+public abstract class BaseRulesFragment extends Fragment {
 
 	protected enum RulesKeys {
 		COMPLETE_PENALTY_RULES("CompletePenaltyRules"),
@@ -49,6 +50,9 @@ public abstract class BaseFlightRulesFragment extends Fragment {
 	protected TextView mAdditionalFeesTextView;
 
 	protected TextView mLccTextView;
+	protected LinearLayout cancellationPolicyContainer;
+	protected TextView mCancellationTextView;
+	protected TextView mFareInformation;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -57,12 +61,15 @@ public abstract class BaseFlightRulesFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.fragment_flight_rules, container, false);
+		View v = inflater.inflate(R.layout.fragment_legal_rules, container, false);
 
 		mCompletePenaltyRulesTextView = Ui.findView(v, R.id.complete_penalty_rules_link_text_view);
 		mLiabilitiesLinkTextView = Ui.findView(v, R.id.liabilities_link_text_view);
 		mAdditionalFeesTextView = Ui.findView(v, R.id.additional_fee_text_view);
 		mLccTextView = Ui.findView(v, R.id.lcc_text_view);
+		cancellationPolicyContainer = Ui.findView(v, R.id.cancellation_policy_container);
+		mCancellationTextView = Ui.findView(v, R.id.cancellation_policy_text_view);
+		mFareInformation = Ui.findView(v, R.id.fare_information);
 		return v;
 	}
 
