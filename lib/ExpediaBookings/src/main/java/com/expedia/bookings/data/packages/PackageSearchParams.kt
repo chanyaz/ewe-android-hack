@@ -64,7 +64,10 @@ open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, 
         val params = HashMap<String, Any?>()
         if (pageType != null) params.put("pageType", pageType)
         params.put("originId", origin?.hierarchyInfo?.airport?.multicity)
-        params.put("destinationId", destination?.hierarchyInfo?.airport?.multicity)
+
+        //Send gaiaId as the region id for destination to get the correct hotels
+        //Destination on pkgs can be a non-airport too For e.g. Zion national park,UT
+        params.put("destinationId", destination?.gaiaId)
         params.put("ftla", origin?.hierarchyInfo?.airport?.airportCode)
         params.put("ttla", destination?.hierarchyInfo?.airport?.airportCode)
         params.put("fromDate", startDate.toString())

@@ -59,6 +59,38 @@ class PackageSearchParamsTest {
     }
 
     @Test
+    fun testOriginIdString() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        var paramsMap = params.toQueryMap()
+        assertEquals("123", paramsMap["originId"])
+    }
+
+    @Test
+    fun testDestinationIdString() {
+        val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
+                activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
+                .origin(getDummySuggestion("123"))
+                .destination(getDummySuggestion("456"))
+                .adults(1)
+                .children(listOf(10,2))
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .build() as PackageSearchParams
+
+        var paramsMap = params.toQueryMap()
+        assertEquals("1011", paramsMap["destinationId"])
+    }
+
+    @Test
     fun testChildrenString() {
         val params = PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
@@ -152,7 +184,7 @@ class PackageSearchParamsTest {
 
     private fun getDummySuggestion(code: String): SuggestionV4 {
         val suggestion = SuggestionV4()
-        suggestion.gaiaId = ""
+        suggestion.gaiaId = "1011"
         suggestion.regionNames = SuggestionV4.RegionNames()
         suggestion.regionNames.displayName = ""
         suggestion.regionNames.fullName = ""
