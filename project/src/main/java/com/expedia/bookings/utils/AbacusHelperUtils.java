@@ -88,6 +88,7 @@ public class AbacusHelperUtils {
 			return mc1CookieAndAbacusGuidNewUuid(context);
 		}
 		else if (abacusGuid.equals(mc1Cookie)) {
+			Db.setAbacusGuid(abacusGuid);
 			return abacusGuid;
 		}
 		return abacusGuidToMC1Cookie(context, mc1Cookie);
