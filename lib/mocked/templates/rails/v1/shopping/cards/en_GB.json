@@ -1,0 +1,79 @@
+{
+  "railCards": [
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_ANNUAL_GOLD",
+      "name": "UK Annual Gold Card",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_CHILD_DISABILITY",
+      "name": "UK Disability Child Railcard",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_DISABILITY",
+      "name": "UK Disability Railcard",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_FAMILY_FRIENDS",
+      "name": "UK Family and Friends Railcard",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_GROUPSAVE",
+      "name": "UK GroupSave",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_HM_ARMED_FORCES",
+      "name": "UK HM Forces Railcard",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_JOBCENTRE_PLUS",
+      "name": "UK Jobcentre Plus",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_NETWORK",
+      "name": "UK Network Railcard",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_SCOTTISH_YOUTH",
+      "name": "Scottish Youth Railcard",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_SENIOR",
+      "name": "UK Senior Railcard",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_TWO_TOGETHER",
+      "name": "UK Two Together",
+      "operator": "ATOC"
+    },
+    {
+      "category": "DISCOUNT_CARD",
+      "program": "UK_YOUTH",
+      "name": "UK Youth Railcard (16-25)",
+      "operator": "ATOC"
+    }
+  ],
+  "responseStatus": {
+    "status": "SUCCESS"
+  }
+}
