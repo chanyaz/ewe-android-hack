@@ -1,39 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--todo - update styles once we know colors for rail-->
-    <style name="V2.Theme.Rail" parent="Whitelabel.RailTheme.Base"/>
-
-    <style name="Whitelabel.RailTheme.Base" parent="AppTheme.Base.PackageTheme">
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorPrimaryDark">#04445e</item>
+    <style name="Theme.Rail" parent="AppTheme.Base">
         <item name="android:colorButtonNormal">@color/rail_primary_color</item>
-        <item name="colorAccent">@color/rail_primary_color</item>
         <item name="android:colorEdgeEffect">@color/rail_primary_color</item>
+
         <item name="primary_color">@color/rail_primary_color</item>
-        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
-        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
-        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
-        <item name="skin_hotelFilterBackground">@color/hotel_filter_background_color</item>
-        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
-        <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
-        <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
-        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
-        <item name="paymentWidgetLayout">@layout/billing_details_payment_widget</item>
-        <item name="sliderText">@string/package_slider_text</item>
-        <item name="hotel_promo_background_colors">@color/packages_secondary_color</item>
-        <item name="hotel_toggle_text_drawable">@drawable/hotel_package_toggle_text</item>
-        <item name="hotel_toggle_background_selector_drawable">@drawable/hotel_toggle_package_background_selector</item>
-        <item name="vip_info_select_ripple_drawable">@drawable/vip_info_package_select_ripple</item>
-        <item name="hotel_select_room_ripple_drawable">@drawable/hotel_package_select_room_ripple</item>
-        <item name="hotel_map_tooltip_pressed_drawable">@drawable/packages_tooltip_pressed</item>
-        <item name="hotel_map_tooltip_drawable">@drawable/packages_tooltip</item>
-        <item name="spinner_text_color_drawable">@drawable/package_traveler_text_color</item>
-        <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
+
         <item name="pickup_time_title">@string/rail_departing_at</item>
         <item name="dropoff_time_title">@string/rail_returning_at</item>
         <item name="search_calendar_card_view_text">@string/select_dates</item>
         <item name="spinner_traveler_text_color_drawable">@drawable/rail_traveler_text_color</item>
+
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+        <item name="paymentWidgetLayout">@layout/billing_details_payment_widget</item>
+
+        <!--TODO RENAME OR MOVE TO BASE-->
+        <item name="hotel_select_room_ripple_drawable">@drawable/hotel_package_select_room_ripple</item>
+        <item name="checkout_card_view_style">@style/CarsCardView</item>
+        <item name="traveler_checkout_circle_drawable">@drawable/packages_traveler_checkout_circle</item>
     </style>
 
     <style name="RailCell.CarrierText" parent="MaterialFlightCell.CarrierText" />

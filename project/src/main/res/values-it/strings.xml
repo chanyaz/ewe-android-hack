@@ -4129,7 +4129,7 @@
     <string name="trip_overview_cont_desc">Pulsante Visualizza i dettagli del viaggio</string>
 
     <!-- Slide to book -->
-    <string name="package_slider_text">Procedi alla prenotazione</string>
+    <string name="slide_to_book_text">Procedi alla prenotazione</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package -->
     <string name="package_confirmation_reward_points">{rewardpoints} punti {brand}+</string>

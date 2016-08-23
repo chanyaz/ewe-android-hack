@@ -52,7 +52,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                     .put("dueamount", it.getTripTotalExcludingFee().formattedMoneyFromAmountAndCurrencyCode)
                     .format().toString()
             sliderPurchaseTotalText.onNext(totalPrice)
-            val sliderPurchaseContDesc = totalPrice + "," + context.getString(R.string.package_slider_text) + "," + context.getString(R.string.accessibility_cont_desc_role_button)
+            val sliderPurchaseContDesc = totalPrice + "," + context.getString(R.string.slide_to_book_text) + "," + context.getString(R.string.accessibility_cont_desc_role_button)
             sliderPurchaseLayoutContentDescription.onNext(sliderPurchaseContDesc)
         }
 

@@ -4129,7 +4129,7 @@
     <string name="trip_overview_cont_desc">여행 세부 정보 보기 버튼</string>
 
     <!-- Slide to book -->
-    <string name="package_slider_text">밀어서 예약하기</string>
+    <string name="slide_to_book_text">밀어서 예약하기</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package -->
     <string name="package_confirmation_reward_points">{brand}+ {rewardpoints}포인트</string>

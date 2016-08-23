@@ -4129,7 +4129,7 @@
     <string name="trip_overview_cont_desc">按钮：查看行程详细信息</string>
 
     <!-- Slide to book -->
-    <string name="package_slider_text">滑动屏幕，开始预订</string>
+    <string name="slide_to_book_text">滑动屏幕，开始预订</string>
     <string name="hotel_city_country_TEMPLATE">{country}，{city}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package -->
     <string name="package_confirmation_reward_points">{rewardpoints}{brand}+ 奖励积分</string>

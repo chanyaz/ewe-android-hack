@@ -4129,7 +4129,7 @@
     <string name="trip_overview_cont_desc">Tombol Lihat Rincian Perjalanan</string>
 
     <!-- Slide to book -->
-    <string name="package_slider_text">Geser untuk memesan</string>
+    <string name="slide_to_book_text">Geser untuk memesan</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package -->
     <string name="package_confirmation_reward_points">{rewardpoints} Poin Rewards {brand}+</string>

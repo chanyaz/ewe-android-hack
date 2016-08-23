@@ -4129,7 +4129,7 @@
     <string name="trip_overview_cont_desc">Knapp för att se reseuppgifter</string>
 
     <!-- Slide to book -->
-    <string name="package_slider_text">Dra för att boka</string>
+    <string name="slide_to_book_text">Dra för att boka</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
     <!-- Confirmation Text indicating rewards points user got for the booked package -->
     <string name="package_confirmation_reward_points">{rewardpoints} poäng i {brand}+</string>
