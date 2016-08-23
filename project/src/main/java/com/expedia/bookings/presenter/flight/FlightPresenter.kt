@@ -103,6 +103,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             presenter.toolbarViewModel.date.onNext(params.departureDate)
         }
+        presenter.menuSearch.setOnMenuItemClickListener ({
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            true
+        })
         presenter.setupComplete()
         presenter
     }
@@ -118,6 +122,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 presenter.toolbarViewModel.date.onNext(params.returnDate)
             }
         }
+        presenter.menuSearch.setOnMenuItemClickListener ({
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            true
+        })
         presenter.setupComplete()
         presenter
     }
@@ -288,6 +296,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(outboundToError)
         addTransition(flightOverviewToError)
         addTransition(errorToSearch)
+        addTransition(searchToInbound)
     }
 
     val searchArgbEvaluator = ArgbEvaluator()
@@ -402,6 +411,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     private val searchToOutbound = SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java)
     private val restrictedSearchToOutbound = SearchToOutboundTransition(this, FlightSearchAirportDropdownPresenter::class.java, FlightOutboundPresenter::class.java)
+    private val searchToInbound = SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightInboundPresenter::class.java)
 
     private val defaultSearchTransition = object : Presenter.DefaultTransition(getDefaultSearchPresenterClassName()) {
         override fun endTransition(forward: Boolean) {
