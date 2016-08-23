@@ -277,7 +277,6 @@
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.bookings.activity.CarActivity"
             android:theme="@style/V2.Theme.Cars"
-            android:windowSoftInputMode="adjustNothing"
             tools:ignore="UnusedAttribute" />
 
         <!-- LX activity -->
@@ -290,7 +289,6 @@
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
             android:theme="@style/V2.Theme.LX"
-            android:windowSoftInputMode="adjustNothing"
             tools:ignore="UnusedAttribute" />
 
         <!-- New Hotel activity -->
