@@ -889,4 +889,11 @@
         <item>11:59 pm</item>
     </string-array>
 
+    <string-array name="countriesWithStateForBilling" tools:ignore="MissingTranslation">
+        <item>USA</item>
+        <item>MEX</item>
+        <item>AUS</item>
+        <item>CAN</item>
+    </string-array>
+
 </resources>

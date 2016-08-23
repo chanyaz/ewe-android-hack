@@ -35,7 +35,7 @@ class PaymentViewModel(val context: Context) {
     // inputs
     val splitsType = BehaviorSubject.create<PaymentSplitsType>(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)
     val isRedeemable = BehaviorSubject.create<Boolean>(false)
-    val billingInfoAndStatusUpdate = BehaviorSubject.create<Pair<BillingInfo?,ContactDetailsCompletenessStatus>>()
+    val billingInfoAndStatusUpdate = BehaviorSubject.create<Pair<BillingInfo?, ContactDetailsCompletenessStatus>>()
     val emptyBillingInfo = PublishSubject.create<Unit>()
     val storedCardRemoved = PublishSubject.create<StoredCreditCard?>()
     val showingPaymentForm = PublishSubject.create<Boolean>()
@@ -149,31 +149,31 @@ class PaymentViewModel(val context: Context) {
                     !tripItem.isPaymentTypeSupported(cardType)) {
                 val cardName = CreditCardUtils.getHumanReadableName(context, cardType)
                 message = when (lineOfBusiness.value) {
-                                LineOfBusiness.CARS -> {
-                                    resources.getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
-                                            (tripItem as TripBucketItemCar).mCarTripResponse.carProduct.vendor.name, cardName)
-                                }
+                    LineOfBusiness.CARS -> {
+                        resources.getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
+                                (tripItem as TripBucketItemCar).mCarTripResponse.carProduct.vendor.name, cardName)
+                    }
 
-                                LineOfBusiness.LX, LineOfBusiness.TRANSPORT -> {
-                                    resources.getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName)
-                                }
+                    LineOfBusiness.LX, LineOfBusiness.TRANSPORT -> {
+                        resources.getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName)
+                    }
 
-                                LineOfBusiness.HOTELS -> {
-                                    resources.getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName)
-                                }
+                    LineOfBusiness.HOTELS -> {
+                        resources.getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName)
+                    }
 
-                                LineOfBusiness.FLIGHTS_V2 -> {
-                                    resources.getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName)
-                                }
+                    LineOfBusiness.FLIGHTS_V2 -> {
+                        resources.getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName)
+                    }
 
-                                LineOfBusiness.PACKAGES -> {
-                                    Phrase.from(resources, R.string.package_does_not_accept_cardtype_TEMPLATE)
-                                            .put("card_type", cardName)
-                                            .format().toString()
-                                }
+                    LineOfBusiness.PACKAGES -> {
+                        Phrase.from(resources, R.string.package_does_not_accept_cardtype_TEMPLATE)
+                                .put("card_type", cardName)
+                                .format().toString()
+                    }
 
-                                else -> ""
-                        }
+                    else -> ""
+                }
             }
             invalidPaymentTypeWarning.onNext(message)
         }
@@ -188,7 +188,7 @@ class PaymentViewModel(val context: Context) {
         Observable.combineLatest(invalidPaymentTypeWarning, cardTypeSubject, showCardFeeLabelFun).subscribe()
 
         lineOfBusiness.subscribe { lob ->
-            isCreditCardRequired.onNext(lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2)
+            isCreditCardRequired.onNext(lobRequiresCreditCard(lob))
             val isPostalCodeRequired = when (lob) {
                 LineOfBusiness.HOTELS -> PointOfSale.getPointOfSale().requiresHotelPostalCode()
                 LineOfBusiness.CARS -> PointOfSale.getPointOfSale().requiresCarsPostalCode()
@@ -214,6 +214,12 @@ class PaymentViewModel(val context: Context) {
             cardIOBillingInfo.onNext(billingInfo)
             moveFocusToPostalCodeSubject.onNext(Unit)
         }
+    }
+
+    private fun lobRequiresCreditCard(lob: LineOfBusiness): Boolean {
+        return lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELS
+                || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2
+                || lob == LineOfBusiness.RAILS
     }
 
     fun setPaymentTileInfo(type: PaymentType?, title: String, subTitle: String, splitsType: PaymentSplitsType, completeStatus: ContactDetailsCompletenessStatus) {
