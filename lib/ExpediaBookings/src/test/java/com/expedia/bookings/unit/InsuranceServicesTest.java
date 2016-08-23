@@ -106,7 +106,7 @@ public class InsuranceServicesTest {
 	private TestSubscriber<FlightCreateTripResponse> createTrip(boolean withInsurance) throws Throwable {
 		String flightProductKey = getFlightOffer().productKey;
 		TestSubscriber<FlightCreateTripResponse> tripObserver = new TestSubscriber<>();
-		flightServices.createTrip(new FlightCreateTripParams(flightProductKey, withInsurance)).subscribe(tripObserver);
+		flightServices.createTrip(new FlightCreateTripParams(flightProductKey, withInsurance), tripObserver);
 		tripObserver.awaitTerminalEvent();
 		tripObserver.assertNoErrors();
 		return tripObserver;
@@ -135,7 +135,7 @@ public class InsuranceServicesTest {
 			.adults(1)
 			.build();
 
-		flightServices.flightSearch(flightSearchParams).subscribe(flightSearchObserver);
+		flightServices.flightSearch(flightSearchParams, flightSearchObserver);
 		flightSearchObserver.awaitTerminalEvent();
 		flightSearchObserver.assertNoErrors();
 		FlightSearchResponse flightSearchResponse = flightSearchObserver.getOnNextEvents().get(0);

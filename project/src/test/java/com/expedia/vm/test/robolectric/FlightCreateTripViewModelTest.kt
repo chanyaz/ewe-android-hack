@@ -1,35 +1,46 @@
 package com.expedia.vm.test.robolectric
 
-import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
-import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.ValidFormOfPayment
+import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightCreateTripViewModel
+import com.mobiata.mocke3.ExpediaDispatcher
+import com.mobiata.mocke3.FileSystemOpener
+import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
-import rx.subjects.BehaviorSubject
+import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
+import java.io.File
 import java.io.IOException
+import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
+import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class FlightCreateTripViewModelTest {
 
     private val context = RuntimeEnvironment.application
 
+    var server: MockWebServer = MockWebServer()
+        @Rule get
+
     lateinit private var sut: FlightCreateTripViewModel
     lateinit private var flightServices: FlightServices
     lateinit private var selectedCardFeeSubject: PublishSubject<ValidFormOfPayment?>
     lateinit private var params: FlightCreateTripParams
-    lateinit private var createTripResponseObservable: BehaviorSubject<FlightCreateTripResponse>
 
     @Before
     fun setup() {
@@ -43,28 +54,70 @@ class FlightCreateTripViewModelTest {
     @Test
     fun createTripRequestFired() {
         givenGoodCreateTripParams()
-        expectCreateTripCall()
+        assertNull(Db.getTripBucket().flightV2)
 
-        val testSubscriber = TestSubscriber<TripResponse>()
-        sut.tripResponseObservable.subscribe(testSubscriber)
+        val tripResponseSubscriber = TestSubscriber<TripResponse>()
+        val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
+        sut.tripResponseObservable.subscribe(tripResponseSubscriber)
+        sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
 
         sut.tripParams.onNext(params)
         sut.performCreateTrip.onNext(Unit)
 
-        testSubscriber.assertValueCount(1)
-        Mockito.verify(flightServices).createTrip(params)
+        tripResponseSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        tripResponseSubscriber.assertValueCount(1)
+        assertNotNull(Db.getTripBucket().flightV2)
+        showCreateTripDialogSubscriber.assertValues(true, false)
+    }
+
+    @Test
+    fun createTripPriceChange() {
+        givenCreateTripPriceChange()
+
+        val tripResponseSubscriber = TestSubscriber<TripResponse>()
+        val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
+        val priceChangeSubscriber = TestSubscriber<TripResponse>()
+        sut.tripResponseObservable.subscribe(tripResponseSubscriber)
+        sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
+        sut.priceChangeObservable.subscribe(priceChangeSubscriber)
+
+        sut.tripParams.onNext(params)
+        sut.performCreateTrip.onNext(Unit)
+
+        tripResponseSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        tripResponseSubscriber.assertValueCount(1)
+        priceChangeSubscriber.assertValueCount(1)
+        showCreateTripDialogSubscriber.assertValues(true, false)
+    }
+
+    @Test
+    fun createTripError() {
+        givenCreateTripResponseError()
+
+        val tripResponseSubscriber = TestSubscriber<TripResponse>()
+        val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
+        val errorSubscriber = TestSubscriber<ApiError>()
+        sut.tripResponseObservable.subscribe(tripResponseSubscriber)
+        sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
+        sut.createTripErrorObservable.subscribe(errorSubscriber)
+
+        sut.tripParams.onNext(params)
+        sut.performCreateTrip.onNext(Unit)
+
+        errorSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        tripResponseSubscriber.assertValueCount(0)
+        errorSubscriber.assertValueCount(1)
+        assertEquals(ApiError.Code.INVALID_INPUT, errorSubscriber.onNextEvents[0].errorCode)
+        showCreateTripDialogSubscriber.assertValues(true, false)
     }
 
     @Test
     fun networkErrorDialogCancel() {
         val noInternetTestSubscriber = TestSubscriber<Unit>()
         givenGoodCreateTripParams()
-        givenCreateTripCallWithIOException()
 
         sut.showNoInternetRetryDialog.subscribe(noInternetTestSubscriber)
-
-        sut.tripParams.onNext(params)
-        sut.performCreateTrip.onNext(Unit)
+        givenCreateTripCallWithIOException()
 
         noInternetTestSubscriber.assertValueCount(1)
     }
@@ -73,65 +126,45 @@ class FlightCreateTripViewModelTest {
     fun networkErrorDialogRetry() {
         val testSubscriber = TestSubscriber<Unit>()
         givenGoodCreateTripParams()
-        givenCreateTripCallWithIOException()
 
         sut.showNoInternetRetryDialog.subscribe(testSubscriber)
-        sut.tripParams.onNext(params)
-        sut.performCreateTrip.onNext(Unit)
+        givenCreateTripCallWithIOException()
 
         testSubscriber.assertValueCount(1)
     }
 
-    private fun createPaymentWithCardFee(): ValidFormOfPayment {
-        val validFormOfPayment = ValidFormOfPayment()
-        validFormOfPayment.name = "AmericanExpress"
-        validFormOfPayment.fee = "2.50"
-        validFormOfPayment.formattedFee = "$2.50"
-        validFormOfPayment.feeCurrencyCode = "USD"
-        return validFormOfPayment
+    private fun givenCreateTripCallWithIOException() {
+        sut.makeCreateTripResponseObserver().onError(IOException())
     }
 
-    private fun createPaymentWithZeroFees(): ValidFormOfPayment {
-        val validFormOfPayment = ValidFormOfPayment()
-        validFormOfPayment.name = "AmericanExpress"
-        validFormOfPayment.fee = "0"
-        validFormOfPayment.feeCurrencyCode = "USD"
-        return validFormOfPayment
-    }
-
-    private fun goodCreateTripResponse(): FlightCreateTripResponse {
-        val flightCreateTripResponse = FlightCreateTripResponse()
-        val flightTripDetails = FlightTripDetails()
-        flightTripDetails.offer = FlightTripDetails.FlightOffer()
-        flightTripDetails.offer.totalPrice = Money("42", "USD")
-        flightCreateTripResponse.details = flightTripDetails
-        return flightCreateTripResponse
-    }
-
-    private fun givenGoodCreateTripParams() {
-        val productKey = ""
+    private fun givenCreateTripResponseError() {
+        val productKey = "INVALID_INPUT"
         val withInsurance = false
         params = FlightCreateTripParams(productKey, withInsurance)
     }
 
-    private fun expectCreateTripCall(hasSelectedCardFees: Boolean = false, feeAmount: Int = 0) {
-        // Move this into helper
-        val expectedFlightCreateTripResponse = goodCreateTripResponse()
-        if (hasSelectedCardFees) {
-            expectedFlightCreateTripResponse.selectedCardFees = Money(feeAmount, "USD")
-        }
-        createTripResponseObservable = BehaviorSubject.create<FlightCreateTripResponse>()
-        createTripResponseObservable.onNext(expectedFlightCreateTripResponse)
-        Mockito.`when`(flightServices.createTrip(params)).thenReturn(createTripResponseObservable)
+    private fun givenCreateTripPriceChange() {
+        val productKey = "create_trip_price_change"
+        val withInsurance = false
+        params = FlightCreateTripParams(productKey, withInsurance)
     }
 
-    private fun givenCreateTripCallWithIOException() {
-        createTripResponseObservable = BehaviorSubject.create<FlightCreateTripResponse>()
-        createTripResponseObservable.onError(IOException())
-        Mockito.`when`(flightServices.createTrip(params)).thenReturn(createTripResponseObservable)
+    private fun givenGoodCreateTripParams() {
+        val productKey = "happy_roundtrip_0"
+        val withInsurance = false
+        params = FlightCreateTripParams(productKey, withInsurance)
     }
 
     private fun createMockFlightServices() {
-        flightServices = Mockito.mock(FlightServices::class.java)
+        val logger = HttpLoggingInterceptor()
+        val root = File("../lib/mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        val interceptor = MockInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        server.setDispatcher(ExpediaDispatcher(opener))
+        flightServices = FlightServices("http://localhost:" + server.port,
+                okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
+
 }

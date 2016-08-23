@@ -55,7 +55,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         }
 
         checkoutParams.subscribe { params -> params as FlightCheckoutParams
-            flightServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
+            flightServices.checkout(params.toQueryMap(), makeCheckoutResponseObserver())
             email = params.travelers.first().email
         }
 
@@ -95,7 +95,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         return ""
     }
 
-    private fun makeCheckoutResponseObserver(): Observer<FlightCheckoutResponse> {
+    fun makeCheckoutResponseObserver(): Observer<FlightCheckoutResponse> {
         return object : Observer<FlightCheckoutResponse> {
             override fun onNext(response: FlightCheckoutResponse) {
                 showCheckoutDialogObservable.onNext(false)

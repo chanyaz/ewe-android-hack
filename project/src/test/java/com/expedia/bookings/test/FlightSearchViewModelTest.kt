@@ -13,6 +13,8 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightSearchViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
@@ -24,6 +26,8 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowAlertDialog
 import rx.Observer
+import rx.Scheduler
+import rx.Subscription
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import rx.subjects.BehaviorSubject
@@ -88,7 +92,7 @@ class FlightSearchViewModelTest {
 
         assertEquals("", shadowOfNoInternetDialog.title)
         assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
-        Mockito.verify(service, Mockito.times(3)).flightSearch(flightSearchParams) // 1 original, 2 retries
+        assertEquals(3, (service as TestFlightServiceSearchThrowsException).searchCount) // 1 original, 2 retries
     }
 
     @Test
@@ -449,12 +453,26 @@ class FlightSearchViewModelTest {
         sut = FlightSearchViewModel(context, service)
     }
 
+    class TestFlightServiceSearchThrowsException(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, observeOn: Scheduler, subscribeOn: Scheduler) : FlightServices(endpoint, okHttpClient, interceptor, observeOn, subscribeOn) {
+        var searchCount = 0
+
+        override fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>): Subscription? {
+            searchCount++
+            observer.onError(IOException())
+            return null
+        }
+    }
+
     private fun givenFlightSearchThrowsIOException() {
-        val observableWithIOException = BehaviorSubject.create<FlightSearchResponse>()
-        observableWithIOException.onError(IOException())
-        service = Mockito.mock(FlightServices::class.java)
-        Mockito.`when`(service.flightSearch(flightSearchParams))
-                .thenReturn(observableWithIOException)
+        val logger = HttpLoggingInterceptor()
+        val root = File("../lib/mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        val interceptor = MockInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        server.setDispatcher(ExpediaDispatcher(opener))
+        service = TestFlightServiceSearchThrowsException("http://localhost:" + server.port,
+                okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 
     private fun givenMockServer() {

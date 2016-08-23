@@ -224,7 +224,7 @@ class FlightOffersViewModelTest {
         if (roundTrip) {
             paramsBuilder.endDate(endDate)
         }
-        flightServices.flightSearch(paramsBuilder.build()).subscribe(flightSearchResponseSubject)
+        flightServices.flightSearch(paramsBuilder.build(), flightSearchResponseSubject)
     }
 
     private fun makeFlightLegWithOBFees(legId: String): FlightLeg {

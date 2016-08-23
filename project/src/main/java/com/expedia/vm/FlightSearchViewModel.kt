@@ -46,7 +46,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         Ui.getApplication(context).travelerComponent().inject(this)
 
         searchParamsObservable.subscribe { params ->
-            flightServices.flightSearch(params).subscribe(makeResultsObserver())
+            flightServices.flightSearch(params, makeResultsObserver())
         }
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
@@ -208,7 +208,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
             override fun onError(e: Throwable) {
                 if (RetrofitUtils.isNetworkError(e)) {
                     val retryFun = fun() {
-                        flightServices.flightSearch(searchParamsObservable.value).subscribe(makeResultsObserver())
+                        flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver())
                     }
                     val cancelFun = fun() {
                         noNetworkObservable.onNext(Unit)
