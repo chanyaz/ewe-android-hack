@@ -55,6 +55,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val baggageFeeInfoWebView: BaggageFeeInfoWidget by lazy {
         val viewStub = findViewById(R.id.baggage_fee_stub) as ViewStub
         val baggageFeeView = viewStub.inflate() as BaggageFeeInfoWidget
+        baggageFeeView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         baggageFeeView.viewModel = WebViewViewModel()
         baggageFeeView
     }
@@ -62,6 +63,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
         val viewStub = findViewById(R.id.payment_fee_info_stub) as ViewStub
         val paymentFeeInfoWidget = viewStub.inflate() as PaymentFeeInfoWebView
+        paymentFeeInfoWidget.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         paymentFeeInfoWidget.viewModel = WebViewViewModel()
         paymentFeeInfoWidget
     }

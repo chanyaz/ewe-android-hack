@@ -1,14 +1,12 @@
 package com.expedia.bookings.presenter.flight
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
@@ -22,13 +20,13 @@ import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightCheckoutSummaryViewModel()
-    val airlinesChargePaymentFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
 
     val AIRLINEFEE_VIEW_TRANSITION_DURATION = 400
 
     val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
         val viewStub = findViewById(R.id.payment_fee_info_webview_stub) as ViewStub
         val airlineFeeWebview = viewStub.inflate() as PaymentFeeInfoWebView
+        airlineFeeWebview.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         airlineFeeWebview.viewModel = WebViewViewModel()
         airlineFeeWebview
     }
