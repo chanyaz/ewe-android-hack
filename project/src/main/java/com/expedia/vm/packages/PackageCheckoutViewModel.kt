@@ -34,8 +34,15 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
 
             var depositText = ""
             if (it.packageDetails.pricing.hasResortFee()) {
-                depositText = Phrase.from(context, R.string.package_resort_fee_disclaimer_TEMPLATE)
-                        .put("amount", it.packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoney)
+                val messageResId =
+                        if(PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
+                            R.string.package_resort_fees_and_total_price_disclaimer_TEMPLATE
+                        else
+                            R.string.package_resort_fees_disclaimer_TEMPLATE
+
+                depositText = Phrase.from(context, messageResId)
+                        .put("resort_fee", it.packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoney)
+                        .putOptional("trip_total", it.packageDetails.pricing.getBundleTotal().formattedPrice)
                         .format().toString()
             }
             depositPolicyText.onNext(Html.fromHtml(depositText))
