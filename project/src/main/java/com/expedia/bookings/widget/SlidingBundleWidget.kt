@@ -38,6 +38,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
     val bundleOverViewWidget: BundleWidget by bindView(R.id.bundle_widget)
     val bundlePriceFooter: TotalPriceWidget by bindView(R.id.total_price_widget)
     val bundleWidgetShadow: View by bindView(R.id.bundle_price_widget_shadow)
+    val bundlePriceWidgetContainer: View by bindView(R.id.bundle_price_widget_container)
 
     var translationDistance = 0f
     val statusBarHeight = Ui.getStatusBarHeight(context)
@@ -63,7 +64,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
                         })
                     } else {
                         bundlePriceFooter.translationY = -statusBarHeight.toFloat()
-                        translationY = height.toFloat() - bundlePriceWidget.height
+                        translationY = height.toFloat() - bundlePriceWidgetContainer.height
 
                         if (activity.intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
                             visibility = View.GONE
@@ -91,7 +92,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
     }
 
     fun updateBundleTransition(f: Float, forward: Boolean) {
-        val distance = height.toFloat() - bundlePriceWidget.height - translationDistance
+        val distance = height.toFloat() - bundlePriceWidgetContainer.height - translationDistance
         val pos = if (forward) Math.max(statusBarHeight.toFloat(), (1 - f) * translationDistance) else translationDistance + (f * distance)
         translateBundleOverview(pos)
     }
@@ -104,7 +105,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundlePriceWidget.bundleTotalPrice.visibility = if (forward) View.GONE else View.VISIBLE
         bundlePriceWidget.bundleChevron.rotation = if (forward) 180f else 0f
         bundlePriceWidget.setBackgroundColor(if (forward) ContextCompat.getColor(context, R.color.packages_primary_color) else Color.WHITE)
-        translationY = if (forward) statusBarHeight.toFloat() else height.toFloat() - bundlePriceWidget.height
+        translationY = if (forward) statusBarHeight.toFloat() else height.toFloat() - bundlePriceWidgetContainer.height
         isMoving = false
         bundlePriceWidget.contentDescription = bundlePriceWidget.viewModel.getAccessibleContentDescription(false, true, forward)
         if (forward && trackLoad) {
@@ -116,7 +117,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
     }
 
     fun translateBundleOverview(distance: Float) {
-        val distanceMax = height.toFloat() - bundlePriceWidget.height
+        val distanceMax = height.toFloat() - bundlePriceWidgetContainer.height
         val f = (distanceMax - distance) / distanceMax
         if (distance <= distanceMax && distance >= 0) {
             translationY = distance
@@ -137,8 +138,8 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
     }
 
     private fun animateBundleOverview(animDuration: Int, open: Boolean) {
-        val distanceMax = height.toFloat() - bundlePriceWidget.height
-        val end = if (open) statusBarHeight.toFloat() else height.toFloat() - bundlePriceWidget.height
+        val distanceMax = height.toFloat() - bundlePriceWidgetContainer.height
+        val end = if (open) statusBarHeight.toFloat() else distanceMax
         val animator = ObjectAnimator.ofFloat(this, "translationY", translationY, end)
         animator.duration = animDuration.toLong()
         animator.addListener(object : Animator.AnimatorListener {
