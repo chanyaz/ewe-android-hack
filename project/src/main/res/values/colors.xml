@@ -576,7 +576,7 @@
     <color name="new_launch_packages_lob_color">@color/exp_launch_packages_blue</color>
     <color name="new_launch_rail_lob_color">@color/exp_launch_rail_teal</color>
     <color name="new_launch_lob_disabled_color">@color/black</color>
-
+    <color name="new_launch_primary_color">@color/exp_lob_dark_blue</color>
     <color name="new_launch_lob_text_color">@color/exp_launch_dark_teal</color>
 
     <!-- hotels swp colors-->
