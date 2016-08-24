@@ -7,36 +7,48 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.utils.getFee
-import com.expedia.bookings.data.utils.getPaymentType
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
+import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-open class FlightCheckoutViewModel(context: Context, val flightServices: FlightServices, val selectedCardTypeSubject: PublishSubject<PaymentType?>) : BaseCheckoutViewModel(context) {
+open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(context) {
+
+    lateinit var flightServices: FlightServices
+        @Inject set
+
+    lateinit var cardFeeService: CardFeeService
+        @Inject set
+
+    lateinit var paymentViewModel: PaymentViewModel
+        @Inject set
 
     override val builder = FlightCheckoutParams.Builder()
 
+    val selectedCardFeeObservable = PublishSubject.create<Money>()
+
     // inputs
-    val validFormsOfPaymentSubject = BehaviorSubject.create<List<ValidFormOfPayment>>()
     val selectedFlightChargesFees = PublishSubject.create<String>()
     val obFeeDetailsUrlSubject = PublishSubject.create<String>()
 
@@ -44,18 +56,19 @@ open class FlightCheckoutViewModel(context: Context, val flightServices: FlightS
     val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
     val cardFeeTextSubject = PublishSubject.create<Spanned>()
     val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
-    val cardFeeForSelectedCard = PublishSubject.create<ValidFormOfPayment?>()
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>()
     val receivedCheckoutResponse = PublishSubject.create<Unit>()
 
     init {
+        Ui.getApplication(context).flightComponent().inject(this)
+
         val pointOfSale = PointOfSale.getPointOfSale()
 
         legalText.onNext(SpannableStringBuilder(pointOfSale.getColorizedFlightBookingStatement(ContextCompat.getColor(context, R.color.flight_primary_color))))
 
         tripResponseObservable.subscribe { it as FlightCreateTripResponse
             builder.tripId(it.newTrip.tripId)
-            builder.expectedTotalFare(it.totalPrice.amount.toString())
+            builder.expectedTotalFare(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())
             builder.expectedFareCurrencyCode(it.totalPrice.currency)
             builder.tealeafTransactionId(it.tealeafTransactionId)
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
@@ -67,7 +80,7 @@ open class FlightCheckoutViewModel(context: Context, val flightServices: FlightS
         }
 
         priceChangeObservable.subscribe { it as FlightCheckoutResponse
-            // TODO - update to totalPrice for subPub support
+            // TODO - update to totalPrice for subPub support when api is fixed to return totalPrice field from a priceChange response
             val flightTripDetails = it.details
             if (flightTripDetails != null) {
                 builder.expectedTotalFare(flightTripDetails.offer.totalFarePrice.amount.toString())
@@ -81,6 +94,54 @@ open class FlightCheckoutViewModel(context: Context, val flightServices: FlightS
 
         setupCardFeeSubjects()
         showDebitCardsNotAcceptedSubject.onNext(pointOfSale.doesNotAcceptDebitCardsForFlights())
+
+        paymentViewModel.cardBIN
+                .debounce(2, TimeUnit.SECONDS, getScheduler())
+                .subscribe(customerEnteredPaymentObserver())
+        paymentViewModel.storedPaymentInstrumentId.subscribe(customerEnteredPaymentObserver())
+    }
+
+    open protected fun getScheduler(): Scheduler = AndroidSchedulers.mainThread()
+
+    private fun customerEnteredPaymentObserver(): Observer<String> {
+        return object : Observer<String> {
+            override fun onNext(cardId: String) {
+                val flightCreateTripResponse = tripResponseObservable.value as FlightCreateTripResponse
+                val tripId = flightCreateTripResponse.newTrip.tripId!!
+                cardFeeService.getCardFees(tripId, cardId, getCardFeesCallback())
+            }
+
+            override fun onError(e: Throwable?) {
+                throw OnErrorNotImplementedException(e)
+            }
+            override fun onCompleted() {}
+        }
+    }
+
+    private fun getCardFeesCallback(): Observer<CardFeeResponse> {
+        return object: Observer<CardFeeResponse> {
+            override fun onNext(it: CardFeeResponse) {
+                if (!it.hasErrors()) {
+                    selectedPaymentHasCardFee(it.feePrice, it.tripTotalPrice)
+                }
+            }
+
+            override fun onCompleted() {}
+            override fun onError(e: Throwable?) {}
+        }
+    }
+
+    private fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
+        // add card fee to trip response
+        val newTripResponse = getCurrentCreateTripResponse()
+        newTripResponse.selectedCardFees = cardFee
+        newTripResponse.totalPriceIncludingFees = totalPriceInclFees
+        tripResponseObservable.onNext(newTripResponse)
+        selectedCardFeeObservable.onNext(cardFee)
+    }
+
+    private fun getCurrentCreateTripResponse(): FlightCreateTripResponse {
+        return tripResponseObservable.value as FlightCreateTripResponse
     }
 
     private fun setupCardFeeSubjects() {
@@ -97,34 +158,16 @@ open class FlightCheckoutViewModel(context: Context, val flightServices: FlightS
             }
         }).subscribe()
 
-        val selectedCardFeeObservable = selectedCardTypeSubject.map {
-            val selectedCardType = it
-            val validPaymentForms = validFormsOfPaymentSubject.value ?: emptyList()
-            val selectedCardFee = validPaymentForms.filter { it.getPaymentType() == selectedCardType }
-                    .filter { !it.fee.isNullOrEmpty() }
-                    .firstOrNull()
-            selectedCardFee
-        }
-
-        selectedCardFeeObservable.subscribe { // subscribe on normal thread
-            selectedCardFee ->
-            if (isFeeNotZero(selectedCardFee)) {
-                cardFeeForSelectedCard.onNext(selectedCardFee)
-            }
-            else {
-                cardFeeForSelectedCard.onNext(null)
-            }
-        }
         selectedCardFeeObservable
                 .debounce(1, TimeUnit.SECONDS, getScheduler()) // subscribe on ui thread as we're affecting ui elements
                 .subscribe {
                     selectedCardFee ->
-                    if (selectedCardFee != null && isFeeNotZero(selectedCardFee)) {
+                    if (selectedCardFee != null && !selectedCardFee.isZero) {
                         val cardFeeText = Phrase.from(context, R.string.airline_processing_fee_TEMPLATE)
-                                .put("card_fee", selectedCardFee.formattedFee)
+                                .put("card_fee", selectedCardFee.formattedPrice)
                                 .format().toString()
                         val cardFeeWarningText = Phrase.from(context, R.string.flights_card_fee_warning_TEMPLATE)
-                                .put("card_fee", selectedCardFee.formattedFee)
+                                .put("card_fee", selectedCardFee.formattedPrice)
                                 .format().toString()
                         paymentTypeSelectedHasCardFee.onNext(true)
                         cardFeeTextSubject.onNext(Html.fromHtml(cardFeeText))
@@ -136,12 +179,6 @@ open class FlightCheckoutViewModel(context: Context, val flightServices: FlightS
                     }
                 }
     }
-
-    private fun isFeeNotZero(selectedCardFee: ValidFormOfPayment?): Boolean {
-        return selectedCardFee != null && !selectedCardFee.getFee().isZero
-    }
-
-    open protected fun getScheduler(): Scheduler = AndroidSchedulers.mainThread()
 
     private fun makeCheckoutResponseObserver(): Observer<FlightCheckoutResponse> {
         return object : Observer<FlightCheckoutResponse> {

@@ -16,6 +16,7 @@ import com.google.gson.annotations.SerializedName;
 public class FlightCreateTripResponse extends TripResponse {
 	private FlightTripDetails details;
 	public Money totalPrice;
+	public Money totalPriceIncludingFees; // returned from ob fee service (Fees are driven by selected payment type)
 	public Money selectedCardFees;
 	public TripDetails newTrip;
 	public String tealeafTransactionId;
@@ -60,6 +61,9 @@ public class FlightCreateTripResponse extends TripResponse {
 	@NotNull
 	@Override
 	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
+		if (totalPriceIncludingFees != null) {
+			return totalPriceIncludingFees;
+		}
 		Money totalPriceWithFee = totalPrice.copy();
 		totalPriceWithFee.add(selectedCardFees);
 		return totalPriceWithFee;

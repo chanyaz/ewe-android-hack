@@ -218,6 +218,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
             viewmodel.cardTypeSubject.onNext(card.type)
+            if (card.id != null && !card.id.equals(viewmodel.storedPaymentInstrumentId.value)) {
+                viewmodel.storedPaymentInstrumentId.onNext(card.id)
+            }
             closePopup()
             trackPaymentStoredCCSelect()
         }
@@ -423,6 +426,14 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     private val billingInfoChangedListener: ISectionEditable.SectionChangeListener = ISectionEditable.SectionChangeListener {
         val cardType = sectionBillingInfo.billingInfo?.paymentType
         viewmodel.cardTypeSubject.onNext(cardType)
+        val cardNumber = sectionBillingInfo.billingInfo?.number
+        if (cardNumber != null && cardNumber.length >= 10) {
+            val currentCardBIN = viewmodel.cardBIN.value
+            val cardBIN = cardNumber.replace(" ", "").substring(0, 6)
+            if (!cardBIN.equals(currentCardBIN)) {
+                viewmodel.cardBIN.onNext(cardBIN)
+            }
+        }
     }
 
     /** Google Wallet **/

@@ -118,7 +118,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val checkoutDialog = ProgressDialog(context)
     val createTripDialog = ProgressDialog(context)
 
-    val paymentWidgetViewModel = PaymentViewModel(context)
     var userAccountRefresher = UserAccountRefresher(context, getLineOfBusiness(), this)
     var sliderHeight = 0f
     var checkoutButtonHeight = 0f
@@ -161,14 +160,15 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     init {
         View.inflate(context, R.layout.base_checkout_presenter, this)
+        injectComponents()
 
         insuranceServices = Ui.getApplication(context).appComponent().insurance()
         travelerManager = Ui.getApplication(context).travelerComponent().travelerManager()
 
         paymentWidget = paymentViewStub.inflate() as PaymentWidget
 
-        paymentWidgetViewModel.paymentTypeWarningHandledByCkoView.onNext(true)
-        paymentWidget.viewmodel = paymentWidgetViewModel
+        getPaymentWidgetViewModel().paymentTypeWarningHandledByCkoView.onNext(true)
+        paymentWidget.viewmodel = getPaymentWidgetViewModel()
 
         insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
@@ -583,6 +583,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         travelerPresenter.viewModel.refresh()
     }
 
+    abstract fun getPaymentWidgetViewModel(): PaymentViewModel
+    abstract fun injectComponents()
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateDbTravelers()
     abstract fun trackShowSlideToPurchase()

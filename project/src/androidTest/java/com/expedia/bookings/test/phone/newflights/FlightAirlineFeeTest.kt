@@ -10,6 +10,7 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
+import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.phone.hotels.HotelScreen
@@ -53,9 +54,10 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
     }
 
     private fun assertCheckoutOverviewCardFeeWarningShown() {
+        Common.delay(2) // We wait for a short delay (in implementation) jic customer changes their card
         onView(withId(R.id.card_fee_warning_text)).perform(ViewActions.waitForViewToDisplay())
                 .check(ViewAssertions.matches(isDisplayed()))
-                .check(ViewAssertions.matches(withText("The airline charges a processing fee of $2.94 for using this card (cost included in the trip total).")))
+                .check(ViewAssertions.matches(withText("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).")))
     }
 
     private fun assertPaymentFormCardFeeWarningNotShown() {
@@ -66,7 +68,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
     private fun assertPaymentFormCardFeeWarningShown() {
         onView(withId(R.id.card_processing_fee)).perform(ViewActions.waitForViewToDisplay())
                 .check(ViewAssertions.matches(isDisplayed()))
-                .check(ViewAssertions.matches(withText("Airline processing fee for this card: $2.94")))
+                .check(ViewAssertions.matches(withText("Airline processing fee for this card: $2.50")))
     }
 
     private fun signIn() {

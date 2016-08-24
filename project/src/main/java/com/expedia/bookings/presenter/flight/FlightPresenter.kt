@@ -33,6 +33,7 @@ import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
+import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.packages.PackageSearchType
@@ -41,8 +42,13 @@ import rx.Observable
 import javax.inject.Inject
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
+
     lateinit var flightServices: FlightServices
         @Inject set
+
+    lateinit var flightCreateTripViewModel: FlightCreateTripViewModel
+        @Inject set
+
     lateinit var travelerManager: TravelerManager
 
     val errorPresenter: FlightErrorPresenter by lazy {
@@ -272,7 +278,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.flightProductId.subscribe { productKey ->
             val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
             val createTripParams = FlightCreateTripParams(productKey, requestInsurance)
-            flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().tripParams.onNext(createTripParams)
+            flightCreateTripViewModel.tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
             flightOverviewPresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
