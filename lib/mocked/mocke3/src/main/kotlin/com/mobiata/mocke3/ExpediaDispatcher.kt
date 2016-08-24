@@ -20,12 +20,18 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private val packagesApiRequestDispatcher = PackagesApiRequestDispatcher(fileOpener)
     private val railApiRequestDispatcher = RailApiRequestDispatcher(fileOpener)
     private val feedsApiRequestDispatcher = FeedsApiRequestDispatcher(fileOpener)
+    private val cardFeeServiceRequestDispatcher = CardFeeServiceRequestDispatcher(fileOpener)
 
     @Throws(InterruptedException::class)
     override fun dispatch(request: RecordedRequest): MockResponse {
 
         if (!doesRequestHaveValidUserAgent(request)) {
             throw UnsupportedOperationException("Valid user-agent not passed. I expect to see a user-agent resembling: ExpediaBookings/x.x.x (EHad; Mobiata)")
+        }
+
+        // Card fee API
+        if (request.path.startsWith("/api/flight/trip/cardFee")) {
+            return cardFeeServiceRequestDispatcher.dispatch(request)
         }
 
         //Feeds API

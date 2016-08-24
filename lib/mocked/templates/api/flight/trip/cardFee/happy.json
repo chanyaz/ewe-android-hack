@@ -1,0 +1,15 @@
+{
+  "tripId":"e567996c-7194-4f08-8508-d367642481c4",
+  "feePrice":{
+    "amount":"2.50",
+    "formattedPrice":"$2.50",
+    "formattedWholePrice":"$2",
+    "currencyCode":"USD"
+  },
+  "tripTotalPrice":{
+    "amount":"44.50",
+    "formattedPrice":"$44.50",
+    "formattedWholePrice":"$44",
+    "currencyCode":"USD"
+  }
+}

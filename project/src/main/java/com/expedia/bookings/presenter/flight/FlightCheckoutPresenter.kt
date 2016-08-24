@@ -11,7 +11,6 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -21,12 +20,23 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
+import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.squareup.otto.Subscribe
 import rx.Observable
+import javax.inject.Inject
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
+
+    lateinit var flightCheckoutViewModel: FlightCheckoutViewModel
+        @Inject set
+
+    lateinit var flightCreateTripViewModel: FlightCreateTripViewModel
+        @Inject set
+
+    lateinit var paymentViewModel: PaymentViewModel
+        @Inject set
 
     val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
     var cardType: PaymentType? = null
@@ -57,10 +67,18 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             checkoutDialog.hide()
         }
 
-        paymentWidgetViewModel.cardTypeSubject.subscribe { paymentType ->
+        getPaymentWidgetViewModel().cardTypeSubject.subscribe { paymentType ->
             cardType = paymentType
         }
 
+    }
+
+    override fun getPaymentWidgetViewModel(): PaymentViewModel {
+        return paymentViewModel
+    }
+
+    override fun injectComponents() {
+        Ui.getApplication(context).flightComponent().inject(this)
     }
 
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
@@ -81,9 +99,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             isPassportRequired(response)
             trackShowBundleOverview()
         }
-
-        vm.tripResponseObservable.map { it.validFormsOfPayment }
-                                 .subscribe(getCheckoutViewModel().validFormsOfPaymentSubject)
     }
 
     private fun handlePriceChange(tripResponse: FlightCreateTripResponse) {
@@ -132,11 +147,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun makeCheckoutViewModel(): FlightCheckoutViewModel {
-        return FlightCheckoutViewModel(context, getFlightServices(), paymentWidgetViewModel.cardTypeSubject)
+        return flightCheckoutViewModel
     }
 
     override fun makeCreateTripViewModel(): FlightCreateTripViewModel {
-        return FlightCreateTripViewModel(context, getFlightServices(), getCheckoutViewModel().cardFeeForSelectedCard)
+        return flightCreateTripViewModel
     }
 
     override fun getCheckoutViewModel(): FlightCheckoutViewModel {
@@ -153,10 +168,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun showMainTravelerMinimumAgeMessaging(): Boolean {
         return false
-    }
-
-    private fun getFlightServices(): FlightServices {
-        return Ui.getApplication(context).flightComponent().flightServices()
     }
 
     private fun setupDontShowDebitCardVisibility() {

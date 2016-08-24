@@ -12,12 +12,25 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCreateTripViewModel
+import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageCreateTripViewModel
 import com.squareup.otto.Subscribe
+import javax.inject.Inject
 
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
+
+    lateinit var paymentViewModel: PaymentViewModel
+        @Inject set
+
+    override fun injectComponents() {
+        Ui.getApplication(context).packageComponent().inject(this)
+    }
+
+    override fun getPaymentWidgetViewModel(): PaymentViewModel {
+        return paymentViewModel
+    }
 
     override fun setupCreateTripViewModel(vm: BaseCreateTripViewModel) {
         vm as PackageCreateTripViewModel
