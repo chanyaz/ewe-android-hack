@@ -4,7 +4,10 @@ import android.app.Activity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.cars.CarSearchParam
+import com.expedia.bookings.utils.DateFormatUtils
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.cars.CarSearchViewModel
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -18,7 +21,7 @@ import kotlin.test.assertEquals
 class CarSearchViewModelTest {
     var vm: CarSearchViewModel by Delegates.notNull()
     var activity : Activity by Delegates.notNull()
-
+    val dateNow = LocalDate.now()
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -41,6 +44,7 @@ class CarSearchViewModelTest {
         // Select both start date and end date and search
         vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
         vm.searchObserver.onNext(Unit)
+
         expected.add(CarSearchParam.Builder()
                 .origin(suggestion)
                 .startDate(LocalDate.now())
@@ -74,6 +78,64 @@ class CarSearchViewModelTest {
         searchParamsTestSubscriber.assertValueCount(0)
     }
 
+    @Test
+    fun testOnTimesChanged() {
+        val dateTextTestSubscriber = TestSubscriber<CharSequence>()
+        val dateAccessibilityTestSubscriber = TestSubscriber<CharSequence>()
+        vm.dateTextObservable.subscribe(dateTextTestSubscriber)
+        vm.dateAccessibilityObservable.subscribe(dateAccessibilityTestSubscriber)
+        
+        //when start date is null
+        vm.onTimesChanged(Pair(36000, 4800000))
+        assertEquals(dateTextTestSubscriber.onNextEvents[0].toString(),"Select pick-up and drop-off dates")
+        assertEquals(dateAccessibilityTestSubscriber.onNextEvents[0].toString(),"Select travel dates. Button. Opens dialog")
+
+        //when start date is not null
+        val dates = Pair(dateNow,  dateNow.plusDays(3))
+        vm.datesObserver.onNext(dates)
+        vm.onTimesChanged(Pair(36000, 4800000))
+        var expectedDateText = dateFormatter(dateNow, dateNow.plusDays(3), Pair(36000, 4800000), false )
+        assertEquals(dateTextTestSubscriber.onNextEvents[1].toString(), expectedDateText );
+        var expectedDateTextAccessbility = dateFormatter(dateNow, dateNow.plusDays(3), Pair(36000, 4800000), true )
+        assertEquals(dateAccessibilityTestSubscriber.onNextEvents[1].toString(), "Car dates. Button. Opens dialog. " + expectedDateTextAccessbility )
+
+    }
+    @Test
+    fun testOnDatesChangedValidation() {
+        val dateInstructionTestSubscriber = TestSubscriber<CharSequence>()
+        val calendarTooltipTextTestSubscriber = TestSubscriber<Pair<String, String>>()
+        vm.dateInstructionObservable.subscribe(dateInstructionTestSubscriber)
+        vm.calendarTooltipTextObservable.subscribe(calendarTooltipTextTestSubscriber)
+
+        //When start date and end date are null
+        vm.datesObserver.onNext(Pair(null, null))
+        assertEquals(dateInstructionTestSubscriber.onNextEvents[0].toString(), "Select pick-up date")
+        assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[0].first, "Select dates")
+        assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[0].second, "Next: Select drop-off date")
+
+        //when start date is not null and end date is null
+        vm.datesObserver.onNext(Pair(dateNow.plusDays(3), null))
+        assertEquals(dateInstructionTestSubscriber.onNextEvents[1].toString(), DateUtils.localDateToMMMd(dateNow.plusDays(3))
+                + " - Select drop-off date")
+        assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[1].first, DateUtils.localDateToMMMd(dateNow.plusDays(3)))
+        assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[1].second, "Next: Select drop-off date")
+
+        //when start date and end date are not null
+        vm.datesObserver.onNext(Pair(dateNow, dateNow.plusDays(3)))
+        assertEquals(dateInstructionTestSubscriber.onNextEvents[2].toString(), DateUtils.localDateToMMMd(dateNow)
+                + " - " + DateUtils.localDateToMMMd(dateNow.plusDays(3)))
+        assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[2].first, DateUtils.localDateToMMMd(dateNow)
+                + " - " + DateUtils.localDateToMMMd(dateNow.plusDays(3)))
+        assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[2].second, "Drag to modify")
+
+    }
+
+    private fun dateFormatter(startDateTime: LocalDate, endDateTime: LocalDate, times: Pair<Int, Int>, isContentDescription: Boolean): String{
+        val (startMillis, endMillis) = times
+        var formattedString = DateFormatUtils.formatStartEndDateTimeRange(activity, DateUtils.localDateAndMillisToDateTime(startDateTime, startMillis),
+                DateUtils.localDateAndMillisToDateTime(endDateTime, endMillis), isContentDescription)
+        return formattedString
+    }
     private fun getDummySuggestion(): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
