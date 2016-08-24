@@ -154,16 +154,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	}
 
 	public void defaultScroll() {
-		getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				int height = getHeight();
-				if (height != 0) {
-					getViewTreeObserver().removeOnGlobalLayoutListener(this);
-					smoothScrollTo(0, getHeight());
-				}
-			}
-		});
+		smoothScrollTo(0, mInitialScrollTop);
 	}
 
 	public void cleanUp() {
