@@ -109,7 +109,7 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                         dockedOutboundFlightShadow.translationY = dockedOutboundFlightSelection.height.toFloat() + getToolbarSize()
                         recyclerView.translationY = dockedOutboundFlightSelection.height.toFloat()
                         var layoutParams: LayoutParams = recyclerView.layoutParams as LayoutParams
-                        layoutParams.bottomMargin += dockedOutboundFlightSelection.height / 2
+                        layoutParams.bottomMargin = dockedOutboundFlightSelection.height / 2
                     }
                 }
             })
