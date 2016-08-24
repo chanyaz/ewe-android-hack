@@ -28,7 +28,8 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
     val errorMessageObservable = BehaviorSubject.create<String>()
     val titleObservable = BehaviorSubject.create<String>()
     val subTitleObservable = BehaviorSubject.create<String>()
-    val buttonOneClickedObservable = PublishSubject.create<Unit>()
+    val errorButtonClickedObservable = PublishSubject.create<Unit>()
+    val clickBack = PublishSubject.create<Unit>()
 
     // handle different errors
     val defaultErrorObservable = BehaviorSubject.create<Unit>()
@@ -57,7 +58,7 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
     protected fun subscribeActionToButtonPress(action: Observer<Unit>) {
         // Unsubscribe current button action
         buttonActionSubscription?.unsubscribe()
-        buttonActionSubscription = buttonOneClickedObservable.subscribe(action)
+        buttonActionSubscription = errorButtonClickedObservable.subscribe(action)
     }
 
     protected fun makeDefaultError() {

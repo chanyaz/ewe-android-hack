@@ -117,7 +117,7 @@ class PackageErrorViewModelTest {
         apiError.errorInfo.field = field
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
         checkoutCardErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_payment)
@@ -145,7 +145,7 @@ class PackageErrorViewModelTest {
         val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN);
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
         checkoutUnknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
@@ -175,7 +175,7 @@ class PackageErrorViewModelTest {
         val apiError = ApiError(ApiError.Code.UNKNOWN_ERROR);
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
         createTripUnknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)

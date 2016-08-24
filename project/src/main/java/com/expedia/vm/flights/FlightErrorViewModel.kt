@@ -13,6 +13,7 @@ import com.expedia.vm.AbstractErrorViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.PublishSubject
+import kotlin.properties.Delegates
 
 class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
@@ -29,7 +30,15 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     private val retryCreateTripBtnClicked = PublishSubject.create<Unit>()
     private var retryCreateTripBtnCount = 0
 
+    var error: ApiError by Delegates.notNull()
+
     init {
+        clickBack.subscribe {
+            when(error.errorCode) {
+                ApiError.Code.PAYMENT_FAILED -> errorButtonClickedObservable.onNext(Unit)
+                else -> defaultErrorObservable.onNext(Unit)
+            }
+        }
         paramsSubject.subscribe { params ->
             val errorTitle: String = SuggestionStrUtils.formatCityName(context.resources.getString(R.string.select_flight_to, params.arrivalAirport?.regionNames?.shortName))
             titleObservable.onNext(errorTitle)
@@ -40,14 +49,13 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
     override fun searchErrorHandler(): Observer<ApiError> {
         return endlessObserver {
+            error = it
             when (it.errorCode) {
                 ApiError.Code.FLIGHT_SEARCH_NO_RESULTS -> {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
-                    buttonOneClickedObservable.subscribe {
-                       showSearch.onNext(Unit)
-                    }
+                    subscribeActionToButtonPress(showSearch)
                     FlightsV2Tracking.trackFlightNoResult()
                 }
                 else -> {
@@ -71,6 +79,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
         }
 
         return endlessObserver {
+            error = it
             when (it.errorCode) {
                 ApiError.Code.UNKNOWN_ERROR -> {
                     retryCreateTripErrorHandler()
@@ -111,6 +120,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
     override fun checkoutApiErrorHandler(): Observer<ApiError> {
         return endlessObserver {
+            error = it
             when (it.errorCode) {
                 ApiError.Code.UNKNOWN_ERROR -> {
                     handleCheckoutUnknownError()
@@ -124,9 +134,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.resources.getString(R.string.edit_payment))
                     titleObservable.onNext(context.resources.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
-                    buttonOneClickedObservable.subscribe {
-                        showPaymentForm.onNext(Unit)
-                    }
+                    subscribeActionToButtonPress(showPaymentForm)
                     FlightsV2Tracking.trackFlightCheckoutPaymentError()
                 }
 
@@ -155,9 +163,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
         buttonOneTextObservable.onNext(context.resources.getString(R.string.flight_error_retry))
         titleObservable.onNext(context.resources.getString(R.string.flight_generic_error_title))
         subTitleObservable.onNext("")
-        buttonOneClickedObservable.subscribe {
-            retryCheckout.onNext(Unit)
-        }
+        subscribeActionToButtonPress(retryCheckout)
     }
 
     private fun handleSessionTimeout() {
@@ -166,7 +172,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
         buttonOneTextObservable.onNext(context.getString(R.string.flight_new_search))
         titleObservable.onNext(context.resources.getString(R.string.flight_session_expired_toolbar_title))
         subTitleObservable.onNext("")
-        buttonOneClickedObservable.subscribe(defaultErrorObservable)
+        subscribeActionToButtonPress(defaultErrorObservable)
     }
 
     private fun getToolbarSubtitle(params: FlightSearchParams): String {
