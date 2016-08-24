@@ -43,6 +43,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -233,7 +234,9 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		for (ActivityImages activityImages : activityDetails.images) {
 			List<String> imageURLs = Images
 				.getLXImageURLBasedOnWidth(activityImages.getImages(), AndroidUtils.getDisplaySize(getContext()).x);
-			LXMedia media = new LXMedia(imageURLs, activityImages.getImageCaption());
+			LXMedia media = new LXMedia(imageURLs, Phrase.from(getContext(),
+					R.string.lx_carousal_cont_desc_TEMPLATE).put("caption",
+					activityImages.getImageCaption()).format().toString());
 			mediaList.add(media);
 		}
 

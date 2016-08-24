@@ -4629,4 +4629,7 @@
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">Copy to clipboard. Button.</string>
 
+    <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
+    <string name="lx_carousal_cont_desc_TEMPLATE">Activity Selected, {caption}</string>
+
 </resources>
