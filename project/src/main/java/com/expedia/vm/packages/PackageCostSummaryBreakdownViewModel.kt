@@ -39,7 +39,7 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
 
             if (packageDetails.pricing.hasResortFee() && PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
                 // Local charges due at hotel
-                breakdowns.add(makeDueAtHotelRow(packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoney))
+                breakdowns.add(makeDueAtHotelRow(packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedPrice))
             }
 
             // -------------------------
@@ -56,7 +56,7 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
 
             if (packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
                 // Local charges due at hotel
-                breakdowns.add(makeDueAtHotelRow(packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoney))
+                breakdowns.add(makeDueAtHotelRow(packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedPrice))
             }
             addRows.onNext(breakdowns)
             iconVisibilityObservable.onNext(true)
