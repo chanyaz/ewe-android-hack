@@ -68,7 +68,7 @@
             android:label="Rail"
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.ui.RailActivity"
-            android:theme="@style/V2.Theme.Rail">
+            android:theme="@style/Theme.Rail">
             <meta-data
                 android:name="debug"
                 android:value="true" />
