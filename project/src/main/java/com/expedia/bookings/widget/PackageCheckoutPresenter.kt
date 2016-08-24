@@ -41,8 +41,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
 
             val packageTotalPrice = response.packageDetails.pricing
             val priceToShow = if (PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) packageTotalPrice.getBundleTotal() else packageTotalPrice.packageTotal
-            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(
-                    if (!PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees() && response.packageDetails.pricing.hasResortFee()) R.string.includes_flights_hotel else R.string.includes_taxes_fees_flights_hotel))
+            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
 
             totalPriceWidget.viewModel.total.onNext(priceToShow)
             totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)

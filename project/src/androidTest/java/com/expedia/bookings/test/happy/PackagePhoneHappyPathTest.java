@@ -175,7 +175,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
 			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 			withText(
-				"Price includes hotel + flights"))).check(matches(isDisplayed()));
+				"Includes flights + hotel"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
 	}
 

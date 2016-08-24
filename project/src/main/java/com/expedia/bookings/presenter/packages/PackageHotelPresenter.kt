@@ -176,12 +176,12 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
         val currencyCode = Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode
         bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
-        bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.package_price_include_flights))
+        bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
         val zero = Money(BigDecimal(0), currencyCode)
         bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(zero)
         bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(zero)
         bundleSlidingWidget.bundlePriceFooter.viewModel.savings.onNext(zero)
-        bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.package_price_include_flights))
+        bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
     }
 
     fun updateOverviewAnimationDuration(duration: Int) {
