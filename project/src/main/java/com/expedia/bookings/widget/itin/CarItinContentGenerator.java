@@ -115,8 +115,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 		if (view == null) {
 			view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_title_generic, container, false);
 		}
-
-		view.setText(getItinCardData().getCarCategoryDescription(getContext()));
+		view.setText(getCarCategoryType(getContext()));
 		return view;
 	}
 
@@ -264,6 +263,11 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 				}
 			});
 		}
+	}
+
+	public String getCarCategoryType(Context context) {
+		return getItinCardData().getCarCategoryDescription(context) + " " +
+			getItinCardData().getCarTypeDescription(context);
 	}
 
 	@Override
