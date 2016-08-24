@@ -3,17 +3,20 @@ package com.expedia.vm.test.robolectric
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.vm.flights.SelectedOutboundFlightViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowDateFormat::class))
 class SelectedOutboundFlightViewModelTest {
 
     private val AIRLINE_NAME = "Tom Air"

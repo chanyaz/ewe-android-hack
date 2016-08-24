@@ -4,14 +4,17 @@ import android.app.Activity
 import android.content.res.Resources
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.annotation.Config
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowDateFormat::class))
 class FlightV2UtilsTest {
     val testDepartTime = "2014-07-05T12:30:00.000-05:00"
     val testArrivalTime = "2014-07-05T16:40:00.000-05:00"

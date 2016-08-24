@@ -8,7 +8,11 @@ import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
+import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
+import org.joda.time.DateTime
+import org.joda.time.format.ISODateTimeFormat
+import java.util.Locale
 
 object FlightV2Utils {
 
@@ -108,16 +112,16 @@ object FlightV2Utils {
                 displayStringTemplate = R.string.flight_departure_arrival_time_multi_day_TEMPLATE
             }
             return Phrase.from(context, displayStringTemplate)
-                    .put("departuretime", DateUtils.formatTimeShort(departureTime))
-                    .put("arrivaltime", DateUtils.formatTimeShort(arrivalTime))
+                    .put("departuretime", formatTimeShort(context, departureTime))
+                    .put("arrivaltime", formatTimeShort(context, arrivalTime))
                     .put("elapseddays", Math.abs(elapsedDays)).format().toString()
         }
-        return getFlightDepartureArrivalTime(context, DateUtils.formatTimeShort(departureTime), DateUtils.formatTimeShort(arrivalTime))
+        return getFlightDepartureArrivalTime(context, formatTimeShort(context, departureTime), formatTimeShort(context, arrivalTime))
     }
 
     @JvmStatic fun getAccessibleDepartArrivalTime(context: Context, flight: FlightLeg): String {
-        val departureTime = DateUtils.formatTimeShort(flight.departureDateTimeISO)
-        val arrivalTime = DateUtils.formatTimeShort(flight.arrivalDateTimeISO)
+        val departureTime = formatTimeShort(context, flight.departureDateTimeISO)
+        val arrivalTime = formatTimeShort(context, flight.arrivalDateTimeISO)
         val elapsedDays = flight.elapsedDays
         if (elapsedDays != 0) {
             var displayStringTemplate: Int
@@ -180,5 +184,13 @@ object FlightV2Utils {
             airlineList.append(airlines[i].airlineName)
         }
         return airlineList.toString()
+    }
+
+    @JvmStatic fun formatTimeShort(context: Context, timeStr: String): String {
+        if (timeStr.isEmpty()) return ""
+        val fmt = ISODateTimeFormat.dateTime().withOffsetParsed()
+        val time = DateTime.parse(timeStr, fmt)
+        val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
+        return JodaUtils.format(time, dateFormat).toLowerCase(Locale.getDefault())
     }
 }

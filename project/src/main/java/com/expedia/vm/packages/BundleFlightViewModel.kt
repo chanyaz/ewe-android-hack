@@ -90,7 +90,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
             flightTextColorObservable.onNext(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_primary_text))
             flightTravelInfoColorObservable.onNext(ContextCompat.getColor(context, R.color.packages_bundle_overview_widgets_secondary_text))
             travelInfoTextObservable.onNext(context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate),
-                    DateUtils.formatTimeShort(flight.departureDateTimeISO), StrUtils.formatTravelerString(context, guests)))
+                    FlightV2Utils.formatTimeShort(context, flight.departureDateTimeISO), StrUtils.formatTravelerString(context, guests)))
             if (searchType == PackageSearchType.OUTBOUND_FLIGHT) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(flight)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight1_checkmark_icon, 0))

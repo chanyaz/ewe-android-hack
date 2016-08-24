@@ -9,7 +9,13 @@ import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.CarDataUtils
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FlightV2Utils
+import com.expedia.bookings.utils.NavUtils
+import com.expedia.bookings.utils.RewardsUtil
+import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -85,7 +91,7 @@ class PackageConfirmationViewModel(val context: Context) {
         val localDate = LocalDate.parse(selectedFlight.departureDateTimeISO, fmt)
 
         return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, DateUtils.localDateToMMMd(localDate),
-                DateUtils.formatTimeShort(selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
+                FlightV2Utils.formatTimeShort(context, selectedFlight.departureDateTimeISO), StrUtils.formatTravelerString(context, Db.getPackageParams().guests))
     }
 
     fun searchForCarRentalsForTripObserver(context: Context): Observer<Unit> {
