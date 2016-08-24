@@ -30,4 +30,11 @@
         android:padding="8dp"
         android:visibility="visible" />
 
+    <View
+        android:id="@+id/copy_to_clipboard_content_description"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:contentDescription="@string/copy_to_clipboard_cont_desc"
+        android:visibility="gone" />
+
 </LinearLayout>

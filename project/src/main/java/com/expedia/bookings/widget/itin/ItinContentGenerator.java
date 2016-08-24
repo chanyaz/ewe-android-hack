@@ -516,7 +516,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, null);
 		TextView headingTv = Ui.findView(item, R.id.item_label);
 		TextView textTv = Ui.findView(item, R.id.item_text);
+		View copyToClipboardContentDescription = Ui.findView(item, R.id.copy_to_clipboard_content_description);
 
+		copyToClipboardContentDescription.setVisibility(AccessibilityUtil.isTalkBackEnabled(getContext())
+				? View.VISIBLE : View.GONE);
 		headingTv.setText(label);
 		textTv.setText(text);
 
