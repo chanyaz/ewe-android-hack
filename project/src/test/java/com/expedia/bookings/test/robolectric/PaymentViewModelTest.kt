@@ -8,6 +8,7 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemFlightV2
@@ -15,6 +16,7 @@ import com.expedia.bookings.data.cars.CarCreateTripResponse
 import com.expedia.bookings.data.cars.CarVendor
 import com.expedia.bookings.data.cars.CreateTripCarOffer
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.lx.LXCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -36,7 +38,9 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import rx.Scheduler
 import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
 import kotlin.properties.Delegates
 
 
@@ -63,9 +67,79 @@ class PaymentViewModelTest {
 
     @Before
     fun setup() {
-        viewModel = PaymentViewModel(getContext())
+        viewModel = TestPaymentViewModelClass(getContext())
         Db.getTripBucket().clear()
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
+    }
+
+    @Test
+    fun showCardInfoLabelHavePaymentFee() {
+        val testSubscriber = TestSubscriber<Boolean>()
+        val flightCreateTripResponse = FlightCreateTripResponse()
+        val amexValidFormOfPayment = ValidFormOfPayment()
+        amexValidFormOfPayment.name = "AmericanExpress"
+        amexValidFormOfPayment.fee = "42.0"
+        amexValidFormOfPayment.feeCurrencyCode = "USD"
+        val masterCardValidFormOfPayment = ValidFormOfPayment()
+        masterCardValidFormOfPayment.name = "MasterCard"
+        masterCardValidFormOfPayment.fee = "0"
+        masterCardValidFormOfPayment.feeCurrencyCode = "USD"
+        flightCreateTripResponse.validFormsOfPayment = listOf(amexValidFormOfPayment, masterCardValidFormOfPayment)
+        Db.getTripBucket().add(TripBucketItemFlightV2(flightCreateTripResponse))
+
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
+        viewModel.paymentTypeWarningHandledByCkoView.onNext(true)
+
+        viewModel.showCardFeeInfoLabel.subscribe(testSubscriber)
+        viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
+        viewModel.cardTypeSubject.onNext(PaymentType.CARD_MASTERCARD)
+
+        testSubscriber.assertValues(false, true)
+    }
+
+    @Test
+    fun showCardInfoLabelHaveInvalidPaymentWarning() {
+        val testSubscriber = TestSubscriber<Boolean>()
+        val flightCreateTripResponse = FlightCreateTripResponse()
+        val amexValidFormOfPayment = ValidFormOfPayment()
+        amexValidFormOfPayment.name = "AmericanExpress"
+        amexValidFormOfPayment.fee = "0"
+        amexValidFormOfPayment.feeCurrencyCode = "USD"
+        flightCreateTripResponse.validFormsOfPayment = listOf(amexValidFormOfPayment)
+        Db.getTripBucket().add(TripBucketItemFlightV2(flightCreateTripResponse))
+
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
+        viewModel.paymentTypeWarningHandledByCkoView.onNext(true)
+
+        viewModel.showCardFeeInfoLabel.subscribe(testSubscriber)
+        viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
+        viewModel.cardTypeSubject.onNext(PaymentType.CARD_MASTERCARD)
+
+        testSubscriber.assertValues(true, false)
+    }
+
+    @Test
+    fun showInvalidPaymentTypeWarning() {
+        val testSubscriber = TestSubscriber<Boolean>()
+        viewModel.showInvalidPaymentWarning.subscribe(testSubscriber)
+
+        viewModel.paymentTypeWarningHandledByCkoView.onNext(false)
+        viewModel.invalidPaymentTypeWarning.onNext("invalid card")
+        viewModel.invalidPaymentTypeWarning.onNext("")
+
+        testSubscriber.assertValues(true, false)
+    }
+
+    @Test
+    fun dontShowInvalidPaymentTypeWarning() {
+        val testSubscriber = TestSubscriber<Boolean>()
+        viewModel.showInvalidPaymentWarning.subscribe(testSubscriber)
+
+        viewModel.paymentTypeWarningHandledByCkoView.onNext(true)
+        viewModel.invalidPaymentTypeWarning.onNext("invalid card")
+        viewModel.invalidPaymentTypeWarning.onNext("")
+
+        testSubscriber.assertValues(false, false)
     }
 
     @Test
@@ -298,5 +372,11 @@ class PaymentViewModelTest {
             info.storedCard = card
         }
         return info
+    }
+
+    class TestPaymentViewModelClass(context: Context): PaymentViewModel(context) {
+        override fun getScheduler(): Scheduler {
+            return Schedulers.immediate()
+        }
     }
 }
