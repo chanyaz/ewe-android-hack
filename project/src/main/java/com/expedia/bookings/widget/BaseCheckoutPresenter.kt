@@ -71,6 +71,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val cardProcessingFeeTextView: TextView by bindView(R.id.card_processing_fee)
     val cardFeeWarningTextView: TextView by bindView(R.id.card_fee_warning_text)
     val invalidPaymentTypeWarningTextView: TextView by bindView(R.id.invalid_payment_type_warning)
+    val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
     val insuranceWidget: InsuranceWidget by bindView(R.id.insurance_widget)
     val space: Space by bindView(R.id.scrollview_space)
@@ -280,11 +281,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 paymentWidget.viewmodel.invalidPaymentTypeWarning,
                 { showingGuestPaymentForm, invalidPaymentTypeWarning ->
                     val hasPaymentTypeWarning = invalidPaymentTypeWarning.isNotBlank()
-                    val invalidPaymentWarningVisibility = if (hasPaymentTypeWarning && showingGuestPaymentForm) View.VISIBLE else View.GONE
+                    val visibility = if (hasPaymentTypeWarning && showingGuestPaymentForm) View.VISIBLE else View.GONE
                     invalidPaymentTypeWarningTextView.text = invalidPaymentTypeWarning
-                    invalidPaymentTypeWarningTextView.visibility = invalidPaymentWarningVisibility
-                    if (invalidPaymentWarningVisibility == View.VISIBLE) {
-                        toolbarDropShadow.visibility = invalidPaymentWarningVisibility
+                    if (visibility == View.VISIBLE) {
+                        invalidPaymentTypeWarningTextView.visibility = visibility
+                        AnimUtils.slideIn(invalidPaymentTypeWarningTextView)
+                        toolbarDropShadow.visibility = visibility
+                    } else if (invalidPaymentTypeWarningTextView.visibility == View.VISIBLE) {
+                        AnimUtils.slideOut(invalidPaymentTypeWarningTextView)
                     }
                 }).subscribe()
 
@@ -341,6 +345,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             bottomContainer.setInverseVisibility(forward)
             cardFeeWarningTextView.setInverseVisibility(forward)
             if (!forward) {
+                invalidPaymentTypeWarningTextView.visibility = View.GONE
+                cardProcessingFeeTextView.visibility  = View.GONE
+                debitCardsNotAcceptedTextView.visibility = View.GONE
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
                 scrollView.layoutParams.height = height

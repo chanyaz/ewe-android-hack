@@ -24,7 +24,6 @@ class FlightCheckoutInvalidPaymentTypeTest: NewFlightTestCase() {
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("6333333333333333")
         assertWarningWarningShown()
-        CardInfoScreen.assertCardInfoLabelNotShown()
 
         Espresso.pressBack()
         assertWarningNotShown()
