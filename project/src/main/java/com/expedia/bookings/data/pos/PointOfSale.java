@@ -737,6 +737,7 @@ public class PointOfSale {
 		return mShouldShowRewards;
 	}
 
+
 	public boolean isDisabledForProduction() {
 		return mDisableForProduction;
 	}

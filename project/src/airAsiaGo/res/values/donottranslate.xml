@@ -13,4 +13,12 @@
     <!-- Tune SDK Key -->
     <string name="tune_sdk_app_advertiser_id">190169</string>
     <string name="tune_sdk_app_conversion_key">b36282b87552015465546ff0a43572de</string>
+
+    <!-- Lean Plum SDK -->
+    <string name="lean_plum_sdk_dev_appid">app_J87IwqMedFpgMSOhaQcSwip7sBpHiwp5aXdgCzzAJpY</string>
+    <string name="lean_plum_sdk_dev_key">dev_JbEw7ivBK1SYTzvjfoLZyTSrQzNVtCYO7OhcnJAqzRM</string>
+
+    <string name="lean_plum_sdk_prod_appid">app_qYFErKNn2xOZcguyfyr9Styx163T0VTApQacaomzH5Y</string>
+    <string name="lean_plum_sdk_prod_key">prod_74YaSVeJIOCLmLvg0o2JMDOaYtHZcZDlrQ6WbDfgBGc</string>
+
 </resources>

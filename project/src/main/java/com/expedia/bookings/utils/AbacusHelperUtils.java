@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import java.util.ArrayList;
 import java.util.UUID;
 
 import android.content.Context;
@@ -12,6 +13,7 @@ import com.expedia.bookings.data.abacus.AbacusEvaluateQuery;
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.AbacusServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
@@ -26,7 +28,12 @@ public class AbacusHelperUtils {
 	public static void downloadBucket(Context context) {
 		AbacusServices abacus = Ui.getApplication(context).appComponent().abacus();
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(generateAbacusGuid(context), PointOfSale.getPointOfSale().getTpid(), 0);
-		query.addExperiments(AbacusUtils.getActiveTests());
+		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
+			query.addExperiments(AbacusUtils.getActiveTests());
+		}
+		else {
+			query.addExperiments(new ArrayList<Integer>());
+		}
 		abacus.downloadBucket(query, getAbacusSubscriber(context));
 	}
 
