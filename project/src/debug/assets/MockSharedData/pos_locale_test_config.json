@@ -61,6 +61,8 @@
         "websiteURL": "nl websiteURL",
         "hotelBookingStatement": "nl hotelBookingStatement",
         "flightBookingStatement": "nl flightBookingStatement",
+        "packagesBookingStatement": "nl packagesBookingStatement",
+        "insuranceStatement": "nl insuranceStatement",
         "termsAndConditionsURL": "nl termsAndConditionsURL",
         "airlineFeeBasedOnPaymentMethodTermsAndConditionsURL" : "nl airlineFeeBasedOnPaymentMethodTermsAndConditionsURL",
         "privacyPolicyURL": "nl privacyPolicyURL",

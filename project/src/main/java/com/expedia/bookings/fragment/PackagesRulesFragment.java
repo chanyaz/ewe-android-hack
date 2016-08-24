@@ -5,12 +5,14 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 
@@ -73,6 +75,14 @@ public class PackagesRulesFragment extends BaseRulesFragment {
 			cancellationPolicyContainer.setVisibility(View.VISIBLE);
 			TextView cancellationPolicyTextView = Ui.findView(v, R.id.cancellation_policy_text_view);
 			cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy));
+		}
+
+		String insuranceStatement = PointOfSale.getPointOfSale().getInsuranceStatement();
+		if (Strings.isNotEmpty(insuranceStatement)) {
+			LinearLayout mInsuranceInformationContainer = Ui.findView(v, R.id.insurance_information_container);
+			TextView mInsuranceInformationTextView = Ui.findView(v, R.id.insurance_information_text_view);
+			mInsuranceInformationContainer.setVisibility(View.VISIBLE);
+			mInsuranceInformationTextView.setText(insuranceStatement);
 		}
 		return v;
 	}

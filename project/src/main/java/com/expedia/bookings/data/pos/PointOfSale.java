@@ -873,6 +873,10 @@ public class PointOfSale {
 		return null;
 	}
 
+	public String getInsuranceStatement() {
+		return getPosLocale().getInsuranceStatement();
+	}
+
 	public int getDualLanguageId() {
 		return getPosLocale().getLanguageId();
 	}
