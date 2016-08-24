@@ -87,7 +87,7 @@ public class AbacusHelperUtils {
 		if (Strings.isEmpty(mc1Cookie)) {
 			return mc1CookieAndAbacusGuidNewUuid(context);
 		}
-		else if (abacusGuid.equals(mc1Cookie)) {
+		else if (mc1Cookie.contains(abacusGuid)) {
 			Db.setAbacusGuid(abacusGuid);
 			return abacusGuid;
 		}
@@ -95,12 +95,13 @@ public class AbacusHelperUtils {
 	}
 
 	private static String mc1CookieAndAbacusGuidNewUuid(Context context) {
-		String guid = "GUID=" + UUID.randomUUID().toString().replaceAll("-", "");
+		String abacusGuid = UUID.randomUUID().toString().replaceAll("-", "");
+		String mc1cookie = "GUID=" + abacusGuid;
 		CookiesReference cookiesReference = new CookiesReference(context);
-		cookiesReference.mCookieManager.setMC1Cookie(guid, getPosUrl());
-		SettingUtils.save(context, PREF_ABACUS_GUID, guid);
-		Db.setAbacusGuid(guid);
-		return guid;
+		cookiesReference.mCookieManager.setMC1Cookie(mc1cookie, getPosUrl());
+		SettingUtils.save(context, PREF_ABACUS_GUID, abacusGuid);
+		Db.setAbacusGuid(abacusGuid);
+		return abacusGuid;
 	}
 
 	private static String abacusGuidToMC1Cookie(Context context, String mc1Cookie) {
