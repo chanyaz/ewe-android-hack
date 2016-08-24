@@ -55,7 +55,6 @@ import com.expedia.util.subscribeTextChange
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
@@ -199,13 +198,14 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == View.VISIBLE) {
+            compositeSubscription?.unsubscribe()
             compositeSubscription = CompositeSubscription()
             compositeSubscription?.add(creditCardNumber.subscribeTextChange(formFilledSubscriber))
             compositeSubscription?.add(creditCardName.subscribeTextChange(formFilledSubscriber))
             compositeSubscription?.add(creditCardPostalCode.subscribeTextChange(formFilledSubscriber))
             creditCardNumber.setHint(R.string.credit_debit_card_hint)
         } else {
-            compositeSubscription?.unsubscribe();
+            compositeSubscription?.unsubscribe()
         }
     }
 
