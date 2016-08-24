@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:gravity="right"
-            android:textColor="@color/hotels_primary_color"
+            android:textColor="?attr/primary_color"
             android:textSize="13sp"
             app:textStyle="medium" />
 

@@ -155,6 +155,11 @@ public class HotelOffersResponse extends BaseApiResponse {
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.strikethroughPriceToShowUsers = 0;
 				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.userPriceType = Constants.PACKAGE_HOTEL_DELTA_PRICE_TYPE;
 			}
+			if (packageHotelOffer.packagePricing.hotelPricing != null) {
+				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.showResortFeeMessage = true;
+				packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.totalMandatoryFees = packageHotelOffer.packagePricing.hotelPricing.mandatoryFees.feeTotal.amount
+					.floatValue();
+			}
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packagePricePerPerson = packageHotelOffer.pricePerPerson;
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageSavings = packageHotelOffer.packagePricing.savings;
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageTotalPrice = packageHotelOffer.packagePricing.packageTotal;
