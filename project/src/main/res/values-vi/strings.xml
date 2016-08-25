@@ -2516,7 +2516,6 @@
     <string name="split_ticket_rules_cancellation_policy_tablet">Nếu một chuyến bay có thay đổi hoặc hủy, chuyến bay còn lại sẽ không được tự động thay đổi theo. Có thể sẽ áp dụng phụ phí nếu thực hiện thay đổi với chuyến bay còn lại.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">Chuyến bay &lt;a href=\"{departurelink}\"&gt;Khởi hành&lt;/a&gt; và &lt;a href=\"{returnlink}\"&gt;Trở về&lt;/a&gt; áp dụng phí hành lý riêng biệt</string>
-    <string name="split_ticket_baggage_fees_tablet">Chuyến bay &lt;a href=\"%1$s\"&gt;Khởi hành&lt;/a&gt; và &lt;a href=\"%2$s\"&gt;Trở về&lt;/a&gt; áp dụng phí hành lý riêng biệt</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Mã bảo mật không hợp lệ</string>

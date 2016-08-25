@@ -2516,7 +2516,6 @@
     <string name="split_ticket_rules_cancellation_policy_tablet">Om ett av dina flyg ändras eller avbokas, kommer inte den andra flygresan att ändras automatiskt. Ändringar av den andra flygresan kan medföra avgifter.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">Separata bagageavgifter gäller för &lt;a href=\"{departurelink}\"&gt;avresan&lt;/a&gt; och &lt;a href=\"{returnlink}\"&gt;återresan&lt;/a&gt;</string>
-    <string name="split_ticket_baggage_fees_tablet">Separata bagageavgifter gäller för &lt;a href=\"%1$s\"&gt;avresan&lt;/a&gt; och &lt;a href=\"%2$s\"&gt;återresan&lt;/a&gt;</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Ogiltig säkerhetskod</string>

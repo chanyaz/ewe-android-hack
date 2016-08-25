@@ -2516,7 +2516,6 @@
     <string name="split_ticket_rules_cancellation_policy_tablet">Tout changement ou annulation de l\&apos;un de vos vols n\&apos;impactera pas automatiquement l\&apos;autre vol. Le changement de l\&apos;autre vol peut entraîner des frais supplémentaires.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">Des frais de bagages distincts s\&apos;appliquent aux vols &lt;a href=\"{departurelink}\"&gt;Aller&lt;/a&gt; et &lt;a href=\"{returnlink}\"&gt;Retour&lt;/a&gt;.</string>
-    <string name="split_ticket_baggage_fees_tablet">Des frais de bagages distincts s\&apos;appliquent aux vols &lt;a href=\"%1$s\"&gt;Aller&lt;/a&gt; et &lt;a href=\"%2$s\"&gt;Retour&lt;/a&gt;.</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Code de sécurité non valide</string>

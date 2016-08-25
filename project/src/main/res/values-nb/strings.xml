@@ -2516,7 +2516,6 @@
     <string name="split_ticket_rules_cancellation_policy_tablet">Hvis én av flyvingene dine endres eller kanselleres, vil ikke den andre flyvningen oppdateres automatisk. Endringer i den andre flyvningen kan medføre at du blir belastet en avgift.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Avreise-&lt;/a&gt; og &lt;a href=\"{returnlink}\"&gt;returflyvningene&lt;/a&gt; har separate bagasjeavgifter</string>
-    <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;Avreise-&lt;/a&gt; og &lt;a href=\"%2$s\"&gt;returflyvningene&lt;/a&gt; har separate bagasjeavgifter</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Ugyldig sikkerhetskode</string>
