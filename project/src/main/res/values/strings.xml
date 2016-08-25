@@ -2016,8 +2016,6 @@
     <string name="your_trip_to_TEMPLATE">Trip to %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Includes taxes and fees</string>
-    <!-- Includes taxes, fees, flights+hotels -->
-    <string name="includes_taxes_fees_flights_hotel">Includes taxes, fees, flights + hotel</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">Includes flights + hotel</string>
     <!-- Includes taxes (but not necessarily fees) -->
@@ -4080,8 +4078,6 @@
         <item quantity="one">{night} free night when you book with a flight.</item>
         <item quantity="other">{night} free nights when you book with a flight.</item>
     </plurals>
-    <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">Price includes hotel + flights</string>
     <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
     <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
