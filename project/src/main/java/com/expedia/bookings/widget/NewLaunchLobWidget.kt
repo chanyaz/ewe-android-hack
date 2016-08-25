@@ -1,5 +1,6 @@
 package com.expedia.bookings.widget
 
+import android.app.AlertDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
@@ -11,6 +12,7 @@ import android.view.ViewTreeObserver
 import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
@@ -22,6 +24,13 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
     private val backGroundView: View by bindView(R.id.background)
     private val cardView: CardView by bindView(R.id.card_view)
     private val gridRecycler: RecyclerView by bindView(R.id.lob_grid_recycler)
+    private val flightNotSupportedDialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setMessage(context.resources.getString(R.string.invalid_flights_pos))
+        builder.setPositiveButton(context.getString(R.string.ok), { dialog, which -> dialog.dismiss() })
+        builder.create()
+    }
+
 
     var adapter: NewLaunchLobAdapter by Delegates.notNull()
     val nav = NavigationHelper(context)
@@ -37,7 +46,13 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
                     val animOptions = AnimUtils.createActivityScaleBundle(it.second);
                     nav.goToHotels(animOptions)
                 }
-                LineOfBusiness.FLIGHTS -> nav.goToFlights(null)
+                LineOfBusiness.FLIGHTS -> {
+                    if (PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS)) {
+                        nav.goToFlights(null)
+                    } else {
+                        flightNotSupportedDialog.show()
+                    }
+                }
                 LineOfBusiness.TRANSPORT -> nav.goToTransport(null)
                 LineOfBusiness.LX -> nav.goToActivities(null)
                 LineOfBusiness.CARS -> nav.goToCars(null)
