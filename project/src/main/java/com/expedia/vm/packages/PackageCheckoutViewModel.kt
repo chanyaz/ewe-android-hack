@@ -41,7 +41,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                             R.string.package_resort_fees_disclaimer_TEMPLATE
 
                 depositText = Phrase.from(context, messageResId)
-                        .put("resort_fee", it.packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoney)
+                        .put("resort_fee", it.packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoneyFromAmountAndCurrencyCode)
                         .putOptional("trip_total", it.packageDetails.pricing.getBundleTotal().formattedPrice)
                         .format().toString()
             }

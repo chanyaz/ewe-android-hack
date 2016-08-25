@@ -18,12 +18,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import java.math.BigDecimal
-import kotlin.test.assertEquals
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
-import kotlin.test.assertNull
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class HotelCheckoutSummaryViewModelTest {
@@ -78,7 +78,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(rate.displayTotalPrice.formattedMoney, sut.tripTotalPrice.value)
         assertEquals(Money(BigDecimal(rate.total.toDouble()), rate.currencyCode).formattedMoney, sut.dueNowAmount.value)
         assertFalse(sut.showFeesPaidAtHotel.value)
-        assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toString()), rate.currencyCode).formattedMoney, sut.feesPaidAtHotel.value)
+        assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toDouble()), "USD").formattedMoneyFromAmountAndCurrencyCode, sut.feesPaidAtHotel.value)
         assertTrue(sut.isBestPriceGuarantee.value)
         assertEquals(sut, sut.newDataObservable.value)
         assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)

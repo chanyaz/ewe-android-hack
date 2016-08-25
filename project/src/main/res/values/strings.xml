@@ -3050,6 +3050,8 @@
     <string name="error_no_response_room_rates">Could not download rooms &amp; rates information.  Please check your connection and try again.</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">per night</string>
+    <!-- Rate price displayed "total fee" -->
+    <string name="total_fee">total fee</string>
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">avg/night</string>
 
@@ -3104,6 +3106,8 @@
     <string name="free_cancellation">Free Cancellation</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">Hotel fees for this stay</string>
+    <!-- Resort fee text for pacakges-->
+    <string name="additional_fees_at_check_in">Additional fee at check-in</string>
     <!-- Included in the price -->
     <string name="included_in_the_price">Included in the price</string>
     <!-- Not included in the price -->
@@ -3390,7 +3394,8 @@
     <string name="distance_template">%1$s %2$s away</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
-
+    <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Settings</string>

@@ -127,7 +127,7 @@ class HotelBreakdownTest {
         expected.add(arrayListOf(Breakdown("1 Night", "$179.31", BreakdownItem.OTHER),
                 Breakdown("6/30/2016", "$179.31", BreakdownItem.DATE),
                 Breakdown("Taxes & Fees", "$8.97", BreakdownItem.OTHER),
-                Breakdown("Fees paid at hotel", "$2.49", BreakdownItem.OTHER),
+                Breakdown("Fees paid at hotel", "BRL2.49", BreakdownItem.OTHER),
                 Breakdown("Trip Total", "$190.77", BreakdownItem.TRIPTOTAL),
                 Breakdown("Due to Expedia", "$188.28", BreakdownItem.OTHER)))
 

@@ -169,6 +169,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
     var viewmodel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
+        resortFeeWidget.feeDescriptionText.setText(vm.getResortFeeText())
+        resortFeeWidget.feesIncludedNotIncluded.visibility = if (vm.showFeesIncludedNotIncluded()) View.VISIBLE else View.GONE
+        resortFeeWidget.feeType.setText(vm.getFeeTypeText())
+
         detailContainer.setOnTouchListener(touchListener)
         hotelDetailsToolbar.setHotelDetailViewModel(vm)
 

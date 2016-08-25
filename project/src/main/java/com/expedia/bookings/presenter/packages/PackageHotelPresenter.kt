@@ -395,6 +395,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             }
             PackageHotelActivity.Screen.DETAILS_ONLY -> {
                 //change hotel room
+                resultsPresenter.hideBundlePriceOverview(true)
                 addDefaultTransition(defaultDetailsTransition)
             }
         }

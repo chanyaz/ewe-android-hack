@@ -9,6 +9,7 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -59,6 +60,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     init {
         paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.map {
             object {
+                val country = it.tripResponse.newHotelProductResponse.hotelCountry
                 val originalRoomResponse = it.tripResponse.originalHotelProductResponse.hotelRoomResponse
                 val newHotelProductResponse = it.tripResponse.newHotelProductResponse
                 val isExpediaRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
@@ -97,7 +99,9 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             val rate = room.rateInfo.chargeableRateInfo
 
             isPayLater.onNext(room.isPayLater && !AndroidUtils.isTablet(context))
-            isResortCase.onNext(rate.totalMandatoryFees != 0f && Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
+            val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()),
+                    CurrencyUtils.currencyForLocale(it.country))
+            isResortCase.onNext(resortFees.amount.toFloat() != 0f && Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
             isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
             isDepositV2.onNext(room.depositRequired)
             priceAdjustments.onNext(rate.getPriceAdjustments())
@@ -118,7 +122,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             extraGuestFees.onNext(rate.extraGuestFees)
 
             showFeesPaidAtHotel.onNext(isResortCase.value)
-            feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
+            feesPaidAtHotel.onNext(resortFees.formattedMoneyFromAmountAndCurrencyCode)
             isBestPriceGuarantee.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee() && room.isMerchant)
             if (it.isExpediaRewardsRedeemable && !it.paymentSplitsType.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)) {
                 dueNowAmount.onNext(it.payingWithCard.amount.formattedMoneyFromAmountAndCurrencyCode)
