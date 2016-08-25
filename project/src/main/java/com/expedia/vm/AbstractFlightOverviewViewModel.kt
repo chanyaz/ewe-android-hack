@@ -3,8 +3,8 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.utils.PackageFlightUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.Observer
@@ -30,7 +30,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
             updateUrgencyMessage(selectedFlight)
             updateOBFees(selectedFlight)
 
-            totalDurationSubject.onNext(PackageFlightUtils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
+            totalDurationSubject.onNext(FlightV2Utils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
 
             var perPersonPrice = Phrase.from(context.resources.getString(R.string.package_flight_overview_per_person_TEMPLATE))
                     .put("money", selectedFlight.packageOfferModel.price.pricePerPersonFormatted)

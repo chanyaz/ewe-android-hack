@@ -12,16 +12,13 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class PackageFlightUtilsTest {
-    val testFlightLeg = buildTestFlightLeg()
+class FlightV2UtilsTest {
     val testDepartTime = "2014-07-05T12:30:00.000-05:00"
     val testArrivalTime = "2014-07-05T16:40:00.000-05:00"
+    val testFlightLeg = buildTestFlightLeg()
+
     var activity: Activity by Delegates.notNull()
     var resources: Resources by Delegates.notNull()
-
-    val expectedNoElapsedDaysAccesibleString = "12:30 pm to 4:40 pm"
-    val expectedWithElapsedDaysAccesibleString = "12:30 pm to 4:40 pm plus 2d"
-
 
     @Before
     fun setUp() {
@@ -30,27 +27,64 @@ class PackageFlightUtilsTest {
     }
 
     @Test
+    fun testDepartArrivalNegativeElapsedDays() {
+        testFlightLeg.elapsedDays = -1
+        val expectedWithElapsedDaysAccesibleString = "12:30 pm - 4:40 pm -1d"
+
+        val testString = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(activity, testFlightLeg)
+        assertEquals(expectedWithElapsedDaysAccesibleString, testString)
+    }
+
+    @Test
+    fun testDepartArrivalMultipleElapsedDays() {
+        testFlightLeg.elapsedDays = 2
+        val expectedWithElapsedDaysAccesibleString = "12:30 pm - 4:40 pm +2d"
+
+        val testString = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(activity, testFlightLeg)
+        assertEquals(expectedWithElapsedDaysAccesibleString, testString)
+    }
+
+    @Test
+    fun testDepartArrivalNoElapsedDays() {
+        testFlightLeg.elapsedDays = 0
+        val expectedWithElapsedDaysAccesibleString = "12:30 pm - 4:40 pm"
+
+        val testString = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(activity, testFlightLeg)
+        assertEquals(expectedWithElapsedDaysAccesibleString, testString)
+    }
+
+
+    @Test
+    fun testAccessibleDepartArrivalNegativeElapsedDays() {
+        testFlightLeg.elapsedDays = -1
+        val expectedWithElapsedDaysAccesibleString = "12:30 pm to 4:40 pm minus 1d"
+
+        val testString = FlightV2Utils.getAccessibleDepartArrivalTime(activity, testFlightLeg)
+        assertEquals(expectedWithElapsedDaysAccesibleString, testString)
+    }
+
+    @Test
     fun testAccessibleDepartArrivalNoElapsedDays() {
         testFlightLeg.elapsedDays = 0
-        testFlightLeg.departureDateTimeISO = testDepartTime
-        testFlightLeg.arrivalDateTimeISO = testArrivalTime
-        val testString = PackageFlightUtils.getAccessibleDepartArrivalTime(activity, testFlightLeg)
+        val expectedNoElapsedDaysAccesibleString = "12:30 pm to 4:40 pm"
+
+        val testString = FlightV2Utils.getAccessibleDepartArrivalTime(activity, testFlightLeg)
         assertEquals(expectedNoElapsedDaysAccesibleString, testString)
     }
 
     @Test
     fun testAccessibleDepartArrivalWithElapsedDays() {
         testFlightLeg.elapsedDays = 2
-        testFlightLeg.departureDateTimeISO = testDepartTime
-        testFlightLeg.arrivalDateTimeISO = testArrivalTime
-        val testString = PackageFlightUtils.getAccessibleDepartArrivalTime(activity, testFlightLeg)
+        val expectedWithElapsedDaysAccesibleString = "12:30 pm to 4:40 pm plus 2d"
+
+        val testString = FlightV2Utils.getAccessibleDepartArrivalTime(activity, testFlightLeg)
         assertEquals(expectedWithElapsedDaysAccesibleString, testString)
     }
 
     @Test
     fun testNoOperatingAirlineName() {
         buildTestFlightSegment()
-        val testOperatingAirlinesNameString = PackageFlightUtils.getOperatingAirlineNameString(activity, testFlightLeg.flightSegments[0])
+        val testOperatingAirlinesNameString = FlightV2Utils.getOperatingAirlineNameString(activity, testFlightLeg.flightSegments[0])
         assertEquals(null, testOperatingAirlinesNameString)
     }
 
@@ -59,7 +93,7 @@ class PackageFlightUtilsTest {
         buildTestFlightSegment()
         testFlightLeg.flightSegments[0].operatingAirlineName = "Alaska Airlines"
         testFlightLeg.flightSegments[0].operatingAirlineCode = "AS"
-        val testOperatingAirlinesNameString = PackageFlightUtils.getOperatingAirlineNameString(activity, testFlightLeg.flightSegments[0])
+        val testOperatingAirlinesNameString = FlightV2Utils.getOperatingAirlineNameString(activity, testFlightLeg.flightSegments[0])
         assertEquals("Operated by Alaska Airlines (AS)", testOperatingAirlinesNameString)
     }
 
@@ -67,7 +101,7 @@ class PackageFlightUtilsTest {
     fun testGetOperatingAirlineNameWithoutCode() {
         buildTestFlightSegment()
         testFlightLeg.flightSegments[0].operatingAirlineName = "Alaska Airlines"
-        val testOperatingAirlinesNameString = PackageFlightUtils.getOperatingAirlineNameString(activity, testFlightLeg.flightSegments[0])
+        val testOperatingAirlinesNameString = FlightV2Utils.getOperatingAirlineNameString(activity, testFlightLeg.flightSegments[0])
         assertEquals("Operated by Alaska Airlines", testOperatingAirlinesNameString)
     }
 

@@ -3,16 +3,16 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.utils.PackageFlightUtils
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.squareup.phrase.Phrase
 
 abstract class AbstractFlightViewModel(protected val context: Context, protected val flightLeg: FlightLeg) {
     val resources = context.resources
-    val flightTime = PackageFlightUtils.getFlightDepartureArrivalTimeAndDays(context, flightLeg)
-    val asscesibleFlightTime = PackageFlightUtils.getAccessibleDepartArrivalTime(context, flightLeg)
-    val airline = PackageFlightUtils.getDistinctiveAirline(flightLeg.airlines)
-    val duration = PackageFlightUtils.getFlightDurationStopString(context, flightLeg)
+    val flightTime = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(context, flightLeg)
+    val asscesibleFlightTime = FlightV2Utils.getAccessibleDepartArrivalTime(context, flightLeg)
+    val airline = FlightV2Utils.getDistinctiveAirline(flightLeg.airlines)
+    val duration = FlightV2Utils.getFlightDurationStopString(context, flightLeg)
     val layover = flightLeg
     var flightSegments = flightLeg.flightSegments
 
@@ -26,7 +26,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
         result.append(Phrase.from(context, R.string.flight_detail_card_cont_desc_TEMPLATE)
                 .put("time", asscesibleFlightTime)
                 .put("pricedifference", price())
-                .put("airline", PackageFlightUtils.getAirlinesList(airline))
+                .put("airline", FlightV2Utils.getAirlinesList(airline))
                 .put("hours", getHourTimeContDesc(flightLeg.durationHour))
                 .put("minutes", getMinuteTimeContDesc(flightLeg.durationMinute))
                 .put("stops", flightLeg.stopCount)
