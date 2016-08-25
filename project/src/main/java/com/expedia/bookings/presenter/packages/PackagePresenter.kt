@@ -102,6 +102,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().packageSearchApiErrorObserver)
         bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
         errorPresenter.getViewModel().defaultErrorObservable.subscribe {
+            bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
+            bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+            bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
             show(searchPresenter, FLAG_CLEAR_TOP)
         }
 
