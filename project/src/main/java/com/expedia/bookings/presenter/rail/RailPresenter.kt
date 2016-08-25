@@ -49,7 +49,6 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             if (forward) {
                 val overviewHeader = tripOverviewPresenter.bundleOverviewHeader
                 overviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
-                overviewHeader.toggleOverviewHeader(true)
                 tripOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
                 tripOverviewPresenter.getCheckoutPresenter().totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.total))
                 tripOverviewPresenter.getCheckoutPresenter().totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))

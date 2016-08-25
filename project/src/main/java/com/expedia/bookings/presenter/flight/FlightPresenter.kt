@@ -382,8 +382,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.startTransition(forward)
             if (forward) {
                 flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
-                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(true)
                 flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(false)
             }
         }
     }
@@ -393,8 +399,14 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.startTransition(forward)
             if (forward) {
                 flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
-                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(true)
                 flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(false)
             }
         }
     }
