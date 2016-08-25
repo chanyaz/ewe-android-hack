@@ -8,10 +8,9 @@ import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.squareup.phrase.Phrase
 
-object PackageFlightUtils {
+object FlightV2Utils {
 
     @JvmStatic fun getFlightDurationStopString(context: Context, flight: FlightLeg): String {
         return context.resources.getString(R.string.flight_duration_description_template, getFlightDurationString(context, flight), getFlightStopString(context, flight))
@@ -34,7 +33,7 @@ object PackageFlightUtils {
     }
 
     @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int): CharSequence {
-        val flightDuration = PackageFlightUtils.getFlightDurationString(context, flight)
+        val flightDuration = FlightV2Utils.getFlightDurationString(context, flight)
         var totalDuration = Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
                 .put("duration", flightDuration)
                 .format().toString()
@@ -100,9 +99,18 @@ object PackageFlightUtils {
     }
 
     @JvmStatic fun getFlightDepartureArrivalTimeAndDays(context: Context, departureTime: String, arrivalTime: String, elapsedDays: Int): String {
-        if (elapsedDays > 0) {
-            return context.resources.getString(R.string.flight_departure_arrival_time_multi_day_template,
-                    DateUtils.formatTimeShort(departureTime), DateUtils.formatTimeShort(arrivalTime), elapsedDays)
+
+        if (elapsedDays != 0) {
+            var displayStringTemplate: Int
+            if (elapsedDays < 0) {
+                displayStringTemplate = R.string.flight_departure_arrival_time_negative_days_TEMPLATE
+            } else {
+                displayStringTemplate = R.string.flight_departure_arrival_time_multi_day_TEMPLATE
+            }
+            return Phrase.from(context, displayStringTemplate)
+                    .put("departuretime", DateUtils.formatTimeShort(departureTime))
+                    .put("arrivaltime", DateUtils.formatTimeShort(arrivalTime))
+                    .put("elapseddays", Math.abs(elapsedDays)).format().toString()
         }
         return getFlightDepartureArrivalTime(context, DateUtils.formatTimeShort(departureTime), DateUtils.formatTimeShort(arrivalTime))
     }
@@ -111,12 +119,19 @@ object PackageFlightUtils {
         val departureTime = DateUtils.formatTimeShort(flight.departureDateTimeISO)
         val arrivalTime = DateUtils.formatTimeShort(flight.arrivalDateTimeISO)
         val elapsedDays = flight.elapsedDays
-        if (elapsedDays > 0) {
-            return Phrase.from(context, R.string.flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE)
+        if (elapsedDays != 0) {
+            var displayStringTemplate: Int
+            if (elapsedDays < 0) {
+                displayStringTemplate = R.string.flight_departure_arrival_time_negative_days_cont_desc_TEMPLATE
+            } else {
+                displayStringTemplate = R.string.flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE
+            }
+            return Phrase.from(context, displayStringTemplate)
                     .put("departuretime", departureTime)
                     .put("arrivaltime", arrivalTime)
-                    .put("elapseddays", elapsedDays).format().toString()
+                    .put("elapseddays", Math.abs(elapsedDays)).format().toString()
         }
+
         return Phrase.from(context, R.string.flight_departure_arrival_time_cont_desc_TEMPLATE)
                 .put("departuretime", departureTime)
                 .put("arrivaltime", arrivalTime).format().toString()

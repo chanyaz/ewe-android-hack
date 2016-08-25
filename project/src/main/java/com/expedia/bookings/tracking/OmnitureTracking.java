@@ -1,19 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -21,6 +7,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -33,7 +20,6 @@ import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Pair;
-
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -98,10 +84,10 @@ import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberUtils;
-import com.expedia.bookings.utils.PackageFlightUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.util.ToggleFeatureConfiguration;
@@ -110,6 +96,19 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -4784,7 +4783,7 @@ public class OmnitureTracking {
 		productString.append(numTravelers + ";" + productPrice + ";;");
 
 		String eVarNumber = isConfirmation ? "eVar30" : "eVar63";
-		String flightInventoryType = PackageFlightUtils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
+		String flightInventoryType = FlightV2Utils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
 
 		if (addEvarInventory) {
 			String packageSupplierType = hotelSupplierType.toLowerCase(Locale.ENGLISH).equals(flightInventoryType.toLowerCase(Locale.ENGLISH)) ? flightInventoryType : "Mixed";

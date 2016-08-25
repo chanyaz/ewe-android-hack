@@ -8,7 +8,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.PackageFlightUtils
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
@@ -98,7 +98,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(flight)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_checkmark_icon, 0))
             }
-            totalDurationObserver.onNext(PackageFlightUtils.getStylizedFlightDurationString(context, flight, R.color.packages_total_duration_text))
+            totalDurationObserver.onNext(FlightV2Utils.getStylizedFlightDurationString(context, flight, R.color.packages_total_duration_text))
             selectedFlightLegObservable.onNext(flight)
         }).subscribe()
     }
