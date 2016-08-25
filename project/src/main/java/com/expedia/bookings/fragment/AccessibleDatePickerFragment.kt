@@ -17,6 +17,7 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
+        baseSearchViewModel.a11yFocusSelectDatesObservable.onNext(Unit)
     }
 
     override fun onCancel(dialog: DialogInterface?) {
