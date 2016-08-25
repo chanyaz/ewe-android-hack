@@ -8,6 +8,7 @@ fi
 if [[ $isJenkins && ("$isPRPoliceEnabled" == "true" || "$isUnitTestsFeedbackBotEnabled" == "true")]]; then
     GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
     HIPCHAT_TOKEN=MdHG4PNWYSGD41jwF4TvVfhNADhw0NnOyGdjw3uI
+    export PYTHONIOENCODING=utf-8
 
     if [ ! -d 'virtualenv' ]; then
         virtualenv -p python2.7 virtualenv

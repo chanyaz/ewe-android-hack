@@ -16,5 +16,6 @@ class StringValidationClause(IClause):
 		issueList = []
 		if self.wantsToScanFile(file.filename):
 			issueLists = [self.probableIssuesOnLineInFile(file, line, index) for index, line in enumerate(file.patch.fileLines) if line.operation == LineOperation.added]
-			issueList = reduce(operator.add, issueLists)
+			if len(issueLists) > 0:
+				issueList = reduce(operator.add, issueLists)
 		return issueList
