@@ -63,6 +63,7 @@
     <!-- flight color-->
     <color name="flight_edit_search_button_color">@color/white</color>
     <color name="flight_earn_message_text_color">@color/earn_message_text_color</color>
+    <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">#004D7C</color>

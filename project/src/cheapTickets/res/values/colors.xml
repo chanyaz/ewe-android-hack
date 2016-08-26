@@ -86,6 +86,7 @@
 
     <!-- flight color-->
     <color name="flight_earn_message_text_color">#990033</color>
+    <color name="traveler_drop_down_checked_color">@color/action_bar_flight_text_color</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">#116FAA</color>

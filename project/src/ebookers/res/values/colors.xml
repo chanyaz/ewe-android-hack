@@ -33,6 +33,7 @@
     <color name="flight_card_airline_fee_warning">#0099CC</color>
     <color name="flight_free_cancellation_text_color">#0099CC</color>
     <color name="credit_card_form_additional_fees_tablet_bg">@color/hotels_primary_color</color>
+    <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
