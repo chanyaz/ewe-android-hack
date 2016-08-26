@@ -22,6 +22,7 @@
         android:layout_alignParentRight="true"
         android:gravity="center"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:paddingRight="7dp"
         android:text="?attr/sliderText"
         android:textColor="#FFFFFF"

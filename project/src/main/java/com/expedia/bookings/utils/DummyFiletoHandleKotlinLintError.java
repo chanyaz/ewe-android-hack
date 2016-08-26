@@ -26,6 +26,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.package_hotel_cell,
 		R.string.unreal_deal_text,
 		R.layout.widget_hotel_results,
+		R.string.accessibility_purchase_button,
 		R.string.flight_hour_min_duration_template_cont_desc,
 		R.string.flight_min_duration_template_cont_desc,
 		R.layout.activity_hotel,

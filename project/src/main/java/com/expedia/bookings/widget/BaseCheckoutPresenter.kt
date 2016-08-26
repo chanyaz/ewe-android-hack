@@ -106,6 +106,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
     val slideToPurchaseLayout: LinearLayout by bindView(R.id.slide_to_purchase_layout)
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
+    val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
     val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val rootWindow by lazy { (context as Activity).window }
@@ -131,7 +132,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
         vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
-        vm.sliderPurchaseLayoutContentDescription.subscribe { slideToPurchaseLayout.contentDescription = it }
+        vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
         vm.checkoutParams.subscribe {
             checkoutDialog.show()
         }
@@ -238,6 +239,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         getCreateTripViewModel().noNetworkObservable.subscribe {
             createTripDialog.dismiss()
         }
+
+        accessiblePurchaseButton.setOnClickListener {
+            if (ckoViewModel.builder.hasValidParams()) {
+                ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
+            } else {
+                ckoViewModel.slideAllTheWayObservable.onNext(Unit)
+            }
+        }
     }
 
     override fun onFinishInflate() {
@@ -278,16 +287,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                         toolbarDropShadow.visibility = invalidPaymentWarningVisibility
                     }
                 }).subscribe()
-
-        slideToPurchaseLayout.setOnClickListener {
-            if (AccessibilityUtil.isTalkBackEnabled(context)) {
-                if (ckoViewModel.builder.hasValidParams()) {
-                    ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
-                } else {
-                    ckoViewModel.slideAllTheWayObservable.onNext(Unit)
-                }
-            }
-        }
 
     }
 
@@ -478,6 +477,17 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     fun animateInSlideToPurchase(visible: Boolean) {
+        if (AccessibilityUtil.isTalkBackEnabled(context) && visible) {
+            //hide the slider for talkback users and show a purchase button
+            accessiblePurchaseButton.setText(context.getString(R.string.accessibility_purchase_button))
+            accessiblePurchaseButton.visibility = View.VISIBLE
+            accessiblePurchaseButton.hideTouchTarget()
+            slideToPurchase.visibility = View.GONE
+        }
+        else {
+            slideToPurchase.visibility = View.VISIBLE
+            accessiblePurchaseButton.visibility = View.GONE
+        }
         val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
         if (isSlideToPurchaseLayoutVisible) {
             trackShowSlideToPurchase()

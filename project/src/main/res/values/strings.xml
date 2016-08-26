@@ -44,6 +44,9 @@
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">Google Map, Search hotel results using map view</string>
 
+    <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_purchase_button">Purchase</string>
+
     <!-- Cars -->
     <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
     <string name="car_toolbar_date_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
