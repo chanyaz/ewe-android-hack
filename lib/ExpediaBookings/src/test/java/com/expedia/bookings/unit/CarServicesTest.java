@@ -431,7 +431,6 @@ public class CarServicesTest {
 		params.ccName = "";
 		params.ccCVV = "";
 		params.storedCCID = "";
-		params.guid = "";
 		params.firstName = mockFileName;
 		params.grandTotal = new Money(0, "USD");
 	}

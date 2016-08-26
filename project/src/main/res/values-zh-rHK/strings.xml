@@ -45,6 +45,10 @@
     <string name="hotel_results_map_view_cont_desc">Google 地圖，使用地圖搜尋酒店結果</string>
 
     <!-- Cars -->
+    <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="car_toolbar_date_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
+    <!-- Cars Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="car_toolbar_date_range_cont_desc_TEMPLATE">{from_date_time}至 {to_date_time}</string>
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
     <string name="cars_calendar_start_date_label">下一步：選擇還車日期</string>
@@ -120,6 +124,8 @@
     <string name="calendar_desc_itinerary_TEMPLATE">{brand} 行程編號：{itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_desc_support_TEMPLATE">{brand} 客戶支援：{localphone} 及 {phone}</string>
+    <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
+    <string name="car_search_date_range_cont_desc_TEMPLATE">租車日期。按鈕。打開對話框。{date_time_range}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">酒店</string>
@@ -145,6 +151,10 @@
     <string name="drop_off_same_as_pick_up">即將推出！我們正加緊努力，以於新版本中加入單程航班預訂。</string>
     <!-- Label for hint for car pick-up-->
     <string name="car_pick_up_hint">取車</string>
+    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Pick up time 9:00 am-->
+    <string name="pick_up_slider_cont_desc_TEMPLATE">取車時間 {time}</string>
+    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
+    <string name="drop_off_slider_cont_desc_TEMPLATE">還車時間 {time}</string>
     <!-- Car search error -->
     <string name="error_no_result_message">找不到任何結果。請以其他條件再次搜尋。</string>
     <!-- Car no filtered search results -->
@@ -803,6 +813,16 @@
         <item quantity="many">%s 個回程航班</item>
         <item quantity="other">%s 個回程航班</item>
     </plurals>
+
+    <!-- Label indicating the direction of the rails is outbond-->
+    <string name="select_outbound">選擇出發航班</string>
+    <!-- Label indicating the direction of the rails is inbond-->
+    <string name="select_return">選擇回程航班</string>
+    <!-- Label indicating the one way trip for rails-->
+    <string name="one_way_from">單程低至</string>
+    <!-- Label indicating the round trip for rails-->
+    <string name="total_from">來回低至</string>
+
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_roundtrip_label">每位來回價</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
@@ -863,8 +883,8 @@
     <string name="Areas">地區</string>
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">其他地區</string>
-    <!-- Short label for "sort by popular" button -->
-    <string name="popular">熱門程度</string>
+    <!-- Short label for "sort by recommended" button -->
+    <string name="recommended">推薦</string>
     <!-- Short label for "sort by price" button -->
     <string name="price">價格</string>
     <!-- Short label for "sort by rating" button -->
@@ -1031,7 +1051,7 @@
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">今晚熱門酒店</string>
+    <string name="nearby_deals_title">今晚推薦酒店</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">查看更多</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -1216,6 +1236,12 @@
     <string name="car_rental_agency_name_location">位於%3$s%2$s的 %1$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">代理確認碼</string>
+    <!-- Content Description Text for Location Map Button on Car Trips " -->
+    <string name="location_map_button_label_cont_desc">地圖</string>
+    <!-- Content Description for chevron image to back to itinerary screen -->
+    <string name="trips_back_button_label_cont_desc">返回行程畫面按鈕</string>
+    <!-- Content Description for chevron image to expand selected itinerary/trip -->
+    <string name="trips_expand_button_label_cont_desc">展開行程按鈕</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">酒店確認碼</string>
     <!-- Passengers Label -->
@@ -1268,12 +1294,16 @@
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;來自：%1$s&lt;/b&gt; - %2$s</string>
     <!-- Itin sign out confirmation message -->
     <string name="itin_sign_out_confirmation_message_TEMPLATE">登出 %1$s 將移除任何與此帳戶有關的行程項目。確定要登出嗎？</string>
+    <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
+    <string name="flight_overview_TEMPLATE_cont_desc">{airline} 出發時間 {departs} 抵達時間 {arrives}</string>
     <!-- Directions -->
     <string name="directions">路線</string>
     <!-- Terminal Map -->
     <string name="Terminal_Map">客運大樓地圖</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">客運大樓地圖</string>
+    <!-- Accessibility label for Terminal Maps/Directions button on itins -->
+    <string name="terminal_maps_directions_cont_desc">客運大樓地圖及路線</string>
     <!-- Legend -->
     <string name="legend">圖例</string>
     <!-- Flight has been cancelled -->
@@ -1839,7 +1869,8 @@
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (單程)</string>
-
+    <!-- Calendar instructions rail start date selected -->
+    <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
     <string name="calendar_instructions_date_range_flight_select_return_date">下一步：選擇回程日期</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
@@ -1967,6 +1998,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">航空公司不接受 %1$s</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">酒店不接受 %1$s</string>
+    <!-- Package trip does not accept <Credit Card Brand> (Example: Visa is not accepted for this trip) -->
+    <string name="package_does_not_accept_cardtype_TEMPLATE">此行程不接受 {card_type}</string>
     <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
     <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s不接受 %2$s</string>
     <!-- Debit cards not supported message -->
@@ -1985,6 +2018,8 @@
     <string name="includes_taxes_and_fees">包括稅項及附加費</string>
     <!-- Includes taxes, fees, flights+hotels -->
     <string name="includes_taxes_fees_flights_hotel">包括稅項、附加費、機票 + 酒店</string>
+    <!-- Includes flights+hotels -->
+    <string name="includes_flights_hotel">包括機票 ＋ 酒店</string>
     <!-- Includes taxes (but not necessarily fees) -->
     <string name="includes_taxes">包括稅項</string>
     <!-- Date and trip from _ to _ -->
@@ -2285,7 +2320,7 @@
         <item quantity="one">+ {travelercount} 位旅客</item>
         <item quantity="other">+ {travelercount} 位旅客</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">更改旅客 {travelernumber} ({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">編輯旅客 {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 歲</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -2457,7 +2492,10 @@
     <string name="air_attach_add_hotel">加訂酒店</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">獲享折扣優惠</string>
-
+    <!-- Accessibility label for arriving icon on itin  -->
+    <string name="itin_arriving_cont_desc">抵達機場</string>
+    <!-- Accessibility label for departing icon on itin  -->
+    <string name="itin_departing_cont_desc">出發機場</string>
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -2470,6 +2508,8 @@
     <string name="hotel_confirmation_directions">酒店路線資訊</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="rent_a_car_TEMPLATE">%1$s租車</string>
+    <!-- Hotel confirmation page -->
+    <string name="hotel_confirmation_toolbar_close_cont_desc">關閉確認畫面</string>
 
     <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
@@ -2728,8 +2768,8 @@
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
     <string name="sort_description_distance">距離</string>
-    <!-- Sort by popularity label -->
-    <string name="sort_description_popular">受歡迎程度</string>
+    <!-- Sort by recommended label -->
+    <string name="sort_description_recommended">推薦</string>
     <!-- Sort by price label -->
     <string name="sort_description_price">價格</string>
     <!-- Sort by deals label -->
@@ -2830,6 +2870,14 @@
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
+    <!--Options title for favorite and VIP checkboxes for Hotel Results -->
+    <string name="filter_options">選項</string>
+    <!-- Title for Favorites message for Hotel Results -->
+    <string name="favorites">「我的最愛」酒店</string>
+    <!-- Filter for showing only favorited hotels -->
+    <string name="favorites_only">「我的最愛」酒店</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_favorites">只顯示「我的最愛」酒店</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">於 +VIP Access 酒店，+silver 及 +gold 會員可視乎入住時的供應情況而享有免費客房升級及其他優惠。</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -3966,6 +4014,12 @@
     <string name="show_less">隱藏部分內容</string>
     <string name="price_range">價格範圍</string>
 
+    <!-- Hotel Favoriting Strings -->
+    <string name="favorite_toast">已加入篩選畫面中的「我的最愛」</string>
+    <string name="favorite_first_time_dialog_title">我的最愛</string>
+    <string name="favorite_first_time_dialog_content">酒店已加入「我的最愛」。您可按「我的最愛」篩選搜尋結果</string>
+    <string name="favorite_first_time_dialog_ok_button">明白</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">已使用優惠券：節省 %1$s！</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4024,8 +4078,6 @@
     </plurals>
     <!-- Package hotel cell: Price Includes flights -->
     <string name="package_price_include_flights">價格包括酒店 + 機票</string>
-    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
-    <string name="package_price_includes_taxes_fees">價格包括一位稅項、附加費、機票 + 酒店</string>
     <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
     <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
@@ -4074,6 +4126,12 @@
         <item quantity="two">停站 2 次或以上</item>
         <item quantity="other">停站 2 次或以上</item>
     </plurals>
+    <!-- Title of alert dialog when user taps back button on package checkout overview page -->
+    <string name="package_checkout_back_dialog_title">您確定嗎？</string>
+    <!-- Message of alert dialog when user taps back button on package checkout overview page -->
+    <string name="package_checkout_back_dialog_message">您將重新開始搜尋。如需更改酒店或機票，請輕按右上方的「修改」按鈕。</string>
+    <!-- Button label for start over -->
+    <string name="start_over">重新開始</string>
 
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">不停站</string>
@@ -4083,6 +4141,11 @@
     <string name="flight_hour_min_duration_template">%1$d小時 %2$d分</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
     <string name="flight_min_duration_template">%1$d分鐘</string>
+
+    <!-- Accessibility label for flight hour duration template e.g. 12 hour 42 minutes -->
+    <string name="flight_hour_min_duration_template_cont_desc">{h} 小時 {m} 分鐘</string>
+    <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
+    <string name="flight_min_duration_template_cont_desc">{m} 分鐘</string>
 
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d日</string>
@@ -4120,7 +4183,13 @@
     <!-- Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE">
         <item quantity="one">{city}酒店 - 1 間房, {number} 晚</item>
-        <item quantity="other">{city}酒店 - 1 間房，{number} 晚</item>
+        <item quantity="other">{city}酒店 - 1 間房, {number} 晚</item>
+    </plurals>
+
+    <!-- Accessibility Label for hotel on checkout overview of Packages -->
+    <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
+        <item quantity="one">{city}酒店；1 間房, {number} 晚</item>
+        <item quantity="other">{city}酒店；1 間房, {number} 晚</item>
     </plurals>
 
     <!-- Text indicating that the user can drag this button to view their trip -->
@@ -4183,6 +4252,9 @@
     <!--Rail search screen title-->
     <string name="trains">火車票</string>
 
+    <!--used on the rail search screen - this is equivalent to a one way air ticket -->
+    <string name="rail_one_way">單程</string>
+
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">來回</string>
 
@@ -4200,6 +4272,9 @@
 
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">行程資料 + 票價選擇</string>
+
+    <!--Use on the timeline on rail details when a customer transfer from one sation to another: You have xx.xx min to get from one station to another during a trip -->
+    <string name="rail_transfer_from_a_to_b_TEMPLATE">您需於 {formattedduration}內由{origin}前往{destination}</string>
 
     <!--Use on the timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">乘搭{travelmode}由{origin}前往{destination}</string>
@@ -4243,6 +4318,24 @@
     <string name="rail_location_hint">城市或車站</string>
     <string name="error_same_station_departure_arrival">出發及抵達車站必須不同。</string>
 
+    <!-- Label for adult passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Adult") -->
+    <string name="rail_adult_number_TEMPLATE">旅客 {number}：成人</string>
+
+    <!-- Label for child passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Child") -->
+    <string name="rail_child_number_TEMPLATE">旅客 {number}：小童</string>
+
+    <!-- Label for youth passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Youth") -->
+    <string name="rail_youth_number_TEMPLATE">旅客 {number}：青年</string>
+
+    <!-- Label for senior passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Senior")-->
+    <string name="rail_senior_number_TEMPLATE">旅客 {number}：長者</string>
+
+    <!-- Label for ticket delivery fee on the Rail cost breakdown screen -->
+    <string name="rail_ticket_delivery_fee">車票送遞費</string>
+
+    <!-- Label for credit card fee on the Rail cost breakdown screen -->
+    <string name="rail_credit_card_fee">付款卡手續費</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">很抱歉，伺服器出現問題。請再試一次。</string>
     <string name="pwp_trip_service_error">很抱歉，伺服器出現問題。請再試一次。</string>
     <string name="pwp_unknown_error">出現未明錯誤。請再試一次。</string>
@@ -4261,7 +4354,7 @@
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
     <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">已包括稅項及附加費 ({taxes})</string>
     <!-- Cost summary breakdown line item for savings -->
-    <string name="cost_summary_breakdown_total_savings">合共可慳金額</string>
+    <string name="cost_summary_breakdown_total_savings">套票行程折扣</string>
     <!-- Cost summary breakdown line item for total -->
     <string name="cost_summary_breakdown_total_due_today">現應付總額</string>
 
@@ -4445,8 +4538,6 @@
     <string name="lx_add_ticket_button_cont_desc_TEMPLATE">新增{traveler}</string>
     <!-- Content description for LX remove ticket button e.g. Remove child Button -->
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">移除{traveler}</string>
-    <!-- Append 'Button' to Content description for LX search results card button -->
-    <string name="lx_card_announce_button_cont_desc">。按鈕</string>
     <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
     <string name="lx_search_date_range_cont_desc_TEMPLATE">活動日期。按鈕。打開對話框。{date_range}</string>
 
@@ -4456,6 +4547,8 @@
     <string name="lx_free_cancellation_cont_desc">免費取消。法律資料按鈕。</string>
 
     <!-- Generic content description -->
+    <!-- Append 'Button' to Content description for LX/Cars search results card button -->
+    <string name="list_card_announce_button_cont_desc">。按鈕</string>
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_nav_icon_cont_desc">返回</string>
     <string name="toolbar_nav_icon_close_cont_desc">關閉</string>
@@ -4464,6 +4557,9 @@
     <string name="search_result_duration_cont_desc_TEMPLATE">為時 {duration}</string>
     <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
     <string name="search_result_multiple_duration_cont_desc_TEMPLATE">為時 {duration} 以上</string>
+
+    <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
+    <string name="cvv_text_field_cont_desc">安全碼輸入欄位</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_incomplete_cont_desc">旅客資料未填妥</string>
@@ -4477,6 +4573,10 @@
     <string name="accessibility_cont_desc_role_button_collapse">隱藏按鈕</string>
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">打開對話框</string>
+    <!--Packages accessibility content description for hotel room selection expand -->
+    <string name="hotel_room_expand_cont_desc">展開以查看客房資料並選擇客房</string>
+    <!--Packages accessibility content description for hotel room selection collapse -->
+    <string name="hotel_expanded_room_select_cont_desc">選擇客房</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">價格為 {activity_price}</string>
@@ -4488,4 +4588,37 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">選擇方格。沒選擇。</string>
     <string name="base_search_dates_cont_desc">選擇日期。按鈕。打開對話框</string>
+
+    <!-- Discount amount shown with minus e.g. -$30 -->
+    <string name="discount_minus_amount">-{amount}</string>
+    <string name="local_charges_due_at_hotel">須於酒店支付的當地費用</string>
+    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for US eg. $150 in local taxes and/or hotel charges will be collected at the hotel. The total price for your stay will be 1050 -->
+    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">酒店將收取 &lt;b&gt;{resort_fee}&lt;/b&gt; 地方稅及/或酒店附加費。您住宿的&lt;b&gt;總價將為 {trip_total}&lt;/b&gt;</string>
+    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for UK eg. $150 in local taxes and/or hotel charges will be collected at the hotel in the hotel's local currency. -->
+    <string name="package_resort_fees_disclaimer_TEMPLATE">酒店將以當地貨幣收取 &lt;b&gt;{resort_fee}&lt;/b&gt; 地方稅及/或酒店附加費。</string>
+    <!-- Package cost summary row  e.g. 2 rooms, 1 night, 3 guests -->
+    <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
+    <!-- Package cost summary row snippet  e.g. 2 rooms-->
+    <plurals name="number_of_room_TEMPLATE">
+        <item quantity="one">{room} 間客房</item>
+        <item quantity="other">{room} 間客房</item>
+    </plurals>
+    <!-- Package cost summary row snippet  e.g. 1 night-->
+    <plurals name="number_of_nights_TEMPLATE">
+        <item quantity="zero">{night} 晚</item>
+        <item quantity="one">{night} 晚</item>
+        <item quantity="two">{night} 晚</item>
+        <item quantity="many">{night} 晚</item>
+        <item quantity="other">{night} 晚</item>
+    </plurals>
+    <!-- Package cost summary row snippet  e.g. 4 guests-->
+    <plurals name="number_of_guest_TEMPLATE">
+        <item quantity="zero">{guest} 位旅客</item>
+        <item quantity="one">{guest} 位旅客</item>
+        <item quantity="two">{guest} 位旅客</item>
+        <item quantity="many">{guest} 位旅客</item>
+        <item quantity="other">{guest} 位旅客</item>
+    </plurals>
+    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">{type}行程卡按鈕。</string>
 </resources>
