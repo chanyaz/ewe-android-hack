@@ -266,6 +266,15 @@
                 android:layout_marginRight="@dimen/car_slide_to_purchase_padding"
                 android:background="#FFFFFF" />
 
+            <com.expedia.bookings.widget.SlideToWidgetLL
+                android:id="@+id/purchase_button_widget"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginLeft="@dimen/car_slide_to_purchase_padding"
+                android:layout_marginRight="@dimen/car_slide_to_purchase_padding"
+                android:background="#FFFFFF" />
+
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/purchase_total_text_view"
                 android:layout_width="wrap_content"

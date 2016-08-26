@@ -35,7 +35,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             var depositText = ""
             if (it.packageDetails.pricing.hasResortFee()) {
                 val messageResId =
-                        if(PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
+                        if (PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
                             R.string.package_resort_fees_and_total_price_disclaimer_TEMPLATE
                         else
                             R.string.package_resort_fees_disclaimer_TEMPLATE
@@ -52,11 +52,12 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                     .put("dueamount", it.getTripTotalExcludingFee().formattedMoneyFromAmountAndCurrencyCode)
                     .format().toString()
             sliderPurchaseTotalText.onNext(totalPrice)
-            val sliderPurchaseContDesc = totalPrice + "," + context.getString(R.string.slide_to_book_text) + "," + context.getString(R.string.accessibility_cont_desc_role_button)
-            sliderPurchaseLayoutContentDescription.onNext(sliderPurchaseContDesc)
+            val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
+            accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
         }
 
-        checkoutParams.subscribe { params -> params as PackageCheckoutParams
+        checkoutParams.subscribe { params ->
+            params as PackageCheckoutParams
             packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.travelers.first().email
         }
