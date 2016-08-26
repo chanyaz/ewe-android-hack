@@ -45,6 +45,10 @@
     <string name="hotel_results_map_view_cont_desc">Google Map, hotellihakutulokset näytetään kartalla</string>
 
     <!-- Cars -->
+    <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
+    <string name="car_toolbar_date_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
+    <!-- Cars Toolbar Date Range Cont Desc e.g. May 05 to May 10 -->
+    <string name="car_toolbar_date_range_cont_desc_TEMPLATE">{from_date_time} – {to_date_time}</string>
     <!-- Cars Calendar Strings -->
     <!-- Tooltip description for selecting the start date -->
     <string name="cars_calendar_start_date_label">Seuraava: valitse palautuspäivä</string>
@@ -120,6 +124,8 @@
     <string name="calendar_desc_itinerary_TEMPLATE">{brand}n matkasuunnitelman numero: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_desc_support_TEMPLATE">{brand}n asiakaspalvelu: {localphone} ja {phone}</string>
+    <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
+    <string name="car_search_date_range_cont_desc_TEMPLATE">Vuokra-auton päivät. Painike. Avaa dialogin. {date_time_range}</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotellit</string>
@@ -145,6 +151,10 @@
     <string name="drop_off_same_as_pick_up">Tulossa pian! Teemme parhaamme lisätäksemme yhdensuuntaiset varaukset tulevaan versioon.</string>
     <!-- Label for hint for car pick-up-->
     <string name="car_pick_up_hint">Nouto</string>
+    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Pick up time 9:00 am-->
+    <string name="pick_up_slider_cont_desc_TEMPLATE">Noutoaika {time}</string>
+    <!--Car search's Pick up slider content description for Talkback to indicate user selected pick up time for Eg. Drop off time 9:00 am-->
+    <string name="drop_off_slider_cont_desc_TEMPLATE">Palautusaika {time}</string>
     <!-- Car search error -->
     <string name="error_no_result_message">Ei hakutuloksia. Hae uudelleen eri hakuehdoilla.</string>
     <!-- Car no filtered search results -->
@@ -803,6 +813,16 @@
         <item quantity="many">%s paluulentoa</item>
         <item quantity="other">%s paluulentoa</item>
     </plurals>
+
+    <!-- Label indicating the direction of the rails is outbond-->
+    <string name="select_outbound">Valitse lähtölento</string>
+    <!-- Label indicating the direction of the rails is inbond-->
+    <string name="select_return">Valitse paluulento</string>
+    <!-- Label indicating the one way trip for rails-->
+    <string name="one_way_from">Yhdensuuntainen alkaen</string>
+    <!-- Label indicating the round trip for rails-->
+    <string name="total_from">Yhteensä alkaen</string>
+
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_roundtrip_label">Menopaluuhinta per henkilö</string>
     <!-- Label indicating the price shown is the price per person rather than the total-->
@@ -863,8 +883,8 @@
     <string name="Areas">Alueet</string>
     <!-- Default label for unnamed areas/neighborhoods -->
     <string name="Other_Areas">Muut alueet</string>
-    <!-- Short label for "sort by popular" button -->
-    <string name="popular">Suosituimmuus</string>
+    <!-- Short label for "sort by recommended" button -->
+    <string name="recommended">Suositeltu</string>
     <!-- Short label for "sort by price" button -->
     <string name="price">Hinta</string>
     <!-- Short label for "sort by rating" button -->
@@ -1025,13 +1045,13 @@
     <string name="nav_rail">Junat</string>
 
     <!-- Rail from hint -->
-    <string name="from_hint">Lähtöpaikka</string>
+    <string name="from_hint">Lähtöasema</string>
     <!-- Rail to hint -->
     <string name="to_hint">Kohde</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Suosittuja hotelleja täksi yöksi</string>
+    <string name="nearby_deals_title">Suositeltuja hotelleja täksi yöksi</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">Katso lisää</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -1216,6 +1236,12 @@
     <string name="car_rental_agency_name_location">%1$s kohteessa %2$s, %3$s</string>
     <!-- Car rental confirmation code "Agency Confirmation Code" -->
     <string name="car_rental_confirmation_code_label">Matkatoimiston vahvistusnumero</string>
+    <!-- Content Description Text for Location Map Button on Car Trips " -->
+    <string name="location_map_button_label_cont_desc">kartta</string>
+    <!-- Content Description for chevron image to back to itinerary screen -->
+    <string name="trips_back_button_label_cont_desc">Takaisin matkoihin -painike</string>
+    <!-- Content Description for chevron image to expand selected itinerary/trip -->
+    <string name="trips_expand_button_label_cont_desc">Painike, jonka avulla näet lisätietoja matkasta</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Hotellin vahvistusnumero</string>
     <!-- Passengers Label -->
@@ -1268,12 +1294,16 @@
     <string name="from_airport_terminal_gate_TEMPLATE">&lt;b&gt;Kentältä %1$s&lt;/b&gt; – %2$s</string>
     <!-- Itin sign out confirmation message -->
     <string name="itin_sign_out_confirmation_message_TEMPLATE">Uloskirjautuminen osoitteesta %1$s poistaa kaikki matkasuunnitelman osat, jotka liittyvät tähän tilin. Haluatko kirjautua ulos?</string>
+    <!-- Accessibility lable for flight overview summary e.g Delta Airlines 745 departs 11:32 AM and arrives 6:04 PM -->
+    <string name="flight_overview_TEMPLATE_cont_desc">{airline} lähtee kello {departs} ja saapuu {arrives}</string>
     <!-- Directions -->
     <string name="directions">Ajo-ohjeet</string>
     <!-- Terminal Map -->
     <string name="Terminal_Map">Terminaalikartta</string>
     <!-- Terminal Maps -->
     <string name="terminal_maps">Terminaalikartat</string>
+    <!-- Accessibility label for Terminal Maps/Directions button on itins -->
+    <string name="terminal_maps_directions_cont_desc">Terminaalikartat ja reittiohjeet</string>
     <!-- Legend -->
     <string name="legend">Selite</string>
     <!-- Flight has been cancelled -->
@@ -1839,7 +1869,8 @@
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} – {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (yhdensuuntainen)</string>
-
+    <!-- Calendar instructions rail start date selected -->
+    <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
     <string name="calendar_instructions_date_range_flight_select_return_date">Seuraavaksi: valitse palautuspäivä</string>
     <!-- Calendar instruction text hotels no dates selected - "Select Check-in Date" -->
@@ -1967,6 +1998,8 @@
     <string name="airline_does_not_accept_cardtype_TEMPLATE">Lentoyhtiö ei hyväksy %1$s-kortteja</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
     <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotelli ei hyväksy %1$s-kortteja</string>
+    <!-- Package trip does not accept <Credit Card Brand> (Example: Visa is not accepted for this trip) -->
+    <string name="package_does_not_accept_cardtype_TEMPLATE">{card_type}-korttia ei voi käyttää tämän matkan varaamiseen</string>
     <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
     <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s ei hyväksy %2$s-kortteja</string>
     <!-- Debit cards not supported message -->
@@ -1985,6 +2018,8 @@
     <string name="includes_taxes_and_fees">Sisältää verot ja maksut</string>
     <!-- Includes taxes, fees, flights+hotels -->
     <string name="includes_taxes_fees_flights_hotel">Sisältää verot ja maksut, lennot + hotelli</string>
+    <!-- Includes flights+hotels -->
+    <string name="includes_flights_hotel">Sisältää lennot + hotellin</string>
     <!-- Includes taxes (but not necessarily fees) -->
     <string name="includes_taxes">Sisältää verot</string>
     <!-- Date and trip from _ to _ -->
@@ -2457,7 +2492,10 @@
     <string name="air_attach_add_hotel">Lisää hotelli</string>
     <!-- Air attach add hotel button subtitle -->
     <string name="air_attach_with_discounts">alennettuun hintaan</string>
-
+    <!-- Accessibility label for arriving icon on itin  -->
+    <string name="itin_arriving_cont_desc">Saapumislentokenttä</string>
+    <!-- Accessibility label for departing icon on itin  -->
+    <string name="itin_departing_cont_desc">Lähtölentokenttä</string>
 
     <!-- Hotel confirmation page -->
     <!-- Title for section helping users get flights after booking a hotel -->
@@ -2470,6 +2508,8 @@
     <string name="hotel_confirmation_directions">Ajo-ohjeet hotellille</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="rent_a_car_TEMPLATE">Vuokraa auto kohteessa %1$s</string>
+    <!-- Hotel confirmation page -->
+    <string name="hotel_confirmation_toolbar_close_cont_desc">Sulje vahvistusnäyttö</string>
 
     <!-- Add to calendar (flights) -->
     <!-- Title for calendar event.  %1$s is the starting airport, %2$s is the ending airport, e.g. "SFO to BOS" -->
@@ -2728,8 +2768,8 @@
     <!-- Sort descriptions, e.g. Sorted by "description" -->
     <!-- Sort by distance label -->
     <string name="sort_description_distance">Etäisyys</string>
-    <!-- Sort by popularity label -->
-    <string name="sort_description_popular">Suosituimmuus</string>
+    <!-- Sort by recommended label -->
+    <string name="sort_description_recommended">Suositeltu</string>
     <!-- Sort by price label -->
     <string name="sort_description_price">Hinta</string>
     <!-- Sort by deals label -->
@@ -2830,6 +2870,14 @@
     <!-- Hotel Details Fragment -->
     <!-- Title for VIP Access message -->
     <string name="vip_access">+VIP Access</string>
+    <!--Options title for favorite and VIP checkboxes for Hotel Results -->
+    <string name="filter_options">Vaihtoehdot</string>
+    <!-- Title for Favorites message for Hotel Results -->
+    <string name="favorites">Suosikit</string>
+    <!-- Filter for showing only favorited hotels -->
+    <string name="favorites_only">Vain suosikit</string>
+    <!-- Filter for showing only VIP access hotels -->
+    <string name="filter_favorites">Vain suosikkihotellit</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">+VIP Access -hotelleissa, +silver- ja +gold-jäsenet saavat ilmaisen huoneluokan korotuksen ja muita sisäänkirjautumishetkellä saatavilla olevia etuja.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -3966,6 +4014,12 @@
     <string name="show_less">NÄYTÄ VÄHEMMÄN</string>
     <string name="price_range">Hintaluokka</string>
 
+    <!-- Hotel Favoriting Strings -->
+    <string name="favorite_toast">Lisätty suosikkeihin suodatinnäytöllä</string>
+    <string name="favorite_first_time_dialog_title">Suosikit</string>
+    <string name="favorite_first_time_dialog_content">Hotelli lisätty suosikkeihin. Voit suodattaa suosikkien mukaan hakutuloksissa</string>
+    <string name="favorite_first_time_dialog_ok_button">OK</string>
+
     <!-- Hotel V2 Coupon related -->
     <string name="applied_coupon_message">Kuponki käytetty: säästit %1$s!</string>
     <!-- Hotel V2 coupon failed after sign-in dialog title -->
@@ -4024,8 +4078,6 @@
     </plurals>
     <!-- Package hotel cell: Price Includes flights -->
     <string name="package_price_include_flights">Hintaan sisältyy hotelli + lennot</string>
-    <!-- Package hotel map cell: Price Includes Taxes and Fees -->
-    <string name="package_price_includes_taxes_fees">Hintaan sisältyy verot, maksut, lennot + hotelli per henkilö</string>
     <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
     <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
@@ -4074,6 +4126,12 @@
         <item quantity="two">Yli 2 välilaskua</item>
         <item quantity="other">Yli 2 välilaskua</item>
     </plurals>
+    <!-- Title of alert dialog when user taps back button on package checkout overview page -->
+    <string name="package_checkout_back_dialog_title">Oletko varma?</string>
+    <!-- Message of alert dialog when user taps back button on package checkout overview page -->
+    <string name="package_checkout_back_dialog_message">Olet aikeissa tehdä haun uudelleen. Jos haluat muokata hotelliasi tai lentoasi, napauta Muokkaa-painiketta yläoikealla.</string>
+    <!-- Button label for start over -->
+    <string name="start_over">ALOITA UUDELLEEN</string>
 
     <!-- Flight Nonstop description -->
     <string name="flight_nonstop_description">Suora lento</string>
@@ -4083,6 +4141,11 @@
     <string name="flight_hour_min_duration_template">%1$d h %2$d min</string>
     <!-- Flight min duration template e.g. 1d 12h 42m (2hr layover) -->
     <string name="flight_min_duration_template">%1$d min</string>
+
+    <!-- Accessibility label for flight hour duration template e.g. 12 hour 42 minutes -->
+    <string name="flight_hour_min_duration_template_cont_desc">{h} tunti {m} minuuttia</string>
+    <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
+    <string name="flight_min_duration_template_cont_desc">{m} minuuttia</string>
 
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
     <string name="flight_departure_arrival_time_multi_day_template">%1$s–%2$s +%3$d pv</string>
@@ -4121,6 +4184,12 @@
     <plurals name="hotel_checkout_overview_TEMPLATE">
         <item quantity="one">Hotelli kohteessa {city} – 1 huone, {number} yö</item>
         <item quantity="other">Hotelli kohteessa {city} – 1 huone, {number} yötä</item>
+    </plurals>
+
+    <!-- Accessibility Label for hotel on checkout overview of Packages -->
+    <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
+        <item quantity="one">Hotelli kohteessa {city}, 1 huone, {number} yö</item>
+        <item quantity="other">Hotelli kohteessa {city}, 1 huone, {number} yötä</item>
     </plurals>
 
     <!-- Text indicating that the user can drag this button to view their trip -->
@@ -4183,6 +4252,9 @@
     <!--Rail search screen title-->
     <string name="trains">Junat</string>
 
+    <!--used on the rail search screen - this is equivalent to a one way air ticket -->
+    <string name="rail_one_way">Yhdensuuntainen</string>
+
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Menopaluu</string>
 
@@ -4200,6 +4272,9 @@
 
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">Matkan tiedot + hintavaihtoehdot</string>
+
+    <!--Use on the timeline on rail details when a customer transfer from one sation to another: You have xx.xx min to get from one station to another during a trip -->
+    <string name="rail_transfer_from_a_to_b_TEMPLATE">Sinulla on {formattedduration} aikaa siirtyä asemalta {origin} asemalle {destination}</string>
 
     <!--Use on the timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Kulje kulkumuodolla: {travelmode} kohteesta {origin} kohteeseen {destination}</string>
@@ -4243,6 +4318,24 @@
     <string name="rail_location_hint">Kaupunki tai asema</string>
     <string name="error_same_station_departure_arrival">Lähtö- ja saapumisasemat eivät saa olla samat.</string>
 
+    <!-- Label for adult passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Adult") -->
+    <string name="rail_adult_number_TEMPLATE">Matkustaja {number}: aikuinen</string>
+
+    <!-- Label for child passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Child") -->
+    <string name="rail_child_number_TEMPLATE">Matkustaja {number}: lapsi</string>
+
+    <!-- Label for youth passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Youth") -->
+    <string name="rail_youth_number_TEMPLATE">Matkustaja {number}: nuori</string>
+
+    <!-- Label for senior passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Senior")-->
+    <string name="rail_senior_number_TEMPLATE">Matkustaja {number}: eläkeläinen</string>
+
+    <!-- Label for ticket delivery fee on the Rail cost breakdown screen -->
+    <string name="rail_ticket_delivery_fee">Lipun toimitusmaksu</string>
+
+    <!-- Label for credit card fee on the Rail cost breakdown screen -->
+    <string name="rail_credit_card_fee">Korttimaksu</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">Olemme pahoillamme, mutta palvelimellamme on ongelmia. Ole hyvä ja yritä uudelleen.</string>
     <string name="pwp_trip_service_error">Olemme pahoillamme, mutta palvelimellamme on ongelmia. Ole hyvä ja yritä uudelleen.</string>
     <string name="pwp_unknown_error">Tuntematon virhe tapahtui. Ole hyvä ja yritä uudelleen.</string>
@@ -4261,7 +4354,7 @@
     <!-- Cost summary breakdown line item for taxes and fees that are included in the base price, e.g. Taxes &amp; Fees Included ($34.21) -->
     <string name="cost_summary_breakdown_taxes_fees_included_TEMPLATE">Verot ja maksut sisältyvät hintaan ({taxes})</string>
     <!-- Cost summary breakdown line item for savings -->
-    <string name="cost_summary_breakdown_total_savings">Säästöt yhteensä</string>
+    <string name="cost_summary_breakdown_total_savings">Pakettimatka-alennus</string>
     <!-- Cost summary breakdown line item for total -->
     <string name="cost_summary_breakdown_total_due_today">Nyt maksettava summa</string>
 
@@ -4445,8 +4538,6 @@
     <string name="lx_add_ticket_button_cont_desc_TEMPLATE">Lisää {traveler}</string>
     <!-- Content description for LX remove ticket button e.g. Remove child Button -->
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Poista {traveler}</string>
-    <!-- Append 'Button' to Content description for LX search results card button -->
-    <string name="lx_card_announce_button_cont_desc">. Painike</string>
     <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
     <string name="lx_search_date_range_cont_desc_TEMPLATE">Aktiviteetin päivät. Painike. Avaa dialogin. {date_range}</string>
 
@@ -4456,6 +4547,8 @@
     <string name="lx_free_cancellation_cont_desc">Ilmainen peruutusoikeus. Lakitiedot-painike.</string>
 
     <!-- Generic content description -->
+    <!-- Append 'Button' to Content description for LX/Cars search results card button -->
+    <string name="list_card_announce_button_cont_desc">. Painike</string>
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_nav_icon_cont_desc">Takaisin</string>
     <string name="toolbar_nav_icon_close_cont_desc">Sulje</string>
@@ -4464,6 +4557,9 @@
     <string name="search_result_duration_cont_desc_TEMPLATE">Kesto {duration}</string>
     <!-- Content description for LX Multiple Duration e.g. Duration 2d + -->
     <string name="search_result_multiple_duration_cont_desc_TEMPLATE">Kesto {duration} plus</string>
+
+    <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
+    <string name="cvv_text_field_cont_desc">CVV-tekstikenttä</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_incomplete_cont_desc">Matkustajan tietoja ei ole täytetty</string>
@@ -4477,6 +4573,10 @@
     <string name="accessibility_cont_desc_role_button_collapse">Painike pienentämiseen</string>
     <!--Packages accessibility content description for dialogs - Opens dialog -->
     <string name="accessibility_cont_desc_opens_dialog">Avaa dialogin</string>
+    <!--Packages accessibility content description for hotel room selection expand -->
+    <string name="hotel_room_expand_cont_desc">Laajenna nähdäksesi huonetiedot ja valitaksesi huoneen</string>
+    <!--Packages accessibility content description for hotel room selection collapse -->
+    <string name="hotel_expanded_room_select_cont_desc">Valitse huone</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">Hinta on {activity_price}</string>
@@ -4488,4 +4588,37 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Valintaruutu. Ei valittu.</string>
     <string name="base_search_dates_cont_desc">Valitse päivät. Painike. Avaa dialogin</string>
+
+    <!-- Discount amount shown with minus e.g. -$30 -->
+    <string name="discount_minus_amount">-{amount}</string>
+    <string name="local_charges_due_at_hotel">Hotellilla maksettavat paikalliset maksut</string>
+    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for US eg. $150 in local taxes and/or hotel charges will be collected at the hotel. The total price for your stay will be 1050 -->
+    <string name="package_resort_fees_and_total_price_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt; paikallisveroa ja/tai hotellin veloittamia maksuja, jotka maksetaan hotellilla. Yöpymisesi &lt;b&gt;loppusumma on {trip_total}&lt;/b&gt;</string>
+    <!-- Legal disclaimer for package resort fees (at bottom of checkout) for UK eg. $150 in local taxes and/or hotel charges will be collected at the hotel in the hotel's local currency. -->
+    <string name="package_resort_fees_disclaimer_TEMPLATE">&lt;b&gt;{resort_fee}&lt;/b&gt; paikallisveroa ja/tai hotellin veloittamia maksuja, jotka maksetaan hotellilla paikallisessa valuutassa.</string>
+    <!-- Package cost summary row  e.g. 2 rooms, 1 night, 3 guests -->
+    <string name="packages_guest_room_night_TEMPLATE">{room}, {night}, {guest}</string>
+    <!-- Package cost summary row snippet  e.g. 2 rooms-->
+    <plurals name="number_of_room_TEMPLATE">
+        <item quantity="one">{room} huone</item>
+        <item quantity="other">{room} huonetta</item>
+    </plurals>
+    <!-- Package cost summary row snippet  e.g. 1 night-->
+    <plurals name="number_of_nights_TEMPLATE">
+        <item quantity="zero">{night} yötä</item>
+        <item quantity="one">{night} yö</item>
+        <item quantity="two">{night} yötä</item>
+        <item quantity="many">{night} yötä</item>
+        <item quantity="other">{night} yötä</item>
+    </plurals>
+    <!-- Package cost summary row snippet  e.g. 4 guests-->
+    <plurals name="number_of_guest_TEMPLATE">
+        <item quantity="zero">{guest} asiakasta</item>
+        <item quantity="one">{guest} vieras</item>
+        <item quantity="two">{guest} asiakasta</item>
+        <item quantity="many">{guest} asiakasta</item>
+        <item quantity="other">{guest} asiakasta</item>
+    </plurals>
+    <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
+    <string name="header_itin_card_content_description_TEMPLATE">{type} matkasuunnitelman painike.</string>
 </resources>

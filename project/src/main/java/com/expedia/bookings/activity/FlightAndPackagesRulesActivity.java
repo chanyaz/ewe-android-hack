@@ -9,6 +9,7 @@ import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.fragment.BaseRulesFragment;
 import com.expedia.bookings.fragment.FlightRulesFragmentV1;
 import com.expedia.bookings.fragment.FlightRulesFragmentV2;
 import com.expedia.bookings.fragment.PackagesRulesFragment;
@@ -37,23 +38,26 @@ public class FlightAndPackagesRulesActivity extends FragmentActivity {
 
 		setContentView(R.layout.activity_flight_and_packages_rules);
 
+
+		LineOfBusiness lob = LineOfBusiness.FLIGHTS;
+		BaseRulesFragment rulesFragment;
+
 		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(LOB_KEY)) {
-			if (getIntent().getExtras().get(LOB_KEY).equals(LineOfBusiness.PACKAGES)) {
-				PackagesRulesFragment packagesRulesFragment = new PackagesRulesFragment();
-				getSupportFragmentManager().beginTransaction()
-					.add(R.id.fragment_container, packagesRulesFragment).commit();
-			}
-			else {
-				FlightRulesFragmentV2 flightRulesFragmentV2 = new FlightRulesFragmentV2();
-				getSupportFragmentManager().beginTransaction()
-					.add(R.id.fragment_container, flightRulesFragmentV2).commit();
-			}
+			lob = (LineOfBusiness) getIntent().getExtras().get(LOB_KEY);
+		}
+
+		if (lob == LineOfBusiness.PACKAGES) {
+			rulesFragment = new PackagesRulesFragment();
+		}
+		else if (lob == LineOfBusiness.FLIGHTS_V2) {
+			rulesFragment = new FlightRulesFragmentV2();
 		}
 		else {
-			FlightRulesFragmentV1 flightRulesFragmentV1 = new FlightRulesFragmentV1();
-			getSupportFragmentManager().beginTransaction()
-				.add(R.id.fragment_container, flightRulesFragmentV1).commit();
+			rulesFragment = new FlightRulesFragmentV1();
 		}
+
+		getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, rulesFragment).commit();
+
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 	}
 

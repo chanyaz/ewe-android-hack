@@ -18,7 +18,6 @@ public class CarCheckoutParamsBuilder {
 	private String mCCName;
 	private String mCCCVV;
 	private String mStoredCCID;
-	private String mGuid;
 	private boolean mSuppressFinalBooking;
 	public boolean storeCreditCardInUserProfile;
 
@@ -98,7 +97,6 @@ public class CarCheckoutParamsBuilder {
 	}
 
 	public CarCheckoutParamsBuilder guid(String guid) {
-		mGuid = guid;
 		return this;
 	}
 
@@ -123,7 +121,6 @@ public class CarCheckoutParamsBuilder {
 		params.ccCVV = mCCCVV;
 		params.storedCCID = mStoredCCID;
 		params.suppressFinalBooking = mSuppressFinalBooking;
-		params.guid = mGuid;
 		params.storeCreditCardInUserProfile = storeCreditCardInUserProfile;
 
 		return params;

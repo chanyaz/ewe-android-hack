@@ -2554,7 +2554,6 @@
     <string name="split_ticket_rules_cancellation_policy_tablet">If one of your flights is changed or cancelled, it will not automatically alter the other flight. Changes to the other flight may incur a charge.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;Departure&lt;/a&gt; and &lt;a href=\"{returnlink}\"&gt;Return&lt;/a&gt; flights have their own baggage fees</string>
-    <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;Departure&lt;/a&gt; and &lt;a href=\"%2$s\"&gt;Return&lt;/a&gt; flights have their own baggage fees</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Invalid Security Code</string>
@@ -3998,7 +3997,7 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">I have read and agree to the {terms_of_use} and the {privacy_policy}.</string>
     <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">>Earn free travel rewards with {brand_reward_name_link}. By joining {brand_reward_name}, I accept all {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Earn free travel rewards with {brand_reward_name_link}. By joining {brand_reward_name}, I accept all {terms_and_conditions}</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Select each child\'s age</string>
@@ -4277,14 +4276,14 @@
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">Journey details + Fare options</string>
 
-    <!--Use on the timeline on rail details when a customer transfer from one sation to another: You have xx.xx min to get from one station to another during a trip -->
-    <string name="rail_transfer_from_a_to_b_TEMPLATE">You have {formattedduration} to get from {origin} to {destination}</string>
+    <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
+    <string name="rail_transfer_from_a_to_b_TEMPLATE">You have {formatted_duration} to get from {origin_station_name} to {destination_station_name}</string>
 
-    <!--Use on the timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry -->
-    <string name="rail_travel_from_a_to_b_TEMPLATE">Take the {travelmode} from {origin} to {destination}</string>
+    <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
+    <string name="rail_travel_from_a_to_b_TEMPLATE">Take the {travel_mode} from {origin_station_name} to {destination_station_name}</string>
 
-    <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform within the same station) -->
-    <string name="rail_change_at_station_TEMPLATE">Change at {stationname}</string>
+    <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform). Example: Change at Kings Cross Station -->
+    <string name="rail_change_at_station_TEMPLATE">Change at {station_name}</string>
 
     <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
     <string name="rail_departing_at">Departing at</string>

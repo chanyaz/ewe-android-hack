@@ -291,7 +291,7 @@ public class HotelServicesTest {
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
 
 		String tripId = "happypath_0";
-		TripDetails tripDetails = new TripDetails(tripId, "12123.33", "USD", "guid", true);
+		TripDetails tripDetails = new TripDetails(tripId, "12123.33", "USD", true);
 
 		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
 			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
@@ -313,7 +313,7 @@ public class HotelServicesTest {
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
 
 		String tripId = "hotel_price_change_with_user_preferences";
-		TripDetails tripDetails = new TripDetails(tripId, "675.81", "USD", "guid", true);
+		TripDetails tripDetails = new TripDetails(tripId, "675.81", "USD", true);
 
 		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
 			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
@@ -337,7 +337,7 @@ public class HotelServicesTest {
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
 
 		String tripId = "hotel_price_change_with_multiple_points_types";
-		TripDetails tripDetails = new TripDetails(tripId, "675.81", "USD", "guid", true);
+		TripDetails tripDetails = new TripDetails(tripId, "675.81", "USD", true);
 
 		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
 			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())
@@ -363,7 +363,7 @@ public class HotelServicesTest {
 		TestSubscriber<HotelCheckoutResponse> observer = new TestSubscriber<>();
 
 		String tripId = "happypath_0";
-		TripDetails tripDetails = new TripDetails(tripId, "12,33", "USD", "guid", true);
+		TripDetails tripDetails = new TripDetails(tripId, "12,33", "USD", true);
 
 		HotelCheckoutV2Params params = new HotelCheckoutV2Params.Builder().tripDetails(tripDetails)
 			.checkoutInfo(HotelCheckoutParamsMock.checkoutInfo()).paymentInfo(HotelCheckoutParamsMock.paymentInfo())

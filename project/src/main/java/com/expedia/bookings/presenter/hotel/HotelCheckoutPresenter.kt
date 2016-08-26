@@ -138,8 +138,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         val expectedTotalFare = java.lang.String.format(Locale.ENGLISH, "%.2f", hotelRate.total)
         val expectedFareCurrencyCode = hotelRate.currencyCode
         val tripId = hotelCreateTripResponse.tripId
-        val abacusUserGuid = Db.getAbacusGuid()
-        val tripDetails = TripDetails(tripId, expectedTotalFare, expectedFareCurrencyCode, abacusUserGuid, true)
+        val tripDetails = TripDetails(tripId, expectedTotalFare, expectedFareCurrencyCode, true)
 
         val tealeafTransactionId = hotelCreateTripResponse.tealeafTransactionId
         val miscParams = MiscellaneousParams(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_hotel_bookings), tealeafTransactionId, ServicesUtil.generateClientId(context))
