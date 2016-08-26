@@ -531,8 +531,10 @@ public class LeanPlumUtils {
 		com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress,
 		HashMap<String, Object> eventParams) {
 		String destinationAirport = flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode;
-		addCommonProductRetargeting(eventParams, airportAddress.city, airportAddress.state,
-			airportAddress.country);
+		if (airportAddress != null) {
+			addCommonProductRetargeting(eventParams, airportAddress.city, airportAddress.state,
+				airportAddress.country);
+		}
 		eventParams.put("Destination", destinationAirport);
 		eventParams.put("DepartureId", flightSearchParams.getDepartureAirport().gaiaId);
 		eventParams.put("ArrivalId", flightSearchParams.getArrivalAirport().gaiaId);
