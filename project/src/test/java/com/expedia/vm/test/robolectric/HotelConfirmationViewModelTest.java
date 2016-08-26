@@ -121,7 +121,7 @@ public class HotelConfirmationViewModelTest {
 		vm.getAddCarBtnObserver(getContext()).onNext(null);
 		Intent intent = shadowApplication.getNextStartedActivity();
 
-		assertEquals(gson.toJson(expectedSearchParams), intent.getStringExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS));
+		assertEquals(gson.toJson(expectedSearchParams), intent.getStringExtra("carSearchParams"));
 		assertTrue(intent.getBooleanExtra(Codes.EXTRA_OPEN_SEARCH, false));
 	}
 
