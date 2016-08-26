@@ -54,6 +54,7 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/flight_traveler_text_color</item>
     </style>
 
     <!-- Override the phone theme -->

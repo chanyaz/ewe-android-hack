@@ -57,6 +57,7 @@
     <color name="flight_trip">#0079A1</color>
     <color name="flight_trip_price">#4F4F4F</color>
     <color name="flight_free_cancellation_text_color_lm">#7AC231</color>
+    <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <color name="action_bar_flight_text_color">@color/actionbar_text_lm</color>
     <color name="action_bar_flight_cancel_text_color">@color/actionbar_text_lm</color>

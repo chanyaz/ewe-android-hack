@@ -22,6 +22,7 @@
     <color name="review_screen_tab_indicator">#ffffff</color>
     <color name="splash_screen_bg">@color/white</color>
     <color name="launch_tab_indicator">#7abb00</color>
+    <color name="traveler_drop_down_checked_color">#112943</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#DE0058</color>

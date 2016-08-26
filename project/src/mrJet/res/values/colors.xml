@@ -35,6 +35,7 @@
     <color name="flight_trip">#D6682D</color>
     <color name="splash_screen_bg">#26344F</color>
     <color name="flight_earn_message_text_color">@color/earn_message_text_color</color>
+    <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
