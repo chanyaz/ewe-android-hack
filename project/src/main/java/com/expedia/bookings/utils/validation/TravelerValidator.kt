@@ -101,15 +101,7 @@ class TravelerValidator {
         else if (birthDate == null || category == null) {
             return false
         } else {
-            val inclusiveAgeBounds = PassengerCategory.getAcceptableAgeRange(category)
-
-            val earliestBirthDateAllowed = (startOfTrip as LocalDate).minusYears(inclusiveAgeBounds.second)
-            val latestBirthDateAllowed = (endOfTrip as LocalDate).minusYears(inclusiveAgeBounds.first)
-
-            val afterEarliest = birthDate.compareTo(earliestBirthDateAllowed) > 0
-            val beforeLatest = birthDate.compareTo(latestBirthDateAllowed) <= 0
-
-            return beforeLatest && afterEarliest
+            return PassengerCategory.isDateWithinPassengerCategoryRange(birthDate, endOfTrip, startOfTrip, category)
         }
     }
 }

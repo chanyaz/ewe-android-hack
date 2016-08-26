@@ -134,6 +134,28 @@ class TravelerValidatorTest {
     }
 
     @Test
+    fun validInfantBirthDate() {
+        val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
+
+        val validBirthDate = TOMORROW.plusDays(1).minusYears(2)
+        val mockTraveler = getMockInfantTravelerWithBirthDate(validBirthDate)
+
+        travelerValidator.updateForNewSearch(packageSearchParams)
+        assertTrue(travelerValidator.hasValidBirthDate(mockTraveler))
+    }
+
+    @Test
+    fun invalidInfantBirthDate() {
+        val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
+
+        val invalidBirthDate = TOMORROW.minusYears(2)
+        val mockTraveler = getMockInfantTravelerWithBirthDate(invalidBirthDate)
+
+        travelerValidator.updateForNewSearch(packageSearchParams)
+        assertFalse(travelerValidator.hasValidBirthDate(mockTraveler))
+    }
+
+    @Test
     fun invalidBirthDateEmpty() {
         val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
 
@@ -295,6 +317,15 @@ class TravelerValidatorTest {
 
         return validName
     }
+
+    private fun getMockInfantTravelerWithBirthDate(birthDate : LocalDate?) : Traveler {
+        val mockTraveler = Mockito.mock(Traveler::class.java)
+        Mockito.`when`(mockTraveler.birthDate).thenReturn(birthDate)
+        Mockito.`when`(mockTraveler.passengerCategory).thenReturn(PassengerCategory.INFANT_IN_LAP)
+
+        return mockTraveler
+    }
+
 
     private fun getMockAdultTravelerWithBirthDate(birthDate : LocalDate?) : Traveler {
         val mockTraveler = Mockito.mock(Traveler::class.java)
