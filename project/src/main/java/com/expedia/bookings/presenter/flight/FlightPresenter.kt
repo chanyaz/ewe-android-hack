@@ -383,6 +383,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             if (forward) {
                 flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                 flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+                flightOverviewPresenter.getCheckoutPresenter().resetTravelers()
+                flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
             }
         }
 
@@ -400,6 +402,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             if (forward) {
                 flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                 flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+                flightOverviewPresenter.getCheckoutPresenter().resetTravelers()
+                flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
             }
         }
 

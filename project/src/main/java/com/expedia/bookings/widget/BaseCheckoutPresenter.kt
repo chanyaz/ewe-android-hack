@@ -18,6 +18,7 @@ import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Space
+import com.activeandroid.util.Log
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
@@ -441,15 +442,25 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         tripViewModel.performCreateTrip.onNext(Unit)
     }
 
-    open fun clearCCNumber() {
-        paymentWidget.clearCCNumber()
+    fun clearPaymentInfo() {
+        paymentWidget.reset()
+        clearCCAndCVV()
     }
 
-
-    fun clearCVV() {
-        if (paymentWidget is BillingDetailsPaymentWidget) {
-            val packagePaymentWidget = paymentWidget as BillingDetailsPaymentWidget
-            packagePaymentWidget.creditCardCvv.setText("")
+    fun clearCCAndCVV() {
+        try {
+            paymentWidget.creditCardNumber.setText("")
+            if (paymentWidget is BillingDetailsPaymentWidget) {
+                val paymentWidget = paymentWidget as BillingDetailsPaymentWidget
+                paymentWidget.creditCardCvv.setText("")
+            }
+            Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
+            Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
+            Db.getBillingInfo().number = null
+            Db.getBillingInfo().securityCode = null
+            paymentWidget.validateAndBind()
+        } catch (ex: Exception) {
+            Log.e("Error clearing billingInfo card number and security code", ex)
         }
     }
 
@@ -564,6 +575,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     fun resetAndShowTotalPriceWidget() {
         resetPriceChange()
         totalPriceWidget.resetPriceWidget()
+    }
+
+    fun resetTravelers() {
+        ckoViewModel.clearTravelers.onNext(Unit)
     }
 
     fun openTravelerPresenter() {

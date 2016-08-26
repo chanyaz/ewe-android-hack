@@ -135,7 +135,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         errorPresenter.getViewModel().checkoutCardErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
-            checkoutPresenter.clearCCNumber()
+            checkoutPresenter.clearCCAndCVV()
             checkoutPresenter.paymentWidget.cardInfoContainer.performClick()
         }
     }
