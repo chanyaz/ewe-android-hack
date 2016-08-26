@@ -83,8 +83,9 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             travelerEntryWidget.visibility = View.GONE
             boardingWarning.visibility = View.GONE
             dropShadow.visibility = View.VISIBLE
-            toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
-            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
+            if (currentState != null) {
+                toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
+            }
         }
     }
 
@@ -105,7 +106,6 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         }
 
         override fun endTransition(forward: Boolean) {
-            setToolbarNavIcon(forward)
             if (forward) {
                 travelerEntryWidget.resetStoredTravelerSelection()
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
@@ -119,17 +119,6 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             } else {
                viewModel.refresh()
             }
-        }
-    }
-
-    private fun setToolbarNavIcon(forward : Boolean) {
-        if(!forward) {
-            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
-            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
-        }
-        else {
-            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_close_cont_desc))
-            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         }
     }
 

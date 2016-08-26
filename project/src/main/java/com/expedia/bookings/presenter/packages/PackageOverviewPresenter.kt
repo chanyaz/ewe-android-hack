@@ -53,6 +53,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
 
             if (currentState == BundleDefault::class.java.name) {
                 bundleWidget.toggleMenuObservable.onNext(true)
+                setToolbarNavIcon(false)
             }
 
             bundleWidget.setPadding(0, 0, 0, 0)
@@ -65,7 +66,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
             bundleWidget.outboundFlightWidget.collapseFlightDetails()
             bundleWidget.inboundFlightWidget.collapseFlightDetails()
 
-            setToolbarNavIcon(false)
             setCheckoutHeaderOverviewDates()
         }
 

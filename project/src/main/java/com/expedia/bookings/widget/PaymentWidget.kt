@@ -576,8 +576,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             }
             viewmodel.showingPaymentForm.onNext(forward)
             updateToolbarMenu(!forward)
-            toolbarNavIcon.onNext(if (!forward) ArrowXDrawableUtil.ArrowDrawableType.BACK
-            else ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         }
     }
 
