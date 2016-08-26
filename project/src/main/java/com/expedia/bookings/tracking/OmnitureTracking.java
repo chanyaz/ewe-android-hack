@@ -1,5 +1,19 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -7,7 +21,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -20,6 +33,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Pair;
+
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -96,19 +110,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -5264,7 +5265,7 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static String getFlightProductString() {
+	public static String getFlightProductString(boolean isConfirmation) {
 		Pair<FlightSegment, FlightSegment> segments = getFirstAndLastFlightSegments();
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
 
@@ -5285,14 +5286,21 @@ public class OmnitureTracking {
 			itineraryType = "MD";
 			break;
 		}
+		String evarValues = "";
+		if (isConfirmation) {
+			evarValues = String.format(Locale.ENGLISH, "eVar30=%s:FLT", getFlightInventoryTypeString());
+		}
+		else {
+			evarValues = String.format(Locale.US, "eVar63=%s:SA", getFlightInventoryTypeString());
+		}
 
-		String outBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.first.airlineCode,
-			itineraryType, trip.getDetails().offer.numberOfTickets, outBoundFlightPrice);
+		String outBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;%s", segments.first.airlineCode,
+			itineraryType, trip.getDetails().offer.numberOfTickets, outBoundFlightPrice, evarValues);
 
 		if (itineraryType.equalsIgnoreCase("ST")) {
 			BigDecimal inBoundFlightPrice = trip.getDetails().offer.splitFarePrice.get(1).totalPrice.amount;
-			String inBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.second.airlineCode,
-				itineraryType, trip.getDetails().offer.numberOfTickets, inBoundFlightPrice);
+			String inBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;%s", segments.second.airlineCode,
+				itineraryType, trip.getDetails().offer.numberOfTickets, inBoundFlightPrice, evarValues);
 
 			return outBoundFlight + "," + inBoundFlight;
 
@@ -5351,9 +5359,18 @@ public class OmnitureTracking {
 		// products
 		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
 		Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
-		s.setProducts(String.format(Locale.ENGLISH, "%seVar30=%s:FLT:%s-%s:%s-%s,%s", getFlightProductString(),
-			getFlightInventoryTypeString(), airportCodes.first, airportCodes.second, takeoffDateStrings.first,
-			takeoffDateStrings.second, getFlightInsuranceProductString()));
+		String products = "";
+		if (takeoffDateStrings.second != null) {
+			products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s,%s", getFlightProductString(true),
+				airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+				takeoffDateStrings.second, getFlightInsuranceProductString());
+		}
+		else {
+			products = String.format(Locale.ENGLISH, "%s:%s-%s:%s,%s", getFlightProductString(true),
+				airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+				getFlightInsuranceProductString());
+		}
+		s.setProducts(products);
 
 		// miscellaneous variables
 		s.setEvar(2, "D=c2");
@@ -5392,10 +5409,10 @@ public class OmnitureTracking {
 		s.setEvents("event36, event71" /* checkout start, flight checkout start */ +
 			(tripResponse.getAvailableInsuranceProducts().isEmpty() ? "" : ", event122" /* insurance present */));
 
-		// products
-		s.setProducts(String.format(Locale.ENGLISH, "%seVar63=%s:SA%s", getFlightProductString(),
-			getFlightInventoryTypeString(), getFlightInsuranceProductString()));
+		String products = getFlightProductString(false) + getFlightInsuranceProductString();
 
+		// products
+		s.setProducts(products);
 		// miscellaneous variables
 		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
 		s.setEvar(2, "D=c2");
@@ -5554,7 +5571,7 @@ public class OmnitureTracking {
 
 		setDateValues(s, departureDate, returnDate);
 
-		s.setProducts(getFlightProductString());
+		s.setProducts(getFlightProductString(false));
 		s.track();
 	}
 
