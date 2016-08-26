@@ -2516,7 +2516,6 @@
     <string name="split_ticket_rules_cancellation_policy_tablet">如果只變更或取消其中一個班機，另外一個班機不會自動作出相對應的變動。變更另外一個班機也可能須要支付手續費。</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;出發&lt;/a&gt;和&lt;a href=\"{returnlink}\"&gt;回程&lt;/a&gt;班機分別有各自的行李費</string>
-    <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;出發&lt;/a&gt;和&lt;a href=\"%2$s\"&gt;回程&lt;/a&gt;班機分別有各自的行李費</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">信用卡安全碼無效</string>

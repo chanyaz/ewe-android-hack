@@ -2516,7 +2516,6 @@
     <string name="split_ticket_rules_cancellation_policy_tablet">如果您的其中一张机票有变更或被取消，另一张机票不会自动更新。对另一张机票所做的变更可能需支付费用。</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">•&lt;a href=\"{departurelink}\"&gt;出发&lt;/a&gt;和&lt;a href=\"{returnlink}\"&gt;回程&lt;/a&gt;航班有各自的行李费。</string>
-    <string name="split_ticket_baggage_fees_tablet">•&lt;a href=\"%1$s\"&gt;出发&lt;/a&gt;和&lt;a href=\"%2$s\"&gt;回程&lt;/a&gt;航班有各自的行李费。</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">安全验证码无效</string>

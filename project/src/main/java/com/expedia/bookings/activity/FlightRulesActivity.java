@@ -35,7 +35,8 @@ public class FlightRulesActivity extends FragmentActivity {
 		}
 
 		setContentView(R.layout.activity_flight_rules);
-		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(LOB_KEY)) {
+		if (getIntent().getExtras() != null && getIntent().getExtras().containsKey(LOB_KEY)
+			&& getIntent().getExtras().get(LOB_KEY) == LineOfBusiness.FLIGHTS_V2) {
 			FlightRulesFragmentV2 flightRulesFragmentV2 = new FlightRulesFragmentV2();
 			getSupportFragmentManager().beginTransaction()
 				.add(R.id.fragment_container, flightRulesFragmentV2).commit();
