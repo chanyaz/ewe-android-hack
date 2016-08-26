@@ -7,8 +7,6 @@ import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -17,10 +15,11 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.rail.RailAmenitiesFareRulesWidget
 import com.expedia.util.endlessObserver
+import com.expedia.vm.rail.RailSearchViewModel
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
+import com.expedia.vm.rail.RailCreateTripViewModel
 import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailResultsViewModel
-import com.expedia.vm.rail.RailSearchViewModel
 import rx.Observer
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -34,6 +33,10 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     val resultsPresenter: RailResultsPresenter by bindView(R.id.widget_rail_results_presenter)
     val detailsPresenter: RailDetailsPresenter by bindView(R.id.widget_rail_details_presenter)
     val tripOverviewPresenter: RailTripOverviewPresenter by bindView(R.id.widget_rail_trip_overview_presenter)
+    val railCheckoutPresenter: RailCheckoutPresenter by bindView(R.id.widget_rail_checkout_presenter)
+
+    val createTripViewModel = RailCreateTripViewModel(Ui.getApplication(context).railComponent().railService())
+
 
     val amenitiesFareRulesWidget: RailAmenitiesFareRulesWidget by lazy {
         var viewStub = findViewById(R.id.amenities_stub) as ViewStub
@@ -42,20 +45,18 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     }
     private val searchToResults = LeftToRightTransition(this, RailSearchPresenter::class.java, RailResultsPresenter::class.java)
     private val resultsToDetails = LeftToRightTransition(this, RailResultsPresenter::class.java, RailDetailsPresenter::class.java)
-    private val checkoutToSearch = LeftToRightTransition(this, RailTripOverviewPresenter::class.java, RailSearchPresenter::class.java)
     private val detailsToOverview = object : LeftToRightTransition(this, RailDetailsPresenter::class.java, RailTripOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
                 val overviewHeader = tripOverviewPresenter.bundleOverviewHeader
                 overviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
-                tripOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
-                tripOverviewPresenter.getCheckoutPresenter().totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.total))
-                tripOverviewPresenter.getCheckoutPresenter().totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))
+                overviewHeader.toggleOverviewHeader(true)
             }
         }
     }
 
+    private val overviewToCheckout = LeftToRightTransition(this, RailTripOverviewPresenter::class.java, RailCheckoutPresenter::class.java)
     private val detailsToAmenities = ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
     private val overviewToAmenities = ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
 
@@ -98,7 +99,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         detailsPresenter.viewmodel.offerSelectedObservable.subscribe { offer ->
             transitionToTripSummary()
             tripOverviewPresenter.railTripSummary.viewModel.railOfferObserver.onNext(offer)
-            tripOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().offerCodeSelectedObservable.onNext(offer.railOfferToken)
+            createTripViewModel.offerCodeSelectedObservable.onNext(offer.railOfferToken)
         }
 
         detailsPresenter.viewmodel.showAmenitiesObservable.subscribe { offer ->
@@ -116,6 +117,14 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             amenitiesFareRulesWidget.showFareRulesForOffer(tripOverviewPresenter.railTripSummary.outboundLegSummary.viewModel.railOfferObserver.value)
         }
 
+        tripOverviewPresenter.showCheckoutSubject.subscribe {
+            show(railCheckoutPresenter)
+            railCheckoutPresenter.onCheckoutOpened()
+        }
+
+        tripOverviewPresenter.createTripViewModel = createTripViewModel
+        railCheckoutPresenter.createTripViewModel = createTripViewModel
+
         show(searchPresenter)
     }
 
@@ -124,12 +133,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         addTransition(resultsToDetails)
         addTransition(detailsToOverview)
         addTransition(detailsToAmenities)
-        addTransition(checkoutToSearch)
         addTransition(overviewToAmenities)
-    }
-
-    private fun transitionToSearch() {
-        show(searchPresenter)
+        addTransition(overviewToCheckout)
     }
 
     private fun transitionToResults() {
@@ -141,7 +146,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     }
 
     private fun transitionToTripSummary() {
-        tripOverviewPresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+        tripOverviewPresenter.show(RailTripOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         show(tripOverviewPresenter)
     }
 }

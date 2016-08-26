@@ -6,14 +6,12 @@
         <item name="android:colorEdgeEffect">@color/rail_primary_color</item>
 
         <item name="primary_color">@color/rail_primary_color</item>
-
         <item name="pickup_time_title">@string/rail_departing_at</item>
         <item name="dropoff_time_title">@string/rail_returning_at</item>
         <item name="search_calendar_card_view_text">@string/select_dates</item>
         <item name="spinner_traveler_text_color_drawable">@drawable/rail_traveler_text_color</item>
 
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
-        <item name="paymentWidgetLayout">@layout/billing_details_payment_widget</item>
 
         <!--TODO RENAME OR MOVE TO BASE-->
         <item name="hotel_select_room_ripple_drawable">@drawable/hotel_package_select_room_ripple</item>
