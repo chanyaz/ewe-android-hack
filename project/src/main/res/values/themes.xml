@@ -214,8 +214,8 @@
     </style>
 
     <style name="AlertDialogCustom" parent="android:Theme.Material.Light.Dialog.Alert">
-        <item name="android:colorPrimary">@color/new_launch_primary_color</item>
-        <item name="android:colorAccent">@color/new_launch_primary_color</item>
+        <item name="android:colorPrimary">@color/new_launch_alert_dialog_button_color</item>
+        <item name="android:colorAccent">@color/new_launch_alert_dialog_button_color</item>
     </style>
 
     <!-- TODO rename it to launch theme, remove old screen launch theme and all properties are placeholder !-->
