@@ -131,12 +131,19 @@ class FlightSearchViewModelTest {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
 
-        val testSubscriber = TestSubscriber<Unit>()
-        sut.errorNoDestinationObservable.subscribe(testSubscriber)
+        val testPerformSearchSubscriber = TestSubscriber<Unit>()
+        val testSearchButtonSubscriber = TestSubscriber<Boolean>()
+
+        sut.searchButtonObservable.subscribe(testSearchButtonSubscriber)
+
+        sut.errorNoDestinationObservable.subscribe(testPerformSearchSubscriber)
         givenParamsHaveOrigin()
+        givenParamsHaveDates(LocalDate.now(), LocalDate.now().plusDays(1))
 
         sut.performSearchObserver.onNext(Unit)
-        testSubscriber.assertValueCount(1)
+        testPerformSearchSubscriber.assertValueCount(1)
+
+        testSearchButtonSubscriber.assertValue(false)
     }
 
     @Test
@@ -378,7 +385,9 @@ class FlightSearchViewModelTest {
         airport.airportCode = "SFO"
         origin.hierarchyInfo = SuggestionV4.HierarchyInfo()
         origin.hierarchyInfo?.airport = airport
-        sut.getParamsBuilder().origin(origin)
+        origin.regionNames = SuggestionV4.RegionNames()
+        origin.regionNames.displayName = "SFO"
+        sut.originLocationObserver.onNext(origin)
     }
 
     private fun givenParamsHaveDestination() {
@@ -387,7 +396,9 @@ class FlightSearchViewModelTest {
         airport.airportCode = "LHR"
         destination.hierarchyInfo = SuggestionV4.HierarchyInfo()
         destination.hierarchyInfo?.airport = airport
-        sut.getParamsBuilder().destination(destination)
+        destination.regionNames = SuggestionV4.RegionNames()
+        destination.regionNames.displayName = "LHR"
+        sut.destinationLocationObserver.onNext(destination)
     }
 
     private fun makeSearchParams(): FlightSearchParams {
