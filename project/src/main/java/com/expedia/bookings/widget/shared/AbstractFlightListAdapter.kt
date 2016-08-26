@@ -1,12 +1,15 @@
 package com.expedia.bookings.widget.shared
 
 import android.content.Context
+import android.graphics.Point
 import android.support.annotation.UiThread
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
+import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
@@ -193,7 +196,29 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
             val flight = viewModel.layover
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
             flightAirlineWidget.update(viewModel.airline)
+
+            var airlineWidgetCombinedWidth = 0
+
+            for (i in 0..flightAirlineWidget.childCount) {
+                val airlineView = flightAirlineWidget.getChildAt(i)
+                if (airlineView is FlightAirlineWidget.AirlineView) {
+                    airlineView.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED)
+                    airlineWidgetCombinedWidth += airlineView.measuredWidth
+                }
+            }
+            if (airlineWidgetCombinedWidth > getCardViewWidth()) {
+                flightAirlineWidget.addAirlineViewWithMultipleCarriersImage()
+            }
             cardView.contentDescription = viewModel.contentDescription
+        }
+
+        private fun getCardViewWidth() : Int {
+            val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
+            val display = windowManager.getDefaultDisplay()
+            val screenSize = Point()
+            display.getSize(screenSize)
+            val cardViewLayoutParams = cardView.getLayoutParams() as FrameLayout.LayoutParams
+            return screenSize.x - cardViewLayoutParams.leftMargin - cardViewLayoutParams.rightMargin
         }
     }
 

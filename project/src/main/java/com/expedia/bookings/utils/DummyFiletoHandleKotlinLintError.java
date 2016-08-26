@@ -913,6 +913,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.ticket_delivery_station,
 		R.layout.ticket_delivery_entry_widget,
 		R.layout.ticket_delivery_overview_widget,
-		R.layout.ticket_delivery_option_widget
+		R.layout.ticket_delivery_option_widget,
+		R.drawable.multi_carrier_icon,
+		R.string.multiple_carriers_text
 	};
 }
