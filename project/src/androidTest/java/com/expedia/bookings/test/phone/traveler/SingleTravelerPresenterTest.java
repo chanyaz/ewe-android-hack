@@ -105,7 +105,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		});
 		Common.delay(1);
 		assertEquals(testTravelerDefault.getContentDescription(),"Traveler Information Incomplete");
-		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.invalid);
+		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.id.traveler_default_state, R.drawable.invalid);
 	}
 
 	@Test

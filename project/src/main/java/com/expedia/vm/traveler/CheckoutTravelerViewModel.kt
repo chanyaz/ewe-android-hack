@@ -69,7 +69,7 @@ open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness, 
     }
 
     open fun getTravelers() : List<Traveler> {
-        return Db.getTravelers();
+        return Db.getTravelers()
     }
 
     open fun getTraveler(index: Int) : Traveler {

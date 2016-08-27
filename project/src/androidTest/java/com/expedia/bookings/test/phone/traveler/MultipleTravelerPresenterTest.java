@@ -1,8 +1,10 @@
 package com.expedia.bookings.test.phone.traveler;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -16,6 +18,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.enums.TravelerCheckoutStatus;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -55,6 +58,30 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		TextView mainTravelerMinAgeTextView =
 			testTravelerPresenter.getTravelerPickerWidget().getMainTravelerMinAgeTextView();
 		assertEquals(View.VISIBLE, mainTravelerMinAgeTextView.getVisibility());
+	}
+	
+	@Test
+	public void testTravelerPickerIOB() throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				CheckoutTravelerViewModel mockViewModel = getMockViewModelEmptyTravelers(3);
+				testTravelerPresenter.setViewModel(mockViewModel);
+				testTravelerPresenter.showSelectOrEntryState(TravelerCheckoutStatus.CLEAN);
+				testTravelerPresenter.getTravelerPickerWidget().show();
+				List<Traveler> travelers = new ArrayList<>();
+				travelers.add(new Traveler());
+				Db.setTravelers(travelers);
+				testTravelerPresenter.showSelectOrEntryState(TravelerCheckoutStatus.CLEAN);
+				try {
+					testTravelerPresenter.getTravelerPickerWidget().show();
+				}
+				catch (Exception e) {
+					Assert.fail("Oops. We shouldn't fail when customer adjusts number of travelers on the search form");
+				}
+			}
+		});
+		//No assertion, just dont crash
 	}
 
 	@Test

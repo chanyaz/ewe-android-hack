@@ -27,6 +27,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
@@ -158,8 +159,8 @@ public class EspressoUtils {
 		onView(allOf(withId(viewID), isDisplayed())).check(matches(withImageDrawable(imageID)));
 	}
 
-	public static void assertContainsImageDrawable(@IdRes int viewID, @DrawableRes int imageID, @IdRes int siblingID) {
-		onView(allOf(withId(viewID), hasSibling(withId(siblingID)), isDisplayed())).check(matches(withImageDrawable(imageID)));
+	public static void assertContainsImageDrawable(@IdRes int viewID,  @IdRes int parentId, @DrawableRes int imageID) {
+		onView(allOf(withId(viewID), withParent(withId(parentId)), isDisplayed())).check(matches(withImageDrawable(imageID)));
 	}
 
 	public static void assertIntentFiredToViewUri(String uri) {

@@ -51,11 +51,8 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
         travelerPickerWidget.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
             toolbarTitleSubject.onNext(selectedTraveler.second)
-            travelerEntryWidget.viewModel = TravelerViewModel(context, selectedTraveler.first)
+            travelerEntryWidget.viewModel = TravelerViewModel(context, selectedTraveler.first, viewModel.passportRequired.value)
             travelerEntryWidget.viewModel.showPassportCountryObservable.subscribe(travelerPickerWidget.passportRequired)
-            travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
-            val isLoggedIn = User.isLoggedIn(context)
-            travelerEntryWidget.viewModel.showEmailObservable.onNext(!User.isLoggedIn(context) && selectedTraveler.first == 0)
             show(travelerEntryWidget)
         }
 
@@ -128,14 +125,14 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             travelerPickerWidget.refresh(status, viewModel.getTravelers())
             show(travelerPickerWidget)
         } else {
-            val travelerViewModel = TravelerViewModel(context, 0)
-            currentState ?: show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
+            travelerPickerWidget.refresh(status, viewModel.getTravelers())
+            val travelerViewModel = TravelerViewModel(context, 0, viewModel.passportRequired.value)
             travelerEntryWidget.viewModel = travelerViewModel
-            travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
             toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
             if (viewModel.travelerCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
                 travelerEntryWidget.viewModel.validate()
             }
+            if (currentState == null) show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
             show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
         }
     }
