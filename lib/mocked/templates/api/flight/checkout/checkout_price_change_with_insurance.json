@@ -143,7 +143,47 @@
             "currencyCode":"USD"
           }
         }
-      ]
+      ],
+      "selectedInsuranceProduct":{
+        "name":"Expedia StressFree™ Flight Protection",
+        "productId":"42dae898-bad3-4d83-ba59-f11543106668",
+        "typeId":"100001",
+        "businessType":"Merchant Insurance",
+        "description":[
+          {
+            "children":[
+              {
+                "text":"Your ticket is non-refundable and you're too sick to travel"
+              },
+              {
+                "text":"You get injured and can't make your flight home"
+              },
+              {
+                "text":"Your traveling companion has a covered medical emergency and can't travel"
+              }
+            ],
+            "text":"3 reasons you might need travel protection:"
+          }
+        ],
+        "terms":{
+          "text":"View terms, conditions and plan sponsors",
+          "url":"http://aontravelprotect.net/exc/cancellation_plan.html"
+        },
+        "title":"protect your trip (recommended)",
+        "totalPrice":{
+          "amount":"21.00",
+          "formattedPrice":"$21.00",
+          "formattedWholePrice":"$21",
+          "currencyCode":"USD"
+        },
+        "displayPrice":{
+          "amount":"21.00",
+          "formattedPrice":"$21.00",
+          "formattedWholePrice":"$21",
+          "currencyCode":"USD"
+        },
+        "displayPriceType":"PRICE_PER_PERSON"
+      }
     },
     "productKey":"85c9bca0486e6eccfbf46da77c0211c9-1-1",
     "flightRules":[
@@ -297,15 +337,55 @@
           }
         }
       ],
+      "selectedInsuranceProduct":{
+        "name":"Expedia StressFree™ Flight Protection",
+        "productId":"92b61f80-c91a-4cb1-8696-7c4c729b511a",
+        "typeId":"100001",
+        "businessType":"Merchant Insurance",
+        "description":[
+          {
+            "children":[
+              {
+                "text":"Your ticket is non-refundable and you're too sick to travel"
+              },
+              {
+                "text":"You get injured and can't make your flight home"
+              },
+              {
+                "text":"Your traveling companion has a covered medical emergency and can't travel"
+              }
+            ],
+            "text":"3 reasons you might need travel protection:"
+          }
+        ],
+        "terms":{
+          "text":"View terms, conditions and plan sponsors",
+          "url":"http://aontravelprotect.net/exc/cancellation_plan.html"
+        },
+        "title":"protect your trip (recommended)",
+        "totalPrice":{
+          "amount":"19.00",
+          "formattedPrice":"$19.00",
+          "formattedWholePrice":"$19",
+          "currencyCode":"USD"
+        },
+        "displayPrice":{
+          "amount":"19.00",
+          "formattedPrice":"$19.00",
+          "formattedWholePrice":"$19",
+          "currencyCode":"USD"
+        },
+        "displayPriceType":"PRICE_PER_PERSON"
+      },
       "airFulfillmentMethod":[
         "ETicket"
       ]
     },
-    "priceChangeAmount":"67.00",
+    "priceChangeAmount":"69.00",
     "changedPrice":{
-      "amount":"67.00",
-      "formattedPrice":"$67.00",
-      "formattedWholePrice":"$67",
+      "amount":"69.00",
+      "formattedPrice":"$69.00",
+      "formattedWholePrice":"$69",
       "currencyCode":"USD"
     },
     "obFeeTotalAmount":"0.00",

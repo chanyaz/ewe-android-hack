@@ -5,7 +5,6 @@
         "changePenaltyAmount": "200.00",
         "changePenaltyPrice": {
           "amount": "200.00",
-          "currencyCode": "USD",
           "formattedPrice": "$200.00",
           "formattedWholePrice": "$200"
         },
@@ -18,77 +17,10 @@
     ],
     "obFeePrice": {
       "amount": "0.00",
-      "currencyCode": "USD",
       "formattedPrice": "$0.00",
       "formattedWholePrice": "$0"
     },
     "obFeeTotalAmount": "0.00",
-    "legs": [
-      {
-        "legId": "c69c1bfb0521dbe1eb2b3891ed4cbe84",
-        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
-        "segments": [
-          {
-            "airlineCode": "AA",
-            "airlineName": "American Airlines",
-            "arrivalAirportCode": "${departureAirport}",
-            "arrivalAirportLocation": "${departureAirport}",
-            "arrivalTimeEpochSeconds": "${returnFlightLandingTimeEpochSeconds}",
-            "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-            "arrivalTimeRaw": "2016-03-22T20:15:00.000-07:00",
-            "arrivalTime": "March 22, 2016 8:15:00 PM",
-            "departureAirportCode": "${arrivalAirport}",
-            "departureAirportLocation": "${arrivalAirport}",
-            "departureTime": "March 22, 2016 5:40:00 PM",
-            "departureTimeEpochSeconds": "${returnFlightTakeoffTimeEpochSeconds}",
-            "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-            "departureTimeRaw": "2016-03-22T17:40:00.000-07:00",
-            "duration": "PT2H35M",
-            "distance": 2572,
-            "distanceUnits": "miles",
-            "equipmentCode": "32B",
-            "equipmentDescription": "Boeing 757-200",
-            "flightNumber": "179",
-            "meal": "Food and beverage for purchase",
-            "onTimePercentage": "70",
-            "providerCode": "Amadeus",
-            "stops": 0
-          }
-        ]
-      },
-      {
-        "legId": "731b8ff3da1b46fd7acf8b7c26f6d82f",
-        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
-        "segments": [
-          {
-            "airlineCode": "DL",
-            "airlineName": "Delta",
-            "arrivalAirportCode": "${arrivalAirport}",
-            "arrivalAirportLocation": "${arrivalAirport}",
-            "arrivalTimeEpochSeconds": "${departingFlightLandingTimeEpochSeconds}",
-            "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-            "arrivalTimeRaw": "2016-03-22T20:15:00.000-07:00",
-            "arrivalTime": "March 22, 2016 8:15:00 PM",
-            "departureAirportCode": "${departureAirport}",
-            "departureAirportLocation": "${departureAirport}",
-            "departureTime": "March 22, 2016 5:40:00 PM",
-            "departureTimeEpochSeconds": "${departingFlightTakeoffTimeEpochSeconds}",
-            "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-            "departureTimeRaw": "2016-03-22T21:00:00.000-07:00",
-            "duration": "PT2H35M",
-            "distance": 2572,
-            "distanceUnits": "miles",
-            "equipmentCode": "752",
-            "equipmentDescription": "Boeing 757-200",
-            "flightNumber": "2340",
-            "meal": "Food For Purchase",
-            "onTimePercentage": "100",
-            "providerCode": "Amadeus",
-            "stops": 0
-          }
-        ]
-      }
-    ],
     "offer": {
       "averageTotalPricePerTicket": {
         "amount": "696.00",
@@ -100,7 +32,6 @@
       "baseFare": "620.46",
       "baseFarePrice": {
         "amount": "620.46",
-        "currencyCode": "USD",
         "formattedPrice": "$620.46",
         "formattedWholePrice": "$620"
       },
@@ -109,7 +40,6 @@
       "fees": "7.00",
       "feesPrice": {
         "amount": "7.00",
-        "currencyCode": "USD",
         "formattedPrice": "$7.00",
         "formattedWholePrice": "$7"
       },
@@ -125,14 +55,12 @@
         {
           "basePrice": {
             "amount": "620.46",
-            "currencyCode": "USD",
             "formattedPrice": "$620.46",
             "formattedWholePrice": "$620"
           },
           "passengerCategory": "ADULT",
           "taxesPrice": {
             "amount": "68.54",
-            "currencyCode": "USD",
             "formattedPrice": "$68.54",
             "formattedWholePrice": "$69"
           },
@@ -144,7 +72,7 @@
           }
         }
       ],
-      "productKey": "happy_roundtrip_0",
+      "productKey": "non_descript",
       "seatsRemaining": 1,
       "segmentAttributes": [
         [
@@ -164,7 +92,6 @@
       "taxes": "68.54",
       "taxesPrice": {
         "amount": "68.54",
-        "currencyCode": "USD",
         "formattedPrice": "$68.54",
         "formattedWholePrice": "$69"
       },
@@ -174,15 +101,322 @@
         "currencyCode": "USD",
         "formattedPrice": "$696.00",
         "formattedWholePrice": "$696"
-      }
+      },
+      "availableInsuranceProducts": [
+        {
+          "name": "Flight Protection",
+          "productId": "abcdefgh-ijkl-mnop-qrst-uvwxyz012345",
+          "typeId": "100001",
+          "businessType": "Merchant Insurance",
+          "description": [
+            {
+              "children": [
+                {
+                  "text": "foo"
+                },
+                {
+                  "text": "bar"
+                }
+              ],
+              "text": "Why you might need travel protection:"
+            }
+          ],
+          "terms": {
+            "text": "Terms and conditions",
+            "url": "http://example.com/flight_protection.html"
+          },
+          "title": "Protect your trip",
+          "totalPrice": {
+            "amount": "19.00",
+            "formattedPrice": "$19.00",
+            "formattedWholePrice": "$19",
+            "currencyCode": "USD"
+          },
+          "displayPrice": {
+            "amount": "19.00",
+            "formattedPrice": "$19.00",
+            "formattedWholePrice": "$19",
+            "currencyCode": "USD"
+          },
+          "displayPriceType": "PRICE_PER_PERSON",
+          "tripTotalPriceWithInsurance":{
+            "amount":"715.00",
+            "formattedPrice":"$715.00",
+            "formattedWholePrice":"$715",
+            "currencyCode":"USD"
+          }
+        }
+      ]
     },
-    "productKey": "happy_roundtrip_0"
+    "productKey": "non_descript",
+    "legs": [
+      {
+        "legId": "70610ef21cd0610778f0ddb4585901d0",
+        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=KWI&destinationapt=ANC&cabinclass=3&mktgcarrier=QR&opcarrier=&farebasis=SLR3I1RX&bookingclass=S&travelDate=2016-07-23&flightNumber=1081&langid=1033",
+        "segments": [
+          {
+            "departureTime": "July 23, 2016 7:05:00 PM",
+            "departureTimeEpochSeconds": 1469289900,
+            "departureTimeRaw": "2016-07-23T19:05:00.000+03:00",
+            "departureTimeZoneOffsetSeconds": 10800,
+            "arrivalTime": "July 23, 2016 8:30:00 PM",
+            "arrivalTimeEpochSeconds": 1469295000,
+            "arrivalTimeRaw": "2016-07-23T20:30:00.000+03:00",
+            "arrivalTimeZoneOffsetSeconds": 10800,
+            "arrivalAirportCode": "DOH",
+            "arrivalAirportLocation": "Doha, QAT",
+            "arrivalAirportAddress": {
+              "city": "Doha",
+              "state": " Qatar",
+              "country": "QAT"
+            },
+            "departureAirportCode": "KWI",
+            "departureAirportLocation": "Kuwait City, KWT",
+            "departureAirportAddress": {
+              "city": "Kuwait City",
+              "state": " Kuwait",
+              "country": "KWT"
+            },
+            "airlineName": "Qatar Airways",
+            "airlineCode": "QR",
+            "externalAirlineCode": "QR",
+            "flightNumber": "1081",
+            "equipmentCode": "320",
+            "equipmentDescription": "Airbus A320",
+            "duration": "PT1H25M",
+            "distance": 353,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Meal",
+            "providerCode": "Sabre",
+            "hasSeatMap": true,
+            "groundTime": "PT11H35M"
+          },
+          {
+            "departureTime": "July 24, 2016 8:05:00 AM",
+            "departureTimeEpochSeconds": 1469336700,
+            "departureTimeRaw": "2016-07-24T08:05:00.000+03:00",
+            "departureTimeZoneOffsetSeconds": 10800,
+            "arrivalTime": "July 24, 2016 2:05:00 PM",
+            "arrivalTimeEpochSeconds": 1469394300,
+            "arrivalTimeRaw": "2016-07-24T14:05:00.000-07:00",
+            "arrivalTimeZoneOffsetSeconds": -25200,
+            "arrivalAirportCode": "LAX",
+            "arrivalAirportLocation": "Los Angeles, USA",
+            "arrivalAirportAddress": {
+              "city": "Los Angeles",
+              "state": " CA",
+              "country": "USA"
+            },
+            "departureAirportCode": "DOH",
+            "departureAirportLocation": "Doha, QAT",
+            "departureAirportAddress": {
+              "city": "Doha",
+              "state": " Qatar",
+              "country": "QAT"
+            },
+            "airlineName": "Qatar Airways",
+            "airlineCode": "QR",
+            "externalAirlineCode": "QR",
+            "flightNumber": "739",
+            "equipmentCode": "77L",
+            "equipmentDescription": "BOEING 777-200LR",
+            "duration": "PT16H",
+            "distance": 8294,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Meal",
+            "providerCode": "Sabre",
+            "hasSeatMap": true,
+            "groundTime": "PT5H32M"
+          },
+          {
+            "departureTime": "July 24, 2016 7:37:00 PM",
+            "departureTimeEpochSeconds": 1469414220,
+            "departureTimeRaw": "2016-07-24T19:37:00.000-07:00",
+            "departureTimeZoneOffsetSeconds": -25200,
+            "arrivalTime": "July 25, 2016 12:20:00 AM",
+            "arrivalTimeEpochSeconds": 1469434800,
+            "arrivalTimeRaw": "2016-07-25T00:20:00.000-08:00",
+            "arrivalTimeZoneOffsetSeconds": -28800,
+            "arrivalAirportCode": "ANC",
+            "arrivalAirportLocation": "Anchorage, USA",
+            "arrivalAirportAddress": {
+              "city": "Anchorage",
+              "state": " AK",
+              "country": "USA"
+            },
+            "departureAirportCode": "LAX",
+            "departureAirportLocation": "Los Angeles, USA",
+            "departureAirportAddress": {
+              "city": "Los Angeles",
+              "state": " CA",
+              "country": "USA"
+            },
+            "airlineName": "American Airlines",
+            "airlineCode": "AA",
+            "externalAirlineCode": "AA",
+            "flightNumber": "676",
+            "equipmentCode": "319",
+            "equipmentDescription": "Airbus A319",
+            "duration": "PT5H43M",
+            "distance": 2343,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Food For Purchase",
+            "providerCode": "Sabre",
+            "hasSeatMap": true
+          }
+        ],
+        "freeCancellationBy": {
+          "raw": "2016-07-07T23:59:00Z",
+          "localized": "Jul 7, 2016 11:59:00 PM",
+          "epochSeconds": 1467935940,
+          "timeZoneOffsetSeconds": 0,
+          "localizedShortDate": "Thu, 7 Jul",
+          "localizedMediumDate": "Jul 7, 2016",
+          "localizedFullDate": "Thursday, July 7, 2016",
+          "localizedLongDate": "July 7, 2016",
+          "localizedShortTime": "11:59 PM"
+        }
+      },
+      {
+        "legId": "3e3329c238dd310cdc388b29f4cef9c6",
+        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=ANC&destinationapt=KWI&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=&bookingclass=M&travelDate=2016-07-30&flightNumber=653&langid=1033",
+        "segments": [
+          {
+            "departureTime": "July 29, 2016 11:35:00 PM",
+            "departureTimeEpochSeconds": 1469864100,
+            "departureTimeRaw": "2016-07-29T23:35:00.000-08:00",
+            "departureTimeZoneOffsetSeconds": -28800,
+            "arrivalTime": "July 30, 2016 6:10:00 AM",
+            "arrivalTimeEpochSeconds": 1469884200,
+            "arrivalTimeRaw": "2016-07-30T06:10:00.000-07:00",
+            "arrivalTimeZoneOffsetSeconds": -25200,
+            "arrivalAirportCode": "LAX",
+            "arrivalAirportLocation": "Los Angeles, USA",
+            "arrivalAirportAddress": {
+              "city": "Los Angeles",
+              "state": " CA",
+              "country": "USA"
+            },
+            "departureAirportCode": "ANC",
+            "departureAirportLocation": "Anchorage, USA",
+            "departureAirportAddress": {
+              "city": "Anchorage",
+              "state": " AK",
+              "country": "USA"
+            },
+            "airlineName": "American Airlines",
+            "airlineCode": "AA",
+            "externalAirlineCode": "AA",
+            "flightNumber": "653",
+            "equipmentCode": "319",
+            "equipmentDescription": "Airbus A319",
+            "duration": "PT5H35M",
+            "distance": 2343,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Food For Purchase",
+            "providerCode": "Sabre",
+            "hasSeatMap": true,
+            "groundTime": "PT9H55M"
+          },
+          {
+            "departureTime": "July 30, 2016 4:05:00 PM",
+            "departureTimeEpochSeconds": 1469919900,
+            "departureTimeRaw": "2016-07-30T16:05:00.000-07:00",
+            "departureTimeZoneOffsetSeconds": -25200,
+            "arrivalTime": "July 31, 2016 6:00:00 PM",
+            "arrivalTimeEpochSeconds": 1469977200,
+            "arrivalTimeRaw": "2016-07-31T18:00:00.000+03:00",
+            "arrivalTimeZoneOffsetSeconds": 10800,
+            "arrivalAirportCode": "DOH",
+            "arrivalAirportLocation": "Doha, QAT",
+            "arrivalAirportAddress": {
+              "city": "Doha",
+              "state": " Qatar",
+              "country": "QAT"
+            },
+            "departureAirportCode": "LAX",
+            "departureAirportLocation": "Los Angeles, USA",
+            "departureAirportAddress": {
+              "city": "Los Angeles",
+              "state": " CA",
+              "country": "USA"
+            },
+            "airlineName": "Qatar Airways",
+            "airlineCode": "QR",
+            "externalAirlineCode": "QR",
+            "flightNumber": "740",
+            "equipmentCode": "77L",
+            "equipmentDescription": "BOEING 777-200LR",
+            "duration": "PT15H55M",
+            "distance": 8294,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Meal",
+            "providerCode": "Sabre",
+            "hasSeatMap": true,
+            "groundTime": "PT1H10M"
+          },
+          {
+            "departureTime": "July 31, 2016 7:10:00 PM",
+            "departureTimeEpochSeconds": 1469981400,
+            "departureTimeRaw": "2016-07-31T19:10:00.000+03:00",
+            "departureTimeZoneOffsetSeconds": 10800,
+            "arrivalTime": "July 31, 2016 8:35:00 PM",
+            "arrivalTimeEpochSeconds": 1469986500,
+            "arrivalTimeRaw": "2016-07-31T20:35:00.000+03:00",
+            "arrivalTimeZoneOffsetSeconds": 10800,
+            "arrivalAirportCode": "KWI",
+            "arrivalAirportLocation": "Kuwait City, KWT",
+            "arrivalAirportAddress": {
+              "city": "Kuwait City",
+              "state": " Kuwait",
+              "country": "KWT"
+            },
+            "departureAirportCode": "DOH",
+            "departureAirportLocation": "Doha, QAT",
+            "departureAirportAddress": {
+              "city": "Doha",
+              "state": " Qatar",
+              "country": "QAT"
+            },
+            "airlineName": "Qatar Airways",
+            "airlineCode": "QR",
+            "externalAirlineCode": "QR",
+            "flightNumber": "1088",
+            "equipmentCode": "320",
+            "equipmentDescription": "Airbus A320",
+            "duration": "PT1H25M",
+            "distance": 353,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Meal",
+            "providerCode": "Sabre",
+            "hasSeatMap": true
+          }
+        ],
+        "freeCancellationBy": {
+          "raw": "2016-07-07T23:59:00Z",
+          "localized": "Jul 7, 2016 11:59:00 PM",
+          "epochSeconds": 1467935940,
+          "timeZoneOffsetSeconds": 0,
+          "localizedShortDate": "Thu, 7 Jul",
+          "localizedMediumDate": "Jul 7, 2016",
+          "localizedFullDate": "Thursday, July 7, 2016",
+          "localizedLongDate": "July 7, 2016",
+          "localizedShortTime": "11:59 PM"
+        }
+      }
+    ]
   },
   "isCustomerTitleRequired": false,
   "newTrip": {
-    "itineraryNumber": "itin_PAYMENT_FAILED",
+    "itineraryNumber": "itin_happy_roundtrip_0",
     "travelRecordLocator": "742449564",
-    "tripId": "PAYMENT_FAILED"
+    "tripId": "${productKey}"
   },
   "passengerCategories": [
     "ADULT"
@@ -206,7 +440,7 @@
       "CompletePenaltyRules": "https://www.expedia.com/pub/agent.dll?qscr=ffrs&itid=742449564&rtyp=1&tlid=1033"
     }
   },
-  "tealeafTransactionId": "tealeafFlight:PAYMENT_FAILED",
+  "tealeafTransactionId": "tealeafFlight:${productKey}",
   "totalPrice": {
     "amount": "696.00",
     "currencyCode": "USD",
@@ -230,11 +464,7 @@
       "name": "MasterCard"
     },
     {
-      "name": "Visa",
-      "fee": "2.94",
-      "feeCurrencyCode": "USD",
-      "formattedFee": "$2.94",
-      "totalFarePriceWithFee": "$696.00"
+      "name": "Visa"
     }
   ]
 }

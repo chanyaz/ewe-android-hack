@@ -13,5 +13,6 @@ public class InsuranceProduct {
 	public InsuranceSolicitationItem terms;
 	public String title;
 	public Money totalPrice;
+	public Money tripTotalPriceWithInsurance;
 	public String typeId;
 }

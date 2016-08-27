@@ -10,6 +10,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.insurance.InsurancePriceType
 import com.expedia.bookings.data.insurance.InsuranceProduct
@@ -45,6 +46,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
 
     lateinit private var lastAction: InsuranceAction
     lateinit private var trip: FlightCreateTripResponse
+    lateinit var tripId: String
 
     enum class InsuranceAction {
         ADD, REMOVE
@@ -65,7 +67,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         tripObservable.subscribe { tripResponse ->
             product = tripResponse.selectedInsuranceProduct ?: tripResponse.availableInsuranceProducts.firstOrNull()
             trip = tripResponse
-            trip.tripId = trip.newTrip.tripId!!
+            trip.newTrip?.tripId?.let { tripId = it }
 
             if (haveProduct) {
                 updateBenefits()
@@ -81,14 +83,14 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
                 lastAction = InsuranceAction.ADD
                 updatingTripDialog.setMessage(context.resources.getString(R.string.insurance_adding))
                 updatingTripDialog.show()
-                insuranceServices.addInsuranceToTrip(InsuranceTripParams(trip.tripId, product!!.productId))
-                        .subscribe(updatedTripObserver)
+                insuranceServices.addInsuranceToTrip(InsuranceTripParams(tripId, product!!.productId))
+                        .subscribe(insuranceSelectionUpdatedObserver)
             } else {
                 lastAction = InsuranceAction.REMOVE
                 updatingTripDialog.setMessage(context.resources.getString(R.string.insurance_removing))
                 updatingTripDialog.show()
-                insuranceServices.removeInsuranceFromTrip(InsuranceTripParams(trip.tripId))
-                        .subscribe(updatedTripObserver)
+                insuranceServices.removeInsuranceFromTrip(InsuranceTripParams(tripId))
+                        .subscribe(insuranceSelectionUpdatedObserver)
             }
             FlightsV2Tracking.trackInsuranceUpdated(if (isSelected) InsuranceAction.ADD else InsuranceAction.REMOVE)
         }
@@ -99,15 +101,16 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         }
     }
 
-    val updatedTripObserver = object : Observer<FlightCreateTripResponse> {
-        fun handleError(message: String) {
-            val messageId: Int
-            when (lastAction) {
-                InsuranceAction.ADD    -> messageId = R.string.insurance_add_error
-                InsuranceAction.REMOVE -> messageId = R.string.insurance_remove_error
-            }
+    val insuranceSelectionUpdatedObserver = object : Observer<FlightCreateTripResponse> {
+        private fun handleError(message: String) {
             FlightsV2Tracking.trackInsuranceError(message)
-            errorDialog.setMessage(context.resources.getString(messageId))
+
+            val displayMessage = context.resources.getString(when (lastAction) {
+                InsuranceAction.ADD    -> R.string.insurance_add_error
+                InsuranceAction.REMOVE -> R.string.insurance_remove_error
+            })
+
+            errorDialog.setMessage(displayMessage)
             errorDialog.show()
         }
 
@@ -125,6 +128,13 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
             tripObservable.onNext(response)
 
             if (!response.hasErrors()) {
+
+                // NOTE: Populating details.offer totalPrice with correct totalPrice (including insurance) from top level of response
+                // API incorrectly returning details.offer totalPrice without insurance when it is added.
+                // We point to details.offer totalPrice in order to correctly support subPub fares.
+                // Until flights API team fixes createTrip/insurance endpoint we will need to do this
+                response.details.offer.totalPrice = response.totalPrice.copy()
+
                 updatedTripObservable.onNext(response)
             } else {
                 handleError(response.errorsToString())

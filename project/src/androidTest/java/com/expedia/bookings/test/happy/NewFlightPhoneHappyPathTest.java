@@ -355,6 +355,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.showPriceBreakdown();
 		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(matches(isDisplayed()));
 		Espresso.pressBack();
+		onView(withId(R.id.bundle_total_price)).check(matches(withText("$715")));
 		onView(withId(R.id.insurance_title)).check(matches(withText("Your trip is protected for $19/person")));
 	}
 
@@ -370,6 +371,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.showPriceBreakdown();
 		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(doesNotExist());
 		Espresso.pressBack();
+		onView(withId(R.id.bundle_total_price)).check(matches(withText("$696")));
 		onView(withId(R.id.insurance_title)).check(matches(withText("Add protection for $19/person")));
 	}
 

@@ -1,5 +1,28 @@
 {
-  "details": {
+  "currencyCode": "USD",
+  "newTrip": {
+    "itineraryNumber": "itin_happy_roundtrip_0",
+    "travelRecordLocator": "0",
+    "tripId": "${tripId}"
+  },
+  "orderId": "000000",
+  "totalCharges": "715.00",
+  "flightAggregatedResponse": {
+    "flightsDetailResponse": [
+      {
+        "destinationRegionId": "6139107",
+        "offer": {
+          "numberOfTickets": 1
+        }
+      }
+    ]
+  },
+  "totalChargesPrice": {
+    "amount": "715.00",
+    "formattedPrice": "$715.00",
+    "formattedWholePrice": "$715"
+  },
+  "flightDetailResponse": {
     "flightRules": [
       {
         "changePenaltyAmount": "200.00",
@@ -174,67 +197,62 @@
         "currencyCode": "USD",
         "formattedPrice": "$696.00",
         "formattedWholePrice": "$696"
-      }
+      },
+      "availableInsuranceProducts": [
+        {
+          "name": "Flight Protection",
+          "productId": "abcdefgh-ijkl-mnop-qrst-uvwxyz012345",
+          "typeId": "100001",
+          "businessType": "Merchant Insurance",
+          "description": [
+            {
+              "children": [
+                {
+                  "text": "foo"
+                },
+                {
+                  "text": "bar"
+                }
+              ],
+              "text": "Why you might need travel protection:"
+            }
+          ],
+          "terms": {
+            "text": "Terms and conditions",
+            "url": "http://example.com/flight_protection.html"
+          },
+          "title": "Protect your trip",
+          "totalPrice": {
+            "amount": "19.00",
+            "formattedPrice": "$19.00",
+            "formattedWholePrice": "$19",
+            "currencyCode": "USD"
+          },
+          "displayPrice": {
+            "amount": "19.00",
+            "formattedPrice": "$19.00",
+            "formattedWholePrice": "$19",
+            "currencyCode": "USD"
+          },
+          "displayPriceType": "PRICE_PER_PERSON"
+        }
+      ]
     },
     "productKey": "happy_roundtrip_0"
   },
-  "isCustomerTitleRequired": false,
-  "newTrip": {
-    "itineraryNumber": "itin_PAYMENT_FAILED",
-    "travelRecordLocator": "742449564",
-    "tripId": "PAYMENT_FAILED"
-  },
-  "passengerCategories": [
-    "ADULT"
-  ],
-  "rewardsPoints": "",
-  "rules": {
-    "RuleToTextMap": {
-      "AdditionalAirlineFees": "The airline may charge additional fees for checked baggage or other optional services.",
-      "AirlineLiabilityLimitations": "Please read important information regarding airline liability limitations.",
-      "BookingFeeLegalText": "An additional non-refundable administration fees is applied for flights booked on a standalone basis through the Call Centre. Customers are informed of the administration fee by their Call Centre Agent at the time of their call.",
-      "BookingFeeText": "This price includes a nonrefundable booking fee.",
-      "CancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
-      "CancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
-      "ChangePenaltyText": "A change fee of $200.00 per ticket is charged by the airline for all itinerary changes.",
-      "CompletePenaltyRules": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
-      "RefundabilityText": "Tickets are nonrefundable and nontransferable."
-    },
-    "RuleToUrlMap": {
-      "AdditionalAirlineFees": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=JFK&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014",
-      "AirlineLiabilityLimitations": "https://www.expedia.com/pub/agent.dll?qscr=hgen&hfnm=warsaw.htx&tlid=1033",
-      "CompletePenaltyRules": "https://www.expedia.com/pub/agent.dll?qscr=ffrs&itid=742449564&rtyp=1&tlid=1033"
+  "mobileAirAttachQualifier": {
+    "airAttachQualified": true,
+    "offerExpires": "2017-08-17T16:00:45.080-07:00",
+    "offerExpiresTime": {
+      "raw": "2017-12-17T16:00:45-07:00",
+      "localized": "Dec 17, 2017 4:00:45 PM",
+      "epochSeconds": 1468796445,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "12/17/17",
+      "localizedMediumDate": "Dec 17, 2016",
+      "localizedFullDate": "Saturday, December 17, 2017",
+      "localizedLongDate": "December 17, 2017",
+      "localizedShortTime": "4:00 PM"
     }
-  },
-  "tealeafTransactionId": "tealeafFlight:PAYMENT_FAILED",
-  "totalPrice": {
-    "amount": "696.00",
-    "currencyCode": "USD",
-    "formattedPrice": "$696.00",
-    "formattedWholePrice": "$696"
-  },
-  "validFormsOfPayment": [
-    {
-      "name": "AmericanExpress"
-    },
-    {
-      "name": "Diner's Club International"
-    },
-    {
-      "name": "Discover"
-    },
-    {
-      "name": "JCB"
-    },
-    {
-      "name": "MasterCard"
-    },
-    {
-      "name": "Visa",
-      "fee": "2.94",
-      "feeCurrencyCode": "USD",
-      "formattedFee": "$2.94",
-      "totalFarePriceWithFee": "$696.00"
-    }
-  ]
+  }
 }

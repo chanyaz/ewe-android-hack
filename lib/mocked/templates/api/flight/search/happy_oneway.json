@@ -571,7 +571,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "696.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "696.00",
                 "formattedPrice": "$696.00",
                 "formattedWholePrice": "$696"
@@ -668,7 +668,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "596.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "596.00",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
@@ -747,7 +747,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "646.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "646.00",
                 "formattedPrice": "$646.00",
                 "formattedWholePrice": "$646"
@@ -826,7 +826,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "546.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "546.00",
                 "formattedPrice": "$546.00",
                 "formattedWholePrice": "$546"
@@ -905,7 +905,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "746.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "746.00",
                 "formattedPrice": "$746.00",
                 "formattedWholePrice": "$746"
@@ -1002,7 +1002,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "546.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "546.00",
                 "formattedPrice": "$546.00",
                 "formattedWholePrice": "$546"
@@ -1081,7 +1081,7 @@
                 "formattedWholePrice": "$0"
             },
             "totalFare": "9001.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "9001.00",
                 "formattedPrice": "$9001.00",
                 "formattedWholePrice": "$9001"
@@ -1160,7 +1160,7 @@
                 "formattedWholePrice": "$0"
             },
             "totalFare": "9001.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "9001.00",
                 "formattedPrice": "$9001.00",
                 "formattedWholePrice": "$9001"
@@ -1257,7 +1257,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "596.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "596.00",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
@@ -1372,7 +1372,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "596.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "596.00",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
@@ -1469,7 +1469,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "596.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "596.00",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"

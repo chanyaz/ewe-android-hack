@@ -93,7 +93,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "696.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "696.00",
                 "formattedPrice": "$696.00",
                 "formattedWholePrice": "$696"
