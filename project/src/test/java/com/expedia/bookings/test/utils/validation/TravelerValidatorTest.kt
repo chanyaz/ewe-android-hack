@@ -201,7 +201,7 @@ class TravelerValidatorTest {
         Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
 
         travelerValidator.updateForNewSearch(packageSearchParams)
-        assertFalse(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, false))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
     }
 
     @Test
@@ -213,7 +213,7 @@ class TravelerValidatorTest {
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
         travelerValidator.updateForNewSearch(packageSearchParams)
-        assertFalse(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, false))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
     }
 
     @Test
@@ -225,7 +225,7 @@ class TravelerValidatorTest {
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
-        assertFalse(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, false))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
     }
 
     @Test
@@ -234,7 +234,7 @@ class TravelerValidatorTest {
         travelerValidator.updateForNewSearch(packageSearchParams)
 
         val mockTraveler = givenTravelerOnlyMissingPassport()
-        assertFalse(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, true))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, true))
     }
 
     @Test
@@ -245,7 +245,7 @@ class TravelerValidatorTest {
         val mockTraveler = givenTravelerOnlyMissingPassport()
         Mockito.`when`(mockTraveler.primaryPassportCountry).thenReturn("Mexico")
         
-        assertTrue(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, true))
+        assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, true))
     }
 
     @Test
@@ -256,13 +256,13 @@ class TravelerValidatorTest {
         val adultBirthDate = TOMORROW.minusYears(24)
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
-        assertFalse(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, false))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
 
         Mockito.`when`(mockTraveler.email).thenReturn(TEST_EMAIL)
-        assertFalse(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, false))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
 
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
-        assertTrue(travelerValidator.isValidForBooking(mockTraveler, mainTravelerIndex, false))
+        assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
     }
 
     @Test
@@ -274,7 +274,7 @@ class TravelerValidatorTest {
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
-        assertTrue(travelerValidator.isValidForBooking(mockTraveler, addTravelerIndex, false))
+        assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, addTravelerIndex, false))
     }
 
     @Test
@@ -307,6 +307,20 @@ class TravelerValidatorTest {
     @Test
     fun testIsEmpty() {
         assertTrue(travelerValidator.isTravelerEmpty(Traveler()))
+    }
+
+    @Test
+    fun testIsValidForRailBooking() {
+        val mockTraveler = Mockito.mock(Traveler::class.java)
+
+        Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
+        assertFalse(travelerValidator.isValidForRailBooking(mockTraveler))
+
+        Mockito.`when`(mockTraveler.email).thenReturn(TEST_EMAIL)
+        assertFalse(travelerValidator.isValidForRailBooking(mockTraveler))
+
+        Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
+        assertTrue(travelerValidator.isValidForRailBooking(mockTraveler))
     }
 
     private fun getValidName(): TravelerName {

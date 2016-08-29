@@ -49,33 +49,33 @@ class CheckoutTravelerViewModelTest {
     @Test
     fun testEmptyListInvalid() {
         Db.setTravelers(emptyList())
-        assertFalse(testViewModel.validateTravelersComplete())
+        assertFalse(testViewModel.allTravelersValid())
     }
 
     @Test
     fun testInvalidTraveler() {
         mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
-        assertFalse(testViewModel.validateTravelersComplete())
+        assertFalse(testViewModel.allTravelersValid())
     }
 
     @Test
     fun testMultipleInvalidTravelers() {
         mockTravelerProvider.updateDBWithMockTravelers(2, Traveler())
-        assertFalse(testViewModel.validateTravelersComplete())
+        assertFalse(testViewModel.allTravelersValid())
     }
 
     @Test
     fun testValidTraveler() {
         mockTravelerProvider.updateDBWithMockTravelers(1, mockTravelerProvider.getCompleteMockTraveler())
         testViewModel.travelerValidator.updateForNewSearch(searchParams)
-        assertTrue(testViewModel.validateTravelersComplete())
+        assertTrue(testViewModel.allTravelersValid())
     }
 
     @Test
     fun testMultipleValidTravelers() {
         testViewModel.travelerValidator.updateForNewSearch(searchParams)
         mockTravelerProvider.updateDBWithMockTravelers(2, mockTravelerProvider.getCompleteMockTraveler())
-        assertTrue(testViewModel.validateTravelersComplete())
+        assertTrue(testViewModel.allTravelersValid())
     }
 
     @Test

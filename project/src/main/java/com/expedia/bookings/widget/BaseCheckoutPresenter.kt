@@ -39,7 +39,7 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
-import com.expedia.bookings.widget.traveler.TravelerDefaultState
+import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
@@ -77,8 +77,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val space: Space by bindView(R.id.scrollview_space)
 
     var paymentWidget: PaymentWidget by Delegates.notNull()
-    val travelerDefaultState: TravelerDefaultState by lazy {
-        val view = findViewById(R.id.traveler_default_state) as TravelerDefaultState
+    val travelerSummaryCard: TravelerSummaryCard by lazy {
+        val view = findViewById(R.id.traveler_default_state) as TravelerSummaryCard
         view.viewModel = TravelerSummaryViewModel(context)
         view.setOnClickListener {
             openTravelerPresenter()
@@ -93,7 +93,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
             presenter.menuVisibility.onNext(false)
         }
-        presenter.viewModel.travelerCompletenessStatus.subscribe(travelerDefaultState.viewModel.travelerStatusObserver)
+        presenter.viewModel.travelerCompletenessStatus.subscribe(travelerSummaryCard.viewModel.travelerStatusObserver)
         presenter.viewModel.allTravelersCompleteSubject.subscribe(getCheckoutViewModel().travelerCompleted)
         presenter.viewModel.invalidTravelersSubject.subscribe(getCheckoutViewModel().clearTravelers)
         presenter
@@ -322,7 +322,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 Ui.hideKeyboard(travelerPresenter)
                 animateInSlideToPurchase(true)
                 travelerPresenter.setFocusForView()
-                travelerDefaultState.setFocusForView()
+                travelerSummaryCard.setFocusForView()
             } else {
                 val lp = space.layoutParams
                 lp.height = 0
@@ -338,7 +338,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             handle.setInverseVisibility(forward)
             loginWidget.setInverseVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
-            travelerDefaultState.visibility = if (forward) View.GONE else View.VISIBLE
+            travelerSummaryCard.visibility = if (forward) View.GONE else View.VISIBLE
             insuranceWidget.setInverseVisibility(forward || !insuranceWidget.viewModel.hasProduct)
             legalInformationText.setInverseVisibility(forward)
             depositPolicyText.setInverseVisibility(forward)
@@ -583,7 +583,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     fun openTravelerPresenter() {
         show(travelerPresenter)
-        travelerPresenter.showSelectOrEntryState(travelerDefaultState.getStatus())
+        travelerPresenter.showSelectOrEntryState(travelerSummaryCard.getStatus())
     }
 
     open fun updateTravelerPresenter() {

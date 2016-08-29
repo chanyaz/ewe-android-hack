@@ -8,11 +8,11 @@ import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
-import com.expedia.vm.traveler.TravelerSummaryViewModel
+import com.expedia.vm.traveler.BaseSummaryViewModel
 
-class TravelerDefaultState(context: Context, attrs: AttributeSet?) : TravelerDetailsCard(context, attrs) {
+class TravelerSummaryCard(context: Context, attrs: AttributeSet?) : TravelerDetailsCard(context, attrs) {
 
-    var viewModel: TravelerSummaryViewModel by notNullAndObservable { vm ->
+    var viewModel: BaseSummaryViewModel by notNullAndObservable { vm ->
         vm.titleObservable.subscribeText(detailsText)
         vm.subtitleObservable.subscribeText(secondaryText)
         vm.subtitleColorObservable.subscribeTextColor(secondaryText)

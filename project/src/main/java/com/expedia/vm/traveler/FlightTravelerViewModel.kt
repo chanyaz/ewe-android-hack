@@ -8,11 +8,8 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
 import rx.subjects.BehaviorSubject
 
-open class TravelerViewModel(val context: Context, val travelerIndex: Int, val passportRequired: Boolean) {
-    var nameViewModel = TravelerNameViewModel(context)
-    var phoneViewModel = TravelerPhoneViewModel(context)
+class FlightTravelerViewModel(context: Context, travelerIndex: Int, passportRequired: Boolean) : BaseTravelerViewModel(context, travelerIndex) {
     var tsaViewModel = TravelerTSAViewModel(context)
-    var emailViewModel = TravelerEmailViewModel(context)
     var advancedOptionsViewModel = TravelerAdvancedOptionsViewModel()
 
     val showPhoneNumberObservable = BehaviorSubject.create<Boolean>()
@@ -30,7 +27,7 @@ open class TravelerViewModel(val context: Context, val travelerIndex: Int, val p
         showPhoneNumberObservable.onNext(TravelerUtils.isMainTraveler(travelerIndex))
     }
 
-    open fun updateTraveler(traveler: Traveler) {
+    override fun updateTraveler(traveler: Traveler) {
         Db.getTravelers()[travelerIndex] = traveler
         if (User.isLoggedIn(context)) {
             traveler.email = Db.getUser().primaryTraveler.email
@@ -43,7 +40,7 @@ open class TravelerViewModel(val context: Context, val travelerIndex: Int, val p
         passportCountrySubject.onNext(traveler.primaryPassportCountry)
     }
 
-    fun validate(): Boolean {
+    override fun validate(): Boolean {
         val nameValid = nameViewModel.validate()
         val phoneValid = !TravelerUtils.isMainTraveler(travelerIndex) || phoneViewModel.validate()
         val tsaValid = tsaViewModel.validate()
@@ -54,9 +51,5 @@ open class TravelerViewModel(val context: Context, val travelerIndex: Int, val p
         val emailValid = !requiresEmail || (requiresEmail && emailViewModel.validate())
         val valid = nameValid && emailValid && phoneValid && tsaValid && passportValid
         return valid
-    }
-
-    open fun getTraveler(): Traveler {
-        return Db.getTravelers()[travelerIndex]
     }
 }

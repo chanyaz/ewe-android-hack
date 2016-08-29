@@ -712,7 +712,7 @@
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Il check-in deve essere effettuato dal viaggiatore principale, che deve avere più di 18 anni.</string>
     <!-- Text for enter traveler details-->
-    <string name="lx_traveler_enter_details_text">Inserisci i dettagli del viaggiatore</string>
+    <string name="traveler_enter_details_text">Inserisci i dettagli del viaggiatore</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Prezzo</string>
     <!-- Popularity sort button -->

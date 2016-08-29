@@ -2,6 +2,7 @@ package com.expedia.bookings.test.phone.rail;
 
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
@@ -13,6 +14,7 @@ import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -87,6 +89,37 @@ public class RailScreen {
 
 	public static ViewInteraction checkout() {
 		return onView(withId(R.id.checkout_button));
+	}
+
+	public static void clickTravelerCard() {
+		onView(withId(R.id.rail_traveler_card_view)).perform(click());
+	}
+
+	public static void fillInTraveler() {
+		enterFirstName("FiveStar");
+		enterLastName("Bear");
+		enterEmail("noah@mobiata.com");
+		Espresso.closeSoftKeyboard();
+		enterPhoneNumber("7732025862");
+
+		onView(withId(R.id.menu_done)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.menu_done)).perform(click());
+	}
+
+	public static void enterFirstName(String name) {
+		onView(withId(R.id.first_name_input)).perform(typeText(name));
+	}
+
+	public static void enterLastName(String name) {
+		onView(withId(R.id.last_name_input)).perform(typeText(name));
+	}
+
+	public static void enterPhoneNumber(String phoneNumber) {
+		onView(withId(R.id.edit_phone_number)).perform(typeText(phoneNumber));
+	}
+
+	public static void enterEmail(String email) {
+		onView(withId(R.id.edit_email_address)).perform(typeText(email));
 	}
 
 	public static ViewInteraction legInfo() {

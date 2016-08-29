@@ -20,7 +20,7 @@ import com.expedia.util.getMainTravelerToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
-import com.expedia.vm.traveler.TravelerViewModel
+import com.expedia.vm.traveler.FlightTravelerViewModel
 import rx.subjects.PublishSubject
 
 class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -51,7 +51,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
         travelerPickerWidget.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
             toolbarTitleSubject.onNext(selectedTraveler.second)
-            travelerEntryWidget.viewModel = TravelerViewModel(context, selectedTraveler.first, viewModel.passportRequired.value)
+            travelerEntryWidget.viewModel = FlightTravelerViewModel(context, selectedTraveler.first, viewModel.passportRequired.value)
             travelerEntryWidget.viewModel.showPassportCountryObservable.subscribe(travelerPickerWidget.passportRequired)
             show(travelerEntryWidget)
         }
@@ -59,7 +59,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         doneClicked.subscribe {
             if (travelerEntryWidget.isValid()) {
                 viewModel.updateCompletionStatus()
-                if (viewModel.validateTravelersComplete()) {
+                if (viewModel.allTravelersValid()) {
                     closeSubject.onNext(Unit)
                 }
             }
@@ -126,7 +126,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             show(travelerPickerWidget)
         } else {
             travelerPickerWidget.refresh(status, viewModel.getTravelers())
-            val travelerViewModel = TravelerViewModel(context, 0, viewModel.passportRequired.value)
+            val travelerViewModel = FlightTravelerViewModel(context, 0, viewModel.passportRequired.value)
             travelerEntryWidget.viewModel = travelerViewModel
             toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
             if (viewModel.travelerCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {

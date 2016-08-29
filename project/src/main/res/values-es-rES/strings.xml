@@ -712,7 +712,7 @@
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">El viajero principal debe realizar el registro de entrada en el hotel. Debe ser mayor de 18 años.</string>
     <!-- Text for enter traveler details-->
-    <string name="lx_traveler_enter_details_text">Introduce los datos del viajero</string>
+    <string name="traveler_enter_details_text">Introduce los datos del viajero</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Precio</string>
     <!-- Popularity sort button -->

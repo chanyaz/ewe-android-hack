@@ -715,7 +715,7 @@
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Main traveler must check into the hotel. Must be 18 or older.</string>
     <!-- Text for enter traveler details-->
-    <string name="lx_traveler_enter_details_text">Enter traveler details</string>
+    <string name="traveler_enter_details_text">Enter traveler details</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Price</string>
     <!-- Popularity sort button -->

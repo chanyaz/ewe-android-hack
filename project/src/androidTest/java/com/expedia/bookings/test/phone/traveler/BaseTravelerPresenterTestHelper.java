@@ -30,7 +30,7 @@ import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.validation.TravelerValidator;
 import com.expedia.bookings.widget.CheckoutToolbar;
-import com.expedia.bookings.widget.traveler.TravelerDefaultState;
+import com.expedia.bookings.widget.traveler.TravelerSummaryCard;
 import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
 import com.expedia.vm.traveler.TravelerSummaryViewModel;
@@ -45,7 +45,7 @@ public class BaseTravelerPresenterTestHelper {
 	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
 	protected TravelerPresenter testTravelerPresenter;
-	protected TravelerDefaultState testTravelerDefault;
+	protected TravelerSummaryCard testTravelerDefault;
 	private CheckoutToolbar testToolbar;
 	protected CheckoutTravelerViewModel mockViewModel;
 
@@ -86,7 +86,7 @@ public class BaseTravelerPresenterTestHelper {
 		travelerValidator.updateForNewSearch(setPackageParams(1));
 
 		final ViewStub viewStub = (ViewStub) activityTestRule.getRoot().findViewById(R.id.traveler_presenter_stub);
-		testTravelerDefault = (TravelerDefaultState) activityTestRule.getRoot()
+		testTravelerDefault = (TravelerSummaryCard) activityTestRule.getRoot()
 			.findViewById(R.id.traveler_default_state);
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override

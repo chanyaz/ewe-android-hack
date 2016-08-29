@@ -91,7 +91,7 @@
 
         <!-- CVV attrs -->
         <item name="traveler_toolbar_text">@string/traveler_details_text</item>
-        <item name="traveler_details_text">@string/lx_traveler_enter_details_text</item>
+        <item name="traveler_details_text">@string/traveler_enter_details_text</item>
 
         <item name="card_list_image_container_height">@dimen/lx_search_list_image_container_height</item>
         <item name="card_details_container_height">@dimen/lx_search_details_container_height</item>

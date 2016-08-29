@@ -104,7 +104,7 @@
 
                     </LinearLayout>
 
-                    <com.expedia.bookings.widget.traveler.TravelerDefaultState
+                    <com.expedia.bookings.widget.traveler.TravelerSummaryCard
                         android:id="@+id/traveler_default_state"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
