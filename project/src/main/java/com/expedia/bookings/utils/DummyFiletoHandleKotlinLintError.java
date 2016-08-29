@@ -918,6 +918,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.multiple_carriers_text,
 		R.layout.traveler_picker_spinners_container,
 		R.string.error_select_rail_card_details,
-		R.string.error_rail_cards_greater_than_number_travelers
+		R.string.error_rail_cards_greater_than_number_travelers,
+		R.color.lx_filter_neighborhood_text,
+		R.color.lx_filter_text
 	};
 }

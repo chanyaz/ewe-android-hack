@@ -17,6 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Space;
 import android.widget.TextView;
@@ -28,12 +29,15 @@ import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
+import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.util.RxKt;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import butterknife.OnClick;
+import rx.Observer;
 
 public class LXSortFilterWidget extends LinearLayout {
 
@@ -42,6 +46,7 @@ public class LXSortFilterWidget extends LinearLayout {
 	private View toolbarBackgroundView;
 	private boolean userBucketedForCategoriesTest;
 	private boolean themeAllThingsToDo;
+	private String filterActivity;
 
 	public LXSortFilterWidget(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -77,6 +82,9 @@ public class LXSortFilterWidget extends LinearLayout {
 	@InjectView(R.id.category_title)
 	TextView categoryTitle;
 
+	@InjectView(R.id.filter_activity_name_edit_text)
+	EditText activityNameFilterEditText;
+
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
@@ -109,7 +117,24 @@ public class LXSortFilterWidget extends LinearLayout {
 				toolbarDropshadow.setAlpha(ratio);
 			}
 		});
+
+		RxKt.subscribeTextChange(activityNameFilterEditText, activityFilterSubscriber);
 	}
+
+	private Observer activityFilterSubscriber = new Observer() {
+		@Override
+		public void onCompleted() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+		}
+
+		@Override
+		public void onNext(Object o) {
+			postLXFilterChangedEvent();
+		}
+	};
 
 	@Override
 	protected void onAttachedToWindow() {
@@ -158,7 +183,7 @@ public class LXSortFilterWidget extends LinearLayout {
 		}
 
 		// Hide the dynamic feedback & update done button in case we have zero filters applied.
-		if (selectedFilterCategories.size() == 0) {
+		if (selectedFilterCategories.size() == 0 && !isActivityFilterApplied()) {
 			updateDoneButton();
 			dynamicFeedbackWidget.hideDynamicFeedback();
 		}
@@ -179,13 +204,14 @@ public class LXSortFilterWidget extends LinearLayout {
 
 	private void postLXFilterChangedEvent() {
 		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata(selectedFilterCategories,
-			priceSortButton.isSelected() ? LXSortType.PRICE : LXSortType.POPULARITY);
+			priceSortButton.isSelected() ? LXSortType.PRICE : LXSortType.POPULARITY,
+			activityNameFilterEditText.getText().toString());
 		Events.post(new Events.LXFilterChanged(lxSortFilterMetadata));
 	}
 
 	@Subscribe
 	public void onLXSearchFilterResultsReady(Events.LXSearchFilterResultsReady event) {
-		if (selectedFilterCategories.size() == 0) {
+		if (selectedFilterCategories.size() == 0 && !isActivityFilterApplied()) {
 			isFilteredToZeroResults = false;
 			updateDoneButton();
 			dynamicFeedbackWidget.hideDynamicFeedback();
@@ -224,11 +250,17 @@ public class LXSortFilterWidget extends LinearLayout {
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
 		selectedFilterCategories.clear();
+		activityNameFilterEditText.getEditableText().clear();
 		return new LXSortFilterMetadata(selectedFilterCategories, LXSortType.POPULARITY);
 	}
 
 	public int getNumberOfSelectedFilters() {
-		return selectedFilterCategories.size();
+		return isActivityFilterApplied() ? selectedFilterCategories.size() + 1
+			: selectedFilterCategories.size();
+	}
+
+	private boolean isActivityFilterApplied() {
+		return Strings.isNotEmpty(activityNameFilterEditText.getText());
 	}
 
 	public Button setupToolBarCheckmark(final MenuItem menuItem) {
@@ -277,7 +309,7 @@ public class LXSortFilterWidget extends LinearLayout {
 	public void resetSortAndFilter() {
 		// Set to default state, as we have new search params available.
 		selectedFilterCategories.clear();
-
+		activityNameFilterEditText.getText().clear();
 		popularitySortButton.setSelected(true);
 		priceSortButton.setSelected(false);
 		filterCategoriesContainer.requestLayout();
@@ -336,5 +368,14 @@ public class LXSortFilterWidget extends LinearLayout {
 	public void setFocusToToolbarForAccessibility() {
 		toolbar.clearFocus();
 		toolbar.requestFocus();
+	}
+
+	public String getFilterActivity() {
+		return filterActivity;
+	}
+
+	public LXSortFilterWidget setFilterActivity(String filterActivity) {
+		this.filterActivity = filterActivity;
+		return this;
 	}
 }

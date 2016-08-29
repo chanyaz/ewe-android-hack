@@ -8,14 +8,21 @@ public class LXSortFilterMetadata {
 
 	public Map<String, LXCategoryMetadata> lxCategoryMetadataMap;
 	public LXSortType sort;
+	public String filter;
 
 	public LXSortFilterMetadata() {
 	}
 
 	public LXSortFilterMetadata(
 		Map<String, LXCategoryMetadata> lxCategoryMetadataMap, LXSortType sort) {
+		this(lxCategoryMetadataMap, sort, "");
+	}
+
+	public LXSortFilterMetadata(
+		Map<String, LXCategoryMetadata> lxCategoryMetadataMap, LXSortType sort, String filter) {
 		this.lxCategoryMetadataMap = lxCategoryMetadataMap;
 		this.sort = sort;
+		this.filter = filter;
 	}
 
 	public LXSortFilterMetadata(String delimitedFiltersList) {
