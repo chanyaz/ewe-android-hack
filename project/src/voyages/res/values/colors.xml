@@ -12,6 +12,7 @@
     <color name="action_bar_text_vsc">#F5A337</color>
     <color name="action_bar_bg_color">#36424F</color>
     <color name="login_text_vsc">#333333</color>
+    <color name="actionbar_button_text_color">@color/vsc_primary_color</color>
     <color name="hotelsv2_coupon_applied_color">@color/vsc_primary_color</color>
     <color name="collection_overlay_color">#56a1d5</color>
     <color name="flight_trip_price">@color/hotel_price_text_color_vsc</color>

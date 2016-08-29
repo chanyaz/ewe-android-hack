@@ -8,17 +8,20 @@
     <color name="hotel_list_progress_text_color">#333</color>
     <color name="flight_loading_message_text_color_aag">#333</color>
     <color name="action_bar_text_aag">#F5A337</color>
+    <color name="actionbar_button_text_color">@color/action_bar_text_aag</color>
     <color name="actionbar_menu_text_color">@color/aag_secondary_color</color>
     <color name="action_bar_bg_color">#E21E25</color>
     <color name="flight_trip_color_aag">#F8A424</color>
+    <color name="itin_flight_line_color">@color/flight_trip_color_aag</color>
+    <color name="flight_trip">@color/flight_trip_color_aag</color>
     <color name="flight_trip_price_aag">#E21E25</color>
     <color name="action_bar_selected_tab_underline_color">#E21E25</color>
     <color name="collection_overlay_color">#56a1d5</color>
-    <color name="itin_flight_line_color">#5195BB</color>
     <color name="hotel_sale_text_color">@color/action_bar_bg_color</color>
     <color name="calendar_cell_selected_date_text">@android:color/primary_text_dark</color>
     <color name="hotelsv2_coupon_applied_color">@color/aag_primary_color</color>
     <color name="splash_screen_bg">@color/aag_primary_color</color>
+    <color name="flight_trip_price">@color/aag_primary_color</color>
 
     <color name="tablet_confirmation_action_color">@color/aag_primary_color</color>
     <color name="tablet_sort_filter_done_selector">@color/aag_primary_color</color>
