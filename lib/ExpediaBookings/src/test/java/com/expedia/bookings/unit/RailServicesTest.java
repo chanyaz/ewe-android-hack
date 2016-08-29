@@ -36,6 +36,7 @@ import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 public class RailServicesTest {
@@ -103,6 +104,7 @@ public class RailServicesTest {
 
 		assertEquals("19558305-ea58-4cef-a0dc-6ca1fe6ce901", createTripResponse.tripId);
 		assertEquals(1, createTripResponse.railDomainProduct.railOffer.railProductList.size());
+		assertNotNull(createTripResponse.railDomainProduct.railOffer.railProductList.get(0).fareQualifierList);
 	}
 
 	@Test
