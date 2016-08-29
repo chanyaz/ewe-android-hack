@@ -107,7 +107,7 @@ class AccountButtonTest {
     @Test
     fun testSignInTextWithoutRewards() {
         val rewardsText = accountButton.getSignInWithoutRewardsText().toString()
-        val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).put("brand", "Expedia").format().toString()
+        val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", "Expedia").format().toString()
         assertEquals(expectedText, rewardsText)
     }
 
