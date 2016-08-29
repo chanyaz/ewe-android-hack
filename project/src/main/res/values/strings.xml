@@ -1050,6 +1050,10 @@
     <string name="select_rail_card_hint">Select a railcard</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
     <string name="select_rail_card_quantity_hint">Qty</string>
+    <!-- Error message when rail card details not selected on add rail cards dialog -->
+    <string name="error_select_rail_card_details">Please select rail cards details.</string>
+    <!-- Error message when rail cards selected is greater than no. of travelers -->
+    <string name="error_rail_cards_greater_than_number_travelers">The number of railcards cannot exceed the number of travelers.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Going from</string>

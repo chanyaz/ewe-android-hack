@@ -30,9 +30,11 @@ class RailCardsPickerWidget(context: Context, attrs: AttributeSet?) : SearchInpu
             cardsPickerDialog.show()
         }
 
-        railCardPickerViewModel.validationSuccessSubject.subscribe {
+        railCardPickerViewModel.validationSuccess.subscribe {
+            cardsPickerDialog.setCancelable(true)
             cardsPickerDialog.dismiss()
         }
+
     }
 
     val cardPickerDialogView: RailCardPickerView by lazy {
@@ -45,12 +47,15 @@ class RailCardsPickerWidget(context: Context, attrs: AttributeSet?) : SearchInpu
         val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
 
         builder.setView(cardPickerDialogView)
-        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
-            railCardPickerViewModel.doneClickedSubject.onNext(Unit)
-            this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
-        })
+        builder.setPositiveButton(context.getString(R.string.DONE), null)
         val dialog: AlertDialog = builder.create()
         dialog.setOnShowListener {
+            cardsPickerDialog.setCancelable(false)
+            val positiveButton = dialog.getButton(AlertDialog.BUTTON_POSITIVE)
+            positiveButton.setOnClickListener {
+                railCardPickerViewModel.doneClickedSubject.onNext(Unit)
+                this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
+            }
             dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }
         dialog.setOnDismissListener {
