@@ -94,14 +94,21 @@
 
     <!-- Cars and LX -->
     <color name="cars_primary_color">#7AC231</color>
-    <color name="cars_unchecked_toggle_text_color_wotif">#B3FFFFFF</color>
+    <color name="cars_unchecked_toggle_text_color">#B3FFFFFF</color>
     <color name="lx_primary_color">#7AC231</color>
     <color name="lx_ripple_color">#599027</color>
     <color name="lx_secondary_color_disabled">#7fa92c</color>
-    <color name="lx_unchecked_toggle_text_color_wotif">@android:color/white</color>
-    <color name="lx_ticket_selector_disabled_color_wotif">#407AC231</color>
+    <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
     <color name="cars_ripple_color">@color/lx_ripple_color</color>
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
+
+    <color name="lx_primary_disabled_color">#407AC231</color>
+    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
+    <color name="cars_secondary_color">@color/cars_primary_color</color>
+    <color name="cars_tooltip_color">@color/cars_primary_color</color>
+    <color name="cars_status_bar_color">@color/cars_primary_color</color>
+    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
+    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
