@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailDetailsViewModel
+import com.expedia.vm.rail.RailFareOptionViewModel
 
 class RailDetailsFareOptionsView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
@@ -22,15 +22,20 @@ class RailDetailsFareOptionsView(context: Context, attrs: AttributeSet) : Linear
     }
 
     private fun addFareOptionViews(offer: RailOffer) {
-        if (offer.outboundLeg != null) {
-            val outboundLegOption = offer.outboundLeg
+        val outboundLegOption = offer.outboundLeg
+        if (outboundLegOption != null) {
             val offers = viewmodel.railResultsObservable.value.findOffersForLegOption(outboundLegOption)
             offers.forEach { offerForLeg ->
-                val offerView = RailOfferView(context, offerForLeg,
-                        viewmodel.offerSelectedObservable,
-                        viewmodel.showAmenitiesObservable,
-                        viewmodel.showFareRulesObservable)
-                addView(offerView)
+                val fareOptionViewModel = RailFareOptionViewModel()
+                val fareOptionView = RailFareOptionView(context)
+                fareOptionView.viewModel = fareOptionViewModel
+
+                fareOptionViewModel.showAmenitiesDetails.subscribe(viewmodel.showAmenitiesObservable)
+                fareOptionViewModel.showFareDetails.subscribe(viewmodel.showFareRulesObservable)
+                fareOptionViewModel.offerSelected.subscribe(viewmodel.offerSelectedObservable)
+                fareOptionViewModel.offerFare.onNext(offerForLeg)
+
+                addView(fareOptionView)
             }
         }
     }
