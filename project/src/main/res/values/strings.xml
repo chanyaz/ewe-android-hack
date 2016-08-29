@@ -772,6 +772,9 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">Keyword or phrase</string>
+
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Sort &amp; Filter</string>
     <!-- Accessibility content description for Sort & Filter button -->
