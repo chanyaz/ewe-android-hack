@@ -5286,21 +5286,36 @@ public class OmnitureTracking {
 			itineraryType = "MD";
 			break;
 		}
-		String evarValues = "";
+
+		String evarValuesOutBound, evarValuesInBound = "";
 		if (isConfirmation) {
-			evarValues = String.format(Locale.ENGLISH, "eVar30=%s:FLT", getFlightInventoryTypeString());
+			if (!itineraryType.equalsIgnoreCase("ST")) {
+				evarValuesOutBound = String.format(Locale.ENGLISH, "eVar30=%s:FLT", getFlightInventoryTypeString());
+			}
+			else {
+				Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
+				Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
+				String departureInfo = airportCodes.first + "-" + airportCodes.second + ":" + takeoffDateStrings.first;
+				evarValuesOutBound = String
+					.format(Locale.ENGLISH, "eVar30=%s:FLT:%s", getFlightInventoryTypeString(), departureInfo);
+
+				String arrivalInfo = airportCodes.second + "-" + airportCodes.first + ":" + takeoffDateStrings.second;
+				evarValuesInBound = String
+					.format(Locale.ENGLISH, "eVar30=%s:FLT:%s", getFlightInventoryTypeString(), arrivalInfo);
+			}
 		}
 		else {
-			evarValues = String.format(Locale.US, "eVar63=%s:SA", getFlightInventoryTypeString());
+			evarValuesOutBound = String.format(Locale.US, "eVar63=%s:SA", getFlightInventoryTypeString());
 		}
 
 		String outBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;%s", segments.first.airlineCode,
-			itineraryType, trip.getDetails().offer.numberOfTickets, outBoundFlightPrice, evarValues);
+			itineraryType, trip.getDetails().offer.numberOfTickets, outBoundFlightPrice, evarValuesOutBound);
 
 		if (itineraryType.equalsIgnoreCase("ST")) {
 			BigDecimal inBoundFlightPrice = trip.getDetails().offer.splitFarePrice.get(1).totalPrice.amount;
-			String inBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;%s", segments.second.airlineCode,
-				itineraryType, trip.getDetails().offer.numberOfTickets, inBoundFlightPrice, evarValues);
+			String inBoundFlight = String
+				.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;%s", segments.second.airlineCode,
+					itineraryType, trip.getDetails().offer.numberOfTickets, inBoundFlightPrice, evarValuesInBound);
 
 			return outBoundFlight + "," + inBoundFlight;
 
@@ -5355,20 +5370,26 @@ public class OmnitureTracking {
 
 		// events
 		s.setEvents("purchase");
+		boolean isSplitTicket = getFlightItineraryType().equals(FlightItineraryType.SPLIT_TICKET);
 
 		// products
 		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
 		Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
-		String products = "";
-		if (takeoffDateStrings.second != null) {
-			products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s,%s", getFlightProductString(true),
-				airportCodes.first, airportCodes.second, takeoffDateStrings.first,
-				takeoffDateStrings.second, getFlightInsuranceProductString());
+		String products;
+		if (!isSplitTicket) {
+			if (takeoffDateStrings.second != null) {
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s,%s", getFlightProductString(true),
+					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+					takeoffDateStrings.second, getFlightInsuranceProductString());
+			}
+			else {
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s,%s", getFlightProductString(true),
+					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+					getFlightInsuranceProductString());
+			}
 		}
 		else {
-			products = String.format(Locale.ENGLISH, "%s:%s-%s:%s,%s", getFlightProductString(true),
-				airportCodes.first, airportCodes.second, takeoffDateStrings.first,
-				getFlightInsuranceProductString());
+			products = getFlightProductString(true) + getFlightInsuranceProductString();
 		}
 		s.setProducts(products);
 
