@@ -217,7 +217,7 @@ public class AccountButton extends LinearLayout {
 		}
 		else {
 			mLoginTextView.setText(Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
-				.put("brand", BuildConfig.brand)
+				.putOptional("brand", BuildConfig.brand)
 				.format());
 			mLoginTextView.setContentDescription(Phrase.from(this, R.string.Sign_in_with_cont_desc_TEMPLATE)
 				.put("brand", BuildConfig.brand)
@@ -421,7 +421,7 @@ public class AccountButton extends LinearLayout {
 
 	public CharSequence getSignInWithoutRewardsText() {
 		return Phrase.from(this, R.string.Sign_in_with_TEMPLATE)
-			.put("brand", BuildConfig.brand)
+			.putOptional("brand", BuildConfig.brand)
 			.format();
 	}
 

@@ -94,6 +94,9 @@
     <!-- 1: Hotel name, 2: Formatted length of stay -->
     <string name="share_template_long_hotel_1_greeting">Merci d’avoir choisi l’application de L’Agence Voyages-sncf.com ! Votre réservation est confirmée : %1$s, pendant %2$s.</string>
 
+    <!-- Sign in string for VSC. Varies from the other multibrands. -->
+    <string name="Sign_in_with_TEMPLATE">Se connecter à son compte Agence</string>
+
     <!-- Account Creation Strings -->
     <!-- Button text for account creation button -->
     <string name="acct_Create_an_vsc_account">Créer un compte Agence Voyages-SNCF.com</string>
