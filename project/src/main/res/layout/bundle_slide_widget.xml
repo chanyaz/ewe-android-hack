@@ -38,7 +38,7 @@
         <com.expedia.bookings.widget.TotalPriceWidget
             android:id="@+id/bundle_price_widget"
             android:layout_width="match_parent"
-            android:layout_height="58dp"
+            android:layout_height="@dimen/footer_button_height"
             android:layout_gravity="top"
             android:background="@color/white"
             android:clickable="true"
