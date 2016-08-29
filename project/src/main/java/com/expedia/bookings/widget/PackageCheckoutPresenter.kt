@@ -68,6 +68,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     override fun updateDbTravelers() {
         val params = Db.getPackageParams()
         travelerManager.updateDbTravelers(params, context)
+        resetTravelers()
     }
 
     override fun trackShowSlideToPurchase() {

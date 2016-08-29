@@ -443,24 +443,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     fun clearPaymentInfo() {
         paymentWidget.reset()
-        clearCCAndCVV()
-    }
-
-    fun clearCCAndCVV() {
-        try {
-            paymentWidget.creditCardNumber.setText("")
-            if (paymentWidget is BillingDetailsPaymentWidget) {
-                val paymentWidget = paymentWidget as BillingDetailsPaymentWidget
-                paymentWidget.creditCardCvv.setText("")
-            }
-            Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
-            Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
-            Db.getBillingInfo().number = null
-            Db.getBillingInfo().securityCode = null
-            paymentWidget.validateAndBind()
-        } catch (ex: Exception) {
-            Log.e("Error clearing billingInfo card number and security code", ex)
-        }
+        paymentWidget.clearCCAndCVV()
     }
 
     fun onLoginSuccess() {

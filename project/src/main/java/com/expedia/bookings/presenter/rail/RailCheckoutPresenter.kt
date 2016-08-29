@@ -113,7 +113,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
 
     private fun updateCreateTrip(response : RailCreateTripResponse) {
         createTripDialog.hide()
-        paymentWidget.clearCCNumber()
+        paymentWidget.clearCCAndCVV()
         updatePricing(response)
     }
 

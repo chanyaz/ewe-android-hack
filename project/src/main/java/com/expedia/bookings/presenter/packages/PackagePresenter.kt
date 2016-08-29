@@ -135,7 +135,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         errorPresenter.getViewModel().checkoutCardErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
-            checkoutPresenter.clearCCAndCVV()
+            checkoutPresenter.paymentWidget.clearCCAndCVV()
             checkoutPresenter.paymentWidget.cardInfoContainer.performClick()
         }
     }
@@ -173,6 +173,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
                 bundlePresenter.getCheckoutPresenter().toggleCheckoutButton(false)
                 bundlePresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+                bundlePresenter.getCheckoutPresenter().clearPaymentInfo()
             }
         }
 
