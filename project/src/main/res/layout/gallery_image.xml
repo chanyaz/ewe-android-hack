@@ -10,6 +10,22 @@
         android:adjustViewBounds="true"
         android:scaleType="fitCenter" />
 
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/photo_count_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="12dp"
+        android:background="@drawable/gallery_item_count_bg"
+        android:drawableLeft="@drawable/gallery_picture"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/white" />
+
     <ProgressBar
         android:id="@+id/gallery_item_progress_bar"
         android:layout_width="wrap_content"

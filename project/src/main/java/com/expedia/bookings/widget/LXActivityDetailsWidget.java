@@ -34,7 +34,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Images;
@@ -243,9 +242,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		activityGallery.setDataSource(mediaList);
 		activityGallery.setOnItemClickListener(this);
 		activityGallery.scrollToPosition(0);
-		if (!activityGallery.isFlipping() && !AccessibilityUtil.isTalkBackEnabled(getContext())) {
-			activityGallery.startFlipping();
-		}
 	}
 
 	public void buildSections(ActivityDetailsResponse activityDetailsResponse) {
