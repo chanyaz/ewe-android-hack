@@ -12,6 +12,7 @@ import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -33,6 +34,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
     init {
         Observable.combineLatest(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, newRateObserver, { paymentSplitsWithTripTotalPayableAndTripResponse, newRateObserver ->
             object {
+                val country = paymentSplitsWithTripTotalPayableAndTripResponse.tripResponse.newHotelProductResponse.hotelCountry
                 val payingWithPoints = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.payingWithPoints
                 val payingWithCards = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.payingWithCards
                 val paymentSplitsType = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.paymentSplitsType()
@@ -63,8 +65,9 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
 
             val currencyCode = it.roomResponse.rateInfo.chargeableRateInfo.currencyCode
             if (it.roomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage) {
-                val resortFees = Money(BigDecimal(it.roomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()), currencyCode).formattedMoney
-                val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
+                val resortFees = Money(BigDecimal(it.roomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()),
+                        CurrencyUtils.currencyForLocale(it.country))
+                val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees.formattedMoney, tripTotal))
                 disclaimerText.onNext(text)
             } else if (it.roomResponse.isPayLater) {
                 val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))

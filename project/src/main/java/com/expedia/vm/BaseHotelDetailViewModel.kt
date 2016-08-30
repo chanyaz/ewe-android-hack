@@ -15,11 +15,13 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.CollectionUtils
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
@@ -40,6 +42,7 @@ import rx.internal.util.RxRingBuffer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
+import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.properties.Delegates
@@ -47,6 +50,9 @@ import kotlin.properties.Delegates
 abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
+    abstract fun getFeeTypeText() : Int
+    abstract fun getResortFeeText() : Int
+    abstract fun showFeesIncludedNotIncluded() : Boolean
     abstract fun getLOB(): LineOfBusiness
     abstract fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean
     abstract fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String
@@ -492,8 +498,16 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         val firstRoomDetails = hotelOffersResponse.hotelRoomResponse?.firstOrNull()
         if (firstRoomDetails?.rateInfo?.chargeableRateInfo?.showResortFeeMessage ?: false) {
             val rate = firstRoomDetails!!.rateInfo.chargeableRateInfo
-            val hotelResortFee = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCode)
-            hotelResortFeeObservable.onNext(hotelResortFee.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+            val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), CurrencyUtils.currencyForLocale(hotelOffersResponse.hotelCountry))
+            val resortText: String
+            if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.UNITED_STATES) {
+                resortText = resortFees.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
+            } else {
+                val df = DecimalFormat("#.00")
+                resortText = Phrase.from(context, R.string.non_us_resort_fee_format_TEMPLATE)
+                        .put("amount", df.format(resortFees.amount)).put("currency", resortFees.currencyCode).format().toString()
+            }
+            hotelResortFeeObservable.onNext(resortText)
             val includedNotIncludedStrId = if (rate.resortFeeInclusion) R.string.included_in_the_price else R.string.not_included_in_the_price
             hotelResortFeeIncludedTextObservable.onNext(context.resources.getString(includedNotIncludedStrId))
         } else {

@@ -24,12 +24,13 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
+                android:id="@+id/fees_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/hotel_fees_for_this_stay"
                 android:textColor="@color/hotelsv2_checkout_text_color"
                 android:textSize="13sp"
                 app:textStyle="medium" />
@@ -47,18 +48,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="13dp"
+            android:layout_marginLeft="11dp"
             android:src="@drawable/details_info" />
 
-        <com.expedia.bookings.widget.TextView
-            android:id="@+id/resort_fees_text"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:gravity="right"
-            android:textColor="?attr/primary_color"
-            android:textSize="13sp"
-            app:textStyle="medium" />
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/resort_fees_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                android:textColor="?attr/primary_color"
+                android:textSize="13sp"
+                app:textStyle="medium" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/fee_type"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/hotelsv2_checkout_text_color"
+                android:gravity="right"
+                android:textSize="11sp"
+                app:textStyle="normal" />
+
+        </LinearLayout>
 
     </LinearLayout>
 </LinearLayout>

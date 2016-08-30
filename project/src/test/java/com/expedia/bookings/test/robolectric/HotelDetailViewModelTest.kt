@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
@@ -12,14 +13,18 @@ import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -59,7 +64,7 @@ class HotelDetailViewModelTest {
         offer1.hotelName = "hotel1"
         offer1.hotelCity = "hotel1"
         offer1.hotelStateProvince = "hotel1"
-        offer1.hotelCountry = "hotel1"
+        offer1.hotelCountry = "USA"
         offer1.latitude = 1.0
         offer1.longitude = 2.0
         offer1.hotelRoomResponse = makeHotel()
@@ -69,7 +74,7 @@ class HotelDetailViewModelTest {
         offer2.hotelName = "hotel2"
         offer1.hotelCity = "hotel2"
         offer1.hotelStateProvince = "hotel3"
-        offer1.hotelCountry = "hotel3"
+        offer1.hotelCountry = "USA"
         offer2.latitude = 100.0
         offer2.longitude = 150.0
         offer2.hotelRoomResponse = makeHotel()
@@ -79,7 +84,7 @@ class HotelDetailViewModelTest {
         offer3.hotelName = "hotel3"
         offer1.hotelCity = "hotel3"
         offer1.hotelStateProvince = "hotel3"
-        offer1.hotelCountry = "hotel3"
+        offer1.hotelCountry = "USA"
         offer3.latitude = 101.0
         offer3.longitude = 152.0
         offer3.hotelRoomResponse = emptyList()
@@ -117,12 +122,32 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun resortFeeShowsForPackages() {
+        CurrencyUtils.initMap(RuntimeEnvironment.application)
         val testSubscriber = TestSubscriber<String>()
         vm.hotelResortFeeObservable.subscribe(testSubscriber)
         vm.paramsSubject.onNext(createSearchParams())
 
-        offer1.hotelRoomResponse.clear()
+        makeResortFeeResponse()
 
+        testSubscriber.requestMore(100)
+        assertEquals("$20", testSubscriber.onNextEvents[1])
+    }
+
+    @Test fun resortFeeShowUKPOS() {
+        CurrencyUtils.initMap(RuntimeEnvironment.application)
+        setPOS(PointOfSaleId.UNITED_KINGDOM)
+        val testSubscriber = TestSubscriber<String>()
+        vm.hotelResortFeeObservable.subscribe(testSubscriber)
+        vm.paramsSubject.onNext(createSearchParams())
+
+        makeResortFeeResponse()
+
+        testSubscriber.requestMore(100)
+        assertEquals("20.00 USD", testSubscriber.onNextEvents[1])
+    }
+
+    private fun makeResortFeeResponse() {
+        offer1.hotelRoomResponse.clear()
         val packageSearchParams = PackageSearchParams.Builder(30, 330)
                 .adults(1)
                 .startDate(LocalDate.now())
@@ -147,9 +172,6 @@ class HotelDetailViewModelTest {
 
         vm.hotelOffersSubject.onNext(offer)
         vm.addViewsAfterTransition()
-
-        testSubscriber.requestMore(100)
-        assertEquals("$20", testSubscriber.onNextEvents[1])
     }
 
     @Test fun discountPercentageShouldNotShowForSWP() {
@@ -412,4 +434,10 @@ class HotelDetailViewModelTest {
                 .adults(numAdults)
                 .children(childList).build() as HotelSearchParams
     }
+
+    private fun setPOS(pos: PointOfSaleId) {
+        SettingUtils.save(RuntimeEnvironment.application, R.string.PointOfSaleKey, pos.id.toString())
+        PointOfSale.onPointOfSaleChanged(RuntimeEnvironment.application)
+    }
+
 }

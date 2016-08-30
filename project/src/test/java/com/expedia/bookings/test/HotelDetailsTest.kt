@@ -13,10 +13,8 @@ import com.expedia.bookings.data.payment.LoyaltyBurnInfo
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.LoyaltyType
-import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import org.robolectric.shadows.ShadowResourcesEB
-import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.util.endlessObserver
@@ -25,11 +23,11 @@ import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Before
-import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowResourcesEB
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -52,6 +50,7 @@ class HotelDetailsTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Hotels)
+        CurrencyUtils.initMap(activity)
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
         vm = HotelDetailViewModel(activity.applicationContext, endlessObserver { /*ignore*/ })
         hotelDetailView.viewmodel = vm
@@ -60,7 +59,7 @@ class HotelDetailsTest {
         offers.hotelId = "happyPath"
         offers.hotelCity = "San Francisco"
         offers.hotelStateProvince = "CA"
-        offers.hotelCountry = "US of A"
+        offers.hotelCountry = "USA"
         offers.checkInDate = LocalDate.now().toString()
         offers.checkOutDate = LocalDate.now().plusDays(2).toString()
         offers.hotelGuestRating = 5.0
