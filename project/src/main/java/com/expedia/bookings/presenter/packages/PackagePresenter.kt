@@ -167,6 +167,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             super.startTransition(forward)
             searchPresenter.visibility = View.VISIBLE
             bundlePresenter.visibility = View.VISIBLE
+            bundlePresenter.bundleWidget.collapseBundleWidgets()
             searchPresenter.animationStart(!forward)
             if (forward) {
                 bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE

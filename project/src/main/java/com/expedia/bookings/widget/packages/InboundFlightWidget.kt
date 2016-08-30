@@ -28,6 +28,10 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
     override fun handleResultsLoaded() {
         viewModel.showLoadingStateObservable.onNext(false)
         viewModel.flightTextObservable.onNext(context.getString(R.string.select_flight_to, StrUtils.formatCityName(viewModel.searchParams.value.origin)))
+        setTravelerInfoText()
+    }
+
+    fun setTravelerInfoText() {
         viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
                 .put("date", DateUtils.localDateToMMMd(viewModel.searchParams.value.endDate))
                 .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests)).format().toString())

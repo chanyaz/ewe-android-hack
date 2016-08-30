@@ -1,10 +1,12 @@
 package com.expedia.bookings.test.phone.packages;
 
 import org.hamcrest.CoreMatchers;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
@@ -13,6 +15,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -80,6 +83,8 @@ public class PackageBackNavigationTest extends PackageTestCase {
 
 	public void testPackageBackNavigationAfterSelection() throws Throwable {
 		PackageScreen.doPackageSearch();
+		PackageScreen.outboundFlightInfoRowContainer().perform(click());
+
 		Common.pressBack();
 
 		PackageScreen.errorDialog(
@@ -87,6 +92,13 @@ public class PackageBackNavigationTest extends PackageTestCase {
 			.perform(waitForViewToDisplay());
 		onView(withId(android.R.id.button1)).perform(click());
 		SearchScreen.searchButton().perform(waitForViewToDisplay());
+		SearchScreen.searchButton().perform(click());
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(HotelScreen.hotelResultsList(), 2, R.id.hotel_name_text_view,
+			"Package Happy Path");
+		Common.pressBack();
+		onView(allOf(withId(R.id.widget_bundle_overview))).perform(ViewActions.waitForViewToDisplay());
+		onView(allOf(withId(R.id.widget_bundle_overview))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.travel_info_view_text), hasSibling(withText("Flight to Detroit")))).check(matches(isDisplayed()));
 	}
 
 	private void assertOutboundFlightBundlePrice(String price) {
