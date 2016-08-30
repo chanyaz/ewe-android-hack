@@ -52,6 +52,13 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
+            android:key="@string/preference_enable_bugshaker"
+            android:layout="@layout/preference"
+            android:summary="Enable bug reporting upon shake."
+            android:title="Enable Bugshaker" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
             android:key="@string/preference_enable_leakcanary"
             android:layout="@layout/preference"
             android:summary="Enable super useful memory analysis tool (requires restart)"
