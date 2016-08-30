@@ -22,8 +22,8 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXTicketType;
+import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
 import com.mobiata.android.text.StrikethroughTagHandler;
@@ -404,5 +404,13 @@ public class LXDataUtils {
 			.put("from_date", DateUtils.localDateToMMMd(searchParams.getActivityStartDate()))
 			.put("to_date", DateUtils.localDateToMMMd(searchParams.getActivityEndDate()))
 			.format().toString();
+	}
+
+	public static Location getLocationFromLatLong(String latLong) {
+		Location location = new Location();
+		String[] latLongArray = latLong.split(",");
+		location.setLatitude(Double.parseDouble(latLongArray[0]));
+		location.setLongitude(Double.parseDouble(latLongArray[1]));
+		return location;
 	}
 }

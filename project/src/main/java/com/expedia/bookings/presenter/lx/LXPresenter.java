@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.DecelerateInterpolator;
 
 import com.expedia.bookings.R;
@@ -16,16 +17,20 @@ import com.expedia.bookings.animation.TransitionElement;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.lx.LxSearchParams;
+import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LoadingOverlayWidget;
-import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
+import com.expedia.vm.LXMapViewModel;
+import com.google.android.gms.maps.MapView;
 import com.squareup.otto.Subscribe;
+
 import butterknife.InjectView;
 import rx.Observer;
 
@@ -44,6 +49,8 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.search_list_presenter)
 	LXResultsPresenter resultsPresenter;
 
+	@InjectView(R.id.details_map_view)
+	MapView detailsMapView;
 
 	// This will always be the first to be shown under the AB test/ Non- AB Test scenario.
 	@InjectView(R.id.activity_recommended_details_presenter)
@@ -103,8 +110,10 @@ public class LXPresenter extends Presenter {
 		loadingOverlay.setBackgroundAttr(ta.getDrawable(0));
 
 		searchParamsWidget.getSearchViewModel().getSearchParamsObservable().subscribe(lxSearchParamsObserver);
-
+		recommendationPresenter.fullscreenMapView.setViewmodel(new LXMapViewModel(getContext()));
+		setLxDetailMap();
 	}
+
 	private Observer<LxSearchParams> lxSearchParamsObserver = new Observer<LxSearchParams>() {
 		@Override
 		public void onCompleted() {
@@ -522,5 +531,15 @@ public class LXPresenter extends Presenter {
 			searchParamsWidget.setBackgroundColor(((Integer) searchArgbEvaluator
 				.evaluate(f, searchBackgroundColor.getEnd(), searchBackgroundColor.getStart())));
 		}
+	}
+
+	private void setLxDetailMap() {
+		FrameLayout detailsStub = (FrameLayout) recommendationPresenter.fullscreenMapView.findViewById(R.id.stub_map);
+		((ViewGroup) detailsMapView.getParent()).removeAllViews();
+		detailsStub.addView(detailsMapView);
+		recommendationPresenter.fullscreenMapView.setMap(detailsMapView);
+		recommendationPresenter.fullscreenMapView.getMapView().getMapAsync(recommendationPresenter.fullscreenMapView);
+		recommendationPresenter.fullscreenMapView.getMapView().setVisibility(VISIBLE);
+		detailsPresenter.fullscreenMapView = recommendationPresenter.fullscreenMapView;
 	}
 }

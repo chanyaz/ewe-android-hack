@@ -37,4 +37,16 @@
 
     </PreferenceCategory>
 
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Activity Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_activity_map"
+            android:layout="@layout/preference"
+            android:summary="Activity Infosite Map."
+            android:title="Enable Activity Infosite Map" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

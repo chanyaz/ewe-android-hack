@@ -41,6 +41,7 @@ import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.flights.FlightLeg;
+import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
@@ -773,5 +774,35 @@ public class StrUtils {
 		return Phrase.from(context.getResources().getQuantityString(R.plurals.number_of_guest_TEMPLATE, guestsCount))
 			.put("guest", guestsCount)
 			.format().toString();
+	}
+
+	public static List<String> getRedemptionLocationList(List<ActivityDetailsResponse.LXLocation> redemptionLocations) {
+		List<String> redemptionLocationList = new ArrayList<>();
+
+		StringBuilder sb;
+		for (int i = 0; i < redemptionLocations.size(); i++) {
+			sb = new StringBuilder();
+			if (Strings.isNotEmpty(redemptionLocations.get(i).addressName)) {
+				sb.append(redemptionLocations.get(i).addressName);
+			}
+			if (Strings.isNotEmpty(redemptionLocations.get(i).street)) {
+				sb.append(", ");
+				sb.append(redemptionLocations.get(i).street);
+			}
+			if (Strings.isNotEmpty(redemptionLocations.get(i).city)) {
+				sb.append(", ");
+				sb.append(redemptionLocations.get(i).city);
+			}
+			if (Strings.isNotEmpty(redemptionLocations.get(i).province)) {
+				sb.append(", ");
+				sb.append(redemptionLocations.get(i).province);
+			}
+			if (Strings.isNotEmpty(redemptionLocations.get(i).postalCode)) {
+				sb.append(", ");
+				sb.append(redemptionLocations.get(i).postalCode);
+			}
+			redemptionLocationList.add(sb.toString());
+		}
+		return redemptionLocationList;
 	}
 }

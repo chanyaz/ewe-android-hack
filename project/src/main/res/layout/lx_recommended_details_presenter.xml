@@ -9,4 +9,10 @@
 
     <include layout="@layout/toolbar_lx_details" />
 
+    <com.expedia.bookings.widget.LXMapView
+        android:id="@+id/lx_maps_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone" />
+
 </com.expedia.bookings.presenter.lx.LXDetailsWithRecommendationsPresenter>

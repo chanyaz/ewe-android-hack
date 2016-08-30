@@ -910,6 +910,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.mail_delivery_details,
 		R.string.delivery_by_mail,
 		R.string.tdo_fees_non_refundable,
+		R.layout.activity_infosite_map,
+		R.string.select_an_activity_instruction,
 		R.drawable.ticket_delivery_cko_mail,
 		R.drawable.ticket_delivery_cko_station,
 		R.drawable.ticket_delivery_mail,

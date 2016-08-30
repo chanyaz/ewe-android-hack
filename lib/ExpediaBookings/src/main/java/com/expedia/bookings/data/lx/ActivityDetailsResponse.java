@@ -27,4 +27,15 @@ public class ActivityDetailsResponse {
 	public String destination;
 	public LXRedemptionType redemptionType;
 	public int recommendationScore;
+	public LXLocation eventLocation;
+	public List<LXLocation> redemptionLocation;
+
+	public static class LXLocation {
+		public String addressName;
+		public String street;
+		public String city;
+		public String province;
+		public String postalCode;
+		public String latLng;
+	}
 }

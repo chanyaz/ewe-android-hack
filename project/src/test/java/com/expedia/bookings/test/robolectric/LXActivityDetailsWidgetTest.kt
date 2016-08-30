@@ -106,6 +106,9 @@ class LXActivityDetailsWidgetTest {
         val exclusions = details.findViewById(R.id.exclusions)
         val knowBeforeYouBook = details.findViewById(R.id.know_before_you_book)
         val cancellation = details.findViewById(R.id.cancellation)
+        val eventLocation = details.findViewById(R.id.event_location)
+        val redemptionLocation = details.findViewById(R.id.redemption_location)
+        val infositeMap = details.findViewById(R.id.map_click_container)
 
         assertNotNull(activityGallery)
         assertNotNull(description)
@@ -117,6 +120,9 @@ class LXActivityDetailsWidgetTest {
         assertNotNull(exclusions)
         assertNotNull(knowBeforeYouBook)
         assertNotNull(cancellation)
+        assertNotNull(eventLocation)
+        assertNotNull(redemptionLocation)
+        assertNotNull(infositeMap)
     }
 
     @Test
