@@ -62,7 +62,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.signed_in_account_cont_desc_TEMPLATE,
 		R.drawable.ic_amenity_spa,
 		R.layout.confirmation_row,
-		R.string.package_confirmation_reward_points,
+		R.string.confirmation_reward_points_TEMPLATE,
 		R.string.package_itinerary_confirmation_TEMPLATE,
 		R.drawable.ic_amenity_business,
 		R.drawable.ic_amenity_airport_shuttle,

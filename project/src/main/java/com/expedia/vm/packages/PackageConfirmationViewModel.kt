@@ -2,17 +2,14 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.utils.CarDataUtils
-import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.NavUtils
-import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.utils.*
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -25,12 +22,12 @@ import rx.subjects.PublishSubject
 
 class PackageConfirmationViewModel(val context: Context) {
     val showConfirmation = PublishSubject.create<Pair<String?, String>>()
-    val setExpediaRewardsPoints = PublishSubject.create<String>()
+    val setRewardsPoints = PublishSubject.create<String>()
 
     // Outputs
     val itinNumberMessageObservable = BehaviorSubject.create<String>()
     val destinationObservable = BehaviorSubject.create<String>()
-    val expediaPointsObservable = BehaviorSubject.create<String>()
+    val rewardPointsObservable = PublishSubject.create<String>()
     val destinationTitleObservable = BehaviorSubject.create<String>()
     val destinationSubTitleObservable = BehaviorSubject.create<String>()
     val outboundFlightCardTitleObservable = BehaviorSubject.create<String>()
@@ -58,14 +55,15 @@ class PackageConfirmationViewModel(val context: Context) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
         }
-        if (User.isLoggedIn(context)) {
-            setExpediaRewardsPoints.subscribe {
-                val rewardsPointsText = Phrase.from(context, R.string.package_confirmation_reward_points)
-                        .put("rewardpoints", it)
-                        .put("brand", BuildConfig.brand)
-                        .format().toString()
-                expediaPointsObservable.onNext(rewardsPointsText)
-            }
+
+        setRewardsPoints.subscribe { points ->
+            if (points != null)
+                if (User.isLoggedIn(context)) {
+                    val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance())
+                    if (Strings.isNotEmpty(rewardPointText)) {
+                        rewardPointsObservable.onNext(rewardPointText)
+                    }
+                }
         }
     }
 

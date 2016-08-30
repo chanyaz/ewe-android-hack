@@ -1,11 +1,12 @@
 package com.expedia.vm.flights
 
 import android.content.Context
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.trips.ItineraryManager
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.Strings
 import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
@@ -13,12 +14,12 @@ import org.joda.time.DateTime
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-// Open for Testing Purpose Only
- open class FlightConfirmationViewModel(val context: Context){
+class FlightConfirmationViewModel(val context: Context) {
+
     val confirmationObservable = PublishSubject.create<Pair<FlightCheckoutResponse, String>>()
-    val rewardPointsObservable = PublishSubject.create<String>()
+    val setRewardsPoints = PublishSubject.create<String>()
     val itinNumberMessageObservable = BehaviorSubject.create<String>()
-    val rewardsPointsObservable = BehaviorSubject.create<String>()
+    val rewardPointsObservable = BehaviorSubject.create<String>()
     val destinationObservable = BehaviorSubject.create<String>()
     val inboundCardVisibility = BehaviorSubject.create<Boolean>()
     val crossSellWidgetVisibility = BehaviorSubject.create<Boolean>()
@@ -40,7 +41,7 @@ import rx.subjects.PublishSubject
                     .put("email", email)
                     .format().toString()
             itinNumberMessageObservable.onNext(itinNumberMessage)
-            if (!isUserLoggedIn()) {
+            if (!User.isLoggedIn(context)) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
             if (isQualified) { // can be null (see #5771)
@@ -59,18 +60,14 @@ import rx.subjects.PublishSubject
             }
         }
 
-        if (isUserLoggedIn()) {
-            rewardPointsObservable.subscribe { rewardPoints ->
-                if (Strings.isNotEmpty(rewardPoints)) {
-                    val rewardsPointsText = Phrase.from(context, R.string.package_confirmation_reward_points)
-                            .put("rewardpoints", rewardPoints)
-                            .put("brand", BuildConfig.brand)
-                            .format().toString()
-                    rewardsPointsObservable.onNext(rewardsPointsText)
+        setRewardsPoints.subscribe { points ->
+            if (points != null)
+                if (User.isLoggedIn(context)) {
+                    val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance())
+                    if (Strings.isNotEmpty(rewardPointText)) {
+                        rewardPointsObservable.onNext(rewardPointText)
+                    }
                 }
-            }
         }
     }
-     open protected fun isUserLoggedIn() = User.isLoggedIn(context)
-
- }
+}

@@ -154,7 +154,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
 
 		CheckoutViewModel.performSlideToPurchase(true);
-		assertConfirmationView();
+		assertSignedInConfirmationView();
 	}
 
 	private void assertDockedOutboundWidgetShown() {
@@ -214,6 +214,39 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertConfirmationView() {
+
+		onView(withId(R.id.confirmation_container)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+
+		onView(allOf(withId(R.id.destination),
+			isDescendantOfA(withId(R.id.confirmation_container)))).check(
+			matches(withText("Detroit")));
+
+		onView(allOf(withId(R.id.expedia_points),
+			isDescendantOfA(withId(R.id.confirmation_container)))).check(
+			matches(not(isDisplayed())));
+
+		onView(allOf(withId(R.id.first_row),
+			isDescendantOfA(withId(R.id.outbound_flight_card)))).check(
+			matches(withText("Flight to (DTW) Detroit")));
+
+		onView(allOf(withId(R.id.first_row),
+			isDescendantOfA(withId(R.id.inbound_flight_card)))).check(
+			matches(withText("Flight to (SFO) San Francisco")));
+
+		onView(allOf(withId(R.id.hotel_cross_sell_widget),
+			isDescendantOfA(withId(R.id.confirmation_container)))).check(
+			matches(isDisplayed()));
+
+		onView(allOf(withId(R.id.air_attach_countdown_view),
+			isDescendantOfA(withId(R.id.hotel_cross_sell_widget)))).check(
+			matches(isDisplayed()));
+
+		onView(allOf(withId(R.id.air_attach_expires_today_text_view),
+			isDescendantOfA(withId(R.id.hotel_cross_sell_widget)))).check(
+			matches(not(isDisplayed())));
+	}
+
+	private void assertSignedInConfirmationView() {
 
 		onView(withId(R.id.confirmation_container)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 

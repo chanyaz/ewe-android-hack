@@ -187,7 +187,14 @@
     "passengerCategories": [
         "ADULT"
     ],
-    "rewardsPoints": "",
+    "expediaRewards": {
+        "totalPointsToEarn": 267
+    },
+    "rewards": {
+        "programName": "ExpediaRewards",
+        "totalPointsToEarn": 120
+    },
+    "rewardsPoints": "267",
     "rules": {
         "RuleToTextMap": {
             "AdditionalAirlineFees": "The airline may charge additional fees for checked baggage or other optional services.",

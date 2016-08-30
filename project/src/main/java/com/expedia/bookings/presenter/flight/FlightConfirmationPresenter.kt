@@ -2,7 +2,6 @@ package com.expedia.bookings.presenter.flight
 
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
@@ -18,6 +17,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.ConfirmationRowCardView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.flights.FlightConfirmationViewModel
 
@@ -41,7 +41,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     var viewModel: FlightConfirmationViewModel by notNullAndObservable { vm ->
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
         vm.destinationObservable.subscribeText(destination)
-        vm.rewardsPointsObservable.subscribeText(expediaPoints)
+        vm.rewardPointsObservable.subscribeTextAndVisibility(expediaPoints)
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
         vm.inboundCardVisibility.subscribeVisibility(inboundFlightCard)
 
