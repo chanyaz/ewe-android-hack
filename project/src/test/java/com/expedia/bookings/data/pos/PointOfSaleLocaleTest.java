@@ -15,6 +15,7 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import junit.framework.Assert;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(RobolectricRunner.class)
 public class PointOfSaleLocaleTest {
@@ -55,6 +56,8 @@ public class PointOfSaleLocaleTest {
 		assertEquals("nl flightBookingStatement", posLocale.getFlightBookingStatement());
 		assertEquals("nl forgotPasswordURL", posLocale.getForgotPasswordUrl());
 		assertEquals("nl hotelBookingStatement", posLocale.getHotelBookingStatement());
+		assertEquals("nl packagesBookingStatement", posLocale.getPackagesBookingStatement());
+		assertEquals("nl insuranceStatement", posLocale.getInsuranceStatement());
 		assertEquals("nl insuranceURL", posLocale.getInsuranceUrl());
 		assertEquals("nl loyaltyTermsAndConditionsURL", posLocale.getLoyaltyTermsAndConditionsUrl());
 		assertEquals("nl privacyPolicyURL", posLocale.getPrivacyPolicyUrl());
@@ -76,6 +79,8 @@ public class PointOfSaleLocaleTest {
 		assertEquals("fr bestPriceGuaranteePolicyURL", posLocale.getBestPriceGuaranteePolicyUrl());
 		assertEquals("fr hotelBookingStatement", posLocale.getHotelBookingStatement());
 		assertEquals("fr flightBookingStatement", posLocale.getFlightBookingStatement());
+		assertEquals("fr flightBookingStatement", posLocale.getPackagesBookingStatement());
+		assertNull(posLocale.getInsuranceStatement());
 		assertEquals("fr termsAndConditionsURL", posLocale.getTermsAndConditionsUrl());
 		assertEquals("fr loyaltyTermsAndConditionsURL", posLocale.getLoyaltyTermsAndConditionsUrl());
 		assertEquals("fr airlineFeeBasedOnPaymentMethodTermsAndConditionsURL", posLocale.getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL());

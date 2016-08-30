@@ -3258,6 +3258,8 @@
     <string name="packages_cancellation_policy">Hotel Cancellation Policy</string>
     <!-- Cancellation policy label for packages-->
     <string name="packages_fare_information">Flight Fare Information</string>
+    <!-- Insurance Information label -->
+    <string name="insurance_information">Insurance Information</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
