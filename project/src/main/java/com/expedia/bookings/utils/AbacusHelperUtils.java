@@ -91,23 +91,24 @@ public class AbacusHelperUtils {
 			Db.setAbacusGuid(abacusGuid);
 			return abacusGuid;
 		}
-		return abacusGuidToMC1Cookie(context, mc1Cookie);
+		return abacusGuidFromMC1Cookie(context, mc1Cookie);
 	}
 
 	private static String mc1CookieAndAbacusGuidNewUuid(Context context) {
 		String abacusGuid = UUID.randomUUID().toString().replaceAll("-", "");
-		String mc1cookie = "GUID=" + abacusGuid;
+		String mc1Cookie = "GUID=" + abacusGuid;
 		CookiesReference cookiesReference = new CookiesReference(context);
-		cookiesReference.mCookieManager.setMC1Cookie(mc1cookie, getPosUrl());
+		cookiesReference.mCookieManager.setMC1Cookie(mc1Cookie, getPosUrl());
 		SettingUtils.save(context, PREF_ABACUS_GUID, abacusGuid);
 		Db.setAbacusGuid(abacusGuid);
 		return abacusGuid;
 	}
 
-	private static String abacusGuidToMC1Cookie(Context context, String mc1Cookie) {
-		SettingUtils.save(context, PREF_ABACUS_GUID, mc1Cookie);
-		Db.setAbacusGuid(mc1Cookie);
-		return mc1Cookie;
+	private static String abacusGuidFromMC1Cookie(Context context, String mc1Cookie) {
+		String abacusGuid = mc1Cookie.replace("GUID=", "");
+		SettingUtils.save(context, PREF_ABACUS_GUID, abacusGuid);
+		Db.setAbacusGuid(abacusGuid);
+		return abacusGuid;
 	}
 
 	private static String getPosUrl() {
