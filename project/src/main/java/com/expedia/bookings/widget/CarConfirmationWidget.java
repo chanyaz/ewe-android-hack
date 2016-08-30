@@ -196,13 +196,13 @@ public class CarConfirmationWidget extends FrameLayout {
 		dropofDateText.setText(DateUtils.formatDateTime(getContext(), offer.getDropOffTime().getMillis(),
 			DateFormatUtils.FLAGS_DATE_ABBREV_MONTH | DateFormatUtils.FLAGS_TIME_FORMAT));
 		addHotelTextView.setText(res.getString(R.string.successful_checkout_cross_sell_hotel,
-			offer.pickUpLocation.locationDescription));
+			offer.pickUpLocation.cityName));
 		addHotelTextView.setContentDescription(Phrase.from(getContext(), R.string.successful_checkout_cross_sell_hotel_cont_desc_TEMPLATE)
-			.put("location", offer.pickUpLocation.locationDescription).format().toString());
+			.put("location", offer.pickUpLocation.cityName).format().toString());
 		addFlightTextView.setText(res.getString(R.string.successful_checkout_cross_sell_flight,
-			offer.pickUpLocation.locationDescription));
+			offer.pickUpLocation.cityName));
 		addFlightTextView.setContentDescription(Phrase.from(getContext(), R.string.successful_checkout_cross_sell_flight_cont_desc_TEMPLATE)
-			.put("location", offer.pickUpLocation.locationDescription).format().toString());
+			.put("location", offer.pickUpLocation.cityName).format().toString());
 
 		int statusBarHeight = Ui.getStatusBarHeight(getContext());
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
