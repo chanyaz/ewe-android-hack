@@ -30,7 +30,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
 
     init {
-        buttonOneClickedObservable.subscribe {
+        errorButtonClickedObservable.subscribe {
             when (error.errorCode) {
                 ApiError.Code.HOTEL_ROOM_UNAVAILABLE -> {
                     soldOutObservable.onNext(Unit)

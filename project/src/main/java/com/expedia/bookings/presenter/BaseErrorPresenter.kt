@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -39,7 +40,7 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
         vm.errorMessageObservable.subscribeText(errorText)
         vm.titleObservable.subscribe { standardToolbar.title = it }
         vm.subTitleObservable.subscribe { standardToolbar.subtitle = it }
-        errorButton.subscribeOnClick(vm.buttonOneClickedObservable)
+        errorButton.subscribeOnClick(vm.errorButtonClickedObservable)
     }
 
     private var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(context, ArrowXDrawableUtil.ArrowDrawableType.BACK)
@@ -60,12 +61,13 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
         }
 
         standardToolbar.setNavigationOnClickListener {
-            viewmodel.defaultErrorObservable.onNext(Unit)
+            val activity = context as AppCompatActivity
+            activity.onBackPressed()
         }
     }
 
     override fun back(): Boolean {
-        viewmodel.defaultErrorObservable.onNext(Unit)
+        viewmodel.clickBack.onNext(Unit)
         return true
     }
 

@@ -26,7 +26,9 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     val paramsSubject = PublishSubject.create<PackageSearchParams>()
 
     init {
-        buttonOneClickedObservable.subscribe {
+        clickBack.subscribe(errorButtonClickedObservable)
+
+        errorButtonClickedObservable.subscribe {
             when (error.errorCode) {
                 ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS,
                 ApiError.Code.INVALID_CARD_NUMBER,

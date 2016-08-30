@@ -89,7 +89,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     fun showCheckout() {
         resetCheckoutState()
-        show(checkoutPresenter)
+        show(checkoutPresenter, FLAG_CLEAR_TOP)
         checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         trackCheckoutPageLoad()
     }
@@ -105,7 +105,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
-        checkoutPresenter.mainContent.visibility = View.GONE
     }
 
     val defaultTransition = object : DefaultTransition(BundleDefault::class.java.name) {
@@ -114,6 +113,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
             checkoutPresenter.toolbarDropShadow.visibility = View.GONE
+            checkoutPresenter.mainContent.visibility = View.GONE
+            bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
+            bundleOverviewHeader.nestedScrollView.foreground?.alpha = 0
         }
     }
 
