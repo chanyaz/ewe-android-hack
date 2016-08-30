@@ -28,6 +28,6 @@ class CarSuggestionAdapterViewModel(context: Context, suggestionsService: Sugges
     }
 
     override fun getNearbySortType(): String {
-        return "d"
+        return "p"
     }
 }
