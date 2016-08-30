@@ -6,6 +6,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -194,7 +195,7 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
-    fun zeroPkgLoyaltyPoints(){
+    fun zeroFlightLoyaltyPoints(){
         UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
         Assert.assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
@@ -208,7 +209,7 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
-    fun nullPkgLoyaltyPoints(){
+    fun nullFlightLoyaltyPoints(){
         UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
         Assert.assertTrue(User.isLoggedIn(activity))
         val expediaPointsSubscriber = TestSubscriber<String>()
@@ -221,6 +222,20 @@ class FlightConfirmationViewModelTest {
         expediaPointsSubscriber.assertValueCount(0)
     }
 
+    @Test
+    fun noShowFlightLoyaltyPoints(){
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        Assert.assertTrue(User.isLoggedIn(activity))
+        val expediaPointsSubscriber = TestSubscriber<String>()
+        val userPoints = "100"
+        vm = FlightConfirmationViewModel(activity)
+        //adding test POS configuration without rewards enabled
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_show_rewards_false.json", false)
+        vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
+        vm.setRewardsPoints.onNext(userPoints)
+
+        expediaPointsSubscriber.assertValueCount(0)
+    }
 
 
 }

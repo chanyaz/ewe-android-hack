@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.CarDataUtils
@@ -64,7 +65,7 @@ class PackageConfirmationViewModel(val context: Context) {
 
         setRewardsPoints.subscribe { points ->
             if (points != null)
-                if (User.isLoggedIn(context)) {
+                if (User.isLoggedIn(context) && PointOfSale.getPointOfSale().shouldShowRewards()) {
                     val rewardPointText = RewardsUtil.buildRewardText(context, points, ProductFlavorFeatureConfiguration.getInstance())
                     if (Strings.isNotEmpty(rewardPointText)) {
                         rewardPointsObservable.onNext(rewardPointText)
