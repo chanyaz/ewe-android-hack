@@ -52,8 +52,7 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 		onView(withId(R.id.traveler_default_state)).perform(scrollTo(), click());
 		assertTravelerInfoFilled();
 
-		pressBack();
-		pressBack();
+		PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(click());
 
 		CheckoutViewModel.waitForPaymentInfoDisplayed();
 		CheckoutViewModel.clickPaymentInfo();

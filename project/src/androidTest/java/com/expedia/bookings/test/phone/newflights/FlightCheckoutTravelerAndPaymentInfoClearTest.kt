@@ -24,8 +24,8 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PackageScreen.clickPaymentInfo()
         fillPaymentInfo()
 
-        Common.pressBack()
-        Common.pressBack()
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
 
         FlightsScreen.selectInboundFlight().perform(ViewActions.click())
         PackageScreen.checkout().perform(ViewActions.click())
@@ -33,8 +33,7 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PackageScreen.travelerInfo().perform(ViewActions.click())
         assertTravelerInfoFilled()
 
-        Common.pressBack()
-        Common.pressBack()
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
 
         PackageScreen.clickPaymentInfo()
         assertPaymentInfoCleared()
@@ -50,8 +49,9 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PackageScreen.clickPaymentInfo()
         fillPaymentInfo()
 
-        Common.pressBack()
-        Common.pressBack()
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
+
         Common.pressBack()
         Common.pressBack()
         Common.pressBack()
@@ -67,8 +67,7 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PackageScreen.travelerInfo().perform(ViewActions.click())
         assertTravelerInfoCleared()
 
-        Common.pressBack()
-        Common.pressBack()
+        PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
 
         PackageScreen.clickPaymentInfo()
         assertPaymentInfoCleared()

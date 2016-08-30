@@ -44,6 +44,8 @@ open class PaymentViewModel(val context: Context) {
     val showingPaymentForm = PublishSubject.create<Boolean>()
 
     val cardTypeSubject = PublishSubject.create<PaymentType?>()
+    val cardBIN = BehaviorSubject.create<String>()
+    val storedPaymentInstrumentId = BehaviorSubject.create<String>()
     val moveFocusToPostalCodeSubject = PublishSubject.create<Unit>()
     val userLogin = PublishSubject.create<Boolean>()
     val isCreditCardRequired = BehaviorSubject.create<Boolean>(false)

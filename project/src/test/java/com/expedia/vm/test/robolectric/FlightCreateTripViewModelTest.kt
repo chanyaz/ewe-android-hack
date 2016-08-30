@@ -10,6 +10,8 @@ import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.utils.getFee
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
+import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import org.junit.Before
 import org.junit.Test
@@ -41,7 +43,9 @@ class FlightCreateTripViewModelTest {
     fun setup() {
         selectedCardFeeSubject = PublishSubject.create()
         createMockFlightServices()
-        sut = FlightCreateTripViewModel(context, flightServices, selectedCardFeeSubject)
+        Ui.getApplication(context).defaultFlightComponents()
+        sut = FlightCreateTripViewModel(context)
+        sut.flightServices = flightServices
     }
 
     @Test
@@ -57,102 +61,6 @@ class FlightCreateTripViewModelTest {
 
         testSubscriber.assertValueCount(1)
         Mockito.verify(flightServices).createTrip(params)
-    }
-
-    @Test
-    fun cardFeesSetToTripResponse() {
-        givenGoodCreateTripParams()
-        expectCreateTripCall()
-
-        val paymentFormWithCardFee = createPaymentWithCardFee()
-        val testSubscriber = TestSubscriber<TripResponse>()
-        sut.tripResponseObservable.subscribe(testSubscriber)
-
-        sut.tripParams.onNext(params)
-        sut.performCreateTrip.onNext(Unit)
-        sut.selectedCardFeeSubject.onNext(paymentFormWithCardFee)
-
-        testSubscriber.assertValueCount(2)
-        val newTripResponseWithFees = testSubscriber.onNextEvents[1] as FlightCreateTripResponse
-        assertEquals(paymentFormWithCardFee.getFee(), newTripResponseWithFees.selectedCardFees)
-    }
-
-    @Test
-    fun cardFeesZero() {
-        givenGoodCreateTripParams()
-        expectCreateTripCall()
-
-        val paymentFormWithZeroFees = createPaymentWithZeroFees()
-        val testSubscriber = TestSubscriber<TripResponse>()
-        sut.tripResponseObservable.subscribe(testSubscriber)
-
-        sut.tripParams.onNext(params)
-        sut.performCreateTrip.onNext(Unit)
-        sut.selectedCardFeeSubject.onNext(paymentFormWithZeroFees)
-
-        testSubscriber.assertValueCount(2)
-        val newTripResponseNoFees = testSubscriber.onNextEvents[1] as FlightCreateTripResponse
-        assertEquals(0.0, newTripResponseNoFees.selectedCardFees.amount.toDouble())
-    }
-
-    @Test
-    fun cardFeesNull() {
-        givenGoodCreateTripParams()
-        expectCreateTripCall()
-
-        val nullCardFee = null
-        val testSubscriber = TestSubscriber<TripResponse>()
-        sut.tripResponseObservable.subscribe(testSubscriber)
-
-        sut.tripParams.onNext(params)
-        sut.performCreateTrip.onNext(Unit)
-        sut.selectedCardFeeSubject.onNext(nullCardFee)
-
-        testSubscriber.assertValueCount(1)
-        val tripResponseNoFees = testSubscriber.onNextEvents[0] as FlightCreateTripResponse
-        assertNull(tripResponseNoFees.selectedCardFees)
-    }
-
-    @Test
-    fun cardFeesNullPreviousCardHadFees() {
-        val feeAmount = 42
-        givenGoodCreateTripParams()
-        expectCreateTripCall(true, feeAmount = feeAmount)
-
-        val nullCardFee = null
-        val testSubscriber = TestSubscriber<TripResponse>()
-        sut.tripResponseObservable.subscribe(testSubscriber)
-
-        sut.tripParams.onNext(params)
-        sut.performCreateTrip.onNext(Unit)
-        val tripWithFees = testSubscriber.onNextEvents[0] as FlightCreateTripResponse
-        assertEquals(feeAmount.toDouble(), tripWithFees.selectedCardFees.amount.toDouble())
-
-        sut.selectedCardFeeSubject.onNext(nullCardFee)
-
-        testSubscriber.assertValueCount(2)
-        val newTripResponseNoFees = testSubscriber.onNextEvents[1] as FlightCreateTripResponse
-        assertEquals(0.0, newTripResponseNoFees.selectedCardFees.amount.toDouble())
-    }
-
-    @Test
-    fun cardFeesUnchangedIgnore() {
-        givenGoodCreateTripParams()
-        expectCreateTripCall()
-
-        val paymentFormWithCardFee = createPaymentWithCardFee()
-        val testSubscriber = TestSubscriber<TripResponse>()
-        sut.tripResponseObservable.subscribe(testSubscriber)
-
-        sut.tripParams.onNext(params)
-        sut.performCreateTrip.onNext(Unit)
-        // fire same selected card fee twice
-        sut.selectedCardFeeSubject.onNext(paymentFormWithCardFee)
-        sut.selectedCardFeeSubject.onNext(paymentFormWithCardFee)
-
-        testSubscriber.assertValueCount(2)
-        val newTripResponseWithFees = testSubscriber.onNextEvents[1] as FlightCreateTripResponse
-        assertEquals(paymentFormWithCardFee.getFee(), newTripResponseWithFees.selectedCardFees)
     }
 
     @Test
