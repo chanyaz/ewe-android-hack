@@ -98,6 +98,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.bundleWidget.viewModel.hotelParamsObservable)
         bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
+        bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.cityTitle)
+        bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.datesTitle)
         bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
         bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().packageSearchApiErrorObserver)
         bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
@@ -175,6 +177,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 bundlePresenter.getCheckoutPresenter().toggleCheckoutButton(false)
                 bundlePresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
                 bundlePresenter.getCheckoutPresenter().clearPaymentInfo()
+                bundlePresenter.setToolbarNavIcon(true)
             }
         }
 
