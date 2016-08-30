@@ -45,6 +45,7 @@ import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
+import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -328,9 +329,12 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
-    fun clearCCNumber() {
+    fun clearCCAndCVV() {
         try {
             creditCardNumber.setText("")
+            if (this is BillingDetailsPaymentWidget) {
+                creditCardCvv.setText("")
+            }
             Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
             Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
             Db.getBillingInfo().number = null

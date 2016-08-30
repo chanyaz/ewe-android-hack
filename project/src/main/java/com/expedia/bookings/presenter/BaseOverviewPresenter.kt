@@ -180,7 +180,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
 
         private fun translateCheckout(f: Float, forward: Boolean) {
-            var distance = height - translationDistance - Ui.getStatusBarHeight(context)
+            val distance = height - translationDistance - Ui.getStatusBarHeight(context)
             checkoutPresenter.mainContent.translationY = if (forward) translationDistance + ((1 - f) * distance) else translationDistance + (f * distance)
             bundleOverviewHeader.nestedScrollView.foreground.alpha = (255 * if (forward) f else (1 - f)).toInt()
         }

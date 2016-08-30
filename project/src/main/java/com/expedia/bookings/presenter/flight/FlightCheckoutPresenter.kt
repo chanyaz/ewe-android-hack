@@ -119,6 +119,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     override fun updateDbTravelers() {
         val params = Db.getFlightSearchParams()
         travelerManager.updateDbTravelers(params, context)
+        resetTravelers()
     }
 
     override fun trackShowSlideToPurchase() {
