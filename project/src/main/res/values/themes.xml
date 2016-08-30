@@ -213,11 +213,6 @@
         <item name="skin_tripsTabText">@string/trips</item>
     </style>
 
-    <style name="AlertDialogCustom" parent="android:Theme.Material.Light.Dialog.Alert">
-        <item name="android:colorPrimary">@color/new_launch_alert_dialog_button_color</item>
-        <item name="android:colorAccent">@color/new_launch_alert_dialog_button_color</item>
-    </style>
-
     <!-- TODO rename it to launch theme, remove old screen launch theme and all properties are placeholder !-->
     <style name="NewLaunchTheme" parent="AppTheme.Base">
         <item name="android:windowIsTranslucent">true</item>
@@ -227,7 +222,6 @@
         <item name="colorAccent">@color/new_launch_primary_color</item>
         <item name="android:colorEdgeEffect">@color/new_launch_primary_color</item>
         <item name="primary_color">@color/new_launch_primary_color</item>
-        <item name="android:alertDialogTheme">@style/AlertDialogCustom</item>
 
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
