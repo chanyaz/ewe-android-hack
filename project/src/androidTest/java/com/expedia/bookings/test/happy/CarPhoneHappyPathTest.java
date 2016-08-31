@@ -107,7 +107,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		doLogin();
 
 		CheckoutViewModel.clickTravelerInfo();
-		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Close")));
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		CheckoutViewModel.clickStoredTravelerButton();
 		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
 		CheckoutViewModel.pressClose();
@@ -123,7 +123,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		doLogin();
 
 		CheckoutViewModel.clickTravelerInfo();
-		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Close")));
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		CheckoutViewModel.clickStoredTravelerButton();
 		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
 
