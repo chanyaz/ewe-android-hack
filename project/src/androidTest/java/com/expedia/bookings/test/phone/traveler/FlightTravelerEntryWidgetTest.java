@@ -48,8 +48,7 @@ public class FlightTravelerEntryWidgetTest {
 	@Test
 	public void testPassportCountryIsShowing() throws Throwable {
 		Db.getTravelers().add(new Traveler());
-		testVM = new TravelerViewModel(InstrumentationRegistry.getTargetContext(), 0);
-		testVM.getShowPassportCountryObservable().onNext(true);
+		testVM = new TravelerViewModel(InstrumentationRegistry.getTargetContext(), 0, true);
 		setViewModel(testVM);
 
 		PackageScreen.clickTravelerAdvanced();
@@ -62,8 +61,7 @@ public class FlightTravelerEntryWidgetTest {
 	@Test
 	public void testPassportCountryIsNotShowing() throws Throwable {
 		Db.getTravelers().add(new Traveler());
-		testVM = new TravelerViewModel(InstrumentationRegistry.getTargetContext(), 0);
-		testVM.getShowPassportCountryObservable().onNext(false);
+		testVM = new TravelerViewModel(InstrumentationRegistry.getTargetContext(), 0, false);
 		setViewModel(testVM);
 
 		PackageScreen.clickTravelerAdvanced();

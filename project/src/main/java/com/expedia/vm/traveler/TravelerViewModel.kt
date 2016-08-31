@@ -8,7 +8,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
 import rx.subjects.BehaviorSubject
 
-open class TravelerViewModel(val context: Context, val travelerIndex: Int) {
+open class TravelerViewModel(val context: Context, val travelerIndex: Int, val passportRequired: Boolean) {
     var nameViewModel = TravelerNameViewModel(context)
     var phoneViewModel = TravelerPhoneViewModel(context)
     var tsaViewModel = TravelerTSAViewModel(context)
@@ -17,8 +17,8 @@ open class TravelerViewModel(val context: Context, val travelerIndex: Int) {
 
     val showPhoneNumberObservable = BehaviorSubject.create<Boolean>()
     val passportCountrySubject = BehaviorSubject.create<String>()
-    val showPassportCountryObservable = BehaviorSubject.create<Boolean>()
-    val showEmailObservable = BehaviorSubject.create<Boolean>()
+    val showPassportCountryObservable = BehaviorSubject.create<Boolean>(passportRequired)
+    val showEmailObservable = BehaviorSubject.create<Boolean>(!User.isLoggedIn(context) && travelerIndex == 0)
     val passportValidSubject = BehaviorSubject.create<Boolean>()
     val passportCountryObserver = BehaviorSubject.create<String>()
 
