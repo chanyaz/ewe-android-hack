@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
@@ -9,6 +10,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.packages.PackageOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
@@ -26,6 +28,7 @@ import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -242,8 +245,18 @@ class HotelDetailViewModelTest {
     @Test fun packageSearchInfoShouldShow() {
         var searchParams = createSearchParams()
         searchParams.forPackage = true
+        val response = PackageSearchResponse()
+        response.packageInfo = PackageSearchResponse.PackageInfo()
+        response.packageInfo.hotelCheckinDate =  PackageSearchResponse.HotelCheckinDate()
+        response.packageInfo.hotelCheckinDate.isoDate = "2016-09-07"
+        response.packageInfo.hotelCheckoutDate =  PackageSearchResponse.HotelCheckoutDate()
+        response.packageInfo.hotelCheckoutDate.isoDate = "2016-09-08"
+        Db.setPackageResponse(response)
         vm.paramsSubject.onNext(searchParams)
-        val dates = DateUtils.localDateToMMMd(searchParams.checkIn) + " - " + DateUtils.localDateToMMMd(searchParams.checkOut)
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+
+        val dates = DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)) + " - " +
+                DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate))
         assertEquals(dates, vm.searchDatesObservable.value)
         assertEquals("1 Room, ${searchParams.guests} Guests", vm.searchInfoObservable.value)
     }
@@ -347,28 +360,28 @@ class HotelDetailViewModelTest {
 
         //Non VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
-        offer1.isVipAccess=false;
+        offer1.isVipAccess = false;
         vm.hotelOffersSubject.onNext(offer1)
         assertTrue(vm.hasRegularLoyaltyPointsAppliedObservable.value)
         assertFalse(vm.hasVipAccessLoyaltyObservable.value)
 
         //Non VIP hotel and none of the hotel room has loyality info (isBurnApplied = false)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = false
-        offer1.isVipAccess=false;
+        offer1.isVipAccess = false;
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
         assertFalse(vm.hasVipAccessLoyaltyObservable.value)
 
         //VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
-        offer1.isVipAccess=true;
+        offer1.isVipAccess = true;
         vm.hotelOffersSubject.onNext(offer1)
         assertTrue(vm.hasVipAccessLoyaltyObservable.value)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
 
         //VIP hotel and none of the hotel room has loyality info (isBurnApplied = false)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = false
-        offer1.isVipAccess=true;
+        offer1.isVipAccess = true;
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.hasVipAccessLoyaltyObservable.value)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)

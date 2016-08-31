@@ -11,6 +11,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -35,6 +36,7 @@ import com.expedia.util.endlessObserver
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
+import org.joda.time.format.DateTimeFormat
 import rx.Observable
 import rx.Observer
 import rx.Subscription
@@ -360,7 +362,11 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
                         .put("guests", StrUtils.formatGuestString(context, params.guests))
                         .format()
                         .toString())
-                val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(params.checkIn)).put("enddate", DateUtils.localDateToMMMd(params.checkOut)).format().toString()
+                val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+                val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+                        .put("startdate",  DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
+                        .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
+                        .format().toString()
                 searchDatesObservable.onNext(dates)
             } else {
                 searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
