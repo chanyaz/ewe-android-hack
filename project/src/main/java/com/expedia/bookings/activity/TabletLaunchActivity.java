@@ -28,6 +28,7 @@ import com.expedia.bookings.interfaces.IMeasurementListener;
 import com.expedia.bookings.interfaces.IMeasurementProvider;
 import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.FacebookEvents;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
@@ -61,7 +62,7 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_tablet_launch);
-
+		AdTracker.trackLaunch();
 		debugMenu = new DebugMenu(this, TabletPreferenceActivity.class);
 
 		mRootC = Ui.findView(this, R.id.root_layout);
