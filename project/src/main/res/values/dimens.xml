@@ -225,11 +225,11 @@
 
     <!-- Car Search  -->
     <dimen name="car_calendar_month_view_max_text_size">12dp</dimen>
-    <dimen name="time_slider_rectangle_width">70dp</dimen>
+    <dimen name="time_slider_rectangle_width">50dp</dimen>
     <dimen name="time_slider_rectangle_height">25dp</dimen>
-    <dimen name="time_slider_thumbnail_radius">25dp</dimen>
-    <dimen name="time_slider_corner_radius">15dp</dimen>
-    <dimen name="time_slider_text_size">12dp</dimen>
+    <dimen name="time_slider_thumbnail_radius">8dp</dimen>
+    <dimen name="time_slider_corner_radius">5dp</dimen>
+    <dimen name="time_slider_text_size">10dp</dimen>
     <dimen name="time_slider_text_container">110dp</dimen>
     <dimen name="car_search_list_image_container_height">134dp</dimen>
     <dimen name="car_search_details_container_height">37dp</dimen>
