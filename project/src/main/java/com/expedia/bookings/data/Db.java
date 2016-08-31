@@ -154,6 +154,21 @@ public class Db {
 		sDb.signInTypeEnum = signInResultEnum;
 	}
 
+	private SignInTypeEnum signInTypeEnum = null;
+
+	public enum SignInTypeEnum {
+		EXPEDIA_SIGN_IN,
+		FACEBOOK_SIGN_IN
+	}
+
+	public static SignInTypeEnum getSignInType() {
+		return sDb.signInTypeEnum;
+	}
+
+	public static void setSignInType(SignInTypeEnum signInResultEnum) {
+		sDb.signInTypeEnum = signInResultEnum;
+	}
+
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
 
