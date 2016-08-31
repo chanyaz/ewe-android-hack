@@ -149,6 +149,19 @@ class HotelDetailViewModelTest {
         assertEquals("20.00 USD", testSubscriber.onNextEvents[1])
     }
 
+    @Test fun resortFeeShowUSPOS() {
+        CurrencyUtils.initMap(RuntimeEnvironment.application)
+        setPOS(PointOfSaleId.UNITED_STATES)
+        val testSubscriber = TestSubscriber<String>()
+        vm.hotelResortFeeObservable.subscribe(testSubscriber)
+        vm.paramsSubject.onNext(createSearchParams())
+
+        makeResortFeeResponse()
+
+        testSubscriber.requestMore(100)
+        assertEquals("$20", testSubscriber.onNextEvents[1])
+    }
+
     private fun makeResortFeeResponse() {
         offer1.hotelRoomResponse.clear()
         val packageSearchParams = PackageSearchParams.Builder(30, 330)

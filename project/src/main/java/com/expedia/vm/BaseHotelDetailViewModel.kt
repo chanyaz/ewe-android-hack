@@ -504,14 +504,15 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         val firstRoomDetails = hotelOffersResponse.hotelRoomResponse?.firstOrNull()
         if (firstRoomDetails?.rateInfo?.chargeableRateInfo?.showResortFeeMessage ?: false) {
             val rate = firstRoomDetails!!.rateInfo.chargeableRateInfo
-            val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), CurrencyUtils.currencyForLocale(hotelOffersResponse.hotelCountry))
             val resortText: String
-            if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.UNITED_STATES) {
-                resortText = resortFees.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
-            } else {
+            if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.UNITED_KINGDOM) {
                 val df = DecimalFormat("#.00")
+                val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), CurrencyUtils.currencyForLocale(hotelOffersResponse.hotelCountry))
                 resortText = Phrase.from(context, R.string.non_us_resort_fee_format_TEMPLATE)
                         .put("amount", df.format(resortFees.amount)).put("currency", resortFees.currencyCode).format().toString()
+            } else {
+                val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCode)
+                resortText = resortFees.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
             }
             hotelResortFeeObservable.onNext(resortText)
             val includedNotIncludedStrId = if (rate.resortFeeInclusion) R.string.included_in_the_price else R.string.not_included_in_the_price
