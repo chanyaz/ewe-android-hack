@@ -78,4 +78,12 @@ class InboundFlightWidget(context: Context, attrs: AttributeSet?) : BaseBundleFl
         viewModel.searchParams.onNext(params)
         toggleFlightWidget(opacity, false)
     }
+
+    fun refreshTravelerInfoOnChangeFlights() {
+        viewModel.travelInfoTextObservable.onNext(Phrase.from(context, R.string.flight_toolbar_date_range_with_guests_TEMPLATE)
+                .put("date", DateUtils.localDateToMMMd(viewModel.searchParams.value.endDate))
+                .put("travelers", StrUtils.formatTravelerString(context, viewModel.searchParams.value.guests))
+                .format()
+                .toString())
+    }
 }
