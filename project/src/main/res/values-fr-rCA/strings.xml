@@ -44,6 +44,9 @@
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">Google Map, résultats de la recherche d\&apos;hôtels affichés sur la carte</string>
 
+    <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_purchase_button">Acheter</string>
+
     <!-- Cars -->
     <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
     <string name="car_toolbar_date_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
@@ -1051,7 +1054,7 @@
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Hôtels recommandés ce soir</string>
+    <string name="nearby_deals_title">Recommandés ce soir</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">Voir d\&apos;autres</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -2016,8 +2019,6 @@
     <string name="your_trip_to_TEMPLATE">Voyage à %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Comprend les taxes et les frais</string>
-    <!-- Includes taxes, fees, flights+hotels -->
-    <string name="includes_taxes_fees_flights_hotel">Comprend les taxes, les frais, les vols et l\&apos;hôtel</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">Comprend le vol et l\&apos;hôtel</string>
     <!-- Includes taxes (but not necessarily fees) -->
@@ -2245,7 +2246,7 @@
     <string name="cardholder_name_hint">Nom du titulaire de la carte</string>
     <!-- email hint -->
     <string name="email_address_hint">Adresse courriel</string>
-    <!-- email hint for packages billing info screen, used to send the confirmation email -->
+    <!-- email hint for packages traveler entry screen, used to send the confirmation email -->
     <string name="email_address_hint_confirmation">Adresse courriel (pour la confirmation)</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">Téléphone</string>
@@ -2556,7 +2557,6 @@
     <string name="split_ticket_rules_cancellation_policy_tablet">La modification ou l\&apos;annulation d\&apos;un vol ne change pas automatiquement l\&apos;autre vol. Les changements apportés à l\&apos;autre vol peuvent entraîner des frais.</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">Les vols de &lt;a href=\"{departurelink}\"&gt;départ&lt;/a&gt; et de &lt;a href=\"{returnlink}\"&gt;retour&lt;/a&gt; comportent des frais de bagage distincts</string>
-    <string name="split_ticket_baggage_fees_tablet">Les vols de &lt;a href=\"%1$s\"&gt;départ&lt;/a&gt; et &lt;a href=\"%2$s\"&gt;de retour&lt;/a&gt; comportent des frais de bagage distincts</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">Code de sécurité non valide</string>
@@ -3254,6 +3254,10 @@
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
     <string name="cancellation_policy">Politique d\&apos;annulation</string>
+    <!-- Cancellation policy label for packages-->
+    <string name="packages_cancellation_policy">Politique d\&apos;annulation de l\&apos;hôtel</string>
+    <!-- Cancellation policy label for packages-->
+    <string name="packages_fare_information">Renseignements sur le tarif du vol</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
@@ -3908,9 +3912,9 @@
     <!-- Content description for car result door count e.g. Doors 2-4 -->
     <string name="cars_door_count_cont_desc_TEMPLATE">Portes {doorcount}</string>
     <!-- Content description for car result passenger count e.g. Passengers 2-4 -->
-    <string name="cars_passenger_count_cont_desc_TEMPLATE">passagers{passengercount}</string>
+    <string name="cars_passenger_count_cont_desc_TEMPLATE">{passengercount} passagers</string>
     <!-- Content description for car result bags count e.g. Bags 2-4 -->
-    <string name="cars_bags_count_cont_desc_TEMPLATE">bagages{bagscount}</string>
+    <string name="cars_bags_count_cont_desc_TEMPLATE">{bagscount} bagages</string>
     <!-- Content description for hotel star rating e.g. 3 stars -->
     <plurals name="hotel_star_rating_cont_desc_TEMPLATE">
         <item quantity="one">{rating} étoile</item>
@@ -4076,8 +4080,6 @@
         <item quantity="one">{night} nuit gratuite en réservant ceci avec un vol.</item>
         <item quantity="other">{night} nuits gratuites en réservant ceci avec un vol.</item>
     </plurals>
-    <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">Le prix comprend l\&apos;hôtel et les vols</string>
     <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
     <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
@@ -4147,8 +4149,12 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minutes</string>
 
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
+    <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} – {arrivaltime} -{elapseddays} j</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
-    <string name="flight_departure_arrival_time_multi_day_template">%1$s à %2$s + %3$d j</string>
+    <string name="flight_departure_arrival_time_multi_day_TEMPLATE">{departuretime} à {arrivaltime} + {elapseddays} j</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm minus 1d -->
+    <string name="flight_departure_arrival_time_negative_days_cont_desc_TEMPLATE">{departuretime} à {arrivaltime} moins {elapseddays} j</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
     <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} à {arrivaltime} plus {elapseddays} j</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
@@ -4273,14 +4279,14 @@
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">Détails du voyage et options de tarifs</string>
 
-    <!--Use on the timeline on rail details when a customer transfer from one sation to another: You have xx.xx min to get from one station to another during a trip -->
-    <string name="rail_transfer_from_a_to_b_TEMPLATE">Vous disposez de {formattedduration} pour vous rendre de {origin} à {destination}</string>
+    <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
+    <string name="rail_transfer_from_a_to_b_TEMPLATE">Vous disposez de {formatted_duration} pour vous rendre de {origin_station_name} à {destination_station_name}</string>
 
-    <!--Use on the timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry -->
-    <string name="rail_travel_from_a_to_b_TEMPLATE">Allez de {origin} à {destination} en {travelmode}</string>
+    <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
+    <string name="rail_travel_from_a_to_b_TEMPLATE">Allez de {origin_station_name} à {destination_station_name} en {travel_mode}</string>
 
-    <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform within the same station) -->
-    <string name="rail_change_at_station_TEMPLATE">Prenez une correspondance à {stationname}</string>
+    <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform). Example: Change at Kings Cross Station -->
+    <string name="rail_change_at_station_TEMPLATE">Prenez une correspondance à {station_name}</string>
 
     <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
     <string name="rail_departing_at">Départ à</string>
@@ -4621,4 +4627,11 @@
     </plurals>
     <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
     <string name="header_itin_card_content_description_TEMPLATE">Bouton de fiche d\&apos;itinéraire de type {type}.</string>
+
+    <!-- Trips copy to clipboard itinerary number. -->
+    <string name="copy_to_clipboard_cont_desc">Copier dans le presse-papiers. Bouton.</string>
+
+    <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
+    <string name="lx_carousal_cont_desc_TEMPLATE">Activité sélectionnée, {caption}</string>
+
 </resources>
