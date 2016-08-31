@@ -64,6 +64,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         errorPresenter.viewmodel = PackageErrorViewModel(context)
         bundlePresenter.bundleWidget.viewModel.showSearchObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
+            searchPresenter.showDefault()
         }
 
         bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
@@ -108,6 +109,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
             bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
+            searchPresenter.showDefault()
         }
 
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
@@ -125,6 +127,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
         errorPresenter.viewmodel.createTripUnknownErrorObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
+            searchPresenter.showDefault()
         }
 
         errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
