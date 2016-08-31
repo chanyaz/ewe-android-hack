@@ -3,7 +3,6 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.utils.FontCache
@@ -13,10 +12,11 @@ import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreakdownViewModel(context) {
-    val packageCostSummaryObservable = PublishSubject.create<PackageCreateTripResponse.PackageDetails>()
+    val packageCostSummaryObservable = PublishSubject.create<PackageCreateTripResponse>()
 
     init {
-        packageCostSummaryObservable.subscribe { packageDetails ->
+        packageCostSummaryObservable.subscribe { createTrip ->
+            val packageDetails = createTrip.packageDetails
             val breakdowns = arrayListOf<CostSummaryBreakdownRow>()
             // Hotel + Flights    $330
             breakdowns.add(
@@ -42,16 +42,20 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
                 breakdowns.add(makeDueAtHotelRow(packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoneyFromAmountAndCurrencyCode))
             }
 
+            if (createTrip.selectedCardFees != null) {
+                breakdowns.add(makeCardFeeRow(createTrip.selectedCardFees.formattedMoneyFromAmountAndCurrencyCode))
+            }
+
             // -------------------------
             breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
 
             if (!packageDetails.pricing.hasResortFee() || PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
                 // Bundle Total     $380
-                breakdowns.add(makeBundleTotalRow(packageDetails.pricing.getBundleTotal().formattedPrice))
+                breakdowns.add(makeBundleTotalRow(createTrip.getBundleTotal().formattedPrice))
             }
             if (packageDetails.pricing.hasResortFee()) {
                 // Total Due Today  $900
-                breakdowns.add(makeTotalDueTodayRow(packageDetails.pricing.packageTotal.formattedPrice, PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()))
+                breakdowns.add(makeTotalDueTodayRow(createTrip.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedPrice, PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()))
             }
 
             if (packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
@@ -78,6 +82,13 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
     private fun makeDueAtHotelRow(formattedPrice: String): CostSummaryBreakdownRow {
         return CostSummaryBreakdownRow.Builder()
                 .title(context.getString(R.string.local_charges_due_at_hotel))
+                .cost(formattedPrice)
+                .build()
+    }
+
+    private fun makeCardFeeRow(formattedPrice: String): CostSummaryBreakdownRow {
+        return CostSummaryBreakdownRow.Builder()
+                .title(context.getString(R.string.airline_card_fee))
                 .cost(formattedPrice)
                 .build()
     }

@@ -4,8 +4,10 @@ import android.app.Activity
 import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.PaymentViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -21,13 +23,17 @@ class BaseCheckoutViewModelTest {
     var activity : Activity by Delegates.notNull()
     private var LOTS_MORE: Long = 100
 
-
-
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         testViewModel = object : BaseCheckoutViewModel(activity) {
-            // blah
+            override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) { }
+            override fun injectComponents() {
+                paymentViewModel = PaymentViewModel(activity)
+            }
+            override fun getTripId(): String {
+                return tripResponseObservable.value.tripId
+            }
         }
         testViewModel.builder.tripId("4321")
         testViewModel.builder.expectedTotalFare("42")

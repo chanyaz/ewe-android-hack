@@ -41,16 +41,12 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     lateinit var paymentViewModel: PaymentViewModel
         @Inject set
-    var cardType: PaymentType? = null
 
     init {
-        makePaymentErrorSubscriber(getCheckoutViewModel().paymentTypeSelectedHasCardFee, paymentWidget.viewmodel.showingPaymentForm,
-                cardProcessingFeeTextView, getCheckoutViewModel().cardFeeTextSubject)
         val debitCardsNotAcceptedSubject = BehaviorSubject.create<Spanned>(SpannedString(context.getString(R.string.flights_debit_cards_not_accepted)))
         makePaymentErrorSubscriber(getCheckoutViewModel().showDebitCardsNotAcceptedSubject,  ckoViewModel.showingPaymentWidgetSubject,
                 debitCardsNotAcceptedTextView, debitCardsNotAcceptedSubject)
 
-        getCheckoutViewModel().cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
         getCheckoutViewModel().priceChangeObservable.subscribe { it as FlightCheckoutResponse
             handlePriceChange(it)
         }
@@ -60,18 +56,14 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         getCheckoutViewModel().receivedCheckoutResponse.subscribe {
             checkoutDialog.hide()
         }
-        getPaymentWidgetViewModel().cardTypeSubject.subscribe { paymentType ->
-            cardType = paymentType
-        }
-
-    }
-
-    override fun getPaymentWidgetViewModel(): PaymentViewModel {
-        return paymentViewModel
     }
 
     override fun injectComponents() {
         Ui.getApplication(context).flightComponent().inject(this)
+    }
+
+    override fun getPaymentWidgetViewModel(): PaymentViewModel {
+        return paymentViewModel
     }
 
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {

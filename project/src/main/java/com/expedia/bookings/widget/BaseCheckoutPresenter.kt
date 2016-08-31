@@ -23,6 +23,7 @@ import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -42,6 +43,7 @@ import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseCheckoutViewModel
@@ -76,6 +78,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
     val insuranceWidget: InsuranceWidget by bindView(R.id.insurance_widget)
     val space: Space by bindView(R.id.scrollview_space)
+    var cardType: PaymentType? = null
 
     var paymentWidget: PaymentWidget by Delegates.notNull()
     val travelerSummaryCard: TravelerSummaryCard by lazy {
@@ -226,7 +229,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
         }
 
-
         paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() }
 
         legalInformationText.setOnClickListener {
@@ -254,6 +256,23 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         getCreateTripViewModel().noNetworkObservable.subscribe {
             createTripDialog.dismiss()
         }
+
+        getPaymentWidgetViewModel().cardTypeSubject.subscribe { paymentType ->
+            cardType = paymentType
+        }
+
+        getCheckoutViewModel().cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
+        Observable.combineLatest( getCheckoutViewModel().paymentTypeSelectedHasCardFee,
+                paymentWidget.viewmodel.showingPaymentForm,
+                { haveCardFee, showingGuestPaymentForm ->
+                    val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
+                    cardProcessingFeeTextView.visibility = cardFeeVisibility
+                    if (cardFeeVisibility == VISIBLE) { // only show. hide handled in BaseCheckoutPresenter
+                        toolbarDropShadow.visibility = visibility
+                    }
+                }).subscribe()
+
+        getCheckoutViewModel().cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
 
         accessiblePurchaseButton.setOnClickListener {
             if (ckoViewModel.builder.hasValidParams()) {

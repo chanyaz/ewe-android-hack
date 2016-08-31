@@ -7,15 +7,18 @@ import com.expedia.bookings.services.PackageServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.bookings.widget.PackageCheckoutPresenter;
+import com.expedia.vm.packages.PackageCheckoutViewModel;
 
 import dagger.Component;
 
 @PackageScope
-@Component(dependencies = {AppComponent.class}, modules = {PackageModule.class})
+@Component(dependencies = {AppComponent.class}, modules = {PackageModule.class, FeesModule.class})
 public interface PackageComponent {
 	void inject(PackagePresenter presenter);
 	void inject(PackageHotelPresenter presenter);
 	void inject(PackageCheckoutPresenter presenter);
+	void inject(PackageCheckoutViewModel model);
+
 	PackageServices packageServices();
 	ReviewsServices reviewsServices();
 	SuggestionV4Services suggestionsService();

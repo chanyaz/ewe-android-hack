@@ -193,7 +193,7 @@ class PackageCostSummaryBreakdownViewModelTest {
 
         val rowsObserver = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         viewModel.addRows.subscribe(rowsObserver)
-        viewModel.packageCostSummaryObservable.onNext(observer.onNextEvents[0].packageDetails)
+        viewModel.packageCostSummaryObservable.onNext(observer.onNextEvents[0])
         return rowsObserver.onNextEvents[0]
     }
 }

@@ -12,6 +12,8 @@ import com.google.gson.annotations.SerializedName;
 public class PackageCreateTripResponse extends TripResponse {
 	public PackageDetails packageDetails;
 	public PackageDetails oldPackageDetails;
+	public Money totalPriceIncludingFees;
+	public Money selectedCardFees;
 	public Money changedPrice;
 	public String newTotalPrice;
 	public String packageRulesAndRestrictions;
@@ -35,10 +37,6 @@ public class PackageCreateTripResponse extends TripResponse {
 		public boolean taxesAndFeesIncluded;
 		public HotelPricing hotelPricing;
 		public Money bundleTotal;
-
-		public Money getBundleTotal() {
-			return bundleTotal != null ? bundleTotal : packageTotal;
-		}
 
 		public boolean hasResortFee() {
 			return hotelPricing != null && hotelPricing.mandatoryFees != null &&
@@ -68,12 +66,19 @@ public class PackageCreateTripResponse extends TripResponse {
 
 	@Override
 	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
-		throw new UnsupportedOperationException("TripTotalIncludingFee is not implemented for packages");
+		if (totalPriceIncludingFees != null) {
+			return totalPriceIncludingFees;
+		}
+		return packageDetails.pricing.packageTotal;
 	}
 
 	@NotNull
 	@Override
 	public boolean isCardDetailsRequiredForBooking() {
 		return true;
+	}
+
+	public Money getBundleTotal() {
+		return packageDetails.pricing.bundleTotal != null ? packageDetails.pricing.bundleTotal : tripTotalPayableIncludingFeeIfZeroPayableByPoints();
 	}
 }

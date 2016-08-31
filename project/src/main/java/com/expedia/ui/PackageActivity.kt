@@ -5,8 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseOverviewPresenter
@@ -18,7 +19,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchType
 
 class PackageActivity : AbstractAppCompatActivity() {
-
     var changedOutboundFlight = false
 
     val packagePresenter: PackagePresenter by lazy {
@@ -104,6 +104,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                         changedOutboundFlight = true
                     }
                     packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageSelectedOutboundFlight())
                 }
             }
 
@@ -124,9 +125,11 @@ class PackageActivity : AbstractAppCompatActivity() {
 
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
+
                     packageCreateTrip()
                     packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
                     packagePresenter.bundlePresenter.setToolbarNavIcon(false)
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageFlightBundle().second)
                 }
             }
         }
@@ -184,4 +187,6 @@ class PackageActivity : AbstractAppCompatActivity() {
             packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().tripParams.onNext(params)
         }
     }
+
+
 }
