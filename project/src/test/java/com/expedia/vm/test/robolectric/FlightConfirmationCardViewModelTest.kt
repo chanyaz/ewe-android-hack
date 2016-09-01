@@ -1,25 +1,15 @@
 package com.expedia.vm.test.robolectric
 
 import android.content.Context
-import com.expedia.bookings.data.LoyaltyMembershipTier
-import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.trips.ItineraryManager
-import com.expedia.bookings.test.robolectric.ItineraryManagerTest
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.test.robolectric.UserLoginTestUtil
-import com.expedia.bookings.test.robolectric.UserSignInTest
-import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.FlightV2Utils
+import com.expedia.vm.flights.FlightConfirmationCardViewModel
+import org.joda.time.DateTime
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
-
-import com.expedia.vm.flights.FlightConfirmationCardViewModel
-import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
@@ -31,7 +21,7 @@ class FlightConfirmationCardViewModelTest {
         val subtitleSubscriber = TestSubscriber<String>()
 
         val outboundDepartureDateTimeISO = DateTime.now().toString()
-        val flightTime = DateUtils.formatTimeShort(outboundDepartureDateTimeISO)
+        val flightTime = FlightV2Utils.formatTimeShort(getContext(), outboundDepartureDateTimeISO)
         val formattedDate = formatDate(outboundDepartureDateTimeISO)
         val numberOfTravelers = 3
         val flight = makeFlightLeg(outboundDepartureDateTimeISO)

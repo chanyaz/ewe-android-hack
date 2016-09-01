@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
@@ -30,7 +31,7 @@ class FlightConfirmationCardViewModel (private val context: Context, flightLeg: 
 
      fun getFlightSubtitle(departureDateTime: String?, guests: Int): String? {
          val localDepartureDateDate = DateUtils.localDateToMMMd(DateTime.parse(departureDateTime).toLocalDate())
-         val departureTime = DateUtils.formatTimeShort(departureDateTime)
+         val departureTime = FlightV2Utils.formatTimeShort(context, departureDateTime ?: "")
          val numberOfGuests = StrUtils.formatTravelerString(context, guests)
 
          return context.getString(R.string.package_overview_flight_travel_info_TEMPLATE, localDepartureDateDate, departureTime, numberOfGuests)

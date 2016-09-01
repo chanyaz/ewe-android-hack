@@ -102,23 +102,11 @@ public class DateUtils {
 		return date.toString("yyyy-MM-dd");
 	}
 
-	public static String localDateToMMddyyyy(LocalDate date) {
-		return date.toString("MM/dd/yyy");
-	}
-
-	public static String localDateTohmma(DateTime date) {
-		return date.toString("h:mm a").toLowerCase();
-	}
-
 	public static String dateTimeToHHmmss(DateTime date) {
 		return date.toString("HH:mm:ss").toLowerCase();
 	}
 
 	public static String dateTimeToMMMdhmma(DateTime date) {
-		return date.toString("MMM d, h:mm a");
-	}
-
-	public static String dateTimeToMMMdhmma(LocalDate date) {
 		return date.toString("MMM d, h:mm a");
 	}
 
@@ -177,15 +165,6 @@ public class DateUtils {
 	public static LocalDate ensureDateIsTodayOrInFuture(LocalDate date) {
 		LocalDate today = new LocalDate();
 		return date.isBefore(today) ? today : date;
-	}
-
-	/**
-	 * Converts from format 2014-07-05T12:30:00.000-05:00 to "12:30 pm"
-	 */
-	public static String formatTimeShort(String timeStr) {
-		DateTimeFormatter fmt = ISODateTimeFormat.dateTime().withOffsetParsed();
-		DateTime time = DateTime.parse(timeStr, fmt);
-		return localDateTohmma(time);
 	}
 
 	/**

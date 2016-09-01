@@ -32,7 +32,6 @@ import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
-
 public class PackageFlightFilterTest extends PackageTestCase {
 
 	private static final String TAG = "PackageFlightFilterTest";
