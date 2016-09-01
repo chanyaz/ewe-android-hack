@@ -161,6 +161,18 @@ object FlightsV2Tracking {
         FacebookEvents().trackFlightV2Confirmation(flightCheckoutResponse, searchParams)
     }
 
+    fun trackFlightSearchAPINoResponseError() {
+        trackFlightError("Flight Search API No Response Error")
+    }
+
+    fun trackFlightCreateTripNoResponseError() {
+        trackFlightError("Flight Create Trip API No Response Error")
+    }
+
+    fun trackFlightCheckoutAPINoResponseError() {
+        trackFlightError("Flight Checkout API No Response Error")
+    }
+
     fun trackFlightNoResult() {
         trackFlightError("Flight No Result")
     }
