@@ -10,6 +10,7 @@ import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
 import com.expedia.bookings.R
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.espresso.ViewActions
@@ -51,6 +52,21 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         CheckoutViewModel.clickDone()
 
         assertCheckoutOverviewCardFeeWarningShown()
+    }
+
+    @Test
+    fun testAirlineMayChargeFeesAlwaysShownAustraliaPOS() {
+        Common.setPOS(PointOfSaleId.AUSTRALIA)
+
+        SearchScreen.selectFlightOriginAndDestination(0, 1)
+
+        val startDate = LocalDate.now().plusDays(3)
+        val endDate = LocalDate.now().plusDays(8)
+        SearchScreen.selectDates(startDate, endDate)
+        SearchScreen.searchButton().perform(click())
+        FlightTestHelpers.assertFlightOutbound()
+
+        FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound))
     }
 
     private fun assertCheckoutOverviewCardFeeWarningShown() {

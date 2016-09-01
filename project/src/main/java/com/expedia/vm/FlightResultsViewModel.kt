@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.pos.PointOfSale
 import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -15,7 +16,8 @@ class FlightResultsViewModel() {
         Observable.combineLatest(flightResultsObservable, isOutboundResults, { flightResults, isOutbound ->
             if (isOutbound) {
                 val anOutboundLegHasObFees = flightResults.firstOrNull { it.mayChargeObFees } != null
-                airlineChargesFeesSubject.onNext(anOutboundLegHasObFees)
+                val posAirlineCouldChargeFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+                airlineChargesFeesSubject.onNext(anOutboundLegHasObFees || posAirlineCouldChargeFees)
             }
             else {
                 airlineChargesFeesSubject.onNext(false)
