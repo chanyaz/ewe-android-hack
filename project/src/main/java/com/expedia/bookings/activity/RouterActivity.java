@@ -16,7 +16,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
@@ -25,7 +24,6 @@ import com.expedia.bookings.utils.Ui;
 import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
-
 import rx.Observer;
 
 /**
@@ -50,7 +48,6 @@ public class RouterActivity extends Activity {
 
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(this);
-		AdTracker.trackLaunch();
 
 		// Update data
 		ItineraryManager.getInstance().startSync(false, false, true);
