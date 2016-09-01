@@ -126,6 +126,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
                     packageCreateTrip()
                     packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+                    packagePresenter.bundlePresenter.setToolbarNavIcon(false)
                 }
             }
         }

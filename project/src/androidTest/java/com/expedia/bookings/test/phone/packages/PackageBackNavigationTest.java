@@ -6,12 +6,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PackageTestCase;
+import com.expedia.bookings.test.espresso.TestValues;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -99,6 +101,20 @@ public class PackageBackNavigationTest extends PackageTestCase {
 		onView(allOf(withId(R.id.widget_bundle_overview))).perform(ViewActions.waitForViewToDisplay());
 		onView(allOf(withId(R.id.widget_bundle_overview))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.travel_info_view_text), hasSibling(withText("Flight to Detroit")))).check(matches(isDisplayed()));
+		Common.pressBack();
+		onView(withId(R.id.origin_card)).perform(click());
+		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW));
+		SearchScreen.selectLocation(TestValues.ORIGIN_LOCATION_DTW);
+		//Delay from the auto advance anim
+		Common.delay(1);
+		onView(withId(R.id.destination_card)).perform(click());
+		SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay());
+		SearchScreen.searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO));
+		SearchScreen.selectLocation(TestValues.DESTINATION_LOCATION_SFO);
+		SearchScreen.searchButton().perform(click());
+		Common.pressBack();
+		onView(allOf(withId(R.id.checkout_toolbar), hasDescendant(withText("Trip to San Francisco, CA")))).check(matches(isDisplayed()));
+
 	}
 
 	private void assertOutboundFlightBundlePrice(String price) {
