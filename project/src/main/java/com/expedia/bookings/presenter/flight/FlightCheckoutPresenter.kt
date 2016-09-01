@@ -1,6 +1,8 @@
 package com.expedia.bookings.presenter.flight
 
 import android.content.Context
+import android.text.Spanned
+import android.text.SpannedString
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -12,11 +14,10 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
@@ -25,6 +26,9 @@ import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.squareup.otto.Subscribe
 import rx.Observable
+import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
+import rx.subjects.Subject
 import javax.inject.Inject
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
@@ -37,36 +41,25 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     lateinit var paymentViewModel: PaymentViewModel
         @Inject set
-
-    val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
     var cardType: PaymentType? = null
 
     init {
-        getCheckoutViewModel().cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
-        Observable.combineLatest( getCheckoutViewModel().paymentTypeSelectedHasCardFee,
-                                    paymentWidget.viewmodel.showingPaymentForm,
-                                    { haveCardFee, showingGuestPaymentForm ->
-                                        val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
-                                        cardProcessingFeeTextView.visibility = cardFeeVisibility
-                                        if (cardFeeVisibility == VISIBLE) { // only show. hide handled in BaseCheckoutPresenter
-                                            toolbarDropShadow.visibility = visibility
-                                        }
-                                    }).subscribe()
+        makePaymentErrorSubscriber(getCheckoutViewModel().paymentTypeSelectedHasCardFee, paymentWidget.viewmodel.showingPaymentForm,
+                cardProcessingFeeTextView, getCheckoutViewModel().cardFeeTextSubject)
+        val debitCardsNotAcceptedSubject = BehaviorSubject.create<Spanned>(SpannedString(context.getString(R.string.flights_debit_cards_not_accepted)))
+        makePaymentErrorSubscriber(getCheckoutViewModel().showDebitCardsNotAcceptedSubject,  ckoViewModel.showingPaymentWidgetSubject,
+                debitCardsNotAcceptedTextView, debitCardsNotAcceptedSubject)
 
         getCheckoutViewModel().cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
-        setupDontShowDebitCardVisibility()
-
         getCheckoutViewModel().priceChangeObservable.subscribe { it as FlightCheckoutResponse
             handlePriceChange(it)
         }
         getCreateTripViewModel().priceChangeObservable.subscribe { it as FlightCreateTripResponse
             handlePriceChange(it)
         }
-
         getCheckoutViewModel().receivedCheckoutResponse.subscribe {
             checkoutDialog.hide()
         }
-
         getPaymentWidgetViewModel().cardTypeSubject.subscribe { paymentType ->
             cardType = paymentType
         }
@@ -171,14 +164,17 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         return false
     }
 
-    private fun setupDontShowDebitCardVisibility() {
-        Observable.combineLatest(getCheckoutViewModel().showDebitCardsNotAcceptedSubject,
-                ckoViewModel.showingPaymentWidgetSubject,
-                { showDebitCards, showingPaymentWidget ->
-                    val visibility = if (showDebitCards && showingPaymentWidget) VISIBLE else GONE
-                    debitCardsNotAcceptedTextView.visibility = visibility
-                    if (visibility == VISIBLE) { // only show. hide handled in BaseCheckoutPresenter
+    private fun makePaymentErrorSubscriber(fee: Subject<Boolean, Boolean>, show: PublishSubject<Boolean>, textView: TextView, text: Subject<Spanned, Spanned>) {
+        Observable.combineLatest( fee, show, text,
+                { fee, show, text ->
+                    val cardFeeVisibility = if (fee && show) View.VISIBLE else View.GONE
+                    if (cardFeeVisibility == VISIBLE) {
+                        textView.visibility = cardFeeVisibility
+                        AnimUtils.slideIn(textView)
+                        textView.text = text
                         toolbarDropShadow.visibility = visibility
+                    } else if (textView.visibility == View.VISIBLE) {
+                        AnimUtils.slideOut(invalidPaymentTypeWarningTextView)
                     }
                 }).subscribe()
     }

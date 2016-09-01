@@ -162,6 +162,25 @@ public class AnimUtils {
 		v.startAnimation(slideDown);
 	}
 
+	public static void slideOut(final View v) {
+		Animation slideUp = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_out);
+		slideUp.setDuration(400);
+		v.startAnimation(slideUp);
+		v.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				v.setVisibility(View.GONE);
+			}
+		}, 400L);
+	}
+
+	public static void slideIn(View v) {
+		Animation slideDown = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_in);
+		slideDown.setDuration(400);
+		slideDown.setFillAfter(true);
+		v.startAnimation(slideDown);
+	}
+
 	public static void slideInOut(final View view, final int height) {
 		final long animDuration = 400L;
 		final long startDelay = 5000L;
