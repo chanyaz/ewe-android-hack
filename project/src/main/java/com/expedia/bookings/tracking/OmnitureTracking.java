@@ -5306,6 +5306,7 @@ public class OmnitureTracking {
 		}
 		else {
 			evarValuesOutBound = String.format(Locale.US, "eVar63=%s:SA", getFlightInventoryTypeString());
+			evarValuesInBound = evarValuesOutBound;
 		}
 
 		String outBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;%s", segments.first.airlineCode,
