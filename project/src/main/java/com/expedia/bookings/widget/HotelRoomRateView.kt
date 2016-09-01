@@ -284,7 +284,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
             roomInfoContainer.setPadding(roomContainerLeftRightPadding, roomContainerTopBottomPadding, roomContainerLeftRightPadding, roomContainerTopBottomPadding)
             row.isEnabled = false
 
-            var infoIcon: Drawable = ContextCompat.getDrawable(context, R.drawable.details_info)
+            val infoIcon: Drawable = ContextCompat.getDrawable(context, R.drawable.details_info).mutate()
             infoIcon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
             depositTermsButton.setCompoundDrawablesWithIntrinsicBounds(infoIcon, null, null, null)
 

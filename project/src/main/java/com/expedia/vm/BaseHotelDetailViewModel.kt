@@ -11,6 +11,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -35,6 +36,7 @@ import com.expedia.util.endlessObserver
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
+import org.joda.time.format.DateTimeFormat
 import rx.Observable
 import rx.Observer
 import rx.Subscription
@@ -360,7 +362,11 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
                         .put("guests", StrUtils.formatGuestString(context, params.guests))
                         .format()
                         .toString())
-                val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(params.checkIn)).put("enddate", DateUtils.localDateToMMMd(params.checkOut)).format().toString()
+                val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+                val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+                        .put("startdate",  DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
+                        .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
+                        .format().toString()
                 searchDatesObservable.onNext(dates)
             } else {
                 searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
@@ -498,14 +504,15 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         val firstRoomDetails = hotelOffersResponse.hotelRoomResponse?.firstOrNull()
         if (firstRoomDetails?.rateInfo?.chargeableRateInfo?.showResortFeeMessage ?: false) {
             val rate = firstRoomDetails!!.rateInfo.chargeableRateInfo
-            val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), CurrencyUtils.currencyForLocale(hotelOffersResponse.hotelCountry))
             val resortText: String
-            if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.UNITED_STATES) {
-                resortText = resortFees.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
-            } else {
+            if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.UNITED_KINGDOM) {
                 val df = DecimalFormat("#.00")
+                val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), CurrencyUtils.currencyForLocale(hotelOffersResponse.hotelCountry))
                 resortText = Phrase.from(context, R.string.non_us_resort_fee_format_TEMPLATE)
                         .put("amount", df.format(resortFees.amount)).put("currency", resortFees.currencyCode).format().toString()
+            } else {
+                val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCode)
+                resortText = resortFees.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
             }
             hotelResortFeeObservable.onNext(resortText)
             val includedNotIncludedStrId = if (rate.resortFeeInclusion) R.string.included_in_the_price else R.string.not_included_in_the_price

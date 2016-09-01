@@ -311,6 +311,7 @@ public class TravelerContactDetailsWidget extends ExpandableCardView implements 
 				firstName.requestFocus();
 				Ui.showKeyboard(firstName, null);
 			}
+			filledIn.onNext(isCompletelyFilled());
 		}
 		else {
 			bind();

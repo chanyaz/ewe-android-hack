@@ -65,6 +65,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             if (param.isChangePackageSearch()) {
                 bundleHotelWidget.toggleHotelWidget(opacity, false)
                 outboundFlightWidget.disableFlightIcon()
+                inboundFlightWidget.refreshTravelerInfoOnChangeFlights()
                 inboundFlightWidget.disable()
             }
             if (param.isOutboundSearch()) {
