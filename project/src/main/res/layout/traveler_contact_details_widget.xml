@@ -79,7 +79,7 @@
                 android:focusableInTouchMode="true"
                 android:hint="@string/first_name"
                 android:inputType="textPersonName|textCapWords"
-                android:nextFocusForward="@+id/edit_last_name"
+                android:nextFocusDown="@+id/edit_last_name"
                 android:paddingBottom="12dp"
                 android:singleLine="true" />
 
@@ -91,7 +91,7 @@
                 android:layout_weight="1"
                 android:hint="@string/last_name"
                 android:inputType="textPersonName|textCapWords"
-                android:nextFocusForward="@+id/edit_email_address"
+                android:nextFocusDown="@+id/edit_email_address"
                 android:paddingBottom="12dp"
                 android:singleLine="true" />
         </LinearLayout>
@@ -118,6 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp"
                 android:layout_weight="1" />
+
 
             <com.expedia.bookings.widget.accessibility.AccessibleEditText
                 android:id="@+id/edit_phone_number"
