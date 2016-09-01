@@ -27,6 +27,9 @@ open class CalendarWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
             if (startDateSet && viewModel.getMaxSearchDurationDays() > 0) {
                 showCalendarDialog()
             }
+            else {
+                it.a11yFocusSelectDatesObservable.onNext(Unit)
+            }
         }
     }
 

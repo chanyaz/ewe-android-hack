@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -78,6 +79,10 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
             showErrorDialog(message)
         }
         searchButton.subscribeOnClick(vm.searchObserver)
+
+        vm.a11yFocusSelectDatesObservable.subscribe {
+            calendarWidgetV2.setAccessibilityHoverFocus()
+        }
 
         originSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
