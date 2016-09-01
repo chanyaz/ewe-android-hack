@@ -80,5 +80,6 @@
     <color name="lx_color_primary_dark">@color/lx_primary_color</color>
     <color name="checkout_login_button_color">@android:color/white</color>
 
-
+    <color name="error_widget_edit_button_selected_color">#7b3761</color>
+    <color name="error_button_color">@color/cars_primary_color</color>
 </resources>
