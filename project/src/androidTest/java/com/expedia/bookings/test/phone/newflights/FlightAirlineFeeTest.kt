@@ -109,8 +109,6 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         SearchScreen.searchButton().perform(click())
         FlightTestHelpers.assertFlightOutbound()
 
-        FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound))
-
         FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0)
         FlightsResultsScreen.assertPaymentFeesMayApplyLinkShowing(withId(R.id.widget_flight_outbound))
         FlightsResultsScreen.paymentFeesLinkTextView(withId(R.id.widget_flight_outbound)).perform(click())
