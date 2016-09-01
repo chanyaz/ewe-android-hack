@@ -54,6 +54,7 @@ public class Waypoint implements JSONable {
 
 	// Waypoint data
 	public String mAirportCode;
+	public String mCity;
 	private String mGate;
 	private String mTerminal;
 	public int mAction = -1;
@@ -435,6 +436,7 @@ public class Waypoint implements JSONable {
 
 		obj.putOpt("gate", mGate);
 		obj.putOpt("terminal", mTerminal);
+		obj.putOpt("city", mCity);
 
 		obj.put("action", mAction);
 
@@ -499,6 +501,10 @@ public class Waypoint implements JSONable {
 
 		if (obj.has("action")) {
 			mAction = obj.getInt("action");
+		}
+
+		if (obj.has("city")) {
+			mCity = obj.getString("city");
 		}
 
 		if (version < 4) {

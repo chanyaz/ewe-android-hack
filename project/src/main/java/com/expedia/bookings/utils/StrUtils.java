@@ -238,16 +238,19 @@ public class StrUtils {
 	public static String formatWaypoint(Waypoint waypoint) {
 		Airport airport = waypoint.getAirport();
 		if (airport != null) {
-			return formatAirport(airport);
+			return formatAirport(airport, waypoint.mCity);
 		}
 
 		return waypoint.mAirportCode;
 	}
 
-	public static String formatAirport(Airport airport) {
+	public static String formatAirport(Airport airport, String localizedAirportCity) {
 		StringBuilder sb = new StringBuilder();
 
-		if (!TextUtils.isEmpty(airport.mCity)) {
+		if (!TextUtils.isEmpty(localizedAirportCity)) {
+			sb.append(localizedAirportCity);
+		}
+		else if (!TextUtils.isEmpty(airport.mCity)) {
 			sb.append(airport.mCity);
 		}
 		else {
@@ -285,6 +288,15 @@ public class StrUtils {
 			return airport.mCity;
 		}
 		return waypoint.mAirportCode;
+	}
+
+	public static String getWaypointLocalizedCityOrCode(Waypoint waypoint) {
+		if (!TextUtils.isEmpty(waypoint.mCity)) {
+			return waypoint.mCity;
+		}
+		else {
+			return getWaypointCityOrCode(waypoint);
+		}
 	}
 
 	public static String getWaypointCodeOrCityStateString(Waypoint waypoint) {
