@@ -45,4 +45,5 @@ public class Constants {
 	public static final String MOBILE = "MOBILE";
 	public static final String AIRLINE_SQUARE_LOGO_BASE_URL = "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/s/**_sq.jpg";
 
+	public static final int PERMISSION_WRITE_EXTERNAL_STORAGE_BUGSHAKER = 11;
 }

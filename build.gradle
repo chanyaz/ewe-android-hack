@@ -99,3 +99,9 @@ dependencyUpdates.resolutionStrategy = {
         }
     }
 }
+
+allprojects {
+    repositories {
+        jcenter()
+    }
+}
