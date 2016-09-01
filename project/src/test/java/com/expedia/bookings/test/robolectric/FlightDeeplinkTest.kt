@@ -76,7 +76,7 @@ class FlightDeeplinkTest {
         testDateSubscriber.assertValue(Pair(flightSearchParams.departureDate, flightSearchParams.returnDate))
         testOriginSubscriber.assertValue(Html.fromHtml(flightSearchParams.departureLocation.destinationId).toString())
         testDestinationSubscriber.assertValue(Html.fromHtml(flightSearchParams.arrivalLocation.destinationId).toString())
-        testTravelersSubscriber.assertValue(TravelerParams(flightSearchParams.numAdults, emptyList()))
+        testTravelersSubscriber.assertValue(TravelerParams(flightSearchParams.numAdults, emptyList(), emptyList(), emptyList()))
         roundTripTestSubscriber.assertValues(true, true)
     }
 

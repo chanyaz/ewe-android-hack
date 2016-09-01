@@ -4459,13 +4459,13 @@
         <item quantity="other">Cantidad de pasajeros. Botón. Abre el cuadro de diálogo. {travelers} pasajeros</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">Agregar un adulto</string>
+    <string name="add_adult_traveler_cont_desc">Agregar un adulto</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">Eliminar un adulto</string>
+    <string name="remove_adult_traveler_cont_desc">Eliminar un adulto</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">Agregar un menor</string>
+    <string name="add_child_traveler_cont_desc">Agregar un menor</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">Eliminar un menor</string>
+    <string name="remove_child_traveler_cont_desc">Eliminar un menor</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Seleccionar la edad para el menor {childnumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->

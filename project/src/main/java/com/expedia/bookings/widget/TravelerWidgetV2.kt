@@ -14,7 +14,7 @@ import com.expedia.util.subscribeText
 import com.expedia.vm.TravelerPickerViewModel
 import rx.subjects.BehaviorSubject
 
-class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
+open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
     var oldTravelerData: TravelerParams? = null;
     val travelersSubject = BehaviorSubject.create<TravelerParams>()
 
@@ -24,12 +24,12 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputText
         }
     }
 
-    val travelerDialogView: View by lazy {
+    open val travelerDialogView: View by lazy {
         val view = LayoutInflater.from(context).inflate(R.layout.widget_hotel_traveler_search, null)
         view
     }
 
-    val traveler: HotelTravelerPickerView by lazy {
+    open val traveler: BaseTravelerPickerView by lazy {
         val travelerView = travelerDialogView.findViewById(R.id.traveler_view) as HotelTravelerPickerView
         travelerView.viewmodel = TravelerPickerViewModel(context)
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
@@ -51,13 +51,13 @@ class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputText
         })
         val dialog: AlertDialog = builder.create()
         dialog.setOnShowListener {
-            oldTravelerData = traveler.viewmodel.travelerParamsObservable.value
+            oldTravelerData = traveler.getViewModel().travelerParamsObservable.value
             dialog.getWindow()?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }
         dialog.setOnDismissListener {
             if (oldTravelerData != null) {
                 //if it's not null, the user dismissed the dialog, otherwise we clear it on Done
-                traveler.viewmodel.travelerParamsObservable.onNext(oldTravelerData)
+                traveler.getViewModel().travelerParamsObservable.onNext(oldTravelerData)
                 oldTravelerData = null
             }
             this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)

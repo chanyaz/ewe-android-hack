@@ -27,7 +27,7 @@ class HotelTravelerPickerTest {
         vm.travelerParamsObservable.subscribe(testSubscriber)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValues(TravelerParams(1, emptyList()))
+        testSubscriber.assertValues(TravelerParams(1, emptyList(), emptyList(), emptyList()))
     }
 
     @Test
@@ -36,19 +36,19 @@ class HotelTravelerPickerTest {
         val expected = arrayListOf<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
-        expected.add(TravelerParams(1, emptyList()))
+        expected.add(TravelerParams(1, emptyList(), emptyList(), emptyList()))
 
         vm.incrementAdultsObserver.onNext(Unit)
-        expected.add(TravelerParams(2, emptyList()))
+        expected.add(TravelerParams(2, emptyList(), emptyList(), emptyList()))
 
         vm.decrementAdultsObserver.onNext(Unit)
-        expected.add(TravelerParams(1, emptyList()))
+        expected.add(TravelerParams(1, emptyList(), emptyList(), emptyList()))
 
         vm.incrementChildrenObserver.onNext(Unit)
-        expected.add(TravelerParams(1, listOf(10)))
+        expected.add(TravelerParams(1, listOf(10), emptyList(), emptyList()))
 
         vm.decrementChildrenObserver.onNext(Unit)
-        expected.add(TravelerParams(1, emptyList()))
+        expected.add(TravelerParams(1, emptyList(), emptyList(), emptyList()))
 
         testSubscriber.requestMore(LOTS_MORE)
         testSubscriber.assertReceivedOnNext(expected)
@@ -60,7 +60,7 @@ class HotelTravelerPickerTest {
         val expected = arrayListOf<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
-        expected.add(TravelerParams(1, emptyList()))
+        expected.add(TravelerParams(1, emptyList(), emptyList(), emptyList()))
 
         // Don't fire events
         vm.decrementAdultsObserver.onNext(Unit)
@@ -76,11 +76,11 @@ class HotelTravelerPickerTest {
         val expected = arrayListOf<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
-        expected.add(TravelerParams(1, emptyList()))
+        expected.add(TravelerParams(1, emptyList(), emptyList(), emptyList()))
 
         for (i in 2..6) {
             vm.incrementAdultsObserver.onNext(Unit)
-            expected.add(TravelerParams(i, emptyList()))
+            expected.add(TravelerParams(i, emptyList(), emptyList(), emptyList()))
         }
         testSubscriber.requestMore(LOTS_MORE)
         testSubscriber.assertReceivedOnNext(expected)
@@ -102,12 +102,12 @@ class HotelTravelerPickerTest {
         val expected = arrayListOf<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
-        expected.add(TravelerParams(1, emptyList()))
+        expected.add(TravelerParams(1, emptyList(), emptyList(), emptyList()))
 
         // Max children is 4
         for (i in 1..4) {
             vm.incrementChildrenObserver.onNext(Unit)
-            expected.add(TravelerParams(1, Array(i, { 10 }).toList()))
+            expected.add(TravelerParams(1, Array(i, { 10 }).toList(), emptyList(), emptyList()))
         }
 
         vm.incrementChildrenObserver.onNext(Unit)
@@ -115,7 +115,7 @@ class HotelTravelerPickerTest {
 
         // We can add 1 more adult
         vm.incrementAdultsObserver.onNext(Unit)
-        expected.add(TravelerParams(2, listOf(10, 10, 10, 10)))
+        expected.add(TravelerParams(2, listOf(10, 10, 10, 10), emptyList(), emptyList()))
 
         // But no more adults
         vm.incrementAdultsObserver.onNext(Unit)
@@ -130,20 +130,20 @@ class HotelTravelerPickerTest {
         val expected = arrayListOf<TravelerParams>()
 
         vm.travelerParamsObservable.subscribe(testSubscriber)
-        expected.add(TravelerParams(1, emptyList()))
+        expected.add(TravelerParams(1, emptyList(), emptyList(), emptyList()))
 
         for (i in 1..2) {
             vm.incrementChildrenObserver.onNext(Unit)
-            expected.add(TravelerParams(1, Array(i, { 10 }).toList()))
+            expected.add(TravelerParams(1, Array(i, { 10 }).toList(), emptyList(), emptyList()))
         }
 
         // Change age of first child
         vm.childAgeSelectedObserver.onNext(Pair(0, 1))
-        expected.add(TravelerParams(1, listOf(1, 10)))
+        expected.add(TravelerParams(1, listOf(1, 10), emptyList(), emptyList()))
 
         // Change age of second child
         vm.childAgeSelectedObserver.onNext(Pair(1, 5))
-        expected.add(TravelerParams(1, listOf(1, 5)))
+        expected.add(TravelerParams(1, listOf(1, 5), emptyList(), emptyList()))
 
 
         testSubscriber.requestMore(LOTS_MORE)

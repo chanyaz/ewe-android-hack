@@ -2701,6 +2701,9 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;Less than 1&lt;/b&gt; year old</string>
 
+    <!-- This is a special case for rails senior age greater than 62 -->
+    <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62+&lt;/b&gt; years old</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">Times Square, New York, NY</string>
@@ -3347,6 +3350,22 @@
         <item quantity="two">%d Children</item>
         <item quantity="many">%d Children</item>
         <item quantity="other">%d Children</item>
+    </plurals>
+    <!-- A number of youth. Capitalized -->
+    <plurals name="number_of_youth">
+        <item quantity="zero">%d Youth</item>
+        <item quantity="one">%d Youth</item>
+        <item quantity="two">%d Youths</item>
+        <item quantity="many">%d Youths</item>
+        <item quantity="other">%d Youths</item>
+    </plurals>
+    <!-- A number of senior. Capitalized -->
+    <plurals name="number_of_senior">
+        <item quantity="zero">%d Senior</item>
+        <item quantity="one">%d Senior</item>
+        <item quantity="two">%d Seniors</item>
+        <item quantity="many">%d Seniors</item>
+        <item quantity="other">%d Seniors</item>
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
@@ -4014,6 +4033,19 @@
 
     <string name="lob_not_supported_error_message">Sorry, but {lob} booking is not yet available in your location.</string>
 
+
+    <!-- Adult age label on rail search -->
+    <string name="rail_adult_age_label">(26-59 years old)</string>
+
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label">(0-15 years old)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label">(16-25 years old)</string>
+
+    <!-- Senior age label on rail search -->
+    <string name="rail_senior_age_label">(60 years old +)</string>
+
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 years old)</string>
 
@@ -4472,15 +4504,29 @@
         <item quantity="other">Number of travelers. Button. Opens dialog. {travelers} travelers</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">Add one adult traveler</string>
+    <string name="add_adult_traveler_cont_desc">Add one adult traveler</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">Remove one adult traveler</string>
+    <string name="remove_adult_traveler_cont_desc">Remove one adult traveler</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">Add one child traveler</string>
+    <string name="add_child_traveler_cont_desc">Add one child traveler</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">Remove one child traveler</string>
+    <string name="remove_child_traveler_cont_desc">Remove one child traveler</string>
+
+    <!--Rail Traveler widget youth plus button content description-->
+    <string name="rails_add_youth_traveler_cont_desc">Add one youth traveler</string>
+    <!--Rail Traveler widget youth minus button content description-->
+    <string name="rails_remove_youth_traveler_cont_desc">Remove one youth traveler</string>
+    <!--Rail Traveler widget senior plus button content description-->
+    <string name="rails_add_senior_traveler_cont_desc">Add one senior traveler</string>
+    <!--Rail Traveler widget senior minus button content description-->
+    <string name="rails_remove_senior_traveler_cont_desc">Remove one senior traveler</string>
+
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Select age for child {childnumber}.</string>
+    <!--Packages search youth age drop down content description Eg. "Select age for youth 1."-->
+    <string name="search_youth_drop_down_cont_desc_TEMPLATE">Select age for youth {youthnumber}.</string>
+    <!--Packages search senior age drop down content description Eg. "Select age for senior 1."-->
+    <string name="search_senior_drop_down_cont_desc_TEMPLATE">Select age for senior {seniornumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
     <string name="packages_search_datepicker_announce_accessibility_start_date">Choose your start date.</string>

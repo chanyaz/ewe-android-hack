@@ -4459,13 +4459,13 @@
         <item quantity="other">Antal rejsende. Knap. Åbner dialogvindue. {travelers} rejsende</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">Tilføj en voksen</string>
+    <string name="add_adult_traveler_cont_desc">Tilføj en voksen</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">Fjern en voksen</string>
+    <string name="remove_adult_traveler_cont_desc">Fjern en voksen</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">Tilføj et barn</string>
+    <string name="add_child_traveler_cont_desc">Tilføj et barn</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">Fjern et barn</string>
+    <string name="remove_child_traveler_cont_desc">Fjern et barn</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Vælg barnets alder {childnumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->

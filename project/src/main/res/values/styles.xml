@@ -1366,4 +1366,19 @@
         <item name="android:background">@drawable/error_button_selector</item>
     </style>
 
+    <!--Traveler plus and minus icon style for Hotel, Package and Rail-->
+    <style name="TravelerIcon">
+        <item name="android:layout_width">@dimen/traveler_plus_minus_size</item>
+        <item name="android:layout_height">@dimen/traveler_plus_minus_size</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="TravelerIcon.Plus">
+        <item name="android:src">@drawable/plus</item>
+    </style>
+
+    <style name="TravelerIcon.Minus">
+        <item name="android:src">@drawable/minus</item>
+    </style>
+
 </resources>

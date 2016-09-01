@@ -62,7 +62,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     private val SUGGESTION_TRANSITION_DURATION = 300
     private val STARTING_TRANSLATIONY = -2000f
 
-    val travellerCardViewStub: ViewStub by bindView(R.id.traveller_stub)
+    val travelerCardViewStub: ViewStub by bindView(R.id.traveler_stub)
     val swpWidgetStub: ViewStub by bindView(R.id.swp_stub)
     val ANIMATION_DURATION = 200L
     val toolbar: Toolbar by bindView(R.id.search_toolbar)
@@ -75,8 +75,9 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     var navIcon: ArrowXDrawable
     open val destinationCardView: SearchInputTextView by bindView(R.id.destination_card)
     open val travelerWidgetV2 by lazy {
-        travellerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
+        travelerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
     }
+
     val searchButton: Button by bindView(R.id.search_btn)
 
     open var searchLocationEditText: SearchView? = null
@@ -197,7 +198,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     fun selectTravelers(params: TravelerParams) {
-        travelerWidgetV2.traveler.viewmodel.travelerParamsObservable.onNext(params)
+        travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(params)
         travelerWidgetV2.travelerDialog.dismiss()
     }
 

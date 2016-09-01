@@ -25,6 +25,12 @@ public class GuestsPickerUtils {
 	private static final int DEFAULT_CHILD_AGE = 10;
 	public static final int MIN_CHILD_AGE = 0;
 	public static final int MAX_CHILD_AGE = 17;
+	public static final int MIN_RAIL_CHILD_AGE = 0;
+	public static final int MAX_RAIL_CHILD_AGE = 15;
+	public static final int MIN_RAIL_YOUTH_AGE = 16;
+	public static final int MAX_RAIL_YOUTH_AGE = 25;
+	public static final int MIN_RAIL_SENIORS_AGE = 60;
+	public static final int MAX_RAIL_SENIORS_AGE = 62;
 
 	public static final int MIN_CHILD_PC_AGE = 2;
 	public static final int MIN_ADULT_CHILD_PC_AGE = 12;

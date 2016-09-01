@@ -680,10 +680,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flights_flight_overview_payment_fees,
 		R.string.bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE,
 		R.menu.flights_toolbar_menu,
-		R.string.packages_add_adult_traveler_cont_desc,
-		R.string.packages_remove_adult_traveler_cont_desc,
-		R.string.packages_add_child_traveler_cont_desc,
-		R.string.packages_remove_child_traveler_cont_desc,
+		R.string.add_adult_traveler_cont_desc,
+		R.string.remove_adult_traveler_cont_desc,
+		R.string.add_child_traveler_cont_desc,
+		R.string.remove_child_traveler_cont_desc,
 		R.layout.cell_lob_button,
 		R.color.new_launch_cars_lob_color,
 		R.color.new_launch_flights_lob_color,
@@ -881,6 +881,15 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.email_address_hint_confirmation,
 		R.string.total_fee,
 		R.string.additional_fees_at_check_in,
-		R.string.non_us_resort_fee_format_TEMPLATE
+		R.string.non_us_resort_fee_format_TEMPLATE,
+		R.string.search_child_drop_down_cont_desc_TEMPLATE,
+		R.string.search_senior_drop_down_cont_desc_TEMPLATE,
+		R.layout.traveler_count_selector,
+		R.layout.widget_rail_traveler_search,
+		R.plurals.number_of_youth,
+		R.plurals.number_of_senior,
+		R.string.search_youth_drop_down_cont_desc_TEMPLATE,
+		R.string.search_senior_drop_down_cont_desc_TEMPLATE
+
 	};
 }

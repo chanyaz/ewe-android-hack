@@ -4459,13 +4459,13 @@
         <item quantity="other">Numero di viaggiatori. Pulsante. Apertura finestra di dialogo. {travelers} passeggeri</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">Aggiungi un viaggiatore adulto</string>
+    <string name="add_adult_traveler_cont_desc">Aggiungi un viaggiatore adulto</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">Rimuovi un viaggiatore adulto</string>
+    <string name="remove_adult_traveler_cont_desc">Rimuovi un viaggiatore adulto</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">Aggiungi un viaggiatore bambino</string>
+    <string name="add_child_traveler_cont_desc">Aggiungi un viaggiatore bambino</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">Rimuovi un viaggiatore bambino</string>
+    <string name="remove_child_traveler_cont_desc">Rimuovi un viaggiatore bambino</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Seleziona l\&apos;età del bambino {childnumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->

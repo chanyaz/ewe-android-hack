@@ -4459,13 +4459,13 @@
         <item quantity="other">旅客人數。按鈕。打開對話框。{travelers} 位旅客</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->
-    <string name="packages_add_adult_traveler_cont_desc">加 1 位成人旅客</string>
+    <string name="add_adult_traveler_cont_desc">加 1 位成人旅客</string>
     <!--Traveler widget adults minus button content description-->
-    <string name="packages_remove_adult_traveler_cont_desc">移除 1 位成人旅客</string>
+    <string name="remove_adult_traveler_cont_desc">移除 1 位成人旅客</string>
     <!--Traveler widget child plus button content description-->
-    <string name="packages_add_child_traveler_cont_desc">加 1 位小童旅客</string>
+    <string name="add_child_traveler_cont_desc">加 1 位小童旅客</string>
     <!--Traveler widget child minus button content description-->
-    <string name="packages_remove_child_traveler_cont_desc">移除 1 位小童旅客</string>
+    <string name="remove_child_traveler_cont_desc">移除 1 位小童旅客</string>
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">選擇小童 {childnumber} 年齡。</string>
     <!--Packages search alternate datepicker announce for accessibility-->

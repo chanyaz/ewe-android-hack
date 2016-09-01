@@ -87,4 +87,4 @@ open class BaseSearchParams(val origin: SuggestionV4?, val destination: Suggesti
     }
 }
 
-data class TravelerParams(val numberOfAdults: Int, val childrenAges: List<Int>)
+data class TravelerParams(val numberOfAdults: Int, val childrenAges: List<Int>, val youthAges: List<Int>, val seniorAges: List<Int>)

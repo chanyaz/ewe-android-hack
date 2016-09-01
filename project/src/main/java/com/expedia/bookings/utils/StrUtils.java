@@ -625,6 +625,29 @@ public class StrUtils {
 		return Html.fromHtml(str).toString();
 	}
 
+	public static String getYouthTravelerAgeText(Resources res, int age) {
+		if (age != GuestsPickerUtils.MIN_RAIL_YOUTH_AGE) {
+			age = age + GuestsPickerUtils.MIN_RAIL_YOUTH_AGE;
+		}
+
+		String str = res.getQuantityString(R.plurals.child_age, age, age);
+		return Html.fromHtml(str).toString();
+	}
+
+	public static String getSeniorTravelerAgeText(Resources res, int age) {
+		if (age != GuestsPickerUtils.MIN_RAIL_SENIORS_AGE) {
+			age = age + GuestsPickerUtils.MIN_RAIL_SENIORS_AGE;
+		}
+		String str = null;
+		if (age > 61) {
+			str = res.getString(R.string.senior_age_greater_than_sixth_two);
+		}
+		else {
+			str = res.getQuantityString(R.plurals.child_age, age, age);
+		}
+		return Html.fromHtml(str).toString();
+	}
+
 	public static String roundOff(float number, int decimalPlaces) {
 		StringBuilder formatBuilder = new StringBuilder("#");
 		if (decimalPlaces > 0) {
