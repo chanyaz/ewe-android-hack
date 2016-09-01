@@ -4,9 +4,12 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.rail.responses.RailCard
+import com.expedia.bookings.data.rail.responses.RailCardSelected
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.CalendarWidgetWithTimeSlider
+import com.expedia.bookings.widget.RailCardsPickerWidget
 import com.expedia.bookings.widget.RailSearchLocationWidget
 import com.expedia.bookings.widget.RailTravelerWidgetV2
 import com.expedia.util.notNullAndObservable
@@ -17,6 +20,7 @@ class RailSearchWidget(context: Context, attr: AttributeSet?) : FrameLayout(cont
     val locationWidget: RailSearchLocationWidget by bindView(R.id.locationCard)
     val calendarWidget: CalendarWidgetWithTimeSlider by bindView(R.id.calendar_card)
     val travelerWidget: RailTravelerWidgetV2 by bindView(R.id.traveler_card)
+    val cardPickerWidget: RailCardsPickerWidget by bindView(R.id.cards_picker)
 
     var searchViewModel by notNullAndObservable<RailSearchViewModel>() {
         calendarWidget.viewModel = it
@@ -27,6 +31,10 @@ class RailSearchWidget(context: Context, attr: AttributeSet?) : FrameLayout(cont
         View.inflate(context, R.layout.widget_rail_search_content, this)
         calendarWidget.setOnClickListener {
             calendarWidget.showCalendarDialog()
+        }
+
+        cardPickerWidget.railCardPickerViewModel.cardsListForSearchParams.subscribe { railCards ->
+            searchViewModel.getParamsBuilder().fareQualifierList(railCards)
         }
     }
 }

@@ -37,7 +37,9 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
 class RailApiRequestMatcher {
     companion object {
         fun isRailApiRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/domain/m/api/v1/.*$", urlPath) || doesItMatch("^/m/api/rails.*$", urlPath)
+            return doesItMatch("^/rails/domain/m/api/v1/.*$", urlPath) ||
+                    doesItMatch("^/m/api/rails.*$", urlPath) ||
+                    doesItMatch("^/rails/domain/api/v1/.*$", urlPath)
         }
 
         fun isRailApiSearchRequest(urlPath: String): Boolean {
@@ -53,7 +55,7 @@ class RailApiRequestMatcher {
         }
 
         fun isRailApiCardsRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/domain/m/api/v1/static/RailCards.*$", urlPath)
+            return doesItMatch("^/rails/domain/api/v1/static/RailCards.*$", urlPath)
         }
 
     }

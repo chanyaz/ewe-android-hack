@@ -1,0 +1,61 @@
+package com.expedia.bookings.widget
+
+import android.content.Context
+import android.support.v7.app.AlertDialog
+import android.util.AttributeSet
+import android.view.LayoutInflater
+import android.view.WindowManager
+import android.view.accessibility.AccessibilityEvent
+import com.expedia.bookings.R
+import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.shared.SearchInputTextView
+import com.expedia.vm.RailCardPickerViewModel
+import javax.inject.Inject
+import kotlin.properties.Delegates
+
+class RailCardsPickerWidget(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
+
+
+    lateinit var railServices: RailServices
+        @Inject set
+
+    var railCardPickerViewModel by Delegates.notNull<RailCardPickerViewModel>()
+
+    init {
+        Ui.getApplication(context).railComponent().inject(this)
+        railCardPickerViewModel = RailCardPickerViewModel(railServices, context)
+
+        setOnClickListener {
+            cardsPickerDialog.show()
+        }
+
+        railCardPickerViewModel.validationSuccessSubject.subscribe {
+            cardsPickerDialog.dismiss()
+        }
+    }
+
+    val cardPickerDialogView: RailCardPickerView by lazy {
+        val view = LayoutInflater.from(context).inflate(R.layout.widget_rail_card_search, null) as RailCardPickerView
+        view.viewModel = railCardPickerViewModel
+        view
+    }
+
+    val cardsPickerDialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context, R.style.Theme_AlertDialog)
+
+        builder.setView(cardPickerDialogView)
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
+            railCardPickerViewModel.doneClickedSubject.onNext(Unit)
+            this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
+        })
+        val dialog: AlertDialog = builder.create()
+        dialog.setOnShowListener {
+            dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+        }
+        dialog.setOnDismissListener {
+            this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
+        }
+        dialog
+    }
+}

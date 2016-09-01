@@ -27,7 +27,7 @@ public interface RailApi {
 	@POST("/m/api/rails/trip/checkout")
 	Observable<RailCheckoutResponse> railCheckout(@Body RailCheckoutRequest railCheckoutRequest);
 
-	@GET("/rails/domain/m/api/v1/static/RailCards")
+	@GET("/rails/domain/api/v1/static/RailCards")
 	Observable<RailCardsResponse> railCards(@Query("locale") String locale);
 
 }

@@ -889,7 +889,14 @@ public class DummyFiletoHandleKotlinLintError {
 		R.plurals.number_of_youth,
 		R.plurals.number_of_senior,
 		R.string.search_youth_drop_down_cont_desc_TEMPLATE,
-		R.string.search_senior_drop_down_cont_desc_TEMPLATE
-
+		R.string.search_senior_drop_down_cont_desc_TEMPLATE,
+		R.color.card_picker_add_button_color,
+		R.color.card_picker_remove_button_color,
+		R.layout.snippet_rail_card_text_view,
+		R.string.select_rail_card_hint,
+		R.string.select_rail_card_quantity_hint,
+		R.layout.widget_rail_card_picker,
+		R.layout.widget_rail_card_picker_row,
+		R.layout.widget_rail_card_search
 	};
 }

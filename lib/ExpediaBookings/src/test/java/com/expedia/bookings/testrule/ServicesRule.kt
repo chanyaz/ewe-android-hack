@@ -1,6 +1,8 @@
 package com.expedia.bookings.testrule
 
 import com.expedia.bookings.interceptors.MockInterceptor
+import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.utils.Constants
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.Interceptor
@@ -15,6 +17,7 @@ import rx.schedulers.Schedulers
 import java.io.File
 import java.io.IOException
 import java.lang.reflect.InvocationTargetException
+import java.util.HashMap
 import kotlin.properties.Delegates
 
 open class ServicesRule<T : Any>(val servicesClass: Class<T>, val rootPath: String = "../lib/mocked/templates", val setExpediaDispatcher: Boolean = true) : TestRule {
@@ -51,9 +54,18 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val rootPath: Stri
         logger.level = HttpLoggingInterceptor.Level.BODY
         client.addInterceptor(logger)
 
-        return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java, Scheduler::class.java,
-                Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(), MockInterceptor(),
-                Schedulers.immediate(), Schedulers.io())
+        if (servicesClass.equals(RailServices::class.java)) {
+            val urlMap = HashMap<String, String>()
+            urlMap.put(Constants.MOCK_MODE, "http://localhost:" + server.port)
+            return servicesClass.getConstructor(HashMap::class.java, OkHttpClient::class.java, Interceptor::class.java, Scheduler::class.java,
+                    Scheduler::class.java).newInstance(urlMap, client.build(), MockInterceptor(),
+                    Schedulers.immediate(), Schedulers.io())
+        }
+        else {
+            return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java, Scheduler::class.java,
+                    Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(), MockInterceptor(),
+                    Schedulers.immediate(), Schedulers.io())
+        }
     }
 
     private fun diskExpediaDispatcher(): ExpediaDispatcher {

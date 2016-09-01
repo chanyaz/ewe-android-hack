@@ -9,6 +9,7 @@ import com.expedia.bookings.presenter.rail.RailSearchPresenter;
 import com.expedia.bookings.presenter.rail.RailTripOverviewPresenter;
 import com.expedia.bookings.services.RailServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.bookings.widget.RailCardsPickerWidget;
 
 import dagger.Component;
 
@@ -21,6 +22,7 @@ public interface RailComponent {
 	void inject(RailDetailsPresenter presenter);
 	void inject(RailTripOverviewPresenter presenter);
 	void inject(RailCheckoutPresenter presenter);
+	void inject(RailCardsPickerWidget railCardsPickerWidget);
 
 	SuggestionV4Services suggestionsService();
 	RailServices railService();
