@@ -4236,10 +4236,10 @@ public class OmnitureTracking {
 
 	private static String getReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp";
+			return "expediaglobal";
 		}
 		else {
-			return "expediaglobalappdev";
+			return "expediaglobaldev";
 		}
 	}
 
