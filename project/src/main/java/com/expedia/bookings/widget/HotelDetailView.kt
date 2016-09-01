@@ -169,6 +169,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     var viewmodel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
         resortFeeWidget.feeDescriptionText.setText(vm.getResortFeeText())
         resortFeeWidget.feesIncludedNotIncluded.visibility = if (vm.showFeesIncludedNotIncluded()) View.VISIBLE else View.GONE
+        resortFeeWidget.feeType.visibility = if (vm.showFeeType()) View.VISIBLE else View.GONE
         resortFeeWidget.feeType.setText(vm.getFeeTypeText())
 
         detailContainer.setOnTouchListener(touchListener)

@@ -78,7 +78,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(rate.displayTotalPrice.formattedMoney, sut.tripTotalPrice.value)
         assertEquals(Money(BigDecimal(rate.total.toDouble()), rate.currencyCode).formattedMoney, sut.dueNowAmount.value)
         assertFalse(sut.showFeesPaidAtHotel.value)
-        assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toDouble()), "USD").formattedMoneyFromAmountAndCurrencyCode, sut.feesPaidAtHotel.value)
+        assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toString()), rate.currencyCode).formattedMoney, sut.feesPaidAtHotel.value)
         assertTrue(sut.isBestPriceGuarantee.value)
         assertEquals(sut, sut.newDataObservable.value)
         assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)

@@ -6,17 +6,16 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.text.Html
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.tracking.HotelTracking
@@ -55,6 +54,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     abstract fun getFeeTypeText() : Int
     abstract fun getResortFeeText() : Int
     abstract fun showFeesIncludedNotIncluded() : Boolean
+    abstract fun showFeeType() : Boolean
     abstract fun getLOB(): LineOfBusiness
     abstract fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean
     abstract fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String
@@ -505,7 +505,8 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         if (firstRoomDetails?.rateInfo?.chargeableRateInfo?.showResortFeeMessage ?: false) {
             val rate = firstRoomDetails!!.rateInfo.chargeableRateInfo
             val resortText: String
-            if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.UNITED_KINGDOM) {
+
+            if (hotelOffersResponse.isPackage && PointOfSale.getPointOfSale().showResortFeesInHotelLocalCurrency()) {
                 val df = DecimalFormat("#.00")
                 val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), CurrencyUtils.currencyForLocale(hotelOffersResponse.hotelCountry))
                 resortText = Phrase.from(context, R.string.non_us_resort_fee_format_TEMPLATE)
@@ -514,6 +515,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
                 val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCode)
                 resortText = resortFees.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
             }
+
             hotelResortFeeObservable.onNext(resortText)
             val includedNotIncludedStrId = if (rate.resortFeeInclusion) R.string.included_in_the_price else R.string.not_included_in_the_price
             hotelResortFeeIncludedTextObservable.onNext(context.resources.getString(includedNotIncludedStrId))

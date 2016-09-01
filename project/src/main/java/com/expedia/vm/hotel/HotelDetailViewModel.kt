@@ -21,6 +21,10 @@ import rx.Observer
 open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         BaseHotelDetailViewModel(context, roomSelectedObserver) {
 
+    override fun showFeeType() : Boolean {
+        return false
+    }
+
     override fun getFeeTypeText() : Int {
        return R.string.total_fee
     }

@@ -197,6 +197,9 @@ public class PointOfSale {
 	private boolean mRequiresCarsPostalCode;
 	private boolean showBundleTotalWhenResortFees;
 
+	// 8555 - Should show hotel fees in local currency for packages.
+	private boolean showResortFeesInHotelLocalCurrency;
+
 	private static class CountryResources {
 		@StringRes
 		int countryNameResId;
@@ -738,6 +741,10 @@ public class PointOfSale {
 		return showPackageFreeUnrealDeal;
 	}
 
+	public boolean showResortFeesInHotelLocalCurrency() {
+		return showResortFeesInHotelLocalCurrency;
+	}
+
 	public boolean shouldShowRewards() {
 		return mShouldShowRewards;
 	}
@@ -1216,6 +1223,7 @@ public class PointOfSale {
 		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
 		pos.showPackageFreeUnrealDeal = data.optBoolean("showPackageFreeUnrealDeal", true);
+		pos.showResortFeesInHotelLocalCurrency = data.optBoolean("showResortFeesInHotelLocalCurrency", false);
 		pos.showBundleTotalWhenResortFees = data.optBoolean("showBundleTotalWhenResortFees", false);
 
 		// Parse POS locales
