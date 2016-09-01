@@ -18,7 +18,6 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageSearchParams
-import com.expedia.bookings.featureconfig.IProductFlavorFeatureConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -85,6 +84,21 @@ class PackageConfirmationViewModelTest {
         val expediaPointsSubscriber = TestSubscriber<String>()
         val userPoints = null
         vm = PackageConfirmationViewModel(activity)
+        vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
+        vm.setRewardsPoints.onNext(userPoints)
+
+        expediaPointsSubscriber.assertValueCount(0)
+    }
+
+    @Test
+    fun noShowPkgLoyaltyPoints(){
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        assertTrue(User.isLoggedIn(activity))
+        val expediaPointsSubscriber = TestSubscriber<String>()
+        val userPoints = "100"
+        vm = PackageConfirmationViewModel(activity)
+        //adding test POS configuration without rewards enabled
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_show_rewards_false.json", false)
         vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
         vm.setRewardsPoints.onNext(userPoints)
 
