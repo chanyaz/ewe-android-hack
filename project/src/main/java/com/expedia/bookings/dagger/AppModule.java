@@ -1,7 +1,20 @@
 package com.expedia.bookings.dagger;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Singleton;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import android.content.Context;
-import com.expedia.account.server.ExpediaAccountApi;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -23,17 +36,6 @@ import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.SettingUtils;
 import dagger.Module;
 import dagger.Provides;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-import javax.inject.Singleton;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.HttpUrl;
@@ -43,7 +45,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -249,17 +250,6 @@ public class AppModule {
 		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
-	}
-
-	@Provides
-	@Singleton
-	ExpediaAccountApi provideExpediaAccountApi(OkHttpClient client, EndpointProvider endpointProvider) {
-		final String endpoint = endpointProvider.getE3EndpointUrl();
-
-		return new Retrofit.Builder()
-			.baseUrl(endpoint)
-			.client(client)
-			.build().create(ExpediaAccountApi.class);
 	}
 
 	@Provides
