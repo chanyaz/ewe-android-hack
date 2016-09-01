@@ -8,9 +8,9 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.InboundFlightWidget
 import com.expedia.bookings.widget.packages.OutboundFlightWidget
-import com.expedia.bookings.widget.TextView
 import com.expedia.vm.packages.BundleFlightViewModel
 
 class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -21,6 +21,7 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     val freeCancellationLabelTextView: TextView by bindView(R.id.free_cancellation_text)
     val splitTicketBaggageFeesTextView: android.widget.TextView by bindView(R.id.split_ticket_baggage_fee_links)
     val splitTicketInfoContainer: View by bindView(R.id.split_ticket_info_container)
+    val scrollSpaceView: View by bindView(R.id.scroll_space_flight)
 
     init {
         View.inflate(context, R.layout.flight_summary, this)
@@ -35,4 +36,10 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
         super.onFinishInflate()
         splitTicketBaggageFeesTextView.movementMethod = LinkMovementMethod.getInstance()
     }
+
+    fun collapseFlightWidgets() {
+        inboundFlightWidget.backButtonPressed()
+        outboundFlightWidget.backButtonPressed()
+    }
+
 }

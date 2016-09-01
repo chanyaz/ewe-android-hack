@@ -4,7 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
-import android.view.ViewTreeObserver
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.BaseOverviewPresenter
@@ -47,6 +46,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
         getCheckoutPresenter().totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))
         getCheckoutPresenter().getCheckoutViewModel().showDebitCardsNotAcceptedSubject.subscribe(getCheckoutPresenter().paymentWidget.viewmodel.showDebitCardsNotAcceptedSubject)
         addTransition(overviewToAirlineFeeWebView)
+        scrollSpaceView = flightSummary.scrollSpaceView
     }
 
     override fun inflate() {
@@ -57,7 +57,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
         super.onFinishInflate()
         removeView(flightSummary)
         bundleOverviewHeader.nestedScrollView.addView(flightSummary)
-
         viewModel.showFreeCancellationObservable.subscribeVisibility(flightSummary.freeCancellationLabelTextView)
         viewModel.showSplitTicketMessagingObservable.subscribeVisibility(flightSummary.splitTicketInfoContainer)
         viewModel.splitTicketBaggageFeesLinksObservable.subscribeText(flightSummary.splitTicketBaggageFeesTextView)
@@ -66,16 +65,10 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
             show(paymentFeeInfoWebView)
         }
         getCheckoutPresenter().getCheckoutViewModel().obFeeDetailsUrlSubject.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
-        getCheckoutPresenter().getCheckoutViewModel().tripResponseObservable.subscribe {
-            flightSummary.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-                override fun onGlobalLayout() {
-                    val splitTicketLp = flightSummary.splitTicketInfoContainer.layoutParams
-                    splitTicketLp.height = flightSummary.splitTicketInfoContainer.height + getCheckoutPresenter().bottomContainer.height
-                    flightSummary.splitTicketInfoContainer.setLayoutParams(splitTicketLp)
-                    flightSummary.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                }
-            })
-        }
+    }
+
+    fun resetFlightSummary() {
+        flightSummary.collapseFlightWidgets()
     }
 
     fun getCheckoutPresenter(): FlightCheckoutPresenter {

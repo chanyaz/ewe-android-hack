@@ -23,11 +23,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.Strings
-import com.expedia.bookings.utils.TravelerManager
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.*
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
@@ -175,12 +171,16 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             bundlePresenter.bundleWidget.collapseBundleWidgets()
             searchPresenter.animationStart(!forward)
             if (forward) {
+                bundlePresenter.bundleWidget.collapseBundleWidgets()
                 bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
                 bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
                 bundlePresenter.getCheckoutPresenter().toggleCheckoutButton(false)
                 bundlePresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
                 bundlePresenter.getCheckoutPresenter().clearPaymentInfo()
                 bundlePresenter.setToolbarNavIcon(true)
+                bundlePresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
+            } else {
+                bundlePresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             }
         }
 

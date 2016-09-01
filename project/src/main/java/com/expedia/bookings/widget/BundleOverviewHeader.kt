@@ -30,6 +30,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
 
     var isHideToolbarView = false
     var isDisabled = false
+    var isFullyExpanded = true
     @ColorRes val primaryColorId = Ui.obtainThemeResID(context, R.attr.primary_color)
 
     init {
@@ -81,10 +82,12 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         collapsingToolbarLayout.isTitleEnabled = enable
     }
 
+
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
-        val maxScroll = appBarLayout.totalScrollRange;
+        var maxScroll = appBarLayout.totalScrollRange
         if (maxScroll != 0) {
-            val percentage = Math.abs(offset) / maxScroll.toFloat()
+            var percentage = Math.abs(offset) / maxScroll.toFloat()
+            isFullyExpanded = if (percentage == 0f) true else false
 
             if (isHideToolbarView) {
                 if (percentage == 1f) {

@@ -31,6 +31,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     val outboundFlightWidget: OutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
     val inboundFlightWidget: InboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
     val opacity: Float = 0.25f
+    val scrollSpaceView: View by bindView(R.id.scroll_space_bundle)
 
     val toggleMenuObservable = BehaviorSubject.create<Boolean>()
 

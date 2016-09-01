@@ -245,7 +245,7 @@
         <com.expedia.bookings.widget.PriceChangeWidget
             android:id="@+id/price_change"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:visibility="gone" />
 
         <com.expedia.bookings.widget.TotalPriceWidget
@@ -270,7 +270,7 @@
             android:orientation="vertical"
             android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:visibility="invisible">
+            android:visibility="gone">
 
             <com.expedia.bookings.widget.SlideToWidgetLL
                 android:id="@+id/slide_to_purchase_widget"

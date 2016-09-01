@@ -6,6 +6,7 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewTreeObserver
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
@@ -40,6 +41,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = PackageCheckoutOverviewViewModel(context)
         toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
         toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
+        scrollSpaceView = bundleWidget.scrollSpaceView
     }
 
     override fun onFinishInflate() {
@@ -124,6 +126,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
 
             true
         })
+
     }
 
     private fun setCheckoutHeaderOverviewDates() {
