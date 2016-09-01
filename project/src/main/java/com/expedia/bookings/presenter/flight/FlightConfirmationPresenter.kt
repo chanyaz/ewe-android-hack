@@ -12,7 +12,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.HotelCrossSellWidget
+import com.expedia.bookings.widget.HotelCrossSellView
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.ConfirmationRowCardView
 import com.expedia.util.notNullAndObservable
@@ -32,11 +32,7 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
     val outboundFlightCard: ConfirmationRowCardView by bindView(R.id.outbound_flight_card)
     val inboundFlightCard: ConfirmationRowCardView by bindView(R.id.inbound_flight_card)
 
-    val hotelCrossSell: HotelCrossSellWidget by bindView(R.id.hotel_cross_sell_widget)
-    val airattachExpirationDaysRemainingTextView: TextView by bindView(R.id.itin_air_attach_expiration_date_text_view)
-    val airAttachExpirationTodayTextView: TextView by bindView(R.id.air_attach_expires_today_text_view)
-    val airAttachCountDownView: LinearLayout by bindView(R.id.air_attach_countdown_view)
-
+    val hotelCrossSell: HotelCrossSellView by bindView(R.id.hotel_cross_sell_widget)
 
     var viewModel: FlightConfirmationViewModel by notNullAndObservable { vm ->
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
@@ -44,12 +40,9 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
         vm.rewardPointsObservable.subscribeTextAndVisibility(expediaPoints)
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
         vm.inboundCardVisibility.subscribeVisibility(inboundFlightCard)
-
         vm.crossSellWidgetVisibility.subscribeVisibility(hotelCrossSell)
-        vm.crossSellTodayVisibility.subscribeVisibility(airAttachExpirationTodayTextView)
-        vm.crossSellCountDownVisibility.subscribeVisibility(airAttachCountDownView)
-        vm.crossSellText.subscribeText(airattachExpirationDaysRemainingTextView)
     }
+
     init {
         View.inflate(context, R.layout.flight_confirmation_presenter, this)
         confirmationContainer.setPadding(0, Ui.toolbarSizeWithStatusBar(context), 0, 0)
@@ -67,5 +60,6 @@ class FlightConfirmationPresenter(context: Context, attrs: AttributeSet) : Prese
 
     fun showConfirmationInfo(response: FlightCheckoutResponse, email: String){
         viewModel.confirmationObservable.onNext(Pair(response, email))
+        hotelCrossSell.viewModel.confirmationObservable.onNext(response)
     }
 }

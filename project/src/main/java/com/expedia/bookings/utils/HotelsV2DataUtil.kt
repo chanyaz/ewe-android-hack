@@ -1,13 +1,17 @@
 package com.expedia.bookings.utils
 
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.HotelSearchParams.SearchType
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.services.LocalDateTypeAdapter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import java.util.ArrayList
 
@@ -62,5 +66,32 @@ class HotelsV2DataUtil {
             return GsonBuilder().registerTypeAdapter(LocalDate::class.java, LocalDateTypeAdapter(PATTERN)).create()
         }
 
+        fun getHotelV2ParamsFromFlightV2Params(flightLegs: MutableList<FlightLeg>?, flightSearchParams: FlightSearchParams): HotelSearchParams {
+            val outboundLeg = flightLegs?.first()
+            val lastOutboundSegment = outboundLeg?.segments?.get(outboundLeg.segments.size - 1)
+
+            val localCheckInDate = LocalDate(DateTime.parse(lastOutboundSegment?.arrivalTimeRaw))
+            var localCheckoutDate = localCheckInDate.plusDays(1)
+            if (flightLegs?.size == 2) {
+                val inboundLeg = flightLegs?.last()
+                localCheckoutDate = LocalDate(DateTime.parse(inboundLeg?.segments?.get(0)?.departureTimeRaw))
+            }
+
+            val numFlightTravelers = flightSearchParams.guests
+            val listOfChildTravelerAges = flightSearchParams.children
+            val numAdultTravelers = numFlightTravelers - listOfChildTravelerAges.size
+            var numAdultsPerHotelRoom = Math.min(GuestsPickerUtils.getMaxAdults(0), numAdultTravelers)
+            numAdultsPerHotelRoom = Math.max(numAdultsPerHotelRoom, GuestsPickerUtils.MIN_ADULTS) // just in case default...
+
+            val suggestionV4 = SuggestionV4()
+            suggestionV4.gaiaId = flightSearchParams.destination?.gaiaId
+            suggestionV4.coordinates = flightSearchParams.destination?.coordinates
+            suggestionV4.type = SearchType.CITY.name
+            suggestionV4.regionNames = flightSearchParams.destination?.regionNames
+
+            val filterUnavailable = !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest)
+
+            return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges, false, filterUnavailable)
+        }
     }
 }

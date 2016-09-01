@@ -225,6 +225,32 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
+	public static void goToHotelsV2(Context context, com.expedia.bookings.data.hotels.HotelSearchParams params, Bundle animOptions, int flags) {
+		sendKillActivityBroadcast(context);
+
+		Intent intent = new Intent();
+
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
+		}
+
+		if ((flags & FLAG_OPEN_SEARCH) != 0) {
+			intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+		}
+
+		Class<HotelActivity> routingTarget = HotelActivity.class;
+		if (params != null) {
+			Gson gson = HotelsV2DataUtil.Companion.generateGson();
+			intent.putExtra(HotelActivity.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(params));
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+		}
+
+		// Launch activity based on routing selection
+		intent.setClass(context, routingTarget);
+		startActivity(context, intent, animOptions);
+	}
+
 	public static void goToActivities(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
