@@ -305,6 +305,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.hotel_details_toolbar,
 		R.string.package_overview_flight_travel_info_TEMPLATE,
 		R.string.flight_to,
+		R.color.new_launch_alert_dialog_button_color,
 		R.layout.bundle_flight_widget,
 		R.layout.widget_hotel_traveler_search,
 		R.drawable.packages_flight1_icon,

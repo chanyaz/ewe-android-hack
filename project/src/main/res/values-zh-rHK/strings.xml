@@ -44,6 +44,9 @@
     <!-- Accessibility content description for google map view on hotel results -->
     <string name="hotel_results_map_view_cont_desc">Google 地圖，使用地圖搜尋酒店結果</string>
 
+    <!-- Label for Purchase button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_purchase_button">購買</string>
+
     <!-- Cars -->
     <!-- Cars Toolbar Date Range e.g. May 05 - May 10 -->
     <string name="car_toolbar_date_range_TEMPLATE">{from_date_time} – {to_date_time}</string>
@@ -1051,7 +1054,7 @@
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">今晚推薦酒店</string>
+    <string name="nearby_deals_title">今晚住宿推介</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">查看更多</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -2016,8 +2019,6 @@
     <string name="your_trip_to_TEMPLATE">前往%1$s的行程</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">包括稅項及附加費</string>
-    <!-- Includes taxes, fees, flights+hotels -->
-    <string name="includes_taxes_fees_flights_hotel">包括稅項、附加費、機票 + 酒店</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">包括機票 ＋ 酒店</string>
     <!-- Includes taxes (but not necessarily fees) -->
@@ -2245,7 +2246,7 @@
     <string name="cardholder_name_hint">持卡人姓名</string>
     <!-- email hint -->
     <string name="email_address_hint">電郵地址</string>
-    <!-- email hint for packages billing info screen, used to send the confirmation email -->
+    <!-- email hint for packages traveler entry screen, used to send the confirmation email -->
     <string name="email_address_hint_confirmation">電郵地址 (作確認之用)</string>
     <!-- phone number hint -->
     <string name="phone_number_hint">電話號碼</string>
@@ -2556,7 +2557,6 @@
     <string name="split_ticket_rules_cancellation_policy_tablet">如只更改或取消其中一個航班，另外一個將不會自動作出相應變動。更改另外一個航班亦可能須支付手續費。</string>
     <!-- split ticket baggage fees. Example:  Departure and Return flights have their own baggage fees-->
     <string name="split_ticket_baggage_fees_TEMPLATE">&lt;a href=\"{departurelink}\"&gt;出發&lt;/a&gt;及&lt;a href=\"{returnlink}\"&gt;回程&lt;/a&gt;航班分別設有行李費</string>
-    <string name="split_ticket_baggage_fees_tablet">&lt;a href=\"%1$s\"&gt;出發&lt;/a&gt;及&lt;a href=\"%2$s\"&gt;回程&lt;/a&gt;航班分別設有行李費</string>
     <!-- Flight dialog  errors -->
     <!-- Title of screen if user entered an invalid security code -->
     <string name="title_invalid_security_code">安全碼無效</string>
@@ -3254,6 +3254,10 @@
     <!-- Sharing bookings via email -->
     <!-- Cancellation policy label -->
     <string name="cancellation_policy">取消政策</string>
+    <!-- Cancellation policy label for packages-->
+    <string name="packages_cancellation_policy">酒店取消政策</string>
+    <!-- Cancellation policy label for packages-->
+    <string name="packages_fare_information">機票價格資訊</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
@@ -4076,8 +4080,6 @@
         <item quantity="one">同時預訂機票 {night} 晚免費。</item>
         <item quantity="other">同時預訂機票 {night} 晚免費。</item>
     </plurals>
-    <!-- Package hotel cell: Price Includes flights -->
-    <string name="package_price_include_flights">價格包括酒店 + 機票</string>
     <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
     <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
@@ -4147,8 +4149,12 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} 分鐘</string>
 
+    <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
+    <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}日</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
-    <string name="flight_departure_arrival_time_multi_day_template">%1$s - %2$s +%3$d日</string>
+    <string name="flight_departure_arrival_time_multi_day_TEMPLATE">{departuretime} - {arrivaltime} +{elapseddays}日</string>
+    <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm minus 1d -->
+    <string name="flight_departure_arrival_time_negative_days_cont_desc_TEMPLATE">{departuretime} 至 {arrivaltime} 減 {elapseddays} 日</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
     <string name="flight_departure_arrival_time_multi_day_cont_desc_TEMPLATE">{departuretime} 至 {arrivaltime} 加 {elapseddays} 日</string>
     <!-- Flight departure arrival time same day e.g. 5:15 pm - 7:48 pm -->
@@ -4273,14 +4279,14 @@
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">行程資料 + 票價選擇</string>
 
-    <!--Use on the timeline on rail details when a customer transfer from one sation to another: You have xx.xx min to get from one station to another during a trip -->
-    <string name="rail_transfer_from_a_to_b_TEMPLATE">您需於 {formattedduration}內由{origin}前往{destination}</string>
+    <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
+    <string name="rail_transfer_from_a_to_b_TEMPLATE">您需於 {formatted_duration}內由{origin_station_name}前往{destination_station_name}</string>
 
-    <!--Use on the timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry -->
-    <string name="rail_travel_from_a_to_b_TEMPLATE">乘搭{travelmode}由{origin}前往{destination}</string>
+    <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
+    <string name="rail_travel_from_a_to_b_TEMPLATE">乘搭{travel_mode}由{origin_station_name}前往{destination_station_name}</string>
 
-    <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform within the same station) -->
-    <string name="rail_change_at_station_TEMPLATE">於{stationname}轉車</string>
+    <!--Use on the timeline on rail details when a customer has to transfer from one train to another at the same station (likely a different platform). Example: Change at Kings Cross Station -->
+    <string name="rail_change_at_station_TEMPLATE">於{station_name}轉車</string>
 
     <!--rail search screen - user is specifiying what time they want their outbound train to leave at -->
     <string name="rail_departing_at">出發時間</string>
@@ -4621,4 +4627,11 @@
     </plurals>
     <!-- Trips summary card, Trip to SFO on 28th September, Activity Itinerary card button. -->
     <string name="header_itin_card_content_description_TEMPLATE">{type}行程卡按鈕。</string>
+
+    <!-- Trips copy to clipboard itinerary number. -->
+    <string name="copy_to_clipboard_cont_desc">複製至剪貼簿。按鈕。</string>
+
+    <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
+    <string name="lx_carousal_cont_desc_TEMPLATE">已選擇活動，{caption}</string>
+
 </resources>
