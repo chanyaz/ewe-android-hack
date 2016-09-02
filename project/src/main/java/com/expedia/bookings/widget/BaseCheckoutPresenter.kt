@@ -18,7 +18,6 @@ import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Space
-import com.activeandroid.util.Log
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
@@ -44,6 +43,7 @@ import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.BaseCreateTripViewModel
@@ -108,6 +108,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             acceptTermsWidget.vm.acceptedTermsObservable.onNext(true)
             AnimUtils.slideDown(acceptTermsWidget)
             acceptTermsWidget.visibility = View.GONE
+            acceptTermsWidget.acceptButton.unsubscribeOnClick()
         }
         presenter
     }
