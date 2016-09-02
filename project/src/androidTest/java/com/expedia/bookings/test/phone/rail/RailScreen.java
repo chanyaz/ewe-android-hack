@@ -158,4 +158,25 @@ public class RailScreen {
 		onView(withText("Outbound - Mon Aug 29")).perform(ViewActions.waitForViewToDisplay())
 			.check(matches(isDisplayed()));
 	}
+
+	public static void navigateToCheckout() throws Throwable {
+		navigateToTripOverview();
+		checkout().perform(click());
+	}
+
+	public static ViewInteraction ticketDeliveryOverview() {
+		return onView(withId(R.id.ticket_delivery_overview_widget));
+	}
+
+	public static ViewInteraction stationContainer() {
+		return onView(withId(R.id.station_container));
+	}
+
+	public static ViewInteraction mailDeliveryContainer() {
+		return onView(withId(R.id.mail_delivery_container));
+	}
+
+	public static void clickDone() {
+		onView(withId(R.id.menu_done)).perform(click());
+	}
 }

@@ -11,7 +11,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="@dimen/temporary_medium_padding"
             android:layout_marginLeft="@dimen/card_view_container_margin"
             android:layout_marginRight="@dimen/card_view_container_margin"
             android:background="@drawable/card_background" />
@@ -29,11 +29,31 @@
             android:animateLayoutChanges="true"
             android:visibility="gone"/>
 
+        <com.expedia.bookings.widget.rail.RailTicketDeliveryOverviewWidget
+            android:id="@+id/ticket_delivery_overview_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rail_traveler_card_view"
+            android:layout_marginLeft="@dimen/card_view_container_margin"
+            android:layout_marginRight="@dimen/card_view_container_margin"
+            android:layout_marginTop="@dimen/temporary_medium_padding"
+            android:background="@drawable/card_background"/>
+
+        <com.expedia.bookings.widget.rail.RailTicketDeliveryEntryWidget
+            android:id="@+id/ticket_delivery_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/temporary_medium_padding"
+            android:layout_marginLeft="@dimen/card_view_container_margin"
+            android:layout_marginRight="@dimen/card_view_container_margin"
+            android:animateLayoutChanges="true"
+            android:visibility="gone"/>
+
         <ViewStub
             android:id="@+id/rail_payment_info_card_view_stub"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rail_traveler_card_view"
+            android:layout_below="@id/ticket_delivery_overview_widget"
             android:layout_marginLeft="@dimen/card_view_container_margin"
             android:layout_marginRight="@dimen/card_view_container_margin"
             android:layout_marginTop="12dp"

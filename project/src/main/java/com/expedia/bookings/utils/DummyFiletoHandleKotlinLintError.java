@@ -900,6 +900,19 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.select_rail_card_quantity_hint,
 		R.layout.widget_rail_card_picker,
 		R.layout.widget_rail_card_picker_row,
-		R.layout.widget_rail_card_search
+		R.layout.widget_rail_card_search,
+		R.string.ticket_delivery,
+		R.string.pickup_at_station,
+		R.string.pickup_station_details,
+		R.string.mail_delivery_details,
+		R.string.delivery_by_mail,
+		R.string.tdo_fees_non_refundable,
+		R.drawable.ticket_delivery_cko_mail,
+		R.drawable.ticket_delivery_cko_station,
+		R.drawable.ticket_delivery_mail,
+		R.drawable.ticket_delivery_station,
+		R.layout.ticket_delivery_entry_widget,
+		R.layout.ticket_delivery_overview_widget,
+		R.layout.ticket_delivery_option_widget
 	};
 }

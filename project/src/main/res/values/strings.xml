@@ -4385,6 +4385,19 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Card Fee</string>
 
+    <!-- Label for ticket delivery -->
+    <string name="ticket_delivery">Ticket delivery</string>
+
+    <!-- Ticket delivery options-->
+    <string name="pickup_at_station">Pick-up at station</string>
+    <string name="delivery_by_mail">Delivery by mail</string>
+
+    <!-- Ticket delivery details -->
+    <string name="pickup_station_details">Bring your ticket reference number and the credit card to purchase.</string>
+
+    <string name="mail_delivery_details">Have the ticket shipped to you at the address you provide.</string>
+    <string name="tdo_fees_non_refundable">Ticket delivery fees are non-refundable.</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
