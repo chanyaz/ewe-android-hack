@@ -32,6 +32,14 @@ class TravelerManager {
         }
     }
 
+    fun updateRailTravelers() {
+        val travelers = Db.getTravelers()
+        travelers.clear()
+        // Rail only collects Primary Traveler so don't worry about the details of the others.
+        val traveler = Traveler()
+        travelers.add(traveler)
+    }
+
     fun getChildPassengerCategory(childAge: Int, params: AbstractFlightSearchParams): PassengerCategory {
         if (childAge < 2) {
             if (params.infantSeatingInLap) {

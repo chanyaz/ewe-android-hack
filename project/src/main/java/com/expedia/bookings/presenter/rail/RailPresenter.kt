@@ -11,6 +11,7 @@ import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.rail.RailAmenitiesFareRulesWidget
@@ -28,6 +29,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     lateinit var railServices: RailServices
         @Inject set
+    lateinit var travelerManager: TravelerManager
 
     val searchPresenter: RailSearchPresenter by bindView(R.id.widget_rail_search_presenter)
     val resultsPresenter: RailResultsPresenter by bindView(R.id.widget_rail_results_presenter)
@@ -65,6 +67,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     val searchObserver: Observer<RailSearchRequest> = endlessObserver { params ->
         railSearchParams = params
 
+        travelerManager.updateRailTravelers()
         transitionToResults()
         resultsPresenter.viewmodel.searchViewModel = searchPresenter.searchViewModel
         resultsPresenter.viewmodel.paramsSubject.onNext(params)
@@ -77,6 +80,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     init {
         Ui.getApplication(context).railComponent().inject(this)
+        travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         View.inflate(context, R.layout.rail_presenter, this)
         addTransitions()
 

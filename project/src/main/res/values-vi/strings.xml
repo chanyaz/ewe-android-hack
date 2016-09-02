@@ -712,7 +712,7 @@
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">Khách chính phải là người nhận phòng. Phải từ 18 tuổi trở lên.</string>
     <!-- Text for enter traveler details-->
-    <string name="lx_traveler_enter_details_text">Nhập thông tin khách</string>
+    <string name="traveler_enter_details_text">Nhập thông tin khách</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">Giá</string>
     <!-- Popularity sort button -->

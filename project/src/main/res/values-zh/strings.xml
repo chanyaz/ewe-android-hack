@@ -712,7 +712,7 @@
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">主要旅客必须在酒店办理登记入住。年龄必须在 18 岁或以上。</string>
     <!-- Text for enter traveler details-->
-    <string name="lx_traveler_enter_details_text">输入旅客信息</string>
+    <string name="traveler_enter_details_text">输入旅客信息</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">价格</string>
     <!-- Popularity sort button -->

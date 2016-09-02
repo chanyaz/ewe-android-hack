@@ -7,10 +7,12 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RailTestCase;
 import com.expedia.bookings.test.phone.rail.RailScreen;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class RailPhoneHappyPathTest extends RailTestCase {
@@ -26,6 +28,14 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 			CoreMatchers.allOf(isDisplayed(), withText("Travel anytime of day")))));
 
 		RailScreen.checkout().perform(click());
+
+		RailScreen.clickTravelerCard();
+		RailScreen.fillInTraveler();
+		assertCheckoutDisplayed();
+	}
+
+	private void assertCheckoutDisplayed() {
+		onView(withId(R.id.rail_traveler_card_view)).check(matches(isDisplayed()));
 	}
 
 	private void assertLegInfo() {

@@ -12,7 +12,7 @@ import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class TravelerNameViewModel(context: Context): InvalidCharacterHelper.InvalidCharacterListener {
+open class TravelerNameViewModel(context: Context): InvalidCharacterHelper.InvalidCharacterListener {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
@@ -59,7 +59,7 @@ class TravelerNameViewModel(context: Context): InvalidCharacterHelper.InvalidCha
         fullNameSubject.onNext(travelerName.fullName)
     }
 
-    fun validate(): Boolean {
+    open fun validate(): Boolean {
         travelerValidator.isRequiredNameValid(travelerName.firstName)
         val firstNameValid = travelerValidator.isRequiredNameValid(travelerName.firstName)
         firstNameErrorSubject.onNext(!firstNameValid)

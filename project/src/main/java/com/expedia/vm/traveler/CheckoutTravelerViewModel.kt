@@ -10,20 +10,27 @@ import com.expedia.bookings.utils.validation.TravelerValidator
 import rx.subjects.BehaviorSubject
 import javax.inject.Inject
 
-open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness, showMainTravelerMinAgeMessaging: Boolean) {
+open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness,
+                                     showMainTravelerMinAgeMessaging: Boolean) : BaseCheckoutTravelerViewModel() {
+
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
-    val allTravelersCompleteSubject = BehaviorSubject.create<List<Traveler>>()
-    val invalidTravelersSubject = BehaviorSubject.create<Unit>()
     val emptyTravelersSubject = BehaviorSubject.create<Unit>()
-    val travelerCompletenessStatus = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
     val passportRequired = BehaviorSubject.create<Boolean>(false)
     val showMainTravelerMinAgeMessaging = BehaviorSubject.create<Boolean>(false)
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
         this.showMainTravelerMinAgeMessaging.onNext(showMainTravelerMinAgeMessaging)
+    }
+
+    override fun isValidForBooking(traveler: Traveler, index: Int): Boolean {
+        return travelerValidator.isValidForFlightBooking(traveler, index, passportRequired.value)
+    }
+
+    override fun isTravelerEmpty(traveler: Traveler): Boolean {
+        return travelerValidator.isTravelerEmpty(traveler)
     }
 
     fun refresh() {
@@ -35,45 +42,13 @@ open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness, 
         }
     }
 
-    fun updateCompletionStatus() {
-        if (validateTravelersComplete()){
-            allTravelersCompleteSubject.onNext(getTravelers())
-            travelerCompletenessStatus.onNext(TravelerCheckoutStatus.COMPLETE)
-        } else {
-            invalidTravelersSubject.onNext(Unit)
-            travelerCompletenessStatus.onNext(TravelerCheckoutStatus.DIRTY)
-        }
-    }
-
-    open fun validateTravelersComplete(): Boolean {
-        val travelerList = getTravelers()
-
-        if (travelerList.isEmpty()) return false
-
-        travelerList.forEachIndexed { index, traveler ->
-            if (!travelerValidator.isValidForBooking(traveler, index, passportRequired.value)) {
-                return false
-            }
-        }
-        return true
-    }
-
     open fun areTravelersEmpty() : Boolean {
         val travelerList = getTravelers()
         for (traveler in travelerList) {
-            if (!travelerValidator.isTravelerEmpty(traveler)) {
+            if (!isTravelerEmpty(traveler)) {
                 return false
             }
         }
         return true
-    }
-
-    open fun getTravelers() : List<Traveler> {
-        return Db.getTravelers()
-    }
-
-    open fun getTraveler(index: Int) : Traveler {
-        val travelerList = Db.getTravelers()
-        return travelerList[index]
     }
 }

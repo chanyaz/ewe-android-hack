@@ -9,7 +9,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-class TravelerEmailViewModel(val context: Context) {
+open class TravelerEmailViewModel(val context: Context) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
@@ -31,7 +31,7 @@ class TravelerEmailViewModel(val context: Context) {
         emailAddressSubject.onNext(if (traveler.email.isNullOrEmpty()) "" else traveler.email)
     }
 
-    fun validate(): Boolean {
+    open fun validate(): Boolean {
         val validEmail = travelerValidator.isValidEmail(traveler?.email)
         emailErrorSubject.onNext(!validEmail)
         return validEmail

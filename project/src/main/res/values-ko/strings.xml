@@ -712,7 +712,7 @@
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">주 여행객이 호텔에 체크인해야 합니다. 만 18세 이상이어야 합니다.</string>
     <!-- Text for enter traveler details-->
-    <string name="lx_traveler_enter_details_text">여행객 정보 입력</string>
+    <string name="traveler_enter_details_text">여행객 정보 입력</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">가격순</string>
     <!-- Popularity sort button -->

@@ -7,6 +7,8 @@ import com.expedia.bookings.widget.BaseCheckoutPresenter;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.packages.PackageSearchViewModel;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
+import com.expedia.vm.traveler.RailCheckoutTravelerViewModel;
+import com.expedia.vm.traveler.RailTravelerSummaryViewModel;
 import com.expedia.vm.traveler.TravelerEmailViewModel;
 import com.expedia.vm.traveler.TravelerNameViewModel;
 import com.expedia.vm.traveler.TravelerPhoneViewModel;
@@ -23,6 +25,8 @@ public interface TravelerComponent {
 	void inject(FlightSearchViewModel viewModel);
 	void inject(BaseCheckoutPresenter presenter);
 	void inject(CheckoutTravelerViewModel viewModel);
+	void inject(RailCheckoutTravelerViewModel viewModel);
+	void inject(RailTravelerSummaryViewModel viewModel);
 	void inject(TravelerNameViewModel viewModel);
 	void inject(TravelerPhoneViewModel viewModel);
 	void inject(TravelerPickerTravelerViewModel viewModel);

@@ -41,7 +41,7 @@ open class TravelerPickerTravelerViewModel(val context: Context, val index: Int,
     fun updateStatus(status: TravelerCheckoutStatus) {
         this.status = status
         val traveler = getTraveler()
-        val validForBooking = travelerValidator.isValidForBooking(traveler, index, isPassportRequired)
+        val validForBooking = travelerValidator.isValidForFlightBooking(traveler, index, isPassportRequired)
         if (status != TravelerCheckoutStatus.CLEAN) {
             if (!validForBooking) {
                 setTravelerSummaryInfo(getTitle(traveler), getErrorSubtitle(),

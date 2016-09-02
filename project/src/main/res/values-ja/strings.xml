@@ -712,7 +712,7 @@
     <!-- Text informing guest that main travler is checking into hotel-->
     <string name="traveler_main_message">代表者がホテルにチェックインしてください。18 歳以上である必要があります。</string>
     <!-- Text for enter traveler details-->
-    <string name="lx_traveler_enter_details_text">旅行者情報を入力</string>
+    <string name="traveler_enter_details_text">旅行者情報を入力</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">料金</string>
     <!-- Popularity sort button -->

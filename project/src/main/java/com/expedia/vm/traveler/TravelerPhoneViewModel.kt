@@ -11,7 +11,7 @@ import rx.subjects.PublishSubject
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-class TravelerPhoneViewModel(context: Context) {
+open class TravelerPhoneViewModel(context: Context) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
@@ -41,7 +41,7 @@ class TravelerPhoneViewModel(context: Context) {
         phoneNumberSubject.onNext(if (phone.number.isNullOrEmpty()) "" else phone.number)
     }
 
-    fun validate(): Boolean {
+    open fun validate(): Boolean {
         val validPhone = travelerValidator.isValidPhone(phone.number)
         phoneErrorSubject.onNext(!validPhone)
         return validPhone
