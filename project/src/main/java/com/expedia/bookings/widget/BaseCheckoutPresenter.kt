@@ -27,6 +27,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
@@ -96,6 +97,18 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         presenter.viewModel.travelerCompletenessStatus.subscribe(travelerSummaryCard.viewModel.travelerStatusObserver)
         presenter.viewModel.allTravelersCompleteSubject.subscribe(getCheckoutViewModel().travelerCompleted)
         presenter.viewModel.invalidTravelersSubject.subscribe(getCheckoutViewModel().clearTravelers)
+        presenter
+    }
+
+    val acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox()
+    val acceptTermsWidget: AcceptTermsWidget by lazy {
+        val viewStub = findViewById(R.id.accept_terms_viewStub) as ViewStub
+        var presenter = viewStub.inflate() as AcceptTermsWidget
+        presenter.acceptButton.setOnClickListener {
+            acceptTermsWidget.vm.acceptedTermsObservable.onNext(true)
+            AnimUtils.slideDown(acceptTermsWidget)
+            acceptTermsWidget.visibility = View.GONE
+        }
         presenter
     }
 
@@ -479,6 +492,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             accessiblePurchaseButton.visibility = View.GONE
         }
         val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
+        val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
+        
+        if (acceptTermsRequired && !termsAccepted && isSlideToPurchaseLayoutVisible) {
+            acceptTermsWidget.visibility = View.VISIBLE
+        }
         if (isSlideToPurchaseLayoutVisible) {
             trackShowSlideToPurchase()
         }

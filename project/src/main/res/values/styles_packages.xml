@@ -31,7 +31,7 @@
         <item name="hotel_toggle_text_drawable">@drawable/hotel_package_toggle_text</item>
         <item name="hotel_toggle_background_selector_drawable">@drawable/hotel_toggle_package_background_selector</item>
         <item name="vip_info_select_ripple_drawable">@drawable/vip_info_package_select_ripple</item>
-        <item name="hotel_select_room_ripple_drawable">@drawable/hotel_package_select_room_ripple</item>
+        <item name="hotel_select_room_ripple_drawable">@drawable/exp_blue_button_ripple</item>
         <item name="hotel_map_tooltip_pressed_drawable">@drawable/packages_tooltip_pressed</item>
         <item name="hotel_map_tooltip_drawable">@drawable/packages_tooltip</item>
         <item name="spinner_text_color_drawable">@drawable/package_traveler_text_color</item>
