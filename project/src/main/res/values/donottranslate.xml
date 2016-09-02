@@ -21,7 +21,7 @@
     <string name="debug_install_shortcuts">>Install Shortcuts</string>
 
     <!-- Headline for email sent by bugshaker-->
-    <string name="bugshaker_report_headline">Reporting a bug</string>
+    <string name="bugshaker_report_headline">Android dogfood - Reporting a bug</string>
     
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
