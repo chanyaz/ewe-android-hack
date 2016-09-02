@@ -92,6 +92,16 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Results Perceived Instant Test - 10555" />
+
+        <ListPreference
+            android:entries="@array/abacus_hotel_filter_prominence"
+            android:entryValues="@array/abacus_hotel_filter_prominence_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:key="11790"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Hotel Filter Prominence Test - 11790" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

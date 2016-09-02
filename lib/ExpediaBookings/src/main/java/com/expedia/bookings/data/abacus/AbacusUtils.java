@@ -44,6 +44,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelFavoriteTest = 10989;
 	public static final int EBAndroidAppSmartLockTest = 11269;
 	public static final int EBAndroidAppHotelResultsPerceivedInstantTest = 10555;
+	public static final int EBAndroidAppHotelFilterProminence = 11790;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
@@ -56,6 +57,12 @@ public class AbacusUtils {
 		WITH_COLOR_NO_SUPERLATIVES,
 		NO_COLOR_WITH_SUPERLATIVES,
 		WITH_COLOR_WITH_SUPERLATIVES
+	}
+
+	public enum HotelFilterProminenceVariate {
+		CONTROL,
+		NEVER_HIDE_SORT_FILTER,
+		FILTER_IN_NAV_BAR
 	}
 
 	// Test ID's that we are bucketing the user for.
@@ -92,6 +99,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelHCKOCardIOTest);
 		testIDs.add(EBAndroidAppSmartLockTest);
 		testIDs.add(EBAndroidAppHotelFavoriteTest);
+		testIDs.add(EBAndroidAppHotelFilterProminence);
 		return testIDs;
 	}
 

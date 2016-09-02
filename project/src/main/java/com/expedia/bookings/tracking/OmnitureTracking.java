@@ -355,6 +355,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsMemberDealTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFilterProminence);
 
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppHotelFavoriteTest,
 			R.string.preference_enable_hotel_favorite)) {

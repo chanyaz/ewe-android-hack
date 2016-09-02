@@ -17,6 +17,12 @@
             android:summary="Hotel Results Perceived Instant."
             android:title="Enable Hotel Results Perceived Instant Feature" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_enable_hotel_filter_prominence"
+            android:layout="@layout/preference"
+            android:summary="AB test with 2 variants"
+            android:title="Enable Hotel Filter Prominence Test" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
