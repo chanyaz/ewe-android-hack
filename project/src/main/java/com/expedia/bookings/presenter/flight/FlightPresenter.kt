@@ -13,6 +13,7 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -305,6 +306,15 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(searchToInbound)
     }
 
+    private fun flightListToOverviewTransition() {
+        flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
+        flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+        if (!User.isLoggedIn(context)) {
+            flightOverviewPresenter.getCheckoutPresenter().resetTravelers()
+            flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
+        }
+    }
+
     val searchArgbEvaluator = ArgbEvaluator()
     val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.search_anim_background), Color.TRANSPARENT)
 
@@ -394,6 +404,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 flightOverviewPresenter.getCheckoutPresenter().resetTravelers()
                 flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
                 flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
+                flightListToOverviewTransition()
             } else {
                 flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
             }
@@ -418,6 +429,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 flightOverviewPresenter.getCheckoutPresenter().resetTravelers()
                 flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
                 flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
+                flightListToOverviewTransition()
             } else {
                 flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
             }
