@@ -179,9 +179,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 bundlePresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
                 bundlePresenter.setToolbarNavIcon(true)
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
-                if (!User.isLoggedIn(context)) {
-                    bundlePresenter.getCheckoutPresenter().clearPaymentInfo()
-                }
+                bundlePresenter.getCheckoutPresenter().clearPaymentInfo()
             } else {
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             }
