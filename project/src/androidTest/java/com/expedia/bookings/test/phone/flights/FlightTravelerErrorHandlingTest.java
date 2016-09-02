@@ -5,14 +5,13 @@ import org.joda.time.LocalDate;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.espresso.FlightTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ConfirmationScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
@@ -24,14 +23,13 @@ import static android.support.test.espresso.contrib.PickerActions.setDate;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 
-public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
+public class FlightTravelerErrorHandlingTest extends FlightTestCase {
 
 	/*
  	* #512 eb_tp test plan
  	*/
 
 	public void testAdultTravelerAge() throws Throwable {
-		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
 		FlightsSearchScreen.clickSelectDepartureButton();
@@ -104,7 +102,6 @@ public class FlightTravelerErrorHandlingTest extends PhoneTestCase {
 	}
 
 	public void testInfantTravelerAge() throws Throwable {
-		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
 		FlightsSearchScreen.clickSelectDepartureButton();

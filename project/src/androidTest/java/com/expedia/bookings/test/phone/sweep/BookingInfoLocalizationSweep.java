@@ -3,16 +3,18 @@ package com.expedia.bookings.test.phone.sweep;
 import org.joda.time.LocalDate;
 
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
+import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
-import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
+
+import static android.support.test.espresso.action.ViewActions.click;
 
 /**
  * Created by dmadan on 9/16/14.
@@ -20,7 +22,7 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 public class BookingInfoLocalizationSweep extends PhoneTestCase {
 
 	public void goToCheckout(String countryCode, String country) {
-		LaunchScreen.launchFlights();
+		NewLaunchScreen.flightLaunchButton().perform(click());
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("LHR");
 

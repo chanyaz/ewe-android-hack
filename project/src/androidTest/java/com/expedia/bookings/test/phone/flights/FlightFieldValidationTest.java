@@ -5,14 +5,13 @@ import org.joda.time.LocalDate;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
+import com.expedia.bookings.test.espresso.FlightTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ConfirmationScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
@@ -27,14 +26,13 @@ import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutSc
 import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.clickTravelerDetails;
 import static com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen.slideToCheckout;
 
-public class FlightFieldValidationTest extends PhoneTestCase {
+public class FlightFieldValidationTest extends FlightTestCase {
 
 	/*
  	* #373 eb_tp test plan
  	*/
 
 	public void testFieldValidation() throws Throwable {
-		LaunchScreen.launchFlights();
 		FlightsSearchScreen.enterDepartureAirport("LAX");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
 		FlightsSearchScreen.clickSelectDepartureButton();
