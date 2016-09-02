@@ -131,4 +131,8 @@ public class StoredCreditCardList extends LinearLayout {
 	public void setLineOfBusiness(LineOfBusiness lineOfBusiness) {
 		this.lineOfBusiness = lineOfBusiness;
 	}
+
+	public void updateAdapter() {
+		mStoredCreditCardAdapter.notifyDataSetChanged();
+	}
 }

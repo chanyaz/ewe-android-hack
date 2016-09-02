@@ -167,6 +167,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
                 }
             }
+            else if (!isLoggedIn) {
+                storedCreditCardList.updateAdapter()
+            }
         }
 
         vm.emptyBillingInfo.subscribe {
