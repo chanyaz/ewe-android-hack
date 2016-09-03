@@ -82,6 +82,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.checkout().perform(click());
 
 		HotelScreen.doLogin();
+		selectStoredCard();
 		HotelScreen.clickSignOut();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
@@ -192,5 +193,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(withText(R.string.user_review_sort_button_favorable)).perform(click());
 		onView(withText(R.string.user_review_sort_button_recent)).perform(click());
 		Espresso.pressBack();
+	}
+
+	private void selectStoredCard() throws Throwable {
+		CheckoutViewModel.clickPaymentInfo();
+		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
 	}
 }
