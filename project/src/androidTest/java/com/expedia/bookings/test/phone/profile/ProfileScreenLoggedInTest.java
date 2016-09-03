@@ -19,8 +19,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
 import com.expedia.ui.NewPhoneLaunchActivity;
 
@@ -45,7 +45,7 @@ public class ProfileScreenLoggedInTest {
 
 	@Before
 	public void setup() {
-		LaunchScreen.accountButton().perform(click());
+		NewLaunchScreen.accountButton().perform(click());
 	}
 
 	@Test

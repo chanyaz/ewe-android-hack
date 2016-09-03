@@ -37,6 +37,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.startsWith;
 
@@ -49,7 +50,7 @@ public class LXScreen {
 		return onView(withId(R.id.destination_card));
 	}
 	public static ViewInteraction location() {
-		return onView(withId(R.id.search_src_text));
+		return onView(withId(R.id.search_src_text)).perform(waitForViewToDisplay());
 	}
 
 	public static void didNotGoToResults() {

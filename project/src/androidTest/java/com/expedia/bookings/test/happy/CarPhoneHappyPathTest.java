@@ -7,10 +7,11 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.cars.CarScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -23,7 +24,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	private final static int CREDIT_CARD_REQUIRED = 1;
 
 	private void goToCarDetails() throws Throwable {
-		LaunchScreen.launchCars();
+		NewLaunchScreen.carsLaunchButton().perform(click());
 
 		SearchScreen.doGenericCarSearch();
 		Common.delay(1);

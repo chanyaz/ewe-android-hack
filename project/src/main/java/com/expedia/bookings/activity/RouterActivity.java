@@ -82,7 +82,6 @@ public class RouterActivity extends Activity {
 		loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
 
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
-		query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
 		query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
 
 		if (loadSignInViewAbTest) {

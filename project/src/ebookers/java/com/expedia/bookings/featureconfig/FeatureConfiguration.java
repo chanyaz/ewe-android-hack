@@ -427,4 +427,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return true;
 	}
 
+	@Override
+	public boolean useNewLaunchScreen() {
+		return false;
+	}
+
 }

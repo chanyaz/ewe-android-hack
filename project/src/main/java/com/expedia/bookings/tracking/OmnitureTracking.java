@@ -3634,7 +3634,6 @@ public class OmnitureTracking {
 		if (isFirstAppLaunch && !User.isLoggedIn(sContext)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInOnLaunch);
 		}
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchScreenTest);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();

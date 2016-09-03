@@ -425,4 +425,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean showUserRewardsEnrollmentCheck() {
 		return true;
 	}
+
+	@Override
+	public boolean useNewLaunchScreen() {
+		return false;
+	}
 }

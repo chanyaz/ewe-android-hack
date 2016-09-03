@@ -37,6 +37,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
@@ -525,17 +526,13 @@ public class NavUtils {
 		return list.size() > 0;
 	}
 
-	public static boolean isUserBucketedForLaunchScreenTest() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
-	}
-
 	public static boolean isUserBucketedForFlightTest() {
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTest);
 	}
 
 
 	public static Intent getLaunchIntent(Context context) {
-		if (isUserBucketedForLaunchScreenTest()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().useNewLaunchScreen()) {
 			return new Intent(context, NewPhoneLaunchActivity.class);
 		}
 		else {

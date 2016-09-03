@@ -287,6 +287,6 @@ object SearchScreen {
     }
 
     @JvmStatic fun searchEditText(): ViewInteraction {
-        return onView(withId(android.support.v7.appcompat.R.id.search_src_text))
+        return onView(withId(android.support.v7.appcompat.R.id.search_src_text)).perform(ViewActions.waitForViewToDisplay())
     }
 }
