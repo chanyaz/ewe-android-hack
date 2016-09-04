@@ -17,6 +17,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -211,6 +212,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
                         noNetworkObservable.onNext(Unit)
                     }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                    FlightsV2Tracking.trackFlightCheckoutAPINoResponseError()
                 }
             }
 
