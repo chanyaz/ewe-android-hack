@@ -4706,7 +4706,11 @@
 
     <!-- Gallery Image count e.g. 1/14 -->
     <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
+
     <!-- Content Description for current index of the photo in the gallery -->
     <string name="galley_photo_count_content_description_TEMPLATE">View {index} of {count} gallery photos button"</string>
+
+    <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
+    <string name="multiple_carriers_text">Multiple Carriers</string>
 
 </resources>
