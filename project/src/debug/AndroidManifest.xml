@@ -56,6 +56,7 @@
             android:name="com.expedia.ui.FlightActivity"
             android:exported="true"
             android:label="Flights"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.ui.FlightActivity"
             android:theme="@style/V2.Theme.Packages">
