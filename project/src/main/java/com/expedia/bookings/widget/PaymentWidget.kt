@@ -45,7 +45,6 @@ import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -55,7 +54,6 @@ import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextChange
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
-import com.mobiata.android.Log
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
@@ -329,20 +327,13 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
-    fun clearCCAndCVV() {
-        try {
-            creditCardNumber.setText("")
-            if (this is BillingDetailsPaymentWidget) {
-                creditCardCvv.setText("")
-            }
-            Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
-            Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
-            Db.getBillingInfo().number = null
-            Db.getBillingInfo().securityCode = null
-            validateAndBind()
-        } catch (ex: Exception) {
-            Log.e("Error clearing billingInfo card number", ex)
-        }
+    open fun clearCCAndCVV() {
+        creditCardNumber.setText("")
+        Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
+        Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
+        Db.getBillingInfo().number = null
+        Db.getBillingInfo().securityCode = null
+        validateAndBind()
     }
 
     open fun isAtLeastPartiallyFilled(): Boolean {

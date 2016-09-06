@@ -80,6 +80,11 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         viewmodel.onTemporarySavedCreditCardChosen.subscribe { close() }
     }
 
+    override fun clearCCAndCVV() {
+        super.clearCCAndCVV()
+        creditCardCvv.setText("")
+    }
+
     override fun showMaskedCreditCardNumber() {
         val isCreditCardNumberEmpty = creditCardNumber.text.isNullOrEmpty()
         maskedCreditCard.visibility = if (isCreditCardNumberEmpty) GONE else VISIBLE
