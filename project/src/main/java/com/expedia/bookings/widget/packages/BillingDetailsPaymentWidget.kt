@@ -12,6 +12,7 @@ import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.accessibility.AccessibleTextViewForSpinner
 import com.expedia.util.subscribeTextChange
+import com.expedia.vm.PaymentViewModel
 import com.squareup.otto.Subscribe
 
 class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : PaymentWidget(context, attr) {
@@ -74,8 +75,9 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         activity.onBackPressed()
     }
 
-    override fun closePopup() {
-        close()
+    override fun init(vm: PaymentViewModel) {
+        super.init(vm)
+        viewmodel.onTemporarySavedCreditCardChosen.subscribe { close() }
     }
 
     override fun showMaskedCreditCardNumber() {

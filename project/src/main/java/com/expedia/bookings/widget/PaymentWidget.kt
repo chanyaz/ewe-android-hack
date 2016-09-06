@@ -219,7 +219,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             if (card.id != null && !card.id.equals(viewmodel.storedPaymentInstrumentId.value)) {
                 viewmodel.storedPaymentInstrumentId.onNext(card.id)
             }
-            closePopup()
             trackPaymentStoredCCSelect()
         }
 
@@ -229,7 +228,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             temporarilySavedCardIsSelected(true, Db.getTemporarilySavedCard())
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(Db.getTemporarilySavedCard(), ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
-            closePopup()
+            viewmodel.onTemporarySavedCreditCardChosen.onNext(Unit)
         }
     }
 
@@ -642,9 +641,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             val activity = context as Activity
             activity.onBackPressed()
         }
-    }
-
-    open fun closePopup() {
     }
 
     /**

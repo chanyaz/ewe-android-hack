@@ -71,6 +71,7 @@ open class PaymentViewModel(val context: Context) {
     val cardIOBillingInfo = PublishSubject.create<BillingInfo>()
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
+    val onTemporarySavedCreditCardChosen = PublishSubject.create<Unit>()
 
     val creditCardScanIntent: Intent by lazy {
         val scanIntent = Intent(context, CardIOActivity::class.java)

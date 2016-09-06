@@ -83,6 +83,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		HotelScreen.doLogin();
 		selectStoredCard();
+		PackageScreen.clickPaymentDone();
 		HotelScreen.clickSignOut();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());

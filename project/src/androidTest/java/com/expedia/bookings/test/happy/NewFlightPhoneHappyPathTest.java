@@ -152,7 +152,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		CheckoutViewModel.clickPaymentInfo();
 		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
-
+		Common.pressBack();
 		CheckoutViewModel.performSlideToPurchase(true);
 		assertSignedInConfirmationView();
 	}
