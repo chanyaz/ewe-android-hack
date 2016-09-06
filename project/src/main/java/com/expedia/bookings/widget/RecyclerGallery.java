@@ -46,8 +46,31 @@ public class RecyclerGallery extends RecyclerView {
 	private GalleryItemListener mListener;
 	private RecyclerAdapter mAdapter;
 	private SpaceDecoration mDecoration;
-	private LinearLayoutManager mLayoutManager;
+	private A11yLinearLayoutManager mLayoutManager;
 	private GalleryItemScrollListener mScrollListener;
+
+	public class A11yLinearLayoutManager extends LinearLayoutManager {
+
+		private boolean canA11yScroll = false;
+
+		public A11yLinearLayoutManager(Context context) {
+			super(context);
+		}
+
+		public void setCanA11yScroll(boolean canScroll) {
+			canA11yScroll = canScroll;
+		}
+
+		@Override
+		public boolean canScrollHorizontally() {
+			if (AccessibilityUtil.isTalkBackEnabled(getContext())) {
+				return canA11yScroll;
+			}
+			else {
+				return super.canScrollHorizontally();
+			}
+		}
+	}
 
 	private int mMode = MODE_FILL;
 
@@ -129,10 +152,10 @@ public class RecyclerGallery extends RecyclerView {
 		addItemDecoration(mDecoration);
 
 		if (ExpediaBookingApp.isDeviceShitty()) {
-			mLayoutManager = new LinearLayoutManager(getContext());
+			mLayoutManager = new A11yLinearLayoutManager(getContext());
 		}
 		else {
-			mLayoutManager = new LinearLayoutManager(getContext()) {
+			mLayoutManager = new A11yLinearLayoutManager(getContext()) {
 				@Override
 				protected int getExtraLayoutSpace(State state) {
 					if (state.hasTargetScrollPosition()) {
@@ -197,9 +220,7 @@ public class RecyclerGallery extends RecyclerView {
 				ButterKnife.inject(this, itemView);
 				mImageView.setLayoutParams(mLayoutParams);
 				mImageView.setTag(callback);
-				if (!AccessibilityUtil.isTalkBackEnabled(getContext())) {
-					mImageView.setOnClickListener(this);
-				}
+				mImageView.setOnClickListener(this);
 			}
 
 			public void bind() {

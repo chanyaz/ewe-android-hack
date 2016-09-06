@@ -592,6 +592,15 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             galleryRoot.translationY = 0f
         }
 
+        // Hotel gallery collapsed
+        if (yoffset == initialScrollTop) {
+            (gallery.layoutManager as RecyclerGallery.A11yLinearLayoutManager).setCanA11yScroll(false)
+        }
+        // Hotel gallery expanded
+        if (yoffset == 0) {
+            (gallery.layoutManager as RecyclerGallery.A11yLinearLayoutManager).setCanA11yScroll(true)
+        }
+
         miniMapView.translationY = yoffset * 0.15f
         transparentViewOverMiniMap.translationY = miniMapView.translationY
 
