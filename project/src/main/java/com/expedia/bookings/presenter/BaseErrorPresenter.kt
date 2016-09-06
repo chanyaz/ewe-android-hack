@@ -61,8 +61,7 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
         }
 
         standardToolbar.setNavigationOnClickListener {
-            val activity = context as AppCompatActivity
-            activity.onBackPressed()
+           back()
         }
     }
 
