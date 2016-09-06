@@ -515,7 +515,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             slideToPurchase.visibility = View.VISIBLE
             accessiblePurchaseButton.visibility = View.GONE
         }
-        val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
+        val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValidForBooking()
         val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
 
         if (acceptTermsRequired && !termsAccepted && isSlideToPurchaseLayoutVisible) {
@@ -552,7 +552,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     fun toggleCheckoutButton(isEnabled: Boolean) {
         checkoutButton.translationY = if (isEnabled) 0f else checkoutButtonHeight
-        val shouldShowSlider = currentState == CheckoutDefault::class.java.name && ckoViewModel.isValid()
+        val shouldShowSlider = currentState == CheckoutDefault::class.java.name && ckoViewModel.isValidForBooking()
         bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else sliderHeight
         checkoutButton.isEnabled = isEnabled
     }

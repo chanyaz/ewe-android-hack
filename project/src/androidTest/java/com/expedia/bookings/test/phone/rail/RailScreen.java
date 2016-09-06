@@ -9,6 +9,9 @@ import android.support.test.espresso.matcher.ViewMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -178,5 +181,24 @@ public class RailScreen {
 
 	public static void clickDone() {
 		onView(withId(R.id.menu_done)).perform(click());
+	}
+
+	public static void enterPaymentDetails() {
+		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+		CardInfoScreen.typeTextCvv("666");
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+
+		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
+		BillingAddressScreen.typeTextCity("San Francisco");
+		BillingAddressScreen.typeTextState("CA");
+		BillingAddressScreen.typeTextPostalCode("94105");
+
+		CheckoutViewModel.clickDone();
 	}
 }

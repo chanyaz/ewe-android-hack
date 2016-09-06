@@ -29,7 +29,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
-abstract  class BaseCheckoutViewModel(val context: Context) {
+abstract class BaseCheckoutViewModel(val context: Context) {
     //nullable for hotels/cars/lx which wont implement card fees
     var cardFeeService: CardFeeService? = null
         @Inject set
@@ -134,7 +134,7 @@ abstract  class BaseCheckoutViewModel(val context: Context) {
 
     abstract fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?)
 
-    fun isValid() : Boolean {
+    fun isValidForBooking() : Boolean {
         return builder.hasValidTravelerAndBillingInfo();
     }
 

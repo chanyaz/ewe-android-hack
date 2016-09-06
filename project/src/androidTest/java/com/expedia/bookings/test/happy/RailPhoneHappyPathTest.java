@@ -5,6 +5,7 @@ import org.hamcrest.CoreMatchers;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RailTestCase;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.rail.RailScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -32,6 +33,12 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		RailScreen.clickTravelerCard();
 		RailScreen.fillInTraveler();
 		assertCheckoutDisplayed();
+
+		CheckoutViewModel.waitForPaymentInfoDisplayed();
+		CheckoutViewModel.paymentInfo().perform(click());
+		RailScreen.enterPaymentDetails();
+
+		onView(withId(R.id.rail_slide_to_purchase_widget)).check(matches(isDisplayed()));
 	}
 
 	private void assertCheckoutDisplayed() {
