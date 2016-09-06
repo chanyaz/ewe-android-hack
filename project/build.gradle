@@ -204,7 +204,7 @@ android {
             applicationId "com.expedia.bookings"
 
             def major = 6
-            def minor = 17
+            def minor = 18
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
