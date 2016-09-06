@@ -915,6 +915,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.ticket_delivery_overview_widget,
 		R.layout.ticket_delivery_option_widget,
 		R.drawable.multi_carrier_icon,
-		R.string.multiple_carriers_text
+		R.string.multiple_carriers_text,
+		R.layout.traveler_picker_spinners_container
 	};
 }

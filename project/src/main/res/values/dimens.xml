@@ -250,6 +250,7 @@
     <!-- Hotel Dimensions -->
     <!-- Dimensions for Traveler Table -->
     <dimen name="traveler_table_margin">14dp</dimen>
+    <dimen name="rail_traveler_table_margin">28dp</dimen>
     <dimen name="traveler_plus_minus_size">48dp</dimen>
 
     <!-- Dimensions for Hotel Results -->
