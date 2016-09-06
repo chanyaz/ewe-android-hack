@@ -448,7 +448,7 @@
     <color name="flight_loading_message_text_color">#575757</color>
     <!-- Error widget button colors -->
     <color name="error_widget_edit_button_selected_color">#7C7C7C</color>
-    <color name="error_button_color">@color/hotels_primary_color</color>
+    <color name="error_button_color">@color/cars_primary_color</color>
 
     <color name="rating_yellow_disabled">#DBDBDB</color>
     <color name="rating_yellow">#F6AE24</color>
