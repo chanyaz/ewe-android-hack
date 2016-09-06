@@ -76,12 +76,12 @@ public class PackagePriceChangeTest extends PackageTestCase {
 	}
 
 	private void assertPriceChangeUp() {
-		onView(allOf(withId(R.id.price_change_text), withText("Price changed from $750"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.price_change_text), withText("Price changed from $749.52"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText("$751.52"))).check(matches(isDisplayed()));
 	}
 
 	private void assertPriceChangeDown() {
-		onView(allOf(withId(R.id.price_change_text), withText("Price dropped from $750"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.price_change_text), withText("Price dropped from $749.52"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText("$651.52"))).check(matches(isDisplayed()));
 	}
 
