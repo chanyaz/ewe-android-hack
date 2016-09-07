@@ -315,9 +315,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
         flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
         flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
-        if (!User.isLoggedIn(context)) {
-            flightOverviewPresenter.getCheckoutPresenter().resetTravelers()
-        }
+        flightOverviewPresenter.getCheckoutPresenter().updateDbTravelers()
     }
 
     val searchArgbEvaluator = ArgbEvaluator()

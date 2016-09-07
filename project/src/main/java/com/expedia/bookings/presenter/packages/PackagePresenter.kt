@@ -180,6 +180,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 bundlePresenter.setToolbarNavIcon(true)
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
                 bundlePresenter.getCheckoutPresenter().clearPaymentInfo()
+                bundlePresenter.getCheckoutPresenter().resetTravelers()
             } else {
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)
             }
