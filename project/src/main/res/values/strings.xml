@@ -3119,9 +3119,9 @@
     <string name="hotel_fees_for_this_stay">Hotel fees for this stay</string>
     <!-- Resort fee text for pacakges-->
     <string name="additional_fees_at_check_in">Additional fee at check-in</string>
-    <!-- Included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are included in the room price shown to the user -->
     <string name="included_in_the_price">Included in the price</string>
-    <!-- Not included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are not included in the room price shown to the user -->
     <string name="not_included_in_the_price">Not included in the price</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">View Room</string>
@@ -4708,11 +4708,11 @@
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">Activity Selected, {caption}</string>
 
-    <!-- Gallery Image count e.g. 1/14 -->
-    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
+    <!-- Gallery Image count e.g. "1/14" -->
+    <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
 
-    <!-- Content Description for current index of the photo in the gallery -->
-    <string name="galley_photo_count_content_description_TEMPLATE">View {index} of {count} gallery photos button"</string>
+    <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
+    <string name="gallery_photo_count_content_description_TEMPLATE">View {index} of {count} gallery photos button</string>
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">Multiple Carriers</string>
