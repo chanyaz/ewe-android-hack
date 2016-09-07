@@ -65,9 +65,8 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
 
             val currencyCode = it.roomResponse.rateInfo.chargeableRateInfo.currencyCode
             if (it.roomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage) {
-                val resortFees = Money(BigDecimal(it.roomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()),
-                        CurrencyUtils.currencyForLocale(it.country))
-                val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees.formattedMoney, tripTotal))
+                val resortFees = Money(BigDecimal(it.roomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()), currencyCode).formattedMoney
+                val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
                 disclaimerText.onNext(text)
             } else if (it.roomResponse.isPayLater) {
                 val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))

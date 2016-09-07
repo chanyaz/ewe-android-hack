@@ -19,6 +19,10 @@ import java.util.Locale
 class PackageHotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         BaseHotelDetailViewModel(context, roomSelectedObserver) {
 
+    override fun showFeeType() : Boolean {
+        return true
+    }
+
     override fun getFeeTypeText() : Int {
         return if (PointOfSale.getPointOfSale().pointOfSaleId == PointOfSaleId.UNITED_STATES) R.string.rate_per_night else R.string.total_fee
     }

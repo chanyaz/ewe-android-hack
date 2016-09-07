@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.robolectric
 
+import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -24,8 +25,10 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.util.endlessObserver
+import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.vm.packages.PackageHotelDetailViewModel
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
@@ -58,8 +61,10 @@ class HotelDetailViewModelTest {
     private var offer3: HotelOffersResponse by Delegates.notNull()
 
     private val expectedTotalPriceWithMandatoryFees = 42f
+    private var context: Context by Delegates.notNull()
 
     @Before fun before() {
+        context = RuntimeEnvironment.application
         vm = HotelDetailViewModel(RuntimeEnvironment.application, endlessObserver { /*ignore*/ })
 
         offer1 = HotelOffersResponse()
@@ -126,14 +131,16 @@ class HotelDetailViewModelTest {
 
     @Test fun resortFeeShowsForPackages() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
+        val vm = PackageHotelDetailViewModel(RuntimeEnvironment.application, endlessObserver { /*ignore*/ })
         val testSubscriber = TestSubscriber<String>()
         vm.hotelResortFeeObservable.subscribe(testSubscriber)
         vm.paramsSubject.onNext(createSearchParams())
 
-        makeResortFeeResponse()
+        makeResortFeeResponse(vm)
 
         testSubscriber.requestMore(100)
         assertEquals("$20", testSubscriber.onNextEvents[1])
+        assertEquals("per night", context.getString(vm.getFeeTypeText()))
     }
 
     @Test fun resortFeeShowUKPOS() {
@@ -143,10 +150,11 @@ class HotelDetailViewModelTest {
         vm.hotelResortFeeObservable.subscribe(testSubscriber)
         vm.paramsSubject.onNext(createSearchParams())
 
-        makeResortFeeResponse()
+        makeResortFeeResponse(vm)
 
         testSubscriber.requestMore(100)
         assertEquals("20.00 USD", testSubscriber.onNextEvents[1])
+        assertEquals("total fee", context.getString(vm.getFeeTypeText()))
     }
 
     @Test fun resortFeeShowUSPOS() {
@@ -156,13 +164,13 @@ class HotelDetailViewModelTest {
         vm.hotelResortFeeObservable.subscribe(testSubscriber)
         vm.paramsSubject.onNext(createSearchParams())
 
-        makeResortFeeResponse()
+        makeResortFeeResponse(vm)
 
         testSubscriber.requestMore(100)
         assertEquals("$20", testSubscriber.onNextEvents[1])
     }
 
-    private fun makeResortFeeResponse() {
+    private fun makeResortFeeResponse(vm: BaseHotelDetailViewModel) {
         offer1.hotelRoomResponse.clear()
         val packageSearchParams = PackageSearchParams.Builder(30, 330)
                 .adults(1)

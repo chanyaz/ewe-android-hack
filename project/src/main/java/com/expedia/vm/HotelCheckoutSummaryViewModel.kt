@@ -99,9 +99,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             val rate = room.rateInfo.chargeableRateInfo
 
             isPayLater.onNext(room.isPayLater && !AndroidUtils.isTablet(context))
-            val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()),
-                    CurrencyUtils.currencyForLocale(it.country))
-            isResortCase.onNext(resortFees.amount.toFloat() != 0f && Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
+            isResortCase.onNext(rate.totalMandatoryFees != 0f && Strings.equals(rate.checkoutPriceType, "totalPriceWithMandatoryFees"))
             isPayLaterOrResortCase.onNext(isPayLater.value || isResortCase.value)
             isDepositV2.onNext(room.depositRequired)
             priceAdjustments.onNext(rate.getPriceAdjustments())
@@ -122,7 +120,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             extraGuestFees.onNext(rate.extraGuestFees)
 
             showFeesPaidAtHotel.onNext(isResortCase.value)
-            feesPaidAtHotel.onNext(resortFees.formattedMoneyFromAmountAndCurrencyCode)
+            feesPaidAtHotel.onNext(Money(BigDecimal(rate.totalMandatoryFees.toString()), currencyCode.value).formattedMoney)
             isBestPriceGuarantee.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee() && room.isMerchant)
             if (it.isExpediaRewardsRedeemable && !it.paymentSplitsType.equals(PaymentSplitsType.IS_FULL_PAYABLE_WITH_CARD)) {
                 dueNowAmount.onNext(it.payingWithCard.amount.formattedMoneyFromAmountAndCurrencyCode)
