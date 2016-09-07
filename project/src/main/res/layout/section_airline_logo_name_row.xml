@@ -13,6 +13,8 @@
         android:id="@+id/airline_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:ellipsize="end"
+        android:maxLines="1"
         style="@style/MaterialFlightCell.CarrierText"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"/>
