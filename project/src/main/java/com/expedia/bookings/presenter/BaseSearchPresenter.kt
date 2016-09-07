@@ -177,6 +177,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         navIcon.setColorFilter(ContextCompat.getColor(context, R.color.search_suggestion_v2), PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         setNavIconContentDescription(true)
+        if (currentState == null) show(InputSelectionState())
         show(SuggestionSelectionState())
     }
 
