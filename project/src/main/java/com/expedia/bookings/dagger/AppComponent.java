@@ -8,7 +8,6 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
-import com.expedia.bookings.services.InsuranceServices;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.model.UserLoginStateChangedModel;
@@ -29,6 +28,5 @@ public interface AppComponent {
 	Interceptor requestInterceptor();
 	AbacusServices abacus();
 	ClientLogServices clientLog();
-	InsuranceServices insurance();
 	UserLoginStateChangedModel userLoginStateChangedModel();
 }

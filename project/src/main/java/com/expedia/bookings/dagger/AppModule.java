@@ -1,20 +1,6 @@
 package com.expedia.bookings.dagger;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-
-import javax.inject.Singleton;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
-
 import android.content.Context;
-
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -23,7 +9,6 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
-import com.expedia.bookings.services.InsuranceServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -36,6 +21,17 @@ import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.SettingUtils;
 import dagger.Module;
 import dagger.Provides;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+import javax.inject.Singleton;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
 import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.HttpUrl;
@@ -250,13 +246,6 @@ public class AppModule {
 		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
-	}
-
-	@Provides
-	@Singleton
-	InsuranceServices provideInsurance(OkHttpClient client, EndpointProvider endpointProvider, Interceptor interceptor) {
-		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new InsuranceServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

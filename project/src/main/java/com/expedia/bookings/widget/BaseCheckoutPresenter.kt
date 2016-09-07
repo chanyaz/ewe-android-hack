@@ -31,7 +31,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
-import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
@@ -49,7 +48,6 @@ import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.BaseCreateTripViewModel
-import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.packages.BundleTotalPriceViewModel
@@ -60,7 +58,7 @@ import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
-    lateinit var insuranceServices: InsuranceServices
+
     lateinit var travelerManager: TravelerManager
 
     val handle: FrameLayout by bindView(R.id.handle)
@@ -180,7 +178,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         View.inflate(context, R.layout.base_checkout_presenter, this)
         injectComponents()
 
-        insuranceServices = Ui.getApplication(context).appComponent().insurance()
         travelerManager = Ui.getApplication(context).travelerComponent().travelerManager()
 
         paymentWidget = paymentViewStub.inflate() as PaymentWidget
@@ -188,7 +185,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         getPaymentWidgetViewModel().paymentTypeWarningHandledByCkoView.onNext(true)
         paymentWidget.viewmodel = getPaymentWidgetViewModel()
 
-        insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
         priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
         priceChangeWidget.viewmodel.priceChangeVisibility.subscribe { visible ->
             if (priceChangeWidget.measuredHeight == 0) {
@@ -373,7 +369,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             loginWidget.setInverseVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
             travelerSummaryCard.visibility = if (forward) View.GONE else View.VISIBLE
-            insuranceWidget.setInverseVisibility(forward || !insuranceWidget.viewModel.hasProduct)
             legalInformationText.setInverseVisibility(forward)
             depositPolicyText.setInverseVisibility(forward)
             bottomContainer.setInverseVisibility(forward)
@@ -389,6 +384,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             } else {
                 decorView.viewTreeObserver.addOnGlobalLayoutListener(paymentLayoutListener)
             }
+            setInsuranceWidgetVisibility(!forward)
         }
 
         override fun endTransition(forward: Boolean) {
@@ -403,6 +399,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             }
             ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
         }
+    }
+
+
+    open fun setInsuranceWidgetVisibility(visible: Boolean) {
+        insuranceWidget.visibility = View.GONE
     }
 
     //Either shows the bundle overview or the checkout presenter based on distance/rotation
@@ -516,7 +517,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         }
         val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
         val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
-        
+
         if (acceptTermsRequired && !termsAccepted && isSlideToPurchaseLayoutVisible) {
             acceptTermsWidget.visibility = View.VISIBLE
         }

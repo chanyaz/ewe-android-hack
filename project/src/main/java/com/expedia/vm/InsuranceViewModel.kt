@@ -24,7 +24,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceServices) {
+class InsuranceViewModel(private val context: Context, private val insuranceServices: InsuranceServices) {
     val benefitsObservable = BehaviorSubject.create<Spanned>()
     val programmaticToggleObservable = PublishSubject.create<Boolean>()
     val termsObservable = PublishSubject.create<SpannableStringBuilder>()
@@ -39,9 +39,9 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
         AlertDialog.Builder(context).setPositiveButton(R.string.button_done, null).create()
     }
 
-    val hasProduct: Boolean get() = product != null
+    private val hasProduct: Boolean get() = product != null
 
-    var product: InsuranceProduct? = null
+    private var product: InsuranceProduct? = null
 
     val updatingTripDialog: ProgressDialog by lazy {
         val dialog = ProgressDialog(context)
@@ -179,7 +179,7 @@ class InsuranceViewModel(val context: Context, val insuranceServices: InsuranceS
         programmaticToggleObservable.onNext(trip.selectedInsuranceProduct != null)
     }
 
-    fun updateVisibility() {
-        widgetVisibilityObservable.onNext(hasProduct)
+    fun updateVisibility(requestVisible: Boolean = true) {
+        widgetVisibilityObservable.onNext(requestVisible && hasProduct)
     }
 }

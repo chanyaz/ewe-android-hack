@@ -13,6 +13,7 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
@@ -21,6 +22,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
+import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
@@ -32,6 +34,8 @@ import rx.subjects.Subject
 import javax.inject.Inject
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
+    lateinit var insuranceServices: InsuranceServices
+        @Inject set
 
     lateinit var flightCheckoutViewModel: FlightCheckoutViewModel
         @Inject set
@@ -69,6 +73,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
         vm as FlightCreateTripViewModel
 
+        insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
         insuranceWidget.viewModel.updatedTripObservable.subscribe(vm.tripResponseObservable)
 
         vm.tripParams.subscribe {
@@ -170,4 +175,9 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
                     }
                 }).subscribe()
     }
+
+    override fun setInsuranceWidgetVisibility(visible: Boolean){
+        insuranceWidget.viewModel.updateVisibility(visible)
+    }
+
 }
