@@ -4,8 +4,6 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.responses.RailCard
-import com.expedia.bookings.data.rail.responses.RailCardSelected
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.CalendarWidgetWithTimeSlider
@@ -36,6 +34,10 @@ class RailSearchWidget(context: Context, attr: AttributeSet?) : FrameLayout(cont
         cardPickerWidget.railCardPickerViewModel.cardsListForSearchParams.subscribe { railCards ->
             searchViewModel.getParamsBuilder().fareQualifierList(railCards)
         }
+
+        travelerWidget.traveler.getViewModel().travelerParamsObservable
+                .map { travelerParams -> travelerParams.getTravelerCount() }
+                .subscribe(cardPickerWidget.railCardPickerViewModel.numberOfTravelers)
     }
 }
 

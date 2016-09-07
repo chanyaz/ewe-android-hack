@@ -7,9 +7,11 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCard
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.RailCardPickerRowViewModel
+import kotlin.properties.Delegates
 
 class RailCardPickerRowView(context: Context): LinearLayout(context) {
 
@@ -18,24 +20,33 @@ class RailCardPickerRowView(context: Context): LinearLayout(context) {
     private val cardTypeSpinnerHint = context.resources.getString(R.string.select_rail_card_hint)
     private val cardQuantitySpinnerHint = context.resources.getString(R.string.select_rail_card_quantity_hint)
 
+    var cardQuantityAdapter by Delegates.notNull<SpinnerAdapterWithHint>()
+    var railCardAdapter by Delegates.notNull<SpinnerAdapterWithHint>()
+
     var viewModel by notNullAndObservable<RailCardPickerRowViewModel> { vm ->
         vm.cardTypesList.subscribe { cardTypes ->
-            val railCardAdapter = SpinnerAdapterWithHint(context, cardTypes.map { cardType ->
+            railCardAdapter = SpinnerAdapterWithHint(context, cardTypes.map { cardType ->
                 SpinnerAdapterWithHint.SpinnerItem(cardType.name, cardType)
             }, cardTypeSpinnerHint)
+
             cardTypeSpinner.adapter = railCardAdapter
             cardTypeSpinner.setSelection(railCardAdapter.count)
         }
-    }
 
-    init {
-        View.inflate(context, R.layout.widget_rail_card_picker_row, this)
+        vm.resetRow.subscribe {
+            cardTypeSpinner.setSelection(railCardAdapter.count)
+            cardQuantitySpinner.setSelection(cardQuantityAdapter.count)
+        }
 
-        val cardQuantityAdapter = SpinnerAdapterWithHint(context,
+        cardQuantityAdapter = SpinnerAdapterWithHint(context,
                 IntRange(1,8).map { SpinnerAdapterWithHint.SpinnerItem(it.toString(), it) },
                 cardQuantitySpinnerHint)
         cardQuantitySpinner.adapter = cardQuantityAdapter
         cardQuantitySpinner.setSelection(cardQuantityAdapter.count)
+    }
+
+    init {
+        View.inflate(context, R.layout.widget_rail_card_picker_row, this)
 
         cardTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {

@@ -14,4 +14,6 @@ class RailCardPickerRowViewModel(val rowId: Int) {
     val cardTypeQuantityChanged = Observable.combineLatest(cardTypeSelected, cardQuantitySelected, {cardTypeSelected, cardQuantitySelected ->
         RailCardSelected(rowId, cardTypeSelected, cardQuantitySelected)
     })
+
+    val resetRow = PublishSubject.create<Unit>()
 }

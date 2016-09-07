@@ -51,21 +51,21 @@ class RailCardPickerViewTest {
         assertTrue(cardPickerView.addButton.isEnabled)
         assertFalse(cardPickerView.removeButton.isEnabled)
 
-        assertEquals(2, cardPickerView.childCount)
-        val row1 = cardPickerView.getChildAt(1) as RailCardPickerRowView
+        assertEquals(3, cardPickerView.childCount)
+        val row1 = cardPickerView.getChildAt(2) as RailCardPickerRowView
         assertNotNull(row1)
         assertEquals(0, row1.viewModel.rowId)
 
         cardPickerView.addButton.performClick()
-        assertEquals(3, cardPickerView.childCount)
-        val row2 = cardPickerView.getChildAt(2) as RailCardPickerRowView
+        assertEquals(4, cardPickerView.childCount)
+        val row2 = cardPickerView.getChildAt(3) as RailCardPickerRowView
         assertNotNull(row2)
         assertEquals(1, row2.viewModel.rowId)
         assertTrue(cardPickerView.removeButton.isEnabled)
 
         cardPickerView.removeButton.performClick()
-        assertEquals(2, cardPickerView.childCount)
+        assertEquals(3, cardPickerView.childCount)
         assertFalse(cardPickerView.removeButton.isEnabled)
-        assertEquals(0, (cardPickerView.getChildAt(1) as RailCardPickerRowView).viewModel.rowId)
+        assertEquals(0, (cardPickerView.getChildAt(2) as RailCardPickerRowView).viewModel.rowId)
     }
 }

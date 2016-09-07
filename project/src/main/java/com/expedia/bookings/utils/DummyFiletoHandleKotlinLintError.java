@@ -916,6 +916,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.ticket_delivery_option_widget,
 		R.drawable.multi_carrier_icon,
 		R.string.multiple_carriers_text,
-		R.layout.traveler_picker_spinners_container
+		R.layout.traveler_picker_spinners_container,
+		R.string.error_select_rail_card_details,
+		R.string.error_rail_cards_greater_than_number_travelers
 	};
 }

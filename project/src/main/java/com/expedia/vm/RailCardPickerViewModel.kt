@@ -18,9 +18,11 @@ import java.util.HashMap
 class RailCardPickerViewModel(val railServices: RailServices, val context: Context) {
 
     val railCardsSelectionChangedObservable: PublishSubject<RailCardSelected> = PublishSubject.create()
+    val numberOfTravelers: PublishSubject<Int> = PublishSubject.create()
     val doneClickedSubject: PublishSubject<Unit> = PublishSubject.create()
 
-    val validationSuccessSubject: PublishSubject<Unit> = PublishSubject.create()
+    val validationError: PublishSubject<String> = PublishSubject.create()
+    val validationSuccess: PublishSubject<Unit> = PublishSubject.create()
 
     val cardsAndQuantitySelectionDetails = HashMap<Int, RailCardSelected>()
     val cardsListForSearchParams: PublishSubject<List<RailCard>> = PublishSubject.create()
@@ -29,42 +31,68 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
     val addClickSubject = PublishSubject.create<Unit>()
     val removeClickSubject = PublishSubject.create<Unit>()
 
+    val removeRow = PublishSubject.create<Unit>()
+    val resetClicked = PublishSubject.create<Unit>()
+
     val addView = PublishSubject.create<RailCardPickerRowView>()
     val removeButtonEnableState = PublishSubject.create<Boolean>()
     var rowId = 0
+    val MAX_ROWS = 8
+
+    val doneClickedWithNumberOfTravelers = doneClickedSubject.withLatestFrom(numberOfTravelers, {clicked, numberOfTravelers-> numberOfTravelers})
 
     init {
         railCardsSelectionChangedObservable.subscribe { railCardSelected ->
             cardsAndQuantitySelectionDetails.put(railCardSelected.id, railCardSelected)
         }
 
-        doneClickedSubject.subscribe {
-            // TODO validate and show errors.
+        railCardsSelectionChangedObservable.filter { it.id == 0 }.subscribe { railCardSelected ->
+            removeButtonEnableState.onNext(railCardSelected.isResetState())
+        }
+
+        doneClickedWithNumberOfTravelers.filter { validate(it) }.subscribe {
             val selectedRailCards = ArrayList<RailCard>()
 
             // Api search request does not accept quantity for each card type.
             // Instead, it requires us to send a separate object if there are more than one card of same type
-            cardsAndQuantitySelectionDetails.map { railCardAndQuantitySelected -> railCardAndQuantitySelected.value }.forEach { card ->
-                for (i in 1..card.quantity) {
-                    selectedRailCards.add(card.cardType)
-                }
-            }
-
+            cardsAndQuantitySelectionDetails.map { railCardAndQuantitySelected -> railCardAndQuantitySelected.value }
+                    .filter { it.quantity != 0 }
+                    .forEach { card ->
+                        for (i in 1..card.quantity) {
+                            selectedRailCards.add(card.cardType)
+                        }
+                    }
             // On validation success, set search params and close dialog
             cardsListForSearchParams.onNext(selectedRailCards)
-            validationSuccessSubject.onNext(Unit)
+            validationSuccess.onNext(Unit)
         }
 
-        addClickSubject.withLatestFrom(railCardTypes, {x, y -> y}).subscribe {
-            addRow(it)
+        addClickSubject.withLatestFrom(railCardTypes, {clicked, railCard -> railCard}).subscribe { railCard ->
+            addRow(railCard)
         }
 
         removeClickSubject.subscribe {
-            rowId--
-            cardsAndQuantitySelectionDetails.remove(rowId)
-            removeButtonEnableState.onNext(rowId != 1)
+            cardsAndQuantitySelectionDetails.remove(rowId - 1)
+            if (rowId == 1) {
+                resetClicked.onNext(Unit)
+                removeButtonEnableState.onNext(false)
+            }
+            else {
+                rowId--
+                removeRow.onNext(Unit)
+                setRemoveButtonState()
+            }
         }
         fetchRailCards()
+    }
+
+    private fun setRemoveButtonState() {
+        if (rowId == 1 && isFirstRowInResetState()) {
+            removeButtonEnableState.onNext(false)
+        }
+        else {
+            removeButtonEnableState.onNext(true)
+        }
     }
 
     private fun fetchRailCards() {
@@ -73,16 +101,8 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
                 throw OnErrorNotImplementedException(e)
             }
 
-            override fun onNext(response: RailCardsResponse?) {
-                // TODO Remove this check once the api format is fixed.
-                // https://jira/jira/browse/EWERAILS-1507
-                val selectedEnv = SettingUtils.get(context, context.getString(R.string.preference_which_api_to_use_key), "")
-                if (selectedEnv.equals("Mock Mode")) {
-                    railCardTypes.onNext(response!!.railCards)
-                }
-                else {
-                    railCardTypes.onNext(listOf(RailCard("", "", "Test")))
-                }
+            override fun onNext(response: RailCardsResponse) {
+                railCardTypes.onNext(response.railCards)
             }
 
             override fun onCompleted() {
@@ -94,14 +114,42 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
 
     fun addRow(railCards: List<RailCard>) {
         val railCardPickerViewModel = RailCardPickerRowViewModel(rowId)
+        railCardPickerViewModel.cardTypeQuantityChanged.subscribe(railCardsSelectionChangedObservable)
+
         val row = RailCardPickerRowView(context)
         row.viewModel = railCardPickerViewModel
 
         railCardPickerViewModel.cardTypesList.onNext(railCards)
-        railCardPickerViewModel.cardTypeQuantityChanged.subscribe(railCardsSelectionChangedObservable)
+
+        resetClicked.subscribe(railCardPickerViewModel.resetRow)
 
         addView.onNext(row)
         rowId++
         removeButtonEnableState.onNext(rowId != 1)
+    }
+
+    private fun validate(numberOfTravelers: Int): Boolean {
+        val numberOfCardsSelected = cardsAndQuantitySelectionDetails.map { it.value.quantity }.sum()
+        if (numberOfCardsSelected > numberOfTravelers) {
+            validationError.onNext(context.resources.getString(R.string.error_rail_cards_greater_than_number_travelers))
+            return false
+        }
+
+        // When there is only first row and both card type and quantity are not selected, close dialog.
+        if (cardsAndQuantitySelectionDetails.size == 1 && isFirstRowInResetState()) {
+            return true
+        }
+
+        // If partially filled rows, show error.
+        else if (cardsAndQuantitySelectionDetails.filter { railCardHashMap -> railCardHashMap.value.isSelectionPartial() }.size > 0){
+            validationError.onNext(context.resources.getString(R.string.error_select_rail_card_details))
+            return false
+        }
+        return true
+    }
+
+    private fun isFirstRowInResetState(): Boolean {
+        val firstRowCompletelyEmpty = (cardsAndQuantitySelectionDetails[0] as RailCardSelected).isSelectionEmpty()
+        return firstRowCompletelyEmpty
     }
 }
