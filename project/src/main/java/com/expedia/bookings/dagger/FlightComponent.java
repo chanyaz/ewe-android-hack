@@ -10,7 +10,7 @@ import com.expedia.vm.flights.FlightCreateTripViewModel;
 import dagger.Component;
 
 @FlightScope
-@Component(dependencies = {AppComponent.class}, modules = {FlightModule.class, FeesModule.class})
+@Component(dependencies = {AppComponent.class}, modules = {FlightModule.class, FeesModule.class, InsuranceModule.class})
 public interface FlightComponent {
 	void inject(FlightPresenter presenter);
 	void inject(FlightCheckoutPresenter flightCheckoutPresenter);
