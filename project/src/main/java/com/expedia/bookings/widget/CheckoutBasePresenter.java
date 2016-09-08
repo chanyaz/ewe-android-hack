@@ -5,9 +5,7 @@ import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
@@ -130,7 +128,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		super.onFinishInflate();
 		ButterKnife.inject(this);
 		setupToolbar();
-		setupAcceptTermsWidget();
 
 		paymentStub = (ViewStub) findViewById(R.id.payment_info_card_view_stub);
 		paymentInfoCardView = (PaymentWidget) paymentStub.inflate();
@@ -224,15 +221,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	protected String getToolbarTitle() {
 		return getContext().getString(R.string.checkout_text);
-	}
-
-	public void setupAcceptTermsWidget() {
-		Resources.Theme theme = getContext().getTheme();
-		acceptTermsWidget.getDoYouAcceptTextView().setBackground(theme.getDrawable(R.color.white));
-		acceptTermsWidget.getDoYouAcceptTextView().setTextColor(
-			ContextCompat.getColor(getContext(), R.color.hotels_primary_color));
-		acceptTermsWidget.getAcceptButton().setBackground(theme.getDrawable(R.drawable.hotel_select_room_ripple));
-		acceptTermsWidget.getTextShadow().setVisibility(View.VISIBLE);
 	}
 
 	public void setupToolbar() {

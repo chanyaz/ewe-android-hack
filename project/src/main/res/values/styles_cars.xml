@@ -46,7 +46,6 @@
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
-
     </style>
 
     <!--
@@ -70,6 +69,9 @@
         <item name="windowActionModeOverlay">true</item>
         <item name="toolbarNavigationButtonStyle">@style/CarNavigationButtonStyle</item>
         <item name="sliderText">@string/cars_slider_text</item>
+        <item name="accept_terms_text_color">@color/cars_primary_color</item>
+        <item name="accept_terms_background_color">@color/white</item>
+
     </style>
 
     <style name="CarsActionBarTitle" parent="V2.Theme.Cars">

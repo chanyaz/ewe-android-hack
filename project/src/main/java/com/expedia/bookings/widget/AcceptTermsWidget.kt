@@ -13,8 +13,6 @@ import com.expedia.vm.AcceptTermsViewModel
 class AcceptTermsWidget(context: Context, attrs: AttributeSet): LinearLayout(context, attrs) {
 
     val acceptButton: Button by bindView(R.id.i_accept_terms_button)
-    val doYouAcceptTextView: TextView by bindView(R.id.do_you_accept_label)
-    val textShadow: View by bindView(R.id.accept_terms_text_shadow)
     lateinit var vm: AcceptTermsViewModel
 
     init {
