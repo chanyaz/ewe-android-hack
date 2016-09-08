@@ -1,0 +1,472 @@
+{
+  "packageDetails": {
+    "tripId": "e19284f7-09ba-44a7-9278-46ec5e0a616a",
+    "itineraryNumber": 1132628851286,
+    "flight": {
+      "details": {
+        "offer": {
+          "legIds": [
+            "901b5547975433ed3ff9fcc376222883",
+            "2f7d63b991a8fdd8234f05b7275bb56e"
+          ],
+          "currency": "USD",
+          "baseFare": "0.00",
+          "baseFarePrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "totalFare": "28.00",
+          "totalFarePrice": {
+            "amount": "28.00",
+            "formattedPrice": "$28.00",
+            "formattedWholePrice": "$28",
+            "currencyCode": "USD"
+          },
+          "pricePerPassengerCategory": [
+            {
+              "passengerCategory": "CHILD",
+              "totalPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "basePrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "taxesPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              }
+            },
+            {
+              "passengerCategory": "ADULT_CHILD",
+              "totalPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "basePrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "taxesPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              }
+            },
+            {
+              "passengerCategory": "INFANT_IN_LAP",
+              "totalPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "basePrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "taxesPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              }
+            },
+            {
+              "passengerCategory": "ADULT",
+              "totalPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "basePrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "taxesPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              }
+            },
+            {
+              "passengerCategory": "ADULT",
+              "totalPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "basePrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "taxesPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              }
+            }
+          ],
+          "averageTotalPricePerTicket": {
+            "amount": "7.00",
+            "formattedPrice": "$7.00",
+            "formattedWholePrice": "$7",
+            "currencyCode": "USD"
+          },
+          "numberOfTickets": 4,
+          "taxes": "0.00",
+          "taxesPrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "fees": "28.00",
+          "feesPrice": {
+            "amount": "28.00",
+            "formattedPrice": "$28.00",
+            "formattedWholePrice": "$28",
+            "currencyCode": "USD"
+          },
+          "showFees": true,
+          "seatsRemaining": 7,
+          "segmentAttributes": [
+            [
+              {
+                "bookingCode": "O",
+                "cabinCode": "coach"
+              },
+              {
+                "bookingCode": "O",
+                "cabinCode": "coach"
+              }
+            ],
+            [
+              {
+                "bookingCode": "T",
+                "cabinCode": "coach"
+              },
+              {
+                "bookingCode": "T",
+                "cabinCode": "coach"
+              }
+            ]
+          ],
+          "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=DTW&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=OA21ZNX5&bookingclass=O&travelDate=2016-06-28&flightNumber=42&langid=1033",
+          "fareType": "PUBLISHED",
+          "isInternational": false,
+          "isPassportNeeded": false,
+          "hasBagFee": false,
+          "hasNoBagFee": false,
+          "isSplitTicket": false
+        },
+        "flightRules": [
+          {
+            "isChangeAllowed": true,
+            "isEnrouteChangeAllowed": false,
+            "isEnrouteRefundAllowed": false,
+            "isRefundable": false,
+            "changePenaltyAmount": "200.00",
+            "changePenaltyPrice": {
+              "amount": "200.00",
+              "formattedPrice": "$200.00",
+              "formattedWholePrice": "$200",
+              "currencyCode": "USD"
+            },
+            "summaryText": ""
+          },
+          {
+            "isChangeAllowed": true,
+            "isEnrouteChangeAllowed": false,
+            "isEnrouteRefundAllowed": false,
+            "isRefundable": false,
+            "changePenaltyAmount": "200.00",
+            "changePenaltyPrice": {
+              "amount": "200.00",
+              "formattedPrice": "$200.00",
+              "formattedWholePrice": "$200",
+              "currencyCode": "USD"
+            },
+            "summaryText": ""
+          },
+          {
+            "isChangeAllowed": false,
+            "isEnrouteChangeAllowed": false,
+            "isEnrouteRefundAllowed": false,
+            "isRefundable": false,
+            "summaryText": ""
+          }
+        ],
+        "obFeeTotalAmount": "0.00",
+        "obFeePrice": {
+          "amount": "0.00",
+          "formattedPrice": "$0.00",
+          "formattedWholePrice": "$0",
+          "currencyCode": "USD"
+        },
+        "destinationRegionId": 6139057,
+        "isSplitTicket": false
+      },
+      "rules": {
+        "RuleToTextMap": {
+          "CompletePenaltyRules": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+          "RefundabilityText": "Tickets are nonrefundable and nontransferable.",
+          "BookingFeeText": "This price includes a nonrefundable booking fee.",
+          "BookingFeeLegalText": "An additional non-refundable administration fees is applied for flights booked on a standalone basis through the Call Centre. Customers are informed of the administration fee by their Call Centre Agent at the time of their call.",
+          "CancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+          "AirlineLiabilityLimitations": "Please read important information regarding airline liability limitations.",
+          "AdditionalAirlineFees": "The airline may charge additional fees for checked baggage or other optional services.",
+          "CancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+          "ChangePenaltyText": "A change fee of $200.00 per ticket is charged by the airline for all itinerary changes."
+        },
+        "RuleToUrlMap": {
+          "CompletePenaltyRules": "https://www.expedia.com/Fare-Rules?tripid=e19284f7-09ba-44a7-9278-46ec5e0a616a&tlid=1033",
+          "AirlineLiabilityLimitations": "https://www.expedia.com/p/info-main/warsaw?&tlid=1033",
+          "AdditionalAirlineFees": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=DTW&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=OA21ZNX5&bookingclass=O&travelDate=2016-06-28&flightNumber=42"
+        }
+      }
+    },
+    "hotel": {
+      "checkInDate": "2016-06-28",
+      "checkOutDate": "2016-06-30",
+      "adultCount": "2",
+      "numberOfNights": "2",
+      "numberOfRooms": "1",
+      "hotelId": "1723337",
+      "hotelName": "Staybridge Suites Detroit Novi",
+      "localizedHotelName": "Staybridge Suites Detroit Novi",
+      "nonLocalizedHotelName": "Staybridge Suites Detroit Novi",
+      "largeThumbnailUrl": "/hotels/2000000/1730000/1723400/1723337/1723337_346_d.jpg",
+      "thumbnailUrl": "/hotels/2000000/1730000/1723400/1723337/1723337_346_n.jpg",
+      "hotelAddress": "27000 Providence Pkwy",
+      "hotelCity": "Novi",
+      "hotelStateProvince": "MI",
+      "hotelCountry": "USA",
+      "hotelStarRating": "3.0",
+      "hotelRoomResponse": {
+        "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Staybridge Suites Detroit Novi charges the following cancellation and change fees.</p><p><span class=\"rr-bold\">The room type and rate selected are non-refundable.</span> Should you change or cancel this reservation for any reason, your payment will not be refunded.</p><p>No refunds will be issued for late check-in or early check-out.</p><p>Stay extensions require a new reservation.</p><p>Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+        "rateDescription": "Room, 2 Queen Beds, Non Smoking - Advance Saver Rate (Advance Purchase)",
+        "roomTypeDescription": "Room, 2 Queen Beds, Non Smoking - Advance Saver Rate (Advance Purchase)",
+        "supplierType": "MERCHANT",
+        "nonRefundable": true,
+        "hasFreeCancellation": false,
+        "guaranteeRequired": false,
+        "depositRequired": false,
+        "immediateChargeRequired": true,
+        "currentAllotment": "0",
+        "promoDescription": "",
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "9",
+        "bedTypes": [
+          {
+            "id": "23",
+            "description": "2 queen beds"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "182.99",
+            "averageRate": "182.99",
+            "taxStatusType": "ESTIMATED",
+            "surchargeTotal": "19.78",
+            "surchargeTotalForEntireStay": "39.56",
+            "averageBaseRate": "182.99",
+            "nightlyRateTotal": "365.98",
+            "discountPercent": 0,
+            "total": "405.54",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "19.78",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "19.78",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "39.56",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "39.56",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+              {
+                "promo": "false",
+                "baseRate": "182.99",
+                "rate": "182.99"
+              },
+              {
+                "promo": "false",
+                "baseRate": "182.99",
+                "rate": "182.99"
+              }
+            ],
+            "priceToShowUsers": "183",
+            "strikethroughPriceToShowUsers": "183",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "406",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "405.54",
+            "formattedTotalPriceWithMandatoryFees": "$ 405.54",
+            "userPriceType": "PerNightRateNoTaxes",
+            "priceAdjustments": [],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "442398",
+            "ratePlanCode": "1570180",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "5",
+        "minGuestAge": "0",
+        "roomTypeCode": "442398",
+        "ratePlanCode": "1570180",
+        "isPayLater": false
+      },
+      "supplierType": "MERCHANT",
+      "accessibilityAmenities": [
+        {
+          "id": "2420",
+          "description": "Accessible bathroom"
+        },
+        {
+          "id": "2421",
+          "description": "Roll-in shower"
+        },
+        {
+          "id": "2423",
+          "description": "In-room accessibility"
+        }
+      ],
+      "isVipAccess": false,
+      "tealeafTransactionId": "85e26ed746454481b85cb4bbe99c6f01",
+      "bigImageUrl": "/hotels/2000000/1730000/1723400/1723337/1723337_346_b.jpg",
+      "regionId": "6059252"
+    },
+    "pricing": {
+      "packageTotal": {
+        "amount": "2202.34",
+        "formattedPrice": "$2,202.34",
+        "formattedWholePrice": "$2,202",
+        "currencyCode": "USD"
+      },
+      "basePrice": {
+        "amount": "2230.34",
+        "formattedPrice": "$2,230.34",
+        "formattedWholePrice": "$2,230",
+        "currencyCode": "USD"
+      },
+      "totalTaxesAndFees": {
+        "amount": "333.08",
+        "formattedPrice": "$333.08",
+        "formattedWholePrice": "$333",
+        "currencyCode": "USD"
+      },
+      "hotelPrice": {
+        "amount": "405.54",
+        "formattedPrice": "$405.54",
+        "formattedWholePrice": "$406",
+        "currencyCode": "USD"
+      },
+      "flightPrice": {
+        "amount": "1824.80",
+        "formattedPrice": "$1,824.80",
+        "formattedWholePrice": "$1,825",
+        "currencyCode": "USD"
+      },
+      "savings": {
+        "amount": "-28.00",
+        "formattedPrice": "$28.00",
+        "formattedWholePrice": "$28",
+        "currencyCode": "USD"
+      },
+      "marketingPrice": {
+        "grossBookingValue": "2202.34",
+        "netBookingValue": "2134.78",
+        "totalTaxes": "39.56",
+        "totalFees": "28.00",
+        "totalTaxesAndFees": "67.56"
+      },
+      "taxesAndFeesIncluded": true
+    },
+    "tealeafTransactionId": "2566118da7a749f4b4fa397aa7818617"
+  },
+  "rewards": {
+    "totalPointsToEarn": 13383,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "activityId": "408427b8-86fe-4001-aa72-81b6eac12423",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    }
+  ],
+  "guestUserPromoEmailOptInStatus": "ALWAYS"
+}

@@ -26,10 +26,7 @@ class BundlePriceViewModelTest {
     @Test
     fun testBundleSaveLabel() {
         val testSubscriber = TestSubscriber<String>()
-        val zeroMoney = Money("0.0", "US")
         testViewModel.savingsPriceObservable.subscribe(testSubscriber)
-        testViewModel.savings.onNext(zeroMoney)
-        assertEquals("", testSubscriber.onNextEvents[0])
 
         val someMoney = Money("50.0", "USD")
         val expectedSavingLabel = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
@@ -38,6 +35,21 @@ class BundlePriceViewModelTest {
 
         testViewModel.savings.onNext(someMoney)
         assertEquals(expectedSavingLabel, testSubscriber.onNextEvents[1])
+
+    }
+
+    @Test
+    fun testNoBundleSaveLabel() {
+        val testSubscriber = TestSubscriber<String>()
+        testViewModel.savingsPriceObservable.subscribe(testSubscriber)
+
+        val zeroMoney = Money("0.0", "US")
+        testViewModel.savings.onNext(zeroMoney)
+        assertEquals("", testSubscriber.onNextEvents[0])
+
+        val someMoney = Money("-50.0", "USD")
+        testViewModel.savings.onNext(someMoney)
+        assertEquals("", testSubscriber.onNextEvents[1])
 
     }
 }
