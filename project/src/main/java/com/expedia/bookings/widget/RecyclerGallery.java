@@ -224,11 +224,11 @@ public class RecyclerGallery extends RecyclerView {
 			}
 
 			public void bind() {
-				photoCountTextView.setText(Phrase.from(getContext(), R.string.galley_photo_count_TEMPLATE)
+				photoCountTextView.setText(Phrase.from(getContext(), R.string.gallery_photo_count_TEMPLATE)
 					.put("index", String.valueOf(getAdapterPosition() + 1))
 					.put("count", String.valueOf(getItemCount()))
 					.format().toString());
-				photoCountTextView.setContentDescription(Phrase.from(getContext(), R.string.galley_photo_count_content_description_TEMPLATE)
+				photoCountTextView.setContentDescription(Phrase.from(getContext(), R.string.gallery_photo_count_content_description_TEMPLATE)
 					.put("index", String.valueOf(getAdapterPosition() + 1))
 					.put("count", String.valueOf(getItemCount()))
 					.format().toString());
