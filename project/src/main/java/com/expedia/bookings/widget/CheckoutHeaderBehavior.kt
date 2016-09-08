@@ -21,7 +21,8 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
     }
 
     override fun onDependentViewChanged(parent: CoordinatorLayout, child: CheckoutOverviewHeader, dependency: View): Boolean {
-        val maxScroll = (dependency as AppBarLayout).totalScrollRange
+        val appBarLayout = (dependency as AppBarLayout)
+        val maxScroll = appBarLayout.totalScrollRange
         if (maxScroll != 0) {
             val percentage = Math.abs(dependency.getY()) / maxScroll
 
@@ -34,17 +35,18 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
             if (textViewLeftX != 0 && textViewWidth != 0 && toolBarRightX != 0) {
                 translateText(percentage, child, dependency)
             }
+
+            child.visibility = if (percentage == 1f || !appBarLayout.isActivated) View.GONE else View.VISIBLE
         }
         return true
     }
 
     fun translateText(percentage: Float, child: CheckoutOverviewHeader, dependency: View) {
         val childHeight = dependency.height + dependency.y - toolbarHeight
-        val toolbarText = dependency.findViewById(R.id.checkout_overview_header_toolbar) as CheckoutOverviewHeader
         val lp = child.layoutParams as CoordinatorLayout.LayoutParams
         lp.height = childHeight.toInt()
-        lp.setMargins(lp.leftMargin, toolbarText.top, lp.rightMargin, lp.bottomMargin)
         child.layoutParams = lp
+
         child.destinationText.x = Math.max(toolBarRightX.toFloat(), textViewLeftX * (1 - percentage))
         val scale = .75f + (1 - percentage) * (1f - .75f)
         child.destinationText.pivotX = 0f
@@ -66,7 +68,7 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
 
     private fun getLocation(view: View): IntArray {
         val location = IntArray(2)
-        view.getLocationInWindow(location)
+        view.getLocationOnScreen(location)
         return location
     }
 }
