@@ -483,8 +483,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     fun clearPaymentInfo() {
-        paymentWidget.reset()
-        paymentWidget.clearCCAndCVV()
+        if (!User.isLoggedIn(context)) {
+            paymentWidget.reset()
+            paymentWidget.clearCCAndCVV()
+        }
     }
 
     fun onLoginSuccess() {
@@ -617,7 +619,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     fun resetTravelers() {
-        ckoViewModel.clearTravelers.onNext(Unit)
+        if (!User.isLoggedIn(context)) {
+            ckoViewModel.clearTravelers.onNext(Unit)
+            updateTravelerPresenter()
+        }
     }
 
     fun openTravelerPresenter() {

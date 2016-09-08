@@ -50,7 +50,7 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 
 		PackageScreen.checkout().perform(click());
 		onView(withId(R.id.traveler_default_state)).perform(scrollTo(), click());
-		assertTravelerInfoFilled();
+		assertTravelerInfoCleared();
 
 		PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(click());
 
@@ -86,11 +86,11 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_cvv, "");
 	}
 
-	private void assertTravelerInfoFilled() {
-		assertEditTextWithIdIsFilledWithString(R.id.first_name_input, "FiveStar");
-		assertEditTextWithIdIsFilledWithString(R.id.last_name_input, "Bear");
-		assertEditTextWithIdIsFilledWithString(R.id.edit_phone_number, "7732025862");
-		assertEditTextWithIdIsFilledWithString(R.id.edit_birth_date_text_btn, "Jan 1, 1900");
+	private void assertTravelerInfoCleared() {
+		assertEditTextWithIdIsEmpty(R.id.first_name_input);
+		assertEditTextWithIdIsEmpty(R.id.last_name_input);
+		assertEditTextWithIdIsEmpty(R.id.edit_phone_number);
+		assertEditTextWithIdIsEmpty(R.id.edit_birth_date_text_btn);
 	}
 
 	private void assertPaymentInfoCleared() {
@@ -108,10 +108,5 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 	private void assertEditTextWithIdIsEmpty(int id) {
 		Espresso.onView(ViewMatchers.withId(id))
 				.check(ViewAssertions.matches(ViewMatchers.withText("")));
-	}
-
-	private void assertEditTextWithIdIsFilledWithString(int id, String string) {
-		Espresso.onView(ViewMatchers.withId(id))
-				.check(ViewAssertions.matches(ViewMatchers.withText(string)));
 	}
 }

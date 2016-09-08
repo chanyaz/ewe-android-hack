@@ -31,7 +31,7 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PackageScreen.checkout().perform(ViewActions.click())
 
         PackageScreen.travelerInfo().perform(ViewActions.click())
-        assertTravelerInfoFilled()
+        assertTravelerInfoCleared()
 
         PackageScreen.toolbarNavigationUp(R.id.checkout_toolbar).perform(ViewActions.click())
 
@@ -101,14 +101,6 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
         PackageScreen.clickTravelerDone()
     }
 
-    private fun assertTravelerInfoFilled() {
-        assertEditTextWithIdIsFilledWithString(R.id.first_name_input, "Eidur")
-        assertEditTextWithIdIsFilledWithString(R.id.last_name_input, "Gudjohnsen")
-        assertEditTextWithIdIsFilledWithString(R.id.edit_email_address, "eidur@eidur.com")
-        assertEditTextWithIdIsFilledWithString(R.id.edit_phone_number, "4155554321")
-        assertEditTextWithIdIsFilledWithString(R.id.edit_birth_date_text_btn, "Jun 9, 1989")
-    }
-
     private fun assertTravelerInfoCleared() {
         assertEditTextWithIdIsEmpty(R.id.first_name_input)
         assertEditTextWithIdIsEmpty(R.id.last_name_input)
@@ -138,10 +130,5 @@ class FlightCheckoutTravelerAndPaymentInfoClearTest : NewFlightTestCase() {
     private fun assertEditTextWithIdIsEmpty(id: Int) {
         Espresso.onView(ViewMatchers.withId(id))
                 .check(ViewAssertions.matches(ViewMatchers.withText("")))
-    }
-
-    private fun assertEditTextWithIdIsFilledWithString(id: Int, string: String) {
-        Espresso.onView(ViewMatchers.withId(id))
-                .check(ViewAssertions.matches(ViewMatchers.withText(string)))
     }
 }
