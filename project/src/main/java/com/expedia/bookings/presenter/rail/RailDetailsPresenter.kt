@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.rail
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
@@ -36,6 +37,10 @@ class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         Ui.getApplication(context).railComponent().inject(this)
         View.inflate(context, R.layout.rail_details_presenter, this)
 
+        toolbar.setNavigationOnClickListener {
+            val activity = context as AppCompatActivity
+            activity.onBackPressed()
+        }
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.rail_primary_color)

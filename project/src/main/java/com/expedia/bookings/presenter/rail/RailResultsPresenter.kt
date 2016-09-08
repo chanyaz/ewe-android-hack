@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -61,6 +62,10 @@ class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     init {
         Ui.getApplication(context).railComponent().inject(this)
         View.inflate(context, R.layout.widget_rail_results, this)
+        toolbar.setNavigationOnClickListener {
+            val activity = context as AppCompatActivity
+            activity.onBackPressed()
+        }
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.rail_primary_color)
