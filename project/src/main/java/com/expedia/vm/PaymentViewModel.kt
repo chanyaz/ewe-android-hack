@@ -4,9 +4,9 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
+import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
@@ -72,6 +72,7 @@ open class PaymentViewModel(val context: Context) {
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
     val onTemporarySavedCreditCardChosen = PublishSubject.create<Unit>()
+    val ccFeeDisclaimer = PublishSubject.create<String>()
 
     val creditCardScanIntent: Intent by lazy {
         val scanIntent = Intent(context, CardIOActivity::class.java)
@@ -204,6 +205,7 @@ open class PaymentViewModel(val context: Context) {
                 else -> true
             }
             isZipValidationRequired.onNext(isPostalCodeRequired)
+            ccFeeDisclaimer.onNext(getCCFeeDisclaimerText(lob))
         }
 
         cardIoScanResult.subscribe { card ->
@@ -223,13 +225,20 @@ open class PaymentViewModel(val context: Context) {
         }
     }
 
+    @VisibleForTesting
+    protected open fun getScheduler() = AndroidSchedulers.mainThread()!!
+
+    private fun getCCFeeDisclaimerText(lob: LineOfBusiness?): String {
+        return if (lob == LineOfBusiness.RAILS) context.getString(R.string.rail_card_fee_disclaimer) else ""
+    }
+
     private fun lobRequiresCreditCard(lob: LineOfBusiness): Boolean {
         return lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELS
                 || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2
                 || lob == LineOfBusiness.RAILS
     }
 
-    fun setPaymentTileInfo(type: PaymentType?, title: String, subTitle: String, splitsType: PaymentSplitsType, completeStatus: ContactDetailsCompletenessStatus) {
+    private fun setPaymentTileInfo(type: PaymentType?, title: String, subTitle: String, splitsType: PaymentSplitsType, completeStatus: ContactDetailsCompletenessStatus) {
         var paymentTitle = title
         if (type != null && isRedeemable.value && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD) {
             paymentTitle = Phrase.from(context, R.string.checkout_paying_with_points_and_card_line1_TEMPLATE)
@@ -243,20 +252,17 @@ open class PaymentViewModel(val context: Context) {
         pwpSmallIcon.onNext(getPwPSmallIconVisibility(type, splitsType))
     }
 
-    fun getPwPSmallIconVisibility(paymentType: PaymentType?, splitsType: PaymentSplitsType): Boolean {
+    private fun getPwPSmallIconVisibility(paymentType: PaymentType?, splitsType: PaymentSplitsType): Boolean {
         return paymentType != null && splitsType == PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD
     }
 
-    fun getCardIcon(type: PaymentType?): Drawable {
+    private fun getCardIcon(type: PaymentType?): Drawable {
         if (type == null) {
             return ContextCompat.getDrawable(context, R.drawable.cars_checkout_cc_default_icon)
         } else {
             return ContextCompat.getDrawable(context, BookingInfoUtils.getTabletCardIcon(type))
         }
     }
-
-    // protected so we can override in test
-    protected open fun getScheduler() = AndroidSchedulers.mainThread()!!
 
     private fun getCardTypeAndLast4Digits(paymentType: PaymentType?, cardNumber: String): String {
         return Phrase.from(context, R.string.checkout_selected_card)

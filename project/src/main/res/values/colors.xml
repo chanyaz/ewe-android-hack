@@ -561,8 +561,6 @@
     <color name="account_reward_top_tier_color">@color/reward_top_tier_color</color>
     <color name="account_reward_top_tier_text_color">@color/reward_top_tier_text_color</color>
 
-
-
     <!-- Search result cells gray text on cardviews.  -->
     <color name="result_cells_gray_text">@color/gray6</color>
 
@@ -595,4 +593,5 @@
     <!-- Rail Card Picker button colors-->
     <color name="card_picker_add_button_color">@color/gray9</color>
     <color name="card_picker_remove_button_color">@color/gray3</color>
+    <color name="card_fee_text_color">@color/gray5</color>
 </resources>

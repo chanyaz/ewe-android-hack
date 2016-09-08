@@ -23,17 +23,18 @@ import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.rail.CreateTripProgressDialog
 import com.expedia.bookings.widget.rail.RailTicketDeliveryEntryWidget
+import com.expedia.bookings.widget.rail.RailTicketDeliveryOverviewWidget
 import com.expedia.bookings.widget.rail.RailTravelerEntryWidget
+import com.expedia.bookings.widget.rail.TicketDeliveryMethod
 import com.expedia.bookings.widget.shared.SlideToPurchaseWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
-import com.expedia.bookings.widget.rail.RailTicketDeliveryOverviewWidget
-import com.expedia.bookings.widget.rail.TicketDeliveryMethod
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.rail.RailCheckoutViewModel
 import com.expedia.vm.rail.RailCostSummaryBreakdownViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
+import com.expedia.vm.rail.RailCreditCardFeesViewModel
 import com.expedia.vm.rail.RailTicketDeliveryEntryViewModel
 import com.expedia.vm.rail.RailTicketDeliveryOverviewViewModel
 import com.expedia.vm.rail.RailTotalPriceViewModel
@@ -74,7 +75,6 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             createTripDialog.show()
         }
         vm.tripResponseObservable.subscribe { response ->
-            response as RailCreateTripResponse
             updateCreateTrip(response)
         }
 
@@ -106,6 +106,8 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         paymentWidget.viewmodel.expandObserver.subscribe {
             show(paymentWidget)
         }
+
+        paymentWidget.creditCardFeesView.viewModel = RailCreditCardFeesViewModel()
 
         travelerCardWidget.setOnClickListener {
             show(travelerEntryWidget)
@@ -201,6 +203,13 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as RailCostSummaryBreakdownViewModel)
                 .railCostSummaryBreakdownObservable.onNext(response.railDomainProduct.railOffer)
+        val cardFeeViewModel = paymentWidget.creditCardFeesView.viewModel as RailCreditCardFeesViewModel
+        cardFeeViewModel.validFormsOfPaymentObservable.onNext(Pair(response.validFormsOfPayment, getTicketOptionToken()))
+    }
+
+    //TODO Defaulting to PICK_UP_AT_TICKETING_OFFICE_NONE, until #7828 is done.
+    private fun getTicketOptionToken(): RailCreateTripResponse.RailTicketDeliveryOptionToken {
+        return RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE
     }
 
     class DefaultCheckout
