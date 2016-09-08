@@ -7,6 +7,8 @@ import android.text.Html
 import android.text.SpannableStringBuilder
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -15,20 +17,25 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.StrUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
 
 class PackageCheckoutViewModel(context: Context, val packageServices: PackageServices) : BaseCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
+    val e3Endpoint = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
+
+    override fun injectComponents() {
+        Ui.getApplication(context).packageComponent().inject(this)
+    }
 
     init {
         tripResponseObservable.subscribe {
             it as PackageCreateTripResponse
             builder.tripId(it.packageDetails.tripId)
-            builder.expectedTotalFare(it.packageDetails.pricing.packageTotal.amount.toString())
-            builder.expectedFareCurrencyCode(it.packageDetails.pricing.packageTotal.currencyCode)
+            builder.expectedTotalFare(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())
+            builder.expectedFareCurrencyCode(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().currencyCode)
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_package_bookings))
             builder.bedType(it.packageDetails.hotel.hotelRoomResponse.bedTypes?.firstOrNull()?.id)
 
@@ -42,7 +49,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
 
                 depositText = Phrase.from(context, messageResId)
                         .put("resort_fee", it.packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoneyFromAmountAndCurrencyCode)
-                        .putOptional("trip_total", it.packageDetails.pricing.getBundleTotal().formattedPrice)
+                        .putOptional("trip_total", it.getBundleTotal().formattedPrice)
                         .format().toString()
             }
             depositPolicyText.onNext(Html.fromHtml(depositText))
@@ -54,6 +61,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             sliderPurchaseTotalText.onNext(totalPrice)
             val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
             accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
+            paymentTypeSelectedHasCardFee.onNext(false)
         }
 
         checkoutParams.subscribe { params ->
@@ -61,6 +69,12 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.travelers.first().email
         }
+    }
+
+    override fun getTripId(): String {
+        val flightCreateTripResponse = tripResponseObservable.value as PackageCreateTripResponse
+        val tripId = flightCreateTripResponse.packageDetails.tripId!!
+        return tripId
     }
 
     fun makeCheckoutResponseObserver(): Observer<PackageCheckoutResponse> {
@@ -131,4 +145,28 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             }
         }
     }
+
+    override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
+        // add card fee to trip response
+        val newTripResponse = tripResponseObservable.value as PackageCreateTripResponse
+        newTripResponse.selectedCardFees = cardFee
+        newTripResponse.totalPriceIncludingFees = totalPriceInclFees
+        tripResponseObservable.onNext(newTripResponse)
+        selectedCardFeeObservable.onNext(cardFee)
+    }
+
+    fun updateMayChargeFees(selectedFlight: FlightLeg) {
+        if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
+            val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
+            selectedFlightChargesFees.onNext(paymentFeeText)
+            val hasAirlineFeeLink = selectedFlight.airlineMessageModel?.airlineFeeLink != null
+            if (hasAirlineFeeLink) {
+                obFeeDetailsUrlSubject.onNext(e3Endpoint + selectedFlight.airlineMessageModel.airlineFeeLink)
+            }
+        } else {
+            selectedFlightChargesFees.onNext("")
+            obFeeDetailsUrlSubject.onNext("")
+        }
+    }
+
 }

@@ -22,6 +22,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.widget.FrameLayout;
 
 public class AnimUtils {
@@ -188,17 +189,19 @@ public class AnimUtils {
 		view.setTranslationY(height);
 		view.setVisibility(View.VISIBLE);
 
-		AnimatorSet animatorSet = new AnimatorSet();
+		if (!ExpediaBookingApp.isAutomation()) {
+			AnimatorSet animatorSet = new AnimatorSet();
 
-		ObjectAnimator objectAnimatorIn = ObjectAnimator.ofFloat(view, "translationY", height, 0);
-		objectAnimatorIn.setDuration(animDuration);
+			ObjectAnimator objectAnimatorIn = ObjectAnimator.ofFloat(view, "translationY", height, 0);
+			objectAnimatorIn.setDuration(animDuration);
 
-		ObjectAnimator objectAnimatorOut = ObjectAnimator.ofFloat(view, "translationY", 0, height);
-		objectAnimatorOut.setDuration(animDuration);
-		objectAnimatorOut.setStartDelay(startDelay);
+			ObjectAnimator objectAnimatorOut = ObjectAnimator.ofFloat(view, "translationY", 0, height);
+			objectAnimatorOut.setDuration(animDuration);
+			objectAnimatorOut.setStartDelay(startDelay);
 
-		animatorSet.playSequentially(objectAnimatorIn, objectAnimatorOut);
-		animatorSet.start();
+			animatorSet.playSequentially(objectAnimatorIn, objectAnimatorOut);
+			animatorSet.start();
+		}
 	}
 
 	public static void fadeIn(View v) {

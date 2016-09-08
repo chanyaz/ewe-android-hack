@@ -11,6 +11,6 @@ public interface CardFeeApi {
 
 	@FormUrlEncoded
 	@POST("/api/flight/trip/cardFee")
-	Observable<CardFeeResponse> cardFee( @Field("tripId") String tripId,
-										 @Field("creditCardId") String creditCardId );
+	Observable<CardFeeResponse> cardFee(@Field("tripId") String tripId,
+		@Field("creditCardId") String creditCardId);
 }

@@ -9,6 +9,7 @@ import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageCheckoutViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -34,6 +35,7 @@ class PackageCheckoutViewModelTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        Ui.getApplication(activity).defaultPackageComponents()
         testViewModel = PackageCheckoutViewModel(activity.application, serviceRule.services!!)
     }
 

@@ -20,7 +20,6 @@ import com.squareup.otto.Subscribe
 import javax.inject.Inject
 
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
-
     lateinit var paymentViewModel: PaymentViewModel
         @Inject set
 
@@ -37,12 +36,12 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
-        vm.tripResponseObservable.subscribe { response ->
+        getCheckoutViewModel().tripResponseObservable.subscribe { response ->
             response as PackageCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
-            priceChangeWidget.viewmodel.newPrice.onNext(response.packageDetails.pricing.packageTotal)
-            (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel).packageCostSummaryObservable.onNext(response.packageDetails)
+            priceChangeWidget.viewmodel.newPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+            (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel).packageCostSummaryObservable.onNext(response)
 
             val messageString =
                     if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
@@ -52,17 +51,14 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
 
             val packageTotalPrice = response.packageDetails.pricing
-            val priceToShow = if (PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) packageTotalPrice.getBundleTotal() else packageTotalPrice.packageTotal
             totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
 
-            totalPriceWidget.viewModel.total.onNext(priceToShow)
+            totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
             isPassportRequired(response)
             trackShowBundleOverview()
         }
-        getCheckoutViewModel().priceChangeObservable.subscribe {
-            getCreateTripViewModel().tripResponseObservable.onNext(it)
-        }
+        getCheckoutViewModel().priceChangeObservable.subscribe(getCreateTripViewModel().tripResponseObservable)
     }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
