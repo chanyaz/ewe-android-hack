@@ -49,7 +49,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		checkBundleOverviewFlightContentDescription(PackageScreen.inboundFlightInfoRowContainer(), "(SFO) San Francisco", true, true);
 
 		PackageScreen.clickHotelBundle();
-		openCloseSlidingBundleWidget("$0.00", "$0.00", "$0.00");
+		openCloseSlidingBundleWidget("$0.00", "$0.00", "$0");
 
 		onView(withId(R.id.hotel_results_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		HotelScreen.selectHotel("Package Happy Path");

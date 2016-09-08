@@ -23,7 +23,7 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
 
     init {
         total.subscribe { total ->
-            totalPriceObservable.onNext(total.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+            totalPriceObservable.onNext(total.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
             contentDescriptionObservable.onNext(getAccessibleContentDescription(false, isSlidable))
         }
     }
