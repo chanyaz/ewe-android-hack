@@ -85,12 +85,16 @@ public class RouterActivity extends Activity {
 		loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
 
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
-		query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
-		query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
 
-		if (loadSignInViewAbTest) {
-			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);
+		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
+			query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
+
+			if (loadSignInViewAbTest) {
+				query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);
+			}
 		}
+
 		Ui.getApplication(this).appComponent().abacus().downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
 
 	}
