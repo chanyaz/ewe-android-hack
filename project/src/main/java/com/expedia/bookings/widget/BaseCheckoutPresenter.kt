@@ -332,6 +332,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), getLineOfBusiness())
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             updateTravelerPresenter()
+            if (User.isLoggedIn(context)) paymentWidget.viewmodel.userLogin.onNext(true)
         }
     }
 
