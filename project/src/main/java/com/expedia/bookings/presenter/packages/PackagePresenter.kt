@@ -270,6 +270,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             searchPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward) {
                 trackSearchPageLoad()
+                searchPresenter.showDefault()
             }
         }
     }

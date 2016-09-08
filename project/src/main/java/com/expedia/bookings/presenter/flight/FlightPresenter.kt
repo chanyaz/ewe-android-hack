@@ -343,8 +343,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward) {
                 FlightsV2Tracking.trackSearchPageLoad()
+                searchPresenter.showDefault()
             }
-
         }
     }
 
