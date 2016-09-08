@@ -1046,6 +1046,10 @@
     <string name="nav_packages">Offres formules</string>
     <!-- Rail -->
     <string name="nav_rail">Train</string>
+    <string name="add_rail_card">Ajouter une carte de train</string>
+    <string name="select_rail_card_hint">Sélectionner une carte de train</string>
+    <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
+    <string name="select_rail_card_quantity_hint">Qté</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Départ</string>
@@ -2701,6 +2705,9 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;Moins d\&apos;1 an&lt;/b&gt;</string>
 
+    <!-- This is a special case for rails senior age greater than 62 -->
+    <string name="senior_age_greater_than_sixth_two">&lt;b&gt;+ de 62 ans&lt;/b&gt;</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">Times Square, New York</string>
@@ -3050,6 +3057,8 @@
     <string name="error_no_response_room_rates">Impossible de télécharger les informations sur les chambres et les tarifs. Veuillez vérifier votre connexion et réessayer plus tard.</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">par nuit</string>
+    <!-- Rate price displayed "total fee" -->
+    <string name="total_fee">total frais</string>
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">moy/nuit</string>
 
@@ -3104,6 +3113,8 @@
     <string name="free_cancellation">Annulation gratuite</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">Frais d\&apos;hôtel pour ce séjour</string>
+    <!-- Resort fee text for pacakges-->
+    <string name="additional_fees_at_check_in">Frais supplémentaires à l\&apos;arrivée</string>
     <!-- Included in the price -->
     <string name="included_in_the_price">Inclus dans le prix</string>
     <!-- Not included in the price -->
@@ -3258,6 +3269,8 @@
     <string name="packages_cancellation_policy">Conditions d\&apos;annulation de l\&apos;hôtel</string>
     <!-- Cancellation policy label for packages-->
     <string name="packages_fare_information">Informations sur le tarif du vol</string>
+    <!-- Insurance Information label -->
+    <string name="insurance_information">Informations sur l\&apos;assurance</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
@@ -3340,7 +3353,23 @@
         <item quantity="one">%d enfant</item>
         <item quantity="two">%d enfants</item>
         <item quantity="many">%d enfants</item>
-        <item quantity="other">%d enfants</item>
+        <item quantity="other">%d enfant</item>
+    </plurals>
+    <!-- A number of youth. Capitalized -->
+    <plurals name="number_of_youth">
+        <item quantity="zero">%d jeune</item>
+        <item quantity="one">%d jeune</item>
+        <item quantity="two">%d jeunes</item>
+        <item quantity="many">%d jeunes</item>
+        <item quantity="other">%d jeunes</item>
+    </plurals>
+    <!-- A number of senior. Capitalized -->
+    <plurals name="number_of_senior">
+        <item quantity="zero">%d sénior</item>
+        <item quantity="one">%d sénior</item>
+        <item quantity="two">%d séniors</item>
+        <item quantity="many">%d séniors</item>
+        <item quantity="other">%d séniors</item>
     </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
@@ -3388,7 +3417,8 @@
     <string name="distance_template">%1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
-
+    <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Paramètres</string>
@@ -4007,6 +4037,19 @@
 
     <string name="lob_not_supported_error_message">Désolés, la réservation des {lob} n\&apos;est pas encore disponible pour votre position actuelle.</string>
 
+
+    <!-- Adult age label on rail search -->
+    <string name="rail_adult_age_label">(26-59 ans)</string>
+
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label">(0-15 ans)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label">(16-25 ans)</string>
+
+    <!-- Senior age label on rail search -->
+    <string name="rail_senior_age_label">(60 ans ou plus)</string>
+
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 ans)</string>
 
@@ -4206,8 +4249,8 @@
     <!-- Slide to book -->
     <string name="slide_to_book_text">Faites glisser pour réserver</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
-    <!-- Confirmation Text indicating rewards points user got for the booked package -->
-    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} points {brand}+</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
+    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} points {brand_reward_name}</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Durée de vol</string>
@@ -4342,6 +4385,19 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Frais de carte bancaire</string>
 
+    <!-- Label for ticket delivery -->
+    <string name="ticket_delivery">Délivrance du billet</string>
+
+    <!-- Ticket delivery options-->
+    <string name="pickup_at_station">Remise du billet à la gare</string>
+    <string name="delivery_by_mail">Envoi par courrier</string>
+
+    <!-- Ticket delivery details -->
+    <string name="pickup_station_details">Veuillez apporter le numéro de référence de votre billet et la carte de paiement utilisée pour effectuer l\&apos;achat.</string>
+
+    <string name="mail_delivery_details">Faites-vous envoyer le billet à l\&apos;adresse que vous avez indiquée.</string>
+    <string name="tdo_fees_non_refundable">Les frais d\&apos;envoi du billet ne sont pas remboursables.</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">Désolés, un problème technique est survenu. Veuillez réessayer.</string>
     <string name="pwp_trip_service_error">Désolés, un problème technique est survenu. Veuillez réessayer.</string>
     <string name="pwp_unknown_error">Une erreur inconnue s\&apos;est produite. Veuillez réessayer.</string>
@@ -4472,8 +4528,22 @@
     <string name="add_child_traveler_cont_desc">Ajoutez un voyageur enfant</string>
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">Retirez un voyageur enfant</string>
+
+    <!--Rail Traveler widget youth plus button content description-->
+    <string name="rails_add_youth_traveler_cont_desc">Ajoutez un voyageur jeune</string>
+    <!--Rail Traveler widget youth minus button content description-->
+    <string name="rails_remove_youth_traveler_cont_desc">Retirez un voyageur jeune</string>
+    <!--Rail Traveler widget senior plus button content description-->
+    <string name="rails_add_senior_traveler_cont_desc">Ajoutez un voyageur sénior</string>
+    <!--Rail Traveler widget senior minus button content description-->
+    <string name="rails_remove_senior_traveler_cont_desc">Supprimez un voyageur sénior</string>
+
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Sélectionnez l\&apos;âge de l\&apos;enfant {childnumber}.</string>
+    <!--Packages search youth age drop down content description Eg. "Select age for youth 1."-->
+    <string name="search_youth_drop_down_cont_desc_TEMPLATE">Sélectionnez l\&apos;âge du jeune {youthnumber}.</string>
+    <!--Packages search senior age drop down content description Eg. "Select age for senior 1."-->
+    <string name="search_senior_drop_down_cont_desc_TEMPLATE">Sélectionnez l\&apos;âge du sénior {seniornumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
     <string name="packages_search_datepicker_announce_accessibility_start_date">Choisissez la date de début.</string>
@@ -4633,5 +4703,10 @@
 
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">Activité sélectionnée, {caption}</string>
+
+    <!-- Gallery Image count e.g. 1/14 -->
+    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
+    <!-- Content Description for current index of the photo in the gallery -->
+    <string name="galley_photo_count_content_description_TEMPLATE">Bouton pour voir la photo {index} sur {count} de la galerie</string>
 
 </resources>
