@@ -23,7 +23,7 @@
 
         <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
         <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
-        <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
+        <item name="skin_rippleDrawable">@drawable/exp_blue_button_ripple</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="paymentWidgetLayout">@layout/billing_details_payment_widget</item>
         <item name="sliderText">@string/slide_to_book_text</item>
@@ -50,6 +50,8 @@
          -->
         <item name="traveler_toolbar_text">@string/traveler_information</item>
         <item name="traveler_checkout_circle_drawable">@drawable/packages_traveler_checkout_circle</item>
+        <item name="accept_terms_text_color">@color/white</item>
+        <item name="accept_terms_background_color">@color/flight_warning_bar_color</item>
     </style>
 
     <style name="InfantSeatingPreferenceSpinner" parent="Core.Widget.Spinner"/>

@@ -33,4 +33,6 @@
     <attr name="skin_searchButtonSelectorDrawable" format="reference" />
     <attr name="skin_searchButtonStyle" format="reference" />
     <attr name="spinner_traveler_text_color_drawable" format="reference" />
+    <attr name="accept_terms_text_color" format="reference" />
+    <attr name="accept_terms_background_color" format="reference" />
 </resources>

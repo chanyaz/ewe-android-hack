@@ -49,6 +49,9 @@
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
         <item name="spinner_traveler_text_color_drawable">@drawable/traveler_text_color</item>
 
+        <item name="accept_terms_text_color">@color/lx_primary_color</item>
+        <item name="accept_terms_background_color">@color/white</item>
+
     </style>
 
     <style name="V2.Theme.LX.Transport" parent="V2.Theme.LX">

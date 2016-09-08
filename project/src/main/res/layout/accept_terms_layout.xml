@@ -6,15 +6,15 @@
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="@drawable/drop_shadow"
-        android:visibility="gone"/>
+        android:visibility="visible" />
 
     <com.expedia.bookings.widget.TextView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
         android:id="@+id/do_you_accept_label"
+        style="@style/AcceptTermsWidgetStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:singleLine="true"
-        android:text="@string/Do_you_accept"
-        style="@style/FlightWarningBar" />
+        android:text="@string/Do_you_accept" />
 
     <Button
         android:id="@+id/i_accept_terms_button"
@@ -22,10 +22,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="?attr/skin_rippleDrawable"
         android:clickable="true"
         android:gravity="center"
-        android:paddingTop="20dp"
         android:paddingBottom="20dp"
+        android:paddingTop="20dp"
         android:text="@string/I_Accept"
         android:textSize="16sp" />
 
