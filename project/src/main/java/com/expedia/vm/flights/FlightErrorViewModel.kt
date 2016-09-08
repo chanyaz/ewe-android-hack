@@ -25,6 +25,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     val showPaymentForm = PublishSubject.create<Unit>()
     val showConfirmation = PublishSubject.create<Unit>()
     val showSearch = PublishSubject.create<Unit>()
+    val retrySearch = PublishSubject.create<Unit>()
     val paramsSubject = PublishSubject.create<com.expedia.bookings.data.flights.FlightSearchParams>()
 
     private val retryCreateTripBtnClicked = PublishSubject.create<Unit>()
@@ -60,10 +61,17 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 }
                 else -> {
                     makeDefaultError()
+                    subscribeActionToButtonPress(retrySearch)
                     FlightsV2Tracking.trackFlightSearchUnknownError()
                 }
             }
         }
+    }
+
+    override fun makeDefaultError() {
+        imageObservable.onNext(R.drawable.error_default)
+        errorMessageObservable.onNext(context.getString(R.string.flight_error_try_again_warning))
+        buttonOneTextObservable.onNext(context.getString(R.string.retry))
     }
 
     override fun createTripErrorHandler(): Observer<ApiError> {

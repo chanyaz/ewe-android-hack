@@ -87,6 +87,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getViewModel().showSearch.subscribe {
             show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
+
+        presenter.getViewModel().retrySearch.subscribe {
+            searchPresenter.searchViewModel.performSearchObserver.onNext(Unit)
+        }
+
         presenter
     }
 
