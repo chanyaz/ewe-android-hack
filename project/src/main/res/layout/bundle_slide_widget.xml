@@ -3,12 +3,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:background="@color/gray1"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <View
@@ -18,8 +20,13 @@
             <com.expedia.bookings.presenter.packages.BundleWidget
                 android:id="@+id/bundle_widget"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/gray1" />
+                android:layout_height="match_parent"/>
+
+            <Space
+                android:id="@+id/space_view"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/footer_button_height" />
+
         </LinearLayout>
     </ScrollView>
 
