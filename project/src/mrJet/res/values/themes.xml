@@ -4,7 +4,6 @@
     <style name="Theme.MrJet" parent="@style/Theme.Expedia">
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder</item>
-        <item name="skin_hotelDetailPlaceHolderDrawable">@drawable/placeholder_lg_detail_screen</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
@@ -15,11 +14,9 @@
         <item name="skin_bookNowButtonDrawable">@drawable/btn_signin</item>
         <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
-        <item name="skin_cvvBookButtonKeypadDrawable">@drawable/btn_cvv_keypad_book</item>
         <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_logo_small</item>
-        <item name="skin_bgFindItineraryButton">@drawable/btn_find</item>
 
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
@@ -30,14 +27,7 @@
         <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_traveller_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_logo_disabled_small</item>
-        <item name="skin_cvvDivDrawable">@drawable/div_cvv</item>
-        <item name="skin_cvvDivErrorDrawable">@drawable/div_cvv_error</item>
-        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
-        <item name="skin_tablet_pin_detail_image_size">@dimen/launch_pin_detail_size</item>
         <item name="skin_tablet_ab_launch_text1_base">@string/app_name</item>
-        <item name="skin_tablet_ab_launch_text2_pin_detail">@string/Destination</item>
-        <item name="skin_tablet_pin_detail_button_background">@drawable/btn_tablet_launch_screen</item>
-        <item name="skin_menuAboutWebViewActivity">@menu/menu_webview</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_action_bar_logo_dark</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/ic_error_blue</item>
@@ -64,6 +54,7 @@
         <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
         <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
         <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/flight_traveler_text_color</item>
     </style>
 
     <!-- Override the phone theme -->
@@ -93,8 +84,6 @@
         <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
         <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-        <item name="skin_candycaneProgressDrawable">@drawable/progressbar_candycane_horizontal</item>
-        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
@@ -123,7 +112,6 @@
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
         <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card</item>
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title</item>
-        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="android:actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>

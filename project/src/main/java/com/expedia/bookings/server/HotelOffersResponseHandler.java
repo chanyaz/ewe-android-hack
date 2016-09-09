@@ -522,6 +522,7 @@ public class HotelOffersResponseHandler extends JsonResponseHandler<HotelOffersR
 						String currencyCode = totalAmountToEarn.optString("currencyCode");
 						Money totalAmountToEarnMoney = ParserUtils.createMoney(amount, currencyCode);
 						if (totalAmountToEarnMoney.isZero()) {
+
 							points = "0";
 						}
 						else {

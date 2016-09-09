@@ -333,7 +333,7 @@
     <color name="tablet_checkout_account_button_text_color">#363636</color>
     <color name="material_checkout_account_button_text_color">@android:color/white</color>
     <color name="material_checkout_account_button_background_color">#384768</color>
-    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
+    <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#676767</color>
     <color name="card_io_scan_text">#0B8B7B</color>
 
@@ -456,7 +456,7 @@
     <color name="flight_loading_message_text_color">#575757</color>
     <!-- Error widget button colors -->
     <color name="error_widget_edit_button_selected_color">#7C7C7C</color>
-    <color name="error_button_color">@color/hotels_primary_color</color>
+    <color name="error_button_color">@color/cars_primary_color</color>
 
     <color name="rating_yellow_disabled">#DBDBDB</color>
     <color name="rating_yellow">#F6AE24</color>
@@ -489,6 +489,7 @@
     <color name="packages_hotel_map_message">@color/gray7</color>
     <color name="packages_result_background">@color/gray1</color>
     <color name="traveler_drop_down_unchecked_color">@color/gray7</color>
+    <color name="traveler_drop_down_checked_color">@color/flight_primary_color</color>
     <color name="packages_filter_color">@color/gray6</color>
     <color name="traveler_default_card_text_color">@color/gray7</color>
     <color name="traveler_incomplete_text_color">@color/reddish_orange</color>

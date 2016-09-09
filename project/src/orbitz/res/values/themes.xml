@@ -35,6 +35,7 @@
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
         <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/flight_traveler_text_color</item>
     </style>
 
     <style name="ItineraryThemeOverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
@@ -67,7 +68,6 @@
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_orbitz_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_orbitz</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_orbitz</item>
-        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
@@ -98,7 +98,6 @@
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_orbitz</item>
         <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card</item>
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title</item>
-        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="android:actionOverflowButtonStyle">@style/ItineraryThemeOverflowMenuButton</item>

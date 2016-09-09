@@ -35,6 +35,7 @@
     <color name="flight_trip">#D6682D</color>
     <color name="splash_screen_bg">#26344F</color>
     <color name="flight_earn_message_text_color">@color/earn_message_text_color</color>
+    <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
@@ -63,7 +64,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">#D6682D</color>
-    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
+    <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#26344F</color>
 
     <!-- Cars and LX-->
@@ -112,4 +113,7 @@
     <color name="sign_in_user_base_tier">#668193</color>
     <color name="sign_in_user_middle_tier">#FFC300</color>
     <color name="sign_in_user_top_tier">#085BA5</color>
+
+    <color name="error_widget_edit_button_selected_color">#162033</color>
+    <color name="error_button_color">@color/cars_primary_color</color>
 </resources>

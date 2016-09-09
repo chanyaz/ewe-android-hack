@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.AccountSettingsActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -164,17 +163,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public AboutSectionFragment getAboutSectionFragment(Context context) {
-		AboutSectionFragment.Builder builder = new AboutSectionFragment.Builder(context);
-		builder.setTitle(R.string.AlsoByVSC);
-
-		AboutSectionFragment.RowDescriptor app = new AboutSectionFragment.RowDescriptor();
-		app.title = context.getString(R.string.VSC_Voyages_SNF);
-		app.description = context.getString(R.string.VSC_Voyages_SNF_description);
-		app.clickTag = AccountSettingsActivity.ROW_VSC_VOYAGES;
-		app.drawableId = R.drawable.ic_vsc_train_app;
-		builder.addRow(app);
-
-		return builder.build();
+		return null;
 	}
 
 	@Override

@@ -444,7 +444,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
     }
 
     override fun onAboutRowRebind(tag: Int, titleTextView: TextView?, descriptionTextView: TextView?) {
-        accountFragment?.onAboutRowRebind(tag, descriptionTextView)
+        accountFragment?.onAboutRowRebind(tag, titleTextView, descriptionTextView)
     }
 
     override fun onPrivateDataCleared() {
