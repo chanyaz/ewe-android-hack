@@ -234,6 +234,9 @@
     <dimen name="car_search_list_image_container_height">134dp</dimen>
     <dimen name="car_search_details_container_height">37dp</dimen>
 
+    <!-- Filter Widget  -->
+    <dimen name="filter_slider_thumbnail_radius">25dp</dimen>
+
     <!-- Car Details -->
     <dimen name="car_details_image_size">240dp</dimen>
 
