@@ -138,7 +138,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         DebugMenu(activity, ExpediaBookingPreferenceActivity::class.java)
     }
 
-    val debugAlertDialog: AlertDialog.Builder by lazy {
+    val debugAlertDialog: AlertDialog by lazy {
         val alertDialog = AlertDialog.Builder(context)
         val convertView = activity.layoutInflater.inflate(R.layout.alert_dialog_with_list, null)
         alertDialog.setView(convertView)
@@ -154,7 +154,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             debugMenu.startTestActivity(debugMenu.debugActivities[position][1])
         })
         alertDialog.setPositiveButton(R.string.ok, { dialog, which -> dialog.dismiss() })
-        alertDialog
+        alertDialog.create()
     }
 
     override fun onAttach(context: Context?) {
@@ -629,7 +629,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
             ROW_TEST_SCREEN -> {
                 if (BuildConfig.DEBUG) {
-                    debugAlertDialog.show();
+                    debugAlertDialog.show()
                 }
                 return true
             }
