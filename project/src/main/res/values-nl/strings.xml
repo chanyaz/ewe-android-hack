@@ -1046,6 +1046,10 @@
     <string name="nav_packages">Pakketten</string>
     <!-- Rail -->
     <string name="nav_rail">Trein</string>
+    <string name="add_rail_card">Railcard toevoegen</string>
+    <string name="select_rail_card_hint">Selecteer een railcard</string>
+    <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
+    <string name="select_rail_card_quantity_hint">#</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Vanaf</string>
@@ -2701,6 +2705,9 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;&lt; 1&lt;/b&gt; jaar oud</string>
 
+    <!-- This is a special case for rails senior age greater than 62 -->
+    <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62+&lt;/b&gt; jaar oud</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">Times Square, New York, New York</string>
@@ -3050,6 +3057,8 @@
     <string name="error_no_response_room_rates">Kan geen kamer- en prijsgegevens downloaden. Controleer de verbinding en probeer opnieuw.</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">per nacht</string>
+    <!-- Rate price displayed "total fee" -->
+    <string name="total_fee">totale toeslag</string>
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">gem/nacht</string>
 
@@ -3104,6 +3113,8 @@
     <string name="free_cancellation">Gratis annulering</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">Hoteltoeslagen voor dit verblijf</string>
+    <!-- Resort fee text for pacakges-->
+    <string name="additional_fees_at_check_in">Extra toeslag bij het inchecken</string>
     <!-- Included in the price -->
     <string name="included_in_the_price">Inbegrepen bij de prijs</string>
     <!-- Not included in the price -->
@@ -3217,7 +3228,7 @@
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt geweest.</string>
+    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
@@ -3258,6 +3269,8 @@
     <string name="packages_cancellation_policy">Annuleringsbeleid hotel</string>
     <!-- Cancellation policy label for packages-->
     <string name="packages_fare_information">Info vluchttarief</string>
+    <!-- Insurance Information label -->
+    <string name="insurance_information">Verzekeringsinfo</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
@@ -3342,6 +3355,22 @@
         <item quantity="many">%d kinderen</item>
         <item quantity="other">%d kinderen</item>
     </plurals>
+    <!-- A number of youth. Capitalized -->
+    <plurals name="number_of_youth">
+        <item quantity="zero">%d jongere</item>
+        <item quantity="one">%d jongere</item>
+        <item quantity="two">%d jongeren</item>
+        <item quantity="many">%d jongeren</item>
+        <item quantity="other">%d jongeren</item>
+    </plurals>
+    <!-- A number of senior. Capitalized -->
+    <plurals name="number_of_senior">
+        <item quantity="zero">%d senior</item>
+        <item quantity="one">%d senior</item>
+        <item quantity="two">%d senioren</item>
+        <item quantity="many">%d senioren</item>
+        <item quantity="other">%d senioren</item>
+    </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
         <item quantity="zero">%d gasten</item>
@@ -3388,7 +3417,8 @@
     <string name="distance_template">op %1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
-
+    <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">Instellingen</string>
@@ -4007,6 +4037,19 @@
 
     <string name="lob_not_supported_error_message">Sorry, boekingen van {lob} zijn nog niet beschikbaar voor jouw regio.</string>
 
+
+    <!-- Adult age label on rail search -->
+    <string name="rail_adult_age_label">(26-59 jaar oud)</string>
+
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label">(0-15 jaar oud)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label">(16-25 jaar oud)</string>
+
+    <!-- Senior age label on rail search -->
+    <string name="rail_senior_age_label">(60+ jaar oud)</string>
+
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 jaar oud)</string>
 
@@ -4206,8 +4249,8 @@
     <!-- Slide to book -->
     <string name="slide_to_book_text">Swipe om te boeken</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
-    <!-- Confirmation Text indicating rewards points user got for the booked package -->
-    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand}+ punten</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
+    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} {brand_reward_name} punten</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">Vliegtijd</string>
@@ -4342,6 +4385,19 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Creditcardtoeslag</string>
 
+    <!-- Label for ticket delivery -->
+    <string name="ticket_delivery">Ticketlevering</string>
+
+    <!-- Ticket delivery options-->
+    <string name="pickup_at_station">Ophalen bij station</string>
+    <string name="delivery_by_mail">Levering per post</string>
+
+    <!-- Ticket delivery details -->
+    <string name="pickup_station_details">Breng je ticketreferentienummer en de creditcard die voor de aankoop gebruikt werd.</string>
+
+    <string name="mail_delivery_details">Laat het ticket opsturen naar het door jou opgegeven adres.</string>
+    <string name="tdo_fees_non_refundable">Ticketleveringskosten worden niet gerestitueerd.</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">Sorry, er deed zich een serverprobleem voor. Probeer het opnieuw.</string>
     <string name="pwp_trip_service_error">Sorry, er deed zich een serverprobleem voor. Probeer het opnieuw.</string>
     <string name="pwp_unknown_error">Er is een onbekende fout opgetreden. Probeer het opnieuw.</string>
@@ -4469,11 +4525,25 @@
     <!--Traveler widget adults minus button content description-->
     <string name="remove_adult_traveler_cont_desc">Verwijder 1 volwassene reiziger</string>
     <!--Traveler widget child plus button content description-->
-    <string name="add_child_traveler_cont_desc">Voeg 1 minderjarige reiziger toe</string>
+    <string name="add_child_traveler_cont_desc">Voeg 1 kind toe</string>
     <!--Traveler widget child minus button content description-->
-    <string name="remove_child_traveler_cont_desc">Verwijder 1 minderjarige reiziger</string>
+    <string name="remove_child_traveler_cont_desc">Verwijder 1 kind</string>
+
+    <!--Rail Traveler widget youth plus button content description-->
+    <string name="rails_add_youth_traveler_cont_desc">Voeg 1 jongere toe</string>
+    <!--Rail Traveler widget youth minus button content description-->
+    <string name="rails_remove_youth_traveler_cont_desc">Verwijder 1 jongere</string>
+    <!--Rail Traveler widget senior plus button content description-->
+    <string name="rails_add_senior_traveler_cont_desc">Voeg 1 senior toe</string>
+    <!--Rail Traveler widget senior minus button content description-->
+    <string name="rails_remove_senior_traveler_cont_desc">Verwijder 1 senior</string>
+
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor kind {childnumber}</string>
+    <!--Packages search youth age drop down content description Eg. "Select age for youth 1."-->
+    <string name="search_youth_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor jongere {youthnumber}.</string>
+    <!--Packages search senior age drop down content description Eg. "Select age for senior 1."-->
+    <string name="search_senior_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor senior {seniornumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
     <string name="packages_search_datepicker_announce_accessibility_start_date">Kies je begindatum</string>
@@ -4633,5 +4703,10 @@
 
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">Activiteit geselecteerd, {caption}</string>
+
+    <!-- Gallery Image count e.g. 1/14 -->
+    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
+    <!-- Content Description for current index of the photo in the gallery -->
+    <string name="galley_photo_count_content_description_TEMPLATE">Knop om {index} van {count} galeriefotoʼs te zien</string>
 
 </resources>

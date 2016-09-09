@@ -375,7 +375,7 @@
     <string name="ticket_type_adult">ผู้ใหญ่</string>
     <string name="ticket_type_child">เด็ก</string>
     <string name="ticket_type_infant">ทารก</string>
-    <string name="ticket_type_youth">วัยรุ่น</string>
+    <string name="ticket_type_youth">เยาวชน</string>
     <string name="ticket_type_senior">ผู้สูงอายุ</string>
     <string name="ticket_type_group">กลุ่ม</string>
     <string name="ticket_type_couple">คู่รัก</string>
@@ -435,8 +435,8 @@
         <item quantity="other">ทารก %1$s คน</item>
     </plurals>
     <plurals name="ticket_type_youth_TEMPLATE">
-        <item quantity="one">วัยรุ่น %1$s คน</item>
-        <item quantity="other">วัยรุ่น %1$s คน</item>
+        <item quantity="one">เยาวชน %1$s คน</item>
+        <item quantity="other">เยาวชน %1$s คน</item>
     </plurals>
     <plurals name="ticket_type_senior_TEMPLATE">
         <item quantity="one">ผู้สูงอายุ %1$s คน</item>
@@ -612,7 +612,7 @@
     <string name="per_ticket_type_adult">ต่อผู้ใหญ่</string>
     <string name="per_ticket_type_child">ต่อเด็ก</string>
     <string name="per_ticket_type_infant">ต่อทารก</string>
-    <string name="per_ticket_type_youth">ต่อวัยรุ่น</string>
+    <string name="per_ticket_type_youth">ต่อเยาวชน</string>
     <string name="per_ticket_type_senior">ต่อผู้สูงอายุ</string>
     <string name="per_ticket_type_group">ต่อกลุ่ม</string>
     <string name="per_ticket_type_couple">ต่อคู่</string>
@@ -1046,6 +1046,10 @@
     <string name="nav_packages">ดีลแพ็คเกจ</string>
     <!-- Rail -->
     <string name="nav_rail">รถไฟ</string>
+    <string name="add_rail_card">เพิ่มบัตรรถไฟ</string>
+    <string name="select_rail_card_hint">เลือกบัตรรถไฟ</string>
+    <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
+    <string name="select_rail_card_quantity_hint">Qty</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">เดินทางจาก</string>
@@ -2701,6 +2705,9 @@
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
     <string name="child_age_less_than_one">&lt;b&gt;ไม่เกิน 1 ปี&lt;/b&gt;</string>
 
+    <!-- This is a special case for rails senior age greater than 62 -->
+    <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62+&lt;/b&gt; ปี</string>
+
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
     <string name="suggestion_times_square">ไทม์แสควร์, นิวยอร์ก, NY</string>
@@ -3050,6 +3057,8 @@
     <string name="error_no_response_room_rates">ไม่สามารถดาวน์โหลดข้อมูลห้องพักและราคา โปรดตรวจสอบสัญญาณอินเทอร์เน็ต แล้วลองอีกครั้ง</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">ต่อคืน</string>
+    <!-- Rate price displayed "total fee" -->
+    <string name="total_fee">ค่าธรรมเนียมทั้งหมด</string>
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">เฉลี่ย/คืน</string>
 
@@ -3104,6 +3113,8 @@
     <string name="free_cancellation">ยกเลิกฟรี</string>
     <!-- Top line of resort fee text -->
     <string name="hotel_fees_for_this_stay">ค่าธรรมเนียมโรงแรมสำหรับการเข้าพักนี้</string>
+    <!-- Resort fee text for pacakges-->
+    <string name="additional_fees_at_check_in">ค่าธรรมเนียมเพิ่มเติมเมื่อเช็คอิน</string>
     <!-- Included in the price -->
     <string name="included_in_the_price">รวมอยู่ในราคา</string>
     <!-- Not included in the price -->
@@ -3258,6 +3269,8 @@
     <string name="packages_cancellation_policy">นโยบายการยกเลิกห้องพักโรงแรม</string>
     <!-- Cancellation policy label for packages-->
     <string name="packages_fare_information">ข้อมูลค่าโดยสารเที่ยวบิน</string>
+    <!-- Insurance Information label -->
+    <string name="insurance_information">ข้อมูลการประกันภัย</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
@@ -3342,6 +3355,22 @@
         <item quantity="many">เด็ก %d คน</item>
         <item quantity="other">เด็ก %d คน</item>
     </plurals>
+    <!-- A number of youth. Capitalized -->
+    <plurals name="number_of_youth">
+        <item quantity="zero">เยาวชน %d คน</item>
+        <item quantity="one">เยาวชน %d คน</item>
+        <item quantity="two">เยาวชน %d คน</item>
+        <item quantity="many">เยาวชน %d คน</item>
+        <item quantity="other">เยาวชน %d คน</item>
+    </plurals>
+    <!-- A number of senior. Capitalized -->
+    <plurals name="number_of_senior">
+        <item quantity="zero">ผู้สูงอายุ %d คน</item>
+        <item quantity="one">ผู้สูงอายุ %d คน</item>
+        <item quantity="two">ผู้สูงอายุ %d คน</item>
+        <item quantity="many">ผู้สูงอายุ %d คน</item>
+        <item quantity="other">ผู้สูงอายุ %d คน</item>
+    </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
         <item quantity="zero">%d คน</item>
@@ -3388,7 +3417,8 @@
     <string name="distance_template">ห่างออกไป %1$s %2$s</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
-
+    <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">การตั้งค่า</string>
@@ -4007,6 +4037,19 @@
 
     <string name="lob_not_supported_error_message">ขออภัย การจอง{lob}ยังไม่มีให้บริการในตำแหน่งของคุณ</string>
 
+
+    <!-- Adult age label on rail search -->
+    <string name="rail_adult_age_label">(26-59 ปี)</string>
+
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label">(0-15 ปี)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label">(16-25 ปี)</string>
+
+    <!-- Senior age label on rail search -->
+    <string name="rail_senior_age_label">(60+ ปี)</string>
+
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 ปี)</string>
 
@@ -4206,8 +4249,8 @@
     <!-- Slide to book -->
     <string name="slide_to_book_text">เลื่อนเพื่อจอง</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
-    <!-- Confirmation Text indicating rewards points user got for the booked package -->
-    <string name="confirmation_reward_points_TEMPLATE">คะแนน {brand}+ {rewardpoints} คะแนน</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
+    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints}{brand_reward_name} คะแนน</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">ระยะเวลาบิน</string>
@@ -4342,6 +4385,19 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">ค่าธรรมเนียมบัตร</string>
 
+    <!-- Label for ticket delivery -->
+    <string name="ticket_delivery">การจัดส่งตั๋ว</string>
+
+    <!-- Ticket delivery options-->
+    <string name="pickup_at_station">รับที่สถานี</string>
+    <string name="delivery_by_mail">ส่งทางไปรษณีย์</string>
+
+    <!-- Ticket delivery details -->
+    <string name="pickup_station_details">นำหมายเลขอ้างอิงและบัตรเครดิตเพื่อใช้ในการซื้อตั๋ว</string>
+
+    <string name="mail_delivery_details">ส่งตั๋วไปตามที่อยู่ที่คุณให้ไว้</string>
+    <string name="tdo_fees_non_refundable">ค่าจัดส่งตั๋วไม่สามารถขอรับเงินคืนได้</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">ขออภัย เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง</string>
     <string name="pwp_trip_service_error">ขออภัย เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง</string>
     <string name="pwp_unknown_error">เกิดข้อผิดพลาด โปรดลองอีกครั้ง</string>
@@ -4472,8 +4528,22 @@
     <string name="add_child_traveler_cont_desc">เพิ่มผู้เดินทางเด็ก 1 คน</string>
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">ลบผู้เดินทางเด็ก 1 คน</string>
+
+    <!--Rail Traveler widget youth plus button content description-->
+    <string name="rails_add_youth_traveler_cont_desc">เพิ่มผู้เดินทางเยาวชน 1 คน</string>
+    <!--Rail Traveler widget youth minus button content description-->
+    <string name="rails_remove_youth_traveler_cont_desc">ลบผู้เดินทางเยาวชน 1 คน</string>
+    <!--Rail Traveler widget senior plus button content description-->
+    <string name="rails_add_senior_traveler_cont_desc">เพิ่มผู้เดินทางผู้สูงอายุ 1 คน</string>
+    <!--Rail Traveler widget senior minus button content description-->
+    <string name="rails_remove_senior_traveler_cont_desc">ลบผู้เดินทางผู้สูงอายุ 1 คน</string>
+
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">แสดงอายุเด็ก {childnumber}</string>
+    <!--Packages search youth age drop down content description Eg. "Select age for youth 1."-->
+    <string name="search_youth_drop_down_cont_desc_TEMPLATE">แสดงอายุเยาวชน {youthnumber}</string>
+    <!--Packages search senior age drop down content description Eg. "Select age for senior 1."-->
+    <string name="search_senior_drop_down_cont_desc_TEMPLATE">แสดงอายุผู้สูงอายุ {seniornumber}</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
     <string name="packages_search_datepicker_announce_accessibility_start_date">เลือกวันเริ่มต้นการเดินทาง</string>
@@ -4633,5 +4703,10 @@
 
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">กิจกรรมที่ถูกเลือก {caption}</string>
+
+    <!-- Gallery Image count e.g. 1/14 -->
+    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
+    <!-- Content Description for current index of the photo in the gallery -->
+    <string name="galley_photo_count_content_description_TEMPLATE">ปุ่มดูภาพแกลลอรีภาพที่ {index} จาก {count}</string>
 
 </resources>

@@ -955,9 +955,9 @@
     <!-- Rooms and rates price/night, i.e. $100/night -->
     <string name="room_rate_per_night_template">%s/1 晚</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_included_template">這次住宿的酒店費用 (已包括在內)：&lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="tablet_room_rate_resort_fees_included_template">此住宿的酒店附加費 (已包括在內)：&lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates resort fees template when fees are included in price displayed i.e. This hotel charges additional fees of $25 -->
-    <string name="tablet_room_rate_resort_fees_not_included_template">這次住宿的酒店費用 (不包括在內)：&lt;b&gt;%s&lt;/b&gt;</string>
+    <string name="tablet_room_rate_resort_fees_not_included_template">此住宿的酒店附加費 (不包括在內)：&lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Rooms and rates button to add selected room to trip -->
     <string name="room_rate_button_add_to_trip">加入行程</string>
     <!-- Rooms and rates button to select a particular room and view details -->
@@ -1046,6 +1046,10 @@
     <string name="nav_packages">套票行程優惠</string>
     <!-- Rail -->
     <string name="nav_rail">火車</string>
+    <string name="add_rail_card">加入鐵路卡</string>
+    <string name="select_rail_card_hint">選擇鐵路卡</string>
+    <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
+    <string name="select_rail_card_quantity_hint">數目</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">出發地</string>
@@ -2699,7 +2703,10 @@
         <item quantity="other">&lt;b&gt;%d&lt;/b&gt; 歲</item>
     </plurals>
     <!-- This is a special case, not exactly "zero", so it won't fit into the child_age plurals -->
-    <string name="child_age_less_than_one">&lt;b&gt;1 &lt;/b&gt;歲以下</string>
+    <string name="child_age_less_than_one">&lt;b&gt;未滿 1&lt;/b&gt; 歲</string>
+
+    <!-- This is a special case for rails senior age greater than 62 -->
+    <string name="senior_age_greater_than_sixth_two">&lt;b&gt;62&lt;/b&gt; 歲或以上</string>
 
     <!-- Search suggestions (locations we suggest to the user when they haven't typed in a location) -->
     <!-- Suggestion to search Times Square -->
@@ -3050,6 +3057,8 @@
     <string name="error_no_response_room_rates">無法下載房型與房價資料。請檢查連線，然後再試一次。</string>
     <!-- Rate price displayed "per night" -->
     <string name="rate_per_night">每晚</string>
+    <!-- Rate price displayed "total fee" -->
+    <string name="total_fee">總費</string>
     <!-- Rate price displayed "average per night" -->
     <string name="rate_avg_per_night">平均每晚</string>
 
@@ -3103,11 +3112,13 @@
     <!-- The text we use when the search date it tonight -->
     <string name="free_cancellation">免費取消</string>
     <!-- Top line of resort fee text -->
-    <string name="hotel_fees_for_this_stay">這次住宿的酒店費用</string>
+    <string name="hotel_fees_for_this_stay">此住宿的酒店附加費</string>
+    <!-- Resort fee text for pacakges-->
+    <string name="additional_fees_at_check_in">入住時繳交附加費</string>
     <!-- Included in the price -->
-    <string name="included_in_the_price">已包括在價格內</string>
+    <string name="included_in_the_price">已包括於價格內</string>
     <!-- Not included in the price -->
-    <string name="not_included_in_the_price">不包括在價格內</string>
+    <string name="not_included_in_the_price">不包括於價格內</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">查看客房</string>
     <!-- Book Room button text; verb; as in book a hotel room -->
@@ -3258,6 +3269,8 @@
     <string name="packages_cancellation_policy">酒店取消政策</string>
     <!-- Cancellation policy label for packages-->
     <string name="packages_fare_information">機票價格資訊</string>
+    <!-- Insurance Information label -->
+    <string name="insurance_information">保險資訊</string>
 
     <!-- About activity -->
     <!-- Label for "Booking Support" button in info page -->
@@ -3342,6 +3355,22 @@
         <item quantity="many">%d 位小童</item>
         <item quantity="other">%d 位小童</item>
     </plurals>
+    <!-- A number of youth. Capitalized -->
+    <plurals name="number_of_youth">
+        <item quantity="zero">%d 位青年</item>
+        <item quantity="one">%d 位青年</item>
+        <item quantity="two">%d 位青年</item>
+        <item quantity="many">%d 位青年</item>
+        <item quantity="other">%d 位青年</item>
+    </plurals>
+    <!-- A number of senior. Capitalized -->
+    <plurals name="number_of_senior">
+        <item quantity="zero">%d 位長者</item>
+        <item quantity="one">%d 位長者</item>
+        <item quantity="two">%d 位長者</item>
+        <item quantity="many">%d 位長者</item>
+        <item quantity="other">%d 位長者</item>
+    </plurals>
     <!-- A number of guests. Capitalized -->
     <plurals name="number_of_guests">
         <item quantity="zero">%d 位旅客</item>
@@ -3388,7 +3417,8 @@
     <string name="distance_template">%1$s %2$s外</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
-
+    <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -4007,6 +4037,19 @@
 
     <string name="lob_not_supported_error_message">很抱歉，您的地點尚未提供{lob}預訂服務。</string>
 
+
+    <!-- Adult age label on rail search -->
+    <string name="rail_adult_age_label">(26-59 歲)</string>
+
+    <!-- Children age label on rail search -->
+    <string name="rail_children_age_label">(0-15 歲)</string>
+
+    <!-- Youth age label on rail search -->
+    <string name="rail_youth_age_label">(16-25 歲)</string>
+
+    <!-- Senior age label on rail search -->
+    <string name="rail_senior_age_label">(60 歲或以上)</string>
+
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 歲)</string>
 
@@ -4206,8 +4249,8 @@
     <!-- Slide to book -->
     <string name="slide_to_book_text">滑動以預訂</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
-    <!-- Confirmation Text indicating rewards points user got for the booked package -->
-    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} 點 {brand}+ 積分</string>
+    <!-- Confirmation Text indicating rewards points user got for the booked package E.g. 183 Expedia+ Rewards Points -->
+    <string name="confirmation_reward_points_TEMPLATE">{rewardpoints} 點 {brand_reward_name} 積分</string>
 
     <!-- Flight Duration filter label-->
     <string name="flight_duration_label">飛行時間</string>
@@ -4342,6 +4385,19 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">付款卡手續費</string>
 
+    <!-- Label for ticket delivery -->
+    <string name="ticket_delivery">取票</string>
+
+    <!-- Ticket delivery options-->
+    <string name="pickup_at_station">於車站取票</string>
+    <string name="delivery_by_mail">郵遞</string>
+
+    <!-- Ticket delivery details -->
+    <string name="pickup_station_details">請帶同車票參考編號及購買車票時使用的信用卡。</string>
+
+    <string name="mail_delivery_details">將車票郵寄至您提供的地址。</string>
+    <string name="tdo_fees_non_refundable">送票費用不設退款。</string>
+
     <string name="pwp_points_conversion_unauthenticated_access">很抱歉，伺服器出現問題。請再試一次。</string>
     <string name="pwp_trip_service_error">很抱歉，伺服器出現問題。請再試一次。</string>
     <string name="pwp_unknown_error">出現未明錯誤。請再試一次。</string>
@@ -4472,8 +4528,22 @@
     <string name="add_child_traveler_cont_desc">加 1 位小童旅客</string>
     <!--Traveler widget child minus button content description-->
     <string name="remove_child_traveler_cont_desc">移除 1 位小童旅客</string>
+
+    <!--Rail Traveler widget youth plus button content description-->
+    <string name="rails_add_youth_traveler_cont_desc">加 1 位青年旅客</string>
+    <!--Rail Traveler widget youth minus button content description-->
+    <string name="rails_remove_youth_traveler_cont_desc">移除 1 位青年旅客</string>
+    <!--Rail Traveler widget senior plus button content description-->
+    <string name="rails_add_senior_traveler_cont_desc">加 1 位長者旅客</string>
+    <!--Rail Traveler widget senior minus button content description-->
+    <string name="rails_remove_senior_traveler_cont_desc">移除 1 位長者旅客</string>
+
     <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
-    <string name="search_child_drop_down_cont_desc_TEMPLATE">選擇小童 {childnumber} 年齡。</string>
+    <string name="search_child_drop_down_cont_desc_TEMPLATE">選擇小童 {childnumber} 的年齡。</string>
+    <!--Packages search youth age drop down content description Eg. "Select age for youth 1."-->
+    <string name="search_youth_drop_down_cont_desc_TEMPLATE">選擇青年 {youthnumber} 的年齡。</string>
+    <!--Packages search senior age drop down content description Eg. "Select age for senior 1."-->
+    <string name="search_senior_drop_down_cont_desc_TEMPLATE">選擇長者 {seniornumber} 的年齡。</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
     <string name="packages_search_datepicker_announce_accessibility_start_date">請選擇開始日期。</string>
@@ -4633,5 +4703,10 @@
 
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">已選擇活動，{caption}</string>
+
+    <!-- Gallery Image count e.g. 1/14 -->
+    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
+    <!-- Content Description for current index of the photo in the gallery -->
+    <string name="galley_photo_count_content_description_TEMPLATE">按此查看 {count} 張相片中的第 {index} 張</string>
 
 </resources>
