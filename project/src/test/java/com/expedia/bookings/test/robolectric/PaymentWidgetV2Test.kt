@@ -193,6 +193,7 @@ class PaymentWidgetV2Test {
         val card = StoredCreditCard()
 
         card.cardNumber = "4111111111111111"
+        card.id = "stored-card-id"
         card.type = PaymentType.CARD_AMERICAN_EXPRESS
         card.description = "Visa 4111"
         card.setIsGoogleWallet(false)

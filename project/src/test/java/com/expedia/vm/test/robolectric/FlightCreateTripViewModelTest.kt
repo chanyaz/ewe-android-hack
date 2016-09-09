@@ -123,10 +123,12 @@ class FlightCreateTripViewModelTest {
 
     private fun goodCreateTripResponse(): FlightCreateTripResponse {
         val flightCreateTripResponse = FlightCreateTripResponse()
-        flightCreateTripResponse.totalPrice = Money("42", "USD")
         val field = flightCreateTripResponse.javaClass.getDeclaredField("details") // using reflection as field private
         field.isAccessible = true
-        field.set(flightCreateTripResponse, FlightTripDetails())
+        val flightTripDetails = FlightTripDetails()
+        flightTripDetails.offer = FlightTripDetails.FlightOffer()
+        flightTripDetails.offer.totalPrice = Money("42", "USD")
+        field.set(flightCreateTripResponse, flightTripDetails)
         return flightCreateTripResponse
     }
 

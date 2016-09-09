@@ -214,8 +214,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             viewmodel.onStoredCardChosen.onNext(Unit)
             viewmodel.cardTypeSubject.onNext(card.type)
-            if (card.id != null && !card.id.equals(viewmodel.storedPaymentInstrumentId.value)) {
-                viewmodel.storedPaymentInstrumentId.onNext(card.id)
+            if (card.id != null && !card.id.equals(viewmodel.cardBIN.value)) {
+                viewmodel.cardBIN.onNext(card.id)
             }
             trackPaymentStoredCCSelect()
         }
@@ -324,6 +324,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             sectionBillingInfo.billingInfo.storedCard = card
             temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
+            viewmodel.cardBIN.onNext(card.id)
         }
     }
 
@@ -415,11 +416,16 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         val cardType = sectionBillingInfo.billingInfo?.paymentType
         viewmodel.cardTypeSubject.onNext(cardType)
         val cardNumber = sectionBillingInfo.billingInfo?.number
-        if (cardNumber != null && cardNumber.length >= 10) {
+        if (cardNumber != null) {
             val currentCardBIN = viewmodel.cardBIN.value
-            val cardBIN = cardNumber.replace(" ", "").substring(0, 6)
-            if (!cardBIN.equals(currentCardBIN)) {
-                viewmodel.cardBIN.onNext(cardBIN)
+            if (cardNumber.length >= 6) {
+                val cardBIN = cardNumber.replace(" ", "").substring(0, 6)
+                if (!cardBIN.equals(currentCardBIN)) {
+                    viewmodel.cardBIN.onNext(cardBIN)
+                }
+            }
+            else if (cardNumber.length == 0 && currentCardBIN.isNotBlank()) {
+                viewmodel.resetCardFees.onNext(Unit)
             }
         }
     }

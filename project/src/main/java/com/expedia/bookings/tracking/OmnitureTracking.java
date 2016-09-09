@@ -5269,7 +5269,7 @@ public class OmnitureTracking {
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
 
 		String itineraryType;
-		BigDecimal outBoundFlightPrice = trip.totalPrice.amount;
+		BigDecimal outBoundFlightPrice = trip.getDetails().offer.totalPrice.amount;
 		switch (getFlightItineraryType()) {
 		case SPLIT_TICKET:
 			itineraryType = "ST";

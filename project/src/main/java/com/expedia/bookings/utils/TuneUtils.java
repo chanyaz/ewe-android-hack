@@ -488,9 +488,10 @@ public class TuneUtils {
 				Date returnDate = flightSearchParams.getReturnDate().toDate();
 				event.withDate2(returnDate);
 			}
+			Money totalPrice = flightCreateTripResponse.getDetails().offer.totalPrice;
 			withTuidAndMembership(event)
-				.withRevenue(flightCreateTripResponse.totalPrice.amount.doubleValue())
-				.withCurrencyCode(flightCreateTripResponse.totalPrice.currencyCode)
+				.withRevenue(totalPrice.amount.doubleValue())
+				.withCurrencyCode(totalPrice.currencyCode)
 				.withAttribute2(isUserLoggedIn())
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);

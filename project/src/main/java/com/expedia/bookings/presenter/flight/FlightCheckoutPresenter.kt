@@ -47,6 +47,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     init {
         val debitCardsNotAcceptedSubject = BehaviorSubject.create<Spanned>(SpannedString(context.getString(R.string.flights_debit_cards_not_accepted)))
+        val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
+
         makePaymentErrorSubscriber(getCheckoutViewModel().showDebitCardsNotAcceptedSubject,  ckoViewModel.showingPaymentWidgetSubject,
                 debitCardsNotAcceptedTextView, debitCardsNotAcceptedSubject)
 
@@ -59,6 +61,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         getCheckoutViewModel().receivedCheckoutResponse.subscribe {
             checkoutDialog.hide()
         }
+
+        getCheckoutViewModel().tripResponseObservable.subscribe(flightCostSummaryObservable)
     }
 
     override fun injectComponents() {
@@ -91,7 +95,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     private fun handlePriceChange(tripResponse: FlightCreateTripResponse) {
-        val flightTripDetails = tripResponse.details
+        val flightTripDetails = tripResponse.getDetails()
 
         // TODO - we may have to change from totalFarePrice -> totalPrice in order to support SubPub fares
         if (flightTripDetails.oldOffer != null) {
@@ -112,7 +116,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun isPassportRequired(response: TripResponse) {
-        val flightOffer = (response as FlightCreateTripResponse).details.offer
+        val flightOffer = (response as FlightCreateTripResponse).getDetails().offer
         travelerPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
     }
 

@@ -316,14 +316,14 @@ class FacebookEvents() {
     fun trackFlightV2Detail(flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams,
                             flightCreateTripResponse: FlightCreateTripResponse) {
 
-        val lastSegment = flightCreateTripResponse.details.legs[0].segments.size - 1
-        val arrivalAirportAddress = flightCreateTripResponse.details.legs[0].segments[lastSegment].arrivalAirportAddress
+        val lastSegment = flightCreateTripResponse.getDetails().legs[0].segments.size - 1
+        val arrivalAirportAddress = flightCreateTripResponse.getDetails().legs[0].segments[lastSegment].arrivalAirportAddress
 
         val parameters = Bundle()
         addCommonFlightV2Params(parameters, flightSearchParams, arrivalAirportAddress)
-        parameters.putString("Flight_Value", flightCreateTripResponse.totalPrice.amount.toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightCreateTripResponse.details.legs[0].segments[0].airlineCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, flightCreateTripResponse.totalPrice.currencyCode)
+        parameters.putString("Flight_Value", flightCreateTripResponse.getDetails().offer.totalPrice.amount.toString())
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightCreateTripResponse.getDetails().legs[0].segments[0].airlineCode)
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, flightCreateTripResponse.getDetails().offer.totalPrice.currencyCode)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
 
         track(AppEventsConstants.EVENT_NAME_VIEWED_CONTENT, parameters)
@@ -346,14 +346,14 @@ class FacebookEvents() {
     }
 
     fun trackFlightV2Checkout(flightCreateTripResponse: FlightCreateTripResponse, flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams) {
-        val lastSegment = flightCreateTripResponse.details.legs[0].segments.size - 1
-        val arrivalAirportAddress = flightCreateTripResponse.details.legs[0].segments[lastSegment].arrivalAirportAddress
+        val lastSegment = flightCreateTripResponse.getDetails().legs[0].segments.size - 1
+        val arrivalAirportAddress = flightCreateTripResponse.getDetails().legs[0].segments[lastSegment].arrivalAirportAddress
 
         val parameters = Bundle()
         addCommonFlightV2Params(parameters, flightSearchParams, arrivalAirportAddress)
-        parameters.putString("Booking_Value", flightCreateTripResponse.totalPrice.amount.toString())
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightCreateTripResponse.details.legs[0].segments[0].airlineCode)
-        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, flightCreateTripResponse.totalPrice.currencyCode)
+        parameters.putString("Booking_Value", flightCreateTripResponse.getDetails().offer.totalPrice.amount.toString())
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightCreateTripResponse.getDetails().legs[0].segments[0].airlineCode)
+        parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, flightCreateTripResponse.getDetails().offer.totalPrice.currencyCode)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
 
         track(AppEventsConstants.EVENT_NAME_ADDED_TO_CART, parameters)
@@ -376,13 +376,9 @@ class FacebookEvents() {
     }
 
     fun trackFlightV2Confirmation(flightCheckoutResponse: FlightCheckoutResponse, flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams) {
-        var arrivalAirportAddress: FlightLeg.FlightSegment.AirportAddress? = null
-        var airLineCode = ""
-        if(flightCheckoutResponse.details != null) {
-            val lastSegment = flightCheckoutResponse.details!!.legs[0].segments.size - 1
-            arrivalAirportAddress = flightCheckoutResponse.details!!.legs[0].segments[lastSegment].arrivalAirportAddress
-            airLineCode = flightCheckoutResponse.details!!.legs[0].segments[0].airlineCode
-        }
+        val lastSegment = flightCheckoutResponse.getDetails().legs[0].segments.size - 1
+        val arrivalAirportAddress = flightCheckoutResponse.getDetails().legs[0].segments[lastSegment].arrivalAirportAddress
+        val airLineCode = flightCheckoutResponse.getDetails().legs[0].segments[0].airlineCode
         val parameters = Bundle()
         addCommonFlightV2Params(parameters, flightSearchParams, arrivalAirportAddress)
         parameters.putString("Booking_Value", flightCheckoutResponse.totalChargesPrice?.amount.toString())
