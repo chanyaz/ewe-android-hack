@@ -7,6 +7,7 @@
         android:id="@+id/gallery_item_image_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/car_details_image_size"
+        android:contentDescription="@string/gallery_cont_desc"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter" />
 
