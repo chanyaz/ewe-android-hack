@@ -10,10 +10,6 @@ import com.expedia.vm.rail.RailFareOptionViewModel
 
 class RailDetailsFareOptionsView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    init {
-        orientation = VERTICAL
-    }
-
     var viewmodel: RailDetailsViewModel by notNullAndObservable { vm ->
         vm.offerViewModel.offerSubject.subscribe {
             removeAllViews()
