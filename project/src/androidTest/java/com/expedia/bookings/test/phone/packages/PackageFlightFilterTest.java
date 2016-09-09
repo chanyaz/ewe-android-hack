@@ -1,10 +1,11 @@
 package com.expedia.bookings.test.phone.packages;
 
+import java.util.Locale;
+
 import org.joda.time.LocalDate;
 
 import android.support.annotation.IdRes;
 import android.support.test.espresso.ViewInteraction;
-import com.mobiata.android.Log;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -14,6 +15,7 @@ import com.expedia.bookings.test.espresso.PackageTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.mobiata.android.Log;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -22,6 +24,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -229,6 +232,8 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		onView(withId(R.id.sort_by_selection_spinner)).perform(scrollTo(), click());
 		onData(allOf(is(instanceOf(String.class)), is(duration))).perform(click());
 		onView(withId(R.id.sort_by_selection_spinner)).check(matches(withSpinnerText(containsString(duration))));
+		onView(withId(R.id.sort_by_selection_spinner)).check(matches(withContentDescription("Sort by. " + duration.toUpperCase(
+			Locale.US) + ".")));
 	}
 
 	private void navigateFromLaunchToFlightFilter() throws Throwable {

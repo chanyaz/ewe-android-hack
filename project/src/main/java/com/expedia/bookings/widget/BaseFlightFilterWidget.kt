@@ -29,6 +29,7 @@ import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseFlightFilterViewModel
+import com.squareup.phrase.Phrase
 
 class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
     val ANIMATION_DURATION = 500L
@@ -168,6 +169,8 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                     trackFlightSortBy(sort)
                 }
                 isFirstLoad = false
+                sortByButtonGroup.contentDescription = Phrase.from(context, R.string.filter_sort_by_content_description_TEMPLATE)
+                        .put("sort", sort.name).format().toString()
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
