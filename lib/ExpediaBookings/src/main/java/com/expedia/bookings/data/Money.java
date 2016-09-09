@@ -96,6 +96,10 @@ public class Money {
 		return amount == null || amount.compareTo(BigDecimal.ZERO) == 0;
 	}
 
+	public boolean isLessThanZero() {
+		return amount == null || amount.signum() == -1;
+	}
+
 	public boolean hasCents() {
 		return amount.remainder(BigDecimal.ONE).compareTo(BigDecimal.ZERO) > 0;
 	}

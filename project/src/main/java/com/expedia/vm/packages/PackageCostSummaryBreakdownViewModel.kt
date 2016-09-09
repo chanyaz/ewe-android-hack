@@ -34,8 +34,10 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
                     makeTaxesAndFeesRow(packageDetails.pricing.totalTaxesAndFees.formattedPrice,
                             packageDetails.pricing.taxesAndFeesIncluded))
 
-            // Bundle Discount    -$200
-            breakdowns.add(makeTotalSavingRow(packageDetails.pricing.savings.formattedPrice))
+            if (!packageDetails.pricing.savings.isZero && !packageDetails.pricing.savings.isLessThanZero) {
+                // Bundle Discount    -$200
+                breakdowns.add(makeTotalSavingRow(packageDetails.pricing.savings.formattedPrice))
+            }
 
             if (packageDetails.pricing.hasResortFee() && PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
                 // Local charges due at hotel

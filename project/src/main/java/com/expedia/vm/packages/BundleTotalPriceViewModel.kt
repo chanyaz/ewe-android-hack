@@ -18,12 +18,14 @@ class BundleTotalPriceViewModel(val context: Context,
             contentDescriptionObservable.onNext(description)
         }
 
-        savings.filter { !it.isZero }.subscribe { savings ->
-            val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
-                    .put("savings", savings.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
-                    .format().toString()
-            savingsPriceObservable.onNext(packageSavings)
-            contentDescriptionObservable.onNext(getAccessibleContentDescription(isSlidable))
+        savings.subscribe { savings ->
+            if (!savings.isZero && !savings.isLessThanZero) {
+                val packageSavings = Phrase.from(context, R.string.bundle_total_savings_TEMPLATE)
+                        .put("savings", savings.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+                        .format().toString()
+                savingsPriceObservable.onNext(packageSavings)
+                contentDescriptionObservable.onNext(getAccessibleContentDescription(isSlidable))
+            } else savingsPriceObservable.onNext("")
         }
 
         costBreakdownEnabledObservable.subscribe { isCostBreakdownEnabled ->
