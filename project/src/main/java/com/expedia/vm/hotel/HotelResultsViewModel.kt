@@ -100,8 +100,6 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
             }
 
             override fun onError(e: Throwable?) {
-                val error = e
-                println("malcolm  " + error?.message)
                 if (RetrofitUtils.isNetworkError(e)) {
                     val retryFun = fun() {
                         doSearch(paramsSubject.value)
