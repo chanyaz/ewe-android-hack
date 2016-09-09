@@ -6,6 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.text.Html
 import android.util.AttributeSet
@@ -720,7 +721,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         smoothScrollAnimation.start()
 
         //request focus for accessibility on first room row after scrolling
-        (roomContainer.getChildAt(0) as HotelRoomRateView).row.requestFocus()
+        Handler().postDelayed({
+            (roomContainer.getChildAt(0) as HotelRoomRateView).row.requestFocus()
+        }, 400L)
     }
 
 
