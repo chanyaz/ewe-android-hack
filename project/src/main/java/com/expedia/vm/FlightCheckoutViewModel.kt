@@ -30,6 +30,7 @@ import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(context) {
+
     lateinit var flightServices: FlightServices
         @Inject set
 
@@ -37,10 +38,6 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     // outputs
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>()
     val receivedCheckoutResponse = PublishSubject.create<Unit>()
-
-    override fun injectComponents() {
-        Ui.getApplication(context).flightComponent().inject(this)
-    }
 
     init {
         val pointOfSale = PointOfSale.getPointOfSale()
@@ -50,22 +47,18 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         tripResponseObservable.subscribe { it as FlightCreateTripResponse
             builder.tripId(it.newTrip.tripId)
             builder.expectedTotalFare(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())
-            builder.expectedFareCurrencyCode(it.totalPrice.currency)
+            builder.expectedFareCurrencyCode(it.getDetails().offer.totalPrice.currency)
             builder.tealeafTransactionId(it.tealeafTransactionId)
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
             val totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
                     .put("dueamount", it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
                     .format()
             sliderPurchaseTotalText.onNext(totalPrice)
-            paymentTypeSelectedHasCardFee.onNext(false)
         }
 
         priceChangeObservable.subscribe { it as FlightCheckoutResponse
-            // TODO - update to totalPrice for subPub support when api is fixed to return totalPrice field from a priceChange response
-            val flightTripDetails = it.details
-            if (flightTripDetails != null) {
-                builder.expectedTotalFare(flightTripDetails.offer.totalFarePrice.amount.toString())
-            }
+            val flightTripDetails = it.getDetails()
+            builder.expectedTotalFare(flightTripDetails.offer.totalPrice.amount.toString())
         }
 
         checkoutParams.subscribe { params -> params as FlightCheckoutParams
@@ -74,6 +67,14 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         }
 
         showDebitCardsNotAcceptedSubject.onNext(pointOfSale.doesNotAcceptDebitCardsForFlights())
+    }
+
+    override fun injectComponents() {
+        Ui.getApplication(context).flightComponent().inject(this)
+    }
+
+    override fun useCardFeeService(): Boolean {
+        return true
     }
 
     override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
@@ -86,9 +87,12 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     }
 
     override fun getTripId(): String {
-        val flightCreateTripResponse = tripResponseObservable.value as FlightCreateTripResponse
-        val tripId = flightCreateTripResponse.newTrip.tripId!!
-        return tripId
+        if (tripResponseObservable.value != null) {
+            val flightCreateTripResponse = tripResponseObservable.value as FlightCreateTripResponse
+            val tripId = flightCreateTripResponse.newTrip.tripId!!
+            return tripId
+        }
+        return ""
     }
 
     private fun makeCheckoutResponseObserver(): Observer<FlightCheckoutResponse> {

@@ -98,7 +98,7 @@ class InsuranceViewModelTest {
 
     private fun tripResponseWithInsuranceAvailableAndSelected(flightType: FlightType): FlightCreateTripResponse {
         val trip = tripResponseWithInsuranceAvailableButNotSelected(flightType)
-        trip.details.offer.selectedInsuranceProduct = trip.details.offer.availableInsuranceProducts.firstOrNull()
+        trip.getDetails().offer.selectedInsuranceProduct = trip.getDetails().offer.availableInsuranceProducts.firstOrNull()
 
         return trip
     }
@@ -109,7 +109,7 @@ class InsuranceViewModelTest {
         insuranceProduct.terms.url = ""
 
         val trip = tripResponseWithoutInsuranceAvailable(flightType)
-        trip.details.offer.availableInsuranceProducts = listOf(insuranceProduct)
+        trip.getDetails().offer.availableInsuranceProducts = listOf(insuranceProduct)
 
         return trip
     }

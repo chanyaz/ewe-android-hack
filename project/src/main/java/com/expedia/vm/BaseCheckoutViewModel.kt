@@ -18,11 +18,9 @@ import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
@@ -38,12 +36,12 @@ abstract class BaseCheckoutViewModel(val context: Context) {
         @Inject set
 
     open val builder = BaseCheckoutParams.Builder()
-    val selectedCardFeeObservable = PublishSubject.create<Money>()
+    val selectedCardFeeObservable = BehaviorSubject.create<Money>()
     val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
     val cardFeeTextSubject = PublishSubject.create<Spanned>()
     val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
-    val selectedFlightChargesFees = PublishSubject.create<String>()
-    val obFeeDetailsUrlSubject = PublishSubject.create<String>()
+    val selectedFlightChargesFees = BehaviorSubject.create<String>("")
+    val obFeeDetailsUrlSubject = BehaviorSubject.create<String>("")
 
     // Inputs
     val creditCardRequired = PublishSubject.create<Boolean>()
@@ -71,6 +69,8 @@ abstract class BaseCheckoutViewModel(val context: Context) {
     val slideToBookA11yActivateObservable = PublishSubject.create<Unit>()
     val cardFeeTripResponse  = PublishSubject.create<TripResponse>()
 
+    private var lastFetchedCardFeeKeyPair: Pair<String, String>? = null
+
     init {
         injectComponents()
         clearTravelers.subscribe {
@@ -93,32 +93,47 @@ abstract class BaseCheckoutViewModel(val context: Context) {
             }
         }
 
-        paymentViewModel.cardBIN
-                .debounce(2, TimeUnit.SECONDS, getScheduler())
-                .subscribe(customerEnteredPaymentObserver())
-        paymentViewModel.storedPaymentInstrumentId.subscribe(customerEnteredPaymentObserver())
-
-        setupCardFeeSubjects()
-    }
-
-    abstract fun injectComponents()
-
-    open protected fun getScheduler(): Scheduler = AndroidSchedulers.mainThread()
-
-    private fun customerEnteredPaymentObserver(): Observer<String> {
-        return object : Observer<String> {
-            override fun onNext(cardId: String) {
-                cardFeeService?.getCardFees(getTripId(), cardId, getCardFeesCallback())
+        if (useCardFeeService()) {
+            paymentViewModel.resetCardFees.subscribe {
+                // fetch correct trip total price (without fees)
+                fetchCardFees(cardId = "000000", tripId = getTripId())
             }
 
-            override fun onError(e: Throwable?) {
-                throw OnErrorNotImplementedException(e)
-            }
-            override fun onCompleted() {}
+            paymentViewModel.cardBIN
+                    .debounce(1, TimeUnit.SECONDS, getScheduler())
+                    .subscribe { fetchCardFees(cardId = it, tripId = getTripId()) }
+            tripResponseObservable
+                    .subscribe {
+                        val cardId = paymentViewModel.cardBIN.value
+                        fetchCardFees(cardId, getTripId())
+                    }
+
+            setupCardFeeSubjects()
         }
     }
 
+    abstract fun useCardFeeService(): Boolean
+    abstract fun injectComponents()
     abstract fun getTripId() : String
+    abstract fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?)
+
+    open protected fun getScheduler(): Scheduler = AndroidSchedulers.mainThread()
+
+    fun isValidForBooking() : Boolean {
+        return builder.hasValidTravelerAndBillingInfo()
+    }
+
+    private fun fetchCardFees(cardId: String, tripId: String) {
+        if (tripId.isNotBlank() && cardId.length >= 6) {
+            val lastFetchedTripId = lastFetchedCardFeeKeyPair?.first
+            val lastFetchedCardId = lastFetchedCardFeeKeyPair?.second
+            val fetchFreshCardFee = !(tripId.equals(lastFetchedTripId) && cardId.equals(lastFetchedCardId))
+            if (fetchFreshCardFee) {
+                lastFetchedCardFeeKeyPair = Pair(tripId, cardId)
+                cardFeeService?.getCardFees(tripId, cardId, getCardFeesCallback())
+            }
+        }
+    }
 
     private fun getCardFeesCallback(): Observer<CardFeeResponse> {
         return object: Observer<CardFeeResponse> {
@@ -133,25 +148,16 @@ abstract class BaseCheckoutViewModel(val context: Context) {
         }
     }
 
-    abstract fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?)
-
-    fun isValidForBooking() : Boolean {
-        return builder.hasValidTravelerAndBillingInfo();
-    }
-
     private fun setupCardFeeSubjects() {
-        Observable.combineLatest(obFeeDetailsUrlSubject, selectedFlightChargesFees, { obFeeDetailsUrl, selectedFlightChargesFees ->
-            if (Strings.isNotEmpty(selectedFlightChargesFees)) {
-                val airlineFeeWithLink =
-                        Phrase.from(context, R.string.flights_fee_added_based_on_payment_TEMPLATE)
-                                .put("airline_fee_url", obFeeDetailsUrl)
-                                .format().toString()
-                cardFeeWarningTextSubject.onNext(StrUtils.getSpannableTextByColor(airlineFeeWithLink, ContextCompat.getColor(context, R.color.flight_primary_color), true))
-            }
-            else {
-                cardFeeWarningTextSubject.onNext(null)
-            }
-        }).subscribe()
+        selectedFlightChargesFees.subscribe {
+            cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(it, obFeeDetailsUrlSubject.value))
+        }
+
+        paymentViewModel.resetCardFees.subscribe {
+            paymentTypeSelectedHasCardFee.onNext(false)
+            cardFeeTextSubject.onNext(Html.fromHtml(""))
+            cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(selectedFlightChargesFees.value, obFeeDetailsUrlSubject.value))
+        }
 
         selectedCardFeeObservable
                 .debounce(1, TimeUnit.SECONDS, getScheduler()) // subscribe on ui thread as we're affecting ui elements
@@ -170,9 +176,19 @@ abstract class BaseCheckoutViewModel(val context: Context) {
                     } else {
                         paymentTypeSelectedHasCardFee.onNext(false)
                         cardFeeTextSubject.onNext(Html.fromHtml(""))
-                        cardFeeWarningTextSubject.onNext(Html.fromHtml(""))
+                        cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(selectedFlightChargesFees.value, obFeeDetailsUrlSubject.value))
                     }
                 }
     }
 
+    private fun getAirlineMayChargeFeeText(flightChargesFeesTxt: String, obFeeUrl: String): SpannableStringBuilder {
+        if (Strings.isNotEmpty(flightChargesFeesTxt)) {
+            val airlineFeeWithLink =
+                    Phrase.from(context, R.string.flights_fee_added_based_on_payment_TEMPLATE)
+                            .put("airline_fee_url", obFeeUrl)
+                            .format().toString()
+            return StrUtils.getSpannableTextByColor(airlineFeeWithLink, ContextCompat.getColor(context, R.color.flight_primary_color), true)
+        }
+        return SpannableStringBuilder()
+    }
 }

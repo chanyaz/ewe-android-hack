@@ -17,6 +17,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import java.util.ArrayList
+import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -60,7 +61,7 @@ class FlightCostSummaryBreakdownViewModelTest {
     fun testBreakdownWithAirlineFeeNoInsurance() {
         setupSystemUnderTest()
         givenGoodTripResponse()
-        newTripResponse.selectedCardFees = Money("2.50", "USD")
+        givenTripResponseHasFees()
 
         val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
@@ -87,7 +88,9 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[6],
                 breakdowns[7]
         )
-        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
+        val breakdownRows = breakdownRowsTestObservable.onNextEvents[0]
+        assertEquals(8, breakdownRows.size)
+        assertEvents(expectedBreakdown, breakdownRows)
     }
 
     @Test
@@ -124,8 +127,9 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[6],
                 breakdowns[7]
         )
-
-        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
+        val breakdownRows = breakdownRowsTestObservable.onNextEvents[0]
+        assertEquals(8, breakdownRows.size)
+        assertEvents(expectedBreakdown, breakdownRows)
     }
 
     @Test
@@ -133,7 +137,7 @@ class FlightCostSummaryBreakdownViewModelTest {
         setupSystemUnderTest()
         givenGoodTripResponse()
         setupInsuranceFees()
-        newTripResponse.selectedCardFees = Money("2.50", "USD")
+        givenTripResponseHasFees()
 
         val breakdownRowsTestObservable = TestSubscriber<kotlin.collections.List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         sut.addRows.subscribe(breakdownRowsTestObservable)
@@ -165,19 +169,21 @@ class FlightCostSummaryBreakdownViewModelTest {
                 breakdowns[7],
                 breakdowns[8]
         )
+        val breakdownRows = breakdownRowsTestObservable.onNextEvents[0]
 
-        assertEvents(expectedBreakdown, breakdownRowsTestObservable.onNextEvents[0])
+        assertEquals(9, breakdownRows.size)
+        assertEvents(expectedBreakdown, breakdownRows)
     }
 
     private fun setupInsuranceFees()  {
        val insurance = Money("10.00", "USD")
 
-        newTripResponse.details.offer.selectedInsuranceProduct = InsuranceProduct()
-        newTripResponse.details.offer.selectedInsuranceProduct.totalPrice = insurance
+        newTripResponse.getDetails().offer.selectedInsuranceProduct = InsuranceProduct()
+        newTripResponse.getDetails().offer.selectedInsuranceProduct.totalPrice = insurance
 
-        newTripResponse.totalPrice.add(insurance)
+        newTripResponse.getDetails().offer.totalPrice.add(insurance)
 
-        newTripResponse.details.offer.selectedInsuranceProduct.totalPrice.formattedPrice = insurance.formattedMoneyFromAmountAndCurrencyCode
+        newTripResponse.getDetails().offer.selectedInsuranceProduct.totalPrice.formattedPrice = insurance.formattedMoneyFromAmountAndCurrencyCode
     }
 
     private fun givenGoodTripResponse() {
@@ -187,43 +193,50 @@ class FlightCostSummaryBreakdownViewModelTest {
         val currencyCode = "USD"
         val totalPrice = Money(priceString, currencyCode)
         val adultCategory = FlightTripDetails.PassengerCategory.ADULT
-        var taxesPrice = Money("5.00", "USD")
-        var basePrice = Money("50.00", "USD")
+        val taxesPrice = Money("5.00", "USD")
+        val basePrice = Money("50.00", "USD")
 
 
         newTripResponse = FlightCreateTripResponse()
         newTripResponse.tripId = tripId
         newTripResponse.newTrip = TripDetails("", "", tripId)
-        newTripResponse.totalPrice = Money(priceString, currencyCode)
         newTripResponse.tealeafTransactionId = tealeafTransactionId
 
         val details = newTripResponse.javaClass.getDeclaredField("details")
-        val tripDetails = FlightTripDetails()
         details.isAccessible = true
+        val tripDetails = FlightTripDetails()
         details.set(newTripResponse, tripDetails)
 
-        newTripResponse.details.PricePerPassengerCategory().passengerCategory = adultCategory
-        newTripResponse.details.offer = FlightTripDetails.FlightOffer()
+        newTripResponse.getDetails().PricePerPassengerCategory().passengerCategory = adultCategory
+        newTripResponse.getDetails().offer = FlightTripDetails.FlightOffer()
 
-        newTripResponse.details.offer.fees = "0.00"
-        newTripResponse.details.offer.currency = currencyCode
-        newTripResponse.details.offer.pricePerPassengerCategory = ArrayList<FlightTripDetails.PricePerPassengerCategory>()
-        val list = newTripResponse.details.PricePerPassengerCategory()
-        (newTripResponse.details.offer.pricePerPassengerCategory as ArrayList<FlightTripDetails.PricePerPassengerCategory>).add(0, list )
-        newTripResponse.details.offer.pricePerPassengerCategory[0].passengerCategory = adultCategory
+        newTripResponse.getDetails().offer.totalPrice = Money(priceString, currencyCode)
+        newTripResponse.getDetails().offer.fees = "0.00"
+        newTripResponse.getDetails().offer.currency = currencyCode
+        newTripResponse.getDetails().offer.pricePerPassengerCategory = ArrayList<FlightTripDetails.PricePerPassengerCategory>()
+        val list = newTripResponse.getDetails().PricePerPassengerCategory()
+        (newTripResponse.getDetails().offer.pricePerPassengerCategory as ArrayList<FlightTripDetails.PricePerPassengerCategory>).add(0, list )
+        newTripResponse.getDetails().offer.pricePerPassengerCategory[0].passengerCategory = adultCategory
 
-        newTripResponse.details.offer.pricePerPassengerCategory[0].taxesPrice = taxesPrice
-        newTripResponse.details.offer.pricePerPassengerCategory[0].taxesPrice.formattedPrice = taxesPrice.formattedMoneyFromAmountAndCurrencyCode
-        newTripResponse.details.offer.pricePerPassengerCategory[0].totalPrice = totalPrice
-        newTripResponse.details.offer.pricePerPassengerCategory[0].totalPrice.formattedPrice = totalPrice.formattedMoneyFromAmountAndCurrencyCode
-        newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice = basePrice
-        newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice.formattedPrice = basePrice.formattedMoneyFromAmountAndCurrencyCode
+        newTripResponse.getDetails().offer.pricePerPassengerCategory[0].taxesPrice = taxesPrice
+        newTripResponse.getDetails().offer.pricePerPassengerCategory[0].taxesPrice.formattedPrice = taxesPrice.formattedMoneyFromAmountAndCurrencyCode
+        newTripResponse.getDetails().offer.pricePerPassengerCategory[0].totalPrice = totalPrice
+        newTripResponse.getDetails().offer.pricePerPassengerCategory[0].totalPrice.formattedPrice = totalPrice.formattedMoneyFromAmountAndCurrencyCode
+        newTripResponse.getDetails().offer.pricePerPassengerCategory[0].basePrice = basePrice
+        newTripResponse.getDetails().offer.pricePerPassengerCategory[0].basePrice.formattedPrice = basePrice.formattedMoneyFromAmountAndCurrencyCode
     }
 
-    private fun assertEvents(expectedBreakdown: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>,
+    private fun assertEvents(expectedBreakdownList: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>,
                              list: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>) {
-        for (index in 0..expectedBreakdown.size - 1) {
-            assertTrue(expectedBreakdown[index].equals(list[index]))
+        for (i in expectedBreakdownList.indices) {
+            val expected = expectedBreakdownList[i]
+            val actual = list[i]
+            assertEquals(expected, actual)
         }
+    }
+
+    private fun givenTripResponseHasFees() {
+        val money = Money("2.50", "USD")
+        newTripResponse.selectedCardFees = money
     }
 }

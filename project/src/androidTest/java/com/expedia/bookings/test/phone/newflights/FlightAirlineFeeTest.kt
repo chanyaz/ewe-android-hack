@@ -29,18 +29,23 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
     fun testAirlineFeeStoredCard() {
         selectFlightsProceedToCheckout()
         assertCardFeeWarningShown()
+        assertCheckoutOverviewMayChargeCardFeeTextShown()
 
         signIn()
         CheckoutViewModel.clickPaymentInfo()
         assertPaymentFormCardFeeWarningNotShown()
         CheckoutViewModel.selectStoredCard("Saved Visa 1111")
+        CheckoutViewModel.clickDone()
+
         assertCheckoutOverviewCardFeeWarningShown()
+        assertCostSummaryDialogShowsFees()
     }
 
     @Test
     fun testAirlineFeeGuestCheckout() {
         selectFlightsProceedToCheckout()
         assertCardFeeWarningShown()
+        assertCheckoutOverviewMayChargeCardFeeTextShown()
 
         CheckoutViewModel.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
@@ -51,6 +56,33 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         CheckoutViewModel.clickDone()
 
         assertCheckoutOverviewCardFeeWarningShown()
+        assertCostSummaryDialogShowsFees()
+    }
+
+    @Test
+    fun testAirlineFeeReset() {
+        selectFlightsProceedToCheckout()
+
+        CheckoutViewModel.clickPaymentInfo()
+        CardInfoScreen.assertCardInfoLabelShown()
+        CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
+        assertPaymentFormCardFeeWarningShown()
+
+        PackageScreen.completePaymentForm()
+        CheckoutViewModel.clickDone()
+
+        assertCheckoutOverviewCardFeeWarningShown()
+        assertCostSummaryDialogShowsFees()
+
+        // clear existing card number
+        signIn()
+        CheckoutViewModel.clickPaymentInfo() // reset card details
+        CheckoutViewModel.clickAddCreditCard()
+        assertCheckoutOverviewMayChargeCardFeeTextShown()
+        Common.pressBack()
+        Common.pressBack()
+
+        assertCheckoutOverviewMayChargeCardFeeTextShown()
     }
 
     @Test
@@ -66,6 +98,21 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         FlightTestHelpers.assertFlightOutbound()
 
         FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound))
+    }
+
+    private fun assertCostSummaryDialogShowsFees() {
+        val cardFee = "$2.50"
+        onView(withId(R.id.bundle_total_text)).perform(click())
+        onView(withText("Airline Card Fee")).check(ViewAssertions.matches(isDisplayed()))
+        onView(withText(cardFee)).check(ViewAssertions.matches(isDisplayed()))
+        onView(withId(android.R.id.button1)).perform(click())
+    }
+
+    private fun assertCheckoutOverviewMayChargeCardFeeTextShown() {
+        Common.delay(2) // We wait for a short delay (in implementation) jic customer changes their card
+        onView(withId(R.id.card_fee_warning_text)).perform(ViewActions.waitForViewToDisplay())
+                .check(ViewAssertions.matches(isDisplayed()))
+                .check(ViewAssertions.matches(withText("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.")))
     }
 
     private fun assertCheckoutOverviewCardFeeWarningShown() {

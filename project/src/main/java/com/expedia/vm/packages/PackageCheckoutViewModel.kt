@@ -61,7 +61,6 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             sliderPurchaseTotalText.onNext(totalPrice)
             val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
             accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
-            paymentTypeSelectedHasCardFee.onNext(false)
         }
 
         checkoutParams.subscribe { params ->
@@ -71,10 +70,17 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
         }
     }
 
+    override fun useCardFeeService(): Boolean {
+        return true
+    }
+
     override fun getTripId(): String {
-        val flightCreateTripResponse = tripResponseObservable.value as PackageCreateTripResponse
-        val tripId = flightCreateTripResponse.packageDetails.tripId!!
-        return tripId
+        if (tripResponseObservable.value != null) {
+            val flightCreateTripResponse = tripResponseObservable.value as PackageCreateTripResponse
+            val tripId = flightCreateTripResponse.packageDetails.tripId!!
+            return tripId
+        }
+        return ""
     }
 
     fun makeCheckoutResponseObserver(): Observer<PackageCheckoutResponse> {
