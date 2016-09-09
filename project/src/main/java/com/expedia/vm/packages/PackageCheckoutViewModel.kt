@@ -56,7 +56,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
 
             legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
             val totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
-                    .put("dueamount", it.getTripTotalExcludingFee().formattedMoneyFromAmountAndCurrencyCode)
+                    .put("dueamount", it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
                     .format().toString()
             sliderPurchaseTotalText.onNext(totalPrice)
             val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
