@@ -33,9 +33,10 @@
     <color name="accept_terms_ripple_color">#7dad06</color>
     <color name="review_screen_tab_indicator">@color/launch_tab_indicator</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
-    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
+    <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="preferences_text">#495863</color>
     <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</color>
+    <color name="traveler_drop_down_checked_color">@color/bg_blue_color_travelocity</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
@@ -47,23 +48,23 @@
     <color name="hotelsv2_discount_green">#7AC231</color>
     <color name="hotelsv2_coupon_applied_color">#7baed4</color>
 
-    <!-- Cars -->
+    <!-- Cars and LX -->
     <color name="cars_primary_color">#003E74</color>
-    <color name="cars_unchecked_toggle_text_color_tvly">#B3FFFFFF</color>
-    <color name="cars_drop_off_hint_text_color">#4b7fad</color>
-    <color name="cars_ripple_color">@color/lx_ripple_color</color>
-    <color name="cars_button_ripple">@color/accept_terms_ripple_color</color>
-    <color name="cars_button_color">@color/accept_terms_color</color>
-
-    <!-- Lx -->
+    <color name="cars_unchecked_toggle_text_color">#B3FFFFFF</color>
     <color name="lx_primary_color">#003E74</color>
     <color name="lx_ripple_color">#53a0d3</color>
-    <color name="lx_button_ripple">@color/accept_terms_ripple_color</color>
-    <color name="lx_button_color">@color/accept_terms_color</color>
     <color name="lx_secondary_color_disabled">#032E4D</color>
-    <color name="lx_unchecked_toggle_text_color_tvly">@android:color/white</color>
-    <color name="lx_ticket_selector_disabled_color_tvly">#40003E74</color>
+    <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
+    <color name="cars_ripple_color">@color/lx_ripple_color</color>
     <color name="lx_offer_date_ripple_color">@color/lx_ripple_color</color>
+
+    <color name="lx_primary_disabled_color">#40003E74</color>
+    <color name="cars_color_primary_dark">@color/cars_primary_color</color>
+    <color name="cars_secondary_color">@color/cars_primary_color</color>
+    <color name="cars_tooltip_color">@color/cars_primary_color</color>
+    <color name="cars_status_bar_color">@color/cars_primary_color</color>
+    <color name="lx_color_primary_dark">@color/lx_primary_color</color>
+    <color name="checkout_login_button_color">@android:color/white</color>
 
     <!--Account Lib Colors -->
     <color name="btn_sign_in_normal">#7ABC00</color>

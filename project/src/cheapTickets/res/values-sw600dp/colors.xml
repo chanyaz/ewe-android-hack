@@ -15,6 +15,8 @@
     <color name="tablet_hotel_sale_bg_color">#e5116FAA</color>
     <color name="details_ring_blue">#116FAA</color>
     <color name="hotel_details_user_rating_text">#116FAA</color>
+    <color name="tablet_hotel_gallery_ab_text_color">@color/ctx_brand_red</color>
+    <color name="tablet_hotel_gallery_ab_divider_color">@color/ctx_brand_red_33</color>
 
     <!-- Tablet Search results, error message action button background -->
     <color name="tablet_search_result_error_button">#116FAA</color>

@@ -4,4 +4,8 @@
     <!--Height of LOB box shadow height-->
     <dimen name="shadow_height">3dp</dimen>
 
+    <!-- Amount due today text size-->
+    <dimen name="amount_due_today_label_text_size">14sp</dimen>
+    <dimen name="amount_due_today_text_size">14sp</dimen>
+
 </resources>

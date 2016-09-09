@@ -70,7 +70,7 @@
     <color name="hotel_review_actionbar_tab_text_selected">#FFFFFF</color>
     <color name="hotel_review_actionbar_tab_text_unselected">#8CFFFFFF</color>
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
-    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
+    <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
     <color name="launch_mobile_exclusive">#116FAA</color>
@@ -86,6 +86,7 @@
 
     <!-- flight color-->
     <color name="flight_earn_message_text_color">#990033</color>
+    <color name="traveler_drop_down_checked_color">@color/action_bar_flight_text_color</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">#116FAA</color>
@@ -129,4 +130,7 @@
 
     <!-- Signed in user base tier color. As Ctx does not support any rewards, keeping the base color as silver -->
     <color name="sign_in_user_base_tier">#808080</color>
+
+    <color name="error_widget_edit_button_selected_color">#075D93</color>
+    <color name="error_button_color">@color/cars_primary_color</color>
 </resources>

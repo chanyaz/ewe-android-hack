@@ -6,26 +6,51 @@
         <item name="skin_hotelPriceStandardColor">@color/hotel_price_text_color_vsc</item>
         <item name="skin_hotelPriceSaleColor">@color/hotel_price_sale_text_color_vsc</item>
         <item name="skin_hotelSearchActionBarPadding">5dp</item>
-
+        <item name="skin_actionBarBackgroundDrawable">@drawable/bg_action_bar</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.VSC.Purple</item>
+        <item name="skin_calendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
+        <item name="skin_calendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="skin_calendarDatePickerDateFormat">@string/calendar_date_picker_date_format</item>
+        <item name="skin_hotelListingSaleDrawable">@drawable/bg_hotel_cell_sale</item>
+        <item name="skin_hotelDetailSaleRibbonDrawable">@drawable/bg_sale_ribbon</item>
+        <item name="skin_roomsRatesSaleRibbonDrawable">@drawable/rooms_rates_ribbon</item>
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.VSC.Purple</item>
         <item name="skin_hotelListingSortPriceDrawable">@drawable/ic_sort_euro</item>
+        <item name="skin_hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
+        <item name="skin_hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
+        <item name="skin_hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
+        <item name="skin_hangTagProgressDrawable">@drawable/gl_progress_tag</item>
+        <item name="skin_hangTagProgressRingFillDrawable">@drawable/gl_progress_ring_fill</item>
+        <item name="skin_hangTagKnobDrawable">@drawable/gl_progress_knob</item>
+        <item name="skin_hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_vsc</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
+        <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
+        <item name="skin_bookNowButtonDrawable">@drawable/btn_signin</item>
+
+        <item name="skin_hotelConfirmationCallActionDrawable">@drawable/ic_phone</item>
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder_vsc</item>
-		<item name="skin_cvvEntryTitleText">@string/cvv_explanation_vsc</item>
+        <item name="skin_hotelWebViewActionBarLogo">@drawable/ic_logo_hotels</item>
+
+        <item name="skin_flightsCostSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
         <item name="skin_travellerInfoPageLogo">@drawable/ic_vsc_traveler_logo</item>
         <item name="skin_travellerInfoPageLogoDisabled">@drawable/ic_vsc_traveler_logo_disabled</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
         <item name="skin_couponSuccessMessageColor">@color/coupon_success_message_color</item>
+        <item name="skin_HotelCheckout_CreditCardEditTextStyle">@style/CreditCardEditText</item>
+        <item name="skin_HotelCheckout_PostalCodeSectionStyle">@style/PostalCodeSection</item>
+        <item name="skin_HotelCheckout_couponEditTextStyle">@style/CouponEditText</item>
         <item name="skin_hotelRulesActionBarLogo">@drawable/ic_ab_vsc_logo</item>
         <item name="skin_flightRulesActionBarLogo">@drawable/ic_ab_vsc_logo</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
+        <item name="skin_launchCirclePlaceholderDrawable">@drawable/launch_circle_placeholder</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/white</item>
-
+        <item name="skin_flightLineColor">@color/flight_trip</item>
+        <item name="skin_flightLoadingMessageTextColor">@color/flight_loading_message_text_color_vsc</item>
+        <item name="android:homeAsUpIndicator" tools:targetApi="11">@drawable/ic_action_bar_back_arrow</item>
     </style>
 
     <!-- Inherit EB or VSC theme based on desired project -->
@@ -41,11 +66,11 @@
         <item name="android:spinnerStyle">@style/Widget.Spinner.Phone.Flights</item>
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
         <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
-        
-        
-        
+        <item name="skin_flightCalendarDatePickerCellDrawable">@drawable/calendar_date_picker_cell</item>
+        <item name="skin_flightCalendarDatePickerPopupDrawable">@drawable/calendar_date_picker_popup</item>
+        <item name="skin_flightFreeCancellationTextColor">@color/flight_free_cancellation_text_color</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_flight</item>
-
+        <item name="spinner_traveler_text_color_drawable">@drawable/flight_traveler_text_color</item>
     </style>
 
     <style name="FlightActionBarVSC" parent="FlightActionBar">
@@ -65,7 +90,7 @@
         <item name="android:logo">@drawable/launch_actionbar_space_between_icon_and_tabs</item>
         <item name="android:actionBarStyle">@style/LaunchActionBar</item>
         <item name="android:actionBarTabStyle">@style/LaunchActionBarTabStyle</item>
-        
+        <item name="skin_flightLineColor">@color/flight_trip</item>
         <item name="android:actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionOverflowButtonStyle">@style/OverflowMenuButton</item>
         <item name="actionBarTabTextStyle">@style/LaunchActionBarTabTextStyle</item>
@@ -79,13 +104,14 @@
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
-        
+        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
+        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
+        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
-
-        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
     </style>
 
@@ -99,7 +125,7 @@
     </style>
 
     <style name="OverflowMenuButton" parent="@android:style/Widget.Holo.ActionButton.Overflow">
-        <item name="android:src">@drawable/ic_menu_overflow_image</item>
+        <item name="android:src">@drawable/ic_overflow_white</item>
     </style>
 
     <style name="LaunchActionBarTabTextStyle" parent="@style/Widget.AppCompat.ActionBar.TabText">
@@ -116,19 +142,19 @@
         <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_brand_logo</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_confirmation_vsc</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
-        
-        
-        <item name="skin_itinCardOverflowDrawable">@drawable/ic_overflow_white</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/default_flights_background</item>
+        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_placeholder_cruises</item>
+        <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
+        <item name="skin_itinHotelAttachButtonDrawable">@drawable/btn_hotel_attach</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark_white</item>
         <item name="skin_itinCardTitleTextColor">@color/itin_white_text</item>
         <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card</item>
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title</item>
-        
-        
-        
+        <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
+        <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
-        
+        <item name="skin_itinAirAttachButtonDrawable">@drawable/btn_hotel_attach_normal</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
     </style>
 
@@ -155,13 +181,14 @@
     </style>
 
     <!-- Account creation theme -->
-    <style name="Whitelabel.AccountLibTheme" parent="Theme.AppCompat.NoActionBar">
-        <item name="acct__sign_in_button_text_color">@color/acct__btn_sign_in_text_vsc</item>
-        <item name="acct__logo_small_drawable">@android:color/transparent</item>
-        <item name="acct__logo_text_drawable">@drawable/acct__logo_text_vsc</item>
-        <item name="skin_accountCreationBackgroundDrawable">@drawable/acct_bg_vsc</item>
+    <style name="Theme.AccountLib" parent="Theme.Base.AccountLib">
+        <item name="skin_acctLogoSmallDrawable">@android:color/transparent</item>
+        <item name="skin_acctLogoTextDrawable">@drawable/acct__logo_text</item>
+        <item name="skin_acctSignInButtonTextColor">@color/acct__btn_sign_in_text</item>
+        <item name="skin_acctCheckmarkGoodDrawable">@drawable/acct__ic_checkmark</item>
+        <item name="skin_acctLogoTextDrawableMarginLeft">-36dp</item>
+        <item name="skin_acctLogoTextDrawableMarginTop">5dp</item>
+        <item name="skin_accountCreationBackgroundDrawable">@drawable/bg_account_creation</item>
         <item name="android:checkboxStyle">@style/Widget.CompoundButton.CheckBox</item>
-        <item name="acct__logo_text_drawable_margin_left">-36dp</item>
-        <item name="acct__logo_text_drawable_margin_top">5dp</item>
     </style>
 </resources>

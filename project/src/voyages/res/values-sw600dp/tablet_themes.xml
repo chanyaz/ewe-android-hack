@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="Theme.AirAsiaGo.Tablet" parent="Theme.VSC">
+    <style name="Theme.VSC.Tablet" parent="Theme.VSC">
         <item name="skin_action_bar_logo_tablet">@drawable/ic_action_bar_brand_logo</item>
         
         <item name="skin_tablet_book_button_text_color">@color/vsc_primary_color</item>
@@ -40,6 +40,6 @@
         <item name="android:titleTextStyle">@style/FlightActionBarTextAppearance</item>
     </style>
 
-    <style name="V2.Theme" parent="Theme.AirAsiaGo.Tablet" />
+    <style name="V2.Theme" parent="Theme.VSC.Tablet" />
 
 </resources>

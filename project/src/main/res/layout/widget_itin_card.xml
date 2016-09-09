@@ -95,7 +95,7 @@
                         android:paddingLeft="8dp"
                         android:paddingRight="8dp"
                         android:paddingTop="6dp"
-                        android:src="?attr/skin_itinCardOverflowDrawable" />
+                        android:src="@drawable/itin_card_overflow_drawable" />
                 </FrameLayout>
             </LinearLayout>
 

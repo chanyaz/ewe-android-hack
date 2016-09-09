@@ -50,6 +50,7 @@
         <item name="android:autoCompleteTextViewStyle">@style/Widget.AutoComplete</item>
         <item name="skin_travelerLabelOnCheckout">@string/Add_Traveler</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_flight</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/flight_traveler_text_color</item>
     </style>
 
     <!-- Override the phone theme -->
@@ -88,7 +89,6 @@
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_wotif_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_wotif</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_wotif</item>
-        <item name="skin_itinCardOverflowDrawable">@drawable/ic_menu_overflow_image</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text</item>
         <item name="skin_tripsTabText">@string/Your_Trips</item>
@@ -116,7 +116,6 @@
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_wotif</item>
         <item name="skin_itinTabletCardPopupBackgroundDrawable">@drawable/bg_itin_card</item>
         <item name="skin_itinTabletCardPopupHeaderDrawable">@drawable/bg_itin_card_title</item>
-        <item name="skin_itinCardOverflowDrawable">@drawable/ic_menu_overflow_image</item>
         <item name="skin_itinCardActionBarCheckmark">@drawable/ic_action_bar_checkmark</item>
         <item name="skin_itinCardTitleTextColor">@color/actionbar_text</item>
     </style>

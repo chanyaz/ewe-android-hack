@@ -101,6 +101,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	private int secretCount = 0;
 
 	private AboutSectionFragment appSettingsFragment;
+	private AboutSectionFragment supportFragment;
 	private AboutSectionFragment legalFragment;
 	private ScrollView scrollContainer;
 	private boolean notPortraitOrientation;
@@ -179,16 +180,14 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 		}
 
 		// Support
-		AboutSectionFragment supportFragment = Ui.findSupportFragment(this, TAG_SUPPORT);
+		supportFragment = Ui.findSupportFragment(this, TAG_SUPPORT);
 		if (supportFragment == null) {
 			builder = new AboutSectionFragment.Builder(this);
 
 			builder.setTitle(R.string.about_section_support);
 
-			builder.addRow(Phrase.from(this, R.string.website_TEMPLATE).put("brand",
-				ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(this)).format()
-					.toString(),
-				ROW_EXPEDIA_WEBSITE);
+			builder.addRow(getPOSSpecificWebsiteSupportString(),
+					ROW_EXPEDIA_WEBSITE);
 
 			builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT);
 			builder.addRow(R.string.app_support, ROW_APP_SUPPORT);
@@ -404,11 +403,27 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 	@Override
 	public void onAboutRowRebind(int id, TextView titleTextView, TextView descriptionTextView) {
-		if (id == ROW_COUNTRY) {
-			if (descriptionTextView != null) {
-				descriptionTextView.setText(getCountryDescription());
-			}
+
+		switch (id) {
+			case ROW_COUNTRY :
+				if (descriptionTextView != null) {
+					descriptionTextView.setText(getCountryDescription());
+				}
+				break;
+			case ROW_EXPEDIA_WEBSITE :
+				if (titleTextView != null) {
+					titleTextView.setText(getPOSSpecificWebsiteSupportString());
+				}
+				break;
+			default:
+				break;
 		}
+	}
+
+	private String getPOSSpecificWebsiteSupportString() {
+		return Phrase.from(this, R.string.website_TEMPLATE).put("brand",
+				ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(this)).format()
+				.toString();
 	}
 
 	private String getCountryDescription() {
@@ -576,6 +591,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 		adjustLoggedInViews();
 		appSettingsFragment.notifyOnRowDataChanged(ROW_COUNTRY);
+		supportFragment.notifyOnRowDataChanged(ROW_EXPEDIA_WEBSITE);
 		legalFragment
 			.setRowVisibility(ROW_ATOL_INFO, PointOfSale.getPointOfSale().showAtolInfo() ? View.VISIBLE : View.GONE);
 		Toast.makeText(this, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show();

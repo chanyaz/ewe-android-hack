@@ -46,6 +46,8 @@
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="traveler_checkout_circle_drawable">@drawable/car_driver_checkout_circle</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
+        <item name="skin_errorWidgetEditButtonStyle">@style/ErrorActionButton</item>
+
     </style>
 
     <!--

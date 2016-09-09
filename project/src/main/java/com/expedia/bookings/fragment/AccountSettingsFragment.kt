@@ -95,6 +95,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private var secretCount = 0
 
     private var appSettingsFragment: AboutSectionFragment? = null
+    private var supportFragment: AboutSectionFragment? = null
     private var legalFragment: AboutSectionFragment? = null
     private var debugFragment: AboutSectionFragment? = null
     private val scrollContainer: ScrollView by bindView(R.id.scroll_container)
@@ -195,15 +196,13 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         }
 
         // Support
-        var supportFragment: AboutSectionFragment? = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_SUPPORT)
+        supportFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_SUPPORT)
         if (supportFragment == null) {
             builder = AboutSectionFragment.Builder(context)
 
             builder.setTitle(R.string.about_section_support)
 
-            builder.addRow(Phrase.from(context, R.string.website_TEMPLATE).put("brand",
-                    ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString(),
-                    ROW_EXPEDIA_WEBSITE)
+            builder.addRow(getPOSSpecificWebsiteSupportString(), ROW_EXPEDIA_WEBSITE)
 
             builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT)
             builder.addRow(R.string.app_support, ROW_APP_SUPPORT)
@@ -405,6 +404,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
         adjustLoggedInViews()
         appSettingsFragment?.notifyOnRowDataChanged(ROW_COUNTRY)
+        supportFragment?.notifyOnRowDataChanged(ROW_EXPEDIA_WEBSITE)
         legalFragment?.setRowVisibility(ROW_ATOL_INFO, if (PointOfSale.getPointOfSale().showAtolInfo()) View.VISIBLE else View.GONE)
         Toast.makeText(context, R.string.toast_private_data_cleared, Toast.LENGTH_LONG).show()
     }
@@ -430,6 +430,10 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     private fun getCopyrightString(): String {
         return Phrase.from(context, R.string.copyright_TEMPLATE).put("brand", BuildConfig.brand).put("year", AndroidUtils.getAppBuildYear(context)).format().toString()
+    }
+
+    private fun getPOSSpecificWebsiteSupportString(): String {
+        return Phrase.from(context, R.string.website_TEMPLATE).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()
     }
 
     private fun adjustLoggedInViews() {
@@ -642,9 +646,14 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         return false
     }
 
-    fun onAboutRowRebind(id: Int, descriptionTextView: TextView?) {
-        if (id == ROW_COUNTRY) {
-            descriptionTextView?.text = getCountryDescription()
+    fun onAboutRowRebind(id: Int, titleTextView: TextView?, descriptionTextView: TextView?) {
+        when (id) {
+            ROW_COUNTRY -> {
+                descriptionTextView?.text = getCountryDescription()
+            }
+            ROW_EXPEDIA_WEBSITE -> {
+                titleTextView?.text = getPOSSpecificWebsiteSupportString()
+            }
         }
     }
 

@@ -63,6 +63,7 @@
     <!-- flight color-->
     <color name="flight_edit_search_button_color">@color/white</color>
     <color name="flight_earn_message_text_color">@color/earn_message_text_color</color>
+    <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">#004D7C</color>
@@ -107,7 +108,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">#C4204B</color>
-    <color name="material_checkout_account_button_background_grape_color">#8E0099</color>
+    <color name="material_cko_acct_btn_rewards_bg_color">#8E0099</color>
     <color name="old_checkout_account_button_text_color">@android:color/white</color>
     <color name="cvv_book_button_text_color">@android:color/white</color>
 
@@ -128,4 +129,6 @@
     <color name="hotelsv2_loyalty_applied_text_color">@color/loyalty_earn_color</color>
     <color name="search_screen_swp_icon_color_v2">@color/loyalty_earn_color</color>
 
+    <color name="error_widget_edit_button_selected_color">#00B1FF</color>
+    <color name="error_button_color">@color/cars_primary_color</color>
 </resources>

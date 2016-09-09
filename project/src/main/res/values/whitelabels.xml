@@ -73,13 +73,11 @@
     <!-- Log in with Expedia/VSC screen -->
     <!-- This drawable is used in hotel detail for Book Now button as well -->
     <attr name="skin_loginBookNowButtonDrawable" format="reference" />
-    <attr name="skin_hotelDetailPlaceHolderDrawable" format="reference" />
 
     <!-- Hotel Confirmation, Customer support option drawable -->
     <attr name="skin_hotelConfirmationCallActionDrawable" format="reference" />
 
     <!-- HotelCheckout CVV, Book button -->
-    <attr name="skin_cvvBookButtonKeypadDrawable" format="reference" />
     <attr name="skin_cvvBookButtonTextColor" format="reference"/>
 
     <!-- HotelCheckout Traveler Info screen after logged in, Logo to the left of the primary traveler -->
@@ -107,9 +105,6 @@
     <attr name="skin_travellerInfoPageLogo" format="reference"/>
     <attr name="skin_travellerInfoPageLogoDisabled" format="reference"/>
 
-    <!-- for itinerary in Trips tab -->
-    <attr name="skin_bgFindItineraryButton" format="reference"/>
-
     <!-- Itin placeholder drawables -->
     <attr name="skin_itinActivityPlaceholderDrawable" format="reference" />
     <attr name="skin_itinCarPlaceholderDrawable" format="reference" />
@@ -123,7 +118,6 @@
     <attr name="skin_itinCardBackground" format="reference"/>
     <attr name="skin_itinFlightsTripLineColor" format="reference"/>
 
-
     <attr name="skin_itinHotelAttachButtonDrawable" format="reference"/>
     <attr name="skin_itinAirAttachButtonDrawable" format="reference"/>
     <attr name="skin_itinDismissListSelectorDrawable" format="reference"/>
@@ -136,18 +130,9 @@
 
 
     <attr name="skin_loadingAirAsiaRoutesString" format="reference|string" />
-    <attr name="skin_itinCardOverflowDrawable" format="reference"/>
     <attr name="skin_itinCardActionBarCheckmark" format="reference"/>
     <attr name="skin_itinCardTitleTextColor" format="reference|color"/>
     <attr name="skin_itinActionOverflowDrawable" format="reference"/>
-
-    <!-- Room not Available Error Msg-->
-
-
-    <!--CVV and CVV Error-->
-    <attr name="skin_cvvDivDrawable" format="reference" />
-    <attr name="skin_cvvDivErrorDrawable" format="reference" />
-    <attr name="skin_candycaneProgressDrawable" format="reference" />
 
     <attr name="skin_icCheckoutCheckmarkDrawable" format="reference" />
     <attr name="skin_actionbarTextColor" format="reference|color" />
@@ -172,15 +157,8 @@
     <attr name="skin_tabletHotelDetailsCircleRatingStyle" format="reference" />
 
     <attr name="skin_tablet_flight_confirmation_placeholder" format="reference" />
-
-    <attr name="skin_tablet_pin_detail_image_size" format="reference" />
-    <attr name="skin_tablet_pin_detail_button_background" format="reference" />
     <attr name="skin_tablet_ab_launch_text1_base" format="reference" />
-    <attr name="skin_tablet_ab_launch_text2_pin_detail" format="reference" />
 
-    <!-- Menu for AboutWebViewActivity-->
-    <attr name="skin_menuAboutWebViewActivity" format="reference" />
-   
     <!-- Hotel Checkout Credit Card Edit Text, Postal Code Section & Coupon Edit Text Style -->
     <attr name="skin_HotelCheckout_CreditCardEditTextStyle" format="reference" />
     <attr name="skin_HotelCheckout_PostalCodeSectionStyle" format="reference" />

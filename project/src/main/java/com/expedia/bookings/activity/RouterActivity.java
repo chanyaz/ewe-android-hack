@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.Ui;
 import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
+
 import rx.Observer;
 
 /**
@@ -82,11 +83,15 @@ public class RouterActivity extends Activity {
 		loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
 
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
-		query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
 
-		if (loadSignInViewAbTest) {
-			query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);
+		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
+			query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
+
+			if (loadSignInViewAbTest) {
+				query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);
+			}
 		}
+
 		Ui.getApplication(this).appComponent().abacus().downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
 
 	}

@@ -33,6 +33,7 @@
     <color name="flight_card_airline_fee_warning">#0099CC</color>
     <color name="flight_free_cancellation_text_color">#0099CC</color>
     <color name="credit_card_form_additional_fees_tablet_bg">@color/hotels_primary_color</color>
+    <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
@@ -61,7 +62,7 @@
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/hotels_primary_color</color>
-    <color name="material_checkout_account_button_background_grape_color">@color/material_checkout_account_button_background_color</color>
+    <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#0099CC</color>
 
     <!-- CVV entry colors -->
@@ -112,4 +113,7 @@
     <color name="sign_in_user_base_tier">#808080</color>
     <color name="sign_in_user_middle_tier">#e7b40d</color>
     <color name="sign_in_user_top_tier">#787878</color>
+
+    <color name="error_widget_edit_button_selected_color">#007095</color>
+    <color name="error_button_color">@color/cars_primary_color</color>
 </resources>
