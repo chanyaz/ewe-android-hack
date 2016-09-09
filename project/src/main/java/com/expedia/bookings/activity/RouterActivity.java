@@ -85,7 +85,6 @@ public class RouterActivity extends Activity {
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
-			query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
 
 			if (loadSignInViewAbTest) {
