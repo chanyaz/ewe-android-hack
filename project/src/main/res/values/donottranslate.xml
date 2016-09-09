@@ -108,7 +108,6 @@
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_hotel_favorite">preference_enable_hotel_favorite</string>
-    <string name="preference_enable_packages">preference_enable_packages</string>
     <string name="preference_enable_rail">preference_enable_rail</string>
 
     <!-- Default values for preference keys -->
