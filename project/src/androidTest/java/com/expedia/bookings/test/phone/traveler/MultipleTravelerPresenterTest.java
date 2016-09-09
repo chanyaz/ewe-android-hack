@@ -138,7 +138,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		enterValidTraveler(false, false);
 
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_default_state);
-		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.drawable.validated);
+		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon,  R.id.traveler_default_state,  R.drawable.validated);
 	}
 
 	@Test

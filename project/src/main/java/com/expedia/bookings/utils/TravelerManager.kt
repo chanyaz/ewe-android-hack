@@ -6,8 +6,11 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.enums.PassengerCategory
+import rx.subjects.PublishSubject
 
 class TravelerManager {
+
+    val travelersUpdated = PublishSubject.create<Unit>()
 
     fun updateDbTravelers(params: AbstractFlightSearchParams, context: Context) {
         val travelers = Db.getTravelers()
@@ -30,6 +33,7 @@ class TravelerManager {
         if (User.isLoggedIn(context)) {
             onSignIn(context)
         }
+        travelersUpdated.onNext(Unit)
     }
 
     fun updateRailTravelers() {
