@@ -1,27 +1,377 @@
 {
-  "currencyCode": "USD",
   "newTrip": {
-    "itineraryNumber": "itin_happy_roundtrip_0",
-    "travelRecordLocator": "0",
-    "tripId": "happy_roundtrip_0"
+    "itineraryNumber": "7209657442837",
+    "travelRecordLocator": "1459682732",
+    "tripId": "725b4f99-bfea-4bef-bbec-a1fa194350e5"
   },
   "orderId": "000000",
-  "totalCharges": "696.00",
-  "flightAggregatedResponse": {
-    "flightsDetailResponse": [
-      {
-        "destinationRegionId": "6139107",
-        "offer": {
-          "numberOfTickets": 1
+  "currencyCode": "USD",
+  "totalCharges": "388.20",
+  "totalChargesPrice": {
+    "amount": "388.20",
+    "formattedPrice": "$388.20",
+    "formattedWholePrice": "$388",
+    "currencyCode": "USD"
+  },
+  "flightDetailResponse": {
+    "offer": {
+      "legIds": [
+        "130c0950bf97bd09245799a2b842210f",
+        "31796afe767c3518133dff5a47098708"
+      ],
+      "currency": "USD",
+      "baseFare": "312.56",
+      "baseFarePrice": {
+        "amount": "312.56",
+        "formattedPrice": "$312.56",
+        "formattedWholePrice": "$313",
+        "currencyCode": "USD"
+      },
+      "totalFare": "388.20",
+      "totalFarePrice": {
+        "amount": "388.20",
+        "formattedPrice": "$388.20",
+        "formattedWholePrice": "$388",
+        "currencyCode": "USD"
+      },
+      "pricePerPassengerCategory": [
+        {
+          "passengerCategory": "ADULT",
+          "totalPrice": {
+            "amount": "381.20",
+            "formattedPrice": "$381.20",
+            "formattedWholePrice": "$381",
+            "currencyCode": "USD"
+          },
+          "basePrice": {
+            "amount": "312.56",
+            "formattedPrice": "$312.56",
+            "formattedWholePrice": "$313",
+            "currencyCode": "USD"
+          },
+          "taxesPrice": {
+            "amount": "68.64",
+            "formattedPrice": "$68.64",
+            "formattedWholePrice": "$69",
+            "currencyCode": "USD"
+          }
         }
+      ],
+      "averageTotalPricePerTicket": {
+        "amount": "388.20",
+        "formattedPrice": "$388.20",
+        "formattedWholePrice": "$388",
+        "currencyCode": "USD"
+      },
+      "numberOfTickets": 1,
+      "taxes": "68.64",
+      "taxesPrice": {
+        "amount": "68.64",
+        "formattedPrice": "$68.64",
+        "formattedWholePrice": "$69",
+        "currencyCode": "USD"
+      },
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7",
+        "currencyCode": "USD"
+      },
+      "showFees": true,
+      "productKey": "92335d64412b5088d7f3fe93e487af38-1-1",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "O",
+            "cabinCode": "coach"
+          },
+          {
+            "bookingCode": "S",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "T",
+            "cabinCode": "coach"
+          },
+          {
+            "bookingCode": "O",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=DTW&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=O7AIZNN3&bookingclass=O&travelDate=2016-10-02&flightNumber=2537&langid=1033",
+      "fareType": "PUBLISHED",
+      "isInternational": false,
+      "isPassportNeeded": false,
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isSplitTicket": false,
+      "airFulfillmentMethod": [
+        "ETicket"
+      ]
+    },
+    "productKey": "92335d64412b5088d7f3fe93e487af38-1-1",
+    "flightRules": [
+      {
+        "isChangeAllowed": true,
+        "isEnrouteChangeAllowed": false,
+        "isEnrouteRefundAllowed": false,
+        "isRefundable": false,
+        "changePenaltyAmount": "200.00",
+        "changePenaltyPrice": {
+          "amount": "200.00",
+          "formattedPrice": "$200.00",
+          "formattedWholePrice": "$200",
+          "currencyCode": "USD"
+        },
+        "summaryText": ""
+      }
+    ],
+    "obFeeTotalAmount": "0.00",
+    "obFeePrice": {
+      "amount": "0.00",
+      "formattedPrice": "$0.00",
+      "formattedWholePrice": "$0",
+      "currencyCode": "USD"
+    },
+    "legs": [
+      {
+        "legId": "31796afe767c3518133dff5a47098708",
+        "travelDuration": "PT8H32M",
+        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=DTW&destinationapt=SFO&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=TAG4AKES&bookingclass=T&travelDate=2016-10-08&flightNumber=1134&langid=1033",
+        "segments": [
+          {
+            "departureTime": "October 8, 2016 2:15:00 PM",
+            "departureTimeEpochSeconds": 1475950500,
+            "departureTimeRaw": "2016-10-08T14:15:00.000-04:00",
+            "departureTimeZoneOffsetSeconds": -14400,
+            "arrivalTime": "October 8, 2016 2:39:00 PM",
+            "arrivalTimeEpochSeconds": 1475955540,
+            "arrivalTimeRaw": "2016-10-08T14:39:00.000-05:00",
+            "arrivalTimeZoneOffsetSeconds": -18000,
+            "arrivalAirportCode": "ORD",
+            "arrivalAirportLocation": "Chicago, USA",
+            "arrivalAirportAddress": {
+              "city": "Chicago",
+              "state": " IL",
+              "country": "USA"
+            },
+            "departureAirportCode": "DTW",
+            "departureAirportLocation": "Detroit, USA",
+            "departureAirportAddress": {
+              "city": "Detroit",
+              "state": " MI",
+              "country": "USA"
+            },
+            "airlineName": "United",
+            "airlineCode": "UA",
+            "externalAirlineCode": "UA",
+            "flightNumber": "1134",
+            "equipmentCode": "738",
+            "equipmentDescription": "Boeing 737-800",
+            "duration": "PT1H24M",
+            "distance": 240,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "providerCode": "Sabre",
+            "hasSeatMap": true,
+            "groundTime": "PT2H31M"
+          },
+          {
+            "departureTime": "October 8, 2016 5:10:00 PM",
+            "departureTimeEpochSeconds": 1475964600,
+            "departureTimeRaw": "2016-10-08T17:10:00.000-05:00",
+            "departureTimeZoneOffsetSeconds": -18000,
+            "arrivalTime": "October 8, 2016 7:47:00 PM",
+            "arrivalTimeEpochSeconds": 1475981220,
+            "arrivalTimeRaw": "2016-10-08T19:47:00.000-07:00",
+            "arrivalTimeZoneOffsetSeconds": -25200,
+            "arrivalAirportCode": "SFO",
+            "arrivalAirportLocation": "San Francisco, USA",
+            "arrivalAirportAddress": {
+              "city": "San Francisco",
+              "state": " CA",
+              "country": "USA"
+            },
+            "departureAirportCode": "ORD",
+            "departureAirportLocation": "Chicago, USA",
+            "departureAirportAddress": {
+              "city": "Chicago",
+              "state": " IL",
+              "country": "USA"
+            },
+            "airlineName": "American Airlines",
+            "airlineCode": "AA",
+            "externalAirlineCode": "AA",
+            "flightNumber": "2586",
+            "onTimePercentage": "60",
+            "equipmentCode": "738",
+            "equipmentDescription": "Boeing 737-800",
+            "duration": "PT4H37M",
+            "distance": 1847,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Food For Purchase",
+            "providerCode": "Sabre",
+            "hasSeatMap": true
+          }
+        ],
+        "freeCancellationBy": {
+          "raw": "2016-09-09T23:59:00Z",
+          "localized": "Sep 9, 2016 11:59:00 PM",
+          "epochSeconds": 1473465540,
+          "timeZoneOffsetSeconds": 0,
+          "localizedShortDate": "Fri, 9 Sep",
+          "localizedMediumDate": "Sep 9, 2016",
+          "localizedFullDate": "Friday, September 9, 2016",
+          "localizedLongDate": "September 9, 2016",
+          "localizedShortTime": "11:59 PM"
+        }
+      },
+      {
+        "legId": "130c0950bf97bd09245799a2b842210f",
+        "travelDuration": "PT8H15M",
+        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=DTW&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=O7AIZNN3&bookingclass=O&travelDate=2016-10-02&flightNumber=2537&langid=1033",
+        "segments": [
+          {
+            "departureTime": "October 2, 2016 5:00:00 AM",
+            "departureTimeEpochSeconds": 1475409600,
+            "departureTimeRaw": "2016-10-02T05:00:00.000-07:00",
+            "departureTimeZoneOffsetSeconds": -25200,
+            "arrivalTime": "October 2, 2016 11:10:00 AM",
+            "arrivalTimeEpochSeconds": 1475424600,
+            "arrivalTimeRaw": "2016-10-02T11:10:00.000-05:00",
+            "arrivalTimeZoneOffsetSeconds": -18000,
+            "arrivalAirportCode": "ORD",
+            "arrivalAirportLocation": "Chicago, USA",
+            "arrivalAirportAddress": {
+              "city": "Chicago",
+              "state": " IL",
+              "country": "USA"
+            },
+            "departureAirportCode": "SFO",
+            "departureAirportLocation": "San Francisco, USA",
+            "departureAirportAddress": {
+              "city": "San Francisco",
+              "state": " CA",
+              "country": "USA"
+            },
+            "airlineName": "American Airlines",
+            "airlineCode": "AA",
+            "externalAirlineCode": "AA",
+            "flightNumber": "2537",
+            "onTimePercentage": "90",
+            "equipmentCode": "738",
+            "equipmentDescription": "Boeing 737-800",
+            "duration": "PT4H10M",
+            "distance": 1847,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "meal": "Food For Purchase",
+            "providerCode": "Sabre",
+            "hasSeatMap": true,
+            "groundTime": "PT2H40M"
+          },
+          {
+            "departureTime": "October 2, 2016 1:50:00 PM",
+            "departureTimeEpochSeconds": 1475434200,
+            "departureTimeRaw": "2016-10-02T13:50:00.000-05:00",
+            "departureTimeZoneOffsetSeconds": -18000,
+            "arrivalTime": "October 2, 2016 4:15:00 PM",
+            "arrivalTimeEpochSeconds": 1475439300,
+            "arrivalTimeRaw": "2016-10-02T16:15:00.000-04:00",
+            "arrivalTimeZoneOffsetSeconds": -14400,
+            "arrivalAirportCode": "DTW",
+            "arrivalAirportLocation": "Detroit, USA",
+            "arrivalAirportAddress": {
+              "city": "Detroit",
+              "state": " MI",
+              "country": "USA"
+            },
+            "departureAirportCode": "ORD",
+            "departureAirportLocation": "Chicago, USA",
+            "departureAirportAddress": {
+              "city": "Chicago",
+              "state": " IL",
+              "country": "USA"
+            },
+            "airlineName": "United",
+            "airlineCode": "UA",
+            "externalAirlineCode": "UA",
+            "flightNumber": "1990",
+            "onTimePercentage": "70",
+            "equipmentCode": "738",
+            "equipmentDescription": "Boeing 737-800",
+            "duration": "PT1H25M",
+            "distance": 240,
+            "distanceUnits": "miles",
+            "stops": 0,
+            "providerCode": "Sabre",
+            "hasSeatMap": true
+          }
+        ],
+        "freeCancellationBy": {
+          "raw": "2016-09-09T23:59:00Z",
+          "localized": "Sep 9, 2016 11:59:00 PM",
+          "epochSeconds": 1473465540,
+          "timeZoneOffsetSeconds": 0,
+          "localizedShortDate": "Fri, 9 Sep",
+          "localizedMediumDate": "Sep 9, 2016",
+          "localizedFullDate": "Friday, September 9, 2016",
+          "localizedLongDate": "September 9, 2016",
+          "localizedShortTime": "11:59 PM"
+        }
+      }
+    ],
+    "destinationRegionId": 6000199,
+    "isSplitTicket": false,
+    "fareBasisCodeDetails": [
+      {
+        "fareBasisCode": "O7AIZNN3",
+        "passengerCategory": "ADT",
+        "origin": "SFO",
+        "destination": "CHI",
+        "carrierCode": "AA"
+      },
+      {
+        "fareBasisCode": "SAA4AKES",
+        "passengerCategory": "ADT",
+        "origin": "CHI",
+        "destination": "DTT",
+        "carrierCode": "UA"
+      },
+      {
+        "fareBasisCode": "TAG4AKES",
+        "passengerCategory": "ADT",
+        "origin": "DTT",
+        "destination": "CHI",
+        "carrierCode": "UA"
+      },
+      {
+        "fareBasisCode": "O7AIZNN3",
+        "passengerCategory": "ADT",
+        "origin": "CHI",
+        "destination": "SFO",
+        "carrierCode": "AA"
       }
     ]
   },
-  "totalChargesPrice": {
-    "amount": "696.00",
-    "formattedPrice": "$696.00",
-    "formattedWholePrice": "$696"
-  },
+  "passengerDetails": [
+    {
+      "firstName": "Christian ",
+      "lastName": "Gonzalez",
+      "phone": "5103669829",
+      "email": "christian@gmail.com",
+      "gender": "MALE",
+      "dateOfbirth": "1970-01-01"
+    }
+  ],
+  "activityId": "9f5c7810-640d-444a-bec4-97d79d487928",
+  "debugTealeafInfo": "<!--tlTransactionSessionID:90ce753d434b4190b99a622a74d4402e--><!--tlCheckoutTransactionSuccess:true-->",
   "mobileAirAttachQualifier": {
     "airAttachQualified": true,
     "offerExpires": "2017-08-17T16:00:45.080-07:00",
@@ -36,5 +386,357 @@
       "localizedLongDate": "December 17, 2017",
       "localizedShortTime": "4:00 PM"
     }
+  },
+  "flightAggregatedResponse": {
+    "responseType": "REGULAR",
+    "flightsDetailResponse": [
+      {
+        "offer": {
+          "legIds": [
+            "130c0950bf97bd09245799a2b842210f",
+            "31796afe767c3518133dff5a47098708"
+          ],
+          "currency": "USD",
+          "baseFare": "312.56",
+          "baseFarePrice": {
+            "amount": "312.56",
+            "formattedPrice": "$312.56",
+            "formattedWholePrice": "$313",
+            "currencyCode": "USD"
+          },
+          "totalFare": "388.20",
+          "totalFarePrice": {
+            "amount": "388.20",
+            "formattedPrice": "$388.20",
+            "formattedWholePrice": "$388",
+            "currencyCode": "USD"
+          },
+          "pricePerPassengerCategory": [
+            {
+              "passengerCategory": "ADULT",
+              "totalPrice": {
+                "amount": "381.20",
+                "formattedPrice": "$381.20",
+                "formattedWholePrice": "$381",
+                "currencyCode": "USD"
+              },
+              "basePrice": {
+                "amount": "312.56",
+                "formattedPrice": "$312.56",
+                "formattedWholePrice": "$313",
+                "currencyCode": "USD"
+              },
+              "taxesPrice": {
+                "amount": "68.64",
+                "formattedPrice": "$68.64",
+                "formattedWholePrice": "$69",
+                "currencyCode": "USD"
+              }
+            }
+          ],
+          "averageTotalPricePerTicket": {
+            "amount": "388.20",
+            "formattedPrice": "$388.20",
+            "formattedWholePrice": "$388",
+            "currencyCode": "USD"
+          },
+          "numberOfTickets": 1,
+          "taxes": "68.64",
+          "taxesPrice": {
+            "amount": "68.64",
+            "formattedPrice": "$68.64",
+            "formattedWholePrice": "$69",
+            "currencyCode": "USD"
+          },
+          "fees": "7.00",
+          "feesPrice": {
+            "amount": "7.00",
+            "formattedPrice": "$7.00",
+            "formattedWholePrice": "$7",
+            "currencyCode": "USD"
+          },
+          "showFees": true,
+          "productKey": "92335d64412b5088d7f3fe93e487af38-1-1",
+          "seatsRemaining": 1,
+          "segmentAttributes": [
+            [
+              {
+                "bookingCode": "O",
+                "cabinCode": "coach"
+              },
+              {
+                "bookingCode": "S",
+                "cabinCode": "coach"
+              }
+            ],
+            [
+              {
+                "bookingCode": "T",
+                "cabinCode": "coach"
+              },
+              {
+                "bookingCode": "O",
+                "cabinCode": "coach"
+              }
+            ]
+          ],
+          "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=DTW&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=O7AIZNN3&bookingclass=O&travelDate=2016-10-02&flightNumber=2537&langid=1033",
+          "fareType": "PUBLISHED",
+          "isInternational": false,
+          "isPassportNeeded": false,
+          "hasBagFee": false,
+          "hasNoBagFee": false,
+          "isSplitTicket": false,
+          "airFulfillmentMethod": [
+            "ETicket"
+          ]
+        },
+        "productKey": "92335d64412b5088d7f3fe93e487af38-1-1",
+        "flightRules": [
+          {
+            "isChangeAllowed": true,
+            "isEnrouteChangeAllowed": false,
+            "isEnrouteRefundAllowed": false,
+            "isRefundable": false,
+            "changePenaltyAmount": "200.00",
+            "changePenaltyPrice": {
+              "amount": "200.00",
+              "formattedPrice": "$200.00",
+              "formattedWholePrice": "$200",
+              "currencyCode": "USD"
+            },
+            "summaryText": ""
+          }
+        ],
+        "obFeeTotalAmount": "0.00",
+        "obFeePrice": {
+          "amount": "0.00",
+          "formattedPrice": "$0.00",
+          "formattedWholePrice": "$0",
+          "currencyCode": "USD"
+        },
+        "legs": [
+          {
+            "legId": "31796afe767c3518133dff5a47098708",
+            "travelDuration": "PT8H32M",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=DTW&destinationapt=SFO&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=TAG4AKES&bookingclass=T&travelDate=2016-10-08&flightNumber=1134&langid=1033",
+            "segments": [
+              {
+                "departureTime": "October 8, 2016 2:15:00 PM",
+                "departureTimeEpochSeconds": 1475950500,
+                "departureTimeRaw": "2016-10-08T14:15:00.000-04:00",
+                "departureTimeZoneOffsetSeconds": -14400,
+                "arrivalTime": "October 8, 2016 2:39:00 PM",
+                "arrivalTimeEpochSeconds": 1475955540,
+                "arrivalTimeRaw": "2016-10-08T14:39:00.000-05:00",
+                "arrivalTimeZoneOffsetSeconds": -18000,
+                "arrivalAirportCode": "ORD",
+                "arrivalAirportLocation": "Chicago, USA",
+                "arrivalAirportAddress": {
+                  "city": "Chicago",
+                  "state": " IL",
+                  "country": "USA"
+                },
+                "departureAirportCode": "DTW",
+                "departureAirportLocation": "Detroit, USA",
+                "departureAirportAddress": {
+                  "city": "Detroit",
+                  "state": " MI",
+                  "country": "USA"
+                },
+                "airlineName": "United",
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "flightNumber": "1134",
+                "equipmentCode": "738",
+                "equipmentDescription": "Boeing 737-800",
+                "duration": "PT1H24M",
+                "distance": 240,
+                "distanceUnits": "miles",
+                "stops": 0,
+                "providerCode": "Sabre",
+                "hasSeatMap": true,
+                "groundTime": "PT2H31M"
+              },
+              {
+                "departureTime": "October 8, 2016 5:10:00 PM",
+                "departureTimeEpochSeconds": 1475964600,
+                "departureTimeRaw": "2016-10-08T17:10:00.000-05:00",
+                "departureTimeZoneOffsetSeconds": -18000,
+                "arrivalTime": "October 8, 2016 7:47:00 PM",
+                "arrivalTimeEpochSeconds": 1475981220,
+                "arrivalTimeRaw": "2016-10-08T19:47:00.000-07:00",
+                "arrivalTimeZoneOffsetSeconds": -25200,
+                "arrivalAirportCode": "SFO",
+                "arrivalAirportLocation": "San Francisco, USA",
+                "arrivalAirportAddress": {
+                  "city": "San Francisco",
+                  "state": " CA",
+                  "country": "USA"
+                },
+                "departureAirportCode": "ORD",
+                "departureAirportLocation": "Chicago, USA",
+                "departureAirportAddress": {
+                  "city": "Chicago",
+                  "state": " IL",
+                  "country": "USA"
+                },
+                "airlineName": "American Airlines",
+                "airlineCode": "AA",
+                "externalAirlineCode": "AA",
+                "flightNumber": "2586",
+                "onTimePercentage": "60",
+                "equipmentCode": "738",
+                "equipmentDescription": "Boeing 737-800",
+                "duration": "PT4H37M",
+                "distance": 1847,
+                "distanceUnits": "miles",
+                "stops": 0,
+                "meal": "Food For Purchase",
+                "providerCode": "Sabre",
+                "hasSeatMap": true
+              }
+            ],
+            "freeCancellationBy": {
+              "raw": "2016-09-09T23:59:00Z",
+              "localized": "Sep 9, 2016 11:59:00 PM",
+              "epochSeconds": 1473465540,
+              "timeZoneOffsetSeconds": 0,
+              "localizedShortDate": "Fri, 9 Sep",
+              "localizedMediumDate": "Sep 9, 2016",
+              "localizedFullDate": "Friday, September 9, 2016",
+              "localizedLongDate": "September 9, 2016",
+              "localizedShortTime": "11:59 PM"
+            }
+          },
+          {
+            "legId": "130c0950bf97bd09245799a2b842210f",
+            "travelDuration": "PT8H15M",
+            "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=DTW&cabinclass=3&mktgcarrier=AA&opcarrier=&farebasis=O7AIZNN3&bookingclass=O&travelDate=2016-10-02&flightNumber=2537&langid=1033",
+            "segments": [
+              {
+                "departureTime": "October 2, 2016 5:00:00 AM",
+                "departureTimeEpochSeconds": 1475409600,
+                "departureTimeRaw": "2016-10-02T05:00:00.000-07:00",
+                "departureTimeZoneOffsetSeconds": -25200,
+                "arrivalTime": "October 2, 2016 11:10:00 AM",
+                "arrivalTimeEpochSeconds": 1475424600,
+                "arrivalTimeRaw": "2016-10-02T11:10:00.000-05:00",
+                "arrivalTimeZoneOffsetSeconds": -18000,
+                "arrivalAirportCode": "ORD",
+                "arrivalAirportLocation": "Chicago, USA",
+                "arrivalAirportAddress": {
+                  "city": "Chicago",
+                  "state": " IL",
+                  "country": "USA"
+                },
+                "departureAirportCode": "SFO",
+                "departureAirportLocation": "San Francisco, USA",
+                "departureAirportAddress": {
+                  "city": "San Francisco",
+                  "state": " CA",
+                  "country": "USA"
+                },
+                "airlineName": "American Airlines",
+                "airlineCode": "AA",
+                "externalAirlineCode": "AA",
+                "flightNumber": "2537",
+                "onTimePercentage": "90",
+                "equipmentCode": "738",
+                "equipmentDescription": "Boeing 737-800",
+                "duration": "PT4H10M",
+                "distance": 1847,
+                "distanceUnits": "miles",
+                "stops": 0,
+                "meal": "Food For Purchase",
+                "providerCode": "Sabre",
+                "hasSeatMap": true,
+                "groundTime": "PT2H40M"
+              },
+              {
+                "departureTime": "October 2, 2016 1:50:00 PM",
+                "departureTimeEpochSeconds": 1475434200,
+                "departureTimeRaw": "2016-10-02T13:50:00.000-05:00",
+                "departureTimeZoneOffsetSeconds": -18000,
+                "arrivalTime": "October 2, 2016 4:15:00 PM",
+                "arrivalTimeEpochSeconds": 1475439300,
+                "arrivalTimeRaw": "2016-10-02T16:15:00.000-04:00",
+                "arrivalTimeZoneOffsetSeconds": -14400,
+                "arrivalAirportCode": "DTW",
+                "arrivalAirportLocation": "Detroit, USA",
+                "arrivalAirportAddress": {
+                  "city": "Detroit",
+                  "state": " MI",
+                  "country": "USA"
+                },
+                "departureAirportCode": "ORD",
+                "departureAirportLocation": "Chicago, USA",
+                "departureAirportAddress": {
+                  "city": "Chicago",
+                  "state": " IL",
+                  "country": "USA"
+                },
+                "airlineName": "United",
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "flightNumber": "1990",
+                "onTimePercentage": "70",
+                "equipmentCode": "738",
+                "equipmentDescription": "Boeing 737-800",
+                "duration": "PT1H25M",
+                "distance": 240,
+                "distanceUnits": "miles",
+                "stops": 0,
+                "providerCode": "Sabre",
+                "hasSeatMap": true
+              }
+            ],
+            "freeCancellationBy": {
+              "raw": "2016-09-09T23:59:00Z",
+              "localized": "Sep 9, 2016 11:59:00 PM",
+              "epochSeconds": 1473465540,
+              "timeZoneOffsetSeconds": 0,
+              "localizedShortDate": "Fri, 9 Sep",
+              "localizedMediumDate": "Sep 9, 2016",
+              "localizedFullDate": "Friday, September 9, 2016",
+              "localizedLongDate": "September 9, 2016",
+              "localizedShortTime": "11:59 PM"
+            }
+          }
+        ],
+        "destinationRegionId": 6000199,
+        "isSplitTicket": false,
+        "fareBasisCodeDetails": [
+          {
+            "fareBasisCode": "O7AIZNN3",
+            "passengerCategory": "ADT",
+            "origin": "SFO",
+            "destination": "CHI",
+            "carrierCode": "AA"
+          },
+          {
+            "fareBasisCode": "SAA4AKES",
+            "passengerCategory": "ADT",
+            "origin": "CHI",
+            "destination": "DTT",
+            "carrierCode": "UA"
+          },
+          {
+            "fareBasisCode": "TAG4AKES",
+            "passengerCategory": "ADT",
+            "origin": "DTT",
+            "destination": "CHI",
+            "carrierCode": "UA"
+          },
+          {
+            "fareBasisCode": "O7AIZNN3",
+            "passengerCategory": "ADT",
+            "origin": "CHI",
+            "destination": "SFO",
+            "carrierCode": "AA"
+          }
+        ]
+      }
+    ]
   }
 }

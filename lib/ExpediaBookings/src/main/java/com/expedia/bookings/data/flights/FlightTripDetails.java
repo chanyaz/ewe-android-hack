@@ -2,6 +2,8 @@ package com.expedia.bookings.data.flights;
 
 import java.util.List;
 
+import org.joda.time.DateTime;
+
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.insurance.InsuranceProduct;
 
@@ -70,5 +72,21 @@ public class FlightTripDetails {
 		CHILD,
 		INFANT_IN_SEAT,
 		INFANT_IN_LAP
+	}
+
+	// until the API consistently returns the legs in order , this will ensure they are in order (outbound, inbound)
+	public List<FlightLeg> getLegs() {
+		if (legs.size()  > 1) {
+			FlightLeg firstLeg = legs.get(0);
+			FlightLeg secondLeg = legs.get(1);
+			DateTime outboundDateTime = DateTime.parse(firstLeg.segments.get(0).departureTimeRaw);
+			DateTime inboundDateTime = DateTime.parse(secondLeg.segments.get(0).departureTimeRaw);
+
+			if (outboundDateTime.isAfter(inboundDateTime)) {
+				legs.set(0, secondLeg);
+				legs.set(1, firstLeg);
+			}
+		}
+		return legs;
 	}
 }

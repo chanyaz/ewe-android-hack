@@ -77,69 +77,13 @@ class FlightConfirmationViewModelTest {
     fun crossSellNotOfferedTest() {
         val pastExpiration = DateTime.now().minusDays(50).toString()
         val response = getCheckoutResponseWithoutAirAttachOffer(pastExpiration)
-
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-        val crossSellExpiresFutureView = TestSubscriber<Boolean>()
         val crossSellWidgetView = TestSubscriber<Boolean>()
 
         vm = FlightConfirmationViewModel(activity)
-        vm.crossSellCountDownVisibility.subscribe(crossSellExpiresFutureView)
-        vm.crossSellTodayVisibility.subscribe(crossSellExpiresTodayView)
         vm.crossSellWidgetVisibility.subscribe(crossSellWidgetView)
         vm.confirmationObservable.onNext(Pair(response, customerEmail))
 
-        crossSellExpiresFutureView.assertNoValues()
-        crossSellExpiresTodayView.assertNoValues()
         crossSellWidgetView.assertValue(false)
-    }
-
-    @Test
-    fun crossSellFutureExpirationTest(){
-        val expiresInFuture = DateTime.now().plusDays(50).toString()
-        val response = getCheckoutResponse(expiresInFuture)
-        val crossSellDaysRemaining = TestSubscriber<String>()
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-
-        vm = FlightConfirmationViewModel(activity)
-        vm.crossSellText.subscribe(crossSellDaysRemaining)
-        vm.crossSellTodayVisibility.subscribe(crossSellExpiresTodayView)
-        vm.confirmationObservable.onNext(Pair(response, customerEmail))
-
-        crossSellDaysRemaining.assertValue("50 days")
-        crossSellExpiresTodayView.assertNoValues()
-    }
-
-    @Test
-    fun crossSellExpirationTodayTest(){
-        val expiresToday = DateTime.now().toString()
-        val response = getCheckoutResponse(expiresToday)
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-        val crossSellExpiresFutureView = TestSubscriber<Boolean>()
-
-        vm = FlightConfirmationViewModel(activity)
-        vm.crossSellCountDownVisibility.subscribe(crossSellExpiresFutureView)
-        vm.crossSellTodayVisibility.subscribe(crossSellExpiresTodayView)
-        vm.confirmationObservable.onNext(Pair(response, customerEmail))
-
-        crossSellExpiresFutureView.assertNoValues()
-        crossSellExpiresTodayView.assertValue(true)
-    }
-
-    @Test
-    fun crossSellExpirationPastTest(){
-        val pastExpiration = DateTime.now().minusDays(50).toString()
-        val response = getCheckoutResponse(pastExpiration)
-
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-        val crossSellExpiresFutureView = TestSubscriber<Boolean>()
-
-        vm = FlightConfirmationViewModel(activity)
-        vm.crossSellCountDownVisibility.subscribe(crossSellExpiresFutureView)
-        vm.crossSellTodayVisibility.subscribe(crossSellExpiresTodayView)
-        vm.confirmationObservable.onNext(Pair(response, customerEmail))
-
-        crossSellExpiresFutureView.assertNoValues()
-        crossSellExpiresTodayView.assertValue(true)
     }
 
     fun getCheckoutResponse(dateOfExpiration: String) : FlightCheckoutResponse {
@@ -172,7 +116,6 @@ class FlightConfirmationViewModelTest {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         val qualifierObject = FlightCheckoutResponse.AirAttachInfo()
-        val offerTimeField = FlightCheckoutResponse.AirAttachInfo.AirAttachExpirationInfo()
 
         val field = response.javaClass.getDeclaredField("airAttachInfo")
         field.isAccessible = true
@@ -180,15 +123,7 @@ class FlightConfirmationViewModelTest {
         val boolField = qualifierObject.javaClass.getDeclaredField("hasAirAttach")
         boolField.isAccessible = true
 
-        val timeRemainingField = qualifierObject.javaClass.getDeclaredField("offerExpirationTimes")
-        timeRemainingField.isAccessible = true
-
-        val timeField = offerTimeField.javaClass.getDeclaredField("fullExpirationDate")
-        timeField.isAccessible = true
-
-        timeField.set(offerTimeField , dateOfExpiration)
         boolField.set(qualifierObject, false)
-        timeRemainingField.set(qualifierObject, offerTimeField )
         field.set(response, qualifierObject)
 
         return response

@@ -209,8 +209,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val flightCheckoutResponse = pair.first as FlightCheckoutResponse
             val userEmail = pair.second
-            confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
 
+            confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
             show(confirmationPresenter)
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse)
         }
@@ -242,9 +242,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests)
             presenter.viewModel.destinationObservable.onNext(destinationCity)
         }
-
+        searchViewModel.searchParamsObservable.subscribe(presenter.hotelCrossSell.viewModel.searchParamsObservable)
         searchViewModel.isRoundTripSearchObservable.subscribe(presenter.viewModel.inboundCardVisibility)
-
         presenter
     }
 
