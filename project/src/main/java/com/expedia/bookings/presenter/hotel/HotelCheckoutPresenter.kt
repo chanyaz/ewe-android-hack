@@ -14,7 +14,6 @@ import com.expedia.bookings.data.payment.CardDetails
 import com.expedia.bookings.data.payment.MiscellaneousParams
 import com.expedia.bookings.data.payment.PaymentInfo
 import com.expedia.bookings.data.payment.PaymentSplits
-import com.expedia.bookings.data.payment.ProgramName
 import com.expedia.bookings.data.payment.RewardDetails
 import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.data.payment.TripDetails
@@ -112,7 +111,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
 
         if (!it) {
             bookedWithoutCVVSubject.onNext(Unit)
-        } else if (billingInfo.storedCard != null && billingInfo.storedCard.isGoogleWallet()) {
+        } else if (billingInfo.storedCard != null && billingInfo.storedCard.isGoogleWallet) {
             onBook(billingInfo.securityCode)
         } else {
             cvv.bind(billingInfo)

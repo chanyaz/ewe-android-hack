@@ -49,7 +49,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
 
                 depositText = Phrase.from(context, messageResId)
                         .put("resort_fee", it.packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoneyFromAmountAndCurrencyCode)
-                        .putOptional("trip_total", it.getBundleTotal().formattedPrice)
+                        .putOptional("trip_total", it.bundleTotal.formattedPrice)
                         .format().toString()
             }
             depositPolicyText.onNext(Html.fromHtml(depositText))

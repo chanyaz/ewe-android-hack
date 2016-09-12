@@ -34,13 +34,13 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
             val (start, end) = dates
             if (start != null) {
                 val now = DateTime.now();
-                if (start.equals(LocalDate.now()) && now.getHourOfDay() >= 8
+                if (start.equals(LocalDate.now()) && now.hourOfDay >= 8
                         && getStartDateTimeAsMillis() < now.plusHours(1).millisOfDay) {
-                    departTimeSubject.onNext(now.plusHours(1).millisOfDay);
+                    departTimeSubject.onNext(now.plusHours(1).millisOfDay)
                 }
-                if (end != null && end.equals(LocalDate.now()) && now.getHourOfDay() >= 16
+                if (end != null && end.equals(LocalDate.now()) && now.hourOfDay >= 16
                         && getEndDateTimeAsMillis() < now.plusHours(3).millisOfDay) {
-                    returnTimeSubject.onNext(now.plusHours(3).millisOfDay);
+                    returnTimeSubject.onNext(now.plusHours(3).millisOfDay)
                 }
                 validateTimes()
             }

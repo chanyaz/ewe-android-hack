@@ -46,12 +46,12 @@ class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
             activity.onBackPressed()
         }
         container.setPadding(0, toolBarHeight + statusBarHeight, 0, 0)
-        earnText.text = getResources().getString(R.string.etp_pay_now_earn_text)
+        earnText.text = resources.getString(R.string.etp_pay_now_earn_text)
         earnTextLayout.visibility = if (earnText.text.equals("")) View.GONE else View.VISIBLE
     }
 
     fun setText(values: Pair<String, List<HotelOffersResponse.HotelRoomResponse>>) {
-        val userCountryCode = PointOfSale.getPointOfSale().getThreeLetterCountryCode()
+        val userCountryCode = PointOfSale.getPointOfSale().threeLetterCountryCode
         val currency = CurrencyUtils.currencyForLocale(userCountryCode)
         val hotelCountryCode = values.first
         val hotelCountryCurrency = CurrencyUtils.currencyForLocale(hotelCountryCode)
@@ -79,10 +79,10 @@ class PayLaterInfoWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
             depositTermsSecondText.text = payLaterOffer?.depositPolicyAtIndex(1)
         }
 
-        payNowRateText.text = Phrase.from(getContext(), R.string.etp_pay_now_charges_text_TEMPLATE).put("brand", BuildConfig.brand).format()
-        payNowCurrencyText.text = getResources().getString(R.string.etp_pay_now_currency_text_TEMPLATE, currency)
-        payLaterCurrencyText.text = getResources().getString(R.string.etp_pay_later_currency_text_TEMPLATE, hotelCountryCurrency)
-        noChargeText.text = Phrase.from(getContext(), R.string.no_charge_text_TEMPLATE).put("brand", BuildConfig.brand).format()
+        payNowRateText.text = Phrase.from(context, R.string.etp_pay_now_charges_text_TEMPLATE).put("brand", BuildConfig.brand).format()
+        payNowCurrencyText.text = resources.getString(R.string.etp_pay_now_currency_text_TEMPLATE, currency)
+        payLaterCurrencyText.text = resources.getString(R.string.etp_pay_later_currency_text_TEMPLATE, hotelCountryCurrency)
+        noChargeText.text = Phrase.from(context, R.string.no_charge_text_TEMPLATE).put("brand", BuildConfig.brand).format()
     }
 }
 

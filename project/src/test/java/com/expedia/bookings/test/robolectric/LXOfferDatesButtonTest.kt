@@ -2,8 +2,8 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import android.view.LayoutInflater
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.LXOfferDatesButton
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -31,7 +31,7 @@ import kotlin.test.assertEquals
         assertEquals("Sat\n14\n", datesButton.text.toString())
 
         datesButton.bind(LocalDate(1989, 1, 14), true)
-        datesButton.setChecked(true)
+        datesButton.isChecked = true
         
         assertEquals("Saturday\n14\nJanuary", datesButton.contentDescription)
         assertEquals("Sat\n14\nJan", datesButton.text.toString())

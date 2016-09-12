@@ -40,6 +40,6 @@ class SlideToPurchaseWidget(context: Context, attrs : AttributeSet?) : LinearLay
 
     fun updatePricingDisplay(totalPrice: String) {
         purchaseTotalText.visibility = View.VISIBLE
-        purchaseTotalText.setText(totalPrice)
+        purchaseTotalText.text = totalPrice
     }
 }

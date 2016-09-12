@@ -179,7 +179,7 @@ class TravelerTSAViewModelTest {
 
     private fun setAgeEnteredAtSearch(searchedAge: Int, passengerCategory: PassengerCategory) {
         traveler.searchedAge = searchedAge
-        traveler.setPassengerCategory(passengerCategory)
+        traveler.passengerCategory = passengerCategory
     }
 
     private fun setupDefaultTestModel() {

@@ -27,7 +27,7 @@ class HotelReviewsPageView(context: Context) : LinearLayout(context) {
         animation = ObjectAnimator.ofFloat(messageProgressLoading, "progress", 0f, 1f)
         animation.repeatMode = ValueAnimator.RESTART
         animation.repeatCount = ValueAnimator.INFINITE
-        animation.setDuration(1500)
+        animation.duration = 1500
         animation.start()
     }
 
@@ -37,7 +37,7 @@ class HotelReviewsPageView(context: Context) : LinearLayout(context) {
         vm.messageProgressLoadingAnimationObservable.subscribe {
             animation.cancel()
             val anim = ObjectAnimator.ofFloat(messageProgressLoading, "progress", 1f)
-            anim.setDuration((1500 * (1f - messageProgressLoading.progress)).toLong())
+            anim.duration = (1500 * (1f - messageProgressLoading.progress)).toLong()
             anim.start()
         }
         if (ExpediaBookingApp.isAutomation()) {

@@ -33,7 +33,7 @@ class HotelReviewsSummaryViewModel(val context: Context) {
         val displayRating = getDisplayRating(rating)
         val ratingString = Phrase.from(context, R.string.hotel_rating_summary_Template)
                 .put("rating", displayRating)
-                .put("attribute", context.getResources().getString(displayStringId))
+                .put("attribute", context.resources.getString(displayStringId))
                 .format()
                 .toString()
         val builder = SpannableStringBuilder(ratingString)

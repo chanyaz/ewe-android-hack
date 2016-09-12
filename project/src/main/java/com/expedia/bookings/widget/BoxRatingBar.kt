@@ -37,7 +37,7 @@ class BoxRatingBar(context: Context, attrs: AttributeSet) : RatingBar(context, a
         disabledPaint.color = disabledBoxColor
 
         dividerPaint.isAntiAlias = true
-        dividerPaint.setXfermode(PorterDuffXfermode(PorterDuff.Mode.DST_OUT))
+        dividerPaint.xfermode = PorterDuffXfermode(PorterDuff.Mode.DST_OUT)
     }
 
     override fun onDraw(canvas: Canvas) {

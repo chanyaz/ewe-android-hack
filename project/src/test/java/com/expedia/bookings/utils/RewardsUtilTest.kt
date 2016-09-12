@@ -34,7 +34,7 @@ class RewardsUtilTest {
 
     private fun givenFeatureConfig(isExpediaBrand: Boolean): IProductFlavorFeatureConfiguration {
         mockedConfig = Mockito.mock(IProductFlavorFeatureConfiguration::class.java)
-        Mockito.`when`(mockedConfig.isRewardProgramPointsType()).thenReturn(isExpediaBrand)
+        Mockito.`when`(mockedConfig.isRewardProgramPointsType).thenReturn(isExpediaBrand)
         return mockedConfig
     }
 

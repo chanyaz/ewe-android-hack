@@ -52,7 +52,7 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         }
     }
 
-    val default = object : Presenter.DefaultTransition(HotelDetailView::class.java.getName()) {
+    val default = object : Presenter.DefaultTransition(HotelDetailView::class.java.name) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             hotelRenovationDesc.visibility = View.GONE

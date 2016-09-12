@@ -8,24 +8,24 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LXState
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LXState
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.lx.LXActivity
 import com.expedia.bookings.data.lx.LXCategoryMetadata
-import com.expedia.bookings.data.lx.LXSearchResponse
-import com.expedia.bookings.data.lx.SearchType
 import com.expedia.bookings.data.lx.LXCategoryType
+import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LxSearchParams
+import com.expedia.bookings.data.lx.SearchType
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.LXResultsListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.LXErrorWidget
+import com.expedia.bookings.widget.LXResultsListAdapter
 import com.expedia.bookings.widget.LXSearchResultsWidget
 import com.expedia.bookings.widget.LXThemeResultsWidget
 import com.google.gson.GsonBuilder
@@ -176,7 +176,7 @@ class LXResultsPresenterTest {
         searchResultsWidget.recyclerView.adapter.bindViewHolder(holder,0)
         assertNotNull(searchResultsWidget)
         val actualActivityTitle = holder.itemView.findViewById(R.id.activity_title) as TextView
-        assertEquals(3, searchResultsWidget.recyclerView.adapter.getItemCount())
+        assertEquals(3, searchResultsWidget.recyclerView.adapter.itemCount)
         assertEquals("New York Pass: Visit up to 80 Attractions, Museums & Tours0", actualActivityTitle.text)
         assertEquals(View.VISIBLE, sortFilterButton.visibility)
         assertEquals(View.VISIBLE, recyclerView.visibility)

@@ -76,7 +76,7 @@ class TravelerTSAViewModel(val context: Context) {
             return
         }
 
-        val category = traveler.getPassengerCategory()
+        val category = traveler.passengerCategory
 
         if (category == PassengerCategory.INFANT_IN_LAP || category == PassengerCategory.INFANT_IN_SEAT) {
             birthErrorTextSubject.onNext(context.getString(R.string.traveler_infant_error))
