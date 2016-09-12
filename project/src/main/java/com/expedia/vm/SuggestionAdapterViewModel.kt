@@ -19,7 +19,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services, val locationObservable: Observable<Location>?, val shouldShowCurrentLocation: Boolean, val rawQueryEnabled: Boolean) {
+abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsService: SuggestionV4Services, locationObservable: Observable<Location>?, val shouldShowCurrentLocation: Boolean, val rawQueryEnabled: Boolean) {
     private val currentLocationText = context.getString(R.string.current_location)
     // Outputs
     val suggestionsObservable = BehaviorSubject.create<List<SuggestionV4>>()

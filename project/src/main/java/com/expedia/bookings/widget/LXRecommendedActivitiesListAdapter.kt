@@ -34,7 +34,7 @@ class LXRecommendedActivitiesListAdapter : BaseAdapter() {
     }
 
     override fun getItem(position: Int): LXActivity {
-        return activities.get(position)
+        return activities[position]
     }
 
     override fun getItemId(position: Int): Long {

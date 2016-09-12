@@ -52,9 +52,9 @@ class PackageCheckoutParamsTest {
         assertTrue(params.toQueryMap().containsKey(expectedMainTravelerKey))
         assertTrue(params.toQueryMap().containsKey(expectedAddTravelerKey1))
         assertTrue(params.toQueryMap().containsKey(expectedAddTravelerKey2))
-        assertEquals("malcolm", params.toQueryMap().get(expectedMainTravelerKey))
-        assertEquals("malcolm", params.toQueryMap().get(expectedAddTravelerKey1))
-        assertEquals("malcolm", params.toQueryMap().get(expectedAddTravelerKey2))
+        assertEquals("malcolm", params.toQueryMap()[expectedMainTravelerKey])
+        assertEquals("malcolm", params.toQueryMap()[expectedAddTravelerKey1])
+        assertEquals("malcolm", params.toQueryMap()[expectedAddTravelerKey2])
     }
 
 
@@ -71,8 +71,8 @@ class PackageCheckoutParamsTest {
                 .tripId("")
                 .build()
 
-        assertEquals("WINDOW", params.toQueryMap().get(expectedSeatPreferenceKey))
-        assertEquals("123456", params.toQueryMap().get(expectedRedressKey))
+        assertEquals("WINDOW", params.toQueryMap()[expectedSeatPreferenceKey])
+        assertEquals("123456", params.toQueryMap()[expectedRedressKey])
     }
 
     @Test
@@ -91,7 +91,7 @@ class PackageCheckoutParamsTest {
                 .build()
 
         assertTrue(params.toQueryMap().containsKey(expectedStoredCardKey))
-        assertEquals("12345", params.toQueryMap().get(expectedStoredCardKey))
+        assertEquals("12345", params.toQueryMap()[expectedStoredCardKey])
     }
 
     fun getBillingInfo(): BillingInfo {

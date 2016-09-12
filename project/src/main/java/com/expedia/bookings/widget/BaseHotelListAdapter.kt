@@ -53,7 +53,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     private var hotels: List<Hotel> = emptyList()
 
     private fun getHotel(rawAdapterPosition: Int): Hotel {
-        return hotels.get(rawAdapterPosition - numHeaderItemsInHotelsList())
+        return hotels[rawAdapterPosition - numHeaderItemsInHotelsList()]
     }
 
     init {
@@ -106,7 +106,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         val fixedPosition = position - numHeaderItemsInHotelsList()
         when (holder) {
             is HotelCellViewHolder -> {
-                val viewModel = getHotelCellViewModel(holder.itemView.context, hotels.get(fixedPosition))
+                val viewModel = getHotelCellViewModel(holder.itemView.context, hotels[fixedPosition])
                 hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
                 holder.bind(viewModel)
             }

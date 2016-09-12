@@ -12,9 +12,9 @@ class LXThemeTypeTest {
         val adventureAround = LXThemeType.AdventureAround
         assertEquals(3, adventureAround.categories.size)
 
-        assertEquals("Adventures", adventureAround.categories.get(0).toString())
-        assertEquals("DayTripsExcursions", adventureAround.categories.get(1).toString())
-        assertEquals("MultiDayExtendedTours", adventureAround.categories.get(2).toString())
+        assertEquals("Adventures", adventureAround.categories[0].toString())
+        assertEquals("DayTripsExcursions", adventureAround.categories[1].toString())
+        assertEquals("MultiDayExtendedTours", adventureAround.categories[2].toString())
     }
 
     @Test

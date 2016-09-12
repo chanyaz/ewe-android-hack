@@ -397,7 +397,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
                         val hasETP = viewmodel.hasETPObservable.value
                         val view = HotelRoomRateView(context, roomResponseIndex)
-                        view.viewmodel = HotelRoomRateViewModel(context, vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable, vm.roomSelectedObserver, hasETP, viewmodel.getLOB())
+                        view.viewmodel = HotelRoomRateViewModel(context, vm.hotelOffersResponse.hotelId, etpRoomList.first[roomResponseIndex].payLaterOffer, etpRoomList.second[roomResponseIndex], roomResponseIndex, vm.rowExpandingObservable, vm.roomSelectedObserver, hasETP, viewmodel.getLOB())
                         view.animateRoom.subscribe(rowAnimation)
                         var parent = view.parent
                         if (parent != null) {

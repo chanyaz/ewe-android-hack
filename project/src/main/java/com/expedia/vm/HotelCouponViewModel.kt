@@ -58,7 +58,7 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
             enableSubmitButtonObservable.onNext(true)
             if (trip.hasErrors()) {
                 val errorType = trip.firstError.errorInfo.couponErrorType
-                val stringId = couponErrorMap.get(errorType) ?: R.string.coupon_error_fallback
+                val stringId = couponErrorMap[errorType] ?: R.string.coupon_error_fallback
                 val text = context.resources.getString(stringId)
                 hasDiscountObservable.onNext(false)
 

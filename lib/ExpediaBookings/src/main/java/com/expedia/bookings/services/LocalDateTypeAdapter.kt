@@ -22,11 +22,11 @@ class LocalDateTypeAdapter(val pattern: String) : JsonSerializer<LocalDate>, Jso
     @Throws(JsonParseException::class)
     override fun deserialize(json: JsonElement, typeOfT: Type, context: JsonDeserializationContext): LocalDate? {
         // Do not try to deserialize null or empty values
-        if (json.getAsString() == null || json.getAsString().isEmpty()) {
+        if (json.asString == null || json.asString.isEmpty()) {
             return null
         }
 
-        return fmt.parseLocalDate(json.getAsString())
+        return fmt.parseLocalDate(json.asString)
     }
 
 }
