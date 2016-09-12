@@ -204,7 +204,7 @@ public class AboutUtils {
 		@NonNull
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
-			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AccountDialogTheme);
 
 			List<PointOfSale> poses = PointOfSale.getAllPointsOfSale(getActivity());
 			int len = poses.size();
