@@ -1,7 +1,10 @@
 package com.expedia.bookings.utils;
 
+import javax.inject.Inject;
+
 import android.content.Context;
 import android.support.annotation.Nullable;
+
 import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -15,7 +18,6 @@ import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
-import javax.inject.Inject;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -29,7 +31,7 @@ public class UserAccountRefresher {
 
 	private String keyRefreshUser;
 	//When we last refreshed user data.
-	private long mLastRefreshedUserTimeMillis = 0L;
+	private static long mLastRefreshedUserTimeMillis = 0L;
 
 	private Context context;
 
@@ -82,7 +84,8 @@ public class UserAccountRefresher {
 
 	public void ensureAccountIsRefreshed() {
 		int userRefreshIntervalThreshold = context.getResources().getInteger(R.integer.account_sync_interval_ms);
-		if (mLastRefreshedUserTimeMillis + userRefreshIntervalThreshold < System.currentTimeMillis()) {
+		if (User.isLoggedIn(context) && mLastRefreshedUserTimeMillis + userRefreshIntervalThreshold < System
+			.currentTimeMillis()) {
 			//Force Refresh if Threshold has expired!
 			forceAccountRefresh();
 		}
@@ -117,6 +120,10 @@ public class UserAccountRefresher {
 		mLastRefreshedUserTimeMillis = 0L;
 		Events.post(new Events.SignOut());
 		userLoginStateChangedModel.getUserLoginStateChanged().onNext(false);
+	}
+
+	public static void resetLastRefreshedTime() {
+		mLastRefreshedUserTimeMillis = 0L;
 	}
 
 	/**
