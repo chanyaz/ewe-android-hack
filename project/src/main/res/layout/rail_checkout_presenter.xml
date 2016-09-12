@@ -58,7 +58,6 @@
             android:layout_marginRight="@dimen/card_view_container_margin"
             android:layout_marginTop="12dp"
             android:background="@color/black"
-            android:fitsSystemWindows="true"
             android:inflatedId="@+id/payment_info_card_view"
             android:layout="@layout/billing_details_payment_widget" />
 
@@ -78,8 +77,8 @@
                 android:paddingLeft="19dp"
                 android:paddingRight="19dp" />
 
-            <LinearLayout
-                android:id="@+id/slide_to_purchase_layout"
+            <com.expedia.bookings.widget.shared.SlideToPurchaseWidget
+                android:id="@+id/rail_slide_to_purchase_widget"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#FDFDFD"
@@ -87,25 +86,7 @@
                 android:orientation="vertical"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
-                android:visibility="gone">
-
-                <com.expedia.bookings.widget.SlideToWidgetLL
-                    android:id="@+id/slide_to_purchase_widget"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="50dp"
-                    android:layout_marginRight="50dp"
-                    android:background="@color/white" />
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/purchase_total_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="8dp"
-                    android:textColor="@color/rail_primary_color"
-                    android:textSize="13dp" />
-            </LinearLayout>
+                android:visibility="gone"/>
         </LinearLayout>
     </RelativeLayout>
 

@@ -10,6 +10,7 @@ import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -23,20 +24,22 @@ import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.rail.CreateTripProgressDialog
 import com.expedia.bookings.widget.rail.RailTicketDeliveryEntryWidget
 import com.expedia.bookings.widget.rail.RailTravelerEntryWidget
+import com.expedia.bookings.widget.shared.SlideToPurchaseWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.bookings.widget.rail.RailTicketDeliveryOverviewWidget
 import com.expedia.bookings.widget.rail.TicketDeliveryMethod
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.CheckoutToolbarViewModel
 import com.expedia.vm.PaymentViewModel
+import com.expedia.vm.rail.RailCheckoutViewModel
 import com.expedia.vm.rail.RailCostSummaryBreakdownViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
+import com.expedia.vm.rail.RailTicketDeliveryEntryViewModel
 import com.expedia.vm.rail.RailTicketDeliveryOverviewViewModel
 import com.expedia.vm.rail.RailTotalPriceViewModel
 import com.expedia.vm.traveler.RailCheckoutTravelerViewModel
 import com.expedia.vm.traveler.RailTravelerSummaryViewModel
 import com.expedia.vm.traveler.SimpleTravelerViewModel
-import com.expedia.vm.rail.RailTicketDeliveryEntryViewModel
 
 class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr),
         SlideToWidgetLL.ISlideToListener {
@@ -60,7 +63,9 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.rail_total_price_widget)
+    val slideToPurchaseWidget: SlideToPurchaseWidget by bindView(R.id.rail_slide_to_purchase_widget)
 
+    val checkoutViewModel = RailCheckoutViewModel(context)
     val travelerCardViewModel = RailTravelerSummaryViewModel(context)
     val travelerCheckoutViewModel = RailCheckoutTravelerViewModel(context)
 
@@ -93,6 +98,10 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         paymentWidget.viewmodel = PaymentViewModel(context)
         paymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.RAILS)
         paymentWidget.viewmodel.isCreditCardRequired.onNext(true)
+        paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { billingInfoAndStatusPair ->
+            billingInfoAndStatusPair.first
+        }.subscribe(checkoutViewModel.paymentCompleted)
+
 
         paymentWidget.viewmodel.expandObserver.subscribe {
             show(paymentWidget)
@@ -102,10 +111,20 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             show(travelerEntryWidget)
         }
         travelerCheckoutViewModel.travelerCompletenessStatus.subscribe(travelerCardViewModel.travelerStatusObserver)
+        travelerCheckoutViewModel.travelerCompletenessStatus.subscribe { status ->
+            if (status == TravelerCheckoutStatus.CLEAN || status == TravelerCheckoutStatus.DIRTY) {
+                checkoutViewModel.clearTravelers.onNext(Unit)
+            } else {
+                checkoutViewModel.travelerCompleted.onNext(travelerCheckoutViewModel.getTravelers())
+            }
+        }
+        checkoutViewModel.sliderPurchaseTotalText.subscribe { total ->
+            slideToPurchaseWidget.updatePricingDisplay(total.toString())
+        }
+
         travelerEntryWidget.travelerCompleteSubject.subscribe {
             show(DefaultCheckout(), FLAG_CLEAR_BACKSTACK)
         }
-
         toolbar.viewModel = CheckoutToolbarViewModel(context)
 
         initializePriceWidget()
@@ -177,6 +196,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     private fun updatePricing(response: RailCreateTripResponse) {
+        checkoutViewModel.totalPriceObserver.onNext(response.totalPrice)
         totalPriceWidget.viewModel.total.onNext(response.totalPrice)
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as RailCostSummaryBreakdownViewModel)
@@ -188,6 +208,11 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     private val defaultTransition = object : Presenter.DefaultTransition(DefaultCheckout::class.java.name) {
         override fun endTransition(forward: Boolean) {
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+            if (checkoutViewModel.isValidForBooking()) {
+                slideToPurchaseWidget.show()
+            } else {
+                slideToPurchaseWidget.visibility = View.GONE
+            }
         }
     }
 
@@ -197,17 +222,16 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
                 totalPriceWidget.visibility = View.GONE
                 travelerCardWidget.visibility = View.GONE
                 ticketDeliveryOverviewWidget.visibility = View.GONE
+                slideToPurchaseWidget.visibility = View.GONE
             } else {
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+                transitionToCheckoutStart()
             }
         }
 
         override fun endTransition(forward: Boolean) {
             if (!forward) {
-                travelerCardWidget.visibility = View.VISIBLE
-                totalPriceWidget.visibility = View.VISIBLE
-                ticketDeliveryOverviewWidget.visibility = View.VISIBLE
-
+                transitionToCheckoutEnd()
                 Ui.hideKeyboard(paymentWidget)
                 paymentWidget.setFocusForView()
             }
@@ -222,22 +246,17 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
                 paymentWidget.visibility = View.GONE
                 travelerCardWidget.visibility = View.GONE
                 ticketDeliveryOverviewWidget.visibility = View.GONE
+                slideToPurchaseWidget.visibility = View.GONE
             } else {
                 travelerCheckoutViewModel.updateCompletionStatus()
-                toolbar.viewModel.menuVisibility.onNext(false)
+                transitionToCheckoutStart()
                 travelerEntryWidget.visibility = View.GONE
             }
         }
 
         override fun endTransition(forward: Boolean) {
             if (!forward) {
-                travelerCardWidget.visibility = View.VISIBLE
-                paymentWidget.visibility = View.VISIBLE
-                totalPriceWidget.visibility = View.VISIBLE
-                ticketDeliveryOverviewWidget.visibility = View.VISIBLE
-                toolbar.viewModel.toolbarTitle.onNext(context.getString(R.string.checkout_text))
-                toolbar.viewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
-
+                transitionToCheckoutEnd()
                 Ui.hideKeyboard(paymentWidget)
                 paymentWidget.setFocusForView()
             } else {
@@ -253,34 +272,52 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     private val defaultToTicketDeliveryOptions = object : Presenter.Transition(DefaultCheckout::class.java, RailTicketDeliveryEntryWidget::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            if (forward) {
+                slideToPurchaseWidget.visibility = View.GONE
 
-            if (!forward) {
-                toolbar.viewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
-                toolbar.viewModel.toolbarTitle.onNext(context.getString(R.string.checkout_text))
-                toolbar.viewModel.enableMenuItem.onNext(true)
-                toolbar.viewModel.menuVisibility.onNext(false)
-            } else {
                 toolbar.viewModel.toolbarTitle.onNext(resources.getString(R.string.ticket_delivery))
                 toolbar.viewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
                 toolbar.viewModel.enableMenuItem.onNext(ticketDeliveryEntryWidget.isComplete())
                 toolbar.viewModel.visibleMenuWithTitleDone.onNext(Unit)
                 toolbar.viewModel.menuVisibility.onNext(true)
+            } else {
+                transitionToCheckoutStart()
             }
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-
-            travelerCardWidget.setInverseVisibility(forward)
-            paymentWidget.setInverseVisibility(forward)
-            totalPriceWidget.setInverseVisibility(forward)
             ticketDeliveryOverviewWidget.setInverseVisibility(forward)
             ticketDeliveryEntryWidget.setVisibility(forward)
 
-            if (!forward) {
+            if (forward) {
+                totalPriceWidget.visibility = View.GONE
+                paymentWidget.visibility = View.GONE
+                travelerCardWidget.visibility = View.GONE
+            } else {
+                transitionToCheckoutEnd()
                 Ui.hideKeyboard(ticketDeliveryEntryWidget)
                 ticketDeliveryEntryWidget.setFocusForView()
             }
+        }
+    }
+
+    private fun transitionToCheckoutStart() {
+        toolbar.viewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
+        toolbar.viewModel.toolbarTitle.onNext(context.getString(R.string.checkout_text))
+        toolbar.viewModel.enableMenuItem.onNext(true)
+        toolbar.viewModel.menuVisibility.onNext(false)
+    }
+
+    private fun transitionToCheckoutEnd() {
+        travelerCardWidget.visibility = View.VISIBLE
+        paymentWidget.visibility = View.VISIBLE
+        totalPriceWidget.visibility = View.VISIBLE
+        ticketDeliveryOverviewWidget.visibility = View.VISIBLE
+        if (checkoutViewModel.isValidForBooking()) {
+            slideToPurchaseWidget.show()
+        } else {
+            slideToPurchaseWidget.visibility = View.GONE
         }
     }
 
@@ -293,18 +330,20 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     override fun onSlideStart() {
-        throw UnsupportedOperationException()
     }
 
     override fun onSlideProgress(pixels: Float, total: Float) {
-        throw UnsupportedOperationException()
     }
 
     override fun onSlideAllTheWay() {
-        throw UnsupportedOperationException()
+        if (checkoutViewModel.builder.hasValidParams()) {
+            checkoutViewModel.checkoutParams.onNext(checkoutViewModel.builder.build())
+        } else {
+            checkoutViewModel.slideAllTheWayObservable.onNext(Unit)
+        }
     }
 
     override fun onSlideAbort() {
-        throw UnsupportedOperationException()
+        slideToPurchaseWidget.reset()
     }
 }
