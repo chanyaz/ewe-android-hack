@@ -253,6 +253,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			else if (name.equals("departureAirportCode")) {
 				departure.mAirportCode = reader.nextString();
 			}
+			else if (name.equals("departureAirportAddress")) {
+				departure.mCity = readAirportCity(reader);
+			}
 			else if (name.equals("departureTimeEpochSeconds")) {
 				depTimeEpochSeconds = reader.nextLong();
 			}
@@ -261,6 +264,9 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			}
 			else if (name.equals("arrivalAirportCode")) {
 				arrival.mAirportCode = reader.nextString();
+			}
+			else if (name.equals("arrivalAirportAddress")) {
+				arrival.mCity = readAirportCity(reader);
 			}
 			else if (name.equals("arrivalTimeEpochSeconds")) {
 				arrTimeEpochSeconds = reader.nextLong();
@@ -328,6 +334,25 @@ public class StreamingFlightSearchResponseHandler implements ResponseHandler<Fli
 			arrTimeEpochSeconds * 1000, arrTimeZoneOffsetSeconds * 1000);
 
 		return segment;
+	}
+
+	private String readAirportCity(JsonReader reader) throws IOException {
+		String city = null;
+		String name;
+		expectToken(reader, JsonToken.BEGIN_OBJECT);
+		reader.beginObject();
+
+		while (!reader.peek().equals(JsonToken.END_OBJECT)) {
+			name = reader.nextName();
+			if (name.equals("city")) {
+				city = reader.nextString();
+			}
+			else {
+				reader.skipValue();
+			}
+		}
+		reader.endObject();
+		return city;
 	}
 
 	private FlightTrip readTrip(JsonReader reader) throws IOException {

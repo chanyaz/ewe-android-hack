@@ -123,7 +123,7 @@ public class AirportDropDownAdapter extends ArrayAdapter<AirportSuggestion> impl
 						airport = FlightStatsDbUtils.getAirport(suggestion.getAirportCode());
 						Object[] row = new Object[AirportAutocompleteProvider.COLUMNS.length];
 						row[0] = a++;
-						row[1] = StrUtils.formatAirport(airport);
+						row[1] = StrUtils.formatAirport(airport, null);
 						row[2] = airport.mAirportCode + "-" + airport.mName;
 						row[3] = airport.mAirportCode;
 						row[4] = R.drawable.ic_nearby_search;

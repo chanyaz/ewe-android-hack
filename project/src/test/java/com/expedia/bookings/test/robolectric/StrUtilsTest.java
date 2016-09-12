@@ -23,12 +23,15 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionStrUtils;
+import com.mobiata.flightlib.data.Airport;
+import com.mobiata.flightlib.data.Waypoint;
 import com.squareup.phrase.Phrase;
 
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.not;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 @RunWith(RobolectricRunner.class)
 public class StrUtilsTest {
@@ -225,6 +228,59 @@ public class StrUtilsTest {
 	public void testAirportCodeCityNameFormatting() {
 		String formattedString = StrUtils.formatAirportCodeCityName(getDummySuggestion());
 		assertEquals("(CHI) Chicago", formattedString);
+	}
+
+	@Test
+	public void testWaypointFormatting() {
+		Waypoint waypoint = new Waypoint(Waypoint.ACTION_ARRIVAL);
+		waypoint.mAirportCode = "YVR";
+		waypoint.mCity = "Vancouver";
+		assertEquals("Vancouver, Canada" , StrUtils.formatWaypoint(waypoint));
+
+		waypoint.mAirportCode = "ABCDE";
+		waypoint.mCity = "London";
+		assertEquals("London" , StrUtils.formatWaypoint(waypoint));
+
+		waypoint.mAirportCode = null;
+		assertNull(StrUtils.formatWaypoint(waypoint));
+	}
+
+	@Test
+	public void testAirportFormatting() {
+		Airport airport = new Airport();
+		airport.mCountryCode = "GB";
+		String localizedAirportCity = "London";
+		assertEquals("London, United Kingdom" , StrUtils.formatAirport(airport, localizedAirportCity));
+
+		airport.mAirportCode = "YVR";
+		airport.mCity = "";
+		airport.mCountryCode = "CA";
+		assertEquals("YVR, Canada" , StrUtils.formatAirport(airport, null));
+
+
+		airport.mCountryCode = "US";
+		airport.mStateCode = "CA";
+		airport.mCity = "Los Angeles";
+		assertEquals("Los Angeles, CA" , StrUtils.formatAirport(airport, null));
+
+		airport.mCountryCode = "ABCDE";
+		assertEquals("Los Angeles, ABCDE" , StrUtils.formatAirport(airport, null));
+
+		airport.mCountryCode = "";
+		airport.mCity = "";
+		airport.mAirportCode = "YVR";
+		assertEquals("YVR" , StrUtils.formatAirport(airport, null));
+
+	}
+
+	@Test
+	public void testWaypointLocalizedCityOrCode() {
+		Waypoint waypoint = new Waypoint(Waypoint.ACTION_ARRIVAL);
+		waypoint.mCity = "Los Angeles";
+		assertEquals("Los Angeles" , StrUtils.getWaypointLocalizedCityOrCode(waypoint));
+
+		waypoint.mCity = "";
+		assertNull(StrUtils.getWaypointLocalizedCityOrCode(waypoint));
 	}
 
 	@Test

@@ -631,7 +631,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			numTravelers);
 
 		FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
-		String cityName = StrUtils.getWaypointCityOrCode(trip.getLeg(0).getLastWaypoint());
+		String cityName = StrUtils.getWaypointLocalizedCityOrCode(trip.getLeg(0).getLastWaypoint());
 		String yourTripToStr = String.format(getString(R.string.your_trip_to_TEMPLATE), cityName);
 
 		DateTime depDate = trip.getLeg(0).getFirstWaypoint().getMostRelevantDateTime().toLocalDateTime().toDateTime();
