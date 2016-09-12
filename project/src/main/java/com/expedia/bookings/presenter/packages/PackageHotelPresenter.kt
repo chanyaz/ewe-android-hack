@@ -340,11 +340,13 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             resultsPresenter.animationFinalize(!forward)
             detailPresenter.animationFinalize()
             loadingOverlay.visibility = View.GONE
-            bundleSlidingWidget.bundlePriceWidget.enable()
-            val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
-            bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
-            bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
-                show(bundleSlidingWidget)
+            if (!forward) {
+                bundleSlidingWidget.bundlePriceWidget.enable()
+                val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
+                bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
+                bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
+                    show(bundleSlidingWidget)
+                }
             }
             if (forward) {
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
@@ -410,13 +412,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             loadingOverlay.visibility = View.GONE
             detailPresenter.visibility = View.VISIBLE
             detailPresenter.translationY = 0f
-            bundleSlidingWidget.visibility = View.VISIBLE
-            bundleSlidingWidget.bundlePriceWidget.enable()
-            val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this@PackageHotelPresenter)
-            bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
-            bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
-                show(bundleSlidingWidget)
-            }
+            bundleSlidingWidget.visibility = View.GONE
             if (forward) {
                 detailPresenter.hotelDetailView.refresh()
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()

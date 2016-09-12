@@ -50,7 +50,10 @@ class SlidingBundleWidgetListener (val widget: SlidingBundleWidget, val presente
 
     private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
 
-        override fun onFling(e1: MotionEvent, e2: MotionEvent, velocityX: Float, velocityY: Float): Boolean {
+        override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
+            if (e1 == null || e2 == null) {
+                return false
+            }
             if (widget.isMoving || !widget.canMove) {
                 return true
             }
