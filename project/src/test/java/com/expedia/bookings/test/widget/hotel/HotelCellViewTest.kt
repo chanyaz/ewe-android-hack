@@ -95,7 +95,7 @@ class HotelCellViewTest {
         hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
-        Assert.assertEquals(activity.getResources().getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
+        Assert.assertEquals(activity.resources.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
                                hotelViewHolder.urgencyMessageBox.text)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyIcon.visibility)
     }

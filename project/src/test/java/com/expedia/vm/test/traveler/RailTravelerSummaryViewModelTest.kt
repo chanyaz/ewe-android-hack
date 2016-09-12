@@ -43,8 +43,8 @@ class RailTravelerSummaryViewModelTest {
     @Test
     fun testGetTitleWithName() {
         val mockTraveler = Mockito.mock(Traveler::class.java)
-        Mockito.`when`(mockTraveler.getFullName()).thenReturn(testFullName)
-        Mockito.`when`(mockTraveler.getName()).thenReturn(TravelerName())
+        Mockito.`when`(mockTraveler.fullName).thenReturn(testFullName)
+        Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
         addTravelerToDb(mockTraveler)
 
         testViewModel = RailTravelerSummaryViewModel(activity)
@@ -64,8 +64,8 @@ class RailTravelerSummaryViewModelTest {
     @Test
     fun testGetSubTitleWithEmailButIncomplete() {
         val mockTraveler = Mockito.mock(Traveler::class.java)
-        Mockito.`when`(mockTraveler.getEmail()).thenReturn(testEmail)
-        Mockito.`when`(mockTraveler.getName()).thenReturn(TravelerName())
+        Mockito.`when`(mockTraveler.email).thenReturn(testEmail)
+        Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
         addTravelerToDb(mockTraveler)
 
         testViewModel = RailTravelerSummaryViewModel(activity)
@@ -76,8 +76,8 @@ class RailTravelerSummaryViewModelTest {
     @Test
     fun testGetSubTitleWithEmailComplete() {
         val mockTraveler = Mockito.mock(Traveler::class.java)
-        Mockito.`when`(mockTraveler.getEmail()).thenReturn(testEmail)
-        Mockito.`when`(mockTraveler.getName()).thenReturn(TravelerName())
+        Mockito.`when`(mockTraveler.email).thenReturn(testEmail)
+        Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
         addTravelerToDb(mockTraveler)
 
         testViewModel = RailTravelerSummaryViewModel(activity)

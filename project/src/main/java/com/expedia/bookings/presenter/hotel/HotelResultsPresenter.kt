@@ -89,7 +89,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        Ui.getApplication(getContext()).hotelComponent().inject(this)
+        Ui.getApplication(context).hotelComponent().inject(this)
         toolbar.inflateMenu(R.menu.menu_search_item)
         searchMenu.setOnMenuItemClickListener({
             searchOverlaySubject.onNext(Unit)
@@ -174,7 +174,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
                 }
 
             })
-            anim.setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION)
+            anim.duration = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION
             anim.start()
         }
     }

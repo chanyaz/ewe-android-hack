@@ -35,7 +35,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     init {
         View.inflate(context, R.layout.phone_entry_view, this)
         orientation = HORIZONTAL
-        setGravity(Gravity.BOTTOM)
+        gravity = Gravity.BOTTOM
     }
 
     private fun spinnerUpdated() {

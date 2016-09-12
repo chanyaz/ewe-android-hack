@@ -35,28 +35,28 @@ class HotelsV2DataUtil {
         fun getHotelV2SearchParams(params: com.expedia.bookings.data.HotelSearchParams): HotelSearchParams {
             val suggestionV4 = SuggestionV4()
             suggestionV4.hotelId = params.hotelId
-            suggestionV4.gaiaId = params.getRegionId()
+            suggestionV4.gaiaId = params.regionId
             suggestionV4.coordinates = SuggestionV4.LatLng()
             suggestionV4.coordinates.lat = params.searchLatitude
             suggestionV4.coordinates.lng = params.searchLongitude
 
             suggestionV4.type = params.searchType.name
             val regionNames = SuggestionV4.RegionNames()
-            regionNames.displayName = params.getQuery()
-            regionNames.shortName = params.getQuery()
+            regionNames.displayName = params.query
+            regionNames.shortName = params.query
             suggestionV4.regionNames = regionNames
-            val childTraveler = params.getChildren()
+            val childTraveler = params.children
             val childList = ArrayList<Int>()
             if (childTraveler != null && !childTraveler.isEmpty()) {
                 for (index in 0..childTraveler.size - 1) {
-                    childList.add(childTraveler.get(index).getAge())
+                    childList.add(childTraveler[index].age)
                 }
             }
-            val hasValidDates = JodaUtils.isBeforeOrEquals(LocalDate.now(), params.getCheckInDate())
-            val checkInDate = if (hasValidDates) params.getCheckInDate() else LocalDate.now()
-            val checkOutDate = if (hasValidDates) params.getCheckOutDate() else LocalDate.now().plusDays(1)
+            val hasValidDates = JodaUtils.isBeforeOrEquals(LocalDate.now(), params.checkInDate)
+            val checkInDate = if (hasValidDates) params.checkInDate else LocalDate.now()
+            val checkOutDate = if (hasValidDates) params.checkOutDate else LocalDate.now().plusDays(1)
             val filterUnavailable = !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest);
-            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.getNumAdults(), childList, Db.getUser()?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false, filterUnavailable)
+            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, Db.getUser()?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false, filterUnavailable)
             return v2params
         }
 

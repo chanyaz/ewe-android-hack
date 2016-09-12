@@ -83,7 +83,6 @@ import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
-import java.util.ArrayList
 import kotlin.properties.Delegates
 
 abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
@@ -231,7 +230,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     private fun resetListOffset() {
         val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -halfway.toFloat())
-        mover.setDuration(300)
+        mover.duration = 300
         mover.start()
 
         val view = recyclerView.findViewHolderForAdapterPosition(1)
@@ -480,7 +479,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
-        filterMenuItem.setVisible(false)
+        filterMenuItem.isVisible = false
         var fabLp = fab.layoutParams as FrameLayout.LayoutParams
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
 
@@ -1125,7 +1124,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 ObjectAnimator.ofFloat(fab, "scaleX", 0f, 1f),
                 ObjectAnimator.ofFloat(fab, "scaleY", 0f, 1f)
         )
-        set.setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION)
+        set.duration = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION
         set.interpolator = DecelerateInterpolator()
         return set
     }
@@ -1137,7 +1136,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 ObjectAnimator.ofFloat(fab, "scaleY", 1f, 0f)
         )
         set.interpolator = AccelerateInterpolator()
-        set.setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION)
+        set.duration = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION
         return set
     }
 

@@ -61,7 +61,7 @@ class DepositTermsInfoWidget(context: Context, attrs: AttributeSet) : FrameLayou
             depositTermsSecondText.text = depositPolicySecond
         }
 
-        payLaterCurrencyText.text = getResources().getString(R.string.etp_pay_later_currency_text_TEMPLATE, hotelCountrycurrency)
-        noChargeText.text = Phrase.from(getContext(), R.string.no_charge_text_TEMPLATE).put("brand", BuildConfig.brand).format()
+        payLaterCurrencyText.text = resources.getString(R.string.etp_pay_later_currency_text_TEMPLATE, hotelCountrycurrency)
+        noChargeText.text = Phrase.from(context, R.string.no_charge_text_TEMPLATE).put("brand", BuildConfig.brand).format()
     }
 }

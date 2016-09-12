@@ -17,7 +17,6 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import java.util.ArrayList
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -178,7 +177,7 @@ class FlightCostSummaryBreakdownViewModelTest {
 
         newTripResponse.totalPrice.add(insurance)
 
-        newTripResponse.details.offer.selectedInsuranceProduct.totalPrice.formattedPrice = insurance.getFormattedMoneyFromAmountAndCurrencyCode()
+        newTripResponse.details.offer.selectedInsuranceProduct.totalPrice.formattedPrice = insurance.formattedMoneyFromAmountAndCurrencyCode
     }
 
     private fun givenGoodTripResponse() {
@@ -214,11 +213,11 @@ class FlightCostSummaryBreakdownViewModelTest {
         newTripResponse.details.offer.pricePerPassengerCategory[0].passengerCategory = adultCategory
 
         newTripResponse.details.offer.pricePerPassengerCategory[0].taxesPrice = taxesPrice
-        newTripResponse.details.offer.pricePerPassengerCategory[0].taxesPrice.formattedPrice = taxesPrice.getFormattedMoneyFromAmountAndCurrencyCode()
+        newTripResponse.details.offer.pricePerPassengerCategory[0].taxesPrice.formattedPrice = taxesPrice.formattedMoneyFromAmountAndCurrencyCode
         newTripResponse.details.offer.pricePerPassengerCategory[0].totalPrice = totalPrice
-        newTripResponse.details.offer.pricePerPassengerCategory[0].totalPrice.formattedPrice = totalPrice.getFormattedMoneyFromAmountAndCurrencyCode()
+        newTripResponse.details.offer.pricePerPassengerCategory[0].totalPrice.formattedPrice = totalPrice.formattedMoneyFromAmountAndCurrencyCode
         newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice = basePrice
-        newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice.formattedPrice = basePrice.getFormattedMoneyFromAmountAndCurrencyCode()
+        newTripResponse.details.offer.pricePerPassengerCategory[0].basePrice.formattedPrice = basePrice.formattedMoneyFromAmountAndCurrencyCode
     }
 
     private fun assertEvents(expectedBreakdown: List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>,

@@ -9,7 +9,6 @@ import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
-import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.section.GenderSpinnerAdapter
@@ -53,7 +52,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     init {
         View.inflate(context, R.layout.tsa_entry_view, this)
         orientation = HORIZONTAL
-        setGravity(Gravity.BOTTOM)
+        gravity = Gravity.BOTTOM
 
         fragmentActivity = context as FragmentActivity
 
@@ -94,7 +93,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
             if (newDatePickerFragment == null) {
                 newDatePickerFragment = DatePickerDialogFragment.createFragment(dateSetListener, date)
             }
-            newDatePickerFragment!!.show(fragmentActivity.getSupportFragmentManager(), TAG_DATE_PICKER)
+            newDatePickerFragment!!.show(fragmentActivity.supportFragmentManager, TAG_DATE_PICKER)
         }
     }
 

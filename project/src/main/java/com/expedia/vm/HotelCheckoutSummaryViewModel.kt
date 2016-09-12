@@ -9,7 +9,6 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.HotelTracking
-import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -130,7 +129,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
                 tripTotalPrice.onNext(it.tripTotalPayableIncludingFee.formattedMoneyFromAmountAndCurrencyCode)
                 isShoppingWithPoints.onNext(true)
             } else {
-                tripTotalPrice.onNext(rate.getDisplayTotalPrice().getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+                tripTotalPrice.onNext(rate.displayTotalPrice.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
                 dueNowAmount.onNext(it.newHotelProductResponse.dueNowAmount.formattedMoney)
 
                 isShoppingWithPoints.onNext(false)

@@ -52,7 +52,7 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
         val dialog: AlertDialog = builder.create()
         dialog.setOnShowListener {
             oldTravelerData = traveler.getViewModel().travelerParamsObservable.value
-            dialog.getWindow()?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
+            dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }
         dialog.setOnDismissListener {
             if (oldTravelerData != null) {

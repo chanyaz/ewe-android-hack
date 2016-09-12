@@ -76,7 +76,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
 
                 if (tripResponse.selectedCardFees != null) {
                     title = context.getString(R.string.airline_card_fee)
-                    val airlineCardFee = tripResponse.selectedCardFees.getFormattedMoneyFromAmountAndCurrencyCode()
+                    val airlineCardFee = tripResponse.selectedCardFees.formattedMoneyFromAmountAndCurrencyCode
 
                     breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(airlineCardFee).build())
                 }

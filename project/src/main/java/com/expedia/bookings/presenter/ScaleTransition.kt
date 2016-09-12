@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter
 
 import android.view.View
-import kotlin.properties.Delegates
 
 open class ScaleTransition(val presenter: Presenter, val left: Class<*>, val right: Class<*>): Presenter.Transition(left, right) {
 
@@ -72,7 +71,7 @@ open class ScaleTransition(val presenter: Presenter, val left: Class<*>, val rig
             val c = presenter.getChildAt(i)
             if (c.javaClass.equals(childClass)) {
                 if (child != null) {
-                    throw RuntimeException("Found duplicate child view in this presenter (class: " + childClass.getName() + ")")
+                    throw RuntimeException("Found duplicate child view in this presenter (class: " + childClass.name + ")")
                 }
                 child = c
             }
@@ -81,7 +80,7 @@ open class ScaleTransition(val presenter: Presenter, val left: Class<*>, val rig
         if (child != null) {
             return child
         } else {
-            throw RuntimeException("Could not find child with class:" + childClass.getName() + " in this presenter")
+            throw RuntimeException("Could not find child with class:" + childClass.name + " in this presenter")
         }
     }
 }

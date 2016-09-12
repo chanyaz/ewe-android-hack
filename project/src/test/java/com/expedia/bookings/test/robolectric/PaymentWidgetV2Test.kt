@@ -176,7 +176,7 @@ class PaymentWidgetV2Test {
 
     private fun assertCardImageEquals(cardDrawableResId: Int, tv: TextView) {
         val shadow = Shadows.shadowOf(tv)
-        assertEquals(cardDrawableResId, shadow.getCompoundDrawablesWithIntrinsicBoundsLeft())
+        assertEquals(cardDrawableResId, shadow.compoundDrawablesWithIntrinsicBoundsLeft)
     }
 
     private fun setUserWithStoredCard() {

@@ -53,7 +53,7 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
 
             if (!packageDetails.pricing.hasResortFee() || PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees()) {
                 // Bundle Total     $380
-                breakdowns.add(makeBundleTotalRow(createTrip.getBundleTotal().formattedPrice))
+                breakdowns.add(makeBundleTotalRow(createTrip.bundleTotal.formattedPrice))
             }
             if (packageDetails.pricing.hasResortFee()) {
                 // Total Due Today  $900

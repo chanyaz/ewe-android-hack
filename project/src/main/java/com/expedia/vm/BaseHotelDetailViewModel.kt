@@ -286,7 +286,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         }
 
         if (supportPhoneNumber == null) {
-            supportPhoneNumber = PointOfSale.getPointOfSale().getDefaultSupportPhoneNumber()
+            supportPhoneNumber = PointOfSale.getPointOfSale().defaultSupportPhoneNumber
         }
 
         SocialUtils.call(context, supportPhoneNumber)

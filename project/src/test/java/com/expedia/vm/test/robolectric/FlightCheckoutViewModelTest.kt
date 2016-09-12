@@ -389,7 +389,7 @@ class FlightCheckoutViewModelTest {
         traveler.middleName = ""
         traveler.birthDate = LocalDate()
         traveler.email = ""
-        traveler.setPassengerCategory(PassengerCategory.ADULT)
+        traveler.passengerCategory = PassengerCategory.ADULT
         traveler.redressNumber = ""
         params = FlightCheckoutParams.Builder()
                         .tealeafTransactionId("")

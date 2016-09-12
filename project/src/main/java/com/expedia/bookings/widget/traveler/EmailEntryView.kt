@@ -23,6 +23,6 @@ class EmailEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     init {
         View.inflate(context, R.layout.email_entry_view, this)
         orientation = HORIZONTAL
-        setGravity(Gravity.BOTTOM)
+        gravity = Gravity.BOTTOM
     }
 }

@@ -41,7 +41,7 @@ class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         init {
             View.inflate(context, R.layout.section_airline_logo_name_row, this)
             orientation = HORIZONTAL
-            setGravity(Gravity.CENTER_VERTICAL)
+            gravity = Gravity.CENTER_VERTICAL
         }
 
         fun bind(airline: Airline) {

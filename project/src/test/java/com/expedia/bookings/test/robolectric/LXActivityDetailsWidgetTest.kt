@@ -128,7 +128,7 @@ class LXActivityDetailsWidgetTest {
         val container = details.findViewById(R.id.offer_dates_container) as LinearLayout
 
         val count = container.childCount
-        val range = activity.baseContext.getResources().getInteger(R.integer.lx_default_search_range) + 1;
+        val range = activity.baseContext.resources.getInteger(R.integer.lx_default_search_range) + 1;
         val dateOne = container.getChildAt(0) as LXOfferDatesButton
         val dateTwo = container.getChildAt(1) as LXOfferDatesButton
 
@@ -147,7 +147,7 @@ class LXActivityDetailsWidgetTest {
         val container = details.findViewById(R.id.offer_dates_container) as LinearLayout
 
         val count = container.childCount
-        val range = activity.baseContext.getResources().getInteger(R.integer.lx_default_search_range) + 1;
+        val range = activity.baseContext.resources.getInteger(R.integer.lx_default_search_range) + 1;
         val dateOne = container.getChildAt(0) as LXOfferDatesButton
         val dateTwo = container.getChildAt(1) as LXOfferDatesButton
         val dateThree = container.getChildAt(3) as LXOfferDatesButton

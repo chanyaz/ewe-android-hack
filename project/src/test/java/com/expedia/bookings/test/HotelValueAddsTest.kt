@@ -39,7 +39,7 @@ class HotelValueAddsTest {
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
         val interceptor = MockInterceptor()
-        service = HotelServices("http://localhost:" + server.getPort(),
+        service = HotelServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
                 interceptor, Schedulers.immediate(), Schedulers.immediate())
         vm = HotelDetailViewModel(activity.applicationContext, endlessObserver { /*ignore*/ })
