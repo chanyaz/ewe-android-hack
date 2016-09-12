@@ -221,7 +221,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 		buildRecommendationPecentage(activityDetails.recommendationScore);
 		buildGallery(activityDetails);
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_activity_map, false)) {
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_activity_map)) {
 			buildMapSection(activityDetails);
 		}
 		buildSections(activityDetails);

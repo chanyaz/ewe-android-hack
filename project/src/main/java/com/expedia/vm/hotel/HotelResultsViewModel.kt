@@ -15,6 +15,7 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -85,8 +86,8 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     }
 
     private fun searchHotels(params: HotelSearchParams, isInitial: Boolean = true) {
-        val isBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
-        val makeMultipleCalls = isInitial && isBucketed
+        val isBucketedAndFeatureToggleOn = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest, R.string.preference_enable_hotel_results_perceived_instant)
+        val makeMultipleCalls = isInitial && isBucketedAndFeatureToggleOn
         hotelServices?.search(params, clientLogBuilder, if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(hotelSearchResponse: HotelSearchResponse) {
                 onSearchResponse(hotelSearchResponse, isInitial)

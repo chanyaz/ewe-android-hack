@@ -5,7 +5,6 @@ import android.preference.CheckBoxPreference;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.FeatureToggleUtil;
-import com.expedia.util.ToggleFeatureConfiguration;
 
 public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
@@ -23,22 +22,19 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		addPreferencesFromResource(R.xml.preferences_feature_toggle);
 
 		// Hotel Features
-		initializeFeatureCheck(R.string.preference_enable_hotel_favorite, ToggleFeatureConfiguration.HOTEL_FAVORITE_FEATURE);
+		initializeFeatureCheck(R.string.preference_enable_hotel_favorite);
+		initializeFeatureCheck(R.string.preference_enable_hotel_results_perceived_instant);
 		// Login Features
-		initializeFeatureCheck(R.string.preference_enable_smart_lock, ToggleFeatureConfiguration.SMART_LOCK_FEATURE);
-		initializeFeatureCheck(R.string.preference_enable_rail, ToggleFeatureConfiguration.RAIL_FEATURE);
-		initializeFeatureCheck(R.string.preference_enable_activity_map,
-			ToggleFeatureConfiguration.ACTIVITY_MAP_FEATURE);
+		initializeFeatureCheck(R.string.preference_enable_smart_lock);
+		initializeFeatureCheck(R.string.preference_enable_rail);
+		initializeFeatureCheck(R.string.preference_enable_activity_map);
 
 	}
 
-	private void initializeFeatureCheck(int featureKey, Boolean isFeatureEnabled) {
+	private void initializeFeatureCheck(int featureKey) {
 		CheckBoxPreference featurePreference = (CheckBoxPreference) findPreference(getString(featureKey));
-		boolean enableFeature = FeatureToggleUtil
-			.isFeatureEnabled(getActivity(),
-				featureKey, isFeatureEnabled);
-		featurePreference
-			.setChecked(enableFeature);
+		boolean enableFeature = FeatureToggleUtil.isFeatureEnabled(getActivity(), featureKey);
+		featurePreference.setChecked(enableFeature);
 	}
 
 }

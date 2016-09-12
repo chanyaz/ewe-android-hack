@@ -11,6 +11,12 @@
             android:summary="Save your favorite hotels."
             android:title="Enable Hotel Favorite Feature" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_enable_hotel_results_perceived_instant"
+            android:layout="@layout/preference"
+            android:summary="Hotel Results Perceived Instant."
+            android:title="Enable Hotel Results Perceived Instant Feature" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -8,7 +8,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
-
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.expedia.account.AccountView;
@@ -33,7 +32,6 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
-import com.expedia.util.ToggleFeatureConfiguration;
 
 public class AccountLibActivity extends AppCompatActivity
 	implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
@@ -152,7 +150,7 @@ public class AccountLibActivity extends AppCompatActivity
 			.setRewardsText(StrUtils.generateLoyaltyRewardsLegalLink(this));
 
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(this, AbacusUtils.EBAndroidAppSmartLockTest,
-			R.string.preference_enable_smart_lock, ToggleFeatureConfiguration.SMART_LOCK_FEATURE)) {
+			R.string.preference_enable_smart_lock)) {
 			config.setParentActivity(this);
 		}
 

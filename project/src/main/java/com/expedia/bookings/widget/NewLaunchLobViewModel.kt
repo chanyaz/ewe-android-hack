@@ -10,7 +10,6 @@ import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.FeatureToggleUtil
-import com.expedia.util.ToggleFeatureConfiguration
 import com.expedia.util.endlessObserver
 import com.mobiata.android.util.SettingUtils
 import rx.subjects.BehaviorSubject
@@ -52,7 +51,7 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
             lobs.add(LobInfo.TRANSPORT)
         }
 
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_rail, false)) {
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_rail)) {
             // if we have odd lob then we should add Packages in the end other 3 index
             lobs.add(LobInfo.RAILS)
         }
