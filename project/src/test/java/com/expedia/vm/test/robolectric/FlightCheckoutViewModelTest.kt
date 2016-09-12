@@ -441,6 +441,7 @@ class FlightCheckoutViewModelTest {
         Ui.getApplication(context).defaultTravelerComponent()
         Ui.getApplication(context).defaultFlightComponents()
         sut = TestFlightCheckoutViewModelClass(context)
+        sut.cardFeeTripResponse.subscribe(sut.tripResponseObservable)
         sut.flightServices = mockFlightServices
         sut.cardFeeService = cardFeeService
     }

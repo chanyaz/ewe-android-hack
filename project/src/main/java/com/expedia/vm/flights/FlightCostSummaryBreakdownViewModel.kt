@@ -87,8 +87,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
 
 
             title = context.getString(R.string.cost_summary_breakdown_total_due_today)
-            val totalPrice = if (tripResponse.totalPrice != null) tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints() else tripResponse.details.offer.totalFarePrice // TODO - priceChange checkout response does not return totalPrice field!!
-            breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(totalPrice.formattedMoneyFromAmountAndCurrencyCode).build())
+            breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode).build())
 
             addRows.onNext(breakdowns)
             iconVisibilityObservable.onNext(true)

@@ -64,7 +64,9 @@ public class FlightCreateTripResponse extends TripResponse {
 		if (totalPriceIncludingFees != null) {
 			return totalPriceIncludingFees;
 		}
-		Money totalPriceWithFee = totalPrice.copy();
+
+		// TODO - priceChange checkout response does not return totalPrice field!!
+		Money totalPriceWithFee = totalPrice != null ? totalPrice.copy() : getDetails().offer.totalFarePrice.copy();
 		totalPriceWithFee.add(selectedCardFees);
 		return totalPriceWithFee;
 	}

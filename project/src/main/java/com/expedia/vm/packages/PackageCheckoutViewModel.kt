@@ -151,7 +151,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
         val newTripResponse = tripResponseObservable.value as PackageCreateTripResponse
         newTripResponse.selectedCardFees = cardFee
         newTripResponse.totalPriceIncludingFees = totalPriceInclFees
-        tripResponseObservable.onNext(newTripResponse)
+        cardFeeTripResponse.onNext(newTripResponse)
         selectedCardFeeObservable.onNext(cardFee)
     }
 

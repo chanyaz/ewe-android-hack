@@ -69,6 +69,7 @@ abstract class BaseCheckoutViewModel(val context: Context) {
     val checkoutErrorObservable = PublishSubject.create<ApiError>()
     var email: String by Delegates.notNull()
     val slideToBookA11yActivateObservable = PublishSubject.create<Unit>()
+    val cardFeeTripResponse  = PublishSubject.create<TripResponse>()
 
     init {
         injectComponents()

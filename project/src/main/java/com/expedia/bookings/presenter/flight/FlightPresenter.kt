@@ -202,10 +202,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         presenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
-        checkoutViewModel.tripResponseObservable.subscribe { trip ->
-            val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
-            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
-        }
         checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val flightCheckoutResponse = pair.first as FlightCheckoutResponse
             val userEmail = pair.second
@@ -215,6 +211,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse)
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
+        createTripViewModel.tripResponseObservable.subscribe { trip ->
+            val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
+            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
+        }
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
         createTripViewModel.noNetworkObservable.subscribe {

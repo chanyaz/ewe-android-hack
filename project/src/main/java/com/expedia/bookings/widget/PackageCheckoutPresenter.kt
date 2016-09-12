@@ -37,7 +37,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
-        getCheckoutViewModel().tripResponseObservable.subscribe { response ->
+        vm.tripResponseObservable.subscribe { response ->
             response as PackageCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)

@@ -36,16 +36,12 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     init {
         inflate()
-        checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.getCheckoutViewModel().paymentCompleted)
         checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
-            checkoutPresenter.getCheckoutViewModel().tripResponseObservable.onNext(trip)
             resetCheckoutState()
         }
-
         checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
             resetCheckoutState()
         }
-
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
 
         checkoutPresenter.paymentWidget.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)

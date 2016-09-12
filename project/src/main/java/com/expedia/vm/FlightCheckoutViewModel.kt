@@ -81,7 +81,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         val newTripResponse = tripResponseObservable.value as FlightCreateTripResponse
         newTripResponse.selectedCardFees = cardFee
         newTripResponse.totalPriceIncludingFees = totalPriceInclFees
-        tripResponseObservable.onNext(newTripResponse)
+        cardFeeTripResponse.onNext(newTripResponse)
         selectedCardFeeObservable.onNext(cardFee)
     }
 

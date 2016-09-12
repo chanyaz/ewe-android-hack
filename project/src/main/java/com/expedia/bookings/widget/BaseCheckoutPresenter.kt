@@ -214,6 +214,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
 
+        paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(getCheckoutViewModel().paymentCompleted)
+        getCreateTripViewModel().tripResponseObservable.subscribe(getCheckoutViewModel().tripResponseObservable)
+        getCheckoutViewModel().cardFeeTripResponse.subscribe(getCreateTripViewModel().tripResponseObservable)
+
         paymentWidget.viewmodel.lineOfBusiness.onNext(getLineOfBusiness())
         travelerPresenter.travelerEntryWidget.travelerButton.setLOB(getLineOfBusiness())
 
