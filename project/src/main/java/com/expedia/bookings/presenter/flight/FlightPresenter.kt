@@ -76,6 +76,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             val params = flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutParams.value
             flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutParams.onNext(params)
         }
+        presenter.getViewModel().showTravelerForm.subscribe {
+            show(flightOverviewPresenter, Presenter.FLAG_CLEAR_TOP)
+            flightOverviewPresenter.showCheckout()
+            flightOverviewPresenter.getCheckoutPresenter().openTravelerPresenter()
+        }
         presenter.getViewModel().showPaymentForm.subscribe {
             show(flightOverviewPresenter, Presenter.FLAG_CLEAR_TOP)
             flightOverviewPresenter.showCheckout()

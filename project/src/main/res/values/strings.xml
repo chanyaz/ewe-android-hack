@@ -2413,6 +2413,8 @@
     <string name="edit_guest_details">Edit Guest Details</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Edit Traveler Information</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">Edit Traveler Details</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Error</string>
     <!-- prefers seat template -->
@@ -3457,6 +3459,8 @@
     <string name="e3_error_checkout_invalid_expiration">Invalid credit card expiration date.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Please enter a valid %1$s</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">Invalid Info</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
