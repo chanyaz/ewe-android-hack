@@ -10,6 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
@@ -38,25 +39,39 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
+    val addResultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val resultsSubject = BehaviorSubject.create<HotelSearchResponse>()
     val hotelSoldOut = endlessObserver<String> { soldOutHotelId ->
         hotels.firstOrNull { it.hotelId == soldOutHotelId }?.isSoldOut = true
         hotelListItemsMetadata.firstOrNull { it.hotelId == soldOutHotelId }?.hotelSoldOut?.onNext(true)
     }
 
-    val heartClickedSubject = PublishSubject.create<String>()
-
     private data class HotelListItemMetadata(val hotelId: String, val hotelSoldOut: BehaviorSubject<Boolean>)
 
     private val hotelListItemsMetadata: MutableList<HotelListItemMetadata> = ArrayList()
 
-    private var hotels: List<Hotel> = emptyList()
+    private var hotels: ArrayList<Hotel> = ArrayList()
 
     private fun getHotel(rawAdapterPosition: Int): Hotel {
         return hotels[rawAdapterPosition - numHeaderItemsInHotelsList()]
     }
 
     init {
+        addResultsSubject.subscribe { response ->
+            val elements = response.hotelList.filter { responseHotel -> hotels.filter { responseHotel.hotelId.contains(it.hotelId) }.isEmpty() }
+            hotels.addAll(elements)
+            var newHotels = HotelServices.putSponsoredItemsInCorrectPlaces(hotels)
+            var initialRefreshIndex = 0
+            for (i in 0..hotels.size - 1) {
+                if (!hotels[i].hotelId.equals(newHotels[i].hotelId)) {
+                    initialRefreshIndex = i
+                    break
+                }
+            }
+            hotels = newHotels as ArrayList<Hotel>
+            notifyItemRangeInserted(initialRefreshIndex, hotels.size)
+        }
+
         resultsSubject.subscribe { response ->
             loading = false
             hotels = ArrayList(response.hotelList)
@@ -76,9 +91,9 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         loadingSubject.onNext(Unit)
         // show 3 tiles during loading if map is hidden to user
         if (ExpediaBookingApp.isDeviceShitty())
-            hotels = listOf(Hotel(), Hotel(), Hotel())
+            hotels = arrayListOf(Hotel(), Hotel(), Hotel())
         else
-            hotels = listOf(Hotel(), Hotel())
+            hotels = arrayListOf(Hotel(), Hotel())
         notifyDataSetChanged()
     }
 
@@ -123,10 +138,6 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         }
     }
 
-    private fun heartSelected() {
-        notifyDataSetChanged()
-    }
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         if (viewType == MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW) {
             val header = View(parent.context)
@@ -142,6 +153,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             val vm = HotelResultsPricingStructureHeaderViewModel(view.resources)
             loadingSubject.subscribe(vm.loadingStartedObserver)
             resultsSubject.subscribe(vm.resultsDeliveredObserver)
+            addResultsSubject.subscribe(vm.resultsDeliveredObserver)
             val holder = HotelResultsPricingStructureHeaderViewHolder(view as ViewGroup, vm)
             return holder
         } else {

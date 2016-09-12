@@ -2,9 +2,11 @@ package com.expedia.vm.hotel
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -24,11 +26,15 @@ import rx.subjects.PublishSubject
 
 class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness, private val clientLogBuilder: ClientLog.Builder?) {
 
+    private val INITIAL_RESULTS_TO_BE_LOADED = 25
+    private val ALL_RESULTS_TO_BE_LOADED = 200
+
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
 
     // Outputs
+    val addHotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val errorObservable = PublishSubject.create<ApiError>()
@@ -75,26 +81,20 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 .format())
 
         clientLogBuilder?.logTime(DateTime.now())
-        hotelServices?.search(params, clientLogBuilder)?.subscribe(object : Observer<HotelSearchResponse> {
+        searchHotels(params)
+    }
+
+    private fun searchHotels(params: HotelSearchParams, isInitial: Boolean = true) {
+        val isBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
+        val makeMultipleCalls = isInitial && isBucketed
+        hotelServices?.search(params, clientLogBuilder, if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(it: HotelSearchResponse) {
-                clientLogBuilder?.processingTime(DateTime.now())
-                if (it.hasErrors()) {
-                    errorObservable.onNext(it.firstError)
-                } else if (it.hotelList.isEmpty()) {
-                    var error: ApiError
-                    if (titleSubject.value == context.getString(R.string.visible_map_area)) {
-                        error = ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS)
-                    } else {
-                        error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
-                    }
-                    errorObservable.onNext(error)
-                } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
-                    mapResultsObservable.onNext(it)
-                } else {
-                    hotelResultsObservable.onNext(it)
-                    HotelTracking().trackHotelsSearch(paramsSubject.value, it)
+                onSearchResponse(it, isInitial)
+                if (makeMultipleCalls) {
+                    searchHotels(params, false)
                 }
             }
+
 
             override fun onCompleted() {
             }
@@ -112,4 +112,29 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
             }
         })
     }
+
+    private fun onSearchResponse(it: HotelSearchResponse, isInitial: Boolean) {
+        clientLogBuilder?.processingTime(DateTime.now())
+        if (it.hasErrors()) {
+            errorObservable.onNext(it.firstError)
+        } else if (it.hotelList.isEmpty()) {
+            var error: ApiError
+            if (titleSubject.value == context.getString(R.string.visible_map_area)) {
+                error = ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS)
+            } else {
+                error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
+            }
+            errorObservable.onNext(error)
+        } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
+            mapResultsObservable.onNext(it)
+        } else {
+            if (isInitial) {
+                hotelResultsObservable.onNext(it)
+            } else {
+                addHotelResultsObservable.onNext(it)
+            }
+            HotelTracking().trackHotelsSearch(paramsSubject.value, it)
+        }
+    }
+
 }

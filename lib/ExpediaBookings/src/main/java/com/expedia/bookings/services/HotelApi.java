@@ -28,7 +28,7 @@ public interface HotelApi {
 		@Query("sortOrder") String sortOrder,
 		@Query("filterUnavailable") String filterUnavailable);
 
-	@GET("/m/api/hotel/search?sortOrder=ExpertPicks&resultsPerPage=200&pageIndex=0&enableSponsoredListings=true&forceV2Search=true")
+	@GET("/m/api/hotel/search?sortOrder=ExpertPicks&pageIndex=0&enableSponsoredListings=true&forceV2Search=true")
 	Observable<HotelSearchResponse> search(
 		@Query("regionId") String gaiaId,
 		@Query("latitude") Double lat,
@@ -37,7 +37,8 @@ public interface HotelApi {
 		@Query("checkOutDate") String checkOut,
 		@Query("room1") String guestString,
 		@Query("shopWithPoints") Boolean shopWithPoints,
-		@Query("filterUnavailable") String filterUnavailable);
+		@Query("filterUnavailable") String filterUnavailable,
+		@Query("resultsPerPage") Integer resultsPerPage);
 
 	@GET("/m/api/hotel/info?forceV2Search=true")
 	Observable<HotelOffersResponse> info(

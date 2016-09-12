@@ -54,7 +54,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
+        vm.addHotelResultsObservable.subscribe(addListResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
+        vm.addHotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.mapResultsObservable.subscribe(listResultsObserver)
         vm.mapResultsObservable.subscribe(mapViewModel.mapResultsSubject)
         vm.mapResultsObservable.subscribe {

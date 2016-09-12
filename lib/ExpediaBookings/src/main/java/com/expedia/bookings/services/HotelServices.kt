@@ -51,14 +51,14 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 			.subscribe(observer)
 	}
 
-	fun search(params: HotelSearchParams, clientLogBuilder: ClientLog.Builder?): Observable<HotelSearchResponse> {
+	fun search(params: HotelSearchParams, clientLogBuilder: ClientLog.Builder?, numberOfResults: Int): Observable<HotelSearchResponse> {
 		// null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
 		val lat = if (params.suggestion.coordinates.lat != 0.0) params.suggestion.coordinates.lat else null
 		val lng = if (params.suggestion.coordinates.lng != 0.0) params.suggestion.coordinates.lng else null
 		val regionId = if (params.suggestion.gaiaId?.isNotBlank() ?: false) params.suggestion.gaiaId else null
 
 		return hotelApi.search(regionId, lat, lng,
-				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints, params.filterUnavailable.toString())
+				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints, params.filterUnavailable.toString(), numberOfResults)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext { response ->
