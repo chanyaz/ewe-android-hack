@@ -13,18 +13,12 @@ import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.google.gson.annotations.SerializedName;
 
 public class FlightCreateTripResponse extends AbstractFlightOfferResponse {
-	private FlightTripDetails details;
+
 	public TripDetails newTrip;
 	public String tealeafTransactionId;
 
 	@SerializedName("rules")
 	public FlightRules flightRules;
-
-	@Override
-	@NotNull
-	public FlightTripDetails getDetails() {
-		return details;
-	}
 
 	@NotNull
 	public List<InsuranceProduct> getAvailableInsuranceProducts() {

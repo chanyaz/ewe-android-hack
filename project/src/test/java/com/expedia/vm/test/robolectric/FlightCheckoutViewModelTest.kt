@@ -156,7 +156,7 @@ class FlightCheckoutViewModelTest {
 
         val flightCheckoutParams = sut.builder.build()
         assertEquals(newTripResponse.tealeafTransactionId, flightCheckoutParams.tealeafTransactionId)
-        val offerTotalPrice = newTripResponse.getDetails().offer.totalPrice
+        val offerTotalPrice = newTripResponse.details.offer.totalPrice
         assertEquals(offerTotalPrice.currencyCode, flightCheckoutParams.expectedFareCurrencyCode)
         assertEquals(offerTotalPrice.amount.toString(), flightCheckoutParams.expectedTotalFare)
         assertEquals(newTripResponse.tripId, flightCheckoutParams.tripId)
@@ -345,18 +345,11 @@ class FlightCheckoutViewModelTest {
         newTripResponse.tripId = tripId
         newTripResponse.newTrip = TripDetails("", "", tripId)
 
-        val totalPriceField = newTripResponse.javaClass.getDeclaredField("details")
-        totalPriceField.isAccessible = true
         val details = FlightTripDetails()
         details.offer = FlightTripDetails.FlightOffer()
         details.offer.totalPrice = totalPrice
-        totalPriceField.set(newTripResponse, details)
+        newTripResponse.details = details
         newTripResponse.tealeafTransactionId = tealeafTransactionId
-    }
-
-    private fun givenTripResponseWithFees() {
-        givenGoodTripResponse()
-        newTripResponse.selectedCardFees = Money("2.5", "USD")
     }
 
     private fun makeBillingInfo(): BillingInfo {

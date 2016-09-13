@@ -96,7 +96,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     private fun handlePriceChange(tripResponse: FlightCreateTripResponse) {
-        val flightTripDetails = tripResponse.getDetails()
+        val flightTripDetails = tripResponse.details
 
         // TODO - we may have to change from totalFarePrice -> totalPrice in order to support SubPub fares
         if (flightTripDetails.oldOffer != null) {
@@ -117,7 +117,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun isPassportRequired(response: TripResponse) {
-        val flightOffer = (response as FlightCreateTripResponse).getDetails().offer
+        val flightOffer = (response as FlightCreateTripResponse).details.offer
         travelerPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
     }
 

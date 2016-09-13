@@ -125,7 +125,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
 
     fun updateBenefits() {
         val benefitsId: Int
-        if (trip.getDetails().offer.isInternational) {
+        if (trip.details.offer.isInternational) {
             benefitsId = R.string.insurance_benefits_international
         } else {
             benefitsId = R.string.insurance_benefits_domestic

@@ -40,7 +40,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
                     createTripErrorObservable.onNext(error)
                 }
                 else {
-                    val hasPriceChange = response.getDetails().oldOffer != null
+                    val hasPriceChange = response.details.oldOffer != null
                     if (hasPriceChange) {
                         priceChangeObservable.onNext(response)
                     }

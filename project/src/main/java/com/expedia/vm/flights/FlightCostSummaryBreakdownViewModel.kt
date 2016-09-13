@@ -18,7 +18,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
     init {
         flightCostSummaryObservable.subscribe { tripResponse -> tripResponse as AbstractFlightOfferResponse
             val breakdowns = arrayListOf<CostSummaryBreakdownRow>()
-            val flightDetails = tripResponse.getDetails()
+            val flightDetails = tripResponse.details
             val flightOffer = flightDetails.offer
             val pricePerPassengerList = flightOffer.pricePerPassengerCategory
             var title: String

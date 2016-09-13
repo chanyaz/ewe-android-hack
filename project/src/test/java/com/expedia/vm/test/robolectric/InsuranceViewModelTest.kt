@@ -98,7 +98,7 @@ class InsuranceViewModelTest {
 
     private fun tripResponseWithInsuranceAvailableAndSelected(flightType: FlightType): FlightCreateTripResponse {
         val trip = tripResponseWithInsuranceAvailableButNotSelected(flightType)
-        trip.getDetails().offer.selectedInsuranceProduct = trip.getDetails().offer.availableInsuranceProducts.firstOrNull()
+        trip.details.offer.selectedInsuranceProduct = trip.details.offer.availableInsuranceProducts.firstOrNull()
 
         return trip
     }
@@ -109,7 +109,7 @@ class InsuranceViewModelTest {
         insuranceProduct.terms.url = ""
 
         val trip = tripResponseWithoutInsuranceAvailable(flightType)
-        trip.getDetails().offer.availableInsuranceProducts = listOf(insuranceProduct)
+        trip.details.offer.availableInsuranceProducts = listOf(insuranceProduct)
 
         return trip
     }
@@ -124,10 +124,7 @@ class InsuranceViewModelTest {
 
         val trip = FlightCreateTripResponse()
         trip.newTrip = TripDetails(null, null, tripId = "")
-
-        val tripDetailsField = trip.javaClass.getDeclaredField("details") // using reflection as field is private
-        tripDetailsField.isAccessible = true
-        tripDetailsField.set(trip, details)
+        trip.details = details
 
         return trip
     }
