@@ -60,6 +60,7 @@ import kotlin.properties.Delegates
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
+    private val ANIMATION_DELAY = 200L
     lateinit var travelerManager: TravelerManager
 
     val handle: FrameLayout by bindView(R.id.handle)
@@ -344,10 +345,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             super.startTransition(forward)
             bottomContainer.visibility = if (forward) GONE else VISIBLE
             if (!forward) {
+                Ui.hideKeyboard(travelerPresenter)
                 travelerPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
                 travelerPresenter.viewModel.updateCompletionStatus()
                 travelerPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
-                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
             } else {
                 decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
             }
@@ -356,10 +357,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
-                Ui.hideKeyboard(travelerPresenter)
                 animateInSlideToPurchase(true)
                 travelerPresenter.setFocusForView()
                 travelerSummaryCard.setFocusForView()
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
             } else {
                 val lp = space.layoutParams
                 lp.height = 0
@@ -381,11 +382,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             bottomContainer.setInverseVisibility(forward)
             cardFeeWarningTextView.setInverseVisibility(forward)
             if (!forward) {
+                Ui.hideKeyboard(paymentWidget)
                 invalidPaymentTypeWarningTextView.visibility = View.GONE
                 cardProcessingFeeTextView.visibility  = View.GONE
                 debitCardsNotAcceptedTextView.visibility = View.GONE
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
-                decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
                 scrollView.layoutParams.height = height
                 paymentWidget.viewmodel.showingPaymentForm.onNext(false)
             } else {
@@ -396,9 +397,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         override fun endTransition(forward: Boolean) {
             if (!forward) {
-                Ui.hideKeyboard(paymentWidget)
                 animateInSlideToPurchase(true)
                 paymentWidget.setFocusForView()
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
             } else {
                 val lp = space.layoutParams
                 lp.height = 0
@@ -407,7 +408,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
         }
     }
-
 
     open fun setInsuranceWidgetVisibility(visible: Boolean) {
         insuranceWidget.visibility = View.GONE
@@ -694,7 +694,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             val lp = space.layoutParams
             lp.height = distance
             space.layoutParams = lp
-
-        }, 50L)
+        }, ANIMATION_DELAY)
     }
 }
