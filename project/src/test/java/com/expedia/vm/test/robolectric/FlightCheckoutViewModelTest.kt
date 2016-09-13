@@ -173,9 +173,10 @@ class FlightCheckoutViewModelTest {
         givenObFeeUrl()
         givenAirlineChargesFees()
 
-        cardFeeWarningTestSubscriber.assertValueCount(1)
+        cardFeeWarningTestSubscriber.assertValueCount(2)
+        assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[0].toString())
         assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
-                cardFeeWarningTestSubscriber.onNextEvents[0].toString())
+                cardFeeWarningTestSubscriber.onNextEvents[1].toString())
     }
 
     @Test
@@ -189,8 +190,9 @@ class FlightCheckoutViewModelTest {
         sut.obFeeDetailsUrlSubject.onNext("")
         sut.selectedFlightChargesFees.onNext("")
 
-        cardFeeWarningTestSubscriber.assertValueCount(1)
+        cardFeeWarningTestSubscriber.assertValueCount(2)
         assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[0].toString())
+        assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[1].toString())
     }
 
     @Test
