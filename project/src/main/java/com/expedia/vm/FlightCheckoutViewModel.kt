@@ -47,7 +47,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         tripResponseObservable.subscribe { it as FlightCreateTripResponse
             builder.tripId(it.newTrip.tripId)
             builder.expectedTotalFare(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())
-            builder.expectedFareCurrencyCode(it.getDetails().offer.totalPrice.currency)
+            builder.expectedFareCurrencyCode(it.details.offer.totalPrice.currency)
             builder.tealeafTransactionId(it.tealeafTransactionId)
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
             val totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
@@ -57,7 +57,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         }
 
         priceChangeObservable.subscribe { it as FlightCheckoutResponse
-            val flightTripDetails = it.getDetails()
+            val flightTripDetails = it.details
             builder.expectedTotalFare(flightTripDetails.offer.totalPrice.amount.toString())
         }
 

@@ -33,7 +33,7 @@ class HotelCrossSellView(context: Context, attrs: AttributeSet) : CardView(conte
         View.inflate(context, R.layout.widget_hotel_cross_sell, this)
         viewModel = HotelCrossSellViewModel(context)
         airAttachContainer.setOnClickListener {
-            val flightLegs = viewModel.confirmationObservable.value.getDetails().getLegs()
+            val flightLegs = viewModel.confirmationObservable.value.details.getLegs()
             val sp = HotelsV2DataUtil.getHotelV2ParamsFromFlightV2Params(flightLegs, viewModel.searchParamsObservable.value)
             NavUtils.goToHotelsV2(context, sp, null, NavUtils.FLAG_DEEPLINK)
             val activity = context as AppCompatActivity

@@ -6,7 +6,8 @@ import org.joda.time.DateTime
 
 class FlightCheckoutResponse() : FlightCreateTripResponse() {
 
-    lateinit private var flightDetailResponse: FlightTripDetails
+    @SerializedName("flightDetailResponse")
+    lateinit override var details: FlightTripDetails
 
     val currencyCode: String? = null
     val orderId: String? = null
@@ -14,11 +15,6 @@ class FlightCheckoutResponse() : FlightCreateTripResponse() {
 
     @SerializedName("mobileAirAttachQualifier")
     val airAttachInfo: AirAttachInfo? = null
-
-
-    override fun getDetails(): FlightTripDetails {
-        return flightDetailResponse
-    }
 
     class AirAttachInfo {
         @SerializedName("airAttachQualified")

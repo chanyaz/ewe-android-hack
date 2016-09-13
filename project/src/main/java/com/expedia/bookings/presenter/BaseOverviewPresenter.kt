@@ -27,7 +27,6 @@ import com.expedia.vm.WebViewViewModel
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
     val ANIMATION_DURATION = 400
-    val AIRLINEFEE_VIEW_TRANSITION_DURATION = 400
 
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
     protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter }
@@ -102,7 +101,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         overviewLayoutListener = OverviewLayoutListener()
     }
 
-    private val overviewToAirlineFeeWebView = object : Transition(checkoutPresenter.javaClass, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), AIRLINEFEE_VIEW_TRANSITION_DURATION) {
+    private val overviewToAirlineFeeWebView = object : Transition(checkoutPresenter.javaClass, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
