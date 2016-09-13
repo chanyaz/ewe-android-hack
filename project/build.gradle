@@ -203,8 +203,8 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.expedia.bookings"
 
-            def major = 6
-            def minor = 18
+            def major = 7
+            def minor = 0
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
