@@ -333,7 +333,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	public void buildMapSection(ActivityDetailsResponse activityDetailsResponse) {
 		mapDivider.setVisibility(VISIBLE);
 		miniMapContainer.setVisibility(VISIBLE);
-		miniMapView.setLocation(LXDataUtils.getLocationFromLatLong(activityDetails.eventLocation.latLng));
+		miniMapView.setLocation(ActivityDetailsResponse.LXLocation.getLocation(activityDetails.eventLocation.latLng));
 		if (Strings.isNotEmpty(activityDetailsResponse.eventLocation.city)) {
 			List<String> eventLocationCity = new ArrayList<>();
 			eventLocationCity.add(activityDetailsResponse.eventLocation.city);

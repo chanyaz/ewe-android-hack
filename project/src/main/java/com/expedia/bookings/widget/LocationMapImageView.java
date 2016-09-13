@@ -9,7 +9,7 @@ import android.widget.ImageView;
 
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
-import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.cars.LatLong;
 import com.mobiata.android.Log;
 import com.mobiata.android.services.GoogleServices;
 import com.mobiata.android.services.GoogleServices.MapType;
@@ -21,7 +21,7 @@ public class LocationMapImageView extends ImageView {
 	private static int sDensityScaleFactor = 1; // This has to be calculated at runtime
 
 	private String mStaticMapUri;
-	private Location mLocation;
+	private LatLong mLocation;
 
 	public LocationMapImageView(Context context) {
 		super(context);
@@ -56,7 +56,7 @@ public class LocationMapImageView extends ImageView {
 		}
 	}
 
-	public void setLocation(Location location) {
+	public void setLocation(LatLong location) {
 		mLocation = location;
 		regenerateUri();
 	}
@@ -112,7 +112,7 @@ public class LocationMapImageView extends ImageView {
 		return String.format("0x%06X", (0xFFFFFF & color));
 	}
 
-	private String getMarkerString(Location location, int color) {
+	private String getMarkerString(LatLong location, int color) {
 		return "color:" + colorToHexString(color) + "|" + location.getLatitude() + "," + location.getLongitude();
 	}
 }

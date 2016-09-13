@@ -4,6 +4,7 @@ import android.app.Activity
 import com.expedia.bookings.data.LXState
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXActivity
@@ -43,8 +44,8 @@ class LXMapViewModelTest {
 
     val activityNameTestSubscriber = TestSubscriber<String>()
     val activityPriceTestSubscriber = TestSubscriber<CharSequence>()
-    val eventLatLngTestSubscriber = TestSubscriber<Location>()
-    val redemptionLocationsLatLngTestSubscriber = TestSubscriber<List<Location>>()
+    val eventLatLngTestSubscriber = TestSubscriber<LatLong>()
+    val redemptionLocationsLatLngTestSubscriber = TestSubscriber<List<LatLong>>()
 
     @Before fun before() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -77,7 +78,7 @@ class LXMapViewModelTest {
 
         activityNameTestSubscriber.assertValue("New York Pass: Visit up to 80 Attractions, Museums & Tours")
         compareLocationLatLng(eventLatLngTestSubscriber.onNextEvents.get(0)
-                , LXDataUtils.getLocationFromLatLong(activityOffersResponse.eventLocation.latLng))
+                , ActivityDetailsResponse.LXLocation.getLocation(activityOffersResponse.eventLocation.latLng))
         redemptionLocationsLatLngTestSubscriber.assertValue(emptyList())
         assertEquals("From $130", activityPriceTestSubscriber.onNextEvents.get(0).toString())
 
@@ -88,7 +89,7 @@ class LXMapViewModelTest {
         assertEquals("From $130", LXMapViewModel.fromPriceStyledString(RuntimeEnvironment.application, activityOffersResponse).toString())
     }
 
-    private fun compareLocationLatLng(expectedLocation: Location, actualLocation: Location): Boolean {
+    private fun compareLocationLatLng(expectedLocation: LatLong, actualLocation: LatLong): Boolean {
         return expectedLocation.latitude.equals(actualLocation.latitude)
                 && expectedLocation.longitude.equals(actualLocation.longitude)
     }

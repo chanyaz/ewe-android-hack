@@ -779,9 +779,8 @@ public class StrUtils {
 	public static List<String> getRedemptionLocationList(List<ActivityDetailsResponse.LXLocation> redemptionLocations) {
 		List<String> redemptionLocationList = new ArrayList<>();
 
-		StringBuilder sb;
 		for (int i = 0; i < redemptionLocations.size(); i++) {
-			sb = new StringBuilder();
+			StringBuilder sb = new StringBuilder();
 			if (Strings.isNotEmpty(redemptionLocations.get(i).addressName)) {
 				sb.append(redemptionLocations.get(i).addressName);
 			}

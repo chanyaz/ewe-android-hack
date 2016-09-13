@@ -8,7 +8,7 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LXState
-import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.utils.LXDataUtils
 import com.expedia.bookings.utils.Ui
@@ -22,8 +22,8 @@ class LXMapViewModel(val context: Context) {
     val toolbarDetailText = PublishSubject.create<String>()
     val toolbarSubtitleText = PublishSubject.create<String>()
     val activityPrice = PublishSubject.create<CharSequence>()
-    val eventLatLng = PublishSubject.create<Location>()
-    val redemptionLocationsLatLng = PublishSubject.create<List<Location>>()
+    val eventLatLng = PublishSubject.create<LatLong>()
+    val redemptionLocationsLatLng = PublishSubject.create<List<LatLong>>()
 
     lateinit var lxState: LXState
         @Inject set
@@ -34,7 +34,7 @@ class LXMapViewModel(val context: Context) {
     //Setup the data I need to behave as a View Model for my View
     val offersObserver = endlessObserver<ActivityDetailsResponse> { response ->
         activityPrice.onNext(fromPriceStyledString(context, response))
-        eventLatLng.onNext(LXDataUtils.getLocationFromLatLong(response.eventLocation.latLng))
+        eventLatLng.onNext(ActivityDetailsResponse.LXLocation.getLocation(response.eventLocation.latLng))
         redemptionLocationsLatLng.onNext(getRedemptionLocationCoordinates(response.redemptionLocation))
         toolbarDetailText.onNext(lxState.activity.title)
         toolbarSubtitleText.onNext(LXDataUtils.getToolbarSearchDateText(context, lxState.searchParams, false))
@@ -42,10 +42,10 @@ class LXMapViewModel(val context: Context) {
 
     companion object {
 
-        fun getRedemptionLocationCoordinates(redemptionLocations: List<ActivityDetailsResponse.LXLocation>): List<Location> {
-            val redemptionLocationCoordinates = ArrayList<Location>()
+        fun getRedemptionLocationCoordinates(redemptionLocations: List<ActivityDetailsResponse.LXLocation>): List<LatLong> {
+            val redemptionLocationCoordinates = ArrayList<LatLong>()
             redemptionLocations.forEach { it ->
-                redemptionLocationCoordinates.add(LXDataUtils.getLocationFromLatLong(it.latLng))
+                redemptionLocationCoordinates.add(ActivityDetailsResponse.LXLocation.getLocation(it.latLng))
             }
             return redemptionLocationCoordinates
         }

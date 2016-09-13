@@ -2,6 +2,7 @@ package com.expedia.bookings.data.lx;
 
 import java.util.List;
 
+import com.expedia.bookings.data.cars.LatLong;
 import com.google.gson.annotations.SerializedName;
 
 public class ActivityDetailsResponse {
@@ -37,5 +38,11 @@ public class ActivityDetailsResponse {
 		public String province;
 		public String postalCode;
 		public String latLng;
+
+		public static LatLong getLocation(String latLong) {
+			String[] latLongArray = latLong.split(",");
+			LatLong location = LatLong.fromLatLngStrings(latLongArray[0], latLongArray[1]);
+			return location;
+		}
 	}
 }

@@ -15,6 +15,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LXState
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
@@ -101,7 +102,7 @@ class LXMapView(context: Context, attrs: AttributeSet) : FrameLayout(context, at
         mapView = map
     }
 
-    fun addMarker(googleMap: GoogleMap?, hotelLatLng: Location) {
+    fun addMarker(googleMap: GoogleMap?, hotelLatLng: LatLong) {
         googleMap ?: return
         val marker = MarkerOptions()
         marker.position(LatLng(hotelLatLng.latitude, hotelLatLng.longitude))

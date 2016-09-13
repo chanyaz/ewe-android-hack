@@ -406,11 +406,5 @@ public class LXDataUtils {
 			.format().toString();
 	}
 
-	public static Location getLocationFromLatLong(String latLong) {
-		Location location = new Location();
-		String[] latLongArray = latLong.split(",");
-		location.setLatitude(Double.parseDouble(latLongArray[0]));
-		location.setLongitude(Double.parseDouble(latLongArray[1]));
-		return location;
-	}
+
 }
