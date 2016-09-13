@@ -41,12 +41,13 @@ import com.expedia.bookings.widget.DisableableViewPager
 import com.expedia.bookings.widget.ItinListView
 import com.expedia.bookings.widget.NewPhoneLaunchToolbar
 import com.mobiata.android.fragment.AboutSectionFragment
+import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 
 class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
-        , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener {
+        , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener {
 
     private val TOOLBAR_ANIM_DURATION = 200
 
@@ -463,6 +464,14 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onLaunchFragmentAttached(frag: NewPhoneLaunchFragment) {
         newPhoneLaunchFragment = frag
+    }
+
+    override fun onLogoClick() {
+        accountFragment?.onCopyrightLogoClick()
+    }
+
+    override fun onLogoLongClick(): Boolean {
+        return false
     }
 
     fun showLOBNotSupportedAlertMessage(context: Context, errorMessage: CharSequence,
