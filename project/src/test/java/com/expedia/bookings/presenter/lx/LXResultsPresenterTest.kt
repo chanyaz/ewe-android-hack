@@ -126,6 +126,8 @@ class LXResultsPresenterTest {
         assertNotNull(lxResultsPresenter.searchSubscription)
         assertEquals(false, lxResultsPresenter.searchSubscription.isUnsubscribed)
 
+        lxCategoriesABTest(AbacusUtils.DefaultVariate.CONTROL)
+
     }
 
     @Test
@@ -186,6 +188,35 @@ class LXResultsPresenterTest {
         searResultObserver.onCompleted()
         assertEquals(true, lxResultsPresenter.searchSubscription.isUnsubscribed)
 
+    }
+
+    @Test
+    fun testOnLXSearchError() {
+        Events.register(lxResultsPresenter)
+        Events.post(Events.LXShowSearchError(ApiError(ApiError.Code.LX_DETAILS_FETCH_ERROR),SearchType.DEFAULT_SEARCH))
+        val toolBarDetailText = lxResultsPresenter.findViewById(R.id.toolbar_detail_text) as TextView
+        val toolBarSubtitleText = lxResultsPresenter.findViewById(R.id.toolbar_subtitle_text) as TextView
+        assertEquals("Please try again", toolBarDetailText.text)
+        assertEquals(View.GONE, toolBarSubtitleText.visibility)
+
+    }
+    @Test
+    fun testOnLXShowLoadingAnimation() {
+        Events.register(lxResultsPresenter)
+        val themeResultsWidget = lxResultsPresenter.findViewById(R.id.lx_theme_results_widget) as LXThemeResultsWidget
+        val searchResultsWidget = lxResultsPresenter.findViewById(R.id.lx_search_results_widget) as LXSearchResultsWidget
+        Events.post(Events.LXShowLoadingAnimation())
+        assertEquals(View.GONE, themeResultsWidget.visibility)
+        assertEquals(View.VISIBLE, searchResultsWidget.visibility)
+
+        lxCategoriesABTest(AbacusUtils.DefaultVariate.BUCKETED)
+        lxResultsPresenter.setUserBucketedForCategoriesTest(true)
+
+        Events.post(Events.LXShowLoadingAnimation())
+        assertEquals(View.VISIBLE, themeResultsWidget.visibility)
+        assertEquals(View.GONE, searchResultsWidget.visibility)
+
+        lxCategoriesABTest(AbacusUtils.DefaultVariate.CONTROL)
     }
 
     private fun lxCategoriesABTest(defaultVariate: AbacusUtils.DefaultVariate) {
