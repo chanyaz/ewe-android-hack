@@ -4638,7 +4638,7 @@
     <string name="cvv_text_field_cont_desc">ช่องป้อนรหัส CVV</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">ข้อมูลผู้เดินทางไม่สมบูรณ์</string>
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">ข้อมูลผู้เดินทางไม่สมบูรณ์</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">ข้อมูลผู้เดินทางสมบูรณ์แล้ว</string>
     <!--Packages accessibility content description for role Button-->

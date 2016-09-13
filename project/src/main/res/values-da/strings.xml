@@ -4638,7 +4638,7 @@
     <string name="cvv_text_field_cont_desc">Felt til kontrolcifre</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">Oplysningerne om den rejsende er ufuldstændige</string>
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Oplysningerne om den rejsende er ufuldstændige</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Oplysningerne om den rejsende er udfyldt</string>
     <!--Packages accessibility content description for role Button-->

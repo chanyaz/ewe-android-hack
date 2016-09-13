@@ -9,6 +9,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.vm.traveler.BaseSummaryViewModel
+import com.squareup.phrase.Phrase
 
 class TravelerSummaryCard(context: Context, attrs: AttributeSet?) : TravelerDetailsCard(context, attrs) {
 
@@ -18,17 +19,17 @@ class TravelerSummaryCard(context: Context, attrs: AttributeSet?) : TravelerDeta
         vm.subtitleColorObservable.subscribeTextColor(secondaryText)
         vm.iconStatusObservable.subscribe {
             travelerStatusIcon.status = it
-            setTravelerCardContentDescription(it)
+            setTravelerCardContentDescription(it, vm.titleObservable.value)
         }
     }
 
-    fun getStatus() : TravelerCheckoutStatus {
+    fun getStatus(): TravelerCheckoutStatus {
         return viewModel.travelerStatusObserver.value
     }
 
-    fun setTravelerCardContentDescription(status: ContactDetailsCompletenessStatus) {
+    fun setTravelerCardContentDescription(status: ContactDetailsCompletenessStatus, title: String) {
         if (ContactDetailsCompletenessStatus.INCOMPLETE == status) {
-            this.contentDescription = context.getString(R.string.traveler_details_incomplete_cont_desc)
+            this.contentDescription = Phrase.from(context, R.string.traveler_details_incomplete_cont_desc_TEMPLATE).put("title", title).format().toString()
         } else if (ContactDetailsCompletenessStatus.COMPLETE == status) {
             this.contentDescription = context.getString(R.string.traveler_details_complete_cont_desc)
         }

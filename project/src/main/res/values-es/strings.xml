@@ -4638,7 +4638,7 @@
     <string name="cvv_text_field_cont_desc">Campo de texto de CVV</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">La información del pasajero está incompleta</string>
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">La información del pasajero está incompleta</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">La información del pasajero está completa</string>
     <!--Packages accessibility content description for role Button-->

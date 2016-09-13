@@ -4638,7 +4638,7 @@
     <string name="cvv_text_field_cont_desc">Trường CVV</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">Thông tin khách chưa hoàn tất</string>
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Thông tin khách chưa hoàn tất</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Thông tin khách hoàn tất</string>
     <!--Packages accessibility content description for role Button-->

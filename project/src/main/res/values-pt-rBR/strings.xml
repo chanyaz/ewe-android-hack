@@ -4638,7 +4638,7 @@
     <string name="cvv_text_field_cont_desc">Campo de texto para o código de segurança</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">As informações sobre o viajante estão incompletas</string>
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">As informações sobre o viajante estão incompletas</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">As informações sobre o viajante estão completas</string>
     <!--Packages accessibility content description for role Button-->
