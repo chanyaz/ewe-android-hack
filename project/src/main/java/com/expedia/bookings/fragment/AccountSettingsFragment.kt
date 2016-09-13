@@ -97,6 +97,7 @@ class AccountSettingsFragment : Fragment(),
 
     private var appSettingsFragment: AboutSectionFragment? = null
     private var supportFragment: AboutSectionFragment? = null
+    private var copyrightFragment: CopyrightFragment? = null
     private var legalFragment: AboutSectionFragment? = null
     private var debugFragment: AboutSectionFragment? = null
     private val scrollContainer: ScrollView by bindView(R.id.scroll_container)
@@ -273,13 +274,12 @@ class AccountSettingsFragment : Fragment(),
 
 
         // Copyright
-        var copyrightFragment: CopyrightFragment? = Ui.findSupportFragment<CopyrightFragment>(this, TAG_COPYRIGHT)
+        copyrightFragment = Ui.findSupportFragment<CopyrightFragment>(this, TAG_COPYRIGHT)
         if (copyrightFragment == null) {
             val copyBuilder = CopyrightFragment.Builder()
             copyBuilder.setAppName(R.string.app_copyright_name)
             copyBuilder.setCopyright(getCopyrightString())
             copyBuilder.setLogo(R.drawable.app_copyright_logo)
-            copyBuilder.setLogoUrl(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(context))
 
             copyrightFragment = copyBuilder.build()
             ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT)
@@ -656,4 +656,9 @@ class AccountSettingsFragment : Fragment(),
     fun smoothScrollToTop() {
         scrollContainer.smoothScrollTo(0, 0)
     }
+
+    fun onCopyrightLogoClick() {
+        SocialUtils.openSite(context, ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(context))
+    }
+
 }
