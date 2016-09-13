@@ -13,9 +13,12 @@ class CardFeeServiceRequestDispatcher(fileOpener: FileOpener) : AbstractDispatch
         if (!isCardFeeServiceRequest(urlPath)) {
             throwUnsupportedRequestException(urlPath)
         }
+        val zeroFeesResponse = getMockResponse("/api/flight/trip/cardFee/zero_fees.json")
 
         return when (creditCardId) {
-            "" -> getMockResponse("/api/flight/trip/cardFee/zero_fees.json")
+            ""  -> zeroFeesResponse
+
+            "000000" -> zeroFeesResponse
 
             else -> getMockResponse("/api/flight/trip/cardFee/happy.json")
         }

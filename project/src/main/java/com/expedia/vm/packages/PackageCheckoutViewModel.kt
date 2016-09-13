@@ -54,15 +54,14 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             }
             depositPolicyText.onNext(Html.fromHtml(depositText))
 
-            legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
             val totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
                     .put("dueamount", it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
                     .format().toString()
             sliderPurchaseTotalText.onNext(totalPrice)
             val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
             accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
-            paymentTypeSelectedHasCardFee.onNext(false)
         }
+        legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
 
         checkoutParams.subscribe { params ->
             params as PackageCheckoutParams
@@ -71,10 +70,17 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
         }
     }
 
+    override fun useCardFeeService(): Boolean {
+        return true
+    }
+
     override fun getTripId(): String {
-        val flightCreateTripResponse = tripResponseObservable.value as PackageCreateTripResponse
-        val tripId = flightCreateTripResponse.packageDetails.tripId!!
-        return tripId
+        if (tripResponseObservable.value != null) {
+            val flightCreateTripResponse = tripResponseObservable.value as PackageCreateTripResponse
+            val tripId = flightCreateTripResponse.packageDetails.tripId!!
+            return tripId
+        }
+        return ""
     }
 
     fun makeCheckoutResponseObserver(): Observer<PackageCheckoutResponse> {
@@ -157,15 +163,15 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
 
     fun updateMayChargeFees(selectedFlight: FlightLeg) {
         if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
-            val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
-            selectedFlightChargesFees.onNext(paymentFeeText)
             val hasAirlineFeeLink = selectedFlight.airlineMessageModel?.airlineFeeLink != null
             if (hasAirlineFeeLink) {
                 obFeeDetailsUrlSubject.onNext(e3Endpoint + selectedFlight.airlineMessageModel.airlineFeeLink)
             }
+            val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
+            selectedFlightChargesFees.onNext(paymentFeeText)
         } else {
-            selectedFlightChargesFees.onNext("")
             obFeeDetailsUrlSubject.onNext("")
+            selectedFlightChargesFees.onNext("")
         }
     }
 

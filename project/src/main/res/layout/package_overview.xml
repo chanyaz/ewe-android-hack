@@ -27,4 +27,11 @@
         android:background="#3A424C"
         android:visibility="gone" />
 
+    <ViewStub
+        android:id="@+id/payment_fee_info_webview_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/payment_fee_info_webview"
+        android:layout="@layout/payment_fee_info_webview_stub" />
+
 </merge>

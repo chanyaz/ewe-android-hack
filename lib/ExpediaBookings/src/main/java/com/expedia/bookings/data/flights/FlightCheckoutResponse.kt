@@ -5,17 +5,16 @@ import com.google.gson.annotations.SerializedName
 import org.joda.time.DateTime
 
 class FlightCheckoutResponse() : FlightCreateTripResponse() {
+
+    @SerializedName("flightDetailResponse")
+    lateinit override var details: FlightTripDetails
+
     val currencyCode: String? = null
     val orderId: String? = null
     val totalChargesPrice: Money? = null
 
     @SerializedName("mobileAirAttachQualifier")
     val airAttachInfo: AirAttachInfo? = null
-    private val flightDetailResponse: FlightTripDetails? = null
-
-    override fun getDetails(): FlightTripDetails? {
-        return flightDetailResponse
-    }
 
     class AirAttachInfo {
         @SerializedName("airAttachQualified")

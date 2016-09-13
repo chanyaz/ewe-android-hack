@@ -6,8 +6,10 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.packages.TravelerPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -17,10 +19,13 @@ import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
+import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
+import com.expedia.vm.WebViewViewModel
 
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
+
     val ANIMATION_DURATION = 400
 
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
@@ -32,7 +37,14 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     var scrollSpaceView: View? = null
     var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
-    abstract fun inflate()
+    val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
+        val viewStub = findViewById(R.id.payment_fee_info_webview_stub) as ViewStub
+        val airlineFeeWebview = viewStub.inflate() as PaymentFeeInfoWebView
+        airlineFeeWebview.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        airlineFeeWebview.viewModel = WebViewViewModel()
+        checkoutPresenter.getCheckoutViewModel().obFeeDetailsUrlSubject.subscribe(airlineFeeWebview.viewModel.webViewURLObservable)
+        airlineFeeWebview
+    }
 
     init {
         inflate()
@@ -89,6 +101,15 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         overviewLayoutListener = OverviewLayoutListener()
     }
 
+    private val overviewToAirlineFeeWebView = object : Transition(checkoutPresenter.javaClass, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
+            paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
+        }
+    }
+
     fun showCheckout() {
         resetCheckoutState()
         show(checkoutPresenter, FLAG_CLEAR_TOP)
@@ -101,12 +122,17 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         addDefaultTransition(defaultTransition)
         addTransition(checkoutTransition)
         addTransition(checkoutToCvv)
+        addTransition(overviewToAirlineFeeWebView)
         show(BundleDefault())
         cvv.setCVVEntryListener(this)
         checkoutPresenter.getCheckoutViewModel().slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
 
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
+
+        checkoutPresenter.cardFeeWarningTextView.setOnClickListener {
+            show(paymentFeeInfoWebView)
+        }
     }
 
     val defaultTransition = object : DefaultTransition(BundleDefault::class.java.name) {
@@ -262,6 +288,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     open fun setToolbarNavIcon(forward: Boolean) { }
     abstract fun trackCheckoutPageLoad()
     abstract fun trackPaymentCIDLoad()
+    abstract fun inflate()
 
 
     inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {

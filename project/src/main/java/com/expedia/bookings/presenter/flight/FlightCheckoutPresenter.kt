@@ -48,6 +48,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     init {
         val debitCardsNotAcceptedSubject = BehaviorSubject.create<Spanned>(SpannedString(context.getString(R.string.flights_debit_cards_not_accepted)))
+        val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
+
         makePaymentErrorSubscriber(getCheckoutViewModel().showDebitCardsNotAcceptedSubject,  ckoViewModel.showingPaymentWidgetSubject,
                 debitCardsNotAcceptedTextView, debitCardsNotAcceptedSubject)
 
@@ -60,6 +62,8 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         getCheckoutViewModel().receivedCheckoutResponse.subscribe {
             checkoutDialog.hide()
         }
+
+        getCheckoutViewModel().tripResponseObservable.subscribe(flightCostSummaryObservable)
     }
 
     override fun injectComponents() {

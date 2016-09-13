@@ -9,47 +9,27 @@ import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripDetails;
-import com.expedia.bookings.data.TripResponse;
 import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.google.gson.annotations.SerializedName;
 
-public class FlightCreateTripResponse extends TripResponse {
-	private FlightTripDetails details;
-	public Money totalPrice;
-	public Money totalPriceIncludingFees; // returned from ob fee service (Fees are driven by selected payment type)
-	public Money selectedCardFees;
+public class FlightCreateTripResponse extends AbstractFlightOfferResponse {
+
 	public TripDetails newTrip;
 	public String tealeafTransactionId;
 
 	@SerializedName("rules")
 	public FlightRules flightRules;
 
-	private boolean detailsOfferExists() {
-		return ((details != null) && (details.offer != null));
-	}
-
-	/**
-	 * Helper function for details as the API uses 2 different keys for flight details
-	 *
-	 * 	FlightCreateTripResponse: details
-	 * 	FlightCheckoutResponse: flightDetailResponse
-	 *
-	 * @return flight details
-	 */
-	public FlightTripDetails getDetails() {
-		return details;
-	}
-
 	@NotNull
 	public List<InsuranceProduct> getAvailableInsuranceProducts() {
-		return (detailsOfferExists() && (details.offer.availableInsuranceProducts != null))
-			? details.offer.availableInsuranceProducts
+		return (getDetails().offer.availableInsuranceProducts != null)
+			? getDetails().offer.availableInsuranceProducts
 			: Collections.<InsuranceProduct>emptyList();
 	}
 
 	@Nullable
 	public InsuranceProduct getSelectedInsuranceProduct() {
-		return (detailsOfferExists()) ? details.offer.selectedInsuranceProduct : null;
+		return getDetails().offer.selectedInsuranceProduct;
 	}
 
 	@NotNull
@@ -61,14 +41,12 @@ public class FlightCreateTripResponse extends TripResponse {
 	@NotNull
 	@Override
 	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
-		if (totalPriceIncludingFees != null) {
-			return totalPriceIncludingFees;
+		if (getTotalPriceIncludingFees() != null) {
+			return getTotalPriceIncludingFees();
 		}
-
-		// TODO - priceChange checkout response does not return totalPrice field!!
-		Money totalPriceWithFee = totalPrice != null ? totalPrice.copy() : getDetails().offer.totalFarePrice.copy();
-		totalPriceWithFee.add(selectedCardFees);
-		return totalPriceWithFee;
+		Money totalPrice = getDetails().offer.totalPrice.copy();
+		totalPrice.add(getSelectedCardFees());
+		return totalPrice;
 	}
 
 	@Override
