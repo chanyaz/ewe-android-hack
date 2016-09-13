@@ -101,15 +101,21 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	SSLContext provideSSLContext(X509TrustManager x509TrustManager) {
+	SSLContext provideSSLContext(X509TrustManager x509TrustManager, boolean isModernTLSEnabled) {
 		try {
-			TrustManager[] easyTrustManager = new TrustManager[] {
-				x509TrustManager
-			};
+			if (isModernTLSEnabled) {
+				return SSLContext.getDefault();
+			}
+			else {
+				TrustManager[] easyTrustManager = new TrustManager[] {
+					x509TrustManager
+				};
 
-			SSLContext socketContext = SSLContext.getInstance("TLS");
-			socketContext.init(null, easyTrustManager, new java.security.SecureRandom());
-			return socketContext;
+				SSLContext socketContext = SSLContext.getInstance("TLS");
+				socketContext.init(null, easyTrustManager, new java.security.SecureRandom());
+				return socketContext;
+
+			}
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
@@ -137,7 +143,7 @@ public class AppModule {
 			return true;
 		}
 
-		if (endpointProvider.getEndPoint() == EndPoint.MOCK_MODE
+		if (ExpediaBookingApp.isAutomation() || endpointProvider.getEndPoint() == EndPoint.MOCK_MODE
 			|| endpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
 			return false;
 		}
@@ -149,7 +155,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	OkHttpClient provideOkHttpClient(Context context, PersistentCookieManager cookieManager, Cache cache,
-		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, X509TrustManager x509TrustManager, boolean isModernTLSEnabled) {
+		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled) {
 		try {
 			ProviderInstaller.installIfNeeded(context);
 		}
@@ -171,14 +177,14 @@ public class AppModule {
 
 		if (isModernTLSEnabled) {
 			TLSSocketFactory socketFactory = new TLSSocketFactory(sslContext);
-			client.sslSocketFactory(socketFactory, x509TrustManager);
+			client.sslSocketFactory(socketFactory);
 			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
 				.tlsVersions(TlsVersion.TLS_1_2)
 				.build();
 			client.connectionSpecs(Collections.singletonList(spec));
 		}
 		else {
-			client.sslSocketFactory(sslContext.getSocketFactory(), x509TrustManager);
+			client.sslSocketFactory(sslContext.getSocketFactory());
 		}
 		if (BuildConfig.DEBUG) {
 			StethoShim.install(client);
