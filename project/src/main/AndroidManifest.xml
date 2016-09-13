@@ -311,6 +311,29 @@
             android:windowSoftInputMode="adjustResize"
             tools:ignore="UnusedAttribute" />
 
+        <!-- Packages -->
+
+        <activity
+            android:name="com.expedia.ui.PackageActivity"
+            android:label="Packages"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.expedia.ui.PackageActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Packages" />
+
+        <activity
+            android:name="com.expedia.ui.PackageHotelActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Packages"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name="com.expedia.ui.PackageFlightActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Packages" />
+
         <!-- About/Preferences/WebView activities -->
 
         <activity

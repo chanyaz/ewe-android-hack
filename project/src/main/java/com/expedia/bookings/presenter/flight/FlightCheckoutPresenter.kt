@@ -80,7 +80,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             userAccountRefresher.ensureAccountIsRefreshed()
         }
 
-        vm.tripResponseObservable.subscribe { response -> response as FlightCreateTripResponse
+        getCheckoutViewModel().tripResponseObservable.subscribe { response -> response as FlightCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
             insuranceWidget.viewModel.tripObservable.onNext(response)
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
@@ -103,7 +103,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
 
         // TODO - update to totalPrice when checkout response starts returning totalPrice (required for SubPub fare support)
-        totalPriceWidget.viewModel.total.onNext(flightTripDetails.offer.totalFarePrice)
+        totalPriceWidget.viewModel.total.onNext(tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
     }

@@ -57,8 +57,7 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
             lobs.add(LobInfo.RAILS)
         }
 
-        if (pos.supports(LineOfBusiness.PACKAGES) &&
-                FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_packages, false)) {
+        if (pos.supports(LineOfBusiness.PACKAGES)) {
             // if we have odd lob then we should add Packages in the end other 3 index
             if (lobs.size % 2 == 0) {
                 lobs.add(LobInfo.PACKAGES)

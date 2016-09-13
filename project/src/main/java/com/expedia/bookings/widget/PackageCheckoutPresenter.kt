@@ -8,6 +8,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
@@ -36,7 +37,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
-        getCheckoutViewModel().tripResponseObservable.subscribe { response ->
+        vm.tripResponseObservable.subscribe { response ->
             response as PackageCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
@@ -77,6 +78,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     override fun updateDbTravelers() {
         val params = Db.getPackageParams()
         travelerManager.updateDbTravelers(params, context)
+        travelerPresenter.resetTravelers(TravelerCheckoutStatus.CLEAN)
         resetTravelers()
     }
 

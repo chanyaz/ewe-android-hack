@@ -26,6 +26,9 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
     private var textChangedSubscription: Subscription? = null
     private var errorSubscription: Subscription? = null
 
+    private var textChangedObserver: Observer<String>? = null
+    private var errorObserver: PublishSubject<Boolean>? = null
+
     init {
         errorIcon = ContextCompat.getDrawable(context,
                 Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
@@ -41,22 +44,35 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         }
     }
 
-    fun addTextChangedSubscriber(observer: Observer<String>) {
-        textChangedSubscription = this.subscribeTextChange(observer)
-    }
-
-    fun subscribeToError(errorSubject: PublishSubject<Boolean>) {
-        errorSubscription = errorSubject.subscribe { error ->
-            if (error) setError() else resetError()
+    fun addTextChangedSubscriber(observer: Observer<String>?) {
+        if (observer != null) {
+            textChangedObserver = observer
+            textChangedSubscription?.unsubscribe()
+            textChangedSubscription = this.subscribeTextChange(observer)
         }
     }
 
+    fun subscribeToError(errorSubject: PublishSubject<Boolean>?) {
+        if (errorSubject != null) {
+            errorObserver = errorSubject
+            errorSubscription?.unsubscribe()
+            errorSubscription = errorSubject.subscribe { error ->
+                if (error) setError() else resetError()
+            }
+        }
+    }
+
+    //Sometimes, addTextChangedSubscriber && subscribeToError are called before the view is visible, so they get unsubscribed
+    //because of onVisibilityChanged == GONE, so
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
-        if (visibility == GONE) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (visibility == View.VISIBLE) {
+            addTextChangedSubscriber(textChangedObserver)
+            subscribeToError(errorObserver)
+        } else {
             textChangedSubscription?.unsubscribe()
             errorSubscription?.unsubscribe()
         }
-        super.onVisibilityChanged(changedView, visibility)
     }
 
     private fun setError() {

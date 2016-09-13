@@ -122,10 +122,10 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     fun showSelectOrEntryState(status : TravelerCheckoutStatus) {
         if (viewModel.getTravelers().size > 1) {
             toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
-            travelerPickerWidget.refresh(status, viewModel.getTravelers())
+            resetTravelers(status)
             show(travelerPickerWidget)
         } else {
-            travelerPickerWidget.refresh(status, viewModel.getTravelers())
+            resetTravelers(status)
             val travelerViewModel = FlightTravelerViewModel(context, 0, viewModel.passportRequired.value)
             travelerEntryWidget.viewModel = travelerViewModel
             toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
@@ -135,6 +135,10 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             if (currentState == null) show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
             show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
         }
+    }
+
+    fun resetTravelers(status : TravelerCheckoutStatus) {
+        travelerPickerWidget.refresh(status, viewModel.getTravelers())
     }
 
     fun onLogin(isLoggedIn: Boolean) {

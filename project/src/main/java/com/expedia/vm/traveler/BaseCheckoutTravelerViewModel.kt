@@ -38,7 +38,7 @@ abstract class BaseCheckoutTravelerViewModel() {
     }
 
     open fun getTravelers() : List<Traveler> {
-        return Db.getTravelers();
+        return Db.getTravelers()
     }
 
     open fun getTraveler(index: Int) : Traveler {

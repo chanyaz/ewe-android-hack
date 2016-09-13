@@ -27,18 +27,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Package Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_packages"
-            android:layout="@layout/preference"
-            android:summary="Book Packages"
-            android:title="Enable Packages LOB" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Rail Features">
 
         <CheckBoxPreference
