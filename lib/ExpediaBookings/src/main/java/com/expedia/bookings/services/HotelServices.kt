@@ -69,7 +69,7 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 					response.allNeighborhoodsInSearchRegion.map { response.neighborhoodsMap.put(it.id, it) }
 					response.hotelList.map { hotel ->
 						if (hotel.locationId != null && response.neighborhoodsMap.containsKey(hotel.locationId)) {
-							response.neighborhoodsMap.get(hotel.locationId)?.hotels?.add(hotel)
+							response.neighborhoodsMap[hotel.locationId]?.hotels?.add(hotel)
 						}
 					}
 

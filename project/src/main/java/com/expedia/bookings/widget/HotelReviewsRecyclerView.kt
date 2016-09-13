@@ -56,7 +56,7 @@ class HotelReviewsRecyclerView(context: Context, attrs: AttributeSet) : Recycler
                 }
                 is HotelReviewRowView -> {
                     var hotelReviewRowViewModel = HotelReviewRowViewModel(holder.itemView.context)
-                    hotelReviewRowViewModel.reviewObserver.onNext(reviews.get(position - 1))
+                    hotelReviewRowViewModel.reviewObserver.onNext(reviews[position - 1])
                     holder.itemView.bindData(hotelReviewRowViewModel)
                 }
                 is HotelReviewsLoadingWidget -> loadMoreReviews()

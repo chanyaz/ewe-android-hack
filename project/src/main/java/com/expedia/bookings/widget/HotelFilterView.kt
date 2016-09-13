@@ -319,7 +319,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
                 for (i in 1..list.size - 1) {
                     val neighborhoodView = LayoutInflater.from(getContext()).inflate(R.layout.section_hotel_neighborhood_row, neighborhoodContainer, false) as HotelsNeighborhoodFilter
-                    neighborhoodView.bind(list.get(i), vm)
+                    neighborhoodView.bind(list[i], vm)
                     neighborhoodView.subscribeOnClick(neighborhoodView.checkObserver)
                     neighborhoodContainer.addView(neighborhoodView)
                 }

@@ -1,8 +1,8 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.cars.CarCheckoutParams
 import com.expedia.bookings.data.cars.CarCheckoutResponse
 import com.expedia.bookings.data.cars.CarCreateTripResponse
@@ -142,7 +142,7 @@ class CarServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Int
 
     private val HANDLE_ERRORS = { response: BaseApiResponse ->
         if (response.hasErrors() && !response.hasPriceChange()) {
-            throw response.getFirstError()
+            throw response.firstError
         }
     }
 
@@ -158,7 +158,7 @@ class CarServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Int
                         "offer.vehicle.carCategoryDisplayLabel is empty for productKey=" + offer.productKey))
             }
 
-            var bucket: CategorizedCarOffers? = buckets.get(label)
+            var bucket: CategorizedCarOffers? = buckets[label]
             if (bucket == null) {
                 bucket = CategorizedCarOffers(label, category)
                 buckets.put(label, bucket)
@@ -175,8 +175,8 @@ class CarServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Int
     }
 
     private val SORT_BY_LOWEST_TOTAL = { left: CategorizedCarOffers, right: CategorizedCarOffers ->
-        val leftMoney = left.getLowestTotalPriceOffer().fare.total
-        val rightMoney = right.getLowestTotalPriceOffer().fare.total
+        val leftMoney = left.lowestTotalPriceOffer.fare.total
+        val rightMoney = right.lowestTotalPriceOffer.fare.total
         leftMoney.compareTo(rightMoney)
     }
 

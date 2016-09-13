@@ -33,8 +33,8 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
     }
 
     //TODO remove this once domain and mobile endpoints available in integration
-    val domainUrl = endpointMap.get(Constants.MOCK_MODE) ?: endpointMap.get(Constants.DOMAIN)
-    val mobileUrl = endpointMap.get(Constants.MOCK_MODE) ?: endpointMap.get(Constants.MOBILE)
+    val domainUrl = endpointMap[Constants.MOCK_MODE] ?: endpointMap[Constants.DOMAIN]
+    val mobileUrl = endpointMap[Constants.MOCK_MODE] ?: endpointMap[Constants.MOBILE]
 
     val railMApi by lazy {
         val gson = GsonBuilder().create();

@@ -74,8 +74,8 @@ class SuggestionV4Services(endpoint: String, okHttpClient: OkHttpClient, interce
     private fun sortCarSuggestions(suggestions: MutableList<SuggestionV4>) {
         Collections.sort(suggestions, object : Comparator<SuggestionV4> {
             override fun compare(lhs: SuggestionV4, rhs: SuggestionV4): Int {
-                val leftSuggestionPrecedenceOrder = if (lhs.isMajorAirport()) 1 else 2
-                val rightSuggestionPrecedenceOrder = if (rhs.isMajorAirport()) 1 else 2
+                val leftSuggestionPrecedenceOrder = if (lhs.isMajorAirport) 1 else 2
+                val rightSuggestionPrecedenceOrder = if (rhs.isMajorAirport) 1 else 2
                 return leftSuggestionPrecedenceOrder.compareTo(rightSuggestionPrecedenceOrder)
             }
         })

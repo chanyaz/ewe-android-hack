@@ -54,7 +54,7 @@ class HotelCreateTripViewModelTests {
         testSubscriber.awaitTerminalEvent()
 
         testSubscriber.assertCompleted()
-        val createTripResponse = testSubscriber.onNextEvents.get(0)
+        val createTripResponse = testSubscriber.onNextEvents[0]
         assertEquals(happyMockProductKey, createTripResponse.tripId)
     }
 
@@ -68,7 +68,7 @@ class HotelCreateTripViewModelTests {
         testSubscriber.awaitTerminalEvent()
 
         testSubscriber.assertCompleted()
-        val createTripResponse = testSubscriber.onNextEvents.get(0)
+        val createTripResponse = testSubscriber.onNextEvents[0]
         assertFalse(createTripResponse.isRewardsRedeemable())
     }
 
@@ -80,7 +80,7 @@ class HotelCreateTripViewModelTests {
         sut.getCreateTripResponseObserver().onNext(mockHotelServicesTestRule.getUnknownErrorResponse())
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.onNextEvents.get(0).errorCode)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.onNextEvents[0].errorCode)
     }
 
     @Test
@@ -92,7 +92,7 @@ class HotelCreateTripViewModelTests {
         sut.getCreateTripResponseObserver().onNext(happyCreateTripResponse)
 
         testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY, testSubscriber.onNextEvents.get(0).errorCode)
+        assertEquals(ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY, testSubscriber.onNextEvents[0].errorCode)
     }
 
     @Test

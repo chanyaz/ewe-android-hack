@@ -10,7 +10,7 @@ import org.joda.time.format.DateTimeFormat
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 
-class HotelBreakDownViewModel(val context: Context, val hotelCheckoutSummaryViewModel: HotelCheckoutSummaryViewModel) {
+class HotelBreakDownViewModel(val context: Context, hotelCheckoutSummaryViewModel: HotelCheckoutSummaryViewModel) {
     val addRows = BehaviorSubject.create<List<Breakdown>>()
     val dtf = DateTimeFormat.forPattern("M/dd/yyyy")
 

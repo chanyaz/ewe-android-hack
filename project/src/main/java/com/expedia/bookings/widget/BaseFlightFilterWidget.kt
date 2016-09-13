@@ -183,7 +183,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                 stopsLabel.visibility = VISIBLE
                 for (key in sortedMap.keys) {
                     val view = Ui.inflate<LabeledCheckableFilter<Int>>(LayoutInflater.from(context), R.layout.labeled_checked_filter, this, false)
-                    view.bind(getStopFilterLabel(key.ordinal), key.ordinal, sortedMap.get(key), vm.selectStop)
+                    view.bind(getStopFilterLabel(key.ordinal), key.ordinal, sortedMap[key], vm.selectStop)
                     view.subscribeOnClick(view.checkObserver)
                     stopsContainer.addView(view)
                 }
@@ -201,7 +201,7 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
                 }
                 for (key in sortedMap.keys) {
                     val view = Ui.inflate<LabeledCheckableFilter<String>>(LayoutInflater.from(context), R.layout.labeled_checked_filter, this, false)
-                    view.bind(key, key, sortedMap.get(key), vm.selectAirline)
+                    view.bind(key, key, sortedMap[key], vm.selectAirline)
                     view.subscribeOnClick(view.checkObserver)
                     airlinesContainer.addView(view)
                 }

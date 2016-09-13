@@ -55,7 +55,7 @@ class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, intercept
 
     private fun renameFirstResultIdToCurrentLocation(suggestions: MutableList<SuggestionV4>): List<SuggestionV4> {
         if (suggestions.size > 0) {
-            suggestions.get(0).gaiaId = SuggestionV4.CURRENT_LOCATION_ID
+            suggestions[0].gaiaId = SuggestionV4.CURRENT_LOCATION_ID
         }
         return suggestions
     }
@@ -70,8 +70,8 @@ class SuggestionServices(endpoint: String, okHttpClient: OkHttpClient, intercept
     private fun sortCarSuggestions(suggestions: MutableList<SuggestionV4>) {
         Collections.sort(suggestions, object : Comparator<SuggestionV4> {
             override fun compare(lhs: SuggestionV4, rhs: SuggestionV4): Int {
-                val leftSuggestionPrecedenceOrder = if (lhs.isMajorAirport()) 1 else 2
-                val rightSuggestionPrecedenceOrder = if (rhs.isMajorAirport()) 1 else 2
+                val leftSuggestionPrecedenceOrder = if (lhs.isMajorAirport) 1 else 2
+                val rightSuggestionPrecedenceOrder = if (rhs.isMajorAirport) 1 else 2
                 return leftSuggestionPrecedenceOrder.compareTo(rightSuggestionPrecedenceOrder)
             }
         })

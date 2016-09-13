@@ -57,7 +57,7 @@ open class CarSearchParam(val originLocation: String?, val startDateTime: DateTi
 
             //Do not build the params if the input selected by user is null
             val location = originLocation ?: throw IllegalArgumentException("Incomplete params: origin is null")
-            if (!location.isMajorAirport() && location.coordinates.lat != 0.0 && location.coordinates.lng != 0.0) {
+            if (!location.isMajorAirport && location.coordinates.lat != 0.0 && location.coordinates.lng != 0.0) {
                 origin = null
                 pickupLocationLatLng = LatLong(location.coordinates.lat, location.coordinates.lng);
                 originDescription = SuggestionStrUtils.formatCityName(location.regionNames.fullName)
