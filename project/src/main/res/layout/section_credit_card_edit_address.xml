@@ -90,7 +90,7 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/address_postal_code_hint"
                 android:imeOptions="actionDone"
-                android:minHeight="43dp"
+                android:minHeight="40dp"
                 android:nextFocusForward="@id/edit_creditcard_number"
                 android:singleLine="true"
                 android:textSize="@dimen/traveler_input_text_size" />

@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.traveler
 
 import android.content.Context
+import android.os.Build
 import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
@@ -36,6 +37,15 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         View.inflate(context, R.layout.phone_entry_view, this)
         orientation = HORIZONTAL
         gravity = Gravity.BOTTOM
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        val isExtraPaddingRequired = Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP
+        if (isExtraPaddingRequired) {
+            val editTextSpacing = context.getResources().getDimensionPixelSize(R.dimen.checkout_earlier_api_version_edit_text_spacing)
+            phoneNumber.setPadding(phoneNumber.paddingLeft, phoneNumber.paddingTop, phoneNumber.paddingRight, editTextSpacing)
+        }
     }
 
     private fun spinnerUpdated() {

@@ -931,6 +931,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_card_fee_disclaimer,
 		R.string.fees_by_card_type,
 		R.color.card_fee_text_color,
-		R.string.filter_sort_by_content_description_TEMPLATE
+		R.string.filter_sort_by_content_description_TEMPLATE,
+		R.dimen.checkout_earlier_api_version_edit_text_spacing
 	};
 }
