@@ -54,7 +54,6 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             }
             depositPolicyText.onNext(Html.fromHtml(depositText))
 
-            legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
             val totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
                     .put("dueamount", it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
                     .format().toString()
@@ -62,6 +61,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             val accessiblePurchaseButtonContDesc = context.getString(R.string.accessibility_purchase_button) + " " + context.getString(R.string.accessibility_cont_desc_role_button)
             accessiblePurchaseButtonContentDescription.onNext(accessiblePurchaseButtonContDesc)
         }
+        legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
 
         checkoutParams.subscribe { params ->
             params as PackageCheckoutParams
@@ -163,15 +163,15 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
 
     fun updateMayChargeFees(selectedFlight: FlightLeg) {
         if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
-            val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
-            selectedFlightChargesFees.onNext(paymentFeeText)
             val hasAirlineFeeLink = selectedFlight.airlineMessageModel?.airlineFeeLink != null
             if (hasAirlineFeeLink) {
                 obFeeDetailsUrlSubject.onNext(e3Endpoint + selectedFlight.airlineMessageModel.airlineFeeLink)
             }
+            val paymentFeeText = context.resources.getString(R.string.payment_and_baggage_fees_may_apply)
+            selectedFlightChargesFees.onNext(paymentFeeText)
         } else {
-            selectedFlightChargesFees.onNext("")
             obFeeDetailsUrlSubject.onNext("")
+            selectedFlightChargesFees.onNext("")
         }
     }
 

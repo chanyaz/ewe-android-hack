@@ -18,6 +18,7 @@ import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
+import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
@@ -149,9 +150,10 @@ abstract class BaseCheckoutViewModel(val context: Context) {
     }
 
     private fun setupCardFeeSubjects() {
-        selectedFlightChargesFees.subscribe {
-            cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(it, obFeeDetailsUrlSubject.value))
-        }
+        Observable.combineLatest(selectedFlightChargesFees, obFeeDetailsUrlSubject, {
+            flightChargesFees, obFeeDetailsUrl ->
+            cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(flightChargesFees, obFeeDetailsUrl))
+        }).subscribe()
 
         paymentViewModel.resetCardFees.subscribe {
             paymentTypeSelectedHasCardFee.onNext(false)
