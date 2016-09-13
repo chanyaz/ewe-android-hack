@@ -119,8 +119,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 .subscribe({ transitioningFromOriginToDestination = false })
     }
 
-    var doRequestA11yFocus = true
-
     protected fun suggestionSelectedObserver(observer: Observer<SuggestionV4>): (SuggestionV4) -> Unit {
         return { suggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
@@ -130,7 +128,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             if (isOriginSelected) {
                 firstLaunch = false
             }
-            doRequestA11yFocus = false
             showDefault()
         }
     }
@@ -437,16 +434,15 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             } else {
                 searchLocationEditText?.visibility = VISIBLE
                 mRootView.viewTreeObserver.addOnPreDrawListener(globalLayoutListener)
-                doRequestA11yFocus = true
             }
 
             toolBarTitle.visibility = if (forward) GONE else VISIBLE
             if (showFlightOneWayRoundTripOptions) {
                 tabs.visibility = if (forward) GONE else VISIBLE
             }
-            if (!forward && doRequestA11yFocus) {
+            if (!forward) {
                 requestA11yFocus(isCustomerSelectingOrigin)
-            } else if ((forward || firstLaunch) && doRequestA11yFocus) {
+            } else if (forward || firstLaunch) {
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             }
         }
