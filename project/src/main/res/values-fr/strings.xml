@@ -4638,7 +4638,7 @@
     <string name="cvv_text_field_cont_desc">Champ de texte cryptogramme</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">Informations sur le voyageur incomplètes</string>
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Informations sur le voyageur incomplètes</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Informations sur le voyageur complètes</string>
     <!--Packages accessibility content description for role Button-->

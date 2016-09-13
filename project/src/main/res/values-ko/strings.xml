@@ -4638,7 +4638,7 @@
     <string name="cvv_text_field_cont_desc">CVC 입력 필드</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">여행객 정보 미완성</string>
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">여행객 정보 미완성</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">여행객 정보 완성</string>
     <!--Packages accessibility content description for role Button-->

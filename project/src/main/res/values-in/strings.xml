@@ -4638,7 +4638,7 @@
     <string name="cvv_text_field_cont_desc">Bidang teks CVV</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">Informasi Traveler Tidak Lengkap</string>
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Informasi Traveler Tidak Lengkap</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Informasi Traveler Lengkap</string>
     <!--Packages accessibility content description for role Button-->

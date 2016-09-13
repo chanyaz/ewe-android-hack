@@ -95,7 +95,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.trip_overview_cont_desc,
 		R.string.select_checkout_date_TEMPLATE,
 		R.string.traveler_details_complete_cont_desc,
-		R.string.traveler_details_incomplete_cont_desc,
+		R.string.traveler_details_incomplete_cont_desc_TEMPLATE,
 		R.string.select_checkin_date,
 		R.string.nights_count_TEMPLATE,
 		R.string.calendar_drag_to_modify,

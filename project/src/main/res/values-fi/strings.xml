@@ -4638,7 +4638,7 @@
     <string name="cvv_text_field_cont_desc">CVV-tekstikenttä</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">Matkustajan tietoja ei ole täytetty</string>
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Matkustajan tietoja ei ole täytetty</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Matkustajan tiedot on täytetty</string>
     <!--Packages accessibility content description for role Button-->

@@ -4638,7 +4638,7 @@
     <string name="cvv_text_field_cont_desc">CVV 文本栏</string>
 
     <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">旅客信息不完整</string>
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">旅客信息不完整</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">旅客信息填写完整</string>
     <!--Packages accessibility content description for role Button-->
