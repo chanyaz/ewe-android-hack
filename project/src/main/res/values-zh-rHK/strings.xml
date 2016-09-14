@@ -1050,6 +1050,10 @@
     <string name="select_rail_card_hint">選擇鐵路卡</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
     <string name="select_rail_card_quantity_hint">數目</string>
+    <!-- Error message when rail card details not selected on add rail cards dialog -->
+    <string name="error_select_rail_card_details">請選擇鐵路卡詳情。</string>
+    <!-- Error message when rail cards selected is greater than no. of travelers -->
+    <string name="error_rail_cards_greater_than_number_travelers">鐵路卡數目不可超過旅客人數。</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">出發地</string>
@@ -3115,9 +3119,9 @@
     <string name="hotel_fees_for_this_stay">此住宿的酒店附加費</string>
     <!-- Resort fee text for pacakges-->
     <string name="additional_fees_at_check_in">入住時繳交附加費</string>
-    <!-- Included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are included in the room price shown to the user -->
     <string name="included_in_the_price">已包括於價格內</string>
-    <!-- Not included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are not included in the room price shown to the user -->
     <string name="not_included_in_the_price">不包括於價格內</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">查看客房</string>
@@ -3418,7 +3422,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -4060,6 +4064,8 @@
     <string name="show_more">顯示更多</string>
     <string name="show_less">隱藏部分內容</string>
     <string name="price_range">價格範圍</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
+    <string name="filter_sort_by_content_description_TEMPLATE">按{sort}排序。</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">已加入篩選畫面中的「我的最愛」</string>
@@ -4704,9 +4710,16 @@
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">已選擇活動，{caption}</string>
 
-    <!-- Gallery Image count e.g. 1/14 -->
-    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
-    <!-- Content Description for current index of the photo in the gallery -->
-    <string name="galley_photo_count_content_description_TEMPLATE">按此查看 {count} 張相片中的第 {index} 張</string>
+    <!-- Gallery Image count e.g. "1/14" -->
+    <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
+
+    <!-- Content description for hotel immage gallery -->
+    <string name="gallery_cont_desc">相片集</string>
+
+    <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
+    <string name="gallery_photo_count_content_description_TEMPLATE">按此查看 {count} 張相片中的第 {index} 張</string>
+
+    <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
+    <string name="multiple_carriers_text">多間航空公司</string>
 
 </resources>

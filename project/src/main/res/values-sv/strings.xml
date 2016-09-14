@@ -1050,6 +1050,10 @@
     <string name="select_rail_card_hint">Välj tågkort</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
     <string name="select_rail_card_quantity_hint">Ant</string>
+    <!-- Error message when rail card details not selected on add rail cards dialog -->
+    <string name="error_select_rail_card_details">Välj uppgifter om tågkort.</string>
+    <!-- Error message when rail cards selected is greater than no. of travelers -->
+    <string name="error_rail_cards_greater_than_number_travelers">Antalet tågkort kan inte överstiga antalet resenärer.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Från</string>
@@ -3115,9 +3119,9 @@
     <string name="hotel_fees_for_this_stay">Hotellavgifter för den här vistelsen</string>
     <!-- Resort fee text for pacakges-->
     <string name="additional_fees_at_check_in">Extraavgift vid incheckning</string>
-    <!-- Included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are included in the room price shown to the user -->
     <string name="included_in_the_price">Ingår i priset</string>
-    <!-- Not included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are not included in the room price shown to the user -->
     <string name="not_included_in_the_price">Ingår inte i priset</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Se rum</string>
@@ -4060,6 +4064,8 @@
     <string name="show_more">VISA MER</string>
     <string name="show_less">VISA MINDRE</string>
     <string name="price_range">Prisintervall</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
+    <string name="filter_sort_by_content_description_TEMPLATE">Sortera efter {sort}.</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Tillagt bland favoriter i filter</string>
@@ -4704,9 +4710,16 @@
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">Aktivitet vald, {caption}</string>
 
-    <!-- Gallery Image count e.g. 1/14 -->
-    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
-    <!-- Content Description for current index of the photo in the gallery -->
-    <string name="galley_photo_count_content_description_TEMPLATE">Knapp för att se {index} av {count} foton</string>
+    <!-- Gallery Image count e.g. "1/14" -->
+    <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
+
+    <!-- Content description for hotel immage gallery -->
+    <string name="gallery_cont_desc">Fotogalleri</string>
+
+    <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
+    <string name="gallery_photo_count_content_description_TEMPLATE">Knapp för att se {index} av {count} foton</string>
+
+    <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
+    <string name="multiple_carriers_text">Flera flygbolag</string>
 
 </resources>
