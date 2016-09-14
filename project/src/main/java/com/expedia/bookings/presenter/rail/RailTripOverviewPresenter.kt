@@ -5,16 +5,18 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.widget.rail.RailSummaryWidget
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.rail.*
+import com.expedia.vm.rail.RailCheckoutOverviewViewModel
+import com.expedia.vm.rail.RailCostSummaryBreakdownViewModel
+import com.expedia.vm.rail.RailCreateTripViewModel
+import com.expedia.vm.rail.RailSummaryViewModel
+import com.expedia.vm.rail.RailTotalPriceViewModel
 import rx.subjects.PublishSubject
-import kotlin.properties.Delegates
 
 class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
@@ -28,7 +30,7 @@ class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : Present
     val showCheckoutSubject = PublishSubject.create<Unit>()
 
     var createTripViewModel: RailCreateTripViewModel by notNullAndObservable { vm ->
-        vm.tripResponseObservable.subscribe { response -> response as RailCreateTripResponse
+        vm.tripResponseObservable.subscribe { response ->
             railPriceViewModel.updatePricing(response)
             railCostBreakDownViewModel.railCostSummaryBreakdownObservable.onNext(response.railDomainProduct.railOffer)
         }

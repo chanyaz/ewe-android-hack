@@ -1,16 +1,18 @@
 package com.expedia.vm.rail
 
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemRails
 import com.expedia.bookings.services.RailServices
-import com.expedia.vm.BaseCreateTripViewModel
 import rx.Observer
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class RailCreateTripViewModel(val railServices: RailServices) : BaseCreateTripViewModel() {
+class RailCreateTripViewModel(val railServices: RailServices) {
+    val tripResponseObservable = BehaviorSubject.create<RailCreateTripResponse>()
 
+    val createTripErrorObservable = PublishSubject.create<ApiError>()
     val offerCodeSelectedObservable = PublishSubject.create<String>()
 
     init {
@@ -52,6 +54,4 @@ class RailCreateTripViewModel(val railServices: RailServices) : BaseCreateTripVi
             }
         }
     }
-
-
 }

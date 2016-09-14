@@ -4391,6 +4391,12 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Card Fee</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">The train provider charges an additional non-refundable fee for paying with certain card types. You can avoid this fee by using a debit card</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">Fees by card type</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Ticket delivery</string>
 

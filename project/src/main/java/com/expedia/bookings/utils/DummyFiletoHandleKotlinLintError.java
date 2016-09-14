@@ -924,6 +924,11 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.error_rail_cards_greater_than_number_travelers,
 		R.color.lx_filter_neighborhood_text,
 		R.color.lx_filter_text,
-		R.string.filter_sort_by_content_description_TEMPLATE
+		R.string.filter_sort_by_content_description_TEMPLATE,
+		R.layout.card_fee_row,
+		R.layout.credit_card_fees_view,
+		R.string.rail_card_fee_disclaimer,
+		R.string.fees_by_card_type,
+		R.color.card_fee_text_color
 	};
 }

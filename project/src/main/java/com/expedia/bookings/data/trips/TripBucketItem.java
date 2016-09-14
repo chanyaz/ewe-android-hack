@@ -94,7 +94,7 @@ public abstract class TripBucketItem implements JSONable {
 		this.mIsMerEmailOptInShownOnce = shown;
 	}
 
-	public void addValidPaymentsV2(List<ValidFormOfPayment> payments) {
+	public void addValidPaymentsV2(List<? extends ValidFormOfPayment> payments) {
 		if (mValidPayments == null) {
 			mValidPayments = new ArrayList<>();
 		}
