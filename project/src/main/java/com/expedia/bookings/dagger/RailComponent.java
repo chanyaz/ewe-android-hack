@@ -15,7 +15,7 @@ import com.expedia.vm.rail.RailCheckoutViewModel;
 import dagger.Component;
 
 @RailScope
-@Component(dependencies = {AppComponent.class}, modules = {RailModule.class, FeesModule.class})
+@Component(dependencies = {AppComponent.class}, modules = {RailModule.class})
 public interface RailComponent {
 	void inject(RailPresenter presenter);
 	void inject(RailSearchPresenter presenter);

@@ -5,12 +5,18 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
+import com.expedia.bookings.data.BaseApiResponse
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -36,6 +42,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     val detailsPresenter: RailDetailsPresenter by bindView(R.id.widget_rail_details_presenter)
     val tripOverviewPresenter: RailTripOverviewPresenter by bindView(R.id.widget_rail_trip_overview_presenter)
     val railCheckoutPresenter: RailCheckoutPresenter by bindView(R.id.widget_rail_checkout_presenter)
+    val confirmationPresenter: RailConfirmationPresenter by bindView(R.id.rail_confirmation_presenter)
 
     val createTripViewModel = RailCreateTripViewModel(Ui.getApplication(context).railComponent().railService())
 
@@ -59,6 +66,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     }
 
     private val overviewToCheckout = LeftToRightTransition(this, RailTripOverviewPresenter::class.java, RailCheckoutPresenter::class.java)
+    private val checkoutToConfirmation = LeftToRightTransition(this, RailCheckoutPresenter::class.java, RailConfirmationPresenter::class.java)
     private val detailsToAmenities = ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
     private val overviewToAmenities = ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
 
@@ -129,6 +137,11 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         tripOverviewPresenter.createTripViewModel = createTripViewModel
         railCheckoutPresenter.createTripViewModel = createTripViewModel
 
+        railCheckoutPresenter.checkoutViewModel.bookingSuccessSubject.subscribe { response ->
+            confirmationPresenter.update(response)
+            show(confirmationPresenter)
+        }
+
         show(searchPresenter)
     }
 
@@ -139,6 +152,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         addTransition(detailsToAmenities)
         addTransition(overviewToAmenities)
         addTransition(overviewToCheckout)
+        addTransition(checkoutToConfirmation)
     }
 
     private fun transitionToResults() {

@@ -101,7 +101,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         paymentWidget.viewmodel.isCreditCardRequired.onNext(true)
         paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { billingInfoAndStatusPair ->
             billingInfoAndStatusPair.first
-        }.subscribe(checkoutViewModel.paymentCompleted)
+        }.subscribe(checkoutViewModel.paymentCompleteObserver)
 
 
         paymentWidget.viewmodel.expandObserver.subscribe {
@@ -118,7 +118,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             if (status == TravelerCheckoutStatus.CLEAN || status == TravelerCheckoutStatus.DIRTY) {
                 checkoutViewModel.clearTravelers.onNext(Unit)
             } else {
-                checkoutViewModel.travelerCompleted.onNext(travelerCheckoutViewModel.getTravelers())
+                checkoutViewModel.travelerCompleteObserver.onNext(travelerCheckoutViewModel.getTraveler(0))
             }
         }
         checkoutViewModel.sliderPurchaseTotalText.subscribe { total ->
@@ -129,6 +129,8 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             show(DefaultCheckout(), FLAG_CLEAR_BACKSTACK)
         }
         toolbar.viewModel = CheckoutToolbarViewModel(context)
+
+        slideToPurchaseWidget.addSlideListener(this)
 
         initializePriceWidget()
         wireUpToolbarWithPayment()
@@ -195,6 +197,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         createTripDialog.hide()
         paymentWidget.clearCCAndCVV()
         ticketDeliveryEntryWidget.viewModel.ticketDeliveryOptions.onNext(response.railDomainProduct?.railOffer?.ticketDeliveryOptionList)
+        checkoutViewModel.createTripObserver.onNext(response)
         updatePricing(response)
     }
 
@@ -346,10 +349,8 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     override fun onSlideAllTheWay() {
-        if (checkoutViewModel.builder.hasValidParams()) {
+        if (checkoutViewModel.builder.isValid()) {
             checkoutViewModel.checkoutParams.onNext(checkoutViewModel.builder.build())
-        } else {
-            checkoutViewModel.slideAllTheWayObservable.onNext(Unit)
         }
     }
 

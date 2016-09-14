@@ -1,6 +1,6 @@
 package com.expedia.bookings.services;
 
-import com.expedia.bookings.data.rail.requests.RailCheckoutRequest;
+import com.expedia.bookings.data.rail.requests.RailCheckoutParams;
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
 import com.expedia.bookings.data.rail.responses.RailCardsResponse;
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
@@ -25,7 +25,7 @@ public interface RailApi {
 	Observable<RailCreateTripResponse> railCreateTrip(@Field("offerToken") String offerToken);
 
 	@POST("/m/api/rails/trip/checkout")
-	Observable<RailCheckoutResponse> railCheckout(@Body RailCheckoutRequest railCheckoutRequest);
+	Observable<RailCheckoutResponse> railCheckout(@Body RailCheckoutParams params);
 
 	@GET("/rails/domain/api/v1/static/RailCards")
 	Observable<RailCardsResponse> railCards(@Query("locale") String locale);

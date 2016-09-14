@@ -23,6 +23,10 @@ class SlideToPurchaseWidget(context: Context, attrs : AttributeSet?) : LinearLay
         }
     }
 
+    fun addSlideListener(slideListener: SlideToWidgetLL.ISlideToListener) {
+        slideToPurchase.addSlideToListener(slideListener)
+    }
+
     fun reset() {
         slideToPurchase.resetSlider()
     }

@@ -14,7 +14,7 @@ import org.junit.Test;
 
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.rail.RailPassenger;
-import com.expedia.bookings.data.rail.requests.RailCheckoutRequest;
+import com.expedia.bookings.data.rail.requests.RailCheckoutParams;
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
 import com.expedia.bookings.data.rail.responses.RailCard;
 import com.expedia.bookings.data.rail.responses.RailCardsResponse;
@@ -32,6 +32,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.logging.HttpLoggingInterceptor;
 import okhttp3.mockwebserver.MockWebServer;
+import com.expedia.bookings.unit.rail.RailCheckoutParamsMock;
 import rx.observers.TestSubscriber;
 import rx.schedulers.Schedulers;
 
@@ -109,7 +110,9 @@ public class RailServicesTest {
 
 	@Test
 	public void happyMockCheckout() {
-		RailCheckoutRequest params = new RailCheckoutRequest();
+		RailCheckoutParams params = new RailCheckoutParams(RailCheckoutParamsMock.travelers(),
+			RailCheckoutParamsMock.tripDetails(), RailCheckoutParamsMock.paymentInfo(),
+			RailCheckoutParamsMock.railTicketDeliveryInfo());
 
 		service.railCheckoutTrip(params, checkoutTripResponseObserver);
 		checkoutTripResponseObserver.awaitTerminalEvent();
