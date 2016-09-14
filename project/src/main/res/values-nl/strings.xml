@@ -1050,6 +1050,10 @@
     <string name="select_rail_card_hint">Selecteer een railcard</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
     <string name="select_rail_card_quantity_hint">#</string>
+    <!-- Error message when rail card details not selected on add rail cards dialog -->
+    <string name="error_select_rail_card_details">Selecteer railcarddetails.</string>
+    <!-- Error message when rail cards selected is greater than no. of travelers -->
+    <string name="error_rail_cards_greater_than_number_travelers">Het aantal railcards kan het aantal reizigers niet overschrijden.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Vanaf</string>
@@ -1058,7 +1062,7 @@
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Aanbevolen voor vandaag</string>
+    <string name="nearby_deals_title">Vandaag voor jou</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">Meer tonen</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -3115,9 +3119,9 @@
     <string name="hotel_fees_for_this_stay">Hoteltoeslagen voor dit verblijf</string>
     <!-- Resort fee text for pacakges-->
     <string name="additional_fees_at_check_in">Extra toeslag bij het inchecken</string>
-    <!-- Included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are included in the room price shown to the user -->
     <string name="included_in_the_price">Inbegrepen bij de prijs</string>
-    <!-- Not included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are not included in the room price shown to the user -->
     <string name="not_included_in_the_price">Niet inbegrepen bij de prijs</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Kamer bekijken</string>
@@ -3228,7 +3232,7 @@
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt.</string>
+    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt geweest.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
@@ -4060,6 +4064,8 @@
     <string name="show_more">MEER TONEN</string>
     <string name="show_less">MINDER TONEN</string>
     <string name="price_range">Prijs</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
+    <string name="filter_sort_by_content_description_TEMPLATE">Sorteer op {sort}.</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Toegevoegd aan favorieten in het filterscherm</string>
@@ -4704,9 +4710,16 @@
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">Activiteit geselecteerd, {caption}</string>
 
-    <!-- Gallery Image count e.g. 1/14 -->
-    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
-    <!-- Content Description for current index of the photo in the gallery -->
-    <string name="galley_photo_count_content_description_TEMPLATE">Knop om {index} van {count} galeriefotoʼs te zien</string>
+    <!-- Gallery Image count e.g. "1/14" -->
+    <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
+
+    <!-- Content description for hotel immage gallery -->
+    <string name="gallery_cont_desc">Fotogalerie</string>
+
+    <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
+    <string name="gallery_photo_count_content_description_TEMPLATE">Knop om {index} van {count} galeriefotoʼs te zien</string>
+
+    <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
+    <string name="multiple_carriers_text">Meerdere airlines</string>
 
 </resources>

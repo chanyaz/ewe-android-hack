@@ -1050,6 +1050,10 @@
     <string name="select_rail_card_hint">Seleccionar tarjeta de viaje</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
     <string name="select_rail_card_quantity_hint">Can</string>
+    <!-- Error message when rail card details not selected on add rail cards dialog -->
+    <string name="error_select_rail_card_details">Seleccionar datos de la tarjeta de viaje.</string>
+    <!-- Error message when rail cards selected is greater than no. of travelers -->
+    <string name="error_rail_cards_greater_than_number_travelers">El número de tarjetas de viaje no puede ser superior al número de viajeros.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Salida desde</string>
@@ -1058,7 +1062,7 @@
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
-    <string name="nearby_deals_title">Recomendados para hoy</string>
+    <string name="nearby_deals_title">Hoteles para hoy</string>
     <!-- See all nearby deals -->
     <string name="nearby_deals_expand">Ver más</string>
     <!-- Percent off template, e.g. 50% off -->
@@ -3115,9 +3119,9 @@
     <string name="hotel_fees_for_this_stay">Tasas del hotel para esta estancia</string>
     <!-- Resort fee text for pacakges-->
     <string name="additional_fees_at_check_in">Tasa adicional a la llegada</string>
-    <!-- Included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are included in the room price shown to the user -->
     <string name="included_in_the_price">Incluidas en el precio</string>
-    <!-- Not included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are not included in the room price shown to the user -->
     <string name="not_included_in_the_price">No incluidas en el precio</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">Ver habitación</string>
@@ -4060,6 +4064,8 @@
     <string name="show_more">VER MÁS</string>
     <string name="show_less">VER MENOS</string>
     <string name="price_range">Intervalo de precios</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
+    <string name="filter_sort_by_content_description_TEMPLATE">Ordenar por {sort}.</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Se ha añadido a los favoritos</string>
@@ -4704,9 +4710,16 @@
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">Actividad seleccionada, {caption}</string>
 
-    <!-- Gallery Image count e.g. 1/14 -->
-    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
-    <!-- Content Description for current index of the photo in the gallery -->
-    <string name="galley_photo_count_content_description_TEMPLATE">Botón para ver la galería de fotos {index} de {count}</string>
+    <!-- Gallery Image count e.g. "1/14" -->
+    <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
+
+    <!-- Content description for hotel immage gallery -->
+    <string name="gallery_cont_desc">Galería de imágenes</string>
+
+    <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
+    <string name="gallery_photo_count_content_description_TEMPLATE">Botón para ver la galería de fotos {index} de {count}</string>
+
+    <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
+    <string name="multiple_carriers_text">Varias aerolíneas</string>
 
 </resources>

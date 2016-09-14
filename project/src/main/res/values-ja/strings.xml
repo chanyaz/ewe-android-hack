@@ -1050,6 +1050,10 @@
     <string name="select_rail_card_hint">レイルカードを選択</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
     <string name="select_rail_card_quantity_hint">枚数</string>
+    <!-- Error message when rail card details not selected on add rail cards dialog -->
+    <string name="error_select_rail_card_details">レイルカードの詳細を選択してください。</string>
+    <!-- Error message when rail cards selected is greater than no. of travelers -->
+    <string name="error_rail_cards_greater_than_number_travelers">旅行者の人数を超えるレイルカード数は指定できません。</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">出発地</string>
@@ -1477,9 +1481,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -2325,7 +2329,7 @@
         <item quantity="one">+ {travelercount} 名の旅行者</item>
         <item quantity="other">+ {travelercount} 名の旅行者</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する ({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 歳</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -3115,9 +3119,9 @@
     <string name="hotel_fees_for_this_stay">ホテルの必須手数料</string>
     <!-- Resort fee text for pacakges-->
     <string name="additional_fees_at_check_in">チェックイン時の追加料金</string>
-    <!-- Included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are included in the room price shown to the user -->
     <string name="included_in_the_price">料金に含まれる</string>
-    <!-- Not included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are not included in the room price shown to the user -->
     <string name="not_included_in_the_price">料金に含まれない</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">部屋を見る</string>
@@ -4060,6 +4064,8 @@
     <string name="show_more">すべて表示</string>
     <string name="show_less">一部のみ表示</string>
     <string name="price_range">価格帯</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
+    <string name="filter_sort_by_content_description_TEMPLATE">{sort}で並べ替え</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">絞り込み画面の「お気に入り」に追加されました</string>
@@ -4704,9 +4710,16 @@
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">選択済みの現地オプショナルツアー、{caption}</string>
 
-    <!-- Gallery Image count e.g. 1/14 -->
-    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
-    <!-- Content Description for current index of the photo in the gallery -->
-    <string name="galley_photo_count_content_description_TEMPLATE">{count} 枚中 {index} 枚目の写真を表示するボタン</string>
+    <!-- Gallery Image count e.g. "1/14" -->
+    <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
+
+    <!-- Content description for hotel immage gallery -->
+    <string name="gallery_cont_desc">写真ギャラリー</string>
+
+    <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
+    <string name="gallery_photo_count_content_description_TEMPLATE">{count} 枚中 {index} 枚目の写真を表示するボタン</string>
+
+    <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
+    <string name="multiple_carriers_text">複数の航空会社</string>
 
 </resources>
