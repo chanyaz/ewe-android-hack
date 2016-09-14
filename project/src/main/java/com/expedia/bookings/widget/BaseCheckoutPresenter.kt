@@ -335,6 +335,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), getLineOfBusiness())
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             updateTravelerPresenter()
+            if (forward) setToolbarTitle()
             if (User.isLoggedIn(context)) paymentWidget.viewmodel.userLogin.onNext(true)
         }
     }
@@ -346,7 +347,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             if (!forward) {
                 travelerPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
                 travelerPresenter.viewModel.updateCompletionStatus()
-                travelerPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
+                setToolbarTitle()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
             } else {
                 decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
@@ -367,6 +368,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             }
 
         }
+    }
+
+    private fun setToolbarTitle() {
+        travelerPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
     }
 
     private val defaultToPayment = object : Presenter.Transition(CheckoutDefault::class.java, BillingDetailsPaymentWidget::class.java) {
