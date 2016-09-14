@@ -89,6 +89,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         vm.passportCountrySubject.subscribe { countryCode ->
             selectPassport(countryCode)
         }
+
         vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
         vm.showEmailObservable.subscribeVisibility(emailEntryView)
         vm.showPhoneNumberObservable.subscribeVisibility(phoneEntryView)
@@ -269,6 +270,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         passportCountrySpinner.onItemSelectedListener = null
         val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
         val position = if (countryCode?.isNullOrEmpty() ?: true) DEFAULT_EMPTY_PASSPORT else adapter.getPositionByCountryThreeLetterCode(countryCode)
+        if (position == 0) {
+            adapter.setErrorVisible(false);
+        }
         passportCountrySpinner.setSelection(position, false)
         passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
     }
