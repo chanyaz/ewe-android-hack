@@ -1,21 +1,21 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.lx.ActivityDetailsResponse
 import com.expedia.bookings.data.lx.LXActivity
+import com.expedia.bookings.data.lx.LXCategoryType
 import com.expedia.bookings.data.lx.LXCheckoutParams
 import com.expedia.bookings.data.lx.LXCheckoutResponse
-import com.expedia.bookings.data.lx.LXCategoryType
 import com.expedia.bookings.data.lx.LXCreateTripParams
 import com.expedia.bookings.data.lx.LXCreateTripResponse
-import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LXSortFilterMetadata
 import com.expedia.bookings.data.lx.LXSortType
 import com.expedia.bookings.data.lx.LXTheme
 import com.expedia.bookings.data.lx.LXThemeType
+import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.data.lx.RecommendedActivitiesResponse
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
@@ -31,6 +31,8 @@ import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
+import java.util.Collections
+import java.util.Comparator
 import java.util.LinkedHashSet
 
 
@@ -301,12 +303,78 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         }
     }
 
+    private fun CombineSearchResponseAndSortFilterStreams(lxSearchResponse: LXSearchResponse, lxSortFilterMetadata: LXSortFilterMetadata): LXSearchResponse {
+
+        if (lxSortFilterMetadata.lxCategoryMetadataMap == null) {
+            // No filters Applied.
+            lxSearchResponse.activities.clear()
+            lxSearchResponse.activities.addAll(lxSearchResponse.unFilteredActivities)
+            for (filterCategory in lxSearchResponse.filterCategories.entries) {
+                val lxCategoryMetadata = filterCategory.value
+                lxCategoryMetadata.checked = false
+            }
+        } else {
+            lxSearchResponse.activities = applySortFilter(lxSearchResponse.unFilteredActivities, lxSearchResponse,
+                    lxSortFilterMetadata)
+        }
+        return lxSearchResponse
+    }
+
+    private fun SortFilterThemeSearchResponse(theme: LXTheme, sortFilterMetadata: LXSortFilterMetadata): LXTheme {
+
+        // Filtering
+        val filteredSet = LinkedHashSet<LXActivity>()
+        val unfilteredActivities = theme.unfilteredActivities
+        for (i in unfilteredActivities.indices) {
+            for (filterCategory in sortFilterMetadata.lxCategoryMetadataMap.entries) {
+                val lxCategoryMetadata = filterCategory.value
+                val lxCategoryMetadataKey = filterCategory.key
+                if (lxCategoryMetadata.checked) {
+                    if (unfilteredActivities.get(i).categories.contains(lxCategoryMetadataKey)) {
+                        filteredSet.add(unfilteredActivities.get(i))
+                    }
+                }
+            }
+        }
+
+        theme.activities.clear()
+
+        // Filtering.
+        if (filteredSet.size != 0) {
+            theme.activities.addAll(filteredSet)
+        } else {
+            theme.activities.addAll(unfilteredActivities)
+        }
+
+        // Sorting
+        if (sortFilterMetadata.sort == LXSortType.PRICE) {
+            Collections.sort<LXActivity>(theme.activities, object : Comparator<LXActivity> {
+                override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
+                    val leftMoney = lhs.price
+                    val rightMoney = rhs.price
+                    return leftMoney.compareTo(rightMoney)
+                }
+            })
+        } else if (sortFilterMetadata.sort == LXSortType.POPULARITY) {
+            Collections.sort<LXActivity>(theme.activities, object : Comparator<LXActivity> {
+                override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
+                    return if ((lhs.popularityForClientSort < rhs.popularityForClientSort))
+                        -1
+                    else
+                        (if ((lhs.popularityForClientSort == rhs.popularityForClientSort)) 0 else 1)
+                }
+            })
+        }
+
+        return theme
+    }
+
+
     fun lxThemeSortAndFilter(theme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>): Subscription {
 
         return Observable.combineLatest(Observable.just(theme), Observable.just(lxSortType),
                 { theme, lxSortType ->
-                    theme.activities = theme.unfilteredActivities.applySortFilter(lxSortType)
-                    theme
+                    SortFilterThemeSearchResponse(theme, lxSortType)
                 })
                 .subscribeOn(this.subscribeOn)
                 .observeOn(this.observeOn)
@@ -323,8 +391,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 if (lxSortFilterMetadata != null)
                     Observable.combineLatest(lxSearchResponseObservable, Observable.just(lxSortFilterMetadata),
                             { lxSearchResponse, lxSortFilterMetadata ->
-                                lxSearchResponse.activities = lxSearchResponse.unFilteredActivities.applySortFilter(lxSortFilterMetadata)
-                                lxSearchResponse
+                                CombineSearchResponseAndSortFilterStreams(lxSearchResponse, lxSortFilterMetadata)
                             })
                 else lxSearch(lxSearchParams!!)
                 )
@@ -338,38 +405,44 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         lxSearchResponse.isFromCachedResponse = isFromCachedResponse
     }
 
+    fun applySortFilter(unfilteredActivities: List<LXActivity>, lxSearchResponse: LXSearchResponse, lxSortFilterMetadata: LXSortFilterMetadata): List<LXActivity> {
+
+        val filteredSet = LinkedHashSet<LXActivity>()
+        for (i in unfilteredActivities.indices) {
+            for (filterCategory in lxSortFilterMetadata.lxCategoryMetadataMap.entries) {
+                val lxCategoryMetadata = filterCategory.value
+                val lxCategoryMetadataKey = filterCategory.key
+                if (lxCategoryMetadata.checked) {
+                    if (unfilteredActivities.get(i).categories.contains(lxCategoryMetadataKey)) {
+                        filteredSet.add(unfilteredActivities.get(i))
+                    }
+                }
+            }
+        }
+
+        lxSearchResponse.activities.clear()
+
+        // Filtering.
+        lxSearchResponse.activities.addAll(if(filteredSet.size != 0) filteredSet else unfilteredActivities)
+
+        // Sorting.
+        if (lxSortFilterMetadata.sort == LXSortType.PRICE) {
+            Collections.sort<LXActivity>(lxSearchResponse.activities, object : Comparator<LXActivity> {
+                override fun compare(lhs: LXActivity, rhs: LXActivity): Int {
+                    val leftMoney = lhs.price
+                    val rightMoney = rhs.price
+                    return leftMoney.compareTo(rightMoney)
+                }
+            })
+        }
+        return lxSearchResponse.activities
+    }
+
+
     private val CACHE_SEARCH_RESPONSE = { response: LXSearchResponse ->
         cachedLXSearchResponse = response
         cachedLXSearchResponse.unFilteredActivities.clear()
         cachedLXSearchResponse.unFilteredActivities.addAll(response.activities)
         cachedLXSearchResponse = response
-    }
-
-    companion object {
-
-        @JvmStatic fun List<LXActivity>.applySortFilter(lxCategoryMetadata: LXSortFilterMetadata): List<LXActivity> {
-
-            // Activity name filter
-            var activities = this.filter { it.title.contains(lxCategoryMetadata.filter, true) }
-            // Sorting
-            when (lxCategoryMetadata.sort) {
-                LXSortType.POPULARITY -> activities = activities.sortedBy { it.popularityForClientSort }
-                LXSortType.PRICE -> activities = activities.sortedBy { it.price.amount.toInt() }
-            }
-
-            val filteredSet = LinkedHashSet<LXActivity>()
-            for (i in activities.indices) {
-                for (filterCategory in lxCategoryMetadata.lxCategoryMetadataMap.entries) {
-                    val lxCategoryMetadata = filterCategory.value
-                    val lxCategoryMetadataKey = filterCategory.key
-                    if (lxCategoryMetadata.checked) {
-                        if (activities[i].categories.contains(lxCategoryMetadataKey)) {
-                            filteredSet.add(activities[i])
-                        }
-                    }
-                }
-            }
-            return if (filteredSet.size > 0) filteredSet.toList() else activities
-        }
     }
 }

@@ -387,11 +387,6 @@
     <color name="lx_confirmation_email_text_color">@color/gray3</color>
     <color name="search_dropdown_disabled_stroke">@color/gray3</color>
 
-    <!--LX Filter Colors -->
-    <color name="lx_filter_activity_name_icon">@color/gray5</color>
-    <color name="lx_filter_neighborhood_text">@color/gray7</color>
-    <color name="lx_filter_text">@color/gray8</color>
-
     <!-- these colors crazy -->
     <color name="lx_confirmation_gradient">#80000000</color>
     <color name="lx_confirmation_background">#1A1D20</color>
