@@ -147,7 +147,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribe(vm.paymentCompleted)
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
-        vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
+        vm.depositPolicyText.subscribeText(depositPolicyText)
         vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
         vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
         vm.checkoutParams.subscribe {
@@ -380,7 +380,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             legalInformationText.setInverseVisibility(forward)
             depositPolicyText.setInverseVisibility(forward)
             bottomContainer.setInverseVisibility(forward)
-            cardFeeWarningTextView.setInverseVisibility(forward)
             if (!forward) {
                 Ui.hideKeyboard(paymentWidget)
                 invalidPaymentTypeWarningTextView.visibility = View.GONE
