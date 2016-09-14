@@ -1,19 +1,12 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.support.v7.app.AlertDialog
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.View
-import android.view.WindowManager
-import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
-import com.expedia.bookings.data.TravelerParams
-import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.subscribeText
 import com.expedia.vm.RailTravelerPickerViewModel
-import com.expedia.vm.TravelerPickerViewModel
-import rx.subjects.BehaviorSubject
 
 class RailTravelerWidgetV2(context: Context, attrs: AttributeSet?) : TravelerWidgetV2(context, attrs) {
 

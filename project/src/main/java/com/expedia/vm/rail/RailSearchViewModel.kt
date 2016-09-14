@@ -31,6 +31,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     val errorTimeTooltipColor = ContextCompat.getColor(context, R.color.cars_tooltip_disabled_color)
 
     init {
+        updateTraveler()
         departTimeSubject.subscribe {
             val isValid = !isStartTimeBeforeNow()
             departTimeSliderTooltipColor.onNext(if (isValid) defaultTimeTooltipColor else errorTimeTooltipColor)
@@ -42,6 +43,15 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         }
 
         setUpTimeSliderSubject.onNext(Pair(null,null))
+    }
+
+    override fun updateTraveler() {
+        travelersObservable.subscribe { update ->
+            getParamsBuilder().adults(update.numberOfAdults)
+            getParamsBuilder().children(update.childrenAges)
+            getParamsBuilder().youths(update.youthAges)
+            getParamsBuilder().seniors(update.seniorAges)
+        }
     }
 
     override val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->

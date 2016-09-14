@@ -60,7 +60,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         }
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.numberOfAdults + travelers.childrenAges.size
-            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.packages_search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
+            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
                     put("travelers", noOfTravelers).format().toString()
         }
 

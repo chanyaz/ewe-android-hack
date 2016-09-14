@@ -69,7 +69,7 @@ public class RailScreen {
 	}
 
 	public static void clickSelectFareOption() {
-		selectFareOption("£196.0").perform(scrollTo(), click());
+		selectFareOption("£617.20").perform(scrollTo(), click());
 	}
 
 	public static void clickAmenitiesLink(String fareClass) {
@@ -146,9 +146,9 @@ public class RailScreen {
 
 		SearchScreen.searchButton().perform(click());
 
-		onView(withText("3:55 PM – 7:22 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
+		onView(withText("12:55 PM – 4:16 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
-		onView(withText("You have 43m to get from London Euston to London Paddington")).check(matches(isDisplayed()));
+		onView(withText("You have 42m to get from London Euston to London Paddington")).check(matches(isDisplayed()));
 	}
 
 	public static void navigateToTripOverview() throws Throwable {
@@ -158,7 +158,7 @@ public class RailScreen {
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
 		RailScreen.clickSelectFareOption();
 
-		onView(withText("Outbound - Mon Aug 29")).perform(ViewActions.waitForViewToDisplay())
+		onView(withText("Outbound - Thu Nov 10")).perform(ViewActions.waitForViewToDisplay())
 			.check(matches(isDisplayed()));
 	}
 

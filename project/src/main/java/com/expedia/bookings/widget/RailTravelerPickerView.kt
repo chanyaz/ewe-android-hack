@@ -74,7 +74,7 @@ class RailTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravel
             seniorCountSelector.enableMinus(it)
         }
 
-        wireUpSpinners(childTravelerPickerSpinnersContainer.ageSpinners, RailChildAgeAgeSpinnerAdapter(), DEFAULT_CHILD_AGE, vm.childAgeSelectedObserver)
+        wireUpSpinners(childTravelerPickerSpinnersContainer.ageSpinners, RailChildAgeSpinnerAdapter(), DEFAULT_CHILD_AGE, vm.childAgeSelectedObserver)
         wireUpSpinners(youthTravelerPickerSpinnersContainer.ageSpinners, RailYouthAgeSpinnerAdapter(), DEFAULT_YOUTH_AGE, vm.youthAgeSelectedObserver)
         wireUpSpinners(seniorTravelerPickerSpinnersContainer.ageSpinners, RailSeniorAgeSpinnerAdapter(), DEFAULT_SENIOR_AGE, vm.seniorAgeSelectedObserver)
 
@@ -105,7 +105,10 @@ class RailTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravel
             spinner.setSelection(defaultAge)
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    selectedObserver.onNext(Pair(i, position))
+                    when (defaultAge) {
+                        position, DEFAULT_CHILD_AGE -> selectedObserver.onNext(Pair(i, position))
+                        else -> selectedObserver.onNext(Pair(i, position + defaultAge))
+                    }
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
