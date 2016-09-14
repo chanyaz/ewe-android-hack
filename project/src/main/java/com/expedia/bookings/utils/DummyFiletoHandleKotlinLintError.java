@@ -922,8 +922,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.traveler_picker_spinners_container,
 		R.string.error_select_rail_card_details,
 		R.string.error_rail_cards_greater_than_number_travelers,
-		R.color.lx_filter_neighborhood_text,
-		R.color.lx_filter_text,
 		R.string.filter_sort_by_content_description_TEMPLATE
 	};
 }

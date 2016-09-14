@@ -12,7 +12,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -61,12 +60,11 @@ public class LXSortFilterWidgetTest {
 		View filterContainer = widget.findViewById(R.id.filter_categories);
 		Button priceSortButton = (Button) widget.findViewById(R.id.price_sort_button);
 		Button popularitySortButton = (Button) widget.findViewById(R.id.popularity_sort_button);
-		EditText filterEditText = (EditText) widget.findViewById(R.id.filter_activity_name_edit_text);
 
 		assertNotNull(filterContainer);
 		assertNotNull(priceSortButton);
 		assertNotNull(popularitySortButton);
-		assertNotNull(filterEditText);
+
 
 		LinearLayout categoriesView = (LinearLayout) filterContainer.findViewById(R.id.filter_categories_widget);
 		assertNotNull(categoriesView);
@@ -98,25 +96,20 @@ public class LXSortFilterWidgetTest {
 		View filterContainer = widget.findViewById(R.id.filter_categories);
 		Button priceSortButton = (Button) widget.findViewById(R.id.price_sort_button);
 		Button popularitySortButton = (Button) widget.findViewById(R.id.popularity_sort_button);
-		EditText filterEditText = (EditText) widget.findViewById(R.id.filter_activity_name_edit_text);
 
 		assertNotNull(filterContainer);
 		assertNotNull(priceSortButton);
 		assertNotNull(popularitySortButton);
-		assertNotNull(filterEditText);
 
 		LXCategoryMetadata attractions = filterCategories.get("Attractions");
 		attractions.checked = true;
 		widget.onCategoryCheckChanged(new Events.LXFilterCategoryCheckedChanged(attractions, "Attractions"));
-		filterEditText.setText("Attraction");
-		assertEquals(2, widget.getNumberOfSelectedFilters());
+		assertEquals(1, widget.getNumberOfSelectedFilters());
 		widget.onDynamicFeedbackClearButtonClicked(new Events.DynamicFeedbackClearButtonClicked());
 
 		assertEquals(0, widget.getNumberOfSelectedFilters());
 		assertTrue(popularitySortButton.isSelected());
 		assertFalse(priceSortButton.isSelected());
-		assertEquals(filterEditText.getEditableText().toString(), "");
-
 	}
 
 	private Map<String, LXCategoryMetadata> buildCategories() {
