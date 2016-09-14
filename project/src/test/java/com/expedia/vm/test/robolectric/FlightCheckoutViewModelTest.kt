@@ -215,7 +215,7 @@ class FlightCheckoutViewModelTest {
         sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
 
         sut.tripResponseObservable.onNext(newTripResponse)
-        sut.paymentViewModel.cardBIN.onNext("000000")
+        sut.paymentViewModel.resetCardFees.onNext(Unit)
 
         hasCardFeeTestSubscriber.assertValue(false)
         cardFeeTextSubscriber.assertValueCount(1)
@@ -274,18 +274,16 @@ class FlightCheckoutViewModelTest {
         sut.paymentViewModel.cardBIN.onNext("654321")
         sut.paymentViewModel.resetCardFees.onNext(Unit)
 
-        cardFeeTextSubscriber.assertValueCount(3)
+        cardFeeTextSubscriber.assertValueCount(2)
         assertEquals("Airline processing fee for this card: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
         assertEquals("", cardFeeTextSubscriber.onNextEvents[1].toString())
-        assertEquals("", cardFeeTextSubscriber.onNextEvents[2].toString())
 
-        cardFeeWarningTextSubscriber.assertValueCount(3)
+        cardFeeWarningTextSubscriber.assertValueCount(2)
         assertEquals("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).",
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
         assertEquals("", cardFeeWarningTextSubscriber.onNextEvents[1].toString())
-        assertEquals("", cardFeeWarningTextSubscriber.onNextEvents[2].toString())
 
-        hasCardFeeTestSubscriber.assertValues(true, false, false)
+        hasCardFeeTestSubscriber.assertValues(true, false)
     }
 
     @Test
