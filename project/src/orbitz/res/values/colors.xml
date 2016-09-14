@@ -131,4 +131,8 @@
 
     <color name="error_widget_edit_button_selected_color">#00B1FF</color>
     <color name="error_button_color">@color/cars_primary_color</color>
+
+    <!-- Packages colors -->
+    <color name="packages_primary_color">#004D7C</color>
+    <color name="packages_secondary_color">#00b1ff</color>
 </resources>
