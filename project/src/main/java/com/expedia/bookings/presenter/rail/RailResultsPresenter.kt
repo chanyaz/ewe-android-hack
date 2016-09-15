@@ -9,8 +9,6 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
-import android.widget.ProgressBar
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
@@ -34,8 +32,6 @@ class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
 
     var viewmodel: RailResultsViewModel by notNullAndObservable { vm ->
         vm.railResultsObservable.subscribe {
-            resultsProgress.visibility = GONE
-            recyclerView.visibility = VISIBLE
             adapter.resultsSubject.onNext(it)
         }
 
@@ -47,16 +43,16 @@ class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
             toolbar.subtitle = it
         }
 
-        vm.directionHeaderSubject.subscribe(adapter.directionHeaderSubject)
+        vm.paramsSubject.subscribe {
+            adapter.showLoading()
+        }
 
+        vm.directionHeaderSubject.subscribe(adapter.directionHeaderSubject)
         vm.priceHeaderSubject.subscribe(adapter.priceHeaderSubject)
     }
 
-    val resultsProgress: ProgressBar by bindView(R.id.results_progress)
     val recyclerView: RecyclerView by bindView(R.id.list_view)
     var adapter: RailResultsAdapter by Delegates.notNull()
-
-    val resultsContainer: ViewGroup by bindView(R.id.results_container)
     val toolbar: Toolbar by bindView(R.id.toolbar)
 
     init {
@@ -66,21 +62,20 @@ class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
             val activity = context as AppCompatActivity
             activity.onBackPressed()
         }
+
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.rail_primary_color)
-            val statusBar = Ui.setUpStatusBar(context, toolbar, resultsContainer, color)
+            val statusBar = Ui.setUpStatusBar(context, toolbar, recyclerView, color)
             addView(statusBar)
         }
 
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
 
-        resultsProgress.visibility = VISIBLE
-        recyclerView.visibility = GONE
-
         adapter = RailResultsAdapter(context, legSelectedSubject)
         recyclerView.adapter = adapter
+        adapter.showLoading()
 
         legSelectedSubject.subscribe {
             val offer = adapter.resultsSubject.value.findOfferForLeg(it)
