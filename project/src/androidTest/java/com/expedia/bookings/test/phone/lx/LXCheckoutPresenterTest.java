@@ -30,6 +30,7 @@ public class LXCheckoutPresenterTest extends LxTestCase {
 
 		final String ticketName = "2-Day";
 		LXInfositeScreen.selectOffer("2-Day New York Pass").perform(scrollTo(), click());
+		LXInfositeScreen.bookNowButton("2-Day New York Pass").perform(scrollTo());
 		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(waitFor(isDisplayed(), 2L,
 			TimeUnit.SECONDS), scrollTo(), click());
 		LXInfositeScreen.ticketAddButton(ticketName, "Adult").perform(scrollTo(), click());

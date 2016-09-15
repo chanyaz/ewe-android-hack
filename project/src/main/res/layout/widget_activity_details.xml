@@ -93,6 +93,52 @@
 
             </HorizontalScrollView>
 
+            <include
+                android:id="@+id/event_location"
+                layout="@layout/widget_lx_detail_section_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="0dp"
+                android:visibility="gone"/>
+
+            <include
+                android:id="@+id/redemption_location"
+                layout="@layout/widget_lx_detail_section_data"
+                android:visibility="gone"/>
+
+
+            <View
+                android:id="@+id/map_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/hotel_detail_divider"
+                android:visibility="gone"/>
+
+            <com.expedia.bookings.widget.FrameLayout
+                android:id="@+id/map_click_container"
+                android:layout_width="wrap_content"
+                android:layout_height="160dp"
+                android:contentDescription="@string/activity_map_view_cont_desc"
+                android:visibility="gone">
+
+                <com.expedia.bookings.widget.LocationMapImageView
+                    android:id="@+id/mini_map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="480dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop" />
+
+                <View
+                    android:id="@+id/transparent_view_over_mini_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="480dp"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:paddingBottom="160dp" />
+
+            </com.expedia.bookings.widget.FrameLayout>
+
             <include layout="@layout/widget_lx_offer_list" />
 
             <include

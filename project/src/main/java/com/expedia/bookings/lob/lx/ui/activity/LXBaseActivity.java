@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.ui.AbstractAppCompatActivity;
+import com.google.android.gms.maps.MapView;
 import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
@@ -37,6 +38,9 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 
 	@InjectView(R.id.lx_base_presenter)
 	LXPresenter lxPresenter;
+
+	@InjectView(R.id.details_map_view)
+	MapView detailsMapView;
 
 	private LXCurrentLocationSuggestionObserver currentLocationSuggestionObserver;
 	private Subscription currentLocationSuggestionSubscription;
@@ -68,7 +72,7 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		lxPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
 		lxPresenter.setUserBucketedForRecommendationTest(isUserBucketedForRecommendationTest && !isGroundTransport);
 		lxPresenter.setUserBucketedForRTRTest(isUserBucketedForRTRTest && !isGroundTransport);
-
+		detailsMapView.onCreate(savedInstanceState);
 		Ui.showTransparentStatusBar(this);
 		handleNavigationViaDeepLink();
 	}
@@ -178,18 +182,21 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 
 	@Override
 	protected void onResume() {
+		detailsMapView.onResume();
 		super.onResume();
 		Events.register(this);
 	}
 
 	@Override
 	protected void onDestroy() {
+		detailsMapView.onDestroy();
 		Ui.getApplication(this).setLXTestComponent(null);
 		super.onDestroy();
 	}
 
 	@Override
 	protected void onPause() {
+		detailsMapView.onPause();
 		super.onPause();
 		Events.unregister(this);
 

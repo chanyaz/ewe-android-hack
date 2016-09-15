@@ -26,6 +26,7 @@ import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
+import com.expedia.bookings.presenter.ScaleTransition;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
@@ -33,11 +34,15 @@ import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.LXActivityDetailsWidget;
+import com.expedia.bookings.widget.LXMapView;
+import com.google.android.gms.maps.GoogleMap;
 import com.squareup.otto.Subscribe;
 
 import butterknife.InjectView;
+import kotlin.Unit;
 import rx.Observer;
 import rx.Subscription;
+import rx.functions.Action1;
 
 public class LXDetailsPresenter extends Presenter {
 	private LXActivity lxActivity;
@@ -50,6 +55,9 @@ public class LXDetailsPresenter extends Presenter {
 
 	@InjectView(R.id.activity_details)
 	LXActivityDetailsWidget details;
+
+	@InjectView(R.id.lx_maps_view)
+	LXMapView fullscreenMapView;
 
 	@InjectView(R.id.toolbar)
 	Toolbar toolbar;
@@ -89,8 +97,15 @@ public class LXDetailsPresenter extends Presenter {
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		Ui.getApplication(getContext()).lxComponent().inject(this);
+		addTransition(detailToMap);
 		setupToolbar();
 		details.addOnScrollListener(parallaxScrollListener);
+		details.mapClickSubject.subscribe(new Action1<Unit>() {
+			@Override
+			public void call(Unit unit) {
+				show(fullscreenMapView);
+			}
+		});
 	}
 
 	@Override
@@ -148,6 +163,28 @@ public class LXDetailsPresenter extends Presenter {
 		public void onNext(ActivityDetailsResponse activityDetails) {
 			Events.post(new Events.LXShowDetails(activityDetails));
 			show(details, FLAG_CLEAR_BACKSTACK);
+			fullscreenMapView.getViewmodel().getOffersObserver().onNext(activityDetails);
+		}
+	};
+
+	public Transition detailToMap = new ScaleTransition(this, LXActivityDetailsWidget.class, LXMapView.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			if (forward) {
+				details.setVisibility(GONE);
+				fullscreenMapView.setVisibility(VISIBLE);
+				toolbarBackground.setVisibility(GONE);
+				toolbar.setVisibility(GONE);
+				fullscreenMapView.getGoogleMap().setMapType(GoogleMap.MAP_TYPE_NORMAL);
+			}
+			else {
+				details.setVisibility(VISIBLE);
+				fullscreenMapView.setVisibility(GONE);
+				toolbarBackground.setVisibility(VISIBLE);
+				toolbar.setVisibility(VISIBLE);
+				fullscreenMapView.getGoogleMap().setMapType(GoogleMap.MAP_TYPE_NONE);
+			}
 		}
 	};
 
@@ -256,7 +293,8 @@ public class LXDetailsPresenter extends Presenter {
 
 	@Override
 	public boolean back() {
-		if (navIcon.getParameter() != ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()) {
+		if (navIcon.getParameter() != ArrowXDrawableUtil.ArrowDrawableType.BACK.getType() && !LXMapView.class.getName()
+			.equals(getCurrentState())) {
 			details.toggleFullScreenGallery();
 			return true;
 		}

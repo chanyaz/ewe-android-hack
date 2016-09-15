@@ -109,6 +109,7 @@
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_hotel_favorite">preference_enable_hotel_favorite</string>
     <string name="preference_enable_rail">preference_enable_rail</string>
+    <string name="preference_enable_activity_map">preference_enable_activity_map</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

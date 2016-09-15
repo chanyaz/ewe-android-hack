@@ -21,6 +21,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
@@ -229,7 +230,7 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 			miniMapContainer.setVisibility(View.VISIBLE);
 
 			LocationMapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
-			staticMapImageView.setLocation(relevantLocation);
+			staticMapImageView.setLocation(new LatLong(relevantLocation.getLatitude(), relevantLocation.getLongitude()));
 		}
 		else {
 			miniMapContainer.setVisibility(View.GONE);

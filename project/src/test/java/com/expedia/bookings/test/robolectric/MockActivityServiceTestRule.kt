@@ -1,0 +1,23 @@
+package com.expedia.bookings.test.robolectric
+
+import com.expedia.bookings.data.lx.ActivityDetailsResponse
+import com.expedia.bookings.services.LxServices
+import com.expedia.bookings.testrule.ServicesRule
+import org.joda.time.LocalDate
+import rx.observers.TestSubscriber
+
+class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.java) {
+
+    fun getHappyOffersResponse(): ActivityDetailsResponse {
+        return getActivityOffersResponse("happy")
+    }
+
+    private fun getActivityOffersResponse(activityId: String): ActivityDetailsResponse {
+        var observer = TestSubscriber<ActivityDetailsResponse>()
+
+        services?.lxDetails(activityId, activityId, LocalDate.now().plusDays(4),
+                LocalDate.now().plusDays(6), observer)
+        observer.awaitTerminalEvent()
+        return observer.onNextEvents.get(0)
+    }
+}

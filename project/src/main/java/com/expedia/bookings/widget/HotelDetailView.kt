@@ -30,7 +30,7 @@ import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.HotelFavoriteHelper
-import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Amenity
@@ -282,10 +282,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
         vm.hotelLatLngObservable.subscribe {
             values ->
-            val location = Location()
-            location.latitude = values[0]
-            location.longitude = values[1]
-            miniMapView.setLocation(location)
+            miniMapView.setLocation(LatLong(values[0], values[1]))
         }
         vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
