@@ -319,11 +319,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                     val hasPaymentTypeWarning = invalidPaymentTypeWarning.isNotBlank()
                     val visibility = if (hasPaymentTypeWarning && showingGuestPaymentForm) View.VISIBLE else View.GONE
                     invalidPaymentTypeWarningTextView.text = invalidPaymentTypeWarning
-                    if (visibility == View.VISIBLE) {
+                    if (visibility == View.VISIBLE && invalidPaymentTypeWarningTextView.visibility == View.GONE) {
                         invalidPaymentTypeWarningTextView.visibility = visibility
                         AnimUtils.slideIn(invalidPaymentTypeWarningTextView)
                         toolbarDropShadow.visibility = visibility
-                    } else if (invalidPaymentTypeWarningTextView.visibility == View.VISIBLE) {
+                    } else if (visibility == View.GONE && invalidPaymentTypeWarningTextView.visibility == View.VISIBLE) {
                         AnimUtils.slideOut(invalidPaymentTypeWarningTextView)
                     }
                 }).subscribe()
