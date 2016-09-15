@@ -2145,8 +2145,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">The &lt;b&gt;%1$s&lt;/b&gt; resort fee will be collected at the hotel. The total price for your stay will be &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">The total for your trip will be &lt;b&gt;%1$s&lt;/b&gt;. You\'ll pay the hotel the total cost of your booking (in the hotel\'s local currency) during your stay.</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">A deposit of &lt;b&gt;%1$s&lt;/b&gt; will be collected now. You\'ll pay the hotel the remaining cost of your booking (in the hotel\'s local currency) during your stay.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">The total for your trip, including &lt;b&gt;%1$s&lt;/b&gt; resort fee, will be &lt;b&gt;%2$s&lt;/b&gt;. You\'ll pay the hotel the total cost of your booking (in the hotel\'s local currency) during your stay.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -3885,9 +3883,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">Press to filter for high-range hotel prices</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">Remove hotel price filters</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">Press to select this hotel</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">Press to display recent reviews</string>

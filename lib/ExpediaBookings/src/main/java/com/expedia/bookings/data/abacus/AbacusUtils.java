@@ -43,6 +43,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelHCKOCardIOTest = 10799;
 	public static final int EBAndroidAppHotelFavoriteTest = 10989;
 	public static final int EBAndroidAppSmartLockTest = 11269;
+	public static final int EBAndroidAppHotelResultsPerceivedInstantTest = 10555;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
@@ -86,6 +87,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightTest);
 		testIDs.add(EBAndroidAppFlightInsurance);
 		testIDs.add(EBAndroidAppHotelSearchScreenSoldOutTest);
+		testIDs.add(EBAndroidAppHotelResultsPerceivedInstantTest);
 		testIDs.add(EBAndroidAppLXCrossSellOnHotelConfirmationTest);
 		testIDs.add(EBAndroidAppHotelHCKOCardIOTest);
 		testIDs.add(EBAndroidAppSmartLockTest);

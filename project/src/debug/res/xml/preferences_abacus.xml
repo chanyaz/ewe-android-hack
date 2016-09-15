@@ -83,6 +83,15 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Hotel Search Screen Sold Out Test - 10554" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="10555"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Hotel Results Perceived Instant Test - 10555" />
     </PreferenceCategory>
 
     <PreferenceCategory

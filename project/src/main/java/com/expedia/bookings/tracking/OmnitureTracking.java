@@ -104,7 +104,6 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.util.ToggleFeatureConfiguration;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -358,7 +357,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsMemberDealTest);
 
 		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppHotelFavoriteTest,
-			R.string.preference_enable_hotel_favorite, ToggleFeatureConfiguration.HOTEL_FAVORITE_FEATURE)) {
+			R.string.preference_enable_hotel_favorite)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
 		}
 

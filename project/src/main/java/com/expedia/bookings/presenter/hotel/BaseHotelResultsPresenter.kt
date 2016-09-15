@@ -257,6 +257,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         return (mapTransitionRunning || (recyclerView.adapter as BaseHotelListAdapter).isLoading())
     }
 
+    val addListResultsObserver = endlessObserver<HotelSearchResponse> {
+        filterView.viewmodel.setHotelList(it)
+        adapter.addResultsSubject.onNext(it)
+    }
+
     val listResultsObserver = endlessObserver<HotelSearchResponse> {
         filterView.viewmodel.setHotelList(it)
         loadingOverlay?.animate(false)

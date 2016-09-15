@@ -110,6 +110,7 @@
     <string name="preference_enable_hotel_favorite">preference_enable_hotel_favorite</string>
     <string name="preference_enable_rail">preference_enable_rail</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
+    <string name="preference_enable_hotel_results_perceived_instant">preference_enable_hotel_results_perceived_instant</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

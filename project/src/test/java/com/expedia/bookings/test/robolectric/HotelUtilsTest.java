@@ -5,13 +5,14 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 
 import android.app.Activity;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.utils.HotelUtils;
 import com.squareup.phrase.Phrase;
+import java.util.ArrayList;
 
 import static org.junit.Assert.assertEquals;
 
@@ -108,4 +109,31 @@ public class HotelUtilsTest {
 		assertEquals(expectedText, resultText);
 	}
 
+	@Test
+	public void testFirstUncommonHotelIndex() throws Throwable {
+		ArrayList<Hotel> firstHotelsList = new ArrayList();
+		ArrayList<Hotel> secondHotelsList = new ArrayList();
+
+		for (int i = 0; i < 15; i++) {
+			Hotel hotel = new Hotel();
+			hotel.hotelId = i + "";
+			firstHotelsList.add(hotel);
+			secondHotelsList.add(hotel);
+		}
+
+		for (int i = 15; i < 25; i++) {
+			Hotel hotel = new Hotel();
+			hotel.hotelId = i + "";
+			secondHotelsList.add(hotel);
+		}
+		assertEquals(Integer.MAX_VALUE, HotelUtils.getFirstUncommonHotelIndex(firstHotelsList, secondHotelsList));
+		assertEquals(Integer.MAX_VALUE, HotelUtils.getFirstUncommonHotelIndex(secondHotelsList, firstHotelsList));
+
+		Hotel hotel = new Hotel();
+		hotel.hotelId = 18 + "";
+		firstHotelsList.add(hotel);
+
+		assertEquals(15, HotelUtils.getFirstUncommonHotelIndex(firstHotelsList, secondHotelsList));
+		assertEquals(15, HotelUtils.getFirstUncommonHotelIndex(secondHotelsList, firstHotelsList));
+	}
 }
