@@ -1050,6 +1050,10 @@
     <string name="select_rail_card_hint">选择铁路卡</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
     <string name="select_rail_card_quantity_hint">数量</string>
+    <!-- Error message when rail card details not selected on add rail cards dialog -->
+    <string name="error_select_rail_card_details">请选择铁路卡详细信息。</string>
+    <!-- Error message when rail cards selected is greater than no. of travelers -->
+    <string name="error_rail_cards_greater_than_number_travelers">铁路卡的数量不能超过旅客人数。</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">始发</string>
@@ -1630,7 +1634,7 @@
     <!-- 1: traveler name 2: city name 3: date(mm/dd/yyyy) 4: SharableURL -->
     <string name="share_msg_template_short_flight_reshare">%1$s %3$s飞往%2$s！\n%4$s</string>
     <!-- Car rental share subject 1: pick up date 2: drop off date -->
-    <string name="share_template_subject_car">租车(%1$s – %2$s)</string>
+    <string name="share_template_subject_car">租车（%1$s – %2$s）</string>
     <!-- Car rental share subject (no dates) -->
     <string name="share_template_subject_car_no_dates">租车</string>
     <!-- 1: vehicle type -->
@@ -3115,9 +3119,9 @@
     <string name="hotel_fees_for_this_stay">此次住宿的酒店费用</string>
     <!-- Resort fee text for pacakges-->
     <string name="additional_fees_at_check_in">办理入住时的额外费用</string>
-    <!-- Included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are included in the room price shown to the user -->
     <string name="included_in_the_price">已含在房价内</string>
-    <!-- Not included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are not included in the room price shown to the user -->
     <string name="not_included_in_the_price">未包含在价格内</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">查看客房</string>
@@ -4060,6 +4064,8 @@
     <string name="show_more">显示更多</string>
     <string name="show_less">隐藏信息</string>
     <string name="price_range">价格范围</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
+    <string name="filter_sort_by_content_description_TEMPLATE">排序方式：{sort}。</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">将“我的最爱”添加到筛选屏幕</string>
@@ -4704,9 +4710,16 @@
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">选中的活动，{caption}</string>
 
-    <!-- Gallery Image count e.g. 1/14 -->
-    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
-    <!-- Content Description for current index of the photo in the gallery -->
-    <string name="galley_photo_count_content_description_TEMPLATE">按钮：查看第 {index} 张图库照片（共 {count} 张）</string>
+    <!-- Gallery Image count e.g. "1/14" -->
+    <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
+
+    <!-- Content description for hotel immage gallery -->
+    <string name="gallery_cont_desc">照片库</string>
+
+    <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
+    <string name="gallery_photo_count_content_description_TEMPLATE">按钮：查看第 {index} 张照片（共 {count} 张）</string>
+
+    <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
+    <string name="multiple_carriers_text">多家运营商</string>
 
 </resources>
