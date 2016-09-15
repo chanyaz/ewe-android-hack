@@ -3,7 +3,6 @@ package com.expedia.bookings.unit;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -24,7 +23,6 @@ import com.expedia.bookings.data.rail.responses.RailProduct;
 import com.expedia.bookings.data.rail.responses.RailSearchResponse;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.RailServices;
-import com.expedia.bookings.utils.Constants;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
@@ -55,10 +53,8 @@ public class RailServicesTest {
 		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		Interceptor interceptor = new MockInterceptor();
-		HashMap<String, String> urlMap = new HashMap<>();
-		urlMap.put(Constants.MOCK_MODE, "http://localhost:" + server.getPort());
-		service = new RailServices(urlMap, new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, Schedulers.immediate(), Schedulers.immediate());
+		service = new RailServices("http://localhost:" + server.getPort(), new OkHttpClient.Builder().addInterceptor(logger).build(),
+			interceptor, interceptor, Schedulers.immediate(), Schedulers.immediate());
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
