@@ -79,10 +79,10 @@ public class CommonSectionValidators {
 	};
 
 	public static class PhoneNumberLengthValidator extends PatternValidator {
-		private static final Pattern THREE_NUMBERS_PATTERN = Pattern.compile(".*\\d+.*\\d+.*\\d+.*");//atleast three digits
+		private static final Pattern FOUR_NUMBERS_PATTERN = Pattern.compile(".*\\d+.*\\d+.*\\d+.*\\d+.*");//atleast four digits
 
 		public PhoneNumberLengthValidator() {
-			super(THREE_NUMBERS_PATTERN);
+			super(FOUR_NUMBERS_PATTERN);
 		}
 	}
 

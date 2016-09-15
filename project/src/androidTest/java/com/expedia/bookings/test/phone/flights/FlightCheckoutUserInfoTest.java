@@ -239,8 +239,8 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		// Verifying that phone number must be at least 3 chars long
-		FlightsTravelerInfoScreen.enterPhoneNumber("95");
+		// Verifying that phone number must be at least 4 chars long
+		FlightsTravelerInfoScreen.enterPhoneNumber("951");
 		FlightsTravelerInfoScreen.clickNextButton();
 		FlightsTravelerInfoScreen.firstNameEditText()
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
@@ -250,7 +250,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 		FlightsTravelerInfoScreen.phoneNumberEditText().perform(clearText());
-		FlightsTravelerInfoScreen.enterPhoneNumber("951");
+		FlightsTravelerInfoScreen.enterPhoneNumber("9512");
 		FlightsTravelerInfoScreen.firstNameEditText()
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.lastNameEditText()
