@@ -88,8 +88,8 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         val isBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
         val makeMultipleCalls = isInitial && isBucketed
         hotelServices?.search(params, clientLogBuilder, if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED)?.subscribe(object : Observer<HotelSearchResponse> {
-            override fun onNext(it: HotelSearchResponse) {
-                onSearchResponse(it, isInitial)
+            override fun onNext(hotelSearchResponse: HotelSearchResponse) {
+                onSearchResponse(hotelSearchResponse, isInitial)
                 if (makeMultipleCalls) {
                     searchHotels(params, false)
                 }
@@ -113,11 +113,11 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
         })
     }
 
-    private fun onSearchResponse(it: HotelSearchResponse, isInitial: Boolean) {
+    private fun onSearchResponse(hotelSearchResponse: HotelSearchResponse, isInitial: Boolean) {
         clientLogBuilder?.processingTime(DateTime.now())
-        if (it.hasErrors()) {
-            errorObservable.onNext(it.firstError)
-        } else if (it.hotelList.isEmpty()) {
+        if (hotelSearchResponse.hasErrors()) {
+            errorObservable.onNext(hotelSearchResponse.firstError)
+        } else if (hotelSearchResponse.hotelList.isEmpty()) {
             var error: ApiError
             if (titleSubject.value == context.getString(R.string.visible_map_area)) {
                 error = ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS)
@@ -126,14 +126,14 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
             }
             errorObservable.onNext(error)
         } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
-            mapResultsObservable.onNext(it)
+            mapResultsObservable.onNext(hotelSearchResponse)
         } else {
             if (isInitial) {
-                hotelResultsObservable.onNext(it)
+                hotelResultsObservable.onNext(hotelSearchResponse)
             } else {
-                addHotelResultsObservable.onNext(it)
+                addHotelResultsObservable.onNext(hotelSearchResponse)
             }
-            HotelTracking().trackHotelsSearch(paramsSubject.value, it)
+            HotelTracking().trackHotelsSearch(paramsSubject.value, hotelSearchResponse)
         }
     }
 

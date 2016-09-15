@@ -14,6 +14,7 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
 import com.expedia.util.endlessObserver
@@ -61,13 +62,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             val elements = response.hotelList.filter { responseHotel -> hotels.filter { responseHotel.hotelId.contains(it.hotelId) }.isEmpty() }
             hotels.addAll(elements)
             var newHotels = HotelServices.putSponsoredItemsInCorrectPlaces(hotels)
-            var initialRefreshIndex = 0
-            for (i in 0..hotels.size - 1) {
-                if (!hotels[i].hotelId.equals(newHotels[i].hotelId)) {
-                    initialRefreshIndex = i
-                    break
-                }
-            }
+            var initialRefreshIndex = HotelUtils.getFirstUncommonHotelIndex(hotels, newHotels)
             hotels = newHotels as ArrayList<Hotel>
             notifyItemRangeInserted(initialRefreshIndex, hotels.size)
         }
