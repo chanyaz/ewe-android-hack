@@ -11,7 +11,6 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.utils.Constants
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -21,34 +20,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import java.util.HashMap
 
-class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     var subscription: Subscription? = null
 
     val railApi by lazy {
-        val gson = GsonBuilder().create();
         val adapter = Retrofit.Builder()
-                .baseUrl(domainUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
-                .build()
-
-        adapter.create(RailApi::class.java)
-    }
-
-    //TODO remove this once domain and mobile endpoints available in integration
-    val domainUrl = endpointMap[Constants.MOCK_MODE] ?: endpointMap[Constants.DOMAIN]
-    val mobileUrl = endpointMap[Constants.MOCK_MODE] ?: endpointMap[Constants.MOBILE]
-
-    val railMApi by lazy {
-        val adapter = Retrofit.Builder()
-                .baseUrl(mobileUrl)
+                .baseUrl(endpoint)
                 .addConverterFactory(buildRailGsonConverter())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).addInterceptor(railRequestInterceptor).build())
                 .build()
 
         adapter.create(RailApi::class.java)
@@ -99,7 +81,7 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
 
     fun railCheckoutTrip(params: RailCheckoutParams, observer: Observer<RailCheckoutResponseWrapper>): Subscription {
         cancel()
-        val subscription = railMApi.railCheckout(params)
+        val subscription = railApi.railCheckout(params)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
@@ -119,7 +101,7 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
 
     fun railGetCardFees(tripId: String, creditCardId: String, ticketDeliveryOption: String, observer: Observer<CardFeeResponse>): Subscription {
         cancel()
-        val subscription = railMApi.cardFees(tripId, creditCardId, ticketDeliveryOption)
+        val subscription = railApi.cardFees(tripId, creditCardId, ticketDeliveryOption)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .subscribe(observer)
