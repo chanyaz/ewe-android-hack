@@ -179,12 +179,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     private val baggageFeeTransition = object : Transition(FlightOverviewPresenter::class.java, BaggageFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            if (forward) {
-                toolbarViewModel.setTitleOnly.onNext(context.getString(R.string.package_flight_overview_baggage_fees))
-            }
-            else {
-                toolbarViewModel.refreshToolBar.onNext(false)
-            }
+            toolbar.visibility = if (forward) View.GONE else View.VISIBLE
             AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             viewBundleSetVisibility(false)
             overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
@@ -196,12 +191,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     private val paymentFeeTransition = object : Transition(FlightOverviewPresenter::class.java, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            if (forward) {
-                toolbarViewModel.setTitleOnly.onNext(context.getString(if (airlinesChargePaymentFees) R.string.Airline_fee else R.string.flights_flight_overview_payment_fees))
-            }
-            else {
-                toolbarViewModel.refreshToolBar.onNext(false)
-            }
+            toolbar.visibility = if (forward) View.GONE else View.VISIBLE
             overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
             baggageFeeInfoWebView.visibility = View.GONE
             paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE

@@ -86,6 +86,13 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         selectedCardFeeObservable.onNext(cardFee)
     }
 
+    override fun resetCardFees() {
+        val newTripResponse = tripResponseObservable.value as FlightCreateTripResponse
+        newTripResponse.selectedCardFees = null
+        newTripResponse.totalPriceIncludingFees = null
+        cardFeeTripResponse.onNext(newTripResponse)
+    }
+
     override fun getTripId(): String {
         if (tripResponseObservable.value != null) {
             val flightCreateTripResponse = tripResponseObservable.value as FlightCreateTripResponse

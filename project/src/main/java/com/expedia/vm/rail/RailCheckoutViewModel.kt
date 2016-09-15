@@ -26,6 +26,10 @@ class RailCheckoutViewModel(context: Context) : BaseCheckoutViewModel(context) {
         throw UnsupportedOperationException()
     }
 
+    override fun resetCardFees() {
+        throw UnsupportedOperationException()
+    }
+
     val totalPriceObserver = endlessObserver<Money> { totalPrice ->
         val slideToPurchaseText = Phrase.from(context, R.string.your_card_will_be_charged_template)
                 .put("dueamount", totalPrice.formattedMoneyFromAmountAndCurrencyCode)
