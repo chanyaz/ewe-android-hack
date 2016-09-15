@@ -46,6 +46,9 @@ public class PackageCreateTripParams {
 		return infantsInLap;
 	}
 
+	public boolean isInfantsInSeat() {
+		return !infantsInLap;
+	}
 	public List<Integer> getChildAges() {
 		return childAges;
 	}
