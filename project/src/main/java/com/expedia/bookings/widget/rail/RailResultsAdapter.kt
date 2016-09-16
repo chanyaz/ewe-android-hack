@@ -8,13 +8,16 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.RailViewModel
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeText
 import com.mobiata.flightlib.utils.DateTimeUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSubject<RailLegOption>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -24,12 +27,14 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     val resultsSubject = BehaviorSubject.create<RailSearchResponse>()
     val directionHeaderSubject = BehaviorSubject.create<CharSequence>()
     val priceHeaderSubject = BehaviorSubject.create<CharSequence>()
+    private val NUMBER_LOADING_TILES = 5
 
     private var legs: List<RailLegOption> = emptyList()
 
     enum class ViewTypes {
         RESULTS_HEADER_VIEW,
-        RAIL_CELL_VIEW
+        RAIL_CELL_VIEW,
+        LOADING_VIEW
     }
 
     init {
@@ -43,13 +48,18 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
         }
     }
 
-    fun isLoading(): Boolean {
-        return loading
-    }
-
     fun showLoading() {
         loadingSubject.onNext(Unit)
+        loadMockLegs()
         notifyDataSetChanged()
+    }
+
+    private fun loadMockLegs() {
+        val mockLegOptions = ArrayList<RailLegOption>()
+        for (tileCount in 0..NUMBER_LOADING_TILES) {
+            mockLegOptions.add(RailLegOption())
+        }
+        this.legs = mockLegOptions
     }
 
     override fun getItemCount(): Int {
@@ -59,6 +69,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is RailViewHolder -> holder.bind(legs[position])
+            is LoadingViewHolder -> holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, position % 2 == 0))
         }
     }
 
@@ -67,6 +78,10 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
             ViewTypes.RESULTS_HEADER_VIEW.ordinal -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.trip_header, parent, false)
                 return HeaderViewHolder(view as ViewGroup)
+            }
+            ViewTypes.LOADING_VIEW.ordinal -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.search_results_loading_tile_widget, parent, false)
+                return LoadingViewHolder(view)
             }
             else -> {
                 val view = LayoutInflater.from(parent.context).inflate(R.layout.rail_cell, parent, false)
@@ -78,6 +93,8 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     override fun getItemViewType(position: Int): Int {
         if (position == 0) {
             return ViewTypes.RESULTS_HEADER_VIEW.ordinal
+        } else if (loading) {
+            return ViewTypes.LOADING_VIEW.ordinal
         } else {
             return ViewTypes.RAIL_CELL_VIEW.ordinal
         }

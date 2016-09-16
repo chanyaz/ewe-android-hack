@@ -13,14 +13,4 @@ class RailResultsRecyclerView(context: Context, attrs: AttributeSet) : RecyclerV
     init {
         setLayoutManager(layoutManager)
     }
-
-    override fun dispatchTouchEvent(ev: MotionEvent): Boolean {
-        val adapter = adapter as RailResultsAdapter
-
-        if (adapter.isLoading()) {
-            return true;
-        }
-
-        return super.dispatchTouchEvent(ev);
-    }
 }
