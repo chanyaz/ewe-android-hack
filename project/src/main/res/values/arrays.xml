@@ -861,6 +861,20 @@
         <item>3</item>
     </string-array>
 
+    <string-array name="abacus_hotel_filter_prominence">
+        <item>@string/preference_abacus_setting_server</item>
+        <item>@string/preference_abacus_setting_control</item>
+        <item>Sort &amp; Filter never hides</item>
+        <item>Filter in nav bar</item>
+    </string-array>
+
+    <string-array name="abacus_hotel_filter_prominence_values">
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+    </string-array>
+
     <string-array name="hoursList">
         <item>12:00 am</item>
         <item>1:00 am</item>
