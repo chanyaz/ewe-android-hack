@@ -41,7 +41,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         assertEquals(null, rows[0].typeface)
         assertEquals(false, rows[0].separator)
 
-        assertEquals("1 room, 2 nights, 2 guests", rows[1].title)
+        assertEquals("1 room, 2 nights, 5 guests", rows[1].title)
         assertEquals(null, rows[1].cost)
         assertEquals(null, rows[1].color)
         assertEquals(null, rows[1].typeface)
@@ -189,7 +189,7 @@ class PackageCostSummaryBreakdownViewModelTest {
         assertEquals(null, rows[0].typeface)
         assertEquals(false, rows[0].separator)
 
-        assertEquals("1 room, 2 nights, 2 guests", rows[1].title)
+        assertEquals("1 room, 2 nights, 5 guests", rows[1].title)
         assertEquals(null, rows[1].cost)
         assertEquals(null, rows[1].color)
         assertEquals(null, rows[1].typeface)
