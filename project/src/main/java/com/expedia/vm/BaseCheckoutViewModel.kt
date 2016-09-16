@@ -21,6 +21,7 @@ import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
 import rx.Scheduler
+import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -157,6 +158,7 @@ abstract class BaseCheckoutViewModel(val context: Context) {
         }).subscribe()
 
         paymentViewModel.resetCardFees.subscribe {
+            cardFeeService?.cancel()
             paymentTypeSelectedHasCardFee.onNext(false)
             cardFeeTextSubject.onNext(Html.fromHtml(""))
             cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(selectedFlightChargesFees.value, obFeeDetailsUrlSubject.value))
