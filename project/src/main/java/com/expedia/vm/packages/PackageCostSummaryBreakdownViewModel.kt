@@ -27,7 +27,7 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
             breakdowns.add(
                     makeRoomNightsAndGuestRow(packageDetails.hotel.numberOfRooms.toInt(),
                             packageDetails.hotel.numberOfNights.toInt(),
-                            packageDetails.hotel.adultCount.toInt()))
+                            packageDetails.flight.details.offer.pricePerPassengerCategory.size))
 
             // Taxes and Fees     $50
             breakdowns.add(
