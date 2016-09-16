@@ -7,14 +7,15 @@ import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
+import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.HashMap
 import java.util.LinkedHashSet
 
-class FlightOffersViewModel( context: Context,
-                             flightSearchResponseSubject: PublishSubject<FlightSearchResponse>,
-                             val isRoundTripSearchSubject: BehaviorSubject<Boolean> ) {
+class FlightOffersViewModel(context: Context,
+                            val flightSearchResponseSubject: PublishSubject<FlightSearchResponse>,
+                            val isRoundTripSearchSubject: BehaviorSubject<Boolean>) {
 
     val confirmedOutboundFlightSelection = BehaviorSubject.create<FlightLeg>()
     val confirmedInboundFlightSelection = BehaviorSubject.create<FlightLeg>()
@@ -27,21 +28,18 @@ class FlightOffersViewModel( context: Context,
     val outboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
+    val cancelSearchObservable = PublishSubject.create<Unit>()
 
     private var isRoundTripSearch = true
     private lateinit var flightMap: HashMap<String, LinkedHashSet<FlightLeg>>
     private lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
+    private var flightSearchResponseSubjectSubscription: Subscription? = null
 
     init {
-        flightSearchResponseSubject.subscribe {
-            val obFeeDetailsUrl =
-                    if (getAirlineChargesPaymentFees()) {
-                        PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL
-                    } else {
-                        it.obFeesDetails
-                    }
-            obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
-            createFlightMap(it)
+        makeNewFlightSearchResponseSubject()
+
+        cancelSearchObservable.subscribe {
+            makeNewFlightSearchResponseSubject()
         }
 
         isRoundTripSearchSubject.subscribe {
@@ -66,6 +64,20 @@ class FlightOffersViewModel( context: Context,
         }
     }
 
+    private fun makeNewFlightSearchResponseSubject() {
+        flightSearchResponseSubjectSubscription?.unsubscribe()
+        flightSearchResponseSubjectSubscription = flightSearchResponseSubject.subscribe {
+            val obFeeDetailsUrl =
+                    if (getAirlineChargesPaymentFees()) {
+                        PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL
+                    } else {
+                        it.obFeesDetails
+                    }
+            obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
+            createFlightMap(it)
+        }
+    }
+
     private fun getAirlineChargesPaymentFees(): Boolean {
         return PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
     }
@@ -82,8 +94,8 @@ class FlightOffersViewModel( context: Context,
         confirmedOutboundFlightSelection.subscribe { flight ->
             if (isRoundTripSearch) {
                 selectOutboundFlight(flight.legId)
-            }
-            else { // one-way flights
+            } else {
+                // one-way flights
                 val outboundLegId = flight.legId
                 val inboundLegId = flight.legId // yes, they are the same. It will get us the flight offer
                 selectFlightOffer(outboundLegId, inboundLegId)
@@ -144,7 +156,7 @@ class FlightOffersViewModel( context: Context,
             }
             var flights = flightMap[outboundId]
             if (flights == null) {
-                flights  = LinkedHashSet()
+                flights = LinkedHashSet()
             }
             if (inboundLeg != null) {
                 flights.add(inboundLeg)
@@ -154,7 +166,7 @@ class FlightOffersViewModel( context: Context,
         outboundResultsObservable.onNext(outBoundFlights.toList())
     }
 
-    private fun findInboundFlights(outboundFlightId: String) : List<FlightLeg> {
+    private fun findInboundFlights(outboundFlightId: String): List<FlightLeg> {
         val flights = flightMap[outboundFlightId]?.toList() ?: emptyList()
         flights.forEach { inbound ->
             val offer = getFlightOffer(outboundFlightId, inbound.legId)
@@ -166,7 +178,7 @@ class FlightOffersViewModel( context: Context,
         return flights
     }
 
-    private fun makeOffer(offer : FlightTripDetails.FlightOffer) : PackageOfferModel {
+    private fun makeOffer(offer: FlightTripDetails.FlightOffer): PackageOfferModel {
         val offerModel = PackageOfferModel()
         val urgencyMessage = PackageOfferModel.UrgencyMessage()
         urgencyMessage.ticketsLeft = offer.seatsRemaining

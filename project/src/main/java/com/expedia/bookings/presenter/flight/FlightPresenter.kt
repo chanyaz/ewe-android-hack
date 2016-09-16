@@ -289,7 +289,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         flightOfferViewModel.outboundResultsObservable.subscribe {
             outBoundPresenter.trackFlightResultsLoad()
-            show(outBoundPresenter)
         }
         flightOfferViewModel.inboundResultsObservable.subscribe {
             inboundPresenter.trackFlightResultsLoad()
