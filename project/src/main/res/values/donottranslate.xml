@@ -391,7 +391,7 @@
     <string name="pure_entertainment_en">Pure Entertainment</string>
     <string name="eat_play_enjoy_en">Eat, Play &amp; Enjoy</string>
 
-    <string name="omniture_tracking_server_url">om.expedia.com</string>
+    <string name="omniture_tracking_server_url">oms.expedia.com</string>
 
     <!-- Plus sign for Expedia+ Reward Points on Hotel Infosite -->
     <string name="plus_sign">+</string>
