@@ -3978,7 +3978,7 @@ public class OmnitureTracking {
 
 		// Server
 		s.setTrackingServer(getTrackingServer(sContext));
-		s.setSSL(false);
+		s.setSSL(true);
 
 		// Add the country locale
 		s.setEvar(31, Locale.getDefault().getCountry());
