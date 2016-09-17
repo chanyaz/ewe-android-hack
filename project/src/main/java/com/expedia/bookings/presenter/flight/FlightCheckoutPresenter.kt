@@ -12,6 +12,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
@@ -63,6 +64,25 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
 
         getCheckoutViewModel().tripResponseObservable.subscribe(flightCostSummaryObservable)
+        getCreateTripViewModel().showNoInternetRetryDialog.subscribe {
+            val retryFun = fun() {
+                getCreateTripViewModel().performCreateTrip.onNext(Unit)
+            }
+            val cancelFun = fun() {
+                getCreateTripViewModel().noNetworkObservable.onNext(Unit)
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
+
+        getCheckoutViewModel().showNoInternetRetryDialog.subscribe {
+            val retryFun = fun() {
+                getCheckoutViewModel().checkoutParams.onNext(getCheckoutViewModel().checkoutParams.value)
+            }
+            val cancelFun = fun() {
+                getCheckoutViewModel().noNetworkObservable.onNext(Unit)
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
     }
 
     override fun injectComponents() {
@@ -88,7 +108,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             insuranceWidget.viewModel.tripObservable.onNext(response)
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
-            (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(response)
             isPassportRequired(response)
             trackShowBundleOverview()
         }

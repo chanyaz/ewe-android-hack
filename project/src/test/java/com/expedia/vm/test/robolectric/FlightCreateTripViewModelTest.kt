@@ -1,6 +1,5 @@
 package com.expedia.vm.test.robolectric
 
-import android.content.DialogInterface
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -16,13 +15,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.Shadows
-import org.robolectric.shadows.ShadowAlertDialog
 import rx.observers.TestSubscriber
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.io.IOException
-import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightCreateTripViewModelTest {
@@ -61,43 +57,29 @@ class FlightCreateTripViewModelTest {
 
     @Test
     fun networkErrorDialogCancel() {
-        val testSubscriber = TestSubscriber<Unit>()
+        val noInternetTestSubscriber = TestSubscriber<Unit>()
         givenGoodCreateTripParams()
         givenCreateTripCallWithIOException()
 
-        sut.noNetworkObservable.subscribe(testSubscriber)
+        sut.showNoInternetRetryDialog.subscribe(noInternetTestSubscriber)
 
         sut.tripParams.onNext(params)
         sut.performCreateTrip.onNext(Unit)
 
-        val latestAlertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val shadowAlertDialog = Shadows.shadowOf(latestAlertDialog)
-        val cancelBtn = latestAlertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-        cancelBtn.performClick()
-
-        assertEquals("", shadowAlertDialog.title)
-        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", shadowAlertDialog.message)
-        testSubscriber.assertValueCount(1)
+        noInternetTestSubscriber.assertValueCount(1)
     }
 
     @Test
     fun networkErrorDialogRetry() {
+        val testSubscriber = TestSubscriber<Unit>()
         givenGoodCreateTripParams()
         givenCreateTripCallWithIOException()
 
+        sut.showNoInternetRetryDialog.subscribe(testSubscriber)
         sut.tripParams.onNext(params)
         sut.performCreateTrip.onNext(Unit)
 
-        val latestAlertDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val shadowAlertDialog = Shadows.shadowOf(latestAlertDialog)
-        val retryBtn = latestAlertDialog.getButton(DialogInterface.BUTTON_POSITIVE)
-        retryBtn.performClick()
-        retryBtn.performClick()
-        retryBtn.performClick()
-
-        assertEquals("", shadowAlertDialog.title)
-        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", shadowAlertDialog.message)
-        Mockito.verify(flightServices, Mockito.times(4)).createTrip(params) // 1 original, 3 retries
+        testSubscriber.assertValueCount(1)
     }
 
     private fun createPaymentWithCardFee(): ValidFormOfPayment {

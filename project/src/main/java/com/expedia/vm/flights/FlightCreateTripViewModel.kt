@@ -5,7 +5,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.RetrofitUtils
@@ -13,6 +12,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCreateTripViewModel
 import rx.Observer
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
@@ -21,6 +21,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
         @Inject set
 
     val tripParams = BehaviorSubject.create<FlightCreateTripParams>()
+    val showNoInternetRetryDialog = PublishSubject.create<Unit>()
 
     init {
         Ui.getApplication(context).flightComponent().inject(this)
@@ -52,14 +53,8 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
 
             override fun onError(e: Throwable) {
                 if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        flightServices.createTrip(tripParams.value).subscribe(makeCreateTripResponseObserver())
-                    }
-                    val cancelFun = fun() {
-                        noNetworkObservable.onNext(Unit)
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                     FlightsV2Tracking.trackFlightCreateTripNoResponseError()
+                    showNoInternetRetryDialog.onNext(Unit)
                 }
             }
 
