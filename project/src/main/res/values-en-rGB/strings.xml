@@ -1050,6 +1050,10 @@
     <string name="select_rail_card_hint">Select a railcard</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
     <string name="select_rail_card_quantity_hint">Qty</string>
+    <!-- Error message when rail card details not selected on add rail cards dialog -->
+    <string name="error_select_rail_card_details">Please select rail cards details.</string>
+    <!-- Error message when rail cards selected is greater than no. of travelers -->
+    <string name="error_rail_cards_greater_than_number_travelers">The number of railcards cannot exceed the number of travellers.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Going from</string>
@@ -1535,7 +1539,7 @@
     <!-- Tell users when they dropped off a rental car. %1$s is a date, e.g. ("dropped off Jun 15") -->
     <string name="itin_card_details_dropped_off_TEMPLATE">Dropped off %1$s</string>
     <string name="itin_card_details_agency_phone">Agency Phone</string>
-    <string name="itin_card_details_toll_free_phone">Free Phone Phone</string>
+    <string name="itin_card_details_toll_free_phone">Free phone</string>
     <string name="itin_card_details_check_in">Check In</string>
     <string name="itin_card_details_check_out">Check Out</string>
     <string name="itin_card_details_address">Address</string>
@@ -3115,9 +3119,9 @@
     <string name="hotel_fees_for_this_stay">Hotel fees for this stay</string>
     <!-- Resort fee text for pacakges-->
     <string name="additional_fees_at_check_in">Additional fee at check-in</string>
-    <!-- Included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are included in the room price shown to the user -->
     <string name="included_in_the_price">Included in the price</string>
-    <!-- Not included in the price -->
+    <!-- Label to indicate that hotel fees (e.g. resort fees) are not included in the room price shown to the user -->
     <string name="not_included_in_the_price">Not included in the price</string>
     <!-- View Room button text -->
     <string name="view_room_button_text">View Room</string>
@@ -4060,6 +4064,8 @@
     <string name="show_more">SHOW MORE</string>
     <string name="show_less">SHOW LESS</string>
     <string name="price_range">Price Range</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
+    <string name="filter_sort_by_content_description_TEMPLATE">Sort by. {sort}.</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Added to favorites in the filter screen</string>
@@ -4704,9 +4710,16 @@
     <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
     <string name="lx_carousal_cont_desc_TEMPLATE">Activity Selected, {caption}</string>
 
-    <!-- Gallery Image count e.g. 1/14 -->
-    <string name="galley_photo_count_TEMPLATE">{index}/{count}</string>
-    <!-- Content Description for current index of the photo in the gallery -->
-    <string name="galley_photo_count_content_description_TEMPLATE">View {index} of {count} gallery photos button</string>
+    <!-- Gallery Image count e.g. "1/14" -->
+    <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
+
+    <!-- Content description for hotel immage gallery -->
+    <string name="gallery_cont_desc">"Image gallery"</string>
+
+    <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
+    <string name="gallery_photo_count_content_description_TEMPLATE">View {index} of {count} gallery photos button</string>
+
+    <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
+    <string name="multiple_carriers_text">Multiple Carriers</string>
 
 </resources>

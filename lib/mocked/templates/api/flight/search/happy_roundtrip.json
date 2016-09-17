@@ -370,7 +370,6 @@
             "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=U14NR&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
             "fareType": "PUBLISHED",
             "isInternational": false,
-            "isSplitTicket": true,
             "isPassportNeeded": false,
             "isSplitTicket": true,
             "mayChargeOBFees": false,

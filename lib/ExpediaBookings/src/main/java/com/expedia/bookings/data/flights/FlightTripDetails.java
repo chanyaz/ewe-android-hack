@@ -22,6 +22,7 @@ public class FlightTripDetails {
 
 		public Money baseFarePrice;
 		public Money totalFarePrice;
+		public Money totalPrice;
 		public Money averageTotalPricePerTicket;
 		public Money taxesPrice;
 		public Money feesPrice;

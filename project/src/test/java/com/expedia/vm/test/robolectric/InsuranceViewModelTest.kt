@@ -124,10 +124,7 @@ class InsuranceViewModelTest {
 
         val trip = FlightCreateTripResponse()
         trip.newTrip = TripDetails(null, null, tripId = "")
-
-        val tripDetailsField = trip.javaClass.getDeclaredField("details") // using reflection as field is private
-        tripDetailsField.isAccessible = true
-        tripDetailsField.set(trip, details)
+        trip.details = details
 
         return trip
     }

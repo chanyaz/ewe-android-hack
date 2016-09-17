@@ -27,6 +27,14 @@ class BaseCheckoutViewModelTest {
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         testViewModel = object : BaseCheckoutViewModel(activity) {
+            override fun resetCardFees() {
+                // do nothing
+            }
+
+            override fun useCardFeeService(): Boolean {
+                return false
+            }
+
             override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) { }
             override fun injectComponents() {
                 paymentViewModel = PaymentViewModel(activity)

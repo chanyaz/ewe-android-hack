@@ -136,7 +136,7 @@ class PackageServices(endpoint: String, okHttpClient: OkHttpClient, interceptor:
     }
 
     fun createTrip(body: PackageCreateTripParams): Observable<PackageCreateTripResponse> {
-        return packageApi.createTrip(body.productKey, body.destinationId, body.numOfAdults, body.isInfantsInLap, body.childAges)
+        return packageApi.createTrip(body.productKey, body.destinationId, body.numOfAdults, body.isInfantsInSeat, body.childAges)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
     }

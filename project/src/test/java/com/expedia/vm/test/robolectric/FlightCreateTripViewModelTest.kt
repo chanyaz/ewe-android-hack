@@ -7,11 +7,9 @@ import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.ValidFormOfPayment
-import com.expedia.bookings.data.utils.getFee
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import org.junit.Before
 import org.junit.Test
@@ -24,9 +22,7 @@ import rx.observers.TestSubscriber
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.io.IOException
-import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
 class FlightCreateTripViewModelTest {
@@ -123,10 +119,10 @@ class FlightCreateTripViewModelTest {
 
     private fun goodCreateTripResponse(): FlightCreateTripResponse {
         val flightCreateTripResponse = FlightCreateTripResponse()
-        flightCreateTripResponse.totalPrice = Money("42", "USD")
-        val field = flightCreateTripResponse.javaClass.getDeclaredField("details") // using reflection as field private
-        field.isAccessible = true
-        field.set(flightCreateTripResponse, FlightTripDetails())
+        val flightTripDetails = FlightTripDetails()
+        flightTripDetails.offer = FlightTripDetails.FlightOffer()
+        flightTripDetails.offer.totalPrice = Money("42", "USD")
+        flightCreateTripResponse.details = flightTripDetails
         return flightCreateTripResponse
     }
 

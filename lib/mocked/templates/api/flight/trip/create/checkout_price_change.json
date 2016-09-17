@@ -101,6 +101,12 @@
         "currencyCode": "USD",
         "formattedPrice": "$696.00",
         "formattedWholePrice": "$696"
+      },
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
       }
     },
     "productKey": "non_descript",

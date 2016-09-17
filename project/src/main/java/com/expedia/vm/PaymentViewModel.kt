@@ -44,8 +44,8 @@ open class PaymentViewModel(val context: Context) {
     val showingPaymentForm = PublishSubject.create<Boolean>()
 
     val cardTypeSubject = PublishSubject.create<PaymentType?>()
-    val cardBIN = BehaviorSubject.create<String>()
-    val storedPaymentInstrumentId = BehaviorSubject.create<String>()
+    val cardBIN = BehaviorSubject.create<String>("")
+    val resetCardFees = PublishSubject.create<Unit>()
     val moveFocusToPostalCodeSubject = PublishSubject.create<Unit>()
     val userLogin = PublishSubject.create<Boolean>()
     val isCreditCardRequired = BehaviorSubject.create<Boolean>(false)
@@ -141,6 +141,7 @@ open class PaymentViewModel(val context: Context) {
             BookingInfoUtils.resetPreviousCreditCardSelectState(context, card)
             Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = null
             Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
+            resetCardFees.onNext(Unit)
         }
 
         userLogin.subscribe { isLoggedIn ->
@@ -223,6 +224,8 @@ open class PaymentViewModel(val context: Context) {
             cardIOBillingInfo.onNext(billingInfo)
             moveFocusToPostalCodeSubject.onNext(Unit)
         }
+
+        resetCardFees.subscribe { cardBIN.onNext("") }
     }
 
     @VisibleForTesting

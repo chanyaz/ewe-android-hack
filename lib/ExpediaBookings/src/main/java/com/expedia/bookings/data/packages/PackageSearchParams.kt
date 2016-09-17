@@ -67,7 +67,12 @@ open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, 
 
         //Send gaiaId as the region id for destination to get the correct hotels
         //Destination on pkgs can be a non-airport too For e.g. Zion national park,UT
-        params.put("destinationId", destination?.gaiaId)
+        //and Send airport region id for all POI suggestions types
+        if (destination?.type == "POI" ) {
+            params.put("destinationId", destination?.hierarchyInfo?.airport?.multicity)
+        } else {
+            params.put("destinationId", destination?.gaiaId)
+        }
         params.put("ftla", origin?.hierarchyInfo?.airport?.airportCode)
         params.put("ttla", destination?.hierarchyInfo?.airport?.airportCode)
         params.put("fromDate", startDate.toString())

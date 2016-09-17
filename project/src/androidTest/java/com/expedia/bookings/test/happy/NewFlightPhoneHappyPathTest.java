@@ -197,11 +197,17 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertCostSummaryView() {
+		String totalDueToday = "$696.00";
+		String adultOneTotal = "$689.00";
+		String taxesAndFees = "$68.54";
 		onView(withId(R.id.bundle_total_text)).perform(click());
 		onView(withText("Adult 1 details")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
-		onView(withText("$689.00")).check(matches(isDisplayed()));
+		onView(withText(adultOneTotal)).check(matches(isDisplayed()));
+		onView(withText("Flight")).check(matches(isDisplayed()));
+		onView(withText("Taxes & Fees")).check(matches(isDisplayed()));
+		onView(withText(taxesAndFees)).check(matches(isDisplayed()));
 		onView(withText("Total Due Today")).check(matches(isDisplayed()));
-		onView(withText("$696.00")).check(matches(isDisplayed()));
+		onView(withText(totalDueToday)).check(matches(isDisplayed()));
 		onView(withId(android.R.id.button1)).perform(click());
 	}
 

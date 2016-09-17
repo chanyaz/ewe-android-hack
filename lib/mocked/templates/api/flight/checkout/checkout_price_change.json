@@ -29,6 +29,12 @@
         "formattedWholePrice":"$907",
         "currencyCode":"USD"
       },
+      "totalPrice":{
+        "amount":"906.60",
+        "formattedPrice":"$906.60",
+        "formattedWholePrice":"$907",
+        "currencyCode":"USD"
+      },
       "pricePerPassengerCategory":[
         {
           "passengerCategory":"ADULT",
@@ -219,6 +225,12 @@
       },
       "totalFare":"813.60",
       "totalFarePrice":{
+        "amount":"813.60",
+        "formattedPrice":"$813.60",
+        "formattedWholePrice":"$814",
+        "currencyCode":"USD"
+      },
+      "totalPrice":{
         "amount":"813.60",
         "formattedPrice":"$813.60",
         "formattedWholePrice":"$814",

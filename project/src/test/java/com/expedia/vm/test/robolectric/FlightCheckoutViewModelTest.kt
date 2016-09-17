@@ -14,6 +14,7 @@ import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.CardFeeService
@@ -117,25 +118,6 @@ class FlightCheckoutViewModelTest {
     }
 
     @Test
-    fun storedCardPaymentFees() {
-        givenGoodCheckoutParams()
-        setupCardFeeService()
-        createMockFlightServices()
-        givenGoodTripResponse()
-        setupSystemUnderTest()
-
-        val selectedCardFeeSubscriber = TestSubscriber<Money>()
-        sut.selectedCardFeeObservable.subscribe(selectedCardFeeSubscriber)
-
-        sut.tripResponseObservable.onNext(newTripResponse)
-        sut.paymentViewModel.storedPaymentInstrumentId.onNext("stored-payment-id")
-
-        selectedCardFeeSubscriber.assertValueCount(1)
-        assertEquals(2.5, selectedCardFeeSubscriber.onNextEvents[0].amount.toDouble())
-        assertEquals("USD", selectedCardFeeSubscriber.onNextEvents[0].currencyCode)
-    }
-
-    @Test
     fun guestCardPaymentFees() {
         givenGoodCheckoutParams()
         setupCardFeeService()
@@ -174,8 +156,9 @@ class FlightCheckoutViewModelTest {
 
         val flightCheckoutParams = sut.builder.build()
         assertEquals(newTripResponse.tealeafTransactionId, flightCheckoutParams.tealeafTransactionId)
-        assertEquals(newTripResponse.totalPrice.currencyCode, flightCheckoutParams.expectedFareCurrencyCode)
-        assertEquals(newTripResponse.totalPrice.amount.toString(), flightCheckoutParams.expectedTotalFare)
+        val offerTotalPrice = newTripResponse.details.offer.totalPrice
+        assertEquals(offerTotalPrice.currencyCode, flightCheckoutParams.expectedFareCurrencyCode)
+        assertEquals(offerTotalPrice.amount.toString(), flightCheckoutParams.expectedTotalFare)
         assertEquals(newTripResponse.tripId, flightCheckoutParams.tripId)
     }
 
@@ -187,12 +170,13 @@ class FlightCheckoutViewModelTest {
         val cardFeeWarningTestSubscriber = TestSubscriber<Spanned>()
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTestSubscriber)
 
-        sut.obFeeDetailsUrlSubject.onNext("http://url")
-        sut.selectedFlightChargesFees.onNext("Airline Fee")
+        givenObFeeUrl()
+        givenAirlineChargesFees()
 
-        cardFeeWarningTestSubscriber.assertValueCount(1)
+        cardFeeWarningTestSubscriber.assertValueCount(2)
+        assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[0].toString())
         assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
-                cardFeeWarningTestSubscriber.onNextEvents[0].toString())
+                cardFeeWarningTestSubscriber.onNextEvents[1].toString())
     }
 
     @Test
@@ -206,17 +190,21 @@ class FlightCheckoutViewModelTest {
         sut.obFeeDetailsUrlSubject.onNext("")
         sut.selectedFlightChargesFees.onNext("")
 
-        cardFeeWarningTestSubscriber.assertValueCount(1)
-        cardFeeWarningTestSubscriber.assertValue(null)
+        cardFeeWarningTestSubscriber.assertValueCount(2)
+        assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[0].toString())
+        assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[1].toString())
     }
 
     @Test
-    fun zeroCardFees() {
+    fun zeroCardFeesAirlineMayChargeFees() {
         givenGoodCheckoutParams()
         givenGoodTripResponse()
         setupCardFeeService()
         createMockFlightServices()
         setupSystemUnderTest()
+
+        givenAirlineChargesFees()
+        givenObFeeUrl()
 
         val cardFeeTextSubscriber = TestSubscriber<Spanned>()
         val cardFeeWarningTextSubscriber = TestSubscriber<Spanned>()
@@ -227,13 +215,14 @@ class FlightCheckoutViewModelTest {
         sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
 
         sut.tripResponseObservable.onNext(newTripResponse)
-        sut.paymentViewModel.cardBIN.onNext("")
+        sut.paymentViewModel.resetCardFees.onNext(Unit)
 
-        hasCardFeeTestSubscriber.assertValues(false, false, false)
+        hasCardFeeTestSubscriber.assertValue(false)
         cardFeeTextSubscriber.assertValueCount(1)
         cardFeeWarningTextSubscriber.assertValueCount(1)
         assertEquals("", cardFeeTextSubscriber.onNextEvents[0].toString())
-        assertEquals("", cardFeeWarningTextSubscriber.onNextEvents[0].toString())
+        assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
+                cardFeeWarningTextSubscriber.onNextEvents[0].toString())
     }
 
     @Test
@@ -262,7 +251,7 @@ class FlightCheckoutViewModelTest {
         assertEquals("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).",
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
 
-        hasCardFeeTestSubscriber.assertValues(false, false, true)
+        hasCardFeeTestSubscriber.assertValue(true)
     }
 
     @Test
@@ -283,7 +272,7 @@ class FlightCheckoutViewModelTest {
 
         sut.tripResponseObservable.onNext(newTripResponse)
         sut.paymentViewModel.cardBIN.onNext("654321")
-        sut.paymentViewModel.cardBIN.onNext("")
+        sut.paymentViewModel.resetCardFees.onNext(Unit)
 
         cardFeeTextSubscriber.assertValueCount(2)
         assertEquals("Airline processing fee for this card: $2.50", cardFeeTextSubscriber.onNextEvents[0].toString())
@@ -294,7 +283,7 @@ class FlightCheckoutViewModelTest {
                 cardFeeWarningTextSubscriber.onNextEvents[0].toString())
         assertEquals("", cardFeeWarningTextSubscriber.onNextEvents[1].toString())
 
-        hasCardFeeTestSubscriber.assertValues(false, false, true, false, false)
+        hasCardFeeTestSubscriber.assertValues(true, false)
     }
 
     @Test
@@ -306,20 +295,6 @@ class FlightCheckoutViewModelTest {
         sut.checkoutParams.onNext(params)
 
         Mockito.verify(mockFlightServices).checkout(params.toQueryMap())
-    }
-
-    @Test
-    fun showPaymentFeesHiddenOnCreateTripResponse() {
-        createMockFlightServices()
-        givenGoodTripResponse()
-        setupSystemUnderTest()
-
-        val hasCardFeeTestSubscriber = TestSubscriber<Boolean>()
-        sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
-
-        sut.tripResponseObservable.onNext(newTripResponse)
-
-        hasCardFeeTestSubscriber.assertValue(false)
     }
 
     @Test
@@ -361,19 +336,18 @@ class FlightCheckoutViewModelTest {
     private fun givenGoodTripResponse() {
         val tripId = "1234"
         val tealeafTransactionId = "tealeaf-1234"
-        val totalPrice = "42.00"
         val currencyCode = "USD"
+        val totalPrice = Money("42.00", currencyCode)
 
         newTripResponse = FlightCreateTripResponse()
         newTripResponse.tripId = tripId
         newTripResponse.newTrip = TripDetails("", "", tripId)
-        newTripResponse.totalPrice = Money(totalPrice, currencyCode)
-        newTripResponse.tealeafTransactionId = tealeafTransactionId
-    }
 
-    private fun givenTripResponseWithFees() {
-        givenGoodTripResponse()
-        newTripResponse.selectedCardFees = Money("2.5", "USD")
+        val details = FlightTripDetails()
+        details.offer = FlightTripDetails.FlightOffer()
+        details.offer.totalPrice = totalPrice
+        newTripResponse.details = details
+        newTripResponse.tealeafTransactionId = tealeafTransactionId
     }
 
     private fun makeBillingInfo(): BillingInfo {
@@ -444,6 +418,14 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeTripResponse.subscribe(sut.tripResponseObservable)
         sut.flightServices = mockFlightServices
         sut.cardFeeService = cardFeeService
+    }
+
+    private fun givenObFeeUrl() {
+        sut.obFeeDetailsUrlSubject.onNext("http://url")
+    }
+
+    private fun givenAirlineChargesFees() {
+        sut.selectedFlightChargesFees.onNext("Airline Fee")
     }
 
     class TestFlightCheckoutViewModelClass(context: Context): FlightCheckoutViewModel(context) {

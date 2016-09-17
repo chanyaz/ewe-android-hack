@@ -14,11 +14,19 @@ class RailCheckoutViewModel(context: Context) : BaseCheckoutViewModel(context) {
         Ui.getApplication(context).railComponent().inject(this)
     }
 
+    override fun useCardFeeService(): Boolean {
+        return false
+    }
+
     override fun getTripId(): String {
         throw UnsupportedOperationException()
     }
 
     override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
+        throw UnsupportedOperationException()
+    }
+
+    override fun resetCardFees() {
         throw UnsupportedOperationException()
     }
 

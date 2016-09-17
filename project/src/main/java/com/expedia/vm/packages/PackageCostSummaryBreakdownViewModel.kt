@@ -17,6 +17,7 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
     init {
         packageCostSummaryObservable.subscribe { createTrip ->
             val packageDetails = createTrip.packageDetails
+            val selectedCardFees = createTrip.selectedCardFees
             val breakdowns = arrayListOf<CostSummaryBreakdownRow>()
             // Hotel + Flights    $330
             breakdowns.add(
@@ -44,8 +45,8 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
                 breakdowns.add(makeDueAtHotelRow(packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoneyFromAmountAndCurrencyCode))
             }
 
-            if (createTrip.selectedCardFees != null) {
-                breakdowns.add(makeCardFeeRow(createTrip.selectedCardFees.formattedMoneyFromAmountAndCurrencyCode))
+            if (selectedCardFees != null) {
+                breakdowns.add(makeCardFeeRow(selectedCardFees.formattedMoneyFromAmountAndCurrencyCode))
             }
 
             // -------------------------
