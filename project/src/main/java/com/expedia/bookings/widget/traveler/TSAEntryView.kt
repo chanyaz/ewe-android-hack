@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.traveler
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
+import android.os.Build
 import android.support.v4.app.FragmentActivity
 import android.util.AttributeSet
 import android.view.Gravity
@@ -61,6 +62,15 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         dateOfBirth.setOnClickListener(DateOfBirthClickListener(this))
         genderSpinner.isFocusable = true
         genderSpinner.isFocusableInTouchMode = true
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        val isExtraPaddingRequired = Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP
+        if (isExtraPaddingRequired) {
+            val editTextSpacing = context.getResources().getDimensionPixelSize(R.dimen.checkout_earlier_api_version_edit_text_spacing)
+            dateOfBirth.setPadding(dateOfBirth.paddingLeft, dateOfBirth.paddingTop, dateOfBirth.paddingRight, editTextSpacing)
+        }
     }
 
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {

@@ -3,6 +3,7 @@ package com.expedia.bookings.widget.packages
 import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -60,6 +61,14 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             creditCardNumber.setSelection(text.length)
             creditCardNumber.visibility = VISIBLE
             maskedCreditCard.visibility = GONE
+        }
+        val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
+        if (isExtraPaddingRequired) {
+            val editTextSpacing = context.getResources().getDimensionPixelSize(R.dimen.checkout_earlier_api_version_edit_text_spacing)
+            addressCity.setPadding(addressCity.paddingLeft, addressCity.paddingTop, addressCity.paddingRight, editTextSpacing)
+            addressState.setPadding(addressState.paddingLeft, addressState.paddingTop, addressState.paddingRight, editTextSpacing)
+            creditCardCvv.setPadding(creditCardCvv.paddingLeft, creditCardCvv.paddingTop, creditCardCvv.paddingRight, editTextSpacing)
+            creditCardPostalCode.setPadding(creditCardPostalCode.paddingLeft, creditCardPostalCode.paddingTop, creditCardPostalCode.paddingRight, editTextSpacing)
         }
     }
 
