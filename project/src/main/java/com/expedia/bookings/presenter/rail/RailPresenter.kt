@@ -5,28 +5,22 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
-import com.expedia.bookings.data.BaseApiResponse
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
-import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.RailServices
-import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.rail.RailAmenitiesFareRulesWidget
 import com.expedia.util.endlessObserver
-import com.expedia.vm.rail.RailSearchViewModel
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
 import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailResultsViewModel
+import com.expedia.vm.rail.RailSearchViewModel
 import rx.Observer
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -38,14 +32,14 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     lateinit var travelerManager: TravelerManager
 
     val searchPresenter: RailSearchPresenter by bindView(R.id.widget_rail_search_presenter)
-    val resultsPresenter: RailResultsPresenter by bindView(R.id.widget_rail_results_presenter)
+    val outboundPresenter: RailResultsPresenter by bindView(R.id.widget_rail_results_presenter)
     val detailsPresenter: RailDetailsPresenter by bindView(R.id.widget_rail_details_presenter)
+    val inboundPresenter: RailInboundPresenter by bindView(R.id.widget_rail_inbound_presenter)
     val tripOverviewPresenter: RailTripOverviewPresenter by bindView(R.id.widget_rail_trip_overview_presenter)
     val railCheckoutPresenter: RailCheckoutPresenter by bindView(R.id.widget_rail_checkout_presenter)
     val confirmationPresenter: RailConfirmationPresenter by bindView(R.id.rail_confirmation_presenter)
 
     val createTripViewModel = RailCreateTripViewModel(Ui.getApplication(context).railComponent().railService())
-
 
     val amenitiesFareRulesWidget: RailAmenitiesFareRulesWidget by lazy {
         var viewStub = findViewById(R.id.amenities_stub) as ViewStub
@@ -65,6 +59,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         }
     }
 
+    private val detailsToInbound = LeftToRightTransition(this, RailDetailsPresenter::class.java, RailInboundPresenter::class.java)
     private val overviewToCheckout = LeftToRightTransition(this, RailTripOverviewPresenter::class.java, RailCheckoutPresenter::class.java)
     private val checkoutToConfirmation = LeftToRightTransition(this, RailCheckoutPresenter::class.java, RailConfirmationPresenter::class.java)
     private val detailsToAmenities = ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
@@ -76,9 +71,9 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         railSearchParams = params
 
         travelerManager.updateRailTravelers()
-        transitionToResults()
-        resultsPresenter.viewmodel.searchViewModel = searchPresenter.searchViewModel
-        resultsPresenter.viewmodel.paramsSubject.onNext(params)
+        transitionToOutboundResults()
+        outboundPresenter.viewmodel.searchViewModel = searchPresenter.searchViewModel
+        outboundPresenter.viewmodel.paramsSubject.onNext(params)
     }
 
     val offerSelectedObserver: Observer<RailOffer> = endlessObserver { selectedOffer ->
@@ -92,7 +87,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         View.inflate(context, R.layout.rail_presenter, this)
         addTransitions()
 
-        resultsPresenter.setOnClickListener { transitionToDetails() }
+        outboundPresenter.setOnClickListener { transitionToDetails() }
         searchPresenter.searchViewModel = RailSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
@@ -102,16 +97,20 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(
                 (overviewHeader.checkoutOverviewHeaderToolbar.viewmodel as RailCheckoutOverviewViewModel).params)
 
-        resultsPresenter.viewmodel = RailResultsViewModel(context, railServices)
-        resultsPresenter.viewmodel.railResultsObservable.subscribe {
+        outboundPresenter.viewmodel = RailResultsViewModel(context, railServices)
+        outboundPresenter.viewmodel.railResultsObservable.subscribe {
             detailsPresenter.viewmodel.railResultsObservable.onNext(it)
         }
-        resultsPresenter.offerSelectedObserver = offerSelectedObserver
+        outboundPresenter.offerSelectedObserver = offerSelectedObserver
         detailsPresenter.viewmodel = RailDetailsViewModel(context)
         detailsPresenter.viewmodel.offerSelectedObservable.subscribe { offer ->
-            transitionToTripSummary()
-            tripOverviewPresenter.railTripSummary.viewModel.railOfferObserver.onNext(offer)
-            createTripViewModel.offerCodeSelectedObservable.onNext(offer.railOfferToken)
+            if (searchPresenter.searchViewModel.isRoundTripSearchObservable.value) {
+                transitionToInboundResults()
+            } else {
+                transitionToTripSummary()
+                tripOverviewPresenter.railTripSummary.viewModel.railOfferObserver.onNext(offer)
+                createTripViewModel.offerCodeSelectedObservable.onNext(offer.railOfferToken)
+            }
         }
 
         detailsPresenter.viewmodel.showAmenitiesObservable.subscribe { offer ->
@@ -149,14 +148,19 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         addTransition(searchToResults)
         addTransition(resultsToDetails)
         addTransition(detailsToOverview)
+        addTransition(detailsToInbound)
         addTransition(detailsToAmenities)
         addTransition(overviewToAmenities)
         addTransition(overviewToCheckout)
         addTransition(checkoutToConfirmation)
     }
 
-    private fun transitionToResults() {
-        show(resultsPresenter, FLAG_CLEAR_TOP)
+    private fun transitionToOutboundResults() {
+        show(outboundPresenter, FLAG_CLEAR_TOP)
+    }
+
+    private fun transitionToInboundResults() {
+        show(inboundPresenter, FLAG_CLEAR_TOP)
     }
 
     private fun transitionToDetails() {
