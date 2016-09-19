@@ -267,7 +267,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.wotif.android"
             def major = 3
-            def minor = 5
+            def minor = 6
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -279,7 +279,7 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.lastminute.android"
             def major = 3
-            def minor = 5
+            def minor = 6
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
