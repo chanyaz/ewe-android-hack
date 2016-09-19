@@ -270,9 +270,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
                 paymentWidget.viewmodel.showingPaymentForm,
                 { haveCardFee, showingGuestPaymentForm ->
                     val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
-                    cardProcessingFeeTextView.visibility = cardFeeVisibility
-                    if (cardFeeVisibility == VISIBLE) { // only show. hide handled in BaseCheckoutPresenter
-                        toolbarDropShadow.visibility = visibility
+                    if (cardFeeVisibility == View.VISIBLE && cardProcessingFeeTextView.visibility == View.GONE) {
+                        cardProcessingFeeTextView.visibility = cardFeeVisibility
+                        AnimUtils.slideIn(cardProcessingFeeTextView)
+                        toolbarDropShadow.visibility = cardFeeVisibility
+                    } else if (cardFeeVisibility == View.GONE && cardProcessingFeeTextView.visibility == View.VISIBLE) {
+                        AnimUtils.slideOut(cardProcessingFeeTextView)
                     }
                 }).subscribe()
 
