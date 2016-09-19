@@ -2,9 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.text.Html
 import android.text.SpannableStringBuilder
-import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
@@ -18,15 +16,11 @@ import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(context) {
@@ -108,9 +102,6 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
                 receivedCheckoutResponse.onNext(Unit)
                 if (response.hasErrors()) {
                     when (response.firstError.errorCode) {
-                        ApiError.Code.INVALID_INPUT -> {
-                            // TODO
-                        }
                         ApiError.Code.PRICE_CHANGE -> {
                             priceChangeObservable.onNext(response)
                         }
