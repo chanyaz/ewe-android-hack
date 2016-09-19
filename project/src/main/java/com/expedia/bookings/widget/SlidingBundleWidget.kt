@@ -47,6 +47,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
     var canMove = false
     var isFirstLaunch = true
     var animationFinished = PublishSubject.create<Unit>()
+    val overviewLayoutListener = OverviewLayoutListener()
 
     init {
         View.inflate(getContext(), R.layout.bundle_slide_widget, this)
@@ -86,9 +87,28 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundlePriceWidget.setBackgroundColor(if (forward) Color.WHITE else ContextCompat.getColor(context, R.color.packages_primary_color))
         if (forward) {
             bundleWidgetShadow.visibility = View.GONE
+            bundleOverViewWidget.scrollSpaceView.viewTreeObserver?.addOnGlobalLayoutListener(overviewLayoutListener)
         } else {
             bundleWidgetShadow.visibility = View.VISIBLE
+            bundleOverViewWidget.scrollSpaceView.viewTreeObserver?.removeOnGlobalLayoutListener(overviewLayoutListener)
         }
+    }
+
+    inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout () {
+            updateScrollingSpace(bundleOverViewWidget.scrollSpaceView)
+        }
+    }
+
+    private fun updateScrollingSpace(scrollSpaceView: View) {
+        val footerViewLocation = IntArray(2)
+        val bundleViewLocation = IntArray(2)
+
+        bundlePriceFooter.getLocationOnScreen(footerViewLocation)
+        bundleOverViewWidget.getLocationOnScreen(bundleViewLocation)
+        val scrollSpaceHeight = Math.max(0, (bundleViewLocation[1] + bundleOverViewWidget.height - Ui.getToolbarSize(context)) - footerViewLocation[1])
+
+        scrollSpaceView.layoutParams.height = scrollSpaceHeight
     }
 
     fun updateBundleTransition(f: Float, forward: Boolean) {
