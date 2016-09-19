@@ -297,7 +297,19 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context, FlightSearchParams params) {
-		goToFlights(context, true, null, 0, params);
+		if (isUserBucketedForFlightTest(context)) {
+			goToFlights(context, true, null, 0, params);
+		}
+		else {
+			// Launch flight search
+			Db.getFlightSearch().setSearchParams(params);
+			if (params.isFilled()) {
+				NavUtils.goToFlightSearch(context);
+			}
+			else {
+				NavUtils.goToFlights(context, true);
+			}
+		}
 	}
 
 	private static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags,
@@ -312,7 +324,7 @@ public class NavUtils {
 		else {
 			sendKillActivityBroadcast(context);
 			Intent intent;
-			if (isUserBucketedForFlightTest()) {
+			if (isUserBucketedForFlightTest(context)) {
 				intent = new Intent(context, FlightActivity.class);
 				if (flightSearchParams != null) {
 					Gson gson = FlightsV2DataUtil.generateGson();
@@ -552,10 +564,10 @@ public class NavUtils {
 		return list.size() > 0;
 	}
 
-	public static boolean isUserBucketedForFlightTest() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTest);
+	public static boolean isUserBucketedForFlightTest(Context context) {
+		return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+			AbacusUtils.EBAndroidAppFlightTest, R.string.preference_enable_material_flight);
 	}
-
 
 	public static Intent getLaunchIntent(Context context) {
 		if (ProductFlavorFeatureConfiguration.getInstance().useNewLaunchScreen()) {

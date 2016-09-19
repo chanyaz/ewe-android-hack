@@ -112,6 +112,7 @@
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
     <string name="preference_enable_hotel_results_perceived_instant">preference_enable_hotel_results_perceived_instant</string>
     <string name="preference_enable_hotel_filter_prominence">preference_hotel_filter_prominence</string>
+    <string name="preference_enable_material_flight">preference_enable_material_flight</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

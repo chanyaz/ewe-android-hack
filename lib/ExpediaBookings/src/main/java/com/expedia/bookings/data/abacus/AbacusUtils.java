@@ -36,7 +36,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppShowSignInOnLaunch = 8687;
 	public static final int EBAndroidAppLXRTROnSearchAndDetails = 10000;
 	public static final int EBAndroidAppFeedsOnLaunch = 10065;
-	public static final int EBAndroidAppFlightTest = 10136;
+	public static final int EBAndroidAppFlightTest = 11937;
 	public static final int EBAndroidAppFlightInsurance = 10212;
 	public static final int EBAndroidAppHotelSearchScreenSoldOutTest = 10554;
 	public static final int EBAndroidAppLXCrossSellOnHotelConfirmationTest = 10556;
