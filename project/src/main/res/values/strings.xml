@@ -2331,10 +2331,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Traveler Details</string>
     <string name="enter_missing_traveler_details">Enter missing traveler details</string>
+    <string name="enter_traveler_details">Enter traveler details</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ {travelercount} more traveler</item>
-        <item quantity="other">+ {travelercount} more travelers</item>
+        <item quantity="one">+ {travelercount} additional traveler</item>
+        <item quantity="other">+ {travelercount} additional travelers</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Edit Traveler {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} year old</string>

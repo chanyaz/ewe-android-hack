@@ -10,6 +10,7 @@ abstract class BaseCheckoutTravelerViewModel() {
     val allTravelersCompleteSubject = BehaviorSubject.create<List<Traveler>>()
     val invalidTravelersSubject = BehaviorSubject.create<Unit>()
     val travelerCompletenessStatus = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
+    val singleTravelerCompletenessStatus = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
 
     abstract fun isValidForBooking(traveler: Traveler, index: Int) : Boolean
     abstract fun isTravelerEmpty(traveler: Traveler) : Boolean
@@ -21,6 +22,14 @@ abstract class BaseCheckoutTravelerViewModel() {
         } else {
             invalidTravelersSubject.onNext(Unit)
             travelerCompletenessStatus.onNext(TravelerCheckoutStatus.DIRTY)
+        }
+    }
+
+    fun updateCompletionStatusForTraveler(index: Int) {
+        if (isValidForBooking(getTraveler(index), index)){
+            singleTravelerCompletenessStatus.onNext(TravelerCheckoutStatus.COMPLETE)
+        } else {
+            singleTravelerCompletenessStatus.onNext(TravelerCheckoutStatus.DIRTY)
         }
     }
 

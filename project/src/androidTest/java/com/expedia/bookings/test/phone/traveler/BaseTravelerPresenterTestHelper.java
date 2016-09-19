@@ -110,7 +110,8 @@ public class BaseTravelerPresenterTestHelper {
 			@Override
 			public void onClick(View v) {
 				testTravelerPresenter.setVisibility(View.VISIBLE);
-				testTravelerPresenter.showSelectOrEntryState(testTravelerDefault.getStatus());
+				testTravelerPresenter.resetTravelers();
+				testTravelerPresenter.showSelectOrEntryState();
 			}
 		});
 

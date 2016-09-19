@@ -2,11 +2,7 @@ package com.expedia.vm.test.traveler
 
 import android.app.Activity
 import android.content.res.Resources
-import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
-import com.expedia.bookings.data.AbstractFlightSearchParams
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Phone
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -19,10 +15,8 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
 
 @RunWith(RobolectricRunner::class)
 class TravelerSummaryViewModelTest {
@@ -45,7 +39,7 @@ class TravelerSummaryViewModelTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         resources = activity.resources
         expectedEmptyTitle = resources.getString(R.string.checkout_enter_traveler_details)
-        expectedEmptySubTitle = resources.getString(R.string.enter_missing_traveler_details)
+        expectedEmptySubTitle = resources.getString(R.string.enter_traveler_details)
 
         expectedSubTitleErrorMessage = "Enter missing traveler details"
 
@@ -77,7 +71,7 @@ class TravelerSummaryViewModelTest {
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
-        assertEquals(expectedEmptySubTitle, summaryVM.subtitleObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, summaryVM.subtitleObservable.value)
         assertEquals(expectedIncompleteStatus, summaryVM.iconStatusObservable.value)
     }
 
@@ -89,7 +83,7 @@ class TravelerSummaryViewModelTest {
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
-        assertEquals(expectedEmptySubTitle, summaryVM.subtitleObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, summaryVM.subtitleObservable.value)
         assertEquals(expectedIncompleteStatus, summaryVM.iconStatusObservable.value)
     }
 
@@ -109,7 +103,7 @@ class TravelerSummaryViewModelTest {
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.CLEAN)
 
         assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
-        assertEquals(expectedEmptySubTitle, summaryVM.subtitleObservable.value)
+        assertEquals(getAdditionalTravelersSubTitle(2), summaryVM.subtitleObservable.value)
         assertEquals(expectedEmptyIconStatus, summaryVM.iconStatusObservable.value)
     }
 
@@ -119,7 +113,7 @@ class TravelerSummaryViewModelTest {
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(expectedEmptyTitle, summaryVM.titleObservable.value)
-        assertEquals(getIncompleteSubTitle(2), summaryVM.subtitleObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, summaryVM.subtitleObservable.value)
         assertEquals(expectedIncompleteStatus, summaryVM.iconStatusObservable.value)
     }
 
@@ -129,7 +123,7 @@ class TravelerSummaryViewModelTest {
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.DIRTY)
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
-        assertEquals(getIncompleteSubTitle(2), summaryVM.subtitleObservable.value)
+        assertEquals(expectedSubTitleErrorMessage, summaryVM.subtitleObservable.value)
         assertEquals(expectedIncompleteStatus, summaryVM.iconStatusObservable.value)
     }
 
@@ -139,7 +133,7 @@ class TravelerSummaryViewModelTest {
         summaryVM.travelerStatusObserver.onNext(TravelerCheckoutStatus.COMPLETE)
 
         assertEquals(mockTravelerProvider.testFullName, summaryVM.titleObservable.value)
-        assertEquals(getIncompleteSubTitle(2), summaryVM.subtitleObservable.value)
+        assertEquals(getAdditionalTravelersSubTitle(2), summaryVM.subtitleObservable.value)
         assertEquals(expectedCompleteStatus, summaryVM.iconStatusObservable.value)
     }
 
@@ -162,7 +156,7 @@ class TravelerSummaryViewModelTest {
         assertEquals(expectedSubTitleErrorMessage, summaryVM.subtitleObservable.value)
     }
 
-    private fun getIncompleteSubTitle(travelerCount: Int) : String {
+    private fun getAdditionalTravelersSubTitle(travelerCount: Int) : String {
         return Phrase.from(resources.getQuantityString(R.plurals.checkout_more_travelers_TEMPLATE, travelerCount - 1))
                 .put("travelercount", travelerCount - 1).format().toString()
     }
