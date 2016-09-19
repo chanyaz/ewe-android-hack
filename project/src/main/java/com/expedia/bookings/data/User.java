@@ -411,7 +411,7 @@ public class User implements JSONable {
 			return true;
 		}
 		catch (JSONException e) {
-			Log.e("Could not restore saved billing info.", e);
+			Log.e("Could not restore saved user info.", e);
 			return false;
 		}
 	}
