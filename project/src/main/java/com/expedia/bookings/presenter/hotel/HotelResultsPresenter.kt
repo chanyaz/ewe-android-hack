@@ -56,6 +56,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.hotelResultsObservable.subscribe {
             if (isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar()) {
                 filterBtnWithCountWidget.visibility = View.INVISIBLE
+                filterMenuItem.isVisible = true
             }
             else {
                 filterBtnWithCountWidget.visibility = View.VISIBLE

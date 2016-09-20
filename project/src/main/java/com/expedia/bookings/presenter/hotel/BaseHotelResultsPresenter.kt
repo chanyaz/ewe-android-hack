@@ -287,7 +287,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         }
-        filterBtnWithCountWidget?.visibility = View.VISIBLE
+        if (!(isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar())) {
+            filterBtnWithCountWidget?.visibility = View.VISIBLE
+        }
     }
 
     fun lastBestLocationSafe(): Location {
@@ -477,7 +479,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
         toolbar.inflateMenu(R.menu.menu_filter_item)
 
-        if ((lob == LineOfBusiness.PACKAGES ||  (isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar()))) {
+        if (lob == LineOfBusiness.PACKAGES) {
             filterMenuItem.isVisible = true
         }
         else {
@@ -579,6 +581,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.showLoading()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         filterBtnWithCountWidget?.visibility = View.GONE
+        if (lob == LineOfBusiness.HOTELS && isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar()) {
+            filterMenuItem?.isVisible = false
+        }
     }
 
     private val mapViewLayoutReadyListener = object : ViewTreeObserver.OnGlobalLayoutListener {
