@@ -90,4 +90,7 @@
     <color name="error_widget_edit_button_selected_color">#033057</color>
     <color name="error_button_color">#003E74</color>
     <color name="launch_tab_indicator">@color/action_bar_text_blue_travelocity</color>
+
+    <!-- Packages colors -->
+    <color name="packages_primary_color">#003E74</color>
 </resources>
