@@ -181,7 +181,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun setInsuranceWidgetVisibility(visible: Boolean){
-        insuranceWidget.viewModel.updateVisibility(visible)
+        insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(visible)
     }
 
 }

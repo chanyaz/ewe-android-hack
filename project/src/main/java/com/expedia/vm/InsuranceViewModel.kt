@@ -25,36 +25,40 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class InsuranceViewModel(private val context: Context, private val insuranceServices: InsuranceServices) {
+    // inputs
+    val tripObservable = BehaviorSubject.create<FlightCreateTripResponse>()
+    val userInitiatedToggleObservable = PublishSubject.create<Boolean>()
+    val widgetVisibilityAllowedObservable = BehaviorSubject.create<Boolean>()
+
+    // outputs
     val benefitsObservable = BehaviorSubject.create<Spanned>()
     val programmaticToggleObservable = PublishSubject.create<Boolean>()
     val termsObservable = PublishSubject.create<SpannableStringBuilder>()
     val titleColorObservable = PublishSubject.create<Int>()
     val titleObservable = PublishSubject.create<SpannableStringBuilder>()
-    val tripObservable = BehaviorSubject.create<FlightCreateTripResponse>()
     val updatedTripObservable = PublishSubject.create<FlightCreateTripResponse>()
-    val userInitiatedToggleObservable = PublishSubject.create<Boolean>()
     val widgetVisibilityObservable = PublishSubject.create<Boolean>()
 
-    val errorDialog: AlertDialog by lazy {
+    private var canWidgetBeDisplayed: Boolean = true
+    private val haveProduct: Boolean get() = product != null
+    private var product: InsuranceProduct? = null
+
+    lateinit private var lastAction: InsuranceAction
+    lateinit private var trip: FlightCreateTripResponse
+
+    enum class InsuranceAction {
+        ADD, REMOVE
+    }
+
+    private val errorDialog: AlertDialog by lazy {
         AlertDialog.Builder(context).setPositiveButton(R.string.button_done, null).create()
     }
 
-    private val hasProduct: Boolean get() = product != null
-
-    private var product: InsuranceProduct? = null
-
-    val updatingTripDialog: ProgressDialog by lazy {
+    private val updatingTripDialog: ProgressDialog by lazy {
         val dialog = ProgressDialog(context)
         dialog.isIndeterminate = true
         dialog.setCancelable(false)
         dialog
-    }
-
-    lateinit var lastAction: InsuranceAction
-    lateinit var trip: FlightCreateTripResponse
-
-    enum class InsuranceAction {
-        ADD, REMOVE
     }
 
     init {
@@ -63,7 +67,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
             trip = tripResponse
             trip.tripId = trip.newTrip.tripId!!
 
-            if (hasProduct) {
+            if (haveProduct) {
                 updateBenefits()
                 updateTerms()
                 updateTitle()
@@ -87,6 +91,11 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
                         .subscribe(updatedTripObserver)
             }
             FlightsV2Tracking.trackInsuranceUpdated(if (isSelected) InsuranceAction.ADD else InsuranceAction.REMOVE)
+        }
+
+        widgetVisibilityAllowedObservable.subscribe {
+            canWidgetBeDisplayed = it
+            updateVisibility()
         }
     }
 
@@ -179,7 +188,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         programmaticToggleObservable.onNext(trip.selectedInsuranceProduct != null)
     }
 
-    fun updateVisibility(requestVisible: Boolean = true) {
-        widgetVisibilityObservable.onNext(requestVisible && hasProduct)
+    fun updateVisibility() {
+        widgetVisibilityObservable.onNext(canWidgetBeDisplayed && haveProduct)
     }
 }
