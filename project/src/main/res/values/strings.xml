@@ -4272,8 +4272,18 @@
     <string name="flight_duration_hour_short">hr</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">Departure Time</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">Departure Time Start</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">Departure Time End</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Arrival Time</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">Arrival Time Start</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">Arrival Time End</string>
+    <!-- Content description for seekbar role -->
+    <string name="accessibility_seekbar_cont_desc_role">Seekbar</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Change hotel</string>

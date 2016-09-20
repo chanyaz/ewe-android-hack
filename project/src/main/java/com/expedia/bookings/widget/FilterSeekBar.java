@@ -7,12 +7,18 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
+
+import com.expedia.bookings.R;
 
 public class FilterSeekBar extends CustomSeekBarView {
 
 	private OnSeekBarChangeListener listener;
+	private String a11yName;
+	private String currentA11yValue;
 
 	public FilterSeekBar(Context context, AttributeSet attrs) {
+
 		super(context, attrs);
 	}
 
@@ -20,23 +26,20 @@ public class FilterSeekBar extends CustomSeekBarView {
 		return maxValue;
 	}
 
-	/**
-	 * Callback listener interface to notify about changed range values.
-	 */
-	public interface OnSeekBarChangeListener {
+	public String getA11yName() {
+		return a11yName;
+	}
 
-		/**
-		 * Notification that the progress level has changed. Clients can use the fromUser parameter
-		 * to distinguish user-initiated changes from those that occurred programmatically.
-		 */
-		void onProgressChanged(FilterSeekBar seekBar, int progress, boolean fromUser);
+	public void setA11yName(String a11yName) {
+		this.a11yName = a11yName;
+	}
 
-		/**
-		 * Notification that the user has started/finished a touch gesture. Clients may want to use this
-		 * to disable/re-enable advancing the seekbar.
-		 */
-		void onStartTrackingTouch(FilterSeekBar seekBar);
-		void onStopTrackingTouch(FilterSeekBar seekBar);
+	public String getCurrentA11yValue() {
+		return currentA11yValue;
+	}
+
+	public void setCurrentA11yValue(String currentA11yValue) {
+		this.currentA11yValue = currentA11yValue;
 	}
 
 	public OnSeekBarChangeListener getListener() {
@@ -114,6 +117,16 @@ public class FilterSeekBar extends CustomSeekBarView {
 		drawThumb(canvas, rectf.right);
 	}
 
+	@Override
+	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+		super.onInitializeAccessibilityNodeInfo(info);
+		StringBuilder builder = new StringBuilder(getA11yName());
+		builder.append(" ");
+		builder.append(getContext().getString(R.string.accessibility_seekbar_cont_desc_role));
+		builder.append(" ");
+		builder.append(getCurrentA11yValue());
+		info.setText(builder.toString());
+	}
 
 	public Drawable getThumb() {
 		return thumb;
@@ -122,5 +135,25 @@ public class FilterSeekBar extends CustomSeekBarView {
 	private void updateSelectedFromTouchEvent(MotionEvent event) {
 		final float x = event.getX();
 		setMaxValue(screenToValue(x));
+	}
+
+	/**
+	 * Callback listener interface to notify about changed range values.
+	 */
+	public interface OnSeekBarChangeListener {
+
+		/**
+		 * Notification that the progress level has changed. Clients can use the fromUser parameter
+		 * to distinguish user-initiated changes from those that occurred programmatically.
+		 */
+		void onProgressChanged(FilterSeekBar seekBar, int progress, boolean fromUser);
+
+		/**
+		 * Notification that the user has started/finished a touch gesture. Clients may want to use this
+		 * to disable/re-enable advancing the seekbar.
+		 */
+		void onStartTrackingTouch(FilterSeekBar seekBar);
+
+		void onStopTrackingTouch(FilterSeekBar seekBar);
 	}
 }
