@@ -15,12 +15,23 @@ import com.expedia.bookings.widget.TextView
 class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     fun update(airlines: List<Airline>) {
-        removeAllViews()
-        for (i in 0..airlines.size - 1) {
-            val airlineView = AirlineView(context, null)
-            airlineView.bind(airlines[i])
-            addView(airlineView)
+        if (airlines.size > 3) {
+            addAirlineViewWithMultipleCarriersImage()
+        } else {
+            removeAllViews()
+            for (airline in airlines) {
+                val airlineView = AirlineView(context, null)
+                airlineView.bind(airline)
+                addView(airlineView)
+            }
         }
+    }
+
+    fun addAirlineViewWithMultipleCarriersImage() {
+        removeAllViews()
+        val airlineView = AirlineView(context, null)
+        airlineView.bind(Airline(context.getString(R.string.multiple_carriers_text), null))
+        addView(airlineView)
     }
 
     class AirlineView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
@@ -30,12 +41,16 @@ class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout
         init {
             View.inflate(context, R.layout.section_airline_logo_name_row, this)
             orientation = HORIZONTAL
-            setGravity(Gravity.CENTER_VERTICAL)
+            gravity = Gravity.CENTER_VERTICAL
         }
 
         fun bind(airline: Airline) {
             airlineName.text = airline.airlineName
-            if (airline.airlineLogoUrl != null) {
+            if (airline.airlineName.equals(context.getString(R.string.multiple_carriers_text))) {
+                PicassoHelper.Builder(airlineLogoImageView)
+                        .build()
+                        .load(R.drawable.multi_carrier_icon)
+            } else if (airline.airlineLogoUrl != null) {
                 PicassoHelper.Builder(airlineLogoImageView)
                         .setPlaceholder(R.drawable.ic_airline_backup)
                         .build()

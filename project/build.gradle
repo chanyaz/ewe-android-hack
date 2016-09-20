@@ -33,13 +33,14 @@ dependencies {
             'MobileAppTracker-3.11.4.jar',
     ])
     compile project(':lib:AndroidTime')
+    compile project(':lib:bug-reporter:bugshaker')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
     compile (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'
     }
     compile 'com.expedia:svg-android:0.1.0'
-    compile 'com.expedia:android-account-lib:1.1.7'
-    compile 'com.mobiata:android-utils:1.1.0'
+    compile 'com.expedia:android-account-lib:1.1.9'
+    compile 'com.mobiata:android-utils:1.0.4'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
@@ -80,9 +81,9 @@ dependencies {
         exclude group: 'com.intellij'
     }
 
-    // Dagger 2.0
-    compile 'com.google.dagger:dagger:2.0.1'
-    apt 'com.google.dagger:dagger-compiler:2.0.1'
+    // Dagger 2.6.1
+    compile 'com.google.dagger:dagger:2.6.1'
+    apt 'com.google.dagger:dagger-compiler:2.6.1'
     provided 'org.glassfish:javax.annotation:10.0-b28'
 
     compile ('com.crashlytics.sdk.android:crashlytics:2.5.7@aar') {
@@ -182,7 +183,7 @@ android {
         versionCode 1
         versionName "undefined"
 
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 23
 
         multiDexEnabled = true
@@ -202,10 +203,10 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             applicationId "com.expedia.bookings"
 
-            def major = 6
-            def minor = 13
+            def major = 7
+            def minor = 0
             def patch = 0
-            def build = 2
+            def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
             versionName GradleUtil.versionName(major, minor, patch, build)
         }

@@ -116,6 +116,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		}
 
 		super.onCreate(savedInstanceState);
+		AdTracker.trackLaunch();
 
 		getWindow().setFormat(android.graphics.PixelFormat.RGBA_8888);
 

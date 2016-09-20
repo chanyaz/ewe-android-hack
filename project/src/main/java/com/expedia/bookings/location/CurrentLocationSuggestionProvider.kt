@@ -14,10 +14,10 @@ import rx.Observable;
 class CurrentLocationSuggestionProvider(val suggestionServices: SuggestionServices, val locationObservable: Observable<Location>, val context: Context) {
 	fun currentLocationSuggestion() : Observable<SuggestionV4> {
 		return locationObservable.flatMap { location ->
-                val latlong = "" + location.getLatitude() + "|" + location.getLongitude();
+                val latlong = "" + location.latitude + "|" + location.longitude;
 
                 this@CurrentLocationSuggestionProvider.suggestionServices
-                    .getNearbyLxSuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().getSiteId(), ServicesUtil.generateClient(context))
+                    .getNearbyLxSuggestions(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().siteId, ServicesUtil.generateClient(context))
                     .doOnNext { suggestions -> if (suggestions.size < 1) throw ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS) }
                     .map { suggestions -> suggestions.get(0) }
             }

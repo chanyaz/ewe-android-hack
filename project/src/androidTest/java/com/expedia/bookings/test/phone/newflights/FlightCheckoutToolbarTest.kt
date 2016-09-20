@@ -195,6 +195,9 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
         PackageScreen.enterFirstName("Eidur")
         PackageScreen.enterLastName("Gudjohnsen")
         PackageScreen.enterPhoneNumber("4155554321")
+        Espresso.closeSoftKeyboard()
+        PackageScreen.enterEmail("test@gmail.com")
+        Espresso.closeSoftKeyboard()
         PackageScreen.selectBirthDate(1989, 6, 9)
         PackageScreen.selectGender("Male")
         PackageScreen.clickTravelerAdvanced()
@@ -223,7 +226,7 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
     }
 
     private fun waitForPaymentInfoCardView() {
-        Espresso.onView(ViewMatchers.withId(R.id.payment_info_card_view)).perform(com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay())
+        Espresso.onView(Matchers.allOf(ViewMatchers.withId(R.id.payment_info_card_view), ViewMatchers.isCompletelyDisplayed()))
 
     }
 

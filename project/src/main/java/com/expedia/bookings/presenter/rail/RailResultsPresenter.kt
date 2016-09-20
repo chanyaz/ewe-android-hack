@@ -4,6 +4,7 @@ import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -13,7 +14,6 @@ import android.widget.ProgressBar
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -46,6 +46,10 @@ class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         vm.subtitleSubject.subscribe {
             toolbar.subtitle = it
         }
+
+        vm.directionHeaderSubject.subscribe(adapter.directionHeaderSubject)
+
+        vm.priceHeaderSubject.subscribe(adapter.priceHeaderSubject)
     }
 
     val resultsProgress: ProgressBar by bindView(R.id.results_progress)
@@ -58,6 +62,10 @@ class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     init {
         Ui.getApplication(context).railComponent().inject(this)
         View.inflate(context, R.layout.widget_rail_results, this)
+        toolbar.setNavigationOnClickListener {
+            val activity = context as AppCompatActivity
+            activity.onBackPressed()
+        }
         val statusBarHeight = Ui.getStatusBarHeight(context)
         if (statusBarHeight > 0) {
             val color = ContextCompat.getColor(context, R.color.rail_primary_color)

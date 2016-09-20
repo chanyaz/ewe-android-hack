@@ -82,13 +82,13 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(travelerName)
 
-        nameVM.firstNameObserver.onNext(TextViewAfterTextChangeEvent.create(TEST_TEXT_VIEW, TEST_FIRST_EDITABLE))
+        nameVM.firstNameObserver.onNext(TEST_FIRST)
         assertEquals(TEST_FIRST, travelerName.firstName)
 
-        nameVM.middleNameObserver.onNext(TextViewAfterTextChangeEvent.create(TEST_TEXT_VIEW, TEST_MID_EDITABLE))
+        nameVM.middleNameObserver.onNext(TEST_MIDDLE)
         assertEquals(TEST_MIDDLE, travelerName.middleName)
 
-        nameVM.lastNameObserver.onNext(TextViewAfterTextChangeEvent.create(TEST_TEXT_VIEW, TEST_LAST_EDITABLE))
+        nameVM.lastNameObserver.onNext(TEST_LAST)
         assertEquals(TEST_LAST, travelerName.lastName)
     }
 

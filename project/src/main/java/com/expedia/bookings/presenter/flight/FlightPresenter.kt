@@ -13,6 +13,7 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -33,15 +34,22 @@ import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
 import com.expedia.vm.flights.FlightConfirmationViewModel
+import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.flights.FlightErrorViewModel
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.expedia.vm.packages.PackageSearchType
+import com.squareup.phrase.Phrase
 import rx.Observable
 import javax.inject.Inject
 
 class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
+
     lateinit var flightServices: FlightServices
         @Inject set
+
+    lateinit var flightCreateTripViewModel: FlightCreateTripViewModel
+        @Inject set
+
     lateinit var travelerManager: TravelerManager
 
     val errorPresenter: FlightErrorPresenter by lazy {
@@ -49,7 +57,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         val presenter = viewStub.inflate() as FlightErrorPresenter
         presenter.viewmodel = FlightErrorViewModel(context)
         presenter.getViewModel().defaultErrorObservable.subscribe {
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
         presenter.getViewModel().showOutboundResults.subscribe {
             show(outBoundPresenter)
@@ -65,7 +73,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getViewModel().retryCheckout.subscribe {
             show(presenter)
             flightOverviewPresenter.showCheckout()
-            flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().performCheckout.onNext(Unit)
+            val params = flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutParams.value
+            flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutParams.onNext(params)
         }
         presenter.getViewModel().showPaymentForm.subscribe {
             show(flightOverviewPresenter, Presenter.FLAG_CLEAR_TOP)
@@ -76,8 +85,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
         presenter.getViewModel().showSearch.subscribe {
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(searchPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
+
+        presenter.getViewModel().retrySearch.subscribe {
+            searchPresenter.searchViewModel.performSearchObserver.onNext(Unit)
+        }
+
         presenter
     }
 
@@ -101,6 +115,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             presenter.toolbarViewModel.date.onNext(params.departureDate)
         }
+        presenter.menuSearch.setOnMenuItemClickListener ({
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            true
+        })
         presenter.setupComplete()
         presenter
     }
@@ -116,6 +134,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 presenter.toolbarViewModel.date.onNext(params.returnDate)
             }
         }
+        presenter.menuSearch.setOnMenuItemClickListener ({
+            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            true
+        })
         presenter.setupComplete()
         presenter
     }
@@ -143,8 +165,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
                 { outbound, inbound ->
                     val outboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(outbound.baggageFeesUrl)
                     val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
-                    val baggageFeesTextWithClickableLinks = StrUtils.generateBaggageFeesTextWithClickableLinks(context, outboundBaggageFeeUrl, inboundBaggageFeeUrl)
-                    presenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(baggageFeesTextWithClickableLinks)
+                    val baggageFeesTextFormatted = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
+                            .put("departurelink", outboundBaggageFeeUrl)
+                            .put("returnlink", inboundBaggageFeeUrl).format().toString()
+                    val baggageFeesTextWithColoredClickableLinks =
+                            StrUtils.getSpannableTextByColor(baggageFeesTextFormatted,
+                                    ContextCompat.getColor(context, R.color.flight_primary_color), true)
+                    presenter.viewModel.splitTicketBaggageFeesLinksObservable.onNext(baggageFeesTextWithColoredClickableLinks)
                 }).subscribe()
 
         inboundPresenter.overviewPresenter.vm.selectedFlightClickedSubject.subscribe(presenter.flightSummary.inboundFlightWidget.viewModel.flight)
@@ -176,28 +203,18 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
         checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
-            show(confirmationPresenter)
-            FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
-        }
-
-
-
-        presenter.getCheckoutPresenter().toggleCheckoutButton(false)
-
-
-        checkoutViewModel.tripResponseObservable.subscribe { trip ->
-            val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
-            confirmationPresenter.viewModel.rewardPointsObservable.onNext(expediaRewards)
-        }
-        checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val flightCheckoutResponse = pair.first as FlightCheckoutResponse
             val userEmail = pair.second
-            confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
 
+            confirmationPresenter.showConfirmationInfo(flightCheckoutResponse, userEmail)
             show(confirmationPresenter)
-            FlightsV2Tracking.trackCheckoutConfirmationPageLoad()
+            FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse)
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
+        createTripViewModel.tripResponseObservable.subscribe { trip ->
+            val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
+            confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
+        }
         createTripViewModel.createTripErrorObservable.subscribe(errorPresenter.viewmodel.createTripErrorObserverable)
         createTripViewModel.createTripErrorObservable.subscribe { show(errorPresenter) }
         createTripViewModel.noNetworkObservable.subscribe {
@@ -225,9 +242,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.outboundFlightCard.viewModel = FlightConfirmationCardViewModel(context, outbound, numberOfGuests)
             presenter.viewModel.destinationObservable.onNext(destinationCity)
         }
-
+        searchViewModel.searchParamsObservable.subscribe(presenter.hotelCrossSell.viewModel.searchParamsObservable)
         searchViewModel.isRoundTripSearchObservable.subscribe(presenter.viewModel.inboundCardVisibility)
-
         presenter
     }
 
@@ -267,7 +283,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.flightProductId.subscribe { productKey ->
             val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
             val createTripParams = FlightCreateTripParams(productKey, requestInsurance)
-            flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().tripParams.onNext(createTripParams)
+            flightCreateTripViewModel.tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
             flightOverviewPresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
@@ -291,12 +307,20 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         addTransition(outboundToError)
         addTransition(flightOverviewToError)
         addTransition(errorToSearch)
+        addTransition(searchToInbound)
+    }
+
+    private fun flightListToOverviewTransition() {
+        flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
+        flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+        flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
+        flightOverviewPresenter.getCheckoutPresenter().updateDbTravelers()
     }
 
     val searchArgbEvaluator = ArgbEvaluator()
     val searchBackgroundColor = TransitionElement(ContextCompat.getColor(context, R.color.search_anim_background), Color.TRANSPARENT)
 
-    private val errorToSearch = object : Presenter.Transition(FlightErrorPresenter::class.java, FlightSearchPresenter::class.java, DecelerateInterpolator(), 200) {
+    private val errorToSearch = object : Presenter.Transition(FlightErrorPresenter::class.java, searchPresenter.javaClass, DecelerateInterpolator(), 200) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             searchPresenter.visibility = View.VISIBLE
@@ -321,8 +345,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             searchPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             if (forward) {
                 FlightsV2Tracking.trackSearchPageLoad()
+                searchPresenter.showDefault()
             }
-
         }
     }
 
@@ -375,9 +399,19 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
-                flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
-                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(true)
-                flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+                flightOverviewPresenter.resetFlightSummary()
+                flightOverviewPresenter.resetScrollSpaceHeight()
+                flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
+                flightListToOverviewTransition()
+            } else {
+                flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(false)
             }
         }
     }
@@ -386,9 +420,19 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
-                flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
-                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(true)
-                flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
+                flightOverviewPresenter.resetFlightSummary()
+                flightOverviewPresenter.resetScrollSpaceHeight()
+                flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
+                flightListToOverviewTransition()
+            } else {
+                flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(false)
             }
         }
     }
@@ -405,6 +449,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     private val searchToOutbound = SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java)
     private val restrictedSearchToOutbound = SearchToOutboundTransition(this, FlightSearchAirportDropdownPresenter::class.java, FlightOutboundPresenter::class.java)
+    private val searchToInbound = SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightInboundPresenter::class.java)
 
     private val defaultSearchTransition = object : Presenter.DefaultTransition(getDefaultSearchPresenterClassName()) {
         override fun endTransition(forward: Boolean) {

@@ -26,7 +26,7 @@ class RailAmenitiesViewModel {
         if (offer.outboundLeg != null) {
             val segments = offer.outboundLeg?.travelSegmentList
 
-            var segmentMapping = offer.railProductList?.firstOrNull()?.fareBreakdownList?.firstOrNull()?.passengerFareList?.firstOrNull()?.segmentToFareMapping
+            var segmentMapping = offer.railProductList?.firstOrNull()?.segmentToFareMapping
             if (segmentMapping == null) {
                 segmentMapping = HashMap()
             }

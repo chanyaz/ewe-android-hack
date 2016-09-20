@@ -1,0 +1,388 @@
+{
+  "packageDetails": {
+    "tripId": "63fc21e4-b80d-41e8-86c7-59aefea23cb6",
+    "itineraryNumber": 71044591916,
+    "flight": {
+      "details": {
+        "offer": {
+          "legIds": [
+            "847422219ff3f0752cdd2f256d51ab84",
+            "3e650830228ecc7a64d4de9e32f47f4c"
+          ],
+          "currency": "USD",
+          "baseFare": "0.00",
+          "baseFarePrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "totalFare": "0.00",
+          "totalFarePrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "pricePerPassengerCategory": [
+            {
+              "passengerCategory": "ADULT",
+              "totalPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "basePrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              },
+              "taxesPrice": {
+                "amount": "0.00",
+                "formattedPrice": "$0.00",
+                "formattedWholePrice": "$0",
+                "currencyCode": "USD"
+              }
+            }
+          ],
+          "averageTotalPricePerTicket": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "numberOfTickets": 1,
+          "taxes": "0.00",
+          "taxesPrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "fees": "0.00",
+          "feesPrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "showFees": true,
+          "seatsRemaining": 9,
+          "segmentAttributes": [
+            [
+              {
+                "bookingCode": "G",
+                "cabinCode": "coach"
+              }
+            ],
+            [
+              {
+                "bookingCode": "K",
+                "cabinCode": "coach"
+              }
+            ]
+          ],
+          "baggageFeesUrl": "http://wwwexpediacom.trunk.sb.karmalab.net/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=GAK4AGES&bookingclass=G&travelDate=2016-09-10&flightNumber=5317&langid=1033",
+          "fareType": "PUBLISHED",
+          "isInternational": false,
+          "isPassportNeeded": false,
+          "hasBagFee": false,
+          "hasNoBagFee": false,
+          "isSplitTicket": false,
+          "airFulfillmentMethod": [
+            "ETicket"
+          ]
+        },
+        "flightRules": [
+          {
+            "isChangeAllowed": true,
+            "isEnrouteChangeAllowed": false,
+            "isEnrouteRefundAllowed": false,
+            "isRefundable": false,
+            "changePenaltyAmount": "200.00",
+            "changePenaltyPrice": {
+              "amount": "200.00",
+              "formattedPrice": "$200.00",
+              "formattedWholePrice": "$200",
+              "currencyCode": "USD"
+            },
+            "summaryText": ""
+          }
+        ],
+        "obFeeTotalAmount": "0.00",
+        "obFeePrice": {
+          "amount": "0.00",
+          "formattedPrice": "$0.00",
+          "formattedWholePrice": "$0",
+          "currencyCode": "USD"
+        },
+        "destinationRegionId": 6000345,
+        "isSplitTicket": false
+      },
+      "rules": {
+        "RuleToTextMap": {
+          "ChangePenaltyText": "A change fee of $200.00 per ticket is charged by the airline for all itinerary changes.",
+          "AdditionalAirlineFees": "The airline may charge additional fees for checked baggage or other optional services.",
+          "RefundabilityText": "Tickets are nonrefundable and nontransferable.",
+          "CancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+          "AirlineLiabilityLimitations": "Please read important information regarding airline liability limitations.",
+          "CancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+          "CompletePenaltyRules": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight."
+        },
+        "RuleToUrlMap": {
+          "CompletePenaltyRules": "https://wwwexpediacom.trunk.sb.karmalab.net/Fare-Rules?tripid=63fc21e4-b80d-41e8-86c7-59aefea23cb6&tlid=1033",
+          "AdditionalAirlineFees": "https://wwwexpediacom.trunk.sb.karmalab.net/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=GAK4AGES&bookingclass=G&travelDate=2016-09-10&flightNumber=5317",
+          "AirlineLiabilityLimitations": "https://wwwexpediacom.trunk.sb.karmalab.net/p/info-main/warsaw?&tlid=1033"
+        }
+      }
+    },
+    "hotel": {
+      "checkInDate": "2016-09-10",
+      "checkOutDate": "2016-09-11",
+      "checkInTime": "12:00 AM",
+      "checkOutTime": "12:00 AM",
+      "adultCount": "1",
+      "numberOfNights": "1",
+      "numberOfRooms": "1",
+      "hotelId": "15117",
+      "hotelName": "Planet Hollywood Resort & Casino",
+      "localizedHotelName": "Planet Hollywood Resort & Casino",
+      "nonLocalizedHotelName": "Planet Hollywood Resort & Casino",
+      "largeThumbnailUrl": "/hotels/1000000/20000/15200/15117/15117_306_d.jpg",
+      "thumbnailUrl": "/hotels/1000000/20000/15200/15117/15117_306_n.jpg",
+      "hotelAddress": "3667 Las Vegas Blvd S",
+      "hotelCity": "Las Vegas",
+      "hotelStateProvince": "NV",
+      "hotelCountry": "USA",
+      "hotelStarRating": "4.0",
+      "shortDescription": "Situated in the center of the Las Vegas Strip, Planet Hollywood Resort & Casino is within 2 miles of Fashion Show Mall and 4 miles of the convention center; it's 3 miles from the Las Vegas airport.\r\n\r\n",
+      "hotelRoomResponse": {
+        "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. Planet Hollywood Resort & Casino charges the following cancellation and change fees.</p><p>Cancellations or changes made after 4:00PM (hotel local time) on Sep 7, 2016 or no-shows are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Prices and hotel availability are not guaranteed until full payment is received.If you would like to book multiple rooms, you must use a different name for each room. Otherwise, the duplicate reservation will be canceled by the hotel.</p><p>Your room will be guaranteed for late arrival.</p><p>Hotel supplier loyalty points and/or airline miles may not be awarded when booking Expedia Special Rate hotels.</p>",
+        "rateDescription": "Ultra Hip Room, 2 Queen Beds, Non Smoking",
+        "roomTypeDescription": "Ultra Hip Room, 2 Queen Beds, Non Smoking",
+        "supplierType": "MERCHANT",
+        "nonRefundable": false,
+        "hasFreeCancellation": true,
+        "freeCancellationWindowDate": "2016-09-07 16:00",
+        "guaranteeRequired": false,
+        "depositRequired": false,
+        "immediateChargeRequired": true,
+        "currentAllotment": "0",
+        "promoDescription": "",
+        "promotionDetails": {
+
+        },
+        "isDiscountRestrictedToCurrentSourceType": false,
+        "isSameDayDRR": false,
+        "smokingPreferences": "NS",
+        "rateOccupancyPerRoom": "4",
+        "bedTypes": [
+          {
+            "id": "23",
+            "description": "2 queen beds"
+          }
+        ],
+        "rateInfo": {
+          "priceBreakdown": false,
+          "promo": true,
+          "chargeableRateInfo": {
+            "maxNightlyRate": "4.29",
+            "averageRate": "4.29",
+            "taxStatusType": "ESTIMATED",
+            "surchargeTotal": "0.52",
+            "surchargeTotalForEntireStay": "0.52",
+            "averageBaseRate": "429.00",
+            "nightlyRateTotal": "4.29",
+            "discountPercent": -99,
+            "total": "4.81",
+            "currencyCode": "USD",
+            "currencySymbol": "$",
+            "surcharges": [
+              {
+                "amount": "0.52",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.52",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "surchargesForEntireStay": [
+              {
+                "amount": "0.52",
+                "type": "TAX_ALL"
+              },
+              {
+                "amount": "0.52",
+                "type": "TAX_OTHER"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_ALL"
+              },
+              {
+                "amount": "0.00",
+                "type": "FEE_SERVICE"
+              }
+            ],
+            "nightlyRatesPerRoom": [
+              {
+                "promo": "true",
+                "baseRate": "429.00",
+                "rate": "4.29"
+              }
+            ],
+            "priceToShowUsers": "4",
+            "strikethroughPriceToShowUsers": "429",
+            "strikethroughPriceWithTaxesAndFeesToShowUsers": "430",
+            "totalMandatoryFees": "0.00",
+            "totalPriceWithMandatoryFees": "4.81",
+            "formattedTotalPriceWithMandatoryFees": "$ 4.81",
+            "userPriceType": "PerNightRateNoTaxes",
+            "priceAdjustments": [
+
+            ],
+            "checkoutPriceType": "total",
+            "airAttached": false,
+            "roomTypeCode": "201356771",
+            "ratePlanCode": "206630711",
+            "showResortFeeMessage": false,
+            "resortFeeInclusion": false
+          }
+        },
+        "quotedOccupancy": "4",
+        "minGuestAge": "0",
+        "roomTypeCode": "201356771",
+        "ratePlanCode": "206630711",
+        "isPayLater": false
+      },
+      "supplierType": "MERCHANT",
+      "accessibilityAmenities": [
+        {
+          "id": "2420",
+          "description": "Accessible bathroom"
+        },
+        {
+          "id": "2421",
+          "description": "Roll-in shower"
+        },
+        {
+          "id": "2423",
+          "description": "In-room accessibility"
+        }
+      ],
+      "isVipAccess": false,
+      "tealeafTransactionId": "6a76a95397564ae6bd02a116f87b31be",
+      "bigImageUrl": "/hotels/1000000/20000/15200/15117/15117_306_b.jpg",
+      "regionId": "800045"
+    },
+    "pricing": {
+      "packageTotal": {
+        "amount": "173.68",
+        "formattedPrice": "$173.68",
+        "formattedWholePrice": "$174",
+        "currencyCode": "USD"
+      },
+      "basePrice": {
+        "amount": "174.01",
+        "formattedPrice": "$174.01",
+        "formattedWholePrice": "$174",
+        "currencyCode": "USD"
+      },
+      "totalTaxesAndFees": {
+        "amount": "38.63",
+        "formattedPrice": "$38.63",
+        "formattedWholePrice": "$39",
+        "currencyCode": "USD"
+      },
+      "hotelPrice": {
+        "amount": "4.81",
+        "formattedPrice": "$4.81",
+        "formattedWholePrice": "$5",
+        "currencyCode": "USD"
+      },
+      "flightPrice": {
+        "amount": "169.20",
+        "formattedPrice": "$169.20",
+        "formattedWholePrice": "$169",
+        "currencyCode": "USD"
+      },
+      "savings": {
+        "amount": "0.33",
+        "formattedPrice": "$0.33",
+        "formattedWholePrice": "$0",
+        "currencyCode": "USD"
+      },
+      "marketingPrice": {
+        "grossBookingValue": "173.68",
+        "netBookingValue": "173.16",
+        "totalTaxes": "0.52",
+        "totalFees": "0.00",
+        "totalTaxesAndFees": "0.52"
+      },
+      "hotelPricing": {
+        "mandatoryFees": {
+          "feeName": "Resort Fees",
+          "feeTotal": {
+            "amount": "35.84",
+            "formattedPrice": "$35.84",
+            "formattedWholePrice": "$36",
+            "currencyCode": "USD"
+          }
+        }
+      },
+      "bundleTotal": {
+        "amount": "209.52",
+        "formattedPrice": "$209.52",
+        "formattedWholePrice": "$210",
+        "currencyCode": "USD"
+      },
+      "taxesAndFeesIncluded": true
+    },
+    "tealeafTransactionId": "fd978e60f2674ed6ad00539cfb5c91ab"
+  },
+  "expediaRewards": {
+    "totalPointsToEarn": 1041,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "rewards": {
+    "programName": "ExpediaRewards",
+    "totalPointsToEarn": 1041.00,
+    "isActiveRewardsMember": false,
+    "rewardsMembershipTierName": "Invalid Tier"
+  },
+  "activityId": "8291b317-77de-4d11-a187-89e38fbe668c",
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress"
+    },
+    {
+      "name": "Diner's Club International"
+    },
+    {
+      "name": "Discover"
+    },
+    {
+      "name": "JCB"
+    },
+    {
+      "name": "MasterCard"
+    },
+    {
+      "name": "Visa"
+    }
+  ],
+  "guestUserPromoEmailOptInStatus": "ALWAYS",
+  "packageRulesAndRestrictions": "https://wwwexpediacom.trunk.sb.karmalab.net/Checkout/PackageRulesAndRestrictions?tripid=63fc21e4-b80d-41e8-86c7-59aefea23cb6"
+}

@@ -16,7 +16,6 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
@@ -50,7 +49,6 @@ public class RouterActivity extends Activity {
 
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(this);
-		AdTracker.trackLaunch();
 
 		// Update data
 		ItineraryManager.getInstance().startSync(false, false, true);
@@ -87,7 +85,6 @@ public class RouterActivity extends Activity {
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
-			query.addExperiment(AbacusUtils.EBAndroidAppLaunchScreenTest);
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
 
 			if (loadSignInViewAbTest) {

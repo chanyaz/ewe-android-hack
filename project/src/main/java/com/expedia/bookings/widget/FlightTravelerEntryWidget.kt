@@ -10,6 +10,7 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.User
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AnimUtils
@@ -17,15 +18,16 @@ import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
+import com.expedia.bookings.widget.traveler.EmailEntryView
 import com.expedia.bookings.widget.traveler.NameEntryView
 import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.bookings.widget.traveler.TSAEntryView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeTextChange
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.traveler.TravelerViewModel
-import com.jakewharton.rxbinding.widget.RxTextView
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
+import com.expedia.vm.traveler.FlightTravelerViewModel
+import rx.Observable
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
@@ -37,6 +39,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
 
     val travelerButton: TravelerButton by bindView(R.id.traveler_button)
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
+    val emailEntryView: EmailEntryView by bindView(R.id.email_entry_widget)
     val phoneEntryView: PhoneEntryView by bindView(R.id.phone_entry_widget)
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: Spinner by bindView(R.id.passport_country_spinner)
@@ -49,9 +52,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
 
     val resizeOpenAnimator: ResizeHeightAnimator by lazy {
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
-        val heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST);
-        val widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY);
-        advancedOptionsWidget.measure(widthMeasureSpec, heightMeasureSpec);
+        val heightMeasureSpec = MeasureSpec.makeMeasureSpec(height, MeasureSpec.AT_MOST)
+        val widthMeasureSpec = MeasureSpec.makeMeasureSpec(width, MeasureSpec.EXACTLY)
+        advancedOptionsWidget.measure(widthMeasureSpec, heightMeasureSpec)
         resizeAnimator.addViewSpec(advancedOptionsWidget, advancedOptionsWidget.measuredHeight)
         resizeAnimator
     }
@@ -76,8 +79,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         resizeAnimator
     }
 
-    var viewModel: TravelerViewModel by notNullAndObservable { vm ->
+    var viewModel: FlightTravelerViewModel by notNullAndObservable { vm ->
         nameEntryView.viewModel = vm.nameViewModel
+        emailEntryView.viewModel = vm.emailViewModel
         phoneEntryView.viewModel = vm.phoneViewModel
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
@@ -86,12 +90,20 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
             selectPassport(countryCode)
         }
         vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
+        vm.showEmailObservable.subscribeVisibility(emailEntryView)
         vm.showPhoneNumberObservable.subscribeVisibility(phoneEntryView)
-        vm.showPhoneNumberObservable.subscribe { show ->
-            nameEntryView.lastName.nextFocusForwardId = if (show) R.id.edit_phone_number else R.id.edit_birth_date_text_btn
-        }
-        vm.showPassportCountryObservable.subscribe {
-            show ->
+        Observable.combineLatest(vm.showEmailObservable, vm.showPhoneNumberObservable, { showEmail, showPhoneNumber ->
+                    if (showEmail && showPhoneNumber) {
+                        nameEntryView.lastName.nextFocusForwardId = R.id.edit_email_address
+                    } else if (showEmail && !showPhoneNumber) {
+                        nameEntryView.lastName.nextFocusForwardId = R.id.edit_email_address
+                    } else if (!showEmail && showPhoneNumber) {
+                        nameEntryView.lastName.nextFocusForwardId = R.id.edit_phone_number
+                    } else {
+                        nameEntryView.lastName.nextFocusForwardId = R.id.edit_birth_date_text_btn
+                    }
+                }).subscribe()
+        vm.showPassportCountryObservable.subscribe { show ->
             tsaEntryView.genderSpinner.nextFocusForwardId = if (show) R.id.passport_country_spinner else R.id.first_name_input
         }
 
@@ -102,10 +114,20 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         vm.tsaViewModel.genderSubject.subscribe {
             filledIn.onNext(isCompletelyFilled())
         }
+
+        vm.passportCountryObserver.subscribe {
+            filledIn.onNext(isCompletelyFilled())
+        }
+
+        vm.passportValidSubject.subscribe { isValid ->
+
+            val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
+            adapter.setErrorVisible(!isValid)
+        }
     }
 
     var compositeSubscription: CompositeSubscription? = null
-    val formFilledSubscriber = endlessObserver<TextViewAfterTextChangeEvent>() {
+    val formFilledSubscriber = endlessObserver<String>() {
         filledIn.onNext(isCompletelyFilled())
     }
 
@@ -125,6 +147,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         nameEntryView.firstName.onFocusChangeListener = this
         nameEntryView.middleName.onFocusChangeListener = this
         nameEntryView.lastName.onFocusChangeListener = this
+        emailEntryView.emailAddress.onFocusChangeListener = this
         phoneEntryView.phoneNumber.onFocusChangeListener = this
         tsaEntryView.dateOfBirth.setOnFocusChangeListener { view, hasFocus ->
             onFocusChange(view, hasFocus)
@@ -154,25 +177,26 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == View.VISIBLE) {
             compositeSubscription = CompositeSubscription()
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(nameEntryView.firstName).distinctUntilChanged().subscribe(formFilledSubscriber))
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(nameEntryView.lastName).distinctUntilChanged().subscribe(formFilledSubscriber))
-            compositeSubscription?.add(RxTextView.afterTextChangeEvents(phoneEntryView.phoneNumber).distinctUntilChanged().subscribe(formFilledSubscriber))
+            compositeSubscription?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
+            compositeSubscription?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
         } else {
             compositeSubscription?.unsubscribe()
         }
     }
 
     override fun onTravelerChosen(traveler: Traveler) {
-        val passengerCategory = viewModel.getTraveler().getPassengerCategory()
-        traveler.setPassengerCategory(passengerCategory)
-        viewModel.updateTraveler(traveler)
+        val passengerCategory = viewModel.getTraveler().passengerCategory
+        traveler.passengerCategory = passengerCategory
         selectPassport(traveler.primaryPassportCountry)
+        viewModel.updateTraveler(traveler)
     }
 
     override fun onAddNewTravelerSelected() {
         val newTraveler = Traveler()
-        val passengerCategory = viewModel.getTraveler().getPassengerCategory()
-        newTraveler.setPassengerCategory(passengerCategory)
+        val passengerCategory = viewModel.getTraveler().passengerCategory
+        newTraveler.passengerCategory = passengerCategory
         viewModel.updateTraveler(newTraveler)
     }
 
@@ -211,6 +235,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
             viewModel.passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+            if (position == 0) {
+                adapter.setErrorVisible(true)
+            }
         }
     }
 
@@ -224,7 +251,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         return nameEntryView.firstName.text.isNotEmpty() &&
                 nameEntryView.lastName.text.isNotEmpty() &&
                 (!TravelerUtils.isMainTraveler(viewModel.travelerIndex) || phoneEntryView.phoneNumber.text.isNotEmpty()) &&
-                tsaEntryView.viewModel.validate()
+                (tsaEntryView.dateOfBirth.text.isNotEmpty() && tsaEntryView.genderSpinner.selectedItemPosition != 0) &&
+                ((passportCountrySpinner.visibility == View.VISIBLE && passportCountrySpinner.selectedItemPosition != 0) || passportCountrySpinner.visibility == View.GONE)
+                ((emailEntryView.visibility == View.VISIBLE && emailEntryView.emailAddress.text.isNotEmpty()) || User.isLoggedIn(context) || emailEntryView.visibility == View.GONE)
     }
 
     fun resetStoredTravelerSelection() {
@@ -237,8 +266,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
     }
 
     private fun selectPassport(countryCode: String?) {
+        passportCountrySpinner.onItemSelectedListener = null
         val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
         val position = if (countryCode?.isNullOrEmpty() ?: true) DEFAULT_EMPTY_PASSPORT else adapter.getPositionByCountryThreeLetterCode(countryCode)
-        passportCountrySpinner.setSelection(position)
+        passportCountrySpinner.setSelection(position, false)
+        passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
     }
 }

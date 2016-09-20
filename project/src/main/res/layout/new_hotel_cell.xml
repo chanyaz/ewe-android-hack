@@ -18,4 +18,5 @@
         <include layout="@layout/base_hotel_cell"/>
 
     </android.support.v7.widget.CardView>
+
 </FrameLayout>

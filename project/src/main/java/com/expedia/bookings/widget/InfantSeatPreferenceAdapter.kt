@@ -16,7 +16,7 @@ class InfantSeatPreferenceAdapter(val context: Context, val list: List<String>) 
     val padding = context.resources.getDimensionPixelSize(R.dimen.flight_search_airport_padding_left)
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        val view = createViewFromResource(position, convertView, parent, R.layout.child_spinner_item)
+        val view = createViewFromResource(position, convertView, parent, R.layout.age_spinner_item)
         val textView = view as TextView
         val icon = ContextCompat.getDrawable(parent.context, R.drawable.search_form_traveler_picker_infant).mutate()
         icon.setColorFilter(ContextCompat.getColor(parent.context, R.color.search_dialog_icon_color), PorterDuff.Mode.SRC_IN)

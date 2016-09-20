@@ -55,6 +55,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val baggageFeeInfoWebView: BaggageFeeInfoWidget by lazy {
         val viewStub = findViewById(R.id.baggage_fee_stub) as ViewStub
         val baggageFeeView = viewStub.inflate() as BaggageFeeInfoWidget
+        baggageFeeView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         baggageFeeView.viewModel = WebViewViewModel()
         baggageFeeView
     }
@@ -62,6 +63,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
         val viewStub = findViewById(R.id.payment_fee_info_stub) as ViewStub
         val paymentFeeInfoWidget = viewStub.inflate() as PaymentFeeInfoWebView
+        paymentFeeInfoWidget.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         paymentFeeInfoWidget.viewModel = WebViewViewModel()
         paymentFeeInfoWidget
     }
@@ -183,6 +185,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             else {
                 toolbarViewModel.refreshToolBar.onNext(false)
             }
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             viewBundleSetVisibility(false)
             overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
             paymentFeeInfoWebView.visibility = View.GONE
@@ -202,6 +205,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             overviewPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
             baggageFeeInfoWebView.visibility = View.GONE
             paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
         }
     }
 
@@ -235,7 +239,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         override fun onNext(flight: FlightLeg) {
             show(overviewPresenter)
             overviewPresenter.vm.selectedFlightLegSubject.onNext(flight)
-
             trackFlightOverviewLoad()
         }
 

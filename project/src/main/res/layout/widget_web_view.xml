@@ -15,7 +15,6 @@
             android:background="@color/hotels_primary_color"
             android:minHeight="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_close_white_24dp"
-            app:title="@string/package_flight_overview_baggage_fees"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
         <View

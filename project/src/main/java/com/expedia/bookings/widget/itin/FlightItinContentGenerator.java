@@ -707,12 +707,14 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		switch (type) {
 		case DEPARTURE:
 			waypointTypeIcon.setImageResource(R.drawable.ic_departure_details);
+			waypointTypeIcon.setContentDescription(getContext().getString(R.string.itin_departing_cont_desc));
 			break;
 		case LAYOVER:
 			waypointTypeIcon.setImageResource(R.drawable.ic_layover_details);
 			break;
 		case ARRIVAL:
 			waypointTypeIcon.setImageResource(R.drawable.ic_arrival_details);
+			waypointTypeIcon.setContentDescription(getContext().getString(R.string.itin_arriving_cont_desc));
 			break;
 		}
 

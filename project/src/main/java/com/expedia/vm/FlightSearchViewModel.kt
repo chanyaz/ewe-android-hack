@@ -9,6 +9,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
 import com.expedia.bookings.utils.RetrofitUtils
@@ -180,7 +181,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
         if (arrivalSuggestion != null) {
             destinationLocationObserver.onNext(arrivalSuggestion)
         }
-        travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList()))
+        travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
 
         if (flightParamsBuilder.areRequiredParamsFilled()) {
             deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.RESULTS)
@@ -213,6 +214,7 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
                         noNetworkObservable.onNext(Unit)
                     }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                    FlightsV2Tracking.trackFlightSearchAPINoResponseError()
                 }
             }
 

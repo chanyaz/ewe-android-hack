@@ -68,7 +68,6 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
-		outState.putBoolean(INSTANCE_GALLERY_FLIPPING, mGallery.isFlipping());
 		outState.putInt(INSTANCE_GALLERY_POSITION, mGallery.getSelectedItem());
 	}
 
@@ -88,10 +87,6 @@ public class HotelDetailsMiniGalleryFragment extends Fragment {
 
 		if (mGalleryPosition > 0 && hotelMedia.size() > mGalleryPosition) {
 			mGallery.scrollToPosition(mGalleryPosition);
-		}
-
-		if (mGalleryFlipping) {
-			mGallery.startFlipping();
 		}
 	}
 }

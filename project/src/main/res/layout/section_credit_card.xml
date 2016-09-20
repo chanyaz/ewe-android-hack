@@ -144,6 +144,7 @@
         android:inputType="textPassword"
         android:maxLength="4"
         android:textColor="@color/cvv_normal"
+        android:contentDescription="@string/cvv_text_field_cont_desc"
         android:textSize="20dp" />
 
     <!-- "Security Code for Doug's VISA" prompt -->

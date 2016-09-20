@@ -15,15 +15,16 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FlightTravelerEntryWidget
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.traveler.TravelerSelectState
+import com.expedia.bookings.widget.traveler.TravelerPickerWidget
 import com.expedia.util.getMainTravelerToolbarTitle
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
-import com.expedia.vm.traveler.TravelerViewModel
+import com.expedia.vm.traveler.FlightTravelerViewModel
 import rx.subjects.PublishSubject
 
 class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
-    val travelerSelectState: TravelerSelectState by bindView(R.id.traveler_select_state)
+    val travelerPickerWidget: TravelerPickerWidget by bindView(R.id.traveler_picker_widget)
     val travelerEntryWidget: FlightTravelerEntryWidget by bindView(R.id.traveler_entry_widget)
     val boardingWarning: TextView by bindView(R.id.boarding_warning)
     val dropShadow: View by bindView(R.id.drop_shadow)
@@ -37,25 +38,28 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
     var viewModel: CheckoutTravelerViewModel by notNullAndObservable { vm ->
         vm.invalidTravelersSubject.subscribe {
-            show(travelerSelectState, Presenter.FLAG_CLEAR_BACKSTACK)
+            show(travelerPickerWidget, Presenter.FLAG_CLEAR_BACKSTACK)
         }
         vm.emptyTravelersSubject.subscribe {
-            show(travelerSelectState, Presenter.FLAG_CLEAR_BACKSTACK)
+            show(travelerPickerWidget, Presenter.FLAG_CLEAR_BACKSTACK)
         }
+        vm.showMainTravelerMinAgeMessaging.subscribeVisibility(travelerPickerWidget.mainTravelerMinAgeTextView)
     }
 
     init {
         View.inflate(context, R.layout.traveler_presenter, this)
-        travelerSelectState.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
+
+        travelerPickerWidget.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
             toolbarTitleSubject.onNext(selectedTraveler.second)
-            travelerEntryWidget.viewModel = TravelerViewModel(context, selectedTraveler.first)
-            travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
+            travelerEntryWidget.viewModel = FlightTravelerViewModel(context, selectedTraveler.first, viewModel.passportRequired.value)
+            travelerEntryWidget.viewModel.showPassportCountryObservable.subscribe(travelerPickerWidget.passportRequired)
             show(travelerEntryWidget)
         }
+
         doneClicked.subscribe {
             if (travelerEntryWidget.isValid()) {
                 viewModel.updateCompletionStatus()
-                if (viewModel.validateTravelersComplete()) {
+                if (viewModel.allTravelersValid()) {
                     closeSubject.onNext(Unit)
                 }
             }
@@ -66,38 +70,39 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         super.onFinishInflate()
         addDefaultTransition(defaultTransition)
         addTransition(selectToEntry)
-        show(travelerSelectState, Presenter.FLAG_CLEAR_BACKSTACK)
+        show(travelerPickerWidget, Presenter.FLAG_CLEAR_BACKSTACK)
     }
 
-    private val defaultTransition = object : Presenter.DefaultTransition(TravelerSelectState::class.java.name) {
+    private val defaultTransition = object : Presenter.DefaultTransition(TravelerPickerWidget::class.java.name) {
         override fun endTransition(forward: Boolean) {
             menuVisibility.onNext(false)
-            travelerSelectState.show()
+            travelerPickerWidget.show()
             travelerEntryWidget.visibility = View.GONE
             boardingWarning.visibility = View.GONE
             dropShadow.visibility = View.VISIBLE
-            toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
-            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
+            if (currentState != null) {
+                toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
+            }
         }
     }
 
-    private val selectToEntry = object : Presenter.Transition(TravelerSelectState::class.java,
+    private val selectToEntry = object : Presenter.Transition(TravelerPickerWidget::class.java,
             FlightTravelerEntryWidget::class.java) {
         override fun startTransition(forward: Boolean) {
             menuVisibility.onNext(forward)
             dropShadow.visibility = View.VISIBLE
             boardingWarning.visibility =  if (forward) View.VISIBLE else View.GONE
-            if (!forward) travelerSelectState.show() else travelerSelectState.visibility = View.GONE
+            if (!forward) travelerPickerWidget.show() else travelerPickerWidget.visibility = View.GONE
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
             if (!forward) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
                 travelerEntryWidget.travelerButton.dismissPopup()
+                Ui.hideKeyboard(this@TravelerPresenter)
             }
         }
 
         override fun endTransition(forward: Boolean) {
-            setToolbarNavIcon(forward)
             if (forward) {
                 travelerEntryWidget.resetStoredTravelerSelection()
                 travelerEntryWidget.nameEntryView.firstName.requestFocus()
@@ -109,38 +114,35 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                     FlightsV2Tracking.trackCheckoutEditTraveler()
                 }
             } else {
-                travelerEntryWidget.viewModel.validate()
+               viewModel.refresh()
             }
-        }
-    }
-
-    private fun setToolbarNavIcon(forward : Boolean) {
-        if(!forward) {
-            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
-            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
-        }
-        else {
-            toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_close_cont_desc))
-            toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         }
     }
 
     fun showSelectOrEntryState(status : TravelerCheckoutStatus) {
         if (viewModel.getTravelers().size > 1) {
             toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
-            travelerSelectState.refresh(status, viewModel.getTravelers())
-            show(travelerSelectState)
+            resetTravelers(status)
+            show(travelerPickerWidget)
         } else {
-            val travelerViewModel = TravelerViewModel(context, 0)
-            currentState ?: show(travelerSelectState, FLAG_CLEAR_BACKSTACK)
+            resetTravelers(status)
+            val travelerViewModel = FlightTravelerViewModel(context, 0, viewModel.passportRequired.value)
             travelerEntryWidget.viewModel = travelerViewModel
-            travelerEntryWidget.viewModel.showPassportCountryObservable.onNext(viewModel.passportRequired.value)
             toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
             if (viewModel.travelerCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
                 travelerEntryWidget.viewModel.validate()
             }
+            if (currentState == null) show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
             show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
         }
+    }
+
+    fun resetTravelers(status : TravelerCheckoutStatus) {
+        travelerPickerWidget.refresh(status, viewModel.getTravelers())
+    }
+
+    fun onLogin(isLoggedIn: Boolean) {
+        travelerEntryWidget.emailEntryView.visibility = if (isLoggedIn) GONE else VISIBLE
     }
 
     override fun back(): Boolean {

@@ -40,6 +40,7 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.CalendarWidgetV2
 import com.expedia.bookings.widget.RecyclerDividerDecoration
 import com.expedia.bookings.widget.ShopWithPointsWidget
@@ -61,7 +62,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     private val SUGGESTION_TRANSITION_DURATION = 300
     private val STARTING_TRANSLATIONY = -2000f
 
-    val travellerCardViewStub: ViewStub by bindView(R.id.traveller_stub)
+    val travelerCardViewStub: ViewStub by bindView(R.id.traveler_stub)
     val swpWidgetStub: ViewStub by bindView(R.id.swp_stub)
     val ANIMATION_DURATION = 200L
     val toolbar: Toolbar by bindView(R.id.search_toolbar)
@@ -74,8 +75,9 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     var navIcon: ArrowXDrawable
     open val destinationCardView: SearchInputTextView by bindView(R.id.destination_card)
     open val travelerWidgetV2 by lazy {
-        travellerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
+        travelerCardViewStub.inflate().findViewById(R.id.traveler_card) as TravelerWidgetV2
     }
+
     val searchButton: Button by bindView(R.id.search_btn)
 
     open var searchLocationEditText: SearchView? = null
@@ -175,6 +177,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         navIcon.setColorFilter(ContextCompat.getColor(context, R.color.search_suggestion_v2), PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
         setNavIconContentDescription(true)
+        if (currentState == null) show(InputSelectionState())
         show(SuggestionSelectionState())
     }
 
@@ -196,7 +199,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     fun selectTravelers(params: TravelerParams) {
-        travelerWidgetV2.traveler.viewmodel.travelerParamsObservable.onNext(params)
+        travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.onNext(params)
         travelerWidgetV2.travelerDialog.dismiss()
     }
 
@@ -227,7 +230,13 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             if (navIcon.parameter.toInt() == ArrowXDrawableUtil.ArrowDrawableType.BACK.type) {
                 firstLaunch = false
                 com.mobiata.android.util.Ui.hideKeyboard(this@BaseSearchPresenter)
-                super.back()
+                if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                    toolbar.postDelayed(Runnable {
+                        showDefault()
+                    }, 900)
+                } else {
+                    showDefault()
+                }
             } else {
                 val activity = getContext() as AppCompatActivity
                 activity.onBackPressed()
@@ -437,6 +446,8 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             }
             if (!forward && doRequestA11yFocus) {
                 requestA11yFocus(isCustomerSelectingOrigin)
+            } else if ((forward || firstLaunch) && doRequestA11yFocus) {
+                AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
             }
         }
     }

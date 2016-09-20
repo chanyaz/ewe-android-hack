@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.location.Location
+import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.ServicesUtil
@@ -15,5 +16,17 @@ class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: Sugg
 
     override fun getSuggestionHistoryFile(): String {
         return SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE
+    }
+
+    override fun getLineOfBusiness(): String {
+        return "HOTELS"
+    }
+
+    override fun getNearbyRegionType(): Int {
+        return SuggestionResultType.MULTI_CITY
+    }
+
+    override fun getNearbySortType(): String {
+        return "distance"
     }
 }

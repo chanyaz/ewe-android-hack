@@ -130,6 +130,9 @@ public class PointOfSale {
 	// Whether to show gound transport on this POS
 	private boolean mSupportsGT;
 
+	// Whether to show packages on this POS
+	private boolean mSupportsPackages;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -193,7 +196,10 @@ public class PointOfSale {
 
 	private boolean mRequiresLXPostalCode;
 	private boolean mRequiresCarsPostalCode;
+	private boolean showBundleTotalWhenResortFees;
 
+	// 8555 - Should show hotel fees in local currency for packages.
+	private boolean showResortFeesInHotelLocalCurrency;
 
 	private static class CountryResources {
 		@StringRes
@@ -621,6 +627,8 @@ public class PointOfSale {
 			return mSupportsFlights;
 		case HOTELS:
 			return true;
+		case PACKAGES:
+			return mSupportsPackages && !sIsTablet;
 		}
 
 		return false;
@@ -734,6 +742,10 @@ public class PointOfSale {
 		return showPackageFreeUnrealDeal;
 	}
 
+	public boolean showResortFeesInHotelLocalCurrency() {
+		return showResortFeesInHotelLocalCurrency;
+	}
+
 	public boolean shouldShowRewards() {
 		return mShouldShowRewards;
 	}
@@ -788,6 +800,10 @@ public class PointOfSale {
 
 	public boolean isEarnMessageEnabledForFlights() {
 		return isEarnMessageEnabledForFlights;
+	}
+
+	public boolean shouldShowBundleTotalWhenResortFees() {
+		return showBundleTotalWhenResortFees;
 	}
 
 	/**
@@ -856,6 +872,17 @@ public class PointOfSale {
 			return StrUtils.getSpannableTextByColor(getPosLocale().getFlightBookingStatement(), color, false);
 		}
 		return "FAIL FAIL FAIL LOC NEEDED: flightBookingStatement";
+	}
+
+	public CharSequence getColorizedPackagesBookingStatement(int color) {
+		if (!TextUtils.isEmpty(getPosLocale().getPackagesBookingStatement())) {
+			return StrUtils.getSpannableTextByColor(getPosLocale().getPackagesBookingStatement(), color, false);
+		}
+		return null;
+	}
+
+	public String getInsuranceStatement() {
+		return getPosLocale().getInsuranceStatement();
 	}
 
 	public int getDualLanguageId() {
@@ -1172,6 +1199,7 @@ public class PointOfSale {
 		pos.mSupportsCars = data.optBoolean("carsEnabled");
 		pos.mSupportsLx = data.optBoolean("lxEnabled");
 		pos.mSupportsGT = data.optBoolean("gtEnabled");
+		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
@@ -1195,6 +1223,8 @@ public class PointOfSale {
 		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
 		pos.showPackageFreeUnrealDeal = data.optBoolean("showPackageFreeUnrealDeal", true);
+		pos.showResortFeesInHotelLocalCurrency = data.optBoolean("showResortFeesInHotelLocalCurrency", false);
+		pos.showBundleTotalWhenResortFees = data.optBoolean("showBundleTotalWhenResortFees", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

@@ -105,7 +105,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
             lp.width = 0
         } else {
             progress = ProgressBar(getContext(), null, android.R.attr.progressBarStyleSmall)
-            (progress as ProgressBar).setIndeterminate(true)
+            (progress as ProgressBar).isIndeterminate = true
         }
         progress.layoutParams = lp
         couponCode.setOnEditorActionListener({ textView, actionId, event ->

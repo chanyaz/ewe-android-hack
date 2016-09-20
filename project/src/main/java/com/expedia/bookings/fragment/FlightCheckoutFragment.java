@@ -20,7 +20,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.FlightPaymentOptionsActivity;
-import com.expedia.bookings.activity.FlightRulesActivity;
+import com.expedia.bookings.activity.FlightAndPackagesRulesActivity;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.BillingInfo;
@@ -179,7 +179,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		tv.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(getActivity(), FlightRulesActivity.class);
+				Intent intent = new Intent(getActivity(), FlightAndPackagesRulesActivity.class);
 				startActivity(intent);
 			}
 		});

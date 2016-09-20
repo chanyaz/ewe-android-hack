@@ -6,6 +6,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.section.CommonSectionValidators
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
 import com.mobiata.android.validation.ValidationError
 import org.joda.time.LocalDate
@@ -21,9 +22,16 @@ class TravelerValidator {
         infantsInLap = params.infantSeatingInLap
     }
 
-    fun isValidForPackageBooking(traveler: Traveler, index: Int): Boolean {
+    fun isValidForFlightBooking(traveler: Traveler, index: Int, passportRequired: Boolean): Boolean {
         return hasValidBirthDate(traveler) && hasValidName(traveler.name)
                 && (!TravelerUtils.isMainTraveler(index) || isValidPhone(traveler.phoneNumber)) && hasValidGender(traveler)
+                && (!passportRequired || hasValidPassport(traveler)) && (index > 0 || isValidEmail(traveler.email))
+    }
+
+    fun isValidForRailBooking(traveler: Traveler) : Boolean {
+        return hasValidName(traveler.name)
+                && isValidPhone(traveler.phoneNumber)
+                && isValidEmail(traveler.email)
     }
 
     fun hasValidGender(traveler: Traveler): Boolean {
@@ -51,6 +59,10 @@ class TravelerValidator {
         return hasAllValidChars(name)
     }
 
+    fun isValidEmail(email: String?): Boolean {
+        return CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(email) == ValidationError.NO_ERROR
+    }
+
     fun hasAllValidChars(name: String?): Boolean {
         if (name == null) {
             return true
@@ -68,6 +80,10 @@ class TravelerValidator {
 
     fun isTravelerEmpty(traveler: Traveler) : Boolean {
         return traveler.name.isEmpty && TextUtils.isEmpty(traveler.phoneNumber) && traveler.birthDate == null
+    }
+
+    fun hasValidPassport(traveler: Traveler) : Boolean {
+        return Strings.isNotEmpty(traveler.primaryPassportCountry)
     }
 
     fun hasValidBirthDate(traveler: Traveler): Boolean {
@@ -91,15 +107,7 @@ class TravelerValidator {
         else if (birthDate == null || category == null) {
             return false
         } else {
-            val inclusiveAgeBounds = PassengerCategory.getAcceptableAgeRange(category)
-
-            val earliestBirthDateAllowed = (startOfTrip as LocalDate).minusYears(inclusiveAgeBounds.second)
-            val latestBirthDateAllowed = (endOfTrip as LocalDate).minusYears(inclusiveAgeBounds.first)
-
-            val afterEarliest = birthDate.compareTo(earliestBirthDateAllowed) > 0
-            val beforeLatest = birthDate.compareTo(latestBirthDateAllowed) <= 0
-
-            return beforeLatest && afterEarliest
+            return PassengerCategory.isDateWithinPassengerCategoryRange(birthDate, endOfTrip, startOfTrip, category)
         }
     }
 }

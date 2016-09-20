@@ -87,8 +87,8 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
     private var roomContainerTopBottomPadding = 0
     private var roomContainerLeftRightPadding = 0
     private var showTerms = false
-    var viewsToHideInExpandedState : Array<View> by Delegates.notNull()
-    var viewsToShowInExpandedState : Array<View> by Delegates.notNull()
+    var viewsToHideInExpandedState: Array<View> by Delegates.notNull()
+    var viewsToShowInExpandedState: Array<View> by Delegates.notNull()
     val animateRoom = PublishSubject.create<Pair<HotelRoomRateView, Boolean>>()
     var viewmodel: HotelRoomRateViewModel by notNullAndObservable { vm ->
 
@@ -97,7 +97,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
         }
 
         vm.collapsedEarnMessageVisibilityObservable.subscribe {
-            viewsToHideInExpandedState = arrayOf(collapsedBedType, if(it) collapsedEarnMessaging else collapsedUrgency)
+            viewsToHideInExpandedState = arrayOf(collapsedBedType, if (it) collapsedEarnMessaging else collapsedUrgency)
             viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice)
         }
         vm.collapsedUrgencyVisibilityObservable.subscribeVisibility(collapsedUrgency)
@@ -112,7 +112,9 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
         row.setOnClickListener {
             vm.expandCollapseRoomRate.onNext(!viewRoom.isChecked)
         }
-
+        vm.setViewRoomContentDescription.subscribe {
+            viewRoom.contentDescription = it
+        }
         vm.roomInfoExpandCollapseObservable1.subscribe {
             val lp = roomInfoChevron.layoutParams as RelativeLayout.LayoutParams
             lp.addRule(RelativeLayout.BELOW, 0)
@@ -135,8 +137,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
                 //track only when expand the room info
                 if (viewmodel.lob == LineOfBusiness.PACKAGES) {
                     PackagesTracking().trackHotelRoomMoreInfoClick()
-                }
-                else {
+                } else {
                     HotelTracking().trackLinkHotelRoomInfoClick()
                 }
             } else {
@@ -259,14 +260,14 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
                 PicassoHelper.Builder(roomHeaderImage)
                         .setPlaceholder(R.drawable.room_fallback)
                         .build()
-                        .load(hotelMedia.getBestUrls(width/2))
+                        .load(hotelMedia.getBestUrls(width / 2))
             } else {
                 roomHeaderImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.room_fallback))
             }
 
             viewsToHideInExpandedState.forEach {
                 val alphaAnimation = newAlphaOneToZeroAnimation(it)
-                if(!animate) alphaAnimation.duration = 0
+                if (!animate) alphaAnimation.duration = 0
                 it.startAnimation(alphaAnimation)
             }
             viewsToShowInExpandedState.forEach {
@@ -274,7 +275,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
                     it.visibility = View.GONE
                 } else {
                     val alphaAnimation = newAlphaZeroToOneAnimation(it)
-                    if(!animate) alphaAnimation.duration = 0
+                    if (!animate) alphaAnimation.duration = 0
                     it.startAnimation(alphaAnimation)
                 }
             }
@@ -283,7 +284,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
             roomInfoContainer.setPadding(roomContainerLeftRightPadding, roomContainerTopBottomPadding, roomContainerLeftRightPadding, roomContainerTopBottomPadding)
             row.isEnabled = false
 
-            var infoIcon : Drawable = ContextCompat.getDrawable(context, R.drawable.details_info)
+            val infoIcon: Drawable = ContextCompat.getDrawable(context, R.drawable.details_info).mutate()
             infoIcon.setColorFilter(ContextCompat.getColor(context, R.color.hotels_primary_color), PorterDuff.Mode.SRC_IN)
             depositTermsButton.setCompoundDrawablesWithIntrinsicBounds(infoIcon, null, null, null)
 
@@ -309,15 +310,15 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
             animate
         }.subscribe { animate ->
             viewRoom.isChecked = false
-
+            viewRoom.contentDescription = context.getString(R.string.hotel_room_expand_cont_desc)
             viewsToHideInExpandedState.forEach {
                 val alphaAnimation = newAlphaZeroToOneAnimation(it)
-                if(!animate) alphaAnimation.duration = 0
+                if (!animate) alphaAnimation.duration = 0
                 it.startAnimation(alphaAnimation)
             }
             viewsToShowInExpandedState.forEach {
                 val alphaAnimation = newAlphaOneToZeroAnimation(it)
-                if(!animate) alphaAnimation.duration = 0
+                if (!animate) alphaAnimation.duration = 0
                 it.startAnimation(alphaAnimation)
             }
 
@@ -402,7 +403,7 @@ class HotelRoomRateView(context: Context, var rowIndex: Int) : LinearLayout(cont
 
         val transitionDrawable = TransitionDrawable(arrayOf(ColorDrawable(Color.parseColor("#00000000")), ContextCompat.getDrawable(context, R.drawable.card_background)))
         transitionDrawable.isCrossFadeEnabled = true
-        if(rowIndex == 0) transitionDrawable.startTransition(0)
+        if (rowIndex == 0) transitionDrawable.startTransition(0)
         row.background = transitionDrawable
         toggleCollapsed = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10f, context.resources.displayMetrics).toInt()
         toggleExpanded = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5f, context.resources.displayMetrics).toInt()

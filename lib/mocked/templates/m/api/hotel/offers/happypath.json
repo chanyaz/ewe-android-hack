@@ -111,12 +111,12 @@
             "supplierType": "MERCHANT",
             "valueAdds": [
                 {
-                    "id": "128",
-                    "description": "Free Parking"
-                },
-                {
                     "id": "32768",
                     "description": "Free Airport Shuttle"
+                },
+                {
+                    "id": "128",
+                    "description": "Free Parking"
                 }
             ]
         },

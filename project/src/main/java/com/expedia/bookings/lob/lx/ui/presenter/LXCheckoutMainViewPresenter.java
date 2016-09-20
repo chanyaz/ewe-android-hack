@@ -154,7 +154,6 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 			.phone(mainContactInfoCardView.phoneNumber.getText().toString())
 			.expectedFareCurrencyCode(lxState.activity.price.currencyCode)
 			.tripId(tripId)
-			.guid(Db.getAbacusGuid())
 			.suppressFinalBooking(suppressFinalBooking);
 
 		if (Db.getBillingInfo().hasStoredCard()) {

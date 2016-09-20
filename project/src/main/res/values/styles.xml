@@ -1074,6 +1074,21 @@
         <item name="textStyle">normal</item>
     </style>
 
+    <style name="AcceptTermsWidgetStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">12sp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">?attr/accept_terms_text_color</item>
+        <item name="android:background">?attr/accept_terms_background_color</item>
+        <item name="textStyle">normal</item>
+    </style>
+
+    <style name="FlightWarningBarRed" parent="FlightWarningBar">
+        <item name="android:background">@color/flight_red_warning_bar_color</item>
+    </style>
+
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->
     <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
         <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
@@ -1223,6 +1238,7 @@
         <item name="textStyle">medium</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:layout_height">@dimen/footer_button_height</item>
+        <item name="android:background">@drawable/exp_blue_button_ripple</item>
     </style>
 
     <!--Material CardView Style-->
@@ -1292,10 +1308,27 @@
         <item name="textStyle">normal</item>
     </style>
 
-    <style name="RailPrimaryText">
+
+    <style name="RailCell">
+        <item name="android:textColor">@color/packages_flight_cell_primary_text</item>
+        <item name="android:textSize">@dimen/packages_flight_cell_duration_text</item>
+        <item name="textStyle">medium</item>
+    </style>
+
+
+    <style name="RailCell.PrimaryText">
         <item name="android:textColor">@color/flight_departure_date_color</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="RailCell.PriceText">
+        <item name="android:textSize">@dimen/packages_flight_cell_primary_text</item>
+    </style>
+
+    <style name="RailTextAppearanceSmall">
+        <item name="android:textColor">@color/gray7</item>
+        <item name="android:textSize">11sp</item>
     </style>
 
     <!--Bundle Overview Hotel+Flight and Rail Widgets-->
@@ -1312,6 +1345,18 @@
         <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>
         <item name="textStyle">normal</item>
     </style>
+
+    <style name="BundleOverviewWidgets.SecondaryText.TotalPrice">
+        <item name="android:textColor">@color/packages_bundle_overview_widgets_secondary_text</item>
+        <item name="android:textSize">@dimen/packages_bundle_overview_footer_secondary_text</item>
+        <item name="textStyle">normal</item>
+        <item name="android:layout_marginBottom">11dp</item>
+        <item name="android:layout_marginLeft">16dp</item>
+        <item name="android:layout_marginRight">16dp</item>
+        <item name="android:layout_marginTop">11dp</item>
+    </style>
+
+
 
     <!--Bundle Overview Footer Hotel+Flight and Rail-->
     <style name="BundleOverviewFooter">
@@ -1336,6 +1381,21 @@
 
     <style name="ErrorActionButton" parent="Core.Widget.Button">
         <item name="android:background">@drawable/error_button_selector</item>
+    </style>
+
+    <!--Traveler plus and minus icon style for Hotel, Package and Rail-->
+    <style name="TravelerIcon">
+        <item name="android:layout_width">@dimen/traveler_plus_minus_size</item>
+        <item name="android:layout_height">@dimen/traveler_plus_minus_size</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+    </style>
+
+    <style name="TravelerIcon.Plus">
+        <item name="android:src">@drawable/plus</item>
+    </style>
+
+    <style name="TravelerIcon.Minus">
+        <item name="android:src">@drawable/minus</item>
     </style>
 
 </resources>

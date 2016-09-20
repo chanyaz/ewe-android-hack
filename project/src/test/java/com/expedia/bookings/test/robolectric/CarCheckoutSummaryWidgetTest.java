@@ -103,8 +103,8 @@ public class CarCheckoutSummaryWidgetTest {
 		assertEquals("$50. Cost summary information button.", tripTotal.getContentDescription());
 		assertEquals(View.GONE, priceChangeContainer.getVisibility());
 		String expedtedDate = DateFormatUtils
-			.formatCarDateTimeRange(activity, carCreateTripResponse.carProduct.getPickupTime(),
-				carCreateTripResponse.carProduct.getDropOffTime());
+			.formatStartEndDateTimeRange(activity, carCreateTripResponse.carProduct.getPickupTime(),
+				carCreateTripResponse.carProduct.getDropOffTime(), false);
 		assertEquals(expedtedDate, dateTime.getText());
 	}
 

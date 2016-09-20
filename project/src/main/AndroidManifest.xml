@@ -245,7 +245,7 @@
             android:theme="@style/FlightTheme.CheckoutForms"
             tools:ignore="UnusedAttribute" />
         <activity
-            android:name="com.expedia.bookings.activity.FlightRulesActivity"
+            android:name="com.expedia.bookings.activity.FlightAndPackagesRulesActivity"
             android:label="@string/legal_information"
             android:resizeableActivity="false"
             android:theme="@style/FlightTheme.Rules"
@@ -277,7 +277,6 @@
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.bookings.activity.CarActivity"
             android:theme="@style/V2.Theme.Cars"
-            android:windowSoftInputMode="adjustNothing"
             tools:ignore="UnusedAttribute" />
 
         <!-- LX activity -->
@@ -290,7 +289,6 @@
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.bookings.activity.LXBaseActivity"
             android:theme="@style/V2.Theme.LX"
-            android:windowSoftInputMode="adjustNothing"
             tools:ignore="UnusedAttribute" />
 
         <!-- New Hotel activity -->
@@ -312,6 +310,29 @@
             android:theme="@style/V2.Theme.Floating"
             android:windowSoftInputMode="adjustResize"
             tools:ignore="UnusedAttribute" />
+
+        <!-- Packages -->
+
+        <activity
+            android:name="com.expedia.ui.PackageActivity"
+            android:label="Packages"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.expedia.ui.PackageActivity"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Packages" />
+
+        <activity
+            android:name="com.expedia.ui.PackageHotelActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Packages"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name="com.expedia.ui.PackageFlightActivity"
+            android:configChanges="screenSize|orientation|keyboardHidden"
+            android:launchMode="singleTop"
+            android:theme="@style/V2.Theme.Packages" />
 
         <!-- About/Preferences/WebView activities -->
 

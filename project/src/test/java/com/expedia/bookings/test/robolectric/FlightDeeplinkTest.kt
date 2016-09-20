@@ -76,7 +76,11 @@ class FlightDeeplinkTest {
         testDateSubscriber.assertValue(Pair(flightSearchParams.departureDate, flightSearchParams.returnDate))
         testOriginSubscriber.assertValue(Html.fromHtml(flightSearchParams.departureLocation.destinationId).toString())
         testDestinationSubscriber.assertValue(Html.fromHtml(flightSearchParams.arrivalLocation.destinationId).toString())
-        testTravelersSubscriber.assertValue(TravelerParams(flightSearchParams.numAdults, emptyList()))
+        val travelerParams = testTravelersSubscriber.onNextEvents[0]
+        assertEquals(flightSearchParams.numAdults, travelerParams.numberOfAdults)
+        assertEquals(0, travelerParams.childrenAges.size)
+        assertEquals(0, travelerParams.seniorAges.size)
+        assertEquals(0, travelerParams.youthAges.size)
         roundTripTestSubscriber.assertValues(true, true)
     }
 

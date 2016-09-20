@@ -17,6 +17,7 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
 
     override fun onDismiss(dialog: DialogInterface?) {
         super.onDismiss(dialog)
+        baseSearchViewModel.a11yFocusSelectDatesObservable.onNext(Unit)
     }
 
     override fun onCancel(dialog: DialogInterface?) {
@@ -67,19 +68,21 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
         dialog.datePicker.maxDate = maxDate.toDateTimeAtStartOfDay(DateTimeZone.getDefault()).millis
     }
 
-    override fun onDateSet(view: DatePicker?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
-        val startDate = baseSearchViewModel.startDate()
-        val date = LocalDate(year, monthOfYear.plus(1), dayOfMonth)
+    override fun onDateSet(view: DatePicker, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        if (view.isShown) {
+            val startDate = baseSearchViewModel.startDate()
+            val date = LocalDate(year, monthOfYear.plus(1), dayOfMonth)
 
-        if (baseSearchViewModel.accessibleStartDateSetObservable.value) {
-            validateDates(startDate, date)
-            baseSearchViewModel.datesObserver.onNext(Pair(startDate, date))
-            baseSearchViewModel.accessibleStartDateSetObservable.onNext(false)
-        } else {
-            validateDates(date, null)
-            baseSearchViewModel.datesObserver.onNext(Pair(date, null))
-            if (baseSearchViewModel.getMaxSearchDurationDays() > 0) {
-                baseSearchViewModel.accessibleStartDateSetObservable.onNext(true)
+            if (baseSearchViewModel.accessibleStartDateSetObservable.value) {
+                validateDates(startDate, date)
+                baseSearchViewModel.datesObserver.onNext(Pair(startDate, date))
+                baseSearchViewModel.accessibleStartDateSetObservable.onNext(false)
+            } else {
+                validateDates(date, null)
+                baseSearchViewModel.datesObserver.onNext(Pair(date, null))
+                if (baseSearchViewModel.getMaxSearchDurationDays() > 0) {
+                    baseSearchViewModel.accessibleStartDateSetObservable.onNext(true)
+                }
             }
         }
     }

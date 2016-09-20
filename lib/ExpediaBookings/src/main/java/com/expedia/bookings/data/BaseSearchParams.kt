@@ -51,9 +51,7 @@ open class BaseSearchParams(val origin: SuggestionV4?, val destination: Suggesti
 
         abstract fun build(): BaseSearchParams
 
-        open fun areRequiredParamsFilled(): Boolean {
-            return hasOriginLocation() && hasStartAndEndDates()
-        }
+        abstract fun areRequiredParamsFilled(): Boolean
 
         open fun hasStartAndEndDates(): Boolean {
             return startDate != null && endDate != null
@@ -88,5 +86,3 @@ open class BaseSearchParams(val origin: SuggestionV4?, val destination: Suggesti
         }
     }
 }
-
-data class TravelerParams(val numberOfAdults: Int, val childrenAges: List<Int>)

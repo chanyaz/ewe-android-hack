@@ -7,7 +7,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import com.expedia.ui.NewPhoneLaunchActivity;
 import com.mobiata.android.Log;
 
@@ -22,15 +22,15 @@ public class NewLaunchScreenTest extends PhoneTestCase {
 	private static final String TAG = NewLaunchScreenTest.class.getName();
 
 	public void testGeneralUIElements() throws Throwable {
-		LaunchScreen.tripsButton().perform(click());
+		NewLaunchScreen.tripsButton().perform(click());
 		EspressoUtils.assertViewIsDisplayed(R.id.login_button);
 		Log.v(TAG, "Trips button on Launch screen is displayed and works");
 
-		LaunchScreen.shopButton().perform(click());
+		NewLaunchScreen.shopButton().perform(click());
 		EspressoUtils.assertViewIsDisplayed(R.id.launch_list_widget);
 		Log.v(TAG, "Shop button on Launch screen is displayed ");
 
-		LaunchScreen.accountButton().perform(click());
+		NewLaunchScreen.accountButton().perform(click());
 		EspressoUtils.assertViewIsDisplayed(R.id.sign_in_button);
 		Log.v(TAG, "Account button on Launch screen is displayed ");
 

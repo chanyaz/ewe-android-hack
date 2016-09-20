@@ -1,6 +1,5 @@
 package com.expedia.bookings.widget.suggestions
 
-import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +15,6 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.CarSuggestionViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
-import kotlin.text.replace
 
 class CarSuggestionAdapter(val viewmodel: SuggestionAdapterViewModel) : RecyclerView.Adapter<RecyclerView.ViewHolder>(), Filterable {
     val marginTop = viewmodel.context.resources.getDimensionPixelSize(R.dimen.package_suggestion_margin_top)
@@ -64,7 +62,7 @@ class CarSuggestionViewHolder(val root: ViewGroup, val vm : CarSuggestionViewMod
 
     init {
         itemView.setOnClickListener(this)
-        dropdownImage.setColorFilter(dropdownImage.getContext().getResources().getColor(Ui.obtainThemeResID(dropdownImage.getContext(), R.attr.skin_carsSecondaryColor)))
+        dropdownImage.setColorFilter(dropdownImage.context.resources.getColor(Ui.obtainThemeResID(dropdownImage.context, R.attr.skin_carsSecondaryColor)))
 
         vm.titleObservable.subscribeText(displayName)
         vm.iconObservable.subscribe { imageSource ->

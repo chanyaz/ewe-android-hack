@@ -1,18 +1,19 @@
 package com.expedia.bookings.utils;
 
 import android.text.TextPaint;
-import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.view.View;
 
 import com.expedia.bookings.activity.WebViewActivity;
 
-public class LegalClickableSpan extends ClickableSpan {
+public class LegalClickableSpan extends URLSpan {
 
 	private String url;
 	private String title;
 	private boolean hasUnderline;
 
 	public LegalClickableSpan(String url, String title, boolean hasUnderline) {
+		super(url);
 		this.url = url;
 		this.title = title;
 		this.hasUnderline = hasUnderline;

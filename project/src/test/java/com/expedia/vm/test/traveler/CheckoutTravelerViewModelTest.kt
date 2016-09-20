@@ -20,6 +20,7 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class CheckoutTravelerViewModelTest {
+    val context = RuntimeEnvironment.application
     val mockTravelerProvider = MockTravelerProvider()
     lateinit var testViewModel: CheckoutTravelerViewModel
     lateinit var searchParams: PackageSearchParams
@@ -28,42 +29,53 @@ class CheckoutTravelerViewModelTest {
     @Before
     fun setUp() {
         searchParams = setUpParams()
-        var context = RuntimeEnvironment.application
         Ui.getApplication(context).defaultTravelerComponent()
-        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES)
+        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, false)
         testViewModel.travelerValidator.updateForNewSearch(searchParams)
+    }
+
+    @Test
+    fun testMainTravelerMinAgeShow() {
+        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, true)
+        assertTrue(testViewModel.showMainTravelerMinAgeMessaging.value)
+    }
+
+    @Test
+    fun testMainTravelerMinAgeHide() {
+        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, false)
+        assertFalse(testViewModel.showMainTravelerMinAgeMessaging.value)
     }
 
     @Test
     fun testEmptyListInvalid() {
         Db.setTravelers(emptyList())
-        assertFalse(testViewModel.validateTravelersComplete())
+        assertFalse(testViewModel.allTravelersValid())
     }
 
     @Test
     fun testInvalidTraveler() {
         mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
-        assertFalse(testViewModel.validateTravelersComplete())
+        assertFalse(testViewModel.allTravelersValid())
     }
 
     @Test
     fun testMultipleInvalidTravelers() {
         mockTravelerProvider.updateDBWithMockTravelers(2, Traveler())
-        assertFalse(testViewModel.validateTravelersComplete())
+        assertFalse(testViewModel.allTravelersValid())
     }
 
     @Test
     fun testValidTraveler() {
         mockTravelerProvider.updateDBWithMockTravelers(1, mockTravelerProvider.getCompleteMockTraveler())
         testViewModel.travelerValidator.updateForNewSearch(searchParams)
-        assertTrue(testViewModel.validateTravelersComplete())
+        assertTrue(testViewModel.allTravelersValid())
     }
 
     @Test
     fun testMultipleValidTravelers() {
         testViewModel.travelerValidator.updateForNewSearch(searchParams)
         mockTravelerProvider.updateDBWithMockTravelers(2, mockTravelerProvider.getCompleteMockTraveler())
-        assertTrue(testViewModel.validateTravelersComplete())
+        assertTrue(testViewModel.allTravelersValid())
     }
 
     @Test

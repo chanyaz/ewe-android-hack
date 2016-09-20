@@ -13,7 +13,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeEditText
-import com.expedia.util.subscribeText
 import com.expedia.vm.traveler.TravelerAdvancedOptionsViewModel
 
 class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {

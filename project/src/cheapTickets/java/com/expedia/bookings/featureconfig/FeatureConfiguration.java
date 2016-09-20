@@ -278,7 +278,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public HotelFilter.Sort getDefaultSort() {
-		return HotelFilter.Sort.POPULAR;
+		return HotelFilter.Sort.RECOMMENDED;
+
 	}
 
 	@Override
@@ -424,6 +425,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public boolean showUserRewardsEnrollmentCheck() {
 		return true;
+	}
+
+	@Override
+	public boolean useNewLaunchScreen() {
+		return false;
 	}
 
 }

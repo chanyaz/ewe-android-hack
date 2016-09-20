@@ -229,13 +229,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     private fun resetListOffset() {
-        val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -halfway.toFloat());
-        mover.setDuration(300);
-        mover.start();
+        val mover = ObjectAnimator.ofFloat(mapView, "translationY", mapView.translationY, -halfway.toFloat())
+        mover.duration = 300
+        mover.start()
 
         val view = recyclerView.findViewHolderForAdapterPosition(1)
         if (view != null) {
-            var distance = view.itemView.top - halfway;
+            var distance = view.itemView.top - halfway
             recyclerView.smoothScrollBy(0, distance)
         } else {
             recyclerView.layoutManager.scrollToPositionWithOffset(1, halfway)
@@ -330,6 +330,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = getHotelListAdapter()
+
         recyclerView.adapter = adapter
         filterView.viewmodel = getFilterViewModel()
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
@@ -478,7 +479,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
-        filterMenuItem.setVisible(false)
+        filterMenuItem.isVisible = false
         var fabLp = fab.layoutParams as FrameLayout.LayoutParams
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
 
@@ -530,8 +531,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
             override fun getInfoWindow(marker: Marker): View? {
                 val activity = context as AppCompatActivity
-                val v = activity.layoutInflater.inflate(R.layout.marker_window, null);
-                return v;
+                val v = activity.layoutInflater.inflate(R.layout.marker_window, null)
+                return v
             }
 
             override fun getInfoContents(marker: Marker): View? {
@@ -550,7 +551,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val mapViewLayoutReadyListener = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
             isMapReady = true
-            mapView.viewTreeObserver.removeOnGlobalLayoutListener(this);
+            mapView.viewTreeObserver.removeOnGlobalLayoutListener(this)
             mapViewModel.mapInitializedObservable.onNext(Unit)
             mapViewModel.createMarkersObservable.onNext(Unit)
         }
@@ -662,6 +663,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 resetListOffset()
             } else if (currentState == RecyclerView.SCROLL_STATE_SETTLING && ((topOffset >= threshold && isHeaderVisible()) || isHeaderCompletelyVisible())) {
                 showWithTracking(ResultsMap())
+                hideBundlePriceOverview(true)
             }
 
             if (dy > 0) {
@@ -838,7 +840,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
 
             override fun updateTransition(f: Float, forward: Boolean) {
-                val hotelListDistance = if (forward) (screenHeight * (1 - f)) else ((screenHeight - initialListTranslation) * f);
+                val hotelListDistance = if (forward) (screenHeight * (1 - f)) else ((screenHeight - initialListTranslation) * f)
                 recyclerView.translationY = hotelListDistance
                 navIcon.parameter = if (forward) Math.abs(1 - f) else f
                 if (forward) {
@@ -1003,6 +1005,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val listFilterTransition = object : Presenter.Transition(ResultsList::class.java, ResultsFilter::class.java, DecelerateInterpolator(2f), ANIMATION_DURATION_FILTER) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            filterView.refreshFavoriteCheckbox()
             filterView.visibility = View.VISIBLE
             filterScreenShown = forward
             if (forward) {
@@ -1121,7 +1124,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 ObjectAnimator.ofFloat(fab, "scaleX", 0f, 1f),
                 ObjectAnimator.ofFloat(fab, "scaleY", 0f, 1f)
         )
-        set.setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION)
+        set.duration = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION
         set.interpolator = DecelerateInterpolator()
         return set
     }
@@ -1133,7 +1136,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 ObjectAnimator.ofFloat(fab, "scaleY", 1f, 0f)
         )
         set.interpolator = AccelerateInterpolator()
-        set.setDuration(DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION)
+        set.duration = DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION
         return set
     }
 
@@ -1201,7 +1204,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         var cameraPosition = CameraPosition.Builder()
                 .target(latLng)
                 .zoom(8f)
-                .build();
+                .build()
         googleMap?.setPadding(0, 0, 0, 0)
         googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }

@@ -25,7 +25,10 @@ import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.RewardsInfo;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.TripBucketItemFlightV2;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.extensions.LobExtensionsKt;
+import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
@@ -174,8 +177,7 @@ public class AccountButton extends LinearLayout {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 			lp.height = LayoutParams.WRAP_CONTENT;
 			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
-			if (lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.PACKAGES
-				|| lob == LineOfBusiness.CARS || lob == LineOfBusiness.LX) {
+			if (LobExtensionsKt.isMaterialLineOfBusiness(lob)) {
 				lpt.width = LayoutParams.WRAP_CONTENT;
 				lpt.gravity = Gravity.CENTER;
 				mLoginContainer.setBackgroundResource(R.drawable.material_account_sign_in_button_ripple);
@@ -338,6 +340,12 @@ public class AccountButton extends LinearLayout {
 			rewardPoints = flightTrip == null ? "" : getRewardsString(flightTrip.getRewards());
 			break;
 
+		case FLIGHTS_V2:
+			TripBucketItemFlightV2 flightV2 = Db.getTripBucket().getFlightV2();
+			FlightCreateTripResponse flightTripV2 = flightV2 == null ? null : flightV2.flightCreateTripResponse;
+			rewardPoints = flightTripV2 == null ? "" : getRewardsString(flightV2.flightCreateTripResponse.getRewards());
+			break;
+
 		case HOTELS:
 			if (AndroidUtils.isTablet(getContext())) {
 				TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
@@ -383,6 +391,7 @@ public class AccountButton extends LinearLayout {
 						.put("reward_currency", rewardPoints).format()
 						.toString());
 				break;
+			case FLIGHTS_V2:
 			case HOTELS:
 			case PACKAGES:
 			case LX:

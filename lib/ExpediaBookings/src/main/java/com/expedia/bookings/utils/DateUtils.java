@@ -102,19 +102,11 @@ public class DateUtils {
 		return date.toString("yyyy-MM-dd");
 	}
 
-	public static String localDateToMMddyyyy(LocalDate date) {
-		return date.toString("MM/dd/yyy");
-	}
-
-	public static String localDateTohmma(DateTime date) {
-		return date.toString("h:mm a").toLowerCase();
+	public static String dateTimeToHHmmss(DateTime date) {
+		return date.toString("HH:mm:ss").toLowerCase();
 	}
 
 	public static String dateTimeToMMMdhmma(DateTime date) {
-		return date.toString("MMM d, h:mm a");
-	}
-
-	public static String dateTimeToMMMdhmma(LocalDate date) {
 		return date.toString("MMM d, h:mm a");
 	}
 
@@ -176,15 +168,6 @@ public class DateUtils {
 	}
 
 	/**
-	 * Converts from format 2014-07-05T12:30:00.000-05:00 to "12:30 pm"
-	 */
-	public static String formatTimeShort(String timeStr) {
-		DateTimeFormatter fmt = ISODateTimeFormat.dateTime().withOffsetParsed();
-		DateTime time = DateTime.parse(timeStr, fmt);
-		return localDateTohmma(time);
-	}
-
-	/**
 	 * Parses minutes out of the duration string in ISO format: P[yY][mM][dD][T[hH][mM][s[.s]S]]
 	 */
 	public static int parseDurationMinutes(String durationString) {
@@ -198,8 +181,8 @@ public class DateUtils {
 	/*
 	* Parse long millis into HH:mm:ss format
 	* */
-	public static String formatMillisToHHmmss(Long millis) {
-		SimpleDateFormat ft =  new SimpleDateFormat("HH:mm:ss", Locale.getDefault());
-		return ft.format(millis);
+	public static String formatMillisToHHmmss(LocalDate date, int millis) {
+		DateTime dateTime = localDateAndMillisToDateTime(date, millis);
+		return dateTimeToHHmmss(dateTime);
 	}
 }

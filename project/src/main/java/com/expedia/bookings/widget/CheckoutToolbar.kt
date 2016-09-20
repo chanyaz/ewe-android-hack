@@ -138,12 +138,13 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
         viewModel.currentFocus.onNext(view)
     }
 
-    private fun setNextFocus()
-    {
-        val nextFocusId = currentFocus?.nextFocusForwardId ?: 0
+    private fun setNextFocus() {
+        val nextFocusId = currentFocus?.nextFocusDownId ?: 0
         var nextView = currentFocus?.focusSearch(View.FOCUS_FORWARD)
         if (nextView?.id != nextFocusId) {
-            nextView = currentFocus?.rootView?.findViewById(nextFocusId)
+            if (nextFocusId != -1) {
+                nextView = currentFocus?.rootView?.findViewById(nextFocusId)
+            }
         }
         nextView?.requestFocus()
     }

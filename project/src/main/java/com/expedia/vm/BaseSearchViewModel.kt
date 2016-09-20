@@ -43,6 +43,7 @@ abstract class BaseSearchViewModel(val context: Context) {
     val originValidObservable = BehaviorSubject.create<Boolean>(false)
 
     var accessibleStartDateSetObservable = BehaviorSubject.create<Boolean>(false)
+    var a11yFocusSelectDatesObservable = BehaviorSubject.create<Unit>()
 
     init {
         travelersObservable.subscribe { update ->

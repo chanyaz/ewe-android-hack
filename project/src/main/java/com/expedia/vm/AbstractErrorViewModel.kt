@@ -5,15 +5,11 @@ import android.support.annotation.DrawableRes
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import kotlin.properties.Delegates
 
 abstract class AbstractErrorViewModel(protected val context: Context) {
 
@@ -28,7 +24,8 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
     val errorMessageObservable = BehaviorSubject.create<String>()
     val titleObservable = BehaviorSubject.create<String>()
     val subTitleObservable = BehaviorSubject.create<String>()
-    val buttonOneClickedObservable = PublishSubject.create<Unit>()
+    val errorButtonClickedObservable = PublishSubject.create<Unit>()
+    val clickBack = PublishSubject.create<Unit>()
 
     // handle different errors
     val defaultErrorObservable = BehaviorSubject.create<Unit>()
@@ -57,10 +54,10 @@ abstract class AbstractErrorViewModel(protected val context: Context) {
     protected fun subscribeActionToButtonPress(action: Observer<Unit>) {
         // Unsubscribe current button action
         buttonActionSubscription?.unsubscribe()
-        buttonActionSubscription = buttonOneClickedObservable.subscribe(action)
+        buttonActionSubscription = errorButtonClickedObservable.subscribe(action)
     }
 
-    protected fun makeDefaultError() {
+    open fun makeDefaultError() {
         imageObservable.onNext(R.drawable.error_default)
         val message = Phrase.from(context, R.string.error_server_TEMPLATE)
                 .put("brand", BuildConfig.brand)

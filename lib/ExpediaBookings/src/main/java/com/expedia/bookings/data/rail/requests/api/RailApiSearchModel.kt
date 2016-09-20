@@ -2,6 +2,7 @@ package com.expedia.bookings.data.rail.requests.api
 
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.utils.DateUtils
 import org.joda.time.LocalDate
 import java.util.*
@@ -9,8 +10,8 @@ import java.util.*
 /* note: the variable names in this model have to match 1:1 to the format the api expects. this whole
             model is getting serialized to json and sent to the search endpoint
  */
-class RailApiSearchModel(val origin: SuggestionV4, val destination: SuggestionV4, val departDate: LocalDate,
-                         val returnDate: LocalDate?, val departTimeMillis: Long, val returnTimeMillis: Long?) {
+class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, departDate: LocalDate, returnDate: LocalDate?,
+                         departTimeMillis: Int, returnTimeMillis: Int?, isSearchRoundTrip: Boolean, val fareQualifierList: List<RailCard>) {
 
     var pos = PointOfSaleKey()
     var clientCode = "1001" //TODO - what is this?
@@ -21,7 +22,7 @@ class RailApiSearchModel(val origin: SuggestionV4, val destination: SuggestionV4
     init {
         passengerList.add(RailPassenger(1, 65, true)) //hardcoded to specific params for now
         this.searchCriteriaList.add(OriginDestinationPair(origin, destination, departDate, departTimeMillis))
-        if (returnDate != null && returnTimeMillis != null) {
+        if (isSearchRoundTrip && returnDate != null && returnTimeMillis != null) {
             // isRoundTrip search switch origin-destination
             this.searchCriteriaList.add(OriginDestinationPair(destination, origin, returnDate, returnTimeMillis))
         }
@@ -40,13 +41,13 @@ class RailApiSearchModel(val origin: SuggestionV4, val destination: SuggestionV4
         }
     }
 
-    class OriginDestinationPair(origin: SuggestionV4, destination: SuggestionV4, departDate: LocalDate, departTimeMillis: Long) {
+    class OriginDestinationPair(origin: SuggestionV4, destination: SuggestionV4, departDate: LocalDate, departTimeMillis: Int) {
         var originStationCode = origin.hierarchyInfo?.rails?.stationCode
         var destinationStationCode = destination.hierarchyInfo?.rails?.stationCode
         var departureDate = DateUtils.localDateToyyyyMMdd(departDate) //format: yyyy-MM-dd
 
         //format "16:00:00"
-        val departureTime = DateUtils.formatMillisToHHmmss(departTimeMillis)
+        val departureTime = DateUtils.formatMillisToHHmmss(departDate, departTimeMillis)
     }
 
     class RailPassenger(passengerIndex: Int, age: Int, primaryTraveler: Boolean) {
@@ -65,7 +66,8 @@ class RailApiSearchModel(val origin: SuggestionV4, val destination: SuggestionV4
         fun fromSearchParams(request: RailSearchRequest): RailApiSearchModel {
             //TODO - set passenger and railcards data
             return RailApiSearchModel(request.origin!!, request.destination!!, request.departDate, request.returnDate,
-                    request.departTime, request.returnTime)
+                    request.departDateTimeMillis, request.returnDateTimeMillis, request.isRoundTripSearch(), request.selectedRailCards)
+
         }
     }
 }

@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.util.ToggleFeatureConfiguration;
 
@@ -22,14 +21,22 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences_feature_toggle);
-		String smartLockKey = getString(R.string.preference_enable_smart_lock);
-		CheckBoxPreference smartLockPreference = (CheckBoxPreference) findPreference(smartLockKey);
-		boolean isSmartLockFeatureEnabled = FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(getActivity(), AbacusUtils.EBAndroidAppSmartLockTest,
-				R.string.preference_enable_smart_lock, ToggleFeatureConfiguration.SMART_LOCK_FEATURE);
-		smartLockPreference
-			.setChecked(isSmartLockFeatureEnabled);
 
+		// Hotel Features
+		initializeFeatureCheck(R.string.preference_enable_hotel_favorite, ToggleFeatureConfiguration.HOTEL_FAVORITE_FEATURE);
+		// Login Features
+		initializeFeatureCheck(R.string.preference_enable_smart_lock, ToggleFeatureConfiguration.SMART_LOCK_FEATURE);
+		initializeFeatureCheck(R.string.preference_enable_rail, ToggleFeatureConfiguration.RAIL_FEATURE);
+
+	}
+
+	private void initializeFeatureCheck(int featureKey, Boolean isFeatureEnabled) {
+		CheckBoxPreference featurePreference = (CheckBoxPreference) findPreference(getString(featureKey));
+		boolean enableFeature = FeatureToggleUtil
+			.isFeatureEnabled(getActivity(),
+				featureKey, isFeatureEnabled);
+		featurePreference
+			.setChecked(enableFeature);
 	}
 
 }

@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.text.Html
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LoyaltyMembershipTier
@@ -20,6 +21,7 @@ import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.CollectionUtils
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
@@ -33,6 +35,7 @@ import com.expedia.util.endlessObserver
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
+import org.joda.time.format.DateTimeFormat
 import rx.Observable
 import rx.Observer
 import rx.Subscription
@@ -40,6 +43,7 @@ import rx.internal.util.RxRingBuffer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
+import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.Locale
 import kotlin.properties.Delegates
@@ -47,9 +51,13 @@ import kotlin.properties.Delegates
 abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
-    abstract fun getLOB() : LineOfBusiness
+    abstract fun getFeeTypeText() : Int
+    abstract fun getResortFeeText() : Int
+    abstract fun showFeesIncludedNotIncluded() : Boolean
+    abstract fun showFeeType() : Boolean
+    abstract fun getLOB(): LineOfBusiness
     abstract fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean
-    abstract fun getGuestRatingRecommendedText(rating: Float, resources: Resources) : String
+    abstract fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String
     abstract fun getGuestRatingBackground(rating: Float, context: Context): Drawable
     abstract fun trackHotelResortFeeInfoClick()
     abstract fun trackHotelRenovationInfoClick()
@@ -86,7 +94,6 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     var hotelOffersResponse: HotelOffersResponse by Delegates.notNull()
     var etpOffersList = ArrayList<HotelOffersResponse.HotelRoomResponse>()
     var sectionBody: String by Delegates.notNull()
-    var commonList = ArrayList<HotelOffersResponse.ValueAdds>()
 
     var isSectionExpanded = false
     val sectionBodyObservable = BehaviorSubject.create<String>()
@@ -208,8 +215,8 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             if (rate.packagePricePerPerson != null && rate.packageTotalPrice != null && rate.packageSavings != null) {
                 bundlePricePerPersonObservable.onNext(Money(BigDecimal(rate.packagePricePerPerson.amount.toDouble()), rate.packagePricePerPerson.currencyCode))
-                bundleTotalPriceObservable.onNext(Money(BigDecimal(rate.packageTotalPrice.amount.toDouble()), rate.packageTotalPrice.currencyCode))
-                bundleSavingsObservable.onNext(Money(BigDecimal(rate.packageSavings.amount.toDouble()), rate.packageSavings.currencyCode))
+                bundleTotalPriceObservable.onNext(rate.packageTotalPrice)
+                bundleSavingsObservable.onNext(rate.packageSavings)
             }
             totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
@@ -278,8 +285,8 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             else -> hotelOffersResponse.telesalesNumber
         }
 
-        if(supportPhoneNumber == null) {
-            supportPhoneNumber = PointOfSale.getPointOfSale().getDefaultSupportPhoneNumber()
+        if (supportPhoneNumber == null) {
+            supportPhoneNumber = PointOfSale.getPointOfSale().defaultSupportPhoneNumber
         }
 
         SocialUtils.call(context, supportPhoneNumber)
@@ -355,7 +362,11 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
                         .put("guests", StrUtils.formatGuestString(context, params.guests))
                         .format()
                         .toString())
-                val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(params.checkIn)).put("enddate", DateUtils.localDateToMMMd(params.checkOut)).format().toString()
+                val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+                val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+                        .put("startdate",  DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
+                        .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
+                        .format().toString()
                 searchDatesObservable.onNext(dates)
             } else {
                 searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
@@ -468,19 +479,9 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         if (CollectionUtils.isNotEmpty(hotelOffersResponse.hotelRoomResponse)) {
             val atLeastOneRoomHasNoValueAdds = hotelOffersResponse.hotelRoomResponse.any { it.valueAdds == null }
             if (!atLeastOneRoomHasNoValueAdds) {
-                val allValueAdds: List<List<String>> = hotelOffersResponse.hotelRoomResponse
-                        .filter { it.valueAdds != null }
-                        .map {
-                            it.valueAdds.map { it.description }
-                        }
-
+                val allValueAdds: List<List<String>> = getAllValueAdds(hotelOffersResponse)
                 if (!allValueAdds.isEmpty()) {
-                    val commonValueAdds: List<String> = allValueAdds
-                            .drop(1)
-                            .fold(allValueAdds.first().toMutableList(), { initial, nextValueAdds ->
-                                initial.retainAll(nextValueAdds)
-                                initial
-                            })
+                    val commonValueAdds: List<String> = getCommonValueAdds(allValueAdds)
 
                     if (!commonValueAdds.isEmpty()) {
                         val commonValueAddsString = context.getString(R.string.common_value_add_template, FormatUtils.series(context, commonValueAdds, ",", FormatUtils.Conjunction.AND)
@@ -503,19 +504,58 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         val firstRoomDetails = hotelOffersResponse.hotelRoomResponse?.firstOrNull()
         if (firstRoomDetails?.rateInfo?.chargeableRateInfo?.showResortFeeMessage ?: false) {
             val rate = firstRoomDetails!!.rateInfo.chargeableRateInfo
-            val hotelResortFee = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCode)
-            hotelResortFeeObservable.onNext(hotelResortFee.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL))
+            val resortText: String
+
+            if (hotelOffersResponse.isPackage && PointOfSale.getPointOfSale().showResortFeesInHotelLocalCurrency()) {
+                val df = DecimalFormat("#.00")
+                val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), CurrencyUtils.currencyForLocale(hotelOffersResponse.hotelCountry))
+                resortText = Phrase.from(context, R.string.non_us_resort_fee_format_TEMPLATE)
+                        .put("amount", df.format(resortFees.amount)).put("currency", resortFees.currencyCode).format().toString()
+            } else {
+                val resortFees = Money(BigDecimal(rate.totalMandatoryFees.toDouble()), rate.currencyCode)
+                resortText = resortFees.getFormattedMoney(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)
+            }
+
+            hotelResortFeeObservable.onNext(resortText)
             val includedNotIncludedStrId = if (rate.resortFeeInclusion) R.string.included_in_the_price else R.string.not_included_in_the_price
             hotelResortFeeIncludedTextObservable.onNext(context.resources.getString(includedNotIncludedStrId))
         } else {
             hotelResortFeeObservable.onNext(null)
             hotelResortFeeIncludedTextObservable.onNext(null)
         }
-
-        showBookByPhoneObservable.onNext(!hotelOffersResponse.deskTopOverrideNumber
-                && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
-
         trackHotelDetailLoad(hotelOffersResponse, paramsSubject.value, hasETPOffer, isCurrentLocationSearch, hotelSoldOut.value, false)
+
+        if (getLOB() == LineOfBusiness.HOTELS) {
+            showBookByPhoneObservable.onNext(!hotelOffersResponse.deskTopOverrideNumber
+                    && !Strings.isEmpty(hotelOffersResponse.telesalesNumber))
+        } else {
+            showBookByPhoneObservable.onNext(false)
+        }
+    }
+
+    private fun getAllValueAdds(hotelOffersResponse: HotelOffersResponse): List<List<String>> {
+        val allValueAdds: List<List<String>> = hotelOffersResponse.hotelRoomResponse
+                .filter { it.valueAdds != null }
+                .map {
+                    it.valueAdds.map { it.description }
+                }
+        return allValueAdds
+    }
+
+    private fun getCommonValueAdds(hotelOffersResponse: HotelOffersResponse): List<String> {
+        return getCommonValueAdds(getAllValueAdds(hotelOffersResponse))
+    }
+
+    private fun getCommonValueAdds(allValueAdds: List<List<String>>): List<String> {
+        if (!allValueAdds?.isEmpty()) {
+            return allValueAdds
+                    .drop(1)
+                    .fold(allValueAdds.first().toMutableList(), { initial, nextValueAdds ->
+                        initial.retainAll(nextValueAdds)
+                        initial
+                    })
+        }
+        return emptyList()
     }
 
     fun hasEtpOffer(response: HotelOffersResponse): Boolean {
@@ -528,15 +568,12 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         if (CollectionUtils.isEmpty(hotelRooms)) {
             return emptyList()
         }
-
+        val commonValueAdds = getCommonValueAdds(hotelOffersResponse)
         var list = Array(hotelRooms!!.size, { i -> "" }).toMutableList()
         for (iRoom in 0..hotelRooms.size - 1) {
             val rate = hotelOffersResponse.hotelRoomResponse.get(iRoom)
             if (rate.valueAdds != null) {
-                var unique = rate.valueAdds
-                if (!commonList.isEmpty()) {
-                    unique.removeAll(commonList)
-                }
+                val unique = rate.valueAdds.filter { !commonValueAdds.contains(it.description) }
                 if (unique.size > 0) {
                     list.add(iRoom, context.getString(R.string.value_add_template, unique.get(0).description.toLowerCase(Locale.getDefault())))
                 }

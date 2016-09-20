@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.PackageFlightUtils
+import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -40,13 +40,14 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
         val departureArrivalAirports = row.findViewById(R.id.departure_arrival_airport) as TextView
         val operatedBy = row.findViewById(R.id.operating_airline_name) as TextView
         val segmentDuration = row.findViewById(R.id.flight_duration) as TextView
-        departureArrivalTime.text = PackageFlightUtils.getFlightDepartureArrivalTimeAndDays(context,
+        departureArrivalTime.text = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(context,
                 breakdown.segment.departureDateTimeISO, breakdown.segment.arrivalDateTimeISO, breakdown.segment.elapsedDays)
-        airlineAirplaneType.text = PackageFlightUtils.getFlightAirlineAndAirplaneType(context, breakdown.segment)
-        departureArrivalAirports.text = PackageFlightUtils.getFlightDepartureArrivalCityAirport(context, breakdown.segment)
-        val operatedByString = PackageFlightUtils.getOperatingAirlineNameString(context, breakdown.segment)
+        airlineAirplaneType.text = FlightV2Utils.getFlightAirlineAndAirplaneType(context, breakdown.segment)
+        departureArrivalAirports.text = FlightV2Utils.getFlightDepartureArrivalCityAirport(context, breakdown.segment)
+        val operatedByString = FlightV2Utils.getOperatingAirlineNameString(context, breakdown.segment)
         if (Strings.isEmpty(operatedByString)) operatedBy.visibility = View.GONE else operatedBy.text = operatedByString
-        segmentDuration.text = PackageFlightUtils.getFlightSegmentDurationString(context, breakdown.segment)
+        segmentDuration.text = FlightV2Utils.getFlightSegmentDurationString(context, breakdown.segment)
+        segmentDuration.contentDescription = FlightV2Utils.getFlightSegmentDurationContentDescription(context, breakdown.segment)
         return row
     }
 
@@ -58,7 +59,8 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
                     .put("city", breakdown.segment.arrivalCity)
                     .put("airportcode", breakdown.segment.arrivalAirportCode)
                     .format().toString()
-        layoverDuration.text = PackageFlightUtils.getFlightSegmentLayoverDurationString(context, breakdown.segment)
+        layoverDuration.text = FlightV2Utils.getFlightSegmentLayoverDurationString(context, breakdown.segment)
+        layoverDuration.contentDescription = FlightV2Utils.getFlightSegmentLayoverDurationContentDescription(context, breakdown.segment)
         return row
     }
 }

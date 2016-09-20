@@ -24,7 +24,7 @@ class FlightPriceChangeTest: NewFlightTestCase() {
         getToCheckoutOverview(PriceChangeType.CREATE_TRIP)
 
         // test price change
-        FlightsOverviewScreen.assertPriceChangeShown("Price dropped from $1,911")
+        FlightsOverviewScreen.assertPriceChangeShown("Price dropped from $1,910.86")
 
         PackageScreen.enterTravelerInfo()
         PackageScreen.enterPaymentInfo()
@@ -41,7 +41,7 @@ class FlightPriceChangeTest: NewFlightTestCase() {
         PackageScreen.enterPaymentInfo()
         CheckoutViewModel.performSlideToPurchase()
 
-        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $814")
+        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $813.60")
     }
 
     private fun getToCheckoutOverview(priceChangeType: PriceChangeType) {

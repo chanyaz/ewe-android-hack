@@ -10,7 +10,7 @@ import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.Window;
 import android.widget.Toast;
-
+import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.WebViewFragment;
 import com.expedia.bookings.utils.Constants;
@@ -29,6 +29,8 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 	private static final String ARG_ALLOW_MOBILE_REDIRECTS = "ARG_ALLOW_MOBILE_REDIRECTS";
 	private static final String ARG_ATTEMPT_FORCE_MOBILE_SITE = "ARG_ATTEMPT_FORCE_MOBILE_SITE";
 	private static final String ARG_RETURN_FROM_CANCEL_ROOM_BOOKING = "ARG_RETURN_FROM_CANCEL_ROOM_BOOKING";
+	private static final String APP_VISITOR_ID_PARAM = "appvi=";
+
 
 	public static class IntentBuilder {
 
@@ -45,8 +47,15 @@ public class WebViewActivity extends FragmentActivity implements WebViewFragment
 		}
 
 		public IntentBuilder setUrl(String url) {
-			mIntent.putExtra(ARG_URL, url);
+			if (url != null) {
+				mIntent.putExtra(ARG_URL, getUrlWithVisitorId(url));
+			}
 			return this;
+		}
+
+		private String getUrlWithVisitorId(String url) {
+			String visitorID = ADMS_Measurement.sharedInstance().getVisitorID();
+			return url + (url.contains("?") ? "&" : "?") + APP_VISITOR_ID_PARAM + visitorID;
 		}
 
 		public IntentBuilder setTheme(int themeResId) {

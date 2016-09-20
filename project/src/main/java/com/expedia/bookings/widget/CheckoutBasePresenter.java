@@ -20,6 +20,8 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -29,7 +31,6 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.presenter.Presenter;
-import com.expedia.bookings.tracking.HotelTracking;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
@@ -39,9 +40,6 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.mobiata.android.Log;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import kotlin.Unit;
 import rx.Observer;
 
@@ -419,9 +417,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			scrollToEnterDetails();
 			String cardType = paymentInfoCardView.getCardType().getOmnitureTrackingCode();
 			switch (getLineOfBusiness()) {
-			case HOTELS:
-				new HotelTracking().trackHotelSlideToPurchase(paymentInfoCardView.getCardType(), paymentInfoCardView.getViewmodel().getSplitsType().getValue());
-				break;
+			//Hotel Tracking is inside HotelCheckoutMainViewPresenter as we have to handle ETP,pwp etc.
 			case LX:
 			case TRANSPORT:
 				OmnitureTracking.trackAppLXCheckoutSlideToPurchase(getLineOfBusiness(), cardType);
@@ -461,6 +457,14 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			acceptTermsWidget.setVisibility(INVISIBLE);
 			animateInSlideToPurchase(false);
 		}
+	}
+
+	public void toolbarSetNavIcon(boolean forward) {
+		toolbar.setNavigationContentDescription(forward ? R.string.toolbar_nav_icon_close_cont_desc
+				: R.string.toolbar_nav_icon_cont_desc);
+		toolbar.getToolbarNavIcon().setParameter(
+				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
+						: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
 	}
 
 	public static class CheckoutDefault {
@@ -601,16 +605,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			}
 			listenToScroll = !forward;
 			toolbar.setTitle(forward ? currentExpandedCard.getActionBarTitle() : getToolbarTitle());
-
-			toolbar.getToolbarNavIcon().setParameter(
-				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
-					: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
-		}
-
-		@Override
-		public void updateTransition(float f, boolean forward) {
-			super.updateTransition(f, forward);
-			toolbar.getToolbarNavIcon().setParameter(forward ? f : Math.abs(1 - f));
 		}
 
 		@Override
@@ -631,9 +625,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					scrollToEnterDetails();
 				}
 			}
-			toolbar.getToolbarNavIcon().setParameter(
-				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()
-					: ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()));
 		}
 	};
 
@@ -659,16 +650,11 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				resetMenuButton();
 
 			}
-
-			toolbar.getToolbarNavIcon().setParameter(
-				(float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()
-					: ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()));
 		}
 
 		@Override
 		public void updateTransition(float f, boolean forward) {
 			super.updateTransition(f, forward);
-			toolbar.getToolbarNavIcon().setParameter(forward ? f : Math.abs(1 - f));
 		}
 
 		@Override
@@ -689,9 +675,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 					scrollToEnterDetails();
 				}
 			}
-			toolbar.getToolbarNavIcon()
-				.setParameter((float) (forward ? ArrowXDrawableUtil.ArrowDrawableType.CLOSE.getType()
-					: ArrowXDrawableUtil.ArrowDrawableType.BACK.getType()));
 		}
 	};
 

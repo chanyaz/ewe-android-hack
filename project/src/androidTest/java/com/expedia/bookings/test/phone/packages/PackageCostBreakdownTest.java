@@ -36,7 +36,6 @@ public class PackageCostBreakdownTest extends PackageTestCase {
 		HotelScreen.selectHotel("Package Happy Path");
 		Common.delay(1);
 
-		assertBundleTotalIconVisibility("View your bundle", false);
 		PackageScreen.selectRoom();
 		Common.delay(1);
 
@@ -68,14 +67,15 @@ public class PackageCostBreakdownTest extends PackageTestCase {
 	}
 
 	private void assertCostBreakdownValues() {
-		onView(allOf(withText("Hotel + Flights"), hasSibling(withText("$2,538.62")))).check(matches(isDisplayed()));
+		onView(allOf(withText("Hotel + Flights"), hasSibling(withText("$2,595.12")))).check(matches(isDisplayed()));
+		onView(allOf(withText("1 room, 2 nights, 1 guest"), hasSibling(withText("")))).check(matches(isDisplayed()));
 		onView(allOf(withText("Taxes & Fees Included ($278.12)"), hasSibling(withText("")))).check(matches(isDisplayed()));
 
 		//Check savings text and color
-		onView(allOf(withText("Total Savings"), hasSibling(withText("$56.50")))).check(matches(isDisplayed()));
-		onView(allOf(withText("Total Savings"))).check(matches(withTextColor("#03AD1D")));
-		onView(allOf(withText("$56.50"))).check(matches(withTextColor("#03AD1D")));
+		onView(allOf(withText("Bundle Discount"), hasSibling(withText("-$56.50")))).check(matches(isDisplayed()));
+		onView(allOf(withText("Bundle Discount"))).check(matches(withTextColor("#03AD1D")));
+		onView(allOf(withText("-$56.50"))).check(matches(withTextColor("#03AD1D")));
 
-		onView(allOf(withText("Total Due Today"), hasSibling(withText("$2,538.62")))).check(matches(isDisplayed()));
+		onView(allOf(withText("Bundle total"), hasSibling(withText("$2,538.62")))).check(matches(isDisplayed()));
 	}
 }

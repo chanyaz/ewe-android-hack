@@ -19,11 +19,20 @@ public class PackageOffersResponse extends BaseApiResponse {
 	}
 
 	public static class PackagePricing {
+		public HotelPricing hotelPricing;
 		public Money savings;
 		public Money packageTotal;
 	}
 
 	public static class CancellationPolicy {
 		public Boolean hasFreeCancellation;
+	}
+
+	public static class HotelPricing {
+		public MandatoryFees mandatoryFees;
+	}
+
+	public static class MandatoryFees {
+		public Money feeTotal;
 	}
 }

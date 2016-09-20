@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.content.Context;
 import android.os.Process;
 import android.text.TextUtils;
+import android.util.Pair;
 
 import com.expedia.bookings.data.abacus.AbacusResponse;
 import com.expedia.bookings.data.hotels.Hotel;
@@ -103,7 +104,7 @@ public class Db {
 	private TripBucket mTripBucket = new TripBucket();
 
 	// Flight Travelers (this is the list of travelers going on the trip, these must be valid for checking out)
-	private List<Traveler> mTravelers = new ArrayList<Traveler>();
+	private ArrayList<Traveler> mTravelers = new ArrayList();
 
 	// This is the Traveler we've generated from Google Wallet data.
 	// It is expected that you will generate this when you first
@@ -133,7 +134,25 @@ public class Db {
 	private Hotel mPackageSelectedHotel;
 	private HotelOffersResponse.HotelRoomResponse mPackageSelectedRoom;
 	private FlightLeg mPackageSelectedOutboundFlight;
-	private FlightLeg mPackageSelectedInboundFlight;
+
+	//Package outbound and inbound flight pair
+	//Save inbound flight in this pair, to avoid stale inbound info if outbound is changed
+	private Pair<FlightLeg, FlightLeg> mPackageFlightBundle;
+
+	private SignInTypeEnum signInTypeEnum = null;
+
+	public enum SignInTypeEnum {
+		EXPEDIA_SIGN_IN,
+		FACEBOOK_SIGN_IN
+	}
+
+	public static SignInTypeEnum getSignInType() {
+		return sDb.signInTypeEnum;
+	}
+
+	public static void setSignInType(SignInTypeEnum signInResultEnum) {
+		sDb.signInTypeEnum = signInResultEnum;
+	}
 
 	//////////////////////////////////////////////////////////////////////////
 	// Data access
@@ -180,8 +199,8 @@ public class Db {
 	}
 
 	public static void clearPackageFlightSelection() {
-		sDb.mPackageSelectedInboundFlight = null;
 		sDb.mPackageSelectedOutboundFlight = null;
+		sDb.mPackageFlightBundle = null;
 	}
 
 	public static void clearPackageSelection() {
@@ -201,12 +220,12 @@ public class Db {
 		sDb.mPackageSelectedOutboundFlight = mPackageSelectedFlight;
 	}
 
-	public static FlightLeg getPackageSelectedInboundFlight() {
-		return sDb.mPackageSelectedInboundFlight;
+	public static Pair<FlightLeg, FlightLeg> getPackageFlightBundle() {
+		return sDb.mPackageFlightBundle;
 	}
 
-	public static void setPackageSelectedInboundFlight(FlightLeg mPackageSelectedFlight) {
-		sDb.mPackageSelectedInboundFlight = mPackageSelectedFlight;
+	public static void setPackageFlightBundle(FlightLeg outbound, FlightLeg inbound) {
+		sDb.mPackageFlightBundle = new Pair<>(outbound, inbound);
 	}
 
 	public static void setPackageParams(PackageSearchParams params) {
@@ -377,7 +396,7 @@ public class Db {
 	}
 
 	public static void setTravelers(List<Traveler> travelers) {
-		sDb.mTravelers = travelers;
+		sDb.mTravelers = new ArrayList<>(travelers);
 	}
 
 	public static void setGoogleWalletTraveler(Traveler traveler) {

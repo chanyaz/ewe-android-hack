@@ -109,7 +109,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		PackageScreen.enterFirstName("Eidur");
 		PackageScreen.enterLastName("Gudjohnsen");
+		PackageScreen.enterEmail("test@gmail.com");
+		Espresso.closeSoftKeyboard();
 		PackageScreen.enterPhoneNumber("4155554321");
+		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(1989, 6, 9);
 		PackageScreen.selectGender("Male");
 		PackageScreen.clickTravelerAdvanced();
@@ -121,8 +124,8 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.enterCreditCard();
 		PackageScreen.completePaymentForm();
 		PackageScreen.clickPaymentDone();
-
 		PackageScreen.clickLegalInformation();
+
 		assertLegalInformation();
 		Common.pressBack();
 
@@ -149,9 +152,9 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		CheckoutViewModel.clickPaymentInfo();
 		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
-
+		Common.pressBack();
 		CheckoutViewModel.performSlideToPurchase(true);
-		assertConfirmationView();
+		assertSignedInConfirmationView();
 	}
 
 	private void assertDockedOutboundWidgetShown() {
@@ -165,6 +168,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		PackageScreen.enterFirstName("Eidur");
 		PackageScreen.enterLastName("Gudjohnsen");
+		PackageScreen.enterEmail("test@gmail.com");
 		PackageScreen.enterPhoneNumber("4155554321");
 		PackageScreen.selectBirthDate(1989, 6, 9);
 		PackageScreen.selectGender("Male");
@@ -193,11 +197,17 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertCostSummaryView() {
+		String totalDueToday = "$696.00";
+		String adultOneTotal = "$689.00";
+		String taxesAndFees = "$68.54";
 		onView(withId(R.id.bundle_total_text)).perform(click());
 		onView(withText("Adult 1 details")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
-		onView(withText("$689.00")).check(matches(isDisplayed()));
+		onView(withText(adultOneTotal)).check(matches(isDisplayed()));
+		onView(withText("Flight")).check(matches(isDisplayed()));
+		onView(withText("Taxes & Fees")).check(matches(isDisplayed()));
+		onView(withText(taxesAndFees)).check(matches(isDisplayed()));
 		onView(withText("Total Due Today")).check(matches(isDisplayed()));
-		onView(withText("$696.00")).check(matches(isDisplayed()));
+		onView(withText(totalDueToday)).check(matches(isDisplayed()));
 		onView(withId(android.R.id.button1)).perform(click());
 	}
 
@@ -210,6 +220,39 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	private void assertConfirmationView() {
+
+		onView(withId(R.id.confirmation_container)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+
+		onView(allOf(withId(R.id.destination),
+			isDescendantOfA(withId(R.id.confirmation_container)))).check(
+			matches(withText("Detroit")));
+
+		onView(allOf(withId(R.id.expedia_points),
+			isDescendantOfA(withId(R.id.confirmation_container)))).check(
+			matches(not(isDisplayed())));
+
+		onView(allOf(withId(R.id.first_row),
+			isDescendantOfA(withId(R.id.outbound_flight_card)))).check(
+			matches(withText("Flight to (DTW) Detroit")));
+
+		onView(allOf(withId(R.id.first_row),
+			isDescendantOfA(withId(R.id.inbound_flight_card)))).check(
+			matches(withText("Flight to (SFO) San Francisco")));
+
+		onView(allOf(withId(R.id.hotel_cross_sell_widget),
+			isDescendantOfA(withId(R.id.confirmation_container)))).check(
+			matches(isDisplayed()));
+
+		onView(allOf(withId(R.id.air_attach_countdown_view),
+			isDescendantOfA(withId(R.id.hotel_cross_sell_widget)))).check(
+			matches(isDisplayed()));
+
+		onView(allOf(withId(R.id.air_attach_expires_today_text_view),
+			isDescendantOfA(withId(R.id.hotel_cross_sell_widget)))).check(
+			matches(not(isDisplayed())));
+	}
+
+	private void assertSignedInConfirmationView() {
 
 		onView(withId(R.id.confirmation_container)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 

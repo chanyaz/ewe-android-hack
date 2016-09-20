@@ -83,17 +83,15 @@ class PackageErrorViewModelTest {
     }
 
     @Test fun observableEmissionsOnPaymentCardApiError() {
-        observableEmissionsOnPaymentApiError("creditCardNumber", R.string.e3_error_checkout_payment_failed)
-        observableEmissionsOnPaymentApiError("expirationDate", R.string.e3_error_checkout_payment_failed)
-        observableEmissionsOnPaymentApiError("cvv", R.string.e3_error_checkout_payment_failed)
-        observableEmissionsOnPaymentApiError("cardLimitExceeded", R.string.e3_error_checkout_payment_failed)
+        observableEmissionsOnPaymentApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS, "nameOnCard", R.string.error_name_on_card_mismatch)
+        observableEmissionsOnPaymentApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS, "creditCardNumber", R.string.e3_error_checkout_payment_failed)
+        observableEmissionsOnPaymentApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS, "expirationDate", R.string.e3_error_checkout_payment_failed)
+        observableEmissionsOnPaymentApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS, "cvv", R.string.e3_error_checkout_payment_failed)
+        observableEmissionsOnPaymentApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS, "cardLimitExceeded", R.string.e3_error_checkout_payment_failed)
+        observableEmissionsOnPaymentApiError(ApiError.Code.PAYMENT_FAILED, "cvv", R.string.e3_error_checkout_payment_failed)
     }
 
-    @Test fun observableEmissionsOnPaymentNameOnCardApiError() {
-        observableEmissionsOnPaymentApiError("nameOnCard", R.string.error_name_on_card_mismatch)
-    }
-
-    private fun observableEmissionsOnPaymentApiError(field: String, @StringRes errorMessageId: Int) {
+    private fun observableEmissionsOnPaymentApiError(errorCode: ApiError.Code, field: String, @StringRes errorMessageId: Int) {
         val subjectUnderTest = PackageErrorViewModel(RuntimeEnvironment.application)
 
         val checkoutCardErrorObservableTestSubscriber = TestSubscriber.create<Unit>()
@@ -114,12 +112,12 @@ class PackageErrorViewModelTest {
         val subtitleObservableTestSubscriber = TestSubscriber.create<String>()
         subjectUnderTest.subTitleObservable.subscribe(subtitleObservableTestSubscriber)
 
-        val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS);
+        val apiError = ApiError(errorCode)
         apiError.errorInfo = ApiError.ErrorInfo()
         apiError.errorInfo.field = field
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
         checkoutCardErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_payment)
@@ -147,7 +145,7 @@ class PackageErrorViewModelTest {
         val apiError = ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN);
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
         checkoutUnknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
@@ -177,7 +175,7 @@ class PackageErrorViewModelTest {
         val apiError = ApiError(ApiError.Code.UNKNOWN_ERROR);
 
         subjectUnderTest.checkoutApiErrorObserver.onNext(apiError)
-        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
         createTripUnknownErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)

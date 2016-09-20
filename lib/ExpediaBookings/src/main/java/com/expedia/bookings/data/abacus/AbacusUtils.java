@@ -23,14 +23,12 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelCollapseAmenities = 8126;
 	public static final int EBAndroidAppHotelShowAddressMapInReceipt = 8129;
 	public static final int EBAndroidHotelCKOMerEmailGuestOpt = 8127;
-	public static final int ExpediaAndroidAppAATestSep2015 = 8706;
+	public static final int ExpediaAndroidAppAATestSep2015 = 11455;
 	public static final int EBAndroidAppHotelsV2SuperlativeReviewsABTest = 8688;
 	public static final int EBAndroidAppLXCategoryABTest = 9165;
 	public static final int EBAndroidAppLXFirstActivityListingExpanded = 9467;
 	public static final int EBAndroidAppHotelTravelerTest = 9478;
-	public static final int EBAndroidAppHotelPriceBreakDownTest = 9477;
 	public static final int EBAndroidAppHotelsMemberDealTest = 9044;
-	public static final int EBAndroidAppHotelCKOCreditDebitTest = 9642;
 	public static final int EBAndroidAppFlightsRoundtripMessageTest = 9636;
 	public static final int EBAndroidAppLXRecommendedActivitiesTest = 9639;
 	public static final int EBAndroidAppFlightsNumberOfTicketsUrgencyTest = 9897;
@@ -40,10 +38,10 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFeedsOnLaunch = 10065;
 	public static final int EBAndroidAppFlightTest = 10136;
 	public static final int EBAndroidAppFlightInsurance = 10212;
-	public static final int EBAndroidAppLaunchScreenTest = 10639;
 	public static final int EBAndroidAppHotelSearchScreenSoldOutTest = 10554;
 	public static final int EBAndroidAppLXCrossSellOnHotelConfirmationTest = 10556;
 	public static final int EBAndroidAppHotelHCKOCardIOTest = 10799;
+	public static final int EBAndroidAppHotelFavoriteTest = 10989;
 	public static final int EBAndroidAppSmartLockTest = 11269;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
@@ -52,30 +50,11 @@ public class AbacusUtils {
 		BUCKETED
 	}
 
-	public enum HSearchInfluenceMessagingVariate {
-		CONTROL,
-		WORKING_HARD,
-		SEARCHING_HUNDREDS,
-		NO_TEXT
-	}
-
-	public enum HISMapIconVariate {
-		CONTROL,
-		MAP_PIN,
-		TEXT_ONLY
-	}
-
 	public enum HotelSuperlativeReviewsVariate {
 		CONTROL,
 		WITH_COLOR_NO_SUPERLATIVES,
 		NO_COLOR_WITH_SUPERLATIVES,
 		WITH_COLOR_WITH_SUPERLATIVES
-	}
-
-	public enum HotelPriceBreakDownVariate {
-		CONTROL,
-		DUE_TODAY,
-		TRIP_TOTAL
 	}
 
 	// Test ID's that we are bucketing the user for.
@@ -96,9 +75,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppLXCategoryABTest);
 		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded);
 		testIDs.add(EBAndroidAppHotelTravelerTest);
-		testIDs.add(EBAndroidAppHotelPriceBreakDownTest);
 		testIDs.add(EBAndroidAppHotelsMemberDealTest);
-		testIDs.add(EBAndroidAppHotelCKOCreditDebitTest);
 		testIDs.add(EBAndroidAppFlightsRoundtripMessageTest);
 		testIDs.add(EBAndroidAppLXRecommendedActivitiesTest);
 		testIDs.add(EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
@@ -108,11 +85,11 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFeedsOnLaunch);
 		testIDs.add(EBAndroidAppFlightTest);
 		testIDs.add(EBAndroidAppFlightInsurance);
-		testIDs.add(EBAndroidAppLaunchScreenTest);
 		testIDs.add(EBAndroidAppHotelSearchScreenSoldOutTest);
 		testIDs.add(EBAndroidAppLXCrossSellOnHotelConfirmationTest);
 		testIDs.add(EBAndroidAppHotelHCKOCardIOTest);
 		testIDs.add(EBAndroidAppSmartLockTest);
+		testIDs.add(EBAndroidAppHotelFavoriteTest);
 		return testIDs;
 	}
 

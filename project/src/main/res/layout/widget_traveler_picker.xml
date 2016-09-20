@@ -40,20 +40,20 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/hotel_traveler_table_margin"
+                    android:layout_marginBottom="@dimen/traveler_table_margin"
                     android:orientation="horizontal"
                     android:textSize="15sp">
 
                     <ImageButton
                         android:id="@+id/adults_minus"
-                        style="@style/HotelTravelerIcon.Minus"
+                        style="@style/TravelerIcon.Minus"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/packages_remove_adult_traveler_cont_desc"/>
+                        android:contentDescription="@string/remove_adult_traveler_cont_desc"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/adult"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/hotel_traveler_plus_minus_size"
+                        android:layout_height="@dimen/traveler_plus_minus_size"
                         android:layout_weight="5"
                         android:gravity="center"
                         android:textColor="@color/traveler_picker_main_text"
@@ -61,9 +61,9 @@
 
                     <ImageButton
                         android:id="@+id/adults_plus"
-                        style="@style/HotelTravelerIcon.Plus"
+                        style="@style/TravelerIcon.Plus"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/packages_add_adult_traveler_cont_desc"/>
+                        android:contentDescription="@string/add_adult_traveler_cont_desc"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -74,14 +74,14 @@
 
                     <ImageButton
                         android:id="@+id/children_minus"
-                        style="@style/HotelTravelerIcon.Minus"
+                        style="@style/TravelerIcon.Minus"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/packages_remove_child_traveler_cont_desc"/>
+                        android:contentDescription="@string/remove_child_traveler_cont_desc"/>
 
                     <LinearLayout
                         android:id="@+id/children_container"
                         android:layout_width="0dp"
-                        android:layout_height="@dimen/hotel_traveler_plus_minus_size"
+                        android:layout_height="@dimen/traveler_plus_minus_size"
                         android:layout_weight="5"
                         android:gravity="center"
                         android:orientation="vertical">
@@ -104,9 +104,9 @@
 
                     <ImageButton
                         android:id="@+id/children_plus"
-                        style="@style/HotelTravelerIcon.Plus"
+                        style="@style/TravelerIcon.Plus"
                         android:background="?attr/selectableItemBackgroundBorderless"
-                        android:contentDescription="@string/packages_add_child_traveler_cont_desc"/>
+                        android:contentDescription="@string/add_child_traveler_cont_desc"/>
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.TextView

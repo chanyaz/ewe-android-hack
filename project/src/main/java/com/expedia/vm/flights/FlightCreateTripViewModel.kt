@@ -5,42 +5,30 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
-import com.expedia.bookings.data.flights.ValidFormOfPayment
-import com.expedia.bookings.data.utils.getFee
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCreateTripViewModel
 import rx.Observer
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import javax.inject.Inject
 
-class FlightCreateTripViewModel(val context: Context, val flightServices: FlightServices, val selectedCardFeeSubject: PublishSubject<ValidFormOfPayment>) : BaseCreateTripViewModel() {
+class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel() {
+
+    lateinit var flightServices: FlightServices
+        @Inject set
+
     val tripParams = BehaviorSubject.create<FlightCreateTripParams>()
 
     init {
+        Ui.getApplication(context).flightComponent().inject(this)
+
         performCreateTrip.subscribe {
             showCreateTripDialogObservable.onNext(true)
             flightServices.createTrip(tripParams.value).subscribe(makeCreateTripResponseObserver())
         }
-
-        updateTripFeesOnCardSelection()
-    }
-
-    private fun updateTripFeesOnCardSelection() {
-        selectedCardFeeSubject
-                .filter { !it.getFee().isZero }
-                .filter { it.getFee().compareTo(getCreateTripResponse().selectedCardFees) != 0 } // fee changed
-                .subscribe { cardFee ->
-                    // add card fee to trip response
-                    val newTripResponse = getCreateTripResponse()
-                    newTripResponse.selectedCardFees = cardFee.getFee()
-                    tripResponseObservable.onNext(newTripResponse)
-                }
-    }
-
-    private fun getCreateTripResponse(): FlightCreateTripResponse {
-        return tripResponseObservable.value as FlightCreateTripResponse
     }
 
     private fun makeCreateTripResponseObserver(): Observer<FlightCreateTripResponse> {
@@ -71,6 +59,7 @@ class FlightCreateTripViewModel(val context: Context, val flightServices: Flight
                         noNetworkObservable.onNext(Unit)
                     }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                    FlightsV2Tracking.trackFlightCreateTripNoResponseError()
                 }
             }
 

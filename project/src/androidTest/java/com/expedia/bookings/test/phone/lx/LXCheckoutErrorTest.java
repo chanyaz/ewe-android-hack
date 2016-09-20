@@ -2,6 +2,8 @@ package com.expedia.bookings.test.phone.lx;
 
 import java.util.concurrent.TimeUnit;
 
+import org.junit.Ignore;
+
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.BuildConfig;
@@ -27,6 +29,7 @@ import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.core.Is.is;
 
+@Ignore
 public class LXCheckoutErrorTest extends LxTestCase {
 
 	public void testInvalidInput() throws Throwable {

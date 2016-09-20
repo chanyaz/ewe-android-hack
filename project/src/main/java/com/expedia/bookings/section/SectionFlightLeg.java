@@ -66,8 +66,8 @@ public class SectionFlightLeg extends LinearLayout {
 				| DateUtils.FORMAT_SHOW_WEEKDAY
 				| DateUtils.FORMAT_ABBREV_ALL);
 		String formatted = getResources().getString(R.string.trip_to_with_date, formattedDate,
-				StrUtils.getWaypointCityOrCode(leg.getFirstWaypoint()),
-				StrUtils.getWaypointCityOrCode(leg.getLastWaypoint()));
+				StrUtils.getWaypointLocalizedCityOrCode(leg.getFirstWaypoint()),
+				StrUtils.getWaypointLocalizedCityOrCode(leg.getLastWaypoint()));
 		mInfoTextView.setText(formatted);
 	}
 

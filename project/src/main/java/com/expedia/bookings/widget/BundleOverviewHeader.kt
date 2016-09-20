@@ -30,6 +30,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
 
     var isHideToolbarView = false
     var isDisabled = false
+    var isFullyExpanded = true
     @ColorRes val primaryColorId = Ui.obtainThemeResID(context, R.attr.primary_color)
 
     init {
@@ -50,7 +51,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     /** Collapsing Toolbar **/
     fun setUpCollapsingToolbar() {
         //we need to set this empty space inorder to remove the title string
-        collapsingToolbarLayout.title = " ";
+        collapsingToolbarLayout.title = " "
         collapsingToolbarLayout.setContentScrimColor(ContextCompat.getColor(context, primaryColorId))
         collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(context, primaryColorId))
 
@@ -81,10 +82,12 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         collapsingToolbarLayout.isTitleEnabled = enable
     }
 
+
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
-        var maxScroll = appBarLayout.totalScrollRange;
+        var maxScroll = appBarLayout.totalScrollRange
         if (maxScroll != 0) {
             var percentage = Math.abs(offset) / maxScroll.toFloat()
+            isFullyExpanded = if (percentage == 0f) true else false
 
             if (isHideToolbarView) {
                 if (percentage == 1f) {

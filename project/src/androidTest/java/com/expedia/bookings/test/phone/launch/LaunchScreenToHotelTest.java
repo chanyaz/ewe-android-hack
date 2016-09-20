@@ -5,23 +5,17 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.collections.CollectionLocation;
-import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.DateUtils;
 
-import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class LaunchScreenToHotelTest extends PhoneTestCase {
 
@@ -72,50 +66,6 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 		Common.pressBack();
 		// Test that searching still works
 		SearchScreen.searchButton().perform(click());
-	}
-
-	public void testPopularHotelSelection() {
-		Hotel hotel = new Hotel();
-		hotel.hotelId = "happypath";
-		hotel.localizedName = "happypath";
-		Events.post(new Events.LaunchListItemSelected(hotel));
-		// Assert that the details screen is displayed
-		HotelScreen.waitForDetailsLoaded();
-	}
-
-
-	public void testAirAttachBannerClick() {
-		HotelSearchParams hotelSearchParams = new HotelSearchParams();
-		LocalDate checkIn = LocalDate.now().plusDays(2);
-		LocalDate checkOut = LocalDate.now().plusDays(4);
-		hotelSearchParams.setRegionId("1234");
-		hotelSearchParams.setSearchType(HotelSearchParams.SearchType.CITY);
-		hotelSearchParams.setQuery("San Francisco");
-		hotelSearchParams.setNumAdults(2);
-		hotelSearchParams.setCheckInDate(checkIn);
-		hotelSearchParams.setCheckOutDate(checkOut);
-
-		// Make sure that the launch screen is loaded
-		LaunchScreen.hotelLaunchButton().perform(ViewActions.waitForViewToDisplay());
-
-		// Pop the air attach banner and click it
-		Events.post(new Events.LaunchAirAttachBannerShow(hotelSearchParams));
-		onView(withId(R.id.air_attach_banner)).perform(ViewActions.waitForViewToCompletelyDisplay());
-		EspressoUtils.assertViewIsDisplayed(R.id.air_attach_banner);
-		LaunchScreen.clickOnAirAttachBanner();
-
-		// Assert that the results screen is displayed
-		HotelScreen.waitForResultsLoaded();
-		Common.pressBack();
-
-		// Assert that the search screen is displayed with the correct search params
-		SearchScreen.selectDestinationTextView().check(ViewAssertions.matches(ViewMatchers.withText("San Francisco")));
-		EspressoUtils.assertViewWithTextIsDisplayed("2 Guests");
-		String expectedCheckInDate = DateUtils.localDateToMMMd(checkIn);
-		String expectedCheckoutDate = DateUtils.localDateToMMMd(checkOut);
-		String expected = expectedCheckInDate + " - " + expectedCheckoutDate + " (2 nights)";
-		EspressoUtils.assertViewWithTextIsDisplayed(expected);
-
 	}
 
 }

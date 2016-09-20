@@ -14,6 +14,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.HapticFeedbackConstants;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -121,6 +122,16 @@ public class SlideToWidgetLL extends RelativeLayout {
 
 	public void setText(int resId) {
 		mSliderText.setText(resId);
+	}
+
+	public void hideTouchTarget() {
+		mTouchTarget.setVisibility(View.INVISIBLE);
+
+		RelativeLayout.LayoutParams mLayoutParams = (RelativeLayout.LayoutParams) mSliderText.getLayoutParams();
+		mLayoutParams.removeRule(RelativeLayout.RIGHT_OF);
+		mLayoutParams.removeRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+		mSliderText.setAlpha(1f);
+		mSliderText.setTextSize(TypedValue.COMPLEX_UNIT_SP, 22);
 	}
 
 	/*
@@ -270,7 +281,7 @@ public class SlideToWidgetLL extends RelativeLayout {
 		}
 	}
 
-	protected void fireSlideAllTheWay() {
+	public void fireSlideAllTheWay() {
 		for (ISlideToListener listener : mSlideToListeners) {
 			listener.onSlideAllTheWay();
 		}

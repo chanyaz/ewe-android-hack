@@ -64,7 +64,15 @@ open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, 
         val params = HashMap<String, Any?>()
         if (pageType != null) params.put("pageType", pageType)
         params.put("originId", origin?.hierarchyInfo?.airport?.multicity)
-        params.put("destinationId", destination?.hierarchyInfo?.airport?.multicity)
+
+        //Send gaiaId as the region id for destination to get the correct hotels
+        //Destination on pkgs can be a non-airport too For e.g. Zion national park,UT
+        //and Send airport region id for all POI suggestions types
+        if (destination?.type == "POI" ) {
+            params.put("destinationId", destination?.hierarchyInfo?.airport?.multicity)
+        } else {
+            params.put("destinationId", destination?.gaiaId)
+        }
         params.put("ftla", origin?.hierarchyInfo?.airport?.airportCode)
         params.put("ttla", destination?.hierarchyInfo?.airport?.airportCode)
         params.put("fromDate", startDate.toString())
@@ -72,7 +80,6 @@ open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, 
         params.put("numberOfRooms", numberOfRooms)
         params.put("adultsPerRoom[1]", adults)
         if (children.size > 0) {
-            params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)
             params.put("childrenPerRoom[1]", children.size)
             makeChildrenAgesParams(params, "childAges[1]", children, 1)
         }
@@ -95,11 +102,15 @@ open class PackageSearchParams(origin: SuggestionV4, destination: SuggestionV4, 
         return params
     }
 
-    private fun makeChildrenAgesParams(params: HashMap<String, Any?>, keyString: String, valueList: List<Any>, startIndex: Int) {
+    private fun makeChildrenAgesParams(params: HashMap<String, Any?>, keyString: String, valueList: List<Int>, startIndex: Int) {
         for (i in startIndex..valueList.size) {
             var key = StringBuilder(keyString)
             key.append("[").append(i).append("]")
-            params.put(key.toString(), valueList[i - 1])
+            val childAge = valueList[i-1]
+            params.put(key.toString(), childAge)
+            if (childAge < 2) {
+                params.put("infantsInSeats", if (infantSeatingInLap) 0 else 1)
+            }
         }
     }
 

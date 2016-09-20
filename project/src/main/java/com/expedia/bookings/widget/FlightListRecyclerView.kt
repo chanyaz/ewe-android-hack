@@ -15,6 +15,6 @@ class FlightListRecyclerView(context: Context, attrs: AttributeSet) : RecyclerVi
     init {
         setLayoutManager(layoutManager)
         addOnScrollListener(PicassoScrollListener(getContext(), PICASSO_TAG))
-        addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, resources.getDimensionPixelSize(R.dimen.hotel_filter_height), false))
+        addItemDecoration(RecyclerDividerDecoration(getContext(), 0, 0, 0, 0, 0, resources.getDimensionPixelSize(R.dimen.footer_button_height), false))
     }
 }

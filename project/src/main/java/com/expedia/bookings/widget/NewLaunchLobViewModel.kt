@@ -9,6 +9,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.util.ToggleFeatureConfiguration
 import com.expedia.util.endlessObserver
 import com.mobiata.android.util.SettingUtils
 import rx.subjects.BehaviorSubject
@@ -50,9 +52,12 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
             lobs.add(LobInfo.TRANSPORT)
         }
 
-        if (!ExpediaBookingApp.isAutomation() && BuildConfig.DEBUG && SettingUtils.get(context,
-                context.getString(R.string.preference_launch_screen_all_lob), false)) {
-            lobs.add(LobInfo.RAILS);
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_rail, false)) {
+            // if we have odd lob then we should add Packages in the end other 3 index
+            lobs.add(LobInfo.RAILS)
+        }
+
+        if (pos.supports(LineOfBusiness.PACKAGES)) {
             // if we have odd lob then we should add Packages in the end other 3 index
             if (lobs.size % 2 == 0) {
                 lobs.add(LobInfo.PACKAGES)
@@ -60,7 +65,8 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
                 lobs.add(2, LobInfo.PACKAGES)
             }
         }
-        return lobs;
+
+        return lobs
     }
 
     private fun trackLobNavigation(lineOfBusiness: LineOfBusiness) {

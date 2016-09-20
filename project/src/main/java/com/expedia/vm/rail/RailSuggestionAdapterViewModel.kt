@@ -2,6 +2,7 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import android.location.Location
+import com.expedia.bookings.data.SuggestionResultType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.ServicesUtil
@@ -16,5 +17,17 @@ class RailSuggestionAdapterViewModel(context: Context, suggestionsService: Sugge
 
     override fun getSuggestionHistoryFile(): String {
         return SuggestionV4Utils.RECENT_RAIL_SUGGESTIONS_FILE
+    }
+
+    override fun getLineOfBusiness(): String {
+        return "RAILS"
+    }
+
+    override fun getNearbyRegionType(): Int {
+        return SuggestionResultType.MULTI_CITY
+    }
+
+    override fun getNearbySortType(): String {
+        return "distance"
     }
 }

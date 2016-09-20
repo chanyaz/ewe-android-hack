@@ -10,69 +10,79 @@ import android.content.Context
 import android.graphics.Rect
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
+import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewStub
 import android.view.ViewTreeObserver
 import android.widget.Button
 import android.widget.LinearLayout
+import android.widget.Space
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
-import com.expedia.bookings.activity.FlightRulesActivity
-import com.expedia.bookings.activity.HotelRulesActivity
+import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
-import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
-import com.expedia.bookings.widget.traveler.TravelerDefaultState
+import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.BaseCreateTripViewModel
-import com.expedia.vm.InsuranceViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
-import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
-import com.expedia.vm.packages.BundlePriceViewModel
-import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
+import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
-import com.mobiata.android.Log
-import rx.subjects.PublishSubject
+import rx.Observable
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
-    lateinit var insuranceServices: InsuranceServices
+
+    private val ANIMATION_DELAY = 200L
     lateinit var travelerManager: TravelerManager
 
     val handle: FrameLayout by bindView(R.id.handle)
     val toolbarDropShadow: View by bindView(R.id.drop_shadow)
+    val bottomContainerDropShadow: View by bindView(R.id.bottom_container_drop_shadow)
     val chevron: View by bindView(R.id.chevron)
     val mainContent: LinearLayout by bindView(R.id.main_content)
     val scrollView: ScrollView by bindView(R.id.scrollView)
+    val contentView: LinearLayout by bindView(R.id.checkout_widget_container)
     val loginWidget: AccountButton by bindView(R.id.login_widget)
     val cardProcessingFeeTextView: TextView by bindView(R.id.card_processing_fee)
     val cardFeeWarningTextView: TextView by bindView(R.id.card_fee_warning_text)
+    val invalidPaymentTypeWarningTextView: TextView by bindView(R.id.invalid_payment_type_warning)
+    val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
     val insuranceWidget: InsuranceWidget by bindView(R.id.insurance_widget)
+    val space: Space by bindView(R.id.scrollview_space)
+    var cardType: PaymentType? = null
 
     var paymentWidget: PaymentWidget by Delegates.notNull()
-    val travelerDefaultState: TravelerDefaultState by lazy {
-        val view = findViewById(R.id.traveler_default_state) as TravelerDefaultState
+    val travelerSummaryCard: TravelerSummaryCard by lazy {
+        val view = findViewById(R.id.traveler_default_state) as TravelerSummaryCard
         view.viewModel = TravelerSummaryViewModel(context)
         view.setOnClickListener {
             openTravelerPresenter()
@@ -81,48 +91,54 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
     val travelerPresenter: TravelerPresenter by lazy {
         val presenter = findViewById(R.id.traveler_presenter) as TravelerPresenter
-        presenter.viewModel = CheckoutTravelerViewModel(context, getLineOfBusiness())
+        presenter.viewModel = CheckoutTravelerViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
         presenter.travelerEntryWidget.travelerButton.setLOB(getLineOfBusiness())
         presenter.closeSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
             presenter.menuVisibility.onNext(false)
         }
-        presenter.viewModel.travelerCompletenessStatus.subscribe(travelerDefaultState.viewModel.travelerStatusObserver)
+        presenter.viewModel.travelerCompletenessStatus.subscribe(travelerSummaryCard.viewModel.travelerStatusObserver)
         presenter.viewModel.allTravelersCompleteSubject.subscribe(getCheckoutViewModel().travelerCompleted)
         presenter.viewModel.invalidTravelersSubject.subscribe(getCheckoutViewModel().clearTravelers)
+        presenter
+    }
+
+    val acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox()
+    val acceptTermsWidget: AcceptTermsWidget by lazy {
+        val viewStub = findViewById(R.id.accept_terms_viewStub) as ViewStub
+        var presenter = viewStub.inflate() as AcceptTermsWidget
+        presenter.acceptButton.setOnClickListener {
+            acceptTermsWidget.vm.acceptedTermsObservable.onNext(true)
+            AnimUtils.slideDown(acceptTermsWidget)
+            acceptTermsWidget.visibility = View.GONE
+            acceptTermsWidget.acceptButton.unsubscribeOnClick()
+        }
         presenter
     }
 
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
-
     val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
     val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
     val slideToPurchaseLayout: LinearLayout by bindView(R.id.slide_to_purchase_layout)
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
+    val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
     val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val rootWindow by lazy { (context as Activity).window }
     val decorView by lazy { rootWindow.decorView.findViewById(android.R.id.content) }
-    var paymentLayoutListener : ViewTreeObserver.OnGlobalLayoutListener? = null
-    var travelerLayoutListener : ViewTreeObserver.OnGlobalLayoutListener? = null
+    var paymentLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+    var travelerLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
 
     val checkoutDialog = ProgressDialog(context)
     val createTripDialog = ProgressDialog(context)
 
-    var slideAllTheWayObservable = PublishSubject.create<Unit>()
-    var checkoutTranslationObserver = PublishSubject.create<Float>()
     var userAccountRefresher = UserAccountRefresher(context, getLineOfBusiness(), this)
-
     var sliderHeight = 0f
     var checkoutButtonHeight = 0f
-
-    val paymentWidgetViewModel = PaymentViewModel(context)
-
-    val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
 
     protected var ckoViewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
         vm.creditCardRequired.subscribe { required ->
@@ -133,6 +149,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeTextAndVisibility(depositPolicyText)
         vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
+        vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
         vm.checkoutParams.subscribe {
             checkoutDialog.show()
         }
@@ -150,6 +167,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             if (show) {
                 createTripDialog.show()
                 createTripDialog.setContentView(R.layout.process_dialog_layout)
+                AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.create_trip_dialog), 0)
+                createTripDialog.findViewById(R.id.create_trip_dialog).contentDescription = context.getString(R.string.spinner_text_hotel_create_trip)
             } else {
                 createTripDialog.hide()
             }
@@ -158,28 +177,47 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     init {
-        View.inflate(context, R.layout.widget_base_checkout, this)
+        View.inflate(context, R.layout.base_checkout_presenter, this)
+        injectComponents()
 
-        insuranceServices = Ui.getApplication(context).appComponent().insurance()
         travelerManager = Ui.getApplication(context).travelerComponent().travelerManager()
-
-        paymentWidget = paymentViewStub.inflate() as PaymentWidget
-        paymentWidget.viewmodel = paymentWidgetViewModel
-        insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
-        priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
-
-        if (getLineOfBusiness() == LineOfBusiness.FLIGHTS_V2) {
-            totalPriceWidget.breakdown.viewmodel = FlightCostSummaryBreakdownViewModel(context)
-        } else {
-            totalPriceWidget.breakdown.viewmodel = PackageCostSummaryBreakdownViewModel(context)
+        travelerManager.travelersUpdated.subscribe {
+            travelerPresenter.resetTravelers(TravelerCheckoutStatus.CLEAN)
         }
+        paymentWidget = paymentViewStub.inflate() as PaymentWidget
+
+        getPaymentWidgetViewModel().paymentTypeWarningHandledByCkoView.onNext(true)
+        paymentWidget.viewmodel = getPaymentWidgetViewModel()
+
+        priceChangeWidget.viewmodel = PriceChangeViewModel(context, getLineOfBusiness())
+        priceChangeWidget.viewmodel.priceChangeVisibility.subscribe { visible ->
+            if (priceChangeWidget.measuredHeight == 0) {
+                priceChangeWidget.measure(View.MeasureSpec.makeMeasureSpec(this.width, View.MeasureSpec.AT_MOST),
+                        View.MeasureSpec.makeMeasureSpec(this.height, View.MeasureSpec.UNSPECIFIED))
+            }
+            val height = priceChangeWidget.measuredHeight
+            if (visible) {
+                AnimUtils.slideInOut(priceChangeWidget, height)
+                AnimUtils.slideInOut(bottomContainerDropShadow, height)
+            } else {
+                priceChangeWidget.translationY = height.toFloat()
+            }
+        }
+
+        totalPriceWidget.breakdown.viewmodel = getCostSummaryBreakdownViewModel()
+
         totalPriceWidget.breakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
             totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
         }
-        totalPriceWidget.viewModel = BundlePriceViewModel(context)
+        totalPriceWidget.viewModel = BundleTotalPriceViewModel(context)
+        totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
+
+        paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(getCheckoutViewModel().paymentCompleted)
+        getCreateTripViewModel().tripResponseObservable.subscribe(getCheckoutViewModel().tripResponseObservable)
+        getCheckoutViewModel().cardFeeTripResponse.subscribe(getCreateTripViewModel().tripResponseObservable)
 
         paymentWidget.viewmodel.lineOfBusiness.onNext(getLineOfBusiness())
         travelerPresenter.travelerEntryWidget.travelerButton.setLOB(getLineOfBusiness())
@@ -187,22 +225,18 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         loginWidget.setListener(this)
         slideToPurchase.addSlideToListener(this)
 
-        loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), LineOfBusiness.PACKAGES)
+        loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), getLineOfBusiness())
+        travelerPresenter.onLogin(User.isLoggedIn(context))
         hintContainer.visibility = if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
         if (User.isLoggedIn(context)) {
             val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
             lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
         }
 
-
         paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() }
 
         legalInformationText.setOnClickListener {
-            if (getLineOfBusiness() == LineOfBusiness.PACKAGES) {
-                context.startActivity(HotelRulesActivity.createIntent(context, getLineOfBusiness()))
-            } else {
-                context.startActivity(FlightRulesActivity.createIntent(context, getLineOfBusiness()))
-            }
+            context.startActivity(FlightAndPackagesRulesActivity.createIntent(context, getLineOfBusiness()))
         }
 
         handle.setOnTouchListener(HandleTouchListener())
@@ -221,15 +255,35 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         getCheckoutViewModel().noNetworkObservable.subscribe {
             checkoutDialog.dismiss()
             slideToPurchase.resetSlider()
-            slideToPurchaseLayout.setOnClickListener {
-                if (AccessibilityUtil.isTalkBackEnabled(context)) {
-                    ckoViewModel.slideToBookA11yActivateObservable.onNext(Unit)
-                }
-            }
         }
 
         getCreateTripViewModel().noNetworkObservable.subscribe {
             createTripDialog.dismiss()
+        }
+
+        getPaymentWidgetViewModel().cardTypeSubject.subscribe { paymentType ->
+            cardType = paymentType
+        }
+
+        getCheckoutViewModel().cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
+        Observable.combineLatest( getCheckoutViewModel().paymentTypeSelectedHasCardFee,
+                paymentWidget.viewmodel.showingPaymentForm,
+                { haveCardFee, showingGuestPaymentForm ->
+                    val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
+                    cardProcessingFeeTextView.visibility = cardFeeVisibility
+                    if (cardFeeVisibility == VISIBLE) { // only show. hide handled in BaseCheckoutPresenter
+                        toolbarDropShadow.visibility = visibility
+                    }
+                }).subscribe()
+
+        getCheckoutViewModel().cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
+
+        accessiblePurchaseButton.setOnClickListener {
+            if (ckoViewModel.builder.hasValidParams()) {
+                ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
+            } else {
+                ckoViewModel.slideAllTheWayObservable.onNext(Unit)
+            }
         }
     }
 
@@ -258,13 +312,31 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         })
         paymentLayoutListener = makeKeyboardListener(scrollView)
         travelerLayoutListener = makeKeyboardListener(travelerPresenter.travelerEntryWidget, toolbarHeight * 2)
+
+        Observable.combineLatest(
+                paymentWidget.viewmodel.showingPaymentForm,
+                paymentWidget.viewmodel.invalidPaymentTypeWarning,
+                { showingGuestPaymentForm, invalidPaymentTypeWarning ->
+                    val hasPaymentTypeWarning = invalidPaymentTypeWarning.isNotBlank()
+                    val visibility = if (hasPaymentTypeWarning && showingGuestPaymentForm) View.VISIBLE else View.GONE
+                    invalidPaymentTypeWarningTextView.text = invalidPaymentTypeWarning
+                    if (visibility == View.VISIBLE) {
+                        invalidPaymentTypeWarningTextView.visibility = visibility
+                        AnimUtils.slideIn(invalidPaymentTypeWarningTextView)
+                        toolbarDropShadow.visibility = visibility
+                    } else if (invalidPaymentTypeWarningTextView.visibility == View.VISIBLE) {
+                        AnimUtils.slideOut(invalidPaymentTypeWarningTextView)
+                    }
+                }).subscribe()
+
     }
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
-            loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), LineOfBusiness.PACKAGES)
+            loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), getLineOfBusiness())
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             updateTravelerPresenter()
+            if (User.isLoggedIn(context)) paymentWidget.viewmodel.userLogin.onNext(true)
         }
     }
 
@@ -273,10 +345,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             super.startTransition(forward)
             bottomContainer.visibility = if (forward) GONE else VISIBLE
             if (!forward) {
+                Ui.hideKeyboard(travelerPresenter)
                 travelerPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
                 travelerPresenter.viewModel.updateCompletionStatus()
                 travelerPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
-                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
             } else {
                 decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
             }
@@ -285,11 +357,16 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
-                Ui.hideKeyboard(travelerPresenter)
                 animateInSlideToPurchase(true)
                 travelerPresenter.setFocusForView()
-                travelerDefaultState.setFocusForView()
+                travelerSummaryCard.setFocusForView()
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
+            } else {
+                val lp = space.layoutParams
+                lp.height = 0
+                space.layoutParams = lp
             }
+
         }
     }
 
@@ -299,30 +376,41 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             handle.setInverseVisibility(forward)
             loginWidget.setInverseVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
-            travelerDefaultState.visibility = if (forward) View.GONE else View.VISIBLE
-            insuranceWidget.setInverseVisibility(forward || !insuranceWidget.viewModel.hasProduct)
+            travelerSummaryCard.visibility = if (forward) View.GONE else View.VISIBLE
             legalInformationText.setInverseVisibility(forward)
             depositPolicyText.setInverseVisibility(forward)
             bottomContainer.setInverseVisibility(forward)
             cardFeeWarningTextView.setInverseVisibility(forward)
             if (!forward) {
+                Ui.hideKeyboard(paymentWidget)
+                invalidPaymentTypeWarningTextView.visibility = View.GONE
+                cardProcessingFeeTextView.visibility  = View.GONE
+                debitCardsNotAcceptedTextView.visibility = View.GONE
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
-                decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
                 scrollView.layoutParams.height = height
                 paymentWidget.viewmodel.showingPaymentForm.onNext(false)
             } else {
                 decorView.viewTreeObserver.addOnGlobalLayoutListener(paymentLayoutListener)
             }
+            setInsuranceWidgetVisibility(!forward)
         }
 
         override fun endTransition(forward: Boolean) {
             if (!forward) {
-                Ui.hideKeyboard(paymentWidget)
                 animateInSlideToPurchase(true)
                 paymentWidget.setFocusForView()
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
+            } else {
+                val lp = space.layoutParams
+                lp.height = 0
+                space.layoutParams = lp
             }
-            showingPaymentWidgetSubject.onNext(forward)
+            ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
         }
+    }
+
+    open fun setInsuranceWidgetVisibility(visible: Boolean) {
+        insuranceWidget.visibility = View.GONE
     }
 
     //Either shows the bundle overview or the checkout presenter based on distance/rotation
@@ -330,7 +418,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         val distanceGoal = height
         mainContent.translationY = distance
         chevron.rotation = Math.min(1f, distance / distanceGoal) * (180)
-        checkoutTranslationObserver.onNext(distance)
+        ckoViewModel.checkoutTranslationObserver.onNext(distance)
     }
 
     private fun animCheckoutToTop() {
@@ -339,11 +427,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         animator.duration = 400L
         animator.addUpdateListener(ValueAnimator.AnimatorUpdateListener { anim ->
             chevron.rotation = Math.min(1f, mainContent.translationY / distanceGoal) * (180)
-            checkoutTranslationObserver.onNext(mainContent.translationY)
+            ckoViewModel.checkoutTranslationObserver.onNext(mainContent.translationY)
         })
         animator.addListener(object : AnimatorListenerAdapter() {
             override fun onAnimationEnd(animation: Animator?) {
-                checkoutTranslationObserver.onNext(mainContent.translationY)
+                ckoViewModel.checkoutTranslationObserver.onNext(mainContent.translationY)
                 toolbarDropShadow.visibility = View.VISIBLE
             }
         })
@@ -361,7 +449,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         if (ckoViewModel.builder.hasValidParams()) {
             ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
         } else {
-            slideAllTheWayObservable.onNext(Unit)
+            ckoViewModel.slideAllTheWayObservable.onNext(Unit)
         }
     }
 
@@ -383,7 +471,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         animateInSlideToPurchase(false)
         updateDbTravelers()
         updateTravelerPresenter()
-        paymentWidget.sectionBillingInfo.refreshOnLoginStatusChange()
+        travelerPresenter.onLogin(false)
         loginWidget.bind(false, false, null, getLineOfBusiness())
         paymentWidget.viewmodel.userLogin.onNext(false)
         hintContainer.visibility = View.VISIBLE
@@ -402,24 +490,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         tripViewModel.performCreateTrip.onNext(Unit)
     }
 
-    open fun clearCCNumber() {
-        try {
-            paymentWidget.creditCardNumber.setText("")
-            Db.getWorkingBillingInfoManager().workingBillingInfo.number = null
-            Db.getWorkingBillingInfoManager().workingBillingInfo.securityCode = null
-            Db.getBillingInfo().number = null
-            Db.getBillingInfo().securityCode = null
-            paymentWidget.validateAndBind()
-        } catch (ex: Exception) {
-            Log.e("Error clearing billingInfo card number", ex)
-        }
-    }
-
-
-    fun clearCVV() {
-        if (paymentWidget is BillingDetailsPaymentWidget) {
-            val packagePaymentWidget = paymentWidget as BillingDetailsPaymentWidget
-            packagePaymentWidget.creditCardCvv.setText("")
+    fun clearPaymentInfo() {
+        if (!User.isLoggedIn(context)) {
+            paymentWidget.reset()
+            paymentWidget.clearCCAndCVV()
         }
     }
 
@@ -430,61 +504,103 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
         lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
         travelerManager.onSignIn(context)
+        travelerPresenter.onLogin(true)
         updateTravelerPresenter()
-        paymentWidget.sectionBillingInfo.refreshOnLoginStatusChange()
+        animateInSlideToPurchase(true)
         doCreateTrip()
     }
 
     fun animateInSlideToPurchase(visible: Boolean) {
-        val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValid()
+        if (AccessibilityUtil.isTalkBackEnabled(context) && visible) {
+            //hide the slider for talkback users and show a purchase button
+            accessiblePurchaseButton.setText(context.getString(R.string.accessibility_purchase_button))
+            accessiblePurchaseButton.visibility = View.VISIBLE
+            accessiblePurchaseButton.hideTouchTarget()
+            slideToPurchase.visibility = View.GONE
+        }
+        else {
+            slideToPurchase.visibility = View.VISIBLE
+            accessiblePurchaseButton.visibility = View.GONE
+        }
+        val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValidForBooking()
+        val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
+
+        if (acceptTermsRequired && !termsAccepted && isSlideToPurchaseLayoutVisible) {
+            acceptTermsWidget.visibility = View.VISIBLE
+        }
         if (isSlideToPurchaseLayoutVisible) {
             trackShowSlideToPurchase()
         }
         slideToPurchaseLayout.isFocusable = isSlideToPurchaseLayoutVisible
         val distance = if (!isSlideToPurchaseLayoutVisible) slideToPurchaseLayout.height.toFloat() else 0f
         if (bottomContainer.translationY == distance) {
+            adjustScrollingSpace()
             return
         }
         val animator = ObjectAnimator.ofFloat(bottomContainer, "translationY", distance)
         animator.duration = 300
         animator.start()
+        animator.addListener(object : Animator.AnimatorListener {
+            override fun onAnimationCancel(p0: Animator?) {
+            }
+
+            override fun onAnimationStart(p0: Animator?) {
+            }
+
+            override fun onAnimationRepeat(p0: Animator?) {
+            }
+
+            override fun onAnimationEnd(p0: Animator?) {
+                adjustScrollingSpace()
+            }
+        })
+
     }
 
     fun toggleCheckoutButton(isEnabled: Boolean) {
         checkoutButton.translationY = if (isEnabled) 0f else checkoutButtonHeight
-        val shouldShowSlider = currentState == CheckoutDefault::class.java.name && ckoViewModel.isValid()
+        val shouldShowSlider = currentState == CheckoutDefault::class.java.name && ckoViewModel.isValidForBooking()
         bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else sliderHeight
         checkoutButton.isEnabled = isEnabled
     }
 
-    inner class HandleTouchListener() : View.OnTouchListener {
+    val gestureDetector = GestureDetector(context, SingleTapUp())
+
+    private inner class SingleTapUp : GestureDetector.SimpleOnGestureListener() {
+        override fun onSingleTapUp(e: MotionEvent): Boolean {
+            return true
+        }
+
+        override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
+            return true
+        }
+
+    }
+
+    private inner class HandleTouchListener() : View.OnTouchListener {
         internal var originY: Float = 0.toFloat()
-        var isClicked = false
         override fun onTouch(v: View, event: MotionEvent): Boolean {
+            if (gestureDetector.onTouchEvent(event)) {
+                (context as AppCompatActivity).onBackPressed()
+                return true
+            }
             when (event.action) {
                 (MotionEvent.ACTION_DOWN) -> {
-                    isClicked = true
                     originY = event.rawY
                     toolbarDropShadow.visibility = View.GONE
                 }
                 (MotionEvent.ACTION_UP) -> {
-                    if (isClicked) {
+                    val diff = event.rawY - originY
+                    val distance = Math.max(diff, 0f)
+                    val distanceGoal = height / 3f
+                    if (distance > distanceGoal) {
                         (context as AppCompatActivity).onBackPressed()
-                        isClicked = false
                     } else {
-                        val diff = event.rawY - originY
-                        val distance = Math.max(diff, 0f)
-                        val distanceGoal = height / 3f
-                        if (distance > distanceGoal) {
-                            (context as AppCompatActivity).onBackPressed()
-                        } else {
-                            animCheckoutToTop()
-                        }
-                        originY = 0f
+                        animCheckoutToTop()
                     }
+                    originY = 0f
                 }
                 (MotionEvent.ACTION_MOVE) -> {
-                    isClicked = false
                     val diff = event.rawY - originY
                     rotateChevron(Math.max(diff, 0f))
                 }
@@ -510,16 +626,25 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         totalPriceWidget.resetPriceWidget()
     }
 
-    fun openTravelerPresenter() {
-        show(travelerPresenter)
-        travelerPresenter.showSelectOrEntryState(travelerDefaultState.getStatus())
+    fun resetTravelers() {
+        if (!User.isLoggedIn(context)) {
+            ckoViewModel.clearTravelers.onNext(Unit)
+            updateTravelerPresenter()
+        }
     }
 
-    abstract fun getLineOfBusiness(): LineOfBusiness
+    fun openTravelerPresenter() {
+        show(travelerPresenter)
+        travelerPresenter.showSelectOrEntryState(travelerSummaryCard.getStatus())
+    }
+
     open fun updateTravelerPresenter() {
         travelerPresenter.viewModel.refresh()
     }
 
+    abstract fun getPaymentWidgetViewModel(): PaymentViewModel
+    abstract fun injectComponents()
+    abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateDbTravelers()
     abstract fun trackShowSlideToPurchase()
     abstract fun trackShowBundleOverview()
@@ -527,16 +652,18 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     abstract fun makeCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun getCheckoutViewModel(): BaseCheckoutViewModel
     abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
+    abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
     abstract fun isPassportRequired(response: TripResponse)
+    abstract fun showMainTravelerMinimumAgeMessaging(): Boolean
 
-    fun makeKeyboardListener(scrollView: ScrollView, offset: Int = toolbarHeight) : ViewTreeObserver.OnGlobalLayoutListener {
+    private fun makeKeyboardListener(scrollView: ScrollView, offset: Int = toolbarHeight): ViewTreeObserver.OnGlobalLayoutListener {
         val rootWindow = (context as Activity).window
         val layoutListener = (ViewTreeObserver.OnGlobalLayoutListener {
             val decorView = rootWindow.decorView
             val windowVisibleDisplayFrameRect = Rect()
             decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
-            var location = IntArray(2)
+            val location = IntArray(2)
             scrollView.getLocationOnScreen(location)
             val lp = scrollView.layoutParams
             val newHeight = windowVisibleDisplayFrameRect.bottom - windowVisibleDisplayFrameRect.top - offset
@@ -548,5 +675,25 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         })
 
         return layoutListener
+    }
+
+    fun adjustScrollingSpace() {
+        postDelayed({
+            val contentViewLocation = IntArray(2)
+            val bottomContainerLocation = IntArray(2)
+            val scrollViewContainerLocation = IntArray(2)
+            contentView.getLocationOnScreen(contentViewLocation)
+            bottomContainer.getLocationOnScreen(bottomContainerLocation)
+            scrollView.getLocationOnScreen(scrollViewContainerLocation)
+
+            val contentViewBottomPosition = contentViewLocation[1] + contentView.height - space.height
+            val bottomContainerTopPosition = bottomContainerLocation[1]
+            val spaceHeight = Math.max(0, scrollViewContainerLocation[1] + scrollView.height - contentViewBottomPosition)
+            val distance = Math.max(0, contentViewBottomPosition - bottomContainerTopPosition) + spaceHeight
+
+            val lp = space.layoutParams
+            lp.height = distance
+            space.layoutParams = lp
+        }, ANIMATION_DELAY)
     }
 }

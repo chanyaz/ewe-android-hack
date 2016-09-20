@@ -7,12 +7,11 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
-import android.view.accessibility.AccessibilityNodeInfo;
-import android.widget.EditText;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.NumberMaskTextWatcher;
+import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 
 /**
  * This EditText view gracefully applies formatting to a credit card or phone number input.
@@ -22,25 +21,15 @@ import com.expedia.bookings.utils.NumberMaskTextWatcher;
  *
  * Created by dmelton on 3/20/14.
  */
-public class NumberMaskEditText extends EditText {
+public class NumberMaskEditText extends AccessibleEditText {
 
 	private TextWatcher mTextWatcher;
 	private String mCustomNumberFormat;
 	private NumberMaskFormatter mFormatter;
 
-	public NumberMaskEditText(Context context) {
-		super(context);
-		init(context, null, 0);
-	}
-
 	public NumberMaskEditText(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context, attrs, 0);
-	}
-
-	public NumberMaskEditText(Context context, AttributeSet attrs, int defStyle) {
-		super(context, attrs, defStyle);
-		init(context, attrs, defStyle);
 	}
 
 	private void init(Context context, AttributeSet attrs, int defStyle) {
@@ -93,21 +82,8 @@ public class NumberMaskEditText extends EditText {
 	/**
 	 * Returns the full, formatted text value of this view.
 	 */
-	public void toFormattedString() {
-		mFormatter.applyTo(getEditableText().toString());
-	}
-
-	@Override
-	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-		super.onInitializeAccessibilityNodeInfo(info);
-		String text = this.getText().toString();
-		String hint = this.getHint().toString();
-		if (text.isEmpty()) {
-			info.setText(" " + hint);
-		}
-		else {
-			info.setText(" " + hint + ", " + text);
-		}
+	public String toFormattedString() {
+		return mFormatter.applyTo(getEditableText().toString());
 	}
 }
 

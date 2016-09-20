@@ -12,6 +12,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static org.hamcrest.CoreMatchers.not;
 
 public class PackageHotelPresenterTest extends PackageTestCase {
 
@@ -26,7 +27,7 @@ public class PackageHotelPresenterTest extends PackageTestCase {
 		PackageScreen.hotelDetailsToolbar().perform(ViewActions.waitForViewToDisplay());
 		PackageScreen.hotelDetailsToolbar().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("Package Happy Path")))));
-		assertSlidingBundleWidgetNoSelection(false);
+		PackageScreen.bundlePriceWidget().check(matches(not(isDisplayed())));
 	}
 
 	private static void assertSlidingBundleWidgetNoSelection(boolean isFromResults) {

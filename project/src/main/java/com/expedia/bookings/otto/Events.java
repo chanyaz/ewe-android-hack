@@ -1075,6 +1075,10 @@ public class Events {
 
 	}
 
+	public static class AppBackgroundedOnResume {
+
+	}
+
 	public static class PermissionEvent {
 		public enum PermissionResult {
 			GRANTED,

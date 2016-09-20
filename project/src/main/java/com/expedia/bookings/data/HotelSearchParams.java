@@ -9,8 +9,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.text.TextUtils;
 
 import com.expedia.bookings.R;
@@ -594,12 +592,6 @@ public class HotelSearchParams implements JSONable {
 					&& (this.mChildren == null ? other.getChildren() == null : mChildren.equals(other.getChildren()));
 		}
 		return false;
-	}
-
-	public void saveToSharedPreferences(SharedPreferences prefs) {
-		Editor editor = prefs.edit();
-		editor.putString(SEARCH_PARAMS_KEY, toJson().toString());
-		editor.apply();
 	}
 
 	@Override

@@ -42,7 +42,7 @@ class HotelFilterViewTest {
         activity.setTheme(R.style.V2_Theme_Hotels);
         Ui.getApplication(activity).defaultHotelComponents()
         hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelFilterView
-        hotelFilterView.viewmodel = HotelFilterViewModel(LineOfBusiness.HOTELS)
+        hotelFilterView.viewmodel = HotelFilterViewModel(activity, LineOfBusiness.HOTELS)
         hotelFilterView.sortByButtonGroup.onItemSelectedListener = null
         hotelFilterView.sortByButtonGroup.setOnTouchListener { view, motionEvent -> false }
         hotelFilterView.shopWithPointsViewModel = shopWithPointsViewModel
@@ -51,7 +51,7 @@ class HotelFilterViewTest {
     @Test
     fun testSortByDistanceIsRemovedForNonCurrentLocationSearch(){
         hotelFilterView.sortByObserver.onNext(false)
-        val enumOfSortingList= listOf(Sort.POPULAR, Sort.PRICE, Sort.DEALS, Sort.RATING).toCollection(ArrayList<Sort>())
+        val enumOfSortingList= listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.DEALS, Sort.RATING).toCollection(ArrayList<Sort>())
         val expectedEnumOfSortingLists = getItems(hotelFilterView.sortByAdapter)
         assertEquals(expectedEnumOfSortingLists,enumOfSortingList)
     }
@@ -60,7 +60,7 @@ class HotelFilterViewTest {
     fun testSortByDealsIsRemovedForSwP(){
         hotelFilterView.shopWithPointsViewModel?.swpEffectiveAvailability?.onNext(true)
         hotelFilterView.sortByObserver.onNext(false)
-        val enumOfSortingList= listOf(Sort.POPULAR, Sort.PRICE, Sort.RATING).toCollection(ArrayList<Sort>())
+        val enumOfSortingList= listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.RATING).toCollection(ArrayList<Sort>())
         val expectedEnumOfSortingLists = getItems(hotelFilterView.sortByAdapter)
 
         assertEquals(expectedEnumOfSortingLists,enumOfSortingList)

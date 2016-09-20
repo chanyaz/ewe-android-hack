@@ -23,7 +23,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.FlightRulesActivity;
+import com.expedia.bookings.activity.FlightAndPackagesRulesActivity;
 import com.expedia.bookings.activity.HotelRulesActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.BillingInfo;
@@ -70,6 +70,7 @@ import com.expedia.bookings.widget.TabletCheckoutScrollView;
 import com.expedia.bookings.widget.TouchableFrameLayout;
 import com.mobiata.android.util.Ui;
 import com.squareup.otto.Subscribe;
+import com.squareup.phrase.Phrase;
 
 @SuppressWarnings("ResourceType")
 public class TabletCheckoutFormsFragment extends LobableFragment implements IBackManageable,
@@ -525,7 +526,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				@Override
 				public void run() {
 					Intent intent = new Intent(getActivity(),
-						getLob() == LineOfBusiness.FLIGHTS ? FlightRulesActivity.class : HotelRulesActivity.class);
+						getLob() == LineOfBusiness.FLIGHTS ? FlightAndPackagesRulesActivity.class : HotelRulesActivity.class);
 					intent.putExtra("LOB", getLob());
 					startActivity(intent);
 				}
@@ -646,10 +647,12 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 				String baggageFeesUrlLegOne = flightTrip.getLeg(0).getBaggageFeesUrl();
 				String baggageFeesUrlLegTwo = flightTrip.getLeg(1).getBaggageFeesUrl();
 
-				String baggageFeesTextWithLinks =
-					getString(R.string.split_ticket_baggage_fees_tablet, baggageFeesUrlLegOne, baggageFeesUrlLegTwo);
+				String baggageFeesTextFormatted = Phrase.from(getContext(), R.string.split_ticket_baggage_fees_TEMPLATE)
+					.put("departurelink", baggageFeesUrlLegOne)
+					.put("returnlink", baggageFeesUrlLegTwo)
+					.format().toString();
 				SpannableStringBuilder spannableStringBuilder =
-					StrUtils.getSpannableTextByColor(baggageFeesTextWithLinks, ContextCompat.getColor(getContext(),R.color.tablet_legal_blurb_text_color), true);
+					StrUtils.getSpannableTextByColor(baggageFeesTextFormatted, ContextCompat.getColor(getContext(),R.color.tablet_legal_blurb_text_color), true);
 				mSplitTicketFeeLinks.setText(spannableStringBuilder);
 				mSplitTicketFeeLinks.setMovementMethod(LinkMovementMethod.getInstance());
 			}

@@ -7,8 +7,8 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.widget.HotelAmenityFilter
 import com.expedia.util.subscribeOnClick
 import com.expedia.vm.HotelFilterViewModel
-import java.util.TreeMap
 import java.util.Comparator
+import java.util.TreeMap
 
 enum class FilterAmenity(val preference: Int, val resId: Int, val strId: Int) {
     FREE_INTERNET(1, R.drawable.ic_amenity_internet, R.string.FilterFreeInternet),
@@ -41,7 +41,7 @@ enum class FilterAmenity(val preference: Int, val resId: Int, val strId: Int) {
                 val amenityLayout = LayoutInflater.from(viewGroup.context).inflate(R.layout.filter_amenity_row, null) as HotelAmenityFilter
                 amenityLayout.bind(amenityEntry.key, amenityEntry.value, vm)
                 val columnNum = 4
-                amenityLayout.layoutParams = ViewGroup.LayoutParams(viewGroup.getContext().getResources().getDisplayMetrics().widthPixels / columnNum, ViewGroup.LayoutParams.WRAP_CONTENT)
+                amenityLayout.layoutParams = ViewGroup.LayoutParams(viewGroup.context.resources.displayMetrics.widthPixels / columnNum, ViewGroup.LayoutParams.WRAP_CONTENT)
                 viewGroup.addView(amenityLayout)
                 amenityLayout.subscribeOnClick(amenityLayout.selectObserver)
             }

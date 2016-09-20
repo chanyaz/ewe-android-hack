@@ -247,6 +247,15 @@
         <attr name="state_incomplete" format="boolean" />
     </declare-styleable>
 
+    <declare-styleable name="TicketDeliverySelectionImageView">
+        <attr name="selection">
+            <enum name="unselected" value="0" />
+            <enum name="selected" value="1" />
+        </attr>
+        <attr name="unselected_state" format="boolean" />
+        <attr name="selected_state" format="boolean" />
+    </declare-styleable>
+
     <declare-styleable name="PhoneLaunchButton">
         <attr name="btn_text" format="string" />
         <attr name="btn_text_size" format="string" />
@@ -347,5 +356,18 @@
 
     <declare-styleable name="AccessibleSpinner">
         <attr name="spinner_label" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="TravelerCountSelector">
+        <attr name="traveler_minus" format="string" />
+        <attr name="traveler_age_label" format="string" />
+        <attr name="traveler_plus" format="string" />
+    </declare-styleable>
+
+    <declare-styleable name="RailTicketDeliveryOptionWidget">
+        <attr name="delivery_icon" format="reference" />
+        <attr name="label_text" format="string" />
+        <attr name="details_text" format="string" />
+        <attr name="fees_visible" format="boolean" />
     </declare-styleable>
 </resources>

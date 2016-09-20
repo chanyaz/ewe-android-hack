@@ -43,6 +43,5 @@
     <com.expedia.bookings.widget.SlidingBundleWidget
         android:id="@+id/sliding_bundle_widget"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/gray1" />
+        android:layout_height="match_parent"/>
 </merge>

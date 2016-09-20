@@ -34,5 +34,5 @@ class PlaceholderStringMustHaveSomeExamples(StringValidationClause):
                             if indiValue.startswith("{") and indiValue.endswith("}") :
                                 issueList.append(Issue(file.commitId, file.filename, line.codeLineNumberInFile, line.linePositionInDiff, line.codeLineAdded, "Please include an example string with all parameters filled in to aid in translation.", IssueType.warning))
                             else:
-                                print "EXAMPLE: " + previousLine.codeLineAdded + "\nFOR THE STRING : "+ line.codeLineAdded +"\nFOUND.\n\n"
+                                print u'EXAMPLE: ' + previousLine.codeLineAdded + u'\nFOR THE STRING : '+ line.codeLineAdded + u'\nFOUND.\n\n'
         return issueList

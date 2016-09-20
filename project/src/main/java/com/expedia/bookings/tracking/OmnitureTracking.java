@@ -97,12 +97,14 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NumberUtils;
-import com.expedia.bookings.utils.PackageFlightUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.util.ToggleFeatureConfiguration;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -191,6 +193,7 @@ public class OmnitureTracking {
 	private static final String HOTELSV2_SORT = "App.Hotels.Search.Sort.";
 	private static final String HOTELSV2_SORT_PRICE_SLIDER = "App.Hotels.Search.Price";
 	private static final String HOTELSV2_SEARCH_FILTER_VIP = "App.Hotels.Search.Filter.VIP.";
+	private static final String HOTELSV2_SEARCH_FILTER_FAVORITE = "App.Hotels.Search.Filter.Favorite.";
 	private static final String HOTELSV2_SEARCH_FILTER_NEIGHBOURHOOD = "App.Hotels.Search.Neighborhood";
 	private static final String HOTELSV2_SEARCH_FILTER_BY_NAME = "App.Hotels.Search.HotelName";
 	private static final String HOTELSV2_CLEAR_FILTER = "App.Hotels.Search.ClearFilter";
@@ -354,6 +357,11 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsMemberDealTest);
 
+		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppHotelFavoriteTest,
+			R.string.preference_enable_hotel_favorite, ToggleFeatureConfiguration.HOTEL_FAVORITE_FEATURE)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
+		}
+
 		// Send the tracking data
 		s.track();
 	}
@@ -379,6 +387,18 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackLinkEvent(HOTELS_SPONSORED_LISTING_CLICK);
 		s.trackLink(null, "o", "Sponsored Click", null, null);
 
+	}
+
+	public static void trackHotelV2FavoriteClick(String hotelId, Boolean favorite, int parent) {
+		Log.d(TAG, "Tracking \"" + HOTELS_FAVORITE_CLICK + "\" click...");
+
+		String event = (favorite) ? HOTELS_FAVORITE_CLICK : HOTELS_UNFAVORITE_CLICK;
+		String pageName = (parent == R.id.hotel_cell_heart_container) ? PAGE_NAME_HOTEL_SEARCH : HOTELSV2_DETAILS_PAGE;
+		ADMS_Measurement s = createTrackLinkEvent(event);
+		s.setProducts(String.format(";Hotel:%s;;", hotelId));
+		s.setEvents((favorite) ? "event214" : "event215");
+		s.setEvar(18, pageName);
+		s.trackLink(null, "o", "Hotel Favorite", null, null);
 	}
 
 	public static void trackHotelV2Filter() {
@@ -423,6 +443,14 @@ public class OmnitureTracking {
 
 	public static void trackLinkHotelV2FilterVip(String state) {
 		String pageName = HOTELSV2_SEARCH_FILTER_VIP + state;
+		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
+
+		ADMS_Measurement s = createTrackLinkEvent(pageName);
+		s.trackLink(null, "o", "Search Results Sort", null, null);
+	}
+
+	public static void trackLinkHotelV2FilterFavorite(String state) {
+		String pageName = HOTELSV2_SEARCH_FILTER_FAVORITE + state;
 		Log.d(TAG, "Tracking \"" + pageName + "\" click...");
 
 		ADMS_Measurement s = createTrackLinkEvent(pageName);
@@ -792,10 +820,6 @@ public class OmnitureTracking {
 
 
 		addStandardHotelV2Fields(s, searchParams);
-		if (hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees != 0f
-			|| hotelProductResponse.hotelRoomResponse.depositRequired) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelPriceBreakDownTest);
-		}
 		s.track();
 	}
 
@@ -835,7 +859,6 @@ public class OmnitureTracking {
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_EDIT_PAYMENT);
 		s.setEvar(18, HOTELSV2_CHECKOUT_EDIT_PAYMENT);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCKOCreditDebitTest);
 		if (HotelUtils.isCardIoAvailable()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelHCKOCardIOTest);
 		}
@@ -1131,6 +1154,8 @@ public class OmnitureTracking {
 	public static final String HOTELS_SEARCH_SPONSORED_PRESENT = "App.Hotels.Search.Sponsored.Yes";
 	public static final String HOTELS_SEARCH_SPONSORED_NOT_PRESENT = "App.Hotels.Search.Sponsored.No";
 	public static final String HOTELS_SPONSORED_LISTING_CLICK = "App.Hotels.Search.Sponsored.Click";
+	public static final String HOTELS_FAVORITE_CLICK = "App.Hotels.Favorite";
+	public static final String HOTELS_UNFAVORITE_CLICK = "App.Hotels.Unfavorite";
 
 	public static final String HOTELS_REFINE_REVIEWS_FAV = "App.Hotels.Review.Fav";
 	public static final String HOTELS_REFINE_REVIEWS_CRIT = "App.Hotels.Review.Crit";
@@ -2432,11 +2457,7 @@ public class OmnitureTracking {
 		AbacusTest test = Db.getAbacusResponse().testForKey(testKey);
 
 		if (test == null) {
-			// Just log control
-			test = new AbacusTest();
-			test.id = testKey;
-			test.value = AbacusUtils.DefaultVariate.CONTROL.ordinal();
-			test.instanceId = 0;
+			return;
 		}
 
 		// Adds piping for multivariate AB Tests.
@@ -3613,7 +3634,6 @@ public class OmnitureTracking {
 		if (isFirstAppLaunch && !User.isLoggedIn(sContext)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppShowSignInOnLaunch);
 		}
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLaunchScreenTest);
 		s.setProp(2, "storefront");
 		s.setEvar(2, "storefront");
 		s.track();
@@ -4215,10 +4235,10 @@ public class OmnitureTracking {
 
 	private static String getReportSuiteIds() {
 		if (BuildConfig.RELEASE) {
-			return "expediaglobalapp";
+			return "expediaglobal";
 		}
 		else {
-			return "expediaglobalappdev";
+			return "expediaglobaldev";
 		}
 	}
 
@@ -4763,7 +4783,7 @@ public class OmnitureTracking {
 		productString.append(numTravelers + ";" + productPrice + ";;");
 
 		String eVarNumber = isConfirmation ? "eVar30" : "eVar63";
-		String flightInventoryType = PackageFlightUtils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
+		String flightInventoryType = FlightV2Utils.isFlightMerchant(Db.getPackageSelectedOutboundFlight()) ? "Merchant" : "Agency";
 
 		if (addEvarInventory) {
 			String packageSupplierType = hotelSupplierType.toLowerCase(Locale.ENGLISH).equals(flightInventoryType.toLowerCase(Locale.ENGLISH)) ? flightInventoryType : "Mixed";
@@ -5244,14 +5264,16 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static String getFlightProductString() {
+	public static String getFlightProductString(boolean isConfirmation) {
 		Pair<FlightSegment, FlightSegment> segments = getFirstAndLastFlightSegments();
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
 
 		String itineraryType;
+		BigDecimal outBoundFlightPrice = trip.getDetails().offer.totalPrice.amount;
 		switch (getFlightItineraryType()) {
 		case SPLIT_TICKET:
 			itineraryType = "ST";
+			outBoundFlightPrice = trip.getDetails().offer.splitFarePrice.get(0).totalPrice.amount;
 			break;
 		case ONE_WAY:
 			itineraryType = "OW";
@@ -5264,14 +5286,38 @@ public class OmnitureTracking {
 			break;
 		}
 
-		String outBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.first.airlineCode,
-			itineraryType, trip.getDetails().offer.numberOfTickets, trip.totalPrice.amount);
+		String evarValuesOutBound, evarValuesInBound = "";
+		if (isConfirmation) {
+			if (!itineraryType.equalsIgnoreCase("ST")) {
+				evarValuesOutBound = String.format(Locale.ENGLISH, "eVar30=%s:FLT", getFlightInventoryTypeString());
+			}
+			else {
+				Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
+				Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
+				String departureInfo = airportCodes.first + "-" + airportCodes.second + ":" + takeoffDateStrings.first;
+				evarValuesOutBound = String
+					.format(Locale.ENGLISH, "eVar30=%s:FLT:%s", getFlightInventoryTypeString(), departureInfo);
+
+				String arrivalInfo = airportCodes.second + "-" + airportCodes.first + ":" + takeoffDateStrings.second;
+				evarValuesInBound = String
+					.format(Locale.ENGLISH, "eVar30=%s:FLT:%s", getFlightInventoryTypeString(), arrivalInfo);
+			}
+		}
+		else {
+			evarValuesOutBound = String.format(Locale.US, "eVar63=%s:SA", getFlightInventoryTypeString());
+			evarValuesInBound = evarValuesOutBound;
+		}
+
+		String outBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;%s", segments.first.airlineCode,
+			itineraryType, trip.getDetails().offer.numberOfTickets, outBoundFlightPrice, evarValuesOutBound);
 
 		if (itineraryType.equalsIgnoreCase("ST")) {
-			String inBoundFlight = String.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;", segments.second.airlineCode,
-				itineraryType, trip.getDetails().offer.numberOfTickets, trip.totalPrice.amount);
+			BigDecimal inBoundFlightPrice = trip.getDetails().offer.splitFarePrice.get(1).totalPrice.amount;
+			String inBoundFlight = String
+				.format(Locale.ENGLISH, ";Flight:%s:%s;%s;%.2f;;%s", segments.second.airlineCode,
+					itineraryType, trip.getDetails().offer.numberOfTickets, inBoundFlightPrice, evarValuesInBound);
 
-			return outBoundFlight + inBoundFlight;
+			return outBoundFlight + "," + inBoundFlight;
 
 		}
 		return outBoundFlight;
@@ -5324,13 +5370,28 @@ public class OmnitureTracking {
 
 		// events
 		s.setEvents("purchase");
+		boolean isSplitTicket = getFlightItineraryType().equals(FlightItineraryType.SPLIT_TICKET);
 
 		// products
 		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
 		Pair<String, String> takeoffDateStrings = getFlightSearchDepartureAndReturnDateStrings();
-		s.setProducts(String.format(Locale.ENGLISH, "%seVar30=%s:FLT:%s-%s:%s-%s,%s", getFlightProductString(),
-			getFlightInventoryTypeString(), airportCodes.first, airportCodes.second, takeoffDateStrings.first,
-			takeoffDateStrings.second, getFlightInsuranceProductString()));
+		String products;
+		if (!isSplitTicket) {
+			if (takeoffDateStrings.second != null) {
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s,%s", getFlightProductString(true),
+					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+					takeoffDateStrings.second, getFlightInsuranceProductString());
+			}
+			else {
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s,%s", getFlightProductString(true),
+					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
+					getFlightInsuranceProductString());
+			}
+		}
+		else {
+			products = getFlightProductString(true) + getFlightInsuranceProductString();
+		}
+		s.setProducts(products);
 
 		// miscellaneous variables
 		s.setEvar(2, "D=c2");
@@ -5359,21 +5420,20 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackFlightCheckoutInfoPageLoad() {
+	public static void trackFlightCheckoutInfoPageLoad(FlightCreateTripResponse tripResponse) {
 		String pageName = FLIGHT_CHECKOUT_INFO;
 		Log.d(TAG, "Tracking \"" + pageName + "\" page load...");
 
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 
 		// events
-		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
 		s.setEvents("event36, event71" /* checkout start, flight checkout start */ +
-			(trip.getAvailableInsuranceProducts().isEmpty() ? "" : ", event122" /* insurance present */));
+			(tripResponse.getAvailableInsuranceProducts().isEmpty() ? "" : ", event122" /* insurance present */));
+
+		String products = getFlightProductString(false) + getFlightInsuranceProductString();
 
 		// products
-		s.setProducts(String.format(Locale.ENGLISH, "%seVar63=%s:SA%s", getFlightProductString(),
-			getFlightInventoryTypeString(), getFlightInsuranceProductString()));
-
+		s.setProducts(products);
 		// miscellaneous variables
 		Pair<String, String> airportCodes = getFlightSearchDepartureAndArrivalAirportCodes();
 		s.setEvar(2, "D=c2");
@@ -5532,7 +5592,7 @@ public class OmnitureTracking {
 
 		setDateValues(s, departureDate, returnDate);
 
-		s.setProducts(getFlightProductString());
+		s.setProducts(getFlightProductString(false));
 		s.track();
 	}
 

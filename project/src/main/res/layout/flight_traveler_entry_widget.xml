@@ -24,6 +24,12 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
 
+        <com.expedia.bookings.widget.traveler.EmailEntryView
+            android:id="@+id/email_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
+
         <com.expedia.bookings.widget.traveler.PhoneEntryView
             android:id="@+id/phone_entry_widget"
             android:layout_width="match_parent"

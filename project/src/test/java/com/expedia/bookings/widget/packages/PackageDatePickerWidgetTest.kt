@@ -99,6 +99,7 @@ class PackageDatePickerWidgetTest {
         val mockViewModel = Mockito.mock(BaseSearchViewModel::class.java)
         mockViewModel.dateTextObservable = BehaviorSubject.create<CharSequence>()
         mockViewModel.accessibleStartDateSetObservable = BehaviorSubject.create<Boolean>(false)
+        mockViewModel.a11yFocusSelectDatesObservable = BehaviorSubject.create<Unit>()
         return mockViewModel
     }
 

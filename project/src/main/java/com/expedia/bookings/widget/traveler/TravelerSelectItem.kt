@@ -5,9 +5,9 @@ import com.expedia.util.subscribeFont
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextColor
-import com.expedia.vm.traveler.TravelerSelectViewModel
+import com.expedia.vm.traveler.TravelerPickerTravelerViewModel
 
-class TravelerSelectItem(context: Context, val travelerViewModel: TravelerSelectViewModel) : TravelerDetailsCard(context) {
+class TravelerSelectItem(context: Context, travelerViewModel: TravelerPickerTravelerViewModel) : TravelerDetailsCard(context) {
 
     init {
         travelerViewModel.titleObservable.subscribeText(detailsText)

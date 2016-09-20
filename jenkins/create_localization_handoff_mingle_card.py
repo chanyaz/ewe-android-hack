@@ -6,9 +6,8 @@ import traceback
 from hipchat_send_message import sendHipchatMessageToRoom
 
 MINGLE_PROJECT='eb_ad_app'
-#TODO - update to Mingler's Mingle Token
-MINGLE_ACCESS_ID='rkochhar'
-MINGLE_ACCESS_SECRET="5ISptP8ZqZDO7YNh0ZbwADo2NYRNLRIDSIFDxT0qS+Q="
+MINGLE_ACCESS_ID='mingler'
+MINGLE_ACCESS_SECRET="+94zjsneYF6iwS1lqdLdKmvAyx0ilt8o1RuV71fKU+E="
 
 UTC = pytz.utc
 handoffDate = datetime.datetime.now(tz=UTC).strftime('%A %d, %b %Y, %H:%M %p %Z')

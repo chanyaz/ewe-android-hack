@@ -18,13 +18,19 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSubject<RailLegOption>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    val LEG_VIEW = 0
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
     val resultsSubject = BehaviorSubject.create<RailSearchResponse>()
+    val directionHeaderSubject = BehaviorSubject.create<CharSequence>()
+    val priceHeaderSubject = BehaviorSubject.create<CharSequence>()
 
     private var legs: List<RailLegOption> = emptyList()
+
+    enum class ViewTypes {
+        RESULTS_HEADER_VIEW,
+        RAIL_CELL_VIEW
+    }
 
     init {
         resultsSubject.subscribe { response ->
@@ -50,10 +56,6 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
         return legs.size
     }
 
-    override fun getItemViewType(position: Int): Int {
-        return LEG_VIEW //TODO - will add other types as we add headers/footers
-    }
-
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
             is RailViewHolder -> holder.bind(legs[position])
@@ -61,8 +63,34 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.rail_cell, parent, false)
-        return RailViewHolder(view as ViewGroup)
+        when (viewType) {
+            ViewTypes.RESULTS_HEADER_VIEW.ordinal -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.trip_header, parent, false)
+                return HeaderViewHolder(view as ViewGroup)
+            }
+            else -> {
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.rail_cell, parent, false)
+                return RailViewHolder(view as ViewGroup)
+            }
+        }
+    }
+
+    override fun getItemViewType(position: Int): Int {
+        if (position == 0) {
+            return ViewTypes.RESULTS_HEADER_VIEW.ordinal
+        } else {
+            return ViewTypes.RAIL_CELL_VIEW.ordinal
+        }
+    }
+
+    inner class HeaderViewHolder(val root: ViewGroup) : RecyclerView.ViewHolder(root) {
+        val direction: TextView by root.bindView(R.id.selectDirection)
+        val oneWayOrRoundTrip: TextView by root.bindView(R.id.oneWayOrRoundTrip)
+
+        init {
+            directionHeaderSubject.subscribeText(direction)
+            priceHeaderSubject.subscribeText(oneWayOrRoundTrip)
+        }
     }
 
     inner class RailViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
@@ -85,9 +113,9 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
             viewModel.legOptionObservable.onNext(leg)
 
             viewModel.priceObservable.subscribeText(priceView)
-            viewModel.operatorObservable.subscribeText(operatorTextView) //todo - revert
             viewModel.formattedStopsAndDurationObservable.subscribeText(durationTextView)
             timesView.text = DateTimeUtils.formatInterval(context, leg.getDepartureDateTime(), leg.getArrivalDateTime())
+            operatorTextView.text = leg.aggregatedOperatingCarrier
             timelineView.updateLeg(leg)
         }
 

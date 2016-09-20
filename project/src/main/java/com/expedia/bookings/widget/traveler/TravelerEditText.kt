@@ -11,10 +11,8 @@ import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
-import com.jakewharton.rxbinding.widget.RxTextView
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
+import com.expedia.util.subscribeTextChange
 import rx.Observer
 import rx.Subscription
 import rx.subjects.PublishSubject
@@ -27,6 +25,9 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
 
     private var textChangedSubscription: Subscription? = null
     private var errorSubscription: Subscription? = null
+
+    private var textChangedObserver: Observer<String>? = null
+    private var errorObserver: PublishSubject<Boolean>? = null
 
     init {
         errorIcon = ContextCompat.getDrawable(context,
@@ -43,22 +44,35 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         }
     }
 
-    fun addTextChangedSubscriber(observer: Observer<TextViewAfterTextChangeEvent>) {
-        textChangedSubscription = RxTextView.afterTextChangeEvents(this).distinctUntilChanged().subscribe(observer)
-    }
-
-    fun subscribeToError(errorSubject: PublishSubject<Boolean>) {
-        errorSubscription = errorSubject.subscribe { error ->
-            if (error) setError() else resetError()
+    fun addTextChangedSubscriber(observer: Observer<String>?) {
+        if (observer != null) {
+            textChangedObserver = observer
+            textChangedSubscription?.unsubscribe()
+            textChangedSubscription = this.subscribeTextChange(observer)
         }
     }
 
+    fun subscribeToError(errorSubject: PublishSubject<Boolean>?) {
+        if (errorSubject != null) {
+            errorObserver = errorSubject
+            errorSubscription?.unsubscribe()
+            errorSubscription = errorSubject.subscribe { error ->
+                if (error) setError() else resetError()
+            }
+        }
+    }
+
+    //Sometimes, addTextChangedSubscriber && subscribeToError are called before the view is visible, so they get unsubscribed
+    //because of onVisibilityChanged == GONE, so
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
-        if (visibility == GONE) {
+        super.onVisibilityChanged(changedView, visibility)
+        if (visibility == View.VISIBLE) {
+            addTextChangedSubscriber(textChangedObserver)
+            subscribeToError(errorObserver)
+        } else {
             textChangedSubscription?.unsubscribe()
             errorSubscription?.unsubscribe()
         }
-        super.onVisibilityChanged(changedView, visibility)
     }
 
     private fun setError() {
@@ -75,17 +89,9 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
 
     override fun onInitializeAccessibilityNodeInfo(nodeInfo: AccessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(nodeInfo)
-        if (!valid && Strings.isNotEmpty(errorContDesc)) {
-            nodeInfo.text = nodeInfo.text.toString() + " " + errorContDesc
-        } else {
-            val text = this.text.toString()
-            val hint = this.hint.toString()
-            if (text.isEmpty()) {
-                nodeInfo.text = " $hint"
-            } else {
-                nodeInfo.text = " $hint, $text"
-            }
-        }
+        val text = this.text.toString()
+        val hint = this.hint.toString()
+        nodeInfo.text = if (!valid) " $hint, $text, $errorContDesc" else " $hint, $text"
     }
 
     private fun resetError() {

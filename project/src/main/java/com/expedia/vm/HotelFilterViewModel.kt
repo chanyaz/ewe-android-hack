@@ -1,7 +1,9 @@
 package com.expedia.vm
 
+import android.content.Context
 import android.support.annotation.StringRes
 import com.expedia.bookings.R
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
@@ -15,13 +17,13 @@ import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.ArrayList
-import java.util.Collections
-import java.util.Comparator
+import java.util.ArrayList		
+import java.util.Collections		
+import java.util.Comparator		
 import java.util.HashSet
 import java.util.regex.Pattern
 
-class HotelFilterViewModel(val lob: LineOfBusiness) {
+class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     val doneObservable = PublishSubject.create<Unit>()
     val doneButtonEnableObservable = PublishSubject.create<Boolean>()
     val clearObservable = PublishSubject.create<Unit>()
@@ -36,17 +38,19 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
     val filterCountObservable = BehaviorSubject.create<Int>()
     val neighborhoodExpandObservable = BehaviorSubject.create<Boolean>()
     val sortContainerObservable = BehaviorSubject.create<Boolean>()
+    val priceRangeContainerVisibility = BehaviorSubject.create<Boolean>()
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
 
-    data class UserFilterChoices(var userSort: Sort = Sort.POPULAR,
+    data class UserFilterChoices(var userSort: Sort = Sort.RECOMMENDED,
                                  var isVipOnlyAccess: Boolean = false,
                                  var hotelStarRating: StarRatings = StarRatings(),
                                  var name: String = "",
                                  var minPrice: Int = 0,
                                  var maxPrice: Int = 0,
                                  var amenity: HashSet<Int> = HashSet<Int>(),
-                                 var neighborhoods: HashSet<String> = HashSet<String>()) {
+                                 var neighborhoods: HashSet<String> = HashSet<String>(),
+                                 var favorites: Boolean = false) {
 
         fun filterCount(): Int {
             var count = 0
@@ -55,7 +59,8 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
             if (hotelStarRating.three) count++
             if (hotelStarRating.four) count++
             if (hotelStarRating.five) count++
-            if (isVipOnlyAccess == true) count++
+            if (isVipOnlyAccess) count++
+            if (favorites) count++
             if (name.isNotEmpty()) count++
             if (neighborhoods.isNotEmpty()) count += neighborhoods.size
             if (amenity.isNotEmpty()) count += amenity.size
@@ -93,13 +98,13 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
     val newPriceRangeObservable = PublishSubject.create<PriceRange>()
     val amenityMapObservable = BehaviorSubject.create<Map<FilterAmenity, Int>>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
-    var previousSort = Sort.POPULAR
+    var previousSort = Sort.RECOMMENDED
     var isNeighborhoodExpanded = false
 
     init {
         doneObservable.subscribe { params ->
             //if previousSort and userSort is both by popular(default), no need to call sort method. Otherwise, always do sort.
-            if (userFilterChoices.userSort != Sort.POPULAR || previousSort != Sort.POPULAR) {
+            if (userFilterChoices.userSort != Sort.RECOMMENDED || previousSort != Sort.RECOMMENDED) {
                 previousSort = userFilterChoices.userSort
                 sortObserver.onNext(userFilterChoices.userSort)
                 var sortByString: String = Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString())
@@ -144,7 +149,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
     }
 
     fun resetUserFilters() {
-        userFilterChoices.userSort = Sort.POPULAR
+        userFilterChoices.userSort = Sort.RECOMMENDED
         userFilterChoices.isVipOnlyAccess = false
         userFilterChoices.hotelStarRating = StarRatings()
         userFilterChoices.name = ""
@@ -152,6 +157,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
         userFilterChoices.maxPrice = 0
         userFilterChoices.amenity = HashSet<Int>()
         userFilterChoices.neighborhoods = HashSet<String>()
+        userFilterChoices.favorites = false
     }
 
     fun isAllowed(hotel: Hotel): Boolean {
@@ -161,6 +167,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
                 && filterPriceRange(hotel)
                 && filterAmenity(hotel)
                 && filterNeighborhood(hotel)
+                && filterFavorites(hotel)
     }
 
     fun filterIsVipAccess(hotel: Hotel): Boolean {
@@ -224,6 +231,16 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
     fun filterNeighborhood(hotel: Hotel): Boolean {
         if (userFilterChoices.neighborhoods.isEmpty()) return true
         return userFilterChoices.neighborhoods.contains(hotel.locationDescription)
+    }
+
+    fun filterFavorites(hotel: Hotel): Boolean {
+        if (!userFilterChoices.favorites) return true
+        return HotelFavoriteHelper.isHotelFavorite(context, hotel.hotelId)
+    }
+
+    val favoriteFilteredObserver: Observer<Boolean> = endlessObserver {
+        userFilterChoices.favorites = it
+        handleFiltering()
     }
 
     val vipFilteredObserver: Observer<Boolean> = endlessObserver {
@@ -335,7 +352,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
 
         sendNewPriceRange()
         isNeighborhoodExpanded = false
-        previousSort = Sort.POPULAR
+        previousSort = Sort.RECOMMENDED
     }
 
     private fun sendNewPriceRange() {
@@ -351,7 +368,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
     }
 
     enum class Sort(@StringRes val resId: Int) {
-        POPULAR(R.string.popular),
+        RECOMMENDED(R.string.recommended),
         PRICE(R.string.price),
         DEALS(R.string.sort_description_deals),
         PACKAGE_DISCOUNT(R.string.sort_description_package_discount),
@@ -363,7 +380,7 @@ class HotelFilterViewModel(val lob: LineOfBusiness) {
         val hotels: List<Hotel> = filteredResponse.hotelList
 
         when (sort) {
-            Sort.POPULAR -> Collections.sort(hotels, popular_comparator)
+            Sort.RECOMMENDED -> Collections.sort(hotels, popular_comparator)
             Sort.PRICE -> Collections.sort(hotels, price_comparator)
             Sort.RATING -> Collections.sort(hotels, rating_comparator_fallback_price)
             Sort.DEALS -> Collections.sort(hotels, deals_comparator)

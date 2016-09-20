@@ -4,14 +4,19 @@ import org.jetbrains.annotations.NotNull;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripResponse;
+import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
+import com.google.gson.annotations.SerializedName;
 
 public class PackageCreateTripResponse extends TripResponse {
 	public PackageDetails packageDetails;
 	public PackageDetails oldPackageDetails;
+	public Money totalPriceIncludingFees;
+	public Money selectedCardFees;
 	public Money changedPrice;
 	public String newTotalPrice;
+	public String packageRulesAndRestrictions;
 	
 	public static class PackageDetails {
 		public String tealeafTransactionId;
@@ -30,10 +35,27 @@ public class PackageCreateTripResponse extends TripResponse {
 		public Money flightPrice;
 		public Money savings;
 		public boolean taxesAndFeesIncluded;
+		public HotelPricing hotelPricing;
+		public Money bundleTotal;
+
+		public boolean hasResortFee() {
+			return hotelPricing != null && hotelPricing.mandatoryFees != null &&
+				!hotelPricing.mandatoryFees.feeTotal.isZero();
+		}
+	}
+
+	public static class HotelPricing {
+		public MandatoryFees mandatoryFees;
+	}
+
+	public static class MandatoryFees {
+		public Money feeTotal;
 	}
 
 	public static class FlightProduct {
 		public FlightTripDetails details;
+		@SerializedName("rules")
+		public FlightCreateTripResponse.FlightRules flightRules;
 	}
 
 	@NotNull
@@ -44,12 +66,19 @@ public class PackageCreateTripResponse extends TripResponse {
 
 	@Override
 	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
-		throw new UnsupportedOperationException("TripTotalIncludingFee is not implemented for packages");
+		if (totalPriceIncludingFees != null) {
+			return totalPriceIncludingFees;
+		}
+		return packageDetails.pricing.packageTotal;
 	}
 
 	@NotNull
 	@Override
 	public boolean isCardDetailsRequiredForBooking() {
 		return true;
+	}
+
+	public Money getBundleTotal() {
+		return packageDetails.pricing.bundleTotal != null ? packageDetails.pricing.bundleTotal : tripTotalPayableIncludingFeeIfZeroPayableByPoints();
 	}
 }

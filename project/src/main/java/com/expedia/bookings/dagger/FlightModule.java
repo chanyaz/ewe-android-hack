@@ -1,9 +1,14 @@
 package com.expedia.bookings.dagger;
 
+import android.content.Context;
+
 import com.expedia.bookings.dagger.tags.FlightScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.FlightServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.vm.FlightCheckoutViewModel;
+import com.expedia.vm.PaymentViewModel;
+import com.expedia.vm.flights.FlightCreateTripViewModel;
 
 import dagger.Module;
 import dagger.Provides;
@@ -14,6 +19,7 @@ import rx.schedulers.Schedulers;
 
 @Module
 public final class FlightModule {
+
 	@Provides
 	@FlightScope
 	FlightServices provideFlightServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
@@ -27,5 +33,22 @@ public final class FlightModule {
 		final String endpoint = endpointProvider.getEssEndpointUrl();
 		return new SuggestionV4Services(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
-}
 
+	@Provides
+	@FlightScope
+	FlightCreateTripViewModel provideFlightCreateTripViewModel(Context context) {
+		return new FlightCreateTripViewModel(context);
+	}
+
+	@Provides
+	@FlightScope
+	FlightCheckoutViewModel provideFlightCheckoutViewModel(Context context) {
+		return new FlightCheckoutViewModel(context);
+	}
+
+	@Provides
+	@FlightScope
+	PaymentViewModel providePaymentViewModel(Context context) {
+		return new PaymentViewModel(context);
+	}
+}

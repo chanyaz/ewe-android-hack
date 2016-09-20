@@ -6,6 +6,7 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.rail.RailSearchViewModel
+import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -31,28 +32,33 @@ class RailSearchViewModelTest {
     fun setupOneWay() {
         val origin = buildRailSuggestion("GBCHX")
         val destination = buildRailSuggestion("GBGLQ")
-        val departDate = LocalDate().plusDays(1)
-        val departTime = departDate.toDateTimeAtStartOfDay().millis
+        val departDateTime = DateTime.now().plusDays(1);
+        val departDate = departDateTime.toLocalDate();
+        val departTime = departDateTime.toLocalTime().millisOfDay;
 
         searchVM.railOriginObservable.onNext(origin)
         searchVM.railDestinationObservable.onNext(destination)
         searchVM.datesObserver.onNext(Pair(departDate, null))
-        searchVM.timesObservable.onNext(Pair(departTime, null))
+        searchVM.departTimeSubject.onNext(departTime)
+        searchVM.returnTimeSubject.onNext(null)
         searchVM.isRoundTripSearchObservable.onNext(false)
     }
 
     fun setupRoundTrip() {
         val origin = buildRailSuggestion("GBCHX")
         val destination = buildRailSuggestion("GBGLQ")
-        val departDate = LocalDate().plusDays(1)
-        val departTime = departDate.toDateTimeAtStartOfDay().millis
-        val returnDate = departDate.plusDays(1)
-        val returnTime = returnDate.toDateTimeAtStartOfDay().millis
+        val departDateTime = DateTime.now().plusDays(1);
+        val departDate = departDateTime.toLocalDate();
+        val departTime = departDateTime.toLocalTime().millisOfDay;
+        val returnDateTime = departDateTime.plusDays(1);
+        val returnDate = returnDateTime.toLocalDate();
+        val returnTime = returnDateTime.toLocalTime().millisOfDay;
 
         searchVM.railOriginObservable.onNext(origin)
         searchVM.railDestinationObservable.onNext(destination)
         searchVM.datesObserver.onNext(Pair(departDate, returnDate))
-        searchVM.timesObservable.onNext(Pair(departTime, returnTime))
+        searchVM.departTimeSubject.onNext(departTime)
+        searchVM.returnTimeSubject.onNext(returnTime)
         searchVM.isRoundTripSearchObservable.onNext(true)
     }
 
@@ -77,8 +83,8 @@ class RailSearchViewModelTest {
         assertNotNull(searchParamsSubscriber.onNextEvents[0].destination)
         assertEquals(searchVM.datesObservable.value.first.toString(), searchParamsSubscriber.onNextEvents[0].departDate.toString())
         assertNull(searchParamsSubscriber.onNextEvents[0].returnDate)
-        assertEquals(searchVM.timesObservable.value.first.toString(), searchParamsSubscriber.onNextEvents[0].departTime.toString())
-        assertNull(searchParamsSubscriber.onNextEvents[0].returnTime)
+        assertEquals(searchVM.departTimeSubject.value.toString(), searchParamsSubscriber.onNextEvents[0].departDateTimeMillis.toString())
+        assertNull(searchParamsSubscriber.onNextEvents[0].returnDateTimeMillis)
         assertFalse(searchVM.isRoundTripSearchObservable.value)
     }
 

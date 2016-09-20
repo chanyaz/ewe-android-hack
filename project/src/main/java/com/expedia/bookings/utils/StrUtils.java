@@ -238,16 +238,19 @@ public class StrUtils {
 	public static String formatWaypoint(Waypoint waypoint) {
 		Airport airport = waypoint.getAirport();
 		if (airport != null) {
-			return formatAirport(airport);
+			return formatAirport(airport, waypoint.mCity);
 		}
 
 		return waypoint.mAirportCode;
 	}
 
-	public static String formatAirport(Airport airport) {
+	public static String formatAirport(Airport airport, String localizedAirportCity) {
 		StringBuilder sb = new StringBuilder();
 
-		if (!TextUtils.isEmpty(airport.mCity)) {
+		if (!TextUtils.isEmpty(localizedAirportCity)) {
+			sb.append(localizedAirportCity);
+		}
+		else if (!TextUtils.isEmpty(airport.mCity)) {
 			sb.append(airport.mCity);
 		}
 		else {
@@ -285,6 +288,15 @@ public class StrUtils {
 			return airport.mCity;
 		}
 		return waypoint.mAirportCode;
+	}
+
+	public static String getWaypointLocalizedCityOrCode(Waypoint waypoint) {
+		if (!TextUtils.isEmpty(waypoint.mCity)) {
+			return waypoint.mCity;
+		}
+		else {
+			return getWaypointCityOrCode(waypoint);
+		}
 	}
 
 	public static String getWaypointCodeOrCityStateString(Waypoint waypoint) {
@@ -625,6 +637,29 @@ public class StrUtils {
 		return Html.fromHtml(str).toString();
 	}
 
+	public static String getYouthTravelerAgeText(Resources res, int age) {
+		if (age != GuestsPickerUtils.MIN_RAIL_YOUTH_AGE) {
+			age = age + GuestsPickerUtils.MIN_RAIL_YOUTH_AGE;
+		}
+
+		String str = res.getQuantityString(R.plurals.child_age, age, age);
+		return Html.fromHtml(str).toString();
+	}
+
+	public static String getSeniorTravelerAgeText(Resources res, int age) {
+		if (age != GuestsPickerUtils.MIN_RAIL_SENIORS_AGE) {
+			age = age + GuestsPickerUtils.MIN_RAIL_SENIORS_AGE;
+		}
+		String str = null;
+		if (age > 61) {
+			str = res.getString(R.string.senior_age_greater_than_sixth_two);
+		}
+		else {
+			str = res.getQuantityString(R.plurals.child_age, age, age);
+		}
+		return Html.fromHtml(str).toString();
+	}
+
 	public static String roundOff(float number, int decimalPlaces) {
 		StringBuilder formatBuilder = new StringBuilder("#");
 		if (decimalPlaces > 0) {
@@ -720,5 +755,23 @@ public class StrUtils {
 	public static String formatTravelerString(Context context, int numOfTravelers) {
 		return context.getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numOfTravelers,
 			numOfTravelers);
+	}
+
+	public static String formatRoomString(Context context, int roomsCount) {
+		return Phrase.from(context.getResources().getQuantityString(R.plurals.number_of_room_TEMPLATE, roomsCount))
+			.put("room", roomsCount)
+			.format().toString();
+	}
+
+	public static String formatNightsString(Context context, int nightsCount) {
+		return Phrase.from(context.getResources().getQuantityString(R.plurals.number_of_nights_TEMPLATE, nightsCount))
+			.put("night", nightsCount)
+			.format().toString();
+	}
+
+	public static String formatLowerCaseGuestString(Context context, int guestsCount) {
+		return Phrase.from(context.getResources().getQuantityString(R.plurals.number_of_guest_TEMPLATE, guestsCount))
+			.put("guest", guestsCount)
+			.format().toString();
 	}
 }

@@ -1,14 +1,15 @@
 package com.expedia.vm.test.robolectric
 
 import android.content.DialogInterface
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.ValidFormOfPayment
-import com.expedia.bookings.data.utils.getFee
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import org.junit.Before
 import org.junit.Test
@@ -17,7 +18,6 @@ import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.Shadows
 import org.robolectric.shadows.ShadowAlertDialog
-import rx.Observable
 import rx.observers.TestSubscriber
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -31,7 +31,7 @@ class FlightCreateTripViewModelTest {
 
     lateinit private var sut: FlightCreateTripViewModel
     lateinit private var flightServices: FlightServices
-    lateinit private var selectedCardFeeSubject: PublishSubject<ValidFormOfPayment>
+    lateinit private var selectedCardFeeSubject: PublishSubject<ValidFormOfPayment?>
     lateinit private var params: FlightCreateTripParams
     lateinit private var createTripResponseObservable: BehaviorSubject<FlightCreateTripResponse>
 
@@ -39,68 +39,24 @@ class FlightCreateTripViewModelTest {
     fun setup() {
         selectedCardFeeSubject = PublishSubject.create()
         createMockFlightServices()
-        sut = FlightCreateTripViewModel(context, flightServices, selectedCardFeeSubject)
+        Ui.getApplication(context).defaultFlightComponents()
+        sut = FlightCreateTripViewModel(context)
+        sut.flightServices = flightServices
     }
 
     @Test
     fun createTripRequestFired() {
         givenGoodCreateTripParams()
-        expectGoodCreateTripCall()
+        expectCreateTripCall()
 
         val testSubscriber = TestSubscriber<TripResponse>()
         sut.tripResponseObservable.subscribe(testSubscriber)
 
         sut.tripParams.onNext(params)
         sut.performCreateTrip.onNext(Unit)
-        val expectedFlightCreateTripResponse = goodCreateTripResponse()
-        createTripResponseObservable.onNext(expectedFlightCreateTripResponse)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue(expectedFlightCreateTripResponse)
         Mockito.verify(flightServices).createTrip(params)
-    }
-
-    @Test
-    fun cardFeesSetToTripResponse() {
-        val paymentFormWithCardFee = createPaymentWithCardFee()
-        val originalCreateTripResponse = goodCreateTripResponse()
-        val testSubscriber = TestSubscriber<TripResponse>()
-        sut.tripResponseObservable.onNext(originalCreateTripResponse)
-        sut.tripResponseObservable.subscribe(testSubscriber)
-
-        sut.selectedCardFeeSubject.onNext(paymentFormWithCardFee)
-
-        testSubscriber.assertValueCount(2)
-        val newTripResponseWithFees = testSubscriber.onNextEvents[1] as FlightCreateTripResponse
-        assertEquals(paymentFormWithCardFee.getFee(), newTripResponseWithFees.selectedCardFees)
-    }
-
-    @Test
-    fun zeroCardFeesIgnore() {
-        val paymentFormWithCardFee = createPaymentWithZeroFees()
-        val testSubscriber = TestSubscriber<TripResponse>()
-        sut.tripResponseObservable.subscribe(testSubscriber)
-
-        sut.selectedCardFeeSubject.onNext(paymentFormWithCardFee)
-
-        testSubscriber.assertNoValues()
-    }
-
-    @Test
-    fun cardFeesUnchangedIgnore() {
-        val paymentFormWithCardFee = createPaymentWithCardFee()
-        val originalCreateTripResponse = goodCreateTripResponse()
-        val testSubscriber = TestSubscriber<TripResponse>()
-        sut.tripResponseObservable.onNext(originalCreateTripResponse)
-        sut.tripResponseObservable.subscribe(testSubscriber)
-
-        // fire same selected card fee twice
-        sut.selectedCardFeeSubject.onNext(paymentFormWithCardFee)
-        sut.selectedCardFeeSubject.onNext(paymentFormWithCardFee)
-
-        testSubscriber.assertValueCount(2)
-        val newTripResponseWithFees = testSubscriber.onNextEvents[1] as FlightCreateTripResponse
-        assertEquals(paymentFormWithCardFee.getFee(), newTripResponseWithFees.selectedCardFees)
     }
 
     @Test
@@ -163,9 +119,10 @@ class FlightCreateTripViewModelTest {
 
     private fun goodCreateTripResponse(): FlightCreateTripResponse {
         val flightCreateTripResponse = FlightCreateTripResponse()
-        val field = flightCreateTripResponse.javaClass.getDeclaredField("details") // using reflection as field private
-        field.isAccessible = true
-        field.set(flightCreateTripResponse, FlightTripDetails())
+        val flightTripDetails = FlightTripDetails()
+        flightTripDetails.offer = FlightTripDetails.FlightOffer()
+        flightTripDetails.offer.totalPrice = Money("42", "USD")
+        flightCreateTripResponse.details = flightTripDetails
         return flightCreateTripResponse
     }
 
@@ -175,8 +132,14 @@ class FlightCreateTripViewModelTest {
         params = FlightCreateTripParams(productKey, withInsurance)
     }
 
-    private fun expectGoodCreateTripCall() {
+    private fun expectCreateTripCall(hasSelectedCardFees: Boolean = false, feeAmount: Int = 0) {
+        // Move this into helper
+        val expectedFlightCreateTripResponse = goodCreateTripResponse()
+        if (hasSelectedCardFees) {
+            expectedFlightCreateTripResponse.selectedCardFees = Money(feeAmount, "USD")
+        }
         createTripResponseObservable = BehaviorSubject.create<FlightCreateTripResponse>()
+        createTripResponseObservable.onNext(expectedFlightCreateTripResponse)
         Mockito.`when`(flightServices.createTrip(params)).thenReturn(createTripResponseObservable)
     }
 

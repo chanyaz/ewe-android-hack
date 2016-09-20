@@ -11,7 +11,6 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.squareup.otto.Subscribe
-import kotlin.properties.Delegates
 
 class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs), View.OnClickListener {
 
@@ -36,25 +35,25 @@ class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(c
     }
 
     fun bindData(description: String) {
-        offerDescription.setText(description)
+        offerDescription.text = description
     }
 
     @Subscribe fun onOfferExpanded(@Suppress("UNUSED_PARAMETER") event : Events.LXOfferExpanded) {
         readMore.clearAnimation()
-        setClickable(false)
+        isClickable = false
 
-        offerDescription.setMaxLines(maxLineCount)
+        offerDescription.maxLines = maxLineCount
         Ui.runOnNextLayout(offerDescription, {
-            val textLayout = offerDescription.getLayout()
+            val textLayout = offerDescription.layout
             if (textLayout != null) {
-                val lines = textLayout.getLineCount()
+                val lines = textLayout.lineCount
                 if (lines > maxLineCount) {
-                    readMore.setVisibility(View.VISIBLE)
-                    setClickable(true)
+                    readMore.visibility = View.VISIBLE
+                    isClickable = true
                 }
                 else {
-                    readMore.setVisibility(View.GONE)
-                    setClickable(false)
+                    readMore.visibility = View.GONE
+                    isClickable = false
                 }
             }
         })
@@ -62,9 +61,9 @@ class LXOfferDescription(context: Context, attrs: AttributeSet) : LinearLayout(c
     }
 
     override fun onClick(v: View) {
-        if (readMore.getVisibility() == View.VISIBLE) {
-            val totalLineCount = offerDescription.getLineCount()
-            val displayedLineCount = offerDescription.getMaxLines()
+        if (readMore.visibility == View.VISIBLE) {
+            val totalLineCount = offerDescription.lineCount
+            val displayedLineCount = offerDescription.maxLines
             if (displayedLineCount < totalLineCount) {
                 AnimUtils.rotate(readMore)
                 val animation = ObjectAnimator.ofInt(offerDescription, "maxLines", totalLineCount)

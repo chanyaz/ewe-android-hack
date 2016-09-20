@@ -8,6 +8,8 @@ import java.lang.reflect.Type;
 import java.net.HttpCookie;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -100,6 +102,25 @@ public class PersistentCookieManager implements CookieJar {
 		save();
 	}
 
+	/**
+	 * This method is used to set the specified POS URL
+	 * Entry's MC1 Cookie to the input GUID
+	 * @param guid Must take the format: "GUID=1234abcd..."
+	 * @param posUrl Must take the format: "expedia.com"
+	 */
+	public void setMC1Cookie(String guid, String posUrl) {
+		String urlKey = "www." + posUrl;
+		if (cookieStore.containsKey(urlKey)) {
+			HashMap<String, Cookie> cookies = cookieStore.get(urlKey);
+			cookies.put("MC1", generateMC1Cookie(guid, posUrl));
+			cookieStore.put(urlKey, cookies);
+			save();
+		}
+		else {
+			createNewEntryWithMC1Cookie(guid, posUrl);
+		}
+	}
+
 	private void load() {
 		try {
 			if (!storage.exists()) {
@@ -187,6 +208,30 @@ public class PersistentCookieManager implements CookieJar {
 			this.uri = uri;
 			this.cookie = cookie;
 		}
+	}
+
+	private long fiveYearsFromNowInMilliseconds() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(new Date());
+		calendar.add(Calendar.YEAR, 5);
+		calendar.getTime();
+		return calendar.getTimeInMillis();
+	}
+
+	private Cookie generateMC1Cookie(String guid, String posUrl) {
+		Cookie.Builder cookieBuilder = new Cookie.Builder();
+		cookieBuilder.domain(posUrl);
+		cookieBuilder.expiresAt(fiveYearsFromNowInMilliseconds());
+		cookieBuilder.name("MC1");
+		cookieBuilder.value(guid);
+		return cookieBuilder.build();
+	}
+
+	private void createNewEntryWithMC1Cookie(String guid, String posUrl) {
+		HashMap<String, Cookie> cookies = new HashMap<>();
+		cookies.put("MC1", generateMC1Cookie(guid, posUrl));
+		cookieStore.put("www." + posUrl, cookies);
+		save();
 	}
 
 }

@@ -9,6 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.account.graphics.ArrowXDrawable
 import com.expedia.bookings.R
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
@@ -28,8 +29,11 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
     val toolbarShadow: View by bindView(R.id.toolbar_dropshadow)
     val toolBarBackground: View by bindView(R.id.toolbar_background)
     val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
+    val heartViewContainer: android.widget.FrameLayout by bindView(R.id.hotel_detail_toolbar_heart_container)
     var viewModel: BaseHotelDetailViewModel by Delegates.notNull()
     var navIcon: ArrowXDrawable by Delegates.notNull()
+    //TODO handle click when user favorite from detail screen.
+    val heartIcon: FavoriteButton by bindView(R.id.heart_image_view)
 
     init {
         View.inflate(getContext(), R.layout.hotel_details_toolbar, this)
@@ -39,6 +43,9 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         } else {
             toolBarRating = findViewById(R.id.hotel_star_rating_bar) as StarRatingBar
         }
+
+        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(context)
+        heartViewContainer.visibility = if (bucketed) View.VISIBLE else View.GONE
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
@@ -52,6 +59,9 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         toolBarBackground.layoutParams.height += statusBarHeight
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
+        }
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+            heartIcon.isInDetailView = true
         }
     }
 

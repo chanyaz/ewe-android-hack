@@ -1,15 +1,20 @@
 package com.expedia.bookings.presenter.car
 
+import android.app.AlertDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.suggestions.CarSuggestionAdapter
@@ -19,14 +24,10 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.CarSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.cars.CarSearchViewModel
-import kotlin.properties.Delegates
-import android.app.AlertDialog
-import android.content.DialogInterface
-import com.expedia.bookings.data.cars.CarSearchParam
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.CarDataUtils
+import com.squareup.phrase.Phrase
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
+import kotlin.properties.Delegates
 
 class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
 
@@ -41,6 +42,10 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         calendarWidget.viewModel = vm
         vm.formattedOriginObservable.subscribe {
             text -> originCardView.setText(text)
+            originCardView.contentDescription = Phrase.from(context, R.string.location_edit_box_cont_desc_TEMPLATE)
+                    .put("location", text)
+                    .format().toString()
+
             if (this.visibility == VISIBLE && vm.startDate() == null) {
                 calendarWidget.showCalendarDialog()
             }
@@ -68,7 +73,7 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         searchButton.subscribeOnClick(vm.searchObserver)
 
         originSuggestionViewModel = CarSuggestionAdapterViewModel(getContext(), suggestionServices, CurrentLocationObservable.create(getContext()), true, false)
-        destinationSuggestionViewModel = CarSuggestionAdapterViewModel(getContext(), suggestionServices, CurrentLocationObservable.create(getContext()), true, false)
+        destinationSuggestionViewModel = CarSuggestionAdapterViewModel(getContext(), suggestionServices, null, true, false)
         originSuggestionViewModel.setCustomerSelectingOrigin(true)
         destinationSuggestionViewModel.setCustomerSelectingOrigin(false)
         originSuggestionAdapter = CarSuggestionAdapter(originSuggestionViewModel)
@@ -127,8 +132,12 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         return context.resources.getString(R.string.fly_to_hint)
     }
 
+    override fun requestA11yFocus(isOrigin: Boolean) {
+        AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
+    }
+
     fun showAlertMessage(messageResourceId: Int, confirmButtonResourceId: Int) {
-        val b = AlertDialog.Builder(getContext());
+        val b = AlertDialog.Builder(context);
         b.setCancelable(false)
                 .setMessage(messageResourceId)
                 .setPositiveButton(confirmButtonResourceId, DialogInterface.OnClickListener { dialog, i ->
@@ -153,5 +162,6 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         searchViewModel.onTimesChanged(times)
         selectDates(dates.first, dates.second)
         searchViewModel.searchButtonObservable.onNext(true)
+        showDefault()
     }
 }

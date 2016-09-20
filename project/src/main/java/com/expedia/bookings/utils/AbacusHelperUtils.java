@@ -15,8 +15,12 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.AbacusServices;
+import com.expedia.bookings.services.PersistentCookieManager;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
+
+import javax.inject.Inject;
+
 import rx.Observer;
 
 public class AbacusHelperUtils {
@@ -85,12 +89,49 @@ public class AbacusHelperUtils {
 	}
 
 	public static synchronized String generateAbacusGuid(Context context) {
-		String guid = SettingUtils.get(context, PREF_ABACUS_GUID, "");
-		if (Strings.isEmpty(guid)) {
-			guid = UUID.randomUUID().toString();
-			SettingUtils.save(context, PREF_ABACUS_GUID, guid);
+		String abacusGuid = SettingUtils.get(context, PREF_ABACUS_GUID, "");
+		String mc1Cookie = DebugInfoUtils.getMC1CookieStr(context);
+		if (Strings.isEmpty(mc1Cookie)) {
+			return mc1CookieAndAbacusGuidNewUuid(context);
 		}
-		Db.setAbacusGuid(guid);
-		return guid;
+		else if (mc1Cookie.contains(abacusGuid)) {
+			Db.setAbacusGuid(abacusGuid);
+			return abacusGuid;
+		}
+		return abacusGuidFromMC1Cookie(context, mc1Cookie);
+	}
+
+	private static String mc1CookieAndAbacusGuidNewUuid(Context context) {
+		String abacusGuid = UUID.randomUUID().toString().replaceAll("-", "");
+		String mc1Cookie = "GUID=" + abacusGuid;
+		CookiesReference cookiesReference = new CookiesReference(context);
+		cookiesReference.mCookieManager.setMC1Cookie(mc1Cookie, getPosUrl());
+		SettingUtils.save(context, PREF_ABACUS_GUID, abacusGuid);
+		Db.setAbacusGuid(abacusGuid);
+		return abacusGuid;
+	}
+
+	private static String abacusGuidFromMC1Cookie(Context context, String mc1Cookie) {
+		String abacusGuid = mc1Cookie.replace("GUID=", "");
+		SettingUtils.save(context, PREF_ABACUS_GUID, abacusGuid);
+		Db.setAbacusGuid(abacusGuid);
+		return abacusGuid;
+	}
+
+	private static String getPosUrl() {
+		PointOfSale info = PointOfSale.getPointOfSale();
+		return info.getUrl();
+	}
+
+	public static class CookiesReference {
+		@Inject
+		public PersistentCookieManager mCookieManager;
+
+		public CookiesReference(Context context) {
+			if (context == null) {
+				throw new RuntimeException("Context passed to AbacusHelperUtils.CookiesReference cannot be null!");
+			}
+			Ui.getApplication(context).appComponent().inject(this);
+		}
 	}
 }

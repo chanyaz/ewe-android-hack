@@ -20,6 +20,7 @@ import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.trips.TripBucketItemTransport
 import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.widget.AccountButton
+import com.squareup.phrase.Phrase
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -29,11 +30,9 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 import kotlin.test.assertNull
-import com.squareup.phrase.Phrase
-import kotlin.test.assertEquals
-import com.expedia.bookings.BuildConfig;
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class))
@@ -106,7 +105,7 @@ class AccountButtonTest {
 
     @Test
     fun testSignInTextWithoutRewards() {
-        val rewardsText = accountButton.getSignInWithoutRewardsText().toString()
+        val rewardsText = accountButton.signInWithoutRewardsText.toString()
         val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", "Expedia").format().toString()
         assertEquals(expectedText, rewardsText)
     }

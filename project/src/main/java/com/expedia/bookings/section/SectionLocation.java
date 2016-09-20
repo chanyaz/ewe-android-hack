@@ -1,6 +1,7 @@
 package com.expedia.bookings.section;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Pattern;
 
@@ -136,8 +137,30 @@ public class SectionLocation extends LinearLayout
 		mChangeListeners.clear();
 	}
 
+	public boolean isStateRequired() {
+		if (mLineOfBusiness != LineOfBusiness.RAILS) {  //Just for rails for now...
+			return true;
+		}
+		CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
+		String selectedCountryCode = countryAdapter
+			.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(), CountryDisplayType.THREE_LETTER);
+
+		List<String> countriesWithStates = Arrays
+			.asList(getContext().getResources().getStringArray(R.array.countriesWithStateForBilling));
+		return countriesWithStates.contains(selectedCountryCode);
+	}
+
 	protected void rebindCountryDependantFields() {
 		mEditAddressPostalCode.bindData(mLocation);
+	}
+
+	protected void showHideCountryDependantFields() {
+		if (isStateRequired()) {
+			mFields.setFieldEnabled(mEditAddressState, true);
+		}
+		else {
+			mFields.removeField(mEditAddressState);
+		}
 	}
 
 	//////////////////////////////////////
@@ -510,7 +533,8 @@ public class SectionLocation extends LinearLayout
 				//If we set the country to USA (or we dont select a country, but POS is USA) use the number keyboard and set hint to use zip code (instead of postal code)
 				if ((location != null && location.getCountryCode() != null
 					&& location.getCountryCode().equalsIgnoreCase("USA"))
-					|| (!mEditCountrySpinner.hasBoundField() && posId == ProductFlavorFeatureConfiguration.getInstance().getUSPointOfSaleId())) {
+					|| (!mEditCountrySpinner.hasBoundField() && posId == ProductFlavorFeatureConfiguration.getInstance()
+					.getUSPointOfSaleId())) {
 					this.getField().setInputType(InputType.TYPE_CLASS_NUMBER);
 					if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
 						this.getField().setHint(R.string.address_zip_code_hint);
@@ -564,6 +588,7 @@ public class SectionLocation extends LinearLayout
 				CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) getField().getAdapter();
 				getData()
 					.setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
+				showHideCountryDependantFields();
 				updateCountryDependantValidation();
 				rebindCountryDependantFields();
 			}

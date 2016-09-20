@@ -29,7 +29,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/priceView"
-                style="@style/BundleOverviewWidgets.PrimaryText"
+                style="@style/RailCell.PriceText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
@@ -55,7 +55,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:text="@string/round_trip" />
+                tools:text="@string/round_trip" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.TextView

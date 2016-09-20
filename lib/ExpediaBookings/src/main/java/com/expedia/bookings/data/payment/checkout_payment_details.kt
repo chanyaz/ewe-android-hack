@@ -11,7 +11,6 @@ data class TripDetails(
         val tripId: String,
         val expectedTotalFare: String,
         val expectedFareCurrencyCode: String,
-        val abacusUserGuid: String,
         val sendEmailConfirmation: Boolean)
 
 data class CardDetails(

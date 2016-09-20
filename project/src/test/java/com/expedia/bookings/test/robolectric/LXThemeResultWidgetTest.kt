@@ -6,8 +6,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.lx.LXTheme
 import com.expedia.bookings.data.lx.LXThemeType
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.LXThemeResultsWidget
 import com.expedia.bookings.widget.LXThemeListAdapter
+import com.expedia.bookings.widget.LXThemeResultsWidget
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -43,7 +43,7 @@ import kotlin.properties.Delegates
         themeResultsWidget.bind(themes, "SFO")
 
         assertEquals(0, themeResultsWidget.recyclerView.visibility)
-        assertEquals(2, themeResultsWidget.recyclerView.adapter.getItemCount())
+        assertEquals(2, themeResultsWidget.recyclerView.adapter.itemCount)
 
         val holder = themeResultsWidget.recyclerView.adapter.createViewHolder(themeResultsWidget.recyclerView,1) as LXThemeListAdapter.ViewHolder
         themeResultsWidget.recyclerView.adapter.bindViewHolder(holder,0)

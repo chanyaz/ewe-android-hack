@@ -157,7 +157,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             clearCCNumber()
         }
 
-        couponCardView.setExpanded(false)
+        couponCardView.isExpanded = false
 
         slideWidget.resetSlider()
         slideToContainer.visibility = View.INVISIBLE
@@ -189,7 +189,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
             if (User.isLoggedIn(context) && tripHasCoupon && shouldTryToApplyCouponAfterLogin) {
                 // This is to apply a coupon in case user signs in after applying a coupon. So there is no user preference.
                 var couponParams = HotelApplyCouponParameters.Builder()
-                        .tripId(Db.getTripBucket().getHotelV2().mHotelTripResponse.tripId)
+                        .tripId(Db.getTripBucket().hotelV2.mHotelTripResponse.tripId)
                         .couponCode(createTrip.coupon.code)
                         .isFromNotSignedInToSignedIn(true)
                         .userPreferencePointsDetails(emptyList())

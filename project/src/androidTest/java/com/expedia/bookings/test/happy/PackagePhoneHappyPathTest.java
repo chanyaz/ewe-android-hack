@@ -59,10 +59,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		assertHotelInfoSite();
 		reviews();
-		assertHotelBundlePrice("$1,027.34", "View your bundle", "per person");
 
 		PackageScreen.selectRoom();
 
+		Common.delay(1);
 		assertBundlePrice("$1,931.69", "View your bundle");
 		PackageScreen.selectFlight(0);
 		assertBundlePriceInFlight("$1,932");
@@ -82,15 +82,22 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.checkout().perform(click());
 
 		HotelScreen.doLogin();
+		selectStoredCard();
+		PackageScreen.clickPaymentDone();
 		HotelScreen.clickSignOut();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		onView(allOf(withId(R.id.boarding_warning), withText(mRes.getString(R.string.name_must_match_warning_new)))).check(matches(isDisplayed()));
 		PackageScreen.enterFirstName("FiveStar");
 		PackageScreen.enterLastName("Bear");
+		PackageScreen.enterEmail("test@email.com");
+		Espresso.closeSoftKeyboard();
 		PackageScreen.enterPhoneNumber("7732025862");
+		Espresso.closeSoftKeyboard();
 		PackageScreen.selectBirthDate(1989, 6, 9);
+		Espresso.closeSoftKeyboard();
 		PackageScreen.selectGender("Male");
+		Espresso.closeSoftKeyboard();
 
 		PackageScreen.clickTravelerAdvanced();
 		PackageScreen.enterRedressNumber("1234567");
@@ -158,10 +165,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	private void assertCheckout() {
 		onView(allOf(withId(R.id.legal_information_text_view), withText(
-			"By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, and the Privacy Policy.")))
+			"By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy and Fare Information.")))
 			.perform(ViewActions.waitForViewToDisplay())
 			.check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.purchase_total_text_view), withText("Your card will be charged $2,538.62")))
+		onView(allOf(withId(R.id.purchase_total_text_view), withText("Your card will be charged $44.50")))
 			.check(matches(isDisplayed()));
 	}
 
@@ -170,23 +177,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
 			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 			withText(
-				"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
+				"Includes flights + hotel"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.bundle_total_price), withText(price))).check(matches(isDisplayed()));
-	}
-
-	private void assertHotelBundlePrice(String price, String totalText, String savings) {
-		onView(allOf(withId(R.id.bundle_total_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
-			withText(totalText))).check(matches(isDisplayed()));
-		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.bundle_price_widget)),
-			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
-			withText(
-				"Includes taxes, fees, flights + hotel"))).check(matches(isDisplayed()));
-		onView(
-			allOf(withId(R.id.bundle_total_price), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(price)))
-			.check(matches(isDisplayed()));
-		onView(
-			allOf(withId(R.id.per_person_text), isDescendantOfA(withId(R.id.bundle_price_widget)), withText(savings)))
-			.check(matches(isDisplayed()));
 	}
 
 	private void assertBundlePriceInFlight(String price) {
@@ -202,5 +194,10 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(withText(R.string.user_review_sort_button_favorable)).perform(click());
 		onView(withText(R.string.user_review_sort_button_recent)).perform(click());
 		Espresso.pressBack();
+	}
+
+	private void selectStoredCard() throws Throwable {
+		CheckoutViewModel.clickPaymentInfo();
+		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
 	}
 }

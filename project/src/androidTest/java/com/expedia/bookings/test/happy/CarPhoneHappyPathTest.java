@@ -7,11 +7,15 @@ import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.cars.CarScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withNavigationContentDescription;
 
 public class CarPhoneHappyPathTest extends PhoneTestCase {
 
@@ -20,7 +24,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 	private final static int CREDIT_CARD_REQUIRED = 1;
 
 	private void goToCarDetails() throws Throwable {
-		LaunchScreen.launchCars();
+		NewLaunchScreen.carsLaunchButton().perform(click());
 
 		SearchScreen.doGenericCarSearch();
 		Common.delay(1);
@@ -56,7 +60,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		CarScreen.selectCarOffer(CREDIT_CARD_NOT_REQUIRED);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.payment_info_card_view);
 		CheckoutViewModel.enterTravelerInfo();
-
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		slideToPurchase();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.cvv);
 	}
@@ -104,6 +108,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		doLogin();
 
 		CheckoutViewModel.clickTravelerInfo();
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		CheckoutViewModel.clickStoredTravelerButton();
 		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
 		CheckoutViewModel.pressClose();
@@ -119,6 +124,7 @@ public class CarPhoneHappyPathTest extends PhoneTestCase {
 		doLogin();
 
 		CheckoutViewModel.clickTravelerInfo();
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		CheckoutViewModel.clickStoredTravelerButton();
 		CheckoutViewModel.selectStoredTraveler("Expedia Automation First");
 

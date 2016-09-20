@@ -108,7 +108,8 @@
     
     <!-- Flights V2 colors -->
     <color name="flight_warning_bar_color">@color/exp_lob_dark_blue</color>
-    <color name="flight_primary_color">@color/exp_lob_dark_blue</color>
+    <color name="flight_red_warning_bar_color">@color/exp_action_required_red</color>
+    <color name="flight_primary_color">@color/exp_lob_blue</color>
     <color name="flight_overview_color_filter">@color/exp_lob_blue</color>
     <color name="filter_number_text_color">@color/exp_lob_blue</color>
     <color name="cardview_divider_lines_gray">@color/gray2</color>
@@ -121,6 +122,7 @@
     <color name="hotelsv2_discount_green">#6BCA2C</color>
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
     <color name="hotel_result_background">@color/gray1</color>
+    <color name="hotel_favorite_button">@color/burst_red</color>
     <color name="actionbar_text_disabled">#505c69</color>
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
@@ -416,6 +418,7 @@
     <color name="acct__flavor_text">@color/white</color>
     <color name="acct__user_info_text_color">@color/white</color>
     <color name="toolbar_icon">@color/white</color>
+    <color name="acct_background_image_overlay">@color/exp_lob_overlay_blue</color>
 
     <!-- Hotels V2 Checkout Colors -->
     <color name="hotelsv2_checkout_text_color">@color/gray7</color>
@@ -490,10 +493,12 @@
 
     <!--Rail colors-->
     <color name="rail_primary_color">@color/exp_rail_navy</color>
+    <color name="rail_button_ripple_color">@color/exp_rail_dark_navy</color>
     <color name="rail_background_color">@color/gray1</color>
     <color name="rail_bundle_icon_color">@color/gray6</color>
     <color name="rail_title_color">@color/gray10</color>
     <color name="rail_regular_text_color">@color/gray7</color>
+    <color name="rail_error_message_cards">@color/orange_crush</color>
 
     <!-- Cost summary breakdown -->
     <color name="cost_summary_breakdown_line_separator_color">@color/gray4</color>
@@ -574,11 +579,15 @@
     <color name="new_launch_packages_lob_color">@color/exp_launch_packages_blue</color>
     <color name="new_launch_rail_lob_color">@color/exp_launch_rail_teal</color>
     <color name="new_launch_lob_disabled_color">@color/black</color>
-
+    <color name="new_launch_primary_color">@color/exp_lob_dark_blue</color>
+    <color name="new_launch_alert_dialog_button_color">@color/exp_lob_blue</color>
     <color name="new_launch_lob_text_color">@color/exp_launch_dark_teal</color>
 
     <!-- hotels swp colors-->
     <color name="hotelsv2_loyalty_applied_text_color">@color/hotelsv2_checkout_text_color</color>
     <color name="search_screen_swp_icon_color_v2">@color/search_screen_icon_color_v2</color>
 
+    <!-- Rail Card Picker button colors-->
+    <color name="card_picker_add_button_color">@color/gray9</color>
+    <color name="card_picker_remove_button_color">@color/gray3</color>
 </resources>
