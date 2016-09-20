@@ -674,4 +674,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     open fun showMaskedCreditCardNumber() {
     }
 
+    override fun back(): Boolean {
+        if (currentState == PaymentOption::class.java.name) {
+            enableMenuItem.onNext(true)
+        }
+        return super.back()
+    }
 }
