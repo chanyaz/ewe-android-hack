@@ -36,6 +36,7 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
     val toolbarTitleObservable = BehaviorSubject.create<String>()
     val toolbarSubtitleObservable = BehaviorSubject.create<String>()
     val stepOneTextObservable = BehaviorSubject.create<String>()
+    val stepOneContentDescriptionObservable = BehaviorSubject.create<String>()
     val stepTwoTextObservable = BehaviorSubject.create<String>()
     val cancelSearchSubject = BehaviorSubject.create<Unit>()
 
@@ -71,7 +72,14 @@ class BundleOverviewViewModel(val context: Context, val packageServices: Package
                     .put("number", hotel.numberOfNights)
                     .put("city", hotel.hotelCity)
                     .format().toString()
+
             stepOneTextObservable.onNext(stepOne)
+
+            val stepOneContentDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_checkout_overview_TEMPLATE_cont_desc, hotel.numberOfNights.toInt()))
+                    .put("number", hotel.numberOfNights)
+                    .put("city", hotel.hotelCity)
+                    .format().toString()
+            stepOneContentDescriptionObservable.onNext(stepOneContentDesc)
 
             val stepTwo = Phrase.from(context, R.string.flight_checkout_overview_TEMPLATE)
                     .put("origin", Db.getPackageParams().origin?.hierarchyInfo?.airport?.airportCode)

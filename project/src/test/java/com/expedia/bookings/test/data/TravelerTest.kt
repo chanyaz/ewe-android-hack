@@ -26,7 +26,7 @@ class TravelerTest {
     @Test
     fun testGetPassengerCategoryPreDefined() {
         testTraveler.birthDate = adultBirthDate
-        testTraveler.setPassengerCategory(PassengerCategory.CHILD)
+        testTraveler.passengerCategory = PassengerCategory.CHILD
 
         assertEquals(PassengerCategory.CHILD, testTraveler.getPassengerCategory(tomorrow, false),
                 "Error: If passenger category has been explicitly set the getter should not change it based on birthdate." +
@@ -43,5 +43,11 @@ class TravelerTest {
     fun testGetPassengerCategoryInfantInSeat() {
         testTraveler.birthDate = infantBirthDate
         assertEquals(PassengerCategory.INFANT_IN_SEAT, testTraveler.getPassengerCategory(tomorrow, false))
+    }
+
+    @Test
+    fun testGetSeatPreferenceDefault() {
+        testTraveler.seatPreference = Traveler.SeatPreference.ANY
+        assertEquals(Traveler.SeatPreference.WINDOW, testTraveler.seatPreference)
     }
 }

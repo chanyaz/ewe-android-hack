@@ -98,7 +98,7 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		if (mRoundtripTextView != null &&
-				!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsRoundtripMessageTest)) {
+			!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsRoundtripMessageTest)) {
 			// if user is not bucketed for this test, get rid of view so later logic can easily ignore it
 			mRoundtripTextView.setVisibility(View.GONE);
 			mRoundtripTextView = null;
@@ -152,13 +152,13 @@ public class FlightLegSummarySection extends RelativeLayout {
 	}
 
 	private void bind(FlightTrip trip, final FlightLeg leg, DateTime minTime, DateTime maxTime,
-					 boolean isIndividualFlight) {
+					  boolean isIndividualFlight) {
 		bind(trip, leg, null, minTime, maxTime, isIndividualFlight, null, null);
 	}
 
 	private void bind(FlightTrip trip, final FlightLeg leg, final FlightLeg legTwo, DateTime minTime,
-		DateTime maxTime, boolean isIndividualFlight, BillingInfo billingInfo,
-					 TripBucketItemFlight tripBucketItemFlight) {
+					  DateTime maxTime, boolean isIndividualFlight, BillingInfo billingInfo,
+					  TripBucketItemFlight tripBucketItemFlight) {
 		Context context = getContext();
 		Resources res = getResources();
 
@@ -292,6 +292,11 @@ public class FlightLegSummarySection extends RelativeLayout {
 		}
 
 		adjustLayout(leg, isIndividualFlight);
+		this.setContentDescription(Phrase.from(context, R.string.flight_overview_TEMPLATE_cont_desc)
+			.put("airline", getAirlinesStr(context, firstFlight, leg, legTwo, isIndividualFlight))
+			.put("departs", formatTime(leg.getFirstWaypoint().getBestSearchDateTime()))
+			.put("arrives", formatTime(leg.getLastWaypoint().getBestSearchDateTime()))
+			.format().toString());
 	}
 
 	private static String getAirlinesStr(Context context, Flight flight, FlightLeg leg, FlightLeg legTwo,

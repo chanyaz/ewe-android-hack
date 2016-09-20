@@ -388,7 +388,7 @@ public class ResultsHotelsFiltersFragment extends Fragment {
 			case DEALS:
 				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_DEALS);
 				break;
-			case POPULAR: //FALL THRU
+			case RECOMMENDED: //FALL THRU
 			default:
 				OmnitureTracking.trackLinkHotelSort(OmnitureTracking.HOTELS_SEARCH_SORT_POPULAR);
 				break;

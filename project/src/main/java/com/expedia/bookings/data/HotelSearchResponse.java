@@ -295,9 +295,9 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			Log.v("Sorting based on distance");
 			Collections.sort(sortedProperties, Property.DISTANCE_COMPARATOR);
 			break;
-		case POPULAR:
+		case RECOMMENDED:
 		default:
-			// The default sort is POPULAR, which requires no special sorting
+			// The default sort is RECOMMENDED, which requires no special sorting
 			Log.v("Sorting based on popularity (default)");
 			break;
 		}
@@ -433,7 +433,7 @@ public class HotelSearchResponse extends Response implements OnFilterChangedList
 			setFilter(filter);
 		}
 
-		// Check if we've done the custom POPULAR sort for MY_LOCATION
+		// Check if we've done the custom RECOMMENDED sort for MY_LOCATION
 		if (mPresortedProperties == null) {
 			Log.v("performFiltering() - No Expedia sorted items, sorting now...");
 			Log.v("performFiltering() - Current search type: " + searchParams.getSearchType());

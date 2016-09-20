@@ -9,6 +9,8 @@ import org.junit.Test;
 
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.flights.FlightLeg;
+import com.expedia.bookings.data.flights.FlightSearchParams;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.utils.HotelsV2DataUtil;
 import com.google.gson.Gson;
@@ -114,6 +116,63 @@ public class HotelsV2DataUtilTest {
 	}
 
 	@Test
+	public void testGetHotelV2SearchParamsFromFlightV2RoundTrip() {
+		FlightSearchParams testSearchParams = setupFlightSearchParams();
+		String testArrivalDate = org.joda.time.DateTime.now().plusDays(1).toString();
+		String testDepartureDate = org.joda.time.DateTime.now().plusDays(5).toString();
+
+		FlightLeg outboundFlightLeg = setupFlightLeg(testArrivalDate);
+		FlightLeg inboundFlightLeg = setupFlightLeg(testDepartureDate);
+		inboundFlightLeg.segments.get(0).departureTimeRaw = testDepartureDate;
+
+		List<FlightLeg> flightLegs = new ArrayList<>();
+		flightLegs.add(outboundFlightLeg);
+		flightLegs.add(inboundFlightLeg);
+
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2ParamsFromFlightV2Params(flightLegs, testSearchParams);
+
+		Assert.assertEquals(LocalDate.now().plusDays(1), v2params.getCheckIn());
+		Assert.assertEquals(LocalDate.now().plusDays(5), v2params.getCheckOut());
+
+		SuggestionV4 testArrivalAirport = testSearchParams.getArrivalAirport();
+		Assert.assertEquals(testArrivalAirport.regionNames, v2params.getSuggestion().regionNames);
+
+		Assert.assertEquals(testArrivalAirport.gaiaId, v2params.getSuggestion().gaiaId);
+		Assert.assertEquals(testArrivalAirport.coordinates, v2params.getSuggestion().coordinates);
+		Assert.assertEquals(testArrivalAirport.type, v2params.getSuggestion().type);
+
+		Assert.assertEquals(testSearchParams.getGuests(), v2params.getGuests());
+		Assert.assertEquals(testSearchParams.getAdults(), v2params.getAdults());
+		Assert.assertEquals(testSearchParams.getChildren(), v2params.getChildren());
+	}
+
+	@Test
+	public void testGetHotelV2SearchParamsFromFlightV2OneWay() {
+		FlightSearchParams testSearchParams = setupFlightSearchParams();
+		String testArrivalDate = org.joda.time.DateTime.now().plusDays(1).toString();
+
+		FlightLeg outboundFlightLeg = setupFlightLeg(testArrivalDate);
+
+		List<FlightLeg> flightLegs = new ArrayList<>();
+		flightLegs.add(outboundFlightLeg);
+
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2ParamsFromFlightV2Params(flightLegs, testSearchParams);
+
+		Assert.assertEquals(LocalDate.now().plusDays(1), v2params.getCheckIn());
+		Assert.assertEquals(LocalDate.now().plusDays(2), v2params.getCheckOut());
+
+		SuggestionV4 testArrivalAirport = testSearchParams.getArrivalAirport();
+		Assert.assertEquals(testArrivalAirport.regionNames, v2params.getSuggestion().regionNames);
+		Assert.assertEquals(testArrivalAirport.gaiaId, v2params.getSuggestion().gaiaId);
+		Assert.assertEquals(testArrivalAirport.coordinates, v2params.getSuggestion().coordinates);
+		Assert.assertEquals(testArrivalAirport.type, v2params.getSuggestion().type);
+
+		Assert.assertEquals(testSearchParams.getGuests(), v2params.getGuests());
+		Assert.assertEquals(testSearchParams.getAdults(), v2params.getAdults());
+		Assert.assertEquals(testSearchParams.getChildren(), v2params.getChildren());
+	}
+
+	@Test
 	public void testGuestString() {
 		ArrayList<Integer> children = new ArrayList<>();
 		children.add(10);
@@ -127,5 +186,52 @@ public class HotelsV2DataUtilTest {
 			.adults(2)
 			.children(children).build();
 		Assert.assertEquals("2,10,7", params.getGuestString());
+	}
+
+	private FlightSearchParams setupFlightSearchParams() {
+		SuggestionV4 departureSuggestion = new SuggestionV4();
+		departureSuggestion.gaiaId = "1234";
+		SuggestionV4.RegionNames departureRegionNames = new SuggestionV4.RegionNames();
+		departureRegionNames.displayName = "San Francisco";
+		departureRegionNames.shortName = "SFO";
+		departureSuggestion.regionNames = departureRegionNames;
+
+		SuggestionV4.LatLng testDepartureCoordinates = new SuggestionV4.LatLng();
+		testDepartureCoordinates.lat = 600.5;
+		testDepartureCoordinates.lng = 300.3;
+		departureSuggestion.coordinates = testDepartureCoordinates;
+
+
+		SuggestionV4 arrivalSuggestion = new SuggestionV4();
+		arrivalSuggestion.gaiaId = "5678";
+		SuggestionV4.RegionNames arrivalRegionNames = new SuggestionV4.RegionNames();
+		arrivalRegionNames.displayName = "Los Angeles";
+		arrivalRegionNames.shortName = "LAX";
+		arrivalSuggestion.regionNames = arrivalRegionNames;
+		arrivalSuggestion.type = com.expedia.bookings.data.HotelSearchParams.SearchType.CITY.name();
+
+		SuggestionV4.LatLng testArrivalCoordinates = new SuggestionV4.LatLng();
+		testArrivalCoordinates.lat = 100.00;
+		testArrivalCoordinates.lng = 500.00;
+		arrivalSuggestion.coordinates = testArrivalCoordinates;
+
+		List<Integer> childList = new ArrayList<>();
+		childList.add(2);
+		childList.add(4);
+		LocalDate checkIn = new LocalDate().plusDays(2);
+		LocalDate checkOut = new LocalDate().plusDays(3);
+
+		return new FlightSearchParams(departureSuggestion, arrivalSuggestion, checkOut, checkIn, 2, childList, false);
+	}
+
+	private FlightLeg setupFlightLeg(String rawDate) {
+		FlightLeg flightLeg = new FlightLeg();
+		List<FlightLeg.FlightSegment> inboundSegmentList = new ArrayList<>();
+		FlightLeg.FlightSegment inboundSegment = new FlightLeg.FlightSegment();
+		inboundSegment.arrivalTimeRaw = rawDate;
+		inboundSegmentList.add(inboundSegment);
+		flightLeg.segments = inboundSegmentList;
+
+		return flightLeg;
 	}
 }

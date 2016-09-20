@@ -27,8 +27,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
-        android:linksClickable="false"
-        android:autoLink="web"
-        android:textColorLink="@color/tablet_legal_blurb_text_color"
+        android:linksClickable="true"
         android:textColor="@android:color/white" />
 </LinearLayout>

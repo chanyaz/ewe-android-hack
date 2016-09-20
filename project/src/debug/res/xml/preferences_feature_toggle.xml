@@ -1,5 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Hotel Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_hotel_favorite"
+            android:layout="@layout/preference"
+            android:summary="Save your favorite hotels."
+            android:title="Enable Hotel Favorite Feature" />
+
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
         android:title="Login Features">
@@ -11,4 +24,17 @@
             android:title="Enable Smart Lock Feature" />
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Rail Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_rail"
+            android:layout="@layout/preference"
+            android:summary="Book Rail"
+            android:title="Enable Rail LOB" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

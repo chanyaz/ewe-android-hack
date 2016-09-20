@@ -96,6 +96,7 @@ class HotelConfirmationPresenter(context: Context, attrs: AttributeSet) : Presen
         val navIcon = ContextCompat.getDrawable(context, R.drawable.ic_close_white_24dp).mutate()
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
+        toolbar.setNavigationContentDescription(R.string.hotel_confirmation_toolbar_close_cont_desc)
         toolbar.setNavigationOnClickListener({
             NavUtils.goToItin(context)
             Events.post(Events.FinishActivity())

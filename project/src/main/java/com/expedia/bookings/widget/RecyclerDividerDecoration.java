@@ -65,10 +65,10 @@ public class RecyclerDividerDecoration extends RecyclerView.ItemDecoration {
 		outRect.right = mRight;
 		outRect.left = mLeft;
 
-		if (parent.getChildPosition(view) == 0) {
+		if (parent.getChildAdapterPosition(view) == 0) {
 			outRect.top = mHeader;
 		}
-		else if (parent.getChildPosition(view) == parent.getAdapter().getItemCount() - 1) {
+		else if (parent.getChildAdapterPosition(view) == parent.getAdapter().getItemCount() - 1) {
 			outRect.bottom = mFooter;
 		}
 	}

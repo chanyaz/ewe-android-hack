@@ -69,9 +69,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 	public Traveler getItem(int position) {
 		int itemType = getItemViewType(position);
 		if (itemType == ITEM_VIEW_TYPE_TRAVELER) {
-			if (getCount() > position - 1) {
-				return getAvailableTravelers().get(position - 1);
-			}
+			return getAvailableTravelers().get(position - 2);
 		}
 		return null;
 	}
@@ -168,7 +166,7 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 
 	@Override
 	public int getItemViewType(int position) {
-		boolean isAddNewTraveler = position == getCount() - 1;
+		boolean isAddNewTraveler = position == 1;
 		if (isAddNewTraveler) {
 			return ITEM_VIEW_TYPE_ADD_TRAVELER;
 		}
@@ -180,20 +178,26 @@ public class TravelerAutoCompleteAdapter extends ArrayAdapter<Traveler> implemen
 		}
 	}
 
-	private ArrayList<Traveler> getAvailableTravelers() {
-		if (User.isLoggedIn(getContext()) && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
-			ArrayList<Traveler> availableTravelers = new ArrayList<Traveler>(Db.getUser().getAssociatedTravelers());
+	protected boolean isUserLoggedIn() {
+		return User.isLoggedIn(getContext());
+	}
+
+	protected ArrayList<Traveler> getAvailableTravelers() {
+		if (isUserLoggedIn() && Db.getUser() != null && Db.getUser().getAssociatedTravelers() != null) {
+			ArrayList<Traveler> availableTravelers = new ArrayList<>(Db.getUser().getAssociatedTravelers());
 			availableTravelers.add(Db.getUser().getPrimaryTraveler());
 			for (int i = availableTravelers.size() - 1; i >= 0; i--) {
 				Traveler trav = availableTravelers.get(i);
+				trav.setIsSelectable(true);
 
-				//Remove the working traveler from the list of available travelers
-				if (Db.getWorkingTravelerManager() != null
-					&& Db.getWorkingTravelerManager().getWorkingTraveler() != null) {
-					Traveler workingTraveler = Db.getWorkingTravelerManager().getWorkingTraveler();
-					if (trav.nameEquals(workingTraveler)) {
-						availableTravelers.get(i).setIsSelectable(false);
-						continue;
+				// update selection state from currently selected checkout form travelers
+				if (Db.getTravelers() != null) {
+					for (Traveler ckoFormTraveler : Db.getTravelers()) {
+						boolean isPopulated = ckoFormTraveler.hasName();
+						if (isPopulated && ckoFormTraveler.nameEquals(trav)) {
+							trav.setIsSelectable(false);
+							break;
+						}
 					}
 				}
 

@@ -4,7 +4,10 @@
     <string name="asset_statements" translatable="false">[{\"include\": \"https://www.expedia.com/.well-known/assetlinks.json\"}]</string>
 
     <!-- User name label for support email sent to user happiness team -->
-    <string name="email_user_name_template">{brand} user name: {email}</string>
+    <string name="email_user_name_TEMPLATE">{brand} user name: {email}</string>
+    <string name="user_points_level_TEMPLATE">{brand} loyalty Level: {level}</string>
+    <string name="user_points_available_TEMPLATE">{brand} points available: {points_amount}, {monetary_amount}</string>
+    <string name="account_sign_in_method_TEMPLATE">account sign-in method {sign_in_method}</string>
     <!-- App Support URL -->
     <string name="app_support_url">http://www.mobiata.com/support/expedia-android</string>
 
@@ -20,6 +23,9 @@
     <string name="debug_screens_sub_menu">Test Screens</string>
     <string name="debug_install_shortcuts">>Install Shortcuts</string>
 
+    <!-- Headline for email sent by bugshaker-->
+    <string name="bugshaker_report_headline">Android dogfood - Reporting a bug</string>
+    
     <!-- Names of the open source libraries we use -->
     <!-- The translators should not translate these proper names and when they came back from loc they didn't touch them anyways -->
     <string name="open_source_names">ActiveAndroid, ButterKnife, Dagger, FlowLayout, Gson, JodaTime, joda-time-android, OkHttp, Okio, Otto, Phrase, Picasso, Retrofit, RxAndroid, RxJava, ShareEverywhere, svg-android</string>
@@ -63,7 +69,6 @@
     <!-- Preference keys -->
     <string name="PointOfSaleKey">point_of_sale_key</string>
     <string name="preference_launch_screen_overflow">preference_launch_screen_overflow</string>
-    <string name="preference_launch_screen_all_lob">preference_launch_screen_all_lob</string>
     <string name="preference_which_api_to_use_key">which_api</string>
     <string name="preference_proxy_server_address">proxy_server_address</string>
     <string name="preference_fake_hotel_price_change">fake_hotel_price_change</string>
@@ -87,6 +92,7 @@
     <string name="preference_fake_invalid_google_wallet_line_item">preference_fake_invalid_google_wallet_line_item</string>
     <string name="preference_clear_user_cookies">preference_clear_user_cookies</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
+    <string name="preference_enable_bugshaker">preference_enable_bugshaker</string>
     <string name="preference_disable_modern_tls">preference_disable_modern_tls</string>
     <string name="preference_force_passenger_category_error">preference_force_passenger_category_error</string>
     <string name="preference_swp_flights_earn_messaging">preference_swp_flights_earn_messaging</string>
@@ -101,6 +107,8 @@
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
+    <string name="preference_enable_hotel_favorite">preference_enable_hotel_favorite</string>
+    <string name="preference_enable_rail">preference_enable_rail</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

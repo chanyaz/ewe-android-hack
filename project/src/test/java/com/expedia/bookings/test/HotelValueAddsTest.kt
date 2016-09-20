@@ -39,7 +39,7 @@ class HotelValueAddsTest {
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
         val interceptor = MockInterceptor()
-        service = HotelServices("http://localhost:" + server.getPort(),
+        service = HotelServices("http://localhost:" + server.port,
                 okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
                 interceptor, Schedulers.immediate(), Schedulers.immediate())
         vm = HotelDetailViewModel(activity.applicationContext, endlessObserver { /*ignore*/ })
@@ -69,7 +69,7 @@ class HotelValueAddsTest {
         observer.awaitTerminalEvent()
         observer.assertCompleted()
 
-        val offerResponse = observer.onNextEvents.get(0)
+        val offerResponse = observer.onNextEvents[0]
 
         val testSubscriber = TestSubscriber<String>()
         val expected = arrayListOf<String>()
@@ -90,11 +90,11 @@ class HotelValueAddsTest {
         observer.awaitTerminalEvent()
         observer.assertCompleted()
 
-        val offerResponse = observer.onNextEvents.get(0)
+        val offerResponse = observer.onNextEvents[0]
         vm.hotelOffersSubject.onNext(offerResponse)
         var uniqueAmenityForEachRoom = vm.getValueAdd(offerResponse.hotelRoomResponse)
-        assertEquals("Includes free parking", uniqueAmenityForEachRoom.get(0))
-        assertEquals("Includes continental breakfast", uniqueAmenityForEachRoom.get(1))
+        assertEquals("Includes free parking", uniqueAmenityForEachRoom[0])
+        assertEquals("Includes continental breakfast", uniqueAmenityForEachRoom[1])
 
     }
 }

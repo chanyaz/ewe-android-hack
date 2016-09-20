@@ -56,6 +56,7 @@ class CarCategoriesListAdapterTests {
         val mockDoorCountTextView = TextView(getContext())
         val mockCardView = CardView(getContext())
         val mockGradient = View(getContext())
+        val mockListCardAnnounceButtonContDesc= View(getContext())
 
         Mockito.`when`(mockItemView.findViewById(R.id.category_text)).thenReturn(mockCategoryTextView)
         Mockito.`when`(mockItemView.findViewById(R.id.category_price_text)).thenReturn(mockBestPriceTextView)
@@ -66,6 +67,8 @@ class CarCategoriesListAdapterTests {
         Mockito.`when`(mockItemView.findViewById(R.id.door_count)).thenReturn(mockDoorCountTextView)
         Mockito.`when`(mockItemView.findViewById(R.id.card_view)).thenReturn(mockCardView)
         Mockito.`when`(mockItemView.findViewById(R.id.gradient_mask)).thenReturn(mockGradient)
+        Mockito.`when`(mockItemView.findViewById(R.id.list_card_announce_button_cont_desc)).thenReturn(mockListCardAnnounceButtonContDesc)
+
         Mockito.`when`<Context>(mockItemView.context).thenReturn(getContext())
 
         return CarCategoriesListAdapter.ViewHolder(mockItemView)

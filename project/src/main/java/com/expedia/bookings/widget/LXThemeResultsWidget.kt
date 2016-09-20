@@ -35,16 +35,16 @@ class LXThemeResultsWidget(context: Context, attrs: AttributeSet): FrameLayout(c
                         0, 0, false))
         recyclerView.setHasFixedSize(true)
 
-        recyclerView.setAdapter(adapter)
-        errorScreen.setVisibility(View.GONE)
+        recyclerView.adapter = adapter
+        errorScreen.visibility = View.GONE
         errorScreen.setToolbarVisibility(View.GONE)
     }
 
     fun bind(categories: List<LXTheme>, imageCode: String?) {
         updateThemeTitleAndDescription(categories)
-        recyclerView.setVisibility(View.VISIBLE)
+        recyclerView.visibility = View.VISIBLE
         recyclerView.layoutManager.scrollToPosition(0)
-        errorScreen.setVisibility(View.GONE)
+        errorScreen.visibility = View.GONE
         adapter.setThemes(categories, themeClickSubject)
         adapter.setDestinationImageCode(imageCode)
     }
@@ -61,15 +61,15 @@ class LXThemeResultsWidget(context: Context, attrs: AttributeSet): FrameLayout(c
 
     @Subscribe
     fun onLXSearchError(event: Events.LXShowSearchError) {
-        recyclerView.setVisibility(View.GONE)
+        recyclerView.visibility = View.GONE
         errorScreen.bind(event.error, event.searchType)
-        errorScreen.setVisibility(View.VISIBLE)
+        errorScreen.visibility = View.VISIBLE
     }
 
     @Subscribe
     fun onLXShowLoadingAnimation(@Suppress("UNUSED_PARAMETER") event: Events.LXShowLoadingAnimation) {
-        recyclerView.setVisibility(View.VISIBLE)
-        errorScreen.setVisibility(View.GONE)
+        recyclerView.visibility = View.VISIBLE
+        errorScreen.visibility = View.GONE
         val elements = createDummyListForAnimation()
         adapter.setDummyItems(elements)
     }

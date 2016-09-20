@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:id="@+id/delivery_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/delivery_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_gravity="center|left"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="20dp"/>
+
+        <LinearLayout
+            android:id="@+id/delivery_details_container"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/delivery_label_text"
+                style="@style/CheckoutWidgetPrimaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/delivery_details_text"
+                style="@style/RailTextAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/temporary_small_padding"
+                android:singleLine="false" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/delivery_fees_text"
+                style="@style/RailTextAppearanceSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/temporary_small_padding"
+                android:singleLine="false"
+                android:text="@string/tdo_fees_non_refundable"
+                android:visibility="gone" />
+        </LinearLayout>
+
+        <com.expedia.bookings.widget.TicketDeliverySelectionImageView
+            android:id="@+id/status_icon"
+            android:layout_width="22dp"
+            android:layout_height="22dp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp" />
+    </LinearLayout>
+</merge>

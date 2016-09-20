@@ -88,7 +88,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             val location = Location()
 
             itineraryNumber.onNext(itinNumber)
-            itineraryNumberLabel.onNext(context.getResources().getString(com.expedia.bookings.R.string.successful_checkout_TEMPLATE, itinNumber))
+            itineraryNumberLabel.onNext(context.resources.getString(com.expedia.bookings.R.string.successful_checkout_TEMPLATE, itinNumber))
             checkInDate.onNext(checkInLocalDate)
             checkOutDate.onNext(checkOutLocalDate)
             formattedCheckInOutDate.onNext(DateFormatUtils.formatDateRange(context, checkInLocalDate, checkOutLocalDate, DateFormatUtils.FLAGS_DATE_ABBREV_MONTH))
@@ -98,10 +98,10 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             else bigImageUrl.onNext("")
             hotelName.onNext(product.getHotelName())
             addressLineOne.onNext(product.hotelAddress)
-            addressLineTwo.onNext(context.getResources().getString(R.string.stay_summary_TEMPLATE, product.hotelCity, product.hotelStateProvince))
+            addressLineTwo.onNext(context.resources.getString(R.string.stay_summary_TEMPLATE, product.hotelCity, product.hotelStateProvince))
             hotelCity.onNext(product.hotelCity)
-            addCarBtnText.onNext(context.getResources().getString(com.expedia.bookings.R.string.rent_a_car_TEMPLATE, product.hotelCity))
-            addFlightBtnText.onNext(context.getResources().getString(com.expedia.bookings.R.string.flights_to_TEMPLATE, product.hotelCity))
+            addCarBtnText.onNext(context.resources.getString(com.expedia.bookings.R.string.rent_a_car_TEMPLATE, product.hotelCity))
+            addFlightBtnText.onNext(context.resources.getString(com.expedia.bookings.R.string.flights_to_TEMPLATE, product.hotelCity))
             customerEmail.onNext(it.hotelCheckoutResponse.checkoutResponse.bookingResponse.email)
 
             // Adding the guest trip in itin
@@ -123,9 +123,9 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             // Show Add to Calendar only if sharing is supported.
             showAddToCalendar.onNext(ProductFlavorFeatureConfiguration.getInstance().shouldShowItinShare())
 
-            location.setCity(product.hotelCity)
-            location.setCountryCode(product.hotelCountry)
-            location.setStateCode(product.hotelStateProvince)
+            location.city = product.hotelCity
+            location.countryCode = product.hotelCountry
+            location.stateCode = product.hotelStateProvince
             location.addStreetAddressLine(product.hotelAddress)
             hotelLocation.onNext(location)
             AdImpressionTracking.trackAdConversion(context, it.hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
@@ -136,7 +136,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             // LX Cross sell
             val isUserBucketedForLXCrossSellTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
                     && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
-            addLXBtn.onNext(if(isUserBucketedForLXCrossSellTest) context.getResources().getString(com.expedia.bookings.R.string.add_lx_TEMPLATE, product.hotelCity) else "")
+            addLXBtn.onNext(if(isUserBucketedForLXCrossSellTest) context.resources.getString(com.expedia.bookings.R.string.add_lx_TEMPLATE, product.hotelCity) else "")
         }
 
     }
@@ -162,13 +162,13 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
     fun getAddFlightBtnObserver(context: Context): Observer<Unit> {
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
-                val flightSearchParams = Db.getFlightSearch().getSearchParams()
+                val flightSearchParams = Db.getFlightSearch().searchParams
                 flightSearchParams.reset()
                 val loc = Location()
-                loc.setDestinationId(hotelLocation.getValue().toShortFormattedString())
-                flightSearchParams.setArrivalLocation(loc)
-                flightSearchParams.setDepartureDate(checkInDate.getValue())
-                flightSearchParams.setReturnDate(checkOutDate.getValue())
+                loc.destinationId = hotelLocation.value.toShortFormattedString()
+                flightSearchParams.arrivalLocation = loc
+                flightSearchParams.departureDate = checkInDate.value
+                flightSearchParams.returnDate = checkOutDate.value
 
                 NavUtils.goToFlights(context, true)
                 HotelTracking().trackHotelCrossSellFlight()
@@ -186,10 +186,10 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
     fun getAddCarBtnObserver(context: Context): Observer<Unit> {
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
-                val originSuggestion = CarDataUtils.getSuggestionFromLocation(hotelLocation.getValue().toShortFormattedString(),
-                        null, hotelLocation.getValue().toShortFormattedString());
+                val originSuggestion = CarDataUtils.getSuggestionFromLocation(hotelLocation.value.toShortFormattedString(),
+                        null, hotelLocation.value.toShortFormattedString())
                 val carSearchParams = CarSearchParam.Builder().origin(originSuggestion)
-                        .startDate(checkInDate.getValue()).endDate(checkOutDate.getValue()).build() as CarSearchParam
+                        .startDate(checkInDate.value).endDate(checkOutDate.value).build() as CarSearchParam
                 NavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
                 HotelTracking().trackHotelCrossSellCar()
             }
@@ -253,7 +253,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
     fun getDirectionsToHotelBtnObserver(context: Context): Observer<Unit> {
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + hotelLocation.getValue().toLongFormattedString()))
+                val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + hotelLocation.value.toLongFormattedString()))
                 context.startActivity(intent)
                 HotelTracking().trackHotelConfirmationDirection()
             }

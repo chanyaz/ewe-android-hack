@@ -1,7 +1,6 @@
 package com.expedia.bookings.dagger;
 
 import android.content.Context;
-import com.expedia.account.server.ExpediaAccountApi;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -10,7 +9,6 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
-import com.expedia.bookings.services.InsuranceServices;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -43,7 +41,6 @@ import okhttp3.Request;
 import okhttp3.Response;
 import okhttp3.TlsVersion;
 import okhttp3.logging.HttpLoggingInterceptor;
-import retrofit2.Retrofit;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -104,15 +101,21 @@ public class AppModule {
 
 	@Provides
 	@Singleton
-	SSLContext provideSSLContext(X509TrustManager x509TrustManager) {
+	SSLContext provideSSLContext(X509TrustManager x509TrustManager, boolean isModernTLSEnabled) {
 		try {
-			TrustManager[] easyTrustManager = new TrustManager[] {
-				x509TrustManager
-			};
+			if (isModernTLSEnabled) {
+				return SSLContext.getDefault();
+			}
+			else {
+				TrustManager[] easyTrustManager = new TrustManager[] {
+					x509TrustManager
+				};
 
-			SSLContext socketContext = SSLContext.getInstance("TLS");
-			socketContext.init(null, easyTrustManager, new java.security.SecureRandom());
-			return socketContext;
+				SSLContext socketContext = SSLContext.getInstance("TLS");
+				socketContext.init(null, easyTrustManager, new java.security.SecureRandom());
+				return socketContext;
+
+			}
 		}
 		catch (Exception e) {
 			throw new RuntimeException(e);
@@ -140,7 +143,7 @@ public class AppModule {
 			return true;
 		}
 
-		if (endpointProvider.getEndPoint() == EndPoint.MOCK_MODE
+		if (ExpediaBookingApp.isAutomation() || endpointProvider.getEndPoint() == EndPoint.MOCK_MODE
 			|| endpointProvider.getEndPoint() == EndPoint.CUSTOM_SERVER) {
 			return false;
 		}
@@ -152,7 +155,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	OkHttpClient provideOkHttpClient(Context context, PersistentCookieManager cookieManager, Cache cache,
-		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, X509TrustManager x509TrustManager, boolean isModernTLSEnabled) {
+		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled) {
 		try {
 			ProviderInstaller.installIfNeeded(context);
 		}
@@ -174,14 +177,14 @@ public class AppModule {
 
 		if (isModernTLSEnabled) {
 			TLSSocketFactory socketFactory = new TLSSocketFactory(sslContext);
-			client.sslSocketFactory(socketFactory, x509TrustManager);
+			client.sslSocketFactory(socketFactory);
 			ConnectionSpec spec = new ConnectionSpec.Builder(ConnectionSpec.MODERN_TLS)
 				.tlsVersions(TlsVersion.TLS_1_2)
 				.build();
 			client.connectionSpecs(Collections.singletonList(spec));
 		}
 		else {
-			client.sslSocketFactory(sslContext.getSocketFactory(), x509TrustManager);
+			client.sslSocketFactory(sslContext.getSocketFactory());
 		}
 		if (BuildConfig.DEBUG) {
 			StethoShim.install(client);
@@ -249,24 +252,6 @@ public class AppModule {
 		Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
-	}
-
-	@Provides
-	@Singleton
-	ExpediaAccountApi provideExpediaAccountApi(OkHttpClient client, EndpointProvider endpointProvider) {
-		final String endpoint = endpointProvider.getE3EndpointUrl();
-
-		return new Retrofit.Builder()
-			.baseUrl(endpoint)
-			.client(client)
-			.build().create(ExpediaAccountApi.class);
-	}
-
-	@Provides
-	@Singleton
-	InsuranceServices provideInsurance(OkHttpClient client, EndpointProvider endpointProvider, Interceptor interceptor) {
-		final String endpoint = endpointProvider.getE3EndpointUrl();
-		return new InsuranceServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

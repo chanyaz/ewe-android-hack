@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.suggestions.SuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -35,7 +36,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
     var searchViewModel: PackageSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
-        travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
+        travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         vm.formattedOriginObservable.subscribe {
             text ->
             originCardView.setText(text)
@@ -57,7 +58,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
             text ->
             calendarWidgetV2.contentDescription = text
         }
-        travelerWidgetV2.traveler.viewmodel.travelerParamsObservable.subscribe { travelers ->
+        travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.numberOfAdults + travelers.childrenAges.size
             travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.packages_search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
                     put("travelers", noOfTravelers).format().toString()
@@ -79,14 +80,18 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         }
         searchButton.subscribeOnClick(vm.searchObserver)
 
+        vm.a11yFocusSelectDatesObservable.subscribe {
+            calendarWidgetV2.setAccessibilityHoverFocus()
+        }
+
         originSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = PackageSuggestionAdapterViewModel(getContext(), suggestionServices, true, null)
         originSuggestionViewModel.setCustomerSelectingOrigin(true)
         destinationSuggestionViewModel.setCustomerSelectingOrigin(false)
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
         destinationSuggestionAdapter = SuggestionAdapter(destinationSuggestionViewModel)
-        travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
-        travelerWidgetV2.traveler.viewmodel.lob = LineOfBusiness.PACKAGES
+        travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
+        travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.PACKAGES
     }
 
     override fun inflate() {

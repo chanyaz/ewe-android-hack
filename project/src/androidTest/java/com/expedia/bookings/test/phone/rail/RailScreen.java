@@ -2,16 +2,22 @@ package com.expedia.bookings.test.phone.rail;
 
 import org.joda.time.LocalDate;
 
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.TabletViewActions;
+import com.expedia.bookings.test.espresso.ViewActions;
+import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
+import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
@@ -37,7 +43,7 @@ public class RailScreen {
 	}
 
 	public static void selectOneWay() {
-		onView(withText(R.string.rail_single)).perform(click());
+		onView(withText(R.string.rail_one_way)).perform(click());
 	}
 
 	public static void selectRoundTrip() {
@@ -88,6 +94,37 @@ public class RailScreen {
 		return onView(withId(R.id.checkout_button));
 	}
 
+	public static void clickTravelerCard() {
+		onView(withId(R.id.rail_traveler_card_view)).perform(click());
+	}
+
+	public static void fillInTraveler() {
+		enterFirstName("FiveStar");
+		enterLastName("Bear");
+		enterEmail("noah@mobiata.com");
+		Espresso.closeSoftKeyboard();
+		enterPhoneNumber("7732025862");
+
+		onView(withId(R.id.menu_done)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.menu_done)).perform(click());
+	}
+
+	public static void enterFirstName(String name) {
+		onView(withId(R.id.first_name_input)).perform(typeText(name));
+	}
+
+	public static void enterLastName(String name) {
+		onView(withId(R.id.last_name_input)).perform(typeText(name));
+	}
+
+	public static void enterPhoneNumber(String phoneNumber) {
+		onView(withId(R.id.edit_phone_number)).perform(typeText(phoneNumber));
+	}
+
+	public static void enterEmail(String email) {
+		onView(withId(R.id.edit_email_address)).perform(typeText(email));
+	}
+
 	public static ViewInteraction legInfo() {
 		return onView(withId(R.id.rail_leg_container));
 	}
@@ -100,7 +137,8 @@ public class RailScreen {
 		return onView(withId(R.id.fare_description_container));
 	}
 
-	public static void navigateToDetails() {
+	public static void navigateToDetails() throws Throwable {
+		SearchScreen.selectRailOriginAndDestination();
 		RailScreen.calendarButton().perform(click());
 		LocalDate startDate = LocalDate.now().plusDays(10);
 		RailScreen.selectDates(startDate, null);
@@ -110,6 +148,57 @@ public class RailScreen {
 
 		onView(withText("3:55 PM – 7:22 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
-		onView(withText("Walk from London Euston to London Paddington")).check(matches(isDisplayed()));
+		onView(withText("You have 43m to get from London Euston to London Paddington")).check(matches(isDisplayed()));
+	}
+
+	public static void navigateToTripOverview() throws Throwable {
+		navigateToDetails();
+
+		RailScreen.scrollToFareOptions();
+		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
+		RailScreen.clickSelectFareOption();
+
+		onView(withText("Outbound - Mon Aug 29")).perform(ViewActions.waitForViewToDisplay())
+			.check(matches(isDisplayed()));
+	}
+
+	public static void navigateToCheckout() throws Throwable {
+		navigateToTripOverview();
+		checkout().perform(click());
+	}
+
+	public static ViewInteraction ticketDeliveryOverview() {
+		return onView(withId(R.id.ticket_delivery_overview_widget));
+	}
+
+	public static ViewInteraction stationContainer() {
+		return onView(withId(R.id.station_container));
+	}
+
+	public static ViewInteraction mailDeliveryContainer() {
+		return onView(withId(R.id.mail_delivery_container));
+	}
+
+	public static void clickDone() {
+		onView(withId(R.id.menu_done)).perform(click());
+	}
+
+	public static void enterPaymentDetails() {
+		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+		CardInfoScreen.typeTextCvv("666");
+		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+
+		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
+		BillingAddressScreen.typeTextCity("San Francisco");
+		BillingAddressScreen.typeTextState("CA");
+		BillingAddressScreen.typeTextPostalCode("94105");
+
+		CheckoutViewModel.clickDone();
 	}
 }

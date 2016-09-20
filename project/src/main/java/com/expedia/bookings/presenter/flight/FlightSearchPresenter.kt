@@ -33,7 +33,7 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
-        travelerWidgetV2.traveler.viewmodel.isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
+        travelerWidgetV2.traveler.getViewModel().isInfantInLapObservable.subscribe(vm.isInfantInLapObserver)
         vm.searchButtonObservable.subscribe { enable ->
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
@@ -65,8 +65,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
     lateinit private var destinationSuggestionAdapter: SuggestionAdapter
 
     init {
-        travelerWidgetV2.traveler.viewmodel.showSeatingPreference = true
-        travelerWidgetV2.traveler.viewmodel.lob = LineOfBusiness.FLIGHTS_V2
+        travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
+        travelerWidgetV2.traveler.getViewModel().lob = LineOfBusiness.FLIGHTS_V2
         showFlightOneWayRoundTripOptions = true
     }
 

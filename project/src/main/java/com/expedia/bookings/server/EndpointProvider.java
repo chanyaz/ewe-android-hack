@@ -123,7 +123,7 @@ public class EndpointProvider {
 			urlMap.put(Constants.MOCK_MODE, getCustomServerAddress());
 		}
 		else {
-			urlMap.put(Constants.DOMAIN, "http://rails-web.us-west-2.test.expedia.com");
+			urlMap.put(Constants.DOMAIN, "http://rails-domain-service.us-west-2.int.expedia.com");
 			urlMap.put(Constants.MOBILE, "https://wwwexpediacouk.integration.sb.karmalab.net");
 		}
 		return urlMap;

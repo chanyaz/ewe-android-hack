@@ -37,6 +37,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.ui.CarActivity;
@@ -224,6 +225,32 @@ public class NavUtils {
 		startActivity(context, intent, animOptions);
 	}
 
+	public static void goToHotelsV2(Context context, com.expedia.bookings.data.hotels.HotelSearchParams params, Bundle animOptions, int flags) {
+		sendKillActivityBroadcast(context);
+
+		Intent intent = new Intent();
+
+		if ((flags & FLAG_DEEPLINK) != 0) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			intent.putExtra(Codes.FROM_DEEPLINK, true);
+		}
+
+		if ((flags & FLAG_OPEN_SEARCH) != 0) {
+			intent.putExtra(Codes.EXTRA_OPEN_SEARCH, true);
+		}
+
+		Class<HotelActivity> routingTarget = HotelActivity.class;
+		if (params != null) {
+			Gson gson = HotelsV2DataUtil.Companion.generateGson();
+			intent.putExtra(HotelActivity.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(params));
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
+		}
+
+		// Launch activity based on routing selection
+		intent.setClass(context, routingTarget);
+		startActivity(context, intent, animOptions);
+	}
+
 	public static void goToActivities(Context context, Bundle animOptions) {
 		sendKillActivityBroadcast(context);
 		Intent intent = new Intent(context, LXBaseActivity.class);
@@ -332,7 +359,8 @@ public class NavUtils {
 		Intent intent = new Intent(context, CarActivity.class);
 		if (searchParams != null) {
 			Gson gson = CarServices.generateGson();
-			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, gson.toJson(searchParams));
+			intent.putExtra("carSearchParams", gson.toJson(searchParams));
+			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS,true);
 		}
 
 		if ((flags & FLAG_OPEN_SEARCH) != 0) {
@@ -524,17 +552,13 @@ public class NavUtils {
 		return list.size() > 0;
 	}
 
-	public static boolean isUserBucketedForLaunchScreenTest() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLaunchScreenTest);
-	}
-
 	public static boolean isUserBucketedForFlightTest() {
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTest);
 	}
 
 
 	public static Intent getLaunchIntent(Context context) {
-		if (isUserBucketedForLaunchScreenTest()) {
+		if (ProductFlavorFeatureConfiguration.getInstance().useNewLaunchScreen()) {
 			return new Intent(context, NewPhoneLaunchActivity.class);
 		}
 		else {

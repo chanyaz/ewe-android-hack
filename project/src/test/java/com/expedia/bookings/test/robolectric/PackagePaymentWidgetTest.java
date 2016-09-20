@@ -11,7 +11,6 @@ import org.robolectric.Robolectric;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
-import android.widget.EditText;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -22,6 +21,7 @@ import com.expedia.bookings.data.flights.ValidFormOfPayment;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
+import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget;
 import com.expedia.vm.PaymentViewModel;
 
@@ -36,7 +36,6 @@ import static org.junit.Assert.assertTrue;
 public class PackagePaymentWidgetTest {
 	private BillingDetailsPaymentWidget packagePaymentWidget;
 	private Activity activity;
-	private EditText securityCodeInput;
 
 	@Before
 	public void before() {
@@ -51,9 +50,11 @@ public class PackagePaymentWidgetTest {
 	public void testCreditCardSecurityCodeWidget() {
 		assertNotNull(packagePaymentWidget);
 		ButterKnife.inject(activity);
-		securityCodeInput = (EditText) packagePaymentWidget.findViewById(R.id.edit_creditcard_cvv);
+		AccessibleEditText securityCodeInput = (AccessibleEditText) packagePaymentWidget
+			.findViewById(R.id.edit_creditcard_cvv);
 		//test for accessibility content description
-		assertEquals(securityCodeInput.getContentDescription(),"CVV");
+		securityCodeInput.getAccessibilityNodeInfo();
+		assertEquals(securityCodeInput.getContentDescription()," CVV");
 		assertNotNull(securityCodeInput);
 	}
 
@@ -69,7 +70,6 @@ public class PackagePaymentWidgetTest {
 		info.setNameOnCard("Expedia Chicago");
 		info.setExpirationDate(new LocalDate(2017, 1, 1));
 		info.setSecurityCode("1234");
-		info.setEmail("test@email.com");
 
 		Location location = givenLocation();
 		info.setLocation(location);
@@ -91,7 +91,6 @@ public class PackagePaymentWidgetTest {
 		info.setNameOnCard("Expedia Chicago");
 		info.setExpirationDate(new LocalDate(2017, 1, 1));
 		info.setSecurityCode("123");
-		info.setEmail("test@email.com");
 
 		Location location = givenLocation();
 		info.setLocation(location);
@@ -115,7 +114,6 @@ public class PackagePaymentWidgetTest {
 		info.setNameOnCard("Expedia Chicago");
 		info.setExpirationDate(new LocalDate(2017, 1, 1));
 		info.setSecurityCode("1234");
-		info.setEmail("test@email.com");
 
 		Location location = givenLocation();
 		info.setLocation(location);
@@ -127,55 +125,11 @@ public class PackagePaymentWidgetTest {
 		assertTrue(packagePaymentWidget.getSectionBillingInfo().performValidation());
 	}
 
-	@Test
-	public void testEmailValidator() {
-		packagePaymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
-		packagePaymentWidget.getCardInfoContainer().performClick();
-
-		givenTripResponse("AmericanExpress");
-
-		BillingInfo info = new BillingInfo();
-		info.setNumberAndDetectType("345104799171123");
-		info.setNameOnCard("Expedia Chicago");
-		info.setExpirationDate(new LocalDate(2017, 1, 1));
-		info.setSecurityCode("1234");
-
-		Location location = givenLocation();
-		info.setLocation(location);
-		packagePaymentWidget.getSectionBillingInfo().bind(info);
-		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
-
-		info.setEmail("qa-ehcc");
-		packagePaymentWidget.getSectionBillingInfo().bind(info);
-		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
-
-		info.setEmail("qa-ehcc@");
-		packagePaymentWidget.getSectionBillingInfo().bind(info);
-		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
-
-		info.setEmail("qa-ehcc@mobiata");
-		packagePaymentWidget.getSectionBillingInfo().bind(info);
-		assertFalse(packagePaymentWidget.getSectionBillingInfo().performValidation());
-
-		info.setEmail("TEST@email.com");
-		packagePaymentWidget.getSectionBillingInfo().bind(info);
-		assertTrue(packagePaymentWidget.getSectionBillingInfo().performValidation());
-
-		info.setEmail("test@email.com");
-		packagePaymentWidget.getSectionBillingInfo().bind(info);
-		assertTrue(packagePaymentWidget.getSectionBillingInfo().performValidation());
-	}
 
 	@Test
 	public void testSecureCheckoutDisabled() {
 		assertFalse("All Hotel A/B tests must be disabled for packages",
 			packagePaymentWidget.isSecureToolbarBucketed());
-	}
-
-	@Test
-	public void testCreditCardHint() {
-		assertEquals("All Hotel A/B tests must be disabled for packages",
-			packagePaymentWidget.getCreditCardNumberHintResId(), R.string.credit_card_hint);
 	}
 
 	@Test
@@ -203,13 +157,6 @@ public class PackagePaymentWidgetTest {
 		packagePaymentWidget.getSectionBillingInfo().bind(info);
 		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
 		info.setSecurityCode("1234");
-		packagePaymentWidget.getSectionBillingInfo().bind(info);
-		assertTrue(packagePaymentWidget.isAtLeastPartiallyFilled());
-
-		info = new BillingInfo();
-		packagePaymentWidget.getSectionBillingInfo().bind(info);
-		assertFalse(packagePaymentWidget.isAtLeastPartiallyFilled());
-		info.setEmail("test@email.com");
 		packagePaymentWidget.getSectionBillingInfo().bind(info);
 		assertTrue(packagePaymentWidget.isAtLeastPartiallyFilled());
 
@@ -269,10 +216,6 @@ public class PackagePaymentWidgetTest {
 		assertFalse(packagePaymentWidget.isCompletelyFilled());
 
 		info.setSecurityCode("1234");
-		packagePaymentWidget.getSectionBillingInfo().bind(info);
-		assertFalse(packagePaymentWidget.isCompletelyFilled());
-
-		info.setEmail("test@email.com");
 		packagePaymentWidget.getSectionBillingInfo().bind(info);
 		assertFalse(packagePaymentWidget.isCompletelyFilled());
 

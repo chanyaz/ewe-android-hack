@@ -3,10 +3,9 @@ package com.expedia.bookings.test.phone.cars;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.CarTestCase;
 import com.expedia.bookings.test.espresso.Common;
-import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
@@ -17,18 +16,13 @@ import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDispla
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.core.IsNot.not;
 
-public class CarDetailsTest extends PhoneTestCase {
+public class CarDetailsTest extends CarTestCase {
 
 	private final static String CATEGORY = "Standard";
 
 	public void testCarDetails() throws Throwable {
-		screenshot("Launch");
-		LaunchScreen.launchCars();
-
-		screenshot("Car_Search");
 		SearchScreen.doGenericCarSearch();
 
-		screenshot("Car_Search_Results");
 		CarScreen.selectCarCategory(CATEGORY);
 
 		assertTextAppearsInFirstOffer("4 Passengers");
@@ -47,13 +41,8 @@ public class CarDetailsTest extends PhoneTestCase {
 	}
 
 	public void testCarDetailsNoPassengersDoorsBags() throws Throwable {
-		screenshot("Launch");
-		LaunchScreen.launchCars();
-
-		screenshot("Car_Search");
 		SearchScreen.doGenericCarSearch();
 
-		screenshot("Car_Search_Results");
 		CarScreen.selectCarCategory(CATEGORY);
 
 		assertViewNotDisplayedInFirstOffer(R.id.passengers);
@@ -72,13 +61,8 @@ public class CarDetailsTest extends PhoneTestCase {
 	}
 
 	public void testCarDetailsCountInRange() throws Throwable {
-		screenshot("Launch");
-		LaunchScreen.launchCars();
-
-		screenshot("Car_Search");
 		SearchScreen.doGenericCarSearch();
 
-		screenshot("Car_Search_Results");
 		Common.delay(2);
 		CarScreen.searchFilter().perform(waitForViewToDisplay());
 		CarScreen.clickFilterButton();

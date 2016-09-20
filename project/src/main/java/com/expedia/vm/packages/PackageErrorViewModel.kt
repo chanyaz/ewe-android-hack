@@ -26,12 +26,15 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     val paramsSubject = PublishSubject.create<PackageSearchParams>()
 
     init {
-        buttonOneClickedObservable.subscribe {
+        clickBack.subscribe(errorButtonClickedObservable)
+
+        errorButtonClickedObservable.subscribe {
             when (error.errorCode) {
                 ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS,
                 ApiError.Code.INVALID_CARD_NUMBER,
                 ApiError.Code.CID_DID_NOT_MATCHED,
                 ApiError.Code.INVALID_CARD_EXPIRATION_DATE,
+                ApiError.Code.PAYMENT_FAILED,
                 ApiError.Code.CARD_LIMIT_EXCEEDED -> {
                     checkoutCardErrorObservable.onNext(Unit)
                     PackagesTracking().trackCheckoutErrorRetry()
@@ -62,7 +65,12 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
             }
         }).subscribe {
             error = ApiError(ApiError.Code.PACKAGE_SEARCH_ERROR)
-            PackagesTracking().trackSearchError(it.errorCode.toString())
+            if (it.errorCode != null) {
+                PackagesTracking().trackSearchError(it.errorCode.toString())
+            }
+            else {
+                PackagesTracking().trackSearchError("Error Code is null")
+            }
             when (it.errorCode) {
                 PackageApiError.Code.pkg_unknown_error,
                 PackageApiError.Code.search_response_null,
@@ -145,6 +153,13 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     } else {
                         errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     }
+                    buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
+                    titleObservable.onNext(context.getString(R.string.payment_failed_label))
+                    subTitleObservable.onNext("")
+                }
+                ApiError.Code.PAYMENT_FAILED -> {
+                    imageObservable.onNext(R.drawable.error_payment)
+                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_payment_failed))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")

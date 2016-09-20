@@ -118,7 +118,7 @@
                     app:cardUseCompatPadding="true">
 
                     <ViewStub
-                        android:id="@+id/traveller_stub"
+                        android:id="@+id/traveler_stub"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/default_search_card_height"
                         android:layout="@layout/traveler_search_widget" />

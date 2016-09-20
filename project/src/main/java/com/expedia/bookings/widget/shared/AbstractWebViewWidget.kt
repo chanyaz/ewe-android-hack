@@ -23,6 +23,7 @@ abstract class AbstractWebViewWidget(context: Context, attrs: AttributeSet) : Li
         this.orientation = LinearLayout.VERTICAL
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
+            toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
         }
     }
 

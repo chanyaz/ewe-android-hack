@@ -28,7 +28,7 @@ class HotelErrorViewModelTest {
         subjectUnderTest.buttonOneTextObservable.subscribe(errorButtonObservableTestSubscriber)
 
         subjectUnderTest.apiErrorObserver.onNext(ApiError(ApiError.Code.HOTEL_ROOM_UNAVAILABLE))
-        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
         soldOutObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_default)
@@ -73,7 +73,7 @@ class HotelErrorViewModelTest {
         apiError.errorInfo.field = field
 
         subjectUnderTest.apiErrorObserver.onNext(apiError)
-        subjectUnderTest.buttonOneClickedObservable.onNext(Unit)
+        subjectUnderTest.errorButtonClickedObservable.onNext(Unit)
 
         checkoutCardErrorObservableTestSubscriber.assertValues(Unit)
         errorImageObservableTestSubscriber.assertValues(R.drawable.error_payment)

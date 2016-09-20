@@ -6,7 +6,10 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
+import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.packages.TravelerPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
@@ -16,32 +19,41 @@ import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
+import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
+import com.expedia.vm.WebViewViewModel
 
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
+
     val ANIMATION_DURATION = 400
 
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
     protected val checkoutPresenter: BaseCheckoutPresenter by lazy  { findViewById(R.id.checkout_presenter) as BaseCheckoutPresenter }
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
-
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
 
-    abstract fun inflate()
+    val viewLocation = IntArray(2)
+    var scrollSpaceView: View? = null
+    var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
+
+    val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
+        val viewStub = findViewById(R.id.payment_fee_info_webview_stub) as ViewStub
+        val airlineFeeWebview = viewStub.inflate() as PaymentFeeInfoWebView
+        airlineFeeWebview.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        airlineFeeWebview.viewModel = WebViewViewModel()
+        checkoutPresenter.getCheckoutViewModel().obFeeDetailsUrlSubject.subscribe(airlineFeeWebview.viewModel.webViewURLObservable)
+        airlineFeeWebview
+    }
 
     init {
         inflate()
-        checkoutPresenter.paymentWidget.viewmodel.billingInfoAndStatusUpdate.map{it.first}.subscribe(checkoutPresenter.getCheckoutViewModel().paymentCompleted)
         checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
-            checkoutPresenter.getCheckoutViewModel().tripResponseObservable.onNext(trip)
             resetCheckoutState()
         }
-
         checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
             resetCheckoutState()
         }
-
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
 
         checkoutPresenter.paymentWidget.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
@@ -73,7 +85,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
 
         bundleOverviewHeader.setUpCollapsingToolbar()
-        checkoutPresenter.checkoutTranslationObserver.subscribe { y ->
+        checkoutPresenter.getCheckoutViewModel().checkoutTranslationObserver.subscribe { y ->
             val distance = -bundleOverviewHeader.appBarLayout.totalScrollRange + (y / checkoutPresenter.height * bundleOverviewHeader.appBarLayout.totalScrollRange).toInt()
             val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
@@ -85,11 +97,22 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.nestedScrollView.foreground.alpha = (255 * range).toInt()
             translateBottomContainer(range, true)
         }
+
+        overviewLayoutListener = OverviewLayoutListener()
+    }
+
+    private val overviewToAirlineFeeWebView = object : Transition(checkoutPresenter.javaClass, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
+            bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
+            paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
+        }
     }
 
     fun showCheckout() {
         resetCheckoutState()
-        show(checkoutPresenter)
+        show(checkoutPresenter, FLAG_CLEAR_TOP)
         checkoutPresenter.show(BaseCheckoutPresenter.CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
         trackCheckoutPageLoad()
     }
@@ -99,13 +122,17 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         addDefaultTransition(defaultTransition)
         addTransition(checkoutTransition)
         addTransition(checkoutToCvv)
+        addTransition(overviewToAirlineFeeWebView)
         show(BundleDefault())
         cvv.setCVVEntryListener(this)
-        checkoutPresenter.slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        checkoutPresenter.getCheckoutViewModel().slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
 
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
-        checkoutPresenter.mainContent.visibility = View.GONE
+
+        checkoutPresenter.cardFeeWarningTextView.setOnClickListener {
+            show(paymentFeeInfoWebView)
+        }
     }
 
     val defaultTransition = object : DefaultTransition(BundleDefault::class.java.name) {
@@ -114,24 +141,33 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, false)
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
             checkoutPresenter.toolbarDropShadow.visibility = View.GONE
+            checkoutPresenter.mainContent.visibility = View.GONE
+            bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
+            bundleOverviewHeader.nestedScrollView.foreground?.alpha = 0
         }
     }
 
-    val checkoutTransition = object : Transition(BundleDefault::class.java, getCheckoutTransitionClass(), AccelerateDecelerateInterpolator(), ANIMATION_DURATION) {
+    val checkoutTransition = object : Transition(BundleDefault::class.java, checkoutPresenter.javaClass, AccelerateDecelerateInterpolator(), ANIMATION_DURATION) {
         var translationDistance = 0f
         var range = 0f
         var userStoppedScrollingAt = 0
         override fun startTransition(forward: Boolean) {
-            if (!forward) checkoutPresenter.toolbarDropShadow.visibility = View.GONE
+            if (!forward) {
+                checkoutPresenter.toolbarDropShadow.visibility = View.GONE
+                resetScrollSpaceHeight()
+                scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(overviewLayoutListener)
+            } else {
+                scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(overviewLayoutListener)
+            }
             bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
-            toggleToolbar(forward)
+            setToolbarMenu(forward)
+            setToolbarNavIcon(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(true)
             translationDistance = checkoutPresenter.mainContent.translationY
             val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
             val behavior = params.behavior as AppBarLayout.Behavior
             range = if (forward) 0f else (bundleOverviewHeader.appBarLayout.totalScrollRange - Math.abs(behavior.topAndBottomOffset)) / bundleOverviewHeader.appBarLayout.totalScrollRange.toFloat()
-            bundleOverviewHeader.toolbar.menu.setGroupVisible(R.id.package_change_menu, !forward)
             checkoutPresenter.mainContent.visibility = View.VISIBLE
             bundleOverviewHeader.nestedScrollView.foreground = ContextCompat.getDrawable(context, R.drawable.dim_background)
             behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
@@ -167,6 +203,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 checkoutPresenter.trackShowBundleOverview()
             }
             bundleOverviewHeader.toolbar.subtitle = ""
+            if (forward) checkoutPresenter.adjustScrollingSpace()
         }
 
         private fun translateHeader(f: Float, forward: Boolean) {
@@ -177,7 +214,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
 
         private fun translateCheckout(f: Float, forward: Boolean) {
-            var distance = height - translationDistance - Ui.getStatusBarHeight(context)
+            val distance = height - translationDistance - Ui.getStatusBarHeight(context)
             checkoutPresenter.mainContent.translationY = if (forward) translationDistance + ((1 - f) * distance) else translationDistance + (f * distance)
             bundleOverviewHeader.nestedScrollView.foreground.alpha = (255 * if (forward) f else (1 - f)).toInt()
         }
@@ -185,7 +222,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun translateBottomContainer(f: Float, forward: Boolean) {
-        val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValid()
+        val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
         val bottomDistance = checkoutPresenter.sliderHeight - checkoutPresenter.checkoutButtonHeight
         val slideIn = if (hasCompleteInfo) {
             bottomDistance - (f * (bottomDistance))
@@ -209,7 +246,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
     }
 
-    private val checkoutToCvv = object : VisibilityTransition(this, getCheckoutTransitionClass(), CVVEntryWidget::class.java) {
+    private val checkoutToCvv = object : VisibilityTransition(this, checkoutPresenter.javaClass, CVVEntryWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
@@ -247,8 +284,58 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     class BundleDefault
 
-    open fun toggleToolbar(forward: Boolean) { }
-    abstract fun getCheckoutTransitionClass() : Class<out Any>
+    open fun setToolbarMenu(forward: Boolean) { }
+    open fun setToolbarNavIcon(forward: Boolean) { }
     abstract fun trackCheckoutPageLoad()
     abstract fun trackPaymentCIDLoad()
+    abstract fun inflate()
+
+
+    inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
+        override fun onGlobalLayout () {
+            lockScrollingByContentSize(scrollSpaceView)
+            updateScrollingSpace(scrollSpaceView)
+        }
+    }
+
+    private fun lockScrollingByContentSize(scrollSpaceView: View?) {
+        if (scrollSpaceView != null) {
+            scrollSpaceView.getLocationOnScreen(viewLocation)
+            val scrollSpaceCoordinateY = viewLocation[1]
+            checkoutPresenter.totalPriceWidget.getLocationOnScreen(viewLocation)
+            val bottomContainerCoordinateY = viewLocation[1] - checkoutPresenter.bottomContainerDropShadow.height
+            // content more than viewport
+            if (scrollSpaceCoordinateY > bottomContainerCoordinateY) {
+                if (!bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled) {
+                    bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled = true
+                }
+            } else {
+                if (bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled && bundleOverviewHeader.isFullyExpanded) {
+                    bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled = false
+                }
+            }
+        }
+    }
+
+    private fun updateScrollingSpace(scrollSpaceView: View?) {
+        val scrollSpaceViewLp = scrollSpaceView?.layoutParams
+        var scrollspaceheight = checkoutPresenter.bottomContainer.height + checkoutPresenter.checkoutButton.height
+        if (checkoutPresenter.slideToPurchaseLayout.height > 0) {
+            scrollspaceheight -= checkoutPresenter.slideToPurchaseLayout.height
+        }
+        if (checkoutPresenter.priceChangeWidget.height > 0) {
+            scrollspaceheight -= checkoutPresenter.priceChangeWidget.height
+        }
+        if (scrollSpaceViewLp?.height != scrollspaceheight) {
+            scrollSpaceViewLp?.height = scrollspaceheight
+            scrollSpaceView?.layoutParams = scrollSpaceViewLp
+            scrollSpaceView?.requestLayout()
+        }
+    }
+
+    fun resetScrollSpaceHeight() {
+        val layoutParams = scrollSpaceView?.layoutParams
+        layoutParams?.height = 0
+        scrollSpaceView?.layoutParams = layoutParams
+    }
 }

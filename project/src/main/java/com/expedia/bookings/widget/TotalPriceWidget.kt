@@ -24,8 +24,8 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.BaseTotalPriceWidgetViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
-import com.expedia.vm.packages.BundlePriceViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import java.math.BigDecimal
 
@@ -45,7 +45,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
     val subtitleTextFade = TransitionElement(ContextCompat.getColor(context, R.color.packages_bundle_overview_footer_secondary_text), Color.WHITE)
     val bgFade = TransitionElement(Color.WHITE, ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
 
-    var viewModel: BundlePriceViewModel by notNullAndObservable { vm ->
+    var viewModel: BaseTotalPriceWidgetViewModel by notNullAndObservable { vm ->
         vm.totalPriceObservable.subscribeText(bundleTotalPrice)
         vm.pricePerPersonObservable.subscribeText(bundleTotalPrice)
         vm.savingsPriceObservable.subscribeTextAndVisibility(bundleSavings)

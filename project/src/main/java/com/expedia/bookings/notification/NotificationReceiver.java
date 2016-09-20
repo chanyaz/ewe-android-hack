@@ -262,7 +262,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 				clickIntent = ItineraryActivity.createIntent(mContext, mNotification);
 			}
 			else {
-				if (NavUtils.isUserBucketedForLaunchScreenTest()) {
+				if (ProductFlavorFeatureConfiguration.getInstance().useNewLaunchScreen()) {
 					clickIntent = NewPhoneLaunchActivity.createIntent(mContext, mNotification);
 				}
 				else {

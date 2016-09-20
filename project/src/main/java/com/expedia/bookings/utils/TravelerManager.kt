@@ -6,21 +6,25 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.enums.PassengerCategory
+import rx.subjects.PublishSubject
 
 class TravelerManager {
+
+    val travelersUpdated = PublishSubject.create<Unit>()
+
     fun updateDbTravelers(params: AbstractFlightSearchParams, context: Context) {
         val travelers = Db.getTravelers()
         travelers.clear()
         for (i in 0..params.adults - 1) {
             val traveler = Traveler()
-            traveler.setPassengerCategory(PassengerCategory.ADULT)
+            traveler.passengerCategory = PassengerCategory.ADULT
             traveler.gender = Traveler.Gender.GENDER
             traveler.searchedAge = -1
             travelers.add(traveler)
         }
         for (child in params.children) {
             val traveler = Traveler()
-            traveler.setPassengerCategory(getChildPassengerCategory(child, params))
+            traveler.passengerCategory = getChildPassengerCategory(child, params)
             traveler.gender = Traveler.Gender.GENDER
             traveler.searchedAge = child
             travelers.add(traveler)
@@ -29,6 +33,15 @@ class TravelerManager {
         if (User.isLoggedIn(context)) {
             onSignIn(context)
         }
+        travelersUpdated.onNext(Unit)
+    }
+
+    fun updateRailTravelers() {
+        val travelers = Db.getTravelers()
+        travelers.clear()
+        // Rail only collects Primary Traveler so don't worry about the details of the others.
+        val traveler = Traveler()
+        travelers.add(traveler)
     }
 
     fun getChildPassengerCategory(childAge: Int, params: AbstractFlightSearchParams): PassengerCategory {
@@ -48,7 +61,7 @@ class TravelerManager {
 
     fun onSignIn(context: Context) {
         if(User.isLoggedIn(context) && Db.getTravelers().isNotEmpty()) {
-            var primaryTraveler = Db.getUser().getPrimaryTraveler()
+            val primaryTraveler = Db.getUser().primaryTraveler
             primaryTraveler.passengerCategory = Db.getTravelers()[0].passengerCategory
             Db.getTravelers()[0] = primaryTraveler
         }

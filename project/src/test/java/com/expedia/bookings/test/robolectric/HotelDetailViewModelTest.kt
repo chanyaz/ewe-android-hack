@@ -1,24 +1,37 @@
 package com.expedia.bookings.test.robolectric
 
+import android.content.Context
+import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.packages.PackageOffersResponse
+import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.util.endlessObserver
+import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
+import com.expedia.vm.packages.PackageHotelDetailViewModel
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
+import org.joda.time.format.DateTimeFormat
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -48,13 +61,18 @@ class HotelDetailViewModelTest {
     private var offer3: HotelOffersResponse by Delegates.notNull()
 
     private val expectedTotalPriceWithMandatoryFees = 42f
+    private var context: Context by Delegates.notNull()
 
     @Before fun before() {
+        context = RuntimeEnvironment.application
         vm = HotelDetailViewModel(RuntimeEnvironment.application, endlessObserver { /*ignore*/ })
 
         offer1 = HotelOffersResponse()
         offer1.hotelId = "hotel1"
         offer1.hotelName = "hotel1"
+        offer1.hotelCity = "hotel1"
+        offer1.hotelStateProvince = "hotel1"
+        offer1.hotelCountry = "USA"
         offer1.latitude = 1.0
         offer1.longitude = 2.0
         offer1.hotelRoomResponse = makeHotel()
@@ -62,6 +80,9 @@ class HotelDetailViewModelTest {
         offer2 = HotelOffersResponse()
         offer1.hotelId = "hotel2"
         offer2.hotelName = "hotel2"
+        offer1.hotelCity = "hotel2"
+        offer1.hotelStateProvince = "hotel3"
+        offer1.hotelCountry = "USA"
         offer2.latitude = 100.0
         offer2.longitude = 150.0
         offer2.hotelRoomResponse = makeHotel()
@@ -69,6 +90,9 @@ class HotelDetailViewModelTest {
         offer3 = HotelOffersResponse()
         offer1.hotelId = "hotel3"
         offer3.hotelName = "hotel3"
+        offer1.hotelCity = "hotel3"
+        offer1.hotelStateProvince = "hotel3"
+        offer1.hotelCountry = "USA"
         offer3.latitude = 101.0
         offer3.longitude = 152.0
         offer3.hotelRoomResponse = emptyList()
@@ -100,9 +124,78 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun discountPercentageShouldNotShowForPackages() {
-        offer1.isPackage = true
-        vm.hotelOffersSubject.onNext(offer1)
+        val hotelOffer = HotelOffersResponse()
+        vm.hotelOffersSubject.onNext(hotelOffer)
         assertFalse(vm.showDiscountPercentageObservable.value)
+    }
+
+    @Test fun resortFeeShowsForPackages() {
+        CurrencyUtils.initMap(RuntimeEnvironment.application)
+        val vm = PackageHotelDetailViewModel(RuntimeEnvironment.application, endlessObserver { /*ignore*/ })
+        val testSubscriber = TestSubscriber<String>()
+        vm.hotelResortFeeObservable.subscribe(testSubscriber)
+        vm.paramsSubject.onNext(createSearchParams())
+
+        makeResortFeeResponse(vm)
+
+        testSubscriber.requestMore(100)
+        assertEquals("$20", testSubscriber.onNextEvents[1])
+        assertEquals("per night", context.getString(vm.getFeeTypeText()))
+    }
+
+    @Test fun resortFeeShowUKPOS() {
+        CurrencyUtils.initMap(RuntimeEnvironment.application)
+        setPOS(PointOfSaleId.UNITED_KINGDOM)
+        val testSubscriber = TestSubscriber<String>()
+        vm.hotelResortFeeObservable.subscribe(testSubscriber)
+        vm.paramsSubject.onNext(createSearchParams())
+
+        makeResortFeeResponse(vm)
+
+        testSubscriber.requestMore(100)
+        assertEquals("20.00 USD", testSubscriber.onNextEvents[1])
+        assertEquals("total fee", context.getString(vm.getFeeTypeText()))
+    }
+
+    @Test fun resortFeeShowUSPOS() {
+        CurrencyUtils.initMap(RuntimeEnvironment.application)
+        setPOS(PointOfSaleId.UNITED_STATES)
+        val testSubscriber = TestSubscriber<String>()
+        vm.hotelResortFeeObservable.subscribe(testSubscriber)
+        vm.paramsSubject.onNext(createSearchParams())
+
+        makeResortFeeResponse(vm)
+
+        testSubscriber.requestMore(100)
+        assertEquals("$20", testSubscriber.onNextEvents[1])
+    }
+
+    private fun makeResortFeeResponse(vm: BaseHotelDetailViewModel) {
+        offer1.hotelRoomResponse.clear()
+        val packageSearchParams = PackageSearchParams.Builder(30, 330)
+                .adults(1)
+                .startDate(LocalDate.now())
+                .endDate(LocalDate.now().plusDays(1))
+                .destination(SuggestionV4())
+                .origin(SuggestionV4())
+                .build() as PackageSearchParams
+
+        val packageOffer = PackageOffersResponse()
+
+        val packageHotelOffer = PackageOffersResponse.PackageHotelOffer()
+        packageHotelOffer.hotelOffer = makeHotel().first()
+        packageHotelOffer.packagePricing = PackageOffersResponse.PackagePricing()
+        packageHotelOffer.packagePricing.hotelPricing = PackageOffersResponse.HotelPricing()
+        packageHotelOffer.packagePricing.hotelPricing.mandatoryFees = PackageOffersResponse.MandatoryFees()
+        packageHotelOffer.packagePricing.hotelPricing.mandatoryFees.feeTotal = Money(20, "USD")
+        packageHotelOffer.cancellationPolicy = PackageOffersResponse.CancellationPolicy()
+        packageHotelOffer.cancellationPolicy.hasFreeCancellation = false
+        packageOffer.packageHotelOffers = arrayListOf(packageHotelOffer)
+
+        val offer = HotelOffersResponse.convertToHotelOffersResponse(offer1, packageOffer, packageSearchParams)
+
+        vm.hotelOffersSubject.onNext(offer)
+        vm.addViewsAfterTransition()
     }
 
     @Test fun discountPercentageShouldNotShowForSWP() {
@@ -173,8 +266,18 @@ class HotelDetailViewModelTest {
     @Test fun packageSearchInfoShouldShow() {
         var searchParams = createSearchParams()
         searchParams.forPackage = true
+        val response = PackageSearchResponse()
+        response.packageInfo = PackageSearchResponse.PackageInfo()
+        response.packageInfo.hotelCheckinDate =  PackageSearchResponse.HotelCheckinDate()
+        response.packageInfo.hotelCheckinDate.isoDate = "2016-09-07"
+        response.packageInfo.hotelCheckoutDate =  PackageSearchResponse.HotelCheckoutDate()
+        response.packageInfo.hotelCheckoutDate.isoDate = "2016-09-08"
+        Db.setPackageResponse(response)
         vm.paramsSubject.onNext(searchParams)
-        val dates = DateUtils.localDateToMMMd(searchParams.checkIn) + " - " + DateUtils.localDateToMMMd(searchParams.checkOut)
+        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+
+        val dates = DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)) + " - " +
+                DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate))
         assertEquals(dates, vm.searchDatesObservable.value)
         assertEquals("1 Room, ${searchParams.guests} Guests", vm.searchInfoObservable.value)
     }
@@ -278,28 +381,28 @@ class HotelDetailViewModelTest {
 
         //Non VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
-        offer1.isVipAccess=false;
+        offer1.isVipAccess = false;
         vm.hotelOffersSubject.onNext(offer1)
         assertTrue(vm.hasRegularLoyaltyPointsAppliedObservable.value)
         assertFalse(vm.hasVipAccessLoyaltyObservable.value)
 
         //Non VIP hotel and none of the hotel room has loyality info (isBurnApplied = false)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = false
-        offer1.isVipAccess=false;
+        offer1.isVipAccess = false;
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
         assertFalse(vm.hasVipAccessLoyaltyObservable.value)
 
         //VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true
-        offer1.isVipAccess=true;
+        offer1.isVipAccess = true;
         vm.hotelOffersSubject.onNext(offer1)
         assertTrue(vm.hasVipAccessLoyaltyObservable.value)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
 
         //VIP hotel and none of the hotel room has loyality info (isBurnApplied = false)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = false
-        offer1.isVipAccess=true;
+        offer1.isVipAccess = true;
         vm.hotelOffersSubject.onNext(offer1)
         assertFalse(vm.hasVipAccessLoyaltyObservable.value)
         assertFalse(vm.hasRegularLoyaltyPointsAppliedObservable.value)
@@ -365,4 +468,10 @@ class HotelDetailViewModelTest {
                 .adults(numAdults)
                 .children(childList).build() as HotelSearchParams
     }
+
+    private fun setPOS(pos: PointOfSaleId) {
+        SettingUtils.save(RuntimeEnvironment.application, R.string.PointOfSaleKey, pos.id.toString())
+        PointOfSale.onPointOfSaleChanged(RuntimeEnvironment.application)
+    }
+
 }

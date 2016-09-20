@@ -78,7 +78,7 @@ class NewFlightSearchParamsTest {
     }
 
     @Test
-    fun testBuilderStatudValidDates() {
+    fun testBuilderStatusValidDates() {
         builder.startDate(tomorrow)
         builder.endDate(expectedReturnDate)
         assertTrue(builder.hasStart())
@@ -89,7 +89,23 @@ class NewFlightSearchParamsTest {
         assertFalse(builder.hasDestinationLocation())
         assertFalse(builder.areRequiredParamsFilled())
     }
-    
+
+    @Test
+    fun testBuilderStatusMissingDeparture() {
+        builder.startDate(tomorrow)
+        builder.endDate(expectedReturnDate)
+        builder.origin(expectedOrigin)
+
+        assertTrue(builder.hasStart())
+        assertTrue(builder.hasEnd())
+        assertTrue(builder.hasValidDateDuration())
+
+        assertTrue(builder.hasOriginLocation())
+        assertFalse(builder.hasDestinationLocation())
+        assertFalse(builder.areRequiredParamsFilled())
+    }
+
+
     @Test
     fun testBuilderStatusIdenticalLocations() {
         builder.origin(expectedOrigin)

@@ -59,8 +59,8 @@
         android:minHeight="64dp" />
 
     <Space
-        android:id="@+id/space_view"
-        android:layout_width="match_parent"
-        android:layout_height="240dp" />
+        android:id="@+id/scroll_space_bundle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 
 </merge>

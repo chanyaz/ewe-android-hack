@@ -57,6 +57,7 @@ import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -464,6 +465,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		if (isSharedItin()) {
 			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_shared_options, null);
 			TextView removeTextView = Ui.findView(item, R.id.remove_itin);
+			AccessibilityUtil.appendRoleContDesc(removeTextView, removeTextView.getText().toString(), R.string.accessibility_cont_desc_role_button);
 			removeTextView.setOnClickListener(new OnClickListener() {
 
 				@Override
@@ -514,7 +516,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_generic, null);
 		TextView headingTv = Ui.findView(item, R.id.item_label);
 		TextView textTv = Ui.findView(item, R.id.item_text);
+		View copyToClipboardContentDescription = Ui.findView(item, R.id.copy_to_clipboard_content_description);
 
+		copyToClipboardContentDescription.setVisibility(AccessibilityUtil.isTalkBackEnabled(getContext())
+				? View.VISIBLE : View.GONE);
 		headingTv.setText(label);
 		textTv.setText(text);
 
@@ -530,6 +535,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			View item = getLayoutInflater().inflate(R.layout.snippet_itin_detail_item_booking_info, null);
 
 			TextView bookingInfoTv = Ui.findView(item, R.id.booking_info);
+			AccessibilityUtil.appendRoleContDesc(bookingInfoTv, bookingInfoTv.getText().toString(), R.string.accessibility_cont_desc_role_button);
 
 			if (isSharedItin()) {
 				//If shared we dont show the additional information button
@@ -553,6 +559,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 			// Reload stuff
 			TextView reloadTextView = Ui.findView(item, R.id.reload_text_view);
 			reloadTextView.setText(getReloadText());
+			AccessibilityUtil.appendRoleContDesc(reloadTextView, getReloadText(), R.string.accessibility_cont_desc_role_button);
 
 			final ProgressBar progressBar = Ui.findView(item, R.id.itin_details_progress_bar);
 			final ImageView reloadImageView = Ui.findView(item, R.id.itin_details_reload_image_view);
@@ -619,6 +626,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				View insuranceRow = getLayoutInflater().inflate(R.layout.snippet_itin_insurance_row, null);
 				TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
 				insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
+				AccessibilityUtil.appendRoleContDesc(insuranceName, insuranceName.getText().toString(), R.string.accessibility_cont_desc_role_button);
 
 				insuranceRow.setOnClickListener(ProductFlavorFeatureConfiguration.getInstance().getInsuranceLinkViewClickListener(mContext, insurance.getTermsUrl()));
 

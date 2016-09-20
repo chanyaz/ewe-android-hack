@@ -8,6 +8,8 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
@@ -24,6 +26,7 @@ public class CardInfoScreen {
 	private static final int MONTH_DOWN_BUTTON_ID = R.id.month_down;
 	private static final int YEAR_UP_BUTTON_ID = R.id.year_up;
 	private static final int CREDIT_CARD_CVV = R.id.edit_creditcard_cvv;
+	private static final int CARD_INFO_LABEL_ID = R.id.card_info_label;
 
 	// Object access
 
@@ -80,10 +83,14 @@ public class CardInfoScreen {
 		return onView(withId(NEXT_BUTTON_ID));
 	}
 
+	public static ViewInteraction cardInfoLabel() {
+		return onView(withId(CARD_INFO_LABEL_ID));
+	}
+
 	// Object interaction
 
 	public static void typeTextCreditCardEditText(String text) {
-		creditCardNumberEditText().perform(typeText(text), closeSoftKeyboard());
+		creditCardNumberEditText().perform(waitForViewToDisplay(), typeText(text), closeSoftKeyboard());
 	}
 
 	public static void clickOnExpirationDateButton() {
@@ -134,5 +141,12 @@ public class CardInfoScreen {
 
 	public static void clickNextButton() {
 		nextButton().perform(waitForViewToDisplay(), click());
+	}
+
+	public static void assertCardInfoLabelShown() {
+		cardInfoLabel()
+			.perform(waitForViewToDisplay())
+			.check(matches(isDisplayed()))
+			.check(matches(withText("Card Info")));
 	}
 }

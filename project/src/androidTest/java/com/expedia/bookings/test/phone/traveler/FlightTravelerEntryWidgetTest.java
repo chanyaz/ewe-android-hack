@@ -17,16 +17,18 @@ import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTravelerEntryWidget;
-import com.expedia.vm.traveler.TravelerViewModel;
+import com.expedia.vm.traveler.FlightTravelerViewModel;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.core.AllOf.allOf;
 
 @RunWith(AndroidJUnit4.class)
 public class FlightTravelerEntryWidgetTest {
 	private FlightTravelerEntryWidget entryWidget;
-	private TravelerViewModel testVM;
+	private FlightTravelerViewModel testVM;
 
 	protected final String testEmptyPassport = "Passport:";
 
@@ -46,21 +48,20 @@ public class FlightTravelerEntryWidgetTest {
 	@Test
 	public void testPassportCountryIsShowing() throws Throwable {
 		Db.getTravelers().add(new Traveler());
-		testVM = new TravelerViewModel(InstrumentationRegistry.getTargetContext(), 0);
-		testVM.getShowPassportCountryObservable().onNext(true);
+		testVM = new FlightTravelerViewModel(InstrumentationRegistry.getTargetContext(), 0, true);
 		setViewModel(testVM);
 
 		PackageScreen.clickTravelerAdvanced();
 		EspressoUtils.assertViewIsDisplayed(R.id.redress_number);
 		EspressoUtils.assertViewIsDisplayed(R.id.passport_country_spinner);
 		onView(allOf(withSpinnerText(testEmptyPassport)));
+		onView(allOf(withSpinnerText(testEmptyPassport), withCompoundDrawable(R.drawable.ic_error_blue))).check(doesNotExist());
 	}
 
 	@Test
 	public void testPassportCountryIsNotShowing() throws Throwable {
 		Db.getTravelers().add(new Traveler());
-		testVM = new TravelerViewModel(InstrumentationRegistry.getTargetContext(), 0);
-		testVM.getShowPassportCountryObservable().onNext(false);
+		testVM = new FlightTravelerViewModel(InstrumentationRegistry.getTargetContext(), 0, false);
 		setViewModel(testVM);
 
 		PackageScreen.clickTravelerAdvanced();
@@ -68,7 +69,7 @@ public class FlightTravelerEntryWidgetTest {
 		EspressoUtils.assertViewIsNotDisplayed(R.id.passport_country_spinner);
 	}
 
-	private void setViewModel(final TravelerViewModel viewModel) throws Throwable {
+	private void setViewModel(final FlightTravelerViewModel viewModel) throws Throwable {
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {

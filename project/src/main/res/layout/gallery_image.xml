@@ -7,8 +7,28 @@
         android:id="@+id/gallery_item_image_view"
         android:layout_width="match_parent"
         android:layout_height="@dimen/car_details_image_size"
+        android:contentDescription="@string/gallery_cont_desc"
         android:adjustViewBounds="true"
         android:scaleType="fitCenter" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/photo_count_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_marginBottom="13dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="18dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/gallery_item_count_bg"
+        android:drawableLeft="@drawable/gallery_picture"
+        android:drawablePadding="8dp"
+        android:gravity="center"
+        android:paddingBottom="8dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="8dp"
+        android:textColor="@color/white" />
 
     <ProgressBar
         android:id="@+id/gallery_item_progress_bar"

@@ -805,7 +805,7 @@
     </string-array>
 
     <string-array name="sort_options_hotels">
-        <item>@string/popular</item>
+        <item>@string/recommended</item>
         <item>@string/price</item>
         <item>@string/discounts</item>
         <item>@string/rating</item>
@@ -844,21 +844,7 @@
         <item>1</item>
         <item>2</item>
     </string-array>
-
-    <string-array name="abacus_hotel_price_breakdown_choices">
-        <item>@string/preference_abacus_setting_server</item>
-        <item>@string/preference_abacus_setting_control</item>
-        <item>Due Today</item>
-        <item>Trip Total</item>
-    </string-array>
-
-    <string-array name="abacus_hotel_price_breakdown_choice_values">
-        <item>-1</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-
+    
     <string-array name="abacus_hotel_review_superlatives">
         <item>@string/preference_abacus_setting_server</item>
         <item>@string/preference_abacus_setting_control</item>
@@ -901,6 +887,13 @@
         <item>10:00 pm</item>
         <item>11:00 pm</item>
         <item>11:59 pm</item>
+    </string-array>
+
+    <string-array name="countriesWithStateForBilling" tools:ignore="MissingTranslation">
+        <item>USA</item>
+        <item>MEX</item>
+        <item>AUS</item>
+        <item>CAN</item>
     </string-array>
 
 </resources>

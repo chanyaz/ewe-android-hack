@@ -6,19 +6,20 @@ import org.joda.time.Days
 import org.joda.time.LocalDate
 import java.util.HashMap
 
-class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport: SuggestionV4?, val departureDate: LocalDate, val returnDate: LocalDate?, adults: Int, children: List<Int>, infantSeatingInLap: Boolean) : AbstractFlightSearchParams(departureAirport, arrivalAirport, adults, children, departureDate, returnDate, infantSeatingInLap) {
+class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport: SuggestionV4, val departureDate: LocalDate, val returnDate: LocalDate?, adults: Int, children: List<Int>, infantSeatingInLap: Boolean) : AbstractFlightSearchParams(departureAirport, arrivalAirport, adults, children, departureDate, returnDate, infantSeatingInLap) {
 
     class Builder(maxStay: Int, maxRange: Int) : AbstractFlightSearchParams.Builder(maxStay, maxRange) {
         private var isRoundTrip = true
 
         override fun build(): FlightSearchParams {
             val departureAirport = originLocation ?: throw IllegalArgumentException()
+            val arrivalAirport = destinationLocation?:throw IllegalArgumentException()
             val departureDate = startDate ?: throw IllegalArgumentException()
-            return FlightSearchParams(departureAirport, destinationLocation, departureDate, endDate, adults, children, infantSeatingInLap)
+            return FlightSearchParams(departureAirport, arrivalAirport, departureDate, endDate, adults, children, infantSeatingInLap)
         }
 
         override fun areRequiredParamsFilled(): Boolean {
-            return hasOriginLocation() && !isOriginSameAsDestination() && hasValidDateDuration() && hasValidDates()
+            return hasOriginLocation() && hasDestinationLocation() && !isOriginSameAsDestination() && hasValidDateDuration() && hasValidDates()
         }
 
         override fun hasValidDateDuration(): Boolean {

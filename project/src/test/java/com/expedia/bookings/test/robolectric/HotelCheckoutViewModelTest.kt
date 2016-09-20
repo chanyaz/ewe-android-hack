@@ -29,7 +29,7 @@ class HotelCheckoutViewModelTest {
     @Test
     fun soldOutRoomLeadsToErrorObservableEmission() {
         val tripId = "error_room_unavailable_0"
-        val tripDetails = TripDetails(tripId, "333.33", "USD", "guid", true)
+        val tripDetails = TripDetails(tripId, "333.33", "USD", true)
         val miscParameters = MiscellaneousParams(true, "tealeafHotel:" + tripId, "expedia.app.android.phone:x.x.x")
         val checkoutParams = HotelCheckoutV2Params.Builder()
                 .tripDetails(tripDetails)

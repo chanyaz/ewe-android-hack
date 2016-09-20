@@ -6,7 +6,7 @@ import android.app.Activity
 import android.content.Context
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
-import android.graphics.Rect
+import android.os.Handler
 import android.support.v4.content.ContextCompat
 import android.text.Html
 import android.util.AttributeSet
@@ -29,18 +29,18 @@ import android.widget.TableLayout
 import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.tracking.HotelTracking
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.CollectionUtils
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -67,6 +67,7 @@ val HOTEL_DESC_COLLAPSE_LINES = 2
 
 class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
+    var hotelId: String by Delegates.notNull()
     var bottomMargin = 0
     val ANIMATION_DURATION = 200L
     val SELECT_ROOM_ANIMATION = 300L
@@ -167,6 +168,11 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private val ANIMATION_DURATION_ROOM_CONTAINER = if (ExpediaBookingApp.isAutomation()) 0L else 250L
 
     var viewmodel: BaseHotelDetailViewModel by notNullAndObservable { vm ->
+        resortFeeWidget.feeDescriptionText.setText(vm.getResortFeeText())
+        resortFeeWidget.feesIncludedNotIncluded.visibility = if (vm.showFeesIncludedNotIncluded()) View.VISIBLE else View.GONE
+        resortFeeWidget.feeType.visibility = if (vm.showFeeType()) View.VISIBLE else View.GONE
+        resortFeeWidget.feeType.setText(vm.getFeeTypeText())
+
         detailContainer.setOnTouchListener(touchListener)
         hotelDetailsToolbar.setHotelDetailViewModel(vm)
 
@@ -187,7 +193,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             gallery.setDataSource(galleryUrls)
             gallery.setProgressBarOnImageViewsEnabled(true)
             gallery.scrollToPosition(0)
-            gallery.startFlipping()
 
             val galleryItemCount = gallery.adapter.itemCount
             if (galleryItemCount > 0) {
@@ -339,6 +344,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
                     //set focus on first room row for accessibility
                     (roomContainer.getChildAt(0) as HotelRoomRateView).row.isFocusableInTouchMode = true
+                    (roomContainer.getChildAt(0) as HotelRoomRateView).viewmodel.setViewRoomContentDescription.onNext(context.getString(R.string.hotel_expanded_room_select_cont_desc))
                 }
 
                 override fun onAnimationStart(p0: Animation?) {
@@ -458,7 +464,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
-        gallery.stopFlipping()
     }
 
     fun resetViews() {
@@ -492,6 +497,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             recycleImageView(room.roomHeaderImage)
         }
         roomContainer.removeAllViews()
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+            hotelDetailsToolbar.heartIcon.updateImageState()
+        }
     }
 
     private fun hideResortandSelectRoom() {
@@ -566,16 +574,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     val scrollListener = ViewTreeObserver.OnScrollChangedListener {
         setViewVisibilities()
-
-        // start/stop gallery when it's showing/not showing on display
-        val hitRect = Rect()
-        detailContainer.getHitRect(hitRect)
-        val isGalleryShowingOnDisplay = gallery.getLocalVisibleRect(hitRect)
-        if (isGalleryShowingOnDisplay && !gallery.isFlipping) {
-            gallery.startFlipping()
-        } else if (!isGalleryShowingOnDisplay && gallery.isFlipping) {
-            gallery.stopFlipping()
-        }
     }
 
     val touchListener = View.OnTouchListener { v, event ->
@@ -594,6 +592,15 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             galleryRoot.translationY = (yoffset - initialScrollTop) * 0.5f
         } else {
             galleryRoot.translationY = 0f
+        }
+
+        // Hotel gallery collapsed
+        if (yoffset == initialScrollTop) {
+            (gallery.layoutManager as RecyclerGallery.A11yLinearLayoutManager).setCanA11yScroll(false)
+        }
+        // Hotel gallery expanded
+        if (yoffset == 0) {
+            (gallery.layoutManager as RecyclerGallery.A11yLinearLayoutManager).setCanA11yScroll(true)
         }
 
         miniMapView.translationY = yoffset * 0.15f
@@ -714,7 +721,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         smoothScrollAnimation.start()
 
         //request focus for accessibility on first room row after scrolling
-        (roomContainer.getChildAt(0) as HotelRoomRateView).row.requestFocus()
+        Handler().postDelayed({
+            (roomContainer.getChildAt(0) as HotelRoomRateView).row.requestFocus()
+        }, 400L)
     }
 
 
@@ -737,6 +746,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         val phoneIconDrawable = ContextCompat.getDrawable(context, R.drawable.detail_phone).mutate()
         phoneIconDrawable.setColorFilter(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)), PorterDuff.Mode.SRC_IN)
         payByPhoneTextView.setCompoundDrawablesWithIntrinsicBounds(phoneIconDrawable, null, null, null)
+
         selectRoomButton.setOnClickListener {
             scrollToRoom(true)
             trackSelectRoomClick(false)
@@ -759,6 +769,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
+
     }
 
     private fun trackSelectRoomClick(isStickyButton: Boolean) {
@@ -768,6 +779,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     fun refresh() {
         detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         resetGallery()
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+            hotelDetailsToolbar.heartIcon.updateImageState()
+        }
     }
 
     fun resetGallery() {

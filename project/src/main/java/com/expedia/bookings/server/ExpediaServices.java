@@ -554,7 +554,6 @@ public class ExpediaServices implements DownloadListener {
 		query.add(new BasicNameValuePair("tripId", itinerary.getTripId()));
 		query.add(new BasicNameValuePair("expectedTotalFare", flightTrip.getTotalPrice().getAmount().toString() + ""));
 		query.add(new BasicNameValuePair("expectedFareCurrencyCode", flightTrip.getTotalPrice().getCurrency()));
-		addAbacusUserGuidIfNotEmpty(query);
 
 		Money cardFee = flightItem.getPaymentFee(billingInfo.getPaymentType());
 		if (cardFee != null) {
@@ -901,8 +900,6 @@ public class ExpediaServices implements DownloadListener {
 			query.add(new BasicNameValuePair("suppressFinalBooking", "true"));
 		}
 
-		addAbacusUserGuidIfNotEmpty(query);
-
 		return query;
 	}
 
@@ -935,12 +932,6 @@ public class ExpediaServices implements DownloadListener {
 		if (!TextUtils.isEmpty(tealeafId)) {
 			query.add(new BasicNameValuePair("tlPaymentsSubmitEvent", "1"));
 			query.add(new BasicNameValuePair("tealeafTransactionId", tealeafId));
-		}
-	}
-
-	private void addAbacusUserGuidIfNotEmpty(List<BasicNameValuePair> query) {
-		if (Strings.isNotEmpty(Db.getAbacusGuid())) {
-			query.add(new BasicNameValuePair("abacusUserGuid", Db.getAbacusGuid()));
 		}
 	}
 

@@ -34,7 +34,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Images;
@@ -43,6 +42,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -154,16 +154,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	}
 
 	public void defaultScroll() {
-		getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-			@Override
-			public void onGlobalLayout() {
-				int height = getHeight();
-				if (height != 0) {
-					getViewTreeObserver().removeOnGlobalLayoutListener(this);
-					smoothScrollTo(0, getHeight());
-				}
-			}
-		});
+		smoothScrollTo(0, mInitialScrollTop);
 	}
 
 	public void cleanUp() {
@@ -242,16 +233,15 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		for (ActivityImages activityImages : activityDetails.images) {
 			List<String> imageURLs = Images
 				.getLXImageURLBasedOnWidth(activityImages.getImages(), AndroidUtils.getDisplaySize(getContext()).x);
-			LXMedia media = new LXMedia(imageURLs, activityImages.getImageCaption());
+			LXMedia media = new LXMedia(imageURLs, Phrase.from(getContext(),
+					R.string.lx_carousal_cont_desc_TEMPLATE).put("caption",
+					activityImages.getImageCaption()).format().toString());
 			mediaList.add(media);
 		}
 
 		activityGallery.setDataSource(mediaList);
 		activityGallery.setOnItemClickListener(this);
 		activityGallery.scrollToPosition(0);
-		if (!activityGallery.isFlipping() && !AccessibilityUtil.isTalkBackEnabled(getContext())) {
-			activityGallery.startFlipping();
-		}
 	}
 
 	public void buildSections(ActivityDetailsResponse activityDetailsResponse) {

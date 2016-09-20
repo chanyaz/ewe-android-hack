@@ -13,9 +13,7 @@ class TravelerAdvancedOptionsViewModel() {
     val seatPreferenceSubject = BehaviorSubject.create<Traveler.SeatPreference>()
     val assistancePreferenceSubject = BehaviorSubject.create<Traveler.AssistanceType>()
 
-    val redressNumberObserver = endlessObserver<TextViewAfterTextChangeEvent>() { redressText ->
-        traveler.redressNumber = redressText.editable().toString()
-    }
+    val redressNumberObserver = endlessObserver<String>() { traveler.redressNumber = it }
 
     val seatPreferenceObserver = endlessObserver<Traveler.SeatPreference> { seatPref ->
         traveler.seatPreference = seatPref

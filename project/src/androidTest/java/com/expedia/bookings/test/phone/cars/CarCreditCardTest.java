@@ -13,7 +13,11 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.mobiata.android.util.IoUtils;
 
+import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.clearText;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
 public class CarCreditCardTest extends CarTestCase {
@@ -32,7 +36,9 @@ public class CarCreditCardTest extends CarTestCase {
 		CheckoutViewModel.clickPaymentInfo();
 		Common.delay(1);
 		CardInfoScreen.typeTextCreditCardEditText("6711111111111111");
-		EspressoUtils.assertViewIsDisplayed(R.id.invalid_payment_container);
+		onView(withId(R.id.invalid_payment_container))
+			.perform(waitForViewToDisplay())
+			.check(matches(isDisplayed()));
 		CardInfoScreen.creditCardNumberEditText().perform(clearText());
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
 		CardInfoScreen.clickOnExpirationDateButton();

@@ -8,6 +8,7 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailSegment
 import com.expedia.bookings.utils.bindView
+import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 
 class RailTimelineTransfer : FrameLayout {
@@ -19,20 +20,21 @@ class RailTimelineTransfer : FrameLayout {
         View.inflate(context, R.layout.widget_rail_details_timeline_transfer, this)
         travelIcon.setImageResource(RailTransferMode.findMappedDrawable(segment.travelMode))
         if (segment.isTransfer) {
-            transferText.text = Phrase.from(context, R.string.rail_walk_from_a_to_b_TEMPLATE)
-                    .put("origin", segment.departureStation.stationDisplayName)
-                    .put("destination", segment.arrivalStation.stationDisplayName).format().toString()
+            transferText.text = Phrase.from(context, R.string.rail_transfer_from_a_to_b_TEMPLATE)
+                    .put("formatted_duration", DateTimeUtils.formatDuration(context.resources, segment.durationMinutes()))
+                    .put("origin_station_name", segment.departureStation.stationDisplayName)
+                    .put("destination_station_name", segment.arrivalStation.stationDisplayName).format().toString()
         } else {
             transferText.text = Phrase.from(context, R.string.rail_travel_from_a_to_b_TEMPLATE)
-                    .put("travelmode", segment.travelMode)
-                    .put("origin", segment.departureStation.stationDisplayName)
-                    .put("destination", segment.arrivalStation.stationDisplayName).format().toString()
+                    .put("travel_mode", segment.travelMode)
+                    .put("origin_station_name", segment.departureStation.stationDisplayName)
+                    .put("destination_station_name", segment.arrivalStation.stationDisplayName).format().toString()
         }
     }
 
     constructor(context: Context, stationName: String) : super(context) {
         View.inflate(context, R.layout.widget_rail_details_timeline_transfer, this)
         transferText.text = Phrase.from(context, R.string.rail_change_at_station_TEMPLATE)
-                .put("stationname", stationName).format().toString()
+                .put("station_name", stationName).format().toString()
     }
 }

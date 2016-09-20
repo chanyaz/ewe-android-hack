@@ -110,9 +110,9 @@ public final class CarSearchPresenterTest {
 		final DateTime tomorrowsTomorrow = tomorrow.plusDays(1);
 		CarScreen.selectDates(tomorrow.toLocalDate(), tomorrowsTomorrow.toLocalDate());
 		int minutesToMillis = 30 * 60 * 1000;
-		String expected = DateFormatUtils.formatCarDateTimeRange(playground.getActivity(),
+		String expected = DateFormatUtils.formatStartEndDateTimeRange(playground.getActivity(),
 			tomorrow.withTimeAtStartOfDay().plusMillis(noonProgress * minutesToMillis),
-			tomorrowsTomorrow.withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis));
+			tomorrowsTomorrow.withTimeAtStartOfDay().plusMillis(onePmProgress * minutesToMillis), false);
 		CarScreen.selectDateButton().check(matches(withText(expected)));
 	}
 
@@ -189,9 +189,9 @@ public final class CarSearchPresenterTest {
 		final DateTime tomorrow = today.plusDays(1);
 		CarScreen.selectDates(today.toLocalDate(), tomorrow.toLocalDate());
 		int millisInOneStep = 30 * 60 * 1000;
-		String expected = DateFormatUtils.formatCarDateTimeRange(playground.getActivity(),
+		String expected = DateFormatUtils.formatStartEndDateTimeRange(playground.getActivity(),
 			today.withTimeAtStartOfDay().plusMillis(currentTimeSteps * millisInOneStep),
-			tomorrow.withTimeAtStartOfDay().plusMillis(ninePMSteps * millisInOneStep));
+			tomorrow.withTimeAtStartOfDay().plusMillis(ninePMSteps * millisInOneStep), false);
 		CarScreen.selectDateButton().check(matches(withText(expected)));
 	}
 
@@ -212,9 +212,9 @@ public final class CarSearchPresenterTest {
 		final DateTime date = DateTime.now().plusDays(1);
 		CarScreen.selectDates(date.toLocalDate(), date.toLocalDate());
 		int minutesToMillis = 30 * 60 * 1000;
-		String expected = DateFormatUtils.formatCarDateTimeRange(playground.getActivity(),
+		String expected = DateFormatUtils.formatStartEndDateTimeRange(playground.getActivity(),
 			date.withTimeAtStartOfDay().plusMillis(ninePmProgress * minutesToMillis),
-			date.withTimeAtStartOfDay().plusMillis((ninePmProgress + 4) * minutesToMillis));
+			date.withTimeAtStartOfDay().plusMillis((ninePmProgress + 4) * minutesToMillis), false);
 		CarScreen.selectDateButton().check(matches(withText(expected)));
 	}
 }

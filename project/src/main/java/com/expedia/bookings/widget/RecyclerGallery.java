@@ -1,21 +1,15 @@
 package com.expedia.bookings.widget;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
@@ -32,8 +26,8 @@ import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
+import com.squareup.phrase.Phrase;
 import com.squareup.picasso.Picasso;
 
 import butterknife.ButterKnife;
@@ -49,25 +43,37 @@ public class RecyclerGallery extends RecyclerView {
 	 */
 	public static final int MODE_CENTER = 1;
 
-	private static final int DEFAULT_FLIP_INTERVAL = 4000;
-
 	private GalleryItemListener mListener;
 	private RecyclerAdapter mAdapter;
 	private SpaceDecoration mDecoration;
-	private LinearLayoutManager mLayoutManager;
+	private A11yLinearLayoutManager mLayoutManager;
 	private GalleryItemScrollListener mScrollListener;
+
+	public class A11yLinearLayoutManager extends LinearLayoutManager {
+
+		private boolean canA11yScroll = false;
+
+		public A11yLinearLayoutManager(Context context) {
+			super(context);
+		}
+
+		public void setCanA11yScroll(boolean canScroll) {
+			canA11yScroll = canScroll;
+		}
+
+		@Override
+		public boolean canScrollHorizontally() {
+			if (AccessibilityUtil.isTalkBackEnabled(getContext())) {
+				return canA11yScroll;
+			}
+			else {
+				return super.canScrollHorizontally();
+			}
+		}
+	}
 
 	private int mMode = MODE_FILL;
 
-	/**
-	 * Auto flipping
-	 */
-	private boolean mRunning = false;
-	private boolean mStarted = false;
-	private boolean mVisible = false;
-	private boolean mUserPresent = true;
-	private boolean mScrolling = false;
-	private boolean mRegisteredReceiver = false;
 	private IImageViewBitmapLoadedListener imageViewBitmapLoadedListener;
 
 	private boolean enableProgressBarOnImageViews = false;
@@ -86,21 +92,6 @@ public class RecyclerGallery extends RecyclerView {
 		this.imageViewBitmapLoadedListener = imageViewBitmapLoadedListener;
 	}
 
-	private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-		@Override
-		public void onReceive(Context context, Intent intent) {
-			final String action = intent.getAction();
-			if (Intent.ACTION_SCREEN_OFF.equals(action)) {
-				mUserPresent = false;
-				updateRunning();
-			}
-			else if (Intent.ACTION_USER_PRESENT.equals(action)) {
-				mUserPresent = true;
-				updateRunning();
-			}
-		}
-	};
-
 	public RecyclerGallery(Context context) {
 		super(context);
 	}
@@ -114,37 +105,6 @@ public class RecyclerGallery extends RecyclerView {
 	}
 
 	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-
-		// Listen for broadcasts related to user-presence
-		final IntentFilter filter = new IntentFilter();
-		filter.addAction(Intent.ACTION_SCREEN_OFF);
-		filter.addAction(Intent.ACTION_USER_PRESENT);
-		getContext().registerReceiver(mReceiver, filter);
-		mRegisteredReceiver = true;
-	}
-
-	@Override
-	protected void onDetachedFromWindow() {
-		super.onDetachedFromWindow();
-		mVisible = false;
-
-		if (mRegisteredReceiver) {
-			getContext().unregisterReceiver(mReceiver);
-			mRegisteredReceiver = false;
-		}
-		updateRunning();
-	}
-
-	@Override
-	protected void onWindowVisibilityChanged(int visibility) {
-		super.onWindowVisibilityChanged(visibility);
-		mVisible = visibility == VISIBLE;
-		updateRunning();
-	}
-
-	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		initViews();
@@ -153,7 +113,6 @@ public class RecyclerGallery extends RecyclerView {
 	@Override
 	public boolean fling(int velocityX, int velocityY) {
 		snapTo(velocityX);
-		setScrolling(true);
 		return true;
 	}
 
@@ -193,10 +152,10 @@ public class RecyclerGallery extends RecyclerView {
 		addItemDecoration(mDecoration);
 
 		if (ExpediaBookingApp.isDeviceShitty()) {
-			mLayoutManager = new LinearLayoutManager(getContext());
+			mLayoutManager = new A11yLinearLayoutManager(getContext());
 		}
 		else {
-			mLayoutManager = new LinearLayoutManager(getContext()) {
+			mLayoutManager = new A11yLinearLayoutManager(getContext()) {
 				@Override
 				protected int getExtraLayoutSpace(State state) {
 					if (state.hasTargetScrollPosition()) {
@@ -251,6 +210,8 @@ public class RecyclerGallery extends RecyclerView {
 		public class ViewHolder extends RecyclerView.ViewHolder implements OnClickListener {
 			@InjectView(R.id.gallery_item_progress_bar)
 			public ProgressBar progressBar;
+			@InjectView(R.id.photo_count_textview)
+			public TextView photoCountTextView;
 			@InjectView(R.id.gallery_item_image_view)
 			public HotelDetailsGalleryImageView mImageView;
 
@@ -259,9 +220,18 @@ public class RecyclerGallery extends RecyclerView {
 				ButterKnife.inject(this, itemView);
 				mImageView.setLayoutParams(mLayoutParams);
 				mImageView.setTag(callback);
-				if (!AccessibilityUtil.isTalkBackEnabled(getContext())) {
-					mImageView.setOnClickListener(this);
-				}
+				mImageView.setOnClickListener(this);
+			}
+
+			public void bind() {
+				photoCountTextView.setText(Phrase.from(getContext(), R.string.gallery_photo_count_TEMPLATE)
+					.put("index", String.valueOf(getAdapterPosition() + 1))
+					.put("count", String.valueOf(getItemCount()))
+					.format().toString());
+				photoCountTextView.setContentDescription(Phrase.from(getContext(), R.string.gallery_photo_count_content_description_TEMPLATE)
+					.put("index", String.valueOf(getAdapterPosition() + 1))
+					.put("count", String.valueOf(getItemCount()))
+					.format().toString());
 			}
 
 			@Override
@@ -336,6 +306,8 @@ public class RecyclerGallery extends RecyclerView {
 			if (enableProgressBarOnImageViews) {
 				holder.progressBar.setVisibility(View.VISIBLE);
 			}
+
+			holder.bind();
 		}
 
 		@Override
@@ -400,91 +372,6 @@ public class RecyclerGallery extends RecyclerView {
 			}
 		}
 	}
-
-	/**
-	 * Auto scrolling
-	 */
-
-	private void setScrolling(boolean isScrolling) {
-		if (isScrolling != mScrolling) {
-			mScrolling = isScrolling;
-			updateRunning();
-		}
-	}
-
-	public boolean isFlipping() {
-		return mRunning;
-	}
-
-	public void startFlipping() {
-		mStarted = true;
-		mScrolling = false;
-		updateRunning();
-	}
-
-	public void stopFlipping() {
-		mStarted = false;
-		updateRunning();
-	}
-
-	private void updateRunning() {
-		boolean running = mVisible && mStarted && mUserPresent && !mScrolling;
-		if (running != mRunning) {
-			if (running) {
-				Message msg = mHandler.obtainMessage(FLIP_MSG);
-				mHandler.sendMessageDelayed(msg, DEFAULT_FLIP_INTERVAL);
-			}
-			else {
-				mHandler.removeMessages(FLIP_MSG);
-			}
-			mRunning = running;
-		}
-
-		Log.d("updateRunning() mVisible=" + mVisible + ", mStarted=" + mStarted + ", mUserPresent=" + mUserPresent
-			+ ", mRunning=" + mRunning + ", mScrolling=" + mScrolling);
-	}
-
-	public void showNext() {
-		RecyclerAdapter.ViewHolder viewHolder = (RecyclerAdapter.ViewHolder) findViewHolderForAdapterPosition(
-			getSelectedItem());
-		if (viewHolder != null && viewHolder.progressBar.getVisibility() == GONE) {
-			int position = mLayoutManager.findFirstVisibleItemPosition() + 1;
-			if (position >= 0 && position < mAdapter.getItemCount()) {
-				if (mScrollListener != null) {
-					mScrollListener.onGalleryItemScrolled(position);
-				}
-				smoothScrollToPosition(position);
-			}
-		}
-	}
-
-	private static final int FLIP_MSG = 1;
-
-	private static final class LeakSafeHandler extends Handler {
-		private WeakReference<RecyclerGallery> mTarget;
-
-		public LeakSafeHandler(RecyclerGallery target) {
-			mTarget = new WeakReference<RecyclerGallery>(target);
-		}
-
-		@Override
-		public void handleMessage(Message msg) {
-			RecyclerGallery target = mTarget.get();
-			if (target == null) {
-				return;
-			}
-
-			if (msg.what == FLIP_MSG) {
-				if (target.mRunning) {
-					target.showNext();
-					msg = obtainMessage(FLIP_MSG);
-					sendMessageDelayed(msg, target.DEFAULT_FLIP_INTERVAL);
-				}
-			}
-		}
-	}
-
-	private final Handler mHandler = new LeakSafeHandler(this);
 
 	public interface GalleryItemListener {
 		void onGalleryItemClicked(Object item);

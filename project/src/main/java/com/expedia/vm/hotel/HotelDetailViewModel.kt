@@ -3,12 +3,15 @@ package com.expedia.vm.hotel
 import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.util.getABTestGuestRatingBackground
 import com.expedia.util.getABTestGuestRatingText
@@ -16,7 +19,23 @@ import com.expedia.vm.BaseHotelDetailViewModel
 import rx.Observer
 
 open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
-        BaseHotelDetailViewModel(context, roomSelectedObserver){
+        BaseHotelDetailViewModel(context, roomSelectedObserver) {
+
+    override fun showFeeType() : Boolean {
+        return false
+    }
+
+    override fun getFeeTypeText() : Int {
+       return R.string.total_fee
+    }
+
+    override fun showFeesIncludedNotIncluded() : Boolean {
+        return true
+    }
+
+    override fun getResortFeeText() : Int {
+        return R.string.hotel_fees_for_this_stay
+    }
 
     override fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
         HotelTracking().trackPageLoadHotelInfosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, currentLocationSearch, hotelSoldOut, isRoomSoldOut)
@@ -26,12 +45,12 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
         return LineOfBusiness.HOTELS
     }
 
-    override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse) : Boolean {
+    override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean {
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         return roomOffer.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
     }
 
-    override fun getGuestRatingRecommendedText(rating: Float, resources: Resources) : String {
+    override fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
         return getABTestGuestRatingText(rating, context.resources)
     }
 

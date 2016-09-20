@@ -2,7 +2,8 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.flights.AbstractFlightOfferResponse
 import com.expedia.bookings.data.flights.FlightTripDetails.PassengerCategory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.Ui
@@ -12,13 +13,14 @@ import rx.subjects.PublishSubject
 import java.util.Collections
 
 class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreakdownViewModel(context) {
-    val flightCostSummaryObservable = PublishSubject.create<FlightCreateTripResponse>()
+    val flightCostSummaryObservable = PublishSubject.create<TripResponse>()
 
     init {
-        flightCostSummaryObservable.subscribe { tripResponse ->
-            val breakdowns = arrayListOf<CostSummaryBreakdown>()
+        flightCostSummaryObservable.subscribe { tripResponse -> tripResponse as AbstractFlightOfferResponse
+            val breakdowns = arrayListOf<CostSummaryBreakdownRow>()
             val flightDetails = tripResponse.details
-            val pricePerPassengerList = flightDetails.offer.pricePerPassengerCategory
+            val flightOffer = flightDetails.offer
+            val pricePerPassengerList = flightOffer.pricePerPassengerCategory
             var title: String
             var travelerInfo: String = ""
             var numAdultsAdded = 0
@@ -47,52 +49,50 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                         travelerInfo = Phrase.from(context, R.string.flight_add_infant_in_seat_number_TEMPLATE).put("number", ++numInfantsInLap).format().toString()
                     }
                 }
-                breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(travelerInfo).cost(passenger.totalPrice.formattedPrice).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().title(travelerInfo).cost(passenger.totalPrice.formattedPrice).build())
 
-                breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(context.getString(R.string.Flight)).cost(passenger.basePrice.formattedPrice).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().title(context.getString(R.string.Flight)).cost(passenger.basePrice.formattedPrice).build())
 
                 title = context.getString(R.string.cost_summary_breakdown_taxes_fees)
-                breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(passenger.taxesPrice.formattedPrice).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(passenger.taxesPrice.formattedPrice).build())
 
                 // Adding divider line
-                breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
 
             }
 
-            if (flightDetails.offer.fees != null) {
+            if (flightOffer.fees != null) {
                 title = Phrase.from(context, R.string.brand_booking_fee).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()
-                breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(flightDetails.offer.bookingFee.formattedMoney).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(flightOffer.bookingFee.formattedMoney).build())
 
                 // insurance
-                if (flightDetails.offer.selectedInsuranceProduct != null) {
-                    val insurance = flightDetails.offer.selectedInsuranceProduct
+                if (flightOffer.selectedInsuranceProduct != null) {
+                    val insurance = flightOffer.selectedInsuranceProduct
                     val insuranceTitle = context.getString(R.string.cost_summary_breakdown_flight_insurance)
 
-                    breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(insuranceTitle)
+                    breakdowns.add(CostSummaryBreakdownRow.Builder().title(insuranceTitle)
                             .cost(insurance.totalPrice.formattedPrice)
                             .color(Ui.obtainThemeColor(context, R.attr.primary_color))
                             .build())
                 }
 
-                if (tripResponse.selectedCardFees != null) {
+                val selectedCardFees = tripResponse.selectedCardFees
+                if (selectedCardFees != null && !selectedCardFees.isZero) {
                     title = context.getString(R.string.airline_card_fee)
-                    val airlineCardFee = tripResponse.selectedCardFees.getFormattedMoneyFromAmountAndCurrencyCode()
-
-                    breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(airlineCardFee).build())
+                    val airlineCardFee = selectedCardFees.formattedMoneyFromAmountAndCurrencyCode
+                    breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(airlineCardFee).build())
                 }
 
                 // Adding divider line
-                breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().isLine(true).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
             }
 
-
             title = context.getString(R.string.cost_summary_breakdown_total_due_today)
-            val totalPrice = if (tripResponse.totalPrice != null) tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints() else tripResponse.details.offer.totalFarePrice // TODO - priceChange checkout response does not return totalPrice field!!
-            breakdowns.add(CostSummaryBreakdown.CostSummaryBuilder().title(title).cost(totalPrice.formattedMoneyFromAmountAndCurrencyCode).build())
+            val totalPrice = tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints()
+            breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(totalPrice.formattedMoneyFromAmountAndCurrencyCode).build())
 
             addRows.onNext(breakdowns)
             iconVisibilityObservable.onNext(true)
         }
     }
-
 }

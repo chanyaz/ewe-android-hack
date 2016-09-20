@@ -2,7 +2,6 @@ package com.expedia.bookings.data.flights
 
 import com.expedia.bookings.data.BaseCheckoutParams
 import com.expedia.bookings.data.BillingInfo
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import org.joda.time.format.ISODateTimeFormat
 import java.util.ArrayList
@@ -54,12 +53,12 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             params.put(prefix + "phoneCountryCode", travelers[i].phoneCountryCode)
             params.put(prefix + "phone", travelers[i].phoneNumber)
             if (isPrimaryTraveler) {
-                params.put(prefix + "email", billingInfo.email)
+                params.put(prefix + "email", travelers[i].email)
             }
             params.put(prefix + "birthDate", dtf.print(travelers[i].birthDate))
             params.put(prefix + "gender", travelers[i].gender)
 
-            params.put(prefix + "passengerCategory", travelers[i].getPassengerCategory())
+            params.put(prefix + "passengerCategory", travelers[i].passengerCategory)
             if (travelers[i].primaryPassportCountry != null) {
                 params.put(prefix + "passportCountryCode", travelers[i].primaryPassportCountry)
             }

@@ -19,11 +19,20 @@ public class RailCreateTripResponse extends TripResponse {
 
 	public static class RailTripOffer extends BaseRailOffer {
 		public List<RailTripProduct> railProductList;
-		//TODO add ticket delivery options
+		public List<RailTicketDeliveryOption> ticketDeliveryOptionList;
 	}
 
 	public static class RailTripProduct extends RailProduct {
 		public List<RailLegOption> legList;
+	}
+
+	public static class RailTicketDeliveryOption {
+		public String ticketDeliveryOptionToken;
+		public String ticketDeliveryOptionCategoryCode;
+		public String ticketDeliveryDescription;
+		public Money ticketDeliveryFee;
+		public List<String> ticketDeliveryCountryCodeList;
+		public boolean departureStation;
 	}
 
 	@NotNull

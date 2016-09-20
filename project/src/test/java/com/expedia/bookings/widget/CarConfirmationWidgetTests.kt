@@ -64,8 +64,8 @@ class CarConfirmationWidgetTests {
         carConfirmationWidget.onCheckoutCreateTripSuccess(carsCheckoutCreateTripSuccess)
         carConfirmationWidget.onShowConfirmation(carsShowConfirmationEvent)
 
-        assertEquals("Flights to San Francisco (SFO) button", carConfirmationWidget.addFlightTextView.contentDescription)
-        assertEquals("Hotels in San Francisco (SFO) button", carConfirmationWidget.addHotelTextView.contentDescription)
+        assertEquals("Flights to San Francisco button", carConfirmationWidget.addFlightTextView.contentDescription)
+        assertEquals("Hotels in San Francisco button", carConfirmationWidget.addHotelTextView.contentDescription)
         assertEquals("Directions to Fox button", carConfirmationWidget.directionsTextView.contentDescription)
     }
 

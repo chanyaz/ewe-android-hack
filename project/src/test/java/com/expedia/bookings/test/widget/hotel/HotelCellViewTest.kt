@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
@@ -17,8 +18,8 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
-import org.robolectric.shadows.ShadowResourcesEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.widget.hotel.HotelCellViewHolder
 import com.expedia.vm.hotel.HotelViewModel
 import org.junit.Assert
@@ -28,6 +29,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
@@ -46,6 +48,7 @@ class HotelCellViewTest {
         activity.setTheme(R.style.V2_Theme_Hotels)
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.new_hotel_cell, null, false) as ViewGroup
         hotelViewHolder = HotelCellViewHolder(hotelCellView, 200)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelFavoriteTest)
     }
 
     @Test fun testSoldOut() {
@@ -92,7 +95,7 @@ class HotelCellViewTest {
         hotelViewHolder.bind(HotelViewModel(hotelViewHolder.itemView.context, hotel))
 
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyMessageContainer.visibility)
-        Assert.assertEquals(activity.getResources().getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
+        Assert.assertEquals(activity.resources.getQuantityString(R.plurals.num_rooms_left, hotel.roomsLeftAtThisRate, hotel.roomsLeftAtThisRate),
                                hotelViewHolder.urgencyMessageBox.text)
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyIcon.visibility)
     }

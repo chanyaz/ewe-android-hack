@@ -56,15 +56,15 @@ class LXOfferListWidgetTest {
         bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.BUCKETED)
         setActivityOfferList()
 
-        val offerContainer = widget.getOfferContainer()
+        val offerContainer = widget.offerContainer
         val offerTicketPicker = offerContainer.findViewById(R.id.offer_tickets_picker)
         val offerRow = offerContainer.findViewById(R.id.offer_row)
 
         assertNotNull(offerContainer)
         assertNotNull(offerTicketPicker)
         assertNotNull(offerRow)
-        assertEquals(offerTicketPicker.getVisibility(), View.VISIBLE)
-        assertEquals(offerRow.getVisibility(), View.GONE)
+        assertEquals(offerTicketPicker.visibility, View.VISIBLE)
+        assertEquals(offerRow.visibility, View.GONE)
     }
 
     @Test
@@ -72,15 +72,15 @@ class LXOfferListWidgetTest {
         bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.CONTROL)
         setActivityOfferList()
 
-        val offerContainer = widget.getOfferContainer()
+        val offerContainer = widget.offerContainer
         val offerTicketPicker = offerContainer.findViewById(R.id.offer_tickets_picker)
         val offerRow = offerContainer.findViewById(R.id.offer_row)
 
         assertNotNull(offerContainer)
         assertNotNull(offerTicketPicker)
         assertNotNull(offerRow)
-        assertEquals(offerTicketPicker.getVisibility(), View.GONE)
-        assertEquals(offerRow.getVisibility(), View.VISIBLE)
+        assertEquals(offerTicketPicker.visibility, View.GONE)
+        assertEquals(offerRow.visibility, View.VISIBLE)
     }
 
     private fun bucketFirstOfferInListExpandedABTest(defaultVariate: AbacusUtils.DefaultVariate ) {

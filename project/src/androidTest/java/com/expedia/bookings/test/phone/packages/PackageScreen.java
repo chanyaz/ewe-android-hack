@@ -42,6 +42,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.swipeUp;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.allOf;
@@ -298,10 +299,10 @@ public class PackageScreen {
 		travelerInfo().perform(scrollTo(), click());
 		enterFirstName("FiveStar");
 		enterLastName("Bear");
-		// TODO fix after adding email
-		//CheckoutViewModel.enterEmail("noah@mobiata.com");
-		//Common.closeSoftKeyboard(CheckoutViewModel.email());
+		enterEmail("noah@mobiata.com");
+		Espresso.closeSoftKeyboard();
 		enterPhoneNumber("7732025862");
+		Espresso.closeSoftKeyboard();
 		selectBirthDate(9, 6, 1989);
 		selectGender("Male");
 
@@ -328,6 +329,10 @@ public class PackageScreen {
 		onView(withId(R.id.edit_phone_number)).perform(typeText(phoneNumber));
 	}
 
+	public static void enterEmail(String email) {
+		onView(withId(R.id.edit_email_address)).perform(typeText(email));
+	}
+
 	public static void selectGender(String genderType) {
 		onView(withId(R.id.edit_gender_spinner)).perform(click());
 		onData(allOf(is(instanceOf(String.class)),is(genderType))).perform(click());
@@ -352,6 +357,8 @@ public class PackageScreen {
 	}
 
 	public static void clickLegalInformation() {
+		onView(withId(R.id.card_info_container)).perform(swipeUp());
+		onView(withId(R.id.card_info_container)).perform(swipeUp());
 		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), click());
 	}
 
@@ -384,7 +391,6 @@ public class PackageScreen {
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextCvv("666");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
-		CardInfoScreen.typeTextEmailEditText("test@email.com");
 
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
 		BillingAddressScreen.typeTextCity("San Francisco");
@@ -425,6 +431,7 @@ public class PackageScreen {
 		PackageScreen.selectThisFlight().perform(click());
 
 		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 	}
 

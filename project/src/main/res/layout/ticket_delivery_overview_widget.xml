@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/card_info_container"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.RoundImageView
+            android:id="@+id/delivery_option_icon"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="16dp"
+            android:layout_gravity="center|left" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:paddingLeft="15dp">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/delivery_option_label_text"
+                style="@style/CheckoutWidgetPrimaryTextStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/ticket_delivery_details_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/card_info_container"
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/temporary_medium_padding"
+            android:layout_marginRight="@dimen/temporary_medium_padding"
+            android:src="@drawable/read_more"
+            android:tint="@color/rail_regular_text_color"/>
+    </LinearLayout>
+</merge>

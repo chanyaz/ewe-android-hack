@@ -5,6 +5,7 @@ import android.support.v4.view.ViewCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -46,9 +47,12 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         addTransition(detailToMap)
         addDefaultTransition(default)
         show(hotelDetailView)
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+            hotelDetailView.hotelDetailsToolbar.heartIcon.updateImageState()
+        }
     }
 
-    val default = object : Presenter.DefaultTransition(HotelDetailView::class.java.getName()) {
+    val default = object : Presenter.DefaultTransition(HotelDetailView::class.java.name) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             hotelRenovationDesc.visibility = View.GONE
@@ -161,4 +165,5 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         }
         return super.back()
     }
+
 }

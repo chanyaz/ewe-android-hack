@@ -7,12 +7,14 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.vm.FlightResultsViewModel
 import com.expedia.vm.packages.PackageFlightViewModel
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
@@ -20,6 +22,7 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowDateFormat::class))
 class PackageFlightResultTest {
     var vm: PackageFlightViewModel by Delegates.notNull()
     var flight: FlightLeg by Delegates.notNull()

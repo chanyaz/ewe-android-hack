@@ -14,10 +14,14 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.BaseTravelerPickerViewModel
 import com.expedia.vm.TravelerPickerViewModel
 import com.squareup.phrase.Phrase
 
-class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
+class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPickerView(context, attrs) {
+    override fun getViewModel(): BaseTravelerPickerViewModel {
+        return viewmodel
+    }
 
     val adultText: TextView by bindView(R.id.adult)
     val childText: TextView by bindView(R.id.children)
@@ -41,9 +45,11 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : FrameLayo
 
     val childBottomContainer: View by bindView(R.id.children_ages_bottom_container)
 
+
     val DEFAULT_CHILD_AGE = 10
     val enabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_enabled_color)
     val disabledColor = ContextCompat.getColor(context, R.color.hotel_guest_selector_disabled_color)
+
 
     var viewmodel: TravelerPickerViewModel by notNullAndObservable { vm ->
         vm.tooManyInfants.subscribeVisibility(infantError)

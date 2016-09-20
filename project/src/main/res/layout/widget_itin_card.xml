@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto" >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -9,7 +9,7 @@
         android:paddingBottom="8dp"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingTop="8dp" >
+        android:paddingTop="8dp">
 
         <View
             android:id="@+id/top_extra_padding_view"
@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_itin_card"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <!-- ###################################################################### -->
             <!-- TITLE LAYOUT -->
@@ -35,13 +35,14 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingBottom="1dp"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <ImageButton
                     android:id="@+id/close_image_button"
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:background="?android:attr/selectableItemBackground"
+                    android:contentDescription="@string/toolbar_nav_icon_close_cont_desc"
                     android:padding="8dp"
                     android:paddingTop="7dp"
                     android:src="?attr/skin_itinCardActionBarCheckmark" />
@@ -65,7 +66,7 @@
                     android:id="@+id/title_menu_layout"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="0dp" >
+                    android:padding="0dp">
 
                     <!--
                         Hacky. Approximate a submenu by having an invisible ShareView
@@ -80,7 +81,8 @@
                         android:layout_width="48dp"
                         android:layout_height="48dp"
                         android:layout_gravity="top"
-                        android:layout_marginTop="-3dp" />
+                        android:layout_marginTop="-3dp"
+                        android:visibility="invisible" />
 
                     <ImageButton
                         android:id="@+id/itin_overflow_image_button"
@@ -106,24 +108,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:fadingEdge="none" >
+                android:fadingEdge="none">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <RelativeLayout
                         android:id="@+id/header_layout"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/itin_card_expanded_image_height"
-                        android:gravity="center" >
+                        android:gravity="center">
 
                         <com.expedia.bookings.widget.ParallaxContainer
                             android:id="@+id/header_image_container"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/itin_card_expanded_image_height"
-                            app:scrollMin="@dimen/itin_card_expanded_parallax_slop" >
+                            app:scrollMin="@dimen/itin_card_expanded_parallax_slop">
 
                             <com.expedia.bookings.widget.OptimizedImageView
                                 android:id="@+id/header_image_view"
@@ -147,6 +149,7 @@
                             android:layout_centerHorizontal="true"
                             android:layout_centerInParent="true"
                             android:gravity="center"
+                            android:focusable="true"
                             android:orientation="vertical" >
 
                             <com.expedia.bookings.widget.TextView
@@ -173,6 +176,13 @@
                                 android:textColor="#9e9d9d"
                                 android:textSize="17sp"
                                 app:textStyle="normal" />
+
+                            <View
+                                android:id="@+id/header_itin_card_content_description_view"
+                                android:layout_width="wrap_content"
+                                android:layout_height="1dp"
+                                android:visibility="gone" />
+
                         </LinearLayout>
 
                         <com.expedia.bookings.widget.AlphaImageView
@@ -210,7 +220,7 @@
                         android:background="?android:attr/selectableItemBackground"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:visibility="gone" >
+                        android:visibility="gone">
 
                         <FrameLayout
                             android:id="@+id/summary_layout"
@@ -224,6 +234,7 @@
                             android:layout_height="48dp"
                             android:layout_marginRight="8dp"
                             android:scaleType="centerInside"
+                            android:contentDescription="@string/trips_expand_button_label_cont_desc"
                             android:src="@drawable/ic_expand_collapse" />
                     </LinearLayout>
 
@@ -265,7 +276,7 @@
                 android:background="?android:attr/selectableItemBackground"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:visibility="gone" >
+                android:visibility="gone">
 
                 <View
                     android:layout_width="match_parent"
@@ -281,9 +292,9 @@
                     android:background="@drawable/itin_checkin_rounded_corner"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:text="@string/itin_card_flight_checkin"
                     android:paddingLeft="4dp"
                     android:singleLine="true"
+                    android:text="@string/itin_card_flight_checkin"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"
                     app:textStyle="medium" />

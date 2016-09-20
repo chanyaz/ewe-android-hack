@@ -7,7 +7,6 @@ import android.support.test.espresso.ViewInteraction;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PackageTestCase;
-import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.utils.DateUtils;
@@ -23,6 +22,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withNavigationContentDescription;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.Matchers.not;
 
@@ -49,11 +49,10 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		checkBundleOverviewFlightContentDescription(PackageScreen.inboundFlightInfoRowContainer(), "(SFO) San Francisco", true, true);
 
 		PackageScreen.clickHotelBundle();
-		openCloseSlidingBundleWidget("$0.00", "$0.00", "$0.00");
+		openCloseSlidingBundleWidget("$0.00", "$0.00", "$0");
 
 		onView(withId(R.id.hotel_results_toolbar)).check(matches(withNavigationContentDescription("Back")));
 		HotelScreen.selectHotel("Package Happy Path");
-		openCloseSlidingBundleWidget("$1,027.34", "$21.61", "$2,054.67");
 
 		onView(withId(R.id.hotel_star_rating_bar)).check(matches(hasContentDescription()));
 
@@ -61,7 +60,7 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 
 		Common.pressBack();
 		checkBundleOverviewHotelContentDescription("Package Happy Path");
-		checkBundleTotalWidgetContentDescription("$3,863.38", "$595.24", false);
+		checkBundleTotalWidgetContentDescription("$2,054.67", "$21.61", false);
 		onView(withId(R.id.toolbar)).check(matches(withNavigationContentDescription("Back")));
 
 		PackageScreen.outboundFlight().perform(click());
@@ -76,15 +75,16 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		checkBundleOverviewFlightContentDescription(PackageScreen.outboundFlightInfoRowContainer(), "Jul 10 at 9:00 am", "(DTW) Detroit", false, false);
 		PackageScreen.inboundFLight().perform(click());
 		PackageScreen.selectFlight(0);
-		PackageScreen.selectThisFlight().perform(ViewActions.waitForViewToDisplay());
+		PackageScreen.selectThisFlight().perform(waitForViewToDisplay());
 		PackageScreen.selectThisFlight().perform(click());
 		checkBundleTotalWidgetContentDescription("$2,538.62", "$56.50", true);
-		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Back")));
+		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Close")));
 		PackageScreen.checkout().perform(click());
 		onView(withId(R.id.view_trip_details)).check(matches(hasContentDescription()));
 		checkBundleOverviewFlightContentDescription(PackageScreen.inboundFlightInfoRowContainer(), "Jul 16 at 1:45 pm", "(SFO) San Francisco", true, false);
 
 		HotelScreen.doLogin();
+		onView(withId(R.id.card_icon)).perform(waitForViewToDisplay());
 		onView(withId(R.id.card_icon)).check(matches(hasContentDescription()));
 		onView(withId(R.id.account_top_textview)).check(matches(hasContentDescription()));
 		onView(withId(R.id.account_logout_logout_button)).check(matches(hasContentDescription()));

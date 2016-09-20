@@ -65,20 +65,8 @@
 
         <item name="traveler_toolbar_text">@string/traveler_information</item>
         <item name="traveler_checkout_circle_drawable">@drawable/hotel_traveler_checkout_circle</item>
-    </style>
-
-    <style name="HotelTravelerIcon">
-        <item name="android:layout_width">@dimen/hotel_traveler_plus_minus_size</item>
-        <item name="android:layout_height">@dimen/hotel_traveler_plus_minus_size</item>
-        <item name="android:background">?android:attr/selectableItemBackground</item>
-    </style>
-
-    <style name="HotelTravelerIcon.Plus">
-        <item name="android:src">@drawable/plus</item>
-    </style>
-
-    <style name="HotelTravelerIcon.Minus">
-        <item name="android:src">@drawable/minus</item>
+        <item name="accept_terms_text_color">@color/hotels_primary_color</item>
+        <item name="accept_terms_background_color">@color/white</item>
     </style>
 
     <!-- New Hotels Checkout Styling -->

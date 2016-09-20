@@ -30,7 +30,7 @@ import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.validation.TravelerValidator;
 import com.expedia.bookings.widget.CheckoutToolbar;
-import com.expedia.bookings.widget.traveler.TravelerDefaultState;
+import com.expedia.bookings.widget.traveler.TravelerSummaryCard;
 import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
 import com.expedia.vm.traveler.TravelerSummaryViewModel;
@@ -45,7 +45,7 @@ public class BaseTravelerPresenterTestHelper {
 	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
 	protected TravelerPresenter testTravelerPresenter;
-	protected TravelerDefaultState testTravelerDefault;
+	protected TravelerSummaryCard testTravelerDefault;
 	private CheckoutToolbar testToolbar;
 	protected CheckoutTravelerViewModel mockViewModel;
 
@@ -54,6 +54,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String testFirstName = "Oscar";
 	protected final String testMiddleName = "T";
 	protected final String testLastName = "Grouch";
+	protected final String testEmail = "Grouch@gmail.com";
 	protected final String testChildLastName = "Grouch Jr.";
 	protected final String testPhone = "7732025862";
 	protected final String testBirthDay = "Jan 27, 1991";
@@ -85,7 +86,7 @@ public class BaseTravelerPresenterTestHelper {
 		travelerValidator.updateForNewSearch(setPackageParams(1));
 
 		final ViewStub viewStub = (ViewStub) activityTestRule.getRoot().findViewById(R.id.traveler_presenter_stub);
-		testTravelerDefault = (TravelerDefaultState) activityTestRule.getRoot()
+		testTravelerDefault = (TravelerSummaryCard) activityTestRule.getRoot()
 			.findViewById(R.id.traveler_default_state);
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
@@ -132,8 +133,16 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected void enterValidTraveler(boolean withPhoneNumber) {
+		enterValidTraveler(withPhoneNumber, true);
+	}
+
+	protected void enterValidTraveler(boolean withPhoneNumber, boolean withEmail) {
 		PackageScreen.enterFirstName(testFirstName);
 		PackageScreen.enterLastName(testLastName);
+		if (withEmail) {
+			PackageScreen.enterEmail(testEmail);
+		}
+		Espresso.closeSoftKeyboard();
 		if (withPhoneNumber) {
 			PackageScreen.enterPhoneNumber(testPhone);
 		}
@@ -203,6 +212,7 @@ public class BaseTravelerPresenterTestHelper {
 
 
 	protected void assertValidTravelerFields() {
+		Espresso.closeSoftKeyboard();
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.first_name_input, testFirstName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.last_name_input, testLastName);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
@@ -244,10 +254,14 @@ public class BaseTravelerPresenterTestHelper {
 		return mockViewModel;
 	}
 
-	protected CheckoutTravelerViewModel getMockviewModel() {
-		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES);
+	protected CheckoutTravelerViewModel getMockviewModel(boolean showMainTravelerMinAge) {
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, showMainTravelerMinAge);
 		mockViewModel.getTravelerCompletenessStatus().subscribe(testTravelerDefault.getViewModel().getTravelerStatusObserver());
 		return mockViewModel;
+	}
+
+	protected CheckoutTravelerViewModel getMockviewModel() {
+		return getMockviewModel(false);
 	}
 
 	protected void setIncompleteTraveler(Traveler validTraveler) {
@@ -257,6 +271,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected void setValidTraveler(Traveler validTraveler) {
 		validTraveler.setFirstName(testFirstName);
 		validTraveler.setLastName(testLastName);
+		validTraveler.setEmail(testEmail);
 		validTraveler.setGender(Traveler.Gender.MALE);
 		validTraveler.setPhoneNumber(testPhone);
 		validTraveler.setBirthDate(LocalDate.now().minusYears(18));
@@ -265,6 +280,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected void setChildTraveler(Traveler childTraveler, int yearsOld) {
 		childTraveler.setFirstName(testFirstName);
 		childTraveler.setLastName(testChildLastName);
+		childTraveler.setEmail(testEmail);
 		childTraveler.setGender(Traveler.Gender.MALE);
 		childTraveler.setPhoneNumber(testPhone);
 		childTraveler.setBirthDate(LocalDate.now().minusYears(yearsOld));
@@ -275,6 +291,7 @@ public class BaseTravelerPresenterTestHelper {
 		storedTraveler.setFirstName(testFirstName);
 		storedTraveler.setMiddleName(testMiddleName);
 		storedTraveler.setLastName(testLastName);
+		storedTraveler.setEmail(testEmail);
 		storedTraveler.setGender(Traveler.Gender.MALE);
 		storedTraveler.setPhoneNumber(testPhone);
 		storedTraveler.addPassportCountry(passport);

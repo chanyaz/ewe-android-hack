@@ -9,6 +9,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 	private boolean mShowEmptyRow = false;
 	private String prefix;
 	private boolean isColoredPrefix = true;
+	private boolean hasError = false;
 
 	public enum CountryDisplayType {
 		FULL_NAME,
@@ -120,11 +122,16 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		View viewImpl = getViewImpl(
 			mShowEmptyRow || usePrefix() ? getFormattedText(getItem(position)) : getItem(position),
 			convertView, parent, mItemResId);
+		TextView tv = Ui.findView(viewImpl, android.R.id.text1);
 
 		boolean noCountrySelected = (position == 0);
-		if (mShowEmptyRow) {
+		if (mShowEmptyRow && hasError) {
 			drawErrorIcon(viewImpl, noCountrySelected);
 		}
+		if (!noCountrySelected) {
+			tv.setTextColor(ContextCompat.getColor(tv.getContext(), R.color.black));
+		}
+
 		return viewImpl;
 	}
 
@@ -148,7 +155,8 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 	private void drawErrorIcon(View view, boolean noCountrySelected) {
 		android.widget.TextView textView = ((CountrySpinnerAdapter.ViewHolder) view.getTag()).text;
 		if (noCountrySelected) {
-			Drawable errorIcon = textView.getContext().getResources().getDrawable(R.drawable.ic_error_blue);
+			Drawable errorIcon = ContextCompat.getDrawable(mContext,
+				Ui.obtainThemeResID(mContext, R.attr.skin_errorIndicationExclaimationDrawable));
 			errorIcon.setBounds(new Rect(0, 0, errorIcon.getIntrinsicWidth(), errorIcon.getIntrinsicHeight()));
 			Drawable[] compounds = textView.getCompoundDrawables();
 			textView.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], errorIcon, compounds[3]);
@@ -266,5 +274,10 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 			}
 		}
 		return 0;
+	}
+
+	public void setErrorVisible(boolean hasError) {
+		this.hasError = hasError;
+		notifyDataSetChanged();
 	}
 }

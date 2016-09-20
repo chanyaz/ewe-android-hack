@@ -10,7 +10,9 @@ import android.text.TextUtils;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.notification.GCMRegistrationKeeper;
 import com.expedia.bookings.server.ExpediaServices;
@@ -56,12 +58,42 @@ public class DebugInfoUtils {
 
 		body.append("\n\n");
 
-		if (User.isLoggedIn(context) && Db.getUser() != null) {
-			String email = Db.getUser().getPrimaryTraveler().getEmail();
-			body.append(Phrase.from(context, R.string.email_user_name_template)
+		User user = Db.getUser();
+		if (User.isLoggedIn(context) && user != null) {
+			String email = user.getPrimaryTraveler().getEmail();
+			UserLoyaltyMembershipInformation loyaltyMembershipInformation = user.getLoyaltyMembershipInformation();
+
+			body.append(Phrase.from(context, R.string.email_user_name_TEMPLATE)
 					.put("brand", BuildConfig.brand)
 					.put("email", email)
 					.format());
+			body.append("\n");
+
+			String loyaltyTierName = "not-enrolled";
+			if (loyaltyMembershipInformation != null) {
+				LoyaltyMembershipTier loyaltyMembershipTier = loyaltyMembershipInformation.getLoyaltyMembershipTier();
+				if (loyaltyMembershipTier != LoyaltyMembershipTier.NONE) {
+					loyaltyTierName = loyaltyMembershipTier.toApiValue();
+				}
+
+				body.append(Phrase.from(context, R.string.user_points_available_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.put("points_amount", String.valueOf(loyaltyMembershipInformation.getLoyaltyPointsAvailable()))
+					.put("monetary_amount", loyaltyMembershipInformation.getLoyaltyMonetaryValue().getFormattedMoney())
+					.format());
+				body.append("\n");
+			}
+			body.append(Phrase.from(context, R.string.user_points_level_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.put("level", loyaltyTierName)
+				.format());
+			body.append("\n");
+
+			if (Db.getSignInType() != null) {
+				body.append(Phrase.from(context, R.string.account_sign_in_method_TEMPLATE)
+					.put("sign_in_method", Db.getSignInType().name())
+					.format());
+			}
 
 			body.append("\n\n");
 		}

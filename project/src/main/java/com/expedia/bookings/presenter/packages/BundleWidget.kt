@@ -6,7 +6,10 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageBundleHotelWidget
 import com.expedia.bookings.widget.packages.InboundFlightWidget
@@ -17,6 +20,7 @@ import com.expedia.vm.packages.BundleFlightViewModel
 import com.expedia.vm.packages.BundleHotelViewModel
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageSearchType
+import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 
 class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -27,6 +31,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
     val outboundFlightWidget: OutboundFlightWidget by bindView(R.id.package_bundle_outbound_flight_widget)
     val inboundFlightWidget: InboundFlightWidget by bindView(R.id.package_bundle_inbound_flight_widget)
     val opacity: Float = 0.25f
+    val scrollSpaceView: View by bindView(R.id.scroll_space_bundle)
 
     val toggleMenuObservable = BehaviorSubject.create<Boolean>()
 
@@ -40,9 +45,9 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             if (!param.isChangePackageSearch()) {
                 outboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
                 inboundFlightWidget.viewModel.searchTypeStateObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-            } else {
-                toggleMenuObservable.onNext(false)
             }
+
+            toggleMenuObservable.onNext(false)
             viewModel.resetStepText()
         }
         vm.hotelResultsObservable.subscribe {
@@ -61,8 +66,8 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             if (param.isChangePackageSearch()) {
                 bundleHotelWidget.toggleHotelWidget(opacity, false)
                 outboundFlightWidget.disableFlightIcon()
+                inboundFlightWidget.refreshTravelerInfoOnChangeFlights()
                 inboundFlightWidget.disable()
-                toggleMenuObservable.onNext(false)
             }
             if (param.isOutboundSearch()) {
                 outboundFlightWidget.showLoading()
@@ -73,6 +78,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
                 }
                 inboundFlightWidget.showLoading()
             }
+            toggleMenuObservable.onNext(false)
             viewModel.resetStepText()
         }
         vm.flightResultsObservable.subscribe { searchType ->
@@ -83,6 +89,7 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
             }
         }
         vm.stepOneTextObservable.subscribeText(stepOneText)
+        vm.stepOneContentDescriptionObservable.subscribe { stepOneText.contentDescription = it }
         vm.stepTwoTextObservable.subscribeText(stepTwoText)
 
         vm.cancelSearchSubject.subscribe {
@@ -96,23 +103,15 @@ class BundleWidget(context: Context, attrs: AttributeSet) : LinearLayout(context
         bundleHotelWidget.viewModel.hotelIconImageObservable.onNext(R.drawable.packages_hotel_icon)
         inboundFlightWidget.toggleFlightWidget(opacity, false)
         outboundFlightWidget.disable()
+        outboundFlightWidget.setTravelerInfoText()
+        outboundFlightWidget.travelInfoText.visibility = View.VISIBLE
     }
 
     fun revertBundleViewToSelectOutbound() {
         outboundFlightWidget.enable()
         inboundFlightWidget.disable()
-    }
-
-    fun revertBundleViewToSelectInbound() {
-        inboundFlightWidget.enable()
-    }
-
-    fun revertBundleViewAfterChangedOutbound() {
-        revertBundleViewToSelectInbound()
-        revertBundleViewToSelectOutbound()
-        bundleHotelWidget.toggleHotelWidget(1f, true)
-        outboundFlightWidget.toggleFlightWidget(1f, true)
-        inboundFlightWidget.toggleFlightWidget(1f, true)
+        inboundFlightWidget.setTravelerInfoText()
+        inboundFlightWidget.travelInfoText.visibility = View.VISIBLE
     }
 
     init {

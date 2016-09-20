@@ -7,10 +7,13 @@ import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.utils.MockModeShim;
+import com.expedia.util.PermissionsHelperKt;
+import com.github.stkent.bugshaker.BugShaker;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import java.io.IOException;
@@ -53,6 +56,30 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 				}
 			});
 
+			String bugShakerKey = getString(R.string.preference_enable_bugshaker);
+			final CheckBoxPreference bugShakerPreference = (CheckBoxPreference) findPreference(bugShakerKey);
+
+			bugShakerPreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+
+				@Override
+				public boolean onPreferenceChange(Preference preference, Object newValue) {
+					boolean isBugshakerEnabled = Boolean.valueOf(newValue.toString());
+					if (isBugshakerEnabled) {
+						boolean permissionForExternalStorage = PermissionsHelperKt
+							.hasPermissionToWriteToExternalStorage(getActivity());
+						if (!permissionForExternalStorage) {
+							PermissionsHelperKt.requestWriteToExternalStoragePermission(getActivity());
+						}
+						else {
+							ExpediaBookingApp.startNewBugShaker(getActivity().getApplication());
+						}
+					}
+					else {
+						BugShaker.turnOff();
+					}
+					return true;
+				}
+			});
 		}
 	}
 
@@ -92,7 +119,7 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 			return true;
 		}
 		else if (getString(R.string.preference_clear_user_cookies).equals(key)) {
-			ExpediaServices.removeUserCookieFromUserLoginCookies(getContext());
+			ExpediaServices.removeUserCookieFromUserLoginCookies(getActivity());
 		}
 
 		return super.onPreferenceTreeClick(preferenceScreen, preference);

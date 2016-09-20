@@ -49,7 +49,7 @@ class FlightCheckoutOverviewViewModelTest {
         assertEquals("1 Traveler", titleTestSubscriber.onNextEvents[2])
         assertEquals("1989-09-06", checkInOutTestSubscriber.onNextEvents[0])
         assertEquals("2021-09-06", checkInOutTestSubscriber.onNextEvents[1])
-        assertEquals("https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/SEA.jpg?downsize=480px:*&crop=w:165/480xw;center,top&output-quality=60&output-format=jpeg&", urlTestSubscriber.getOnNextEvents()[0][0].toString())
+        assertEquals("https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/SEA.jpg?downsize=480px:*&crop=w:165/480xw;center,top&output-quality=60&output-format=jpeg&", urlTestSubscriber.onNextEvents[0][0].toString())
         titleTestSubscriber.assertValueCount(3)
         checkInOutTestSubscriber.assertValueCount(2)
         urlTestSubscriber.assertValueCount(1)

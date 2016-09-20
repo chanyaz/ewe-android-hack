@@ -33,6 +33,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
     init {
         Observable.combineLatest(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse, newRateObserver, { paymentSplitsWithTripTotalPayableAndTripResponse, newRateObserver ->
             object {
+                val country = paymentSplitsWithTripTotalPayableAndTripResponse.tripResponse.newHotelProductResponse.hotelCountry
                 val payingWithPoints = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.payingWithPoints
                 val payingWithCards = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.payingWithCards
                 val paymentSplitsType = paymentSplitsWithTripTotalPayableAndTripResponse.paymentSplits.paymentSplitsType()
@@ -84,7 +85,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
         when (paymentSplitsType) {
             PaymentSplitsType.IS_FULL_PAYABLE_WITH_POINT ->
 
-            if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
+            if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) {
                 return Phrase.from(context, R.string.you_are_using_expedia_points_TEMPLATE)
                         .put("amount", payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
                         .put("points", NumberFormat.getInstance().format(payingWithPoints.points))
@@ -102,7 +103,7 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
 
             PaymentSplitsType.IS_PARTIAL_PAYABLE_WITH_CARD ->
 
-                if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
+                if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) {
                     return Phrase.from(context, R.string.payment_through_card_and_pwp_points)
                             .put("amount", payingWithPoints.amount.formattedMoneyFromAmountAndCurrencyCode)
                             .put("points", NumberFormat.getInstance().format(payingWithPoints.points))

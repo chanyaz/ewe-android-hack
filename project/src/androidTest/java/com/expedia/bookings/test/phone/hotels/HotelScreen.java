@@ -1,10 +1,5 @@
 package com.expedia.bookings.test.phone.hotels;
 
-import java.util.concurrent.TimeUnit;
-
-import org.hamcrest.Matcher;
-import org.joda.time.LocalDate;
-
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -19,6 +14,11 @@ import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+
+import org.hamcrest.Matcher;
+import org.joda.time.LocalDate;
+
+import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -426,6 +426,22 @@ public class HotelScreen {
 
 	public static ViewInteraction hotelErrorToolbar() {
 		return onView(withId(R.id.error_toolbar));
+	}
+
+	public static ViewInteraction firstTimeFavoriteDialog() {
+		return onView(withText(R.string.favorite_first_time_dialog_title));
+	}
+
+	public static ViewInteraction firstTimeFavoriteDialogOkButton() {
+		return onView(withText(R.string.favorite_first_time_dialog_ok_button));
+	}
+
+	public static ViewInteraction heartButtonInDetailView() {
+		return onView(allOf(withId(R.id.heart_image_view), isDescendantOfA(withId(R.id.hotel_details_toolbar))));
+	}
+
+	public static ViewInteraction mockHeartButtonInDetailView() {
+		return onView(allOf(withId(R.id.hotel_detail_toolbar_heart_mock_button), isDescendantOfA(withId(R.id.hotel_details_toolbar))));
 	}
 
 }

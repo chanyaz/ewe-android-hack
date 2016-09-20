@@ -16,6 +16,7 @@ import com.expedia.bookings.widget.packages.ConfirmationRowCardView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.packages.PackageConfirmationViewModel
 
 class PackageConfirmationPresenter(context: Context, attributeSet: AttributeSet) : Presenter(context, attributeSet) {
@@ -32,7 +33,7 @@ class PackageConfirmationPresenter(context: Context, attributeSet: AttributeSet)
     var viewModel: PackageConfirmationViewModel by notNullAndObservable { vm ->
         vm.itinNumberMessageObservable.subscribeText(itinNumber)
         vm.destinationObservable.subscribeText(destination)
-        vm.expediaPointsObservable.subscribeText(expediaPoints)
+        vm.rewardPointsObservable.subscribeTextAndVisibility(expediaPoints)
         vm.destinationTitleObservable.subscribeText(destinationCard.title)
         vm.destinationSubTitleObservable.subscribeText(destinationCard.subTitle)
         vm.outboundFlightCardTitleObservable.subscribeText(outboundFlightCard.title)

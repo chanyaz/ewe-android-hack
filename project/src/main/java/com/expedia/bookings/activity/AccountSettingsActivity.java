@@ -67,7 +67,7 @@ import butterknife.OnClick;
 public class AccountSettingsActivity extends AppCompatActivity implements AboutSectionFragmentListener,
 	AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener,
 	UserAccountRefresher.IUserAccountRefreshListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener,
-	GoogleApiClient.ConnectionCallbacks, CopyrightFragment.CopyrightFragmentListener {
+	GoogleApiClient.ConnectionCallbacks {
 	private static final String TAG_SUPPORT = "TAG_SUPPORT";
 	private static final String TAG_ALSO_BY_US = "TAG_ALSO_BY_US";
 	private static final String TAG_LEGAL = "TAG_LEGAL";
@@ -103,7 +103,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	private AboutSectionFragment appSettingsFragment;
 	private AboutSectionFragment supportFragment;
 	private AboutSectionFragment legalFragment;
-	private CopyrightFragment copyrightFragment;
 	private ScrollView scrollContainer;
 	private boolean notPortraitOrientation;
 
@@ -245,12 +244,13 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 
 		// Copyright
-		copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
+		CopyrightFragment copyrightFragment = Ui.findSupportFragment(this, TAG_COPYRIGHT);
 		if (copyrightFragment == null) {
 			CopyrightFragment.Builder copyBuilder = new CopyrightFragment.Builder();
 			copyBuilder.setAppName(R.string.app_copyright_name);
 			copyBuilder.setCopyright(getCopyrightString());
 			copyBuilder.setLogo(R.drawable.app_copyright_logo);
+			copyBuilder.setLogoUrl(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(this));
 
 			copyrightFragment = copyBuilder.build();
 			ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT);
@@ -740,16 +740,6 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 	@Override
 	public void onConnectionSuspended(int i) {
 		// Connection is never suspended for disabling auto sign in.
-	}
-
-	 @Override
-	 public boolean onLogoLongClick() {
-		 return false;
-	 }
-
-	 @Override
-	public void onLogoClick() {
-		SocialUtils.openSite(this, ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(this));
 	}
 
 	private class GoogleAccountChangeListener implements View.OnClickListener {

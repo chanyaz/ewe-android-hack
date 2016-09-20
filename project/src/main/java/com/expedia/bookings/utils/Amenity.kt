@@ -59,7 +59,7 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
             val mode = PorterDuff.Mode.SRC_ATOP
             val filter = PorterDuffColorFilter(srcColor, mode)
             val paint = Paint()
-            paint.setColorFilter(filter)
+            paint.colorFilter = filter
 
             for (index in 0..amenityList.size - 1) {
 
@@ -67,9 +67,9 @@ enum class Amenity(val preference: Int, val resId: Int, val strId: Int) {
                 val amenityTextView = amenityLayout.findViewById(R.id.amenity_label) as android.widget.TextView
                 val amenityIconView = amenityLayout.findViewById(R.id.amenity_icon) as ImageView
                 amenityIconView.setLayerType(View.LAYER_TYPE_HARDWARE, paint)
-                val amenityStr = viewGroup.getContext().getString(amenityList.get(index).strId)
+                val amenityStr = viewGroup.context.getString(amenityList.get(index).strId)
 
-                amenityTextView.setText(amenityStr)
+                amenityTextView.text = amenityStr
                 amenityIconView.setImageDrawable(ContextCompat.getDrawable(viewGroup.context, amenityList.get(index).resId))
                 viewGroup.addView(amenityLayout)
             }

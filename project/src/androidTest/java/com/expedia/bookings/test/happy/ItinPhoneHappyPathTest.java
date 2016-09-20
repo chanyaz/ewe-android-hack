@@ -4,30 +4,40 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.ViewInteraction;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.LaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
+import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.TripsScreen;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
+import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsNotDisplayed;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithContentDescription;
 import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed;
 import static com.expedia.bookings.test.espresso.EspressoUtils.getListItemValues;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.core.AllOf.allOf;
 
 public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testViewItineraries() throws Throwable {
 
-		LaunchScreen.tripsButton().perform(click());
+		NewLaunchScreen.tripsButton().perform(click());
 
 		TripsScreen.clickOnLogInButton();
 
@@ -40,8 +50,14 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		String hotelTitle = getListItemValues(hotelRow, R.id.header_text_view);
 		final String expectedHotelTitle = "Orchard Hotel";
 		assertEquals(expectedHotelTitle, hotelTitle);
-		hotelRow.onChildView(withText(containsString("Check in"))).perform(click());
+		ViewInteraction chevronButton = onView(allOf(withId(R.id.chevron_image_view), hasSibling(hasDescendant(withText(containsString("Check in"))))));
+		assertViewWithContentDescription(chevronButton, "Button to expand trip");
 
+		onView(allOf(withId(R.id.summary_layout), hasDescendant(withText(containsString("Check in"))))).perform(click());
+
+		float hotelRating = 3.5f;
+		assertEquals(hotelRating, EspressoUtils.getRatingValue(onView(withId(R.id.hotel_rating_bar))));
+		assertViewWithContentDescription(onView(withId(R.id.hotel_rating_bar)), "3 stars");
 		onView(withId(R.id.bed_type_text_view)).perform(scrollTo());
 		assertViewWithTextIsDisplayed(R.id.local_phone_number_header_text_view, "Local Phone");
 		assertViewWithTextIsDisplayed(R.id.local_phone_number_text_view, "1-415-362-8878");
@@ -51,6 +67,10 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.non_price_promotion_text_view, "The minibar is free");
 		assertViewWithTextIsDisplayed(R.id.bed_type_header_text_view, "Bed Type");
 		assertViewWithTextIsDisplayed(R.id.bed_type_text_view, "1 king bed");
+		assertViewWithContentDescription(chevronButton, "Back to trips screen button");
+		assertViewWithContentDescription(onView(withId(R.id.close_image_button)), "Close");
+		assertViewWithContentDescription(onView(withId(R.id.summary_left_button)), "Directions Button");
+		assertViewWithContentDescription(onView(withId(R.id.summary_right_button)), "Call Hotel Button");
 		onView(withId(R.id.cancel_hotel_room)).perform(scrollTo(), click());
 		assertViewWithTextIsDisplayed("Cancel Hotel Room");
 		Common.pressBack();
@@ -66,7 +86,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		DataInteraction outboundFlightRow = TripsScreen.tripsListItem().atPosition(2);
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).check(matches(withText("From SFO at 11:32 AM")));
 		outboundFlightRow.onChildView(withId(R.id.header_text_date_view)).perform(click());
-
+		onView(allOf(withId(R.id.itin_overflow_image_button), isDisplayed()))
+			.check(matches(withContentDescription("Press to view itinerary sharing options")));
 		assertViewWithTextIsDisplayed(R.id.departure_time, "11:32 AM");
 		assertViewWithTextIsDisplayed(R.id.departure_time_tz, isOutboundFlightDepartureAtStandardOffset ? "Depart (PST)" : "Depart (PDT)");
 		assertViewWithTextIsDisplayed(R.id.arrival_time, "6:04 PM");
@@ -79,6 +100,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed(R.id.departure_time_text_view, "11:32 AM");
 		assertViewWithTextIsDisplayed(R.id.arrival_time_text_view, "6:04 PM");
 		assertViewWithTextIsDisplayed("Detroit Metropolitan Wayne County Airport");
+		onView(allOf(withId(R.id.terminal_map_or_directions_btn), hasSibling(withChild(withText("San Francisco Int'l Airport")))))
+			.check(matches(withContentDescription("Terminal Maps and Directions")));
 		assertViewWithTextIsDisplayed(R.id.passengers_label, "Passengers");
 		assertViewWithTextIsDisplayed(R.id.passenger_name_list, "Philip J. Fry, Turanga Leela");
 		assertViewWithTextIsDisplayed("Airline Confirmation");
@@ -89,6 +112,8 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 		assertViewWithTextIsDisplayed("Additional Information");
 		Common.pressBack();
 
+		assertViewWithContentDescription(onView(withId(R.id.summary_left_button)), "Directions Button");
+		assertViewWithContentDescription(onView(withId(R.id.summary_right_button)), "GWF4NY Button");
 		outboundFlightRow.onChildView(withId(R.id.flight_status_bottom_line)).perform(scrollTo(), click());
 
 		// Air attach assertions

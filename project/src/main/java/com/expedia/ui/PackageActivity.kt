@@ -5,11 +5,12 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageCreateTripParams
+import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseOverviewPresenter
-import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -18,8 +19,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.packages.PackageSearchType
 
 class PackageActivity : AbstractAppCompatActivity() {
-
-    var changedOutboundFlight = false;
+    var changedOutboundFlight = false
 
     val packagePresenter: PackagePresenter by lazy {
         findViewById(R.id.package_presenter) as PackagePresenter
@@ -46,20 +46,21 @@ class PackageActivity : AbstractAppCompatActivity() {
                 onBackPressed()
             } else {
                 PackagesTracking().trackViewBundlePageLoad()
-                if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_OUTBOUND_FLIGHT)) {
-                    packagePresenter.bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().toggleCheckoutButton(false)
-                    packagePresenter.bundlePresenter.bundleWidget.toggleMenuObservable.onNext(false)
+                if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
+                    Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
 
-                    //revert bundle view to be the state loaded inbound flights
-                    packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectInbound()
-                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-                } else if (obj is Intent && obj.hasExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM)) {
                     //revert bundle view to be the state loaded outbound flights
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectOutbound()
                     packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+
+                    val rate = Db.getPackageSelectedRoom().rateInfo.chargeableRateInfo
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
+
                 } else if (packagePresenter.backStack.size == 2) {
+                    Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
+
                     //revert bundle view to be the state loaded hotels
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().totalPriceWidget.resetPriceWidget()
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
                     packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
                 }
@@ -103,6 +104,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                         changedOutboundFlight = true
                     }
                     packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageSelectedOutboundFlight())
                 }
             }
 
@@ -122,9 +124,12 @@ class PackageActivity : AbstractAppCompatActivity() {
                     packagePresenter.bundlePresenter.getCheckoutPresenter().toolbarDropShadow.visibility = View.GONE
 
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageSelectedInboundFlight())
+                    packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
+
                     packageCreateTrip()
                     packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
+                    packagePresenter.bundlePresenter.setToolbarNavIcon(false)
+                    packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageFlightBundle().second)
                 }
             }
         }
@@ -135,30 +140,34 @@ class PackageActivity : AbstractAppCompatActivity() {
 
         //for change package path
         if (packagePresenter.backStack.peek() is PackageOverviewPresenter && Db.getPackageParams()?.isChangePackageSearch() ?: false) {
-            Db.getPackageParams().pageType = null
             if (changedOutboundFlight) {
-                //when cancel changed outbound flight, packagePresenter's backStack is:
-                //Search, Overview, Hotel Intent, Outbound Flight Intent, InboundFlightIntent, Overview
-                //Remove last three objects in the backStack, so that it backs to hotel InfoSite.
                 changedOutboundFlight = false
-                packagePresenter.show(Intent(this, PackageHotelActivity::class.java), Presenter.FLAG_CLEAR_TOP)
-                packagePresenter.bundlePresenter.bundleWidget.revertBundleViewAfterChangedOutbound()
-            } else {
-                packageCreateTrip()
-                packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
-                packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
-                packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
-                return
+                val outbound = Db.getPackageFlightBundle().first
+                val inbound = Db.getPackageFlightBundle().second
+                Db.getPackageParams().packagePIID = inbound.packageOfferModel.piid
+                Db.getPackageParams().currentFlights[0] = outbound.legId
+                Db.setPackageSelectedOutboundFlight(outbound)
+                packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.flight.onNext(outbound)
             }
+            packageCreateTrip()
+            packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+            packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.OUTBOUND_FLIGHT)
+            packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.selectedFlightObservable.onNext(PackageSearchType.INBOUND_FLIGHT)
+            return
         }
+
         if (!packagePresenter.back()) {
             super.onBackPressed()
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        Events.post(Events.AppBackgroundedOnResume())
+    }
+
     override fun onPause() {
         super.onPause()
-
         if (isFinishing) {
             clearCCNumber()
             clearStoredCard()
@@ -172,9 +181,12 @@ class PackageActivity : AbstractAppCompatActivity() {
 
     private fun packageCreateTrip() {
         Db.getPackageParams().pageType = null
+        changedOutboundFlight = false
         val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
         if (params.isValid) {
             packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().tripParams.onNext(params)
         }
     }
+
+
 }

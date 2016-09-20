@@ -1,22 +1,50 @@
 package com.expedia.vm.test.robolectric
 
-import android.content.Context
+import android.app.Activity
+import android.support.v7.app.AppCompatActivity
+import com.expedia.bookings.R
 import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
+import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightConfirmationViewModel
 import org.joda.time.DateTime
+import org.junit.Assert
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
+import org.robolectric.Robolectric
+import org.robolectric.Shadows
+import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
+import kotlin.properties.Delegates
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 
 class FlightConfirmationViewModelTest {
-    val viewModel = TestFlightConfirmationViewModelImpl(getContext())
     val customerEmail = "fakeEmail@mobiata.com"
+    private var vm: FlightConfirmationViewModel by Delegates.notNull()
+    private var shadowApplication: ShadowApplication? = null
+    private var activity: Activity by Delegates.notNull()
 
+    @Before
+    fun before() {
+        activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
+        activity.setTheme(R.style.V2_Theme_Hotels)
+        Ui.getApplication(activity).defaultHotelComponents()
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        assertTrue(User.isLoggedIn(activity))
+        shadowApplication = Shadows.shadowOf(activity).shadowApplication
+    }
 
     @Test
     fun flightConfirmationViewModelTest() {
@@ -30,20 +58,18 @@ class FlightConfirmationViewModelTest {
         val expediaPointsSubscriber = TestSubscriber<String>()
         val crossSellWidgetView = TestSubscriber<Boolean>()
 
-
-        viewModel.destinationObservable.subscribe(destinationTestSubscriber)
-        viewModel.itinNumberMessageObservable.subscribe(itinNumberTestSubscriber)
-        viewModel.rewardsPointsObservable.subscribe(expediaPointsSubscriber)
-        viewModel.crossSellWidgetVisibility.subscribe(crossSellWidgetView)
-
-
-        viewModel.destinationObservable.onNext(destination)
-        viewModel.rewardPointsObservable.onNext(userPoints)
-        viewModel.confirmationObservable.onNext(Pair(response, customerEmail))
+        vm = FlightConfirmationViewModel(activity)
+        vm.destinationObservable.subscribe(destinationTestSubscriber)
+        vm.itinNumberMessageObservable.subscribe(itinNumberTestSubscriber)
+        vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
+        vm.crossSellWidgetVisibility.subscribe(crossSellWidgetView)
+        vm.destinationObservable.onNext(destination)
+        vm.setRewardsPoints.onNext(userPoints)
+        vm.confirmationObservable.onNext(Pair(response, customerEmail))
 
         destinationTestSubscriber.assertValue(destination)
         itinNumberTestSubscriber.assertValue("#${response.newTrip.itineraryNumber} sent to $customerEmail")
-        expediaPointsSubscriber.assertValue("$userPoints Expedia+ Rewards Points")
+        expediaPointsSubscriber.assertValue("$userPoints Expedia+ Points")
         crossSellWidgetView.assertValue(true)
     }
 
@@ -51,67 +77,13 @@ class FlightConfirmationViewModelTest {
     fun crossSellNotOfferedTest() {
         val pastExpiration = DateTime.now().minusDays(50).toString()
         val response = getCheckoutResponseWithoutAirAttachOffer(pastExpiration)
-
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-        val crossSellExpiresFutureView = TestSubscriber<Boolean>()
         val crossSellWidgetView = TestSubscriber<Boolean>()
 
-        viewModel.crossSellCountDownVisibility.subscribe(crossSellExpiresFutureView)
-        viewModel.crossSellTodayVisibility.subscribe(crossSellExpiresTodayView)
-        viewModel.crossSellWidgetVisibility.subscribe(crossSellWidgetView)
-        viewModel.confirmationObservable.onNext(Pair(response, customerEmail))
+        vm = FlightConfirmationViewModel(activity)
+        vm.crossSellWidgetVisibility.subscribe(crossSellWidgetView)
+        vm.confirmationObservable.onNext(Pair(response, customerEmail))
 
-        crossSellExpiresFutureView.assertNoValues()
-        crossSellExpiresTodayView.assertNoValues()
         crossSellWidgetView.assertValue(false)
-    }
-
-    @Test
-    fun crossSellFutureExpirationTest(){
-        val expiresInFuture = DateTime.now().plusDays(50).toString()
-        val response = getCheckoutResponse(expiresInFuture)
-        val crossSellDaysRemaining = TestSubscriber<String>()
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-
-
-        viewModel.crossSellText.subscribe(crossSellDaysRemaining)
-        viewModel.crossSellTodayVisibility.subscribe(crossSellExpiresTodayView)
-
-        viewModel.confirmationObservable.onNext(Pair(response, customerEmail))
-
-        crossSellDaysRemaining.assertValue("50 days")
-        crossSellExpiresTodayView.assertNoValues()
-    }
-
-    @Test
-    fun crossSellExpirationTodayTest(){
-        val expiresToday = DateTime.now().toString()
-        val response = getCheckoutResponse(expiresToday)
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-        val crossSellExpiresFutureView = TestSubscriber<Boolean>()
-
-        viewModel.crossSellCountDownVisibility.subscribe(crossSellExpiresFutureView)
-        viewModel.crossSellTodayVisibility.subscribe(crossSellExpiresTodayView)
-        viewModel.confirmationObservable.onNext(Pair(response, customerEmail))
-
-        crossSellExpiresFutureView.assertNoValues()
-        crossSellExpiresTodayView.assertValue(true)
-    }
-
-    @Test
-    fun crossSellExpirationPastTest(){
-        val pastExpiration = DateTime.now().minusDays(50).toString()
-        val response = getCheckoutResponse(pastExpiration)
-
-        val crossSellExpiresTodayView = TestSubscriber<Boolean>()
-        val crossSellExpiresFutureView = TestSubscriber<Boolean>()
-
-        viewModel.crossSellCountDownVisibility.subscribe(crossSellExpiresFutureView)
-        viewModel.crossSellTodayVisibility.subscribe(crossSellExpiresTodayView)
-        viewModel.confirmationObservable.onNext(Pair(response, customerEmail))
-
-        crossSellExpiresFutureView.assertNoValues()
-        crossSellExpiresTodayView.assertValue(true)
     }
 
     fun getCheckoutResponse(dateOfExpiration: String) : FlightCheckoutResponse {
@@ -144,7 +116,6 @@ class FlightConfirmationViewModelTest {
         val response = FlightCheckoutResponse()
         response.newTrip = TripDetails("12345", "", "")
         val qualifierObject = FlightCheckoutResponse.AirAttachInfo()
-        val offerTimeField = FlightCheckoutResponse.AirAttachInfo.AirAttachExpirationInfo()
 
         val field = response.javaClass.getDeclaredField("airAttachInfo")
         field.isAccessible = true
@@ -152,28 +123,54 @@ class FlightConfirmationViewModelTest {
         val boolField = qualifierObject.javaClass.getDeclaredField("hasAirAttach")
         boolField.isAccessible = true
 
-        val timeRemainingField = qualifierObject.javaClass.getDeclaredField("offerExpirationTimes")
-        timeRemainingField.isAccessible = true
-
-        val timeField = offerTimeField.javaClass.getDeclaredField("fullExpirationDate")
-        timeField.isAccessible = true
-
-        timeField.set(offerTimeField , dateOfExpiration)
         boolField.set(qualifierObject, false)
-        timeRemainingField.set(qualifierObject, offerTimeField )
         field.set(response, qualifierObject)
 
         return response
     }
 
-    private fun getContext(): Context {
-        return RuntimeEnvironment.application
+    @Test
+    fun zeroFlightLoyaltyPoints(){
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        Assert.assertTrue(User.isLoggedIn(activity))
+        val expediaPointsSubscriber = TestSubscriber<String>()
+        val userPoints = "0"
+
+        vm = FlightConfirmationViewModel(activity)
+        vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
+        vm.setRewardsPoints.onNext(userPoints)
+
+        expediaPointsSubscriber.assertValueCount(0)
     }
 
-    class TestFlightConfirmationViewModelImpl(context: Context): FlightConfirmationViewModel(context) {
+    @Test
+    fun nullFlightLoyaltyPoints(){
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        Assert.assertTrue(User.isLoggedIn(activity))
+        val expediaPointsSubscriber = TestSubscriber<String>()
+        val userPoints = null
 
-        override fun isUserLoggedIn(): Boolean {
-            return true
-        }
+        vm = FlightConfirmationViewModel(activity)
+        vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
+        vm.setRewardsPoints.onNext(userPoints)
+
+        expediaPointsSubscriber.assertValueCount(0)
     }
+
+    @Test
+    fun noShowFlightLoyaltyPoints(){
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        Assert.assertTrue(User.isLoggedIn(activity))
+        val expediaPointsSubscriber = TestSubscriber<String>()
+        val userPoints = "100"
+        vm = FlightConfirmationViewModel(activity)
+        //adding test POS configuration without rewards enabled
+        PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_show_rewards_false.json", false)
+        vm.rewardPointsObservable.subscribe(expediaPointsSubscriber)
+        vm.setRewardsPoints.onNext(userPoints)
+
+        expediaPointsSubscriber.assertValueCount(0)
+    }
+
+
 }

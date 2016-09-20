@@ -67,7 +67,7 @@
                 android:height="35dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="14dp"
-                android:text="@string/package_price_include_flights"
+                android:text="@string/includes_flights_hotel"
                 android:textColor="@color/result_cells_gray_text"
                 android:textSize="10sp" />
         </LinearLayout>

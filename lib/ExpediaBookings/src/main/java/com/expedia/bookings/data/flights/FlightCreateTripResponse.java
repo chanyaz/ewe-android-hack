@@ -9,46 +9,27 @@ import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripDetails;
-import com.expedia.bookings.data.TripResponse;
 import com.expedia.bookings.data.insurance.InsuranceProduct;
 import com.google.gson.annotations.SerializedName;
 
-public class FlightCreateTripResponse extends TripResponse {
-	private FlightTripDetails details;
-	public Money totalPrice;
-	public Money selectedCardFees;
+public class FlightCreateTripResponse extends AbstractFlightOfferResponse {
+
 	public TripDetails newTrip;
 	public String tealeafTransactionId;
 
 	@SerializedName("rules")
 	public FlightRules flightRules;
 
-	private boolean detailsOfferExists() {
-		return ((details != null) && (details.offer != null));
-	}
-
-	/**
-	 * Helper function for details as the API uses 2 different keys for flight details
-	 *
-	 * 	FlightCreateTripResponse: details
-	 * 	FlightCheckoutResponse: flightDetailResponse
-	 *
-	 * @return flight details
-	 */
-	public FlightTripDetails getDetails() {
-		return details;
-	}
-
 	@NotNull
 	public List<InsuranceProduct> getAvailableInsuranceProducts() {
-		return (detailsOfferExists() && (details.offer.availableInsuranceProducts != null))
-			? details.offer.availableInsuranceProducts
+		return (getDetails().offer.availableInsuranceProducts != null)
+			? getDetails().offer.availableInsuranceProducts
 			: Collections.<InsuranceProduct>emptyList();
 	}
 
 	@Nullable
 	public InsuranceProduct getSelectedInsuranceProduct() {
-		return (detailsOfferExists()) ? details.offer.selectedInsuranceProduct : null;
+		return getDetails().offer.selectedInsuranceProduct;
 	}
 
 	@NotNull
@@ -60,9 +41,12 @@ public class FlightCreateTripResponse extends TripResponse {
 	@NotNull
 	@Override
 	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
-		Money totalPriceWithFee = totalPrice.copy();
-		totalPriceWithFee.add(selectedCardFees);
-		return totalPriceWithFee;
+		if (getTotalPriceIncludingFees() != null) {
+			return getTotalPriceIncludingFees();
+		}
+		Money totalPrice = getDetails().offer.totalPrice.copy();
+		totalPrice.add(getSelectedCardFees());
+		return totalPrice;
 	}
 
 	@Override

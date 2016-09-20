@@ -2,27 +2,33 @@ package com.expedia.bookings.data.rail.requests;
 
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.rail.responses.RailCard
 import org.joda.time.Days
 import org.joda.time.LocalDate
 
 class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destination: SuggestionV4, val departDate: LocalDate,
-                        val returnDate: LocalDate?, val departTime: Long, val returnTime: Long?,
-                        adults: Int, children: List<Int>) : BaseSearchParams(origin, destination, adults, children, departDate, returnDate) {
+                        val returnDate: LocalDate?, val departDateTimeMillis: Int, val returnDateTimeMillis: Int?,
+                        adults: Int, children: List<Int>, val selectedRailCards: List<RailCard>) : BaseSearchParams(origin, destination, adults, children, departDate, returnDate) {
     enum class SearchType {
         ONE_WAY,
         ROUND_TRIP
     }
 
+    fun isRoundTripSearch(): Boolean {
+        return this.searchType == SearchType.ROUND_TRIP
+    }
+
     class Builder(maxStay: Int, maxRange: Int) : BaseSearchParams.Builder(maxStay, maxRange) {
         private var searchType = SearchType.ONE_WAY
-        private var departTime: Long? = null
-        private var returnTime: Long? = null
+        private var departDateTimeMillis: Int? = null
+        private var returnDateTimeMillis: Int? = null
+        private var selectedRailCards = emptyList<RailCard>()
 
         override fun build(): RailSearchRequest {
             if (areRequiredParamsFilled()) {
-                return RailSearchRequest(searchType, originLocation!!, destinationLocation!!, startDate!!, endDate, departTime!!, returnTime, adults, children)
+                return RailSearchRequest(searchType, originLocation!!, destinationLocation!!, startDate!!, endDate, departDateTimeMillis!!, returnDateTimeMillis, adults, children, selectedRailCards)
             } else {
-                throw IllegalArgumentException();
+                throw IllegalArgumentException()
             }
         }
 
@@ -44,25 +50,30 @@ class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destin
         }
 
         fun hasDepartTime(): Boolean {
-            return departTime != null
+            return departDateTimeMillis != null
         }
 
         fun hasReturnTime(): Boolean {
-            return returnTime != null
+            return returnDateTimeMillis != null
         }
 
-        fun departTime(time: Long?): BaseSearchParams.Builder {
-            this.departTime = time
+        fun departDateTimeMillis(time: Int?): BaseSearchParams.Builder {
+            this.departDateTimeMillis = time
             return this
         }
 
-        fun returnTime(time: Long?): BaseSearchParams.Builder {
-            this.returnTime = time
+        fun returnDateTimeMillis(time: Int?): BaseSearchParams.Builder {
+            this.returnDateTimeMillis = time
             return this
         }
 
         fun searchType(isRoundTrip: Boolean): BaseSearchParams.Builder {
             this.searchType = if (isRoundTrip) SearchType.ROUND_TRIP else SearchType.ONE_WAY
+            return this
+        }
+
+        fun fareQualifierList(selectedRailCards: List<RailCard>): BaseSearchParams.Builder {
+            this.selectedRailCards = selectedRailCards
             return this
         }
 

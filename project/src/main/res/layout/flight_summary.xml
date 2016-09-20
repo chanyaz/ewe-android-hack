@@ -57,4 +57,9 @@
         android:visibility="gone"
         layout="@layout/split_ticket_info_phone_dialog_content" />
 
+    <Space
+        android:id="@+id/scroll_space_flight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
 </merge>

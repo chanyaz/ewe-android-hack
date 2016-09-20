@@ -51,7 +51,6 @@ public class LXServicesTest {
 	@Before
 	public void before() {
 		checkoutParams = new LXCheckoutParams();
-		checkoutParams.guid = "";
 		checkoutParams.suppressFinalBooking = true;
 		checkoutParams.storedCreditCardId = "";
 		checkoutParams.firstName = "FirstName";

@@ -28,9 +28,10 @@ import com.expedia.bookings.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeInverseVisibility
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.packages.FlightOverviewViewModel
 
@@ -44,7 +45,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             Db.setPackageSelectedOutboundFlight(flight)
             params.currentFlights[0] = flight.legId
         } else {
-            Db.setPackageSelectedInboundFlight(flight)
+            Db.setPackageFlightBundle(Db.getPackageSelectedOutboundFlight(), flight)
             params.currentFlights[1] = flight.legId
         }
         params.selectedLegId = flight.departureLeg
@@ -98,9 +99,11 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         toolbarViewModel.city.onNext(cityBound)
         toolbarViewModel.travelers.onNext(numTravelers)
         toolbarViewModel.date.onNext(if (isOutboundResultsPresenter()) Db.getPackageParams().startDate else Db.getPackageParams().endDate)
+        bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+        bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+        overviewPresenter.vm.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
         trackFlightResultsLoad()
     }
-
 
     private fun setupMenuFilter() {
         val toolbarFilterItemActionView = LayoutInflater.from(context).inflate(R.layout.toolbar_filter_item, null) as LinearLayout
@@ -135,7 +138,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
             selectedFlightResults.onNext(Db.getPackageSelectedOutboundFlight())
         } else if (intent.hasExtra(Constants.PACKAGE_LOAD_INBOUND_FLIGHT)) {
             addBackFlowTransition()
-            selectedFlightResults.onNext(Db.getPackageSelectedInboundFlight())
+            selectedFlightResults.onNext(Db.getPackageFlightBundle().second)
         } else {
             super.addResultOverViewTransition()
             show(resultsPresenter)

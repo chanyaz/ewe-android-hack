@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:layout="http://schemas.android.com/tools">
 
     <com.expedia.bookings.widget.NewHotelDetailsScrollView
         android:id="@+id/detail_container"
@@ -63,7 +64,6 @@
                         android:textSize="15sp" />
 
                 </LinearLayout>
-
             </LinearLayout>
 
 

@@ -57,6 +57,6 @@ public class PackageHotelResultsTest extends PackageTestCase {
 	public void testUIElements() throws Throwable {
 		PackageScreen.searchPackage();
 		onView(withId(R.id.list_view))
-			.check(matches(CustomMatchers.atPosition(2, hasDescendant(withText("Price includes hotel + flights")))));
+			.check(matches(CustomMatchers.atPosition(2, hasDescendant(withText("Includes flights + hotel")))));
 	}
 }

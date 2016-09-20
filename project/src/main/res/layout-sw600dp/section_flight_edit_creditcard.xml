@@ -63,7 +63,7 @@
                 android:layout_weight="1"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
-                android:hint="@string/credit_card_hint"
+                android:hint="@string/credit_debit_card_hint"
                 android:imeOptions="flagNoExtractUi"
                 app:numberFormat="creditcard"
                 android:singleLine="true"/>

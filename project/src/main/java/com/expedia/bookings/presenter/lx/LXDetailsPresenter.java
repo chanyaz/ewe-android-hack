@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 
 import com.expedia.account.graphics.ArrowXDrawable;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.LXActivity;
@@ -225,6 +226,9 @@ public class LXDetailsPresenter extends Presenter {
 			lxDetailsGradientTop.setAlpha(1.0f - ratio);
 			if (arrowRatio >= 0 && arrowRatio <= 1) {
 				navIcon.setParameter(1 - arrowRatio);
+			}
+			if (!ExpediaBookingApp.isAutomation()) {
+				details.doCounterscroll();
 			}
 		}
 	};

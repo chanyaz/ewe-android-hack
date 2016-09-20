@@ -1,6 +1,8 @@
 package com.expedia.bookings.presenter.flight
 
 import android.content.Context
+import android.text.Spanned
+import android.text.SpannedString
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -11,38 +13,45 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
+import com.expedia.vm.InsuranceViewModel
+import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.squareup.otto.Subscribe
 import rx.Observable
+import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
+import rx.subjects.Subject
+import javax.inject.Inject
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
+    lateinit var insuranceServices: InsuranceServices
+        @Inject set
 
-    val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
-    var cardType: PaymentType? = null
+    lateinit var flightCheckoutViewModel: FlightCheckoutViewModel
+        @Inject set
+
+    lateinit var flightCreateTripViewModel: FlightCreateTripViewModel
+        @Inject set
+
+    lateinit var paymentViewModel: PaymentViewModel
+        @Inject set
 
     init {
-        getCheckoutViewModel().cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
-        Observable.combineLatest( getCheckoutViewModel().paymentTypeSelectedHasCardFee,
-                                    paymentWidget.viewmodel.showingPaymentForm,
-                                    { haveCardFee, showingGuestPaymentForm ->
-                                        val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
-                                        cardProcessingFeeTextView.visibility = cardFeeVisibility
-                                        toolbarDropShadow.visibility = cardFeeVisibility
-                                    }).subscribe()
+        val debitCardsNotAcceptedSubject = BehaviorSubject.create<Spanned>(SpannedString(context.getString(R.string.flights_debit_cards_not_accepted)))
+        val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
 
-        getCheckoutViewModel().cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
-        setupDontShowDebitCardVisibility()
+        makePaymentErrorSubscriber(getCheckoutViewModel().showDebitCardsNotAcceptedSubject,  ckoViewModel.showingPaymentWidgetSubject,
+                debitCardsNotAcceptedTextView, debitCardsNotAcceptedSubject)
 
         getCheckoutViewModel().priceChangeObservable.subscribe { it as FlightCheckoutResponse
             handlePriceChange(it)
@@ -50,27 +59,32 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         getCreateTripViewModel().priceChangeObservable.subscribe { it as FlightCreateTripResponse
             handlePriceChange(it)
         }
-
         getCheckoutViewModel().receivedCheckoutResponse.subscribe {
             checkoutDialog.hide()
         }
 
-        paymentWidgetViewModel.cardTypeSubject.subscribe { paymentType ->
-            cardType = paymentType
-        }
+        getCheckoutViewModel().tripResponseObservable.subscribe(flightCostSummaryObservable)
+    }
 
+    override fun injectComponents() {
+        Ui.getApplication(context).flightComponent().inject(this)
+    }
+
+    override fun getPaymentWidgetViewModel(): PaymentViewModel {
+        return paymentViewModel
     }
 
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
         vm as FlightCreateTripViewModel
 
+        insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
         insuranceWidget.viewModel.updatedTripObservable.subscribe(vm.tripResponseObservable)
 
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
 
-        vm.tripResponseObservable.subscribe { response -> response as FlightCreateTripResponse
+        getCheckoutViewModel().tripResponseObservable.subscribe { response -> response as FlightCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
             insuranceWidget.viewModel.tripObservable.onNext(response)
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
@@ -79,9 +93,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             isPassportRequired(response)
             trackShowBundleOverview()
         }
-
-        vm.tripResponseObservable.map { it.validFormsOfPayment }
-                                 .subscribe(getCheckoutViewModel().validFormsOfPaymentSubject)
     }
 
     private fun handlePriceChange(tripResponse: FlightCreateTripResponse) {
@@ -96,7 +107,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
 
         // TODO - update to totalPrice when checkout response starts returning totalPrice (required for SubPub fare support)
-        totalPriceWidget.viewModel.total.onNext(flightTripDetails.offer.totalFarePrice)
+        totalPriceWidget.viewModel.total.onNext(tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
     }
@@ -117,6 +128,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     override fun updateDbTravelers() {
         val params = Db.getFlightSearchParams()
         travelerManager.updateDbTravelers(params, context)
+        resetTravelers()
     }
 
     override fun trackShowSlideToPurchase() {
@@ -125,15 +137,16 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun trackShowBundleOverview() {
         val flightSearchParams = Db.getFlightSearchParams()
-        FlightsV2Tracking.trackShowFlightOverView(flightSearchParams)
+        val flightCreateTripResponse = getCreateTripViewModel().tripResponseObservable.value as FlightCreateTripResponse
+        FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, flightCreateTripResponse)
     }
 
     override fun makeCheckoutViewModel(): FlightCheckoutViewModel {
-        return FlightCheckoutViewModel(context, getFlightServices(), paymentWidgetViewModel.cardTypeSubject)
+        return flightCheckoutViewModel
     }
 
     override fun makeCreateTripViewModel(): FlightCreateTripViewModel {
-        return FlightCreateTripViewModel(context, getFlightServices(), getCheckoutViewModel().cardFeeForSelectedCard)
+        return flightCreateTripViewModel
     }
 
     override fun getCheckoutViewModel(): FlightCheckoutViewModel {
@@ -144,24 +157,31 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         return tripViewModel as FlightCreateTripViewModel
     }
 
-    private fun getFlightServices(): FlightServices {
-        return Ui.getApplication(context).flightComponent().flightServices()
+    override fun getCostSummaryBreakdownViewModel(): FlightCostSummaryBreakdownViewModel {
+        return FlightCostSummaryBreakdownViewModel(context)
     }
 
-    private fun setupDontShowDebitCardVisibility() {
-        Observable.combineLatest(getCheckoutViewModel().showDebitCardsNotAcceptedSubject,
-                showingPaymentWidgetSubject,
-                { showDebitCards, showingPaymentWidget ->
-                    val visibility = if (showDebitCards && showingPaymentWidget) VISIBLE else GONE
-                    debitCardsNotAcceptedTextView.visibility = visibility
-                    if (visibility == VISIBLE) { // only show. hide handled in BaseCheckoutPresenter
+    override fun showMainTravelerMinimumAgeMessaging(): Boolean {
+        return false
+    }
+
+    private fun makePaymentErrorSubscriber(fee: Subject<Boolean, Boolean>, show: PublishSubject<Boolean>, textView: TextView, text: Subject<Spanned, Spanned>) {
+        Observable.combineLatest( fee, show, text,
+                { fee, show, text ->
+                    val cardFeeVisibility = if (fee && show) View.VISIBLE else View.GONE
+                    if (cardFeeVisibility == VISIBLE) {
+                        textView.visibility = cardFeeVisibility
+                        AnimUtils.slideIn(textView)
+                        textView.text = text
                         toolbarDropShadow.visibility = visibility
+                    } else if (textView.visibility == View.VISIBLE) {
+                        AnimUtils.slideOut(invalidPaymentTypeWarningTextView)
                     }
                 }).subscribe()
     }
 
-    override fun clearCCNumber() {
-        clearCVV()
-        super.clearCCNumber()
+    override fun setInsuranceWidgetVisibility(visible: Boolean){
+        insuranceWidget.viewModel.updateVisibility(visible)
     }
+
 }

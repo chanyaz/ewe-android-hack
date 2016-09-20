@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.Bitmap
 import android.util.AttributeSet
 import android.view.View
-import android.widget.ImageView
 import android.widget.FrameLayout
+import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Ui
 
@@ -24,7 +24,7 @@ class HotelDetailsGalleryImageView(context: Context, attrs: AttributeSet) : Imag
         val normValue = normalizeValue(1 - value)
         val height = (startHeight + (actualHeight - startHeight) * normValue).toInt()
 
-        layoutParams = FrameLayout.LayoutParams(Ui.getScreenSize(getContext()).x, height)
+        layoutParams = FrameLayout.LayoutParams(Ui.getScreenSize(context).x, height)
 
         var actualScrollHeight = (finalHeight - startHeight) * (1 - normValue)
         (parent as View).translationY = actualScrollHeight

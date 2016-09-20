@@ -1,10 +1,7 @@
 package com.expedia.bookings.activity;
 
-import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.Locale;
-
 import android.app.ActivityManager;
+import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -12,9 +9,6 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.support.multidex.MultiDexApplication;
 import android.text.format.DateUtils;
-
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
@@ -63,6 +57,7 @@ import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.TuneUtils;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
+import com.github.stkent.bugshaker.BugShaker;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -72,6 +67,12 @@ import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import io.fabric.sdk.android.Fabric;
+import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.HashSet;
+import java.util.Locale;
+import java.util.Set;
+import net.danlew.android.joda.JodaTimeAndroid;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
@@ -142,9 +143,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// We want this first so that we set this as the Provider before anything tries to use Joda time
 		JodaTimeAndroid.init(this);
 		startupTimer.addSplit("Joda TZ Provider Init");
-
-		AbacusHelperUtils.generateAbacusGuid(this);
-		startupTimer.addSplit("Generate Abacus GUID");
 
 		super.onCreate();
 		startupTimer.addSplit("super.onCreate()");
@@ -220,6 +218,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		// Initialize some parts of the code that require a Context
 		initializePointOfSale();
 		startupTimer.addSplit("PointOfSale Init");
+
+		AbacusHelperUtils.generateAbacusGuid(this);
+		startupTimer.addSplit("Generate Abacus GUID");
 
 		if (ProductFlavorFeatureConfiguration.getInstance().wantsCustomHandlingForLocaleConfiguration()) {
 
@@ -330,6 +331,23 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		CurrencyUtils.initMap(this);
 		startupTimer.addSplit("Currency Utils init");
 		startupTimer.dumpToLog();
+
+		boolean bugshakerEnabled = SettingUtils
+			.get(getBaseContext(), getBaseContext().getString(R.string.preference_enable_bugshaker), false);
+		if (bugshakerEnabled) {
+			startNewBugShaker(this);
+		}
+	}
+
+	public static void startNewBugShaker(Application application) {
+		Set<String> emailList = new HashSet<>();
+		emailList.add("EBAndroidDogfood@expedia.com");
+		BugShaker.get(application)
+			.setEmailAddressesAndSubjectLine(application.getString(R.string.bugshaker_report_headline), emailList)
+			.setAlertDialogType()
+			.setLoggingEnabled(BuildConfig.DEBUG)
+			.assemble()
+			.start();
 	}
 
 	private void initializePointOfSale() {

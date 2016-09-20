@@ -103,7 +103,7 @@ public class CustomSeekBarView extends View {
 	}
 
 	private Bitmap getThumbnail() {
-		float diameter = getContext().getResources().getDimension(R.dimen.time_slider_thumbnail_radius);
+		float diameter = getContext().getResources().getDimension(R.dimen.filter_slider_thumbnail_radius);
 		float density = getContext().getResources().getDisplayMetrics().density;
 		float radius = diameter / 2;
 

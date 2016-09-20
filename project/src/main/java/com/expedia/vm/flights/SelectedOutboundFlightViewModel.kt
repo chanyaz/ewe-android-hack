@@ -2,7 +2,7 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.utils.PackageFlightUtils
+import com.expedia.bookings.utils.FlightV2Utils
 import rx.subjects.PublishSubject
 
 class SelectedOutboundFlightViewModel(outboundFlightSelectedSubject: PublishSubject<FlightLeg>, context: Context) {
@@ -16,8 +16,8 @@ class SelectedOutboundFlightViewModel(outboundFlightSelectedSubject: PublishSubj
             val airlineName = flightLeg.airlines[0].airlineName
             airlineNameObservable.onNext(airlineName)
 
-            val arrivalDepartureTime = PackageFlightUtils.getFlightDepartureArrivalTimeAndDays(context, flightLeg)
-            val flightDuration = PackageFlightUtils.getFlightDurationString(context, flightLeg)
+            val arrivalDepartureTime = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(context, flightLeg)
+            val flightDuration = FlightV2Utils.getFlightDurationString(context, flightLeg)
             arrivalDepartureTimeObservable.onNext("$arrivalDepartureTime ($flightDuration)")
         })
     }

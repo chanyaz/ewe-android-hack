@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -56,7 +57,7 @@ public class AccountLibActivity extends AppCompatActivity
 	private LineOfBusiness lob = LineOfBusiness.HOTELS;
 	private LoginExtender loginExtender;
 	private UserAccountRefresher userAccountRefresher;
-	private boolean loginWithFacebook = false;
+	private boolean userLoggedInWithFacebook = false;
 	private Listener listener = new Listener();
 
 	public static Intent createIntent(Context context, Bundle bundle) {
@@ -131,6 +132,8 @@ public class AccountLibActivity extends AppCompatActivity
 		new PicassoHelper.Builder(background).setPlaceholder(backgroundDrawableResId).build().load(
 			backgroundDrawableResId);
 
+		background.setColorFilter(ContextCompat.getColor(this, R.color.acct_background_image_overlay));
+
 		Config config = Config.build()
 			.setService(ServicesUtil.generateAccountService(this))
 			.setBackgroundImageView(background)
@@ -158,6 +161,7 @@ public class AccountLibActivity extends AppCompatActivity
 		userAccountRefresher = new UserAccountRefresher(this, lob, this);
 
 		OmnitureTracking.trackLoginScreen();
+		userLoggedInWithFacebook = false;
 	}
 
 
@@ -176,12 +180,17 @@ public class AccountLibActivity extends AppCompatActivity
 		accountView.onActivityResult(requestCode, resultCode, data);
 	}
 
+	// TODO - talk to Mohit (as he is the tracking dude) about this. Doesn't seem right
 	@Override
 	public void onUserAccountRefreshed() {
 		User.addUserToAccountManager(this, Db.getUser());
 		if (User.isLoggedIn(this)) {
-			if (loginWithFacebook) {
+			if (userLoggedInWithFacebook) {
 				OmnitureTracking.trackLoginSuccess();
+				Db.setSignInType(Db.SignInTypeEnum.FACEBOOK_SIGN_IN);
+			}
+			else {
+				Db.setSignInType(Db.SignInTypeEnum.EXPEDIA_SIGN_IN);
 			}
 			AdTracker.trackLogin();
 			if (loginExtender != null) {
@@ -279,9 +288,13 @@ public class AccountLibActivity extends AppCompatActivity
 
 		@Override
 		public void onSignInSuccessful() {
-			loginWithFacebook = false;
 			// Do stuff with User
 			userAccountRefresher.ensureAccountIsRefreshed();
+		}
+
+		@Override
+		public void onFacebookSignInSuccess() {
+			userLoggedInWithFacebook = true;
 		}
 
 		@Override
@@ -292,7 +305,6 @@ public class AccountLibActivity extends AppCompatActivity
 
 		@Override
 		public void onFacebookRequested() {
-			loginWithFacebook = true;
 		}
 
 		@Override

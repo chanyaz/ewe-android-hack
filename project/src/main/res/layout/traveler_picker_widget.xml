@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/HeaderTextAboveCardviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/traveler_details_variate2" />
+
+    <LinearLayout
+        android:id="@+id/main_traveler_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"
+        android:orientation="vertical" />
+
+    <com.expedia.bookings.widget.TextView
+        style="@style/HeaderTextAboveCardviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/traveler_select_additional" />
+
+    <LinearLayout
+        android:id="@+id/additional_traveler_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/card_background"
+        android:orientation="vertical" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/bottom_main_traveler_min_age_message"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="bottom|center_horizontal"
+        android:padding="12dp"
+        android:singleLine="true"
+        android:text="@string/traveler_main_message"
+        android:textColor="@color/checkout_main_traveler_message"
+        android:textSize="10sp"
+        app:textStyle="normal" />
+
+</merge>

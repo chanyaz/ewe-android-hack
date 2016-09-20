@@ -23,6 +23,7 @@ import com.expedia.bookings.data.cars.CategorizedCarOffers;
 import com.expedia.bookings.data.cars.RateTerm;
 import com.expedia.bookings.data.cars.SearchCarFare;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.Images;
@@ -112,6 +113,8 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 		@InjectView(R.id.gradient_mask)
 		public View gradientMask;
 
+		@InjectView(R.id.list_card_announce_button_cont_desc)
+		public View listCardAnnounceButtonContDesc;
 
 		public ViewHolder(View view) {
 			super(view);
@@ -164,6 +167,10 @@ public class CarCategoriesListAdapter extends RecyclerView.Adapter<RecyclerView.
 				.getString(R.string.cars_total_template, Money.getFormattedMoneyFromAmountAndCurrencyCode(
 					lowestFare.total.amount, lowestFare.total.getCurrency(), Money.F_NO_DECIMAL)));
 			gradientMask.setVisibility(View.GONE);
+
+			listCardAnnounceButtonContDesc
+				.setVisibility(AccessibilityUtil.isTalkBackEnabled(itemView.getContext()) ? View.VISIBLE : View.GONE);
+
 			String url = Images.getCarRental(cco.category, cco.getLowestTotalPriceOffer().vehicleInfo.type,
 				itemView.getContext().getResources().getDimension(R.dimen.car_image_width));
 			new PicassoHelper.Builder(itemView.getContext())

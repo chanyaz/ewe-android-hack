@@ -2,16 +2,28 @@ package com.expedia.bookings.activity;
 
 import android.app.FragmentManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.ui.EBPreferencesFragment;
+import com.expedia.util.PermissionsHelperKt;
 import com.mobiata.android.Log;
 
 public class ExpediaBookingPreferenceActivity extends AppCompatActivity {
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+		@NonNull int[] grantResults) {
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+		if (requestCode == Constants.PERMISSION_WRITE_EXTERNAL_STORAGE_BUGSHAKER) {
+			if (PermissionsHelperKt.hasPermissionToWriteToExternalStorage(getBaseContext())) {
+				ExpediaBookingApp.startNewBugShaker(getApplication());
+			}
+		}
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

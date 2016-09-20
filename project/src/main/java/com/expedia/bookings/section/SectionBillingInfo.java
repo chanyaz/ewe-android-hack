@@ -14,7 +14,6 @@ import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -35,6 +34,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
@@ -46,6 +46,7 @@ import com.expedia.bookings.utils.NumberMaskFormatter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ExpirationPicker;
 import com.expedia.bookings.widget.ExpirationPicker.IExpirationListener;
+import com.expedia.bookings.widget.TextViewExtensionsKt;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.MultiValidator;
@@ -502,7 +503,6 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				@Override
 				public void afterTextChanged(Editable s) {
 					boolean isCreditField = field.getId() == R.id.edit_creditcard_number;
-					int greyedOutTextColor = ContextCompat.getColor(mContext, R.color.flight_card_invalid_cc_type_text_color);
 					if (hasBoundData()) {
 						if (getData().getNumber() == null || !s.toString().equalsIgnoreCase(getData().getNumber()) || getData().getIsCardIO()) {
 							if (!getData().getIsCardIO()) {
@@ -511,10 +511,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 							getData().setNumber(s.toString());
 
 							//this will ensure that the credit card text is not grayed out when the credit card field is empty
-							if (isCreditField && getData().getNumber().isEmpty() && field.getCurrentTextColor() == greyedOutTextColor) {
+							if (isCreditField && getData().getNumber().isEmpty()) {
 								getData().setBrandCode(null);
 								getData().setBrandName(null);
-								field.setTextColor(mOriginalTextColors);
+								TextViewExtensionsKt.removeErrorExclamation(field, null);
 							}
 
 							//A strange special case, as when we load billingInfo from disk, we don't have number, but we retain brandcode
@@ -543,11 +543,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 									getData().setBrandName(type.name());
 
 									if (!hasValidPaymentType(mLineOfBusiness, getData())) {
-										field.setTextColor(getResources().getColor(
-											R.color.flight_card_invalid_cc_type_text_color));
+										TextViewExtensionsKt.addErrorExclamation(field);
 									}
 									else {
-										field.setTextColor(mOriginalTextColors);
+										TextViewExtensionsKt.removeErrorExclamation(field, null);
 									}
 								}
 							}
@@ -1202,54 +1201,25 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		if (info == null || info.getPaymentType() == null) {
 			return false;
 		}
-		if (lob == LineOfBusiness.PACKAGES) {
-			return Db.getTripBucket().getPackage() != null &&
-				Db.getTripBucket().getPackage().isPaymentTypeSupported(info.getPaymentType());
+
+		if (lob == null) {
+			throw new RuntimeException("Line of business required");
 		}
+
+		TripBucketItem bucketItem;
+
 		if (lob == LineOfBusiness.HOTELS) {
 			if (!ExpediaBookingApp.isTablet()) {
-				return Db.getTripBucket().getHotelV2() != null &&
-					Db.getTripBucket().getHotelV2().isPaymentTypeSupported(info.getPaymentType());
+				bucketItem = Db.getTripBucket().getHotelV2();
 			}
 			else {
-				return Db.getTripBucket().getHotel() != null &&
-					Db.getTripBucket().getHotel().isPaymentTypeSupported(info.getPaymentType());
+				bucketItem = Db.getTripBucket().getHotel();
 			}
 		}
-		if (lob == LineOfBusiness.FLIGHTS) {
-			return Db.getTripBucket().getFlight() != null
-				&& Db.getTripBucket().getFlight().isPaymentTypeSupported(info.getPaymentType());
-		}
-		if (lob == LineOfBusiness.FLIGHTS_V2) {
-			return Db.getTripBucket().getFlightV2() != null
-				&& Db.getTripBucket().getFlightV2().isPaymentTypeSupported(info.getPaymentType());
-		}
-		if (lob == LineOfBusiness.CARS) {
-			return Db.getTripBucket().getCar() != null
-				&& Db.getTripBucket().getCar().isPaymentTypeSupported(info.getPaymentType());
-		}
-		if (lob == LineOfBusiness.LX) {
-			return Db.getTripBucket().getLX() != null
-				&& Db.getTripBucket().getLX().isPaymentTypeSupported(info.getPaymentType());
-		}
-		if (lob == LineOfBusiness.TRANSPORT) {
-			return Db.getTripBucket().getTransport() != null
-				&& Db.getTripBucket().getTransport().isPaymentTypeSupported(info.getPaymentType());
-		}
-
-		throw new RuntimeException("Line of business required");
-	}
-
-	public void refreshOnLoginStatusChange() {
-		if (User.isLoggedIn(mContext)) {
-			mFields.removeField(mEditEmailAddress);
-			mFields.removeField(mDisplayEmailDisclaimer);
-		}
 		else {
-			mFields.setFieldEnabled(mEditEmailAddress, true);
-			mFields.setFieldEnabled(mDisplayEmailDisclaimer, true);
+			bucketItem = Db.getTripBucket().getItem(lob);
 		}
-		onChange();
+		return bucketItem != null && bucketItem.isPaymentTypeSupported(info.getPaymentType());
 	}
 }
 

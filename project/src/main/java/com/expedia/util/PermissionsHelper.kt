@@ -20,11 +20,19 @@ fun requestLocationPermission(activity: Activity) {
     ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), requestCode)
 }
 
+fun requestWriteToExternalStoragePermission(activity: Activity) {
+    ActivityCompat.requestPermissions(activity, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE), Constants.PERMISSION_WRITE_EXTERNAL_STORAGE_BUGSHAKER)
+}
+
 fun requestLocationPermission(fragment: Fragment) {
     // fragment won't get the callback if the activity is the one making the permission request
     // use ActivityCompat.requestPermissions if you need an activity to get the callback
     fragment.requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
             Constants.PERMISSION_REQUEST_LOCATION)
+}
+
+fun hasPermissionToWriteToExternalStorage(context: Context): Boolean {
+    return isPermissionEnabled(Manifest.permission.WRITE_EXTERNAL_STORAGE, context)
 }
 
 fun havePermissionToAccessLocation(context: Context): Boolean {

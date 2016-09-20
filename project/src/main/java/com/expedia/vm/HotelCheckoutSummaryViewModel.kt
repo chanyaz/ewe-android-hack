@@ -59,6 +59,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     init {
         paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.map {
             object {
+                val country = it.tripResponse.newHotelProductResponse.hotelCountry
                 val originalRoomResponse = it.tripResponse.originalHotelProductResponse.hotelRoomResponse
                 val newHotelProductResponse = it.tripResponse.newHotelProductResponse
                 val isExpediaRewardsRedeemable = it.tripResponse.isRewardsRedeemable()
@@ -128,7 +129,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
                 tripTotalPrice.onNext(it.tripTotalPayableIncludingFee.formattedMoneyFromAmountAndCurrencyCode)
                 isShoppingWithPoints.onNext(true)
             } else {
-                tripTotalPrice.onNext(rate.getDisplayTotalPrice().getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
+                tripTotalPrice.onNext(rate.displayTotalPrice.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
                 dueNowAmount.onNext(it.newHotelProductResponse.dueNowAmount.formattedMoney)
 
                 isShoppingWithPoints.onNext(false)
