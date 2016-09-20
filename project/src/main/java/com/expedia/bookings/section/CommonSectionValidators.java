@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.PatternValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
@@ -78,11 +79,19 @@ public class CommonSectionValidators {
 		}
 	};
 
-	public static class PhoneNumberLengthValidator extends PatternValidator {
-		private static final Pattern FOUR_NUMBERS_PATTERN = Pattern.compile(".*\\d+.*\\d+.*\\d+.*\\d+.*");//atleast four digits
+	public static class PhoneNumberLengthValidator extends TelephoneValidator {
 
-		public PhoneNumberLengthValidator() {
-			super(FOUR_NUMBERS_PATTERN);
+		@Override
+		public int validate(CharSequence text) {
+			if (Strings.isEmpty(text)) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else {
+				String userInput = text.toString();
+				String filteredNumbers = userInput.replaceAll("[^0-9,]","");
+				return filteredNumbers.length() > 15 || filteredNumbers.length() < 4 ?
+					ValidationError.ERROR_DATA_INVALID : ValidationError.NO_ERROR;
+			}
 		}
 	}
 

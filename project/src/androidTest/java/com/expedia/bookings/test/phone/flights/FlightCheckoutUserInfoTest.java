@@ -239,7 +239,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		// Verifying that phone number must be at least 4 chars long
+		// Verifying that phone number must be at least 4 but max 15 chars long
 		FlightsTravelerInfoScreen.enterPhoneNumber("951");
 		FlightsTravelerInfoScreen.clickNextButton();
 		FlightsTravelerInfoScreen.firstNameEditText()
@@ -257,6 +257,15 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.middleNameEditText().check(
 			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.phoneNumberEditText().check(
+			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		FlightsTravelerInfoScreen.phoneNumberEditText().perform(clearText());
+		// Verify that the phoneNumberEditText allows a max of 15 numbers
+		FlightsTravelerInfoScreen.enterPhoneNumber("12345678901234567890");
+		FlightsTravelerInfoScreen.phoneNumberEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		FlightsTravelerInfoScreen.phoneNumberEditText().perform(clearText());
+//		Verify special characters doesn't affect number limit
+		FlightsTravelerInfoScreen.enterPhoneNumber("##(123)--(456)--(7890)");
 		FlightsTravelerInfoScreen.phoneNumberEditText().check(
 			matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 		FlightsTravelerInfoScreen.phoneNumberEditText().perform(clearText());
