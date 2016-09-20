@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewStub
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -22,6 +23,7 @@ import com.expedia.bookings.data.FlightFilter
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -50,10 +52,22 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
     val departureRangeBar: FilterRangeSeekBar by bindView(R.id.departure_range_bar)
     val departureRangeMinText: TextView by bindView(R.id.departure_range_min_text)
     val departureRangeMaxText: TextView by bindView(R.id.departure_range_max_text)
+    val departureStub: ViewStub by bindView(R.id.departure_stub)
+    val a11yDepartureStub: ViewStub by bindView(R.id.a11y_departure_stub)
+    val a11yDepartureStartSeekBar: FilterSeekBar by bindView(R.id.departure_a11y_start_bar)
+    val a11yDepartureStartText: TextView by bindView(R.id.departure_a11y_start_text)
+    val a11yDepartureEndSeekBar: FilterSeekBar by bindView(R.id.departure_a11y_end_bar)
+    val a11yDepartureEndText: TextView by bindView(R.id.departure_a11y_end_text)
 
+    val arrivalStub: ViewStub by bindView(R.id.arrival_stub)
     val arrivalRangeBar: FilterRangeSeekBar by bindView(R.id.arrival_range_bar)
     val arrivalRangeMinText: TextView by bindView(R.id.arrival_range_min_text)
     val arrivalRangeMaxText: TextView by bindView(R.id.arrival_range_max_text)
+    val a11yArrivalStub: ViewStub by bindView(R.id.a11y_arrival_stub)
+    val a11yArrivalStartSeekBar: FilterSeekBar by bindView(R.id.arrival_a11y_start_bar)
+    val a11yArrivalStartText: TextView by bindView(R.id.arrival_a11y_start_text)
+    val a11yArrivalEndSeekBar: FilterSeekBar by bindView(R.id.arrival_a11y_end_bar)
+    val a11yArrivalEndText: TextView by bindView(R.id.arrival_a11y_end_text)
 
     val airlinesLabel: android.widget.TextView by bindView(R.id.airlines_label)
     val airlinesContainer: LinearLayout by bindView(R.id.airlines_container)
@@ -103,44 +117,126 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             })
         }
 
+        var departureStartCurrentProgress: Int
+        var departureEndCurrentProgress: Int
+
         vm.newDepartureRangeObservable.subscribe { timeRange ->
-            departureRangeBar.upperLimit = timeRange.notches
-            departureRangeMinText.text = timeRange.defaultMinText
-            departureRangeMaxText.text = timeRange.defaultMaxText
+            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                departureStartCurrentProgress = timeRange.minDurationHours
+                departureEndCurrentProgress = timeRange.maxDurationHours
+                a11yDepartureStartSeekBar.upperLimit = timeRange.maxDurationHours
+                a11yDepartureEndSeekBar.upperLimit = timeRange.maxDurationHours
+                a11yDepartureStartText.text = timeRange.defaultMinText
+                a11yDepartureEndText.text = timeRange.defaultMaxText
 
-            departureRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
-                override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                    departureRangeMinText.text = timeRange.formatValue(minValue)
-                    departureRangeMaxText.text = timeRange.formatValue(maxValue)
-                    vm.departureRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
-                }
+                a11yDepartureStartSeekBar.setOnSeekBarChangeListener(object : FilterSeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: FilterSeekBar, progress: Int, fromUser: Boolean) {
+                        departureStartCurrentProgress = timeRange.maxDurationHours - progress
+                        if (departureStartCurrentProgress < departureEndCurrentProgress) {
+                            a11yDepartureStartText.text = timeRange.formatValue(timeRange.maxDurationHours - progress)
+                            announceForAccessibility(timeRange.formatValue(timeRange.maxDurationHours - progress))
+                            vm.departureRangeChangedObserver.onNext(timeRange.update(timeRange.maxDurationHours - progress, departureEndCurrentProgress))
+                        }
+                    }
 
-                override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                    departureRangeMinText.text = timeRange.formatValue(minValue)
-                    departureRangeMaxText.text = timeRange.formatValue(maxValue)
-                    vm.departureRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
-                }
-            })
+                    override fun onStartTrackingTouch(seekBar: FilterSeekBar) {}
+                    override fun onStopTrackingTouch(seekBar: FilterSeekBar) {}
+                })
+
+                a11yDepartureEndSeekBar.setOnSeekBarChangeListener(object : FilterSeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: FilterSeekBar, progress: Int, fromUser: Boolean) {
+                        departureEndCurrentProgress = progress
+                        if (departureEndCurrentProgress > departureStartCurrentProgress) {
+                            a11yDepartureEndText.text = timeRange.formatValue(progress)
+                            announceForAccessibility(timeRange.formatValue(progress))
+                            vm.departureRangeChangedObserver.onNext(timeRange.update(departureStartCurrentProgress, progress))
+                        }
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: FilterSeekBar) {}
+                    override fun onStopTrackingTouch(seekBar: FilterSeekBar) {}
+                })
+            }
+            else {
+                departureRangeBar.upperLimit = timeRange.notches
+                departureRangeMinText.text = timeRange.defaultMinText
+                departureRangeMaxText.text = timeRange.defaultMaxText
+
+                departureRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
+                    override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                        departureRangeMinText.text = timeRange.formatValue(minValue)
+                        departureRangeMaxText.text = timeRange.formatValue(maxValue)
+                        vm.departureRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
+                    }
+
+                    override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                        departureRangeMinText.text = timeRange.formatValue(minValue)
+                        departureRangeMaxText.text = timeRange.formatValue(maxValue)
+                        vm.departureRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
+                    }
+                })
+            }
         }
 
+        var arrivalStartCurrentProgress: Int
+        var arrivalEndCurrentProgress: Int
+
         vm.newArrivalRangeObservable.subscribe { timeRange ->
-            arrivalRangeBar.upperLimit = timeRange.notches
-            arrivalRangeMinText.text = timeRange.defaultMinText
-            arrivalRangeMaxText.text = timeRange.defaultMaxText
+            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                arrivalStartCurrentProgress = timeRange.minDurationHours
+                arrivalEndCurrentProgress = timeRange.maxDurationHours
+                a11yArrivalStartSeekBar.upperLimit = timeRange.maxDurationHours
+                a11yArrivalEndSeekBar.upperLimit = timeRange.maxDurationHours
+                a11yArrivalStartText.text = timeRange.defaultMinText
+                a11yArrivalEndText.text = timeRange.defaultMaxText
 
-            arrivalRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
-                override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                    arrivalRangeMinText.text = timeRange.formatValue(minValue)
-                    arrivalRangeMaxText.text = timeRange.formatValue(maxValue)
-                    vm.arrivalRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
-                }
+                a11yArrivalStartSeekBar.setOnSeekBarChangeListener(object : FilterSeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: FilterSeekBar, progress: Int, fromUser: Boolean) {
+                        arrivalStartCurrentProgress = timeRange.maxDurationHours - progress
+                        if (arrivalStartCurrentProgress < arrivalEndCurrentProgress) {
+                            a11yArrivalStartText.text = timeRange.formatValue(timeRange.maxDurationHours - progress)
+                            announceForAccessibility(timeRange.formatValue(timeRange.maxDurationHours - progress))
+                            vm.arrivalRangeChangedObserver.onNext(timeRange.update(timeRange.maxDurationHours - progress, arrivalEndCurrentProgress))
+                        }
+                    }
 
-                override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                    arrivalRangeMinText.text = timeRange.formatValue(minValue)
-                    arrivalRangeMaxText.text = timeRange.formatValue(maxValue)
-                    vm.arrivalRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
-                }
-            })
+                    override fun onStartTrackingTouch(seekBar: FilterSeekBar) {}
+                    override fun onStopTrackingTouch(seekBar: FilterSeekBar) {}
+                })
+
+                a11yArrivalEndSeekBar.setOnSeekBarChangeListener(object : FilterSeekBar.OnSeekBarChangeListener {
+                    override fun onProgressChanged(seekBar: FilterSeekBar, progress: Int, fromUser: Boolean) {
+                        arrivalEndCurrentProgress = progress
+                        if (arrivalEndCurrentProgress > arrivalStartCurrentProgress) {
+                            a11yArrivalEndText.text = timeRange.formatValue(progress)
+                            announceForAccessibility(timeRange.formatValue(progress))
+                            vm.arrivalRangeChangedObserver.onNext(timeRange.update(arrivalStartCurrentProgress, progress))
+                        }
+                    }
+
+                    override fun onStartTrackingTouch(seekBar: FilterSeekBar) {}
+                    override fun onStopTrackingTouch(seekBar: FilterSeekBar) {}
+                })
+            }
+            else {
+                arrivalRangeBar.upperLimit = timeRange.notches
+                arrivalRangeMinText.text = timeRange.defaultMinText
+                arrivalRangeMaxText.text = timeRange.defaultMaxText
+
+                arrivalRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
+                    override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                        arrivalRangeMinText.text = timeRange.formatValue(minValue)
+                        arrivalRangeMaxText.text = timeRange.formatValue(maxValue)
+                        vm.arrivalRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
+                    }
+
+                    override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                        arrivalRangeMinText.text = timeRange.formatValue(minValue)
+                        arrivalRangeMaxText.text = timeRange.formatValue(maxValue)
+                        vm.arrivalRangeChangedObserver.onNext(timeRange.update(minValue, maxValue))
+                    }
+                })
+            }
         }
 
         vm.doneButtonEnableObservable.subscribe { enable ->
@@ -273,6 +369,14 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             toolbar.setPadding(0, statusBarHeight, 0, 0)
             var lp = filterContainer.layoutParams as android.widget.FrameLayout.LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
+        }
+        if (AccessibilityUtil.isTalkBackEnabled(context)) {
+            a11yDepartureStub.inflate()
+            a11yArrivalStub.inflate()
+        }
+        else {
+            departureStub.inflate()
+            arrivalStub.inflate()
         }
     }
 
