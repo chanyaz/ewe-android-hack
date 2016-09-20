@@ -11,7 +11,6 @@ import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
@@ -32,6 +31,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     // outputs
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>()
     val receivedCheckoutResponse = PublishSubject.create<Unit>()
+    val showNoInternetRetryDialog = PublishSubject.create<Unit>()
 
     init {
         val pointOfSale = PointOfSale.getPointOfSale()
@@ -117,13 +117,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
 
             override fun onError(e: Throwable) {
                 if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        flightServices.checkout(checkoutParams.value.toQueryMap()).subscribe(makeCheckoutResponseObserver())
-                    }
-                    val cancelFun = fun() {
-                        noNetworkObservable.onNext(Unit)
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                    showNoInternetRetryDialog.onNext(Unit)
                     FlightsV2Tracking.trackFlightCheckoutAPINoResponseError()
                 }
             }
