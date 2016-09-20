@@ -217,7 +217,6 @@
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/invalid_payment_type_warning"
                         style="@style/FlightWarningBarRed"
-                        android:maxLines="1"
                         android:visibility="gone" />
 
                 </LinearLayout>
