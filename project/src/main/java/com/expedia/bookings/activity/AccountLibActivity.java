@@ -287,7 +287,7 @@ public class AccountLibActivity extends AppCompatActivity
 		@Override
 		public void onSignInSuccessful() {
 			// Do stuff with User
-			userAccountRefresher.forceAccountRefresh();
+			userAccountRefresher.ensureAccountIsRefreshed();
 		}
 
 		@Override
