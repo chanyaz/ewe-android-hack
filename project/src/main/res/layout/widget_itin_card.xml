@@ -160,7 +160,7 @@
                                 android:ellipsize="end"
                                 android:gravity="center"
                                 android:paddingLeft="4dp"
-                                android:singleLine="true"
+                                android:maxLines="1"
                                 android:textColor="#FFFFFF"
                                 android:textSize="18sp"
                                 android:textStyle="bold" />
@@ -172,7 +172,7 @@
                                 android:layout_weight="0"
                                 android:gravity="center"
                                 android:paddingRight="4dp"
-                                android:singleLine="true"
+                                android:maxLines="1"
                                 android:textColor="#9e9d9d"
                                 android:textSize="17sp"
                                 app:textStyle="normal" />
@@ -293,7 +293,7 @@
                     android:ellipsize="end"
                     android:gravity="center"
                     android:paddingLeft="4dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:text="@string/itin_card_flight_checkin"
                     android:textColor="#FFFFFF"
                     android:textSize="16sp"

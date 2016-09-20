@@ -217,7 +217,7 @@
                         android:hint="@string/credit_debit_card_hint"
                         android:nextFocusForward="@+id/edit_address_postal_code"
                         android:paddingLeft="48dp"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         app:numberFormat="creditcard" />
 
                 </FrameLayout>
@@ -286,7 +286,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/address_postal_code_hint"
                         android:nextFocusForward="@+id/edit_name_on_card"
-                        android:singleLine="true" />
+                        android:maxLines="1" />
 
                 </com.expedia.bookings.section.SectionLocation>
             </LinearLayout>
@@ -309,7 +309,7 @@
                 android:hint="@string/name_on_card_hint"
                 android:nextFocusForward="@id/edit_creditcard_number"
                 android:inputType="textPersonName|textCapWords"
-                android:singleLine="true" />
+                android:maxLines="1" />
 
         </com.expedia.bookings.section.SectionBillingInfo>
 

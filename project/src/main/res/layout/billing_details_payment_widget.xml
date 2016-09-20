@@ -175,7 +175,7 @@
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/edit_creditcard_cvv"
                         android:paddingLeft="48dp"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         android:textSize="@dimen/traveler_input_text_size"
                         app:numberFormat="creditcard" />
 
@@ -191,7 +191,7 @@
                         android:imeOptions="actionNext"
                         android:nextFocusForward="@+id/edit_creditcard_cvv"
                         android:paddingLeft="48dp"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         android:textSize="@dimen/traveler_input_text_size"
                         android:visibility="gone"/>
                 </FrameLayout>
@@ -225,7 +225,7 @@
                         android:inputType="numberPassword"
                         android:maxLength="4"
                         android:nextFocusForward="@+id/edit_name_on_card"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         android:textSize="@dimen/traveler_input_text_size" />
 
                 </LinearLayout>
@@ -241,7 +241,7 @@
                     android:imeOptions="actionNext"
                     android:inputType="textPersonName|textCapWords"
                     android:nextFocusForward="@+id/edit_address_line_one"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="@dimen/traveler_input_text_size" />
 
             </LinearLayout>

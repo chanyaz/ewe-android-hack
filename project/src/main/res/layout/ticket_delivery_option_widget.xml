@@ -34,8 +34,7 @@
                 style="@style/RailTextAppearanceSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingTop="@dimen/temporary_small_padding"
-                android:singleLine="false" />
+                android:paddingTop="@dimen/temporary_small_padding" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/delivery_fees_text"
@@ -43,7 +42,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="@dimen/temporary_small_padding"
-                android:singleLine="false"
                 android:text="@string/tdo_fees_non_refundable"
                 android:visibility="gone" />
         </LinearLayout>

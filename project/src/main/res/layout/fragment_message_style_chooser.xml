@@ -35,7 +35,7 @@
             android:gravity="center_horizontal"
             android:paddingBottom="24dp"
             android:paddingTop="16dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:text="@string/Long_message"
             android:textAppearance="@style/TextAppearance.Small" />
 
@@ -49,7 +49,7 @@
             android:gravity="center_horizontal"
             android:paddingBottom="24dp"
             android:paddingTop="16dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:text="@string/Short_message"
             android:textAppearance="@style/TextAppearance.Small" />
 
@@ -71,7 +71,7 @@
             android:gravity="center_horizontal"
             android:paddingBottom="24dp"
             android:paddingTop="16dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:text="@string/Short_message_Facebook"
             android:textAppearance="@style/TextAppearance.Small"
             android:visibility="gone" />
@@ -86,7 +86,7 @@
             android:gravity="center_horizontal"
             android:paddingBottom="24dp"
             android:paddingTop="16dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:text="@string/FlightTrackTitle"
             android:textAppearance="@style/TextAppearance.Small"
             android:visibility="gone" />

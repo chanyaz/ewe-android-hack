@@ -117,7 +117,7 @@
             style="@style/CvvScreenCreditCardSignature"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="#BEB2C2"
             android:textScaleX=".8"
             app:minTextSize="5sp" />

@@ -53,7 +53,7 @@
             android:layout_height="wrap_content"
             android:layout_toLeftOf="@+id/full_tile_price_container"
             android:ellipsize="end"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/launch_list_txt"
             android:textSize="15sp"
             app:textStyle="light" />

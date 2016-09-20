@@ -22,7 +22,7 @@
             android:layout_weight="1"
             android:ellipsize="middle"
             android:gravity="center_vertical"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/roboto_light"
             android:textSize="14dp" />
 
@@ -35,7 +35,7 @@
             android:layout_marginRight="8dp"
             android:layout_marginTop="4.5dp"
             android:gravity="center_vertical|right"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/roboto_light"
             android:textSize="14dp" />
     </LinearLayout>
@@ -44,7 +44,7 @@
         android:id="@+id/bottom_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:singleLine="true"
+        android:maxLines="1"
         android:layout_marginLeft="4dp"
         android:layout_marginRight="8dp"
         android:gravity="center_vertical"

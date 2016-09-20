@@ -44,7 +44,7 @@
                 android:paddingLeft="5dp"
                 android:paddingRight="5dp"
                 android:paddingTop="1dp"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@android:color/white"
                 android:textSize="13sp"
                 app:textStyle="bold"/>

@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ellipsize="end"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/data_review_gray"
             android:textSize="@dimen/tablet_data_button_sub_text_size" />
     </LinearLayout>

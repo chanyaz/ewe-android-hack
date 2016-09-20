@@ -45,7 +45,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/display_seat_preference"
-            android:singleLine="true"
+            android:maxLines="1"
             android:ellipsize="end"
             android:textColor="@color/data_review_gray"
             android:textSize="@dimen/data_display_sub_text"

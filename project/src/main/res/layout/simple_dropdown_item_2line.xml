@@ -44,7 +44,7 @@
             style="?android:attr/dropDownItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textAppearance="?android:attr/textAppearanceLargePopupMenu"
             android:textColor="#F3F3F3"
             android:textSize="15dp" />
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@android:id/text1"
             android:layout_below="@android:id/text1"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textAppearance="?android:attr/textAppearanceSmallPopupMenu"
             android:textColor="#999"
             android:textSize="15dp" />

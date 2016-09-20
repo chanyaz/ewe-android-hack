@@ -109,7 +109,6 @@
                         android:layout_height="wrap_content"
                         android:text="@string/air_attach_expires_today"
                         android:textColor="@color/price_change_air_attach"
-                        android:singleLine="false"
                         android:textSize="12dp"
                         android:visibility="gone"/>
 

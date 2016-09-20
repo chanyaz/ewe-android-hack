@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/currency_symbol_view"
             android:inputType="numberDecimal"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textSize="16sp"
             android:textColor="@color/hotelsv2_checkout_text_color"
             android:imeOptions="actionDone"/>
