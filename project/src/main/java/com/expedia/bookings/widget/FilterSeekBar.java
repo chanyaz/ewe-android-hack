@@ -10,6 +10,7 @@ import android.view.MotionEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import com.expedia.bookings.R;
+import com.squareup.phrase.Phrase;
 
 public class FilterSeekBar extends CustomSeekBarView {
 
@@ -120,12 +121,11 @@ public class FilterSeekBar extends CustomSeekBarView {
 	@Override
 	public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
 		super.onInitializeAccessibilityNodeInfo(info);
-		StringBuilder builder = new StringBuilder(getA11yName());
-		builder.append(" ");
-		builder.append(getContext().getString(R.string.accessibility_seekbar_cont_desc_role));
-		builder.append(" ");
-		builder.append(getCurrentA11yValue());
-		info.setText(builder.toString());
+		String infoText = Phrase.from(getContext().getString(R.string.accessibility_seekbar_cont_desc_name_role_value_TEMPLATE))
+								.put("name", getA11yName())
+								.put("value", getCurrentA11yValue())
+								.format().toString();
+		info.setText(infoText);
 	}
 
 	public Drawable getThumb() {
@@ -147,13 +147,5 @@ public class FilterSeekBar extends CustomSeekBarView {
 		 * to distinguish user-initiated changes from those that occurred programmatically.
 		 */
 		void onProgressChanged(FilterSeekBar seekBar, int progress, boolean fromUser);
-
-		/**
-		 * Notification that the user has started/finished a touch gesture. Clients may want to use this
-		 * to disable/re-enable advancing the seekbar.
-		 */
-		void onStartTrackingTouch(FilterSeekBar seekBar);
-
-		void onStopTrackingTouch(FilterSeekBar seekBar);
 	}
 }
