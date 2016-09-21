@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
@@ -16,6 +17,7 @@ import com.expedia.bookings.widget.rail.RailDetailsFareOptionsView
 import com.expedia.bookings.widget.rail.RailDetailsTimeline
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.rail.RailDetailsViewModel
 
 class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -25,12 +27,16 @@ class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     val fareOptionsView: RailDetailsFareOptionsView by bindView(R.id.details_fare_options)
     val timeRangeTextView: TextView by bindView(R.id.details_times)
     val infoLine: TextView by bindView(R.id.details_info)
+    val overtakenMessage: TextView by bindView(R.id.overtaken_message)
+    val overtakenDivider: View by bindView(R.id.overtaken_message_divider)
 
     var viewmodel: RailDetailsViewModel by notNullAndObservable { vm ->
         timeline.viewmodel = vm
         fareOptionsView.viewmodel = vm
         vm.offerViewModel.formattedTimeIntervalSubject.subscribeText(timeRangeTextView)
         vm.offerViewModel.formattedLegInfoSubject.subscribeText(infoLine)
+        vm.offerViewModel.overtaken.subscribeVisibility(overtakenMessage)
+        vm.offerViewModel.overtaken.subscribeVisibility(overtakenDivider)
     }
 
     init {

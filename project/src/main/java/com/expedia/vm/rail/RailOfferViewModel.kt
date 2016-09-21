@@ -11,6 +11,9 @@ class RailOfferViewModel(val context: Context) {
     val formattedTimeIntervalSubject = BehaviorSubject.create<CharSequence>()
     val offerSubject = BehaviorSubject.create<RailOffer>()
     val formattedLegInfoSubject = BehaviorSubject.create<CharSequence>()
+    val overtaken = offerSubject.map { offer ->
+        if (offer.outboundLeg != null) offer.outboundLeg!!.overtakenJourney else false
+    }
 
     init {
         offerSubject.subscribe {

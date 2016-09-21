@@ -735,7 +735,7 @@ public abstract class TripBucketItemFragment extends Fragment implements IStateP
 	public abstract CharSequence getPriceChangeMessage();
 
 	protected int getPriceChangeDrawable() {
-		return R.drawable.ic_price_alert_exclamation;
+		return R.drawable.ic_alert_exclamation;
 	}
 
 	protected int getPriceChangeTextColor() {

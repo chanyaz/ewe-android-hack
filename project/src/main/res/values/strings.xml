@@ -4341,6 +4341,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">You have {formatted_duration} to get from {origin_station_name} to {destination_station_name}</string>
 
+    <string name="rail_overtaken_message">Overtaken train: This service is slower than other trains.</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Take the {travel_mode} from {origin_station_name} to {destination_station_name}</string>
 
