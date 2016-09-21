@@ -22,12 +22,15 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.RailLocation;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
+import com.expedia.bookings.widget.SpinnerAdapterWithHint;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
@@ -71,6 +74,7 @@ public class SectionLocation extends LinearLayout
 		mFields.add(mValidCity);
 		mFields.add(mValidState);
 		mFields.add(mValidPostalCode);
+		mFields.add(mValidDeliveryOption);
 
 		//Edit fields
 		mFields.add(this.mEditAddressLineOne);
@@ -79,6 +83,7 @@ public class SectionLocation extends LinearLayout
 		mFields.add(this.mEditAddressState);
 		mFields.add(this.mEditAddressPostalCode);
 		mFields.add(this.mEditCountrySpinner);
+		mFields.add(this.mEditDeliveryOptionSpinner);
 	}
 
 	@Override
@@ -242,6 +247,8 @@ public class SectionLocation extends LinearLayout
 		R.id.edit_address_state);
 	ValidationIndicatorExclaimation<Location> mValidPostalCode = new ValidationIndicatorExclaimation<>(
 		R.id.edit_address_postal_code);
+	ValidationIndicatorExclamationSpinner<Location> mValidDeliveryOption = new ValidationIndicatorExclamationSpinner<>(
+		R.id.edit_delivery_option_spinner);
 
 	//////////////////////////////////////
 	////// EDIT FIELDS
@@ -588,7 +595,6 @@ public class SectionLocation extends LinearLayout
 				CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) getField().getAdapter();
 				getData()
 					.setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
-				showHideCountryDependantFields();
 				updateCountryDependantValidation();
 				rebindCountryDependantFields();
 			}
@@ -598,9 +604,9 @@ public class SectionLocation extends LinearLayout
 		protected void onFieldBind() {
 			super.onFieldBind();
 			if (hasBoundField()) {
-				getField().setAdapter(
-					new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME,
-						R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item, false));
+				CountrySpinnerAdapter countryAdapter = new CountrySpinnerAdapter(mContext, CountryDisplayType.FULL_NAME,
+					R.layout.simple_spinner_item_18, R.layout.simple_spinner_dropdown_item, false);
+				getField().setAdapter(countryAdapter);
 			}
 		}
 
@@ -611,7 +617,7 @@ public class SectionLocation extends LinearLayout
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					updateData(position);
-
+					showHideCountryDependantFields();
 					if (!mSetFieldManually) {
 						onChange(SectionLocation.this);
 					}
@@ -637,6 +643,9 @@ public class SectionLocation extends LinearLayout
 		@Override
 		protected void onHasFieldAndData(Spinner field, Location data) {
 			CountrySpinnerAdapter adapter = (CountrySpinnerAdapter) field.getAdapter();
+			if (data instanceof RailLocation && ((RailLocation) data).getTicketDeliveryCountryCodes() != null) {
+				adapter.dataSetChanged(((RailLocation) data).getTicketDeliveryCountryCodes());
+			}
 			if (TextUtils.isEmpty(data.getCountryCode())) {
 				int localePosition = adapter.getDefaultLocalePosition();
 				field.setSelection(localePosition);
@@ -664,6 +673,84 @@ public class SectionLocation extends LinearLayout
 		@Override
 		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
 			return null;
+		}
+	};
+
+	SectionFieldEditable<RailDeliverySpinnerWithValidationIndicator, Location> mEditDeliveryOptionSpinner
+		= new SectionFieldEditable<RailDeliverySpinnerWithValidationIndicator, Location>(R.id.edit_delivery_option_spinner) {
+
+		Validator<RailDeliverySpinnerWithValidationIndicator> mValidator = new Validator<RailDeliverySpinnerWithValidationIndicator>() {
+			@Override
+			public int validate(RailDeliverySpinnerWithValidationIndicator spinnerWithValidationIndicator) {
+				SpinnerAdapterWithHint.SpinnerItem selection = (SpinnerAdapterWithHint.SpinnerItem) spinnerWithValidationIndicator
+					.getSpinner().getSelectedItem();
+				if (hint.equals(selection.getValue())) {
+					return ValidationError.ERROR_DATA_MISSING;
+				}
+				else {
+					return ValidationError.NO_ERROR;
+				}
+			}
+		};
+
+		String hint = getContext().getResources().getString(R.string.address_mail_delivery_option_hint);
+
+		@Override
+		protected void onFieldBind() {
+			super.onFieldBind();
+			if (hasBoundField()) {
+				SpinnerAdapterWithHint deliveryOptionsAdapter = new SpinnerAdapterWithHint(mContext, hint, R.layout.snippet_rail_delivery_option_text_view);
+				getField().getSpinner().setAdapter(deliveryOptionsAdapter);
+			}
+		}
+
+		@Override
+		public void setChangeListener(RailDeliverySpinnerWithValidationIndicator field) {
+
+			field.getSpinner().setOnItemSelectedListener(new OnItemSelectedListener() {
+				@Override
+				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+					SpinnerAdapterWithHint deliveryOptionsAdapter = (SpinnerAdapterWithHint) getField().getSpinner().getAdapter();
+					SpinnerAdapterWithHint.SpinnerItem selected = deliveryOptionsAdapter.getItem(position);
+					RailLocation railLocation = (RailLocation) getData();
+					if (hint.equals(selected.getValue())) {
+						railLocation.setTicketDeliveryOptionSelected(null);
+					}
+					else {
+						railLocation.setTicketDeliveryOptionSelected(
+							(RailCreateTripResponse.RailTicketDeliveryOption) selected.getItem());
+					}
+					onChange(SectionLocation.this);
+				}
+
+				@Override
+				public void onNothingSelected(AdapterView<?> arg0) {
+				}
+			});
+		}
+
+		@Override
+		protected void onHasFieldAndData(final RailDeliverySpinnerWithValidationIndicator field, Location data) {
+			Spinner spinner = field.getSpinner();
+			RailLocation railLocation = (RailLocation) data;
+			if (railLocation.getTickerDeliveryOptions() != null) {
+				final SpinnerAdapterWithHint deliveryOptionsAdapter = (SpinnerAdapterWithHint) spinner.getAdapter();
+				deliveryOptionsAdapter.dataSetChanged(railLocation.getTickerDeliveryOptions());
+				spinner.setAdapter(deliveryOptionsAdapter);
+				spinner.setSelection(deliveryOptionsAdapter.getCount());
+			}
+		}
+
+		@Override
+		protected Validator<RailDeliverySpinnerWithValidationIndicator> getValidator() {
+			return mValidator;
+		}
+
+		@Override
+		protected ArrayList<SectionFieldValidIndicator<?, Location>> getPostValidators() {
+			ArrayList<SectionFieldValidIndicator<?, Location>> retArr = new ArrayList<>();
+			retArr.add(mValidDeliveryOption);
+			return retArr;
 		}
 	};
 }

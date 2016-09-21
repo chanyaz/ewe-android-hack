@@ -32,10 +32,11 @@ public class PackageCheckoutErrorTest extends PackageTestCase {
 		CardInfoScreen.typeTextCvv("666");
 		CardInfoScreen.typeTextNameOnCardEditText("errorcheckoutcard");
 
-		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
-		BillingAddressScreen.typeTextCity("San Francisco");
-		BillingAddressScreen.typeTextState("CA");
-		BillingAddressScreen.typeTextPostalCode("94105");
+		int addressSectionParentId = R.id.section_location_address;
+		BillingAddressScreen.typeTextAddressLineOne("123 California Street", addressSectionParentId);
+		BillingAddressScreen.typeTextCity("San Francisco", addressSectionParentId);
+		BillingAddressScreen.typeTextState("CA", addressSectionParentId);
+		BillingAddressScreen.typeTextPostalCode("94105", addressSectionParentId);
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.performSlideToPurchase();
 

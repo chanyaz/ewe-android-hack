@@ -13,6 +13,7 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
@@ -193,7 +194,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     private fun updateCreateTrip(response: RailCreateTripResponse) {
         createTripDialog.hide()
         paymentWidget.clearCCAndCVV()
-        ticketDeliveryEntryWidget.updateOnCreateTripResponse(response.railDomainProduct?.railOffer?.ticketDeliveryOptionList)
+        ticketDeliveryEntryWidget.viewModel.ticketDeliveryOptions.onNext(response.railDomainProduct?.railOffer?.ticketDeliveryOptionList)
         updatePricing(response)
     }
 

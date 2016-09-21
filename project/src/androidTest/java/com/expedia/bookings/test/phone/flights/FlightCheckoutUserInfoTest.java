@@ -290,48 +290,49 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		onView(withText("Payment Method")).perform(click());
 		CardInfoScreen.clickNextButton();
 
-		BillingAddressScreen.addressLineOneEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		BillingAddressScreen.addressLineTwoEditText()
+		int addressSectionParentId = R.id.address_section;
+		BillingAddressScreen.addressLineOneEditText(addressSectionParentId).check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		BillingAddressScreen.addressLineTwoEditText(addressSectionParentId)
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.cityEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		BillingAddressScreen.stateEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		BillingAddressScreen.cityEditText(addressSectionParentId).check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		BillingAddressScreen.stateEditText(addressSectionParentId).check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		BillingAddressScreen.postalCodeEditText(addressSectionParentId).check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextAddressLineOne(user.address);
-		BillingAddressScreen.addressLineOneEditText()
+		BillingAddressScreen.typeTextAddressLineOne(user.address, addressSectionParentId);
+		BillingAddressScreen.addressLineOneEditText(addressSectionParentId)
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.addressLineTwoEditText()
+		BillingAddressScreen.addressLineTwoEditText(addressSectionParentId)
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.cityEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		BillingAddressScreen.stateEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		BillingAddressScreen.cityEditText(addressSectionParentId).check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		BillingAddressScreen.stateEditText(addressSectionParentId).check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		BillingAddressScreen.postalCodeEditText(addressSectionParentId).check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextState(user.state);
-		BillingAddressScreen.addressLineOneEditText()
+		BillingAddressScreen.typeTextState(user.state, addressSectionParentId);
+		BillingAddressScreen.addressLineOneEditText(addressSectionParentId)
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.addressLineTwoEditText()
+		BillingAddressScreen.addressLineTwoEditText(addressSectionParentId)
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.cityEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
-		BillingAddressScreen.stateEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		BillingAddressScreen.cityEditText(addressSectionParentId).check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		BillingAddressScreen.stateEditText(addressSectionParentId).check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.postalCodeEditText(addressSectionParentId).check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextCity(user.city);
-		BillingAddressScreen.addressLineOneEditText()
+		BillingAddressScreen.typeTextCity(user.city, addressSectionParentId);
+		BillingAddressScreen.addressLineOneEditText(addressSectionParentId)
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.addressLineTwoEditText()
+		BillingAddressScreen.addressLineTwoEditText(addressSectionParentId)
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.cityEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.stateEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.postalCodeEditText().check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
+		BillingAddressScreen.cityEditText(addressSectionParentId).check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.stateEditText(addressSectionParentId).check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.postalCodeEditText(addressSectionParentId).check(matches(withCompoundDrawable(R.drawable.ic_error_blue)));
 
-		BillingAddressScreen.typeTextPostalCode(user.zipcode);
-		BillingAddressScreen.addressLineOneEditText()
+		BillingAddressScreen.typeTextPostalCode(user.zipcode, addressSectionParentId);
+		BillingAddressScreen.addressLineOneEditText(addressSectionParentId)
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.addressLineTwoEditText()
+		BillingAddressScreen.addressLineTwoEditText(addressSectionParentId)
 			.check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.cityEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.stateEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
-		BillingAddressScreen.postalCodeEditText().check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.cityEditText(addressSectionParentId).check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.stateEditText(addressSectionParentId).check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
+		BillingAddressScreen.postalCodeEditText(addressSectionParentId).check(matches(not(withCompoundDrawable(R.drawable.ic_error_blue))));
 
 		BillingAddressScreen.clickNextButton();
 		CardInfoScreen.clickOnDoneButton();

@@ -4,7 +4,7 @@
     android:id="@+id/rail_card_text"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="center_vertical"
+    android:gravity="center"
     android:padding="5dp"
     android:focusable="false"
     android:focusableInTouchMode="false"
