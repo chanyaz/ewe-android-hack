@@ -167,18 +167,6 @@ public class RailScreen {
 		checkout().perform(click());
 	}
 
-	public static ViewInteraction ticketDeliveryOverview() {
-		return onView(withId(R.id.ticket_delivery_overview_widget));
-	}
-
-	public static ViewInteraction stationContainer() {
-		return onView(withId(R.id.station_container));
-	}
-
-	public static ViewInteraction mailDeliveryContainer() {
-		return onView(withId(R.id.mail_delivery_container));
-	}
-
 	public static void clickDone() {
 		onView(withId(R.id.menu_done)).perform(click());
 	}
@@ -194,10 +182,11 @@ public class RailScreen {
 		CardInfoScreen.typeTextCvv("666");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 
-		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
-		BillingAddressScreen.typeTextCity("San Francisco");
-		BillingAddressScreen.typeTextState("CA");
-		BillingAddressScreen.typeTextPostalCode("94105");
+		int addressSectionParentId = R.id.section_location_address;
+		BillingAddressScreen.typeTextAddressLineOne("123 California Street", addressSectionParentId);
+		BillingAddressScreen.typeTextCity("San Francisco", addressSectionParentId);
+		BillingAddressScreen.typeTextState("CA", addressSectionParentId);
+		BillingAddressScreen.typeTextPostalCode("94105", addressSectionParentId);
 
 		CheckoutViewModel.clickDone();
 	}

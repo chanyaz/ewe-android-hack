@@ -932,6 +932,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.fees_by_card_type,
 		R.color.card_fee_text_color,
 		R.string.filter_sort_by_content_description_TEMPLATE,
-		R.dimen.checkout_earlier_api_version_edit_text_spacing
+		R.dimen.checkout_earlier_api_version_edit_text_spacing,
+		R.layout.rail_delivery_spinner_with_validation_indicator,
+		R.layout.snippet_rail_card_quantity_view
 	};
 }

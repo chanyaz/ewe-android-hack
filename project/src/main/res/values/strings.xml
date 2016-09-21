@@ -2311,8 +2311,10 @@
     <string name="address_city_hint">City</string>
     <!-- Address state hint -->
     <string name="address_state_hint">State</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">Country</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">Mail Delivery Options</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postal Code</string>
     <!-- Zip Code hint for Packages -->
@@ -4411,6 +4413,7 @@
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">Pick-up at station</string>
     <string name="delivery_by_mail">Delivery by mail</string>
+    <string name="shipping_address">Shipping Address</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Bring your ticket reference number and the credit card to purchase.</string>
