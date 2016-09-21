@@ -69,7 +69,7 @@
                     android:drawablePadding="8dp"
                     android:inputType="textNoSuggestions"
                     android:imeOptions="actionSearch"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="18sp" />
 
                 <ImageView

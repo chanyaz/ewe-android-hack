@@ -66,7 +66,7 @@
                 android:hint="@string/credit_debit_card_hint"
                 android:imeOptions="flagNoExtractUi"
                 app:numberFormat="creditcard"
-                android:singleLine="true"/>
+                android:maxLines="1"/>
 
             <TextView
                 android:id="@+id/edit_creditcard_exp_text_btn"

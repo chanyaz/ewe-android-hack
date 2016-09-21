@@ -67,7 +67,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/hotel_preview_margin_small"
                 android:ellipsize="end"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/gray7"
                 android:textSize="14sp" />
 

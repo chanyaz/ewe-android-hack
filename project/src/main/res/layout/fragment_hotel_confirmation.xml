@@ -35,7 +35,7 @@
                 android:ellipsize="middle"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textSize="15dp" />
 
             <TextView
@@ -47,7 +47,7 @@
                 android:ellipsize="middle"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textSize="18dp"
                 android:textStyle="bold" />
         </RelativeLayout>

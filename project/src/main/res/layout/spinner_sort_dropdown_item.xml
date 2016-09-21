@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="16dp"
-    android:singleLine="true"
+    android:maxLines="1"
     android:textSize="15sp"
     android:textColor="?attr/spinner_text_color_drawable"
     android:ellipsize="marquee" />

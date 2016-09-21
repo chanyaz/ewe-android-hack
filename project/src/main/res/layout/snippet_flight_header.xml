@@ -26,7 +26,7 @@
         android:shadowDx="0"
         android:shadowDy="1"
         android:shadowRadius=".1"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@android:color/white"
         android:textSize="14dp"
         app:textStyle="light" />
@@ -42,7 +42,7 @@
         android:shadowDx="0"
         android:shadowDy="1"
         android:shadowRadius=".1"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@android:color/white"
         android:textSize="13dp"
         app:textStyle="light" />

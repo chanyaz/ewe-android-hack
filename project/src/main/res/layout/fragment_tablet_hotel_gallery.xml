@@ -50,7 +50,7 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:paddingRight="12dp"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/tablet_hotel_gallery_ab_text_color"
                 android:textSize="18dp"
                 app:textStyle="condensed" />

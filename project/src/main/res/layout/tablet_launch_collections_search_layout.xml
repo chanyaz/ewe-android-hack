@@ -25,7 +25,7 @@
             android:drawablePadding="8dp"
             android:hint="@string/search_all_hint"
             android:paddingLeft="16dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textSize="18sp"
             app:textStyle="light" />
     </LinearLayout>

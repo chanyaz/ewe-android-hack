@@ -12,7 +12,7 @@
         android:imeOptions="actionNext"
         android:inputType="textEmailAddress"
         android:nextFocusForward="@+id/edit_phone_number"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textSize="@dimen/traveler_input_text_size" />
 
 </merge>

@@ -28,7 +28,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:includeFontPadding="false"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/tablet_result_row_primary_text_size"
                 app:textStyle="medium" />
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="@dimen/tablet_flight_list_baggage_fee_icon_padding"
                 android:ellipsize="middle"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:drawablePadding="@dimen/tablet_flight_list_baggage_fee_icon_padding"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/tablet_result_row_secondary_text_size"

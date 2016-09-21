@@ -28,7 +28,7 @@
                 android:id="@+id/departure_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/itin_white_text"
                 android:textSize="26sp"
                 app:textStyle="normal" />
@@ -37,7 +37,7 @@
                 android:id="@+id/departure_time_tz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/itin_offwhite_text"
                 android:textSize="14sp"
                 app:textStyle="light" />
@@ -62,7 +62,7 @@
                 android:id="@+id/arrival_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/itin_white_text"
                 android:textSize="26sp"
                 app:textStyle="medium" />
@@ -71,7 +71,7 @@
                 android:id="@+id/arrival_time_tz"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/itin_offwhite_text"
                 android:textSize="14sp"
                 app:textStyle="light" />

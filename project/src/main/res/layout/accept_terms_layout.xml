@@ -13,8 +13,8 @@
         style="@style/AcceptTermsWidgetStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:singleLine="true"
-        android:text="@string/Do_you_accept" />
+        android:text="@string/Do_you_accept"
+        android:maxLines="1" />
 
     <Button
         android:id="@+id/i_accept_terms_button"

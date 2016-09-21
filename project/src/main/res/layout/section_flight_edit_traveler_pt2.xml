@@ -22,7 +22,7 @@
         android:inputType="number"
         android:maxLength="7"
         android:paddingBottom="12dp"
-        android:singleLine="true" />
+        android:maxLines="1" />
 
     <Spinner
         android:id="@+id/edit_assistance_preference_spinner"

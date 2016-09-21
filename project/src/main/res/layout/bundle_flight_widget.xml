@@ -50,14 +50,14 @@
                     style="@style/BundleOverviewWidgets.PrimaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/travel_info_view_text"
                     style="@style/BundleOverviewWidgets.SecondaryText"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
             </LinearLayout>
 
             <ImageView

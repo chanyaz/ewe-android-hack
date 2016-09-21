@@ -38,7 +38,7 @@
             style="?android:attr/spinnerDropDownItemStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textSize="18sp"
              />
 
@@ -49,7 +49,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@android:id/text1"
             android:layout_below="@android:id/text1"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textSize="14sp"
              />
     </TwoLineListItem>

@@ -8,7 +8,7 @@
     android:gravity="left|center"
     android:paddingLeft="16dp"
     android:paddingRight="16dp"
-    android:singleLine="true"
+    android:maxLines="1"
     android:textColor="@color/itin_white_text"
     android:textSize="16dp"
     app:minTextSize="10dp"

@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:drawablePadding="5dp"
             android:ellipsize="middle"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="#3D4652"
             android:textSize="18dp"
             android:textStyle="bold" />

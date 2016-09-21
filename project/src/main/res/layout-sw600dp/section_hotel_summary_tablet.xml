@@ -18,7 +18,7 @@
         android:includeFontPadding="false"
         android:paddingTop="3dp"
         android:paddingBottom="5.5dp"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@android:color/white"
         android:textStyle="bold"
         android:visibility="gone"/>
@@ -91,7 +91,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="#ffffff"
                 android:textSize="@dimen/tablet_result_row_primary_text_size"
                 app:textStyle="medium"/>
@@ -109,7 +109,7 @@
                     android:ellipsize="end"
                     android:includeFontPadding="false"
                     android:paddingTop="3dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:text="@string/not_rated"
                     android:textColor="@color/hotel_cell_secondary_color"
                     app:textStyle="light"
@@ -132,7 +132,7 @@
                     android:ellipsize="end"
                     android:includeFontPadding="false"
                     android:paddingLeft="4dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/tablet_result_row_secondary_text_size"
                     app:textStyle="light"/>
@@ -144,7 +144,7 @@
                     android:ellipsize="end"
                     android:includeFontPadding="false"
                     android:paddingLeft="4dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/tablet_result_row_secondary_text_size"
                     app:textStyle="light"
@@ -204,7 +204,7 @@
         android:paddingLeft="5dp"
         android:paddingRight="5dp"
         android:paddingTop="1dp"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@android:color/white"
         android:visibility="gone"/>
 
@@ -228,7 +228,7 @@
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:paddingTop="1dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@android:color/white"/>
 
     </LinearLayout>

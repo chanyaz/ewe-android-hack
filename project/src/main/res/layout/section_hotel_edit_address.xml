@@ -10,6 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/address_postal_code_hint"
-        android:singleLine="true" />
+        android:maxLines="1" />
 
 </com.expedia.bookings.section.SectionLocation>

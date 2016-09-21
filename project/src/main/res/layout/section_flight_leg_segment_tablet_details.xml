@@ -14,8 +14,7 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_marginTop="6dp"
             android:ellipsize="middle"
-            android:singleLine="false"
-            android:textColor="#000000"
+        android:textColor="#000000"
             android:textSize="@dimen/tablet_flight_details_airline_textsize" />
 
     <!--
