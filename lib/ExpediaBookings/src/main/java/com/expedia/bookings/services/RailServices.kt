@@ -1,6 +1,6 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.rail.requests.RailCheckoutRequest
+import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
-import java.util.*
+import java.util.HashMap
 
 class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
@@ -62,7 +62,7 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
                 .subscribe(observer)
     }
 
-    fun railCheckoutTrip(params: RailCheckoutRequest, observer: Observer<RailCheckoutResponse>): Subscription {
+    fun railCheckoutTrip(params: RailCheckoutParams, observer: Observer<RailCheckoutResponse>): Subscription {
         return railMApi.railCheckout(params)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
