@@ -4522,7 +4522,7 @@
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Date di viaggio. Pulsante. Apertura finestra di dialogo. {date_range}. {nights}</string>
     <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
-    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+    <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Numero di viaggiatori. Pulsante. Apertura finestra di dialogo. {travelers} passeggero</item>
         <item quantity="other">Numero di viaggiatori. Pulsante. Apertura finestra di dialogo. {travelers} passeggeri</item>
     </plurals>

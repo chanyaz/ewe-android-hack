@@ -80,9 +80,15 @@ public class RailServicesTest {
 		searchResponseObserver.assertValueCount(1);
 		RailSearchResponse railSearchResponse = searchResponseObserver.getOnNextEvents().get(0);
 		List<RailPassenger> passengers = railSearchResponse.passengerList;
-		assertEquals(1, passengers.size());
-		assertEquals(25, passengers.get(0).age);
+		assertEquals(4, passengers.size());
+		assertEquals(30, passengers.get(0).age);
 		assertEquals(true, passengers.get(0).primaryTraveler);
+		assertEquals(10, passengers.get(1).age);
+		assertEquals(false, passengers.get(1).primaryTraveler);
+		assertEquals(16, passengers.get(2).age);
+		assertEquals(false, passengers.get(2).primaryTraveler);
+		assertEquals(60, passengers.get(3).age);
+		assertEquals(false, passengers.get(3).primaryTraveler);
 		assertTrue(railSearchResponse.offerList.size() > 0);
 		List<RailSearchResponse.RailOffer> railOffers = railSearchResponse.offerList;
 		assertTrue(railOffers.get(0).railProductList.size() > 0);
@@ -139,6 +145,6 @@ public class RailServicesTest {
 		DateTime startDateTime = DateTime.now().plusDays(1);
 		LocalDate startDate = startDateTime.toLocalDate();
 		Integer startTime = startDateTime.toLocalTime().getMillisOfDay();
-		railSearchRequest = new RailApiSearchModel(origin, destination, startDate, null, startTime, null, false, Collections.<RailCard>emptyList());
+		railSearchRequest = new RailApiSearchModel(origin, destination, startDate, null, startTime, null, false, 0, Collections.<Integer>emptyList(), Collections.<Integer>emptyList(), Collections.<Integer>emptyList(), Collections.<RailCard>emptyList());
 	}
 }

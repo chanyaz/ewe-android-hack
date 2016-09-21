@@ -7,7 +7,7 @@ import android.widget.TextView;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.StrUtils;
 
-public class RailChildAgeAgeSpinnerAdapter extends BaseAgeSpinnerAdapter {
+public class RailChildAgeSpinnerAdapter extends BaseAgeSpinnerAdapter {
 	@Override
 	protected View createViewFromResource(int position, View convertView, ViewGroup parent, int resource) {
 		if (convertView == null) {

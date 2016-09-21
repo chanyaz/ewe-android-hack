@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.R
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.util.endlessObserver
 import rx.Observer

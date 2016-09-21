@@ -15,7 +15,7 @@ import com.expedia.vm.TravelerPickerViewModel
 import rx.subjects.BehaviorSubject
 
 open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
-    var oldTravelerData: TravelerParams? = null;
+    var oldTravelerData: TravelerParams? = null
     val travelersSubject = BehaviorSubject.create<TravelerParams>()
 
     init {
