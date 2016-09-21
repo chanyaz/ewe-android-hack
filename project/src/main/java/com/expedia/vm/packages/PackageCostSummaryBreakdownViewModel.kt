@@ -45,7 +45,7 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
                 breakdowns.add(makeDueAtHotelRow(packageDetails.pricing.hotelPricing.mandatoryFees.feeTotal.formattedMoneyFromAmountAndCurrencyCode))
             }
 
-            if (selectedCardFees != null) {
+            if (selectedCardFees != null && !selectedCardFees.isZero) {
                 breakdowns.add(makeCardFeeRow(selectedCardFees.formattedMoneyFromAmountAndCurrencyCode))
             }
 
