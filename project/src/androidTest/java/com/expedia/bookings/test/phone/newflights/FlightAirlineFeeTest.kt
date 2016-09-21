@@ -19,6 +19,7 @@ import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.not
 import org.joda.time.LocalDate
 import org.junit.Test
 
@@ -77,13 +78,8 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         // clear existing card number
         signIn()
         CheckoutViewModel.clickPaymentInfo()
-        assertCheckoutOverviewCardFeeWarningShown()
         CheckoutViewModel.clickAddCreditCard() // resets card details
-        assertCheckoutOverviewMayChargeCardFeeTextShown()
-        Common.pressBack()
-        Common.pressBack()
-
-        assertCheckoutOverviewMayChargeCardFeeTextShown()
+        CardInfoScreen.assertPaymentFormCardFeeWarningNotShown()
     }
 
     @Test

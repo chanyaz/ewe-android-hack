@@ -157,6 +157,13 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
 
         vm.userLogin.subscribe { isLoggedIn ->
+            if (isLoggedIn) {
+                reset()
+                clearCCAndCVV()
+            }
+            else {
+                storedCreditCardList.updateAdapter()
+            }
             if (isLoggedIn && !isAtLeastPartiallyFilled()) {
                 if (Db.getUser()?.storedCreditCards?.size == 1 && Db.getTemporarilySavedCard() == null) {
                     sectionBillingInfo.bind(Db.getBillingInfo())
@@ -164,9 +171,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 } else if (Db.getUser().storedCreditCards.size == 0 && Db.getTemporarilySavedCard() != null) {
                     storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
                 }
-            }
-            else if (!isLoggedIn) {
-                storedCreditCardList.updateAdapter()
             }
         }
 
