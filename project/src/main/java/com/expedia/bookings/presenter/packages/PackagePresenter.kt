@@ -223,7 +223,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             errorPresenter.visibility = View.VISIBLE
-            bundlePresenter.getCheckoutPresenter().checkoutDialog.hide()
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {

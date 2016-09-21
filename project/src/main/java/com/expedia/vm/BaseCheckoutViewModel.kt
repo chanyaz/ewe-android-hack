@@ -43,6 +43,7 @@ abstract class BaseCheckoutViewModel(val context: Context) {
     val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
     val selectedFlightChargesFees = BehaviorSubject.create<String>("")
     val obFeeDetailsUrlSubject = BehaviorSubject.create<String>("")
+    val showCheckoutDialogObservable = PublishSubject.create<Boolean>()
 
     // Inputs
     val creditCardRequired = PublishSubject.create<Boolean>()

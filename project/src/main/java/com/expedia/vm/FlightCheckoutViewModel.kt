@@ -30,7 +30,6 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     override val builder = FlightCheckoutParams.Builder()
     // outputs
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>()
-    val receivedCheckoutResponse = PublishSubject.create<Unit>()
     val showNoInternetRetryDialog = PublishSubject.create<Unit>()
 
     init {
@@ -99,7 +98,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     private fun makeCheckoutResponseObserver(): Observer<FlightCheckoutResponse> {
         return object : Observer<FlightCheckoutResponse> {
             override fun onNext(response: FlightCheckoutResponse) {
-                receivedCheckoutResponse.onNext(Unit)
+                showCheckoutDialogObservable.onNext(false)
                 if (response.hasErrors()) {
                     when (response.firstError.errorCode) {
                         ApiError.Code.PRICE_CHANGE -> {
@@ -116,6 +115,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
             }
 
             override fun onError(e: Throwable) {
+                showCheckoutDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
                     showNoInternetRetryDialog.onNext(Unit)
                     FlightsV2Tracking.trackFlightCheckoutAPINoResponseError()
