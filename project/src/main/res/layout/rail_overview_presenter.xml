@@ -4,8 +4,7 @@
     <com.expedia.bookings.widget.BundleOverviewHeader
         android:id="@+id/coordinator_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:fitsSystemWindows="true" />
+        android:layout_height="match_parent" />
 
     <com.expedia.bookings.widget.rail.RailSummaryWidget
         android:id="@+id/rail_summary"

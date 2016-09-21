@@ -81,7 +81,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
                 val priceChange = (originalPrice - newPrice)
 
                 if (newPrice > originalPrice) {
-                    priceChangeIconResourceId.onNext(R.drawable.price_change_increase)
+                    priceChangeIconResourceId.onNext(R.drawable.warning_triangle_icon)
                     priceChangeMessage.onNext(context.getString(R.string.price_changed_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))
                 } else if (newPrice < originalPrice) {
                     priceChangeMessage.onNext(context.getString(R.string.price_dropped_from_TEMPLATE, Money(BigDecimal(originalPrice), currencyCode).formattedMoney))

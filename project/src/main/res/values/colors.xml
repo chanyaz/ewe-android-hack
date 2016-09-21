@@ -498,6 +498,7 @@
     <color name="rail_primary_color">@color/exp_rail_navy</color>
     <color name="rail_button_ripple_color">@color/exp_rail_dark_navy</color>
     <color name="rail_background_color">@color/gray1</color>
+    <color name="rail_status_bar_color">@color/exp_rail_darker_navy</color>
     <color name="rail_bundle_icon_color">@color/gray6</color>
     <color name="rail_title_color">@color/gray10</color>
     <color name="rail_regular_text_color">@color/gray7</color>

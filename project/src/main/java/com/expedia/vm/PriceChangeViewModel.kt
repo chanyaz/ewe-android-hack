@@ -26,7 +26,7 @@ class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
             val hasPriceChange = originalPrice != null
             if (hasPriceChange) {
                 if (newPrice.amount > originalPrice?.amount) {
-                    priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.price_change_increase))
+                    priceChangeDrawable.onNext(ContextCompat.getDrawable(context, R.drawable.warning_triangle_icon))
                     priceChangeText.onNext(context.getString(R.string.price_changed_from_TEMPLATE,
                             originalPrice.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)))
                 } else if (newPrice < originalPrice) {
