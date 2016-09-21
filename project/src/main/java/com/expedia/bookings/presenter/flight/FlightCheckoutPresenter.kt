@@ -96,18 +96,17 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     private fun handlePriceChange(tripResponse: FlightCreateTripResponse) {
-        val flightTripDetails = tripResponse.details
+        val newPrice = tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints()
 
-        // TODO - we may have to change from totalFarePrice -> totalPrice in order to support SubPub fares
-        if (flightTripDetails.oldOffer != null) {
-            val originalPrice = flightTripDetails.oldOffer.totalFarePrice
-            val newPrice = flightTripDetails.offer.totalFarePrice
+        val oldOffer = tripResponse.details.oldOffer
+        if (oldOffer != null) {
+            val originalPrice = oldOffer.totalPriceWithInsurance ?: oldOffer.totalPrice
             priceChangeWidget.viewmodel.originalPrice.onNext(originalPrice)
             priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
         }
 
-        // TODO - update to totalPrice when checkout response starts returning totalPrice (required for SubPub fare support)
-        totalPriceWidget.viewModel.total.onNext(tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+        insuranceWidget.viewModel.tripObservable.onNext(tripResponse)
+        totalPriceWidget.viewModel.total.onNext(newPrice)
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
     }
@@ -181,7 +180,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun setInsuranceWidgetVisibility(visible: Boolean){
-        insuranceWidget.viewModel.updateVisibility(visible)
+        insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(visible)
     }
 
 }

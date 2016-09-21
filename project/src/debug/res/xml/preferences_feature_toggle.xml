@@ -27,17 +27,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Flight Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_material_flight"
-            android:layout="@layout/preference"
-            android:summary="Enable Flight AB test"
-            android:title="Material Flight AB test" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Login Features">
 
         <CheckBoxPreference
