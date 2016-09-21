@@ -893,6 +893,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.search_senior_drop_down_cont_desc_TEMPLATE,
 		R.layout.traveler_count_selector,
 		R.layout.widget_rail_traveler_search,
+		R.string.pay_later_disclaimer_TEMPLATE,
 		R.plurals.number_of_youth,
 		R.plurals.number_of_senior,
 		R.string.search_youth_drop_down_cont_desc_TEMPLATE,
