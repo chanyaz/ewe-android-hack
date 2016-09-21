@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">Layanan Pelanggan {brand}: {localphone} dan {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">Tanggal mobil. Tombol. Buka kotak. {date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">Tampilan Google Map Lokasi Aktivitas</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotel</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">Deskripsi</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Lokasi</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">Lokasi Atraksi</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">Titik Temu Atraksi</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">Pilih Aktivitas</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Termasuk</string>
     <!-- Activity details exclusions heading -->
@@ -2136,8 +2145,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">Biaya resor sebesar &lt;b&gt;%1$s&lt;/b&gt; akan ditarik di hotel. Harga total masa inap Anda akan menjadi &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">Harga total perjalanan Anda akan menjadi &lt;b&gt;%1$s&lt;/b&gt;. Anda akan membayar total biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">Deposit sebesar &lt;b&gt; akan ditarik sekarang.%1$s&lt;/b&gt; Anda akan membayar sisa biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar total biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2406,6 +2413,8 @@
     <string name="edit_guest_details">Ubah Rincian Tamu</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Ubah Informasi Traveler</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">Edit Rincian Traveler</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Kesalahan</string>
     <!-- prefers seat template -->
@@ -3450,6 +3459,8 @@
     <string name="e3_error_checkout_invalid_expiration">Tanggal kedaluwarsa kartu kredit tidak valid.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Harap masukkan %1$s yang valid</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">Informasi Tidak Valid</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3876,9 +3887,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">Tekan untuk memfilter hotel dengan harga yang tinggi</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">Hapus filter harga hotel</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">Tekan untuk memilih hotel ini</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">Tekan untuk menampilkan ulasan terbaru</string>
@@ -4391,6 +4399,12 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Gratis Kartu</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">Penyedia layanan kereta akan mengenakan biaya tambahan yang tidak dapat dikembalikan untuk pembayaran dengan jenis kartu tertentu. Biaya ini dapat dihindari bila menggunakan kartu debit</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">Biaya berdasarkan jenis kartu</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Pengiriman tiket</string>
 
@@ -4643,8 +4657,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">Bidang teks CVV</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Informasi Traveler Tidak Lengkap</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Kesalahan: Lengkapi rincian traveler. Tombol.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Informasi Traveler Lengkap</string>
     <!--Packages accessibility content description for role Button-->

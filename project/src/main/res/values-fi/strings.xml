@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">{brand}n asiakaspalvelu: {localphone} ja {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">Vuokra-auton päivät. Painike. Avaa dialogin. {date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">Aktiviteetin sijainti Google Map -näkymässä</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotellit</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">Kuvaus</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Sijainti</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">Aktiviteetin sijainti</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">Tapaamis-/lunastusosoite</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">Valitse aktiviteetti</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Sisältyy hintaan</string>
     <!-- Activity details exclusions heading -->
@@ -2136,8 +2145,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; lomakeskusmaksu veloitetaan hotellilla. Yöpymisesi loppusumma on &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">Matkasi loppusumma on &lt;b&gt;%1$s&lt;/b&gt;. Maksat hotellille varauksesi loppusumman (hotellin omassa valuutassa) vierailusi aikana.</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">Veloitamme &lt;b&gt;%1$s&lt;/b&gt; takuumaksun nyt. Maksat varauksen loppusumman hotellille hotellin omassa valuutassa vierailusi aikana.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">Yöpymisesi loppusumma, sisältäen &lt;b&gt;%1$s&lt;/b&gt; lomakeskusmaksun, on &lt;b&gt;%2$s&lt;/b&gt;. Maksat hotellille varauksesi loppusumman (hotellin omassa valuutassa) vierailusi aikana.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2406,6 +2413,8 @@
     <string name="edit_guest_details">Muokkaa vierailijan tietoja</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Muokkaa matkustajan tietoja</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">Muokkaa matkustajan tietoja</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Virhe</string>
     <!-- prefers seat template -->
@@ -3450,6 +3459,8 @@
     <string name="e3_error_checkout_invalid_expiration">Luottokortin vanhenemispäivä on väärin.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Anna oikea %1$s</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">Väärät tiedot</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3876,9 +3887,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">Napauta suodattaaksesi kalliimmat hotellihinnat</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">Poista hotellin hintasuodattimet</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">Napauta valitaksesi tämä hotelli</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">Napauta näyttääksesi tuoreimmat arvostelut</string>
@@ -4391,6 +4399,12 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Korttimaksu</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">Junayhtiö veloittaa ylimääräisen ei-hyvitettävän maksun tietyllä luottokortilla maksamisesta. Voit välttää tämän maksun maksamalla pankkikortilla</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">Maksut korttityypin mukaan</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Lipun toimitus</string>
 
@@ -4643,8 +4657,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">CVV-tekstikenttä</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Matkustajan tietoja ei ole täytetty</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Virhe: Anna puuttuvat matkustajatiedot. Painike.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Matkustajan tiedot on täytetty</string>
     <!--Packages accessibility content description for role Button-->

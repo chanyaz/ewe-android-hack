@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">{brand} 고객 지원: {localphone} 및 {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">렌터카 날짜. 버튼. 대화상자 열림. {date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">즐길거리 위치 구글 지도 보기</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">호텔</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">설명</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">위치</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">즐길거리 위치</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">집합/사용 주소</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">즐길거리 선택</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">포함 사항</string>
     <!-- Activity details exclusions heading -->
@@ -2136,8 +2145,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 호텔에서 결제하시게 됩니다. 고객님 숙박의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">고객님 여행의 총 금액은 &lt;b&gt;%1$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 총 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 보증금은 지금 결제됩니다. 고객님은 숙박 시 호텔에 예약의 나머지 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;의 리조트 요금을 포함하여 고객님 여행의 총 금액은 &lt;b&gt;%2$s&lt;/b&gt;입니다. 고객님은 숙박 시 호텔에 예약의 총 금액을 호텔의 현지 통화로 결제하시게 됩니다.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2406,6 +2413,8 @@
     <string name="edit_guest_details">숙박객 정보 수정</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">여행객 정보 수정</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">여행객 정보 수정</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">오류</string>
     <!-- prefers seat template -->
@@ -3450,6 +3459,8 @@
     <string name="e3_error_checkout_invalid_expiration">신용카드 유효기간이 올바르지 않습니다.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">유효한 %1$s을(를) 입력해 주세요.</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">잘못된 정보</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3875,10 +3886,7 @@
     <!-- Content description for action: Press to filter for high-range hotel prices -->
     <string name="filter_for_high_range_hotel_prices_cont_desc">누르면 가격대가 높은 호텔이 필터링됩니다.</string>
     <!-- Content description for action: Press to remove hotel price filters -->
-    <string name="filter_remove_hotel_price_filters_cont_desc">호텔 가격 필터링을 제거합니다.</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">누르면 이 호텔이 선택됩니다.</string>
+    <string name="filter_remove_hotel_price_filters_cont_desc">호텔 가격 필터를 제거합니다.</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">누르면 최근 이용 후기가 표시됩니다.</string>
@@ -4362,7 +4370,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} -&gt; {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4390,6 +4398,12 @@
 
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">카드 결제 수수료</string>
+
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">특정 카드 종류로 결제하는 경우 기차 제공업체에서 환불되지 않는 추가 수수료를 청구합니다. 직불카드를 사용하시면 이 수수료를 절약하실 수 있습니다.</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">카드 종류별 수수료</string>
 
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">티켓 배송</string>
@@ -4643,8 +4657,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">CVC 입력 필드</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">여행객 정보 미완성</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} 오류: 누락된 여행객 정보를 입력하세요. 버튼.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">여행객 정보 완성</string>
     <!--Packages accessibility content description for role Button-->
