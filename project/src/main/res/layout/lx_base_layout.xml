@@ -11,11 +11,6 @@
         android:visibility="gone" />
 
     <include
-        android:id="@+id/activity_recommended_details_presenter"
-        layout="@layout/lx_recommended_details_presenter"
-        android:visibility="gone" />
-
-    <include
         android:id="@+id/activity_details_presenter"
         layout="@layout/lx_details_presenter"
         android:visibility="gone" />

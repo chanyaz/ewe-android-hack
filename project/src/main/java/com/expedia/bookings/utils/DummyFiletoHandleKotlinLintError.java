@@ -509,7 +509,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.style.BundleOverviewWidgets,
 		R.style.BundleOverviewWidgets_PrimaryText,
 		R.style.BundleOverviewWidgets_SecondaryText,
-		R.layout.section_lx_you_might_also_like,
 		R.color.packages_flight_filter_show_more_less,
 		R.color.flight_overview_color_filter,
 		R.drawable.package_traveler_text_color,

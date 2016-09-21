@@ -65,14 +65,14 @@ public class LxSearchResultsTest extends LxTestCase {
 	public void testSearchResultsFromOverlayOnDetails() throws Throwable {
 		searchListDisplayed(true);
 		selectActivityAndWaitForDetailsDisplayed();
-		LXScreen.searchButtonOnDetailsWithRecommendationsToolbar().perform(click());
+		LXScreen.searchButtonOnDetailsToolbar().perform(click());
 		searchListDisplayed(false);
 	}
 
 	public void testSearchResultsFromOverlayOnDetailsWithRecommendations()  throws Throwable {
 		searchListDisplayed(true);
 		selectActivityAndWaitForDetailsDisplayed();
-		LXScreen.searchButtonOnDetailsWithRecommendationsToolbar().perform(click());
+		LXScreen.searchButtonOnDetailsToolbar().perform(click());
 		searchListDisplayed(false);
 	}
 

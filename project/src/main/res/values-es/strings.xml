@@ -759,7 +759,6 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Todas las actividades</string>
 
-    <string name="lx_you_might_also_like">Más actividades que te podrían interesar</string>
     <string name="lx_customers_recommend">es el porcentaje de clientes que recomiendan esta actividad.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>

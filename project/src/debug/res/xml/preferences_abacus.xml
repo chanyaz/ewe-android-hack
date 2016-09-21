@@ -160,14 +160,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="9639"
-            android:layout="@layout/preference"
-            android:title="LX Recommended activities - 9639" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
             android:key="10000"
             android:layout="@layout/preference"
             android:title="LX RTR on search and details - 10000" />

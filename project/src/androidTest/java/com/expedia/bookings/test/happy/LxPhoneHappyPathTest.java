@@ -5,8 +5,6 @@ import org.joda.time.LocalDate;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.IdlingResources.LxIdlingResource;
@@ -29,10 +27,6 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	private LxIdlingResource mLxIdlingResource;
 
-	public LxIdlingResource getLxIdlingResource() {
-		return mLxIdlingResource;
-	}
-
 	@Override
 	public void runTest() throws Throwable {
 		if (Common.isPhone()) {
@@ -53,7 +47,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testLxPhoneHappyPathLoggedInCustomer() throws Throwable {
 		goToLxSearchResults();
-		LXScreen.goToSearchResults(getLxIdlingResource());
+		LXScreen.goToSearchResults(mLxIdlingResource);
 
 		selectActivity();
 		selectOffers();
@@ -66,7 +60,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testLxPhoneHappyPathLoggedInCustomerCanSelectNewTraveler() throws Throwable {
 		goToLxSearchResults();
-		LXScreen.goToSearchResults(getLxIdlingResource());
+		LXScreen.goToSearchResults(mLxIdlingResource);
 
 		selectActivity();
 		selectOffers();
@@ -87,7 +81,7 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	public void testLxPhoneHappyPathViaDefaultSearch() throws Throwable {
 		goToLxSearchResults();
-		LXScreen.goToSearchResults(getLxIdlingResource());
+		LXScreen.goToSearchResults(mLxIdlingResource);
 		selectActivity();
 		validateRestHappyFlow();
 	}
@@ -100,33 +94,6 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		LXScreen.searchButton().perform(click());
 		selectActivity();
 		validateRestHappyFlow();
-	}
-
-	public void testLxPhoneHappyWithRecommendedActivity() throws Throwable {
-		bucketAndSelectRecommendations();
-		Common.pressBack();
-		Common.delay(1);
-		validateRestHappyFlow();
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLXRecommendedActivitiesTest,
-			AbacusUtils.DefaultVariate.CONTROL.ordinal());
-	}
-
-
-	public void testLxPhoneHappyWithRecommendationsFromTheBackFlow() throws Throwable {
-		bucketAndSelectRecommendations();
-		final String ticketName = "2-Day";
-		LXInfositeScreen.selectCalendarOnRecommendations().perform(scrollTo());
-		LXInfositeScreen.selectOfferOnRecommendations("2-Day New York Pass").perform(scrollTo(), click());
-		Common.delay(1);
-		LXInfositeScreen.ticketAddButtonOnRecommendations(ticketName, "Adult").perform(scrollTo(), click());
-		LXInfositeScreen.bookNowButtonOnRecommendations(ticketName).perform(scrollTo(), click());
-		Common.delay(1);
-
-		manuallyEnterTravelerInfo();
-		purchaseActivity(false);
-		verifyBooking();
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLXRecommendedActivitiesTest,
-			AbacusUtils.DefaultVariate.CONTROL.ordinal());
 	}
 
 	private void goToLxSearchResults() throws Throwable {
@@ -167,16 +134,6 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 		Common.delay(1);
 	}
 
-	private void selectRecommendation() throws Throwable {
-		final String activityName = "Alcatraz Package: Hop-On Hop-Off Cruise & City Tour by Big Bus";
-
-		LXScreen.waitForSearchListDisplayed();
-		LXScreen.searchList().perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-
-		LXInfositeScreen.selectRecommendation(activityName).perform(
-			scrollTo(), click());
-	}
-
 	private void manuallyEnterTravelerInfo() throws Throwable {
 		CheckoutViewModel.enterTravelerInfo();
 		CheckoutViewModel.enterPaymentInfo();
@@ -190,16 +147,5 @@ public class LxPhoneHappyPathTest extends PhoneTestCase {
 
 	private void verifyBooking() {
 		LXScreen.itinNumberOnConfirmationScreen().check(matches(withText(containsString("7672544862"))));
-	}
-
-	private void bucketAndSelectRecommendations() throws Throwable {
-		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppLXRecommendedActivitiesTest,
-			AbacusUtils.DefaultVariate.BUCKETED.ordinal());
-		goToLxSearchResults();
-		LXScreen.location().perform(typeText("San"));
-		LXScreen.selectLocation("San Francisco, CA");
-		LXScreen.selectDates(LocalDate.now(), null);
-		LXScreen.searchButton().perform(click());
-		selectRecommendation();
 	}
 }
