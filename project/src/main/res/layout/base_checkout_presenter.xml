@@ -205,13 +205,13 @@
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/card_processing_fee"
-                        style="@style/FlightWarningBar"
+                        style="@style/WarningBar"
                         android:maxLines="1"
                         android:visibility="gone" />
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flights_debit_cards_not_accepted"
-                        style="@style/FlightWarningBar"
+                        style="@style/WarningBar"
                         android:maxLines="1"
                         android:text="@string/flights_debit_cards_not_accepted"
                         android:visibility="gone" />

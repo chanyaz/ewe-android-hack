@@ -4,7 +4,6 @@ import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.assertion.ViewAssertions
-import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
@@ -51,7 +50,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         CheckoutViewModel.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
-        assertPaymentFormCardFeeWarningShown()
+        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Airline processing fee for this card: $2.50")
 
         PackageScreen.completePaymentForm()
         CheckoutViewModel.clickDone()
@@ -67,7 +66,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         CheckoutViewModel.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
-        assertPaymentFormCardFeeWarningShown()
+        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Airline processing fee for this card: $2.50")
 
         PackageScreen.completePaymentForm()
         CheckoutViewModel.clickDone()
@@ -122,18 +121,6 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         onView(withId(R.id.card_fee_warning_text)).perform(ViewActions.waitForViewToDisplay())
                 .check(ViewAssertions.matches(isDisplayed()))
                 .check(ViewAssertions.matches(withText("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).")))
-    }
-
-    private fun assertPaymentFormCardFeeWarningNotShown() {
-        onView(withId(R.id.card_fee_warning_text))
-                .check(ViewAssertions.matches(ViewMatchers.withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
-    }
-
-    private fun assertPaymentFormCardFeeWarningShown() {
-        Common.delay(1)
-        onView(withId(R.id.card_processing_fee)).perform(ViewActions.waitForViewToDisplay())
-                .check(ViewAssertions.matches(isDisplayed()))
-                .check(ViewAssertions.matches(withText("Airline processing fee for this card: $2.50")))
     }
 
     private fun signIn() {

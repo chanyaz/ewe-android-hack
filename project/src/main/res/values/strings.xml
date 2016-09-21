@@ -4433,6 +4433,9 @@
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">Fees by card type</string>
 
+    <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
+    <string name="rail_cc_processing_fee_TEMPLATE">Credit card fees: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Ticket delivery</string>
 

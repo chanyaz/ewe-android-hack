@@ -1,5 +1,6 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.expedia.bookings.data.rail.responses.RailCardsResponse
@@ -20,6 +21,8 @@ import rx.Subscription
 import java.util.HashMap
 
 class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+
+    var subscription: Subscription? = null
 
     val railApi by lazy {
         val gson = GsonBuilder().create();
@@ -50,11 +53,14 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
     }
 
     fun railSearch(params: RailApiSearchModel, observer: Observer<RailSearchResponse>): Subscription {
-        return railApi.railSearch(params)
+        cancel()
+        val subscription = railApi.railSearch(params)
                 .doOnNext(BUCKET_FARE_QUALIFIERS)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
+        this.subscription = subscription
+        return subscription
     }
 
     private val BUCKET_FARE_QUALIFIERS = { response: RailSearchResponse ->
@@ -73,23 +79,47 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
     }
 
     fun railCreateTrip(railOfferToken: String, observer: Observer<RailCreateTripResponse>): Subscription {
-        return railMApi.railCreateTrip(railOfferToken)
+        cancel()
+        val subscription = railMApi.railCreateTrip(railOfferToken)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
+        this.subscription = subscription
+        return subscription
     }
 
     fun railCheckoutTrip(params: RailCheckoutParams, observer: Observer<RailCheckoutResponse>): Subscription {
-        return railMApi.railCheckout(params)
+        cancel()
+        val subscription = railMApi.railCheckout(params)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
+        this.subscription = subscription
+        return subscription
     }
 
     fun railGetCards(locale: String, observer: Observer<RailCardsResponse>): Subscription {
-        return railApi.railCards(locale)
+        cancel()
+        val subscription = railApi.railCards(locale)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
+        this.subscription = subscription
+        return subscription
+    }
+
+    fun railGetCardFees(tripId: String, creditCardId: String, ticketDeliveryOption: String, observer: Observer<CardFeeResponse>): Subscription {
+        cancel()
+        val subscription = railMApi.cardFees(tripId, creditCardId, ticketDeliveryOption)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
+        this.subscription = subscription
+        return subscription
+    }
+
+    fun cancel() {
+        // cancels any existing calls we're waiting on
+        subscription?.unsubscribe()
     }
 }

@@ -13,6 +13,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.expedia.bookings.data.CardFeeResponse;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.rail.RailPassenger;
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams;
@@ -51,6 +52,7 @@ public class RailServicesTest {
 	private TestSubscriber<RailSearchResponse> searchResponseObserver;
 	private TestSubscriber<RailCreateTripResponse> createTripResponseObserver;
 	private TestSubscriber<RailCheckoutResponse> checkoutTripResponseObserver;
+	private TestSubscriber<CardFeeResponse> cardFeeResponseObserver;
 
 	@Before
 	public void before() throws IOException {
@@ -69,6 +71,7 @@ public class RailServicesTest {
 		searchResponseObserver = new TestSubscriber();
 		createTripResponseObserver = new TestSubscriber();
 		checkoutTripResponseObserver = new TestSubscriber();
+		cardFeeResponseObserver = new TestSubscriber();
 	}
 
 	@Test
@@ -163,6 +166,19 @@ public class RailServicesTest {
 		railCardsResponseTestSubscriber.awaitTerminalEvent();
 		railCardsResponseTestSubscriber.assertValueCount(1);
 		assertEquals(12, railCardsResponseTestSubscriber.getOnNextEvents().get(0).getRailCards().size());
+	}
+
+	@Test
+	public void happyGetRailCreditCardFees() {
+		service.railGetCardFees(RailCheckoutParamsMock.tripDetails().getTripId(),
+			RailCheckoutParamsMock.paymentInfo().getCards().get(0).getCreditCardNumber(),
+			RailCheckoutParamsMock.railTicketDeliveryStationInfo().getDeliveryOptionToken(), cardFeeResponseObserver);
+		cardFeeResponseObserver.awaitTerminalEvent();
+		cardFeeResponseObserver.assertCompleted();
+		cardFeeResponseObserver.assertValueCount(1);
+
+		CardFeeResponse cardFeeResponse = cardFeeResponseObserver.getOnNextEvents().get(0);
+		assertEquals("£2.90", cardFeeResponse.feePrice.formattedPrice);
 	}
 
 	private void givenHappySearchRequest() {
