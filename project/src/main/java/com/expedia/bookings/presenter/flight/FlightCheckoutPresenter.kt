@@ -19,6 +19,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.InsuranceViewModel

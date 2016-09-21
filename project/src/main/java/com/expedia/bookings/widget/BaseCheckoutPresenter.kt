@@ -28,7 +28,6 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
@@ -182,7 +181,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
         travelerManager = Ui.getApplication(context).travelerComponent().travelerManager()
         travelerManager.travelersUpdated.subscribe {
-            travelerPresenter.resetTravelers(TravelerCheckoutStatus.CLEAN)
+            travelerPresenter.resetTravelers()
         }
         paymentWidget = paymentViewStub.inflate() as PaymentWidget
 
@@ -516,6 +515,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         travelerPresenter.onLogin(true)
         updateTravelerPresenter()
         animateInSlideToPurchase(true)
+        travelerPresenter.updateAllTravelerStatuses()
         doCreateTrip()
     }
 
@@ -644,7 +644,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     fun openTravelerPresenter() {
         show(travelerPresenter)
-        travelerPresenter.showSelectOrEntryState(travelerSummaryCard.getStatus())
+        travelerPresenter.showSelectOrEntryState()
     }
 
     open fun updateTravelerPresenter() {

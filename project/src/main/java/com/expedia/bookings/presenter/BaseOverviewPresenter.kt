@@ -203,7 +203,10 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 checkoutPresenter.trackShowBundleOverview()
             }
             bundleOverviewHeader.toolbar.subtitle = ""
-            if (forward) checkoutPresenter.adjustScrollingSpace()
+            if (forward) {
+                checkoutPresenter.adjustScrollingSpace()
+                checkoutPresenter.travelerPresenter.updateAllTravelerStatuses()
+            }
         }
 
         private fun translateHeader(f: Float, forward: Boolean) {
