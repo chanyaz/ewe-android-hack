@@ -289,7 +289,7 @@ public class CarConfirmationWidget extends FrameLayout {
 		flightSearchParams.setReturnDate(offer.getDropOffTime().toLocalDate());
 
 		// Go to flights
-		NavUtils.goToFlightsUsingSearchParams(getContext());
+		NavUtils.goToFlights(getContext(), flightSearchParams);
 	}
 
 	public void setFocusOnToolbarForAccessibility() {
