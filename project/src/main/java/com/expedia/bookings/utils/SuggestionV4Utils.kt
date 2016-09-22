@@ -2,12 +2,14 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.GaiaSuggestion
 import com.expedia.bookings.data.SuggestionV4
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.mobiata.android.Log
 import com.mobiata.android.util.IoUtils
 import java.io.IOException
+import java.util.ArrayList
 
 object SuggestionV4Utils {
 
@@ -56,6 +58,47 @@ object SuggestionV4Utils {
         recentSuggestions.forEach { it.iconType = SuggestionV4.IconType.HISTORY_ICON }
 
         return recentSuggestions.toMutableList()
+    }
+
+    fun convertToSuggestionV4(gaiaSuggestions: List<GaiaSuggestion>): MutableList<SuggestionV4> {
+        val suggestionList = ArrayList<SuggestionV4>()
+        gaiaSuggestions.forEach { it ->
+            val suggestion = SuggestionV4();
+            suggestion.gaiaId = it.gaiaID;
+            suggestion.type = it.type;
+
+            val latlong = SuggestionV4.LatLng()
+            latlong.lat = it.latLong.latitude
+            latlong.lng = it.latLong.longitude
+            suggestion.coordinates = latlong
+
+            val regionName = SuggestionV4.RegionNames();
+            val localizedNames = it.localizedNames.get(0)
+            regionName.fullName = localizedNames.fullName
+            regionName.displayName = localizedNames.fullName
+            regionName.shortName = localizedNames.shortName
+            suggestion.regionNames = regionName
+
+            val hierarchyInfo = SuggestionV4.HierarchyInfo();
+            val country = SuggestionV4.Country();
+            val airport = SuggestionV4.Airport();
+            country.name = it.country.name
+            country.countryCode = it.country.code
+            hierarchyInfo.country = country
+
+            if (it.airportCode != null) {
+                airport.airportCode = it.airportCode
+            }
+            if (it.regionId != null) {
+                airport.multicity = it.regionId!!.first().id
+            }
+            hierarchyInfo.airport = airport
+
+            suggestion.hierarchyInfo = hierarchyInfo
+
+            suggestionList.add(suggestion)
+        }
+        return suggestionList.toMutableList()
     }
 
     @JvmStatic fun deleteCachedSuggestions(context: Context) {

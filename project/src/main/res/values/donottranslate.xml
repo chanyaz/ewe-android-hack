@@ -114,7 +114,8 @@
     <string name="preference_enable_rail">preference_enable_rail</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
     <string name="preference_enable_filter_text_search">preference_enable_filter_text_search</string>
-
+    <string name="preference_enable_gaia_current_location_suggestion">preference_enable_gaia_current_location_suggestion</string>
+    
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
     <string name="preference_flight_fake_obfees_default">0</string>

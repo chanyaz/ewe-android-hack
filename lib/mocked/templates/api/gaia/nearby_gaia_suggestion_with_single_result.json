@@ -1,0 +1,25 @@
+[
+  {
+    "id": "180000",
+    "type": "multi_city_vicinity",
+    "name": "Delhi (and vicinity), India",
+    "position": {
+      "type": "Point",
+      "coordinates": [
+        77.22496,
+        28.635308
+      ]
+    },
+    "localizedNames": [
+      {
+        "lcid": 1043,
+        "value": "Delhi (and vicinity)",
+        "extendedValue": "Delhi (and vicinity), India"
+      }
+    ],
+    "country": {
+      "name": "India",
+      "code": "IND"
+    }
+  }
+]

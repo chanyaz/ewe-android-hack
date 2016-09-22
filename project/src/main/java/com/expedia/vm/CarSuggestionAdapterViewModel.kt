@@ -30,4 +30,8 @@ class CarSuggestionAdapterViewModel(context: Context, suggestionsService: Sugges
     override fun getNearbySortType(): String {
         return "p"
     }
+
+    override fun getNearbySortTypeForGaia(): String {
+        return "popularity"
+    }
 }
