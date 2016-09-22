@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.espresso;
 
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.hamcrest.CoreMatchers;
@@ -11,8 +12,11 @@ import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.annotation.StringRes;
 import android.support.test.espresso.DataInteraction;
+import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
+import android.view.View;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -204,5 +208,31 @@ public class EspressoUtils {
 
 	public static void assertViewHasCompoundDrawable(@IdRes int viewId, @DrawableRes int drawableId) {
 		onView(withId(viewId)).check(matches(allOf(withCompoundDrawable(drawableId), isDisplayed())));
+	}
+
+	public static void waitForViewNotYetInLayoutToDisplay(Matcher<View> matcher, long howLong, TimeUnit timeUnit) {
+		RuntimeException lastException = null;
+
+		long finalTime = System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(howLong, timeUnit);
+
+		while (System.currentTimeMillis() < finalTime) {
+			try {
+				Espresso.onView(matcher).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
+				return;
+			}
+			catch (RuntimeException e) {
+				lastException = e;
+				try {
+					Thread.sleep(100);
+				}
+				catch (Throwable e2) {
+					// oh well, keep trying
+				}
+			}
+		}
+
+		if (lastException != null) {
+			throw lastException;
+		}
 	}
 }
