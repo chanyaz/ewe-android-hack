@@ -158,6 +158,7 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
         val airportName = "" + Html.fromHtml(context.getString(R.string.dropdown_airport_selection, airport.mAirportCode, airport.mName))
         airportSuggestion.regionNames.displayName = airportName
         airportSuggestion.regionNames.shortName = airportName
+        airportSuggestion.regionNames.fullName = airportName
         airportSuggestion.hierarchyInfo = SuggestionV4.HierarchyInfo()
         airportSuggestion.hierarchyInfo!!.airport = SuggestionV4.Airport()
         airportSuggestion.hierarchyInfo!!.airport!!.airportCode = airport.mAirportCode
