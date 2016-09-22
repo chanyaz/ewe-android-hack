@@ -38,6 +38,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -1059,7 +1060,7 @@ public class PointOfSale {
 		else {
 			Db.deleteCachedFlightRoutes(context);
 		}
-
+		AbacusHelperUtils.downloadBucket(context);
 		Log.d("New POS id: " + sCurrentPOSId);
 	}
 
