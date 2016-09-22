@@ -74,6 +74,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_search_params, this)
+        travelerCardView.visibility = View.VISIBLE
         shopWithPointsWidget = swpWidgetStub.inflate().findViewById(R.id.widget_points_details) as ShopWithPointsWidget
 
     }
