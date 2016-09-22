@@ -26,6 +26,7 @@ import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.rail.RailSearchViewModel
 import com.expedia.vm.rail.RailSuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
+import rx.Observable
 import kotlin.properties.Delegates
 
 class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
@@ -93,15 +94,13 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         }
         searchButton.subscribeOnClick(vm.searchObserver)
 
-        vm.errorMaxDurationObservable.subscribe { message ->
-            showErrorDialog(message)
-        }
-        vm.errorMaxRangeObservable.subscribe { message ->
-            showErrorDialog(message)
-        }
-        vm.errorOriginSameAsDestinationObservable.subscribe { message ->
-            showErrorDialog(message)
-        }
+        Observable.merge(vm.errorMaxDurationObservable,
+                vm.errorMaxRangeObservable,
+                vm.errorOriginSameAsDestinationObservable,
+                vm.errorInvalidCardsCountObservable)
+                .subscribe { message ->
+                    showErrorDialog(message)
+                }
     }
 
     init {

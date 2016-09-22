@@ -26,6 +26,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     val railDestinationObservable = BehaviorSubject.create<SuggestionV4>()
     val railRequestBuilder = RailSearchRequest.Builder(getMaxSearchDurationDays(), getMaxDateRange())
     val railErrorNoLocationsObservable = PublishSubject.create<Unit>()
+    val errorInvalidCardsCountObservable = PublishSubject.create<String>()
 
     val defaultTimeTooltipColor = ContextCompat.getColor(context, R.color.rail_primary_color)
     val errorTimeTooltipColor = ContextCompat.getColor(context, R.color.cars_tooltip_disabled_color)
@@ -85,6 +86,8 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
                 errorMaxDurationObservable.onNext(context.getString(R.string.rail_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else if (!getParamsBuilder().isWithinDateRange()) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
+            } else if (getParamsBuilder().isRailCardsCountInvalid()) {
+                errorInvalidCardsCountObservable.onNext(context.getString(R.string.error_rail_cards_greater_than_number_travelers))
             } else {
                 var searchParams = getParamsBuilder().build()
                 searchParamsObservable.onNext(searchParams)
