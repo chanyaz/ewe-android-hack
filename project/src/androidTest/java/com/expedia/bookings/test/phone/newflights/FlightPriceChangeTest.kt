@@ -76,6 +76,20 @@ class FlightPriceChangeTest: NewFlightTestCase() {
         assertInsuranceAfterPriceChange()
     }
 
+    @Test
+    fun testCheckoutSignedInPriceChange() {
+        getToCheckoutOverview(PriceChangeType.CHECKOUT)
+
+        CheckoutViewModel.signInOnCheckout()
+
+        Common.delay(2) // waitForViewToDisplay does not work as this button is not in previous view (sign in)
+        CheckoutViewModel.clickPaymentInfo()
+        CheckoutViewModel.selectStoredCard("Saved AmexTesting")
+        Common.pressBack()
+        CheckoutViewModel.performSlideToPurchase(true)
+        FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
+    }
+
     private fun getToCheckoutOverview(priceChangeType: PriceChangeType) {
         val originListIndex = when (priceChangeType) {
             PriceChangeType.CHECKOUT -> 6
