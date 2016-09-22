@@ -167,11 +167,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         Observable.combineLatest( flightOfferViewModel.confirmedOutboundFlightSelection,
                 flightOfferViewModel.confirmedInboundFlightSelection,
                 { outbound, inbound ->
-                    val outboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(outbound.baggageFeesUrl)
-                    val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
                     val baggageFeesTextFormatted = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
-                            .put("departurelink", outboundBaggageFeeUrl)
-                            .put("returnlink", inboundBaggageFeeUrl).format().toString()
+                            .put("departurelink", outbound.baggageFeesUrl)
+                            .put("returnlink", inbound.baggageFeesUrl).format().toString()
                     val baggageFeesTextWithColoredClickableLinks =
                             StrUtils.getSpannableTextByColor(baggageFeesTextFormatted,
                                     ContextCompat.getColor(context, R.color.flight_primary_color), true)
