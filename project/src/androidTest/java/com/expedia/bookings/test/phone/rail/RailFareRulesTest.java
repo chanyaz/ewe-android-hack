@@ -29,7 +29,7 @@ public class RailFareRulesTest extends RailTestCase {
 		RailScreen.navigateToDetails();
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
-		RailScreen.clickFareRules("First", "Travel anytime of day");
+		RailScreen.clickFareRules("Anytime Single (1st Class)", "Travel anytime of day");
 	}
 
 	private void assertFareRules() {
