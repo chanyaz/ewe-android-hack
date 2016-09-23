@@ -1,7 +1,6 @@
 package com.expedia.bookings.unit;
 
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +27,6 @@ import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXTheme;
 import com.expedia.bookings.data.lx.LXThemeType;
 import com.expedia.bookings.data.lx.Offer;
-import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.testrule.ServicesRule;
@@ -43,7 +41,6 @@ import static org.junit.Assert.assertTrue;
 
 public class LXServicesTest {
 	@Rule
-
 	public ServicesRule<LxServices> serviceRule = new ServicesRule<>(LxServices.class, "../mocked/templates", false);
 	private LXCheckoutParams checkoutParams;
 	private LXCreateTripParams createTripParams;
@@ -162,29 +159,6 @@ public class LXServicesTest {
 		ActivityDetailsResponse activityDetailsResponse = observer.getOnNextEvents().get(0);
 		assertEquals(5, activityDetailsResponse.images.size());
 		assertEquals(5, activityDetailsResponse.highlights.size());
-	}
-
-	@Test
-	public void recommendedResponse() throws Throwable {
-		serviceRule.setDefaultExpediaDispatcher();
-
-		TestSubscriber<RecommendedActivitiesResponse> observer = new TestSubscriber<>();
-		LXActivity lxActivity = new LXActivity();
-		lxActivity.id = "happy_recommend";
-		serviceRule.getServices().lxRecommendedSearch(lxActivity.id, null, LocalDate.now(), LocalDate.now().plusDays(1),
-			observer);
-		observer.awaitTerminalEvent();
-
-		observer.assertNoErrors();
-		observer.assertValueCount(1);
-		observer.assertCompleted();
-
-		RecommendedActivitiesResponse activityDetailsResponse = observer.getOnNextEvents().get(0);
-
-		assertEquals(3, activityDetailsResponse.getActivities().size());
-		assertEquals(new BigDecimal("135.00"), activityDetailsResponse.getActivities().get(0).price.amount);
-		assertEquals("USD", activityDetailsResponse.getActivities().get(0).price.currencyCode);
-		assertEquals("USD", activityDetailsResponse.getCurrencyCode());
 	}
 
 	@Test

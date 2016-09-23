@@ -759,7 +759,6 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">모든 즐길거리</string>
 
-    <string name="lx_you_might_also_like">좋아할 만한 다른 것들</string>
     <string name="lx_customers_recommend">의 고객이 추천합니다.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>

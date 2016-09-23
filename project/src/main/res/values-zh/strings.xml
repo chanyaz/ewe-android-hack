@@ -759,7 +759,6 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">游览观光</string>
 
-    <string name="lx_you_might_also_like">您可能还会喜欢</string>
     <string name="lx_customers_recommend">的客户推荐。</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>

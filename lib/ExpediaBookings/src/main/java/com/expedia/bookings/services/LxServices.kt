@@ -16,7 +16,6 @@ import com.expedia.bookings.data.lx.LXSortType
 import com.expedia.bookings.data.lx.LXTheme
 import com.expedia.bookings.data.lx.LXThemeType
 import com.expedia.bookings.data.lx.LxSearchParams
-import com.expedia.bookings.data.lx.RecommendedActivitiesResponse
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.LXUtils
@@ -77,25 +76,6 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .doOnNext(HANDLE_SEARCH_ERROR)
                 .doOnNext(ACTIVITIES_MONEY_TITLE)
                 .doOnNext(CACHE_SEARCH_RESPONSE)
-    }
-
-    fun lxRecommendedSearch(activityId: String, location: String?, startDate: LocalDate, endDate: LocalDate,
-                            observer: Observer<RecommendedActivitiesResponse>): Subscription {
-        return lxApi.recommendedActivities(activityId, location, DateUtils.convertToLXDate(startDate), DateUtils.convertToLXDate(endDate))
-                .observeOn(this.observeOn)
-                .subscribeOn(this.subscribeOn)
-                .doOnNext(RECOMMENDED_ACTIVITIES_MONEY_TITLE)
-                .subscribe(observer)
-    }
-
-
-    private val RECOMMENDED_ACTIVITIES_MONEY_TITLE = { response: RecommendedActivitiesResponse ->
-        val currencyCode = response.currencyCode
-        for (activity in response.activities) {
-            activity.price = Money(activity.fromPriceValue, currencyCode)
-            activity.originalPrice = Money(activity.fromOriginalPriceValue, currencyCode)
-            activity.title = Strings.escapeQuotes(activity.title)
-        }
     }
 
     private val HANDLE_SEARCH_ERROR = { response: LXSearchResponse ->

@@ -57,8 +57,6 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);
 		boolean isUserBucketedForTest = Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest);
-		boolean isUserBucketedForRecommendationTest = Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXRecommendedActivitiesTest);
 		boolean isUserBucketedForRTRTest = Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXRTROnSearchAndDetails);
 
@@ -70,7 +68,6 @@ public class LXBaseActivity extends AbstractAppCompatActivity {
 		ButterKnife.inject(this);
 		lxPresenter.setIsGroundTransport(isGroundTransport);
 		lxPresenter.setUserBucketedForCategoriesTest(isUserBucketedForTest);
-		lxPresenter.setUserBucketedForRecommendationTest(isUserBucketedForRecommendationTest && !isGroundTransport);
 		lxPresenter.setUserBucketedForRTRTest(isUserBucketedForRTRTest && !isGroundTransport);
 		detailsMapView.onCreate(savedInstanceState);
 		Ui.showTransparentStatusBar(this);

@@ -759,7 +759,6 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Semua Atraksi Wisata</string>
 
-    <string name="lx_you_might_also_like">Anda mungkin juga suka</string>
     <string name="lx_customers_recommend">rekomendasi pelanggan.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>

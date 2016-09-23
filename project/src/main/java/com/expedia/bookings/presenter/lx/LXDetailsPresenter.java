@@ -28,7 +28,6 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.ScaleTransition;
 import com.expedia.bookings.services.LxServices;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
@@ -299,11 +298,6 @@ public class LXDetailsPresenter extends Presenter {
 			return true;
 		}
 		return super.back();
-	}
-
-	public void setUserBucketedForRecommendationTest(boolean isUserBucketedForTest) {
-		details.setUserBucketedForRecommendationTest(isUserBucketedForTest);
-		OmnitureTracking.trackAppLXRecommendedActivitiesABTest();
 	}
 
 	public LXActivity getLxActivity() {

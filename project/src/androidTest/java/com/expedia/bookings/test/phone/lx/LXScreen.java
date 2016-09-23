@@ -1,34 +1,25 @@
 package com.expedia.bookings.test.phone.lx;
 
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.joda.time.LocalDate;
-import org.junit.Assert;
 
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.BoundedMatcher;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.IdlingResources;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-import com.expedia.bookings.widget.LXResultsListAdapter;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
-import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -39,7 +30,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
-import static org.hamcrest.Matchers.startsWith;
 
 public class LXScreen {
 	public static ViewInteraction calendar() {
@@ -74,14 +64,6 @@ public class LXScreen {
 		return onView(withId(R.id.itin_number));
 	}
 
-	public static ViewInteraction searchResultsWidget() {
-		return onView(withId(R.id.lx_search_results_widget));
-	}
-
-	public static ViewInteraction searchCategoryResultsWidget() {
-		return onView(withId(R.id.lx_theme_results_widget));
-	}
-
 	public static ViewInteraction searchFailed() {
 		return onView(withId(R.id.lx_search_error_widget));
 	}
@@ -96,119 +78,20 @@ public class LXScreen {
 		Common.delay(2);
 	}
 
-	public static void waitForSearchResultsWidgetDisplayed() {
-		searchResultsWidget().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
-	}
-
-	public static void waitForCategoryResultsWidgetDisplayed() {
-		searchCategoryResultsWidget().perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
-	}
-
-	public static ViewInteraction sortAndFilterButton() {
-		return onView(withId(R.id.sort_filter_button));
-	}
-
-	public static ViewInteraction sortAndFilterWidget() {
-		return onView(withId(R.id.sort_filter_widget));
-	}
-
 	public static Matcher<View> recyclerView(int viewId) {
 		return allOf(isAssignableFrom(RecyclerView.class), withId(viewId));
-	}
-
-	public static ViewInteraction detailsWidget() {
-		return onView(
-			allOf(withId(R.id.activity_details), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
-	}
-
-	public static ViewInteraction withOfferText(String offerText) {
-		return onView(allOf(withId(R.id.offer_row), withChild(withChild(withText(startsWith(offerText)))),
-			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
-	}
-
-	public static ViewInteraction selectTicketsButton(String offerText) {
-		return onView(allOf(withId(R.id.select_tickets), hasSibling(withChild(withText(startsWith(offerText)))),
-			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
-	}
-
-	public static ViewInteraction ticketPicker(String offerText) {
-		return onView(allOf(withId(R.id.offer_tickets_picker),
-			hasSibling(withChild(withChild(withText(startsWith(offerText))))),
-			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
-	}
-
-	public static ViewInteraction showMore() {
-		return onView(
-			allOf(withId(R.id.show_more_widget), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
 	}
 
 	public static ViewInteraction toolbar() {
 		return onView(withId(R.id.toolbar));
 	}
 
-	public static ViewInteraction searchWidgetToolbarNavigation() {
-		return onView(allOf(isDescendantOfA(withId(R.id.search_params_widget)), withParent(withId(R.id.toolbar)),
-			isAssignableFrom(ImageButton.class)));
-	}
-
 	public static ViewInteraction searchButton() {
 		return SearchScreen.searchButton();
 	}
 
-	public static ViewInteraction searchButtonOnDetailsWithRecommendationsToolbar() {
-		return onView(allOf(isDescendantOfA(withId(R.id.activity_recommended_details_presenter)), withId(R.id.menu_open_search)));
-	}
-	public static ViewInteraction detailsDate(String dateText) {
-		return onView(allOf(withParent(withId(R.id.offer_dates_container)), withText(dateText)));
-	}
-
-	public static ViewAction setLXActivities(final List<LXActivity> activities) {
-		return new ViewAction() {
-			@Override
-			public Matcher<View> getConstraints() {
-				return withId(R.id.lx_search_results_list);
-			}
-
-			@Override
-			public String getDescription() {
-				return "Placing the view holder in the recycler view";
-			}
-
-			@Override
-			public void perform(UiController uiController, View view) {
-				uiController.loopMainThreadUntilIdle();
-				RecyclerView rv = (RecyclerView) view;
-				((LXResultsListAdapter) rv.getAdapter()).setItems(activities);
-			}
-		};
-	}
-
-	public static ViewAction performViewHolderComparison(final String title, final String price,
-		final String originalPrice, final String duration) {
-		return new ViewAction() {
-			@Override
-			public Matcher<View> getConstraints() {
-				return null;
-			}
-
-			@Override
-			public String getDescription() {
-				return null;
-			}
-
-			@Override
-			public void perform(UiController uiController, View viewHolder) {
-				TextView titleText = (TextView) viewHolder.findViewById(R.id.activity_title);
-				TextView priceText = (TextView) viewHolder.findViewById(R.id.activity_price);
-				TextView originalPriceText = (TextView) viewHolder.findViewById(R.id.activity_original_price);
-				TextView durationText = (TextView) viewHolder.findViewById(R.id.activity_duration);
-
-				Assert.assertEquals(title, titleText.getText());
-				Assert.assertEquals(price, priceText.getText());
-				Assert.assertEquals(originalPrice, originalPriceText.getText().toString());
-				Assert.assertEquals(duration, durationText.getText());
-			}
-		};
+	public static ViewInteraction searchButtonOnDetailsToolbar() {
+		return onView(allOf(isDescendantOfA(withId(R.id.activity_details_presenter)), withId(R.id.menu_open_search)));
 	}
 
 	//Checkout
@@ -260,19 +143,6 @@ public class LXScreen {
 		return onView(withId(R.id.slide_to_purchase_widget));
 	}
 
-	public static ViewInteraction checkoutErrorScreen() {
-		return onView(withId(R.id.lx_checkout_error_widget));
-	}
-
-	public static ViewInteraction checkoutErrorText() {
-		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)), withId(R.id.error_text)));
-	}
-
-	public static ViewInteraction checkoutErrorButton() {
-		return onView(allOf(isDescendantOfA(withId(R.id.lx_checkout_error_widget)),
-			withId(R.id.error_action_button)));
-	}
-
 	// LX Rules widget view models
 
 	public static ViewInteraction rulesWidget() {
@@ -305,19 +175,6 @@ public class LXScreen {
 
 	public static ViewInteraction rulesWidgetToolbar() {
 		return onView(withId(R.id.lx_rules_toolbar));
-	}
-
-	public static ViewInteraction searchErrorScreen() {
-		return onView(withId(R.id.lx_search_error_widget));
-	}
-
-	public static ViewInteraction searchErrorText() {
-		return onView(allOf(isDescendantOfA(withId(R.id.lx_search_error_widget)), withId(R.id.error_text)));
-	}
-
-	public static ViewInteraction searchErrorButton() {
-		return onView(allOf(isDescendantOfA(withId(R.id.lx_search_error_widget)),
-			withId(R.id.error_action_button)));
 	}
 
 	public static ViewInteraction resultList() {

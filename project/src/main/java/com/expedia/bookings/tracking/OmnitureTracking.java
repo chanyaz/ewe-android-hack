@@ -2041,14 +2041,6 @@ public class OmnitureTracking {
 	private static final String LX_SORT_POPULARITY = "Popularity";
 	private static final String LX_SORT = ".Sort.";
 	private static final String LX_FILTER = ".Filter.";
-	private static final String LX_RECOMMENDED_ACTIVITY = "App.LX.Info.Recommend";
-
-	public static void trackAppLXRecommendedActivitiesABTest() {
-		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
-		ADMS_Measurement s = getFreshTrackingObject();
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXRecommendedActivitiesTest);
-		s.trackLink(null, "o", "ape:Log Experiment", null, null);
-	}
 
 	public static void trackFirstActivityListingExpanded() {
 		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
@@ -2167,15 +2159,6 @@ public class OmnitureTracking {
 
 		// Send the tracking data
 		s.track();
-	}
-
-	public static void trackLinkLXRecommendedActivity() {
-		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		ADMS_Measurement s = getFreshTrackingObject();
-		s.setProp(7, tpid);
-		s.setEvar(28, LX_RECOMMENDED_ACTIVITY);
-		s.setProp(16, LX_RECOMMENDED_ACTIVITY);
-		s.trackLink(null, "o", LX_INFO, null, null);
 	}
 
 	public static void trackLinkLXSort(LXSortType sortType) {
