@@ -22,6 +22,7 @@ class RailLegSummaryViewModel(context: Context) {
     val selectedRailOfferObservable = BehaviorSubject.create<RailOffer>()
     val fareDescriptionLabelObservable = BehaviorSubject.create<String>()
     val showLegInfoObservable = PublishSubject.create<Unit>()
+    val overtakenSubject = PublishSubject.create<Boolean>()
 
     init {
         railOfferObserver.subscribe {
@@ -38,6 +39,7 @@ class RailLegSummaryViewModel(context: Context) {
             legOptionObservable.onNext(legOption)
             selectedRailOfferObservable.onNext(it)
             fareDescriptionLabelObservable.onNext(it.railProductList.first().aggregatedFareDescription)
+            overtakenSubject.onNext(legOption.overtakenJourney)
         }
     }
 }

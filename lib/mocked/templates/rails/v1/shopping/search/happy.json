@@ -237,7 +237,7 @@
           },
           "legBoundOrder": 1,
           "showTrainIcon": false,
-          "overtakenJourney": false
+          "overtakenJourney": true
         },
         {
           "legOptionIndex": 5,

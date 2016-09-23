@@ -20,6 +20,7 @@ public class RailLegOption {
 	public String aggregatedOperatingCarrier;
 	public Integer noOfChanges;
 	public Money bestPrice;
+	public boolean overtakenJourney;
 
 	public int durationMinutes() {
 		return DateUtils.parseDurationMinutes(duration);
