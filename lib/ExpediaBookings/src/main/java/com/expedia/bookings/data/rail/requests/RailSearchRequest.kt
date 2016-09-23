@@ -61,22 +61,22 @@ class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destin
             return returnDateTimeMillis != null
         }
 
-        fun departDateTimeMillis(time: Int?): BaseSearchParams.Builder {
+        fun departDateTimeMillis(time: Int?): Builder {
             this.departDateTimeMillis = time
             return this
         }
 
-        fun returnDateTimeMillis(time: Int?): BaseSearchParams.Builder {
+        fun returnDateTimeMillis(time: Int?): Builder {
             this.returnDateTimeMillis = time
             return this
         }
 
-        fun searchType(isRoundTrip: Boolean): BaseSearchParams.Builder {
+        fun searchType(isRoundTrip: Boolean): Builder {
             this.searchType = if (isRoundTrip) SearchType.ROUND_TRIP else SearchType.ONE_WAY
             return this
         }
 
-        fun fareQualifierList(selectedRailCards: List<RailCard>): BaseSearchParams.Builder {
+        fun fareQualifierList(selectedRailCards: List<RailCard>): Builder {
             this.selectedRailCards = selectedRailCards
             return this
         }
@@ -103,12 +103,12 @@ class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destin
             }
         }
 
-        fun youths(youths: List<Int>): BaseSearchParams.Builder {
+        fun youths(youths: List<Int>): Builder {
             this.youths = youths
             return this
         }
 
-        fun seniors(seniors: List<Int>): BaseSearchParams.Builder {
+        fun seniors(seniors: List<Int>): Builder {
             this.seniors = seniors
             return this
         }

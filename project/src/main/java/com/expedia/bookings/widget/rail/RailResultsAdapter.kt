@@ -24,7 +24,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
-    val resultsSubject = BehaviorSubject.create<RailSearchResponse>()
+    val legOptionListSubject = BehaviorSubject.create<List<RailLegOption>>()
     val directionHeaderSubject = BehaviorSubject.create<CharSequence>()
     val priceHeaderSubject = BehaviorSubject.create<CharSequence>()
     private val numHeaderItemsInRailsList = 1
@@ -39,9 +39,9 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     }
 
     init {
-        resultsSubject.subscribe { response ->
+        legOptionListSubject.subscribe { legOptionsList ->
             loading = false
-            legs = response.legList[0].legOptionList
+            legs = legOptionsList
             notifyDataSetChanged()
         }
         loadingSubject.subscribe {

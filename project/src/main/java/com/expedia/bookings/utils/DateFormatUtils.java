@@ -147,6 +147,18 @@ public class DateFormatUtils {
 		}
 	}
 
+	public static String formatRailDateRange(Context context, LocalDate startDate, LocalDate endDate) {
+		if (endDate == null) {
+			return Phrase.from(context, R.string.calendar_instructions_date_rail_one_way_TEMPLATE)
+				.put("startdate", com.expedia.bookings.utils.DateUtils.localDateToMMMd(startDate)).format().toString();
+		}
+		else {
+			return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+				.put("startdate", com.expedia.bookings.utils.DateUtils.localDateToMMMd(startDate))
+				.put("enddate", com.expedia.bookings.utils.DateUtils.localDateToMMMd(endDate)).format().toString();
+		}
+	}
+
 	/**
 	 * Alternative formatter - instead of solely using the system formatter, it is more of "DATE to DATE"
 	 */
@@ -186,7 +198,6 @@ public class DateFormatUtils {
 		cal.set(Calendar.DAY_OF_MONTH, day);
 		return JodaUtils.formatLocalDate(context, new LocalDate(year, month, day), FLAGS_MEDIUM_DATE_FORMAT);
 	}
-
 
 	public static String formatLocalDateToShortDayAndDate(String date) {
 		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
