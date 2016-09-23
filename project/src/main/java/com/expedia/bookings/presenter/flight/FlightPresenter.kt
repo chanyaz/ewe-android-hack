@@ -440,7 +440,15 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     private val overviewToConfirmation = LeftToRightTransition(this, FlightOverviewPresenter::class.java, FlightConfirmationPresenter::class.java)
-    private val outboundToInbound = ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java)
+    
+    private val outboundToInbound = object : ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            if (forward) {
+                inboundPresenter.resultsPresenter.recyclerView.scrollToPosition(0)
+            }
+        }
+    }
 
     private val defaultOutboundTransition = object : Presenter.DefaultTransition(FlightOutboundPresenter::class.java.name){
         override fun endTransition(forward: Boolean) {
