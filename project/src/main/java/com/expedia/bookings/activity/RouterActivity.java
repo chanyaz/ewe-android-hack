@@ -1,11 +1,7 @@
 package com.expedia.bookings.activity;
 
-import java.io.File;
-import java.util.concurrent.TimeUnit;
-
 import android.app.Activity;
 import android.os.Bundle;
-
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
@@ -20,25 +16,27 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.utils.UserAccountRefresher;
 import com.facebook.appevents.AppEventsLogger;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
-
+import java.io.File;
+import java.util.concurrent.TimeUnit;
 import rx.Observer;
 
 /**
  * This is a routing Activity that points users towards either the phone or
  * tablet version of this app.
- *
+ * <p>
  * It is named SearchActivity for historical reasons; this was the original
  * starting Activity for older versions of EH, and we don't want to break any
  * future installs (which may have setup quick links to EH).
- *
+ * <p>
  * http://android-developers.blogspot.com/2011/06/things-that-cannot-change.html
- *
  */
-public class RouterActivity extends Activity {
+public class RouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
 
 	boolean loadSignInViewAbTest = false;
 
@@ -61,18 +59,11 @@ public class RouterActivity extends Activity {
 
 		Ui.getApplication(this).updateFirstLaunchAndUpdateSettings();
 
-		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
-			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
-			finishActivity();
-		}
-		// Show app introduction if available and not already shown.
-		else if (ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled() && !SettingUtils
-			.get(this, R.string.preference_app_intro_shown_once, false)) {
-			ProductFlavorFeatureConfiguration.getInstance().launchAppIntroScreen(this);
-			finishActivity();
+		if (User.isLoggedIn(this)) {
+			User.loadUser(this, this);
 		}
 		else {
-			launchOpeningView();
+			handleAppLaunch();
 		}
 	}
 
@@ -82,7 +73,8 @@ public class RouterActivity extends Activity {
 		boolean userNotLoggedIn = !User.isLoggedIn(RouterActivity.this);
 		loadSignInViewAbTest = (isUsersFirstLaunchOfApp || isNewVersionOfApp) && userNotLoggedIn;
 
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(), 0);
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery(Db.getAbacusGuid(), PointOfSale.getPointOfSale().getTpid(),
+			0);
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
 			query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
@@ -92,7 +84,8 @@ public class RouterActivity extends Activity {
 			}
 		}
 
-		Ui.getApplication(this).appComponent().abacus().downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
+		Ui.getApplication(this).appComponent().abacus()
+			.downloadBucket(query, evaluatePreLaunchABTestsSubscriber, 3, TimeUnit.SECONDS);
 
 	}
 
@@ -117,7 +110,8 @@ public class RouterActivity extends Activity {
 		public void onNext(AbacusResponse abacusResponse) {
 			Log.d("Abacus:showSignInOnLaunchTest - onNext");
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInOnLaunch) && loadSignInViewAbTest) {
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInOnLaunch)
+				&& loadSignInViewAbTest) {
 				NavUtils.goToSignIn(RouterActivity.this);
 			}
 			else {
@@ -142,8 +136,9 @@ public class RouterActivity extends Activity {
 
 	private static final String COOKIE_FILE_V2 = "cookies-2.dat";
 	private static final String COOKIE_FILE_V3 = "cookies-3.dat";
+
 	private void cleanupOldCookies() {
-		String[] files = new String[]{
+		String[] files = new String[] {
 			COOKIE_FILE_V2,
 			COOKIE_FILE_V3,
 		};
@@ -165,8 +160,9 @@ public class RouterActivity extends Activity {
 
 	public static final String RECENT_ROUTES_LX_LOCATION_FILE_BEFORE_V4 = "recent-lx-city-list.dat";
 	public static final String RECENT_ROUTES_CARS_LOCATION_FILE_BEFORE_V4 = "recent-cars-airport-routes-list.dat";
+
 	private void cleanupOldSuggestions() {
-		String[] files = new String[]{
+		String[] files = new String[] {
 			RECENT_ROUTES_LX_LOCATION_FILE_BEFORE_V4,
 			RECENT_ROUTES_CARS_LOCATION_FILE_BEFORE_V4,
 		};
@@ -179,4 +175,25 @@ public class RouterActivity extends Activity {
 		}
 	}
 
+	@Override
+	public void onUserAccountRefreshed() {
+		handleAppLaunch();
+	}
+
+	private void handleAppLaunch() {
+		TrackingUtils.initializeTracking(this.getApplication());
+		if (NavUtils.skipLaunchScreenAndStartEHTablet(this)) {
+			// Note: 2.0 will not support launch screen nor Flights on tablet ergo send user to EH tablet
+			finishActivity();
+		}
+		// Show app introduction if available and not already shown.
+		else if (ProductFlavorFeatureConfiguration.getInstance().isAppIntroEnabled() && !SettingUtils
+			.get(this, R.string.preference_app_intro_shown_once, false)) {
+			ProductFlavorFeatureConfiguration.getInstance().launchAppIntroScreen(this);
+			finishActivity();
+		}
+		else {
+			launchOpeningView();
+		}
+	}
 }

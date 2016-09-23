@@ -1093,9 +1093,6 @@ public class PushNotificationUtils {
 				long userTuid = 0;
 				int siteId = PointOfSale.getPointOfSale().getSiteId();
 				if (User.isLoggedIn(context)) {
-					if (Db.getUser() == null) {
-						Db.loadUser(context);
-					}
 					if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
 						userTuid = Db.getUser().getPrimaryTraveler().getTuid();
 					}

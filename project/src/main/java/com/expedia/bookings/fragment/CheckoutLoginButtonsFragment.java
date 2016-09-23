@@ -163,10 +163,6 @@ public class CheckoutLoginButtonsFragment extends Fragment
 
 	private void refreshAccountButtonState() {
 		if (User.isLoggedIn(getActivity())) {
-			if (Db.getUser() == null) {
-				Db.loadUser(getActivity());
-			}
-
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
@@ -280,7 +276,6 @@ public class CheckoutLoginButtonsFragment extends Fragment
 			else {
 				// Update our existing saved data
 				User user = results.getUser();
-				user.save(getActivity());
 				Db.setUser(user);
 
 				// Act as if a login just occurred

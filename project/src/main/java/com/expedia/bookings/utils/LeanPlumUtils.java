@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import android.app.Application;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -57,7 +58,7 @@ public class LeanPlumUtils {
 	private static Context context;
 	private static boolean initialized = false;
 
-	public static void init(ExpediaBookingApp app) {
+	public static void init(Application app) {
 		initialized = true;
 		context = app.getApplicationContext();
 		Leanplum.setIsTestModeEnabled(ExpediaBookingApp.isAutomation());
@@ -135,9 +136,6 @@ public class LeanPlumUtils {
 			boolean isUserLoggedIn = User.isLoggedIn(context);
 			userAtrributes.put("isUserLoggedIn", isUserLoggedIn);
 			if (isUserLoggedIn) {
-				if (Db.getUser() == null) {
-					Db.loadUser(context);
-				}
 				if (Db.getUser().getPrimaryTraveler() != null) {
 					userAtrributes.put("first_name",
 						Db.getUser().getPrimaryTraveler().getFirstName());

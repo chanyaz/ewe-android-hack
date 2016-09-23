@@ -1889,9 +1889,6 @@ public class ItineraryManager implements JSONable {
 			int siteId = PointOfSale.getPointOfSale().getSiteId();
 			long userTuid = 0;
 			if (User.isLoggedIn(mContext)) {
-				if (Db.getUser() == null) {
-					Db.loadUser(mContext);
-				}
 				if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null) {
 					userTuid = Db.getUser().getPrimaryTraveler().getTuid();
 				}
