@@ -47,11 +47,14 @@ class RailCheckoutViewModel(val context: Context) {
         builder.tripDetails(tripDetails)
     }
 
-
     val travelerCompleteObserver = endlessObserver<Traveler> { traveler ->
         val bookingTraveler = RailCheckoutParams.Traveler(traveler.firstName,
                 traveler.lastName, traveler.phoneCountryCode, traveler.phoneNumber, traveler.email)
         builder.traveler(listOf(bookingTraveler))
+    }
+
+    val ticketDeliveryCompleteObserver = endlessObserver<RailCreateTripResponse.RailTicketDeliveryOptionToken> { tdo ->
+        builder.ticketDeliveryOption(tdo.name)
     }
 
     val clearTravelers = endlessObserver<Unit> {

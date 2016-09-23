@@ -107,6 +107,10 @@ public class SectionLocation extends LinearLayout
 		mLineOfBusiness = lob;
 	}
 
+	public Location getLocation() {
+		return mLocation;
+	}
+
 	@Override
 	public boolean performValidation() {
 		if (mLineOfBusiness == null) {

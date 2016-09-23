@@ -5,8 +5,8 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.RailLocation
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.ScrollView
@@ -57,6 +57,14 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Scr
             mailDeliveryAddress.bind(location)
             mailDeliveryAddress.setLineOfBusiness(LineOfBusiness.RAILS)
         }
+
+        vm.ticketDeliveryMethodSelected.subscribe { selected ->
+            if (selected == TicketDeliveryMethod.PICKUP_AT_STATION) {
+                viewModel.ticketDeliveryOptionToken = RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE
+            } else {
+                viewModel.ticketDeliveryOptionToken = (mailDeliveryAddress.location as RailLocation).ticketDeliveryOptionSelected?.ticketDeliveryOptionToken
+            }
+        }
     }
 
     init {
@@ -104,5 +112,13 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Scr
     fun isComplete(): Boolean {
         // TODO form validation for delivery by mail
         return true
+    }
+
+    fun getTicketDeliveryOptionToken(): RailCreateTripResponse.RailTicketDeliveryOptionToken {
+        if (viewModel.ticketDeliveryOptionToken == null) {
+            return RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE
+        } else {
+            return viewModel.ticketDeliveryOptionToken!!
+        }
     }
 }

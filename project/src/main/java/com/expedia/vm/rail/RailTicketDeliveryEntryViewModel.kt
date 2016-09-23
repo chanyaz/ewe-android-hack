@@ -17,15 +17,18 @@ class RailTicketDeliveryEntryViewModel(val context: Context) {
             CollectionUtils.isNotEmpty(option.ticketDeliveryCountryCodeList) && option.ticketDeliveryCountryCodeList.contains("GB")
         }
     }
+
     val deliveryByMailSupported = ticketDeliveryByPostOptions.map { CollectionUtils.isNotEmpty(it) }
     val ticketDeliveryObservable = BehaviorSubject.create<TicketDeliveryMethod>(TicketDeliveryMethod.PICKUP_AT_STATION)
     val ticketDeliveryMethodSelected = BehaviorSubject.create<TicketDeliveryMethod>()
+    var ticketDeliveryOptionToken: RailCreateTripResponse.RailTicketDeliveryOptionToken? = null
 
     init {
         deliveryByMailSupported.subscribe { supported ->
             if (!supported) {
                 ticketDeliveryObservable.onNext(TicketDeliveryMethod.PICKUP_AT_STATION)
                 ticketDeliveryMethodSelected.onNext(TicketDeliveryMethod.PICKUP_AT_STATION)
+                ticketDeliveryOptionToken = RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE
             }
         }
     }

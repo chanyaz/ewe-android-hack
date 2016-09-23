@@ -9,6 +9,7 @@ class RailCheckoutParams(val travelers: List<Traveler>,
         private var travelers: List<Traveler> = emptyList()
         private var tripDetails: TripDetails? = null
         private var paymentInfo: PaymentInfo? = null
+        private var ticketDeliveryOption: TicketDeliveryOption? = null
 
         fun traveler(travelers: List<Traveler>): Builder {
             this.travelers = travelers
@@ -30,6 +31,11 @@ class RailCheckoutParams(val travelers: List<Traveler>,
             return this
         }
 
+        fun ticketDeliveryOption(deliveryOptionToken: String): Builder {
+            this.ticketDeliveryOption = TicketDeliveryOption(deliveryOptionToken)
+            return this
+        }
+
         fun build(): RailCheckoutParams {
             if (!isValid()) {
                 throw IllegalArgumentException()
@@ -38,12 +44,12 @@ class RailCheckoutParams(val travelers: List<Traveler>,
                     travelers,
                     tripDetails!!,
                     paymentInfo!!,
-                    TicketDeliveryOption("KIOSK_NONE")) // TODO #9042
+                    ticketDeliveryOption!!)
         }
 
         fun isValid(): Boolean {
             return travelers.isNotEmpty() && paymentInfo != null && paymentInfo!!.cards.isNotEmpty() && tripDetails != null
-                    && !paymentInfo!!.cards[0]?.cvv.isNullOrEmpty()
+                    && !paymentInfo!!.cards[0]?.cvv.isNullOrEmpty() && ticketDeliveryOption != null
         }
     }
 
