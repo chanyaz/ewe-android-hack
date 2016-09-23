@@ -34,6 +34,9 @@ public class CarActivity extends AbstractAppCompatActivity {
 			(getIntent().getBooleanExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, false)))) {
 			handleNavigationViaDeepLink();
 		}
+		else {
+			carsPresenter.showSuggestionState();
+		}
 	}
 
 	@Override
