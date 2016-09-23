@@ -121,7 +121,7 @@ public class TravelerButtonFragment extends LobableFragment {
 	}
 
 	private void onStoredTravelerSelected(int position) {
-		if (position == mTravelerAdapter.getCount() - 1) {
+		if (position == 1) {
 			/*
 			 Let's reset selectable state for the current traveler and remove him from DB.
 			 Since we are adding a new traveler, let's add a new blank traveler and set state to new.
