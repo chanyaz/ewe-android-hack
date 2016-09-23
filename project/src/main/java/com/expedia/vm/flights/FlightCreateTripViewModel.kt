@@ -52,6 +52,7 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
             }
 
             override fun onError(e: Throwable) {
+                showCreateTripDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
                     FlightsV2Tracking.trackFlightCreateTripNoResponseError()
                     showNoInternetRetryDialog.onNext(Unit)

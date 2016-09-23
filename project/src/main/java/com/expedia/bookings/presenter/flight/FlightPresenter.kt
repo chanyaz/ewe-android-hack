@@ -358,8 +358,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     private val flightOverviewToError = object : Presenter.Transition(FlightOverviewPresenter::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            flightOverviewPresenter.getCheckoutPresenter().checkoutDialog.hide()
-            flightOverviewPresenter.getCheckoutPresenter().createTripDialog.hide()
             errorPresenter.visibility = View.VISIBLE
         }
 

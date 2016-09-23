@@ -86,6 +86,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
     fun makeCheckoutResponseObserver(): Observer<PackageCheckoutResponse> {
         return object : Observer<PackageCheckoutResponse> {
             override fun onNext(response: PackageCheckoutResponse) {
+                showCheckoutDialogObservable.onNext(false)
                 if (response.hasErrors()) {
                     when (response.firstError.errorCode) {
                         ApiError.Code.INVALID_INPUT -> {
@@ -131,6 +132,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             }
 
             override fun onError(e: Throwable) {
+                showCheckoutDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
                     val retryFun = fun() {
                         val params = checkoutParams.value
