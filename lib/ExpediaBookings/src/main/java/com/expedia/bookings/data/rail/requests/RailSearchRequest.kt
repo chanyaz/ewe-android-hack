@@ -112,6 +112,10 @@ class RailSearchRequest(val searchType: SearchType, origin: SuggestionV4, destin
             this.seniors = seniors
             return this
         }
+
+        fun isRailCardsCountInvalid(): Boolean {
+            return selectedRailCards.size > adults + seniors.size + youths.size + children.size
+        }
     }
 }
 

@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.rail.RailSearchViewModel
 import org.joda.time.DateTime
@@ -133,6 +134,18 @@ class RailSearchViewModelTest {
         searchVM.searchObserver.onNext(Unit)
         assertTrue(searchVM.isRoundTripSearchObservable.value)
         assertEquals("This date is too far out, please choose a closer date.", errorMaxRangeSubscriber.onNextEvents[0].toString())
+    }
+
+    @Test
+    fun testInvalidRailCardsCount() {
+        setupOneWay()
+        val errorRailCardCountSubscriber = TestSubscriber<String>()
+
+        searchVM.errorInvalidCardsCountObservable.subscribe(errorRailCardCountSubscriber)
+        searchVM.getParamsBuilder().adults(1)
+        searchVM.getParamsBuilder().fareQualifierList(listOf(RailCard("", "", ""), RailCard("", "", "")))
+        searchVM.searchObserver.onNext(Unit)
+        assertEquals("The number of railcards cannot exceed the number of travelers.", errorRailCardCountSubscriber.onNextEvents[0].toString())
     }
 
     private fun getContext(): Context {
