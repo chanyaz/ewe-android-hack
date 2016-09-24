@@ -15,12 +15,12 @@ class RailLegSummaryViewModel(context: Context) {
     val railOfferObserver = BehaviorSubject.create<RailOffer>()
 
     //outputs
-    val operatorObservable = BehaviorSubject.create<String>()
-    val formattedStopsAndDurationObservable = BehaviorSubject.create<String>()
-    val formattedTimesObservable = BehaviorSubject.create<String>()
-    val legOptionObservable = BehaviorSubject.create<RailLegOption>()
-    val selectedRailOfferObservable = BehaviorSubject.create<RailOffer>()
-    val fareDescriptionLabelObservable = BehaviorSubject.create<String>()
+    val operatorObservable = PublishSubject.create<String>()
+    val formattedStopsAndDurationObservable = PublishSubject.create<String>()
+    val formattedTimesObservable = PublishSubject.create<String>()
+    val legOptionObservable = PublishSubject.create<RailLegOption>()
+    val selectedRailOfferObservable = PublishSubject.create<RailOffer>()
+    val fareDescriptionLabelObservable = PublishSubject.create<String>()
     val showLegInfoObservable = PublishSubject.create<Unit>()
     val overtakenSubject = PublishSubject.create<Boolean>()
 
@@ -35,7 +35,7 @@ class RailLegSummaryViewModel(context: Context) {
 
             val formattedTimes = DateTimeUtils.formatInterval(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime())
             formattedTimesObservable.onNext(formattedTimes.toString())
-            operatorObservable.onNext(legOption.allOperators())
+            operatorObservable.onNext(legOption.aggregatedOperatingCarrier)
             legOptionObservable.onNext(legOption)
             selectedRailOfferObservable.onNext(it)
             fareDescriptionLabelObservable.onNext(it.railProductList.first().aggregatedFareDescription)
