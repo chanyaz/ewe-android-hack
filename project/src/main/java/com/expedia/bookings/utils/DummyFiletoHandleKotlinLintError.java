@@ -893,6 +893,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.search_senior_drop_down_cont_desc_TEMPLATE,
 		R.layout.traveler_count_selector,
 		R.layout.widget_rail_traveler_search,
+		R.string.pay_later_disclaimer_TEMPLATE,
 		R.plurals.number_of_youth,
 		R.plurals.number_of_senior,
 		R.string.search_youth_drop_down_cont_desc_TEMPLATE,
@@ -920,6 +921,15 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.ticket_delivery_entry_widget,
 		R.layout.ticket_delivery_overview_widget,
 		R.layout.ticket_delivery_option_widget,
+		R.layout.a11y_flight_arrival_seekbar,
+		R.layout.a11y_flight_departure_seekbar,
+		R.layout.flight_arrival_seekbar,
+		R.layout.flight_departure_seekbar,
+		R.string.departure_time_range_start,
+		R.string.departure_time_range_end,
+		R.string.arrival_time_range_start,
+		R.string.arrival_time_range_end,
+		R.string.accessibility_seekbar_cont_desc_name_role_value_TEMPLATE,
 		R.drawable.multi_carrier_icon,
 		R.string.multiple_carriers_text,
 		R.layout.traveler_picker_spinners_container,
@@ -935,6 +945,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.checkout_earlier_api_version_edit_text_spacing,
 		R.layout.rail_delivery_spinner_with_validation_indicator,
 		R.layout.snippet_rail_card_quantity_view,
-		R.layout.widget_rail_inbound
+		R.layout.widget_rail_inbound,
+		R.string.enter_traveler_details
 	};
 }

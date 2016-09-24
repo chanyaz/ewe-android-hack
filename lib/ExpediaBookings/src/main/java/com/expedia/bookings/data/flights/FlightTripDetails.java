@@ -2,6 +2,7 @@ package com.expedia.bookings.data.flights;
 
 import java.util.List;
 
+import org.jetbrains.annotations.Nullable;
 import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
@@ -21,7 +22,6 @@ public class FlightTripDetails {
 		public List<PricePerPassengerCategory>  pricePerPassengerCategory;
 
 		public Money baseFarePrice;
-		public Money totalFarePrice;
 		public Money totalPrice;
 		public Money averageTotalPricePerTicket;
 		public Money taxesPrice;
@@ -47,6 +47,21 @@ public class FlightTripDetails {
 
 		public Money getBookingFee() {
 			return new Money(fees, currency);
+		}
+
+		@Nullable
+		public Money getTotalPriceWithInsurance() {
+			// the mobile API does not currently populate InsuranceProduct.tripTotalPriceWithInsurance within
+			// selectedInsuranceProduct, so we must find the selected product among the availableInsuranceProducts
+			// and pull tripTotalPriceWithInsurance from there. TODO: remove this method when mAPI is improved
+			if (selectedInsuranceProduct != null) {
+				for (InsuranceProduct insuranceProduct : availableInsuranceProducts) {
+					if (insuranceProduct.productId.equals(selectedInsuranceProduct.productId)) {
+						return insuranceProduct.tripTotalPriceWithInsurance;
+					}
+				}
+			}
+			return null;
 		}
 	}
 

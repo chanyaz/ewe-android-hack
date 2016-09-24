@@ -18,7 +18,6 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.enums.TravelerCheckoutStatus;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -67,12 +66,12 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			public void run() {
 				CheckoutTravelerViewModel mockViewModel = getMockViewModelEmptyTravelers(3);
 				testTravelerPresenter.setViewModel(mockViewModel);
-				testTravelerPresenter.showSelectOrEntryState(TravelerCheckoutStatus.CLEAN);
+				testTravelerPresenter.showSelectOrEntryState();
 				testTravelerPresenter.getTravelerPickerWidget().show();
 				List<Traveler> travelers = new ArrayList<>();
 				travelers.add(new Traveler());
 				Db.setTravelers(travelers);
-				testTravelerPresenter.showSelectOrEntryState(TravelerCheckoutStatus.CLEAN);
+				testTravelerPresenter.showSelectOrEntryState();
 				try {
 					testTravelerPresenter.getTravelerPickerWidget().show();
 				}

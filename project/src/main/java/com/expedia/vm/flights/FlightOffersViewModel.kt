@@ -183,9 +183,9 @@ class FlightOffersViewModel(context: Context,
         val urgencyMessage = PackageOfferModel.UrgencyMessage()
         urgencyMessage.ticketsLeft = offer.seatsRemaining
         val price = PackageOfferModel.PackagePrice()
-        price.packageTotalPrice = offer.totalFarePrice
-        price.differentialPriceFormatted = offer.totalFarePrice.formattedPrice
-        price.packageTotalPriceFormatted = offer.totalFarePrice.formattedPrice
+        price.packageTotalPrice = offer.totalPrice
+        price.differentialPriceFormatted = offer.totalPrice.formattedPrice
+        price.packageTotalPriceFormatted = offer.totalPrice.formattedPrice
         price.averageTotalPricePerTicket = offer.averageTotalPricePerTicket
         price.pricePerPersonFormatted = offer.averageTotalPricePerTicket.formattedWholePrice
         offerModel.urgencyMessage = urgencyMessage

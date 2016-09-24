@@ -28,7 +28,6 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -264,7 +263,6 @@ public class User implements JSONable {
 		Db.getTravelers().clear();
 		logger.addSplit("User billing and traveler info deletion.");
 		logger.dumpToLog();
-		UserAccountRefresher.resetLastRefreshedTime();
 	}
 
 	/**

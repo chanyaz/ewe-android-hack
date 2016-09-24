@@ -297,7 +297,19 @@ public class NavUtils {
 	}
 
 	public static void goToFlights(Context context, FlightSearchParams params) {
-		goToFlights(context, true, null, 0, params);
+		if (isUserBucketedForFlightTest()) {
+			goToFlights(context, true, null, 0, params);
+		}
+		else {
+			// Launch flight search
+			Db.getFlightSearch().setSearchParams(params);
+			if (params.isFilled()) {
+				NavUtils.goToFlightSearch(context);
+			}
+			else {
+				NavUtils.goToFlights(context, true);
+			}
+		}
 	}
 
 	private static void goToFlights(Context context, boolean usePresetSearchParams, Bundle animOptions, int flags,
@@ -555,7 +567,6 @@ public class NavUtils {
 	public static boolean isUserBucketedForFlightTest() {
 		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTest);
 	}
-
 
 	public static Intent getLaunchIntent(Context context) {
 		if (ProductFlavorFeatureConfiguration.getInstance().useNewLaunchScreen()) {

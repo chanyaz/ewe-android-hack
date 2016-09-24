@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">{brand} 客服电话：{localphone} 和 {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">租车日期。按钮。打开对话框。{date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">谷歌地图显示的活动地点</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">酒店</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">介绍</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">位置</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">活动地点</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">报到/兑换地址</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">选择活动</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">包含的项目</string>
     <!-- Activity details exclusions heading -->
@@ -2135,8 +2144,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">度假费用 &lt;b&gt;%1$s&lt;/b&gt; 将在酒店收取。您的住宿费用总计 &lt;b&gt;%2$s&lt;/b&gt;。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">您的旅行费用总计 &lt;b&gt;%1$s&lt;/b&gt;。您将在住宿期间以酒店当地货币支付您的预订总额。</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">现在将向您收取押金 &lt;b&gt;%1$s&lt;/b&gt;。您将在住宿期间以酒店当地货币支付您的预订余额。</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">您的旅行费用总计 &lt;b&gt;%1$s&lt;/b&gt;，包含度假费 &lt;b&gt;%2$s&lt;/b&gt;。您将在住宿期间以酒店当地货币支付您的预订总额。</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2405,6 +2412,8 @@
     <string name="edit_guest_details">编辑住客信息</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">编辑旅客信息</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">编辑详细旅客信息</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">错误</string>
     <!-- prefers seat template -->
@@ -3449,6 +3458,8 @@
     <string name="e3_error_checkout_invalid_expiration">信用卡到期日期无效。</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">请输入有效的%1$s</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">信息无效</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3875,9 +3886,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">按这里可筛选高档酒店</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">删除酒店价格筛选条件</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">按这里可选择该酒店</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">按这里可显示最近的点评</string>
@@ -4390,6 +4398,12 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">卡费</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">对于使用某些卡完成的付款，该列车服务提供商会额外收取一定费用，且不可退款。使用借记卡，可以免交这笔费用。</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">不同卡的收费标准</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">送票</string>
 
@@ -4640,10 +4654,10 @@
     <string name="search_result_multiple_duration_cont_desc_TEMPLATE">持续时间：{duration} 以上</string>
 
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
-    <string name="cvv_text_field_cont_desc">CVV 文本栏</string>
+    <string name="cvv_text_field_cont_desc">安全码文本栏</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">旅客信息不完整</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title}错误：输入缺失的详细旅客信息按钮。</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">旅客信息填写完整</string>
     <!--Packages accessibility content description for role Button-->

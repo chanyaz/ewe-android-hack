@@ -39,4 +39,8 @@ open class CardFeeService(endpoint: String, okHttpClient: OkHttpClient, intercep
         this.subscription = subscription
         return subscription
     }
+
+    fun cancel() {
+        subscription?.unsubscribe()
+    }
 }

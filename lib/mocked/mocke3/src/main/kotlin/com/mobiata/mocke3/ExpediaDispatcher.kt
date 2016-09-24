@@ -352,13 +352,15 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private fun dispatchInsurance(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)
 
-        if (params["insuranceProductId"].isNullOrEmpty()) {
-            // insurance removed from trip
-            return makeResponse("api/flight/trip/create/${params["tripId"]}_with_insurance_available.json")
-        } else {
-            // insurance added to trip
-            return makeResponse("api/flight/trip/create/${params["tripId"]}_with_insurance_selected.json")
-        }
+        val baseTripId = params["tripId"]!!.replace("_with_insurance", "")
+        params.put("productKey", baseTripId)
+
+        val filename = if (params["insuranceProductId"].isNullOrEmpty())
+            "${baseTripId}_with_insurance_available"
+        else
+            "${baseTripId}_with_insurance_selected"
+
+        return makeResponse("api/flight/trip/create/$filename.json", params)
     }
 
     fun numOfTravelAdRequests(key: String): Int {

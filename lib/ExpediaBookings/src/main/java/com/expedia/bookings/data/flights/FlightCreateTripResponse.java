@@ -16,20 +16,26 @@ public class FlightCreateTripResponse extends AbstractFlightOfferResponse {
 
 	public TripDetails newTrip;
 	public String tealeafTransactionId;
+	public Money totalPrice;
 
 	@SerializedName("rules")
 	public FlightRules flightRules;
 
+	public FlightTripDetails.FlightOffer getOffer() {
+		return getDetails().offer;
+	}
+
 	@NotNull
 	public List<InsuranceProduct> getAvailableInsuranceProducts() {
-		return (getDetails().offer.availableInsuranceProducts != null)
-			? getDetails().offer.availableInsuranceProducts
+		FlightTripDetails.FlightOffer offer = getOffer();
+		return (offer.availableInsuranceProducts != null)
+			? offer.availableInsuranceProducts
 			: Collections.<InsuranceProduct>emptyList();
 	}
 
 	@Nullable
 	public InsuranceProduct getSelectedInsuranceProduct() {
-		return getDetails().offer.selectedInsuranceProduct;
+		return getOffer().selectedInsuranceProduct;
 	}
 
 	@NotNull

@@ -176,14 +176,15 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        if (visibility == View.VISIBLE) {
-            compositeSubscription = CompositeSubscription()
-            compositeSubscription?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
-        } else {
-            compositeSubscription?.unsubscribe()
+        compositeSubscription?.unsubscribe()
+        if (changedView is FlightTravelerEntryWidget) {
+            if (visibility == View.VISIBLE) {
+                compositeSubscription = CompositeSubscription()
+                compositeSubscription?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
+                compositeSubscription?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
+                compositeSubscription?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
+                compositeSubscription?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
+            }
         }
     }
 
@@ -253,7 +254,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
                 nameEntryView.lastName.text.isNotEmpty() &&
                 (!TravelerUtils.isMainTraveler(viewModel.travelerIndex) || phoneEntryView.phoneNumber.text.isNotEmpty()) &&
                 (tsaEntryView.dateOfBirth.text.isNotEmpty() && tsaEntryView.genderSpinner.selectedItemPosition != 0) &&
-                ((passportCountrySpinner.visibility == View.VISIBLE && passportCountrySpinner.selectedItemPosition != 0) || passportCountrySpinner.visibility == View.GONE)
+                ((passportCountrySpinner.visibility == View.VISIBLE && passportCountrySpinner.selectedItemPosition != 0) || passportCountrySpinner.visibility == View.GONE) &&
                 ((emailEntryView.visibility == View.VISIBLE && emailEntryView.emailAddress.text.isNotEmpty()) || User.isLoggedIn(context) || emailEntryView.visibility == View.GONE)
     }
 

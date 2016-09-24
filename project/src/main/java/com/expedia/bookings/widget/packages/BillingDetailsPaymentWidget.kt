@@ -91,11 +91,11 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     }
 
     override fun isCompletelyFilled(): Boolean {
-        return super.isCompletelyFilled()
+        return (super.isCompletelyFilled()
                 && creditCardCvv.text.toString().isNotEmpty()
                 && addressLineOne.text.toString().isNotEmpty()
                 && addressCity.text.toString().isNotEmpty()
-                && (!isStateRequired() || addressState.text.toString().isNotEmpty())
+                && (!isStateRequired() || addressState.text.toString().isNotEmpty())) || hasStoredCard()
     }
 
     override fun isSecureToolbarBucketed(): Boolean {
