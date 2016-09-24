@@ -50,6 +50,8 @@ open class TravelerPickerTravelerViewModel(val context: Context, val index: Int,
                 setTravelerSummaryInfo(getTitle(traveler), getCompletedFormSubtitle(traveler),
                         ContactDetailsCompletenessStatus.COMPLETE, getFont(traveler))
             }
+        } else {
+            setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
         }
     }
 

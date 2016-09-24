@@ -12,7 +12,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.traveler.TravelerPickerTravelerViewModel
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
@@ -20,9 +19,8 @@ class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayou
     private val mainTravelerContainer: LinearLayout by bindView(R.id.main_traveler_container)
     private val addTravelersContainer: LinearLayout by bindView(R.id.additional_traveler_container)
 
-    val travelerIndexSelectedSubject = PublishSubject.create<Pair<Int, String>>()
-
-    private val travelerViewModels = ArrayList<TravelerPickerTravelerViewModel>()
+    val travelerIndexSelectedSubject = BehaviorSubject.create<Pair<Int, String>>()
+    val travelerViewModels = ArrayList<TravelerPickerTravelerViewModel>()
     var passportRequired = BehaviorSubject.create<Boolean>(false)
 
     init {
@@ -30,13 +28,13 @@ class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         orientation = VERTICAL
     }
 
-    fun refresh(status: TravelerCheckoutStatus, travelerList: List<Traveler>) {
+    fun refresh(travelerList: List<Traveler>) {
         mainTravelerContainer.removeAllViews()
         addTravelersContainer.removeAllViews()
         travelerViewModels.clear()
         travelerList.forEachIndexed { i, traveler ->
             val travelerViewModel = TravelerPickerTravelerViewModel(context, i, traveler.searchedAge, passportRequired.value)
-            travelerViewModel.updateStatus(status)
+            travelerViewModel.updateStatus(TravelerCheckoutStatus.CLEAN)
             travelerViewModels.add(travelerViewModel)
 
             val travelerSelectItem = TravelerSelectItem(context, travelerViewModel)
@@ -55,14 +53,6 @@ class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayou
 
     fun show() {
         visibility = View.VISIBLE
-        refreshViewModels()
-    }
-
-    private fun refreshViewModels() {
-        // Currently no way to tell which traveler changed update all viewModels to be safe.
-        for (viewModel in travelerViewModels) {
-            viewModel.updateStatus(viewModel.status)
-        }
     }
 
 }

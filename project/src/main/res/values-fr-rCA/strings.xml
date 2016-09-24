@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">Soutien à la clientèle {brand} : {localphone} et {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">Dates pour la voiture. Bouton. Ouvre une fenêtre contextuelle. {date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">Affichage de l\&apos;emplacement de l\&apos;activité sur Google Maps</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hôtels</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">Description</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Emplacement</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">Emplacement de l\&apos;activité</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">Adresse du lieu de rencontre ou d\&apos;utilisation</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">Sélectionner une activité</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Inclusions</string>
     <!-- Activity details exclusions heading -->
@@ -1050,9 +1059,9 @@
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
     <string name="select_rail_card_quantity_hint">Qté</string>
     <!-- Error message when rail card details not selected on add rail cards dialog -->
-    <string name="error_select_rail_card_details">Veuillez choisir les détails des cartes de chemin de fer.</string>
+    <string name="error_select_rail_card_details">Veuillez choisir les détails des cartes de train.</string>
     <!-- Error message when rail cards selected is greater than no. of travelers -->
-    <string name="error_rail_cards_greater_than_number_travelers">Le nombre de cartes de chemin de fer ne peut pas dépasser le nombre de voyageur.</string>
+    <string name="error_rail_cards_greater_than_number_travelers">Le nombre de cartes de train ne peut pas dépasser le nombre de voyageurs.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Origine</string>
@@ -2135,8 +2144,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">Des frais hôteliers de &lt;b&gt;%1$s&lt;/b&gt; seront perçus à l\&apos;hôtel. Le coût total de votre séjour sera de &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">Le coût total de votre voyage sera de &lt;b&gt;%1$s&lt;/b&gt;. Vous paierez à l\&apos;hôtel le coût total de votre réservation (dans la devise de l\&apos;hôtel) au moment de votre séjour.</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">Un acompte de &lt;b&gt;%1$s&lt;/b&gt; sera perçu maintenant. Vous paierez à l\&apos;hôtel le solde de votre réservation (dans la devise de l\&apos;hôtel) au moment de votre séjour.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">Le total pour votre voyage, en comprenant les frais hôteliers de &lt;b&gt;%1$s&lt;/b&gt;, sera de &lt;b&gt;%2$s&lt;/b&gt;. Vous paierez à l\&apos;hôtel le coût total de votre réservation (dans la devise de l\&apos;hôtel) au moment de votre séjour.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2405,6 +2412,8 @@
     <string name="edit_guest_details">Modifier les détails du client</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Modifier les renseignements du voyageur</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">Modifier les détails des voyageurs</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Erreur</string>
     <!-- prefers seat template -->
@@ -3449,6 +3458,8 @@
     <string name="e3_error_checkout_invalid_expiration">Date d\&apos;expiration de la carte de crédit non valide.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Veuillez entrer un %1$s valide</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">Information non valide</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3875,9 +3886,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">Appuyez pour filtrer les tarifs d\&apos;hôtel les plus élevés</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">Effacez les filtres sur le tarif des hôtels</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">Appuyez pour sélectionner cet hôtel</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">Appuyez pour afficher les évaluations récentes</string>
@@ -4390,6 +4398,12 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Frais de carte</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">Le fournisseur de transport ferroviaire exige des frais supplémentaires non remboursables pour les paiements avec certaines cartes de crédit. Vous pouvez éviter ces frais en utilisant une carte de débit.</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">Frais selon le type de carte</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Livraison du billet</string>
 
@@ -4642,8 +4656,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">Champ de texte CVV</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Renseignements sur le voyageur incomplets</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Erreur : entrez les détails manquants sur le voyageur. Bouton.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Renseignements sur le voyageur complets</string>
     <!--Packages accessibility content description for role Button-->
@@ -4713,7 +4727,7 @@
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
 
     <!-- Content description for hotel immage gallery -->
-    <string name="gallery_cont_desc">« Galerie d\&apos;images »</string>
+    <string name="gallery_cont_desc">« Galerie de photos »</string>
 
     <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
     <string name="gallery_photo_count_content_description_TEMPLATE">Bouton afficher {index} de {count} photos de la galerie</string>

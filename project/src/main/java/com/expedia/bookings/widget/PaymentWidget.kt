@@ -345,9 +345,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     open fun isCompletelyFilled(): Boolean {
-        return creditCardNumber.text.toString().isNotEmpty()
+        return (creditCardNumber.text.toString().isNotEmpty()
                 && (!isZipValidationRequired() || creditCardPostalCode.text.toString().isNotEmpty())
-                && creditCardName.text.toString().isNotEmpty()
+                && creditCardName.text.toString().isNotEmpty()) || hasStoredCard()
     }
 
     open fun validateAndBind() {

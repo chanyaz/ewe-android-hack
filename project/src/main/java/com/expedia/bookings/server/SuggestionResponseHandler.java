@@ -135,7 +135,8 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 					suggestion.setIndex(suggestionJson.optInt("index"));
 
 
-					JSONObject airport = suggestionJson.optJSONObject("hierarchyInfo").optJSONObject("airport");
+					JSONObject hierarchyInfo = suggestionJson.optJSONObject("hierarchyInfo");
+					JSONObject airport = hierarchyInfo != null ? hierarchyInfo.optJSONObject("airport") : null;
 					if (airport != null) {
 						suggestion.setAirportCode(airport.getString("airportCode"));
 						suggestion.setMultiCityRegionId(airport.getInt("multicity"));
@@ -149,7 +150,7 @@ public class SuggestionResponseHandler extends JsonResponseHandler<SuggestionRes
 						location.setStateCode(hotelAddress.getString("province"));
 					}
 
-					JSONObject country = suggestionJson.optJSONObject("hierarchyInfo").optJSONObject("country");
+					JSONObject country = hierarchyInfo != null ? hierarchyInfo.optJSONObject("country") : null;
 					if (country != null) {
 						location.setCountryCode(country.getString("isoCode3"));
 					}

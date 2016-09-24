@@ -6,11 +6,11 @@ import java.util.Map;
 import android.support.test.espresso.ViewInteraction;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
 public class CVVEntryScreen {
 
@@ -30,7 +30,7 @@ public class CVVEntryScreen {
 	};
 
 	public static void waitForCvvScreen() {
-		bookButton().perform(ViewActions.waitForViewToDisplay());
+		bookButton().perform(waitForViewToDisplay());
 	}
 
 	public static ViewInteraction bookButton() {

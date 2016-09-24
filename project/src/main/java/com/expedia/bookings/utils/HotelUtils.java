@@ -1,5 +1,9 @@
 package com.expedia.bookings.utils;
 
+import java.text.NumberFormat;
+import java.util.List;
+import java.util.Locale;
+
 import org.joda.time.DateTime;
 
 import android.content.Context;
@@ -7,6 +11,7 @@ import android.content.res.Resources;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.format.DateUtils;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
@@ -22,9 +27,6 @@ import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
-import java.text.NumberFormat;
-import java.util.List;
-import java.util.Locale;
 
 public class HotelUtils {
 
@@ -184,17 +186,6 @@ public class HotelUtils {
 		return Html.fromHtml(context.getString(templateId, fees, tripTotal));
 	}
 
-	// Convenience method for getting pay later text that goes at the bottom of checkout.
-	public static Spanned getCheckoutPayLaterText(Context context, Rate rate) {
-		if (rate.depositRequired()) {
-			String deposit = rate.getDepositAmount().getFormattedMoney();
-			return Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit));
-		}
-		else {
-			String tripTotal = rate.getDisplayTotalPrice().getFormattedMoney();
-			return Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal));
-		}
-	}
 	/*
 	 * Helper method to check if it's valid to start the hotel search.
 	 */

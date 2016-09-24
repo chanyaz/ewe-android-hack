@@ -311,6 +311,14 @@
             android:windowSoftInputMode="adjustResize"
             tools:ignore="UnusedAttribute" />
 
+        <activity
+            android:name="com.expedia.ui.FlightActivity"
+            android:label="Flights"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:taskAffinity="com.expedia.ui.FlightActivity"
+            android:theme="@style/V2.Theme.Packages" />
+
         <!-- Packages -->
 
         <activity

@@ -2,15 +2,15 @@
   "newTrip": {
     "itineraryNumber": "7195073302566",
     "travelRecordLocator": "1398292801",
-    "tripId": "happy_roundtrip_0"
+    "tripId": "${productKey}"
   },
   "passengerCategories": [
     "ADULT"
   ],
   "totalPrice": {
-    "amount": "1843.86",
-    "formattedPrice": "$1,843.86",
-    "formattedWholePrice": "$1,844",
+    "amount": "696.00",
+    "formattedPrice": "$696.00",
+    "formattedWholePrice": "$696",
     "currencyCode": "USD"
   },
   "details": {
@@ -20,61 +20,55 @@
         "3e3329c238dd310cdc388b29f4cef9c6"
       ],
       "currency": "USD",
-      "baseFare": "1743.00",
+      "baseFare": "620.46",
       "baseFarePrice": {
-        "amount": "1743.00",
-        "formattedPrice": "$1,743.00",
-        "formattedWholePrice": "$1,743",
+        "amount": "620.46",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620",
         "currencyCode": "USD"
       },
-      "totalFare": "1843.86",
-      "totalFarePrice": {
-        "amount": "1843.86",
-        "formattedPrice": "$1,843.86",
-        "formattedWholePrice": "$1,844",
-        "currencyCode": "USD"
-      },
+      "totalFare": "696.00",
       "totalPrice": {
-        "amount": "1843.86",
-        "formattedPrice": "$1,843.86",
-        "formattedWholePrice": "$1,844",
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696",
         "currencyCode": "USD"
       },
       "pricePerPassengerCategory": [
         {
           "passengerCategory": "ADULT",
           "totalPrice": {
-            "amount": "1836.86",
-            "formattedPrice": "$1,836.86",
-            "formattedWholePrice": "$1,837",
+            "amount": "689.00",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689",
             "currencyCode": "USD"
           },
           "basePrice": {
-            "amount": "1743.00",
-            "formattedPrice": "$1,743.00",
-            "formattedWholePrice": "$1,743",
+            "amount": "620.46",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620",
             "currencyCode": "USD"
           },
           "taxesPrice": {
-            "amount": "93.86",
-            "formattedPrice": "$93.86",
-            "formattedWholePrice": "$94",
+            "amount": "68.54",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69",
             "currencyCode": "USD"
           }
         }
       ],
       "averageTotalPricePerTicket": {
-        "amount": "1843.86",
-        "formattedPrice": "$1,843.86",
-        "formattedWholePrice": "$1,844",
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696",
         "currencyCode": "USD"
       },
       "numberOfTickets": 1,
-      "taxes": "93.86",
+      "taxes": "68.54",
       "taxesPrice": {
-        "amount": "93.86",
-        "formattedPrice": "$93.86",
-        "formattedWholePrice": "$94",
+        "amount": "68.54",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69",
         "currencyCode": "USD"
       },
       "fees": "7.00",
@@ -151,61 +145,55 @@
         "3e3329c238dd310cdc388b29f4cef9c6"
       ],
       "currency": "USD",
-      "baseFare": "1810.00",
+      "baseFare": "672.49",
       "baseFarePrice": {
-        "amount": "1810.00",
-        "formattedPrice": "$1,810.00",
-        "formattedWholePrice": "$1,810",
+        "amount": "672.49",
+        "formattedPrice": "$672.49",
+        "formattedWholePrice": "$672",
         "currencyCode": "USD"
       },
-      "totalFare": "1910.86",
-      "totalFarePrice": {
-        "amount": "1910.86",
-        "formattedPrice": "$1,910.86",
-        "formattedWholePrice": "$1,911",
-        "currencyCode": "USD"
-      },
+      "totalFare": "763.00",
       "totalPrice": {
-        "amount": "1910.86",
-        "formattedPrice": "$1,910.86",
-        "formattedWholePrice": "$1,911",
+        "amount": "763.00",
+        "formattedPrice": "$763.00",
+        "formattedWholePrice": "$763",
         "currencyCode": "USD"
       },
       "pricePerPassengerCategory": [
         {
           "passengerCategory": "ADULT",
           "totalPrice": {
-            "amount": "1903.86",
-            "formattedPrice": "$1,903.86",
-            "formattedWholePrice": "$1,904",
+            "amount": "756.00",
+            "formattedPrice": "$756.00",
+            "formattedWholePrice": "$756",
             "currencyCode": "USD"
           },
           "basePrice": {
-            "amount": "1810.00",
-            "formattedPrice": "$1,810.00",
-            "formattedWholePrice": "$1,810",
+            "amount": "672.49",
+            "formattedPrice": "$672.49",
+            "formattedWholePrice": "$672",
             "currencyCode": "USD"
           },
           "taxesPrice": {
-            "amount": "93.86",
-            "formattedPrice": "$93.86",
-            "formattedWholePrice": "$94",
+            "amount": "83.51",
+            "formattedPrice": "$83.51",
+            "formattedWholePrice": "$84",
             "currencyCode": "USD"
           }
         }
       ],
       "averageTotalPricePerTicket": {
-        "amount": "1910.86",
-        "formattedPrice": "$1,910.86",
-        "formattedWholePrice": "$1,911",
+        "amount": "763.00",
+        "formattedPrice": "$763.00",
+        "formattedWholePrice": "$763",
         "currencyCode": "USD"
       },
       "numberOfTickets": 1,
-      "taxes": "93.86",
+      "taxes": "83.51",
       "taxesPrice": {
-        "amount": "93.86",
-        "formattedPrice": "$93.86",
-        "formattedWholePrice": "$94",
+        "amount": "83.51",
+        "formattedPrice": "$83.51",
+        "formattedWholePrice": "$84",
         "currencyCode": "USD"
       },
       "fees": "7.00",
@@ -558,46 +546,22 @@
   },
   "validFormsOfPayment": [
     {
-      "name": "AmericanExpress",
-      "fee": "0.00",
-      "feeCurrencyCode": "USD",
-      "totalFarePriceWithFee": "$1,843.86",
-      "formattedFee": "$0.00"
+      "name": "AmericanExpress"
     },
     {
-      "name": "Diner's Club International",
-      "fee": "0.00",
-      "feeCurrencyCode": "USD",
-      "totalFarePriceWithFee": "$1,843.86",
-      "formattedFee": "$0.00"
+      "name": "Diner's Club International"
     },
     {
-      "name": "Discover",
-      "fee": "0.00",
-      "feeCurrencyCode": "USD",
-      "totalFarePriceWithFee": "$1,843.86",
-      "formattedFee": "$0.00"
+      "name": "Discover"
     },
     {
-      "name": "JCB",
-      "fee": "0.00",
-      "feeCurrencyCode": "USD",
-      "totalFarePriceWithFee": "$1,843.86",
-      "formattedFee": "$0.00"
+      "name": "JCB"
     },
     {
-      "name": "MasterCard",
-      "fee": "0.00",
-      "feeCurrencyCode": "USD",
-      "totalFarePriceWithFee": "$1,843.86",
-      "formattedFee": "$0.00"
+      "name": "MasterCard"
     },
     {
-      "name": "Visa",
-      "fee": "0.00",
-      "feeCurrencyCode": "USD",
-      "totalFarePriceWithFee": "$1,843.86",
-      "formattedFee": "$0.00"
+      "name": "Visa"
     }
   ],
   "isCustomerTitleRequired": false,
@@ -614,6 +578,6 @@
     "rewardsMembershipTierName": "Gold"
   },
   "activityId": "60c03816-6298-4e47-b08b-85ff8dad00b8",
-  "tealeafTransactionId": "tealeafFlight:happy_roundtrip_0",
+  "tealeafTransactionId": "tealeafFlight:${productKey}",
   "isSplitTicket": false
 }

@@ -53,6 +53,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
         checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
             resetCheckoutState()
+            if (currentState == CVVEntryWidget::class.java.name) {
+                show(checkoutPresenter, FLAG_CLEAR_TOP)
+            }
         }
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
 
@@ -203,7 +206,10 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 checkoutPresenter.trackShowBundleOverview()
             }
             bundleOverviewHeader.toolbar.subtitle = ""
-            if (forward) checkoutPresenter.adjustScrollingSpace()
+            if (forward) {
+                checkoutPresenter.adjustScrollingSpace()
+                checkoutPresenter.travelerPresenter.updateAllTravelerStatuses()
+            }
         }
 
         private fun translateHeader(f: Float, forward: Boolean) {

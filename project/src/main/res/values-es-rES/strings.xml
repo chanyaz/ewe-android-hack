@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">Servicio de atención al cliente de {brand}: {localphone} y {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">Fechas para el coche. Botón. Abre el cuadro de diálogo. {date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">Ubicación de la actividad usando la vista de mapa de Google</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hoteles</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">Descripción</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Ubicación</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">Ubicación de la actividad</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">Lugar de canjeo o punto de encuentro</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">Selecciona una actividad</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Incluido</string>
     <!-- Activity details exclusions heading -->
@@ -2135,8 +2144,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">El hotel cargará una tasa de complejo turístico de &lt;b&gt;%1$s&lt;/b&gt; cuando llegues. El precio total de tu estancia es de &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">El precio total de tu viaje es de &lt;b&gt;%1$s&lt;/b&gt;. Pagarás al hotel el coste de la reserva (en la moneda local) durante tu estancia.</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">Hoy se cargará un depósito de &lt;b&gt;%1$s&lt;/b&gt;. Pagarás al hotel la cantidad restante de la reserva (en la moneda local) durante tu estancia.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">El precio total de tu estancia, incluyendo la tasa de completo turístico (&lt;b&gt;%1$s&lt;/b&gt;), es de &lt;b&gt;%2$s&lt;/b&gt;. Pagarás al hotel el coste de la reserva (en la moneda local) durante tu estancia.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2405,6 +2412,8 @@
     <string name="edit_guest_details">Editar los datos del huésped</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Editar los datos del viajero</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">Editar los datos del viajero</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Se ha producido un error</string>
     <!-- prefers seat template -->
@@ -3449,6 +3458,8 @@
     <string name="e3_error_checkout_invalid_expiration">Fecha de caducidad no válida</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Especifica un %1$s válido</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">La información no es válida</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3875,9 +3886,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">Pulsa para filtrar por hoteles con un precio alto</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">Eliminar los filtros por precio de hotel</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">Pulsa para seleccionar este hotel</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">Pulsa para mostrar comentarios recientes</string>
@@ -4390,6 +4398,12 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Cargo por el uso de tarjeta</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">El proveedor de este servicio de tren aplica un recargo no reembolsable por el pago con ciertos tipos de tarjeta de crédito. Puedes evitar este recargo si pagas con una tarjeta de débito</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">Recargos según el tipo de tarjeta</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Opciones de recogida de billetes</string>
 
@@ -4642,8 +4656,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">Campo de texto CVV</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Datos del viajero incompletos</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">Error ({title}): Introduce la información que falta sobre el viajero. Botón.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Datos del viajero completos</string>
     <!--Packages accessibility content description for role Button-->

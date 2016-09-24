@@ -171,7 +171,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     protected var travelerManager: TravelerManager by notNullAndObservable { manager ->
         manager.travelersUpdated.subscribe {
-            travelerPresenter.resetTravelers(TravelerCheckoutStatus.CLEAN)
+            travelerPresenter.resetTravelers()
         }
     }
 
@@ -458,7 +458,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
 
     fun openTravelerPresenter() {
         show(travelerPresenter)
-        travelerPresenter.showSelectOrEntryState(travelerSummaryCard.getStatus())
+        travelerPresenter.showSelectOrEntryState()
     }
 
     open fun updateTravelerPresenter() {
@@ -670,8 +670,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             updateTravelerPresenter()
         }
     }
-
-    /** Keyboard listener for moving input fields up **/
 
     private fun makeKeyboardListener(scrollView: ScrollView, offset: Int = toolbarHeight): ViewTreeObserver.OnGlobalLayoutListener {
         val rootWindow = (context as Activity).window

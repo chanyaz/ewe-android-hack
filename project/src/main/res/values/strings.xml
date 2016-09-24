@@ -2332,10 +2332,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Traveler Details</string>
     <string name="enter_missing_traveler_details">Enter missing traveler details</string>
+    <string name="enter_traveler_details">Enter traveler details</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ {travelercount} more traveler</item>
-        <item quantity="other">+ {travelercount} more travelers</item>
+        <item quantity="one">+ {travelercount} additional traveler</item>
+        <item quantity="other">+ {travelercount} additional travelers</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Edit Traveler {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} year old</string>
@@ -4272,8 +4273,18 @@
     <string name="flight_duration_hour_short">hr</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">Departure Time</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">Departure Time Start</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">Departure Time End</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Arrival Time</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">Arrival Time Start</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">Arrival Time End</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name} Seekbar {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Change hotel</string>

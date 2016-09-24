@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">{brand} 客戶支援：{localphone} 及 {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">租車日期。按鈕。打開對話框。{date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">在 Google 地圖上查看活動地點</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">酒店</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">說明</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">地點</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">活動地點</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">集合/換領地址</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">選擇活動</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">包括項目</string>
     <!-- Activity details exclusions heading -->
@@ -2135,8 +2144,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 休閒設施費將於酒店收取。您住宿的總價將為 &lt;b&gt;%2$s&lt;/b&gt;。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">您行程的總金額將為 &lt;b&gt;%1$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂總金額。</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">現在先收取訂金 &lt;b&gt;%1$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂的餘額。</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 將為 &lt;b&gt;%2$s&lt;/b&gt;。您需於住宿期間 (以酒店當地貨幣) 向酒店支付預訂總金額。</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2405,6 +2412,8 @@
     <string name="edit_guest_details">更改旅客資料</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">更改旅客資料</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">更改旅客資料</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">錯誤</string>
     <!-- prefers seat template -->
@@ -3449,6 +3458,8 @@
     <string name="e3_error_checkout_invalid_expiration">信用卡到期日無效。</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">請輸入有效的%1$s</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">資料無效</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3875,9 +3886,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">輕按以篩選高等酒店價格</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">移除酒店價格篩選條件</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">輕按以選擇此酒店</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">輕按以顯示最近的評價</string>
@@ -4104,7 +4112,7 @@
     <!-- Accessibility - Content Description for Expiration date: decrease year -->
     <string name="decrease_year_cont_desc">減少年份</string>
     <!-- Accessibility - Content Description for hotel map view on hotel details -->
-    <string name="hotel_map_view_cont_desc">酒店位置 Google 地圖檢視</string>
+    <string name="hotel_map_view_cont_desc">在 Google 地圖上查看酒店位置</string>
     <!-- Label for per person -->
     <string name="per_person">一位</string>
     <!-- Label for package bundle price on overview-->
@@ -4390,6 +4398,12 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">付款卡手續費</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">使用某些付款卡付款，鐵路公司會收取不設退款的附加費。使用扣帳卡可免付有關費用。</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">各種付款卡的收費</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">取票</string>
 
@@ -4642,8 +4656,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">安全碼輸入欄位</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">旅客資料未填妥</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title}錯誤：請輸入遺漏的旅客資料。按鈕。</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">旅客資料已填妥</string>
     <!--Packages accessibility content description for role Button-->

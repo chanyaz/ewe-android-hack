@@ -15,110 +15,62 @@
         "af90e1c3910d81f7123c35ac0b6af44f"
       ],
       "currency":"USD",
-      "baseFare":"764.64",
+      "baseFare":"672.49",
       "baseFarePrice":{
-        "amount":"764.64",
-        "formattedPrice":"$764.64",
-        "formattedWholePrice":"$765",
+        "amount":"672.49",
+        "formattedPrice":"$672.49",
+        "formattedWholePrice":"$672",
         "currencyCode":"USD"
       },
-      "totalFare":"906.60",
-      "totalFarePrice":{
-        "amount":"906.60",
-        "formattedPrice":"$906.60",
-        "formattedWholePrice":"$907",
-        "currencyCode":"USD"
-      },
+      "totalFare":"763.00",
       "totalPrice":{
-        "amount":"906.60",
-        "formattedPrice":"$906.60",
-        "formattedWholePrice":"$907",
+        "amount":"763.00",
+        "formattedPrice":"$763.00",
+        "formattedWholePrice":"$763",
         "currencyCode":"USD"
       },
       "pricePerPassengerCategory":[
         {
           "passengerCategory":"ADULT",
           "totalPrice":{
-            "amount":"302.20",
-            "formattedPrice":"$302.20",
-            "formattedWholePrice":"$302",
+            "amount":"756.00",
+            "formattedPrice":"$756.00",
+            "formattedWholePrice":"$756",
             "currencyCode":"USD"
           },
           "basePrice":{
-            "amount":"254.88",
-            "formattedPrice":"$254.88",
-            "formattedWholePrice":"$255",
+            "amount":"672.49",
+            "formattedPrice":"$672.49",
+            "formattedWholePrice":"$672",
             "currencyCode":"USD"
           },
           "taxesPrice":{
-            "amount":"47.32",
-            "formattedPrice":"$47.32",
-            "formattedWholePrice":"$47",
-            "currencyCode":"USD"
-          }
-        },
-        {
-          "passengerCategory":"ADULT",
-          "totalPrice":{
-            "amount":"302.20",
-            "formattedPrice":"$302.20",
-            "formattedWholePrice":"$302",
-            "currencyCode":"USD"
-          },
-          "basePrice":{
-            "amount":"254.88",
-            "formattedPrice":"$254.88",
-            "formattedWholePrice":"$255",
-            "currencyCode":"USD"
-          },
-          "taxesPrice":{
-            "amount":"47.32",
-            "formattedPrice":"$47.32",
-            "formattedWholePrice":"$47",
-            "currencyCode":"USD"
-          }
-        },
-        {
-          "passengerCategory":"CHILD",
-          "totalPrice":{
-            "amount":"302.20",
-            "formattedPrice":"$302.20",
-            "formattedWholePrice":"$302",
-            "currencyCode":"USD"
-          },
-          "basePrice":{
-            "amount":"254.88",
-            "formattedPrice":"$254.88",
-            "formattedWholePrice":"$255",
-            "currencyCode":"USD"
-          },
-          "taxesPrice":{
-            "amount":"47.32",
-            "formattedPrice":"$47.32",
-            "formattedWholePrice":"$47",
+            "amount":"83.51",
+            "formattedPrice":"$83.51",
+            "formattedWholePrice":"$84",
             "currencyCode":"USD"
           }
         }
       ],
       "averageTotalPricePerTicket":{
-        "amount":"302.20",
-        "formattedPrice":"$302.20",
-        "formattedWholePrice":"$302",
+        "amount":"763.00",
+        "formattedPrice":"$763.00",
+        "formattedWholePrice":"$763",
         "currencyCode":"USD"
       },
-      "numberOfTickets":3,
-      "taxes":"141.96",
+      "numberOfTickets":1,
+      "taxes":"83.51",
       "taxesPrice":{
-        "amount":"141.96",
-        "formattedPrice":"$141.96",
-        "formattedWholePrice":"$142",
+        "amount":"83.51",
+        "formattedPrice":"$83.51",
+        "formattedWholePrice":"$84",
         "currencyCode":"USD"
       },
-      "fees":"0.00",
+      "fees":"7.00",
       "feesPrice":{
-        "amount":"0.00",
-        "formattedPrice":"$0.00",
-        "formattedWholePrice":"$0",
+        "amount":"7.00",
+        "formattedPrice":"$7.00",
+        "formattedWholePrice":"$7",
         "currencyCode":"USD"
       },
       "showFees":true,
@@ -172,9 +124,9 @@
           },
           "title":"protect your trip (recommended)",
           "totalPrice":{
-            "amount":"63.00",
-            "formattedPrice":"$63.00",
-            "formattedWholePrice":"$63",
+            "amount":"21.00",
+            "formattedPrice":"$21.00",
+            "formattedWholePrice":"$21",
             "currencyCode":"USD"
           },
           "displayPrice":{
@@ -185,9 +137,9 @@
           },
           "displayPriceType":"PRICE_PER_PERSON",
           "tripTotalPriceWithInsurance":{
-            "amount":"969.60",
-            "formattedPrice":"$969.60",
-            "formattedWholePrice":"$970",
+            "amount":"784.00",
+            "formattedPrice":"$784.00",
+            "formattedWholePrice":"$784",
             "currencyCode":"USD"
           }
         }
@@ -216,110 +168,62 @@
         "af90e1c3910d81f7123c35ac0b6af44f"
       ],
       "currency":"USD",
-      "baseFare":"678.12",
+      "baseFare":"620.46",
       "baseFarePrice":{
-        "amount":"678.12",
-        "formattedPrice":"$678.12",
-        "formattedWholePrice":"$678",
+        "amount":"620.46",
+        "formattedPrice":"$620.46",
+        "formattedWholePrice":"$620",
         "currencyCode":"USD"
       },
-      "totalFare":"813.60",
-      "totalFarePrice":{
-        "amount":"813.60",
-        "formattedPrice":"$813.60",
-        "formattedWholePrice":"$814",
-        "currencyCode":"USD"
-      },
+      "totalFare":"696.00",
       "totalPrice":{
-        "amount":"813.60",
-        "formattedPrice":"$813.60",
-        "formattedWholePrice":"$814",
+        "amount":"696.00",
+        "formattedPrice":"$696.00",
+        "formattedWholePrice":"$696",
         "currencyCode":"USD"
       },
       "pricePerPassengerCategory":[
         {
           "passengerCategory":"ADULT",
           "totalPrice":{
-            "amount":"271.20",
-            "formattedPrice":"$271.20",
-            "formattedWholePrice":"$271",
+            "amount":"689.00",
+            "formattedPrice":"$689.00",
+            "formattedWholePrice":"$689",
             "currencyCode":"USD"
           },
           "basePrice":{
-            "amount":"226.04",
-            "formattedPrice":"$226.04",
-            "formattedWholePrice":"$226",
+            "amount":"620.46",
+            "formattedPrice":"$620.46",
+            "formattedWholePrice":"$620",
             "currencyCode":"USD"
           },
           "taxesPrice":{
-            "amount":"45.16",
-            "formattedPrice":"$45.16",
-            "formattedWholePrice":"$45",
-            "currencyCode":"USD"
-          }
-        },
-        {
-          "passengerCategory":"ADULT",
-          "totalPrice":{
-            "amount":"271.20",
-            "formattedPrice":"$271.20",
-            "formattedWholePrice":"$271",
-            "currencyCode":"USD"
-          },
-          "basePrice":{
-            "amount":"226.04",
-            "formattedPrice":"$226.04",
-            "formattedWholePrice":"$226",
-            "currencyCode":"USD"
-          },
-          "taxesPrice":{
-            "amount":"45.16",
-            "formattedPrice":"$45.16",
-            "formattedWholePrice":"$45",
-            "currencyCode":"USD"
-          }
-        },
-        {
-          "passengerCategory":"CHILD",
-          "totalPrice":{
-            "amount":"271.20",
-            "formattedPrice":"$271.20",
-            "formattedWholePrice":"$271",
-            "currencyCode":"USD"
-          },
-          "basePrice":{
-            "amount":"226.04",
-            "formattedPrice":"$226.04",
-            "formattedWholePrice":"$226",
-            "currencyCode":"USD"
-          },
-          "taxesPrice":{
-            "amount":"45.16",
-            "formattedPrice":"$45.16",
-            "formattedWholePrice":"$45",
+            "amount":"68.54",
+            "formattedPrice":"$68.54",
+            "formattedWholePrice":"$69",
             "currencyCode":"USD"
           }
         }
       ],
       "averageTotalPricePerTicket":{
-        "amount":"271.20",
-        "formattedPrice":"$271.20",
-        "formattedWholePrice":"$271",
+        "amount":"696.00",
+        "formattedPrice":"$696.00",
+        "formattedWholePrice":"$696",
         "currencyCode":"USD"
       },
-      "numberOfTickets":3,
-      "taxes":"135.48",
+      "numberOfTickets":1,
+      "taxes":"68.54",
       "taxesPrice":{
-        "amount":"135.48",
-        "formattedPrice":"$135.48",
-        "formattedWholePrice":"$135",
+        "amount":"68.54",
+        "formattedPrice":"$68.54",
+        "formattedWholePrice":"$69",
         "currencyCode":"USD"
       },
-      "fees":"0.00",
+      "fees":"7.00",
       "feesPrice":{
-        "amount":"0.00",
-        "formattedPrice":"$0.00",
-        "formattedWholePrice":"$0",
+        "amount":"7.00",
+        "formattedPrice":"$7.00",
+        "formattedWholePrice":"$7",
         "currencyCode":"USD"
       },
       "showFees":true,
@@ -373,9 +277,9 @@
           },
           "title":"protect your trip (recommended)",
           "totalPrice":{
-            "amount":"57.00",
-            "formattedPrice":"$57.00",
-            "formattedWholePrice":"$57",
+            "amount":"19.00",
+            "formattedPrice":"$19.00",
+            "formattedWholePrice":"$19",
             "currencyCode":"USD"
           },
           "displayPrice":{
@@ -386,9 +290,9 @@
           },
           "displayPriceType":"PRICE_PER_PERSON",
           "tripTotalPriceWithInsurance":{
-            "amount":"870.60",
-            "formattedPrice":"$870.60",
-            "formattedWholePrice":"$871",
+            "amount":"715.00",
+            "formattedPrice":"$715.00",
+            "formattedWholePrice":"$715",
             "currencyCode":"USD"
           }
         }
@@ -397,11 +301,11 @@
         "ETicket"
       ]
     },
-    "priceChangeAmount":"93.00",
+    "priceChangeAmount":"67.00",
     "changedPrice":{
-      "amount":"93.00",
-      "formattedPrice":"$93.00",
-      "formattedWholePrice":"$93",
+      "amount":"67.00",
+      "formattedPrice":"$67.00",
+      "formattedWholePrice":"$67",
       "currencyCode":"USD"
     },
     "obFeeTotalAmount":"0.00",
