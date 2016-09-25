@@ -51,7 +51,7 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		RailScreen.legInfo().check(matches(hasDescendant(
 			CoreMatchers.allOf(isDisplayed(), withText("3h 21m, 2 Changes")))));
 		RailScreen.legInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Virgin Trains, London Underground, First Great Western")))));
+			CoreMatchers.allOf(isDisplayed(), withText("Multiple train operators")))));
 	}
 
 	private void assertDetailsExpanded() {
