@@ -26,20 +26,6 @@ public class RailLegOption {
 		return DateUtils.parseDurationMinutes(duration);
 	}
 
-	public String allOperators() {
-		boolean first = true;
-		String result = "";
-		for (RailSegment segment : travelSegmentList) {
-			if (!first) {
-				result += ", ";
-			}
-			result += segment.marketingCarrier;
-			first = false;
-		}
-
-		return result;
-	}
-
 	@NotNull
 	public DateTime getDepartureDateTime() {
 		return departureDateTime.toDateTime();
