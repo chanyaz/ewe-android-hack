@@ -255,8 +255,8 @@ public class PackageScreen {
 	}
 
 	public static void tickCheckboxWithText(String title) {
-		checkBoxWithTitle(title).perform(scrollTo());
-		checkBoxWithTitle(title).perform(click());
+		checkBoxContainerWithTitle(title).perform(scrollTo());
+		checkBoxContainerWithTitle(title).perform(click());
 	}
 
 	public static ViewInteraction checkBoxWithTitle(String title) {
