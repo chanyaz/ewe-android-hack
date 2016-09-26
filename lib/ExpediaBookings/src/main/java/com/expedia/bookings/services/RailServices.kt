@@ -18,28 +18,25 @@ import rx.Scheduler
 import rx.Subscription
 import java.util.HashMap
 
-class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val railApi by lazy {
-        val gson = GsonBuilder().create();
+        val gson = GsonBuilder().create()
         val adapter = Retrofit.Builder()
-                .baseUrl(domainUrl)
+                .baseUrl(endpoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .client(okHttpClient.newBuilder().addInterceptor(interceptor).addInterceptor(railRequestInterceptor).build())
                 .build()
 
         adapter.create(RailApi::class.java)
     }
 
-    //TODO remove this once domain and mobile endpoints available in integration
-    val domainUrl = endpointMap[Constants.MOCK_MODE] ?: endpointMap[Constants.DOMAIN]
-    val mobileUrl = endpointMap[Constants.MOCK_MODE] ?: endpointMap[Constants.MOBILE]
-
-    val railMApi by lazy {
-        val gson = GsonBuilder().create();
+    // TODO remove this when cards endpoint is available through APIM
+    val railCardsApi by lazy {
+        val gson = GsonBuilder().create()
         val adapter = Retrofit.Builder()
-                .baseUrl(mobileUrl)
+                .baseUrl(if (endpoint.contains("localhost")) endpoint else "http://rails-domain-service.us-west-2.int.expedia.com/")
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
@@ -56,21 +53,21 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
     }
 
     fun railCreateTrip(railOfferToken: String, observer: Observer<RailCreateTripResponse>): Subscription {
-        return railMApi.railCreateTrip(railOfferToken)
+        return railApi.railCreateTrip(railOfferToken)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
     }
 
     fun railCheckoutTrip(params: RailCheckoutParams, observer: Observer<RailCheckoutResponse>): Subscription {
-        return railMApi.railCheckout(params)
+        return railApi.railCheckout(params)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
     }
 
     fun railGetCards(locale: String, observer: Observer<RailCardsResponse>): Subscription {
-        return railApi.railCards(locale)
+        return railCardsApi.railCards(locale)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)

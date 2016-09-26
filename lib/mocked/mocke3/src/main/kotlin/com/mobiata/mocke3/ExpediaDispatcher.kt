@@ -40,7 +40,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
 
         // Rails API
-        if (request.path.startsWith("/rails/domain/") || request.path.startsWith("/m/api/rails")) {
+        if (request.path.startsWith("/rails") || request.path.startsWith("/shop") || request.path.startsWith("/trip")) {
             return railApiRequestDispatcher.dispatch(request)
         }
 
