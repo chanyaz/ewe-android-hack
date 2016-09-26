@@ -51,6 +51,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                 selectedTravelerPickerTravelerViewModel.updateStatus(it)
             }
         }
+        vm.passportRequired.subscribe(travelerPickerWidget.passportRequired)
     }
 
     init {

@@ -56,6 +56,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
             isPassportRequired(response)
+            resetTravelers()
             trackShowBundleOverview()
         }
         getCheckoutViewModel().priceChangeObservable.subscribe(getCreateTripViewModel().tripResponseObservable)
@@ -77,7 +78,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     override fun updateDbTravelers() {
         val params = Db.getPackageParams()
         travelerManager.updateDbTravelers(params, context)
-        travelerPresenter.resetTravelers()
         resetTravelers()
     }
 
