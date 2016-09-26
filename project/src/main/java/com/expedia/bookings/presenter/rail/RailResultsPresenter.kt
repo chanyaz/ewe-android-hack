@@ -3,7 +3,6 @@ package com.expedia.bookings.presenter.rail
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
@@ -61,13 +60,6 @@ class RailResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         toolbar.setNavigationOnClickListener {
             val activity = context as AppCompatActivity
             activity.onBackPressed()
-        }
-
-        val statusBarHeight = Ui.getStatusBarHeight(context)
-        if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.rail_primary_color)
-            val statusBar = Ui.setUpStatusBar(context, toolbar, recyclerView, color)
-            addView(statusBar)
         }
 
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)

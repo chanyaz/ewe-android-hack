@@ -113,7 +113,7 @@ class HotelCheckoutSummaryViewModelTest {
 
         paymentModel.createTripSubject.onNext(createTripResponse)
         assertEquals("Price changed from $2,394.88", sut.priceChangeMessage.value)
-        assertEquals(R.drawable.price_change_increase, sut.priceChangeIconResourceId.value)
+        assertEquals(R.drawable.warning_triangle_icon, sut.priceChangeIconResourceId.value)
         assertTrue(sut.isPriceChange.value)
     }
 

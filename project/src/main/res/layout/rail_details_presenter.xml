@@ -3,33 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fillViewport="true"
-        android:paddingTop="@dimen/card_view_container_margin">
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <LinearLayout
-            android:id="@+id/details_container"
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/rail_details_toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/card_view_container_margin"
-            android:layout_marginRight="@dimen/card_view_container_margin"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:background="@color/rail_primary_color"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_close_white_24dp"
+            app:title="@string/rail_journey_details_and_fare_options"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
-            <android.support.v7.widget.CardView
-                style="@style/MaterialCardView"
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/rail_details_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardPreventCornerOverlap="false">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:padding="8dp">
 
-                <LinearLayout
+                <android.support.v7.widget.CardView
+                    style="@style/MaterialCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"
-                    android:paddingTop="12dp">
+                    app:cardPreventCornerOverlap="false">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:paddingLeft="12dp"
+                        android:paddingTop="12dp">
+
 
                     <TextView
                         android:id="@+id/overtaken_message"
@@ -51,51 +62,42 @@
                         android:paddingLeft="100dp"
                         android:background="?android:dividerHorizontal" />
 
-                    <TextView
-                        android:id="@+id/details_times"
-                        style="@style/RailCell.PrimaryText"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="9:10 - 11:42" />
+                        <TextView
+                            android:id="@+id/details_times"
+                            style="@style/RailCell.PrimaryText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="9:10 - 11:42" />
 
-                    <TextView
-                        android:id="@+id/details_info"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        tools:text="2h 32m, 1 change" />
+                        <TextView
+                            android:id="@+id/details_info"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            tools:text="2h 32m, 1 change" />
 
-                    <com.expedia.bookings.widget.rail.RailDetailsTimeline
-                        android:id="@+id/details_timeline"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
-                        android:paddingTop="12dp"
-                        tools:background="@color/light_gray"
-                        tools:layout_height="100dp" />
-                </LinearLayout>
-            </android.support.v7.widget.CardView>
+                        <com.expedia.bookings.widget.rail.RailDetailsTimeline
+                            android:id="@+id/details_timeline"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="16dp"
+                            android:paddingTop="12dp"
+                            tools:background="@color/light_gray"
+                            tools:layout_height="100dp" />
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
 
-            <com.expedia.bookings.widget.rail.RailDetailsFareOptionsView
-                android:id="@+id/details_fare_options"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:orientation="vertical"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                tools:background="#ff00ff"
-                tools:layout_height="100dp" />
+                <com.expedia.bookings.widget.rail.RailDetailsFareOptionsView
+                    android:id="@+id/details_fare_options"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    tools:background="#ff00ff"
+                    tools:layout_height="100dp" />
 
-        </LinearLayout>
-    </ScrollView>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/rail_primary_color"
-        android:minHeight="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:title="@string/rail_journey_details_and_fare_options"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+            </LinearLayout>
+        </ScrollView>
+    </LinearLayout>
 </merge>

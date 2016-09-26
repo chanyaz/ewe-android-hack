@@ -41,7 +41,6 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        setupStatusBar(context)
     }
 
     fun showAmenitiesForOffer(offer: RailOffer) {
@@ -71,16 +70,6 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             }
         })
-    }
-
-    private fun setupStatusBar(context: Context) {
-        val statusBarHeight = Ui.getStatusBarHeight(context)
-
-        if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.rail_primary_color)
-            val statusBar = Ui.setUpStatusBar(context, toolbar, container, color)
-            addView(statusBar)
-        }
     }
 
     private fun updateOffer(offer: RailOffer) {
