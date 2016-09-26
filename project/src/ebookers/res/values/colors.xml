@@ -123,8 +123,8 @@
     <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
 
     <!-- New Launch Screen LOB button colors -->
-    <color name="new_launch_lob_color">#0099CC</color>
-    <color name="new_launch_screen_color">#0099CC</color>
+    <color name="new_launch_lob_color">@color/lob_btn_color</color>
+    <color name="new_launch_screen_color">@color/lob_btn_color</color>
 
     <color name="new_launch_hotels_lob_color">@color/new_launch_lob_color</color>
     <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
@@ -136,4 +136,9 @@
     <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
     <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
     <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+
+    <!-- Flights V2 colors -->
+    <color name="flight_overview_color_filter">@color/lob_btn_color</color>
+    <color name="flights_details_layover_color">@color/lob_btn_color</color>
+
 </resources>
