@@ -299,6 +299,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.pwp_trip_service_error,
 		R.string.Your_Trips,
 		R.string.pwp_unknown_error,
+		R.dimen.calendar_height_with_time_slider,
+		R.dimen.calendar_height_without_time_slider,
 		R.layout.widget_flight_overview,
 		R.string.select_return_flight,
 		R.string.flight_to_template,

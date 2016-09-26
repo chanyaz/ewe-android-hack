@@ -75,6 +75,10 @@
     <dimen name="terminal_map_legend_3cols_width">460dp</dimen>
     <dimen name="terminal_map_legend_4cols_width">607dp</dimen>
 
+    <!--Calendar Height on CalendarDialogFragment-->
+    <dimen name="calendar_height_with_time_slider">320dp</dimen>
+    <dimen name="calendar_height_without_time_slider">350dp</dimen>
+
     <!-- Login screen -->
     <dimen name="login_field_text_size">18sp</dimen>
     <dimen name="login_field_padding">12dp</dimen>
