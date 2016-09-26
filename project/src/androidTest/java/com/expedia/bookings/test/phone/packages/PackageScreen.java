@@ -357,9 +357,8 @@ public class PackageScreen {
 	}
 
 	public static void clickLegalInformation() {
-		onView(withId(R.id.card_info_container)).perform(swipeUp());
-		onView(withId(R.id.card_info_container)).perform(swipeUp());
-		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), click());
+		onView(withId(R.id.legal_information_text_view)).perform(scrollTo());
+		onView(withId(R.id.legal_information_text_view)).perform(swipeUp(), click());
 	}
 
 	public static void clickPaymentDone() {
