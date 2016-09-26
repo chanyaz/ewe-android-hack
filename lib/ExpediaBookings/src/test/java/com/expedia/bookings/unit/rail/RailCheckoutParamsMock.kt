@@ -14,8 +14,16 @@ object RailCheckoutParamsMock {
         return paymentInfo
     }
 
-    @JvmStatic fun railTicketDeliveryInfo(): RailCheckoutParams.TicketDeliveryOption {
-        return RailCheckoutParams.TicketDeliveryOption("KIOSK_NONE")
+    @JvmStatic fun railTicketDeliveryStationInfo(): RailCheckoutParams.TicketDeliveryOption {
+        return RailCheckoutParams.TicketDeliveryOption("PICK_UP_AT_TICKETING_OFFICE_NONE")
+    }
+
+    @JvmStatic fun railTicketDeliveryMailInfo(): RailCheckoutParams.TicketDeliveryOption {
+        return RailCheckoutParams.TicketDeliveryOption(deliveryOptionToken = "SEND_BY_EXPRESS_POST_UK",
+                deliveryAddressLine1 = "123 Seasme St",
+                city = "New York",
+                postalCode = "60567",
+                country = "USA")
     }
 
     @JvmStatic fun railCardDetails(cvv: String?): RailCheckoutParams.CardDetails {

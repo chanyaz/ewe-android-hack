@@ -1,5 +1,7 @@
 package com.expedia.bookings.data.rail.requests
 
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+
 class RailCheckoutParams(val travelers: List<Traveler>,
                          val tripDetails: TripDetails,
                          val paymentInfo: PaymentInfo,
@@ -31,8 +33,8 @@ class RailCheckoutParams(val travelers: List<Traveler>,
             return this
         }
 
-        fun ticketDeliveryOption(deliveryOptionToken: String): Builder {
-            this.ticketDeliveryOption = TicketDeliveryOption(deliveryOptionToken)
+        fun ticketDeliveryOption(deliveryOption: TicketDeliveryOption?): Builder {
+            this.ticketDeliveryOption = deliveryOption
             return this
         }
 
@@ -49,7 +51,23 @@ class RailCheckoutParams(val travelers: List<Traveler>,
 
         fun isValid(): Boolean {
             return travelers.isNotEmpty() && paymentInfo != null && paymentInfo!!.cards.isNotEmpty() && tripDetails != null
-                    && !paymentInfo!!.cards[0]?.cvv.isNullOrEmpty() && ticketDeliveryOption != null
+                    && !paymentInfo!!.cards[0]?.cvv.isNullOrEmpty() && isValidTDO()
+        }
+
+        private fun isValidTDO(): Boolean {
+            var isValid = false
+            if (ticketDeliveryOption != null) {
+                if (!ticketDeliveryOption!!.deliveryOptionToken.equals(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE.name)) {
+                    // TDO is deliver by mail
+                    isValid = !ticketDeliveryOption!!.deliveryAddressLine1.isNullOrEmpty()
+                            && !ticketDeliveryOption!!.city.isNullOrEmpty() && !ticketDeliveryOption!!.country.isNullOrEmpty()
+                            && !ticketDeliveryOption!!.postalCode.isNullOrEmpty()
+                } else {
+                    // TDO is pick up at station
+                    isValid = true
+                }
+            }
+            return isValid
         }
     }
 
@@ -85,5 +103,11 @@ class RailCheckoutParams(val travelers: List<Traveler>,
             val currencyCode: String? = null,
             val country:String? = null)
 
-    class TicketDeliveryOption(val deliveryOptionToken: String)
+    class TicketDeliveryOption(
+            val deliveryOptionToken: String,
+            val deliveryAddressLine1: String? = null,
+            val deliveryAddressLine2: String? = null,
+            val city: String? = null,
+            val postalCode: String? = null,
+            val country: String? = null)
 }

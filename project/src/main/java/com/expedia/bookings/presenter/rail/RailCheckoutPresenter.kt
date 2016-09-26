@@ -178,10 +178,10 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         ticketDeliveryEntryWidget.viewModel = RailTicketDeliveryEntryViewModel(context)
         ticketDeliveryOverviewWidget.viewModel.ticketDeliverySelectedObserver.onNext(TicketDeliveryMethod.PICKUP_AT_STATION)
         ticketDeliveryEntryWidget.viewModel.ticketDeliveryMethodSelected.subscribe(ticketDeliveryOverviewWidget.viewModel.ticketDeliverySelectedObserver)
-        checkoutViewModel.ticketDeliveryCompleteObserver.onNext(ticketDeliveryEntryWidget.getTicketDeliveryOptionToken())
+        checkoutViewModel.ticketDeliveryCompleteObserver.onNext(ticketDeliveryEntryWidget.getTicketDeliveryOption())
         ticketDeliveryEntryWidget.closeSubject.subscribe {
             show(DefaultCheckout(), FLAG_CLEAR_BACKSTACK)
-            checkoutViewModel.ticketDeliveryCompleteObserver.onNext(ticketDeliveryEntryWidget.getTicketDeliveryOptionToken())
+            checkoutViewModel.ticketDeliveryCompleteObserver.onNext(ticketDeliveryEntryWidget.getTicketDeliveryOption())
         }
     }
 
@@ -205,7 +205,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
 
     //TODO Update the card fee modal with selected TDO, #8951.
     private fun getTicketOptionToken(): RailCreateTripResponse.RailTicketDeliveryOptionToken {
-        return ticketDeliveryEntryWidget.getTicketDeliveryOptionToken()
+        return ticketDeliveryEntryWidget.getTicketDeliveryOption().deliveryOptionToken
     }
 
     class DefaultCheckout
