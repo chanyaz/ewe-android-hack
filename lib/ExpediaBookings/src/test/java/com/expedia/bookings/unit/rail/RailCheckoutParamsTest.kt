@@ -51,10 +51,20 @@ class RailCheckoutParamsTest {
     }
 
     @Test
+    fun testIsValidNoTicketDeliveryOption() {
+        testParamBuilder.traveler(RailCheckoutParamsMock.travelers())
+        testParamBuilder.paymentInfo(RailCheckoutParamsMock.paymentInfo())
+        testParamBuilder.tripDetails(RailCheckoutParamsMock.tripDetails())
+
+        assertFalse(testParamBuilder.isValid(), "If ticketDelivery option empty params should not be valid.")
+    }
+
+    @Test
     fun testIsValid() {
         testParamBuilder.traveler(RailCheckoutParamsMock.travelers())
         testParamBuilder.tripDetails(RailCheckoutParamsMock.tripDetails())
         testParamBuilder.paymentInfo(RailCheckoutParamsMock.paymentInfo())
+        testParamBuilder.ticketDeliveryOption(RailCheckoutParamsMock.railTicketDeliveryInfo().deliveryOptionToken)
 
         assertTrue(testParamBuilder.isValid())
     }
