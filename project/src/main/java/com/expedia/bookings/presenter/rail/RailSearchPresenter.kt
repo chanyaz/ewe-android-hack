@@ -30,6 +30,13 @@ import rx.Observable
 import kotlin.properties.Delegates
 
 class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
+    override fun setUpStatusBar() {
+        // Rail is smart and lets the system handle the status bar. Do nothing.
+    }
+
+    override fun getToolbarsHeight() : Int {
+        return Ui.getToolbarSize(context)
+    }
 
     lateinit private var originSuggestionAdapter: SuggestionAdapter
     lateinit private var destinationSuggestionAdapter: SuggestionAdapter
@@ -114,13 +121,6 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-
-        val statusBarHeight = Ui.getStatusBarHeight(context)
-        if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.rail_primary_color)
-            val statusBar = Ui.setUpStatusBarWithTabs(context, null, color)
-            addView(statusBar)
-        }
 
         adapter = RailSearchPagerAdapter(context)
         viewpager.adapter = adapter

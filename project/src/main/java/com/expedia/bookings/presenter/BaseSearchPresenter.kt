@@ -185,7 +185,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         val windowVisibleDisplayFrameRect = Rect()
         decorView.getWindowVisibleDisplayFrame(windowVisibleDisplayFrameRect)
         val lp = suggestionRecyclerView.layoutParams
-        val newHeight = windowVisibleDisplayFrameRect.bottom - Ui.toolbarSizeWithStatusBar(context)
+        val newHeight = windowVisibleDisplayFrameRect.bottom - getToolbarsHeight()
         if (lp.height != newHeight) {
             lp.height = newHeight
             suggestionRecyclerView.layoutParams = lp
@@ -215,11 +215,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
     init {
         inflate()
-        val statusBarHeight = Ui.getStatusBarHeight(getContext())
-        if (statusBarHeight > 0) {
-            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, null, primaryColor)
-            addView(statusBar)
-        }
+        setUpStatusBar()
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
@@ -312,7 +308,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
         override fun startTransition(forward: Boolean) {
 
-            recyclerY = TransitionElement(-(suggestionRecyclerView.height.toFloat()), Ui.toolbarSizeWithStatusBar(context).toFloat())
+            recyclerY = TransitionElement(-(suggestionRecyclerView.height.toFloat()), getToolbarsHeight().toFloat())
 
             searchLocationEditText?.visibility = VISIBLE
             toolBarTitle.visibility = VISIBLE
@@ -336,7 +332,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
 
             // RecyclerView vertical transition
             if (!firstLaunch && !transitioningFromOriginToDestination) {
-                recyclerY = TransitionElement(-(suggestionRecyclerView.height.toFloat()), Ui.toolbarSizeWithStatusBar(context).toFloat())
+                recyclerY = TransitionElement(-(suggestionRecyclerView.height.toFloat()), getToolbarsHeight().toFloat())
                 suggestionRecyclerView.translationY = recyclerY.start
             }
             else {
@@ -507,6 +503,18 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
             dayOfWeek.setTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_REGULAR))
             monthView.setDaysTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_LIGHT))
             monthView.setTodayTypeface(FontCache.getTypeface(FontCache.Font.ROBOTO_MEDIUM))
+        }
+    }
+
+    open fun getToolbarsHeight() : Int {
+        return Ui.toolbarSizeWithStatusBar(context);
+    }
+
+    open fun setUpStatusBar() {
+        val statusBarHeight = Ui.getStatusBarHeight(getContext())
+        if (statusBarHeight > 0) {
+            val statusBar = Ui.setUpStatusBar(getContext(), toolbar, null, primaryColor)
+            addView(statusBar)
         }
     }
 

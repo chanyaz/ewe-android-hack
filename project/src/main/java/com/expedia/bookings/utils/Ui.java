@@ -277,7 +277,6 @@ public class Ui extends com.mobiata.android.util.Ui {
 	 * @param viewGroup main container of layout not root container
 	 * @param color     of status bar
 	 */
-
 	public static View setUpStatusBar(Context context, View toolbar,
 		ViewGroup viewGroup, int color) {
 		View v = new View(context);

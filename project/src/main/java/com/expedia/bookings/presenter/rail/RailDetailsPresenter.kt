@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.rail
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
@@ -21,8 +20,8 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.rail.RailDetailsViewModel
 
 class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
-    val detailsContainer: ViewGroup by bindView(R.id.details_container)
-    val toolbar: Toolbar by bindView(R.id.toolbar)
+    val detailsContainer: ViewGroup by bindView(R.id.rail_details_container)
+    val toolbar: Toolbar by bindView(R.id.rail_details_toolbar)
     val timeline: RailDetailsTimeline by bindView(R.id.details_timeline)
     val fareOptionsView: RailDetailsFareOptionsView by bindView(R.id.details_fare_options)
     val timeRangeTextView: TextView by bindView(R.id.details_times)
@@ -46,12 +45,6 @@ class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         toolbar.setNavigationOnClickListener {
             val activity = context as AppCompatActivity
             activity.onBackPressed()
-        }
-        val statusBarHeight = Ui.getStatusBarHeight(context)
-        if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.rail_primary_color)
-            val statusBar = Ui.setUpStatusBar(context, toolbar, detailsContainer, color)
-            addView(statusBar)
         }
     }
 }

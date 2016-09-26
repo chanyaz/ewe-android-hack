@@ -28,7 +28,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_smart_lock);
 		initializeFeatureCheck(R.string.preference_enable_rail);
 		initializeFeatureCheck(R.string.preference_enable_activity_map);
-
+		initializeFeatureCheck(R.string.preference_enable_filter_text_search);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

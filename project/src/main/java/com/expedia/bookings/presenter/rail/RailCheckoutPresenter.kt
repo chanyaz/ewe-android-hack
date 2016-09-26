@@ -1,11 +1,9 @@
 package com.expedia.bookings.presenter.rail
 
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
@@ -13,7 +11,6 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
@@ -45,8 +42,7 @@ import com.expedia.vm.traveler.SimpleTravelerViewModel
 
 class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr),
         SlideToWidgetLL.ISlideToListener {
-    val toolbar: CheckoutToolbar by bindView(R.id.checkout_toolbar)
-    val checkoutContainer: ViewGroup by bindView(R.id.rail_checkout_container)
+    val toolbar: CheckoutToolbar by bindView(R.id.rail_checkout_toolbar)
 
     val travelerCardWidget: TravelerSummaryCard by bindView(R.id.rail_traveler_card_view)
     val travelerEntryWidget: RailTravelerEntryWidget by bindView(R.id.rail_traveler_entry_widget)
@@ -84,12 +80,6 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
 
     init {
         View.inflate(context, R.layout.rail_checkout_presenter, this)
-        val statusBarHeight = Ui.getStatusBarHeight(context)
-        if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.rail_primary_color)
-            val statusBar = Ui.setUpStatusBar(context, toolbar, checkoutContainer, color)
-            addView(statusBar)
-        }
         toolbar.setNavigationOnClickListener {
             val activity = context as AppCompatActivity
             activity.onBackPressed()

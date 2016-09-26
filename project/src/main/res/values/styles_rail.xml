@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!--todo - update styles once we know colors for rail-->
-    <style name="Theme.Rail" parent="AppTheme.Base">
+    <style name="Theme.Rail" parent="Base.Rail"/>
+
+    <style name="Base.Rail" parent="AppTheme.Base">
         <item name="android:colorButtonNormal">@color/rail_primary_color</item>
         <item name="android:colorEdgeEffect">@color/rail_primary_color</item>
 
+        <item name="colorPrimaryDark">@color/rail_status_bar_color</item>
         <item name="primary_color">@color/rail_primary_color</item>
         <item name="pickup_time_title">@string/rail_departing_at</item>
         <item name="dropoff_time_title">@string/rail_returning_at</item>
@@ -21,5 +23,9 @@
     </style>
 
     <style name="RailCell.CarrierText" parent="MaterialFlightCell.CarrierText" />
+
+    <style name="RailButton" parent="Core.Widget.Button">
+        <item name="android:background">@drawable/rail_button_selector</item>
+    </style>
 
 </resources>
