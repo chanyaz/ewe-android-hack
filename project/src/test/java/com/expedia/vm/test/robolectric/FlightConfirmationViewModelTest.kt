@@ -43,7 +43,7 @@ class FlightConfirmationViewModelTest {
         Ui.getApplication(activity).defaultHotelComponents()
         UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
         assertTrue(User.isLoggedIn(activity))
-        shadowApplication = Shadows.shadowOf(activity).shadowApplication
+        shadowApplication = ShadowApplication.getInstance()
     }
 
     @Test

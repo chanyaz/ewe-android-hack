@@ -25,6 +25,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.concurrent.CountDownLatch
@@ -38,7 +39,8 @@ class PayWithPointsViewModelTest {
     var mockHotelServiceTestRule: MockHotelServiceTestRule = MockHotelServiceTestRule()
         @Rule get
 
-    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java)
+    //This test is so weird that it only works on Schedulers.io()
+    var loyaltyServiceRule = ServicesRule(LoyaltyServices::class.java, Schedulers.io())
         @Rule get
 
     private var createTripResponse: HotelCreateTripResponse by Delegates.notNull()

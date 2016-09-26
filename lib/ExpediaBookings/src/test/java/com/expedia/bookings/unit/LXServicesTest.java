@@ -36,6 +36,7 @@ import com.expedia.bookings.testrule.ServicesRule;
 
 import okhttp3.mockwebserver.MockResponse;
 import rx.observers.TestSubscriber;
+import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -44,7 +45,7 @@ import static org.junit.Assert.assertTrue;
 
 public class LXServicesTest {
 	@Rule
-	public ServicesRule<LxServices> serviceRule = new ServicesRule<>(LxServices.class, "../mocked/templates", false);
+	public ServicesRule<LxServices> serviceRule = new ServicesRule<>(LxServices.class, Schedulers.immediate(), "../mocked/templates", false);
 	private LXCheckoutParams checkoutParams;
 	private LXCreateTripParams createTripParams;
 
