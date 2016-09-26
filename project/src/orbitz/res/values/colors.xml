@@ -14,7 +14,7 @@
     <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/lob_btn_color</color>
-    <color name="launch_tab_indicator">@color/action_bar_text_blue_orbitz</color>
+    <color name="launch_tab_indicator">#00B1FF</color>
     <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_orbitz</color>
 
     <color name="launch_actionbar_color_orbitz">@color/action_bar_bg_color</color>
@@ -135,4 +135,20 @@
     <!-- Packages colors -->
     <color name="packages_primary_color">#004D7C</color>
     <color name="packages_secondary_color">#00b1ff</color>
+
+    <!-- New Launch Screen LOB button colors -->
+    <color name="new_launch_lob_color">#004D7C</color>
+    <color name="new_launch_screen_color">#00253C</color>
+
+    <color name="new_launch_hotels_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_packages_lob_color">@color/new_launch_lob_color</color>
+
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+
 </resources>
