@@ -89,6 +89,78 @@
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
+                <View
+                    android:id="@+id/filter_divider_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginTop="@dimen/lx_sort_filter_padding"
+                    android:background="@color/filter_divider_lines"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/filter_by_text_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    android:paddingLeft="@dimen/lx_sort_filter_padding"
+                    android:paddingRight="@dimen/lx_sort_filter_padding"
+                    android:paddingTop="@dimen/lx_sort_filter_padding"
+                    android:visibility="gone">
+
+                    <com.expedia.bookings.widget.TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/Filter_By"
+                        android:textColor="?attr/skin_lxPrimaryColor"
+                        app:textStyle="medium"/>
+
+                    <RelativeLayout
+                        android:id="@+id/filter_hotel_name_container"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/filter_search_input"
+                        android:orientation="horizontal"
+                        android:paddingLeft="20dp"
+                        android:paddingRight="10dp">
+
+                        <ImageView
+                            android:id="@+id/activity_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_marginRight="10dp"
+                            android:src="@drawable/filter_search_icon"
+                            android:tint="@color/lx_filter_activity_name_icon"/>
+
+                        <EditText
+                            android:id="@+id/filter_activity_name_edit_text"
+                            android:layout_width="match_parent"
+                            android:layout_height="48dp"
+                            android:layout_toRightOf="@id/activity_name"
+                            android:background="@android:color/transparent"
+                            android:gravity="center_vertical"
+                            android:hint="@string/lx_filter_hint"
+                            android:inputType="textNoSuggestions"
+                            android:maxLines="1"
+                            android:textColorHint="@color/hotel_filter_text"
+                            android:textSize="15sp"/>
+
+                        <ImageView
+                            android:id="@+id/clear_search_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="fill_parent"
+                            android:layout_alignRight="@id/filter_activity_name_edit_text"
+                            android:layout_centerVertical="true"
+                            android:paddingLeft="8dp"
+                            android:paddingRight="8dp"
+                            android:src="@drawable/filter_clear"
+                            android:tint="@color/lx_filter_activity_name_icon"
+                            android:visibility="gone"/>
+                    </RelativeLayout>
+                </LinearLayout>
                 <TextView
                     android:id="@+id/category_title"
                     android:layout_width="wrap_content"

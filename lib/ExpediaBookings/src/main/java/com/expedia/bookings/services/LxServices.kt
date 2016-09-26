@@ -34,7 +34,6 @@ import java.util.Collections
 import java.util.Comparator
 import java.util.LinkedHashSet
 
-
 class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     private var cachedLXSearchResponse = LXSearchResponse()
@@ -349,12 +348,17 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         return theme
     }
 
-
-    fun lxThemeSortAndFilter(theme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>): Subscription {
+    fun lxThemeSortAndFilter(theme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>, lxFilterTextSearchToggle: Boolean): Subscription {
 
         return Observable.combineLatest(Observable.just(theme), Observable.just(lxSortType),
                 { theme, lxSortType ->
-                    SortFilterThemeSearchResponse(theme, lxSortType)
+                    if (lxFilterTextSearchToggle) {
+                        theme.activities = theme.unfilteredActivities.applySortFilter(lxSortType)
+                        theme
+                    } else {
+                        SortFilterThemeSearchResponse(theme, lxSortType)
+
+                    }
                 })
                 .subscribeOn(this.subscribeOn)
                 .observeOn(this.observeOn)
@@ -362,7 +366,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
     }
 
     fun lxSearchSortFilter(lxSearchParams: LxSearchParams?, lxSortFilterMetadata: LXSortFilterMetadata?,
-                           searchResultFilterObserver: Observer<LXSearchResponse>): Subscription {
+                           searchResultFilterObserver: Observer<LXSearchResponse>, lxFilterTextSearchToggle: Boolean): Subscription {
 
         val lxSearchResponseObservable = if (lxSearchParams == null)
             Observable.just<LXSearchResponse>(cachedLXSearchResponse) else lxSearch(lxSearchParams)
@@ -371,7 +375,12 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 if (lxSortFilterMetadata != null)
                     Observable.combineLatest(lxSearchResponseObservable, Observable.just(lxSortFilterMetadata),
                             { lxSearchResponse, lxSortFilterMetadata ->
-                                CombineSearchResponseAndSortFilterStreams(lxSearchResponse, lxSortFilterMetadata)
+                                if (lxFilterTextSearchToggle) {
+                                    lxSearchResponse.activities = lxSearchResponse.unFilteredActivities.applySortFilter(lxSortFilterMetadata)
+                                    lxSearchResponse
+                                } else {
+                                    CombineSearchResponseAndSortFilterStreams(lxSearchResponse, lxSortFilterMetadata)
+                                }
                             })
                 else lxSearch(lxSearchParams!!)
                 )
@@ -383,6 +392,13 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
 
     private fun isFromCachedResponseInjector(isFromCachedResponse: Boolean, lxSearchResponse: LXSearchResponse) = {
         lxSearchResponse.isFromCachedResponse = isFromCachedResponse
+    }
+
+    private val CACHE_SEARCH_RESPONSE = { response: LXSearchResponse ->
+        cachedLXSearchResponse = response
+        cachedLXSearchResponse.unFilteredActivities.clear()
+        cachedLXSearchResponse.unFilteredActivities.addAll(response.activities)
+        cachedLXSearchResponse = response
     }
 
     fun applySortFilter(unfilteredActivities: List<LXActivity>, lxSearchResponse: LXSearchResponse, lxSortFilterMetadata: LXSortFilterMetadata): List<LXActivity> {
@@ -418,11 +434,36 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         return lxSearchResponse.activities
     }
 
+    companion object {
 
-    private val CACHE_SEARCH_RESPONSE = { response: LXSearchResponse ->
-        cachedLXSearchResponse = response
-        cachedLXSearchResponse.unFilteredActivities.clear()
-        cachedLXSearchResponse.unFilteredActivities.addAll(response.activities)
-        cachedLXSearchResponse = response
+        @JvmStatic fun List<LXActivity>.applySortFilter(lxCategoryMetadata: LXSortFilterMetadata): List<LXActivity> {
+
+            // Activity name filter
+            var activities = this.filter { it.title.contains(lxCategoryMetadata.filter, true) }
+            // Sorting
+            when (lxCategoryMetadata.sort) {
+                LXSortType.POPULARITY -> activities = activities.sortedBy { it.popularityForClientSort }
+                LXSortType.PRICE -> activities = activities.sortedBy { it.price.amount.toInt() }
+            }
+
+            val filteredSet = LinkedHashSet<LXActivity>()
+            for (i in activities.indices) {
+                for (filterCategory in lxCategoryMetadata.lxCategoryMetadataMap.entries) {
+                    val lxCategoryMetadata = filterCategory.value
+                    val lxCategoryMetadataKey = filterCategory.key
+                    if (lxCategoryMetadata.checked) {
+                        if (activities.get(i).categories.contains(lxCategoryMetadataKey)) {
+                            filteredSet.add(activities.get(i))
+                        }
+                    }
+                }
+            }
+            return if (filteredSet.size > 0 || lxCategoryMetadata.lxCategoryMetadataMap.size > 0) {
+                filteredSet.toList()
+            }
+            else {
+                activities
+            }
+        }
     }
 }
