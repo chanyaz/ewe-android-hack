@@ -11,7 +11,7 @@
 
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
-    <color name="launch_tab_indicator">@color/actionbar_text_color</color>
+    <color name="launch_tab_indicator">#FFFFFF</color>
 
     <color name="lob_btn_color">#116FAA</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
@@ -20,7 +20,7 @@
     <color name="lx_lob_btn">@color/lob_btn_color</color>
 
     <color name="action_bar_selected_tab_underline_color">@color/launch_tab_indicator</color>
-    <color name="actionbar_tab_text_selected">#D00000</color>
+    <color name="actionbar_tab_text_selected">#ffffff</color>
     <color name="actionbar_tab_text_unselected">#CACDCF</color>
     <color name="action_bar_text_blue">#D00000</color>
     <color name="bg_btn_color">#7bae00</color>
@@ -137,4 +137,20 @@
     <!-- Packages colors -->
     <color name="packages_primary_color">#004D7C</color>
     <color name="packages_secondary_color">#00b1ff</color>
+
+    <!-- New Launch Screen LOB button colors -->
+    <color name="new_launch_lob_color">#116FAA</color>
+    <color name="new_launch_screen_color">#116FAA</color>
+
+    <color name="new_launch_hotels_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_packages_lob_color">@color/new_launch_lob_color</color>
+
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+
 </resources>
