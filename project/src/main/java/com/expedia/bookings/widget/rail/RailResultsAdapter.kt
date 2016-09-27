@@ -27,6 +27,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     val resultsSubject = BehaviorSubject.create<RailSearchResponse>()
     val directionHeaderSubject = BehaviorSubject.create<CharSequence>()
     val priceHeaderSubject = BehaviorSubject.create<CharSequence>()
+    private val numHeaderItemsInRailsList = 1
     private val NUMBER_LOADING_TILES = 5
 
     private var legs: List<RailLegOption> = emptyList()
@@ -63,12 +64,12 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     }
 
     override fun getItemCount(): Int {
-        return legs.size
+        return legs.size + numHeaderItemsInRailsList
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is RailViewHolder -> holder.bind(legs[position])
+            is RailViewHolder -> holder.bind(legs[position - numHeaderItemsInRailsList])
             is LoadingViewHolder -> holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, position % 2 == 0))
         }
     }
@@ -137,7 +138,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
         }
 
         override fun onClick(v: View?) {
-            legSelectedSubject.onNext(legs[adapterPosition])
+            legSelectedSubject.onNext(legs[adapterPosition - numHeaderItemsInRailsList])
         }
     }
 }

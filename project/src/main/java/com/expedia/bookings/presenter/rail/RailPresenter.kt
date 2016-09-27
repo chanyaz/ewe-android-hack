@@ -87,7 +87,6 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         View.inflate(context, R.layout.rail_presenter, this)
         addTransitions()
 
-        outboundPresenter.setOnClickListener { transitionToDetails() }
         searchPresenter.searchViewModel = RailSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
