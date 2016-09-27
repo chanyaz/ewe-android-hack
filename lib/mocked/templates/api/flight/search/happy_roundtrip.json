@@ -215,6 +215,7 @@
             "averageTotalPricePerTicket": {
                 "amount": "696.00",
                 "formattedPrice": "$696.00",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$696"
             },
             "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
@@ -222,6 +223,7 @@
             "baseFarePrice": {
                 "amount": "620.46",
                 "formattedPrice": "$620.46",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$620"
             },
             "currency": "USD",
@@ -229,6 +231,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -245,17 +248,20 @@
                 {
                     "basePrice": {
                         "amount": "620.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$620.46",
                         "formattedWholePrice": "$620"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "689.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$689.00",
                         "formattedWholePrice": "$689"
                     }
@@ -281,12 +287,14 @@
             "taxes": "68.54",
             "taxesPrice": {
                 "amount": "68.54",
+                "currencyCode": "USD",
                 "formattedPrice": "$68.54",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "696.00",
             "totalPrice": {
                 "amount": "696.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$696.00",
                 "formattedWholePrice": "$696"
             }

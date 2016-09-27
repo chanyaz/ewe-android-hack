@@ -49,12 +49,12 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                         travelerInfo = Phrase.from(context, R.string.flight_add_infant_in_seat_number_TEMPLATE).put("number", ++numInfantsInLap).format().toString()
                     }
                 }
-                breakdowns.add(CostSummaryBreakdownRow.Builder().title(travelerInfo).cost(passenger.totalPrice.formattedPrice).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().title(travelerInfo).cost(passenger.totalPrice.formattedMoneyFromAmountAndCurrencyCode).build())
 
-                breakdowns.add(CostSummaryBreakdownRow.Builder().title(context.getString(R.string.Flight)).cost(passenger.basePrice.formattedPrice).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().title(context.getString(R.string.Flight)).cost(passenger.basePrice.formattedMoneyFromAmountAndCurrencyCode).build())
 
                 title = context.getString(R.string.cost_summary_breakdown_taxes_fees)
-                breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(passenger.taxesPrice.formattedPrice).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(passenger.taxesPrice.formattedMoneyFromAmountAndCurrencyCode).build())
 
                 // Adding divider line
                 breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
@@ -63,7 +63,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
 
             if (flightOffer.fees != null) {
                 title = Phrase.from(context, R.string.brand_booking_fee).put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context)).format().toString()
-                breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(flightOffer.bookingFee.formattedMoney).build())
+                breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(flightOffer.bookingFee.formattedMoneyFromAmountAndCurrencyCode).build())
 
                 // insurance
                 if (flightOffer.selectedInsuranceProduct != null) {
@@ -71,7 +71,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
                     val insuranceTitle = context.getString(R.string.cost_summary_breakdown_flight_insurance)
 
                     breakdowns.add(CostSummaryBreakdownRow.Builder().title(insuranceTitle)
-                            .cost(insurance.totalPrice.formattedPrice)
+                            .cost(insurance.totalPrice.formattedMoneyFromAmountAndCurrencyCode)
                             .color(Ui.obtainThemeColor(context, R.attr.primary_color))
                             .build())
                 }

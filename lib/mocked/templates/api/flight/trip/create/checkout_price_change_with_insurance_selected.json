@@ -6,6 +6,7 @@
         "changePenaltyPrice": {
           "amount": "200.00",
           "formattedPrice": "$200.00",
+          "currencyCode": "USD",
           "formattedWholePrice": "$200"
         },
         "isChangeAllowed": true,
@@ -32,6 +33,7 @@
       "baseFare": "620.46",
       "baseFarePrice": {
         "amount": "620.46",
+        "currencyCode": "USD",
         "formattedPrice": "$620.46",
         "formattedWholePrice": "$620"
       },
@@ -40,6 +42,7 @@
       "fees": "7.00",
       "feesPrice": {
         "amount": "7.00",
+        "currencyCode": "USD",
         "formattedPrice": "$7.00",
         "formattedWholePrice": "$7"
       },
@@ -55,12 +58,14 @@
         {
           "basePrice": {
             "amount": "620.46",
+            "currencyCode": "USD",
             "formattedPrice": "$620.46",
             "formattedWholePrice": "$620"
           },
           "passengerCategory": "ADULT",
           "taxesPrice": {
             "amount": "68.54",
+            "currencyCode": "USD",
             "formattedPrice": "$68.54",
             "formattedWholePrice": "$69"
           },
@@ -92,6 +97,7 @@
       "taxes": "68.54",
       "taxesPrice": {
         "amount": "68.54",
+        "currencyCode": "USD",
         "formattedPrice": "$68.54",
         "formattedWholePrice": "$69"
       },
