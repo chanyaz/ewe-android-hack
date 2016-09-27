@@ -7,11 +7,9 @@ import android.os.Build;
 
 import com.expedia.account.AccountService;
 import com.expedia.bookings.BuildConfig;
-import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.server.EndPoint;
 import com.mobiata.android.util.SettingUtils;
 
 public class ServicesUtil {
@@ -124,17 +122,6 @@ public class ServicesUtil {
 			PointOfSale.getPointOfSale().getDualLanguageId(),
 			ServicesUtil.generateClientId(context),
 			generateUserAgentString(context));
-	}
-
-	public static String getRailApiKey(Context context, EndPoint endPoint) {
-		switch (endPoint) {
-		case PRODUCTION:
-			return context.getResources().getString(R.string.rails_prod_api_key);
-		case INTEGRATION:
-			return context.getResources().getString(R.string.rails_int_api_key);
-		default:
-			return context.getResources().getString(R.string.rails_trunk_api_key);
-		}
 	}
 
 }

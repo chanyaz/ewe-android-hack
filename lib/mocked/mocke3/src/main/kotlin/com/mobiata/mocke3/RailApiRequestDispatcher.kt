@@ -14,15 +14,15 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
 
         return when {
             RailApiRequestMatcher.isRailApiSearchRequest(urlPath) -> {
-                getMockResponse("rails/shop/search/happy.json")
+                getMockResponse("rails/v1/shopping/search/happy.json")
             }
 
             RailApiRequestMatcher.isRailApiCreateTripRequest(urlPath) -> {
-                getMockResponse("/rails/trip/create/happy.json")
+                getMockResponse("m/api/rails/trip/create/happy.json")
             }
 
             RailApiRequestMatcher.isRailApiCheckoutRequest(urlPath) -> {
-                getMockResponse("rails/trip/checkout/happy.json")
+                getMockResponse("m/api/rails/trip/checkout/happy.json")
             }
 
             RailApiRequestMatcher.isRailApiCardsRequest(urlPath) -> {
@@ -37,19 +37,21 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
 class RailApiRequestMatcher {
     companion object {
         fun isRailApiRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails.*$", urlPath) || doesItMatch("^/shop.*$", urlPath) || doesItMatch("^/trip.*$", urlPath)
+            return doesItMatch("^/rails/domain/m/api/v1/.*$", urlPath) ||
+                    doesItMatch("^/m/api/rails.*$", urlPath) ||
+                    doesItMatch("^/rails/domain/api/v1/.*$", urlPath)
         }
 
         fun isRailApiSearchRequest(urlPath: String): Boolean {
-            return doesItMatch("^/shop/search.*$", urlPath)
+            return doesItMatch("^/rails/domain/m/api/v1/search.*$", urlPath)
         }
 
         fun isRailApiCreateTripRequest(urlPath: String): Boolean {
-            return doesItMatch("^/trip/create.*", urlPath)
+            return doesItMatch("^/m/api/rails/trip/create.*", urlPath)
         }
 
         fun isRailApiCheckoutRequest(urlPath: String): Boolean {
-            return doesItMatch("^/trip/checkout.*", urlPath)
+            return doesItMatch("^/m/api/rails/trip/checkout.*", urlPath)
         }
 
         fun isRailApiCardsRequest(urlPath: String): Boolean {
