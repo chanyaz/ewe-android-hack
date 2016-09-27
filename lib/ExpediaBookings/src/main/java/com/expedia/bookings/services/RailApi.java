@@ -17,17 +17,17 @@ import rx.Observable;
 
 public interface RailApi {
 
-	@POST("shop/search")
+	@POST("/rails/domain/m/api/v1/search")
 	Observable<RailSearchResponse> railSearch(@Body RailApiSearchModel railSearchRequest);
 
-	@POST("trip/create")
+	@POST("/m/api/rails/trip/create")
 	@FormUrlEncoded
 	Observable<RailCreateTripResponse> railCreateTrip(@Field("offerToken") String offerToken);
 
-	@POST("trip/checkout")
+	@POST("/m/api/rails/trip/checkout")
 	Observable<RailCheckoutResponse> railCheckout(@Body RailCheckoutParams params);
 
-	@GET("rails/domain/api/v1/static/RailCards")
+	@GET("/rails/domain/api/v1/static/RailCards")
 	Observable<RailCardsResponse> railCards(@Query("locale") String locale);
 
 }
