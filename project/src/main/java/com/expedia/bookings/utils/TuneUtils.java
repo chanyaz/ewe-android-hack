@@ -112,7 +112,13 @@ public class TuneUtils {
 	public static void updatePOS() {
 		if (initialized) {
 			String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-			mobileAppTracker.setTwitterUserId(posTpid);
+			String posEapid = Integer.toString(PointOfSale.getPointOfSale().getEAPID());
+			String posData = posTpid;
+			Boolean sendEapidToTuneTracking = ProductFlavorFeatureConfiguration.getInstance().sendEapidToTuneTracking();
+			if (sendEapidToTuneTracking && Strings.isNotEmpty(posEapid) && !Strings.equals(posEapid, Integer.toString(PointOfSale.INVALID_EAPID))) {
+				posData = posTpid + "-" + posEapid;
+			}
+			mobileAppTracker.setTwitterUserId(posData);
 		}
 	}
 
@@ -995,5 +1001,5 @@ public class TuneUtils {
 	private static String isUserLoggedIn() {
 		return User.isLoggedIn(context) ? "1" : "0";
 	}
-	
+
 }
