@@ -199,6 +199,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         val newTraveler = Traveler()
         val passengerCategory = viewModel.getTraveler().passengerCategory
         newTraveler.passengerCategory = passengerCategory
+        newTraveler.phoneCountryCode = viewModel.getTraveler().phoneCountryCode
         viewModel.updateTraveler(newTraveler)
     }
 
