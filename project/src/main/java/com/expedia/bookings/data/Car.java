@@ -199,7 +199,7 @@ public class Car implements JSONable {
 		mPrice = GsonUtil.getForJsonable(obj, "price", Money.class);
 		mPickUpDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "pickupJodaDateTime", "pickupDateTime");
 		mPickUpLocation = JSONUtils.getJSONable(obj, "pickupLocation", Location.class);
-		mPickUpDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "dropoffJodaDateTime", "dropoffDateTime");
+		mDropOffDateTime = JodaUtils.getDateTimeFromJsonBackCompat(obj, "dropoffJodaDateTime", "dropoffDateTime");
 		mDropOffLocation = JSONUtils.getJSONable(obj, "dropoffLocation", Location.class);
 
 		mVendor = JSONUtils.getJSONable(obj, "vendor", CarVendor.class);
