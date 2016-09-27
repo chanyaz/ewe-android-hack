@@ -165,6 +165,11 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     private val overviewTransition = object : ScaleTransition(this, FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            toolbarViewModel.menuVisibilitySubject.onNext(false)
+        }
+
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             toolbarViewModel.refreshToolBar.onNext(!forward)
