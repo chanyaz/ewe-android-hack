@@ -33,7 +33,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
 
-    val viewLocation = IntArray(2)
     var scrollSpaceView: View? = null
     var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
@@ -299,27 +298,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout () {
-            lockScrollingByContentSize(scrollSpaceView)
             updateScrollingSpace(scrollSpaceView)
-        }
-    }
-
-    private fun lockScrollingByContentSize(scrollSpaceView: View?) {
-        if (scrollSpaceView != null) {
-            scrollSpaceView.getLocationOnScreen(viewLocation)
-            val scrollSpaceCoordinateY = viewLocation[1]
-            checkoutPresenter.totalPriceWidget.getLocationOnScreen(viewLocation)
-            val bottomContainerCoordinateY = viewLocation[1] - checkoutPresenter.bottomContainerDropShadow.height
-            // content more than viewport
-            if (scrollSpaceCoordinateY > bottomContainerCoordinateY) {
-                if (!bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled) {
-                    bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled = true
-                }
-            } else {
-                if (bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled && bundleOverviewHeader.isFullyExpanded) {
-                    bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled = false
-                }
-            }
         }
     }
 
