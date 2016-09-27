@@ -113,6 +113,7 @@
     <color name="flight_overview_color_filter">@color/exp_lob_blue</color>
     <color name="filter_number_text_color">@color/exp_lob_blue</color>
     <color name="cardview_divider_lines_gray">@color/gray2</color>
+    <color name="flights_details_layover_color">@color/yellow_layover</color>
 
     <!-- Hotels colors -->
     <color name="hotels_primary_color">@color/exp_hotel_green</color>
