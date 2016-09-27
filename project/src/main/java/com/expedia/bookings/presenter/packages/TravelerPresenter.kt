@@ -164,7 +164,10 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     }
 
     fun onLogin(isLoggedIn: Boolean) {
+        resetTravelers()
         travelerEntryWidget.emailEntryView.visibility = if (isLoggedIn) GONE else VISIBLE
+        updateAllTravelerStatuses()
+        viewModel.refresh()
     }
 
     override fun back(): Boolean {
