@@ -396,6 +396,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             if (isSectionExpanded) {
                 AnimUtils.rotate(neighborhoodMoreLessIcon)
                 neighborhoodMoreLessLabel.text = resources.getString(R.string.show_less)
+                neighborhoodMoreLessView.contentDescription = resources.getString(R.string.hotels_filter_show_less_cont_desc)
 
                 for (i in 3..neighborhoodContainer.childCount - 1) {
                     val v = neighborhoodContainer.getChildAt(i)
@@ -439,6 +440,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private fun setupNeighBourhoodView() {
         AnimUtils.reverseRotate(neighborhoodMoreLessIcon)
         neighborhoodMoreLessLabel.text = resources.getString(R.string.show_more)
+        neighborhoodMoreLessView.contentDescription = resources.getString(R.string.hotels_filter_show_more_cont_desc)
 
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
         resizeAnimator.addViewSpec(neighborhoodContainer, rowHeight * 3)
