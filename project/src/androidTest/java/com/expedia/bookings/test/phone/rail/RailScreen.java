@@ -190,4 +190,9 @@ public class RailScreen {
 
 		CheckoutViewModel.clickDone();
 	}
+
+	public static void performSlideToPurchase() {
+		onView(withId(R.id.rail_slide_to_purchase_widget)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.rail_slide_to_purchase_widget)).perform(ViewActions.swipeRight());
+	}
 }

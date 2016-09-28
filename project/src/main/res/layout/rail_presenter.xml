@@ -45,7 +45,7 @@
         android:id="@+id/rail_confirmation_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rail_background_color"
+        android:background="@color/rail_primary_color"
         android:visibility="gone" />
 
     <ViewStub

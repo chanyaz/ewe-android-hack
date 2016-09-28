@@ -14,7 +14,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.HotelCrossSellView
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.packages.ConfirmationRowCardView
+import com.expedia.bookings.widget.ConfirmationRowCardView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility

@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.rail.RailAmenitiesFareRulesWidget
 import com.expedia.util.endlessObserver
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
+import com.expedia.vm.rail.RailConfirmationViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
 import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailResultsViewModel
@@ -109,6 +110,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
                 transitionToTripSummary()
                 tripOverviewPresenter.railTripSummary.viewModel.railOfferObserver.onNext(offer)
                 createTripViewModel.offerCodeSelectedObservable.onNext(offer.railOfferToken)
+                confirmationPresenter.viewModel.railOfferObserver.onNext(offer)
             }
         }
 
@@ -133,10 +135,12 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         }
 
         tripOverviewPresenter.createTripViewModel = createTripViewModel
-        railCheckoutPresenter.createTripViewModel = createTripViewModel
 
-        railCheckoutPresenter.checkoutViewModel.bookingSuccessSubject.subscribe { response ->
-            confirmationPresenter.update(response)
+        railCheckoutPresenter.createTripViewModel = createTripViewModel
+        confirmationPresenter.viewModel = RailConfirmationViewModel(context)
+
+        railCheckoutPresenter.checkoutViewModel.bookingSuccessSubject.subscribe { pair ->
+            confirmationPresenter.viewModel.confirmationObservable.onNext(pair)
             show(confirmationPresenter)
         }
 

@@ -1,23 +1,18 @@
-package com.expedia.bookings.widget.packages
+package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.PorterDuffColorFilter
 import android.support.v4.content.ContextCompat
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FrameLayout
-import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.flights.FlightConfirmationCardViewModel
-import com.expedia.vm.flights.FlightConfirmationViewModel
 
 open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 

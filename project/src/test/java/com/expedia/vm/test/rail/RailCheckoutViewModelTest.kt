@@ -52,7 +52,7 @@ class RailCheckoutViewModelTest {
         Mockito.verify(mockTraveler, Mockito.times(1)).lastName
         Mockito.verify(mockTraveler, Mockito.times(1)).phoneCountryCode
         Mockito.verify(mockTraveler, Mockito.times(1)).phoneNumber
-        Mockito.verify(mockTraveler, Mockito.times(1)).email
+        Mockito.verify(mockTraveler, Mockito.times(2)).email
     }
 
     @Test

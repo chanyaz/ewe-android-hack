@@ -1,25 +1,26 @@
 package com.expedia.vm.rail
 
 import android.content.Context
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.rail.requests.RailCheckoutParams
-import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
-import com.expedia.bookings.services.RailServices
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BillingInfo
-import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TicketDeliveryOption
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
+import kotlin.properties.Delegates
 
 class RailCheckoutViewModel(val context: Context) {
     lateinit var railServices: RailServices
@@ -30,7 +31,9 @@ class RailCheckoutViewModel(val context: Context) {
     val checkoutParams = BehaviorSubject.create<RailCheckoutParams>()
     val builder = RailCheckoutParams.Builder()
 
-    val bookingSuccessSubject = PublishSubject.create<RailCheckoutResponse>()
+    val bookingSuccessSubject = PublishSubject.create<Pair<RailCheckoutResponse, String>>()
+
+    private var email: String by Delegates.notNull()
 
     init {
         Ui.getApplication(context).railComponent().inject(this)
@@ -52,6 +55,7 @@ class RailCheckoutViewModel(val context: Context) {
         val bookingTraveler = RailCheckoutParams.Traveler(traveler.firstName,
                 traveler.lastName, traveler.phoneCountryCode, traveler.phoneNumber, traveler.email)
         builder.traveler(listOf(bookingTraveler))
+        email = traveler.email
     }
 
     val ticketDeliveryCompleteObserver = endlessObserver<TicketDeliveryOption> { tdo ->
@@ -84,7 +88,7 @@ class RailCheckoutViewModel(val context: Context) {
         sliderPurchaseTotalText.onNext(slideToPurchaseText)
     }
 
-    fun isValidForBooking() : Boolean {
+    fun isValidForBooking(): Boolean {
         return builder.isValid();
     }
 
@@ -104,7 +108,7 @@ class RailCheckoutViewModel(val context: Context) {
                         }
                     }
                 } else {
-                     bookingSuccessSubject.onNext(response)
+                    bookingSuccessSubject.onNext(Pair(response, email))
                 }
             }
 

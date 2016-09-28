@@ -4310,7 +4310,7 @@
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">ระยะเวลารวม: {duration}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email -->
-    <string name="package_itinerary_confirmation_TEMPLATE">ส่ง #{itinerary} ไปยัง {email} แล้ว</string>
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">ส่ง #{itinerary} ไปยัง {email} แล้ว</string>
     <!--Rail search screen title-->
     <string name="trains">รถไฟ</string>
 
