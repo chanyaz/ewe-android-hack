@@ -61,12 +61,13 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Scr
 
         vm.ticketDeliveryMethodSelected.subscribe { selected ->
             if (selected == TicketDeliveryMethod.PICKUP_AT_STATION) {
-                viewModel.ticketDeliveryOption = TicketDeliveryOption(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE)
+                vm.ticketDeliveryOption = TicketDeliveryOption(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE)
             } else {
                 val railLocation = mailDeliveryAddress.location as RailLocation
                 val ticketDeliveryOptionToken = railLocation.ticketDeliveryOptionSelected!!.ticketDeliveryOptionToken
-                viewModel.ticketDeliveryOption = TicketDeliveryOption(ticketDeliveryOptionToken, railLocation)
+                vm.ticketDeliveryOption = TicketDeliveryOption(ticketDeliveryOptionToken, railLocation)
             }
+            vm.ticketDeliveryOptionSubject.onNext(vm.ticketDeliveryOption)
         }
     }
 
