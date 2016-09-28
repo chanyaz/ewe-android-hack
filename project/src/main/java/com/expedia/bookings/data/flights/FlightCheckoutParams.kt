@@ -46,7 +46,7 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             val prefix = if (isPrimaryTraveler) "mainFlightPassenger." else "associatedFlightPassengers[" + (i - 1) + "]."
 
             params.put(prefix + "firstName", travelers[i].firstName)
-            if (travelers[i].middleName.isNotEmpty()) {
+            if (!travelers[i].middleName.isNullOrEmpty()) {
                 params.put(prefix + "middleName", travelers[i].middleName)
             }
             params.put(prefix + "lastName", travelers[i].lastName)
