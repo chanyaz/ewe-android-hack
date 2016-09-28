@@ -102,7 +102,7 @@
                             android:src="@drawable/filter_search_icon"
                             android:tint="@color/hotel_filter_hotel_name_icon" />
 
-                        <EditText
+                        <com.expedia.bookings.widget.accessibility.AccessibleEditText
                             android:id="@+id/filter_hotel_name_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"

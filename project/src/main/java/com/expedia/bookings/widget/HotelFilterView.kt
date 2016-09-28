@@ -35,6 +35,7 @@ import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -64,7 +65,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val ratingFiveBackground: View by bindView(R.id.rating_five_background)
     val sortContainer: LinearLayout by bindView(R.id.sort_hotel)
     val sortByButtonGroup: Spinner by bindView(R.id.sort_by_selection_spinner)
-    val filterHotelName: TextView by bindView(R.id.filter_hotel_name_edit_text)
+    val filterHotelName: AccessibleEditText by bindView(R.id.filter_hotel_name_edit_text)
     val clearNameButton: ImageView by bindView(R.id.clear_search_button)
     val dynamicFeedbackWidget: DynamicFeedbackWidget by bindView(R.id.dynamic_feedback_container)
     val dynamicFeedbackClearButton: TextView by bindView(R.id.dynamic_feedback_clear_button)
@@ -170,7 +171,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         vm.finishClear.subscribe {
             //check if filterHotelName is empty to avoid calling handleFiltering
-            if (filterHotelName.text.length > 0) filterHotelName.text = ""
+            if (filterHotelName.text.length > 0) filterHotelName.text.clear()
             resetStars()
 
             filterHotelVip.isChecked = false
