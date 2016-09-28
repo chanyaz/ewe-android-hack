@@ -63,8 +63,8 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
         }
         legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
 
-        checkoutParams.subscribe { params ->
-            params as PackageCheckoutParams
+        checkoutParams.subscribe { params -> params as PackageCheckoutParams
+            showCheckoutDialogObservable.onNext(true)
             packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.travelers.first().email
         }

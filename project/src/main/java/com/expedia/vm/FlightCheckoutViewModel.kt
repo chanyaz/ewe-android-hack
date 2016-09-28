@@ -55,6 +55,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         }
 
         checkoutParams.subscribe { params -> params as FlightCheckoutParams
+            showCheckoutDialogObservable.onNext(true)
             flightServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.travelers.first().email
         }
