@@ -390,6 +390,8 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
 		EspressoUtils.assertViewWithTextIsDisplayed("Passport: ");
 		onView(withText("Passport: Afghanistan")).check(doesNotExist());
+		travelerPresenterBack();
+		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.id.traveler_default_state, R.drawable.invalid);
 	}
 
 	private void travelerPresenterBack() throws Throwable {

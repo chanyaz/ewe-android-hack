@@ -665,6 +665,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     }
 
     fun resetTravelers() {
+        travelerPresenter.resetTravelers()
         if (!User.isLoggedIn(context)) {
             ckoViewModel.clearTravelers.onNext(Unit)
             updateTravelerPresenter()
