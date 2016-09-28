@@ -502,12 +502,14 @@
             "averageTotalPricePerTicket": {
                 "amount": "696.00",
                 "formattedPrice": "$696.00",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$696"
             },
             "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "baseFare": "620.46",
             "baseFarePrice": {
                 "amount": "620.46",
+                "currencyCode": "USD",
                 "formattedPrice": "$620.46",
                 "formattedWholePrice": "$620"
             },
@@ -516,6 +518,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -531,17 +534,20 @@
                 {
                     "basePrice": {
                         "amount": "620.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$620.46",
                         "formattedWholePrice": "$620"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "689.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$689.00",
                         "formattedWholePrice": "$689"
                     }
@@ -567,12 +573,14 @@
             "taxes": "68.54",
             "taxesPrice": {
                 "amount": "68.54",
+                "currencyCode": "USD",
                 "formattedPrice": "$68.54",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "696.00",
             "totalPrice": {
                 "amount": "696.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$696.00",
                 "formattedWholePrice": "$696"
             }
@@ -581,12 +589,14 @@
             "averageTotalPricePerTicket": {
                 "amount": "596.00",
                 "formattedPrice": "$596.00",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$596"
             },
             "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "baseFare": "520.46",
             "baseFarePrice": {
                 "amount": "520.46",
+                "currencyCode": "USD",
                 "formattedPrice": "$520.46",
                 "formattedWholePrice": "$520"
             },
@@ -595,6 +605,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -610,17 +621,20 @@
                 {
                     "basePrice": {
                         "amount": "520.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$520.46",
                         "formattedWholePrice": "$520"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "589.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$589.00",
                         "formattedWholePrice": "$589"
                     }
@@ -629,16 +643,19 @@
                     "basePrice": {
                         "amount": "520.46",
                         "formattedPrice": "$520.46",
+                        "currencyCode": "USD",
                         "formattedWholePrice": "$520"
                     },
                     "passengerCategory": "CHILD",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "589.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$589.00",
                         "formattedWholePrice": "$589"
                     }
@@ -664,12 +681,14 @@
             "taxes": "68.54",
             "taxesPrice": {
                 "amount": "68.54",
+                "currencyCode": "USD",
                 "formattedPrice": "$68.54",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "596.00",
             "totalPrice": {
                 "amount": "596.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
             }
@@ -677,6 +696,7 @@
         {
             "averageTotalPricePerTicket": {
                 "amount": "646.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$646.00",
                 "formattedWholePrice": "$646"
             },
@@ -684,6 +704,7 @@
             "baseFare": "570.46",
             "baseFarePrice": {
                 "amount": "570.46",
+                "currencyCode": "USD",
                 "formattedPrice": "$570.46",
                 "formattedWholePrice": "$570"
             },
@@ -692,6 +713,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -707,17 +729,20 @@
                 {
                     "basePrice": {
                         "amount": "570.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$570.46",
                         "formattedWholePrice": "$570"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "639.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$639.00",
                         "formattedWholePrice": "$639"
                     }
@@ -743,12 +768,14 @@
             "taxes": "68.54",
             "taxesPrice": {
                 "amount": "68.54",
+                "currencyCode": "USD",
                 "formattedPrice": "$68.54",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "646.00",
             "totalPrice": {
                 "amount": "646.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$646.00",
                 "formattedWholePrice": "$646"
             }
@@ -756,6 +783,7 @@
         {
             "averageTotalPricePerTicket": {
                 "amount": "546.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$546.00",
                 "formattedWholePrice": "$546"
             },
@@ -763,6 +791,7 @@
             "baseFare": "470.46",
             "baseFarePrice": {
                 "amount": "470.46",
+                "currencyCode": "USD",
                 "formattedPrice": "$470.46",
                 "formattedWholePrice": "$470"
             },
@@ -771,6 +800,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -786,17 +816,20 @@
                 {
                     "basePrice": {
                         "amount": "470.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$470.46",
                         "formattedWholePrice": "$470"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "539.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$539.00",
                         "formattedWholePrice": "$539"
                     }
@@ -822,12 +855,14 @@
             "taxes": "68.54",
             "taxesPrice": {
                 "amount": "68.54",
+                "currencyCode": "USD",
                 "formattedPrice": "$68.54",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "546.00",
             "totalPrice": {
                 "amount": "546.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$546.00",
                 "formattedWholePrice": "$546"
             }
@@ -836,6 +871,7 @@
             "averageTotalPricePerTicket": {
                 "amount": "746.00",
                 "formattedPrice": "$746.00",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$746"
             },
             "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
@@ -843,6 +879,7 @@
             "baseFarePrice": {
                 "amount": "670.46",
                 "formattedPrice": "$670.46",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$670"
             },
             "currency": "USD",
@@ -850,6 +887,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -866,16 +904,19 @@
                     "basePrice": {
                         "amount": "670.46",
                         "formattedPrice": "$670.46",
+                        "currencyCode": "USD",
                         "formattedWholePrice": "$670"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "739.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$739.00",
                         "formattedWholePrice": "$739"
                     }
@@ -902,11 +943,13 @@
             "taxesPrice": {
                 "amount": "68.54",
                 "formattedPrice": "$68.54",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "746.00",
             "totalPrice": {
                 "amount": "746.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$746.00",
                 "formattedWholePrice": "$746"
             }
@@ -915,12 +958,14 @@
             "averageTotalPricePerTicket": {
                 "amount": "546.00",
                 "formattedPrice": "$546.00",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$546"
             },
             "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "baseFare": "470.46",
             "baseFarePrice": {
                 "amount": "470.46",
+                "currencyCode": "USD",
                 "formattedPrice": "$470.46",
                 "formattedWholePrice": "$470"
             },
@@ -929,6 +974,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -945,16 +991,19 @@
                     "basePrice": {
                         "amount": "470.46",
                         "formattedPrice": "$470.46",
+                        "currencyCode": "USD",
                         "formattedWholePrice": "$470"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "539.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$539.00",
                         "formattedWholePrice": "$539"
                     }
@@ -962,17 +1011,20 @@
                 {
                     "basePrice": {
                         "amount": "470.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$470.46",
                         "formattedWholePrice": "$470"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "539.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$539.00",
                         "formattedWholePrice": "$539"
                     }
@@ -999,12 +1051,14 @@
             "taxesPrice": {
                 "amount": "68.54",
                 "formattedPrice": "$68.54",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "546.00",
             "totalPrice": {
                 "amount": "546.00",
                 "formattedPrice": "$546.00",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$546"
             }
         },
@@ -1012,12 +1066,14 @@
             "averageTotalPricePerTicket": {
                 "amount": "9001.00",
                 "formattedPrice": "$9001.00",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$9001"
             },
             "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
             "baseFare": "9001.00",
             "baseFarePrice": {
                 "amount": "9001.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$9001.00",
                 "formattedWholePrice": "$9001"
             },
@@ -1026,6 +1082,7 @@
             "fees": "0.00",
             "feesPrice": {
                 "amount": "0.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$0.00",
                 "formattedWholePrice": "$0"
             },
@@ -1041,17 +1098,20 @@
                 {
                     "basePrice": {
                         "amount": "9001.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$9001.00",
                         "formattedWholePrice": "$9001"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "0.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$0.00",
                         "formattedWholePrice": "$0"
                     },
                     "totalPrice": {
                         "amount": "9001.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$9001.00",
                         "formattedWholePrice": "$9001"
                     }
@@ -1077,12 +1137,14 @@
             "taxes": "0.00",
             "taxesPrice": {
                 "amount": "0.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$0.00",
                 "formattedWholePrice": "$0"
             },
             "totalFare": "9001.00",
             "totalPrice": {
                 "amount": "9001.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$9001.00",
                 "formattedWholePrice": "$9001"
             }
@@ -1097,6 +1159,7 @@
             "baseFare": "9001.00",
             "baseFarePrice": {
                 "amount": "9001.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$9001.00",
                 "formattedWholePrice": "$9001"
             },
@@ -1106,6 +1169,7 @@
             "feesPrice": {
                 "amount": "0.00",
                 "formattedPrice": "$0.00",
+                "currencyCode": "USD",
                 "formattedWholePrice": "$0"
             },
             "hasBagFee": false,
@@ -1120,17 +1184,20 @@
                 {
                     "basePrice": {
                         "amount": "9001.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$9001.00",
                         "formattedWholePrice": "$9001"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "0.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$0.00",
                         "formattedWholePrice": "$0"
                     },
                     "totalPrice": {
                         "amount": "9001.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$9001.00",
                         "formattedWholePrice": "$9001"
                     }
@@ -1156,12 +1223,14 @@
             "taxes": "0.00",
             "taxesPrice": {
                 "amount": "0.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$0.00",
                 "formattedWholePrice": "$0"
             },
             "totalFare": "9001.00",
             "totalPrice": {
                 "amount": "9001.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$9001.00",
                 "formattedWholePrice": "$9001"
             }
@@ -1169,6 +1238,7 @@
         {
             "averageTotalPricePerTicket": {
                 "amount": "596.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
             },
@@ -1176,6 +1246,7 @@
             "baseFare": "520.46",
             "baseFarePrice": {
                 "amount": "520.46",
+                "currencyCode": "USD",
                 "formattedPrice": "$520.46",
                 "formattedWholePrice": "$520"
             },
@@ -1184,6 +1255,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -1199,17 +1271,20 @@
                 {
                     "basePrice": {
                         "amount": "520.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$520.46",
                         "formattedWholePrice": "$520"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "589.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$589.00",
                         "formattedWholePrice": "$589"
                     }
@@ -1218,16 +1293,19 @@
                     "passengerCategory": "INFANT_IN_LAP",
                     "totalPrice": {
                         "amount": "0.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$0.00",
                         "formattedWholePrice": "$0"
                     },
                     "basePrice": {
                         "amount": "0.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$0.00",
                         "formattedWholePrice": "$0"
                     },
                     "taxesPrice": {
                         "amount": "0.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$0.00",
                         "formattedWholePrice": "$0"
                     }
@@ -1253,12 +1331,14 @@
             "taxes": "68.54",
             "taxesPrice": {
                 "amount": "68.54",
+                "currencyCode": "USD",
                 "formattedPrice": "$68.54",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "596.00",
             "totalPrice": {
                 "amount": "596.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
             }
@@ -1266,6 +1346,7 @@
         {
             "averageTotalPricePerTicket": {
                 "amount": "596.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
             },
@@ -1273,6 +1354,7 @@
             "baseFare": "520.46",
             "baseFarePrice": {
                 "amount": "520.46",
+                "currencyCode": "USD",
                 "formattedPrice": "$520.46",
                 "formattedWholePrice": "$520"
             },
@@ -1281,6 +1363,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -1296,17 +1379,20 @@
                 {
                     "basePrice": {
                         "amount": "520.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$520.46",
                         "formattedWholePrice": "$520"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "589.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$589.00",
                         "formattedWholePrice": "$589"
                     }
@@ -1314,17 +1400,20 @@
                 {
                     "basePrice": {
                         "amount": "520.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$520.46",
                         "formattedWholePrice": "$520"
                     },
                     "passengerCategory": "CHILD",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "589.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$589.00",
                         "formattedWholePrice": "$589"
                     }
@@ -1333,16 +1422,19 @@
                     "passengerCategory": "INFANT_IN_LAP",
                     "totalPrice": {
                         "amount": "0.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$0.00",
                         "formattedWholePrice": "$0"
                     },
                     "basePrice": {
                         "amount": "0.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$0.00",
                         "formattedWholePrice": "$0"
                     },
                     "taxesPrice": {
                         "amount": "0.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$0.00",
                         "formattedWholePrice": "$0"
                     }
@@ -1368,12 +1460,14 @@
             "taxes": "68.54",
             "taxesPrice": {
                 "amount": "68.54",
+                "currencyCode": "USD",
                 "formattedPrice": "$68.54",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "596.00",
             "totalPrice": {
                 "amount": "596.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
             }
@@ -1381,6 +1475,7 @@
         {
             "averageTotalPricePerTicket": {
                 "amount": "596.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
             },
@@ -1388,6 +1483,7 @@
             "baseFare": "520.46",
             "baseFarePrice": {
                 "amount": "520.46",
+                "currencyCode": "USD",
                 "formattedPrice": "$520.46",
                 "formattedWholePrice": "$520"
             },
@@ -1396,6 +1492,7 @@
             "fees": "7.00",
             "feesPrice": {
                 "amount": "7.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$7.00",
                 "formattedWholePrice": "$7"
             },
@@ -1411,17 +1508,20 @@
                 {
                     "basePrice": {
                         "amount": "520.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$520.46",
                         "formattedWholePrice": "$520"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "589.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$589.00",
                         "formattedWholePrice": "$589"
                     }
@@ -1429,17 +1529,20 @@
                 {
                     "basePrice": {
                         "amount": "520.46",
+                        "currencyCode": "USD",
                         "formattedPrice": "$520.46",
                         "formattedWholePrice": "$520"
                     },
                     "passengerCategory": "INFANT_IN_SEAT",
                     "taxesPrice": {
                         "amount": "68.54",
+                        "currencyCode": "USD",
                         "formattedPrice": "$68.54",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
                         "amount": "589.00",
+                        "currencyCode": "USD",
                         "formattedPrice": "$589.00",
                         "formattedWholePrice": "$589"
                     }
@@ -1465,12 +1568,14 @@
             "taxes": "68.54",
             "taxesPrice": {
                 "amount": "68.54",
+                "currencyCode": "USD",
                 "formattedPrice": "$68.54",
                 "formattedWholePrice": "$69"
             },
             "totalFare": "596.00",
             "totalPrice": {
                 "amount": "596.00",
+                "currencyCode": "USD",
                 "formattedPrice": "$596.00",
                 "formattedWholePrice": "$596"
             }
