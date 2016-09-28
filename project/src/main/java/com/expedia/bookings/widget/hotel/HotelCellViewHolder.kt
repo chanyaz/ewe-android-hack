@@ -10,6 +10,7 @@ import android.graphics.drawable.PaintDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.graphics.drawable.shapes.RectShape
 import android.support.v7.graphics.Palette
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
@@ -54,6 +55,7 @@ open class HotelCellViewHolder(val root: ViewGroup, val width: Int) :
 
     val resources = root.resources
 
+    val cardView: CardView by root.bindView(R.id.card_view)
     var hotelId: String by Delegates.notNull()
     val imageView: ImageView by root.bindView(R.id.background)
     val heartView: FavoriteButton by root.bindView(R.id.heart_image_view)
@@ -155,7 +157,7 @@ open class HotelCellViewHolder(val root: ViewGroup, val width: Int) :
             heartView.hotelId = hotelId
             heartView.updateImageState()
         }
-
+        cardView.contentDescription = viewModel.getHotelContentDesc()
     }
 
     override fun onClick(view: View) {
