@@ -130,6 +130,9 @@ class FlightListAdapterTest {
         flightLeg.packageOfferModel.price.deltaPositive = true
         flightLeg.packageOfferModel.price.differentialPriceFormatted = "$11"
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "200.0"
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
+        flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
+
         val airlines = ArrayList<Airline>()
         val airline1 = Airline("United", null)
         val airline2 = Airline("Delta", null)

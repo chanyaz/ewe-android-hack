@@ -6,9 +6,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
-import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
-import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.AbstractFlightViewModel
 import com.expedia.vm.flights.FlightViewModel
@@ -91,8 +89,9 @@ class AbstractFlightListAdapterTest {
         flightLeg.packageOfferModel.price.deltaPositive = true
         flightLeg.packageOfferModel.price.differentialPriceFormatted = "$11"
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "200.0"
+        flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
+        flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
     }
-
 
     private fun createFlightLegWithFourAirlines() {
         createFlightLeg()
