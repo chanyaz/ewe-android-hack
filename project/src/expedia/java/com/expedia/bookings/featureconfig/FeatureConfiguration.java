@@ -433,4 +433,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean useNewLaunchScreen() {
 		return true;
 	}
+
+	@Override
+	public boolean sendEapidToTuneTracking() {
+		return false;
+	}
 }
