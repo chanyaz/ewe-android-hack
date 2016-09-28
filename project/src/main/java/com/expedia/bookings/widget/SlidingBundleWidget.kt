@@ -13,6 +13,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
@@ -31,14 +32,15 @@ import com.expedia.vm.packages.PackageSearchType
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
-class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
+class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val REGULAR_ANIMATION_DURATION = 400
 
     val bundlePriceWidget: TotalPriceWidget by bindView(R.id.bundle_price_widget)
     val bundleOverViewWidget: BundleWidget by bindView(R.id.bundle_widget)
     val bundlePriceFooter: TotalPriceWidget by bindView(R.id.total_price_widget)
-    val bundleWidgetShadow: View by bindView(R.id.bundle_price_widget_shadow)
+    val bundleWidgetTopShadow: View by bindView(R.id.bundle_price_widget_shadow)
     val bundlePriceWidgetContainer: View by bindView(R.id.bundle_price_widget_container)
+    val bundleFooterContainer: View by bindView(R.id.bundle_price_footer_container)
 
     var translationDistance = 0f
     val statusBarHeight = Ui.getStatusBarHeight(context)
@@ -50,6 +52,7 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
     val overviewLayoutListener = OverviewLayoutListener()
 
     init {
+        orientation = VERTICAL
         View.inflate(getContext(), R.layout.bundle_slide_widget, this)
         bundlePriceWidget.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
@@ -59,12 +62,12 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
                     if (activity.intent.extras == null) {
                         bundlePriceWidget.animateBundleWidget(1f, true)
                         finalizeBundleTransition(true, false)
-                        bundlePriceFooter.translationY = -statusBarHeight.toFloat()
+                        bundleFooterContainer.translationY = -statusBarHeight.toFloat()
                         post({
                             closeBundleOverview()
                         })
                     } else {
-                        bundlePriceFooter.translationY = -statusBarHeight.toFloat()
+                        bundleFooterContainer.translationY = -statusBarHeight.toFloat()
                         translationY = height.toFloat() - bundlePriceWidgetContainer.height
 
                         if (activity.intent.hasExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS)) {
@@ -86,10 +89,10 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundlePriceWidget.bundleTotalPrice.visibility = View.VISIBLE
         bundlePriceWidget.setBackgroundColor(if (forward) Color.WHITE else ContextCompat.getColor(context, R.color.packages_primary_color))
         if (forward) {
-            bundleWidgetShadow.visibility = View.GONE
+            bundleWidgetTopShadow.visibility = View.GONE
             bundleOverViewWidget.scrollSpaceView.viewTreeObserver?.addOnGlobalLayoutListener(overviewLayoutListener)
         } else {
-            bundleWidgetShadow.visibility = View.VISIBLE
+            bundleWidgetTopShadow.visibility = View.VISIBLE
             bundleOverViewWidget.scrollSpaceView.viewTreeObserver?.removeOnGlobalLayoutListener(overviewLayoutListener)
         }
     }
@@ -225,7 +228,6 @@ class SlidingBundleWidget(context: Context, attrs: AttributeSet?) : FrameLayout(
         bundlePriceFooter.viewModel = BundleTotalPriceViewModel(context)
         bundlePriceWidget.viewModel = BundleTotalPriceViewModel(context, true)
         bundlePriceWidget.bundleChevron.visibility = View.VISIBLE
-        bundleOverViewWidget.setPadding(0, Ui.getToolbarSize(context), 0, 0)
         val icon = ContextCompat.getDrawable(context, R.drawable.read_more).mutate()
         icon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
 
