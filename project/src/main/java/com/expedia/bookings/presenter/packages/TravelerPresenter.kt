@@ -134,6 +134,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     fun showSelectOrEntryState() {
         if (viewModel.getTravelers().size > 1) {
             toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
+            updateAllTravelerStatuses()
             show(travelerPickerWidget)
         } else {
             val travelerViewModel = FlightTravelerViewModel(context, 0, viewModel.passportRequired.value)
@@ -166,7 +167,6 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     fun onLogin(isLoggedIn: Boolean) {
         resetTravelers()
         travelerEntryWidget.emailEntryView.visibility = if (isLoggedIn) GONE else VISIBLE
-        updateAllTravelerStatuses()
         viewModel.refresh()
     }
 
