@@ -357,8 +357,10 @@ public class PackageScreen {
 	}
 
 	public static void clickLegalInformation() {
+		onView(withId(R.id.bottom_container)).perform(waitForViewToDisplay());
 		onView(withId(R.id.legal_information_text_view)).perform(scrollTo());
-		onView(withId(R.id.legal_information_text_view)).perform(swipeUp(), click());
+		onView(withId(R.id.legal_information_text_view)).perform(swipeUp());
+		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), click());
 	}
 
 	public static void clickPaymentDone() {

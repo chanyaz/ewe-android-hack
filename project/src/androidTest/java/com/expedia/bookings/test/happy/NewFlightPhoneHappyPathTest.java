@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.happy;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
 
@@ -15,6 +16,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
@@ -148,7 +150,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.checkout().perform(click());
 
 		CheckoutViewModel.signInOnCheckout();
-		Common.delay(1);
+		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS);
 
 		CheckoutViewModel.clickPaymentInfo();
 		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
