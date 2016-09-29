@@ -102,15 +102,14 @@
                             android:layout_height="wrap_content"
                             android:paddingLeft="16dp"
                             android:paddingRight="4dp"
-                            android:textColor="@color/pay_now_earn_text_color"
-                            android:text="@string/bullet_point" />
+                            android:text="@string/bullet_point"
+                            android:textColor="@color/pay_now_earn_text_color" />
 
                         <com.expedia.bookings.widget.TextView
                             android:id="@+id/etp_earn_text"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/pay_now_earn_text_color"
-                             />
+                            android:textColor="@color/pay_now_earn_text_color" />
 
                     </LinearLayout>
                 </LinearLayout>
@@ -264,6 +263,7 @@
             android:layout_gravity="top"
             android:background="@color/hotels_primary_color"
             android:minHeight="?attr/actionBarSize"
+            app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"
             app:navigationIcon="@drawable/ic_close_white_24dp"
             app:title="@string/book_now_pay_later"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
