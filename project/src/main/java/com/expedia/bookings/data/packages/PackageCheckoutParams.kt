@@ -47,6 +47,9 @@ class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Trave
                 "flight.associatedFlightPassengers[" + (i - 1) + "]."
             }
             params.put(key+"firstName", travelers[i].firstName)
+            if (!travelers[i].middleName.isNullOrEmpty()) {
+                params.put(key+"middleName", travelers[i].middleName)
+            }
             params.put(key+"lastName", travelers[i].lastName)
             params.put(key+"phoneCountryCode", travelers[i].phoneCountryCode)
             params.put(key+"phone", travelers[i].phoneNumber)
