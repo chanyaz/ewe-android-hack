@@ -1,25 +1,19 @@
 package com.expedia.bookings.utils;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
-
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
@@ -55,6 +49,10 @@ import com.mobileapptracker.MATDeeplinkListener;
 import com.mobileapptracker.MATEvent;
 import com.mobileapptracker.MATEventItem;
 import com.mobileapptracker.MobileAppTracker;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class TuneUtils {
 
@@ -62,7 +60,7 @@ public class TuneUtils {
 	private static boolean initialized = false;
 	public static Context context;
 
-	public static void init(ExpediaBookingApp app) {
+	public static void init(Application app) {
 		initialized = true;
 		context = app.getApplicationContext();
 
@@ -969,7 +967,6 @@ public class TuneUtils {
 
 	private static String getMembershipTier() {
 		if (User.isLoggedIn(context)) {
-			lazyLoadUser();
 			return User.getLoggedInLoyaltyMembershipTier(context).toApiValue();
 		}
 		return "";
@@ -977,16 +974,9 @@ public class TuneUtils {
 
 	private static String getTuid() {
 		if (User.isLoggedIn(context)) {
-			lazyLoadUser();
 			return Db.getUser().getTuidString();
 		}
 		return "";
-	}
-
-	private static void lazyLoadUser() {
-		if (Db.getUser() == null && User.isLoggedIn(context)) {
-			Db.loadUser(context);
-		}
 	}
 
 	private static HotelSearchParams getHotelSearchParams() {

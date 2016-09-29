@@ -7,13 +7,12 @@ import android.content.Context;
 import android.os.Process;
 import android.text.TextUtils;
 import android.util.Pair;
-
 import com.expedia.bookings.data.abacus.AbacusResponse;
+import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
-import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
@@ -27,7 +26,6 @@ import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -324,10 +322,6 @@ public class Db {
 
 	public static MaskedWallet getMaskedWallet() {
 		return sDb.mMaskedWallet;
-	}
-
-	public static void loadUser(Context context) {
-		sDb.mUser = new User(context);
 	}
 
 	public static void setUser(User user) {
