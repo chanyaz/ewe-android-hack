@@ -246,6 +246,13 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         params.put("pckgHotelCheckOutEpochSeconds", "" + pckgHotelCheckOut.millis / 1000)
         params.put("pckgHotelCheckOutTzOffset", "" + pacificTimeZone.getOffset(pckgHotelCheckOut.millis) / 1000)
 
+        // Inject rails DateTimes
+        val railStart = startOfTodayPacific.plusDays(44).withHourOfDay(4)
+        val railEnd = startOfTodayPacific.plusDays(48).withHourOfDay(12)
+        params.put("railStartEpochSeconds", "" + railStart.millis / 1000)
+        params.put("railStartTzOffset", "" + pacificTimeZone.getOffset(railStart.millis) / 1000)
+        params.put("railEndEpochSeconds", "" + railEnd.millis / 1000)
+        params.put("railEndTzOffset", "" + pacificTimeZone.getOffset(railEnd.millis) / 1000)
 
         return makeResponse("/api/trips/happy.json", params)
     }

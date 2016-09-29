@@ -20,6 +20,7 @@ import android.graphics.Color;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.view.MenuInflater;
@@ -491,6 +492,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mHeaderShadeView.setVisibility(View.GONE);
 		}
 		updateContDesc();
+		if (getType() == Type.RAILS) {
+			mActionButtonLayout.setVisibility(GONE);
+			mHeaderImageView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rail_primary_color));
+			mChevronImageView.setRotation(-90f);
+		}
 	}
 
 	private void showCheckInWebView(T itinCardData) {

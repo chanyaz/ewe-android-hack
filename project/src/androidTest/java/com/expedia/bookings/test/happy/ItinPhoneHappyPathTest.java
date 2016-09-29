@@ -205,8 +205,15 @@ public class ItinPhoneHappyPathTest extends PhoneTestCase {
 
 		pckgReturnFlightRow.onChildView(withText(pckgReturnFlightAirportTimeStr)).perform(scrollTo(), click());
 
+		// Rails
+		DataInteraction railsRow = TripsScreen.tripsListItem().atPosition(11);
+		String railsTitle = getListItemValues(railsRow, R.id.header_text_view);
+
+		final String expectedRailsTitle = "Reading-Manchester Piccadilly";
+		assertEquals(expectedRailsTitle, railsTitle);
+
 		// Cruise
-		DataInteraction cruiseRow = TripsScreen.tripsListItem().atPosition(11);
+		DataInteraction cruiseRow = TripsScreen.tripsListItem().atPosition(12);
 		String cruiseTitle = getListItemValues(cruiseRow, R.id.header_text_view);
 
 		final String expectedCruiseTitle = "Cruise Card";
