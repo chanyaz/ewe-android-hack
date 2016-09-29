@@ -190,6 +190,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            setBundleWidgetAndToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
             checkoutPresenter.toggleCheckoutButton(!forward)
@@ -289,6 +290,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     class BundleDefault
 
+    open fun setBundleWidgetAndToolbar(forward: Boolean) { }
     open fun setToolbarMenu(forward: Boolean) { }
     open fun setToolbarNavIcon(forward: Boolean) { }
     abstract fun trackCheckoutPageLoad()
