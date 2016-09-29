@@ -93,6 +93,7 @@ class RailTicketDeliveryEntryWidgetTest {
         val deliveryOptionView = widget.mailDeliveryAddress.findViewById(R.id.edit_delivery_option_spinner) as RailDeliverySpinnerWithValidationIndicator
         val addressLineOne = widget.mailDeliveryAddress.findViewById(R.id.edit_address_line_one) as TextView
         val city = widget.mailDeliveryAddress.findViewById(R.id.edit_address_city) as TextView
+        val postalCode = widget.mailDeliveryAddress.findViewById(R.id.edit_address_postal_code) as TextView
 
         // Required field in mailing address not filled
         widget.doneClicked.onNext(Unit)
@@ -108,8 +109,13 @@ class RailTicketDeliveryEntryWidgetTest {
         widget.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(0)
 
-        // All required fields are filled
+        // City filled
         city.text = "City"
+        widget.doneClicked.onNext(Unit)
+        testCloseSubscriber.assertValueCount(0)
+
+        // All required fields are filled
+        postalCode.text = "Postal Code"
         widget.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(1)
     }

@@ -462,6 +462,10 @@ public class SectionLocation extends LinearLayout
 		}
 	};
 
+	private boolean isRails() {
+		return mLineOfBusiness.equals(LineOfBusiness.RAILS);
+	}
+
 	SectionFieldEditable<EditText, Location> mEditAddressPostalCode
 		= new SectionFieldEditableFocusChangeTrimmer<EditText, Location>(R.id.edit_address_postal_code) {
 
@@ -472,16 +476,22 @@ public class SectionLocation extends LinearLayout
 
 			@Override
 			public int validate(EditText obj) {
-				if (obj == null || obj.getText() == null) {
+				if (obj == null) {
 					return ValidationError.ERROR_DATA_MISSING;
 				}
 				else {
-					if (mPattern.matcher(obj.getText()).matches()) {
-						return ValidationError.NO_ERROR;
+					String text = obj.getText().toString();
+					if (isRails()) {
+						if (text.isEmpty() || text.length() > 15) {
+							return ValidationError.ERROR_DATA_INVALID;
+						}
 					}
 					else {
-						return ValidationError.ERROR_DATA_INVALID;
+						if (!mPattern.matcher(text).matches()) {
+							return ValidationError.ERROR_DATA_INVALID;
+						}
 					}
+					return ValidationError.NO_ERROR;
 				}
 			}
 		};
