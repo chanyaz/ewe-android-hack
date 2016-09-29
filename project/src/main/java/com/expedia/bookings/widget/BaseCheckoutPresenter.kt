@@ -57,7 +57,7 @@ import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import rx.Observable
 
-abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
+abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
     /** abstract methods **/
@@ -169,7 +169,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         presenter
     }
 
-    protected var travelerManager: TravelerManager by notNullAndObservable { manager ->
+    var travelerManager: TravelerManager by notNullAndObservable { manager ->
         manager.travelersUpdated.subscribe {
             travelerPresenter.resetTravelers()
         }
@@ -452,7 +452,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
         }
     }
 
-    private fun showPaymentPresenter() {
+    fun showPaymentPresenter() {
         show(paymentWidget)
     }
 

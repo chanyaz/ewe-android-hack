@@ -169,9 +169,9 @@ object FlightV2Utils {
         return airlines
     }
 
-    @JvmStatic fun isFlightMerchant(flightLeg: FlightLeg): Boolean {
+    @JvmStatic fun isFlightMerchant(flightLeg: FlightLeg?): Boolean {
         // https://confluence/display/Omniture/Products+String+and+Events#ProductsStringandEvents-Flights
-        when (flightLeg.flightFareTypeString.toUpperCase()) {
+        when (flightLeg?.flightFareTypeString?.toUpperCase()) {
             "M", "SN", "N", "WP", "WPNS", "W", "SM" -> return true
             "C", "L", "CN", "PP", "P" -> return false
         }

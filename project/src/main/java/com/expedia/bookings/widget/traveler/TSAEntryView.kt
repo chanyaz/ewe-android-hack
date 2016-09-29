@@ -33,14 +33,13 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
         vm.formattedDateSubject.subscribeEditText(dateOfBirth)
         dateOfBirth.subscribeToError(vm.dateOfBirthErrorSubject)
-
         genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
-
         vm.genderSubject.subscribe { gender ->
             val adapter = genderSpinner.adapter as GenderSpinnerAdapter
+            genderSpinner.onItemSelectedListener = null
             genderSpinner.setSelection(adapter.getGenderPosition(gender))
+            genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
         }
-
         vm.birthErrorTextSubject.subscribe { text ->
             showBirthdateErrorDialog(text)
         }

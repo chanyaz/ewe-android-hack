@@ -19,7 +19,7 @@ import org.joda.time.format.DateTimeFormat
 import rx.Observer
 import rx.subjects.BehaviorSubject
 
-class PackageCreateTripViewModel(val packageServices: PackageServices, val context: Context) : BaseCreateTripViewModel() {
+class PackageCreateTripViewModel(var packageServices: PackageServices, val context: Context) : BaseCreateTripViewModel() {
 
     val tripParams = BehaviorSubject.create<PackageCreateTripParams>()
 

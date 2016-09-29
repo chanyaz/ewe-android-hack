@@ -85,7 +85,6 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         phoneEntryView.viewModel = vm.phoneViewModel
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
-
         vm.passportCountrySubject.subscribe { countryCode ->
             selectPassport(countryCode)
         }

@@ -3,6 +3,7 @@ package com.expedia.bookings.widget;
 import java.text.NumberFormat;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
@@ -183,8 +184,10 @@ public class AccountButton extends LinearLayout {
 				mLoginContainer.setBackgroundResource(R.drawable.material_account_sign_in_button_ripple);
 				mLoginTextView.setTextColor(
 					ContextCompat.getColor(getContext(), R.color.material_checkout_account_button_text_color));
+				int[] attrs = {R.attr.skin_material_checkout_account_logo};
+				TypedArray ta = getContext().getTheme().obtainStyledAttributes(attrs);
 				mLoginTextView
-					.setCompoundDrawablesWithIntrinsicBounds(R.drawable.material_checkout_account_logo, 0, 0, 0);
+					.setCompoundDrawablesWithIntrinsicBounds(ta.getDrawable(0), null, null, null);
 			}
 			else {
 				int bgResourceId = Ui.obtainThemeResID(getContext(), android.R.attr.selectableItemBackground);

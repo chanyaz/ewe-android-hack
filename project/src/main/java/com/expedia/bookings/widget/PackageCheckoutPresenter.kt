@@ -19,7 +19,7 @@ import com.expedia.vm.packages.PackageCreateTripViewModel
 import com.squareup.otto.Subscribe
 import javax.inject.Inject
 
-class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
+class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
     lateinit var paymentViewModel: PaymentViewModel
         @Inject set
 
@@ -41,7 +41,11 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
             priceChangeWidget.viewmodel.newPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel).packageCostSummaryObservable.onNext(response)
+            totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+            val packageTotalPrice = response.packageDetails.pricing
+            totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
+            val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
+            costSummaryViewModel.packageCostSummaryObservable.onNext(response)
 
             val messageString =
                     if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
@@ -49,12 +53,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
                     else
                         R.string.bundle_total_text
             totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
-
-            val packageTotalPrice = response.packageDetails.pricing
             totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-
-            totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
             isPassportRequired(response)
             resetTravelers()
             trackShowBundleOverview()

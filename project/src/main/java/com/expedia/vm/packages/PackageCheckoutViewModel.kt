@@ -22,7 +22,7 @@ import com.expedia.vm.BaseCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
 
-class PackageCheckoutViewModel(context: Context, val packageServices: PackageServices) : BaseCheckoutViewModel(context) {
+class PackageCheckoutViewModel(context: Context, var packageServices: PackageServices) : BaseCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
     val e3Endpoint = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
 
