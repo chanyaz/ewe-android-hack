@@ -102,6 +102,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayCreditCardSecurityCode);
 
 		//Validation indicator fields
+		mFields.add(mValidMaskedCCNum);
 		mFields.add(mValidCCNum);
 		mFields.add(mValidNameOnCard);
 		mFields.add(mValidFirstName);
@@ -471,6 +472,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	//////////////////////////////////////
 	ValidationIndicatorExclaimation<BillingInfo> mValidCCNum = new ValidationIndicatorExclaimation<>(
 		R.id.edit_creditcard_number);
+	ValidationIndicatorExclaimation<BillingInfo> mValidMaskedCCNum = new ValidationIndicatorExclaimation<>(
+		R.id.edit_masked_creditcard_number);
 	ValidationIndicatorExclaimation<BillingInfo> mValidNameOnCard = new ValidationIndicatorExclaimation<>(
 		R.id.edit_name_on_card);
 	ValidationIndicatorExclaimation<BillingInfo> mValidFirstName = new ValidationIndicatorExclaimation<>(
@@ -598,6 +601,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
 			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
 			retArr.add(mValidCCNum);
+			retArr.add(mValidMaskedCCNum);
 			return retArr;
 		}
 	};
