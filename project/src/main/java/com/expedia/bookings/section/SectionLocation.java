@@ -124,6 +124,10 @@ public class SectionLocation extends LinearLayout
 		mFields.setValidationIndicatorState(true);
 	}
 
+	public void resetValidation(int fieldID, boolean status) {
+		mFields.setValidationIndicatorState(fieldID, status);
+	}
+
 	@Override
 	public void onChange() {
 		for (SectionChangeListener listener : mChangeListeners) {
