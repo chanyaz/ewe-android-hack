@@ -17,6 +17,7 @@ import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.ClearPrivateDataUtil;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.TrackingUtils;
+import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.facebook.appevents.AppEventsLogger;
@@ -47,6 +48,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 		// Track the app loading
 		OmnitureTracking.trackAppLoading(this);
+		TuneUtils.startTune(this);
 
 		// Update data
 		ItineraryManager.getInstance().startSync(false, false, true);
