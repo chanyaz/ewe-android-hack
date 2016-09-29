@@ -104,23 +104,18 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                             apiError.errorInfo.field = field
                             checkoutErrorObservable.onNext(apiError)
                         }
-                        ApiError.Code.INVALID_CARD_NUMBER -> {
-                            checkoutErrorObservable.onNext(response.firstError)
-                        }
-                        ApiError.Code.CID_DID_NOT_MATCHED -> {
-                            checkoutErrorObservable.onNext(response.firstError)
-                        }
-                        ApiError.Code.INVALID_CARD_EXPIRATION_DATE -> {
-                            checkoutErrorObservable.onNext(response.firstError)
-                        }
-                        ApiError.Code.CARD_LIMIT_EXCEEDED -> {
+                        ApiError.Code.INVALID_CARD_NUMBER,
+                        ApiError.Code.CID_DID_NOT_MATCHED,
+                        ApiError.Code.INVALID_CARD_EXPIRATION_DATE,
+                        ApiError.Code.CARD_LIMIT_EXCEEDED,
+                        ApiError.Code.PAYMENT_FAILED -> {
                             checkoutErrorObservable.onNext(response.firstError)
                         }
                         ApiError.Code.PRICE_CHANGE -> {
                             priceChangeObservable.onNext(response)
                         }
-                        ApiError.Code.PAYMENT_FAILED -> {
-                            checkoutErrorObservable.onNext(response.firstError)
+                        ApiError.Code.TRIP_ALREADY_BOOKED -> {
+                            bookingSuccessResponse.onNext(Pair(response, email))
                         }
                         else -> {
                             checkoutErrorObservable.onNext(ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN))

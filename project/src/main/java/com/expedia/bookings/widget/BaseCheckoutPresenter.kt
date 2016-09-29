@@ -28,7 +28,6 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
