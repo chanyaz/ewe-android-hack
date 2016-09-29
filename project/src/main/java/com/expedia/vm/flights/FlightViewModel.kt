@@ -7,6 +7,6 @@ import com.expedia.vm.AbstractFlightViewModel
 
 class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightViewModel(context, flightLeg) {
     override fun price(): String {
-        return flightLeg.packageOfferModel.price.averageTotalPricePerTicket.getFormattedMoney(Money.F_NO_DECIMAL)
+        return flightLeg.packageOfferModel.price.averageTotalPricePerTicket.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL)
     }
 }
