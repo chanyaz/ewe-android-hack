@@ -713,7 +713,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.nav_car_rentals,
 		R.string.nav_things_to_do,
 		R.drawable.ic_lob_flights,
-		R.string.bundle_overview_price_widget,
+		R.string.bundle_overview_price_widget_TEMPLATE,
 		R.string.bundle_overview_price_widget_button_open_TEMPLATE,
 		R.string.bundle_overview_price_widget_button_close,
 		R.string.search_child_drop_down_cont_desc_TEMPLATE,

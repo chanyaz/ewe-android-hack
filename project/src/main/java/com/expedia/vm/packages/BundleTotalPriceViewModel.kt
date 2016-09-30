@@ -41,7 +41,7 @@ class BundleTotalPriceViewModel(val context: Context,
                     .put("savings", savingsPriceObservable.value)
                     .format().toString()
         } else if (!isSlidable && savingsPriceObservable.value != null && totalPriceObservable.value != null) {
-            Phrase.from(context, R.string.bundle_overview_price_widget)
+            Phrase.from(context, R.string.bundle_overview_price_widget_TEMPLATE)
                     .put("totalprice", totalPriceObservable.value)
                     .put("savings", savingsPriceObservable.value)
                     .format().toString()
