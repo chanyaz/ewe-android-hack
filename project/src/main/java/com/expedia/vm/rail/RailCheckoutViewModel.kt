@@ -10,6 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.utils.RetrofitUtils
@@ -53,8 +54,11 @@ class RailCheckoutViewModel(val context: Context) {
         builder.traveler(listOf(bookingTraveler))
     }
 
-    val ticketDeliveryCompleteObserver = endlessObserver<RailCreateTripResponse.RailTicketDeliveryOptionToken> { tdo ->
-        builder.ticketDeliveryOption(tdo.name)
+    val ticketDeliveryCompleteObserver = endlessObserver<TicketDeliveryOption> { tdo ->
+        val tdo = RailCheckoutParams.TicketDeliveryOption(tdo.deliveryOptionToken.name,
+                tdo.deliveryAddress?.streetAddressString, null, tdo.deliveryAddress?.city,
+                tdo.deliveryAddress?.postalCode, tdo.deliveryAddress?.countryCode)
+        builder.ticketDeliveryOption(tdo)
     }
 
     val clearTravelers = endlessObserver<Unit> {

@@ -51,12 +51,23 @@ class RailCheckoutParamsTest {
     }
 
     @Test
-    fun testIsValidNoTicketDeliveryOption() {
+    fun testIsValidTdoNotSet() {
         testParamBuilder.traveler(RailCheckoutParamsMock.travelers())
-        testParamBuilder.paymentInfo(RailCheckoutParamsMock.paymentInfo())
         testParamBuilder.tripDetails(RailCheckoutParamsMock.tripDetails())
+        testParamBuilder.paymentInfo(RailCheckoutParamsMock.paymentInfo())
 
-        assertFalse(testParamBuilder.isValid(), "If ticketDelivery option empty params should not be valid.")
+        assertFalse(testParamBuilder.isValid(), "If tdo not set, params should not be valid.")
+    }
+
+    @Test
+    fun testIsValidTdoMail() {
+        testParamBuilder.traveler(RailCheckoutParamsMock.travelers())
+        testParamBuilder.tripDetails(RailCheckoutParamsMock.tripDetails())
+        testParamBuilder.paymentInfo(RailCheckoutParamsMock.paymentInfo())
+        // is valid with mail delivery
+        testParamBuilder.ticketDeliveryOption(RailCheckoutParamsMock.railTicketDeliveryMailInfo())
+
+        assertTrue(testParamBuilder.isValid())
     }
 
     @Test
@@ -64,7 +75,7 @@ class RailCheckoutParamsTest {
         testParamBuilder.traveler(RailCheckoutParamsMock.travelers())
         testParamBuilder.tripDetails(RailCheckoutParamsMock.tripDetails())
         testParamBuilder.paymentInfo(RailCheckoutParamsMock.paymentInfo())
-        testParamBuilder.ticketDeliveryOption(RailCheckoutParamsMock.railTicketDeliveryInfo().deliveryOptionToken)
+        testParamBuilder.ticketDeliveryOption(RailCheckoutParamsMock.railTicketDeliveryStationInfo())
 
         assertTrue(testParamBuilder.isValid())
     }

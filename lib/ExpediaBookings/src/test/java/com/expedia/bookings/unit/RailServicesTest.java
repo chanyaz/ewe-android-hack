@@ -140,7 +140,7 @@ public class RailServicesTest {
 	public void happyMockCheckout() {
 		RailCheckoutParams params = new RailCheckoutParams(RailCheckoutParamsMock.travelers(),
 			RailCheckoutParamsMock.tripDetails(), RailCheckoutParamsMock.paymentInfo(),
-			RailCheckoutParamsMock.railTicketDeliveryInfo());
+			RailCheckoutParamsMock.railTicketDeliveryStationInfo());
 
 		service.railCheckoutTrip(params, checkoutTripResponseObserver);
 		checkoutTripResponseObserver.awaitTerminalEvent();

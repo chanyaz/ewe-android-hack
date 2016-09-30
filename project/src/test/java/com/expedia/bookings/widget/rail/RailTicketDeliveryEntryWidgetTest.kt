@@ -82,6 +82,7 @@ class RailTicketDeliveryEntryWidgetTest {
         val option1 = RailCreateTripResponse.RailTicketDeliveryOption()
         option1.ticketDeliveryCountryCodeList = listOf("GB")
         option1.ticketDeliveryDescription = "Delivery by post"
+        option1.ticketDeliveryOptionToken = RailCreateTripResponse.RailTicketDeliveryOptionToken.SEND_BY_EXPRESS_POST_UK
         ticketDeliveryOptionsAll.add(option1)
 
         viewModel.ticketDeliveryOptions.onNext(ticketDeliveryOptionsAll)
@@ -111,7 +112,5 @@ class RailTicketDeliveryEntryWidgetTest {
         city.text = "City"
         widget.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(1)
-
-
     }
 }
