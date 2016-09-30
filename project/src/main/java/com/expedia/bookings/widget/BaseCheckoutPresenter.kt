@@ -249,11 +249,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
     init {
         View.inflate(context, R.layout.base_checkout_presenter, this)
         injectComponents()
-
         travelerManager = Ui.getApplication(context).travelerComponent().travelerManager()
         setUpPaymentViewModel()
         setUpViewModels()
-        initLoggedInState()
         setUpDialogs()
         setClickListeners()
     }
@@ -376,7 +374,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet) : Pre
             loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), getLineOfBusiness())
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             updateTravelerPresenter()
-            if (forward) setToolbarTitle()
+            if (forward) {
+                setToolbarTitle()
+                initLoggedInState()
+            }
             if (User.isLoggedIn(context)) paymentWidget.viewmodel.userLogin.onNext(true)
         }
     }
