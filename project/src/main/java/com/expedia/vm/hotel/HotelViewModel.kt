@@ -158,7 +158,6 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
                 .put("hotel", hotel.localizedName)
                 .put("starrating", hotelStarRatingContentDescriptionObservable.value)
                 .put("guestrating", hotelGuestRatingObservable.value.toString())
-                .put("price", pricePerNightObservable.value)
                 .format()
                 .toString())
 
@@ -167,17 +166,28 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
         }
 
         if (showDiscountObservable.value) {
-            result.append(Phrase.from(context, R.string.hotel_discount_cont_desc_TEMPLATE)
-                    .put("percent", Math.abs(hotel.lowRateInfo?.discountPercent?.toInt() ?: 0))
+            val discountPercentage = Phrase.from(context , R.string.hotel_discount_percent_Template)
+                    .put("discount", Math.abs(hotel.lowRateInfo?.discountPercent?.toInt() ?: 0))
+                    .format()
+                    .toString()
+
+            result.append(Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
+                    .put("percentage", discountPercentage)
                     .format()
                     .toString())
         }
 
         if (hotelStrikeThroughPriceVisibility.value) {
-            result.append(Phrase.from(context, R.string.hotel_price_cont_desc_TEMPLATE)
+            result.append(Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
                     .put("strikethroughprice", hotelStrikeThroughPriceFormatted.value)
+                    .put("price", pricePerNightObservable.value)
                     .format()
                     .toString())
+        } else {
+            result.append(Phrase.from(context, R.string.hotel_card_view_price_cont_desc_TEMPLATE)
+                .put("price", pricePerNightObservable.value)
+                .format()
+                .toString())
         }
 
         result.append(Phrase.from(context.resources.getString(R.string.accessibility_cont_desc_role_button)).format().toString())
