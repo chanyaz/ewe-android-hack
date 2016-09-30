@@ -189,12 +189,17 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         params.put("inboundFlightArrivalTzOffset", "" + pacificTimeZone.getOffset(inboundFlightArrival.millis) / 1000)
 
         // Inject air attach times
-        var airAttachExpiry = startOfTodayPacific.plusDays(1);
+        var airAttachExpiry = startOfTodayPacific.plusDays(1)
         // near midnight, during standard time, this can get stretched to 2 days (25 hours), but test expects 1 day
         // NOTE: this is all because we force the timezones in the test to daylight savings time, even during standard time periods
         while (Days.daysBetween(DateTime.now().toLocalDate(), airAttachExpiry.toLocalDate()).days > 1) {
             airAttachExpiry = airAttachExpiry.minusHours(1)
         }
+
+        while (Days.daysBetween(DateTime.now().toLocalDate(), airAttachExpiry.toLocalDate()).days < 1) {
+            airAttachExpiry = airAttachExpiry.plusHours(1)
+        }
+
         params.put("airAttachOfferExpiresEpochSeconds", "" + airAttachExpiry.millis / 1000);
         params.put("airAttachOfferExpiresTzOffset", "" + pacificTimeZone.getOffset(airAttachExpiry.millis) / 1000);
 
