@@ -17,7 +17,7 @@ fileLocation = sys.argv[3]
 hipchatAccessToken = sys.argv[4]
 assignTo = sys.argv[5]
 
-if brandName == 'main' :
+if brandName == 'expedia':
     mingleProject = 'eb_ad_app'
     hipchatRoomName = 'Team: Android'
     cardProperties = {'Team':'PF_US', 'Releases - Release':'(Current Release)', 'Theme':'Localizations', 'Schedule - Iteration':'(Current PF Iteration)',
