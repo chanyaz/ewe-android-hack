@@ -1022,6 +1022,8 @@
     <string name="Sign_in_with_cont_desc_TEMPLATE">Sign in with {brand} button</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} Expedia+ points</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Sign in to earn {reward} Expedia+ points button</string>
     <!-- or -->
     <string name="or">or</string>
 

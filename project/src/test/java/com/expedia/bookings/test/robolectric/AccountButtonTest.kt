@@ -123,4 +123,24 @@ class AccountButtonTest {
         assertNull(accountButton.getRewardsForLOB(LineOfBusiness.PACKAGES))
         assertNull(accountButton.getRewardsForLOB(LineOfBusiness.TRANSPORT))
     }
+
+    @Test
+    fun testRewardsForPackages() {
+        val createTripResponse = PackageCreateTripResponse()
+        val rewardsInfo = RewardsInfo()
+        rewardsInfo.totalAmountToEarn = Money("1234", "USD")
+        createTripResponse.rewards = rewardsInfo
+        Db.getTripBucket().add(TripBucketItemPackages(createTripResponse))
+        val rewards = accountButton.getRewardsForLOB(LineOfBusiness.PACKAGES)
+        assertNotNull(rewards)
+    }
+
+    @Test
+    fun testSignInTextWithRewardsContentDescription() {
+        val rewardsInfo = RewardsInfo()
+        rewardsInfo.totalAmountToEarn = Money("12", "USD")
+        val rewardContentDescriptionText = accountButton.getSignInWithRewardsContentDescriptionText(rewardsInfo).toString()
+        val expectedText = Phrase.from(context, R.string.Sign_in_to_earn_cont_desc_TEMPLATE).put("reward", "$12" ).format().toString()
+        assertEquals(expectedText,rewardContentDescriptionText)
+    }
 }
