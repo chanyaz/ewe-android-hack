@@ -9,9 +9,11 @@ import android.animation.Animator.AnimatorListener;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.content.Context;
+import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.Pair;
+import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Interpolator;
 
@@ -21,6 +23,8 @@ import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.android.Log;
 
 import butterknife.ButterKnife;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 /**
  * A FrameLayoutPresenter that maintains child presenters and animates
@@ -51,7 +55,8 @@ public class Presenter extends FrameLayout {
 	private boolean acceptAnimationUpdates = false;
 	private ValueAnimator animator;
 
-	// View lifecycle
+	private CompositeSubscription windowCompositeSubscription = new CompositeSubscription();
+	private CompositeSubscription visibilityCompositeSubscription = new CompositeSubscription();
 
 	public Presenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -67,12 +72,29 @@ public class Presenter extends FrameLayout {
 	protected void onAttachedToWindow() {
 		super.onAttachedToWindow();
 		Events.register(this);
+		windowCompositeSubscription.unsubscribe();
+		windowCompositeSubscription = new CompositeSubscription();
+		addWindowSubscriptions();
 	}
 
 	@Override
 	protected void onDetachedFromWindow() {
 		Events.unregister(this);
+		unsubscribeWindowAtTeardown();
 		super.onDetachedFromWindow();
+	}
+
+	@Override
+	protected void onVisibilityChanged(View changedView, int visibility) {
+		super.onVisibilityChanged(changedView, visibility);
+		if (visibility == View.VISIBLE) {
+			visibilityCompositeSubscription.unsubscribe();
+			visibilityCompositeSubscription = new CompositeSubscription();
+			addVisibilitySubscriptions();
+		}
+		else {
+			unsubscribeVisibilityAtTeardown();
+		}
 	}
 
 	boolean isHandlingBack = false;
@@ -499,6 +521,35 @@ public class Presenter extends FrameLayout {
 			Log.v(TAG, "  AverageFramePercentageChange: " + avgFramePercentageChange);
 			Log.v(TAG, "  LastPercentageFromAnimator: " + lastAnimPercentage);
 			Log.d(TAG, "End:   " + meta.getOrigin() + " --> " + meta.getDestination());
+		}
+	}
+
+	//Subscriptions
+	protected void addWindowSubscriptions() {
+
+	}
+
+	protected void addWindowSubscription(Subscription subscription) {
+		windowCompositeSubscription.add(subscription);
+	}
+
+	@CallSuper
+	protected void unsubscribeWindowAtTeardown() {
+		windowCompositeSubscription.unsubscribe();
+	}
+
+	protected void addVisibilitySubscriptions() {
+
+	}
+
+	protected void addVisibilitySubscription(Subscription subscription) {
+		visibilityCompositeSubscription.add(subscription);
+	}
+
+	@CallSuper
+	protected void unsubscribeVisibilityAtTeardown() {
+		if (visibilityCompositeSubscription != null) {
+			visibilityCompositeSubscription.unsubscribe();
 		}
 	}
 }

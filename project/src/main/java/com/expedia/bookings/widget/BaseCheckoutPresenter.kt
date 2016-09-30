@@ -55,6 +55,7 @@ import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import rx.Observable
+import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
@@ -126,10 +127,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     protected fun setUpPaymentViewModel() {
         paymentWidget.viewmodel = getPaymentWidgetViewModel()
         paymentWidget.viewmodel.paymentTypeWarningHandledByCkoView.onNext(true)
-        paymentWidget.viewmodel.cardTypeSubject.subscribe { paymentType ->
-            cardType = paymentType
-        }
-        paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() }
         paymentWidget.viewmodel.lineOfBusiness.onNext(getLineOfBusiness())
     }
 
@@ -168,17 +165,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         presenter
     }
 
-    var travelerManager: TravelerManager by notNullAndObservable { manager ->
-        manager.travelersUpdated.subscribe {
-            travelerPresenter.resetTravelers()
-        }
-    }
+    var travelerManager: TravelerManager by Delegates.notNull()
 
     protected var ckoViewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.viewmodel.isCreditCardRequired.onNext(required)
         }
-        paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribe(vm.paymentCompleted)
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeText(depositPolicyText)
         vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
@@ -712,5 +704,18 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             lp.height = distance
             space.layoutParams = lp
         }, ANIMATION_DELAY)
+    }
+
+    override fun addWindowSubscriptions() {
+        super.addWindowSubscriptions()
+        addWindowSubscription(travelerManager.travelersUpdated.subscribe { travelerPresenter.resetTravelers() })
+        addWindowSubscription(paymentWidget.viewmodel.cardTypeSubject.subscribe { paymentType -> cardType = paymentType })
+        addWindowSubscription(paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() })
+        addWindowSubscription(paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribe(ckoViewModel.paymentCompleted))
+    }
+
+    override fun unsubscribeWindowAtTeardown() {
+        super.unsubscribeWindowAtTeardown()
+        getCheckoutViewModel().unsubscribeAll()
     }
 }

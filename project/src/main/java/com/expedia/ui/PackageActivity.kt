@@ -174,6 +174,11 @@ class PackageActivity : AbstractAppCompatActivity() {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        Db.getTripBucket().clearPackages()
+    }
+
     private fun packageFlightSearch() {
         PackagesTracking().trackViewBundlePageLoad()
         packagePresenter.bundlePresenter.bundleWidget.viewModel.flightParamsObservable.onNext(Db.getPackageParams())
