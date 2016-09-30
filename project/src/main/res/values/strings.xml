@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">Removing coupon</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Submit</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">Submit Button</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
