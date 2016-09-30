@@ -120,6 +120,53 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertConfirmation();
 	}
 
+	public void testPackagePhoneHappyPathSingedIn() throws Throwable {
+		SearchScreen.selectPackageOriginAndDestination();
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		SearchScreen.selectDates(startDate, endDate);
+		SearchScreen.searchButton().perform(click());
+		HotelScreen.mapFab().perform(click());
+		Common.pressBack();
+		Common.pressBack();
+		onView(allOf(withId(R.id.widget_bundle_overview))).perform(ViewActions.waitForViewToDisplay());
+		onView(allOf(withId(R.id.widget_bundle_overview))).check(matches(isDisplayed()));
+		PackageScreen.clickHotelBundle();
+		HotelScreen.selectHotel("Package Happy Path");
+		PackageScreen.selectRoom();
+		Common.delay(1);
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(click());
+		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("United");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 am - 11:12 am (5h 12m)");
+		PackageScreen.selectFlight(0);
+		PackageScreen.selectThisFlight().perform(ViewActions.waitForViewToDisplay());
+		PackageScreen.selectThisFlight().perform(click());
+		PackageScreen.checkout().perform(click());
+		HotelScreen.doLogin();
+		selectStoredCard();
+		PackageScreen.clickPaymentDone();
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+		onView(withId(R.id.select_traveler_button)).perform(click());
+		Common.delay(1);
+		onView(withText("Add New Traveler")).perform(click());
+		Common.delay(1);
+		PackageScreen.enterFirstName("FiveStar");
+		PackageScreen.enterLastName("Bear");
+		Espresso.closeSoftKeyboard();
+		PackageScreen.enterPhoneNumber("7732025862");
+		Espresso.closeSoftKeyboard();
+		PackageScreen.selectBirthDate(1989, 6, 9);
+		Espresso.closeSoftKeyboard();
+		PackageScreen.selectGender("Male");
+		Espresso.closeSoftKeyboard();
+		PackageScreen.clickTravelerDone();
+		CheckoutViewModel.performSlideToPurchase(true);
+		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
+	}
+
 	private void assertConfirmation() {
 		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.destination_card_row)), withText("Package Happy Path"))).check(matches(isDisplayed()));

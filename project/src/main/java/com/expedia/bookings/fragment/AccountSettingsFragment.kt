@@ -55,6 +55,7 @@ import com.mobiata.android.util.HtmlUtils
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import java.text.NumberFormat
+import java.util.Calendar
 
 class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRefreshListener {
 
@@ -429,7 +430,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     }
 
     private fun getCopyrightString(): String {
-        return Phrase.from(context, R.string.copyright_TEMPLATE).put("brand", BuildConfig.brand).put("year", AndroidUtils.getAppBuildYear(context)).format().toString()
+        return Phrase.from(context, R.string.copyright_TEMPLATE).put("brand", BuildConfig.brand).put("year", Calendar.getInstance().get(Calendar.YEAR)).format().toString()
     }
 
     private fun getPOSSpecificWebsiteSupportString(): String {

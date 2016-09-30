@@ -25,7 +25,6 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
-
 import rx.observers.TestSubscriber;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -66,7 +65,6 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			public void run() {
 				CheckoutTravelerViewModel mockViewModel = getMockViewModelEmptyTravelers(3);
 				testTravelerPresenter.setViewModel(mockViewModel);
-				testTravelerPresenter.showSelectOrEntryState();
 				testTravelerPresenter.getTravelerPickerWidget().show();
 				List<Traveler> travelers = new ArrayList<>();
 				travelers.add(new Traveler());
@@ -152,7 +150,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		EspressoUser.clickOnText(expectedTravelerOneText);
+		EspressoUser.clickOnText(expectedIncompleteTravelerOneText);
 
 		travelerPresenterBack();
 
@@ -257,7 +255,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		EspressoUser.clickOnText(expectedTravelerInfantText);
+		EspressoUser.clickOnText(expectedFilledTravelerChildText);
 		travelerPresenterBack();
 
 		Common.delay(2);
@@ -280,7 +278,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		EspressoUser.clickOnText(expectedTravelerInfantText);
+		EspressoUser.clickOnText(expectedFilledTravelerChildText);
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		checkOscarInvalid(R.id.traveler_status_icon, R.drawable.validated, testChildFullName);
@@ -302,7 +300,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		EspressoUser.clickOnText(expectedTravelerChildText);
+		EspressoUser.clickOnText(expectedFilledTravelerChildText);
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		checkOscarInvalid(R.id.traveler_status_icon, R.drawable.validated, testChildFullName);
@@ -323,7 +321,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		EspressoUser.clickOnText(expectedTravelerChildText);
+		EspressoUser.clickOnText(expectedFilledTravelerChildText);
 		travelerPresenterBack();
 
 		Common.delay(2);
@@ -358,7 +356,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
 
-		EspressoUser.clickOnText(expectedTravelerOneText);
+		EspressoUser.clickOnText(expectedFilledTravelerOneText);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
@@ -376,7 +374,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		});
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
-		EspressoUser.clickOnText(expectedTravelerOneText);
+		EspressoUser.clickOnText(expectedFilledTravelerOneText);
 		Espresso.closeSoftKeyboard();
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
 		EspressoUtils.assertViewWithTextIsDisplayed("Passport: ");
@@ -385,7 +383,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewWithTextIsDisplayed("Passport: Afghanistan");
 		travelerPresenterBack();
 
-		EspressoUser.clickOnText(expectedTravelerTwoText);
+		EspressoUser.clickOnText(expectedFilledTravelerTwoText);
 		Espresso.closeSoftKeyboard();
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
 		EspressoUtils.assertViewWithTextIsDisplayed("Passport: ");

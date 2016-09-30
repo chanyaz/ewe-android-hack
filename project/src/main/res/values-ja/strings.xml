@@ -772,6 +772,9 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">キーワード</string>
+
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">並び替え &amp; 絞り込み</string>
     <!-- Accessibility content description for Sort & Filter button -->
@@ -1489,9 +1492,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -2310,8 +2313,10 @@
     <string name="address_city_hint">市区</string>
     <!-- Address state hint -->
     <string name="address_state_hint">都道府県</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">国名</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">郵送オプション</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">郵便番号</string>
     <!-- Zip Code hint for Packages -->
@@ -2330,12 +2335,13 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">旅行者の詳細</string>
     <string name="enter_missing_traveler_details">旅行者情報を入力</string>
+    <string name="enter_traveler_details">旅行者情報を入力</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ {travelercount} 名の旅行者</item>
-        <item quantity="other">+ {travelercount} 名の旅行者</item>
+        <item quantity="one">その他 {travelercount} 名の旅行者</item>
+        <item quantity="other">その他 {travelercount} 名の旅行者</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する ({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 歳</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -4270,8 +4276,18 @@
     <string name="flight_duration_hour_short">時間</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">出発時刻</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">出発時刻の範囲 - 開始時刻</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">出発時刻の範囲 - 終了時刻</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">到着時刻</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">到着時刻の範囲 - 開始時刻</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">到着時刻の範囲 - 終了時刻</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name}設定バー {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">ホテルを変更する</string>
@@ -4338,6 +4354,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">{origin_station_name}から{destination_station_name}までの所要時間は {formatted_duration} です</string>
 
+    <string name="rail_overtaken_message">注意 : 選択されたものより早く到着する列車があります。</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">{origin_station_name}から{destination_station_name}まで{travel_mode}を利用する</string>
 
@@ -4361,6 +4379,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">アメニティなし</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">乗車中、設備やサービスをご利用いただけない場合があります。</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">運賃規則情報がありません</string>
@@ -4410,6 +4431,7 @@
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">鉄道駅で受取</string>
     <string name="delivery_by_mail">郵送で受取</string>
+    <string name="shipping_address">郵送先</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">チケットの予約番号および購入時にご利用のクレジットカードをお持ちください。</string>
@@ -4534,7 +4556,7 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">旅行日。ボタン。ダイアログを開きます。旅行日 {date_range}。 {nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">旅行者数。ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
         <item quantity="other">旅行者数。ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>

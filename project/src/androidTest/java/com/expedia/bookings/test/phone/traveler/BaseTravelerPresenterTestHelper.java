@@ -35,7 +35,6 @@ import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
 import com.expedia.vm.traveler.TravelerSummaryViewModel;
 import com.squareup.phrase.Phrase;
-
 import kotlin.Unit;
 import rx.Observer;
 
@@ -65,18 +64,27 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String expectedMainText = "Main Traveler";
 	protected final String expectedAdditionalText = "Additional Travelers";
 	protected final String expectedTravelerOneText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 1).put("passengerage", "Adult").format().toString();
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 1).put("passengerage", "Adult")
+		.format().toString();
 	protected final String expectedTravelerTwoText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 2).put("passengerage", "Adult").format().toString();
-	protected final String expectedTravelerChildText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengerage", "10 year old").format().toString();
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 2).put("passengerage", "Adult")
+		.format().toString();
+
+	protected final String expectedFilledTravelerOneText = testFirstName + " " + testLastName;
+	protected final String expectedFilledTravelerTwoText = expectedFilledTravelerOneText + 1;
+	protected final String expectedIncompleteTravelerOneText = testFirstName;
+
+	protected final String expectedFilledTravelerChildText = testChildFullName;
+
 	protected final String expectedTravelerInfantText = Phrase.from(InstrumentationRegistry.getTargetContext()
-		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengerage", "1 year old").format().toString();
+		.getString(R.string.checkout_edit_traveler_TEMPLATE)).put("travelernumber", 3).put("passengerage", "1 year old")
+		.format().toString();
 
 	private Context context = InstrumentationRegistry.getTargetContext();
 
 	@Rule
-	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_traveler_presenter, R.style.V2_Theme_Packages);
+	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_traveler_presenter,
+		R.style.V2_Theme_Packages);
 
 	@Before
 	public void setUp() throws Throwable {
@@ -99,8 +107,10 @@ public class BaseTravelerPresenterTestHelper {
 		testToolbar = (CheckoutToolbar) activityTestRule.getRoot().findViewById(R.id.checkout_toolbar);
 		testToolbar.setViewModel(new CheckoutToolbarViewModel(activityTestRule.getActivity()));
 		testTravelerPresenter.getToolbarTitleSubject().subscribe(testToolbar.getViewModel().getToolbarTitle());
-		testTravelerPresenter.getTravelerEntryWidget().getFocusedView().subscribe(testToolbar.getViewModel().getCurrentFocus());
-		testTravelerPresenter.getTravelerEntryWidget().getFilledIn().subscribe(testToolbar.getViewModel().getFormFilledIn());
+		testTravelerPresenter.getTravelerEntryWidget().getFocusedView()
+			.subscribe(testToolbar.getViewModel().getCurrentFocus());
+		testTravelerPresenter.getTravelerEntryWidget().getFilledIn()
+			.subscribe(testToolbar.getViewModel().getFormFilledIn());
 		testTravelerPresenter.getMenuVisibility().subscribe(testToolbar.getViewModel().getMenuVisibility());
 		testToolbar.getViewModel().getDoneClicked().subscribe(testTravelerPresenter.getDoneClicked());
 		testName.setFirstName(testFirstName);
@@ -219,7 +229,8 @@ public class BaseTravelerPresenterTestHelper {
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
 	}
 
-	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelersWithInfant(int adultCount, List<Integer> children, boolean infantsInLap) {
+	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelersWithInfant(int adultCount, List<Integer> children,
+		boolean infantsInLap) {
 		CheckoutTravelerViewModel mockViewModel = getMockviewModel();
 		setPackageParams(adultCount, children, infantsInLap);
 		setDbTravelers(adultCount, children, infantsInLap);
@@ -239,7 +250,7 @@ public class BaseTravelerPresenterTestHelper {
 		setDbTravelers(travelerCount, null, false);
 		for (int i = 0; i < travelerCount; i++) {
 			Traveler traveler = Db.getTravelers().get(i);
-			setIncompleteTraveler(traveler);
+			setIncompleteTraveler(traveler, i);
 		}
 		return mockViewModel;
 	}
@@ -250,14 +261,16 @@ public class BaseTravelerPresenterTestHelper {
 		setDbTravelers(travelerCount, null, false);
 		for (int i = 0; i < travelerCount; i++) {
 			Traveler traveler = Db.getTravelers().get(i);
-			setValidTraveler(traveler);
+			setValidTraveler(traveler, i);
 		}
 		return mockViewModel;
 	}
 
 	protected CheckoutTravelerViewModel getMockviewModel(boolean showMainTravelerMinAge) {
-		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, showMainTravelerMinAge);
-		mockViewModel.getTravelerCompletenessStatus().subscribe(testTravelerDefault.getViewModel().getTravelerStatusObserver());
+		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES,
+			showMainTravelerMinAge);
+		mockViewModel.getTravelerCompletenessStatus()
+			.subscribe(testTravelerDefault.getViewModel().getTravelerStatusObserver());
 		return mockViewModel;
 	}
 
@@ -265,13 +278,23 @@ public class BaseTravelerPresenterTestHelper {
 		return getMockviewModel(false);
 	}
 
-	protected void setIncompleteTraveler(Traveler validTraveler) {
-		validTraveler.setFirstName(testFirstName);
+	protected void setIncompleteTraveler(Traveler validTraveler, int index) {
+		if (index == 0) {
+			validTraveler.setFirstName(testFirstName);
+		}
+		else {
+			validTraveler.setFirstName(testFirstName + index);
+		}
 	}
 
-	protected void setValidTraveler(Traveler validTraveler) {
+	protected void setValidTraveler(Traveler validTraveler, int index) {
 		validTraveler.setFirstName(testFirstName);
-		validTraveler.setLastName(testLastName);
+		if (index == 0) {
+			validTraveler.setLastName(testLastName);
+		}
+		else {
+			validTraveler.setLastName(testLastName + index);
+		}
 		validTraveler.setEmail(testEmail);
 		validTraveler.setGender(Traveler.Gender.MALE);
 		validTraveler.setPhoneNumber(testPhone);

@@ -21,7 +21,6 @@ import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
 import rx.Scheduler
-import rx.Subscription
 import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject

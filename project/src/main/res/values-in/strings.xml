@@ -772,6 +772,9 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">Kata kunci atau frase</string>
+
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Urutkan &amp; Filter</string>
     <!-- Accessibility content description for Sort & Filter button -->
@@ -2310,8 +2313,10 @@
     <string name="address_city_hint">Kota</string>
     <!-- Address state hint -->
     <string name="address_state_hint">Provinsi</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">Negara</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">Opsi Pengiriman Surat</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Kode Pos</string>
     <!-- Zip Code hint for Packages -->
@@ -2330,10 +2335,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Rincian Traveler</string>
     <string name="enter_missing_traveler_details">Harap lengkapi rincian yang kurang</string>
+    <string name="enter_traveler_details">Masukkan rincian traveler</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+{travelercount} traveler lainnya</item>
-        <item quantity="other">+{travelercount} traveler lainnya</item>
+        <item quantity="one">+ {travelercount} traveler tambahan</item>
+        <item quantity="other">+ {travelercount} traveler tambahan</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Ubah Traveler {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} tahun</string>
@@ -4270,8 +4276,18 @@
     <string name="flight_duration_hour_short">jam</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">Waktu Keberangkatan</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">Waktu Keberangkatan Dimulai</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">Waktu Keberangkatan Berakhir</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Waktu Kedatangan</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">Waktu Kedatangan Dimulai</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">Waktu Kedatangan Berakhir</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name} Seekbar {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Ubah hotel</string>
@@ -4338,6 +4354,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">Anda punya waktu {formatted_duration} untuk berpindah dari {origin_station_name} ke {destination_station_name}</string>
 
+    <string name="rail_overtaken_message">Kereta susulan: Layanan ini lebih lambat dari kereta lainnya.</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Naik {travel_mode} dari {origin_station_name} ke {destination_station_name}</string>
 
@@ -4361,6 +4379,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">Tidak ada fasilitas</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">Fasilitas mungkin tidak tersedia sepanjang waktu.</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">Tidak tersedia informasi ketentuan harga</string>
@@ -4410,6 +4431,7 @@
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">Stasiun pengambilan</string>
     <string name="delivery_by_mail">Pengiriman lewat pos</string>
+    <string name="shipping_address">Alamat Pegiriman</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Bawa nomor referensi pemesanan tiket dan kartu kredit untuk membeli tiket.</string>
@@ -4534,7 +4556,7 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} hingga {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Tanggal perjalanan. Tombol. Buka kotak. {date_range}. {nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Jumlah traveler. Tombol. Buka kotak. {travelers} traveler</item>
         <item quantity="other">Jumlah traveler. Tombol. Buka kotak. {travelers} traveler</item>

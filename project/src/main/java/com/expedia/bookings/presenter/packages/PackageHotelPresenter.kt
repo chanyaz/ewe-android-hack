@@ -32,14 +32,14 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.PackageResponseUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.CurrencyUtils
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.SlidingBundleWidget
@@ -170,6 +170,16 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     init {
         Ui.getApplication(context).packageComponent().inject(this)
         View.inflate(getContext(), R.layout.package_hotel_presenter, this)
+    }
+
+    fun updateOverviewAnimationDuration(duration: Int) {
+        resultsToOverview.animationDuration = duration
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        addTransition(resultsToDetail)
+        addTransition(resultsToOverview)
         bundleSlidingWidget.setupBundleViews(Constants.PRODUCT_HOTEL)
         bundleSlidingWidget.animationFinished.subscribe {
             resultsPresenter.viewmodel.hotelResultsObservable.onNext(HotelSearchResponse.convertPackageToSearchResponse(Db.getPackageResponse()))
@@ -182,16 +192,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(zero)
         bundleSlidingWidget.bundlePriceFooter.viewModel.savings.onNext(zero)
         bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-    }
 
-    fun updateOverviewAnimationDuration(duration: Int) {
-        resultsToOverview.animationDuration = duration
-    }
-
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-        addTransition(resultsToDetail)
-        addTransition(resultsToOverview)
         bundleSlidingWidget.bundleOverViewWidget.bundleHotelWidget.rowContainer.setOnClickListener {
             back()
         }
