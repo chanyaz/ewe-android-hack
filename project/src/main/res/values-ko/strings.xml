@@ -772,6 +772,9 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">키워드 또는 구문</string>
+
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">정렬 및 필터</string>
     <!-- Accessibility content description for Sort & Filter button -->
@@ -2310,8 +2313,10 @@
     <string name="address_city_hint">시</string>
     <!-- Address state hint -->
     <string name="address_state_hint">도</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">국가</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">우편 배달 옵션</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">CVC 번호</string>
     <!-- Zip Code hint for Packages -->
@@ -2330,10 +2335,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">여행객 정보</string>
     <string name="enter_missing_traveler_details">누락된 여행객 정보 입력</string>
+    <string name="enter_traveler_details">여행객 정보 입력</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ {travelercount}명 추가</item>
-        <item quantity="other">+ {travelercount}명 추가</item>
+        <item quantity="one">+ 추가 {travelercount}명</item>
+        <item quantity="other">+ 추가 {travelercount}명</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">여행객 {travelernumber} 수정 ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">만 {age}세</string>
@@ -3428,9 +3434,9 @@
     <!-- Display for distances.  1$ is a distance, 2$ is a unit, e.g. "5 miles away" -->
     <string name="distance_template">%1$s%2$s 거리</string>
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
-    <string name="distance_template_short">%1$s%2$s</string>
+    <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
@@ -4270,8 +4276,18 @@
     <string name="flight_duration_hour_short">시간</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">출발 시간</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">출발 시간 시작</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">출발 시간 종료</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">도착 시간</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">도착 시간 시작</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">도착 시간 종료</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name} 필터링 바 {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">호텔 변경</string>
@@ -4338,6 +4354,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">{origin_station_name}에서 {destination_station_name} 이동까지 {formatted_duration}의 시간이 있습니다.</string>
 
+    <string name="rail_overtaken_message">추월된 기차: 이 서비스는 다른 기차보다 느립니다.</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">{origin_station_name}에서 {destination_station_name}까지 {travel_mode} 이용</string>
 
@@ -4361,6 +4379,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">편의 시설 없음</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">편의 시설이 항상 제공되지는 않습니다.</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">요금 규정 정보 이용 불가</string>
@@ -4410,6 +4431,7 @@
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">역에서 수령</string>
     <string name="delivery_by_mail">우편 배송</string>
+    <string name="shipping_address">배송 주소</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">구매하시려면 티켓 참조 번호와 신용카드가 필요합니다.</string>
@@ -4534,7 +4556,7 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate}부터 {enddate}까지</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">여행 날짜. 버튼. 대화상자 열림. {date_range}. {nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">여행객 수. 버튼. 대화상자 열림. 여행객 {travelers}명</item>
         <item quantity="other">여행객 수. 버튼. 대화상자 열림. 여행객 {travelers}명</item>
