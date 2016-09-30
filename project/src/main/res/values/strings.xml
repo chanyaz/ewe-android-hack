@@ -4081,6 +4081,10 @@
     <string name="price_range">Price Range</string>
     <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
     <string name="filter_sort_by_content_description_TEMPLATE">Sort by. {sort}.</string>
+    <!-- Hotel Price Range start filter label for accessibility -->
+    <string name="hotel_price_range_start">Price Range Start</string>
+    <!-- Hotel Price Range end filter label for accessibility -->
+    <string name="hotel_price_range_end">Price Range End</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Added to favorites in the filter screen</string>
