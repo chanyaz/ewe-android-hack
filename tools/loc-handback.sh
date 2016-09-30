@@ -41,9 +41,19 @@ for i in values-*/strings.xml ; do cp $i ../../project/src/$brand/res/$i ; done
 cd ../..
 rm -rf $unzipPath tools/foo.xml
 
+brandNameInMessage=$brand
 handBackDate=`date +"%b_%d_%Y"`
-gitCommitMessage="Localization handback - $handBackDate - $brand"
-gitBranchName="s/rft-$mingleCardNumber-localization-handback-$handBackDate-$BUILD_NUMBER"
+
+if [[ "$brandNameInMessage" == "main" ]]
+then
+    brandNameInMessage="expedia"
+fi
+
+gitCommitMessage="Localization handback - $handBackDate - $brandNameInMessage"
+gitBranchName="s/rft-$mingleCardNumber-$brandNameInMessage-localization-handback-$handBackDate-$BUILD_NUMBER"
+echo "gitCommitMessage "$gitCommitMessage
+echo "gitBranchName "$gitBranchName
+
 python ./tools/loc_handback_create_pr_update_mingle.py $brand "$gitBranchName" "$gitCommitMessage" "$baseBranch" $mingleCardNumber "$PWD/$handbackFileLocation"
 if [ $? != 0 ]; then
     echo "Loc handback failed."
