@@ -772,6 +772,9 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend} %</string>
 
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">Hakusana tai lause</string>
+
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Järjestä ja suodata</string>
     <!-- Accessibility content description for Sort & Filter button -->
@@ -2310,8 +2313,10 @@
     <string name="address_city_hint">Postitoimipaikka</string>
     <!-- Address state hint -->
     <string name="address_state_hint">Osavaltio</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">Maa</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">Postin toimitusvaihtoehdot</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postinumero</string>
     <!-- Zip Code hint for Packages -->
@@ -2330,10 +2335,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Matkustajan tiedot</string>
     <string name="enter_missing_traveler_details">Anna puuttuvat matkustajatiedot</string>
+    <string name="enter_traveler_details">Anna matkustajan tiedot</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ {travelercount} matkustaja lisää</item>
-        <item quantity="other">+ {travelercount} muuta matkustajaa</item>
+        <item quantity="one">+ {travelercount} lisämatkustaja</item>
+        <item quantity="other">+ {travelercount} lisämatkustajaa</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Muokkaa matkustajaa {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age}-vuotias</string>
@@ -4270,8 +4276,18 @@
     <string name="flight_duration_hour_short">h</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">Lähtöaika</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">Lähtöaika alkaen</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">Lähtöaika päättyen</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Saapumisaika</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">Saapumisaika alkaen</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">Saapumisaika päättyen</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name} suodatinpalkki {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Vaihda hotellia</string>
@@ -4338,6 +4354,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">Sinulla on {formatted_duration} aikaa siirtyä asemalta {origin_station_name} asemalle {destination_station_name}</string>
 
+    <string name="rail_overtaken_message">Ohitettava juna: tämä juna on muita junia hitaampi.</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Kulje kulkumuodolla: {travel_mode} kohteesta {origin_station_name} kohteeseen {destination_station_name}</string>
 
@@ -4361,6 +4379,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">Ei palveluja</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">Mukavuudet eivät välttämättä ole saatavilla kaikkina aikoina.</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">Tietoja hintaehdoista ei saatavilla</string>
@@ -4410,6 +4431,7 @@
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">Nouto asemalta</string>
     <string name="delivery_by_mail">Toimitus postitse</string>
+    <string name="shipping_address">Lähetysosoite</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Ota mukaasi lipun viitenumero ja kortti, jolla maksoit lipun.</string>
@@ -4534,7 +4556,7 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} –&gt; {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Matkustuspäivät. Painike. Avaa dialogin. {date_range}. {nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Matkustajien lukumäärä. Painike. Avaa dialogin. {travelers} matkustaja</item>
         <item quantity="other">Matkustajien lukumäärä. Painike. Avaa dialogin. {travelers} matkustajaa</item>

@@ -772,6 +772,9 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
 
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">คีย์เวิร์ดหรือชื่อกิจกรรม</string>
+
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">จำกัดผลการค้นหา</string>
     <!-- Accessibility content description for Sort & Filter button -->
@@ -2310,8 +2313,10 @@
     <string name="address_city_hint">เขต/อำเภอ</string>
     <!-- Address state hint -->
     <string name="address_state_hint">จังหวัด</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">ประเทศ</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">ตัวเลือกส่งทางไปรษณีย์</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">รหัสไปรษณีย์</string>
     <!-- Zip Code hint for Packages -->
@@ -2330,10 +2335,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">รายละเอียดผู้เดินทาง</string>
     <string name="enter_missing_traveler_details">ป้อนรายละเอียดผู้เดินทางที่ขาดไป</string>
+    <string name="enter_traveler_details">ป้อนรายละเอียดผู้เดินทาง</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ ผู้เดินทางอีก {travelercount} คน</item>
-        <item quantity="other">+ ผู้เดินทางอีก {travelercount} คน</item>
+        <item quantity="one">+ ผู้เดินทางเพิ่ม {travelercount} คน</item>
+        <item quantity="other">+ ผู้เดินทางเพิ่ม {travelercount} คน</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">แก้ไขผู้เดินทาง {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} ปี</string>
@@ -4270,8 +4276,18 @@
     <string name="flight_duration_hour_short">ชม.</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">เวลาออกเดินทาง</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">เวลาออกเดินทางเริ่มต้น</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">เวลาออกเดินทางสิ้นสุด</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">เวลาเดินทางถึง</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">เวลามาถึงเริ่มต้น</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">เวลามาถึงสิ้นสุด</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name}แถบกรองเวลา{value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">เปลี่ยนโรงแรม</string>
@@ -4338,6 +4354,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">คุณมีเวลา {formatted_duration} เพื่อเดินทางจาก{origin_station_name}ไป{destination_station_name}</string>
 
+    <string name="rail_overtaken_message">ขบวนถูกแซง: รถไฟขบวนนี้ถึงที่หมายช้ากว่าขบวนอื่น</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">นั่ง{travel_mode}จาก{origin_station_name}ไป{destination_station_name}</string>
 
@@ -4361,6 +4379,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">ไม่มีสิ่งอำนวยความสะดวก</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">สิ่งอำนวยความสะดวกอาจไม่พร้อมให้บริการในทุกครั้ง</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">ไม่มีข้อมูลเกี่ยวกับกฎค่าโดยสาร</string>
@@ -4410,6 +4431,7 @@
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">รับที่สถานี</string>
     <string name="delivery_by_mail">ส่งทางไปรษณีย์</string>
+    <string name="shipping_address">ที่อยู่จัดส่ง</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">นำหมายเลขอ้างอิงและบัตรเครดิตเพื่อใช้ในการซื้อตั๋ว</string>
@@ -4534,7 +4556,7 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} ถึง {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">ช่วงวันเดินทาง ปุ่ม เปิดกล่องโต้ตอบ {date_range} {nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">จำนวนผู้เดินทาง ปุ่ม เปิดกล่องโต้ตอบ ผู้เดินทาง {travelers} คน</item>
         <item quantity="other">จำนวนผู้เดินทาง ปุ่ม เปิดกล่องโต้ตอบ ผู้เดินทาง {travelers} คน</item>
