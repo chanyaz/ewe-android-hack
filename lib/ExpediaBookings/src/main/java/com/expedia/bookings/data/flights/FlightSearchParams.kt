@@ -57,4 +57,8 @@ class FlightSearchParams(val departureAirport: SuggestionV4, val arrivalAirport:
 
         return params
     }
+
+    fun isRoundTrip(): Boolean {
+        return returnDate != null
+    }
 }
