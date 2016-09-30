@@ -147,6 +147,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		return mName.getFirstName();
 	}
 
+	@Nullable
 	public String getMiddleName() {
 		return mName.getMiddleName();
 	}

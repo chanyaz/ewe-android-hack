@@ -28,7 +28,6 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
@@ -250,11 +249,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     init {
         View.inflate(context, R.layout.base_checkout_presenter, this)
         injectComponents()
-
         travelerManager = Ui.getApplication(context).travelerComponent().travelerManager()
         setUpPaymentViewModel()
         setUpViewModels()
-        initLoggedInState()
         setUpDialogs()
         setClickListeners()
     }
@@ -377,7 +374,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), getLineOfBusiness())
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
             updateTravelerPresenter()
-            if (forward) setToolbarTitle()
+            if (forward) {
+                setToolbarTitle()
+                initLoggedInState()
+            }
             if (User.isLoggedIn(context)) paymentWidget.viewmodel.userLogin.onNext(true)
         }
     }
@@ -518,9 +518,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         hintContainer.visibility = View.GONE
         val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
         lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
-        travelerManager.onSignIn(context)
+        travelerManager.updateDbTravelers(Db.getSearchParams(), context)
         travelerPresenter.onLogin(true)
-        updateTravelerPresenter()
+        travelerManager.onSignIn(context)
         animateInSlideToPurchase(true)
         tripViewModel.performCreateTrip.onNext(Unit)
     }

@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.profile;
 
+import java.util.Calendar;
 import java.util.List;
 
 import org.hamcrest.Description;
@@ -32,7 +33,6 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.phone.pagemodels.common.ProfileScreen;
-import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -117,7 +117,7 @@ public class ProfileScreenTest {
 		ProfileScreen.scrollToCopyright();
 		assertViewWithTextIsDisplayed(R.id.copyright_info, Phrase.from(context, R.string.copyright_TEMPLATE)
 				.put("brand", BuildConfig.brand)
-				.put("year", AndroidUtils.getAppBuildYear(context))
+				.put("year", Calendar.getInstance().get(Calendar.YEAR))
 				.format()
 				.toString());
 		assertViewWithTextIsDisplayed(R.id.open_source_credits_textview,

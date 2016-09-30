@@ -13,7 +13,6 @@ import com.expedia.bookings.data.Car;
 import com.expedia.bookings.data.CarVendor;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.cars.CarCategory;
-import com.expedia.bookings.data.cars.CarType;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -57,17 +56,10 @@ public class ItinCardDataCar extends ItinCardData implements ConfirmationNumbera
 	public String getCarCategoryDescription(Context context) {
 		CarCategory category = mCar.getCategory();
 		if (category != null) {
-			return CarDataUtils.getCategoryStringForResults(context, category);
+			return CarDataUtils.getCategoryStringFor(context, category);
 		}
-		return "";
-	}
 
-	public String getCarTypeDescription(Context context) {
-		CarType carType = mCar.getType();
-		if (carType != null) {
-			return CarDataUtils.getTypeStringForResults(context, carType);
-		}
-		return "";
+		return null;
 	}
 
 	public DateTime getPickUpDate() {

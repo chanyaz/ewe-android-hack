@@ -772,6 +772,9 @@
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend} %</string>
 
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">Mot-clé ou phrase</string>
+
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Trier &amp; filtrer</string>
     <!-- Accessibility content description for Sort & Filter button -->
@@ -2310,8 +2313,10 @@
     <string name="address_city_hint">Ville</string>
     <!-- Address state hint -->
     <string name="address_state_hint">Dép.</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">Pays</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">Options d\&apos;envoi du courrier</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Code postal</string>
     <!-- Zip Code hint for Packages -->
@@ -2330,10 +2335,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Détails du voyageur</string>
     <string name="enter_missing_traveler_details">Saisir les détails manquants sur le voyageur</string>
+    <string name="enter_traveler_details">Saisissez les informations sur le voyageur</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ {travelercount} autre voyageur</item>
-        <item quantity="other">+ {travelercount} autres voyageurs</item>
+        <item quantity="one">+ {travelercount} voyageur supplémentaire</item>
+        <item quantity="other">+ {travelercount} voyageurs supplémentaires</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Modifier voyageur {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} an</string>
@@ -4270,8 +4276,18 @@
     <string name="flight_duration_hour_short">h</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">Heure de départ</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">le début du créneau horaire de départ</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">la fin du créneau horaire de départ</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Heure d\&apos;arrivée</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">le début du créneau horaire d\&apos;arrivée</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">la fin du créneau horaire d\&apos;arrivée</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">Barre de filtre pour {name} placée à {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Modifier l\&apos;hôtel</string>
@@ -4338,6 +4354,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">Vous avez {formatted_duration} pour vous rendre de {origin_station_name} à {destination_station_name}</string>
 
+    <string name="rail_overtaken_message">Dépassement du train : ce service est plus lent que d\&apos;autres trains.</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Prenez le {travel_mode} de {origin_station_name} à {destination_station_name}</string>
 
@@ -4361,6 +4379,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">Aucun service ou équipement</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">Les services et équipements peuvent ne pas être disponibles à tout moment.</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">Aucun renseignement disponible sur les règles tarifaires</string>
@@ -4410,6 +4431,7 @@
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">Remise du billet à la gare</string>
     <string name="delivery_by_mail">Envoi par courrier</string>
+    <string name="shipping_address">Adresse de livraison</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Veuillez apporter le numéro de référence de votre billet et la carte de paiement utilisée pour effectuer l\&apos;achat.</string>
@@ -4534,7 +4556,7 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">du {startdate} au {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Dates du voyage. Bouton. Ouvre la boîte de dialogue. {date_range}. {nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Nombre de voyageurs. Bouton. Ouvre la boîte de dialogue. {travelers} voyageur</item>
         <item quantity="other">Nombre de voyageurs. Bouton. Ouvre la boîte de dialogue. {travelers} voyageurs</item>
@@ -4700,7 +4722,7 @@
     </plurals>
     <!-- Package cost summary row snippet  e.g. 1 night-->
     <plurals name="number_of_nights_TEMPLATE">
-        <item quantity="zero">{night} nuits</item>
+        <item quantity="zero">{night} nuit</item>
         <item quantity="one">{night} nuit</item>
         <item quantity="two">{night} nuits</item>
         <item quantity="many">{night} nuits</item>
@@ -4708,7 +4730,7 @@
     </plurals>
     <!-- Package cost summary row snippet  e.g. 4 guests-->
     <plurals name="number_of_guest_TEMPLATE">
-        <item quantity="zero">{guest} personnes</item>
+        <item quantity="zero">{guest} personne</item>
         <item quantity="one">{guest} personne</item>
         <item quantity="two">{guest} personnes</item>
         <item quantity="many">{guest} personnes</item>
