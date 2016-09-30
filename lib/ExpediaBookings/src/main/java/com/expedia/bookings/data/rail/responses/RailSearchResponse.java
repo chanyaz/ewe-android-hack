@@ -49,6 +49,9 @@ public class RailSearchResponse {
 		@Nullable
 		public RailLegOption outboundLeg; //set in code on the offer when the leg/offer combo is selected
 
+		@Nullable
+		public RailLegOption inboundLeg; //set in code on the offer when the leg/offer combo is selected
+
 		public boolean containsLegOptionId(Integer legOptionId) {
 			for (RailProduct product : railProductList) {
 				for (Integer legId : product.legOptionIndexList) {

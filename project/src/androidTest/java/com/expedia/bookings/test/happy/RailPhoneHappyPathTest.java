@@ -12,9 +12,11 @@ import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static org.hamcrest.CoreMatchers.allOf;
 
 public class RailPhoneHappyPathTest extends RailTestCase {
 
@@ -38,7 +40,8 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		CheckoutViewModel.paymentInfo().perform(click());
 		RailScreen.enterPaymentDetails();
 
-		onView(withId(R.id.rail_slide_to_purchase_widget)).check(matches(isDisplayed()));
+		RailScreen.performSlideToPurchase();
+		assertConfirmationScreen();
 	}
 
 	private void assertCheckoutDisplayed() {
@@ -62,5 +65,13 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 
 	private void assertDetailsCollapsed() {
 		EspressoUtils.assertViewIsNotDisplayed(R.id.rail_leg_details);
+	}
+
+	private void assertConfirmationScreen() {
+		onView(allOf(withId(R.id.destination), withText("Reading"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.first_row), isDescendantOfA(withId(R.id.outbound_leg_card)), withText("Manchester Piccadilly to Reading"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.second_row), isDescendantOfA(withId(R.id.outbound_leg_card)), withText("12:55 pm, 4 Travelers"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.itin_number), withText("#7938604594 sent to noah@mobiata.com"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.view_itin_button), withText("View Itinerary"))).check(matches(isDisplayed()));
 	}
 }

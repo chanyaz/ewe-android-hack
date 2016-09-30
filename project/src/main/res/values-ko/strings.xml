@@ -4310,7 +4310,7 @@
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">총 소요 시간: {duration}</string>
     <!-- Itinerary summary text- Itinerary number sent to the user email -->
-    <string name="package_itinerary_confirmation_TEMPLATE">{itinerary}, 다음으로 전송: {email}</string>
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">{itinerary}, 다음으로 전송: {email}</string>
     <!--Rail search screen title-->
     <string name="trains">기차</string>
 

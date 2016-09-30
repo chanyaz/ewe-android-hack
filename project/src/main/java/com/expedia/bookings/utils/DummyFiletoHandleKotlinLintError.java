@@ -63,7 +63,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.ic_amenity_spa,
 		R.layout.confirmation_row,
 		R.string.confirmation_reward_points_TEMPLATE,
-		R.string.package_itinerary_confirmation_TEMPLATE,
+		R.string.itinerary_sent_to_confirmation_TEMPLATE,
 		R.drawable.ic_amenity_business,
 		R.drawable.ic_amenity_airport_shuttle,
 		R.drawable.ic_amenity_accessible_bathroom,
@@ -950,6 +950,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.rail_delivery_spinner_with_validation_indicator,
 		R.layout.snippet_rail_card_quantity_view,
 		R.layout.widget_rail_inbound,
-		R.string.enter_traveler_details
+		R.string.enter_traveler_details,
+		R.string.rail_departure_arrival_station_TEMPLATE,
+		R.string.rail_departure_time_travelers_TEMPLATE
 	};
 }

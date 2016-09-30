@@ -53,7 +53,7 @@ class PackageConfirmationViewModel(val context: Context) {
             outboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageFlightBundle().first))
             inboundFlightCardTitleObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(Db.getPackageParams().origin)))
             inboundFlightCardSubTitleObservable.onNext(getFlightSubtitle(Db.getPackageFlightBundle().second))
-            val itinNumberMessage = Phrase.from(context, R.string.package_itinerary_confirmation_TEMPLATE)
+            val itinNumberMessage = Phrase.from(context, R.string.itinerary_sent_to_confirmation_TEMPLATE)
                     .put("itinerary", itinNumber)
                     .put("email", email)
                     .format().toString()
