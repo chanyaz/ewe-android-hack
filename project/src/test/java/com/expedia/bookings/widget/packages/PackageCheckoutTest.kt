@@ -110,7 +110,6 @@ class PackageCheckoutTest {
 
         val createTripParams = PackageCreateTripParams("create_trip", "", 1, false, emptyList())
         checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)
-        checkout.getCreateTripViewModel().performCreateTrip.onNext(Unit)
 
         tripResponseSubscriber.awaitTerminalEvent(5, TimeUnit.SECONDS)
         tripResponseSubscriber.assertValueCount(1)
