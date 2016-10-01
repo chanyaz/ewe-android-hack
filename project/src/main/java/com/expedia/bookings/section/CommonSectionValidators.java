@@ -160,6 +160,22 @@ public class CommonSectionValidators {
 		}
 	};
 
+	public static final Validator<EditText> NAME_PATTERN_VALIDATOR = new Validator<EditText>() {
+		//This pattern is borrowed from iOS
+		private static final String NAME_PATTERN_VALIDATOR_REGEX = "^.+\\s+.+$";
+		PatternValidator mValidator = new PatternValidator(Pattern.compile(NAME_PATTERN_VALIDATOR_REGEX));
+
+		@Override
+		public int validate(EditText obj) {
+			if (TextUtils.isEmpty(obj.getText().toString())) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else {
+				return mValidator.validate(obj.getText().toString());
+			}
+		}
+	};
+
 	public static final Validator<String> NON_EMPTY_VALIDATOR = new Validator<String>() {
 		@Override
 		public int validate(String string) {

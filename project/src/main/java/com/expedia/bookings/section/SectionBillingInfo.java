@@ -791,6 +791,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			MultiValidator<EditText> nameValidators = new MultiValidator<>();
 			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
+			nameValidators.addValidator(CommonSectionValidators.NAME_PATTERN_VALIDATOR);
 			return nameValidators;
 		}
 

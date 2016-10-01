@@ -85,7 +85,7 @@ class PackageCheckoutTest {
         createTrip()
         enterValidTraveler()
         enterValidPayment()
-        checkout.paymentWidget.creditCardName.setText("errorcheckoutcard")
+        (checkout.paymentWidget as BillingDetailsPaymentWidget).addressLineOne.setText("errorcheckoutcard")
         checkout.paymentWidget.validateAndBind()
         checkout.onSlideAllTheWay()
 
@@ -93,7 +93,7 @@ class PackageCheckoutTest {
         errorResponseSubscriber.assertValueCount(1)
         errorResponseSubscriber.assertValue(ApiError(ApiError.Code.PACKAGE_CHECKOUT_CARD_DETAILS))
 
-        checkout.paymentWidget.creditCardName.setText("legit name")
+        (checkout.paymentWidget as BillingDetailsPaymentWidget).addressLineOne.setText("1735 Steiner st")
         checkout.paymentWidget.validateAndBind()
         checkout.onSlideAllTheWay()
 
