@@ -13,17 +13,13 @@
 
     <!-- Label for logout confirmation -->
     <string name="logout_confirmation_travelocity">Are you sure you want to log out of your Travelocity account?</string>
-
-
-
-
-
-
-
     <!-- Contact Expedia via email subject -->
     <string name="contact_travelocity_email_subject">Travelocity Reservations Support</string>
 
-
+    <!-- package hotel results Wise Buys text label -->
+    <string name="unreal_deal_text">Wise Buys</string>
+    <!-- Hotel Wise Buys content description for accessibility. Eg. Wise Buys Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Wise Buys {unrealdeal}\u0020</string>
 
     <!-- Message displayed when the hotel room is sold out -->
     <string name="error_room_is_now_sold_out_tvly">We\&apos;re sorry but this room is no longer available from Travelocity.</string>

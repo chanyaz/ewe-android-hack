@@ -84,6 +84,11 @@
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">Credit card, pay with CheapCash</string>
 
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
+
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">CheapCash applied! (excludes taxes and fees)</string>
