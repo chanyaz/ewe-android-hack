@@ -12,8 +12,9 @@ import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
-import com.expedia.bookings.widget.RailViewModel
+import com.expedia.bookings.widget.RailLegOptionViewModel
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.mobiata.flightlib.utils.DateTimeUtils
@@ -116,7 +117,17 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     }
 
     inner class RailViewHolder(root: ViewGroup) : RecyclerView.ViewHolder(root), View.OnClickListener {
-        var viewModel: RailViewModel by Delegates.notNull<RailViewModel>()
+        var viewModel: RailLegOptionViewModel by notNullAndObservable { vm ->
+            vm.priceObservable.subscribeText(priceView)
+            vm.formattedStopsAndDurationObservable.subscribeText(durationTextView)
+            vm.railCardAppliedObservable.subscribeVisibility(railCardImage)
+
+            vm.formattedTimeSubject.subscribeText(timesView)
+            vm.aggregatedOperatingCarrierSubject.subscribeText(operatorTextView)
+            vm.legOptionObservable.subscribe { legOption ->
+                timelineView.updateLeg(legOption)
+            }
+        }
 
         val resources = root.resources
 
@@ -129,18 +140,12 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
 
         init {
             itemView.setOnClickListener(this)
-            viewModel = RailViewModel(root.context)
+            viewModel = RailLegOptionViewModel(root.context)
         }
 
         fun bind(leg: RailLegOption) {
-            viewModel.priceObservable.subscribeText(priceView)
-            viewModel.formattedStopsAndDurationObservable.subscribeText(durationTextView)
-            viewModel.railCardAppliedObservable.subscribeVisibility(railCardImage)
             viewModel.legOptionObservable.onNext(leg)
             viewModel.cheapestLegPriceObservable.onNext(railLeg.cheapestInboundPrice)
-            timesView.text = DateTimeUtils.formatInterval(context, leg.getDepartureDateTime(), leg.getArrivalDateTime())
-            operatorTextView.text = leg.aggregatedOperatingCarrier
-            timelineView.updateLeg(leg)
         }
 
         override fun onClick(v: View?) {

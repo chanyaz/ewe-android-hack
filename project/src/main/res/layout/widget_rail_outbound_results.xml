@@ -21,6 +21,8 @@
             android:id="@+id/rail_outbound_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/rail_screen_content_padding"
+            android:layout_marginRight="@dimen/rail_screen_content_padding"
             android:overScrollMode="never"
             android:paddingTop="4dp" />
     </LinearLayout>

@@ -1733,7 +1733,7 @@
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">IDA</string>
     <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">Vuelta</string>
+    <string name="outbound_label">Vuelta</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Vuelos</string>
     <string name="flights_title_cont_desc">Botón de vuelos</string>

@@ -5,7 +5,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
-import com.expedia.bookings.widget.RailViewModel
+import com.expedia.bookings.utils.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -31,7 +31,7 @@ class RailDetailsViewModel(val context: Context) {
         railLegOptionSubject.subscribe { railLegOption ->
             formattedTimeIntervalSubject.onNext(DateTimeUtils.formatInterval(context, railLegOption.getDepartureDateTime(),
                     railLegOption.getArrivalDateTime()))
-            val changesString = RailViewModel.formatChangesText(context, railLegOption.noOfChanges)
+            val changesString = RailUtils.formatRailChangesText(context, railLegOption.noOfChanges)
             formattedLegInfoSubject.onNext("${DateTimeUtils.formatDuration(context.resources,
                     railLegOption.durationMinutes())}, $changesString")
             railOffersPairSubject.onNext(Pair(railResultsObservable.value.findOffersForLegOption(railLegOption), getCompareToPrice()))

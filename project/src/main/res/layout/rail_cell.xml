@@ -4,15 +4,13 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    android:layout_marginLeft="@dimen/card_view_container_margin"
-    android:layout_marginRight="@dimen/card_view_container_margin"
     android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="@dimen/rail_card_content_padding">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,27 +41,14 @@
                 tools:text="$120.00" />
         </LinearLayout>
 
-        <LinearLayout
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/trainOperator"
+            style="@style/BundleOverviewWidgets.SecondaryText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/trainOperator"
-                style="@style/BundleOverviewWidgets.SecondaryText"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:layout_weight="1"
-                tools:text="Virgin Trains, London Midland" />
-
-            <com.expedia.bookings.widget.TextView
-                style="@style/BundleOverviewWidgets.SecondaryText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="right"
-                tools:text="@string/round_trip" />
-        </LinearLayout>
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            tools:text="Virgin Trains, London Midland" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/layoverView"

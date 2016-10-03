@@ -30,5 +30,5 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="right|center_vertical"
-        android:text="@string/flights_outbound_label" />
+        android:text="@string/outbound_label" />
 </merge>

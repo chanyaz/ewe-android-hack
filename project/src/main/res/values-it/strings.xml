@@ -1733,7 +1733,7 @@
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">SOLO ANDATA</string>
     <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">Partenza</string>
+    <string name="outbound_label">Partenza</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Voli</string>
     <string name="flights_title_cont_desc">Pulsante voli</string>

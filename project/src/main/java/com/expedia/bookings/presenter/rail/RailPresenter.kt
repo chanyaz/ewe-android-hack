@@ -129,6 +129,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     private fun initInboundPresenter() {
         inboundPresenter.viewmodel = inboundResultsViewModel
+        outboundPresenter.legSelectedSubject.subscribe(inboundResultsViewModel.outboundLegOptionSubject)
     }
 
     private fun initDetailsPresenter() {
@@ -136,6 +137,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         detailsPresenter.viewModel.offerSelectedObservable.subscribe { offer ->
             if (searchPresenter.searchViewModel.isRoundTripSearchObservable.value) {
                 inboundResultsViewModel.resultsReturnedObserver.onNext(outboundResultsViewModel.railResultsObservable.value)
+                inboundResultsViewModel.outboundOfferSubject.onNext(offer)
                 transitionToInboundResults()
             } else {
                 transitionToTripSummary()
