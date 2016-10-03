@@ -1733,7 +1733,7 @@
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">เที่ยวเดียว</string>
     <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">ขาออก</string>
+    <string name="outbound_label">ขาออก</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">เที่ยวบิน</string>
     <string name="flights_title_cont_desc">ปุ่มเที่ยวบิน</string>

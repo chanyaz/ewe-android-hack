@@ -115,7 +115,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
                 return LoadingFlightsHeaderViewHolder(view)
             }
             ViewTypes.LOADING_FLIGHTS_VIEW.ordinal-> {
-                val view = LayoutInflater.from(parent.context).inflate(R.layout.search_results_loading_tile_widget, parent, false)
+                val view = LayoutInflater.from(parent.context).inflate(R.layout.flight_results_loading_tile_widget, parent, false)
                 return LoadingViewHolder(view)
             }
             ViewTypes.FLIGHT_CELL_VIEW.ordinal -> {

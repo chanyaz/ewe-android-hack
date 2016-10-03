@@ -16,11 +16,33 @@
             app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
-        <com.expedia.bookings.widget.rail.RailResultsRecyclerView
-            android:id="@+id/rail_inbound_list"
+        <com.expedia.bookings.widget.rail.RailOutboundHeaderView
+            android:id="@+id/outbound_header_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:overScrollMode="never"
-            android:paddingTop="4dp" />
+            android:orientation="vertical"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:paddingLeft="@dimen/rail_outbound_header_left_right_pad"
+            android:paddingRight="@dimen/rail_outbound_header_left_right_pad"
+            android:background="@color/white"/>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <com.expedia.bookings.widget.rail.RailResultsRecyclerView
+                android:id="@+id/rail_inbound_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/rail_screen_content_padding"
+                android:layout_marginRight="@dimen/rail_screen_content_padding"
+                android:overScrollMode="never"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/toolbar_dropshadow_height"
+                android:background="@drawable/tb_shadow"/>
+        </FrameLayout>
     </LinearLayout>
 </merge>

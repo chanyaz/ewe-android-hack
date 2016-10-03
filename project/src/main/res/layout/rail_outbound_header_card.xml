@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/outbound_card_time_text"
+            style="@style/BundleOverviewWidgets.PrimaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            tools:text="9:07 - 11:21" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/outbound_card_price_text"
+            style="@style/RailCell.PriceText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            tools:text="$120.00" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/outbound_card_train_operator_text"
+            style="@style/BundleOverviewWidgets.SecondaryText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1"
+            tools:text="Virgin Trains, London Midland" />
+
+        <com.expedia.bookings.widget.TextView
+            style="@style/BundleOverviewWidgets.SecondaryText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:text="@string/outbound_label" />
+    </LinearLayout>
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/outbound_card_layover_text"
+        style="@style/MaterialFlightCell.CarrierText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="3dp"
+        tools:text="2h 30m, 1 Change" />
+</merge>

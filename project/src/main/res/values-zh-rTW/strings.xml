@@ -1733,7 +1733,7 @@
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">單程</string>
     <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">去程</string>
+    <string name="outbound_label">去程</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">機票</string>
     <string name="flights_title_cont_desc">機票按鈕</string>

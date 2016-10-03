@@ -11,7 +11,7 @@ import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class RailViewModel(val context: Context) {
+open class RailLegOptionViewModel(val context: Context) {
 
     //Inputs
     val legOptionObservable = PublishSubject.create<RailLegOption>()
@@ -21,11 +21,14 @@ class RailViewModel(val context: Context) {
     val formattedStopsAndDurationObservable = legOptionObservable.map { legOption ->
         Phrase.from(context, R.string.rail_time_and_stops_line_TEMPLATE)
                 .put("formattedduration", DateTimeUtils.formatDuration(context.resources, legOption.durationMinutes()))
-                .put("formattedchangecount", formatChangesText(context, legOption.noOfChanges)).format().toString()
+                .put("formattedchangecount", RailUtils.formatRailChangesText(context, legOption.noOfChanges)).format().toString()
     }
+    val formattedTimeSubject = legOptionObservable.map { legOption ->
+        DateTimeUtils.formatInterval(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime()) }
+    val aggregatedOperatingCarrierSubject = legOptionObservable.map { legOption -> legOption.aggregatedOperatingCarrier }
+    val railCardAppliedObservable = legOptionObservable.map { legOption -> legOption.doesAnyOfferHasFareQualifier }
 
     val priceObservable = BehaviorSubject.create<String>()
-    val railCardAppliedObservable = legOptionObservable.map { legOption -> legOption.doesAnyOfferHasFareQualifier }
 
     init {
         Observable.zip(legOptionObservable, cheapestLegPriceObservable, { legOption, cheapestOtherPrice ->
@@ -39,15 +42,6 @@ class RailViewModel(val context: Context) {
             return RailUtils.addAndFormatMoney(legOption.bestPrice, cheapestPrice)
         } else {
             return legOption.bestPrice.formattedPrice
-        }
-    }
-
-    companion object {
-        @JvmStatic fun formatChangesText(context: Context, changesCount: Int): String {
-            if (changesCount == 0) {
-                return context.getString(R.string.rail_direct)
-            }
-            return context.resources.getQuantityString(R.plurals.rail_changes_TEMPLATE, changesCount, changesCount)
         }
     }
 }
