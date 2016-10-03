@@ -6,7 +6,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
@@ -15,8 +14,6 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
-import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailLegSummaryViewModel
 import rx.subjects.PublishSubject
 
@@ -41,11 +38,11 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(co
         vm.formattedStopsAndDurationObservable.subscribeText(duration)
         vm.formattedTimesObservable.subscribeText(travelTimes)
         vm.fareDescriptionLabelObservable.subscribeText(fareDescription)
-        vm.legOptionObservable.subscribe {
-            timeline.updateLeg(it)
+        vm.legOptionObservable.subscribe { railLegOption ->
+            timeline.updateLeg(railLegOption)
         }
 
-        vm.selectedRailOfferObservable.subscribe(legDetailsWidget.viewmodel.offerViewModel.offerSubject)
+        vm.legOptionObservable.subscribe(legDetailsWidget.railLegOptionObserver)
 
         legContainer.subscribeOnClick(legContainerClicked)
 
@@ -63,7 +60,6 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(co
     init {
         View.inflate(getContext(), R.layout.rail_leg_summary, this)
         outbound = true //hardcoding for now until we handle round-trips
-        legDetailsWidget.viewmodel = RailDetailsViewModel(context)
     }
 
     private fun expandLegDetails(overtaken: Boolean) {

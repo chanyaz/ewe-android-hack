@@ -625,7 +625,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.flights_search_form_top_margin,
 		R.layout.rail_leg_summary,
 		R.layout.rail_overview_presenter,
-		R.layout.rail_summary,
+		R.layout.rail_overview_summary_widget,
 		R.color.dividerColor,
 		R.string.select_flight_cont_desc_TEMPLATE,
 		R.string.select_flight_searching_cont_desc_TEMPLATE,

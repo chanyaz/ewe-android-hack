@@ -25,7 +25,7 @@ class RailFareOptionViewModelTest {
         railFareOptionViewModel.fareTitleObservable.subscribe(testFareTitleSubscriber)
         railFareOptionViewModel.fareDescriptionObservable.subscribe(testFareDescriptionSubscriber)
 
-        railFareOptionViewModel.offerFare.onNext(getRailOffer())
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
         assertEquals("$10", testPriceSubscriber.onNextEvents[0])
         assertEquals("Fare class", testFareTitleSubscriber.onNextEvents[0])
         assertEquals("Fare Description", testFareDescriptionSubscriber.onNextEvents[0])
@@ -39,11 +39,11 @@ class RailFareOptionViewModelTest {
         val testShowAmenitiesSelectedSubscriber = TestSubscriber<RailSearchResponse.RailOffer>()
         val testShowFareSelectedSubscriber = TestSubscriber<RailSearchResponse.RailOffer>()
 
-        railFareOptionViewModel.offerSelected.subscribe(testOfferSelectedSubscriber)
-        railFareOptionViewModel.showAmenitiesDetails.subscribe(testShowAmenitiesSelectedSubscriber)
-        railFareOptionViewModel.showFareDetails.subscribe(testShowFareSelectedSubscriber)
+        railFareOptionViewModel.offerSelectedObservable.subscribe(testOfferSelectedSubscriber)
+        railFareOptionViewModel.amenitiesSelectedObservable.subscribe(testShowAmenitiesSelectedSubscriber)
+        railFareOptionViewModel.fareDetailsSelectedObservable.subscribe(testShowFareSelectedSubscriber)
 
-        railFareOptionViewModel.offerFare.onNext(getRailOffer())
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
         railFareOptionViewModel.offerSelectButtonClicked.onNext(Unit)
         railFareOptionViewModel.showAmenitiesForFareClicked.onNext(Unit)
         railFareOptionViewModel.showFareRulesForFareClicked.onNext(Unit)

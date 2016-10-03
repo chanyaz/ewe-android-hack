@@ -6,25 +6,22 @@ import android.widget.LinearLayout
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSegment
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailDetailsViewModel
 
 class RailDetailsTimeline(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+    val railLegOptionObserver = endlessObserver<RailLegOption> { railLegOption ->
+        removeAllViews()
+        addTimelineViews(railLegOption)
+    }
 
     init {
         orientation = VERTICAL
     }
 
-    var viewmodel: RailDetailsViewModel by notNullAndObservable { vm ->
-        vm.offerViewModel.offerSubject.subscribe {
-            removeAllViews()
-            addTimelineViews(it)
-        }
-    }
-
-    private fun addTimelineViews(offer: RailOffer) {
-        if (offer.outboundLeg != null) {
-            val legOption: RailLegOption = offer.outboundLeg!!
+    private fun addTimelineViews(legOption: RailLegOption) {
+        if (legOption != null) {
             var previousSegment: RailSegment? = null
             legOption.travelSegmentList?.forEach {
                 if (!(previousSegment?.isTransfer ?: false) && !it.isTransfer

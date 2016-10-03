@@ -9,21 +9,22 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.TotalPriceWidget
-import com.expedia.bookings.widget.rail.RailSummaryWidget
+import com.expedia.bookings.widget.rail.RailTripSummaryWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
 import com.expedia.vm.rail.RailCostSummaryBreakdownViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
-import com.expedia.vm.rail.RailSummaryViewModel
+import com.expedia.vm.rail.RailTripSummaryViewModel
 import com.expedia.vm.rail.RailTotalPriceViewModel
 import rx.subjects.PublishSubject
 
 class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val bundleOverviewHeader: BundleOverviewHeader by bindView(R.id.coordinator_layout)
-    val railTripSummary: RailSummaryWidget by bindView(R.id.rail_summary)
+    val railTripSummary: RailTripSummaryWidget by bindView(R.id.rail_trip_summary)
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.rail_total_price_widget)
 
+    val tripSummaryViewModel = RailTripSummaryViewModel(context)
     val railPriceViewModel = RailTotalPriceViewModel(context)
     val railCostBreakDownViewModel = RailCostSummaryBreakdownViewModel(context)
 
@@ -43,8 +44,7 @@ class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : Present
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = overviewVM
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = overviewVM
 
-        railTripSummary.viewModel = RailSummaryViewModel(context)
-
+        railTripSummary.viewModel = tripSummaryViewModel
         totalPriceWidget.viewModel = railPriceViewModel
 
         railCostBreakDownViewModel.iconVisibilityObservable.subscribe { show ->

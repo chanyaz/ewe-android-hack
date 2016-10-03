@@ -148,7 +148,8 @@ public class RailScreen {
 
 		onView(withText("12:55 PM – 4:16 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
-		onView(withText("You have 42m to get from London Euston to London Paddington")).check(matches(isDisplayed()));
+		onView(allOf(withText("You have 42m to get from London Euston to London Paddington"),
+			isDescendantOfA(withId(R.id.details_timeline)))).check(matches(isDisplayed()));
 	}
 
 	public static void navigateToTripOverview() throws Throwable {

@@ -28,7 +28,7 @@ class RailFareOptionViewTest {
         val railFareOptionView = RailFareOptionView(getContext())
         railFareOptionView.viewModel = railFareOptionViewModel
 
-        railFareOptionViewModel.offerFare.onNext(getRailOffer())
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
 
         assertEquals("$10", railFareOptionView.priceView.text)
         assertEquals("Fare class", railFareOptionView.fareTitle.text)
@@ -49,7 +49,7 @@ class RailFareOptionViewTest {
         val railFareOptionView = RailFareOptionView(getContext())
         railFareOptionView.viewModel = railFareOptionViewModel
 
-        railFareOptionViewModel.offerFare.onNext(getRailOffer())
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
         railFareOptionView.fareTitle.performClick()
         railFareOptionView.amenitiesButton.performClick()
         railFareOptionView.selectButton.performClick()
