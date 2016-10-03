@@ -33,6 +33,7 @@
                     android:paddingBottom="5dp"
                     android:text="@string/rail_overtaken_message"
                     android:textSize="12sp"
+                    android:visibility="gone"
                     tools:text="@string/rail_overtaken_message" />
 
                 <View
@@ -40,7 +41,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
                     android:layout_marginBottom="5dp"
-                    android:background="?android:dividerHorizontal" />
+                    android:background="?android:dividerHorizontal"
+                    android:visibility="gone" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/times_view"
