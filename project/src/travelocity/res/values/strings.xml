@@ -57,4 +57,22 @@
     <string name="acct_Welcome_to_Travelocity">Welcome to Travelocity</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Travelocity_account_already_exists">A Travelocity account already exists with this email</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Packages</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Package total</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">View your package</string>
+    <string name="package_flight_overview_bundle_total_label">Package Total</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Package Discount</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Package total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Package total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Cost Breakdown dialog. Button.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Package price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view package.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Showing package details. Button to close.</string>
 </resources>
