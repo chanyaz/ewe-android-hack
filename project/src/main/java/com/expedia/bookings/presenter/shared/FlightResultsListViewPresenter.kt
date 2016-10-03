@@ -105,8 +105,10 @@ class FlightResultsListViewPresenter(context: Context, attrs: AttributeSet) : Pr
                     resetChildrenTops()
                     if (dockedOutboundFlightSelection.height != 0) {
                         dockedOutboundFlightSelection.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                        dockedOutboundFlightShadow.translationY = dockedOutboundFlightSelection.height.toFloat() + getToolbarSize()
-                        recyclerView.translationY = dockedOutboundFlightSelection.height.toFloat()
+                        airlineChargesFeesTextView.translationY = getToolbarSize()
+                        dockedOutboundFlightSelection.translationY = airlineChargesFeesTextView.height.toFloat()
+                        dockedOutboundFlightShadow.translationY = getToolbarSize() + airlineChargesFeesTextView.height.toFloat() + dockedOutboundFlightSelection.height.toFloat()
+                        recyclerView.translationY = airlineChargesFeesTextView.height.toFloat() + dockedOutboundFlightSelection.height.toFloat()
                         val layoutParams: LayoutParams = recyclerView.layoutParams as LayoutParams
                         layoutParams.bottomMargin = dockedOutboundFlightSelection.height
                     }
