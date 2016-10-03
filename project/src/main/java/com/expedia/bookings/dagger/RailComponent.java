@@ -4,7 +4,7 @@ import com.expedia.bookings.dagger.tags.RailScope;
 import com.expedia.bookings.presenter.rail.RailCheckoutPresenter;
 import com.expedia.bookings.presenter.rail.RailDetailsPresenter;
 import com.expedia.bookings.presenter.rail.RailPresenter;
-import com.expedia.bookings.presenter.rail.RailResultsPresenter;
+import com.expedia.bookings.presenter.rail.RailOutboundPresenter;
 import com.expedia.bookings.presenter.rail.RailSearchPresenter;
 import com.expedia.bookings.presenter.rail.RailTripOverviewPresenter;
 import com.expedia.bookings.services.RailServices;
@@ -19,7 +19,7 @@ import dagger.Component;
 public interface RailComponent {
 	void inject(RailPresenter presenter);
 	void inject(RailSearchPresenter presenter);
-	void inject(RailResultsPresenter presenter);
+	void inject(RailOutboundPresenter presenter);
 	void inject(RailDetailsPresenter presenter);
 	void inject(RailTripOverviewPresenter presenter);
 	void inject(RailCheckoutPresenter presenter);

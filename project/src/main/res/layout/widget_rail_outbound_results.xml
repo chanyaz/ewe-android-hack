@@ -8,21 +8,20 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
+            android:id="@+id/rail_outbound_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
             android:background="@color/rail_primary_color"
             android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
         <com.expedia.bookings.widget.rail.RailResultsRecyclerView
-            android:id="@+id/list_view"
+            android:id="@+id/rail_outbound_list"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:overScrollMode="never"
             android:paddingTop="4dp" />
     </LinearLayout>
-
 </merge>

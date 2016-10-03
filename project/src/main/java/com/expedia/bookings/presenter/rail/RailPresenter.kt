@@ -16,11 +16,12 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.rail.RailAmenitiesFareRulesWidget
 import com.expedia.util.endlessObserver
+import com.expedia.vm.rail.RailInboundResultsViewModel
+import com.expedia.vm.rail.RailOutboundResultsViewModel
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
 import com.expedia.vm.rail.RailConfirmationViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
 import com.expedia.vm.rail.RailDetailsViewModel
-import com.expedia.vm.rail.RailResultsViewModel
 import com.expedia.vm.rail.RailSearchViewModel
 import rx.Observer
 import javax.inject.Inject
@@ -33,22 +34,41 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     lateinit var travelerManager: TravelerManager
 
     val searchPresenter: RailSearchPresenter by bindView(R.id.widget_rail_search_presenter)
-    val outboundPresenter: RailResultsPresenter by bindView(R.id.widget_rail_results_presenter)
+    val outboundPresenter: RailOutboundPresenter by bindView(R.id.widget_rail_outbound_presenter)
     val detailsPresenter: RailDetailsPresenter by bindView(R.id.widget_rail_details_presenter)
     val inboundPresenter: RailInboundPresenter by bindView(R.id.widget_rail_inbound_presenter)
     val tripOverviewPresenter: RailTripOverviewPresenter by bindView(R.id.widget_rail_trip_overview_presenter)
     val railCheckoutPresenter: RailCheckoutPresenter by bindView(R.id.widget_rail_checkout_presenter)
     val confirmationPresenter: RailConfirmationPresenter by bindView(R.id.rail_confirmation_presenter)
 
-    val createTripViewModel = RailCreateTripViewModel(Ui.getApplication(context).railComponent().railService())
+    private val outboundResultsViewModel: RailOutboundResultsViewModel
+    private val inboundResultsViewModel: RailInboundResultsViewModel
+    private val createTripViewModel: RailCreateTripViewModel
 
     val amenitiesFareRulesWidget: RailAmenitiesFareRulesWidget by lazy {
         var viewStub = findViewById(R.id.amenities_stub) as ViewStub
         var widget = viewStub.inflate() as RailAmenitiesFareRulesWidget
         widget
     }
-    private val searchToResults = LeftToRightTransition(this, RailSearchPresenter::class.java, RailResultsPresenter::class.java)
-    private val resultsToDetails = LeftToRightTransition(this, RailResultsPresenter::class.java, RailDetailsPresenter::class.java)
+
+    var railSearchParams: RailSearchRequest by Delegates.notNull()
+
+    val searchObserver: Observer<RailSearchRequest> = endlessObserver { params ->
+        railSearchParams = params
+
+        travelerManager.updateRailTravelers()
+        transitionToOutboundResults()
+        outboundPresenter.viewmodel.paramsSubject.onNext(params)
+        inboundPresenter.viewmodel.paramsSubject.onNext(params)
+    }
+
+    val offerSelectedObserver: Observer<RailOffer> = endlessObserver { selectedOffer ->
+        transitionToDetails()
+        detailsPresenter.viewmodel.offerViewModel.offerSubject.onNext(selectedOffer)
+    }
+
+    private val searchToResults = LeftToRightTransition(this, RailSearchPresenter::class.java, RailOutboundPresenter::class.java)
+    private val resultsToDetails = LeftToRightTransition(this, RailOutboundPresenter::class.java, RailDetailsPresenter::class.java)
     private val detailsToOverview = object : LeftToRightTransition(this, RailDetailsPresenter::class.java, RailTripOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
@@ -66,28 +86,27 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private val detailsToAmenities = ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
     private val overviewToAmenities = ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
 
-    var railSearchParams: RailSearchRequest by Delegates.notNull()
-
-    val searchObserver: Observer<RailSearchRequest> = endlessObserver { params ->
-        railSearchParams = params
-
-        travelerManager.updateRailTravelers()
-        transitionToOutboundResults()
-        outboundPresenter.viewmodel.searchViewModel = searchPresenter.searchViewModel
-        outboundPresenter.viewmodel.paramsSubject.onNext(params)
-    }
-
-    val offerSelectedObserver: Observer<RailOffer> = endlessObserver { selectedOffer ->
-        transitionToDetails()
-        detailsPresenter.viewmodel.offerViewModel.offerSubject.onNext(selectedOffer)
-    }
-
     init {
         Ui.getApplication(context).railComponent().inject(this)
         travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         View.inflate(context, R.layout.rail_presenter, this)
-        addTransitions()
 
+        outboundResultsViewModel = RailOutboundResultsViewModel(context, railServices)
+        inboundResultsViewModel = RailInboundResultsViewModel(context)
+        createTripViewModel = RailCreateTripViewModel(railServices)
+
+        addTransitions()
+        initSearchPresenter()
+        initOutboundPresenter()
+        initInboundPresenter()
+        initDetailsPresenter()
+        initOverviewPresenter()
+        initCheckoutPresenter()
+
+        show(searchPresenter)
+    }
+
+    private fun initSearchPresenter() {
         searchPresenter.searchViewModel = RailSearchViewModel(context)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
 
@@ -96,15 +115,26 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
                 (overviewHeader.checkoutOverviewFloatingToolbar.viewmodel as RailCheckoutOverviewViewModel).params)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(
                 (overviewHeader.checkoutOverviewHeaderToolbar.viewmodel as RailCheckoutOverviewViewModel).params)
+    }
 
-        outboundPresenter.viewmodel = RailResultsViewModel(context, railServices)
+    private fun initOutboundPresenter() {
+        outboundPresenter.viewmodel = outboundResultsViewModel
+        outboundPresenter.setOnClickListener { transitionToDetails() }
         outboundPresenter.viewmodel.railResultsObservable.subscribe {
             detailsPresenter.viewmodel.railResultsObservable.onNext(it)
         }
         outboundPresenter.offerSelectedObserver = offerSelectedObserver
+    }
+
+    private fun initInboundPresenter() {
+        inboundPresenter.viewmodel = inboundResultsViewModel
+    }
+
+    private fun initDetailsPresenter() {
         detailsPresenter.viewmodel = RailDetailsViewModel(context)
         detailsPresenter.viewmodel.offerSelectedObservable.subscribe { offer ->
             if (searchPresenter.searchViewModel.isRoundTripSearchObservable.value) {
+                inboundResultsViewModel.resultsReturnedObserver.onNext(outboundResultsViewModel.railResultsObservable.value)
                 transitionToInboundResults()
             } else {
                 transitionToTripSummary()
@@ -123,7 +153,9 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             show(amenitiesFareRulesWidget)
             amenitiesFareRulesWidget.showFareRulesForOffer(offer)
         }
+    }
 
+    private fun initOverviewPresenter() {
         tripOverviewPresenter.railTripSummary.outboundLegSummary.viewModel.showLegInfoObservable.subscribe {
             show(amenitiesFareRulesWidget)
             amenitiesFareRulesWidget.showFareRulesForOffer(tripOverviewPresenter.railTripSummary.outboundLegSummary.viewModel.railOfferObserver.value)
@@ -135,7 +167,9 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         }
 
         tripOverviewPresenter.createTripViewModel = createTripViewModel
+    }
 
+    private fun initCheckoutPresenter() {
         railCheckoutPresenter.createTripViewModel = createTripViewModel
         confirmationPresenter.viewModel = RailConfirmationViewModel(context)
 
@@ -143,8 +177,6 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             confirmationPresenter.viewModel.confirmationObservable.onNext(pair)
             show(confirmationPresenter)
         }
-
-        show(searchPresenter)
     }
 
     private fun addTransitions() {

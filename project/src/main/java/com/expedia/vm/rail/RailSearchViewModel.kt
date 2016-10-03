@@ -208,13 +208,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         } else if (end == null && isRoundTripSearchObservable.value) {
             return context.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
         } else {
-            val datesText = if (isRoundTripSearchObservable.value)
-                                Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
-                                        .put("startdate", DateUtils.localDateToMMMd(start))
-                                        .put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
-                            else Phrase.from(context, R.string.calendar_instructions_date_rail_one_way_TEMPLATE)
-                                        .put("startdate", DateUtils.localDateToMMMd(start)).format().toString()
-            return datesText
+            return DateFormatUtils.formatRailDateRange(context, start, end)
         }
     }
 

@@ -6,8 +6,8 @@
         android:layout_height="match_parent"
         android:background="@color/rail_background_color" />
 
-    <com.expedia.bookings.presenter.rail.RailResultsPresenter
-        android:id="@+id/widget_rail_results_presenter"
+    <com.expedia.bookings.presenter.rail.RailOutboundPresenter
+        android:id="@+id/widget_rail_outbound_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/rail_background_color"
