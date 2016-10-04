@@ -17,6 +17,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
@@ -27,7 +28,10 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         calendarWidgetV2.viewModel = vm
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         vm.searchButtonObservable.subscribe { enable ->
-            searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
+            searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.search_dialog_background_v2) else ContextCompat.getColor(context, R.color.white_disabled))
+            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                searchButton.isEnabled = enable
+            }
         }
 
         vm.locationTextObservable.subscribe { locationText ->
@@ -88,6 +92,9 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
         val service = Ui.getApplication(context).hotelComponent().suggestionsService()
         suggestionViewModel = HotelSuggestionAdapterViewModel(context, service, CurrentLocationObservable.create(context), true, true)
         searchLocationEditText?.queryHint = context.resources.getString(R.string.enter_destination_hint)
+        if (AccessibilityUtil.isTalkBackEnabled(context)) {
+            searchButton.isEnabled = false
+        }
     }
 
     override fun getSearchViewModel(): BaseSearchViewModel {

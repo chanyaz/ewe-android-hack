@@ -24,7 +24,11 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.TravelerManager
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
@@ -156,6 +160,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
             searchPresenter.originCardView.performClick()
+            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                searchPresenter.searchButton.isEnabled = false
+            }
             trackSearchPageLoad()
         }
     }
@@ -267,6 +274,9 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             if (forward) {
                 trackSearchPageLoad()
                 searchPresenter.showDefault()
+                if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                    searchPresenter.searchButton.isEnabled = false
+                }
             }
         }
     }
