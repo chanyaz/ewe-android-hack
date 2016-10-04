@@ -7,10 +7,12 @@ import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.subscribeTextChange
 import rx.Observer
@@ -81,7 +83,10 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         super.onInitializeAccessibilityNodeInfo(nodeInfo)
         val text = this.text.toString()
         val hint = this.hint.toString()
-        nodeInfo.text = if (!valid) " $hint, $text, $errorContDesc" else " $hint, $text"
+        val conDescription = if (Strings.isNotEmpty(this.contentDescription)) {
+            this.contentDescription.toString()
+        } else ""
+        nodeInfo.text = if (!valid) " $hint, $text, $errorContDesc, $conDescription" else " $hint, $text, $conDescription"
     }
 
     private fun resetError() {
