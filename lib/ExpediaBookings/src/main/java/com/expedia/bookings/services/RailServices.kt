@@ -55,7 +55,7 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
     fun railSearch(params: RailApiSearchModel, observer: Observer<RailSearchResponse>): Subscription {
         cancel()
         val subscription = railApi.railSearch(params)
-                .doOnNext(BUCKET_FARE_QUALIFIERS)
+                .doOnNext(BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
@@ -63,9 +63,9 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
         return subscription
     }
 
-    private val BUCKET_FARE_QUALIFIERS = { response: RailSearchResponse ->
-        val railLeg = response.legList[0]
-        for (legOption: RailLegOption in railLeg.legOptionList) {
+    private val BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE = { response: RailSearchResponse ->
+        val outboundLeg = response.legList[0]
+        for (legOption: RailLegOption in outboundLeg.legOptionList) {
             for (railOffer: RailSearchResponse.RailOffer in response.offerList) {
                 val railOfferWithFareQualifiers = railOffer.railProductList.filter { !it.fareQualifierList.isEmpty() }
                 val railOfferLegListWithFareQualifiers = railOfferWithFareQualifiers.flatMap { it.legOptionIndexList }
@@ -75,6 +75,9 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
                     break
                 }
             }
+        }
+        if (response.legList.size == 2) {
+            outboundLeg.cheapestInboundPrice = response.legList[1].cheapestPrice
         }
     }
 

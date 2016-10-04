@@ -21,6 +21,7 @@ class RailDetailsViewModelTest {
         val viewModel = RailDetailsViewModel(RuntimeEnvironment.application)
 
         val mockSearchResponse = Mockito.mock(RailSearchResponse::class.java)
+        mockSearchResponse.legList = emptyList()
         Mockito.`when`(mockSearchResponse.findOffersForLegOption(Mockito.any())).thenReturn(emptyList())
         viewModel.railResultsObservable.onNext(mockSearchResponse)
 
@@ -35,12 +36,12 @@ class RailDetailsViewModelTest {
         val overtakenTestSubscriber = TestSubscriber.create<Boolean>()
         viewModel.overtaken.subscribe(overtakenTestSubscriber)
 
-        viewModel.railLegSubject.onNext(leg)
+        viewModel.railLegOptionSubject.onNext(leg)
         overtakenTestSubscriber.assertValueCount(1)
         assertFalse(overtakenTestSubscriber.onNextEvents[0])
 
         leg.overtakenJourney = true
-        viewModel.railLegSubject.onNext(leg)
+        viewModel.railLegOptionSubject.onNext(leg)
         overtakenTestSubscriber.assertValueCount(2)
         assertTrue(overtakenTestSubscriber.onNextEvents[1])
     }

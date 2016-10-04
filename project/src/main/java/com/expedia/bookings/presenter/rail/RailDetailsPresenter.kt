@@ -35,8 +35,8 @@ class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         detailsVM.overtaken.subscribeVisibility(overtakenMessage)
         detailsVM.overtaken.subscribeVisibility(overtakenDivider)
 
-        detailsVM.railLegSubject.subscribe(timeline.railLegOptionObserver)
-        detailsVM.railOfferListSubject.subscribe(fareOptionsViewModel.railOffersSubject)
+        detailsVM.railLegOptionSubject.subscribe(timeline.railLegOptionObserver)
+        detailsVM.railOffersPairSubject.subscribe(fareOptionsViewModel.railOffersPairSubject)
 
         fareOptionsViewModel.showAmenitiesSubject.subscribe(detailsVM.showAmenitiesObservable)
         fareOptionsViewModel.offerSelectedSubject.subscribe(detailsVM.offerSelectedObservable)
