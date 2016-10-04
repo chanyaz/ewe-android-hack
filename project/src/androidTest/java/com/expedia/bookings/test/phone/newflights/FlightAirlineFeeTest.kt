@@ -33,8 +33,9 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
 
         signIn()
         CheckoutViewModel.clickPaymentInfo()
-        assertPaymentFormCardFeeWarningNotShown()
+        assertCheckoutOverviewMayChargeCardFeeTextShown()
         CheckoutViewModel.selectStoredCard("Saved Visa 1111")
+        assertCheckoutOverviewCardFeeWarningShown()
         CheckoutViewModel.clickDone()
 
         assertCheckoutOverviewCardFeeWarningShown()
@@ -76,8 +77,9 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
 
         // clear existing card number
         signIn()
-        CheckoutViewModel.clickPaymentInfo() // reset card details
-        CheckoutViewModel.clickAddCreditCard()
+        CheckoutViewModel.clickPaymentInfo()
+        assertCheckoutOverviewCardFeeWarningShown()
+        CheckoutViewModel.clickAddCreditCard() // resets card details
         assertCheckoutOverviewMayChargeCardFeeTextShown()
         Common.pressBack()
         Common.pressBack()

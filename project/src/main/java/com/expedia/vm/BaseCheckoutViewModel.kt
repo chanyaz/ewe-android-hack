@@ -96,8 +96,8 @@ abstract class BaseCheckoutViewModel(val context: Context) {
 
         if (useCardFeeService()) {
             paymentViewModel.resetCardFees.subscribe {
-                // fetch correct trip total price (without fees)
-                fetchCardFees(cardId = "000000", tripId = getTripId())
+                lastFetchedCardFeeKeyPair = null
+                resetCardFees()
             }
 
             paymentViewModel.cardBIN
@@ -117,6 +117,7 @@ abstract class BaseCheckoutViewModel(val context: Context) {
     abstract fun injectComponents()
     abstract fun getTripId() : String
     abstract fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?)
+    abstract fun resetCardFees()
 
     open protected fun getScheduler(): Scheduler = AndroidSchedulers.mainThread()
 
