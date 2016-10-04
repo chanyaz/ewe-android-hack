@@ -9,23 +9,25 @@ import com.expedia.bookings.utils.DateFormatUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 
-class RailSummaryViewModel(context: Context) {
+class RailTripSummaryViewModel(context: Context) {
     val railOfferObserver = BehaviorSubject.create<RailOffer>()
+    val railLegObserver = BehaviorSubject.create<RailLegOption>()
 
     //Outputs
     val formattedDatesObservable = BehaviorSubject.create<String>()
-    val selectedOfferObservable = BehaviorSubject.create<RailOffer>()
+    val fareDescriptionObservable = BehaviorSubject.create<String>()
 
     init {
         railOfferObserver.subscribe { offer ->
-            val legOption: RailLegOption = offer.outboundLeg!!
+            fareDescriptionObservable.onNext(offer.railProductList.first().aggregatedFareDescription)
+        }
 
+        railLegObserver.subscribe { railLegOption ->
             val formattedDate = Phrase.from(context, R.string.rail_checkout_outbound_TEMPLATE)
-                    .put("date", DateFormatUtils.formatLocalDateToShortDayAndMonth(legOption.departureDateTime.toDateTime()))
+                    .put("date", DateFormatUtils.formatLocalDateToShortDayAndMonth(railLegOption.departureDateTime.toDateTime()))
                     .format().toString()
 
             formattedDatesObservable.onNext(formattedDate)
-            selectedOfferObservable.onNext(offer)
         }
     }
 }

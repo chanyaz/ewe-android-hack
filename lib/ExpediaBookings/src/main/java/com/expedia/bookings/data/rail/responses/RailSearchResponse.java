@@ -3,7 +3,6 @@ package com.expedia.bookings.data.rail.responses;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.data.rail.RailPassenger;
@@ -13,15 +12,6 @@ public class RailSearchResponse {
 	public List<RailPassenger> passengerList;
 	public List<RailLeg> legList;
 	public List<RailOffer> offerList;
-
-	public RailOffer findOfferForLeg(@NotNull RailLegOption it) {
-		for (RailOffer offer : offerList) {
-			if (offer.containsLegOptionId(it.legOptionIndex)) {
-				return offer;
-			}
-		}
-		return null;
-	}
 
 	public List<RailOffer> findOffersForLegOption(RailLegOption legOption) {
 		List<RailOffer> offers = new ArrayList<>();

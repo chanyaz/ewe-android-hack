@@ -111,15 +111,14 @@
                 android:id="@+id/fare_description"
                 style="@style/BundleOverviewWidgets.SecondaryText"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                tools:text="Fare Description Here"/>
 
             <ImageView
                 android:id="@+id/info_icon"
                 style="@style/BundleOverviewFooter.PrimaryText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/times_view"
-                android:layout_alignParentRight="@id/times_view"
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="9dp"
                 android:src="@drawable/ic_checkout_info" />

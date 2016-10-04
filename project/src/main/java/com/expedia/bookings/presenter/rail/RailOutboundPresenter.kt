@@ -8,14 +8,12 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
-import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.rail.RailResultsAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailOutboundResultsViewModel
-import rx.Observer
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
@@ -24,7 +22,6 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val recyclerView: RecyclerView by bindView(R.id.rail_outbound_list)
     var adapter: RailResultsAdapter by Delegates.notNull()
 
-    var offerSelectedObserver: Observer<RailOffer>? = null
     val legSelectedSubject = PublishSubject.create<RailLegOption>()
 
     var viewmodel: RailOutboundResultsViewModel by notNullAndObservable { vm ->
@@ -59,12 +56,6 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         adapter = RailResultsAdapter(context, legSelectedSubject)
         recyclerView.adapter = adapter
         adapter.showLoading()
-
-        legSelectedSubject.subscribe {
-            val offer = viewmodel.railResultsObservable.value.findOfferForLeg(it)
-            offer.outboundLeg = it
-            offerSelectedObserver?.onNext(offer)
-        }
     }
 }
 
