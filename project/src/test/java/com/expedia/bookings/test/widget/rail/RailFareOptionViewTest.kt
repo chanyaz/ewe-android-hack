@@ -1,7 +1,9 @@
 package com.expedia.bookings.test.widget.rail
 
 import android.content.Context
+import android.view.View
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -13,6 +15,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class RailFareOptionViewTest {
@@ -33,6 +36,7 @@ class RailFareOptionViewTest {
         assertEquals("$10", railFareOptionView.priceView.text)
         assertEquals("Fare class", railFareOptionView.fareTitle.text)
         assertEquals("Fare Description", railFareOptionView.fareDescription.text)
+        assertEquals(View.VISIBLE, railFareOptionView.railCardImage.visibility)
     }
 
     @Test
@@ -66,6 +70,8 @@ class RailFareOptionViewTest {
         val railProduct = RailProduct()
         railProduct.aggregatedCarrierFareClassDisplayName = "Fare class"
         railProduct.aggregatedFareDescription = "Fare Description"
+        val fareQualifierList = listOf(RailCard("", "", ""))
+        railProduct.fareQualifierList = fareQualifierList
         railOffer.railProductList = listOf(railProduct)
         return railOffer
     }

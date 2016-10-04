@@ -21,6 +21,7 @@ class RailLegSummaryViewModel(context: Context) {
     val fareDescriptionLabelObservable = PublishSubject.create<String>()
     val showLegInfoObservable = PublishSubject.create<Unit>()
     val overtakenSubject = PublishSubject.create<Boolean>()
+    val railCardAppliedNameSubject = PublishSubject.create<String>()
 
     init {
         railLegOptionObserver.subscribe { legOption ->

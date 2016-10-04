@@ -6,6 +6,7 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.data.rail.RailPassenger;
+import com.expedia.bookings.utils.CollectionUtils;
 
 public class RailSearchResponse {
 
@@ -52,5 +53,15 @@ public class RailSearchResponse {
 			}
 			return false;
 		}
+
+		public boolean hasRailCardApplied() {
+			boolean railCardApplied = false;
+			if (CollectionUtils.isNotEmpty(railProductList)) {
+				List<RailCard> fareQualifierList = railProductList.get(0).fareQualifierList;
+				railCardApplied = CollectionUtils.isNotEmpty(fareQualifierList);
+			}
+			return railCardApplied;
+		}
+
 	}
 }

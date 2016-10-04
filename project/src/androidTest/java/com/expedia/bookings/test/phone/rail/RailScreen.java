@@ -22,6 +22,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -61,9 +62,8 @@ public class RailScreen {
 	public static ViewInteraction selectFareOption(String fareOption) {
 		return onView(
 			allOf(
-				withId(R.id.select_button), allOf(withText(R.string.select)),
-				isDescendantOfA(allOf(withId(R.id.details_fare_options))),
-				hasSibling(allOf(withId(R.id.price), withText(fareOption))),
+				withId(R.id.select_button), withText(R.string.select),
+				hasSibling(allOf(withId(R.id.price_container), withChild(withText(fareOption)))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
 	}

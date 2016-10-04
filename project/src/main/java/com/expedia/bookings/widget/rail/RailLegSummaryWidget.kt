@@ -14,6 +14,7 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.rail.RailLegSummaryViewModel
 import rx.subjects.PublishSubject
 
@@ -29,6 +30,7 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(co
     val legDetailsWidget: RailDetailsTimeline by bindView(R.id.rail_leg_details)
     val fareDescription: TextView by bindView(R.id.fare_description)
     val fareDescriptionContainer: View by bindView(R.id.fare_description_container)
+    val railCardName: TextView by bindView(R.id.rail_card_name)
     val overtakenMessage: android.widget.TextView by bindView(R.id.overtaken_message)
     val overtakenDivider: View by bindView(R.id.overtaken_message_divider)
     val legContainerClicked = PublishSubject.create<Unit>()
@@ -54,6 +56,7 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(co
             }
         }).subscribe()
 
+        vm.railCardAppliedNameSubject.subscribeTextAndVisibility(railCardName)
         fareDescriptionContainer.subscribeOnClick(viewModel.showLegInfoObservable)
     }
 
