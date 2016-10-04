@@ -7,16 +7,6 @@
   },
   "orderId": "000000",
   "totalCharges": "715.00",
-  "flightAggregatedResponse": {
-    "flightsDetailResponse": [
-      {
-        "destinationRegionId": "6139107",
-        "offer": {
-          "numberOfTickets": 1
-        }
-      }
-    ]
-  },
   "totalChargesPrice": {
     "amount": "715.00",
     "formattedPrice": "$715.00",
@@ -254,5 +244,228 @@
       "localizedLongDate": "December 17, 2017",
       "localizedShortTime": "4:00 PM"
     }
+  },
+  "flightAggregatedResponse": {
+    "responseType": "REGULAR",
+    "flightsDetailResponse": [
+      {
+        "offer": {
+          "legIds": [
+            "26caeca6842d8a8b349bf48ff03cc0f3"
+          ],
+          "currency": "USD",
+          "baseFare": "220.47",
+          "baseFarePrice": {
+            "amount": "220.47",
+            "formattedPrice": "$220.47",
+            "formattedWholePrice": "$220",
+            "currencyCode": "USD"
+          },
+          "totalFare": "251.10",
+          "totalFarePrice": {
+            "amount": "251.10",
+            "formattedPrice": "$251.10",
+            "formattedWholePrice": "$251",
+            "currencyCode": "USD"
+          },
+          "totalPrice": {
+            "amount": "251.10",
+            "formattedPrice": "$251.10",
+            "formattedWholePrice": "$251",
+            "currencyCode": "USD"
+          },
+          "pricePerPassengerCategory": [
+            {
+              "passengerCategory": "ADULT",
+              "totalPrice": {
+                "amount": "251.10",
+                "formattedPrice": "$251.10",
+                "formattedWholePrice": "$251",
+                "currencyCode": "USD"
+              },
+              "basePrice": {
+                "amount": "220.47",
+                "formattedPrice": "$220.47",
+                "formattedWholePrice": "$220",
+                "currencyCode": "USD"
+              },
+              "taxesPrice": {
+                "amount": "30.63",
+                "formattedPrice": "$30.63",
+                "formattedWholePrice": "$31",
+                "currencyCode": "USD"
+              }
+            }
+          ],
+          "averageTotalPricePerTicket": {
+            "amount": "251.10",
+            "formattedPrice": "$251.10",
+            "formattedWholePrice": "$251",
+            "currencyCode": "USD"
+          },
+          "numberOfTickets": 1,
+          "taxes": "30.63",
+          "taxesPrice": {
+            "amount": "30.63",
+            "formattedPrice": "$30.63",
+            "formattedWholePrice": "$31",
+            "currencyCode": "USD"
+          },
+          "fees": "0.00",
+          "feesPrice": {
+            "amount": "0.00",
+            "formattedPrice": "$0.00",
+            "formattedWholePrice": "$0",
+            "currencyCode": "USD"
+          },
+          "showFees": true,
+          "productKey": "535d44c94ea7cc702260c78704822b39-1-1",
+          "seatsRemaining": 7,
+          "segmentAttributes": [
+            [
+              {
+                "bookingCode": "Y",
+                "cabinCode": "coach"
+              }
+            ]
+          ],
+          "baggageFeesUrl": "http://www.expedia.com/",
+          "fareType": "PUBLISHED",
+          "isInternational": false,
+          "isPassportNeeded": false,
+          "hasBagFee": false,
+          "hasNoBagFee": false,
+          "isSplitTicket": false,
+          "selectedInsuranceProduct": {
+            "name": "Expedia StressFree&trade; Flight Protection",
+            "productId": "3944aab5-90cf-4a03-b7f3-edff4b76c302",
+            "typeId": "100001",
+            "businessType": "Merchant Insurance",
+            "policyNumber": "",
+            "totalPrice": {
+              "amount": "19.00",
+              "formattedPrice": "$19.00",
+              "formattedWholePrice": "$19",
+              "currencyCode": "USD"
+            },
+            "displayPrice": {
+              "amount": "19.00",
+              "formattedPrice": "$19.00",
+              "formattedWholePrice": "$19",
+              "currencyCode": "USD"
+            },
+            "displayPriceType": "PRICE_PER_DAY"
+          },
+          "selectedInsuranceProduct": {
+            "name": "Expedia StressFree&trade; Flight Protection",
+            "productId": "3944aab5-90cf-4a03-b7f3-edff4b76c302",
+            "typeId": "100001",
+            "businessType": "Merchant Insurance",
+            "policyNumber": "",
+            "totalPrice": {
+              "amount": "19.00",
+              "formattedPrice": "$19.00",
+              "formattedWholePrice": "$19",
+              "currencyCode": "USD"
+            },
+            "displayPrice": {
+              "amount": "19.00",
+              "formattedPrice": "$19.00",
+              "formattedWholePrice": "$19",
+              "currencyCode": "USD"
+            },
+            "displayPriceType": "PRICE_PER_DAY"
+          },
+          "airFulfillmentMethod": [
+            "ETicket"
+          ]
+        },
+        "productKey": "535d44c94ea7cc702260c78704822b39-1-1",
+        "flightRules": [
+          {
+            "isChangeAllowed": false,
+            "isEnrouteChangeAllowed": false,
+            "isEnrouteRefundAllowed": false,
+            "isRefundable": false,
+            "summaryText": ""
+          }
+        ],
+        "obFeeTotalAmount": "0.00",
+        "obFeePrice": {
+          "amount": "0.00",
+          "formattedPrice": "$0.00",
+          "formattedWholePrice": "$0",
+          "currencyCode": "USD"
+        },
+        "legs": [
+          {
+            "legId": "26caeca6842d8a8b349bf48ff03cc0f3",
+            "travelDuration": "PT1H15M",
+            "baggageFeesUrl": "http://www.expedia.com/",
+            "segments": [
+              {
+                "departureTime": "August 24, 2017 6:50:00 AM",
+                "departureTimeEpochSeconds": 1503582600,
+                "departureTimeRaw": "2017-08-24T06:50:00.000-07:00",
+                "departureTimeZoneOffsetSeconds": -25200,
+                "arrivalTime": "August 24, 2017 8:05:00 AM",
+                "arrivalTimeEpochSeconds": 1503587100,
+                "arrivalTimeRaw": "2017-08-24T08:05:00.000-07:00",
+                "arrivalTimeZoneOffsetSeconds": -25200,
+                "arrivalAirportCode": "LAX",
+                "arrivalAirportLocation": "Los Angeles, USA",
+                "arrivalAirportAddress": {
+                  "city": "Los Angeles",
+                  "state": " CA",
+                  "country": "USA"
+                },
+                "departureAirportCode": "SFO",
+                "departureAirportLocation": "San Francisco, USA",
+                "departureAirportAddress": {
+                  "city": "San Francisco",
+                  "state": " CA",
+                  "country": "USA"
+                },
+                "airlineName": "Virgin America",
+                "airlineCode": "VX",
+                "externalAirlineCode": "VX",
+                "flightNumber": "922",
+                "onTimePercentage": "90",
+                "equipmentCode": "320",
+                "equipmentDescription": "Airbus A320",
+                "duration": "PT1H15M",
+                "distance": 339,
+                "distanceUnits": "miles",
+                "stops": 0,
+                "providerCode": "Amadeus",
+                "hasSeatMap": false
+              }
+            ],
+            "freeCancellationBy": {
+              "raw": "2016-10-03T23:59:00Z",
+              "localized": "Oct 3, 2016 11:59:00 PM",
+              "epochSeconds": 1475539140,
+              "timeZoneOffsetSeconds": 0,
+              "localizedShortDate": "Mon, 3 Oct",
+              "localizedMediumDate": "Oct 3, 2016",
+              "localizedFullDate": "Monday, October 3, 2016",
+              "localizedLongDate": "October 3, 2016",
+              "localizedShortTime": "11:59 PM"
+            }
+          }
+        ],
+        "destinationRegionId": 6000346,
+        "isSplitTicket": false,
+        "fareBasisCodeDetails": [
+          {
+            "fareBasisCode": "YVX",
+            "passengerCategory": "ADT",
+            "origin": "SFO",
+            "destination": "LAX",
+            "carrierCode": "VX"
+          }
+        ]
+      }
+    ]
   }
 }
