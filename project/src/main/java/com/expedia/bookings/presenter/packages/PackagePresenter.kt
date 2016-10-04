@@ -16,7 +16,6 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
@@ -24,7 +23,11 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.utils.*
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.TravelerManager
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
@@ -91,8 +94,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             Db.clearPackageSelection()
             travelerManager.updateDbTravelers(params, context)
             errorPresenter.getViewModel().paramsSubject.onNext(params)
-            show(bundlePresenter)
-            bundlePresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+            showBundleOverView()
         }
         searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.bundleWidget.viewModel.hotelParamsObservable)
         bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
@@ -278,4 +280,10 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     fun trackViewBundlePageLoad() {
         PackagesTracking().trackViewBundlePageLoad()
     }
+
+    fun showBundleOverView() {
+        show(bundlePresenter)
+        bundlePresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+    }
+
 }

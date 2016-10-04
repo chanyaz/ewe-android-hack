@@ -7,12 +7,12 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.BaseOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
+import com.expedia.bookings.presenter.packages.PackageSearchPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.Ui
@@ -77,6 +77,10 @@ class PackageActivity : AbstractAppCompatActivity() {
                         //is is change hotel search, call createTrip, otherwise start outbound flight search
                         if (!Db.getPackageParams().isChangePackageSearch()) {
                             packageFlightSearch()
+                            // making sure after select hotel room we show bundle overview
+                            if (packagePresenter.currentState == PackageSearchPresenter::class.java.name) {
+                                packagePresenter.showBundleOverView()
+                            }
                             val intent = Intent(this, PackageHotelActivity::class.java)
                             intent.putExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM, true)
                             intent.putExtra(Constants.REQUEST, Constants.HOTEL_REQUEST_CODE)
