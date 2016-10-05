@@ -1048,6 +1048,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (forward) {
                 fab.visibility = View.GONE
             }
+            else {
+                recyclerView.visibility = View.VISIBLE
+                toolbar.visibility = View.VISIBLE
+                mapView.visibility = View.VISIBLE
+                filterBtnWithCountWidget?.visibility = View.VISIBLE
+            }
             hideBundlePriceOverview(forward)
         }
 
@@ -1064,6 +1070,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (!forward && !fabShouldBeHiddenOnList()) {
                 fab.visibility = View.VISIBLE
                 getFabAnimIn().start()
+            }
+            if (forward) {
+                recyclerView.visibility = View.GONE
+                toolbar.visibility = View.GONE
+                mapView.visibility = View.GONE
+                filterBtnWithCountWidget?.visibility = View.GONE
             }
         }
     }
