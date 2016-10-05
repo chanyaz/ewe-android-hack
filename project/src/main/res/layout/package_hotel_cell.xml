@@ -53,7 +53,7 @@
                     android:textStyle="normal" />
             </LinearLayout>
 
-            <include layout="@layout/base_hotel_cell"/>
+            <include layout="@layout/hotel_cell_content"/>
 
             <View android:id="@+id/price_includes_flights_divider"
                 android:layout_width="match_parent"
