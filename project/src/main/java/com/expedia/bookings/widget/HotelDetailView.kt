@@ -55,6 +55,7 @@ import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
+import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.mobiata.android.util.AndroidUtils
@@ -269,6 +270,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.roomPriceToShowCustomer.subscribeText(price)
         vm.perNightVisibility.subscribeInverseVisibility(perNight)
 
+        vm.hotelPriceContentDesc.subscribeContentDescription(hotelPriceContainer)
         vm.isPackageHotelObservable.subscribeInverseVisibility(hotelPriceContainer)
         vm.isPackageHotelObservable.subscribeVisibility(searchDatesInfo)
         vm.searchDatesObservable.subscribeText(searchDatesInfo)

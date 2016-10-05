@@ -86,6 +86,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     private val noRoomsInOffersResponse = BehaviorSubject.create<Boolean>(false)
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
     val selectedRoomSoldOut = PublishSubject.create<Unit>()
+    val hotelPriceContentDesc = PublishSubject.create<String>()
 
     val toolBarRatingColor = hotelSoldOut.map { if (it) ContextCompat.getColor(context, android.R.color.white) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
     val galleryColorFilter = hotelSoldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
@@ -260,10 +261,11 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
 
         val isStrikeThroughPriceGreaterThanPriceToShowUsers = priceToShowUsers < strikethroughPriceToShowUsers
-        strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(isStrikeThroughPriceGreaterThanPriceToShowUsers)
         if (isStrikeThroughPriceGreaterThanPriceToShowUsers) {
             strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true, !hotelOffersResponse.isPackage))
         }
+        strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(isStrikeThroughPriceGreaterThanPriceToShowUsers)
+        hotelPriceContentDesc.onNext(getHotelPriceContentDescription(isStrikeThroughPriceGreaterThanPriceToShowUsers))
 
         hasFreeCancellationObservable.onNext(hasFreeCancellation(response))
         hasBestPriceGuaranteeObservable.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee())
@@ -617,6 +619,20 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             context.resources.getString(R.string.mobile_exclusive)
         } else {
             ""
+        }
+    }
+    private fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
+        return if (showStrikeThrough) {
+            Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
+                    .put("strikethroughprice", strikeThroughPriceObservable.value)
+                    .put("price", pricePerNightObservable.value)
+                    .format()
+                    .toString() + Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
+                        .put("percentage", discountPercentageObservable.value.first)
+                        .format()
+                        .toString()
+        } else {
+            pricePerNightObservable.value + context.getString(R.string.per_night)
         }
     }
 }

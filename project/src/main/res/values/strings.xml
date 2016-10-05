@@ -4592,9 +4592,9 @@
     <string name="hotel_price_cont_desc_TEMPLATE">Old price {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
     <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 off normal price\u0020</string>
-    <!-- Hotel card view content description for accessibility when strike through price is shown. Example. Regularly $200, now $150. -->
+    <!-- Hotel strike through price content description for accessibility. Example. Regularly $100, now $80. -->
     <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Regularly {strikethroughprice}, now {price}.\u0020</string>
-    <!-- Hotel card view content description for accessibility discount percentage is shown. Example. Original price discounted 25%. -->
+    <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Original price discounted {percentage}.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>

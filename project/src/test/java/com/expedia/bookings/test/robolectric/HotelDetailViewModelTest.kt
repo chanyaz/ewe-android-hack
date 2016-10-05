@@ -43,10 +43,10 @@ import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlin.test.assertNull
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -121,6 +121,32 @@ class HotelDetailViewModelTest {
         chargeableRateInfo.strikethroughPriceToShowUsers = 0f
         vm.hotelOffersSubject.onNext(offer1)
         assertNull(vm.strikeThroughPriceObservable.value)
+    }
+
+    @Test fun getHotelPriceContentDescriptionTestWithStrikeThrough() {
+        val testSubscriberText = TestSubscriber<CharSequence>()
+        val chargeableRateInfo = offer2.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.averageRate = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers + 10f
+        vm.hotelPriceContentDesc.subscribe(testSubscriberText)
+        vm.hotelOffersSubject.onNext(offer2)
+
+        assertEquals("Regularly ${vm.strikeThroughPriceObservable.value}, now ${vm.pricePerNightObservable.value}.\\u0020Original price discounted ${vm.discountPercentageObservable.value.first}.\\u0020",
+                testSubscriberText.onNextEvents[0])
+    }
+
+
+        @Test fun getHotelPriceContentDescriptionTestNoStrikeThrough() {
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val testSubscriberText = TestSubscriber<CharSequence>()
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
+        chargeableRateInfo.averageRate = 110f
+        vm.hotelPriceContentDesc.subscribe(testSubscriberText)
+        vm.hotelOffersSubject.onNext(offer1)
+
+        assertEquals("$110/night", testSubscriberText.onNextEvents[0])
     }
 
     @Test fun discountPercentageShouldNotShowForPackages() {
