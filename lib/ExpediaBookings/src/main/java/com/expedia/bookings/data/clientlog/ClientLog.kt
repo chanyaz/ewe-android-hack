@@ -3,30 +3,30 @@ package com.expedia.bookings.data.clientlog
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
-class ClientLog(val pageName: String?, val deviceName: String?, val logTime: String?, val requestTime: Long, val responseTime: Long, val processingTime: Long, val requestToUser: Long) {
+class ClientLog(val pageName: String, val eventName: String, val deviceName: String, val requestTime: Long, val responseTime: Long, val processingTime: Long, val requestToUser: Long) {
 
     class Builder() {
-        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss:SSS'Z'")
-        var pageName: String? = null
-        var deviceName: String? = null
-        var logTime: DateTime? = null
-        var requestTime: DateTime? = null
-        var responseTime: DateTime? = null
-        var processingTime: DateTime? = null
-        var requestToUser: DateTime? = null
+        private val dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss:SSS'Z'")
+        private var pageName: String? = null
+        private var eventName: String? = null
+        private var deviceName: String? = null
+        private var requestTime: DateTime? = null
+        private var responseTime: DateTime? = null
+        private var processingTime: DateTime? = null
+        private var requestToUser: DateTime? = null
 
-        fun pageName(event: String?): ClientLog.Builder {
-            pageName = event
+        fun pageName(page: String?): ClientLog.Builder {
+            pageName = page
+            return this
+        }
+
+        fun eventName(event: String?): ClientLog.Builder {
+            eventName = event
             return this
         }
 
         fun deviceName(device: String?): ClientLog.Builder {
             deviceName = device
-            return this
-        }
-
-        fun logTime(time: DateTime?): ClientLog.Builder {
-            logTime = time
             return this
         }
 
@@ -51,7 +51,7 @@ class ClientLog(val pageName: String?, val deviceName: String?, val logTime: Str
         }
 
         fun build(): ClientLog {
-            return ClientLog(pageName, deviceName, logTime?.toString(dtf), 0L, calculateTimeDiff(responseTime), calculateTimeDiff(processingTime), calculateTimeDiff(requestToUser))
+            return ClientLog(pageName!!, eventName!!, deviceName!!, 0L, calculateTimeDiff(responseTime), calculateTimeDiff(processingTime), calculateTimeDiff(requestToUser))
         }
 
         private fun calculateTimeDiff(time: DateTime?) : Long {
