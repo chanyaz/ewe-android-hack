@@ -2341,7 +2341,7 @@
         <item quantity="one">+ 其他 {travelercount} 位旅客</item>
         <item quantity="other">+ 其他 {travelercount} 位旅客</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber} ({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber}({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 岁</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">正在删除优惠券</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">提交</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">提交按钮</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -4325,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">在 ({airportcode}) {city}中转</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">总时长：{duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">{itinerary} # 已发送至 {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">火车</string>
 
@@ -4438,6 +4442,12 @@
 
     <string name="mail_delivery_details">将所购车票寄送到您提供的地址。</string>
     <string name="tdo_fees_non_refundable">送票费不可退款。</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} 至 {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">非常抱歉，我们的服务器遇到点问题。请再试一次。</string>
     <string name="pwp_trip_service_error">非常抱歉，我们的服务器遇到点问题。请再试一次。</string>

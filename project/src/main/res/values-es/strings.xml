@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">Quitando el cupón</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Enviar</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">Botón para enviar</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -4275,13 +4277,13 @@
     <string name="flight_duration_label">Tiempo de vuelo</string>
     <string name="flight_duration_hour_short">h</string>
     <!-- Departure Time Range filter label-->
-    <string name="departure_time_range">Hora de salida</string>
+    <string name="departure_time_range">Horario de salida</string>
     <!-- Departure Time Range start filter label for accessibility -->
     <string name="departure_time_range_start">Inicio de la hora de salida</string>
     <!-- Departure Time Range end filter label for accessibility -->
     <string name="departure_time_range_end">Fin de la hora de salida</string>
     <!-- Arrival Time Range filter label-->
-    <string name="arrival_time_range">Hora de llegada</string>
+    <string name="arrival_time_range">Horario de llegada</string>
     <!-- Arrival Time Range start filter label for accessibility -->
     <string name="arrival_time_range_start">Inicio de la hora de llegada</string>
     <!-- Arrival Time Range end filter label for accessibility -->
@@ -4325,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Escala en ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Duración total: {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">Itin. {itinerary} enviado a {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">Trenes</string>
 
@@ -4438,6 +4442,12 @@
 
     <string name="mail_delivery_details">Recibirás el boleto en la dirección proporcionada.</string>
     <string name="tdo_fees_non_refundable">Los cargos de entrega del boleto son no reembolsables.</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">De {departurestation} a {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Lo sentimos, tuvimos un problema en el servidor. Inténtalo de nuevo.</string>
     <string name="pwp_trip_service_error">Lo sentimos, tuvimos un problema en el servidor. Inténtalo de nuevo.</string>

@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">Removing voucher</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Submit</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">Submit Button</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -4325,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Stopover in ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Total Duration: {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} sent to {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">Trains</string>
 
@@ -4438,6 +4442,12 @@
 
     <string name="mail_delivery_details">Have the ticket shipped to you at the address you provide.</string>
     <string name="tdo_fees_non_refundable">Ticket delivery fees are non-refundable.</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} to {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
     <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>

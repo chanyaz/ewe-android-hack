@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">Fjerner kupong</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Send</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">Knapp for innsending</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -4325,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Mellomlander på ({airportcode}) i {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Samlet varighet: {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">Nr. {itinerary} sendt til {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">Tog</string>
 
@@ -4438,6 +4442,12 @@
 
     <string name="mail_delivery_details">Få billetten sendt til postadressen du oppgir.</string>
     <string name="tdo_fees_non_refundable">Prisen for levering er ikke-refunderbar.</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">Fra {departurestation} til {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Beklager, det har oppstått et problem med serveren. Prøv på nytt.</string>
     <string name="pwp_trip_service_error">Beklager, det har oppstått et problem med serveren. Prøv på nytt.</string>

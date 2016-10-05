@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">Coupon wordt verwijderd</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Versturen</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">Verzendknop</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3246,7 +3248,7 @@
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt geweest.</string>
+    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
@@ -4325,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Tussenstop in ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Totale reisduur: {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">Nr {itinerary} gestuurd naar {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">Treinen</string>
 
@@ -4438,6 +4442,12 @@
 
     <string name="mail_delivery_details">Laat het ticket opsturen naar het door jou opgegeven adres.</string>
     <string name="tdo_fees_non_refundable">Ticketleveringskosten worden niet gerestitueerd.</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} naar {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Sorry, er deed zich een serverprobleem voor. Probeer het opnieuw.</string>
     <string name="pwp_trip_service_error">Sorry, er deed zich een serverprobleem voor. Probeer het opnieuw.</string>
