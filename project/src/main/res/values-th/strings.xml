@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">กำลังลบคูปอง</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">ส่ง</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">ปุ่มส่ง</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -4325,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">แวะพักที่ ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">ระยะเวลารวม: {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">ส่ง #{itinerary} ไปยัง {email} แล้ว</string>
+
     <!--Rail search screen title-->
     <string name="trains">รถไฟ</string>
 
@@ -4438,6 +4442,12 @@
 
     <string name="mail_delivery_details">ส่งตั๋วไปตามที่อยู่ที่คุณให้ไว้</string>
     <string name="tdo_fees_non_refundable">ค่าจัดส่งตั๋วไม่สามารถขอรับเงินคืนได้</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} ถึง {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">ขออภัย เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง</string>
     <string name="pwp_trip_service_error">ขออภัย เซิร์ฟเวอร์มีปัญหา โปรดลองอีกครั้ง</string>

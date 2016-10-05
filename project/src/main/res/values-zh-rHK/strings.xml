@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">移除優惠券</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">提交</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">提交按鈕</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3436,7 +3438,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -3552,7 +3554,7 @@
     <string name="country_hr">克羅地亞</string>
     <string name="country_cy">塞浦路斯</string>
     <string name="country_cz">捷克共和國</string>
-    <string name="country_ci">象牙海岸</string>
+    <string name="country_ci">科特迪瓦</string>
     <string name="country_dk">丹麥</string>
     <string name="country_dj">吉布提</string>
     <string name="country_dm">多米尼加</string>
@@ -4078,7 +4080,7 @@
     <string name="show_less">隱藏部分內容</string>
     <string name="price_range">價格範圍</string>
     <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
-    <string name="filter_sort_by_content_description_TEMPLATE">按{sort}排序。</string>
+    <string name="filter_sort_by_content_description_TEMPLATE">按{sort}排序</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">已加入篩選畫面中的「我的最愛」</string>
@@ -4325,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">中途停留 ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">合計時間：{duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} 已寄往 {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">火車票</string>
 
@@ -4438,6 +4442,12 @@
 
     <string name="mail_delivery_details">將車票郵寄至您提供的地址。</string>
     <string name="tdo_fees_non_refundable">送票費用不設退款。</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation}往{arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">很抱歉，伺服器出現問題。請再試一次。</string>
     <string name="pwp_trip_service_error">很抱歉，伺服器出現問題。請再試一次。</string>
