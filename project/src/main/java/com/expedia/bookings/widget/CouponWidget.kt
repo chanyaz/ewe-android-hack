@@ -8,8 +8,7 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.EditorInfo
-import android.widget.EditText
-import android.widget.ImageView
+import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.expedia.bookings.R
@@ -42,7 +41,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     val couponCode: AccessibleEditText by bindView(R.id.edit_coupon_code)
     val error: TextView by bindView(R.id.error_message)
     val appliedCouponMessage: TextView by bindView(R.id.applied_coupon_text)
-    val removeCoupon: ImageView by bindView(R.id.remove_coupon_button)
+    val removeCoupon: ImageButton by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
