@@ -695,6 +695,46 @@ public class PointOfSale {
 		return getPosLocale().getTermsAndConditionsUrl();
 	}
 
+	public String getRailsRulesAndRestrictionsUrl() {
+		return getPosLocale().getRailsRulesAndRestrictionsURL();
+	}
+
+	public String getRailsNationalRailConditionsOfTravelUrl() {
+		return getPosLocale().getRailsNationalRailConditionsOfTravelURL();
+	}
+
+	public String getRailsSupplierTermsAndConditionsUrl() {
+		return getPosLocale().getRailsSupplierTermsAndConditionsURL();
+	}
+
+	public String getRailsTermOfUseUrl() {
+		return getPosLocale().getRailsTermOfUseURL();
+	}
+
+	public String getRailsPrivacyPolicyUrl() {
+		return getPosLocale().getRailsPrivacyPolicyURL();
+	}
+
+	public String getRailsPaymentAndTicketDeliveryFeesUrl() {
+		return getPosLocale().getRailsPaymentAndTicketDeliveryFeesURL();
+	}
+
+	public String getRailsNationalRailConditionsOfTravelText() {
+		return getPosLocale().getRailsNationalRailConditionsOfTravelLinkText();
+	}
+
+	public String getRailsSupplierTermsAndConditionsText() {
+		return getPosLocale().getRailsSupplierTermsAndConditionsLinkText();
+	}
+
+	public String getRailsTermOfUseText() {
+		return getPosLocale().getRailsTermOfUseLinkText();
+	}
+
+	public String getRailsPaymentAndTicketDeliveryFeesText() {
+		return getPosLocale().getRailsPaymentAndTicketDeliveryFeesLinkText();
+	}
+
 	public String getAccountCreationTermsAndConditionsURL() {
 		return getLoyaltyTermsAndConditionsUrl() == null ? getPosLocale().getTermsAndConditionsUrl()
 			: getLoyaltyTermsAndConditionsUrl();

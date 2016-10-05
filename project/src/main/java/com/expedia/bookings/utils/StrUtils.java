@@ -502,8 +502,42 @@ public class StrUtils {
 			R.string.privacy_policy));
 		String statement = context.getResources()
 			.getString(R.string.legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
-
 		return getSpannableTextByPrimaryColor(context, statement, true);
+	}
+
+	public static SpannableStringBuilder generateRailLegalClickableLink(Context context, String rulesAndRestrictionsURL) {
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		Resources res = context.getResources();
+		String spannedRailsRulesAndRestrictions = getSpannableHyperlink(context, rulesAndRestrictionsURL,
+			res.getString(R.string.rules_and_restrictions));
+		String spannedNationalRailConditionsOfTravel = getSpannableHyperlink(context,
+			pos.getRailsNationalRailConditionsOfTravelUrl(),
+			pos.getRailsNationalRailConditionsOfTravelText());
+		String spannedSupplierTermsAndConditions = getSpannableHyperlink(context,
+			pos.getRailsSupplierTermsAndConditionsUrl(),
+			pos.getRailsSupplierTermsAndConditionsText());
+		String spannedTermsOfUse = getSpannableHyperlink(context,
+			pos.getRailsTermOfUseUrl(),
+			pos.getRailsTermOfUseText());
+		String spannedPrivacyPolicy = getSpannableHyperlink(context,
+			pos.getRailsPrivacyPolicyUrl(),
+			res.getString(R.string.privacy_policy));
+		String spannedPaymentAndTicketDeliveryFees = getSpannableHyperlink(context,
+			pos.getRailsPaymentAndTicketDeliveryFeesUrl(),
+			pos.getRailsPaymentAndTicketDeliveryFeesText());
+		String statement = Phrase.from(context, R.string.rails_legal_TEMPLATE)
+			.put("rules_and_restrictions", spannedRailsRulesAndRestrictions)
+			.put("conditions_of_travel", spannedNationalRailConditionsOfTravel)
+			.put("supplier_terms_and_cnditions", spannedSupplierTermsAndConditions)
+			.put("terms_of_use", spannedTermsOfUse)
+			.put("privacy_policy", spannedPrivacyPolicy)
+			.put("payment_and_ticket_delivery_fees", spannedPaymentAndTicketDeliveryFees)
+			.format().toString();
+		return getSpannableTextByPrimaryColor(context, statement, true);
+	}
+
+	private static String getSpannableHyperlink(Context context, String url, String textName) {
+		return context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE, url, textName);
 	}
 
 	public static SpannableStringBuilder getSpannableTextByPrimaryColor(Context context, String statement, boolean makeClickable) {
