@@ -39,7 +39,7 @@ class HotelFilterViewTest {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(RuntimeEnvironment.application, paymentModel, UserLoginStateChangedModel())
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.V2_Theme_Hotels);
+        activity.setTheme(R.style.V2_Theme_Hotels)
         Ui.getApplication(activity).defaultHotelComponents()
         hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelFilterView
         hotelFilterView.viewmodel = HotelFilterViewModel(activity, LineOfBusiness.HOTELS)
@@ -54,6 +54,12 @@ class HotelFilterViewTest {
         val enumOfSortingList= listOf(Sort.RECOMMENDED, Sort.PRICE, Sort.DEALS, Sort.RATING).toCollection(ArrayList<Sort>())
         val expectedEnumOfSortingLists = getItems(hotelFilterView.sortByAdapter)
         assertEquals(expectedEnumOfSortingLists,enumOfSortingList)
+    }
+
+    @Test
+    fun testClearFilterContentDesc() {
+        val clearFilterCD = hotelFilterView.clearNameButton.contentDescription.toString()
+        assertEquals("Clear Filters", clearFilterCD)
     }
 
     @Test
