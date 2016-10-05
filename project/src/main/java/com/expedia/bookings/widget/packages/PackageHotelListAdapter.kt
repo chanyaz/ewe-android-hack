@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.widget.BaseHotelListAdapter
-import com.expedia.bookings.widget.hotel.HotelCellViewHolder
 import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.vm.packages.PackageHotelViewModel
 import rx.subjects.PublishSubject
@@ -14,7 +13,7 @@ import rx.subjects.PublishSubject
 class PackageHotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubject: PublishSubject<Unit>) :
         BaseHotelListAdapter(hotelSelectedSubject, headerSubject) {
 
-    override fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder {
+    override fun getHotelCellHolder(parent: ViewGroup): PackageHotelCellViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.package_hotel_cell, parent, false)
         return PackageHotelCellViewHolder(view as ViewGroup, parent.width)
     }

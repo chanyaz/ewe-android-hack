@@ -16,7 +16,7 @@ import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.hotel.HotelCellViewHolder
+import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.util.endlessObserver
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
@@ -30,7 +30,7 @@ import java.util.ArrayList
 abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hotel>,
                                     val headerSubject: PublishSubject<Unit>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    abstract fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder
+    abstract fun getHotelCellHolder(parent: ViewGroup): AbstractHotelCellViewHolder
     abstract fun getHotelCellViewModel(context: Context, hotel: Hotel): HotelViewModel
 
     val MAP_SWITCH_CLICK_INTERCEPTOR_TRANSPARENT_HEADER_VIEW = 0
@@ -115,7 +115,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val fixedPosition = position - numHeaderItemsInHotelsList()
         when (holder) {
-            is HotelCellViewHolder -> {
+            is AbstractHotelCellViewHolder -> {
                 val viewModel = getHotelCellViewModel(holder.itemView.context, hotels[fixedPosition])
                 hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
                 holder.bind(viewModel)
@@ -152,7 +152,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             val holder = HotelResultsPricingStructureHeaderViewHolder(view as ViewGroup, vm)
             return holder
         } else {
-            val holder: HotelCellViewHolder = getHotelCellHolder(parent)
+            val holder: AbstractHotelCellViewHolder = getHotelCellHolder(parent)
             holder.hotelClickedSubject.subscribe { position ->
                 hotelSelected(holder.itemView.context, position)
             }
@@ -166,7 +166,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             (holder as LoadingViewHolder).cancelAnimation()
         } else if (holder.itemViewType == HOTEL_VIEW) {
             val hotelItemIndex = hotelListItemsMetadata.indexOfFirst {
-                it.hotelId == (holder as HotelCellViewHolder).hotelId
+                it.hotelId == (holder as AbstractHotelCellViewHolder).hotelId
             }
             if (hotelItemIndex != -1) {
                 hotelListItemsMetadata.removeAt(hotelItemIndex)

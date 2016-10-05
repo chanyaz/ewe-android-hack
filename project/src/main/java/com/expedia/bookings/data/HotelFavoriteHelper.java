@@ -44,7 +44,7 @@ public class HotelFavoriteHelper {
 	}
 
 
-	public static Boolean showHotelFavoriteTest(Context context) {
+	public static boolean showHotelFavoriteTest(Context context) {
 		return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelFavoriteTest,
 			R.string.preference_enable_hotel_favorite);
 	}
