@@ -159,6 +159,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
         builder.setMessage(R.string.package_checkout_back_dialog_message)
         builder.setNegativeButton(context.getString(R.string.cancel)) { dialog, which -> dialog.dismiss() }
         builder.setPositiveButton(context.getString(R.string.start_over)) { dialog, which ->
+            checkoutPresenter.clearPaymentInfo()
+            checkoutPresenter.resetTravelers()
             bundleWidget.viewModel.showSearchObservable.onNext(Unit)
         }
         val dialog = builder.create()

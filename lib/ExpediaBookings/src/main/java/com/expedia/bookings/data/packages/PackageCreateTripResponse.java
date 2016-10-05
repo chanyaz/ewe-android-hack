@@ -2,18 +2,16 @@ package com.expedia.bookings.data.packages;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.expedia.bookings.data.AbstractSupportsFeesOfferResponse;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.TripResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.google.gson.annotations.SerializedName;
 
-public class PackageCreateTripResponse extends TripResponse {
+public class PackageCreateTripResponse extends AbstractSupportsFeesOfferResponse {
 	public PackageDetails packageDetails;
 	public PackageDetails oldPackageDetails;
-	public Money totalPriceIncludingFees;
-	public Money selectedCardFees;
 	public Money changedPrice;
 	public String newTotalPrice;
 	public String packageRulesAndRestrictions;
@@ -66,8 +64,8 @@ public class PackageCreateTripResponse extends TripResponse {
 
 	@Override
 	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
-		if (totalPriceIncludingFees != null) {
-			return totalPriceIncludingFees;
+		if (getTotalPriceIncludingFees() != null) {
+			return getTotalPriceIncludingFees();
 		}
 		return packageDetails.pricing.packageTotal;
 	}

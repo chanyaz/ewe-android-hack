@@ -161,6 +161,13 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
         selectedCardFeeObservable.onNext(cardFee)
     }
 
+    override fun resetCardFees() {
+        val newTripResponse = tripResponseObservable.value as PackageCreateTripResponse
+        newTripResponse.selectedCardFees = null
+        newTripResponse.totalPriceIncludingFees = null
+        cardFeeTripResponse.onNext(newTripResponse)
+    }
+
     fun updateMayChargeFees(selectedFlight: FlightLeg) {
         if (selectedFlight.airlineMessageModel?.hasAirlineWithCCfee ?: false || selectedFlight.mayChargeObFees) {
             val hasAirlineFeeLink = selectedFlight.airlineMessageModel?.airlineFeeLink != null
