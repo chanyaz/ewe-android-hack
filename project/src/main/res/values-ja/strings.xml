@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">クーポンを削除</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">送信</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">送信ボタン</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -4325,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">{city} ({airportcode}) で乗り継ぎ</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">合計所要時間 : {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} が {email} に送信されました</string>
+
     <!--Rail search screen title-->
     <string name="trains">鉄道</string>
 
@@ -4438,6 +4442,12 @@
 
     <string name="mail_delivery_details">ご入力いただいた住所にチケットが郵送されます。</string>
     <string name="tdo_fees_non_refundable">チケットの送料は返金不可です。</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} から {arrivalstation} まで</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">申し訳ありません。サーバーに問題が発生しました。もう一度お試しください。</string>
     <string name="pwp_trip_service_error">申し訳ありません。サーバーに問題が発生しました。もう一度お試しください。</string>

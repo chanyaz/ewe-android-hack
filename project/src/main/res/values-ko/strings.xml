@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">쿠폰 제거 중</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">제출</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">제출 버튼</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -4325,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">({airportcode}) {city}에서 중간 경유</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">총 소요 시간: {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">{itinerary}, 다음으로 전송: {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">기차</string>
 
@@ -4438,6 +4442,12 @@
 
     <string name="mail_delivery_details">제공하시는 주소로 티켓이 배송됩니다.</string>
     <string name="tdo_fees_non_refundable">티켓 배송 수수료는 환불되지 않습니다.</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} -&gt; {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
     <string name="pwp_trip_service_error">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
@@ -4749,7 +4759,7 @@
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
 
     <!-- Content description for hotel immage gallery -->
-    <string name="gallery_cont_desc">"이미지 갤러리"</string>
+    <string name="gallery_cont_desc">"사진 갤러리"</string>
 
     <!-- Content Description for current index of the photo in the gallery. For example: "View 1 of 14 gallery photos button" -->
     <string name="gallery_photo_count_content_description_TEMPLATE">사진 {index}/{count} 보기 버튼</string>

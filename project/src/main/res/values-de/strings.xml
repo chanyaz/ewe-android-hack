@@ -3236,6 +3236,8 @@
     <string name="coupon_removing_dialog">Gutschein wird entfernt</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Senden</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">Schaltfläche zum Senden</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -4326,8 +4328,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Zwischenstopp in {city} ({airportcode})</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Gesamtdauer: {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">Nr. {itinerary} gesendet an {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">Züge</string>
 
@@ -4439,6 +4443,12 @@
 
     <string name="mail_delivery_details">Das Ticket wird an die angegebene Adresse versandt.</string>
     <string name="tdo_fees_non_refundable">Die Versandkosten sind nicht erstattungsfähig.</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">Von {departurestation} nach {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Es ist ein Server-Problem aufgetreten. Wir bitten, dies zu entschuldigen. Bitte versuchen Sie es erneut.</string>
     <string name="pwp_trip_service_error">Es ist ein Server-Problem aufgetreten. Wir bitten, dies zu entschuldigen. Bitte versuchen Sie es erneut.</string>
