@@ -4542,10 +4542,14 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">Flight time is {time} with price difference of {pricedifference}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops\u0020</string>
-    <!-- Hotel card view content description for accessibility. Eg. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} with {starrating} of 5 rating. {guestrating} of 5 guest rating. Price {price}. Includes hotel and flights\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} with {starrating} of 5 rating. {guestrating} of 5 guest rating. Price {price}. Includes hotel and flights\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} with {starrating} of 5 rating. {guestrating} of 5 guest rating. Price {price}\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Old price {strikethroughprice}\u0020</string>
+    <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
+    <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 off normal price\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
