@@ -55,6 +55,8 @@ class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Trave
             params.put(key + "phone", travelers[i].phoneNumber)
             params.put(key + "birthDate", dtf.print(travelers[i].birthDate))
             params.put(key + "gender", travelers[i].gender)
+            params.put(key + "passengerCategory", travelers[i].passengerCategory)
+
             if (travelers[i].primaryPassportCountry != null) {
                 params.put(key + "passportCountryCode", travelers[i].primaryPassportCountry)
             }

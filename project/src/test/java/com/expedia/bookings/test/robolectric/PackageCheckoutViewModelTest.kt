@@ -7,6 +7,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCheckoutParams
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
+import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
@@ -94,6 +95,7 @@ class PackageCheckoutViewModelTest {
         traveler.gender = Traveler.Gender.MALE
         traveler.phoneNumber = "9163355329"
         traveler.phoneCountryCode = "1"
+        traveler.passengerCategory = PassengerCategory.ADULT
         traveler.birthDate = LocalDate.now().minusYears(18)
         traveler.primaryPassportCountry = "usa"
         traveler.assistance = Traveler.AssistanceType.BLIND_WITH_SEEING_EYE_DOG
