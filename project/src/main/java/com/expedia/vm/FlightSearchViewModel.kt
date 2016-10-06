@@ -176,5 +176,4 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
         performSearchObserver.onNext(Unit)
     }
-
 }

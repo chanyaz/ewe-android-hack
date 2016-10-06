@@ -19,7 +19,9 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observable
+import rx.Observer
 import rx.Scheduler
+import rx.Subscription
 import java.util.ArrayList
 
 // "open" so we can mock for unit tests
@@ -39,17 +41,23 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
 
         adapter.create(FlightApi::class.java)
     }
+    var searchRequestSubscription: Subscription? = null
+    var createTripRequestSubscription: Subscription? = null
+    var checkoutRequestSubscription: Subscription? = null
 
     // open so we can use Mockito to mock FlightServices
-    open fun flightSearch(params: FlightSearchParams): Observable<FlightSearchResponse> {
-        return flightApi.flightSearch(params.toQueryMap(), params.children).observeOn(observeOn)
+    open fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>): Subscription {
+        searchRequestSubscription?.unsubscribe()
+
+        searchRequestSubscription = flightApi.flightSearch(params.toQueryMap(), params.children)
+                .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
                 .doOnNext { response ->
                     if (response.hasErrors() || response.legs.isEmpty() || response.offers.isEmpty()) return@doOnNext
                     response.legs.forEach { leg ->
                         leg.mayChargeObFees = response.offers.filter { it.legIds.contains(leg.legId) }
-                                                             .filter { it.mayChargeOBFees == true }
-                                                             .isNotEmpty()
+                                .filter { it.mayChargeOBFees == true }
+                                .isNotEmpty()
                         leg.carrierName = leg.segments.first().airlineName
                         leg.flightSegments = leg.segments
                         val departure = leg.flightSegments.first()
@@ -69,8 +77,8 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                         val airlines = ArrayList<Airline>()
                         var lastSegment: FlightLeg.FlightSegment? = null
                         var lastArrival: DateTime? = null
-                        leg.stopCount = leg.flightSegments.size - 1;
-                        if(leg.stopCount > 0) {
+                        leg.stopCount = leg.flightSegments.size - 1
+                        if (leg.stopCount > 0) {
                             leg.hasLayover = true
                         }
                         for (segment in leg.flightSegments) {
@@ -114,18 +122,32 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                         }
                     }
 
-                }
+                }.subscribe(observer)
+
+        return searchRequestSubscription as Subscription
     }
 
     // open so we can use Mockito to mock FlightServices
-    open fun createTrip(params: FlightCreateTripParams): Observable<FlightCreateTripResponse> {
-        return flightApi.createTrip(params.toQueryMap()).observeOn(observeOn)
-                .subscribeOn(subscribeOn)
+    open fun createTrip(params: FlightCreateTripParams, observer: Observer<FlightCreateTripResponse>): Subscription {
+        createTripRequestSubscription?.unsubscribe()
+
+        createTripRequestSubscription = flightApi.createTrip(params.toQueryMap())
+                                            .observeOn(observeOn)
+                                            .subscribeOn(subscribeOn)
+                                            .subscribe(observer)
+
+        return createTripRequestSubscription as Subscription
     }
 
     // open so we can use Mockito to mock FlightServices
-    open fun checkout(params: Map<String, Any>): Observable<FlightCheckoutResponse> {
-        return flightApi.checkout(params).observeOn(observeOn)
-                .subscribeOn(subscribeOn)
+    open fun checkout(params: Map<String, Any>, observer: Observer<FlightCheckoutResponse>): Subscription {
+        checkoutRequestSubscription?.unsubscribe()
+
+        checkoutRequestSubscription = flightApi.checkout(params)
+                                        .observeOn(observeOn)
+                                        .subscribeOn(subscribeOn)
+                                        .subscribe(observer)
+
+        return checkoutRequestSubscription as Subscription
     }
 }
