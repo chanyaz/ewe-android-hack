@@ -1,5 +1,7 @@
 package com.expedia.bookings.test
 
+import android.preference.PreferenceManager
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
@@ -16,6 +18,7 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -259,6 +262,24 @@ class HotelFilterViewModelTest {
 
         vm.selectNeighborhood.onNext(region1)
         assertTrue(vm.filterCountObservable.value == 4)
+    }
+
+    @Test
+    fun filterFavorite() {
+        val ogResponse = fakeFilteredResponse()
+        val hotel = ogResponse.hotelList[0]
+        hotel.isSponsoredListing = true
+        hotel.hotelId = "abc"
+        vm.userFilterChoices.favorites = true
+
+        val sharedPreference = PreferenceManager.getDefaultSharedPreferences(vm.context)
+        sharedPreference.edit().clear().apply()
+        HotelFavoriteHelper.toggleHotelFavoriteState(vm.context, hotel.hotelId)
+
+        assertFalse(vm.filterFavorites(hotel))
+
+        hotel.isSponsoredListing = false
+        assertTrue(vm.filterFavorites(hotel))
     }
 
     private fun fakeFilteredResponse() : HotelSearchResponse {

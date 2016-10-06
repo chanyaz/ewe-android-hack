@@ -29,7 +29,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelTracking
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
@@ -53,7 +52,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val filterHotelVip: CheckBox by bindView(R.id.filter_hotel_vip)
     val filterHotelFavorite: CheckBox by bindView(R.id.filter_hotel_favorite)
     val filterVipContainer: View by bindView(R.id.filter_vip_container)
-    val filterVipBadge: TextView by bindView(R.id.vip_badge)
+    val optionLabel: TextView by bindView(R.id.option_label)
     val filterFavoriteContainer: View by bindView(R.id.filter_favorite_container)
     val filterStarOne: ImageButton by bindView(R.id.filter_hotel_star_rating_one)
     val filterStarTwo: ImageButton by bindView(R.id.filter_hotel_star_rating_two)
@@ -144,7 +143,8 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     var viewmodel: HotelFilterViewModel by notNullAndObservable { vm ->
-        doneButton.subscribeOnClick(vm.doneObservable)
+
+       doneButton.subscribeOnClick(vm.doneObservable)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeContainer)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceHeader)
         filterVipContainer.setOnClickListener {
@@ -448,15 +448,10 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     init {
-        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(context)
-        val layoutId = if (bucketed) R.layout.widget_hotel_filter_fav else R.layout.widget_hotel_filter
-        View.inflate(getContext(), layoutId, this)
+        View.inflate(getContext(), R.layout.widget_hotel_filter, this)
 
         if (PointOfSale.getPointOfSale().supportsVipAccess()) {
             filterVipContainer.visibility = View.VISIBLE
-            if (!bucketed) {
-                filterVipBadge.visibility = View.VISIBLE
-            }
         }
 
         if (shouldShowCircleForRatings()) {
@@ -510,12 +505,14 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     fun refreshFavoriteCheckbox() {
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context) && viewmodel.lob == LineOfBusiness.HOTELS) {
             val favSize = HotelFavoriteHelper.getHotelFavorites(context).size
             if (favSize == 0 && !viewmodel.userFilterChoices.favorites) {
                 filterFavoriteContainer.visibility = View.GONE
+                optionLabel.text = context.resources.getString(R.string.vip)
             } else {
                 filterFavoriteContainer.visibility = View.VISIBLE
+                optionLabel.text = context.resources.getString(R.string.filter_options)
             }
         }
     }

@@ -235,7 +235,7 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
 
     fun filterFavorites(hotel: Hotel): Boolean {
         if (!userFilterChoices.favorites) return true
-        return HotelFavoriteHelper.isHotelFavorite(context, hotel.hotelId)
+        return HotelFavoriteHelper.isHotelFavorite(context, hotel.hotelId) && !hotel.isSponsoredListing
     }
 
     val favoriteFilteredObserver: Observer<Boolean> = endlessObserver {
