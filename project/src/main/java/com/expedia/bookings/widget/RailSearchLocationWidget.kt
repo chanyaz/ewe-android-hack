@@ -32,10 +32,6 @@ class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardVie
         vm.formattedOriginObservable.subscribeText(originLocationText)
         vm.formattedDestinationObservable.subscribeText(destinationLocationText)
 
-        vm.railErrorNoLocationsObservable.subscribe {
-            AnimUtils.doTheHarlemShake(this)
-        }
-
         Observable.combineLatest(
                 vm.formattedOriginObservable,
                 vm.formattedDestinationObservable,
