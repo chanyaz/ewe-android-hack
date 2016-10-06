@@ -57,7 +57,7 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
         }
 
         vm.searchButtonObservable.subscribe { enable ->
-            searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
+            searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.search_dialog_background_v2) else ContextCompat.getColor(context, R.color.white_disabled))
             if (AccessibilityUtil.isTalkBackEnabled(context)) {
                 searchButton.isEnabled = enable
             }
