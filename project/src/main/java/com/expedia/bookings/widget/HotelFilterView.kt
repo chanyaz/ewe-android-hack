@@ -45,6 +45,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel.Sort
 import com.expedia.vm.ShopWithPointsViewModel
+import com.squareup.phrase.Phrase
 import rx.Observer
 
 class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
@@ -265,27 +266,27 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         vm.hotelStarRatingBar.subscribe {
             if (it == 1) {
-                starSelection(filterStarOne, ratingOneBackground, -1)
+                starSelection(filterStarOne, ratingOneBackground, -1, true)
             } else if (it == 6) {
                 starSelection(filterStarOne, ratingOneBackground, 1)
             }
             if (it == 2) {
-                starSelection(filterStarTwo, ratingTwoBackground, -1)
+                starSelection(filterStarTwo, ratingTwoBackground, -1, true)
             } else if (it == 7) {
                 starSelection(filterStarTwo, ratingTwoBackground, 2)
             }
             if (it == 3) {
-                starSelection(filterStarThree, ratingThreeBackground, -1)
+                starSelection(filterStarThree, ratingThreeBackground, -1, true)
             } else if (it == 8) {
                 starSelection(filterStarThree, ratingThreeBackground, 3)
             }
             if (it == 4) {
-                starSelection(filterStarFour, ratingFourBackground, -1)
+                starSelection(filterStarFour, ratingFourBackground, -1, true)
             } else if (it == 9) {
                 starSelection(filterStarFour, ratingFourBackground, 4)
             }
             if (it == 5) {
-                starSelection(filterStarFive, ratingFiveBackground, -1)
+                starSelection(filterStarFive, ratingFiveBackground, -1, true)
             } else if (it == 10) {
                 starSelection(filterStarFive, ratingFiveBackground, 5)
             }
@@ -422,6 +423,13 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     }
 
+    private fun updateFilterStarContentDesc(starButton: ImageButton, contDescStringID: Int, isSelected: Boolean = false) {
+        starButton.contentDescription = Phrase.from(context,
+                if (isSelected) R.string.star_rating_selected_cont_desc_TEMPLATE else R.string.star_rating_not_selected_cont_desc_TEMPLATE)
+                .put("star_rating", context.getString(contDescStringID))
+                .format().toString()
+    }
+
     private fun setupNeighBourhoodView() {
         AnimUtils.reverseRotate(neighborhoodMoreLessIcon)
         neighborhoodMoreLessLabel.text = resources.getString(R.string.show_more)
@@ -494,7 +502,22 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         starSelection(filterStarFive, ratingFiveBackground, 5)
     }
 
-    fun starSelection(star: ImageButton, background: View, value: Int) {
+    fun starSelection(star: ImageButton, background: View, value: Int, isSelected: Boolean = false) {
+        var contDesc: Int = 0
+        var isStar: Boolean = true
+
+        if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
+            isStar = false
+        }
+        when (star.id) {
+            R.id.filter_hotel_star_rating_one -> contDesc = if (isStar) R.string.star_rating_one_cont_desc else R.string.star_circle_rating_one_cont_desc
+            R.id.filter_hotel_star_rating_two -> contDesc = if (isStar) R.string.star_rating_two_cont_desc else R.string.star_circle_rating_two_cont_desc
+            R.id.filter_hotel_star_rating_three -> contDesc = if (isStar) R.string.star_rating_three_cont_desc else R.string.star_circle_rating_three_cont_desc
+            R.id.filter_hotel_star_rating_four -> contDesc = if (isStar) R.string.star_rating_four_cont_desc else R.string.star_circle_rating_four_cont_desc
+            R.id.filter_hotel_star_rating_five -> contDesc = if (isStar) R.string.star_rating_five_cont_desc else R.string.star_circle_rating_five_cont_desc
+        }
+        updateFilterStarContentDesc(star, contDesc, isSelected)
+
         clearHotelNameFocus()
         if (value < 0) {
             star.setColorFilter(ContextCompat.getColor(context, android.R.color.white))

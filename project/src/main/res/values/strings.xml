@@ -4076,6 +4076,30 @@
     <string name="neighborhoods">Neighborhoods</string>
     <string name="amenities">Amenities</string>
     <string name="star_rating">Star Rating</string>
+    <!-- Hotel Filters One star rating content description -->
+    <string name="star_rating_one_cont_desc">One Star Rating</string>
+    <!-- Hotel Filters Two star rating content description -->
+    <string name="star_rating_two_cont_desc">Two Star Rating</string>
+    <!-- Hotel Filters Three star rating content description -->
+    <string name="star_rating_three_cont_desc">Three Star Rating</string>
+    <!-- Hotel Filters Four star rating content description -->
+    <string name="star_rating_four_cont_desc">Four Star Rating</string>
+    <!-- Hotel Filters Five star rating content description -->
+    <string name="star_rating_five_cont_desc">Five Star Rating</string>
+    <!-- Hotel Filters One star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_one_cont_desc">Class Rating One</string>
+    <!-- Hotel Filters Two star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_two_cont_desc">Class Rating Two</string>
+    <!-- Hotel Filters Three star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_three_cont_desc">Class Rating Three</string>
+    <!-- Hotel Filters Four star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_four_cont_desc">Class Rating Four</string>
+    <!-- Hotel Filters Five star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_five_cont_desc">Class Rating Five</string>
+    <!-- Hotel Filters rating selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Selected 2) Class Rating One Selected -->
+    <string name="star_rating_selected_cont_desc_TEMPLATE">{star_rating} Selected</string>
+    <!-- Hotel Filters rating not selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Not Selected 2) Class Rating One Not Selected -->
+    <string name="star_rating_not_selected_cont_desc_TEMPLATE">{star_rating} Not selected</string>
     <string name="show_more">SHOW MORE</string>
     <string name="show_less">SHOW LESS</string>
     <string name="price_range">Price Range</string>
