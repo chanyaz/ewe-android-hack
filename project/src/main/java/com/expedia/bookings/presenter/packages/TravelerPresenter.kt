@@ -52,6 +52,11 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             }
         }
         vm.passportRequired.subscribe(travelerPickerWidget.passportRequired)
+        vm.passportRequired.subscribe { isPassportRequired ->
+            travelerPickerWidget.travelerViewModels.forEach { vm ->
+                vm.isPassportRequired = isPassportRequired
+            }
+        }
     }
 
     init {

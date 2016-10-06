@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <com.expedia.bookings.presenter.packages.PackageOverviewPresenter
-        android:id="@+id/widget_bundle_overview"
+    <ViewStub
+        android:id="@+id/widget_bundle_overview_view_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray1"
-        android:visibility="gone" />
+        android:inflatedId="@+id/widget_bundle_overview"
+        android:layout="@layout/bundle_overview_stub" />
 
     <com.expedia.bookings.presenter.packages.PackageSearchPresenter
         android:id="@+id/widget_package_search_presenter"

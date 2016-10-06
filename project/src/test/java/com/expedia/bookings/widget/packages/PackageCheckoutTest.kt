@@ -24,6 +24,7 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.bookings.widget.PackageCheckoutPresenter
@@ -50,16 +51,20 @@ class PackageCheckoutTest {
     val packageServiceRule = ServicesRule(PackageServices::class.java)
         @Rule get
 
+    lateinit var travelerValidator: TravelerValidator
+
     private var checkout: PackageCheckoutPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
 
     @Before fun before() {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Ui.getApplication(RuntimeEnvironment.application).defaultPackageComponents()
+        travelerValidator = Ui.getApplication(RuntimeEnvironment.application).travelerComponent().travelerValidator()
+        setUpPackageDb()
+        travelerValidator.updateForNewSearch(Db.getPackageParams())
         val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_checkout_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
-        setUpPackageDb()
         setUpCheckout()
     }
 
@@ -175,7 +180,6 @@ class PackageCheckoutTest {
         checkout = activity.findViewById(R.id.package_checkout_presenter) as PackageCheckoutPresenter
         checkout.getCreateTripViewModel().packageServices = packageServiceRule.services!!
         checkout.getCheckoutViewModel().packageServices = packageServiceRule.services!!
-        checkout.travelerPresenter.viewModel.travelerValidator.updateForNewSearch(Db.getPackageParams())
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
         checkout.slideToPurchaseLayout.visibility = View.VISIBLE
     }
