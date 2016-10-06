@@ -79,28 +79,6 @@ class FlightOffersViewModelTest {
         testSubscriber.assertValueCount(1)
     }
 
-//    @Test
-//    fun testNetworkErrorDialogCancel() {
-//        val testSubscriber = TestSubscriber<Unit>()
-//        val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
-//
-//        givenDefaultTravelerComponent()
-//        givenGoodSearchParams()
-//        givenFlightSearchThrowsIOException()
-//        createSystemUnderTest()
-//        sut.noNetworkObservable.subscribe(testSubscriber)
-//
-//        doFlightSearch()
-//        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
-//        val shadowOfNoInternetDialog = Shadows.shadowOf(noInternetDialog)
-//        val cancelBtn = noInternetDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-//        cancelBtn.performClick()
-//
-//        assertEquals("", shadowOfNoInternetDialog.title)
-//        assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
-//        testSubscriber.assertValueCount(1)
-//    }
-
     @Test
     fun testNetworkErrorDialogRetry() {
         val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
@@ -117,27 +95,6 @@ class FlightOffersViewModelTest {
         assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
         assertEquals(3, (flightServices as TestFlightServiceSearchThrowsException).searchCount) // 1 original, 2 retries
     }
-
-//    @Test
-//    fun testNetworkErrorDialogRetry() {
-//        val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
-//
-//        givenDefaultTravelerComponent()
-//        givenGoodSearchParams()
-//        givenFlightSearchThrowsIOException()
-//        createSystemUnderTest()
-//
-//        doFlightSearch()
-//        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
-//        val shadowOfNoInternetDialog = Shadows.shadowOf(noInternetDialog)
-//        val retryBtn = noInternetDialog.getButton(DialogInterface.BUTTON_POSITIVE)
-//        retryBtn.performClick()
-//        retryBtn.performClick()
-//
-//        assertEquals("", shadowOfNoInternetDialog.title)
-//        assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
-//        assertEquals(3, (service as TestFlightServiceSearchThrowsException).searchCount) // 1 original, 2 retries
-//    }
 
     @Test
     fun testGoodSearchResponse() {
