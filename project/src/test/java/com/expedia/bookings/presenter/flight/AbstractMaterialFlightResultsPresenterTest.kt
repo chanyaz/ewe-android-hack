@@ -4,17 +4,24 @@ import android.content.Context
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.presenter.shared.FlightResultsListViewPresenter
+import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
+import com.mobiata.mocke3.ExpediaDispatcher
+import com.mobiata.mocke3.FileSystemOpener
+import okhttp3.logging.HttpLoggingInterceptor
+import okhttp3.mockwebserver.MockWebServer
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
+import rx.schedulers.Schedulers
+import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -24,9 +31,21 @@ class AbstractMaterialFlightResultsPresenterTest {
 
     private val context = RuntimeEnvironment.application
     private lateinit var sut: AbstractMaterialFlightResultsPresenter
+    lateinit private var service: FlightServices
+    var server: MockWebServer = MockWebServer()
+        @Rule get
 
     @Before
     fun setup() {
+        val logger = HttpLoggingInterceptor()
+        val root = File("../lib/mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        val interceptor = MockInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        server.setDispatcher(ExpediaDispatcher(opener))
+        service = FlightServices("http://localhost:" + server.port,
+                okhttp3.OkHttpClient.Builder().addInterceptor(logger).build(),
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
         Ui.getApplication(context).defaultTravelerComponent()
     }
 
@@ -102,7 +121,7 @@ class AbstractMaterialFlightResultsPresenterTest {
 
     private fun createSystemUnderTest(isOutboundPresenter: Boolean) {
         sut = TestFlightResultsPresenter(context, null, isOutboundPresenter)
-        sut.flightOfferViewModel = FlightOffersViewModel(context, PublishSubject.create(), BehaviorSubject.create())
+        sut.flightOfferViewModel = FlightOffersViewModel(context, service)
         sut.setupComplete()
     }
 

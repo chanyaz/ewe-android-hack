@@ -1,10 +1,7 @@
 package com.expedia.bookings.test
 
-import android.content.DialogInterface
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
-import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -19,17 +16,10 @@ import org.joda.time.LocalDate
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.Shadows
-import org.robolectric.shadows.ShadowAlertDialog
-import rx.Observer
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
-import rx.subjects.BehaviorSubject
 import java.io.File
-import java.io.IOException
-import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNotNull
@@ -46,50 +36,6 @@ class FlightSearchViewModelTest {
 
     lateinit private var service: FlightServices
     lateinit private var sut: FlightSearchViewModel
-    lateinit private var flightSearchParams: FlightSearchParams
-
-    @Test
-    fun testNetworkErrorDialogCancel() {
-        val testSubscriber = TestSubscriber<Unit>()
-        val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
-
-        givenDefaultTravelerComponent()
-        givenGoodSearchParams()
-        givenFlightSearchThrowsIOException()
-        createSystemUnderTest()
-        sut.noNetworkObservable.subscribe(testSubscriber)
-
-        doFlightSearch()
-        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val shadowOfNoInternetDialog = Shadows.shadowOf(noInternetDialog)
-        val cancelBtn = noInternetDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-        cancelBtn.performClick()
-
-        assertEquals("", shadowOfNoInternetDialog.title)
-        assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
-        testSubscriber.assertValueCount(1)
-    }
-
-    @Test
-    fun testNetworkErrorDialogRetry() {
-        val expectedDialogMsg = "Your device is not connected to the internet.  Please check your connection and try again."
-
-        givenDefaultTravelerComponent()
-        givenGoodSearchParams()
-        givenFlightSearchThrowsIOException()
-        createSystemUnderTest()
-
-        doFlightSearch()
-        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val shadowOfNoInternetDialog = Shadows.shadowOf(noInternetDialog)
-        val retryBtn = noInternetDialog.getButton(DialogInterface.BUTTON_POSITIVE)
-        retryBtn.performClick()
-        retryBtn.performClick()
-
-        assertEquals("", shadowOfNoInternetDialog.title)
-        assertEquals(expectedDialogMsg, shadowOfNoInternetDialog.message)
-        Mockito.verify(service, Mockito.times(3)).flightSearch(flightSearchParams) // 1 original, 2 retries
-    }
 
     @Test
     fun testFlightSearchDatesOnTabChanges() {
@@ -218,58 +164,6 @@ class FlightSearchViewModelTest {
     }
 
     @Test
-    fun testGoodSearchResponse() {
-        givenMockServer()
-        givenDefaultTravelerComponent()
-        createSystemUnderTest()
-
-        val testSubscriber = TestSubscriber<FlightSearchResponse>()
-
-        sut.flightSearchResponseSubject.subscribe(testSubscriber)
-        sut.searchParamsObservable.onNext(makeSearchParams())
-
-        testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
-        testSubscriber.assertValueCount(1)
-        assertNotNull(testSubscriber.onNextEvents[0])
-    }
-
-    @Test
-    fun testResponseHasError() {
-        givenMockServer()
-        givenDefaultTravelerComponent()
-        createSystemUnderTest()
-
-        val observer = getMakeResultsObserver()
-        val testSubscriber = TestSubscriber<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
-
-        val flightSearchResponse = FlightSearchResponse()
-        val apiError = ApiError(ApiError.Code.FLIGHT_SOLD_OUT)
-        flightSearchResponse.errors = listOf(apiError)
-        observer.onNext(flightSearchResponse)
-
-        testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue(apiError)
-    }
-
-    @Test
-    fun testResponseHasNoResults() {
-        givenMockServer()
-        givenDefaultTravelerComponent()
-        createSystemUnderTest()
-
-        val observer = getMakeResultsObserver()
-        val testSubscriber = TestSubscriber<ApiError>()
-        sut.errorObservable.subscribe(testSubscriber)
-
-        val flightSearchResponse = FlightSearchResponse()
-        observer.onNext(flightSearchResponse)
-
-        testSubscriber.assertValueCount(1)
-        assertEquals(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS, testSubscriber.onNextEvents[0].errorCode)
-    }
-
-    @Test
     fun testFlightSearchEnabled() {
         givenDefaultTravelerComponent()
         givenMockServer()
@@ -359,12 +253,6 @@ class FlightSearchViewModelTest {
         assertFalse(sut.getParamsBuilder().build().infantSeatingInLap)
     }
 
-    private fun getMakeResultsObserver(): Observer<FlightSearchResponse> {
-        val makeResultsObserverMethod = sut.javaClass.getDeclaredMethod("makeResultsObserver")
-        makeResultsObserverMethod.isAccessible = true
-        return makeResultsObserverMethod.invoke(sut) as Observer<FlightSearchResponse>
-    }
-
     private fun givenValidStartAndEndDates() {
         val startDate = LocalDate()
         val endDate = LocalDate()
@@ -415,19 +303,6 @@ class FlightSearchViewModelTest {
                 .build() as FlightSearchParams
     }
 
-    private fun givenGoodSearchParams() {
-        flightSearchParams = FlightSearchParams.Builder(26, 500)
-                .origin(getDummySuggestion())
-                .destination(getDummySuggestion())
-                .startDate(LocalDate.now())
-                .adults(1)
-                .build() as FlightSearchParams
-    }
-
-    private fun doFlightSearch() {
-        sut.searchParamsObservable.onNext(flightSearchParams)
-    }
-
     private fun getDummySuggestion(): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""
@@ -446,15 +321,7 @@ class FlightSearchViewModelTest {
     }
 
     private fun createSystemUnderTest() {
-        sut = FlightSearchViewModel(context, service)
-    }
-
-    private fun givenFlightSearchThrowsIOException() {
-        val observableWithIOException = BehaviorSubject.create<FlightSearchResponse>()
-        observableWithIOException.onError(IOException())
-        service = Mockito.mock(FlightServices::class.java)
-        Mockito.`when`(service.flightSearch(flightSearchParams))
-                .thenReturn(observableWithIOException)
+        sut = FlightSearchViewModel(context)
     }
 
     private fun givenMockServer() {

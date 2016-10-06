@@ -40,7 +40,7 @@ class FlightDeeplinkTest {
         val flightServices = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
                 interceptor, Schedulers.immediate(), Schedulers.immediate())
-        flightSearchViewModel = FlightSearchViewModel(activity, flightServices)
+        flightSearchViewModel = FlightSearchViewModel(activity)
     }
 
     @Test

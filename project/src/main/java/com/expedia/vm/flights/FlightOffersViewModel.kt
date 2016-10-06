@@ -2,20 +2,29 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.utils.RetrofitUtils
+import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.HashMap
 import java.util.LinkedHashSet
 
-class FlightOffersViewModel(context: Context,
-                            val flightSearchResponseSubject: PublishSubject<FlightSearchResponse>,
-                            val isRoundTripSearchSubject: BehaviorSubject<Boolean>) {
+class FlightOffersViewModel(val context: Context, val flightServices: FlightServices) {
+
+    val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
+    val errorObservable = PublishSubject.create<ApiError>()
+    val noNetworkObservable = PublishSubject.create<Unit>()
 
     val confirmedOutboundFlightSelection = BehaviorSubject.create<FlightLeg>()
     val confirmedInboundFlightSelection = BehaviorSubject.create<FlightLeg>()
@@ -29,6 +38,8 @@ class FlightOffersViewModel(context: Context,
     val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
     val cancelSearchObservable = PublishSubject.create<Unit>()
+    val flightSearchResponseSubject = PublishSubject.create<FlightSearchResponse>()
+    val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
 
     private var isRoundTripSearch = true
     private lateinit var flightMap: HashMap<String, LinkedHashSet<FlightLeg>>
@@ -38,6 +49,10 @@ class FlightOffersViewModel(context: Context,
     init {
         makeNewFlightSearchResponseSubject()
 
+        searchParamsObservable.subscribe { params ->
+            isRoundTripSearchSubject.onNext(params.isRoundTrip())
+            flightServices.flightSearch(params).subscribe(makeResultsObserver())
+        }
         cancelSearchObservable.subscribe {
             makeNewFlightSearchResponseSubject()
         }
@@ -191,5 +206,36 @@ class FlightOffersViewModel(context: Context,
         offerModel.urgencyMessage = urgencyMessage
         offerModel.price = price
         return offerModel
+    }
+
+    private fun makeResultsObserver(): Observer<FlightSearchResponse> {
+
+        return object: Observer<FlightSearchResponse> {
+
+            override fun onNext(response: FlightSearchResponse) {
+                if (response.hasErrors()) {
+                    errorObservable.onNext(response.firstError)
+                } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
+                    errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
+                } else {
+                    flightSearchResponseSubject.onNext(response)
+                }
+            }
+
+            override fun onError(e: Throwable) {
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() {
+                        flightServices.flightSearch(searchParamsObservable.value).subscribe(makeResultsObserver())
+                    }
+                    val cancelFun = fun() {
+                        noNetworkObservable.onNext(Unit)
+                    }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                    FlightsV2Tracking.trackFlightSearchAPINoResponseError()
+                }
+            }
+
+            override fun onCompleted() {}
+        }
     }
 }
