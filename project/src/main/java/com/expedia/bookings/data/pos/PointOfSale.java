@@ -180,7 +180,10 @@ public class PointOfSale {
 	private boolean shouldShowCircleForRatings;
 
 	// 5810 - Do Airlines Charge Additional Fee Based On Payment Method?
-	private boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
+	private boolean shouldAdjustPricingMessagingForAirlinePaymentMethodFee;
+
+	// Message types for Airline Payment Method Fee
+	private AirlinePaymentMethodFeeMessageType airlinePaymentMethodFeeMessageType;
 
 	private static boolean sIsTablet;
 
@@ -783,8 +786,20 @@ public class PointOfSale {
 		return shouldShowCircleForRatings;
 	}
 
-	public boolean doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() {
-		return doAirlinesChargeAdditionalFeeBasedOnPaymentMethod;
+	public boolean shouldAdjustPricingMessagingForAirlinePaymentMethodFee() {
+		return shouldAdjustPricingMessagingForAirlinePaymentMethodFee;
+	}
+
+	public boolean shouldShowAirlinePaymentMethodFeeMessage() {
+		return !airlinePaymentMethodFeeMessageType.equals(AirlinePaymentMethodFeeMessageType.NONE);
+	}
+
+	public boolean airlineMayChargePaymentMethodFee() {
+		return airlinePaymentMethodFeeMessageType.equals(AirlinePaymentMethodFeeMessageType.MIGHT_CHARGE);
+	}
+
+	public boolean airlineChargePaymentMethodFee() {
+		return airlinePaymentMethodFeeMessageType.equals(AirlinePaymentMethodFeeMessageType.WILL_CHARGE);
 	}
 
 	public boolean isPwPEnabledForHotels() {
@@ -1214,7 +1229,9 @@ public class PointOfSale {
 				.valueOf(data.optString("marketingOptIn", MarketingOptIn.DO_NOT_SHOW.name()));
 		pos.mShouldAutoEnrollUserInRewards = data.optBoolean("autoEnrollUserInRewards", false);
 		pos.shouldShowCircleForRatings = data.optBoolean("shouldDisplayCirclesForRatings", false);
-		pos.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod = data.optBoolean("doAirlinesChargeAdditionalFeeBasedOnPaymentMethod", false);
+		pos.shouldAdjustPricingMessagingForAirlinePaymentMethodFee = data.optBoolean("adjustPricingMessagingForAirlinePaymentMethodFee", false);
+		pos.airlinePaymentMethodFeeMessageType = AirlinePaymentMethodFeeMessageType
+			.valueOf(data.optString("airlinePaymentMethodFeeMessageType", AirlinePaymentMethodFeeMessageType.NONE.name()));
 		pos.mRequiresHotelPostalCode = data.optString("requiredPaymentFields:hotels").equals("postalCode");
 		pos.mRequiresLXPostalCode = data.optString("requiredPaymentFields:lx").equals("postalCode");
 		pos.mRequiresCarsPostalCode = data.optString("requiredPaymentFields:cars").equals("postalCode");
@@ -1340,5 +1357,11 @@ public class PointOfSale {
 		SHOW_CHECKED,
 		SHOW_UNCHECKED,
 		DO_NOT_SHOW
+	}
+
+	public enum AirlinePaymentMethodFeeMessageType {
+		NONE,
+		WILL_CHARGE,
+		MIGHT_CHARGE
 	}
 }

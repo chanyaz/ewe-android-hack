@@ -14,8 +14,8 @@ open class FlightListAdapter(context: Context, flightSelectedSubject: PublishSub
         return if (showAllFlightsHeader()) 2 else 1
     }
 
-    override fun isAirlinesChargePaymentMethodFee(): Boolean {
-        return PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+    override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
+        return PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()
     }
 
     override fun showAllFlightsHeader(): Boolean {
