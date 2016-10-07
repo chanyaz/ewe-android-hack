@@ -458,26 +458,29 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             if (userLoyaltyInfo?.isLoyaltyMembershipActive ?: false) {
                 firstRowContainer.visibility = View.VISIBLE
                 rowDivider1.visibility = View.VISIBLE
-
-                when (userLoyaltyInfo?.loyaltyMembershipTier) {
-                    LoyaltyMembershipTier.BASE -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_base_tier_text_color))
-                        memberTierView.setText(R.string.reward_base_tier_name_short)
+                if (ProductFlavorFeatureConfiguration.getInstance().shouldShowMemberTier()) {
+                    when (userLoyaltyInfo?.loyaltyMembershipTier) {
+                        LoyaltyMembershipTier.BASE -> {
+                            memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier)
+                            memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_base_tier_text_color))
+                            memberTierView.setText(R.string.reward_base_tier_name_short)
+                        }
+                        LoyaltyMembershipTier.MIDDLE -> {
+                            memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier)
+                            memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_middle_tier_text_color))
+                            memberTierView.setText(R.string.reward_middle_tier_name_short)
+                        }
+                        LoyaltyMembershipTier.TOP -> {
+                            memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier)
+                            memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_top_tier_text_color))
+                            memberTierView.setText(R.string.reward_top_tier_name_short)
+                        }
+                        else -> {
+                            // User is not in member ship tier
+                        }
                     }
-                    LoyaltyMembershipTier.MIDDLE -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_middle_tier_text_color))
-                        memberTierView.setText(R.string.reward_middle_tier_name_short)
-                    }
-                    LoyaltyMembershipTier.TOP -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_top_tier_text_color))
-                        memberTierView.setText(R.string.reward_top_tier_name_short)
-                    }
-                    else -> {
-                        // User is not in member ship tier
-                    }
+                } else {
+                    memberTierView.visibility = View.GONE
                 }
 
 
