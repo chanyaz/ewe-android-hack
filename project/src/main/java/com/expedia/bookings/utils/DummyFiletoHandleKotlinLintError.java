@@ -618,6 +618,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.loading_flights_from_400_airlines,
 		R.layout.flight_results_loading_header_cell,
 		R.bool.acct__isGoogleAccountChangeEnabled,
+		R.string.hotel_price_range_start,
+		R.string.hotel_price_range_end,
 		R.layout.flight_results_loading_header_cell,
 		R.string.select_hotel_cont_desc_TEMPLATE,
 		R.string.select_hotel_searching_cont_desc_TEMPLATE,

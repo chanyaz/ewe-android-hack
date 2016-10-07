@@ -72,7 +72,7 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     data class PriceRange(val currencyCode: String, val minPrice: Int, val maxPrice: Int) {
         val notches = 30
         val defaultMinPriceText = formatValue(toValue(minPrice))
-        val defaultMaxPriceTest = formatValue(toValue(maxPrice))
+        val defaultMaxPriceText = formatValue(toValue(maxPrice))
 
         private fun toValue(price: Int): Int = (((price.toFloat() - minPrice) / maxPrice) * notches).toInt()
         private fun toPrice(value: Int): Int = ((value.toFloat() / notches) * (maxPrice - minPrice) + minPrice).toInt()

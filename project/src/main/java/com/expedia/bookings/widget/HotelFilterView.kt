@@ -11,6 +11,7 @@ import android.view.LayoutInflater
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewStub
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -30,6 +31,7 @@ import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
@@ -93,6 +95,13 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val neighborhoodMoreLessLabel: TextView by bindView(R.id.show_more_less_text)
     val neighborhoodMoreLessIcon: ImageButton by bindView(R.id.show_more_less_icon)
     val neighborhoodMoreLessView: RelativeLayout by bindView(R.id.collapsed_container)
+
+    val priceRangeStub: ViewStub by bindView(R.id.price_range_stub)
+    val a11yPriceRangeStub: ViewStub by bindView(R.id.a11y_price_range_stub)
+    val a11yPriceRangeStartSeekBar: FilterSeekBar by bindView(R.id.price_a11y_start_bar)
+    val a11yPriceRangeStartText: TextView by bindView(R.id.price_a11y_start_text)
+    val a11yPriceRangeEndSeekBar: FilterSeekBar by bindView(R.id.price_a11y_end_bar)
+    val a11yPriceRangeEndText: TextView by bindView(R.id.price_a11y_end_text)
 
     val amenityLabel: TextView by bindView(R.id.amenity_label)
     val amenityContainer: GridLayout by bindView(R.id.amenities_container)
@@ -198,23 +207,60 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             neighborhoodMoreLessView.visibility = View.GONE
         }
 
+        var priceStartCurrentProgress: Int
+        var priceEndCurrentProgress: Int
+
         vm.newPriceRangeObservable.subscribe { priceRange ->
-            priceRangeBar.upperLimit = priceRange.notches
-            priceRangeMinText.text = priceRange.defaultMinPriceText
-            priceRangeMaxText.text = priceRange.defaultMaxPriceTest
+            if (AccessibilityUtil.isTalkBackEnabled(context)) {
+                priceStartCurrentProgress = priceRange.notches
+                priceEndCurrentProgress = priceRange.notches
+                a11yPriceRangeStartSeekBar.upperLimit = priceRange.notches
+                a11yPriceRangeEndSeekBar.upperLimit = priceRange.notches
+                a11yPriceRangeStartText.text = priceRange.defaultMinPriceText
+                a11yPriceRangeEndText.text = priceRange.defaultMaxPriceText
+                a11yPriceRangeStartSeekBar.a11yName = context.getString(R.string.hotel_price_range_start)
+                a11yPriceRangeEndSeekBar.a11yName = context.getString(R.string.hotel_price_range_end)
+                a11yPriceRangeStartSeekBar.currentA11yValue = a11yPriceRangeStartText.text.toString()
+                a11yPriceRangeEndSeekBar.currentA11yValue = a11yPriceRangeEndText.text.toString()
 
-            priceRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
-                override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                    priceRangeMinText.text = priceRange.formatValue(minValue)
-                    priceRangeMaxText.text = priceRange.formatValue(maxValue)
+                a11yPriceRangeStartSeekBar.setOnSeekBarChangeListener { seekBar, progress, fromUser ->
+                    priceStartCurrentProgress = priceRange.notches - progress
+                    if (priceStartCurrentProgress < priceEndCurrentProgress) {
+                        a11yPriceRangeStartText.text = priceRange.formatValue(priceRange.notches - progress)
+                        a11yPriceRangeStartSeekBar.currentA11yValue = a11yPriceRangeStartText.text.toString()
+                        announceForAccessibility(a11yPriceRangeStartSeekBar.currentA11yValue)
+                        vm.priceRangeChangedObserver.onNext(priceRange.update(priceRange.notches - progress, priceEndCurrentProgress))
+                    }
                 }
 
-                override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
-                    priceRangeMinText.text = priceRange.formatValue(minValue)
-                    priceRangeMaxText.text = priceRange.formatValue(maxValue)
-                    vm.priceRangeChangedObserver.onNext(priceRange.update(minValue, maxValue))
+                a11yPriceRangeEndSeekBar.setOnSeekBarChangeListener { seekBar, progress, fromUser ->
+                    priceEndCurrentProgress = progress
+                    if (priceEndCurrentProgress > priceStartCurrentProgress) {
+                        a11yPriceRangeEndText.text = priceRange.formatValue(progress)
+                        a11yPriceRangeEndSeekBar.currentA11yValue = a11yPriceRangeEndText.text.toString()
+                        announceForAccessibility(a11yPriceRangeEndSeekBar.currentA11yValue)
+                        vm.priceRangeChangedObserver.onNext(priceRange.update(priceStartCurrentProgress, progress))
+                    }
                 }
-            })
+            }
+            else {
+                priceRangeBar.upperLimit = priceRange.notches
+                priceRangeMinText.text = priceRange.defaultMinPriceText
+                priceRangeMaxText.text = priceRange.defaultMaxPriceText
+
+                priceRangeBar.setOnRangeSeekBarChangeListener(object : FilterRangeSeekBar.OnRangeSeekBarChangeListener {
+                    override fun onRangeSeekBarDragChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                        priceRangeMinText.text = priceRange.formatValue(minValue)
+                        priceRangeMaxText.text = priceRange.formatValue(maxValue)
+                    }
+
+                    override fun onRangeSeekBarValuesChanged(bar: FilterRangeSeekBar?, minValue: Int, maxValue: Int) {
+                        priceRangeMinText.text = priceRange.formatValue(minValue)
+                        priceRangeMaxText.text = priceRange.formatValue(maxValue)
+                        vm.priceRangeChangedObserver.onNext(priceRange.update(minValue, maxValue))
+                    }
+                })
+            }
         }
 
         vm.hotelStarRatingBar.subscribe {
@@ -388,6 +434,16 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             if (v is HotelsNeighborhoodFilter) {
                 v.visibility = View.GONE
             }
+        }
+    }
+
+    override fun onFinishInflate() {
+        super.onFinishInflate()
+        if (AccessibilityUtil.isTalkBackEnabled(context)) {
+            a11yPriceRangeStub.inflate()
+        }
+        else {
+            priceRangeStub.inflate()
         }
     }
 
