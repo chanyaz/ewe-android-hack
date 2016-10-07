@@ -1,11 +1,13 @@
 package com.expedia.bookings.widget
 
 import android.view.KeyEvent
+import android.view.View
+import android.view.inputmethod.BaseInputConnection
 import android.view.inputmethod.InputConnection
 import android.view.inputmethod.InputConnectionWrapper
 import rx.subjects.PublishSubject
 
-class NumericKeyWatcher(target: InputConnection, mutable: Boolean, val outPutTextSubject: PublishSubject<String>) : InputConnectionWrapper(target, mutable) {
+class NumericKeyWatcher(view: View, mutable: Boolean, val outPutTextSubject: PublishSubject<String>) : BaseInputConnection(view, mutable) {
     val DELETION_TEXT = ""
 
     override fun sendKeyEvent(event: KeyEvent): Boolean {
