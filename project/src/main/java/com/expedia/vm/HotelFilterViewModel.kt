@@ -17,9 +17,9 @@ import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.ArrayList		
-import java.util.Collections		
-import java.util.Comparator		
+import java.util.ArrayList
+import java.util.Collections
+import java.util.Comparator
 import java.util.HashSet
 import java.util.regex.Pattern
 
@@ -39,6 +39,8 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     val neighborhoodExpandObservable = BehaviorSubject.create<Boolean>()
     val sortContainerObservable = BehaviorSubject.create<Boolean>()
     val priceRangeContainerVisibility = BehaviorSubject.create<Boolean>()
+    val sortByObservable = PublishSubject.create<Sort>()
+    val isCurrentLocationSearch = BehaviorSubject.create<Boolean>(false)
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
 
@@ -98,29 +100,45 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
     val newPriceRangeObservable = PublishSubject.create<PriceRange>()
     val amenityMapObservable = BehaviorSubject.create<Map<FilterAmenity, Int>>()
     val filteredZeroResultObservable = PublishSubject.create<Unit>()
-    var previousSort = Sort.RECOMMENDED
-    var isNeighborhoodExpanded = false
+    private var previousSortType = Sort.RECOMMENDED
+    private var isNeighborhoodExpanded = false
+
+    private val sortObserver = endlessObserver<Sort> { sort ->
+        if (sort != previousSortType) {
+            previousSortType = sort
+            val hotels: List<Hotel> = filteredResponse.hotelList
+
+            when (sort) {
+                Sort.RECOMMENDED -> Collections.sort(hotels, popular_comparator)
+                Sort.PRICE -> Collections.sort(hotels, price_comparator)
+                Sort.RATING -> Collections.sort(hotels, rating_comparator_fallback_price)
+                Sort.DEALS -> Collections.sort(hotels, deals_comparator)
+                Sort.PACKAGE_DISCOUNT -> Collections.sort(hotels, package_discount_comparator)
+                Sort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
+            }
+            setFilteredHotelListAndRetainLoyaltyInformation(HotelServices.putSponsoredItemsInCorrectPlaces(hotels))
+
+            val sortByString: String = Strings.capitalizeFirstLetter(sort.toString())
+            if (lob == LineOfBusiness.PACKAGES) {
+                PackagesTracking().trackHotelSortBy(sortByString)
+            } else if (lob == LineOfBusiness.HOTELS) {
+                HotelTracking().trackHotelSortBy(sortByString)
+            }
+        }
+
+        if (filteredResponse.hotelList != null && filteredResponse.hotelList.isNotEmpty()) {
+            filteredResponse.isFilteredResponse = true
+            filterObservable.onNext(filteredResponse)
+        } else {
+            filteredZeroResultObservable.onNext(Unit)
+        }
+    }
 
     init {
-        doneObservable.subscribe { params ->
-            //if previousSort and userSort is both by popular(default), no need to call sort method. Otherwise, always do sort.
-            if (userFilterChoices.userSort != Sort.RECOMMENDED || previousSort != Sort.RECOMMENDED) {
-                previousSort = userFilterChoices.userSort
-                sortObserver.onNext(userFilterChoices.userSort)
-                var sortByString: String = Strings.capitalizeFirstLetter(userFilterChoices.userSort.toString())
-                if (lob == LineOfBusiness.PACKAGES) {
-                    PackagesTracking().trackHotelSortBy(sortByString)
-                } else if (lob == LineOfBusiness.HOTELS) {
-                    HotelTracking().trackHotelSortBy(sortByString)
-                }
-            }
+        sortByObservable.subscribe(sortObserver)
 
-            if (filteredResponse.hotelList != null && filteredResponse.hotelList.isNotEmpty()) {
-                filteredResponse.isFilteredResponse = true
-                filterObservable.onNext(filteredResponse)
-            } else {
-                filteredZeroResultObservable.onNext(Unit)
-            }
+        doneObservable.subscribe { params ->
+            sortByObservable.onNext(userFilterChoices.userSort)
         }
 
         clearObservable.subscribe { params ->
@@ -352,7 +370,10 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
 
         sendNewPriceRange()
         isNeighborhoodExpanded = false
-        previousSort = Sort.RECOMMENDED
+        previousSortType = Sort.RECOMMENDED
+        if (isCurrentLocationSearch.value) { // sort by distance on currentLocation search
+            sortByObservable.onNext(HotelFilterViewModel.Sort.DISTANCE)
+        }
     }
 
     private fun sendNewPriceRange() {
@@ -374,20 +395,6 @@ class HotelFilterViewModel(val context: Context, val lob: LineOfBusiness) {
         PACKAGE_DISCOUNT(R.string.sort_description_package_discount),
         RATING(R.string.rating),
         DISTANCE(R.string.distance);
-    }
-
-    val sortObserver = endlessObserver<Sort> { sort ->
-        val hotels: List<Hotel> = filteredResponse.hotelList
-
-        when (sort) {
-            Sort.RECOMMENDED -> Collections.sort(hotels, popular_comparator)
-            Sort.PRICE -> Collections.sort(hotels, price_comparator)
-            Sort.RATING -> Collections.sort(hotels, rating_comparator_fallback_price)
-            Sort.DEALS -> Collections.sort(hotels, deals_comparator)
-            Sort.PACKAGE_DISCOUNT -> Collections.sort(hotels, package_discount_comparator)
-            Sort.DISTANCE -> Collections.sort(hotels, distance_comparator_fallback_name)
-        }
-        setFilteredHotelListAndRetainLoyaltyInformation(HotelServices.putSponsoredItemsInCorrectPlaces(hotels))
     }
 
     private val popular_comparator: Comparator<Hotel> = Comparator { hotel1, hotel2 ->

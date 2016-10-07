@@ -152,7 +152,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByPopular() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.RECOMMENDED)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.RECOMMENDED)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).sortIndex
@@ -164,7 +164,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByPrice() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.PRICE)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.PRICE)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.priceToShowUsers
@@ -176,7 +176,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByDeals() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.DEALS)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.DEALS)
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val currentDeals = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.discountPercent
             val previousDeals = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.discountPercent
@@ -187,7 +187,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByPackageDiscount() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.PACKAGE_DISCOUNT)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.PACKAGE_DISCOUNT)
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val currentDeals = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.discountPercent
             val previousDeals = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.discountPercent
@@ -198,7 +198,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByRating() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.RATING)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.RATING)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).hotelGuestRating
@@ -210,7 +210,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByDistance() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.DISTANCE)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.DISTANCE)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).proximityDistanceInMiles
