@@ -51,21 +51,24 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     val paymentWidget: BillingDetailsPaymentWidget
 
     val ticketDeliveryEntryWidget: RailTicketDeliveryEntryWidget by bindView(R.id.ticket_delivery_entry_widget)
-    val ticketDeliveryOverviewWidget: RailTicketDeliveryOverviewWidget by lazy {
-        val view = findViewById(R.id.ticket_delivery_overview_widget) as RailTicketDeliveryOverviewWidget
-        view.viewModel = RailTicketDeliveryOverviewViewModel(context)
-        view.setOnClickListener {
-            openTicketDeliveryEntry()
-        }
-        view
-    }
+    val ticketDeliveryOverviewWidget: RailTicketDeliveryOverviewWidget by bindView(R.id.ticket_delivery_overview_widget)
 
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.rail_total_price_widget)
     val slideToPurchaseWidget: SlideToPurchaseWidget by bindView(R.id.rail_slide_to_purchase_widget)
 
     val checkoutViewModel = RailCheckoutViewModel(context)
-    val travelerCardViewModel = RailTravelerSummaryViewModel(context)
-    val travelerCheckoutViewModel = RailCheckoutTravelerViewModel(context)
+
+    private val toolbarViewModel = CheckoutToolbarViewModel(context)
+    private val totalPriceViewModel = RailTotalPriceViewModel(context)
+    private val priceBreakDownViewModel = RailCostSummaryBreakdownViewModel(context)
+
+    private val paymentViewModel = PaymentViewModel(context)
+    private val cardFeeViewModel = RailCreditCardFeesViewModel()
+    private val ticketDeliveryOverviewViewModel = RailTicketDeliveryOverviewViewModel(context)
+    private val ticketDeliveryEntryViewModel = RailTicketDeliveryEntryViewModel(context)
+
+    private val travelerCardViewModel = RailTravelerSummaryViewModel(context)
+    private val travelerCheckoutViewModel = RailCheckoutTravelerViewModel(context)
 
     var createTripViewModel: RailCreateTripViewModel by notNullAndObservable { vm ->
         vm.offerCodeSelectedObservable.subscribe {
@@ -86,19 +89,19 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         }
 
         paymentWidget = paymentViewStub.inflate() as BillingDetailsPaymentWidget
-        paymentWidget.viewmodel = PaymentViewModel(context)
-        paymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.RAILS)
-        paymentWidget.viewmodel.isCreditCardRequired.onNext(true)
-        paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { billingInfoAndStatusPair ->
+
+        paymentWidget.viewmodel = paymentViewModel
+        paymentViewModel.lineOfBusiness.onNext(LineOfBusiness.RAILS)
+        paymentViewModel.isCreditCardRequired.onNext(true)
+        paymentViewModel.billingInfoAndStatusUpdate.map { billingInfoAndStatusPair ->
             billingInfoAndStatusPair.first
         }.subscribe(checkoutViewModel.paymentCompleteObserver)
-
-
-        paymentWidget.viewmodel.expandObserver.subscribe {
+        paymentViewModel.expandObserver.subscribe {
             show(paymentWidget)
         }
+        paymentWidget.creditCardFeesView.viewModel = cardFeeViewModel
 
-        paymentWidget.creditCardFeesView.viewModel = RailCreditCardFeesViewModel()
+        ticketDeliveryEntryViewModel.ticketDeliveryOptionSubject.subscribe(cardFeeViewModel.ticketDeliveryOptionSubject)
 
         travelerCardWidget.setOnClickListener {
             show(travelerEntryWidget)
@@ -118,7 +121,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         travelerEntryWidget.travelerCompleteSubject.subscribe {
             show(DefaultCheckout(), FLAG_CLEAR_BACKSTACK)
         }
-        toolbar.viewModel = CheckoutToolbarViewModel(context)
+        toolbar.viewModel = toolbarViewModel
 
         slideToPurchaseWidget.addSlideListener(this)
 
@@ -142,21 +145,22 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     fun openTicketDeliveryEntry() {
-        ticketDeliveryEntryWidget.entryStatus(ticketDeliveryOverviewWidget.viewModel.ticketDeliverySelectedObserver.value)
+        ticketDeliveryEntryWidget.entryStatus(ticketDeliveryOverviewViewModel.ticketDeliverySelectedObserver.value)
         show(ticketDeliveryEntryWidget)
     }
 
     private fun initializePriceWidget() {
-        totalPriceWidget.viewModel = RailTotalPriceViewModel(context)
-        totalPriceWidget.breakdown.viewmodel = RailCostSummaryBreakdownViewModel(context)
-        totalPriceWidget.breakdown.viewmodel.iconVisibilityObservable.subscribe { show ->
+        priceBreakDownViewModel.iconVisibilityObservable.subscribe { show ->
             totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
-            totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
+            totalPriceViewModel.costBreakdownEnabledObservable.onNext(show)
         }
+
+        totalPriceWidget.viewModel = totalPriceViewModel
+        totalPriceWidget.breakdown.viewmodel = priceBreakDownViewModel
     }
 
     private fun wireUpToolbarWithPayment() {
-        toolbar.viewModel.doneClicked.subscribe {
+        toolbarViewModel.doneClicked.subscribe {
             if (currentState == BillingDetailsPaymentWidget::class.java.name) {
                 paymentWidget.doneClicked.onNext(Unit)
             } else if (currentState == RailTicketDeliveryEntryWidget::class.java.name) {
@@ -165,47 +169,46 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
                 travelerEntryWidget.doneSelectedObserver.onNext(Unit)
             }
         }
-        paymentWidget.toolbarTitle.subscribe(toolbar.viewModel.toolbarTitle)
-        paymentWidget.focusedView.subscribe(toolbar.viewModel.currentFocus)
-        paymentWidget.filledIn.subscribe(toolbar.viewModel.formFilledIn)
-        paymentWidget.menuVisibility.subscribe(toolbar.viewModel.menuVisibility)
-        paymentWidget.enableMenuItem.subscribe(toolbar.viewModel.enableMenuItem)
-        paymentWidget.visibleMenuWithTitleDone.subscribe(toolbar.viewModel.visibleMenuWithTitleDone)
-        paymentWidget.toolbarNavIcon.subscribe(toolbar.viewModel.toolbarNavIcon)
+        paymentWidget.toolbarTitle.subscribe(toolbarViewModel.toolbarTitle)
+        paymentWidget.focusedView.subscribe(toolbarViewModel.currentFocus)
+        paymentWidget.filledIn.subscribe(toolbarViewModel.formFilledIn)
+        paymentWidget.menuVisibility.subscribe(toolbarViewModel.menuVisibility)
+        paymentWidget.enableMenuItem.subscribe(toolbarViewModel.enableMenuItem)
+        paymentWidget.visibleMenuWithTitleDone.subscribe(toolbarViewModel.visibleMenuWithTitleDone)
+        paymentWidget.toolbarNavIcon.subscribe(toolbarViewModel.toolbarNavIcon)
     }
 
     private fun initializeTicketDelivery() {
-        ticketDeliveryEntryWidget.viewModel = RailTicketDeliveryEntryViewModel(context)
-        ticketDeliveryOverviewWidget.viewModel.ticketDeliverySelectedObserver.onNext(TicketDeliveryMethod.PICKUP_AT_STATION)
-        ticketDeliveryEntryWidget.viewModel.ticketDeliveryMethodSelected.subscribe(ticketDeliveryOverviewWidget.viewModel.ticketDeliverySelectedObserver)
+        ticketDeliveryEntryWidget.viewModel = ticketDeliveryEntryViewModel
+        ticketDeliveryEntryViewModel.ticketDeliveryMethodSelected.subscribe(ticketDeliveryOverviewViewModel.ticketDeliverySelectedObserver)
+        ticketDeliveryEntryViewModel.ticketDeliveryOptionSubject.onNext(ticketDeliveryEntryWidget.getTicketDeliveryOption())
         checkoutViewModel.ticketDeliveryCompleteObserver.onNext(ticketDeliveryEntryWidget.getTicketDeliveryOption())
         ticketDeliveryEntryWidget.closeSubject.subscribe {
             show(DefaultCheckout(), FLAG_CLEAR_BACKSTACK)
             checkoutViewModel.ticketDeliveryCompleteObserver.onNext(ticketDeliveryEntryWidget.getTicketDeliveryOption())
+        }
+
+        ticketDeliveryOverviewWidget.viewModel = ticketDeliveryOverviewViewModel
+        ticketDeliveryOverviewViewModel.ticketDeliverySelectedObserver.onNext(TicketDeliveryMethod.PICKUP_AT_STATION)
+        ticketDeliveryOverviewWidget.setOnClickListener {
+            openTicketDeliveryEntry()
         }
     }
 
     private fun updateCreateTrip(response: RailCreateTripResponse) {
         createTripDialog.hide()
         paymentWidget.clearCCAndCVV()
-        ticketDeliveryEntryWidget.viewModel.ticketDeliveryOptions.onNext(response.railDomainProduct?.railOffer?.ticketDeliveryOptionList)
+        ticketDeliveryEntryViewModel.ticketDeliveryOptions.onNext(response.railDomainProduct?.railOffer?.ticketDeliveryOptionList)
         checkoutViewModel.createTripObserver.onNext(response)
         updatePricing(response)
     }
 
     private fun updatePricing(response: RailCreateTripResponse) {
         checkoutViewModel.totalPriceObserver.onNext(response.totalPrice)
-        totalPriceWidget.viewModel.total.onNext(response.totalPrice)
-        totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
-        (totalPriceWidget.breakdown.viewmodel as RailCostSummaryBreakdownViewModel)
-                .railCostSummaryBreakdownObservable.onNext(response.railDomainProduct.railOffer)
-        val cardFeeViewModel = paymentWidget.creditCardFeesView.viewModel as RailCreditCardFeesViewModel
-        cardFeeViewModel.validFormsOfPaymentObservable.onNext(Pair(response.validFormsOfPayment, getTicketOptionToken()))
-    }
-
-    //TODO Update the card fee modal with selected TDO, #8951.
-    private fun getTicketOptionToken(): RailCreateTripResponse.RailTicketDeliveryOptionToken {
-        return ticketDeliveryEntryWidget.getTicketDeliveryOption().deliveryOptionToken
+        totalPriceViewModel.total.onNext(response.totalPrice)
+        totalPriceViewModel.costBreakdownEnabledObservable.onNext(true)
+        priceBreakDownViewModel.railCostSummaryBreakdownObservable.onNext(response.railDomainProduct.railOffer)
+        cardFeeViewModel.validFormsOfPaymentSubject.onNext(response.validFormsOfPayment)
     }
 
     class DefaultCheckout
@@ -265,10 +268,10 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
                 Ui.hideKeyboard(paymentWidget)
                 paymentWidget.setFocusForView()
             } else {
-                toolbar.viewModel.menuVisibility.onNext(true)
-                toolbar.viewModel.visibleMenuWithTitleDone.onNext(Unit)
-                toolbar.viewModel.toolbarTitle.onNext(travelerEntryWidget.getToolbarTitle())
-                toolbar.viewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+                toolbarViewModel.menuVisibility.onNext(true)
+                toolbarViewModel.visibleMenuWithTitleDone.onNext(Unit)
+                toolbarViewModel.toolbarTitle.onNext(travelerEntryWidget.getToolbarTitle())
+                toolbarViewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
                 travelerEntryWidget.visibility = View.VISIBLE
             }
         }
@@ -280,11 +283,11 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             if (forward) {
                 slideToPurchaseWidget.visibility = View.GONE
 
-                toolbar.viewModel.toolbarTitle.onNext(resources.getString(R.string.ticket_delivery))
-                toolbar.viewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
-                toolbar.viewModel.enableMenuItem.onNext(ticketDeliveryEntryWidget.isComplete())
-                toolbar.viewModel.visibleMenuWithTitleDone.onNext(Unit)
-                toolbar.viewModel.menuVisibility.onNext(true)
+                toolbarViewModel.toolbarTitle.onNext(resources.getString(R.string.ticket_delivery))
+                toolbarViewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+                toolbarViewModel.enableMenuItem.onNext(ticketDeliveryEntryWidget.isComplete())
+                toolbarViewModel.visibleMenuWithTitleDone.onNext(Unit)
+                toolbarViewModel.menuVisibility.onNext(true)
             } else {
                 transitionToCheckoutStart()
             }
@@ -308,10 +311,10 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     private fun transitionToCheckoutStart() {
-        toolbar.viewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
-        toolbar.viewModel.toolbarTitle.onNext(context.getString(R.string.checkout_text))
-        toolbar.viewModel.enableMenuItem.onNext(true)
-        toolbar.viewModel.menuVisibility.onNext(false)
+        toolbarViewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
+        toolbarViewModel.toolbarTitle.onNext(context.getString(R.string.checkout_text))
+        toolbarViewModel.enableMenuItem.onNext(true)
+        toolbarViewModel.menuVisibility.onNext(false)
     }
 
     private fun transitionToCheckoutEnd() {
