@@ -182,7 +182,7 @@
     <string name="car_vendors">Rental Companies</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">Clear Filters</string>
-    <!-- Label to tell the user how many products match thier filter -->
+    <!-- Label to tell the user how many products match their filter -->
     <plurals name="number_results_template">
         <item quantity="one">{number} Result</item>
         <item quantity="other">{number} Results</item>
