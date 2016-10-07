@@ -327,9 +327,8 @@
     <dimen name="packages_bundle_overview_footer_primary_text">@dimen/temporary_font_size_medium</dimen>
     <dimen name="packages_bundle_overview_footer_secondary_text">@dimen/temporary_font_size_small</dimen>
 
-    <!-- Package Flight Cell -->
-    <dimen name="packages_flight_cell_primary_text">@dimen/temporary_font_size_large</dimen>
-    <dimen name="packages_flight_cell_duration_text">@dimen/temporary_font_size_small</dimen>
+    <dimen name="default_text_size">@dimen/temporary_font_size_small</dimen>
+    <dimen name="large_text_size">@dimen/temporary_font_size_large</dimen>
 
     <!-- Package Hotel Map -->
     <dimen name="packages_hotel_map_message">@dimen/temporary_font_size_small</dimen>

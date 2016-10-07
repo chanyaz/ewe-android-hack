@@ -557,6 +557,9 @@
     <!-- Search result cells gray text on cardviews.  -->
     <color name="result_cells_gray_text">@color/gray6</color>
 
+    <color name="default_text_color">@color/gray9</color>
+    <color name="light_text_color">@color/gray6</color>
+
     <!-- This color should be used on search result list header texts such as "All Flights", "Searching hundreds of hotels" and "Step 1: Select Hotel".  -->
     <color name="search_results_list_header_gray">@color/gray7</color>
 

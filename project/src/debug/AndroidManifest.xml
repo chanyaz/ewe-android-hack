@@ -40,6 +40,12 @@
                 android:value="true" />
         </activity>
 
+        <activity android:name="com.expedia.bookings.activity.DebugTextStylesActivity"
+            android:label="Core Text Styles"
+            android:theme="@style/Theme.Phone.Preferences"
+            android:screenOrientation="portrait">
+        </activity>
+
         <activity
             android:name="com.expedia.bookings.deeplink.DeepLinkTestActivity"
             android:exported="true"

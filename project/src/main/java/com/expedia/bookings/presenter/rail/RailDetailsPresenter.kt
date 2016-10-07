@@ -5,11 +5,11 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
-import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.rail.RailDetailsFareOptionsView
 import com.expedia.bookings.widget.rail.RailDetailsTimeline
 import com.expedia.util.notNullAndObservable

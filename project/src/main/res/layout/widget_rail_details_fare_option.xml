@@ -6,7 +6,7 @@
     android:layout_marginBottom="10dp"
     android:gravity="center_vertical"
     android:orientation="horizontal"
-    tools:background="@color/white">
+    tools:background="@color/rail_background_color">
 
     <LinearLayout
         android:layout_width="0dp"
@@ -14,39 +14,35 @@
         android:layout_weight="1"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/fare_title"
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/rail_fare_title"
+            style="@style/Core.Text.Large.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="6dp"
             android:drawableRight="@drawable/ic_checkout_info"
             android:gravity="center_vertical"
             android:paddingTop="5dp"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            tools:text="Change at Crewe" />
+            tools:text="Anytime Single" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/fare_description"
+            style="@style/Core.Text.Default.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="2dp"
             android:paddingTop="2dp"
-            android:textSize="12sp"
-            android:textStyle="bold"
-            tools:text="Change at Crewe" />
+            tools:text="travel any time of day" />
 
-        <TextView
+        <com.expedia.bookings.widget.TextView
             android:id="@+id/amenities_link"
+            style="@style/Rail.Text.Link"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="5dp"
             android:paddingTop="2dp"
-            android:text="@string/amenities"
+            android:paddingBottom="5dp"
             android:textAllCaps="true"
-            android:textColor="@color/wallet_link_text_light"
-            android:textSize="12sp"
-            tools:text="Change at Crewe" />
+            android:text="@string/amenities" />
 
     </LinearLayout>
 
@@ -71,13 +67,13 @@
                 android:paddingRight="2dp"
                 android:src="@drawable/rail_card_icon" />
 
-            <TextView
-                android:id="@+id/price"
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/rail_fare_price"
+                style="@style/Core.Text.Large.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="4dp"
                 android:paddingTop="5dp"
-                android:textSize="14sp"
                 tools:text="$50" />
         </LinearLayout>
 
@@ -88,5 +84,4 @@
             android:layout_height="wrap_content"
             android:text="@string/select" />
     </LinearLayout>
-
 </merge>

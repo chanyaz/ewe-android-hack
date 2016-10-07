@@ -1,5 +1,6 @@
 package com.expedia.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
@@ -7,6 +8,7 @@ import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
+import com.expedia.bookings.activity.DebugTextStylesActivity;
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.server.ExpediaServices;
@@ -107,6 +109,10 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 				.addToBackStack(AbacusPreferencesFragment.class.getName())
 				.commit();
 			return true;
+		}
+		else if ((getString(R.string.preference_open_core_text_styles)).equals(key)) {
+			Intent intent = new Intent(getActivity(), DebugTextStylesActivity.class);
+			startActivity(intent);
 		}
 
 		else if (getString(R.string.preference_open_feature_toggle_settings).equals(key)) {
