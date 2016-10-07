@@ -11,11 +11,11 @@
     <LinearLayout
         android:layout_width="75dp"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center">
 
         <ImageView
             android:id="@+id/rail_timeline_icon2"
-            android:layout_gravity="center_horizontal"
             android:layout_width="20dp"
             android:layout_height="20dp" />
     </LinearLayout>
@@ -28,12 +28,11 @@
         android:background="@drawable/flight_layover_pattern_bg" />
 
 
-    <TextView
+    <com.expedia.bookings.widget.TextView
         android:id="@+id/rail_timeline_transfer_text"
+        style="@style/Core.Text.Default.Medium.LightColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        android:textStyle="bold"
         tools:text="Change at Crewe" />
 
 </LinearLayout>

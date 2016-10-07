@@ -1109,32 +1109,35 @@
         <item name="android:layout_gravity">center_horizontal</item>
     </style>
 
-    <!--Material Flights Results Cell-->
-    <style name="MaterialFlightCell">
-        <item name="android:textColor">@color/packages_flight_cell_primary_text</item>
-        <item name="android:textSize">@dimen/packages_flight_cell_duration_text</item>
+    <!--Core represents any styles that are shared across LOBs throughout the app-->
+    <style name="Core"/>
+
+    <style name="Core.Text">
+        <item name="android:textColor">@color/default_text_color</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="Core.Text.Default">
+        <item name="android:textSize">@dimen/default_text_size</item>
+    </style>
+
+    <style name="Core.Text.Default.Medium">
         <item name="textStyle">medium</item>
     </style>
 
-    <style name="MaterialFlightCell.PrimaryText">
-        <item name="android:textSize">@dimen/packages_flight_cell_primary_text</item>
+    <style name="Core.Text.Default.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
     </style>
 
-    <style name="MaterialFlightCell.CarrierText">
-        <item name="textStyle">normal</item>
+    <style name="Core.Text.Default.Medium.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
     </style>
 
-    <style name="MaterialFlightCell.DurationText">
-        <item name="android:textColor">@color/packages_flight_cell_duration_text</item>
-        <item name="textStyle">normal</item>
+    <style name="Core.Text.Large">
+        <item name="android:textSize">@dimen/large_text_size</item>
     </style>
 
-    <style name="MaterialFlightCell.OperatingAirlineText">
-        <item name="android:textColor">@color/packages_flight_cell_duration_text</item>
-        <item name="textStyle">normal</item>
-    </style>
-
-    <style name="MaterialFlightCell.DurationText.LayoverCity">
+    <style name="Core.Text.Large.Medium">
         <item name="textStyle">medium</item>
     </style>
 
@@ -1310,29 +1313,6 @@
         <item name="textStyle">normal</item>
     </style>
 
-
-    <style name="RailCell">
-        <item name="android:textColor">@color/packages_flight_cell_primary_text</item>
-        <item name="android:textSize">@dimen/packages_flight_cell_duration_text</item>
-        <item name="textStyle">medium</item>
-    </style>
-
-
-    <style name="RailCell.PrimaryText">
-        <item name="android:textColor">@color/flight_departure_date_color</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="RailCell.PriceText">
-        <item name="android:textSize">@dimen/packages_flight_cell_primary_text</item>
-    </style>
-
-    <style name="RailTextAppearanceSmall">
-        <item name="android:textColor">@color/gray7</item>
-        <item name="android:textSize">11sp</item>
-    </style>
-
     <!--Bundle Overview Hotel+Flight and Rail Widgets-->
     <style name="BundleOverviewWidgets" />
 
@@ -1357,8 +1337,6 @@
         <item name="android:layout_marginRight">16dp</item>
         <item name="android:layout_marginTop">11dp</item>
     </style>
-
-
 
     <!--Bundle Overview Footer Hotel+Flight and Rail-->
     <style name="BundleOverviewFooter">
