@@ -82,7 +82,7 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		mStickySubtitleTv = Ui.findView(v, R.id.sticky_subtitle);
 		setSubtitleText();
 		mCardFeeWarningTv = Ui.findView(v, R.id.card_fee_warning_text);
-		setCardFeeWarningVisibility();
+		setCardFeeWarningTextAndVisibility();
 		return v;
 	}
 
@@ -229,8 +229,16 @@ public class ResultsFlightListFragment extends ResultsListFragment<ResultsFlight
 		}
 	}
 
-	private void setCardFeeWarningVisibility() {
-		boolean isVisible = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod();
+	private void setCardFeeWarningTextAndVisibility() {
+		boolean isVisible = PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage();
+		if (isVisible) {
+			if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+				mCardFeeWarningTv.setText(getString(R.string.airline_may_charge_notice));
+			}
+			else {
+				mCardFeeWarningTv.setText(getString(R.string.airline_charge_notice));
+			}
+		}
 		mCardFeeWarningTv.setVisibility(isVisible ? View.VISIBLE : View.GONE);
 	}
 

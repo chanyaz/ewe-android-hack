@@ -1747,6 +1747,9 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">An &lt;a href=\"{airline_fee_url}\"&gt;airline fee&lt;/a&gt;, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
+    <!-- An airline fee maybe added upon payment message
+        Example: An airline fee, based on card type, maybe added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">An &lt;a href=\"{airline_fee_url}\"&gt;airline fee&lt;/a&gt;, based on card type, may be added upon payment. Such fee is added to the total upon payment.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debit cards are not accepted.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -4126,6 +4129,12 @@
     <string name="airline_fee_notice_payment">Airline fee applies based on payment method</string>
     <string name="airline_notice_fee_added">An <u><b>airline fee</b></u>, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
     <string name="airline_notice_fee_added_tablet">An &lt;u&gt;&lt;b&gt;airline fee&lt;/b&gt;&lt;/u&gt;, based on card type, is added upon payment. Such fee is added to the total upon payment.</string>
+
+    <!-- French compliance warnings d/5810 -->
+    <string name="airline_maybe_fee_notice">An airline fee, based on card type, maybe added upon payment.</string>
+    <string name="airline_may_charge_notice">Airlines may charge an additional fee based on payment method.</string>
+    <string name="airline_may_fee_notice_payment">Airline fee may apply based on payment method</string>
+    <string name="airline_notice_fee_maybe_added_tablet">An &lt;u&gt;&lt;b&gt;airline fee&lt;/b&gt;&lt;/u&gt;, based on card type, maybe added upon payment. Such fee is added to the total upon payment.</string>
 
     <!-- Packages -->
 

@@ -22,8 +22,8 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.fragment.FlightAdditionalFeesDialogFragment;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -85,20 +85,23 @@ public class FlightUtils {
 	public static String getSlideToPurchaseString(Context context, TripBucketItemFlight flightItem) {
 		Money totalFare = flightItem.getFlightTrip().getTotalFareWithCardFee(Db.getBillingInfo(), flightItem);
 		String template = context.getString(
-			PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+			PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()
 				? R.string.your_card_will_be_charged_plus_airline_fee_template
 				: R.string.your_card_will_be_charged_template);
 		return Phrase.from(template).put("dueamount", totalFare.getFormattedMoney()).format().toString();
 	}
 
-	public static Spanned getCardFeeLegalText(Context context) {
-		Spanned cardFeeHtml = Html.fromHtml(context.getResources().getString(R.string.airline_notice_fee_added_tablet));
+	public static Spanned getCardFeeLegalText(Context context, int color) {
+		Spanned cardFeeHtml ;
+
+		int resId = PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee() ? R.string.airline_notice_fee_maybe_added_tablet : R.string.airline_notice_fee_added_tablet;
+		cardFeeHtml = Html.fromHtml(context.getString(resId));
+
 		SpannableStringBuilder cardFeeSb = new SpannableStringBuilder(cardFeeHtml);
 
 		UnderlineSpan underlineSpan = cardFeeSb.getSpans(0, cardFeeHtml.length(), UnderlineSpan.class)[0];
 		int spanStart = cardFeeSb.getSpanStart(underlineSpan);
 		int spanEnd = cardFeeSb.getSpanEnd(underlineSpan);
-		int color = R.color.tablet_legal_blurb_text_color;
 		cardFeeSb.setSpan(new ForegroundColorSpan(ContextCompat.getColor(context, color)), spanStart, spanEnd,
 			Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
@@ -136,14 +139,19 @@ public class FlightUtils {
 		feesTv.setAllCaps(true);
 		feesTv.setCompoundDrawablesWithIntrinsicBounds(drawableResId, 0, 0, 0);
 
-		boolean airlinesChargePaymentFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod();
+		boolean airlinesChargePaymentFees = PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage();
 		if (airlinesChargePaymentFees || trip.getMayChargeObFees()) {
 			final String feeString;
 			final String feeUrl;
 
 			if (airlinesChargePaymentFees) {
 				drawableResId = isPhone ? R.drawable.ic_payment_fee : R.drawable.ic_tablet_payment_fees;
-				textViewResId = R.string.airline_fee_notice_payment;
+				if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+					textViewResId = R.string.airline_may_fee_notice_payment;
+				}
+				else {
+					textViewResId = R.string.airline_fee_notice_payment;
+				}
 				feeString = context.getString(R.string.Airline_fee);
 				feeUrl = PointOfSale.getPointOfSale().getAirlineFeeBasedOnPaymentMethodTermsAndConditionsURL();
 			}
