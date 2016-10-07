@@ -33,7 +33,7 @@ dependencies {
             'MobileAppTracker-3.11.4.jar',
     ])
     compile project(':lib:AndroidTime')
-    compile project(':lib:bug-reporter:bugshaker')
+    debugCompile project(':lib:bug-reporter:bugshaker')
     // We keep some classes in a pure java project so we can test them with pure jvm unit tests
     compile (project(':lib:ExpediaBookings')) {
         exclude group: 'org.json'

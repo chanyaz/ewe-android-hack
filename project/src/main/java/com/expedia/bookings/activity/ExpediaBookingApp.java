@@ -1,7 +1,6 @@
 package com.expedia.bookings.activity;
 
 import android.app.ActivityManager;
-import android.app.Application;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -46,6 +45,7 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
+import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
@@ -54,7 +54,6 @@ import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
-import com.github.stkent.bugshaker.BugShaker;
 import com.mobiata.android.BackgroundDownloader.OnDownloadComplete;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.Log;
@@ -66,9 +65,7 @@ import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import io.fabric.sdk.android.Fabric;
 import java.io.IOException;
 import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.HashSet;
 import java.util.Locale;
-import java.util.Set;
 import net.danlew.android.joda.JodaTimeAndroid;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
@@ -299,22 +296,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		startupTimer.addSplit("Currency Utils init");
 		startupTimer.dumpToLog();
 
-		boolean bugshakerEnabled = SettingUtils
-			.get(getBaseContext(), getBaseContext().getString(R.string.preference_enable_bugshaker), false);
-		if (bugshakerEnabled) {
-			startNewBugShaker(this);
+		if (BugShakerShim.isBugShakerEnabled(getBaseContext())) {
+			BugShakerShim.startNewBugShaker(this);
 		}
-	}
-
-	public static void startNewBugShaker(Application application) {
-		Set<String> emailList = new HashSet<>();
-		emailList.add("EBAndroidDogfood@expedia.com");
-		BugShaker.get(application)
-			.setEmailAddressesAndSubjectLine(application.getString(R.string.bugshaker_report_headline), emailList)
-			.setAlertDialogType()
-			.setLoggingEnabled(BuildConfig.DEBUG)
-			.assemble()
-			.start();
 	}
 
 	private void initializePointOfSale() {
