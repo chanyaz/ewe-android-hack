@@ -58,7 +58,16 @@ class FlightOffersViewModel(context: Context,
 
         showChargesObFeesSubject.subscribe { hasObFee ->
             if (hasObFee || doAirlinesChargeAdditionalFees()) {
-                val paymentFeeText = context.resources.getString(if (doAirlinesChargeAdditionalFees()) R.string.airline_fee_notice_payment else R.string.payment_and_baggage_fees_may_apply)
+                val stringID = if (doAirlinesChargeAdditionalFees()) {
+                    if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+                        R.string.airline_may_fee_notice_payment
+                    } else {
+                        R.string.airline_fee_notice_payment
+                    }
+                } else {
+                    R.string.payment_and_baggage_fees_may_apply
+                }
+                val paymentFeeText = context.getString(stringID)
                 offerSelectedChargesObFeesSubject.onNext(paymentFeeText)
             }
         }
@@ -79,7 +88,7 @@ class FlightOffersViewModel(context: Context,
     }
 
     private fun getAirlineChargesPaymentFees(): Boolean {
-        return PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+        return PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()
     }
 
     private fun selectFlightOffer(outboundLegId: String, inboundLegId: String) {
@@ -117,7 +126,7 @@ class FlightOffersViewModel(context: Context,
     }
 
     private fun doAirlinesChargeAdditionalFees(): Boolean {
-        return PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+        return PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()
     }
 
     private fun getFlightOffer(outboundLegId: String, inboundLegId: String): FlightTripDetails.FlightOffer? {

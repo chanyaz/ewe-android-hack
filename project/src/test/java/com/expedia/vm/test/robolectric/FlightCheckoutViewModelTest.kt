@@ -14,6 +14,8 @@ import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.CardFeeService
@@ -22,6 +24,7 @@ import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightCheckoutViewModel
+import com.mobiata.android.util.SettingUtils
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
 import okhttp3.OkHttpClient
@@ -112,6 +115,12 @@ class FlightCheckoutViewModelTest {
         sliderPurchaseTotalTextTestSubscriber.assertValueCount(2)
         assertEquals("Your card will be charged $42.00", sliderPurchaseTotalTextTestSubscriber.onNextEvents[0].toString())
         assertEquals("Your card will be charged $44.50", sliderPurchaseTotalTextTestSubscriber.onNextEvents[1].toString())
+
+        givenAirlineChargesFees()
+
+        sut.tripResponseObservable.onNext(newTripResponse)
+        sliderPurchaseTotalTextTestSubscriber.assertValueCount(3)
+        assertEquals("Your card will be charged $44.50 (plus airline fee)", sliderPurchaseTotalTextTestSubscriber.onNextEvents[2].toString())
     }
 
     @Test
@@ -174,6 +183,18 @@ class FlightCheckoutViewModelTest {
         assertEquals("", cardFeeWarningTestSubscriber.onNextEvents[0].toString())
         assertEquals("An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment.",
                 cardFeeWarningTestSubscriber.onNextEvents[1].toString())
+
+        setPOS(PointOfSaleId.FRANCE)
+
+        givenAirlineChargesFees()
+        cardFeeWarningTestSubscriber.assertValueCount(3)
+        assertEquals("An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment.",
+                cardFeeWarningTestSubscriber.onNextEvents[2].toString())
+    }
+
+    private fun setPOS(pos: PointOfSaleId) {
+        SettingUtils.save(context, R.string.PointOfSaleKey, pos.id.toString())
+        PointOfSale.onPointOfSaleChanged(context)
     }
 
     @Test

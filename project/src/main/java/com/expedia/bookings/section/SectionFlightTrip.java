@@ -49,10 +49,12 @@ public class SectionFlightTrip extends LinearLayout implements ISection<FlightTr
 
 		mFields.bindFieldsAll(this);
 
+		boolean adjustingPricingMessaging = PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee();
+
 		TextView totalPriceLabel = (TextView) findViewById(R.id.total_price_label);
-		totalPriceLabel.setText(PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ? R.string.total_price_min_label : R.string.total_price_label);
+		totalPriceLabel.setText(adjustingPricingMessaging ? R.string.total_price_min_label : R.string.total_price_label);
 		TextView taxesFeesLabel = (TextView) findViewById(R.id.taxes_fees_label);
-		taxesFeesLabel.setText(PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ? R.string.includes_taxes : R.string.includes_taxes_and_fees);
+		taxesFeesLabel.setText(adjustingPricingMessaging ? R.string.includes_taxes : R.string.includes_taxes_and_fees);
 	}
 
 	@Override

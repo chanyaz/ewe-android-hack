@@ -14,6 +14,7 @@ import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -188,8 +189,13 @@ abstract class BaseCheckoutViewModel(val context: Context) {
 
     private fun getAirlineMayChargeFeeText(flightChargesFeesTxt: String, obFeeUrl: String): SpannableStringBuilder {
         if (Strings.isNotEmpty(flightChargesFeesTxt)) {
+            val resId = if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+                R.string.flights_fee_maybe_added_based_on_payment_TEMPLATE
+            } else {
+                R.string.flights_fee_added_based_on_payment_TEMPLATE
+            }
             val airlineFeeWithLink =
-                    Phrase.from(context, R.string.flights_fee_added_based_on_payment_TEMPLATE)
+                    Phrase.from(context, resId)
                             .put("airline_fee_url", obFeeUrl)
                             .format().toString()
             return StrUtils.getSpannableTextByColor(airlineFeeWithLink, ContextCompat.getColor(context, R.color.flight_primary_color), true)
