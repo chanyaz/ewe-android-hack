@@ -163,11 +163,6 @@ public class RailScreen {
 			.check(matches(isDisplayed()));
 	}
 
-	public static void navigateToCheckout() throws Throwable {
-		navigateToTripOverview();
-		checkout().perform(click());
-	}
-
 	public static void clickDone() {
 		onView(withId(R.id.menu_done)).perform(click());
 	}
@@ -175,6 +170,7 @@ public class RailScreen {
 	public static void enterPaymentDetails() {
 		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		CardInfoScreen.assertPaymentFormCardFeeWarningShown("Credit card fees: £2.90");
 
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();

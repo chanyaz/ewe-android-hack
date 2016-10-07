@@ -2,6 +2,7 @@ package com.expedia.bookings.presenter.rail
 
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
+import android.text.Html
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -14,10 +15,12 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.widget.CheckoutToolbar
 import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.TotalPriceWidget
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.rail.CreateTripProgressDialog
 import com.expedia.bookings.widget.rail.RailTicketDeliveryEntryWidget
@@ -27,6 +30,7 @@ import com.expedia.bookings.widget.rail.TicketDeliveryMethod
 import com.expedia.bookings.widget.shared.SlideToPurchaseWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeText
 import com.expedia.vm.CheckoutToolbarViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.rail.RailCheckoutViewModel
@@ -39,10 +43,13 @@ import com.expedia.vm.rail.RailTotalPriceViewModel
 import com.expedia.vm.traveler.RailCheckoutTravelerViewModel
 import com.expedia.vm.traveler.RailTravelerSummaryViewModel
 import com.expedia.vm.traveler.SimpleTravelerViewModel
+import rx.android.schedulers.AndroidSchedulers
+import java.util.concurrent.TimeUnit
 
 class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr),
         SlideToWidgetLL.ISlideToListener {
     val toolbar: CheckoutToolbar by bindView(R.id.rail_checkout_toolbar)
+    val cardProcessingFeeTextView: TextView by bindView(R.id.card_processing_fee)
 
     val travelerCardWidget: TravelerSummaryCard by bindView(R.id.rail_traveler_card_view)
     val travelerEntryWidget: RailTravelerEntryWidget by bindView(R.id.rail_traveler_entry_widget)
@@ -96,6 +103,8 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         paymentViewModel.billingInfoAndStatusUpdate.map { billingInfoAndStatusPair ->
             billingInfoAndStatusPair.first
         }.subscribe(checkoutViewModel.paymentCompleteObserver)
+
+        paymentViewModel.showingPaymentForm.subscribe(checkoutViewModel.showingPaymentForm)
         paymentViewModel.expandObserver.subscribe {
             show(paymentWidget)
         }
@@ -128,6 +137,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         initializePriceWidget()
         wireUpToolbarWithPayment()
         initializeTicketDelivery()
+        setupCardFeesModal()
     }
 
     override fun onFinishInflate() {
@@ -136,6 +146,28 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         addTransition(defaultToPayment)
         addTransition(defaultToTraveler)
         addTransition(defaultToTicketDeliveryOptions)
+    }
+
+    private fun setupCardFeesModal() {
+        checkoutViewModel.cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
+
+        paymentViewModel.cardBIN
+                .debounce(1, TimeUnit.SECONDS)
+                .subscribe { checkoutViewModel.fetchCardFees(cardId = it, tdoToken = ticketDeliveryEntryWidget.getTicketDeliveryOption().deliveryOptionToken.name) }
+
+        paymentViewModel.resetCardFees.subscribe {
+            checkoutViewModel.resetCardFees()
+        }
+
+        checkoutViewModel.displayCardFeesObservable.subscribe { displayCardFee ->
+            if (displayCardFee && cardProcessingFeeTextView.visibility == View.GONE) {
+                cardProcessingFeeTextView.visibility = View.VISIBLE
+                AnimUtils.slideInTranslate(cardProcessingFeeTextView, paymentWidget, 0L)
+            } else if (!displayCardFee && cardProcessingFeeTextView.visibility == View.VISIBLE) {
+                AnimUtils.slideOut(cardProcessingFeeTextView)
+                paymentWidget.translationY = 0f
+            }
+        }
     }
 
     fun onCheckoutOpened() {
@@ -232,6 +264,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
                 ticketDeliveryOverviewWidget.visibility = View.GONE
                 slideToPurchaseWidget.visibility = View.GONE
             } else {
+                paymentViewModel.showingPaymentForm.onNext(false)
                 paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
                 transitionToCheckoutStart()
             }
@@ -242,6 +275,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
                 transitionToCheckoutEnd()
                 Ui.hideKeyboard(paymentWidget)
                 paymentWidget.setFocusForView()
+                checkoutViewModel.paymentTypeSelectedHasCardFee.onNext(false)
             }
         }
     }

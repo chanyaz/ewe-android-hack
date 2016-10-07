@@ -1065,7 +1065,7 @@
         <item name="textStyle">medium</item>
     </style>
 
-    <style name="FlightWarningBar">
+    <style name="WarningBar">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">12sp</item>
@@ -1087,7 +1087,7 @@
         <item name="textStyle">normal</item>
     </style>
 
-    <style name="FlightWarningBarRed" parent="FlightWarningBar">
+    <style name="FlightWarningBarRed" parent="WarningBar">
         <item name="android:background">@color/flight_red_warning_bar_color</item>
     </style>
 

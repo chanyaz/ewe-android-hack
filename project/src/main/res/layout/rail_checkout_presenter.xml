@@ -18,6 +18,15 @@
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance"/>
 
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/card_processing_fee"
+            style="@style/RailWarningBar"
+            android:layout_below="@id/rail_checkout_toolbar"
+            android:layout_above="@+id/rail_payment_info_card_view_stub"
+            android:maxLines="1"
+            android:animateLayoutChanges="true"
+            android:visibility="gone" />
+
         <com.expedia.bookings.widget.traveler.TravelerSummaryCard
             android:id="@+id/rail_traveler_card_view"
             android:layout_width="match_parent"

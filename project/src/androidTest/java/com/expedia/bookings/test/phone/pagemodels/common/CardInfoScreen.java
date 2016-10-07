@@ -1,8 +1,10 @@
 package com.expedia.bookings.test.phone.pagemodels.common;
 
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.assertion.ViewAssertions;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -148,5 +150,11 @@ public class CardInfoScreen {
 			.perform(waitForViewToDisplay())
 			.check(matches(isDisplayed()))
 			.check(matches(withText("Card Info")));
+	}
+
+	public static void assertPaymentFormCardFeeWarningShown(String warningText) {
+		onView(withId(R.id.card_processing_fee)).perform(ViewActions.waitForViewToDisplay())
+			.check(ViewAssertions.matches(isDisplayed()))
+			.check(ViewAssertions.matches(withText(warningText)));
 	}
 }

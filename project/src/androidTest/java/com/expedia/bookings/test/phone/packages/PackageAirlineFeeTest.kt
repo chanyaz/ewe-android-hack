@@ -33,7 +33,7 @@ class PackageAirlineFeeTest: PackageTestCase() {
         CheckoutViewModel.clickPaymentInfo()
         CardInfoScreen.assertCardInfoLabelShown()
         CardInfoScreen.typeTextCreditCardEditText("4111111111111111")
-        assertPaymentFormCardFeeWarningShown()
+        CardInfoScreen.assertPaymentFormCardFeeWarningShown("Airline processing fee for this card: $2.50")
 
         PackageScreen.completePaymentForm()
         CheckoutViewModel.clickDone()
@@ -46,12 +46,5 @@ class PackageAirlineFeeTest: PackageTestCase() {
         onView(withId(R.id.card_fee_warning_text)).perform(ViewActions.waitForViewToDisplay())
                 .check(ViewAssertions.matches(isDisplayed()))
                 .check(ViewAssertions.matches(withText("The airline charges a processing fee of $2.50 for using this card (cost included in the trip total).")))
-    }
-
-    private fun assertPaymentFormCardFeeWarningShown() {
-        Common.delay(1)
-        onView(withId(R.id.card_processing_fee)).perform(ViewActions.waitForViewToDisplay())
-                .check(ViewAssertions.matches(isDisplayed()))
-                .check(ViewAssertions.matches(withText("Airline processing fee for this card: $2.50")))
     }
 }

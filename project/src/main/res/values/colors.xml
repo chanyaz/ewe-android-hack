@@ -503,6 +503,7 @@
     <color name="rail_title_color">@color/gray10</color>
     <color name="rail_regular_text_color">@color/gray7</color>
     <color name="rail_error_message_cards">@color/orange_crush</color>
+    <color name="rail_warning_bar_color">@color/exp_rail_dark_navy</color>
 
     <!-- Cost summary breakdown -->
     <color name="cost_summary_breakdown_line_separator_color">@color/gray4</color>

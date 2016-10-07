@@ -1,0 +1,15 @@
+{
+  "tripId": "a44fdeef-41dc-4b11-b97b-d636964aac10",
+  "feePrice": {
+    "amount": "2.90",
+    "formattedPrice": "£2.90",
+    "formattedWholePrice": "£3",
+    "currencyCode": "GBP"
+  },
+  "tripTotalPrice": {
+    "amount": "196.40",
+    "formattedPrice": "£196.40",
+    "formattedWholePrice": "£196",
+    "currencyCode": "GBP"
+  }
+}
