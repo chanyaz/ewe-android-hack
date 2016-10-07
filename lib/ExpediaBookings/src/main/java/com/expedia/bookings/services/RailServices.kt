@@ -5,6 +5,7 @@ import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.Constants
 import com.google.gson.GsonBuilder
@@ -50,9 +51,25 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
 
     fun railSearch(params: RailApiSearchModel, observer: Observer<RailSearchResponse>): Subscription {
         return railApi.railSearch(params)
+                .doOnNext(BUCKET_FARE_QUALIFIERS)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
+    }
+
+    private val BUCKET_FARE_QUALIFIERS = { response: RailSearchResponse ->
+        val railLeg = response.legList[0]
+        for (legOption: RailLegOption in railLeg.legOptionList) {
+            for (railOffer: RailSearchResponse.RailOffer in response.offerList) {
+                val railOfferWithFareQualifiers = railOffer.railProductList.filter { !it.fareQualifierList.isEmpty() }
+                val railOfferLegListWithFareQualifiers = railOfferWithFareQualifiers.flatMap { it.legOptionIndexList }
+
+                if (railOfferLegListWithFareQualifiers.contains(legOption.legOptionIndex)) {
+                    legOption.doesAnyOfferHasFareQualifier = true
+                    break
+                }
+            }
+        }
     }
 
     fun railCreateTrip(railOfferToken: String, observer: Observer<RailCreateTripResponse>): Subscription {

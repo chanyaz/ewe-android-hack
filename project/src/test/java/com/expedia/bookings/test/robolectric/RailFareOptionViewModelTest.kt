@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.vm.rail.RailDetailsViewModel
@@ -10,6 +11,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class RailFareOptionViewModelTest {
@@ -21,14 +23,18 @@ class RailFareOptionViewModelTest {
         val testPriceSubscriber = TestSubscriber<String>()
         val testFareTitleSubscriber = TestSubscriber<String>()
         val testFareDescriptionSubscriber = TestSubscriber<String>()
+        val testRailCardAppliedSubscriber = TestSubscriber<Boolean>()
+
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
         railFareOptionViewModel.fareTitleObservable.subscribe(testFareTitleSubscriber)
         railFareOptionViewModel.fareDescriptionObservable.subscribe(testFareDescriptionSubscriber)
+        railFareOptionViewModel.railCardAppliedObservable.subscribe(testRailCardAppliedSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
         assertEquals("$10", testPriceSubscriber.onNextEvents[0])
         assertEquals("Fare class", testFareTitleSubscriber.onNextEvents[0])
         assertEquals("Fare Description", testFareDescriptionSubscriber.onNextEvents[0])
+        assertTrue(testRailCardAppliedSubscriber.onNextEvents[0])
     }
 
     @Test
@@ -60,6 +66,8 @@ class RailFareOptionViewModelTest {
         val railProduct = RailProduct()
         railProduct.aggregatedCarrierFareClassDisplayName="Fare class"
         railProduct.aggregatedFareDescription = "Fare Description"
+        val fareQualifierList = listOf(RailCard("", "", ""))
+        railProduct.fareQualifierList = fareQualifierList
         railOffer.railProductList = listOf(railProduct)
         return railOffer
     }

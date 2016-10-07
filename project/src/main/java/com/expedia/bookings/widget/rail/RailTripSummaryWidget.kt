@@ -9,6 +9,7 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.rail.RailLegSummaryViewModel
 import com.expedia.vm.rail.RailTripSummaryViewModel
 
@@ -27,6 +28,7 @@ class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayou
     var viewModel: RailTripSummaryViewModel by notNullAndObservable { vm ->
         vm.formattedDatesObservable.subscribeText(travelDates)
         vm.railLegObserver.subscribe(outboundSummaryViewModel.railLegOptionObserver)
+        vm.railCardNameObservable.subscribe(outboundSummaryViewModel.railCardAppliedNameSubject)
         vm.fareDescriptionObservable.subscribe(outboundSummaryViewModel.fareDescriptionLabelObservable)
     }
 }

@@ -14,19 +14,13 @@ class RailViewModel(val context: Context) {
     val legOptionObservable = PublishSubject.create<RailLegOption>()
 
     //Outputs
-    val priceObservable = BehaviorSubject.create<String>()
-    val formattedStopsAndDurationObservable = BehaviorSubject.create<String>()
-
-    init {
-        legOptionObservable.subscribe {
-            val formattedStopsAndDuration = Phrase.from(context, R.string.rail_time_and_stops_line_TEMPLATE)
-                    .put("formattedduration", DateTimeUtils.formatDuration(context.resources, it.durationMinutes()))
-                    .put("formattedchangecount", formatChangesText(context, it.noOfChanges)).format().toString()
-
-            formattedStopsAndDurationObservable.onNext(formattedStopsAndDuration)
-            priceObservable.onNext(it.bestPrice.formattedPrice)
-        }
+    val priceObservable = legOptionObservable.map { legOption -> legOption.bestPrice.formattedPrice }
+    val formattedStopsAndDurationObservable = legOptionObservable.map { legOption ->
+        Phrase.from(context, R.string.rail_time_and_stops_line_TEMPLATE)
+                .put("formattedduration", DateTimeUtils.formatDuration(context.resources, legOption.durationMinutes()))
+                .put("formattedchangecount", formatChangesText(context, legOption.noOfChanges)).format().toString()
     }
+    val railCardAppliedObservable = legOptionObservable.map { legOption -> legOption.doesAnyOfferHasFareQualifier }
 
     companion object {
         @JvmStatic fun formatChangesText(context: Context, changesCount: Int): String {

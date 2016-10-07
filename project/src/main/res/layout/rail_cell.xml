@@ -27,6 +27,13 @@
                 android:layout_weight="1"
                 tools:text="9:07 - 11:21" />
 
+            <ImageView
+                android:id="@+id/rail_card_image"
+                android:layout_height="23dp"
+                android:layout_width="20dp"
+                android:paddingRight="4dp"
+                android:src="@drawable/rail_card_icon" />
+
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/priceView"
                 style="@style/RailCell.PriceText"

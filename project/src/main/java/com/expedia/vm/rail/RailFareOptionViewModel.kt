@@ -10,15 +10,10 @@ class RailFareOptionViewModel {
     val showFareRulesForFareClicked = PublishSubject.create<Unit>()
     val offerSelectButtonClicked = PublishSubject.create<Unit>()
 
-    val priceObservable = offerFareSubject.map { offer ->
-        offer.totalPrice.formattedPrice
-    }
-    val fareTitleObservable = offerFareSubject.map { offer ->
-        offer.railProductList.first().aggregatedCarrierFareClassDisplayName
-    }
-    val fareDescriptionObservable = offerFareSubject.map { offer ->
-        offer.railProductList.first().aggregatedFareDescription
-    }
+    val priceObservable = offerFareSubject.map { offer -> offer.totalPrice.formattedPrice }
+    val fareTitleObservable = offerFareSubject.map { offer -> offer.railProductList.first().aggregatedCarrierFareClassDisplayName }
+    val fareDescriptionObservable = offerFareSubject.map { offer -> offer.railProductList.first().aggregatedFareDescription }
+    val railCardAppliedObservable = offerFareSubject.map { offer -> offer.hasRailCardApplied() }
 
     val amenitiesSelectedObservable = showAmenitiesForFareClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
     val fareDetailsSelectedObservable = showFareRulesForFareClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
