@@ -2,29 +2,13 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout
-        android:id="@+id/amenities_rules_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <android.support.design.widget.TabLayout
-            android:id="@+id/tabs"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/rail_primary_color"
-            app:tabIndicatorColor="@color/launch_tab_indicator"
-            app:tabSelectedTextColor="@color/material_tab_text_selected"
-            app:tabTextColor="@color/material_tab_text" />
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/viewpager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@id/tabs" />
-    </RelativeLayout>
-
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
+        <android.support.v7.widget.Toolbar
+        android:id="@+id/amenities_rules_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="top"
@@ -35,4 +19,18 @@
         app:title="@string/amenities"
         app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
+        <android.support.design.widget.TabLayout
+            android:id="@+id/amenities_rules_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/rail_primary_color"
+            app:tabIndicatorColor="@color/launch_tab_indicator"
+            app:tabSelectedTextColor="@color/material_tab_text_selected"
+            app:tabTextColor="@color/material_tab_text" />
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/amenities_rules_view_pager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
 </merge>
