@@ -301,6 +301,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         vm.doneButtonEnableObservable.subscribe { enable ->
             doneButton.alpha = (if (enable) 1.0f else (0.15f))
+            doneButton.isEnabled = enable
         }
 
         vm.updateDynamicFeedbackWidget.subscribe {
