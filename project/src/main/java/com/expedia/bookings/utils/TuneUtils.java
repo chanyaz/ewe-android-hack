@@ -31,6 +31,7 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightLeg;
+import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
@@ -736,8 +737,10 @@ public class TuneUtils {
 			double totalPrice = flightCheckoutResponse.getTotalChargesPrice().amount.doubleValue();
 			int totalGuests = flightSearchParams.getGuests();
 			double averagePrice = totalPrice/totalGuests;
-			List<FlightLeg> flightLegs = flightCheckoutResponse.getDetails().legs;
-			FlightLeg.FlightSegment firstFlightSegment = flightLegs.get(0).segments.get(0);
+			List<FlightTripDetails> flightsDetailResponse = flightCheckoutResponse.getFlightAggregatedResponse()
+				.getFlightsDetailResponse();
+			FlightTripDetails firstFlightTripDetails = flightsDetailResponse.get(0);
+			FlightLeg.FlightSegment firstFlightSegment = firstFlightTripDetails.getLegs().get(0).segments.get(0);
 			eventItem.withQuantity(totalGuests)
 				.withRevenue(totalPrice)
 				.withUnitPrice(averagePrice)
@@ -747,9 +750,12 @@ public class TuneUtils {
 
 
 			Date departureDate = new DateTime(firstFlightSegment.departureTimeRaw).toDate();
+
+			FlightTripDetails lastFlightTripDetails = flightsDetailResponse.get(flightsDetailResponse.size() - 1);
+
 			if (flightSearchParams.getReturnDate() != null) {
-				int lastReturnFlightSegment = flightLegs.get(1).segments.size() - 1;
-				Date returnDate = new DateTime(flightLegs.get(1).segments.get(lastReturnFlightSegment).departureTimeRaw).toDate();
+				int lastReturnFlightSegment = lastFlightTripDetails.getLegs().get(1).segments.size() - 1;
+				Date returnDate = new DateTime(lastFlightTripDetails.getLegs().get(1).segments.get(lastReturnFlightSegment).departureTimeRaw).toDate();
 				event.withDate2(returnDate);
 			}
 			withTuidAndMembership(event)
