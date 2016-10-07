@@ -287,7 +287,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
         vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
-        vm.discountPercentageObservable.subscribeText(discountPercentage)
+        vm.discountPercentageObservable.subscribe { discountPercentageTextAndContentDescPair ->
+            discountPercentage.text = discountPercentageTextAndContentDescPair.first
+            discountPercentage.contentDescription = discountPercentageTextAndContentDescPair.second
+        }
         vm.discountPercentageBackgroundObservable.subscribeBackgroundResource(discountPercentage)
         vm.showDiscountPercentageObservable.subscribeVisibility(discountPercentage)
         vm.showAirAttachSWPImageObservable.subscribeVisibility(airAttachSWPImage)
