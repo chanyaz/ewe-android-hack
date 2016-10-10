@@ -570,6 +570,7 @@ class HotelDetailsTest {
     }
 
     private fun testDefaultDetailView() {
+        Assert.assertEquals("5 stars", vm.hotelRatingContentDescriptionObservable.value)
         Assert.assertEquals(View.GONE, hotelDetailView.changeDatesButton.visibility)
         Assert.assertEquals(View.GONE, hotelDetailView.detailsSoldOut.visibility)
         Assert.assertEquals(ContextCompat.getColor(activity.applicationContext, R.color.hotelsv2_detail_star_color), hotelDetailView.hotelDetailsToolbar.toolBarRating.getStarColor())

@@ -80,6 +80,10 @@ fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?) {
     this.subscribe { textview?.text = it }
 }
 
+fun Observable<String>.subscribeContentDescription(view: View?) {
+    this.subscribe { view?.contentDescription = it }
+}
+
 fun <T : CharSequence> Observable<T>.subscribeEditText(edittext: EditText?) {
     this.subscribe { text ->
         edittext?.setText(text)
