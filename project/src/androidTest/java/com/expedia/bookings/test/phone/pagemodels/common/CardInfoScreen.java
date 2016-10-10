@@ -15,6 +15,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static org.hamcrest.CoreMatchers.not;
 
 public class CardInfoScreen {
 	private static final int CREDIT_CARD_NUMBER_EDIT_TEXT_ID = R.id.edit_creditcard_number;
@@ -156,5 +157,9 @@ public class CardInfoScreen {
 		onView(withId(R.id.card_processing_fee)).perform(ViewActions.waitForViewToDisplay())
 			.check(ViewAssertions.matches(isDisplayed()))
 			.check(ViewAssertions.matches(withText(warningText)));
+	}
+
+	public static void assertPaymentFormCardFeeWarningNotShown() {
+		onView(withId(R.id.card_processing_fee)).check(ViewAssertions.matches(not(isDisplayed())));
 	}
 }
