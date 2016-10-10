@@ -390,11 +390,11 @@ public class OmnitureTracking {
 
 	}
 
-	public static void trackHotelV2FavoriteClick(String hotelId, Boolean favorite, int parent) {
+	public static void trackHotelFavoriteClick(String hotelId, Boolean favorite, HotelTracking.PageName page) {
 		Log.d(TAG, "Tracking \"" + HOTELS_FAVORITE_CLICK + "\" click...");
 
 		String event = (favorite) ? HOTELS_FAVORITE_CLICK : HOTELS_UNFAVORITE_CLICK;
-		String pageName = (parent == R.id.hotel_cell_heart_container) ? PAGE_NAME_HOTEL_SEARCH : HOTELSV2_DETAILS_PAGE;
+		String pageName = (page == HotelTracking.PageName.SEARCH_RESULT) ? PAGE_NAME_HOTEL_SEARCH : HOTELSV2_DETAILS_PAGE;
 		ADMS_Measurement s = createTrackLinkEvent(event);
 		s.setProducts(String.format(";Hotel:%s;;", hotelId));
 		s.setEvents((favorite) ? "event214" : "event215");

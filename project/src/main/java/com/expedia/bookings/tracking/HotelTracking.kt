@@ -10,7 +10,12 @@ import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.utils.LeanPlumUtils
 import com.expedia.bookings.utils.TuneUtils
 
-class HotelTracking {
+open class HotelTracking {
+
+    enum class PageName {
+        SEARCH_RESULT,
+        INFOSITE
+    }
 
     fun trackHotelSearchBox(swpIsVisibleAndToggleIsOn: Boolean) {
         OmnitureTracking.trackHotelV2SearchBox(swpIsVisibleAndToggleIsOn)
@@ -328,7 +333,7 @@ class HotelTracking {
         OmnitureTracking.trackPayWithPointsError(error.errorMessage)
     }
 
-    fun trackHotelV2FavoriteClick(hotelId: String, parent: Int, favorite: Boolean) {
-        OmnitureTracking.trackHotelV2FavoriteClick(hotelId, favorite, parent)
+    open fun trackHotelFavoriteClick(hotelId: String, favorite: Boolean, page: PageName) {
+        OmnitureTracking.trackHotelFavoriteClick(hotelId, favorite, page)
     }
 }
