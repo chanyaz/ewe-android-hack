@@ -306,7 +306,7 @@
                 </LinearLayout>
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/vip_badge"
+                    android:id="@+id/option_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:focusable="true"
@@ -318,7 +318,6 @@
                     android:text="@string/vip"
                     android:textColor="@color/hotel_filter_text"
                     android:textSize="15sp"
-                    android:visibility="gone"
                     app:textStyle="medium" />
 
                 <RelativeLayout
@@ -355,10 +354,45 @@
 
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/filter_favorite_container"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?android:attr/selectableItemBackground"
+                    android:clickable="true"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    android:paddingBottom="5dp"
+                    android:paddingLeft="@dimen/lx_sort_filter_padding"
+                    android:paddingRight="@dimen/lx_sort_filter_padding"
+                    android:paddingTop="5dp">
+
+                    <CheckBox
+                        android:id="@+id/filter_hotel_favorite"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:layout_marginRight="@dimen/sort_filter_padding_checkmarks"
+                        android:clickable="false"
+                        android:gravity="center_vertical" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_toRightOf="@id/filter_hotel_favorite"
+                        android:text="@string/filter_favorites"
+                        android:textColor="@color/hotel_filter_neighborhood_text"
+                        android:textSize="15sp" />
+
+                </RelativeLayout>
+
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/amenity_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding"
                     android:paddingTop="@dimen/lx_sort_filter_padding"

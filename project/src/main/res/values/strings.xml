@@ -2902,7 +2902,7 @@
     <!-- Filter for showing only favorited hotels -->
     <string name="favorites_only">Favorites Only</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_favorites">Only Favorited Hotels</string>
+    <string name="filter_favorites">Favorited Hotels</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">At +VIP Access hotels, +silver and +gold members receive free room upgrades and other perks on availability at check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
