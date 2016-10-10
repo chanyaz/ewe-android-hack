@@ -2798,22 +2798,6 @@ public class OmnitureTracking {
 		}
 	}
 
-	public static void trackFlightConfirmationAirAttach() {
-		if (Db.getTripBucket() == null || Db.getTripBucket().getHotel() == null) {
-			return;
-		}
-
-		Rate rate = Db.getTripBucket().getHotel().getRate();
-		if (rate.isAirAttached()) {
-			ADMS_Measurement s = getFreshTrackingObject();
-			Property property = Db.getTripBucket().getHotel().getProperty();
-			addEventsAndProductsForAirAttach(s, property, "event57", "Flight:Hotel CKO X-Sell");
-			s.setEvar(28, AIR_ATTACH_ELIGIBLE);
-			s.setProp(16, AIR_ATTACH_ELIGIBLE);
-			s.trackLink(null, "o", "Checkout", null, null);
-		}
-	}
-
 	private static void internalTrackTabletCheckoutPageLoad(LineOfBusiness lob,
 		String pageNameSuffix,
 		boolean includePaymentInfo, boolean isConfirmation) {
