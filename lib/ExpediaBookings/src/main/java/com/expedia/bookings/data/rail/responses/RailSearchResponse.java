@@ -8,12 +8,14 @@ import org.jetbrains.annotations.Nullable;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.rail.RailPassenger;
 import com.expedia.bookings.utils.CollectionUtils;
+import com.expedia.bookings.utils.Strings;
 
 public class RailSearchResponse {
 
 	public List<RailPassenger> passengerList;
 	public List<RailLeg> legList;
 	public List<RailOffer> offerList;
+	public ResponseStatus responseStatus;
 
 	public List<RailOffer> findOffersForLegOption(RailLegOption legOption) {
 		List<RailOffer> offers = new ArrayList<>();
@@ -38,6 +40,11 @@ public class RailSearchResponse {
 
 		@Nullable
 		public Money cheapestInboundPrice; //Set in code when showing outbound legs
+	}
+
+	public class ResponseStatus {
+		public String status;
+		public String statusCategory;
 	}
 
 	public static class RailOffer extends BaseRailOffer {
@@ -81,5 +88,17 @@ public class RailSearchResponse {
 			return railProductList.get(0).aggregatedCarrierFareClassDisplayName +
 				railProductList.get(0).aggregatedCarrierServiceClassDisplayName + totalPrice.amount;
 		}
+	}
+
+	public boolean hasError() {
+		boolean hasError = false;
+		if (!responseStatus.status.equals(RailsApiStatusCodes.STATUS_SUCCESS)) {
+			hasError = true;
+		}
+		else if (Strings.isNotEmpty(responseStatus.statusCategory) && responseStatus.statusCategory
+			.equals(RailsApiStatusCodes.STATUS_CATEGORY_NO_PRODUCT)) {
+			hasError = true;
+		}
+		return hasError;
 	}
 }

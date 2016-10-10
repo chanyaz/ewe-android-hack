@@ -64,20 +64,22 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
     }
 
     private val BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE = { response: RailSearchResponse ->
-        val outboundLeg = response.legList[0]
-        for (legOption: RailLegOption in outboundLeg.legOptionList) {
-            for (railOffer: RailSearchResponse.RailOffer in response.offerList) {
-                val railOfferWithFareQualifiers = railOffer.railProductList.filter { !it.fareQualifierList.isEmpty() }
-                val railOfferLegListWithFareQualifiers = railOfferWithFareQualifiers.flatMap { it.legOptionIndexList }
+        if (!response.hasError()) {
+            val outboundLeg = response.legList[0]
+            for (legOption: RailLegOption in outboundLeg.legOptionList) {
+                for (railOffer: RailSearchResponse.RailOffer in response.offerList) {
+                    val railOfferWithFareQualifiers = railOffer.railProductList.filter { !it.fareQualifierList.isEmpty() }
+                    val railOfferLegListWithFareQualifiers = railOfferWithFareQualifiers.flatMap { it.legOptionIndexList }
 
-                if (railOfferLegListWithFareQualifiers.contains(legOption.legOptionIndex)) {
-                    legOption.doesAnyOfferHasFareQualifier = true
-                    break
+                    if (railOfferLegListWithFareQualifiers.contains(legOption.legOptionIndex)) {
+                        legOption.doesAnyOfferHasFareQualifier = true
+                        break
+                    }
                 }
             }
-        }
-        if (response.legList.size == 2) {
-            outboundLeg.cheapestInboundPrice = response.legList[1].cheapestPrice
+            if (response.legList.size == 2) {
+                outboundLeg.cheapestInboundPrice = response.legList[1].cheapestPrice
+            }
         }
     }
 
