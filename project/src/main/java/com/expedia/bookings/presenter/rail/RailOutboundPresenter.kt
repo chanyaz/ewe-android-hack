@@ -12,6 +12,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.utils.rail.RailConstants
 import com.expedia.bookings.widget.rail.RailResultsAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
@@ -29,7 +30,7 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
     var viewmodel: RailOutboundResultsViewModel by notNullAndObservable { vm ->
         vm.railResultsObservable.subscribe { response ->
-            adapter.legSubject.onNext(response.legList[0])
+            adapter.legSubject.onNext(response.findLegWithBoundOrder(RailConstants.OUTBOUND_BOUND_ORDER))
         }
 
         vm.showChildrenWarningObservable.subscribeVisibility(childWarning)

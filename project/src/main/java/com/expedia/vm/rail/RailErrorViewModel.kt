@@ -4,11 +4,9 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
-import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.RailUtils
+import com.expedia.bookings.utils.rail.RailUtils
 import com.expedia.util.endlessObserver
 import com.expedia.vm.AbstractErrorViewModel
-import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.PublishSubject
 

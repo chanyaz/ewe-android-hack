@@ -1,9 +1,10 @@
-package com.expedia.bookings.utils
+package com.expedia.bookings.utils.rail
 
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.utils.DateFormatUtils
 import com.squareup.phrase.Phrase
 
 object RailUtils {

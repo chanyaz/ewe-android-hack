@@ -38,8 +38,21 @@ public class RailSearchResponse {
 		return hasWarnings() && responseStatus.getWarningByCode("WARN0001") != null;
 	}
 
+	@Nullable
+	public RailLeg findLegWithBoundOrder(Integer legBoundOrder) {
+		for (RailLeg railLeg: legList) {
+			if (railLeg.legBoundOrder.equals(legBoundOrder)) {
+				return railLeg;
+			}
+		}
+		return null;
+	}
+
+	public boolean hasInbound() {
+		return legList.size() == 2;
+	}
+
 	public static class RailLeg {
-		public Integer legIndex;
 		public Integer legBoundOrder;
 		public RailStation departureStation;
 		public RailStation arrivalStation;
