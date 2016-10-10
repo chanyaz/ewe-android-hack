@@ -501,7 +501,7 @@
     <!-- Cost summary breakdown -->
     <color name="cost_summary_breakdown_line_separator_color">@color/gray4</color>
     <color name="cost_summary_breakdown_savings_cost_color">@color/green_savings</color>
-    <color name="cost_summary_breakdown_text_color">@color/gray5</color>
+    <color name="cost_summary_breakdown_text_color">@color/gray6</color>
     <color name="cost_summary_breakdown_total_cost_color">@color/gray3</color>
 
     <!-- Preferences Activity -->
