@@ -13,7 +13,7 @@ class FlightCheckoutResponse() : FlightCreateTripResponse() {
         lateinit var flightsDetailResponse: List<FlightTripDetails>
     }
 
-    lateinit var flightAggregatedResponse: FlightAggregatedResponse
+    var flightAggregatedResponse: FlightAggregatedResponse? = null
 
     val currencyCode: String? = null
     val orderId: String? = null
@@ -36,4 +36,37 @@ class FlightCheckoutResponse() : FlightCreateTripResponse() {
             }
         }
     }
+
+    /**
+     * This method's been created because the aggregated response tag is missing in case of price change.
+     * Every other time, we should be relying on aggregated response to give us the flight trip details
+     */
+    fun getFirstFlightTripDetails(): FlightTripDetails {
+        val flightsDetailResponse = flightAggregatedResponse?.flightsDetailResponse
+        return if (flightsDetailResponse != null) flightsDetailResponse[0] else details
+    }
+
+    /**
+     * This method's been created because the aggregated response tag is missing in case of price change.
+     * Every other time, we should be relying on aggregated response to give us the flight trip details
+     */
+    fun getLastFlightTripDetails(): FlightTripDetails {
+        val flightsDetailResponse = flightAggregatedResponse?.flightsDetailResponse
+        return if (flightsDetailResponse != null) flightsDetailResponse[flightsDetailResponse.size - 1] else details
+    }
+
+    fun getLastFlightLeg(): FlightLeg {
+        val legs = getLastFlightTripDetails().legs
+        return legs[legs.size - 1]
+    }
+
+    override fun getOffer(): FlightTripDetails.FlightOffer {
+        return getFirstFlightTripDetails().offer
+    }
+
+    fun getLastFlightLastSegment(): FlightLeg.FlightSegment {
+        val segments = getLastFlightLeg().segments
+        return segments[segments.size - 1]
+    }
+
 }

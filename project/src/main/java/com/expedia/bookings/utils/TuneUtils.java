@@ -737,9 +737,7 @@ public class TuneUtils {
 			double totalPrice = flightCheckoutResponse.getTotalChargesPrice().amount.doubleValue();
 			int totalGuests = flightSearchParams.getGuests();
 			double averagePrice = totalPrice/totalGuests;
-			List<FlightTripDetails> flightsDetailResponse = flightCheckoutResponse.getFlightAggregatedResponse()
-				.getFlightsDetailResponse();
-			FlightTripDetails firstFlightTripDetails = flightsDetailResponse.get(0);
+			FlightTripDetails firstFlightTripDetails = flightCheckoutResponse.getFirstFlightTripDetails();
 			FlightLeg.FlightSegment firstFlightSegment = firstFlightTripDetails.getLegs().get(0).segments.get(0);
 			eventItem.withQuantity(totalGuests)
 				.withRevenue(totalPrice)
@@ -751,11 +749,9 @@ public class TuneUtils {
 
 			Date departureDate = new DateTime(firstFlightSegment.departureTimeRaw).toDate();
 
-			FlightTripDetails lastFlightTripDetails = flightsDetailResponse.get(flightsDetailResponse.size() - 1);
-
 			if (flightSearchParams.getReturnDate() != null) {
-				int lastReturnFlightSegment = lastFlightTripDetails.getLegs().get(1).segments.size() - 1;
-				Date returnDate = new DateTime(lastFlightTripDetails.getLegs().get(1).segments.get(lastReturnFlightSegment).departureTimeRaw).toDate();
+				FlightLeg.FlightSegment lastFlightSegment = flightCheckoutResponse.getLastFlightLastSegment();
+				Date returnDate = new DateTime(lastFlightSegment.departureTimeRaw).toDate();
 				event.withDate2(returnDate);
 			}
 			withTuidAndMembership(event)

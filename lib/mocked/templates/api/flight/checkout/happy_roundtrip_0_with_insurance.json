@@ -356,26 +356,6 @@
             },
             "displayPriceType": "PRICE_PER_DAY"
           },
-          "selectedInsuranceProduct": {
-            "name": "Expedia StressFree&trade; Flight Protection",
-            "productId": "3944aab5-90cf-4a03-b7f3-edff4b76c302",
-            "typeId": "100001",
-            "businessType": "Merchant Insurance",
-            "policyNumber": "",
-            "totalPrice": {
-              "amount": "19.00",
-              "formattedPrice": "$19.00",
-              "formattedWholePrice": "$19",
-              "currencyCode": "USD"
-            },
-            "displayPrice": {
-              "amount": "19.00",
-              "formattedPrice": "$19.00",
-              "formattedWholePrice": "$19",
-              "currencyCode": "USD"
-            },
-            "displayPriceType": "PRICE_PER_DAY"
-          },
           "airFulfillmentMethod": [
             "ETicket"
           ]
