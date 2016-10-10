@@ -26,12 +26,13 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
-    val legOptionListSubject = BehaviorSubject.create<List<RailLegOption>>()
+    val legSubject = BehaviorSubject.create<RailSearchResponse.RailLeg>()
     val directionHeaderSubject = BehaviorSubject.create<CharSequence>()
     val priceHeaderSubject = BehaviorSubject.create<CharSequence>()
     private val numHeaderItemsInRailsList = 1
     private val NUMBER_LOADING_TILES = 5
 
+    private lateinit var railLeg: RailSearchResponse.RailLeg
     private var legs: List<RailLegOption> = emptyList()
 
     enum class ViewTypes {
@@ -41,9 +42,10 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     }
 
     init {
-        legOptionListSubject.subscribe { legOptionsList ->
+        legSubject.subscribe { leg ->
             loading = false
-            legs = legOptionsList
+            railLeg = leg
+            legs = railLeg.legOptionList
             notifyDataSetChanged()
         }
         loadingSubject.subscribe {
@@ -135,6 +137,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
             viewModel.formattedStopsAndDurationObservable.subscribeText(durationTextView)
             viewModel.railCardAppliedObservable.subscribeVisibility(railCardImage)
             viewModel.legOptionObservable.onNext(leg)
+            viewModel.cheapestLegPriceObservable.onNext(railLeg.cheapestInboundPrice)
             timesView.text = DateTimeUtils.formatInterval(context, leg.getDepartureDateTime(), leg.getArrivalDateTime())
             operatorTextView.text = leg.aggregatedOperatingCarrier
             timelineView.updateLeg(leg)

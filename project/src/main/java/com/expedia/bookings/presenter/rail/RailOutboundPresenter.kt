@@ -25,8 +25,8 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val legSelectedSubject = PublishSubject.create<RailLegOption>()
 
     var viewmodel: RailOutboundResultsViewModel by notNullAndObservable { vm ->
-        vm.railResultsObservable.subscribe {
-            adapter.legOptionListSubject.onNext(it.legList[0].legOptionList)
+        vm.railResultsObservable.subscribe { response ->
+            adapter.legSubject.onNext(response.legList[0])
         }
 
         vm.titleSubject.subscribe {

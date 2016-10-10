@@ -4,11 +4,9 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
@@ -17,7 +15,7 @@ import kotlin.test.assertTrue
 class RailFareOptionViewModelTest {
 
     @Test
-    fun testFareOptionDetails() {
+    fun testOneWayFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel()
 
         val testPriceSubscriber = TestSubscriber<String>()
@@ -31,10 +29,23 @@ class RailFareOptionViewModelTest {
         railFareOptionViewModel.railCardAppliedObservable.subscribe(testRailCardAppliedSubscriber)
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
+        railFareOptionViewModel.cheapestPriceSubject.onNext(null)
         assertEquals("$10", testPriceSubscriber.onNextEvents[0])
         assertEquals("Fare class", testFareTitleSubscriber.onNextEvents[0])
         assertEquals("Fare Description", testFareDescriptionSubscriber.onNextEvents[0])
         assertTrue(testRailCardAppliedSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testRoundTripFareOptionDetails() {
+        val railFareOptionViewModel = RailFareOptionViewModel()
+
+        val testPriceSubscriber = TestSubscriber<String>()
+        railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
+
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
+        railFareOptionViewModel.cheapestPriceSubject.onNext(Money("15", "USD"))
+        assertEquals("$25", testPriceSubscriber.onNextEvents[0])
     }
 
     @Test

@@ -64,7 +64,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     val legOptionSelectedObserver: Observer<RailLegOption> = endlessObserver { selectedLegOption ->
         transitionToDetails()
-        detailsPresenter.viewModel.railLegSubject.onNext(selectedLegOption)
+        detailsPresenter.viewModel.railLegOptionSubject.onNext(selectedLegOption)
         tripOverviewPresenter.tripSummaryViewModel.railLegObserver.onNext(selectedLegOption)
     }
 

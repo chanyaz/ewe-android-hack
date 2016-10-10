@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
 
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.rail.RailPassenger;
 import com.expedia.bookings.utils.CollectionUtils;
 
@@ -32,6 +33,10 @@ public class RailSearchResponse {
 		public RailStation departureStation;
 		public RailStation arrivalStation;
 		public List<RailLegOption> legOptionList;
+		public Money cheapestPrice;
+
+		@Nullable
+		public Money cheapestInboundPrice; //Set in code when showing outbound legs
 	}
 
 	public static class RailOffer extends BaseRailOffer {

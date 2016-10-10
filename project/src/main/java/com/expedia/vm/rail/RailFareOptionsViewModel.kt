@@ -1,12 +1,13 @@
 package com.expedia.vm.rail
 
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class RailFareOptionsViewModel {
     //inputs
-    val railOffersSubject = BehaviorSubject.create<List<RailSearchResponse.RailOffer>>()
+    val railOffersPairSubject = BehaviorSubject.create<Pair<List<RailSearchResponse.RailOffer>, Money?>>()
 
     //outputs
     val offerSelectedSubject = PublishSubject.create<RailSearchResponse.RailOffer>()

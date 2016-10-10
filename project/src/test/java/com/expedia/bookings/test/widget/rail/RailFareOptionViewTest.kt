@@ -8,7 +8,6 @@ import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.rail.RailFareOptionView
-import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -25,18 +24,34 @@ class RailFareOptionViewTest {
     }
 
     @Test
-    fun testRailFareOptionDisplayed() {
+    fun testOneWayRailFareOptionDisplayed() {
         val railFareOptionViewModel = RailFareOptionViewModel()
 
         val railFareOptionView = RailFareOptionView(getContext())
         railFareOptionView.viewModel = railFareOptionViewModel
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
+        railFareOptionViewModel.cheapestPriceSubject.onNext(null)
 
         assertEquals("$10", railFareOptionView.priceView.text)
         assertEquals("Fare class", railFareOptionView.fareTitle.text)
         assertEquals("Fare Description", railFareOptionView.fareDescription.text)
         assertEquals(View.VISIBLE, railFareOptionView.railCardImage.visibility)
+    }
+
+    @Test
+    fun testRoundTripRailFareOptionDisplayed() {
+        val railFareOptionViewModel = RailFareOptionViewModel()
+
+        val railFareOptionView = RailFareOptionView(getContext())
+        railFareOptionView.viewModel = railFareOptionViewModel
+
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
+        railFareOptionViewModel.cheapestPriceSubject.onNext(Money("15", "USD"))
+
+        assertEquals("$25", railFareOptionView.priceView.text)
+        assertEquals("Fare class", railFareOptionView.fareTitle.text)
+        assertEquals("Fare Description", railFareOptionView.fareDescription.text)
     }
 
     @Test
