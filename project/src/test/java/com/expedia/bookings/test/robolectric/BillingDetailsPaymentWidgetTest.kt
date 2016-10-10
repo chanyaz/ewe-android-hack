@@ -80,6 +80,27 @@ class BillingDetailsPaymentWidgetTest {
 
         assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
     }
+    
+    @Test
+    fun testFocusValidation() {
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
+        Db.getTripBucket().clear(LineOfBusiness.PACKAGES)
+
+        assertEquals(null, billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2])
+        assertEquals(R.drawable.material_dropdown, Shadows.shadowOf(billingDetailsPaymentWidget.expirationDate.compoundDrawables[2]).createdFromResId)
+        assertEquals(null, billingDetailsPaymentWidget.creditCardCvv.compoundDrawables[2])
+        assertEquals(null, billingDetailsPaymentWidget.creditCardName.compoundDrawables[2])
+
+        billingDetailsPaymentWidget.creditCardNumber.requestFocus()
+        billingDetailsPaymentWidget.expirationDate.requestFocus()
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
+        billingDetailsPaymentWidget.creditCardCvv.requestFocus()
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.expirationDate.compoundDrawables[2]).createdFromResId)
+        billingDetailsPaymentWidget.addressLineOne.requestFocus()
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardCvv.compoundDrawables[2]).createdFromResId)
+    }
 
     @Test
     fun testAmexSecurityCodeValidator() {

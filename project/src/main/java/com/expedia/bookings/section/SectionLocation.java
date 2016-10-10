@@ -120,6 +120,10 @@ public class SectionLocation extends LinearLayout
 		return mFields.hasValidInput();
 	}
 
+	public boolean validateField(int fieldId) {
+		return mFields.hasValidInput(fieldId);
+	}
+
 	public void resetValidation() {
 		mFields.setValidationIndicatorState(true);
 	}

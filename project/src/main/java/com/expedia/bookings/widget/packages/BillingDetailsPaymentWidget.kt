@@ -13,7 +13,6 @@ import com.expedia.bookings.widget.MaskedCreditCardEditText
 import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import com.expedia.bookings.widget.accessibility.AccessibleTextViewForSpinner
 import com.expedia.bookings.widget.rail.CreditCardFeesView
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextChange
@@ -27,7 +26,6 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     val addressLineTwo: AccessibleEditText by bindView(R.id.edit_address_line_two)
     val addressCity: AccessibleEditText by bindView(R.id.edit_address_city)
     val addressState: AccessibleEditText by bindView(R.id.edit_address_state)
-    val expirationDate: AccessibleTextViewForSpinner by bindView(R.id.edit_creditcard_exp_text_btn)
     val creditCardFeeDisclaimer: TextView by bindView(R.id.card_fee_disclaimer)
 
     val creditCardFeesView = CreditCardFeesView(context, null)
