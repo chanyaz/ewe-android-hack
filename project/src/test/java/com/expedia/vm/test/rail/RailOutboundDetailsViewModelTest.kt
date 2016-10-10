@@ -6,7 +6,7 @@ import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
-import com.expedia.vm.rail.RailDetailsViewModel
+import com.expedia.vm.rail.RailOutboundDetailsViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -17,9 +17,8 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-class RailDetailsViewModelTest {
-
-    val viewModel = RailDetailsViewModel(RuntimeEnvironment.application)
+class RailOutboundDetailsViewModelTest {
+    val viewModel = RailOutboundDetailsViewModel(RuntimeEnvironment.application)
 
     @Test
     fun testOvertaken() {

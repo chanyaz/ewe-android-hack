@@ -3,7 +3,7 @@ package com.expedia.vm.rail
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
-import com.expedia.bookings.utils.RailUtils
+import com.expedia.bookings.utils.rail.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject

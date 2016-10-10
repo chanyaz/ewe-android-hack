@@ -5,13 +5,13 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
-import com.expedia.bookings.utils.RailUtils
+import com.expedia.bookings.utils.rail.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-class RailDetailsViewModel(val context: Context) {
+abstract class BaseRailDetailsViewModel (val context: Context) {
     val railResultsObservable = BehaviorSubject.create<RailSearchResponse>()
 
     val offerSelectedObservable = PublishSubject.create<RailOffer>()
@@ -38,14 +38,11 @@ class RailDetailsViewModel(val context: Context) {
 
             // for open return display one instance of fare class
             val filteredOffers = filterOpenReturnFareOptions(railResultsObservable.value.findOffersForLegOption(railLegOption))
-            railOffersPairSubject.onNext(Pair(filteredOffers, getCompareToPrice()))
+            railOffersPairSubject.onNext(Pair(filteredOffers, getComparePrice()))
         }
     }
 
-    //TODO for now it's hardcoded to handle just outbounds. There's another story to handle inbound delta pricing
-    private fun getCompareToPrice(): Money? {
-        if (railResultsObservable.value.legList.size == 2) return railResultsObservable.value.legList[1].cheapestPrice else return null
-    }
+    protected abstract fun getComparePrice() : Money?
 
     private fun filterOpenReturnFareOptions(railOffers: List<RailSearchResponse.RailOffer>): List<RailSearchResponse.RailOffer> {
         val fareServiceKeys = ArrayList<String>()

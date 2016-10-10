@@ -3,9 +3,7 @@ package com.expedia.vm.rail
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
-import com.expedia.bookings.utils.DateFormatUtils
-import com.expedia.bookings.utils.RailUtils
-import com.squareup.phrase.Phrase
+import com.expedia.bookings.utils.rail.RailUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 

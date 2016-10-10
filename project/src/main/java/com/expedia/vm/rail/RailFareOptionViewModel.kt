@@ -2,7 +2,7 @@ package com.expedia.vm.rail
 
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.utils.RailUtils
+import com.expedia.bookings.utils.rail.RailUtils
 import rx.subjects.PublishSubject
 
 class RailFareOptionViewModel {

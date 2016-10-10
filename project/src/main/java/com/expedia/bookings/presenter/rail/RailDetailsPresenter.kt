@@ -15,10 +15,10 @@ import com.expedia.bookings.widget.rail.RailDetailsTimeline
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.rail.RailDetailsViewModel
+import com.expedia.vm.rail.BaseRailDetailsViewModel
 import com.expedia.vm.rail.RailFareOptionsViewModel
 
-class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+open class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.rail_details_toolbar)
     val timeline: RailDetailsTimeline by bindView(R.id.details_timeline)
     val fareOptionsView: RailDetailsFareOptionsView by bindView(R.id.details_fare_options)
@@ -29,7 +29,7 @@ class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
 
     private val fareOptionsViewModel = RailFareOptionsViewModel()
 
-    var viewModel: RailDetailsViewModel by notNullAndObservable { detailsVM ->
+    var viewModel: BaseRailDetailsViewModel by notNullAndObservable { detailsVM ->
         detailsVM.formattedTimeIntervalSubject.subscribeText(timeRangeTextView)
         detailsVM.formattedLegInfoSubject.subscribeText(infoLine)
         detailsVM.overtaken.subscribeVisibility(overtakenMessage)
