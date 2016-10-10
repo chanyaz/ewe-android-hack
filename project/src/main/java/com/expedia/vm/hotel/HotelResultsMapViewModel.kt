@@ -78,7 +78,7 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
     }
 
     private fun getHotelWithMarker(marker: MapItem?): Hotel {
-        val hotelId = marker?.title
+        val hotelId = marker?.hotel?.hotelId
         val hotel = hotels.filter { it.hotelId == hotelId }.first()
         return hotel
     }

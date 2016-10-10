@@ -34,6 +34,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
+import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
@@ -43,6 +44,7 @@ class HotelCellViewFavoriteTest {
     private var hotelViewHolder: HotelCellViewHolder by Delegates.notNull()
     private var activity: Activity by Delegates.notNull()
     private var pref: SharedPreferences by Delegates.notNull()
+    private val hotelFavoriteChange = PublishSubject.create<Pair<String, Boolean>>()
 
     private fun getContext(): Context {
         return RuntimeEnvironment.application
@@ -53,7 +55,7 @@ class HotelCellViewFavoriteTest {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_Hotels)
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.hotel_cell, null, false) as ViewGroup
-        hotelViewHolder = HotelCellViewHolder(hotelCellView, 200)
+        hotelViewHolder = HotelCellViewHolder(hotelCellView, 200, hotelFavoriteChange)
         pref = PreferenceManager.getDefaultSharedPreferences(getContext())
     }
 

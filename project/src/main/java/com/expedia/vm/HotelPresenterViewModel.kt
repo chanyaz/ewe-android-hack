@@ -5,6 +5,7 @@ import com.expedia.vm.hotel.HotelDetailViewModel
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
 
 class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, checkoutViewModel: HotelCheckoutViewModel, detailViewModel: BaseHotelDetailViewModel) {
@@ -21,6 +22,8 @@ class HotelPresenterViewModel(createTripViewModel: HotelCreateTripViewModel, che
             hotel.hotelId
         }
     })
+
+    val hotelFavoriteChange = PublishSubject.create<Pair<String, Boolean>>()
 
     init {
         Observable.merge(createTripViewModel.errorObservable

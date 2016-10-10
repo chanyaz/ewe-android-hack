@@ -1,18 +1,18 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.tracking.HotelTracking;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.data.hotels.Hotel;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 
 public class HotelFavoriteHelper {
 
@@ -42,11 +42,6 @@ public class HotelFavoriteHelper {
 			saveHotelToFavorites(context, hotelId);
 		}
 	}
-
-	public static void trackToggleHotelFavoriteState(Context context, String hotelId, int parent) {
-		new HotelTracking().trackHotelV2FavoriteClick(hotelId, parent, isHotelFavorite(context, hotelId));
-	}
-
 
 	public static boolean showHotelFavoriteTest(Context context) {
 		return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelFavoriteTest,
