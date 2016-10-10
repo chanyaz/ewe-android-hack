@@ -176,7 +176,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			}
 		});
 
-		TestSubscriber testSubscriber = new TestSubscriber(1);
+		TestSubscriber testSubscriber = new TestSubscriber();
 		testTravelerPresenter.getToolbarTitleSubject().subscribe(testSubscriber);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);

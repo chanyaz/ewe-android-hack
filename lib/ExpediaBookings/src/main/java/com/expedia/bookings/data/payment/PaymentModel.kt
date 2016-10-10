@@ -4,7 +4,6 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.services.LoyaltyServices
-import com.expedia.bookings.utils.withLatestFrom
 import rx.Observable
 import rx.Observer
 import rx.Subscriber
