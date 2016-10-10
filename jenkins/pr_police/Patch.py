@@ -3,11 +3,19 @@ from Line import *
 
 class PatchBlockMetaData:
 	def __init__(self, patchLine):
+		# Expect one of two formats:
+		#   @@ -a,b +c,d @@
+		#   @@ -a +c @@
 		metaData = re.findall('\d+', patchLine)	
-		self.lineNumberBeforeModification = int(metaData[0]) 
-		self.numberOfLinesInBlockBeforeModification = int(metaData[1])
-		self.lineNumberAfterModification = int(metaData[2])
-		self.numberOfLinesInBlockAfterModification = int(metaData[3]) if len(metaData) == 4 else int(metaData[2])
+		self.lineNumberBeforeModification = int(metaData[0])
+		if len(metaData) == 4:
+			self.numberOfLinesInBlockBeforeModification = int(metaData[1])
+			self.lineNumberAfterModification = int(metaData[2])
+			self.numberOfLinesInBlockAfterModification = int(metaData[3])
+		else:
+			self.lineNumberAfterModification = int(metaData[1])
+			self.numberOfLinesInBlockBeforeModification = 1
+			self.numberOfLinesInBlockAfterModification = 1
 
 class Patch:
 
