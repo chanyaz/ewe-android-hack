@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.rail
 
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
@@ -37,6 +38,7 @@ class RailConfirmationPresenter(context: Context, attrs: AttributeSet?) : Presen
     init {
         View.inflate(context, R.layout.rail_confirmation_presenter, this)
 
+        viewItinButton.setBackgroundColor(ContextCompat.getColor(context, R.color.rail_primary_color))
         viewItinButton.setOnClickListener {
             (context as AppCompatActivity).finish()
             NavUtils.goToItin(context)
