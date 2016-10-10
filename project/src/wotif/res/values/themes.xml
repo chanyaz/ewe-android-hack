@@ -83,7 +83,6 @@
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_wotif_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_wotif_background</item>
-        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_wotif_placeholder_cruises</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_wotif</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_wotif_placeholder_flight</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_wotif_fallback_activity</item>
@@ -108,7 +107,6 @@
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_wotif_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_wotif_background</item>
-        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_wotif_placeholder_cruises</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_wotif</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_wotif_placeholder_flight</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_wotif_fallback_activity</item>

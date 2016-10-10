@@ -108,7 +108,6 @@
     <!-- Itin placeholder drawables -->
     <attr name="skin_itinActivityPlaceholderDrawable" format="reference" />
     <attr name="skin_itinCarPlaceholderDrawable" format="reference" />
-    <attr name="skin_itinCruisePlaceholderDrawable" format="reference" />
     <attr name="skin_itinHotelPlaceholderDrawable" format="reference" />
     <attr name="skin_itinFlightPlaceholderDrawable" format="reference" />
     <attr name="skin_itinDefaultPlaceholderDrawable" format="reference" />
