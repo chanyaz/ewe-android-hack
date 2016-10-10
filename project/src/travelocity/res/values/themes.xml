@@ -68,7 +68,6 @@
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_travelocity_background</item>
-        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_cruises</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_travelocity_placeholder_flight</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
@@ -96,7 +95,6 @@
         <item name="android:dropDownListViewStyle">@style/Widget.ListView.DropDown.TVLY</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_travelocity_background</item>
-        <item name="skin_itinCruisePlaceholderDrawable">@drawable/itin_header_travelocity_placeholder_cruises</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_travelocity</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_travelocity_placeholder_flight</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_travelocity_fallback_activity</item>
