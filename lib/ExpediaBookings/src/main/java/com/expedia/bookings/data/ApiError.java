@@ -76,7 +76,9 @@ public class ApiError extends RuntimeException {
 		FLIGHT_SEARCH_NO_RESULTS,
 
 		//Rail errors
-		RAIL_PRODUCT_LOOKUP_ERROR
+		RAIL_PRODUCT_LOOKUP_ERROR,
+		// This is not returned by the rails domain API but set manually.
+		RAIL_SEARCH_NO_RESULTS
 	}
 
 	public enum DetailCode {

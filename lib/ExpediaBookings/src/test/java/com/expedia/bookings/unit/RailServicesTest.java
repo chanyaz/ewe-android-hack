@@ -24,6 +24,7 @@ import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
 import com.expedia.bookings.data.rail.responses.RailProduct;
 import com.expedia.bookings.data.rail.responses.RailSearchResponse;
+import com.expedia.bookings.data.rail.responses.RailsApiStatusCodes;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.RailServices;
 import com.expedia.bookings.utils.Constants;
@@ -76,7 +77,7 @@ public class RailServicesTest {
 
 	@Test
 	public void happyMockSearch() {
-		givenHappySearchRequest();
+		givenSearchRequest("happy");
 
 		service.railSearch(railSearchRequest, searchResponseObserver);
 		searchResponseObserver.awaitTerminalEvent();
@@ -104,6 +105,37 @@ public class RailServicesTest {
 		assertTrue(railSearchResponse.legList.get(0).legOptionList.get(0).doesAnyOfferHasFareQualifier);
 		assertTrue(railSearchResponse.legList.get(0).legOptionList.get(1).doesAnyOfferHasFareQualifier);
 		assertFalse(railSearchResponse.legList.get(0).legOptionList.get(2).doesAnyOfferHasFareQualifier);
+		assertEquals(RailsApiStatusCodes.STATUS_SUCCESS, railSearchResponse.responseStatus.status);
+	}
+
+	@Test
+	public void noSearchResults() {
+		givenSearchRequest("no_search_results");
+		service.railSearch(railSearchRequest, searchResponseObserver);
+
+		searchResponseObserver.awaitTerminalEvent();
+
+		searchResponseObserver.assertCompleted();
+		searchResponseObserver.assertValueCount(1);
+		RailSearchResponse railSearchResponse = searchResponseObserver.getOnNextEvents().get(0);
+
+		assertTrue(railSearchResponse.hasError());
+		assertEquals(RailsApiStatusCodes.STATUS_SUCCESS, railSearchResponse.responseStatus.status);
+		assertEquals(RailsApiStatusCodes.STATUS_CATEGORY_NO_PRODUCT, railSearchResponse.responseStatus.statusCategory);
+	}
+
+	@Test
+	public void otherSearchErrors() {
+		givenSearchRequest("validation_error");
+		service.railSearch(railSearchRequest, searchResponseObserver);
+
+		searchResponseObserver.awaitTerminalEvent();
+
+		searchResponseObserver.assertCompleted();
+		searchResponseObserver.assertValueCount(1);
+		RailSearchResponse railSearchResponse = searchResponseObserver.getOnNextEvents().get(0);
+
+		assertTrue(railSearchResponse.hasError());
 	}
 
 	@Test
@@ -181,12 +213,13 @@ public class RailServicesTest {
 		assertEquals("£2.90", cardFeeResponse.feePrice.formattedPrice);
 	}
 
-	private void givenHappySearchRequest() {
+	private void givenSearchRequest(String clientCode) {
 		SuggestionV4 origin = new SuggestionV4();
 		SuggestionV4 destination = new SuggestionV4();
 		DateTime startDateTime = DateTime.now().plusDays(1);
 		LocalDate startDate = startDateTime.toLocalDate();
 		Integer startTime = startDateTime.toLocalTime().getMillisOfDay();
 		railSearchRequest = new RailApiSearchModel(origin, destination, startDate, null, startTime, null, false, 0, Collections.<Integer>emptyList(), Collections.<Integer>emptyList(), Collections.<Integer>emptyList(), Collections.<RailCard>emptyList());
+		railSearchRequest.setClientCode(clientCode);
 	}
 }

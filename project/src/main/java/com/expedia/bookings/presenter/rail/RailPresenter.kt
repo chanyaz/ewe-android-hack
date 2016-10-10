@@ -10,6 +10,7 @@ import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.presenter.packages.PackageErrorPresenter
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -22,6 +23,7 @@ import com.expedia.vm.rail.RailCheckoutOverviewViewModel
 import com.expedia.vm.rail.RailConfirmationViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
 import com.expedia.vm.rail.RailDetailsViewModel
+import com.expedia.vm.rail.RailErrorViewModel
 import com.expedia.vm.rail.RailSearchViewModel
 import rx.Observer
 import javax.inject.Inject
@@ -40,6 +42,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     val tripOverviewPresenter: RailTripOverviewPresenter by bindView(R.id.widget_rail_trip_overview_presenter)
     val railCheckoutPresenter: RailCheckoutPresenter by bindView(R.id.widget_rail_checkout_presenter)
     val confirmationPresenter: RailConfirmationPresenter by bindView(R.id.rail_confirmation_presenter)
+    val errorPresenter: RailErrorPresenter by bindView(R.id.widget_rail_errors)
 
     private val outboundResultsViewModel: RailOutboundResultsViewModel
     private val inboundResultsViewModel: RailInboundResultsViewModel
@@ -60,6 +63,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         transitionToOutboundResults()
         outboundPresenter.viewmodel.paramsSubject.onNext(params)
         inboundPresenter.viewmodel.paramsSubject.onNext(params)
+        errorPresenter.getViewModel().paramsSubject.onNext(params)
     }
 
     val legOptionSelectedObserver: Observer<RailLegOption> = endlessObserver { selectedLegOption ->
@@ -86,6 +90,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private val checkoutToConfirmation = LeftToRightTransition(this, RailCheckoutPresenter::class.java, RailConfirmationPresenter::class.java)
     private val detailsToAmenities = ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
     private val overviewToAmenities = ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
+    private val outboundToError = ScaleTransition(this, RailOutboundPresenter::class.java, RailErrorPresenter::class.java)
+    private val errorToSearch = ScaleTransition(this, RailErrorPresenter::class.java, RailSearchPresenter::class.java)
 
     init {
         Ui.getApplication(context).railComponent().inject(this)
@@ -103,6 +109,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         initDetailsPresenter()
         initOverviewPresenter()
         initCheckoutPresenter()
+        initErrorPresenter()
 
         show(searchPresenter)
     }
@@ -125,6 +132,13 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             detailsPresenter.viewModel.railResultsObservable.onNext(it)
         }
         outboundPresenter.legSelectedSubject.subscribe(legOptionSelectedObserver)
+        outboundPresenter.viewmodel.errorObservable.subscribe {
+            errorPresenter.viewmodel.searchApiErrorObserver.onNext(it)
+            show(errorPresenter)
+        }
+        outboundPresenter.viewmodel.noNetworkObservable.subscribe {
+            show(searchPresenter, FLAG_CLEAR_BACKSTACK)
+        }
     }
 
     private fun initInboundPresenter() {
@@ -182,6 +196,13 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         }
     }
 
+    private fun initErrorPresenter() {
+        errorPresenter.viewmodel = RailErrorViewModel(context)
+        errorPresenter.getViewModel().showSearch.subscribe { show(searchPresenter, FLAG_CLEAR_BACKSTACK) }
+        errorPresenter.getViewModel().retrySearch.subscribe { searchPresenter.searchViewModel.searchObserver.onNext(Unit) }
+        errorPresenter.getViewModel().defaultErrorObservable.subscribe { show(searchPresenter, FLAG_CLEAR_BACKSTACK) }
+    }
+
     private fun addTransitions() {
         addTransition(searchToResults)
         addTransition(resultsToDetails)
@@ -191,6 +212,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         addTransition(overviewToAmenities)
         addTransition(overviewToCheckout)
         addTransition(checkoutToConfirmation)
+        addTransition(outboundToError)
+        addTransition(errorToSearch)
     }
 
     private fun transitionToOutboundResults() {
@@ -208,5 +231,14 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private fun transitionToTripSummary() {
         tripOverviewPresenter.show(RailTripOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         show(tripOverviewPresenter)
+    }
+
+    override fun back(): Boolean {
+        if (currentState == RailErrorPresenter::class.java.name) {
+            errorPresenter.getViewModel().clickBack.onNext(Unit)
+            return true
+        }
+        return super.back()
+
     }
 }

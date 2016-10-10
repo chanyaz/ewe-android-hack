@@ -55,4 +55,11 @@
         android:inflatedId="@+id/rail_amenities_rules_widget"
         android:layout="@layout/rail_amenities_rules_stub" />
 
+    <com.expedia.bookings.presenter.rail.RailErrorPresenter
+        android:id="@+id/widget_rail_errors"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/rail_background_color"
+        android:visibility="gone"/>
+
 </merge>
