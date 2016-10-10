@@ -9,6 +9,12 @@ class FlightCheckoutResponse() : FlightCreateTripResponse() {
     @SerializedName("flightDetailResponse")
     lateinit override var details: FlightTripDetails
 
+    class FlightAggregatedResponse {
+        lateinit var flightsDetailResponse: List<FlightTripDetails>
+    }
+
+    lateinit var flightAggregatedResponse: FlightAggregatedResponse
+
     val currencyCode: String? = null
     val orderId: String? = null
     val totalChargesPrice: Money? = null

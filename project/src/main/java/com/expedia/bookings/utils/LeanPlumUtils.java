@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils;
 
 import android.app.Application;
+import com.expedia.bookings.data.flights.FlightTripDetails;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -280,14 +281,15 @@ public class LeanPlumUtils {
 
 	public static void trackFlightV2Booked(FlightCheckoutResponse flightCheckoutResponse, com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
 		if (initialized) {
-			List<com.expedia.bookings.data.flights.FlightLeg> flightLegs = flightCheckoutResponse.getDetails().legs;
+			FlightTripDetails details = flightCheckoutResponse.getFlightAggregatedResponse().getFlightsDetailResponse().get(0);
+			List<com.expedia.bookings.data.flights.FlightLeg> flightLegs = details.legs;
 			String eventName = "Sale Flight";
 			String currencyCode = flightCheckoutResponse.getCurrencyCode();
 			String totalPrice = flightCheckoutResponse.getTotalChargesPrice().amount.toString();
 			Log.i("LeanPlum flight booking event currency=" + currencyCode + " total=" + totalPrice);
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
-			int lastSegment = flightCheckoutResponse.getDetails().legs.get(0).segments.size() - 1;
-			com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress = flightCheckoutResponse.getDetails().legs.get(0).segments.get(lastSegment).arrivalAirportAddress;
+			int lastSegment = flightLegs.get(0).segments.size() - 1;
+			com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress = flightLegs.get(0).segments.get(lastSegment).arrivalAirportAddress;
 
 			addFlightV2SearchInfo(flightSearchParams, airportAddress, eventParams);
 
