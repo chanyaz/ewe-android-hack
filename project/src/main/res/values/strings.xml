@@ -4493,6 +4493,10 @@
 
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Enter Destination</string>
+    <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
+    <string name="enter_destination_cont_desc">Enter Destination. Button</string>
+    <!-- New Hotel Content description for destination entered, e.g- Destination. San Francisco, CA. Button-->
+    <string name="hotel_search_destination_cont_desc_TEMPLATE">Destination. {destination}. Button</string>
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">Flight Protection</string>

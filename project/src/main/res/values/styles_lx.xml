@@ -90,6 +90,7 @@
 
         <item name="skin_searchToolbarText">@string/lx_search_title</item>
         <item name="skin_searchLocationText">@string/location_activity_details</item>
+        <item name="skin_searchLocationContDesc">@string/location_edit_box_cont_desc</item>
         <item name="skin_searchButtonSelectorDrawable">@drawable/lx_book_now_button_selector</item>
         <item name="skin_searchButtonStyle">@style/LXSearchButtonStyle</item>
 
