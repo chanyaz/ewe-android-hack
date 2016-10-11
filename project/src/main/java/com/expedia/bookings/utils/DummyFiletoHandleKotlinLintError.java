@@ -356,6 +356,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.packages_hotels_checkmark_icon,
 		R.string.select_hotel_template,
 		R.string.searching_flight_to,
+		R.string.enter_destination_cont_desc,
+		R.string.hotel_search_destination_cont_desc_TEMPLATE,
 		R.color.white_disabled,
 		R.color.search_suggestion_v2,
 		R.color.search_suggestion_hint_v2,

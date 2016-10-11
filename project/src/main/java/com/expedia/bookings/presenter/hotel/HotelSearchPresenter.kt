@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
+import com.squareup.phrase.Phrase
 
 class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
 
@@ -36,7 +37,7 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
         vm.locationTextObservable.subscribe { locationText ->
             firstLaunch = false
-            destinationCardView.setText(locationText)
+            updateDestinationText(locationText)
             if (this.visibility == VISIBLE && vm.startDate() == null) {
                 calendarWidgetV2.showCalendarDialog()
             }
@@ -69,11 +70,18 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             com.mobiata.android.util.Ui.hideKeyboard(this)
             searchViewModel.destinationLocationObserver.onNext(suggestion)
             val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
-            destinationCardView.setText(suggestionName)
+            updateDestinationText(suggestionName)
             searchLocationEditText?.setQuery(suggestionName, false)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())
             showDefault()
         }
+    }
+
+    private fun updateDestinationText(locationText: String) {
+        destinationCardView.setText(locationText)
+        destinationCardView.contentDescription = Phrase.from(context, R.string.hotel_search_destination_cont_desc_TEMPLATE)
+                .put("destination", locationText)
+                .format().toString()
     }
 
     override fun inflate() {
