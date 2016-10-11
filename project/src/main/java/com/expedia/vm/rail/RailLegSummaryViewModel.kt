@@ -3,7 +3,7 @@ package com.expedia.vm.rail
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
-import com.expedia.bookings.widget.RailViewModel
+import com.expedia.bookings.utils.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
@@ -27,7 +27,7 @@ class RailLegSummaryViewModel(context: Context) {
         railLegOptionObserver.subscribe { legOption ->
             val formattedStopsAndDuration = Phrase.from(context, R.string.rail_time_and_stops_line_TEMPLATE)
                     .put("formattedduration", DateTimeUtils.formatDuration(context.resources, legOption.durationMinutes()))
-                    .put("formattedchangecount", RailViewModel.formatChangesText(context, legOption.noOfChanges)).format().toString()
+                    .put("formattedchangecount", RailUtils.formatRailChangesText(context, legOption.noOfChanges)).format().toString()
             formattedStopsAndDurationObservable.onNext(formattedStopsAndDuration)
 
             val formattedTimes = DateTimeUtils.formatInterval(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime())
