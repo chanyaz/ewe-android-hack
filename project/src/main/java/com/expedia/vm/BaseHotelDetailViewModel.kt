@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelUtils
+import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -204,26 +205,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
 
         hotelRatingObservable.onNext(response.hotelStarRating.toFloat())
         hotelRatingObservableVisibility.onNext(response.hotelStarRating > 0)
-        var contDesc: String
-        var hotelStarRating: Int = response.hotelStarRating.toInt()
-        if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
-            var stringID: Int = 0
-            when(hotelStarRating) {
-                1 -> stringID = R.string.star_circle_rating_one_cont_desc
-                2 -> stringID = R.string.star_circle_rating_two_cont_desc
-                3 -> stringID = R.string.star_circle_rating_three_cont_desc
-                4 -> stringID = R.string.star_circle_rating_four_cont_desc
-                5 -> stringID = R.string.star_circle_rating_five_cont_desc
-            }
-            contDesc = context.getString(stringID)
-        }
-        else {
-            contDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, hotelStarRating))
-                    .put("rating", hotelStarRating)
-                    .format()
-                    .toString()
-        }
-        hotelRatingContentDescriptionObservable.onNext(contDesc)
+        hotelRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, response.hotelStarRating.toInt()))
 
         allRoomsSoldOut.onNext(false)
         lastExpandedRowObservable.onNext(-1)
