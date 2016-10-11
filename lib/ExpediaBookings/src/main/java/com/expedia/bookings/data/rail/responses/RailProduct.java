@@ -18,6 +18,7 @@ public class RailProduct {
 	public String aggregatedCarrierServiceClassDisplayName;
 	public String aggregatedCarrierFareClassDisplayName;
 	public String aggregatedFareDescription;
+	public boolean openReturn;
 
 	@NotNull
 	public Map<Integer, PassengerSegmentFare> getSegmentToFareMapping() {
