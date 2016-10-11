@@ -6,8 +6,6 @@
     <dimen name="plane_window_text_offset">-60dp</dimen>
     <dimen name="flight_search_calendar_height">380dp</dimen>
 
-    <dimen name="hotel_checkout_overview_image_height">320dp</dimen>
-
     <!-- Tablet Launch Screen -->
     <dimen name="tablet_search_width">768dp</dimen>
 

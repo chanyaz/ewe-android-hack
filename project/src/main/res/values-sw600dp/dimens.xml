@@ -156,8 +156,6 @@
     <dimen name="tablet_flight_route_desc_text_size">20sp</dimen>
     <dimen name="tablet_flight_route_desc_stroke_size">5dp</dimen>
 
-    <dimen name="hotel_checkout_overview_image_height">240dp</dimen>
-
     <!-- Tablet Amenities -->
     <dimen name="amenity_text_size_large">13sp</dimen>
     <dimen name="amenity_text_size_small">12sp</dimen>

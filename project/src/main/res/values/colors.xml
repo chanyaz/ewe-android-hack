@@ -193,13 +193,6 @@
     <color name="calendar_instruction_text_color">#717171</color>
     <color name="bg_expedia_list">#f5f5f5</color>
 
-    <!-- BookingOverviewFragment -->
-    <color name="overview_receipt_divider">#666D6D6D</color>
-    <color name="hotel_receipt_header_text">#3d4552</color>
-    <color name="hotel_receipt_text">#5d656e</color>
-    <color name="hotel_mini_receipt_text">#414040</color>
-    <color name="hotel_mini_receipt_price_text">#103a71</color>
-
     <!-- Slide To Purchase -->
     <color name="slide_to_purchase_background">#66000000</color>
     <color name="slide_to_purchase_text">#fcfcfc</color>
@@ -508,7 +501,7 @@
     <!-- Cost summary breakdown -->
     <color name="cost_summary_breakdown_line_separator_color">@color/gray4</color>
     <color name="cost_summary_breakdown_savings_cost_color">@color/green_savings</color>
-    <color name="cost_summary_breakdown_text_color">@color/gray5</color>
+    <color name="cost_summary_breakdown_text_color">@color/gray6</color>
     <color name="cost_summary_breakdown_total_cost_color">@color/gray3</color>
 
     <!-- Preferences Activity -->

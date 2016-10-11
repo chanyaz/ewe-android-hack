@@ -8,10 +8,8 @@ import android.support.v4.content.ContextCompat
 import android.support.v7.graphics.Palette
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.RelativeLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
@@ -53,11 +51,6 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     val costSummary: LinearLayout by bindView(R.id.cost_summary)
     val priceChangeLayout: LinearLayout by bindView(R.id.price_change_container)
     val priceChange: android.widget.TextView by bindView(R.id.price_change_text)
-
-    val totalFeesContainer: RelativeLayout by bindView(R.id.total_fees_container)
-    val hotelFeesContainer: ViewGroup by bindView(R.id.hotel_fees_container)
-    val amountDueTodayContainer: ViewGroup by bindView(R.id.amount_due_today_container)
-    val dottedDivider: View by bindView(R.id.dotted_divider)
 
     val breakdown = HotelBreakDownView(context, null)
     val dialog: AlertDialog by lazy {

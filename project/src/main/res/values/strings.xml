@@ -2108,10 +2108,6 @@
     <string name="Finish_Booking">Finish Booking</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Best Price Guarantee</string>
-    <!-- Label for address of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_address">Address:</string>
-    <!-- Label to view map of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_view_map">View Map</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
