@@ -14,11 +14,11 @@ import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BaseHotelDetailViewModel
-import com.squareup.phrase.Phrase
 import kotlin.properties.Delegates
 
 class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
@@ -75,15 +75,8 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         vm.hotelNameObservable.subscribeText(toolbarTitle)
         vm.hotelRatingObservable.subscribe {
             toolBarRating.setRating(it)
-            setHotelRatingContentDescription(it.toInt())
         }
+        vm.hotelRatingContentDescriptionObservable.subscribeContentDescription(toolBarRating)
         vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
-    }
-
-    private fun setHotelRatingContentDescription(starRating: Int) {
-        toolBarRating.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, starRating))
-                .put("rating", starRating)
-                .format()
-                .toString()
     }
 }
