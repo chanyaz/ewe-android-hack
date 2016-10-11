@@ -14,6 +14,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.utils.HotelUtils
+import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.widget.HotelDetailView
@@ -78,6 +79,7 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
     })
 
     val hotelStarRatingObservable = BehaviorSubject.create(hotel.hotelStarRating)
+    val hotelStarRatingContentDescriptionObservable = BehaviorSubject.create<String>()
     val ratingAmenityContainerVisibilityObservable = BehaviorSubject.create<Boolean>(hotel.hotelStarRating > 0 || hotel.proximityDistanceInMiles > 0 || hotel.proximityDistanceInKiloMeters > 0)
     val hotelLargeThumbnailUrlObservable = BehaviorSubject.create<String>()
     val hotelDiscountPercentageObservable = BehaviorSubject.create(Phrase.from(resources, R.string.hotel_discount_percent_Template).put("discount", hotel.lowRateInfo?.discountPercent?.toInt() ?: 0).format().toString())
@@ -127,6 +129,8 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
 
         highestPriorityUrgencyMessageObservable.map { it != null }.subscribe(urgencyMessageVisibilityObservable)
         highestPriorityUrgencyMessageObservable.filter { it != null }.map { it!!.message }.subscribe(urgencyMessageBoxObservable)
+
+        hotelStarRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toInt()))
     }
 
     private fun getTopAmenityTitle(hotel: Hotel, resources: Resources): String {
@@ -152,7 +156,7 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
 
         result.append(Phrase.from(context, R.string.hotel_details_cont_desc_TEMPLATE)
                 .put("hotel", hotel.localizedName)
-                .put("starrating", hotelStarRatingObservable.value.toString())
+                .put("starrating", hotelStarRatingContentDescriptionObservable.value)
                 .put("guestrating", hotelGuestRatingObservable.value.toString())
                 .put("price", pricePerNightObservable.value)
                 .format()

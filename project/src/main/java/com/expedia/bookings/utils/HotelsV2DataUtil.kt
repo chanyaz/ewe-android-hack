@@ -1,5 +1,7 @@
 package com.expedia.bookings.utils
 
+import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelSearchParams.SearchType
 import com.expedia.bookings.data.SuggestionV4
@@ -7,10 +9,12 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.LocalDateTypeAdapter
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
+import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import java.util.ArrayList
@@ -92,6 +96,28 @@ class HotelsV2DataUtil {
             val filterUnavailable = !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest)
 
             return HotelSearchParams(suggestionV4, localCheckInDate, localCheckoutDate, numAdultsPerHotelRoom, listOfChildTravelerAges, false, filterUnavailable)
+        }
+
+        fun getHotelRatingContentDescription(context: Context, hotelStarRating: Int): String {
+            var contDesc: String
+            if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
+                var stringID: Int = 0
+                when(hotelStarRating) {
+                    1 -> stringID = R.string.star_circle_rating_one_cont_desc
+                    2 -> stringID = R.string.star_circle_rating_two_cont_desc
+                    3 -> stringID = R.string.star_circle_rating_three_cont_desc
+                    4 -> stringID = R.string.star_circle_rating_four_cont_desc
+                    5 -> stringID = R.string.star_circle_rating_five_cont_desc
+                }
+                contDesc = context.getString(stringID)
+            }
+            else {
+                contDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, hotelStarRating))
+                        .put("rating", hotelStarRating)
+                        .format()
+                        .toString()
+            }
+            return contDesc
         }
     }
 }
