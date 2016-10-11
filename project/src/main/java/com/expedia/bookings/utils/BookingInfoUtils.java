@@ -217,6 +217,9 @@ public class BookingInfoUtils {
 	 */
 	public static void populateTravelerDataFromUser(Context context, LineOfBusiness lob) {
 		if (User.isLoggedIn(context)) {
+			if (Db.getUser() == null) {
+				Db.loadUser(context);
+			}
 			//Populate traveler data
 			BookingInfoUtils.insertTravelerDataIfNotFilled(context, Db.getUser().getPrimaryTraveler(), lob);
 		}
@@ -315,6 +318,9 @@ public class BookingInfoUtils {
 		//Get User email...
 		String userEmail = null;
 		if (User.isLoggedIn(context)) {
+			if (Db.getUser() == null) {
+				Db.loadUser(context);
+			}
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				String email = Db.getUser().getPrimaryTraveler().getEmail();

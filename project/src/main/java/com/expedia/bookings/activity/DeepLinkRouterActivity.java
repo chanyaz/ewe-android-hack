@@ -1,5 +1,6 @@
 package com.expedia.bookings.activity;
 
+import com.expedia.bookings.utils.TuneUtils;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -32,7 +33,6 @@ import com.expedia.bookings.data.SearchParams;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.SuggestionResponse;
 import com.expedia.bookings.data.SuggestionV2;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -46,8 +46,6 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.UserAccountRefresher;
-import com.expedia.bookings.utils.TuneUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -59,7 +57,7 @@ import com.mobiata.android.util.Ui;
  * all in the manifest (where you may need to handle the same scheme in multiple
  * possible activities).
  */
-public class DeepLinkRouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
+public class DeepLinkRouterActivity extends Activity {
 
 	private static final String TAG = "ExpediaDeepLink";
 
@@ -78,15 +76,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (User.isLoggedIn(this)) {
-			User.loadUser(this, this);
-		}
-		else {
-			handleDeeplink();
-		}
-	}
 
-	private void handleDeeplink() {
 		// Handle incoming intents
 		Intent intent = getIntent();
 		Uri data = intent.getData();
@@ -149,8 +139,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 
 		boolean finish;
-		String hostLowerCase = host
-			.toLowerCase(Locale.US); // deliberately using US here, as the host will always be formatted in US ASCII
+		String hostLowerCase = host.toLowerCase(Locale.US); // deliberately using US here, as the host will always be formatted in US ASCII
 		switch (hostLowerCase) {
 		case "home":
 			Log.i(TAG, "Launching home screen from deep link!");
@@ -226,8 +215,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			}
 
 			CarSearchParam carSearchParams = CarDataUtils.fromDeepLink(data, queryData);
-			if (carSearchParams != null && JodaUtils
-				.isBeforeOrEquals(carSearchParams.getStartDateTime(), carSearchParams.getEndDateTime())) {
+			if (carSearchParams != null && JodaUtils.isBeforeOrEquals(carSearchParams.getStartDateTime(), carSearchParams.getEndDateTime())) {
 				NavUtils.goToCars(this, null, carSearchParams, productKey, NavUtils.FLAG_DEEPLINK);
 			}
 			else {
@@ -294,10 +282,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	 * This will search for hotel suggestions based on the location text, and launch the first suggestion
 	 * expda://hotelSearch/?checkInDate=2015-01-01&checkOutDate=2015-01-02&numAdults=2&childAges=5,6,7&location=San+Diego
 	 *
-	 * @param data      the deep link
+	 * @param data the deep link
 	 * @param queryData a set of query parameter names included in the deep link
 	 * @return true if all processing is complete and the activity can finish, false if there is more processing to
-	 * be done so the activity should not be allowed to finish yet
+	 *         be done so the activity should not be allowed to finish yet
 	 */
 	private boolean handleHotelSearch(Uri data, Set<String> queryData) {
 		LocalDate startDate = null;
@@ -804,8 +792,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			}
 
 			if (children.size() > 0) {
-				Log.d(TAG,
-					"Setting children ages: " + Arrays.toString(children.toArray(new ChildTraveler[children.size()])));
+				Log.d(TAG, "Setting children ages: " + Arrays.toString(children.toArray(new ChildTraveler[children.size()])));
 				return children;
 			}
 		}
@@ -814,10 +801,5 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 
 		return null;
-	}
-
-	@Override
-	public void onUserAccountRefreshed() {
-		handleDeeplink();
 	}
 }
