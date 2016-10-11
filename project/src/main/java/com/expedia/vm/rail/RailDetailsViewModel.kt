@@ -9,6 +9,7 @@ import com.expedia.bookings.utils.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import java.util.ArrayList
 
 class RailDetailsViewModel(val context: Context) {
     val railResultsObservable = BehaviorSubject.create<RailSearchResponse>()
@@ -34,13 +35,35 @@ class RailDetailsViewModel(val context: Context) {
             val changesString = RailUtils.formatRailChangesText(context, railLegOption.noOfChanges)
             formattedLegInfoSubject.onNext("${DateTimeUtils.formatDuration(context.resources,
                     railLegOption.durationMinutes())}, $changesString")
-            railOffersPairSubject.onNext(Pair(railResultsObservable.value.findOffersForLegOption(railLegOption), getCompareToPrice()))
+
+            // for open return display one instance of fare class
+            val filteredOffers = filterOpenReturnFareOptions(railResultsObservable.value.findOffersForLegOption(railLegOption))
+            railOffersPairSubject.onNext(Pair(filteredOffers, getCompareToPrice()))
         }
     }
 
     //TODO for now it's hardcoded to handle just outbounds. There's another story to handle inbound delta pricing
     private fun getCompareToPrice(): Money? {
         if (railResultsObservable.value.legList.size == 2) return railResultsObservable.value.legList[1].cheapestPrice else return null
+    }
+
+    private fun filterOpenReturnFareOptions(railOffers: List<RailSearchResponse.RailOffer>): List<RailSearchResponse.RailOffer> {
+        val fareServiceKeys = ArrayList<String>()
+        val filteredOfferList = railOffers.orEmpty().filter { shouldAddOffer(it, fareServiceKeys) }
+        return filteredOfferList
+    }
+
+    private fun shouldAddOffer(railOffer: RailSearchResponse.RailOffer, fareServiceKeys: ArrayList<String>): Boolean {
+        //add the offer if it is not open return
+        if (!railOffer.isOpenReturn) return true
+
+        // creating a key by combining fare class, service class and total fare amount
+        val currentKey = railOffer.uniqueIdentifier
+        if (!fareServiceKeys.contains(currentKey)) {
+            fareServiceKeys.add(currentKey)
+            return true
+        }
+        return false
     }
 }
 

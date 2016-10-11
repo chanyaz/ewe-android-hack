@@ -68,5 +68,17 @@ public class RailSearchResponse {
 			return railCardApplied;
 		}
 
+		public boolean isOpenReturn() {
+			boolean openReturn = false;
+			if (CollectionUtils.isNotEmpty(railProductList)) {
+				openReturn = railProductList.get(0).openReturn;
+			}
+			return openReturn;
+		}
+
+		public String getUniqueIdentifier() {
+			return railProductList.get(0).aggregatedCarrierFareClassDisplayName +
+				railProductList.get(0).aggregatedCarrierServiceClassDisplayName + totalPrice.amount;
+		}
 	}
 }
