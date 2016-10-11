@@ -1,16 +1,8 @@
 package com.expedia.bookings.test.robolectric
 
-import java.util.ArrayList
-
-import org.joda.time.LocalDate
-import org.junit.Before
-import org.junit.Test
-import org.junit.runner.RunWith
-import org.robolectric.Robolectric
-
 import android.app.Activity
 import android.view.LayoutInflater
-
+import butterknife.ButterKnife
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
@@ -23,14 +15,17 @@ import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
-
-import butterknife.ButterKnife
-
+import org.joda.time.LocalDate
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.assertTrue
+import org.junit.Before
+import org.junit.Test
+import org.junit.runner.RunWith
+import org.robolectric.Robolectric
 import org.robolectric.Shadows
+import java.util.ArrayList
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)

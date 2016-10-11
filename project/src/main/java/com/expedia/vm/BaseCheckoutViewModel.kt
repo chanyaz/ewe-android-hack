@@ -24,6 +24,7 @@ import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -72,9 +73,11 @@ abstract class BaseCheckoutViewModel(val context: Context) {
     val cardFeeTripResponse  = PublishSubject.create<TripResponse>()
 
     private var lastFetchedCardFeeKeyPair: Pair<String, String>? = null
+    private var compositeSubscription: CompositeSubscription? = null
 
     init {
         injectComponents()
+        compositeSubscription = CompositeSubscription()
         clearTravelers.subscribe {
             builder.clearTravelers()
         }
@@ -96,19 +99,19 @@ abstract class BaseCheckoutViewModel(val context: Context) {
         }
 
         if (useCardFeeService()) {
-            paymentViewModel.resetCardFees.subscribe {
+            compositeSubscription?.add(paymentViewModel.resetCardFees.subscribe {
                 lastFetchedCardFeeKeyPair = null
                 resetCardFees()
-            }
+            })
 
-            paymentViewModel.cardBIN
+            compositeSubscription?.add(paymentViewModel.cardBIN
                     .debounce(1, TimeUnit.SECONDS, getScheduler())
-                    .subscribe { fetchCardFees(cardId = it, tripId = getTripId()) }
-            tripResponseObservable
+                    .subscribe { fetchCardFees(cardId = it, tripId = getTripId()) })
+            compositeSubscription?.add(tripResponseObservable
                     .subscribe {
                         val cardId = paymentViewModel.cardBIN.value
                         fetchCardFees(cardId, getTripId())
-                    }
+                    })
 
             setupCardFeeSubjects()
         }
@@ -157,12 +160,12 @@ abstract class BaseCheckoutViewModel(val context: Context) {
             cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(flightChargesFees, obFeeDetailsUrl))
         }).subscribe()
 
-        paymentViewModel.resetCardFees.subscribe {
+        compositeSubscription?.add(paymentViewModel.resetCardFees.subscribe {
             cardFeeService?.cancel()
             paymentTypeSelectedHasCardFee.onNext(false)
             cardFeeTextSubject.onNext(Html.fromHtml(""))
             cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(selectedFlightChargesFees.value, obFeeDetailsUrlSubject.value))
-        }
+        })
 
         selectedCardFeeObservable
                 .debounce(1, TimeUnit.SECONDS, getScheduler()) // subscribe on ui thread as we're affecting ui elements
@@ -195,5 +198,9 @@ abstract class BaseCheckoutViewModel(val context: Context) {
             return StrUtils.getSpannableTextByColor(airlineFeeWithLink, ContextCompat.getColor(context, R.color.flight_primary_color), true)
         }
         return SpannableStringBuilder()
+    }
+
+    fun unsubscribeAll() {
+        compositeSubscription?.unsubscribe()
     }
 }

@@ -1,9 +1,9 @@
 package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
-import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.BillingInfo
@@ -34,6 +34,7 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
@@ -53,10 +54,11 @@ class PackageCheckoutTest {
     private var activity: FragmentActivity by Delegates.notNull()
 
     @Before fun before() {
-        activity = Robolectric.buildActivity(FragmentActivity::class.java).create().visible().get()
-        activity.setTheme(R.style.V2_Theme_Packages)
-        Ui.getApplication(activity).defaultPackageComponents()
-        Ui.getApplication(activity).defaultTravelerComponent()
+        Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
+        Ui.getApplication(RuntimeEnvironment.application).defaultPackageComponents()
+        val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_checkout_test)
+        val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
+        activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
         setUpPackageDb()
         setUpCheckout()
     }
@@ -170,7 +172,7 @@ class PackageCheckoutTest {
     }
 
     private fun setUpCheckout() {
-        checkout = LayoutInflater.from(activity).inflate(R.layout.package_checkout_test, null) as PackageCheckoutPresenter
+        checkout = activity.findViewById(R.id.package_checkout_presenter) as PackageCheckoutPresenter
         checkout.getCreateTripViewModel().packageServices = packageServiceRule.services!!
         checkout.getCheckoutViewModel().packageServices = packageServiceRule.services!!
         checkout.travelerPresenter.viewModel.travelerValidator.updateForNewSearch(Db.getPackageParams())
