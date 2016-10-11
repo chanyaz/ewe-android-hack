@@ -94,7 +94,22 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         SearchScreen.searchButton().perform(click())
         FlightTestHelpers.assertFlightOutbound()
 
-        FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound))
+        FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound), R.string.airline_charge_notice)
+    }
+
+    @Test
+    fun testAirlineMayChargeFeesAlwaysShownFrenchPOS() {
+        Common.setPOS(PointOfSaleId.FRANCE)
+
+        SearchScreen.selectFlightOriginAndDestination(0, 1)
+
+        val startDate = LocalDate.now().plusDays(3)
+        val endDate = LocalDate.now().plusDays(8)
+        SearchScreen.selectDates(startDate, endDate)
+        SearchScreen.searchButton().perform(click())
+        FlightTestHelpers.assertFlightOutbound()
+
+        FlightsResultsScreen.assertAirlineChargesFeesHeadingShown(withId(R.id.widget_flight_outbound), R.string.airline_may_charge_notice)
     }
 
     private fun assertCostSummaryDialogShowsFees() {

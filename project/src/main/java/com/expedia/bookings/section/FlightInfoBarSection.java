@@ -77,19 +77,21 @@ public class FlightInfoBarSection extends LinearLayout {
 				distance)));
 		}
 
+		boolean adjustingPricingMessaging = PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee();
+
 		// Bind right label (booking price)
-		String fare = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ? trip.getAverageTotalFare().getFormattedMoney(
+		String fare = adjustingPricingMessaging ? trip.getAverageTotalFare().getFormattedMoney(
 			Money.F_NO_DECIMAL) : trip.getTotalPrice().getFormattedMoney(Money.F_NO_DECIMAL);
 		int seatsRemaining = trip.getSeatsRemaining();
 		if (!TextUtils.isEmpty(trip.getFareName())) {
-			int templateID = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+			int templateID = adjustingPricingMessaging ?
 					R.string.fare_name_and_price_min_TEMPLATE :
 					R.string.fare_name_and_price_TEMPLATE;
 			String fareStr = getResources().getString(templateID, trip.getFareName(), fare);
 			mRightTextView.setText(fareStr);
 		}
 		else if (seatsRemaining > 0 && seatsRemaining <= SHOW_URGENCY_CUTOFF) {
-			int templateID = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+			int templateID = adjustingPricingMessaging ?
 					R.plurals.urgency_book_min_TEMPLATE : R.plurals.urgency_book_TEMPLATE;
 			String urgencyStr = getResources().getQuantityString(templateID, seatsRemaining,
 					seatsRemaining, fare);
@@ -98,17 +100,17 @@ public class FlightInfoBarSection extends LinearLayout {
 		else {
 			int bookNowResId;
 			if (trip.getLegCount() == 1) {
-				bookNowResId = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+				bookNowResId = adjustingPricingMessaging ?
 						R.string.one_way_price_min_TEMPLATE : R.string.one_way_price_TEMPLATE;
 			}
 			else {
 				if (trip.getLeg(0).equals(leg)) {
-					bookNowResId = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+					bookNowResId = adjustingPricingMessaging ?
 							R.string.round_trip_price_min_TEMPLATE :
 							R.string.round_trip_price_TEMPLATE;
 				}
 				else {
-					bookNowResId = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
+					bookNowResId = adjustingPricingMessaging ?
 							R.string.book_now_price_min_TEMPLATE : R.string.book_now_price_TEMPLATE;
 				}
 			}
