@@ -35,6 +35,7 @@ public class AccountSyncAdapter extends AbstractThreadedSyncAdapter {
 			else {
 				// Update our user object
 				User user = results.getUser();
+				user.save(context);
 				Db.setUser(user);
 				Log.d("AccountSyncAdapter.onPerformSync has completed successfully, updating the User object in Db.");
 			}

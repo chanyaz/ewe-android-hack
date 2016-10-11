@@ -376,6 +376,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			doLogout();
 			return;
 		}
+		if (Db.getUser() == null) {
+			Db.loadUser(getActivity());
+		}
 		String email = Db.getUser().getPrimaryTraveler().getEmail();
 		String logoutMessage = getResources().getString(R.string.itin_sign_out_confirmation_message_TEMPLATE, email);
 		LoginConfirmLogoutDialogFragment df = LoginConfirmLogoutDialogFragment.getInstance(logoutMessage);

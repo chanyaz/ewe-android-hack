@@ -244,6 +244,8 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 	public void refreshData() {
 		mBillingInfo = Db.getBillingInfo();
 
+		loadUser();
+
 		//Set values
 		populateTravelerData();
 		populatePaymentDataFromUser();
@@ -270,6 +272,10 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 
 	private void refreshAccountButtonState() {
 		if (User.isLoggedIn(getActivity())) {
+			if (Db.getUser() == null) {
+				Db.loadUser(getActivity());
+			}
+
 			if (Db.getUser() != null && Db.getUser().getPrimaryTraveler() != null
 				&& !TextUtils.isEmpty(Db.getUser().getPrimaryTraveler().getEmail())) {
 				//We have a user (either from memory, or loaded from disk)
@@ -553,6 +559,14 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		}
 	}
 
+	private void loadUser() {
+		if (Db.getUser() == null) {
+			if (User.isLoggedIn(getActivity())) {
+				Db.loadUser(getActivity());
+			}
+		}
+	}
+
 	private void populatePaymentDataFromUser() {
 		if (BookingInfoUtils.populatePaymentDataFromUser(getActivity(), LineOfBusiness.FLIGHTS)) {
 			mListener.onBillingInfoChange();
@@ -658,6 +672,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 			else {
 				// Update our existing saved data
 				User user = results.getUser();
+				user.save(getActivity());
 				Db.setUser(user);
 
 				// Act as if a login just occurred

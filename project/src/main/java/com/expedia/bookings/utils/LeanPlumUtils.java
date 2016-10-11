@@ -1,9 +1,15 @@
 package com.expedia.bookings.utils;
 
+import android.app.Application;
+import com.expedia.bookings.data.flights.FlightTripDetails;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
@@ -27,7 +33,6 @@ import com.expedia.bookings.data.cars.CreateTripCarFare;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
-import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
@@ -44,10 +49,6 @@ import com.leanplum.LeanplumPushService;
 import com.leanplum.annotations.Parser;
 import com.leanplum.callbacks.VariablesChangedCallback;
 import com.mobiata.android.Log;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
 
 public class LeanPlumUtils {
 	public static Map<String, Object> userAtrributes = new HashMap<String, Object>();
@@ -135,6 +136,9 @@ public class LeanPlumUtils {
 			boolean isUserLoggedIn = User.isLoggedIn(context);
 			userAtrributes.put("isUserLoggedIn", isUserLoggedIn);
 			if (isUserLoggedIn) {
+				if (Db.getUser() == null) {
+					Db.loadUser(context);
+				}
 				if (Db.getUser().getPrimaryTraveler() != null) {
 					userAtrributes.put("first_name",
 						Db.getUser().getPrimaryTraveler().getFirstName());
