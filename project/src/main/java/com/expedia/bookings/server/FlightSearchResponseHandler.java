@@ -222,6 +222,7 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 		if (tripJson.has("currency")) {
 			String currencyCode = tripJson.optString("currency");
 
+			trip.setTotalPrice(new Money(tripJson.optJSONObject("totalPrice").optString("amount"), currencyCode));
 			trip.setBaseFare(ParserUtils.createMoney(tripJson.optString("baseFare"), currencyCode));
 			trip.setTotalFare(ParserUtils.createMoney(tripJson.optString("totalFare"), currencyCode));
 			String avgTotalFare = tripJson.optJSONObject("averageTotalPricePerTicket").optString("amount");
@@ -243,19 +244,13 @@ public class FlightSearchResponseHandler extends JsonResponseHandler<FlightSearc
 				PassengerCategory category = Enum.valueOf(PassengerCategory.class, passengerJson.optString("passengerCategory"));
 
 				totalPriceStr = passengerJson.optJSONObject("totalPrice").optString("amount");
-				totalPrice = new Money();
-				totalPrice.setAmount(totalPriceStr);
-				totalPrice.setCurrency(currencyCode);
+				totalPrice = new Money(totalPriceStr, currencyCode);
 
 				basePriceStr = passengerJson.optJSONObject("basePrice").optString("amount");
-				basePrice = new Money();
-				basePrice.setAmount(basePriceStr);
-				basePrice.setCurrency(currencyCode);
+				basePrice = new Money(basePriceStr, currencyCode);
 
 				taxesPriceStr = passengerJson.optJSONObject("taxesPrice").optString("amount");
-				taxesPrice = new Money();
-				taxesPrice.setAmount(taxesPriceStr);
-				taxesPrice.setCurrency(currencyCode);
+				taxesPrice = new Money(taxesPriceStr, currencyCode);
 
 				trip.addPassenger(new PassengerCategoryPrice(category, totalPrice, basePrice, taxesPrice));
 			}

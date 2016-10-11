@@ -288,9 +288,9 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
                 return makeResponse("/hint/es/v1/nearby/en_US/suggestion.json")
             }// City
         } else if (request.path.startsWith("/api/v4/typeahead/")) {
-            if (lob == "Flights") {
-                val requestPath = request.path
-                val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?'))
+            val requestPath = request.path
+            val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?')).toLowerCase()
+            if ("Flights".equals(lob, false)) {
                 return makeResponse("/api/v4/suggestion_" + unUrlEscape(filename) + ".json")
             }
             else {
