@@ -21,6 +21,7 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -34,6 +35,7 @@ import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
@@ -80,7 +82,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
         @Inject set
 
-    val clientLogBuilder = ClientLog.Builder()
     var hotelDetailViewModel: HotelDetailViewModel by Delegates.notNull()
     var hotelSearchParams: HotelSearchParams by Delegates.notNull()
     val resultsMapView: MapView by bindView(R.id.map_view)
@@ -91,9 +92,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         var presenter = searchStub.inflate() as HotelSearchPresenter
         presenter.searchViewModel = HotelSearchViewModel(context)
         presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
-        presenter.searchViewModel.searchParamsObservable.subscribe {
-            clientLogBuilder.requestTime(DateTime.now())
-        }
         presenter
     }
 
@@ -107,10 +105,25 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELS, clientLogBuilder)
+        presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELS)
+
+        val hotelResultsDisplayClientLogBuilder: ClientLog.Builder = ClientLog.Builder()
+        presenter.viewmodel.searchingForHotelsDateTime.subscribe(){
+            hotelResultsDisplayClientLogBuilder.requestTime(DateTime.now())
+        }
         presenter.viewmodel.hotelResultsObservable.subscribe {
-            clientLogBuilder.requestToUser(DateTime.now())
-            clientLogServices.log(clientLogBuilder.build())
+            hotelResultsDisplayClientLogBuilder.processingTime(DateTime.now())
+        }
+        presenter.viewmodel.resultsReceivedDateTimeObservable.subscribe() { dateTime ->
+            hotelResultsDisplayClientLogBuilder.responseTime(dateTime)
+        }
+        presenter.adapter.allViewsLoadedTimeObservable.subscribe() {
+            hotelResultsDisplayClientLogBuilder.requestToUser(DateTime.now())
+            val userBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
+                hotelResultsDisplayClientLogBuilder.eventName(if (userBucketedForTest) ClientLogConstants.PERCIEVED_INSTANT_SEARCH_RESULTS else ClientLogConstants.REGULAR_SEARCH_RESULTS)
+            hotelResultsDisplayClientLogBuilder.pageName(ClientLogConstants.MATERIAL_HOTEL_SEARCH_PAGE)
+            hotelResultsDisplayClientLogBuilder.deviceName(android.os.Build.MODEL)
+            clientLogServices.log(hotelResultsDisplayClientLogBuilder.build())
         }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.viewmodel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
@@ -279,8 +292,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         checkoutDialog.setMessage(resources.getString(R.string.booking_loading))
         checkoutDialog.setCancelable(false)
         checkoutDialog.isIndeterminate = true
-        clientLogBuilder.pageName(Constants.CLIENT_LOG_MATERIAL_HOTEL_SEARCH)
-        clientLogBuilder.deviceName(android.os.Build.MODEL)
     }
 
     fun setDefaultTransition(screen: Screen) {

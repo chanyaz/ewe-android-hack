@@ -31,7 +31,7 @@ class ClientLogServices(endpoint: String, okHttpClient: OkHttpClient, intercepto
 	}
 
 	fun log(clientLog: ClientLog) {
-		clientLogApi.log(clientLog.pageName, domain, clientLog.deviceName, clientLog.logTime, clientLog.requestTime, clientLog.responseTime, clientLog.processingTime, clientLog.requestToUser)
+		clientLogApi.log(clientLog.pageName, clientLog.eventName, domain, clientLog.deviceName, clientLog.requestTime, clientLog.responseTime, clientLog.processingTime, clientLog.requestToUser)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.subscribe(makeEmptyObserver())

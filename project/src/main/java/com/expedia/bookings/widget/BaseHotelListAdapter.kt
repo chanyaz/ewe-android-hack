@@ -23,6 +23,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import com.expedia.vm.hotel.HotelViewModel
 import com.mobiata.android.util.AndroidUtils
+import org.joda.time.DateTime
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -37,6 +38,8 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     val PRICING_STRUCTURE_HEADER_VIEW = 1
     val HOTEL_VIEW = 2
     val LOADING_VIEW = 3
+
+    val allViewsLoadedTimeObservable = PublishSubject.create<DateTime>()
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
@@ -57,6 +60,8 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         return hotels[rawAdapterPosition - numHeaderItemsInHotelsList()]
     }
 
+    private var newResultsConsumed = false
+
     init {
         addResultsSubject.subscribe { response ->
             val elements = response.hotelList.filter { responseHotel -> hotels.filter { responseHotel.hotelId.contains(it.hotelId) }.isEmpty() }
@@ -71,6 +76,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
             loading = false
             hotels = ArrayList(response.hotelList)
             hotelListItemsMetadata.clear()
+            newResultsConsumed = false
             notifyDataSetChanged()
         }
         loadingSubject.subscribe {
@@ -119,6 +125,10 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                 val viewModel = getHotelCellViewModel(holder.itemView.context, hotels[fixedPosition])
                 hotelListItemsMetadata.add(HotelListItemMetadata(viewModel.hotelId, viewModel.soldOut))
                 holder.bind(viewModel)
+                if (!newResultsConsumed) {
+                    newResultsConsumed = true
+                    allViewsLoadedTimeObservable.onNext(DateTime.now())
+                }
             }
             is LoadingViewHolder -> holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, fixedPosition % 2 == 0))
         }
