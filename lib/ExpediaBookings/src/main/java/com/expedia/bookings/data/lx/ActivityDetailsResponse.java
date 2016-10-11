@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.lx;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.expedia.bookings.data.cars.LatLong;
@@ -29,7 +30,7 @@ public class ActivityDetailsResponse {
 	public LXRedemptionType redemptionType;
 	public int recommendationScore;
 	public LXLocation eventLocation;
-	public List<LXLocation> redemptionLocation;
+	public List<LXLocation> redemptionLocation = new ArrayList<>();
 
 	public static class LXLocation {
 		public String addressName;

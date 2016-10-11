@@ -3235,6 +3235,8 @@
     <string name="coupon_removing_dialog">正在刪除優惠券</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">送出</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">送出按鈕</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3250,7 +3252,7 @@
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">很抱歉，目前我們遇到問題。請再試一次。</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">由於預訂費用已經改變，因此我們沒有套用優惠代碼。請檢查並再試一次。</string>
+    <string name="coupon_error_price_change">由於預訂費用已經改變，因此我們沒有套用優惠代碼。請查看並再試一次。</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">很抱歉，此優惠代碼是給其他國家使用的。</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -4325,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">中途停留：({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">轉機等待時間：{duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} 已傳送到 {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">火車</string>
 
@@ -4438,6 +4442,12 @@
 
     <string name="mail_delivery_details">將車票郵寄到您所提供的地址。</string>
     <string name="tdo_fees_non_refundable">車票運費不得退款。</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation}到{arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}，{travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">很抱歉，伺服器出現問題。請再試一次。</string>
     <string name="pwp_trip_service_error">很抱歉，伺服器出現問題。請再試一次。</string>
