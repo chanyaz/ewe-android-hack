@@ -12,7 +12,6 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
-import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -183,9 +182,6 @@ class PaymentWidgetV2Test {
     private fun setUserWithStoredCard() {
         val user = User()
         user.addStoredCreditCard(getNewCard())
-        val traveler = Traveler()
-        traveler.email = "qa-ehcc@mobiata.com"
-        user.primaryTraveler = traveler
         Db.setUser(user)
 
         sut.viewmodel.isCreditCardRequired.onNext(true)
