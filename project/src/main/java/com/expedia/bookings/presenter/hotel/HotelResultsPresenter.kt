@@ -14,6 +14,7 @@ import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -21,6 +22,7 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.hotel.HotelListAdapter
+import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.ShopWithPointsViewModel
@@ -37,7 +39,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         searchMenu
     }
 
-
     lateinit var shopWithPointsViewModel: ShopWithPointsViewModel
         @Inject set
 
@@ -51,6 +52,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.addHotelResultsObservable.subscribe(addListResultsObserver)
+
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.addHotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.hotelResultsObservable.subscribe {
@@ -84,7 +86,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             setMapToInitialState(params.suggestion)
             showLoading()
             show(ResultsList())
-            filterView.sortByObserver.onNext(params.suggestion.isCurrentLocationSearch && !params.suggestion.isGoogleSuggestionSearch)
+            filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
             filterView.viewmodel.clearObservable.onNext(Unit)
         }
 
@@ -94,6 +96,8 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             filterView.sortByObserver.onNext(params.isCurrentLocationSearch && !params.isGoogleSuggestionSearch)
             filterView.viewmodel.clearObservable.onNext(Unit)
         }
+
+        vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterViewModel.isCurrentLocationSearch)
     }
 
     override fun onFinishInflate() {
@@ -134,10 +138,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override fun inflate() {
         View.inflate(context, R.layout.widget_hotel_results, this)
         toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.hotels_primary_color))
-    }
-
-    override fun getFilterViewModel(): HotelFilterViewModel {
-        return HotelFilterViewModel(context, LineOfBusiness.HOTELS)
     }
 
     override fun doAreaSearch() {
@@ -216,7 +216,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         return HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
     }
 
-    override fun setLob() {
-        lob = LineOfBusiness.HOTELS
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.HOTELS
     }
 }

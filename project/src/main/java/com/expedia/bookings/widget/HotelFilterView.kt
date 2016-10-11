@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.PorterDuff
+import android.support.annotation.StringRes
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.Editable
@@ -113,7 +114,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
             val textView: TextView = super.getView(position, convertView, parent) as TextView
             textView.text = resources.getString(getItem(position).resId)
-            return textView;
+            return textView
         }
 
         override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup?): View {
@@ -339,6 +340,11 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         clearNameButton.setOnClickListener { view ->
             filterHotelName.text = null
+        }
+
+        vm.sortByObservable.subscribe { sortType ->
+            val position = sortByAdapter.getPosition(sortType)
+            sortByButtonGroup.setSelection(position, false)
         }
 
         sortByButtonGroup.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
