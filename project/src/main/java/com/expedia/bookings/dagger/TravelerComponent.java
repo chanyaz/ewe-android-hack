@@ -5,6 +5,7 @@ import com.expedia.bookings.utils.TravelerManager;
 import com.expedia.bookings.utils.validation.TravelerValidator;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.packages.PackageSearchViewModel;
+import com.expedia.vm.traveler.BaseTravelerValidatorViewModel;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
 import com.expedia.vm.traveler.RailCheckoutTravelerViewModel;
 import com.expedia.vm.traveler.RailTravelerSummaryViewModel;
@@ -21,6 +22,7 @@ import dagger.Component;
 @Component(modules = {TravelerModule.class})
 public interface TravelerComponent {
 	void inject(PackageSearchViewModel viewModel);
+	void inject(BaseTravelerValidatorViewModel viewModel);
 	void inject(FlightSearchViewModel viewModel);
 	void inject(CheckoutTravelerViewModel viewModel);
 	void inject(RailCheckoutTravelerViewModel viewModel);

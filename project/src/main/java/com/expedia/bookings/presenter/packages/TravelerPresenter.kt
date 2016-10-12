@@ -38,10 +38,10 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
     var viewModel: CheckoutTravelerViewModel by notNullAndObservable { vm ->
         vm.invalidTravelersSubject.subscribe {
-            show(travelerPickerWidget, Presenter.FLAG_CLEAR_BACKSTACK)
+            show(travelerPickerWidget, Presenter.FLAG_CLEAR_TOP)
         }
         vm.emptyTravelersSubject.subscribe {
-            show(travelerPickerWidget, Presenter.FLAG_CLEAR_BACKSTACK)
+            show(travelerPickerWidget, Presenter.FLAG_CLEAR_TOP)
         }
         vm.showMainTravelerMinAgeMessaging.subscribeVisibility(travelerPickerWidget.mainTravelerMinAgeTextView)
         vm.singleTravelerCompletenessStatus.subscribe {
@@ -143,7 +143,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         if (viewModel.getTravelers().size > 1) {
             toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
             updateAllTravelerStatuses()
-            show(travelerPickerWidget)
+            show(travelerPickerWidget, FLAG_CLEAR_TOP)
         } else {
             if (currentState == null) show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
             show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)

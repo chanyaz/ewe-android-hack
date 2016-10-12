@@ -15,9 +15,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.section.GenderSpinnerAdapter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeEditText
 import com.expedia.vm.traveler.TravelerTSAViewModel
 import org.joda.time.LocalDate
 
@@ -28,22 +26,23 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     private val TAG_DATE_PICKER = "TAG_DATE_PICKER"
 
     val dateOfBirth: TravelerEditText by bindView(R.id.edit_birth_date_text_btn)
-    val genderSpinner: AccessibleSpinner by bindView(R.id.edit_gender_spinner)
+    val genderSpinner: TravelerSpinner by bindView(R.id.edit_gender_spinner)
 
     var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
-        vm.formattedDateSubject.subscribeEditText(dateOfBirth)
-        dateOfBirth.subscribeToError(vm.dateOfBirthErrorSubject)
+        dateOfBirth.viewModel = vm.dateOfBirthViewModel
+        genderSpinner.viewModel = vm.genderViewModel
+
         genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
-        vm.genderSubject.subscribe { gender ->
+        vm.genderViewModel.genderSubject.subscribe { gender ->
             val adapter = genderSpinner.adapter as GenderSpinnerAdapter
             genderSpinner.onItemSelectedListener = null
             genderSpinner.setSelection(adapter.getGenderPosition(gender))
             genderSpinner.onItemSelectedListener = GenderItemSelectedListener()
         }
-        vm.birthErrorTextSubject.subscribe { text ->
+        vm.dateOfBirthViewModel.birthErrorTextSubject.subscribe { text ->
             showBirthdateErrorDialog(text)
         }
-        vm.genderErrorSubject.subscribe { hasError ->
+        vm.genderViewModel.errorSubject.subscribe { hasError ->
             (genderSpinner.adapter as GenderSpinnerAdapter).setErrorVisible(hasError)
             genderSpinner.valid = !hasError
         }
@@ -59,8 +58,6 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
         val genderAdapter = GenderSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_dropdown_item)
         genderSpinner.adapter = genderAdapter
         dateOfBirth.setOnClickListener(DateOfBirthClickListener(this))
-        genderSpinner.isFocusable = true
-        genderSpinner.isFocusableInTouchMode = true
     }
 
     override fun onFinishInflate() {
@@ -73,7 +70,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
     }
 
     override fun handleDateChosen(year: Int, month: Int, day: Int, formattedDate: String) {
-        viewModel.dateOfBirthObserver.onNext(LocalDate(year, month, day))
+        viewModel.dateOfBirthViewModel.dateOfBirthObserver.onNext(LocalDate(year, month, day))
     }
 
     private inner class GenderItemSelectedListener() : AdapterView.OnItemSelectedListener {
@@ -83,7 +80,7 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             val adapter = genderSpinner.adapter as GenderSpinnerAdapter
-            viewModel.genderObserver.onNext(adapter.getGender(position))
+            viewModel.genderViewModel.genderSubject.onNext(adapter.getGender(position))
             val gender = adapter.getGender(position)
             if (gender != Traveler.Gender.GENDER) {
                 (genderSpinner.adapter as GenderSpinnerAdapter).setErrorVisible(false)
@@ -93,9 +90,9 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
     private inner class DateOfBirthClickListener(val dateSetListener: DatePickerDialogFragment.DateChosenListener) : OnClickListener {
         override fun onClick(v: View?) {
-            var date = viewModel.birthDateSubject.value
+            var date = viewModel.dateOfBirthViewModel.birthDateSubject.value
             if (date == null) {
-                date = viewModel.defaultDateSubject.value
+                date = viewModel.dateOfBirthViewModel.defaultDateSubject.value
             }
 
             var newDatePickerFragment: DatePickerDialogFragment? = Ui.findSupportFragment<DatePickerDialogFragment>(fragmentActivity, TAG_DATE_PICKER)

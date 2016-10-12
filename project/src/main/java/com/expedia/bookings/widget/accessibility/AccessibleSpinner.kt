@@ -8,7 +8,7 @@ import android.widget.Spinner
 import com.expedia.bookings.R
 import kotlin.properties.Delegates
 
-class AccessibleSpinner(context: Context, attributeSet: AttributeSet) : Spinner(context, attributeSet) {
+open class AccessibleSpinner(context: Context, attributeSet: AttributeSet?) : Spinner(context, attributeSet) {
     var valid: Boolean = true
     var spinnerLabel by Delegates.notNull<CharSequence>()
 

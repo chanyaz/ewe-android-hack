@@ -18,7 +18,6 @@ class SimpleTravelerViewModel(context: Context, travelerIndex: Int) : BaseTravel
         }
         nameViewModel.updateTravelerName(traveler.name)
         phoneViewModel.updatePhone(traveler.orCreatePrimaryPhoneNumber)
-        emailViewModel.updateEmail(traveler)
     }
 
     override fun validate(): Boolean {
