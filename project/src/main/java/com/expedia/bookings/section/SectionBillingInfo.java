@@ -177,6 +177,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		return mFields.hasValidInput();
 	}
 
+	public View getFirstInvalidField() {
+		return mFields.firstInvalidInputField();
+	}
+
 	public void resetValidation() {
 		mFields.setValidationIndicatorState(true);
 	}

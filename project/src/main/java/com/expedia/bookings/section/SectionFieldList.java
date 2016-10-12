@@ -77,6 +77,20 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 		return valid;
 	}
 
+	public View firstInvalidInputField() {
+		SectionFieldEditable<?, T> editable;
+		for (SectionField<?, T> field : mFields) {
+			if (field instanceof SectionFieldEditable) {
+				editable = (SectionFieldEditable<?, T>) field;
+				boolean isValid = editable.isValid();
+				if (!isValid) {
+					return editable.getField();
+				}
+			}
+		}
+		return null;
+	}
+
 	public void setValidationIndicatorState(boolean valid) {
 		for (SectionField<?, T> field : mFields) {
 			if (field instanceof SectionFieldValidIndicator && field.hasBoundField()) {

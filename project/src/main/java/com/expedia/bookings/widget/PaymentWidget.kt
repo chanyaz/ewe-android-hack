@@ -149,9 +149,18 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                         userChoosesNotToSaveCard()
                     }
                 }
+                else {
+                    var firstInvalidField = sectionBillingInfo.getFirstInvalidField()
+                    if (firstInvalidField != null) {
+                        firstInvalidField.requestFocus()
+                        sectionBillingInfo.resetValidation(firstInvalidField.id, false)
+                    }
+                }
+
             } else {
                 close()
             }
+            Ui.hideKeyboard(this@PaymentWidget)
         }
 
         vm.userLogin.subscribe { isLoggedIn ->
