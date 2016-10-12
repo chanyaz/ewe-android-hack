@@ -82,7 +82,13 @@
                         android:layout_height="30dp"
                         android:layout_width="30dp" />
 
-                    <include layout="@layout/widget_hotel_heart_button" />
+                    <com.expedia.bookings.widget.FavoriteButton
+                        android:id="@+id/heart_image_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:padding="24dp"
+                        android:clickable="true"
+                        android:scaleType="center" />
 
                 </FrameLayout>
 
