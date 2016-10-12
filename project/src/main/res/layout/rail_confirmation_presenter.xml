@@ -42,7 +42,8 @@
                         android:paddingLeft="18dp"
                         android:paddingRight="12dp"
                         android:paddingTop="12dp"
-                        app:row_icon="@drawable/train_outbound_icon"
+                        android:inputType="textMultiLine"
+                        app:row_icon="@drawable/rails_outbound_icon"
                         app:row_icon_tint_color="@color/rail_regular_text_color" />
 
                     <include layout="@layout/grey_divider_bar" />
@@ -55,7 +56,8 @@
                         android:paddingLeft="18dp"
                         android:paddingRight="12dp"
                         android:paddingTop="12dp"
-                        app:row_icon="@drawable/train_inbound_icon"
+                        android:inputType="textMultiLine"
+                        app:row_icon="@drawable/rails_inbound_icon"
                         app:row_icon_tint_color="@color/rail_regular_text_color" />
 
                 </LinearLayout>
