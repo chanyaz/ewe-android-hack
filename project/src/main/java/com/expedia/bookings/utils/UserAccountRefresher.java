@@ -77,6 +77,7 @@ public class UserAccountRefresher {
 			else {
 				// Update our existing saved data
 				User user = results.getUser();
+				user.save(context);
 				Db.setUser(user);
 				userLoginStateChangedModel.getUserLoginStateChanged().onNext(true);
 			}

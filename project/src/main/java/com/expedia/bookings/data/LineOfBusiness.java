@@ -18,6 +18,5 @@ public enum LineOfBusiness {
 	PACKAGES,
 	TRANSPORT,
 	RAILS,
-	PROFILE,
-	NONE;
+	PROFILE;
 }
