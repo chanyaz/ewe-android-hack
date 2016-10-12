@@ -45,9 +45,9 @@ class TravelerNameViewModelTest {
         nameVM.updateTravelerName(TravelerName())
 
         val testSubscriber = TestSubscriber<String>(1)
-        nameVM.firstNameSubject.subscribe(testSubscriber)
-        nameVM.middleNameSubject.subscribe(testSubscriber)
-        nameVM.lastNameSubject.subscribe(testSubscriber)
+        nameVM.firstNameViewModel.textSubject.subscribe(testSubscriber)
+        nameVM.middleNameViewModel.textSubject.subscribe(testSubscriber)
+        nameVM.lastNameViewModel.textSubject.subscribe(testSubscriber)
 
         assertEquals("", testSubscriber.onNextEvents[0])
         assertEquals("", testSubscriber.onNextEvents[1])
@@ -66,9 +66,9 @@ class TravelerNameViewModelTest {
         nameVM.updateTravelerName(name)
 
         val testSubscriber = TestSubscriber<String>(1)
-        nameVM.firstNameSubject.subscribe(testSubscriber)
-        nameVM.middleNameSubject.subscribe(testSubscriber)
-        nameVM.lastNameSubject.subscribe(testSubscriber)
+        nameVM.firstNameViewModel.textSubject.subscribe(testSubscriber)
+        nameVM.middleNameViewModel.textSubject.subscribe(testSubscriber)
+        nameVM.lastNameViewModel.textSubject.subscribe(testSubscriber)
 
         assertEquals(TEST_FIRST, testSubscriber.onNextEvents[0])
         assertEquals(TEST_MIDDLE, testSubscriber.onNextEvents[1])
@@ -82,13 +82,13 @@ class TravelerNameViewModelTest {
         nameVM = TravelerNameViewModel(activity)
         nameVM.updateTravelerName(travelerName)
 
-        nameVM.firstNameObserver.onNext(TEST_FIRST)
+        nameVM.firstNameViewModel.textSubject.onNext(TEST_FIRST)
         assertEquals(TEST_FIRST, travelerName.firstName)
 
-        nameVM.middleNameObserver.onNext(TEST_MIDDLE)
+        nameVM.middleNameViewModel.textSubject.onNext(TEST_MIDDLE)
         assertEquals(TEST_MIDDLE, travelerName.middleName)
 
-        nameVM.lastNameObserver.onNext(TEST_LAST)
+        nameVM.lastNameViewModel.textSubject.onNext(TEST_LAST)
         assertEquals(TEST_LAST, travelerName.lastName)
     }
 
@@ -101,9 +101,9 @@ class TravelerNameViewModelTest {
         nameVM.updateTravelerName(name)
 
         val testSubscriber = TestSubscriber<Boolean>(1)
-        nameVM.firstNameErrorSubject.subscribe(testSubscriber)
-        nameVM.middleNameErrorSubject.subscribe(testSubscriber)
-        nameVM.lastNameErrorSubject.subscribe(testSubscriber)
+        nameVM.firstNameViewModel.errorSubject.subscribe(testSubscriber)
+        nameVM.middleNameViewModel.errorSubject.subscribe(testSubscriber)
+        nameVM.lastNameViewModel.errorSubject.subscribe(testSubscriber)
 
         val valid = nameVM.validate()
         assertFalse(valid)
@@ -112,13 +112,13 @@ class TravelerNameViewModelTest {
     }
 
     fun assertNamesEqual(expectedFirst: String, expectedMiddle: String, expectedLast: String) {
-        nameVM.firstNameSubject.subscribe { name ->
+        nameVM.firstNameViewModel.textSubject.subscribe { name ->
             assertEquals(expectedFirst, name)
         }
-        nameVM.middleNameSubject.subscribe { name ->
+        nameVM.middleNameViewModel.textSubject.subscribe { name ->
             assertEquals(expectedMiddle, name)
         }
-        nameVM.lastNameSubject.subscribe { name ->
+        nameVM.lastNameViewModel.textSubject.subscribe { name ->
             assertEquals(expectedLast, name)
         }
     }

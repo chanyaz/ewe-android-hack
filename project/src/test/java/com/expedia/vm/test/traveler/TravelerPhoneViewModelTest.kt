@@ -62,7 +62,7 @@ class TravelerPhoneViewModelTest {
         phoneVm = TravelerPhoneViewModel(activity)
         phoneVm.updatePhone(phone)
 
-        phoneVm.phoneNumberObserver.onNext(TEST_NUMBER)
+        phoneVm.phoneViewModel.textSubject.onNext(TEST_NUMBER)
         assertEquals(TEST_NUMBER, phone.number)
     }
 
@@ -74,7 +74,7 @@ class TravelerPhoneViewModelTest {
         phoneVm.updatePhone(phone)
 
         val testSubscriber = TestSubscriber<String>(1)
-        phoneVm.phoneNumberSubject.subscribe(testSubscriber)
+        phoneVm.phoneViewModel.textSubject.subscribe(testSubscriber)
 
         assertEquals(TEST_NUMBER, testSubscriber.onNextEvents[0])
         testSubscriber.assertValueCount(1)
@@ -88,7 +88,7 @@ class TravelerPhoneViewModelTest {
         phoneVm.updatePhone(phone)
 
         val testSubscriber = TestSubscriber<Boolean>(1)
-        phoneVm.phoneErrorSubject.subscribe(testSubscriber)
+        phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertFalse(phoneVm.validate())
         assertEquals(true, testSubscriber.onNextEvents[0])
@@ -101,7 +101,7 @@ class TravelerPhoneViewModelTest {
         phoneVm.updatePhone(Phone())
 
         val testSubscriber = TestSubscriber<Boolean>(1)
-        phoneVm.phoneErrorSubject.subscribe(testSubscriber)
+        phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertFalse(phoneVm.validate())
         assertEquals(true, testSubscriber.onNextEvents[0])
@@ -116,7 +116,7 @@ class TravelerPhoneViewModelTest {
         phoneVm.updatePhone(phone)
 
         val testSubscriber = TestSubscriber<Boolean>(1)
-        phoneVm.phoneErrorSubject.subscribe(testSubscriber)
+        phoneVm.phoneViewModel.errorSubject.subscribe(testSubscriber)
 
         assertTrue(phoneVm.validate())
         assertEquals(false, testSubscriber.onNextEvents[0])

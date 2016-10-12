@@ -17,7 +17,7 @@
         android:textSize="@dimen/traveler_input_text_size"
         app:error_cont_desc="@string/accessibility_cont_desc_role_error"/>
 
-    <com.expedia.bookings.widget.accessibility.AccessibleSpinner
+    <com.expedia.bookings.widget.traveler.TravelerSpinner
         android:id="@+id/edit_gender_spinner"
         style="@style/FakeSpinner.Light"
         android:layout_width="0dp"
