@@ -3,22 +3,25 @@ package com.expedia.bookings.test.robolectric
 import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.lx.LXCheckoutPresenter
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.LXCheckoutSummaryWidget
 import com.expedia.bookings.widget.LXErrorWidget
 import com.expedia.bookings.widget.TextView
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
+import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -26,6 +29,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowAlertDialog
 import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
@@ -34,6 +38,7 @@ import kotlin.test.assertEquals
 @Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 
 class LxCheckoutErrorTests {
+
     var mockActivityServiceTestRule: MockActivityServiceTestRule = MockActivityServiceTestRule()
         @Rule get
 
@@ -46,9 +51,9 @@ class LxCheckoutErrorTests {
     lateinit var errorButton: Button
     lateinit var errorToolbar: android.support.v7.widget.Toolbar
     lateinit var checkoutPresenter: LXCheckoutPresenter
+    lateinit var checkoutToolbar: ViewGroup
 
     @Before fun before() {
-
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.V2_Theme_LX)
         Ui.getApplication(activity).defaultLXComponents()
@@ -59,6 +64,13 @@ class LxCheckoutErrorTests {
         errorImage = errorWidget.findViewById(R.id.error_image) as ImageView
         errorButton = errorWidget.findViewById(R.id.error_action_button) as Button
         errorToolbar = errorWidget.findViewById(R.id.error_toolbar) as android.support.v7.widget.Toolbar
+        checkoutToolbar = checkoutPresenter.findViewById(R.id.checkout_toolbar) as ViewGroup
+        Events.register(checkoutPresenter)
+
+    }
+
+    @After fun after() {
+        Events.unregister(checkoutPresenter)
     }
 
     @Test
@@ -71,6 +83,14 @@ class LxCheckoutErrorTests {
         assertEquals(activity.getResources().getString(R.string.payment_failed_label), errorToolbar.title)
         assertEquals(activity.getResources().getString(R.string.edit_payment), errorButton.text)
         assertEquals(activity.getResources().getString(R.string.reservation_payment_failed), errorText.text)
+
+        errorButton.performClick()
+
+        val editbox = checkoutPresenter.findViewById(R.id.edit_creditcard_number)
+        val sectionBillingInfo =  checkoutPresenter.findViewById(R.id.section_billing_info)
+        assertEquals(View.VISIBLE, sectionBillingInfo.visibility)
+        assertEquals(View.VISIBLE, editbox.visibility)
+
     }
 
     @Test
@@ -87,6 +107,7 @@ class LxCheckoutErrorTests {
 
     @Test
     fun testInvalidInput(){
+
         performLxCheckoutError("InvalidInput")
 
         assertEquals(ApiError.Code.INVALID_INPUT, apiError.errorCode)
@@ -95,6 +116,14 @@ class LxCheckoutErrorTests {
         assertEquals(activity.getResources().getString(R.string.lx_invalid_input_text), errorToolbar.title)
         assertEquals(activity.getResources().getString(R.string.edit_info), errorButton.text)
         assertEquals(activity.getResources().getString(R.string.reservation_invalid_name), errorText.text)
+
+        errorButton.performClick()
+
+        //Assert that Traveller details screen is displayed
+        val checkoutToolbarTitle = checkoutToolbar.getChildAt(2) as android.widget.TextView
+        val mainContactInfoCardView =  checkoutPresenter.findViewById(R.id.main_contact_info_card_view) as android.widget.FrameLayout
+        assertEquals("Traveler details", checkoutToolbarTitle.text.toString())
+        assertEquals(View.VISIBLE, mainContactInfoCardView.visibility)
     }
 
     @Test
@@ -119,6 +148,7 @@ class LxCheckoutErrorTests {
         assertEquals(activity.getResources().getString(R.string.session_timeout), errorToolbar.title)
         assertEquals(activity.getResources().getString(R.string.edit_search), errorButton.text)
         assertEquals(activity.getResources().getString(R.string.reservation_time_out), errorText.text)
+
     }
 
     @Test
@@ -153,6 +183,51 @@ class LxCheckoutErrorTests {
 
     }
 
+    @Test
+    fun testCVVScreen() {
+        val billingInfo = getBillingInfo()
+        Events.post(Events.ShowCVV(billingInfo))
+        val promptText = checkoutPresenter.findViewById(R.id.cvv_prompt_text_view) as com.mobiata.android.widget.AutoResizeTextView
+        val cvvToolbarCheckout = checkoutPresenter.findViewById(R.id.cvv_toolbar) as ViewGroup
+        val toolBarTitle = cvvToolbarCheckout.getChildAt(1) as android.widget.TextView
+        val bookButton = checkoutPresenter.findViewById(R.id.book_button)
+        val authorizedSignature = checkoutPresenter.findViewById(R.id.authorized_signature_text) as android.widget.TextView
+        val signatureTextView = checkoutPresenter.findViewById(R.id.signature_text_view) as android.widget.TextView
+        assertEquals("Finish Booking", toolBarTitle.text)
+        assertEquals("Security code for card ending in 4448", promptText.text.toString())
+        assertEquals(" T. User", signatureTextView.text.toString())
+        assertEquals("Authorized Signature", authorizedSignature.text.toString())
+        assertEquals(false, bookButton.isEnabled)
+    }
+
+    @Test
+    fun testWhenMissingCheckoutParam() {
+        mockActivityServiceTestRule.setCheckoutParams("HappyPath", false)
+        val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityServiceTestRule.getCheckoutParams())
+        checkoutPresenter.onDoCheckoutCall(lxKickoffCheckoutCallEvent)
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val okButton = alertDialog.findViewById(android.R.id.button3) as Button
+        val errorMessage = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        assertEquals(true, alertDialog.isShowing)
+        assertEquals("Missing checkout params.", errorMessage.text)
+        assertEquals("OK", okButton.text )
+        //Tap on Ok button
+        okButton.performClick()
+        assertEquals(false, alertDialog.isShowing)
+    }
+
+    @Test
+    fun testShowLXRules() {
+        val checkoutSummaryWidget = LayoutInflater.from(activity).inflate(R.layout.lx_checkout_summary_widget, null) as LXCheckoutSummaryWidget
+        val lxRulesToolbar = checkoutPresenter.findViewById(R.id.lx_rules_toolbar) as ViewGroup
+        val lxRulesToolbarTitle = lxRulesToolbar.getChildAt(1) as android.widget.TextView
+        val freeCancellationPolicyText = checkoutPresenter.findViewById(R.id.cancellation_policy_header_text_view) as android.widget.TextView
+        checkoutSummaryWidget.showLxRules()
+
+        assertEquals("Legal Information", lxRulesToolbarTitle.text.toString())
+        assertEquals(View.VISIBLE, freeCancellationPolicyText.visibility)
+    }
+
     private fun performLxCheckoutError(errorType: String) {
         apiError = mockActivityServiceTestRule.getCheckoutError(errorType)
         val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityServiceTestRule.getCheckoutParams())
@@ -165,5 +240,20 @@ class LxCheckoutErrorTests {
         val lxKickoffCheckoutCallEvent = Events.LXKickOffCheckoutCall(mockActivityServiceTestRule.getCheckoutParams())
         checkoutPresenter.onDoCheckoutCall(lxKickoffCheckoutCallEvent)
         errorWidget.bind(checkoutResponseForPriceChange.firstError)
+    }
+
+    private fun getBillingInfo(): BillingInfo {
+
+        val billingInfo = BillingInfo()
+        billingInfo.firstName = "Test"
+        billingInfo.lastName = "User"
+        billingInfo.nameOnCard = "Test User"
+        billingInfo.email = "qa-ehcc@mobiata.com"
+        billingInfo.setNumberAndDetectType("4444444444444448")
+        billingInfo.expirationDate = LocalDate.now().plusYears(1)
+        billingInfo.securityCode = "111"
+        billingInfo.telephone = "4155555555"
+        billingInfo.telephoneCountryCode = "1"
+        return billingInfo
     }
 }

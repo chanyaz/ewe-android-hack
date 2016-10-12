@@ -44,11 +44,13 @@ class MockActivityServiceTestRule : ServicesRule<LxServices>(LxServices::class.j
         return observer.onNextEvents.get(0)
     }
 
-    fun setCheckoutParams(errorType: String){
+
+    fun setCheckoutParams(errorType: String, isRequiredCVV: Boolean = true){
         lxCheckoutParams = LXCheckoutParams()
         lxCheckoutParams.firstName = errorType
         lxCheckoutParams.lastName = "Test"
-        lxCheckoutParams.cvv = "111"
+        if (isRequiredCVV)
+            lxCheckoutParams.cvv = "111"
         lxCheckoutParams.expectedTotalFare = "180.00"
         lxCheckoutParams.phone = "456-4567"
         lxCheckoutParams.email = "qa-ehcc@mobiata.com"
