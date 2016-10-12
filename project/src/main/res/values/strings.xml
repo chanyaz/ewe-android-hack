@@ -4105,6 +4105,10 @@
     <string name="hotel_price_range_start">Price Range Start</string>
     <!-- Hotel Price Range end filter label for accessibility -->
     <string name="hotel_price_range_end">Price Range End</string>
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="hotels_filter_show_more_cont_desc">Show more neighborhoods. Button</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="hotels_filter_show_less_cont_desc">Show fewer neighborhoods. Button</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Added to favorites in the filter screen</string>

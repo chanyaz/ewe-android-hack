@@ -451,6 +451,7 @@
                         android:layout_centerVertical="true"
                         android:background="@android:color/transparent"
                         android:clickable="false"
+                        android:importantForAccessibility="2"
                         android:src="@drawable/read_more" />
 
                     <com.expedia.bookings.widget.TextView
