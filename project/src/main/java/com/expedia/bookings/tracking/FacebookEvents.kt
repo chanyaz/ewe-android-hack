@@ -376,9 +376,11 @@ class FacebookEvents() {
     }
 
     fun trackFlightV2Confirmation(flightCheckoutResponse: FlightCheckoutResponse, flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams) {
-        val lastSegment = flightCheckoutResponse.details.legs[0].segments.size - 1
-        val arrivalAirportAddress = flightCheckoutResponse.details.legs[0].segments[lastSegment].arrivalAirportAddress
-        val airLineCode = flightCheckoutResponse.details.legs[0].segments[0].airlineCode
+        val flightTripDetails = flightCheckoutResponse.getFirstFlightTripDetails()
+        val flightLeg = flightTripDetails.legs[0]
+        val lastSegment = flightLeg.segments.size - 1
+        val arrivalAirportAddress = flightLeg.segments[lastSegment].arrivalAirportAddress
+        val airLineCode = flightLeg.segments[0].airlineCode
         val parameters = Bundle()
         addCommonFlightV2Params(parameters, flightSearchParams, arrivalAirportAddress)
         parameters.putString("Booking_Value", flightCheckoutResponse.totalChargesPrice?.amount.toString())
