@@ -4391,6 +4391,9 @@
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
 
+    <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
+    <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
+
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">Journey details + Fare options</string>
 

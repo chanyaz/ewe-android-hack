@@ -2,6 +2,7 @@ package com.expedia.vm.test.rail
 
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.RailUtils
 import com.expedia.bookings.widget.RailLegOptionViewModel
@@ -24,7 +25,8 @@ class RailLegOptionViewModelTest {
     val testNoOfChanges = 3
     val testAggregatedOperationCarrier = "The Pain Train"
     val testFormattedPrice = "$15"
-    val testRoundTripFormattedPrice = "$25"
+    val testRoundTripOutboundFormattedPrice = "$25"
+    val testRoundTripInboundFormattedPrice = "+$10"
 
     val expectedDuration = DateTimeUtils.formatDuration(context.resources, testDurationMinutes)
     val expectedChangeText = RailUtils.formatRailChangesText(context, testNoOfChanges)
@@ -54,25 +56,43 @@ class RailLegOptionViewModelTest {
     @Test
     fun testOneWayResultPrice() {
         val legOption = buildMockLegOption()
+        val leg = buildMockLeg(1, Money("5", "USD"), null)
 
         val testSub = TestSubscriber<String>()
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
-        testViewModel.cheapestLegPriceObservable.onNext(null)
+        testViewModel.legObservable.onNext(leg)
 
         assertEquals(testFormattedPrice, testSub.onNextEvents[0])
     }
 
+
     @Test
-    fun testRoundTripResultPrice() {
+    fun testRoundTripOutboundTotalPrice() {
         val legOption = buildMockLegOption()
+
+        val leg = buildMockLeg(1, Money("5", "USD"), Money("10", "USD"))
 
         val testSub = TestSubscriber<String>()
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
-        testViewModel.cheapestLegPriceObservable.onNext(Money("10", "USD"))
+        testViewModel.legObservable.onNext(leg)
 
-        assertEquals(testRoundTripFormattedPrice, testSub.onNextEvents[0])
+        assertEquals(testRoundTripOutboundFormattedPrice, testSub.onNextEvents[0])
+    }
+
+    @Test
+    fun testRoundTripInboundDeltaPrice() {
+        val legOption = buildMockLegOption()
+
+        val leg = buildMockLeg(2, Money("5", "USD"), null)
+
+        val testSub = TestSubscriber<String>()
+        testViewModel.priceObservable.subscribe(testSub)
+        testViewModel.legOptionObservable.onNext(legOption)
+        testViewModel.legObservable.onNext(leg)
+
+        assertEquals(testRoundTripInboundFormattedPrice, testSub.onNextEvents[0])
     }
 
     @Test
@@ -101,4 +121,14 @@ class RailLegOptionViewModelTest {
         Mockito.`when`(legOption.getArrivalDateTime()).thenReturn(DateTime.now().plusHours(1))
         return legOption
     }
+
+    private fun buildMockLeg(legBoundOrder: Int, cheapestPrice: Money, cheapestInboundPrice: Money?): RailSearchResponse.RailLeg {
+        val leg = Mockito.mock(RailSearchResponse.RailLeg::class.java)
+        leg.legBoundOrder = legBoundOrder
+        leg.cheapestPrice = cheapestPrice
+        leg.cheapestInboundPrice = cheapestInboundPrice
+
+        return leg
+    }
+
 }

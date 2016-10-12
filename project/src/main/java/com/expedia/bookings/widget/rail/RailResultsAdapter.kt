@@ -145,7 +145,7 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
 
         fun bind(leg: RailLegOption) {
             viewModel.legOptionObservable.onNext(leg)
-            viewModel.cheapestLegPriceObservable.onNext(railLeg.cheapestInboundPrice)
+            viewModel.legObservable.onNext(railLeg)
         }
 
         override fun onClick(v: View?) {
