@@ -75,7 +75,7 @@ dependencies {
     compile 'com.leanplum:Leanplum:1.2.24'
     compile 'io.reactivex:rxandroid:1.2.0'
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
-    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
+    compile 'com.facebook.android:facebook-android-sdk:4.16.1'
     compile 'io.card:android-sdk:5.3.4'
     compile ('com.wefika:flowlayout:0.4.0') {
         exclude group: 'com.intellij'
