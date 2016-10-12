@@ -68,5 +68,11 @@ public class DynamicFeedbackWidget extends CardView {
 		}
 
 		dynamicFeedbackCounter.setText(text);
+		String announcementString = Phrase
+			.from(getContext().getString(R.string.number_results_announcement_text_TEMPLATE))
+				.put("results", text.toString())
+				.format().toString();
+
+		announceForAccessibility(announcementString);
 	}
 }
