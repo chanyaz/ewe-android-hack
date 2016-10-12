@@ -2,7 +2,6 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.PorterDuff
-import android.support.annotation.StringRes
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.Editable
@@ -158,8 +157,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
             filterFavoriteContainer.setOnClickListener {
                 clearHotelNameFocus()
-                filterHotelFavorite.isChecked = !filterHotelFavorite.isChecked
-                vm.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
+                updateFavoriteFilter()
                 HotelTracking().trackHotelFilterFavoriteClicked(filterHotelFavorite.isChecked)
             }
         }
@@ -538,13 +536,13 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     fun refreshFavoriteCheckbox() {
         if (HotelFavoriteHelper.showHotelFavoriteTest(context) && viewmodel.lob == LineOfBusiness.HOTELS) {
-            val favSize = HotelFavoriteHelper.getHotelFavorites(context).size
-            if (favSize == 0 && !viewmodel.userFilterChoices.favorites) {
-                filterFavoriteContainer.visibility = View.GONE
-                optionLabel.text = context.resources.getString(R.string.vip)
-            } else {
+            if (HotelFavoriteHelper.getLocalFavorites().isNotEmpty()) {
                 filterFavoriteContainer.visibility = View.VISIBLE
                 optionLabel.text = context.resources.getString(R.string.filter_options)
+            } else {
+                if (viewmodel.userFilterChoices.favorites) updateFavoriteFilter()
+                filterFavoriteContainer.visibility = View.GONE
+                optionLabel.text = context.resources.getString(R.string.vip)
             }
         }
     }
@@ -560,5 +558,10 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         filterStarThree.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_three_circle));
         filterStarFour.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_four_circle));
         filterStarFive.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_five_circle));
+    }
+
+    private fun updateFavoriteFilter() {
+        filterHotelFavorite.isChecked = !filterHotelFavorite.isChecked
+        viewmodel.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
     }
 }

@@ -8,6 +8,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.tracking.HotelTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.data.hotels.Hotel;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,6 +18,7 @@ public class HotelFavoriteHelper {
 
 	private static final String firstTimeKey = "Hotel_Favorites_First_Time";
 	private static final String listKey = "Hotel_Favorites_List";
+	private static final HashSet<String> localFavorites = new HashSet<>();
 
 	public static Boolean isFirstTimeFavoriting(Context context) {
 		return getDefaultSharedPreferences(context).getBoolean(firstTimeKey, true);
@@ -59,6 +63,7 @@ public class HotelFavoriteHelper {
 		SharedPreferences prefs = getDefaultSharedPreferences(context);
 		Set<String> favoritesList = getHotelFavorites(context);
 		favoritesList.add(hotelId);
+		localFavorites.add(hotelId);
 		saveHotelFavorites(prefs, favoritesList);
 		// mark first time flag false
 		Editor editor = prefs.edit();
@@ -69,6 +74,7 @@ public class HotelFavoriteHelper {
 	private static void removeHotelFromFavorites(Context context, String hotelId) {
 		Set<String> favoritesList = getHotelFavorites(context);
 		favoritesList.remove(hotelId);
+		localFavorites.remove(hotelId);
 		saveHotelFavorites(getDefaultSharedPreferences(context), favoritesList);
 	}
 
@@ -76,4 +82,17 @@ public class HotelFavoriteHelper {
 		return PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
+	public static HashSet<String> getLocalFavorites() {
+		return localFavorites;
+	}
+
+	public static void setLocalFavorites(ArrayList<Hotel> list, Context context) {
+		Set<String> currentFavorites = getHotelFavorites(context);
+		localFavorites.clear();
+		for (Hotel hotel: list) {
+			if (currentFavorites.contains(hotel.hotelId)) {
+				localFavorites.add(hotel.hotelId);
+			}
+		}
+	}
 }
