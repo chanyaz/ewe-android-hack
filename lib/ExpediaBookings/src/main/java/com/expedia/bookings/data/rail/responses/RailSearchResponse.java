@@ -30,6 +30,7 @@ public class RailSearchResponse {
 
 	public static class RailLeg {
 		public Integer legIndex;
+		public Integer legBoundOrder;
 		public RailStation departureStation;
 		public RailStation arrivalStation;
 		public List<RailLegOption> legOptionList;

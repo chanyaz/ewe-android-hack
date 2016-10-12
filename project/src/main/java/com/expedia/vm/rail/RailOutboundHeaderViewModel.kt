@@ -11,6 +11,7 @@ import rx.subjects.PublishSubject
 class RailOutboundHeaderViewModel(context: Context) : RailLegOptionViewModel(context) {
     //input
     val offerSubject = PublishSubject.create<RailSearchResponse.RailOffer>()
+    val cheapestLegPriceObservable = PublishSubject.create<Money?>()
 
     //output
     val offerPriceObservable = Observable.combineLatest(offerSubject, cheapestLegPriceObservable,

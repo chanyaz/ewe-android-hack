@@ -976,6 +976,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_departure_arrival_station_TEMPLATE,
 		R.string.rail_departure_time_travelers_TEMPLATE,
 		R.string.coupon_submit_button_ally,
-		R.string.rail_cc_processing_fee_TEMPLATE
+		R.string.rail_cc_processing_fee_TEMPLATE,
+		R.string.rail_price_difference_TEMPLATE
 	};
 }
