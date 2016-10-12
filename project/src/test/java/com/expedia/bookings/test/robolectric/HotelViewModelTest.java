@@ -78,7 +78,7 @@ public class HotelViewModelTest {
 
 		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
 		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
-		assertEquals("Test Hotel with 0 stars of 5 rating. 0.0 of 5 guest rating. Price $10\\u0020Old price $12\\u0020Button", vm.getHotelContentDesc().toString());
+		assertEquals("Test Hotel with 0 stars of 5 rating. 0.0 of 5 guest rating.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
 	}
 
 	@Test
@@ -93,7 +93,7 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		assertTrue(vm.getShowDiscountObservable().getValue());
-		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating. Price $10\\u002010\\u0025 off normal price\\u0020Old price $12\\u0020Button", vm.getHotelContentDesc().toString());
+		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020Original price discounted 10%.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
 	}
 
 	@Test
