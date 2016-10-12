@@ -30,6 +30,7 @@
     <attr name="dropoff_time_title" format="reference" />
     <attr name="search_calendar_card_view_text" format="reference" />
     <attr name="skin_searchLocationText" format="reference" />
+    <attr name="skin_searchLocationContDesc" format="reference" />
     <attr name="skin_searchButtonSelectorDrawable" format="reference" />
     <attr name="skin_searchButtonStyle" format="reference" />
     <attr name="spinner_traveler_text_color_drawable" format="reference" />

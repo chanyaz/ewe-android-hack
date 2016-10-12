@@ -60,6 +60,7 @@
          -->
         <item name="skin_searchToolbarText">@string/hotel_search_toolbar_title</item>
         <item name="skin_searchLocationText">@string/enter_destination_hint</item>
+        <item name="skin_searchLocationContDesc">@string/enter_destination_cont_desc</item>
         <item name="skin_searchButtonSelectorDrawable">@drawable/hotel_select_room_ripple</item>
         <item name="skin_searchButtonStyle">@style/HotelButtonStyle</item>
 
