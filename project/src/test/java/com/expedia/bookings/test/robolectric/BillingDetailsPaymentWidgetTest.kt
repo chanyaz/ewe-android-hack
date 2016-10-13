@@ -72,7 +72,6 @@ class BillingDetailsPaymentWidgetTest {
         assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
     }
 
-
     @Test
     fun testAmexSecurityCodeValidator() {
         billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
@@ -94,6 +93,18 @@ class BillingDetailsPaymentWidgetTest {
         info.securityCode = "1234"
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+    }
+
+    @Test
+    fun testAddressLimit() {
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
+        givenTripResponse("AmericanExpress")
+
+        billingDetailsPaymentWidget.addressLineOne.setText("891y398y2hifjsuiahssadbajbdjhasbdhjabsdhjbasjhbhjasdbhjasbdhjabsdhjbasjhdbjbasdhjasjhdbjhasbdhjbashjdbashjbdjhasbdhjbashjdbasjhbdjhbasdbhjasbdhjabsdjh")
+
+        assertEquals(40, billingDetailsPaymentWidget.addressLineOne.text.length)
     }
 
     @Test

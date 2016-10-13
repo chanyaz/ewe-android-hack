@@ -12,6 +12,9 @@
     <!-- The maximum credit card number length, according to sources -->
     <integer name="max_credit_card_length">19</integer>
 
+    <!-- The maximum billing address length, according to sources -->
+    <integer name="max_billing_address_length">40</integer>
+
     <!-- The maximum number of days for paging in the future (from now) users can select to search -->
     <integer name="calendar_max_selectable_date_range">500</integer>
 
