@@ -553,9 +553,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     fun onAboutRowClicked(id: Int): Boolean {
         when (id) {
             ROW_COUNTRY -> {
-                OmnitureTracking.trackClickCountrySetting()
-                val selectCountryDialog = aboutUtils.createCountrySelectDialog()
-                selectCountryDialog.show(activity.supportFragmentManager, "selectCountryDialog")
+                if (PointOfSale.getAllPointsOfSale(context).size > 1) {
+                    OmnitureTracking.trackClickCountrySetting()
+                    val selectCountryDialog = aboutUtils.createCountrySelectDialog()
+                    selectCountryDialog.show(activity.supportFragmentManager, "selectCountryDialog")
+                }
                 return true
             }
             ROW_BOOKING_SUPPORT -> {
