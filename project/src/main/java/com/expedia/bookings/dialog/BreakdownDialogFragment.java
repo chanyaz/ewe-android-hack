@@ -28,10 +28,10 @@ import com.expedia.bookings.data.PassengerCategoryPrice;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.CheckoutPriceType;
 import com.expedia.bookings.data.RateBreakdown;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -391,7 +391,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 				.build());
 
 			int taxesAndFeesLabel = PointOfSale.getPointOfSale()
-					.shouldAdjustPricingMessagingForAirlinePaymentMethodFee() ?
+					.doAirlinesChargeAdditionalFeeBasedOnPaymentMethod() ?
 					R.string.taxes_without_airline_fees : R.string.taxes_and_airline_fees;
 
 			builder.addLineItem((new LineItemBuilder())
@@ -459,7 +459,7 @@ public class BreakdownDialogFragment extends DialogFragment {
 			builder.addLineItem((new LineItemBuilder())
 				.setItemLeft((new ItemBuilder())
 					.setText(context.getString(
-						PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()
+						PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
 							? R.string.total_price_min_label : R.string.total_price_label))
 					.setTextAppearance(R.style.TextAppearance_Breakdown_Heavy_Bold)
 					.build())

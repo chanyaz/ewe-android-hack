@@ -157,7 +157,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		// Detect user state, update account button accordingly
 		mAccountButton.setListener(this);
 
-		if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
 			Ui.findView(v, R.id.airline_notice_fee_added).setOnClickListener(new View.OnClickListener() {
 				@Override
 				public void onClick(View v) {

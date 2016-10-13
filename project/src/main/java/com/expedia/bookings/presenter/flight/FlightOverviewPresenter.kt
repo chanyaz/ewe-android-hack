@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.flight
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.BaseOverviewPresenter
@@ -12,6 +13,7 @@ import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
+import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
@@ -27,14 +29,6 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
         scrollSpaceView = flightSummary.scrollSpaceView
     }
 
-    val flightOverviewToAirlineFeeWebView = object : Transition(BundleDefault::class.java, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
-        override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
-            bundleOverviewHeader.visibility = if (forward) View.GONE else View.VISIBLE
-            paymentFeeInfoWebView.visibility = if (!forward) View.GONE else View.VISIBLE
-        }
-    }
-
     override fun inflate() {
         View.inflate(context, R.layout.flight_overview, this)
     }
@@ -42,14 +36,10 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(flightSummary)
-        addTransition(flightOverviewToAirlineFeeWebView)
         bundleOverviewHeader.nestedScrollView.addView(flightSummary)
         viewModel.showFreeCancellationObservable.subscribeVisibility(flightSummary.freeCancellationLabelTextView)
         viewModel.showSplitTicketMessagingObservable.subscribeVisibility(flightSummary.splitTicketInfoContainer)
         viewModel.splitTicketBaggageFeesLinksObservable.subscribeText(flightSummary.splitTicketBaggageFeesTextView)
-        viewModel.showAirlineFeeWarningObservable.subscribeVisibility(flightSummary.airlineFeeWarningTextView)
-        viewModel.airlineFeeWarningTextObservable.subscribeText(flightSummary.airlineFeeWarningTextView)
-        flightSummary.airlineFeeWarningTextView.setOnClickListener { show(paymentFeeInfoWebView) }
     }
 
     fun resetFlightSummary() {

@@ -22,7 +22,6 @@ class FlightSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(
     val splitTicketBaggageFeesTextView: android.widget.TextView by bindView(R.id.split_ticket_baggage_fee_links)
     val splitTicketInfoContainer: View by bindView(R.id.split_ticket_info_container)
     val scrollSpaceView: View by bindView(R.id.scroll_space_flight)
-    val airlineFeeWarningTextView: android.widget.TextView by bindView(R.id.airline_fee_warning_text)
 
     init {
         View.inflate(context, R.layout.flight_summary, this)

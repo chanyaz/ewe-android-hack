@@ -164,7 +164,7 @@ class AbstractFlightListAdapterTest {
     }
 
     private class TestFlightListAdapter(context: Context, flightSelectedSubject: PublishSubject<FlightLeg>, isRoundTripSearch: BehaviorSubject<Boolean>) : AbstractFlightListAdapter(context, flightSelectedSubject, isRoundTripSearch) {
-        override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
+        override fun isAirlinesChargePaymentMethodFee(): Boolean {
             return false
         }
 
