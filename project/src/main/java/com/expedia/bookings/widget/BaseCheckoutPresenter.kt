@@ -496,6 +496,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         updateDbTravelers()
         initLoggedInState(false)
         updateTravelerPresenter()
+        tripViewModel.performCreateTrip.onNext(Unit)
     }
 
     fun onLoginSuccess() {
