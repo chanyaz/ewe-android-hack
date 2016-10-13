@@ -4480,6 +4480,9 @@
     <string name="delivery_by_mail">Delivery by mail</string>
     <string name="shipping_address">Shipping Address</string>
 
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">By selecting to complete this booking I acknowledge that I have read and accept the {rules_and_restrictions}, the {conditions_of_travel}, the {supplier_terms_and_cnditions}, the {terms_of_use}, the {privacy_policy}, and the {payment_and_ticket_delivery_fees}.</string>
+
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Bring your ticket reference number and the credit card to purchase.</string>
 

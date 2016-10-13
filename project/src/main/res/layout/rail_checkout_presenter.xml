@@ -111,5 +111,19 @@
                 android:paddingTop="8dp"
                 android:visibility="gone"/>
         </LinearLayout>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/legal_information_text_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="@dimen/card_view_container_margin"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:textColor="@color/defaultTextColor"
+            android:textSize="10sp"
+            android:layout_marginTop="80dp"
+            android:layout_below="@+id/ticket_delivery_overview_widget"
+            android:layout_toEndOf="@+id/rail_traveler_entry_widget"/>
     </RelativeLayout>
 </merge>

@@ -80,4 +80,34 @@ class PointOfSaleLocale(private val data: JSONObject) {
 
     /** Loyalty Rewards Info URL */
     val RewardsInfoURL by lazy { data.optString("rewardsInfoURL") }
+
+    /** Rails Rules and Restrictions URL */
+    val railsRulesAndRestrictionsURL by lazy { data.optString("railsRulesAndRestrictionsURL") }
+
+    /** Rails National Rail Conditions of Travel URL */
+    val railsNationalRailConditionsOfTravelURL by lazy { data.optString("railsNationalRailConditionsOfTravelURL") }
+
+    /** Rails Supplier Terms and Conditions URL */
+    val railsSupplierTermsAndConditionsURL by lazy { data.optString("railsSupplierTermsAndConditionsURL") }
+
+    /** Rails Terms of Use URL */
+    val railsTermOfUseURL by lazy { data.optString("railsTermOfUseURL") }
+
+    /** Rails Privacy Policy URL */
+    val railsPrivacyPolicyURL by lazy { data.optString("railsPrivacyPolicyURL") }
+
+    /** Rails Payment and Ticket Delivery Fees URL */
+    val railsPaymentAndTicketDeliveryFeesURL by lazy { data.optString("railsPaymentAndTicketDeliveryFeesURL") }
+
+    /** National Rail Conditions of Travel text */
+    val railsNationalRailConditionsOfTravelLinkText by lazy { data.optString("railsNationalRailConditionsOfTravelLinkText") }
+
+    /** Rails Supplier Terms and Conditions text */
+    val railsSupplierTermsAndConditionsLinkText by lazy { data.optString("railsSupplierTermsAndConditionsLinkText") }
+
+    /** Rails Terms of Use text */
+    val railsTermOfUseLinkText by lazy { data.optString("railsTermOfUseLinkText") }
+
+    /** Rails Payment and Ticket Delivery Fees text */
+    val railsPaymentAndTicketDeliveryFeesLinkText by lazy { data.optString("railsPaymentAndTicketDeliveryFeesLinkText") }
 }
