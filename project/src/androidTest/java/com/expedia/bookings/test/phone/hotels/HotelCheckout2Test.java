@@ -11,6 +11,11 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 
+import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
+
 import junit.framework.Assert;
 
 import static android.support.test.espresso.action.ViewActions.click;
@@ -20,6 +25,10 @@ public class HotelCheckout2Test extends HotelTestCase {
 		SearchScreen.doGenericHotelSearch();
 		HotelScreen.selectHotel("happypath");
 		HotelScreen.selectRoom();
+
+		//a11y test for cost summary
+		onView(withId(R.id.cost_summary)).check(matches(withContentDescription("Total with Tax $135.81 Due to Expedia today $0  Cost summary information Button")));
+
 		CheckoutViewModel.waitForCheckout();
 		CheckoutViewModel.clickDone();
 		CheckoutViewModel.applyCoupon("hotel_coupon_success");
