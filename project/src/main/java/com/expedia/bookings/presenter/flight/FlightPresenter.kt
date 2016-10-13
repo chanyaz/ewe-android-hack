@@ -204,19 +204,18 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         presenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
-        presenter.viewModel.showAirlineFeeWarningObservable.onNext(PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage())
-        flightOfferViewModel.obFeeDetailsUrlObservable.subscribe { obFeeDetailsUrl ->
+        if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
+            presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
             val resId = if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-                R.string.flights_fee_maybe_added_based_on_payment_TEMPLATE
+                R.string.airline_maybe_fee_notice
             } else {
-                R.string.flights_fee_added_based_on_payment_TEMPLATE
+                R.string.airline_fee_notice
             }
-            val airlineFeeWithLink =
-                    Phrase.from(context, resId)
-                            .put("airline_fee_url", obFeeDetailsUrl)
-                            .format().toString()
-            val message = StrUtils.getSpannableTextByColor(airlineFeeWithLink, ContextCompat.getColor(context, R.color.flight_primary_color), true)
+            val message = context.getString(resId)
             presenter.viewModel.airlineFeeWarningTextObservable.onNext(message)
+        }
+        else {
+            presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
         }
 
         checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
