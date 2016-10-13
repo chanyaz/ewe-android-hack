@@ -204,6 +204,20 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
         presenter.getCheckoutPresenter().toggleCheckoutButton(false)
 
+        if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
+            presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
+            val resId = if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+                R.string.airline_maybe_fee_notice
+            } else {
+                R.string.airline_fee_notice
+            }
+            val message = context.getString(resId)
+            presenter.viewModel.airlineFeeWarningTextObservable.onNext(message)
+        }
+        else {
+            presenter.viewModel.showAirlineFeeWarningObservable.onNext(false)
+        }
+
         checkoutViewModel.bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
             val flightCheckoutResponse = pair.first as FlightCheckoutResponse
             val userEmail = pair.second

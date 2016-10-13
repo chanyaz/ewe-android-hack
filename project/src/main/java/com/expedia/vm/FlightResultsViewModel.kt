@@ -10,7 +10,7 @@ class FlightResultsViewModel() {
     val flightResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val isOutboundResults = BehaviorSubject.create<Boolean>()
     val airlineChargesFeesSubject = PublishSubject.create<Boolean>()
-    val posAirlineCouldChargeFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+    val posAirlineCouldChargeFees = PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()
 
     init {
         isOutboundResults.subscribe { isOutbound ->

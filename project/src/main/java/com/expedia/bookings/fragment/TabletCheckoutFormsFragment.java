@@ -503,7 +503,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			add(couponFrame);
 		}
 
-		if (getLob() == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+		if (getLob() == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
 			if (mCardFeeLegalText == null) {
 				mCardFeeLegalText = Ui.inflate(R.layout.include_tablet_card_fee_tv, mCheckoutRowsC, false);
 			}
@@ -622,7 +622,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	private void setupCardFeeTextView() {
 		if (mCardFeeLegalText != null) {
-			Spanned cardFeeLegalText = FlightUtils.getCardFeeLegalText(getContext());
+			Spanned cardFeeLegalText = FlightUtils.getCardFeeLegalText(getContext(), R.color.tablet_legal_blurb_text_color);
 			mCardFeeLegalText.setText(cardFeeLegalText);
 			mCardFeeLegalText.setOnClickListener(new View.OnClickListener() {
 				@Override

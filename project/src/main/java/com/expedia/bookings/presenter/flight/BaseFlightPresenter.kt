@@ -41,7 +41,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     val ANIMATION_DURATION = 400
     val toolbar: Toolbar by bindView(R.id.flights_toolbar)
     var navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
-    val airlinesChargePaymentFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
 
     val menuFilter: MenuItem by lazy {
         val menuFilter = toolbar.menu.findItem(R.id.menu_filter)

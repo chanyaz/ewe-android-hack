@@ -107,8 +107,14 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		mListView.addHeaderView(header);
 		mListView.setHeaderDividersEnabled(false);
 
-		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+		if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
 			TextView airlineFeeBar = Ui.findView(v, R.id.airline_fee_bar);
+			if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
+				airlineFeeBar.setText(getString(R.string.airline_may_charge_notice));
+			}
+			else {
+				airlineFeeBar.setText(getString(R.string.airline_charge_notice));
+			}
 			airlineFeeBar.setVisibility(View.VISIBLE);
 		}
 
@@ -416,7 +422,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 	private void displayPriceLabel() {
 		if (mPriceLabelTextView != null) {
 			int labelResId;
-			if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
+			if (PointOfSale.getPointOfSale().shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) {
 				if (Db.getFlightSearch().getSearchParams().isRoundTrip()) {
 					labelResId = R.string.prices_roundtrip_minimum_label;
 				}
