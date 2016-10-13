@@ -648,6 +648,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.rail_overview_presenter,
 		R.layout.rail_overview_summary_widget,
 		R.color.dividerColor,
+		R.string.accessibility_cost_summary_cont_desc_role_button,
 		R.string.select_flight_cont_desc_TEMPLATE,
 		R.string.select_flight_searching_cont_desc_TEMPLATE,
 		R.string.select_flight_selected_cont_desc_TEMPLATE,

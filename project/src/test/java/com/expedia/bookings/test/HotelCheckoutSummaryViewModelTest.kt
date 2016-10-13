@@ -56,9 +56,9 @@ class HotelCheckoutSummaryViewModelTest {
         val expectedHotelName = hotelProductResponse.getHotelName()
         sut.guestCountObserver.onNext(1)
 
-        assertFalse(sut.isPayLater.value)
+        assertTrue(sut.isPayLater.value)
         assertFalse(sut.isResortCase.value)
-        assertFalse(sut.isPayLaterOrResortCase.value)
+        assertTrue(sut.isPayLaterOrResortCase.value)
         assertEquals(expectedRateAdjustments, sut.priceAdjustments.value)
         assertEquals(expectedHotelName, sut.hotelName.value)
         assertEquals(hotelProductResponse.checkInDate, sut.checkInDate.value)
@@ -76,7 +76,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(rate.taxStatusType, sut.taxStatusType.value)
         assertEquals(rate.extraGuestFees, sut.extraGuestFees.value)
         assertEquals(rate.displayTotalPrice.formattedMoney, sut.tripTotalPrice.value)
-        assertEquals(Money(BigDecimal(rate.total.toDouble()), rate.currencyCode).formattedMoney, sut.dueNowAmount.value)
+        assertEquals("$0", sut.dueNowAmount.value)
         assertFalse(sut.showFeesPaidAtHotel.value)
         assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toString()), rate.currencyCode).formattedMoney, sut.feesPaidAtHotel.value)
         assertTrue(sut.isBestPriceGuarantee.value)
@@ -90,9 +90,10 @@ class HotelCheckoutSummaryViewModelTest {
         setup()
 
         paymentModel.createTripSubject.onNext(createTripResponse)
-        val expectedDueNow = "$" + hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.total
+        val expectedTotal = hotelProductResponse.hotelRoomResponse.rateInfo.chargeableRateInfo.displayTotalPrice.formattedMoney
 
-        assertEquals(expectedDueNow, sut.dueNowAmount.value)
+        assertEquals(expectedTotal, sut.tripTotalPrice.value)
+        assertEquals("$0", sut.dueNowAmount.value)
     }
 
     @Test
