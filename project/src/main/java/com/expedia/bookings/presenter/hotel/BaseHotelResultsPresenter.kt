@@ -92,7 +92,7 @@ import kotlin.properties.Delegates
 abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     //Views
-    val isUserBucketedForTestAndFeatureEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+    val shouldShowHotelFilterProminenceTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
             AbacusUtils.EBAndroidAppHotelFilterProminence, R.string.preference_enable_hotel_filter_prominence)
     var filterButtonText: TextView by Delegates.notNull()
 
@@ -287,7 +287,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         }
-        if (!(isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar())) {
+        if (!(shouldShowHotelFilterProminenceTest && isFilterInNavBar())) {
             filterBtnWithCountWidget?.visibility = View.VISIBLE
         }
         filterView.viewmodel.setHotelList(it)
@@ -582,7 +582,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.showLoading()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         filterBtnWithCountWidget?.visibility = View.GONE
-        if (getLineOfBusiness() == LineOfBusiness.HOTELS && isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar()) {
+        if (getLineOfBusiness() == LineOfBusiness.HOTELS && shouldShowHotelFilterProminenceTest && isFilterInNavBar()) {
             filterMenuItem?.isVisible = false
         }
     }
@@ -674,7 +674,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !Strings.equals(ResultsMap::class.java.name, getCurrentState())) {
                 if (topOffset == halfway) {
                     filterBtnWithCountWidget?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
-                } else if ((scrolledDistance > heightOfButton / 2) && (getLineOfBusiness() == LineOfBusiness.PACKAGES ||  !isUserBucketedForTestAndFeatureEnabled)) {
+                } else if ((scrolledDistance > heightOfButton / 2) && (getLineOfBusiness() == LineOfBusiness.PACKAGES ||  !shouldShowHotelFilterProminenceTest)) {
                     filterBtnWithCountWidget?.animate()?.translationY(heightOfButton.toFloat())?.setInterpolator(DecelerateInterpolator())?.start()
                     fab.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
                 } else {
@@ -732,7 +732,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     if (topOffset > halfway) {
                         filterBtnWithCountWidget?.translationY = 0f
                         fab.translationY = 0f
-                    } else if ((scrolledDistance > 0) &&  (getLineOfBusiness() == LineOfBusiness.PACKAGES ||  !isUserBucketedForTestAndFeatureEnabled)) {
+                    } else if ((scrolledDistance > 0) &&  (getLineOfBusiness() == LineOfBusiness.PACKAGES ||  !shouldShowHotelFilterProminenceTest)) {
                         filterBtnWithCountWidget?.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
                         fab.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
                     } else {
@@ -1053,7 +1053,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 recyclerView.visibility = View.VISIBLE
                 toolbar.visibility = View.VISIBLE
                 mapView.visibility = View.VISIBLE
-                filterBtnWithCountWidget?.visibility = View.VISIBLE
+                if (!(shouldShowHotelFilterProminenceTest && isFilterInNavBar())) {
+                    filterBtnWithCountWidget?.visibility = View.VISIBLE
+                }
             }
             hideBundlePriceOverview(forward)
         }
@@ -1203,7 +1205,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     fun showMenuItem(isResults: Boolean) {
-        if (getLineOfBusiness() == LineOfBusiness.PACKAGES ||  (isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar())) {
+        if (getLineOfBusiness() == LineOfBusiness.PACKAGES ||  (shouldShowHotelFilterProminenceTest && isFilterInNavBar())) {
             filterMenuItem.isVisible = true
         } else {
             filterMenuItem.isVisible = !isResults

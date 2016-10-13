@@ -56,7 +56,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.addHotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
         vm.hotelResultsObservable.subscribe {
-            if (isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar()) {
+            if (shouldShowHotelFilterProminenceTest && isFilterInNavBar()) {
                 filterBtnWithCountWidget.visibility = View.INVISIBLE
                 filterMenuItem.isVisible = true
             }
