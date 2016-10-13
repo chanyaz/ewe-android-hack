@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailLegOption
@@ -17,8 +18,10 @@ import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.RailSearchLegalInfoWebView
 import com.expedia.bookings.widget.rail.RailAmenitiesFareRulesWidget
 import com.expedia.util.endlessObserver
+import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
 import com.expedia.vm.rail.RailConfirmationViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
@@ -98,6 +101,16 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             }
         }
     }
+
+    val legalInfoWebView: RailSearchLegalInfoWebView by lazy {
+        val viewStub = findViewById(R.id.search_legal_info_stub) as ViewStub
+        val legalInfoView = viewStub.inflate() as RailSearchLegalInfoWebView
+        legalInfoView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        legalInfoView.viewModel = WebViewViewModel()
+        legalInfoView.viewModel.webViewURLObservable.onNext(PointOfSale.getPointOfSale().railsPaymentAndTicketDeliveryFeesUrl)
+        legalInfoView
+    }
+
     private val outboundToDetails = LeftToRightTransition(this, RailOutboundPresenter::class.java, RailDetailsPresenter::class.java)
     private val outboundDetailsToOverview = object : LeftToRightTransition(this, RailDetailsPresenter::class.java, RailTripOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
@@ -139,6 +152,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             }
         }
     }
+    private val outboundToLegalInfo = ScaleTransition(this, RailOutboundPresenter::class.java, RailSearchLegalInfoWebView::class.java)
+    private val inboundToLegalInfo = ScaleTransition(this, RailInboundPresenter::class.java, RailSearchLegalInfoWebView::class.java)
 
     init {
         Ui.getApplication(context).railComponent().inject(this)
@@ -189,6 +204,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         outboundPresenter.viewmodel.noNetworkObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
         }
+
+        outboundPresenter.legalBannerClicked.subscribe { show(legalInfoWebView) }
     }
 
     private fun initOutboundDetailsPresenter() {
@@ -217,6 +234,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         inboundPresenter.viewmodel = inboundResultsViewModel
         outboundPresenter.legSelectedSubject.subscribe(inboundResultsViewModel.outboundLegOptionSubject)
         inboundPresenter.legSelectedSubject.subscribe(inboundLegSelectedObserver)
+        inboundPresenter.legalBannerClicked.subscribe { show(legalInfoWebView) }
     }
 
     private fun initInboundDetailsPresenter() {
@@ -283,6 +301,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         addTransition(checkoutToConfirmation)
         addTransition(outboundToError)
         addTransition(errorToSearch)
+        addTransition(outboundToLegalInfo)
+        addTransition(inboundToLegalInfo)
     }
 
     private fun transitionToOutboundResults() {

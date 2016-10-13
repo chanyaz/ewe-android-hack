@@ -4376,6 +4376,15 @@
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
 
+    <!-- Heading for web view which shows payment and ticket delivery fees legal details -->
+    <string name="rail_search_legal_web_view_heading">Payment &amp; Ticket Delivery Fees</string>
+
+    <!-- Legal message shown on search result screen for one way search -->
+    <string name="rail_search_legal_banner_one_way">Prices are one way for all passengers. Payment and ticket delivery fees may also apply.</string>
+
+    <!-- Legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip">Prices are round trip for all passengers. Payment and ticket delivery fees may also apply.</string>
+
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 

@@ -26,6 +26,8 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
         response.hasChildrenAreFreeWarning()
     }
 
+    val legalBannerMessageObservable = paramsSubject.map { params -> getLegalBannerMessage(params.isRoundTripSearch()) }
+
     init {
         directionHeaderSubject.onNext(context.getString(R.string.select_outbound))
         paramsSubject.subscribe { params ->
@@ -66,5 +68,9 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
                 }
             }
         })
+    }
+
+    private fun getLegalBannerMessage(isRoundTrip: Boolean): String {
+        return if (isRoundTrip) context.getString(R.string.rail_search_legal_banner_round_trip) else context.getString(R.string.rail_search_legal_banner_one_way)
     }
 }

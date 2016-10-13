@@ -110,10 +110,6 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
                 }
     }
 
-    init {
-        Ui.getApplication(context).railComponent().inject(this)
-    }
-
     override fun inflate() {
         View.inflate(context, R.layout.widget_rail_search_params, this)
         toolBarTitle.text = context.resources.getText(R.string.trains)

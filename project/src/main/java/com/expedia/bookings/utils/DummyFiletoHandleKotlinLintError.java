@@ -775,6 +775,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_price_difference_TEMPLATE,
 		R.string.flights_fee_maybe_added_based_on_payment_TEMPLATE,
 		R.layout.fav_hotel_marker,
-		R.drawable.favoriting_map
+		R.drawable.favoriting_map,
+		R.string.rail_search_legal_banner_round_trip,
+		R.string.rail_search_legal_banner_one_way,
+		R.string.rail_search_legal_web_view_heading
 	};
 }
