@@ -185,17 +185,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 		setUpFreeCancellationAbTest();
 
 		mAirlineFeeNotice = Ui.findView(this, R.id.airline_fee_notice);
-
-
-		if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
-
-			if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
-				mAirlineFeeNotice.setText(getString(R.string.airline_maybe_fee_notice));
-			}
-			else {
-				mAirlineFeeNotice.setText(getString(R.string.airline_fee_notice));
-			}
-
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
 			mAirlineFeeNotice.setVisibility(View.VISIBLE);
 		}
 
@@ -426,7 +416,7 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			}
 		}
 
-		if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
 			mAirlineFeeNotice.setVisibility(View.VISIBLE);
 			findViewById(R.id.airline_notice_fee_added).setVisibility(View.GONE);
 		}
@@ -461,11 +451,9 @@ public class FlightTripOverviewActivity extends FragmentActivity implements Acco
 			}
 		}
 
-		if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
+		if (PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()) {
 			mAirlineFeeNotice.setVisibility(View.GONE);
-			TextView airlineNoticeFeeTextView = (TextView) findViewById(R.id.airline_notice_fee_added);
-			airlineNoticeFeeTextView.setText(FlightUtils.getCardFeeLegalText(getBaseContext() , R.color.white));
-			airlineNoticeFeeTextView.setVisibility(View.VISIBLE);
+			findViewById(R.id.airline_notice_fee_added).setVisibility(View.VISIBLE);
 		}
 
 		setActionBarCheckoutMode();

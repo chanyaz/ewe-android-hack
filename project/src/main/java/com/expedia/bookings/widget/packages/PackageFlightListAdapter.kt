@@ -81,7 +81,7 @@ class PackageFlightListAdapter(context: Context, flightSelectedSubject: PublishS
         return if (shouldShowBestFlight) 2 else (if (isChangePackageSearch) 0 else 1)
     }
 
-    override fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean {
+    override fun isAirlinesChargePaymentMethodFee(): Boolean {
         return false
     }
 

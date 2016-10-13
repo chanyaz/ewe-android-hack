@@ -6,7 +6,6 @@ import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers
 import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
 import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.EspressoUtils
@@ -35,10 +34,10 @@ object FlightsResultsScreen {
 
     fun paymentFeesLinkTextView(resultsView: Matcher<View>) = onView(allOf(withId(R.id.show_payment_fees), ViewMatchers.isDescendantOfA(resultsView)))
 
-    fun assertAirlineChargesFeesHeadingShown(resultsView: Matcher<View>, id: Int) {
+    fun assertAirlineChargesFeesHeadingShown(resultsView: Matcher<View>) {
         val airlineFeesHeaderView = onView(allOf(withId(R.id.airline_charges_fees_header), ViewMatchers.isDescendantOfA(resultsView)))
         airlineFeesHeaderView.perform(ViewActions.waitForViewToDisplay())
                              .check(ViewAssertions.matches(ViewMatchers.isDisplayed()))
-                             .check(ViewAssertions.matches(withText(id)))
+                             .check(ViewAssertions.matches(ViewMatchers.withText("Airlines charge an additional fee based on payment method.")))
     }
 }

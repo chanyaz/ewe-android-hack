@@ -42,7 +42,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         isRoundTripSearchSubject.subscribe({ isRoundTripSearch = it })
     }
 
-    abstract protected fun shouldAdjustPricingMessagingForAirlinePaymentMethodFee(): Boolean
+    abstract protected fun isAirlinesChargePaymentMethodFee(): Boolean
     abstract protected fun showAllFlightsHeader(): Boolean
     abstract fun adjustPosition(): Int
 
@@ -143,8 +143,8 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         val title: TextView by bindView(R.id.flight_results_price_header)
 
         fun bind(isRoundTripSearch: Boolean) {
-            val roundTripStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label
-            val oneWayStringResId = if (shouldAdjustPricingMessagingForAirlinePaymentMethodFee()) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
+            val roundTripStringResId = if (isAirlinesChargePaymentMethodFee()) R.string.prices_roundtrip_minimum_label else R.string.prices_roundtrip_label
+            val oneWayStringResId = if (isAirlinesChargePaymentMethodFee()) R.string.prices_oneway_minimum_label else R.string.prices_oneway_label
             title.text = context.resources.getText(if (isRoundTripSearch) roundTripStringResId else oneWayStringResId)
         }
     }

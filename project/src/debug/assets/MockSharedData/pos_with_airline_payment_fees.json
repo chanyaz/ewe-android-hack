@@ -74,7 +74,6 @@
     "marketingOptIn" : "DO_NOT_SHOW_AUTO_ENROLL",
     "showMultiBrandCreateAccountText" : false,
     "realTimeReviewLXEnabled" : true,
-    "adjustPricingMessagingForAirlinePaymentMethodFee": true,
-    "airlinePaymentMethodFeeMessageType": "WILL_CHARGE"
+    "doAirlinesChargeAdditionalFeeBasedOnPaymentMethod": true
   }
 }
