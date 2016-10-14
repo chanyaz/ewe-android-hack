@@ -16,6 +16,7 @@ class UserLoginTestUtil {
     companion object {
         fun setupUserAndMockLogin(user: User) {
             val activity = Robolectric.buildActivity(Activity::class.java).create().get()
+            user.save(activity)
             Db.setUser(user)
 
             val accountType = activity.resources.getString(R.string.expedia_account_type_identifier)

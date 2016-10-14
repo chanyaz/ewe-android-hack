@@ -1,13 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
@@ -16,7 +8,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.TimeFormatException;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
@@ -46,12 +37,20 @@ import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
-import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.TuneUtils;
+import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.Ui;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -78,7 +77,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (User.isLoggedIn(this)) {
+		if (User.isLoggedInToAccountManager(this) && !User.isLoggedInOnDisk(this)) {
 			User.loadUser(this, this);
 		}
 		else {
@@ -87,6 +86,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	private void handleDeeplink() {
+		TrackingUtils.initializeTracking(this.getApplication());
 		// Handle incoming intents
 		Intent intent = getIntent();
 		Uri data = intent.getData();

@@ -27,16 +27,6 @@ import java.io.File;
 import java.util.concurrent.TimeUnit;
 import rx.Observer;
 
-/**
- * This is a routing Activity that points users towards either the phone or
- * tablet version of this app.
- * <p>
- * It is named SearchActivity for historical reasons; this was the original
- * starting Activity for older versions of EH, and we don't want to break any
- * future installs (which may have setup quick links to EH).
- * <p>
- * http://android-developers.blogspot.com/2011/06/things-that-cannot-change.html
- */
 public class RouterActivity extends Activity implements UserAccountRefresher.IUserAccountRefreshListener {
 
 	boolean loadSignInViewAbTest = false;
@@ -61,7 +51,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 
 		Ui.getApplication(this).updateFirstLaunchAndUpdateSettings();
 
-		if (User.isLoggedIn(this)) {
+		if (User.isLoggedInToAccountManager(this) && !User.isLoggedInOnDisk(this)) {
 			User.loadUser(this, this);
 		}
 		else {
@@ -112,8 +102,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 		public void onNext(AbacusResponse abacusResponse) {
 			Log.d("Abacus:showSignInOnLaunchTest - onNext");
 			AbacusHelperUtils.updateAbacus(abacusResponse, RouterActivity.this);
-			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInOnLaunch)
-				&& loadSignInViewAbTest) {
+			if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppShowSignInOnLaunch) && loadSignInViewAbTest) {
 				NavUtils.goToSignIn(RouterActivity.this);
 			}
 			else {

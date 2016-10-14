@@ -213,10 +213,10 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
-            android:key="11937"
+            android:key="12182"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Flight AB test - 11937" />
+            android:title="Flight AB test - 12182" />
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
