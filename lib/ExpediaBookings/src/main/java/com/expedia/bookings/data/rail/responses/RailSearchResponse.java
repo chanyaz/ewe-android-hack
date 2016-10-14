@@ -15,7 +15,7 @@ public class RailSearchResponse {
 	public List<RailPassenger> passengerList;
 	public List<RailLeg> legList;
 	public List<RailOffer> offerList;
-	public ResponseStatus responseStatus;
+	public RailResponseStatus responseStatus;
 
 	public List<RailOffer> findOffersForLegOption(RailLegOption legOption) {
 		List<RailOffer> offers = new ArrayList<>();
@@ -30,6 +30,14 @@ public class RailSearchResponse {
 		return offers;
 	}
 
+	public boolean hasWarnings() {
+		return responseStatus != null && !responseStatus.warningList.isEmpty();
+	}
+
+	public boolean hasChildrenAreFreeWarning() {
+		return hasWarnings() && responseStatus.getWarningByCode("WARN0001") != null;
+	}
+
 	public static class RailLeg {
 		public Integer legIndex;
 		public Integer legBoundOrder;
@@ -40,11 +48,6 @@ public class RailSearchResponse {
 
 		@Nullable
 		public Money cheapestInboundPrice; //Set in code when showing outbound legs
-	}
-
-	public class ResponseStatus {
-		public String status;
-		public String statusCategory;
 	}
 
 	public static class RailOffer extends BaseRailOffer {

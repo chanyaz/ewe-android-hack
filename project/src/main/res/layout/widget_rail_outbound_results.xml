@@ -17,6 +17,12 @@
             app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/child_warning"
+            style="@style/RailWarningBar.Small"
+            android:text="@string/rail_children_warning"
+            android:visibility="gone"/>
+
         <com.expedia.bookings.widget.rail.RailResultsRecyclerView
             android:id="@+id/rail_outbound_list"
             android:layout_width="match_parent"

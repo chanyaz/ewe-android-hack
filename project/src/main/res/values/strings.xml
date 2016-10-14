@@ -4476,6 +4476,9 @@
     <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
     <string name="rail_cc_processing_fee_TEMPLATE">Credit card fees: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
 
+    <!--A message on search results that children under 5 cab travel for free -->
+    <string name="rail_children_warning">Children under age 5 can travel for free if they don\&apos;t require a seat. However, you can pay for a reserved seat by indicating the child\&apos;s age as 6.</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Ticket delivery</string>
 

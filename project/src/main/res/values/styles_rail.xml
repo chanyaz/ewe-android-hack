@@ -32,4 +32,9 @@
         <item name="android:background">@color/rail_warning_bar_color</item>
     </style>
 
+    <style name="RailWarningBar.Small" parent="RailWarningBar">
+        <item name="android:textSize">10sp</item>
+        <item name="android:gravity">left</item>
+    </style>
+
 </resources>

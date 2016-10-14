@@ -22,6 +22,10 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
     val errorObservable = PublishSubject.create<ApiError>()
     val retryObservable = PublishSubject.create<Unit>()
 
+    val showChildrenWarningObservable = railResultsObservable.map {response ->
+        response.hasChildrenAreFreeWarning()
+    }
+
     init {
         directionHeaderSubject.onNext(context.getString(R.string.select_outbound))
         paramsSubject.subscribe { params ->
