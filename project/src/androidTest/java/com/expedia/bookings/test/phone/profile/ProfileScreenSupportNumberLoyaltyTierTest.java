@@ -63,6 +63,7 @@ public class ProfileScreenSupportNumberLoyaltyTierTest {
 		supportNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(testUser);
 		supportNumber = supportNumber.replaceAll("[^0-9]", "");
 		Db.setUser(testUser);
+		testUser.save(InstrumentationRegistry.getTargetContext());
 		Log.v(TAG, "LoyaltyMembership Tier Set to " + tier);
 
 		mRule.getActivity();

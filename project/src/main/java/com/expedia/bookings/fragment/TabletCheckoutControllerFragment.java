@@ -486,9 +486,6 @@ public class TabletCheckoutControllerFragment extends LobableFragment implements
 
 				OmnitureTracking.trackTabletConfirmationPageLoad(getLob());
 
-				if (getLob() == LineOfBusiness.FLIGHTS) {
-					OmnitureTracking.trackFlightConfirmationAirAttach();
-				}
 			}
 
 			if (state == CheckoutState.BOOKING) {

@@ -144,7 +144,6 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 				expirationDateTv.setText(Phrase.from(getResources().getQuantityString(R.plurals.days_from_now, daysRemaining))
 					.put("days", daysRemaining).format().toString());
 
-				OmnitureTracking.trackFlightConfirmationAirAttach();
 			}
 			else {
 				Ui.findView(v, R.id.hotels_action_text_view).setVisibility(View.VISIBLE);

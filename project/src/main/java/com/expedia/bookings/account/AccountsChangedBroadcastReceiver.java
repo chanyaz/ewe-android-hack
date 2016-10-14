@@ -24,7 +24,7 @@ public class AccountsChangedBroadcastReceiver extends BroadcastReceiver {
 			return;
 		}
 
-		if (!User.isLoggedInToAccountManager(context)) {
+		if (User.isLoggedInOnDisk(context) && !User.isLoggedInToAccountManager(context)) {
 			Log.d("AccountsChangedBroadcastReceiver signing out user");
 			User.signOut(context);
 			//We start a sync so that any listeners will get notified of onSyncFinished()
