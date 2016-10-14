@@ -182,7 +182,7 @@
     <string name="car_vendors">Autoverhuurders</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">Filters wissen</string>
-    <!-- Label to tell the user how many products match thier filter -->
+    <!-- Label to tell the user how many products match their filter -->
     <plurals name="number_results_template">
         <item quantity="one">{number} resultaat</item>
         <item quantity="other">{number} resultaten</item>
@@ -1747,6 +1747,9 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Op basis van het kaarttype wordt een &lt;a href=\"{airline_fee_url}\"&gt;airlinetoeslag&lt;/a&gt; toegevoegd bij het afrekenen. Deze toeslag wordt toegevoegd aan het totale boekingsbedrag.</string>
+    <!-- An airline fee may be added upon payment message
+        Example: An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">Op basis van het kaarttype wordt mogelijk een &lt;a href=\"{airline_fee_url}\"&gt;airlinetoeslag&lt;/a&gt; toegevoegd bij het afrekenen. Deze toeslag wordt toegevoegd aan het totale boekingsbedrag.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Betaalpassen worden niet aanvaard.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2108,10 +2111,6 @@
     <string name="Finish_Booking">Boeking voltooien</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prijsgarantie</string>
-    <!-- Label for address of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_address">Adres:</string>
-    <!-- Label to view map of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_view_map">Kaart weergeven</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis annulering&lt;/b&gt; tot &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -2902,7 +2901,7 @@
     <!-- Filter for showing only favorited hotels -->
     <string name="favorites_only">Alleen Favorieten</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_favorites">Alleen Favoriete hotels</string>
+    <string name="filter_favorites">Favoriete hotels</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Bij +VIP Access hotels genieten +silver en +gold-leden bij check-in van gratis kamerupgrades en andere extraatjes, indien beschikbaar.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -3248,7 +3247,7 @@
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt.</string>
+    <string name="coupon_error_duplicate">Sorry, maar deze coupon is al gebruikt geweest.</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Sorry, er deed zich een interne fout voor. Probeer het opnieuw.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
@@ -4076,11 +4075,39 @@
     <string name="neighborhoods">Buurten</string>
     <string name="amenities">Voorzieningen</string>
     <string name="star_rating">Sterrenclassificatie</string>
+    <!-- Hotel Filters One star rating content description -->
+    <string name="star_rating_one_cont_desc">1-sterrenaccommodatie</string>
+    <!-- Hotel Filters Two star rating content description -->
+    <string name="star_rating_two_cont_desc">2-sterrenaccommodatie</string>
+    <!-- Hotel Filters Three star rating content description -->
+    <string name="star_rating_three_cont_desc">3-sterrenaccommodatie</string>
+    <!-- Hotel Filters Four star rating content description -->
+    <string name="star_rating_four_cont_desc">4-sterrenaccommodatie</string>
+    <!-- Hotel Filters Five star rating content description -->
+    <string name="star_rating_five_cont_desc">5-sterrenaccommodatie</string>
+    <!-- Hotel Filters One star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_one_cont_desc">1-sterrenaccommodatie</string>
+    <!-- Hotel Filters Two star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_two_cont_desc">2-sterrenaccommodatie</string>
+    <!-- Hotel Filters Three star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_three_cont_desc">3-sterrenaccommodatie</string>
+    <!-- Hotel Filters Four star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_four_cont_desc">4-sterrenaccommodatie</string>
+    <!-- Hotel Filters Five star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_five_cont_desc">5-sterrenaccommodatie</string>
+    <!-- Hotel Filters rating selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Selected 2) Class Rating One Selected -->
+    <string name="star_rating_selected_cont_desc_TEMPLATE">{star_rating} geselecteerd</string>
+    <!-- Hotel Filters rating not selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Not Selected 2) Class Rating One Not Selected -->
+    <string name="star_rating_not_selected_cont_desc_TEMPLATE">{star_rating} niet geselecteerd</string>
     <string name="show_more">MEER TONEN</string>
     <string name="show_less">MINDER TONEN</string>
     <string name="price_range">Prijs</string>
     <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
     <string name="filter_sort_by_content_description_TEMPLATE">Sorteer op {sort}.</string>
+    <!-- Hotel Price Range start filter label for accessibility -->
+    <string name="hotel_price_range_start">Begin prijsbereik</string>
+    <!-- Hotel Price Range end filter label for accessibility -->
+    <string name="hotel_price_range_end">Einde prijsbereik</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Toegevoegd aan favorieten in het filterscherm</string>
@@ -4102,6 +4129,12 @@
     <string name="airline_fee_notice_payment">Op basis van de betalingsmethode wordt een airlinetoeslag berekend</string>
     <string name="airline_notice_fee_added">Op basis van het kaarttype wordt een <u><b>airlinetoeslag</b></u> toegevoegd bij het afrekenen. Deze toeslag wordt toegevoegd aan het totale boekingsbedrag.</string>
     <string name="airline_notice_fee_added_tablet">Op basis van het kaarttype wordt een &lt;u&gt;&lt;b&gt;airlinetoeslag&lt;/b&gt;&lt;/u&gt; toegevoegd bij het afrekenen. Deze toeslag wordt toegevoegd aan het totale boekingsbedrag.</string>
+
+    <!-- French compliance warnings d/5810 -->
+    <string name="airline_maybe_fee_notice">Op basis van het kaarttype wordt mogelijk een airlinetoeslag toegevoegd bij het afrekenen.</string>
+    <string name="airline_may_charge_notice">Op basis van de betalingsmethode brengen airlines mogelijk een toeslag in rekening.</string>
+    <string name="airline_may_fee_notice_payment">Op basis van de betalingsmethode wordt mogelijk een airlinetoeslag berekend</string>
+    <string name="airline_notice_fee_maybe_added_tablet">Op basis van het kaarttype wordt mogelijk een &lt;u&gt;&lt;b&gt;airlinetoeslag&lt;/b&gt;&lt;/u&gt; toegevoegd bij het afrekenen. Deze toeslag wordt toegevoegd aan het totale boekingsbedrag.</string>
 
     <!-- Packages -->
 
@@ -4429,6 +4462,9 @@
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">Toeslagen volgens kaarttype</string>
 
+    <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
+    <string name="rail_cc_processing_fee_TEMPLATE">Creditcardtoeslagen: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Ticketlevering</string>
 
@@ -4542,10 +4578,14 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">Vluchttijd is {time} met een prijsverschil van {pricedifference}. Vlucht met {airline} De vluchtduur is {hours} {minutes} met {stops} tussenstops\u0020</string>
-    <!-- Hotel card view content description for accessibility. Eg. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5. Prijs {price}. Inclusief hotel en vluchten\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5. Prijs {price}. Inclusief hotel en vluchten\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5. Prijs {price}\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Oude prijs {strikethroughprice}\u0020</string>
+    <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
+    <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 korting op normale prijs\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Dwaze Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
