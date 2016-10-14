@@ -144,6 +144,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     }
 
     override fun back(): Boolean {
+        bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
+
         if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name && bundleOverviewHeader.appBarLayout.isActivated) {
             showBackToSearchDialog()
             return true
