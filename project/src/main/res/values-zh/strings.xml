@@ -182,7 +182,7 @@
     <string name="car_vendors">租车公司</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">清除筛选条件</string>
-    <!-- Label to tell the user how many products match thier filter -->
+    <!-- Label to tell the user how many products match their filter -->
     <plurals name="number_results_template">
         <item quantity="one">{number} 个结果</item>
         <item quantity="other">{number} 个结果</item>
@@ -1747,6 +1747,9 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">根据卡的类型，付款时可能会有&lt;a href=\"{airline_fee_url}\"&gt;航空公司收费&lt;/a&gt;。该费用将添加到付款总额。</string>
+    <!-- An airline fee may be added upon payment message
+        Example: An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">根据卡的类型，付款时可能会有额外的&lt;a href=\"{airline_fee_url}\"&gt;航空公司收费&lt;/a&gt;。该费用将添加到付款总额。</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">不接受借记卡。</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2108,10 +2111,6 @@
     <string name="Finish_Booking">完成预订</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">安心价格保证</string>
-    <!-- Label for address of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_address">地址：</string>
-    <!-- Label to view map of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_view_map">查看地图</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;前&lt;b&gt;免费取消预订&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -2341,7 +2340,7 @@
         <item quantity="one">+ 其他 {travelercount} 位旅客</item>
         <item quantity="other">+ 其他 {travelercount} 位旅客</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber}({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 岁</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -2902,7 +2901,7 @@
     <!-- Filter for showing only favorited hotels -->
     <string name="favorites_only">仅限我的最爱</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_favorites">仅限我最爱的酒店</string>
+    <string name="filter_favorites">最喜欢的酒店</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">选择 +VIP Access 酒店，+silver 和 +gold 会员可享受免费客房升级及其他礼遇（具体取决于入住时的供应情况）。</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4076,11 +4075,39 @@
     <string name="neighborhoods">附近地区</string>
     <string name="amenities">设施</string>
     <string name="star_rating">星级</string>
+    <!-- Hotel Filters One star rating content description -->
+    <string name="star_rating_one_cont_desc">1 星级</string>
+    <!-- Hotel Filters Two star rating content description -->
+    <string name="star_rating_two_cont_desc">2 星级</string>
+    <!-- Hotel Filters Three star rating content description -->
+    <string name="star_rating_three_cont_desc">3 星级</string>
+    <!-- Hotel Filters Four star rating content description -->
+    <string name="star_rating_four_cont_desc">4 星级</string>
+    <!-- Hotel Filters Five star rating content description -->
+    <string name="star_rating_five_cont_desc">5 星级</string>
+    <!-- Hotel Filters One star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_one_cont_desc">等级 - 1</string>
+    <!-- Hotel Filters Two star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_two_cont_desc">等级 - 2</string>
+    <!-- Hotel Filters Three star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_three_cont_desc">等级 - 3</string>
+    <!-- Hotel Filters Four star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_four_cont_desc">等级 - 4</string>
+    <!-- Hotel Filters Five star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_five_cont_desc">等级 - 5</string>
+    <!-- Hotel Filters rating selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Selected 2) Class Rating One Selected -->
+    <string name="star_rating_selected_cont_desc_TEMPLATE">已选择 {star_rating}</string>
+    <!-- Hotel Filters rating not selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Not Selected 2) Class Rating One Not Selected -->
+    <string name="star_rating_not_selected_cont_desc_TEMPLATE">未选择 {star_rating}</string>
     <string name="show_more">显示更多</string>
     <string name="show_less">隐藏信息</string>
     <string name="price_range">价格范围</string>
     <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
     <string name="filter_sort_by_content_description_TEMPLATE">排序方式：{sort}。</string>
+    <!-- Hotel Price Range start filter label for accessibility -->
+    <string name="hotel_price_range_start">价格范围 - 最低</string>
+    <!-- Hotel Price Range end filter label for accessibility -->
+    <string name="hotel_price_range_end">价格范围 - 最高</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">将“我的最爱”添加到筛选屏幕</string>
@@ -4102,6 +4129,12 @@
     <string name="airline_fee_notice_payment">根据付款方式，航空公司可能会有一定费用。</string>
     <string name="airline_notice_fee_added">根据卡的类型，付款时可能会有<u><b>航空公司收费</b></u>。该费用将添加到付款总额。</string>
     <string name="airline_notice_fee_added_tablet">根据卡的类型，付款时可能会有&lt;u&gt;&lt;b&gt;航空公司收费&lt;/b&gt;&lt;/u&gt;。该费用将添加到付款总额。</string>
+
+    <!-- French compliance warnings d/5810 -->
+    <string name="airline_maybe_fee_notice">根据卡的类型，付款时可能会有额外的航空公司收费。</string>
+    <string name="airline_may_charge_notice">根据付款方式，航空公司可能会有额外收费。</string>
+    <string name="airline_may_fee_notice_payment">根据付款方式，航空公司可能另有收费</string>
+    <string name="airline_notice_fee_maybe_added_tablet">根据卡的类型，付款时可能会有额外的&lt;u&gt;&lt;b&gt;航空公司收费&lt;/b&gt;&lt;/u&gt;。该费用将添加到付款总额。</string>
 
     <!-- Packages -->
 
@@ -4429,6 +4462,9 @@
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">不同卡的收费标准</string>
 
+    <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
+    <string name="rail_cc_processing_fee_TEMPLATE">信用卡费：&lt;b&gt;{card_fee}&lt;/b&gt;</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">送票</string>
 
@@ -4542,10 +4578,14 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">航班时间是 {time}，价格差别为 {pricedifference}。搭乘 {airline} 航班。飞行时间 {hours} {minutes}，经停 {stops} 次\u0020</string>
-    <!-- Hotel card view content description for accessibility. Eg. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。价格 {price}。含酒店和机票\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。价格 {price}。含酒店和机票\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。价格 {price}\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">旧价格 {strikethroughprice}\u0020</string>
+    <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
+    <string name="hotel_discount_cont_desc_TEMPLATE">\u0025低于标准价格\u0020{percent}</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">超值价 {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->

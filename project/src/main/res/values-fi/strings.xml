@@ -182,7 +182,7 @@
     <string name="car_vendors">Vuokraamot</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">Poista suodattimet</string>
-    <!-- Label to tell the user how many products match thier filter -->
+    <!-- Label to tell the user how many products match their filter -->
     <plurals name="number_results_template">
         <item quantity="one">{number} tulos</item>
         <item quantity="other">{number} tulosta</item>
@@ -1747,6 +1747,9 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Lentoyhtiön käytettyyn korttityyppiin perustuva &lt;a href=\"{airline_fee_url}\"&gt;maksu&lt;/a&gt; lisätään maksettaessa. Tämä maksu lisätään hintaan maksettaessa.</string>
+    <!-- An airline fee may be added upon payment message
+        Example: An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">Lentoyhtiön käytettyyn korttityyppiin perustuva &lt;a href=\"{airline_fee_url}\"&gt;maksu&lt;/a&gt; saatetaan lisätä maksettaessa. Tämä maksu lisätään hintaan maksettaessa.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Pankkikortteja ei hyväksytä.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2108,10 +2111,6 @@
     <string name="Finish_Booking">Tee varaus loppuun</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Parhaan hinnan takuu</string>
-    <!-- Label for address of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_address">Osoite:</string>
-    <!-- Label to view map of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_view_map">Katso kartta</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Ilmainen peruutusoikeus&lt;/b&gt; &lt;b&gt;%s&lt;/b&gt; mennessä</string>
     <!-- Sign out -->
@@ -2902,7 +2901,7 @@
     <!-- Filter for showing only favorited hotels -->
     <string name="favorites_only">Vain suosikit</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_favorites">Vain suosikkihotellit</string>
+    <string name="filter_favorites">Suosikkihotellit</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">+VIP Access -hotelleissa, +silver- ja +gold-jäsenet saavat ilmaisen huoneluokan korotuksen ja muita sisäänkirjautumishetkellä saatavilla olevia etuja.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4076,11 +4075,39 @@
     <string name="neighborhoods">Alueet</string>
     <string name="amenities">Palvelut</string>
     <string name="star_rating">Tähtiluokitus</string>
+    <!-- Hotel Filters One star rating content description -->
+    <string name="star_rating_one_cont_desc">Yksi tähti</string>
+    <!-- Hotel Filters Two star rating content description -->
+    <string name="star_rating_two_cont_desc">Kaksi tähteä</string>
+    <!-- Hotel Filters Three star rating content description -->
+    <string name="star_rating_three_cont_desc">Kolme tähteä</string>
+    <!-- Hotel Filters Four star rating content description -->
+    <string name="star_rating_four_cont_desc">Neljä tähteä</string>
+    <!-- Hotel Filters Five star rating content description -->
+    <string name="star_rating_five_cont_desc">Viisi tähteä</string>
+    <!-- Hotel Filters One star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_one_cont_desc">Luokka yksi</string>
+    <!-- Hotel Filters Two star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_two_cont_desc">Luokka kaksi</string>
+    <!-- Hotel Filters Three star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_three_cont_desc">Luokka kolme</string>
+    <!-- Hotel Filters Four star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_four_cont_desc">Luokka neljä</string>
+    <!-- Hotel Filters Five star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_five_cont_desc">Luokka viisi</string>
+    <!-- Hotel Filters rating selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Selected 2) Class Rating One Selected -->
+    <string name="star_rating_selected_cont_desc_TEMPLATE">{star_rating} valittu</string>
+    <!-- Hotel Filters rating not selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Not Selected 2) Class Rating One Not Selected -->
+    <string name="star_rating_not_selected_cont_desc_TEMPLATE">{star_rating} ei valittu</string>
     <string name="show_more">NÄYTÄ LISÄÄ</string>
     <string name="show_less">NÄYTÄ VÄHEMMÄN</string>
     <string name="price_range">Hintaluokka</string>
     <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
     <string name="filter_sort_by_content_description_TEMPLATE">Hakukriteeri. {sort}.</string>
+    <!-- Hotel Price Range start filter label for accessibility -->
+    <string name="hotel_price_range_start">Hintahaarukan alku</string>
+    <!-- Hotel Price Range end filter label for accessibility -->
+    <string name="hotel_price_range_end">Hintahaarukan loppu</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Lisätty suosikkeihin suodatinnäytöllä</string>
@@ -4102,6 +4129,12 @@
     <string name="airline_fee_notice_payment">Lentoyhtiön käytettyyn korttityyppiin perustuvaa lisämaksua sovelletaan.</string>
     <string name="airline_notice_fee_added">Lentoyhtiön käytettyyn korttityyppiin perustuva <u><b>maksu</b></u> lisätään maksettaessa. Tämä maksu lisätään hintaan maksettaessa.</string>
     <string name="airline_notice_fee_added_tablet">Lentoyhtiön käytettyyn korttityyppiin perustuva &lt;u&gt;&lt;b&gt;maksu&lt;/b&gt;&lt;/u&gt; lisätään maksettaessa. Tämä maksu lisätään hintaan maksettaessa.</string>
+
+    <!-- French compliance warnings d/5810 -->
+    <string name="airline_maybe_fee_notice">Lentoyhtiön käytettyyn korttityyppiin perustuva maksu saatetaan lisätä maksettaessa.</string>
+    <string name="airline_may_charge_notice">Lentoyhtiö saattaa veloittaa käytettyyn korttityyppiin perustuvan lisämaksun.</string>
+    <string name="airline_may_fee_notice_payment">Lentoyhtiön käytettyyn korttityyppiin perustuva lisämaksu saatetaan veloittaa</string>
+    <string name="airline_notice_fee_maybe_added_tablet">Lentoyhtiön käytettyyn korttityyppiin perustuva &lt;u&gt;&lt;b&gt;maksu&lt;/b&gt;&lt;/u&gt; saatetaan lisätä maksettaessa. Tämä maksu lisätään hintaan maksettaessa.</string>
 
     <!-- Packages -->
 
@@ -4429,6 +4462,9 @@
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">Maksut korttityypin mukaan</string>
 
+    <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
+    <string name="rail_cc_processing_fee_TEMPLATE">Luottokorttimaksut: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Lipun toimitus</string>
 
@@ -4542,10 +4578,14 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">Lentoaika on {time} ja hintaero {pricedifference}. Lentävä yhtiö {airline}. Lennon kesto on {hours} {minutes}, {stops} välilaskua\u0020</string>
-    <!-- Hotel card view content description for accessibility. Eg. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}, luokitus {starrating} / 5. Asiakasluokitus {guestrating} / 5. Hinta {price}. Sisältää hotellin ja lennot\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}, luokitus {starrating} / 5. Asiakasluokitus {guestrating} / 5. Hinta {price}. Sisältää hotellin ja lennot\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}, luokitus {starrating} / 5. Asiakasluokitus {guestrating} / 5. Hinta {price}\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Vanha hinta {strikethroughprice}\u0020</string>
+    <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
+    <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 alennusta normaalista hinnasta\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
