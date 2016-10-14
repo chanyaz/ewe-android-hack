@@ -31,9 +31,9 @@
     <integer name="calendar_max_days_flight_search">330</integer>
 
     <!-- The maximum days range for rail search -->
-    <integer name="calendar_max_days_rail_search">330</integer>
+    <integer name="calendar_max_days_rail_search">84</integer>
 
-    <!-- The maximum number of days from departure -->
+    <!-- TODO confirm this number Mingle#9268 The maximum number of days from departure -->
     <integer name="calendar_max_days_rail_return">30</integer>
 
     <!-- The minimum number of hours out from current time -->

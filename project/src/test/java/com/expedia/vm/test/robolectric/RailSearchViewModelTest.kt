@@ -1,7 +1,7 @@
 package com.expedia.vm.test.robolectric;
 
 import android.app.Activity
-import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCard
@@ -16,8 +16,11 @@ import org.mockito.Mockito
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
-import kotlin.test.*
-
+import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertNull
+import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class RailSearchViewModelTest {
@@ -27,7 +30,8 @@ class RailSearchViewModelTest {
 
     @Before
     fun setup() {
-        searchVM = RailSearchViewModel(getContext())
+        activity = Robolectric.buildActivity(Activity::class.java).create().get()
+        searchVM = RailSearchViewModel(activity)
     }
 
     fun setupOneWay() {
@@ -102,7 +106,7 @@ class RailSearchViewModelTest {
         searchVM.errorMaxDurationObservable.subscribe(errorMaxDurationSubscriber)
         searchVM.errorMaxRangeObservable.subscribe(errorMaxRangeSubscriber)
 
-        val departDate = LocalDate().plusDays(3301)
+        val departDate = LocalDate().plusDays(activity.resources.getInteger(R.integer.calendar_max_days_rail_search)).plusDays(1)
         searchVM.datesObserver.onNext(Pair(departDate, null))
         searchVM.searchObserver.onNext(Unit)
         assertFalse(searchVM.isRoundTripSearchObservable.value)
@@ -128,7 +132,7 @@ class RailSearchViewModelTest {
         searchVM.searchObserver.onNext(Unit)
         assertEquals("We're sorry, but we are unable to search for round trip trains more than 30 days apart.", errorMaxDurationSubscriber.onNextEvents[0].toString())
 
-        departDate = LocalDate().plusDays(330)
+        departDate = LocalDate().plusDays(activity.resources.getInteger(R.integer.calendar_max_days_rail_search))
         returnDate = departDate.plusDays(1)
         searchVM.datesObserver.onNext(Pair(departDate, returnDate))
         searchVM.searchObserver.onNext(Unit)
@@ -146,10 +150,5 @@ class RailSearchViewModelTest {
         searchVM.getParamsBuilder().fareQualifierList(listOf(RailCard("", "", ""), RailCard("", "", "")))
         searchVM.searchObserver.onNext(Unit)
         assertEquals("The number of railcards cannot exceed the number of travelers.", errorRailCardCountSubscriber.onNextEvents[0].toString())
-    }
-
-    private fun getContext(): Context {
-        val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        return activity
     }
 }
