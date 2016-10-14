@@ -20,7 +20,7 @@ class FlightInboundPresenter(context: Context, attrs: AttributeSet) : AbstractMa
     }
 
     override fun trackFlightOverviewLoad() {
-        FlightsV2Tracking.trackFlightOverview(false)
+        FlightsV2Tracking.trackFlightOverview(false, true)
     }
 
     override fun trackFlightSortFilterLoad() {
