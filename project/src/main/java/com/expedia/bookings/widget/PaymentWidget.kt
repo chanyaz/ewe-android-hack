@@ -616,7 +616,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     open fun shouldShowPaymentOptions(): Boolean {
-        return (User.isLoggedIn(context) && Db.getUser().storedCreditCards.isNotEmpty()) || Db.getTemporarilySavedCard() != null || WalletUtils.isWalletSupported(getLineOfBusiness())
+        return (User.isLoggedIn(context) && Db.getUser().storedCreditCards.isNotEmpty()
+                && getLineOfBusiness() != LineOfBusiness.RAILS)
+                || Db.getTemporarilySavedCard() != null || WalletUtils.isWalletSupported(getLineOfBusiness())
     }
 
     open fun isSecureToolbarBucketed(): Boolean {
