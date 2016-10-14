@@ -33,26 +33,15 @@ if [ $prLabeledAsNeedsHumanStatus -ne 0 ]; then
    exit 1
 fi
 
-./gradlew --no-daemon clean --continue
 ./gradlew --no-daemon clean
 
 # unistall old apks
 ./tools/uninstall.sh com.expedia.bookings
 
-build() {
-./gradlew --no-daemon aExpediaDebug aExpediaDebugAT
-}
-
 run() {
 	 # run tests
 	 ./gradlew --no-daemon forkExpediaDebug -D "fork.tablet=true" -D android.test.classes=$1
 }
-
-build || build
-if [ $? -ne 0 ]; then
-	echo "Build failed"
-	exit 1
-fi
 
 failed_test_classes=""
 for runCount in `seq 3`
