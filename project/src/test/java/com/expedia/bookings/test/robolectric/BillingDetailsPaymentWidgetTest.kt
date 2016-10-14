@@ -8,10 +8,17 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
@@ -25,10 +32,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
+import org.robolectric.annotation.Config
 import java.util.ArrayList
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class BillingDetailsPaymentWidgetTest {
     lateinit private var billingDetailsPaymentWidget: BillingDetailsPaymentWidget
     lateinit private var activity: Activity
@@ -228,6 +237,37 @@ class BillingDetailsPaymentWidgetTest {
         info.location = location
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
+    }
+
+    @Test
+    fun testSavedPaymentOffForRail() {
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(getUserWithStoredCard())
+        // Make sure we meet all other requirements before asserting rail
+        assertTrue(billingDetailsPaymentWidget.shouldShowPaymentOptions())
+
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.RAILS)
+        assertFalse("Error: Should not show payment options for rail!",
+                billingDetailsPaymentWidget.shouldShowPaymentOptions())
+    }
+
+    private fun getUserWithStoredCard() : User {
+        val user = User()
+        user.addStoredCreditCard(getNewCard())
+        val traveler = Traveler()
+        traveler.email = "qa-ehcc@mobiata.com"
+        user.primaryTraveler = traveler
+        return user
+    }
+
+    private fun getNewCard(): StoredCreditCard {
+        val card = StoredCreditCard()
+
+        card.cardNumber = "4111111111111111"
+        card.id = "stored-card-id"
+        card.type = PaymentType.CARD_AMERICAN_EXPRESS
+        card.description = "Visa 4111"
+        card.setIsGoogleWallet(false)
+        return card
     }
 
     private fun givenLocation(): Location {
