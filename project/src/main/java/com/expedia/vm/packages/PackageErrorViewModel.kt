@@ -87,7 +87,6 @@ class PackageErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 PackageApiError.Code.pkg_pss_downstream_service_timeout -> {
                     imageObservable.onNext(R.drawable.error_timeout)
                     errorMessageObservable.onNext(context.getString(R.string.reservation_time_out))
-                    buttonOneTextObservable.onNext(context.getString(R.string.search_again))
                     titleObservable.onNext(context.getString(R.string.session_timeout))
                     subTitleObservable.onNext("")
                     buttonOneTextObservable.onNext(context.getString(R.string.search_again))
