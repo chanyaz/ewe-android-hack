@@ -56,7 +56,8 @@ class HotelBreakdownTest {
         expected.add(arrayListOf(Breakdown("1 Night", "$99.00", BreakdownItem.OTHER),
                 Breakdown("3/22/2013", "$99.00", BreakdownItem.DATE),
                 Breakdown("Taxes & Fees", "$16.81", BreakdownItem.OTHER),
-                Breakdown("Trip Total", "$135.81", BreakdownItem.TRIPTOTAL)))
+                Breakdown("Trip Total", "$135.81", BreakdownItem.TRIPTOTAL),
+                Breakdown("Due to Expedia today", "$0", BreakdownItem.OTHER)))
 
         testSubscriber.assertReceivedOnNext(expected)
         testSubscriber.unsubscribe()

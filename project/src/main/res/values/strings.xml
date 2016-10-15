@@ -265,6 +265,8 @@
     <string name="scan_card_text">Scan Card</string>
     <!-- Card.io instruction text -->
     <string name="scan_card_instruction_text">Hold card here. It will scan automatically.</string>
+    <!--Hotels accessibility content description for Cost Summary Button-->
+    <string name="accessibility_cost_summary_cont_desc_role_button">Cost summary information Button</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
