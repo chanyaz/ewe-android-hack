@@ -17,6 +17,7 @@ import com.expedia.bookings.test.phone.packages.PackageScreen;
 import kotlin.Unit;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -77,6 +78,28 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_entry_widget);
 		assertValidTravelerFields();
+	}
+
+	@Test
+	public void testTravelerReentryPersists() {
+		mockViewModel = getMockViewModelEmptyTravelers(1);
+		testTravelerPresenter.setViewModel(mockViewModel);
+
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		enterValidTraveler(true);
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		assertValidTravelerFields();
+
+		PackageScreen.clickTravelerDone();
+
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		onView(withId(R.id.first_name_input)).perform(clearText());
+		PackageScreen.enterFirstName(testUpdatedFirstName);
+		Espresso.closeSoftKeyboard();
+		PackageScreen.clickTravelerDone();
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.first_name_input, testUpdatedFirstName);
 	}
 
 	@Test
