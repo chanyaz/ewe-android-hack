@@ -459,7 +459,7 @@ public class HotelSearchParams implements JSONable {
 		int numHotelAdults = Math.min(GuestsPickerUtils.getMaxAdults(0), numFlightTravelers);
 		numHotelAdults = Math.max(numHotelAdults, GuestsPickerUtils.MIN_ADULTS); // just in case default...
 		hotelParams.setNumAdults(numHotelAdults);
-
+		hotelParams.setCorrespondingAirportCode(firstLeg.getAirport(false).mAirportCode);
 		return hotelParams;
 	}
 
