@@ -4,7 +4,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.RailUtils
+import com.expedia.bookings.utils.rail.RailUtils
 import com.expedia.bookings.widget.RailLegOptionViewModel
 import com.mobiata.flightlib.utils.DateTimeUtils
 import org.joda.time.DateTime

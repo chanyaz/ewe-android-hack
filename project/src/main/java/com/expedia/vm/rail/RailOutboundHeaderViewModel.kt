@@ -3,7 +3,7 @@ package com.expedia.vm.rail
 import android.content.Context
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.utils.RailUtils
+import com.expedia.bookings.utils.rail.RailUtils
 import com.expedia.bookings.widget.RailLegOptionViewModel
 import rx.Observable
 import rx.subjects.PublishSubject

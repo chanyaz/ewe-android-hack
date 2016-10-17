@@ -56,7 +56,8 @@ public class RailScreen {
 	}
 
 	public static void scrollToFareOptions() {
-		onView(withId(R.id.details_fare_options)).perform(scrollTo());
+		onView(allOf(withId(R.id.details_fare_options),
+			isDescendantOfA(withId(R.id.rail_outbound_details_presenter)))).perform(scrollTo());
 	}
 
 	public static ViewInteraction selectFareOption(String fareOption) {
