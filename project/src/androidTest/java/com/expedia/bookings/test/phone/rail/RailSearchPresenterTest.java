@@ -66,6 +66,7 @@ public class RailSearchPresenterTest extends RailTestCase {
 
 		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDateTime + " – " + expectedEndDateTime);
 		SearchScreen.searchButton().perform(click());
-		onView(withText("12:55 PM – 4:16 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+
+		onView(withText(R.string.select_outbound)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
 }
