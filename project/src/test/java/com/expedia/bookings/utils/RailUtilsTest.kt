@@ -6,12 +6,16 @@ import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.rail.RailUtils
 import com.expedia.vm.test.rail.RailSearchRequestMock
 import com.squareup.phrase.Phrase
+import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
+import org.joda.time.DateTime
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowDateFormat::class))
 class RailUtilsTest {
     val context = RuntimeEnvironment.application
     val testOriginString = "Paddington"
@@ -79,5 +83,19 @@ class RailUtilsTest {
                 .startDate(RailSearchRequestMock.departDate())
                 .origin(RailSearchRequestMock.origin(testOriginString))
                 .destination(RailSearchRequestMock.destination(testDestinationString)) as RailSearchRequest.Builder
+    }
+
+    @Test
+    fun testFormatTimeInterval() {
+        var start = DateTime().withTime(8, 30, 0, 0)
+        var end   = DateTime().withTime(11, 10, 0, 0)
+
+        assertEquals("8:30 AM – 11:10 AM", RailUtils.formatTimeInterval(context, start, end));
+
+        start = DateTime().withTime(8, 30, 0, 0)
+        end   = DateTime().plusDays(1).withTime(8, 30, 0, 0)
+
+        assertEquals("8:30 AM - 8:30 AM +1d", RailUtils.formatTimeInterval(context, start, end));
+
     }
 }

@@ -109,7 +109,7 @@ object FlightV2Utils {
             if (elapsedDays < 0) {
                 displayStringTemplate = R.string.flight_departure_arrival_time_negative_days_TEMPLATE
             } else {
-                displayStringTemplate = R.string.flight_departure_arrival_time_multi_day_TEMPLATE
+                displayStringTemplate = R.string.departure_arrival_time_multi_day_TEMPLATE
             }
             return Phrase.from(context, displayStringTemplate)
                     .put("departuretime", formatTimeShort(context, departureTime))

@@ -4261,7 +4261,7 @@
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} (- {elapseddays} T.)</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
-    <string name="flight_departure_arrival_time_multi_day_TEMPLATE">{departuretime} - {arrivaltime} (+ {elapseddays} T.)</string>
+    <string name="departure_arrival_time_multi_day_TEMPLATE">{departuretime} - {arrivaltime} (+ {elapseddays} T.)</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm minus 1d -->
     <string name="flight_departure_arrival_time_negative_days_cont_desc_TEMPLATE">{departuretime} bis {arrivaltime} minus {elapseddays} T.</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
