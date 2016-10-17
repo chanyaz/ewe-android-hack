@@ -78,6 +78,7 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
                     }
                 }
             }
+
             if (response.hasInbound()) {
                 val inboundLeg = response.findLegWithBoundOrder(RailConstants.INBOUND_BOUND_ORDER)!!
                 outboundLeg.cheapestInboundPrice = inboundLeg.cheapestPrice
