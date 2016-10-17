@@ -36,7 +36,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
                 errorContDesc = attrSet.getString(R.styleable.TravelerEditText_error_cont_desc) ?: ""
             }
             finally {
-                attrSet.recycle();
+                attrSet.recycle()
             }
         }
     }
