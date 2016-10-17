@@ -12,7 +12,6 @@ import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.BuildConfig
@@ -45,6 +44,7 @@ import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
+import com.expedia.bookings.widget.accessibility.AccessibleTextViewForSpinner
 import com.expedia.util.endlessObserver
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -72,6 +72,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val cardInfoIcon: ImageView by bindView(R.id.card_info_icon)
     val cardInfoName: TextView by bindView(R.id.card_info_name)
     val cardInfoExpiration: TextView by bindView(R.id.card_info_expiration)
+    val expirationDate: AccessibleTextViewForSpinner by bindView(R.id.edit_creditcard_exp_text_btn)
     val paymentStatusIcon: ContactDetailsCompletenessStatusImageView by bindView(R.id.card_info_status_icon)
     val storedCreditCardList: StoredCreditCardList by bindView(R.id.stored_creditcard_list)
     val invalidPaymentContainer: ViewGroup by bindView(R.id.invalid_payment_container)
@@ -90,7 +91,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val toolbarTitle = PublishSubject.create<String>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val doneClicked = PublishSubject.create<Unit>()
-    val focusedView = PublishSubject.create<EditText>()
+    val focusedView = PublishSubject.create<View>()
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
 
     val formFilledSubscriber = endlessObserver<String>() {
@@ -251,7 +252,16 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         creditCardNumber.onFocusChangeListener = this
         creditCardName.onFocusChangeListener = this
         creditCardPostalCode.onFocusChangeListener = this
-
+        expirationDate.onFocusChangeListener = this
+        expirationDate.isFocusable = true;
+        expirationDate.isFocusableInTouchMode = true;
+        expirationDate.setOnFocusChangeListener { view, hasFocus ->
+            onFocusChange(view, hasFocus)
+            if (hasFocus) {
+                Ui.hideKeyboard(this)
+                expirationDate.performClick()
+            }
+        }
         sectionBillingInfo.addInvalidCharacterListener { text, mode ->
             val activity = context as AppCompatActivity
             InvalidCharacterHelper.showInvalidCharacterPopup(activity.supportFragmentManager, mode)
@@ -308,9 +318,12 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     override fun onFocusChange(v: View, hasFocus: Boolean) {
         if (hasFocus) {
-            focusedView.onNext(v as EditText)
+            focusedView.onNext(v)
             sectionLocation.resetValidation(v.id, true)
             sectionBillingInfo.resetValidation(v.id, true)
+        } else {
+            sectionBillingInfo.validateField(v.id)
+            sectionLocation.validateField(v.id)
         }
     }
 
