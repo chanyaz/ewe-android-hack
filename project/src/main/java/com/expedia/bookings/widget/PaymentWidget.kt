@@ -169,9 +169,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 reset()
                 clearCCAndCVV()
             }
-            else {
-                storedCreditCardList.updateAdapter()
-            }
+
             if (isLoggedIn && !isAtLeastPartiallyFilled()) {
                 if (Db.getUser()?.storedCreditCards?.size == 1 && Db.getTemporarilySavedCard() == null) {
                     sectionBillingInfo.bind(Db.getBillingInfo())
@@ -180,6 +178,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
                 }
             }
+
+            storedCreditCardList.updateAdapter()
         }
 
         vm.emptyBillingInfo.subscribe {
@@ -338,7 +338,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     fun selectFirstAvailableCard() {
         val storedCreditCard = Db.getUser().storedCreditCards[0]
-        if (Db.getTripBucket().getItem(getLineOfBusiness()).isPaymentTypeSupported(storedCreditCard.type)) {
+        val tripItem = Db.getTripBucket().getItem(getLineOfBusiness())
+        if (tripItem != null && tripItem.isPaymentTypeSupported(storedCreditCard.type)) {
             Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
             val currentCC = Db.getBillingInfo().storedCard
             BookingInfoUtils.resetPreviousCreditCardSelectState(context, currentCC)

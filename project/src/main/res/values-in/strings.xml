@@ -182,7 +182,7 @@
     <string name="car_vendors">Perusahaan Rental</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">Hapus Filter</string>
-    <!-- Label to tell the user how many products match thier filter -->
+    <!-- Label to tell the user how many products match their filter -->
     <plurals name="number_results_template">
         <item quantity="one">{number} hasil</item>
         <item quantity="other">{number} hasil</item>
@@ -1747,6 +1747,9 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Sejumlah &lt;a href=\"{airline_fee_url}\"&gt;biaya maskapai&lt;/a&gt;, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga. Biaya tersebut akan ditambahkan ke total harga.</string>
+    <!-- An airline fee may be added upon payment message
+        Example: An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">Berdasarkan jenis kartu Anda, &lt;a href=\"{airline_fee_url}\"&gt;biaya maskapai&lt;/a&gt; akan ditambahkan pada saat pembayaran. Biaya tersebut akan ditambahkan ke total harga.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Kartu debit tidak diterima.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -1936,7 +1939,7 @@
         <item quantity="other">Hanya tinggal %1$s seharga &lt;b&gt;%2$s&lt;/b&gt; per orang</item>
     </plurals>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
-    <string name="fare_name_and_price_TEMPLATE">%1$s : %2$s</string>
+    <string name="fare_name_and_price_TEMPLATE">%1$s: %2$s</string>
     <!-- Label for a flight that lists the type of fare and the price, eg. "Saver Lite : $295" -->
     <string name="fare_name_and_price_min_TEMPLATE">%1$s mulai dari %2$s per orang</string>
     <!-- Button label for information about baggage fees -->
@@ -2108,10 +2111,6 @@
     <string name="Finish_Booking">Selesaikan Pemesanan</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Garansi Harga Terbaik</string>
-    <!-- Label for address of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_address">Alamat:</string>
-    <!-- Label to view map of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_view_map">Lihat Peta</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Pembatalan gratis&lt;/b&gt; sebelum &lt;b&gt;%s pukul &lt;/b&gt;</string>
     <!-- Sign out -->
@@ -2873,7 +2872,7 @@
     <!-- Map cluster text for number of packages-->
     <string name="cluster_number_of_packages_template">%s hasil</string>
     <!-- Map cluster price from range-->
-    <string name="cluster_price_from_range_template">Dari %s</string>
+    <string name="cluster_price_from_range_template">Mulai dari %s</string>
 
 
     <!-- Widget -->
@@ -2902,7 +2901,7 @@
     <!-- Filter for showing only favorited hotels -->
     <string name="favorites_only">Hanya Favorit</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_favorites">Hanya Hotel Favorit</string>
+    <string name="filter_favorites">Hotel Favorit</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Di hotel-hotel +VIP Access, para member +silver dan +gold bisa menerima upgrade kamar gratis dan keuntungan lainnya yang tersedia pada saat check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -3542,7 +3541,7 @@
     <string name="country_cf">Republik Afrika Tengah</string>
     <string name="country_td">Cad</string>
     <string name="country_cl">Cile</string>
-    <string name="country_cn">Cina</string>
+    <string name="country_cn">Tiongkok</string>
     <string name="country_cx">Pulau Christmas</string>
     <string name="country_cc">Kepulauan Cocos (Keeling)</string>
     <string name="country_co">Kolombia</string>
@@ -4076,11 +4075,39 @@
     <string name="neighborhoods">Kawasan</string>
     <string name="amenities">Fasilitas</string>
     <string name="star_rating">Peringkat Bintang</string>
+    <!-- Hotel Filters One star rating content description -->
+    <string name="star_rating_one_cont_desc">Bintang Satu</string>
+    <!-- Hotel Filters Two star rating content description -->
+    <string name="star_rating_two_cont_desc">Bintang Dua</string>
+    <!-- Hotel Filters Three star rating content description -->
+    <string name="star_rating_three_cont_desc">Bintang Tiga</string>
+    <!-- Hotel Filters Four star rating content description -->
+    <string name="star_rating_four_cont_desc">Bintang Empat</string>
+    <!-- Hotel Filters Five star rating content description -->
+    <string name="star_rating_five_cont_desc">Bintang Lima</string>
+    <!-- Hotel Filters One star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_one_cont_desc">Peringkat Kelas Satu</string>
+    <!-- Hotel Filters Two star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_two_cont_desc">Peringkat Kelas Dua</string>
+    <!-- Hotel Filters Three star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_three_cont_desc">Peringkat Kelas Tiga</string>
+    <!-- Hotel Filters Four star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_four_cont_desc">Peringkat Kelas Empat</string>
+    <!-- Hotel Filters Five star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_five_cont_desc">Peringkat Kelas Lima</string>
+    <!-- Hotel Filters rating selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Selected 2) Class Rating One Selected -->
+    <string name="star_rating_selected_cont_desc_TEMPLATE">{star_rating} Dipilih</string>
+    <!-- Hotel Filters rating not selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Not Selected 2) Class Rating One Not Selected -->
+    <string name="star_rating_not_selected_cont_desc_TEMPLATE">{star_rating} Tidak dipilih</string>
     <string name="show_more">TAMPILKAN LAINNYA</string>
     <string name="show_less">TUTUP LAINNYA</string>
     <string name="price_range">Kisaran Harga</string>
     <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
     <string name="filter_sort_by_content_description_TEMPLATE">Urutkan berdasarkan {sort}.</string>
+    <!-- Hotel Price Range start filter label for accessibility -->
+    <string name="hotel_price_range_start">Kisaran Harga Awal</string>
+    <!-- Hotel Price Range end filter label for accessibility -->
+    <string name="hotel_price_range_end">Kisaran Harga Akhir</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Ditambahkan ke favorit di layar filter</string>
@@ -4100,8 +4127,14 @@
     <string name="airline_fee_notice">Sejumlah biaya maskapai, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga.</string>
     <string name="airline_charge_notice">Maskapai mengenakan biaya tambahan tergantung pada metode pembayaran.</string>
     <string name="airline_fee_notice_payment">Berlaku biaya maskapai tergantung pada metode pembayaran</string>
-    <string name="airline_notice_fee_added">Sejumlah <u><b>biaya maskapai</b></u>, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga. Biaya tersebut akan ditambahkan ke total harga</string>
+    <string name="airline_notice_fee_added">Sejumlah <u><b>biaya maskapai</b></u>, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga. Biaya tersebut akan ditambahkan ke total harga.</string>
     <string name="airline_notice_fee_added_tablet">Sejumlah &lt;u&gt;&lt;b&gt;biaya maskapai&lt;/b&gt;&lt;/u&gt;, tergantung pada tipe kartu Anda, akan ditambahkan ke total harga. Biaya tersebut akan ditambahkan ke total harga.</string>
+
+    <!-- French compliance warnings d/5810 -->
+    <string name="airline_maybe_fee_notice">Berdasarkan jenis kartu Anda, biaya maskapai akan ditambahkan pada saat pembayaran.</string>
+    <string name="airline_may_charge_notice">Maskapai mungkin akan mengenakan biaya tambahan berdasarkan metode pembayaran.</string>
+    <string name="airline_may_fee_notice_payment">Biaya maskapai mungkin akan dikenakan berdasarkan metode pembayaran</string>
+    <string name="airline_notice_fee_maybe_added_tablet">Berdasarkan jenis kartu Anda, &lt;u&gt;&lt;b&gt;biaya maskapai&lt;/b&gt;&lt;/u&gt; akan ditambahkan pada saat pembayaran. Biaya tersebut akan ditambahkan ke total harga.</string>
 
     <!-- Packages -->
 
@@ -4429,13 +4462,16 @@
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">Biaya berdasarkan jenis kartu</string>
 
+    <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
+    <string name="rail_cc_processing_fee_TEMPLATE">Biaya kartu kredit: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Pengiriman tiket</string>
 
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">Stasiun pengambilan</string>
     <string name="delivery_by_mail">Pengiriman lewat pos</string>
-    <string name="shipping_address">Alamat Pegiriman</string>
+    <string name="shipping_address">Alamat Pengiriman</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Bawa nomor referensi pemesanan tiket dan kartu kredit untuk membeli tiket.</string>
@@ -4542,10 +4578,14 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">Waktu penerbangan adalah {time} dengan selisih harga {pricedifference}. Terbang dengan {airline}. Lama penerbangan adalah {hours} {minutes} dengan {stops} transit\u0020</string>
-    <!-- Hotel card view content description for accessibility. Eg. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} dengan skor tamu {starrating} dari 5. Skor tamu {guestrating} dari 5. Harga {price}. Mencakup hotel dan penerbangan\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} dengan peringkat {starrating} dari 5. Skor tamu {guestrating} dari 5. Harga {price}. Mencakup hotel dan penerbangan\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} dengan peringkat {starrating} dari 5. Skor tamu {guestrating} dari 5. Harga {price}\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Harga awal {strikethroughprice}\u0020</string>
+    <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
+    <string name="hotel_discount_cont_desc_TEMPLATE">Diskon {percent}\u0025 dari harga normal\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->

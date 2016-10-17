@@ -151,18 +151,24 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
 
     override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
         // add card fee to trip response
-        val newTripResponse = tripResponseObservable.value as PackageCreateTripResponse
-        newTripResponse.selectedCardFees = cardFee
-        newTripResponse.totalPriceIncludingFees = totalPriceInclFees
-        cardFeeTripResponse.onNext(newTripResponse)
-        selectedCardFeeObservable.onNext(cardFee)
+        val response =  tripResponseObservable.value
+        if (response != null) {
+            val newTripResponse = response as PackageCreateTripResponse
+            newTripResponse.selectedCardFees = cardFee
+            newTripResponse.totalPriceIncludingFees = totalPriceInclFees
+            cardFeeTripResponse.onNext(newTripResponse)
+            selectedCardFeeObservable.onNext(cardFee)
+        }
     }
 
     override fun resetCardFees() {
-        val newTripResponse = tripResponseObservable.value as PackageCreateTripResponse
-        newTripResponse.selectedCardFees = null
-        newTripResponse.totalPriceIncludingFees = null
-        cardFeeTripResponse.onNext(newTripResponse)
+        val response =  tripResponseObservable.value
+        if (response != null) {
+            val newTripResponse = response as PackageCreateTripResponse
+            newTripResponse.selectedCardFees = null
+            newTripResponse.totalPriceIncludingFees = null
+            cardFeeTripResponse.onNext(newTripResponse)
+        }
     }
 
     fun updateMayChargeFees(selectedFlight: FlightLeg) {
