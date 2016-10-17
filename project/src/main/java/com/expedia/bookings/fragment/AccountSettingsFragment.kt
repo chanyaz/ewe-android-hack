@@ -133,7 +133,9 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     val memberNameView: TextView by bindView(R.id.toolbar_name)
     val memberEmailView: TextView by bindView(R.id.toolbar_email)
     val memberTierView: TextView by bindView(R.id.toolbar_loyalty_tier_text)
-    lateinit var userAccountRefresher: UserAccountRefresher
+    val userAccountRefresher: UserAccountRefresher by lazy {
+        UserAccountRefresher(context, LineOfBusiness.PROFILE, this)
+    }
 
     val debugMenu: DebugMenu by lazy {
         DebugMenu(activity, ExpediaBookingPreferenceActivity::class.java)
@@ -160,6 +162,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
+        userAccountRefresher.setUserAccountRefreshListener(this)
         if (context is AccountFragmentListener) {
             val listener: AccountFragmentListener = context
             listener.onAccountFragmentAttached(this)
@@ -168,8 +171,12 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         var view = inflater.inflate(R.layout.fragment_account_settings, null)
-        userAccountRefresher = UserAccountRefresher(context, LineOfBusiness.PROFILE, this)
         return view
+    }
+
+    override fun onDetach() {
+        super.onDetach()
+        userAccountRefresher.setUserAccountRefreshListener(null)
     }
 
     override fun onViewCreated(view: View?, savedInstanceState: Bundle?) {
