@@ -381,20 +381,6 @@ public class ExpediaServices implements DownloadListener {
 		return doSuggestionRequest(url, params);
 	}
 
-	public SuggestionResponse suggestionResolution(String regionId) {
-		String urlBase = getSuggestUrl(4, SuggestType.RID);
-		String url = NetUtils.formatUrl(urlBase);
-
-		List<BasicNameValuePair> params = new ArrayList<>();
-		addCommonParams(params);
-
-		params.add(new BasicNameValuePair("gaiaid", regionId));
-		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
-		params.add(new BasicNameValuePair("client", ServicesUtil.generateClient(mContext)));
-
-		return doSuggestionRequest(url, params);
-	}
-
 	private SuggestionResponse doSuggestionRequest(String url, List<BasicNameValuePair> params) {
 		Request.Builder get = createHttpGet(url, params);
 
@@ -439,9 +425,6 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		case HID:
 			sb.append("hid/");
-			break;
-		case RID:
-			sb.append("list/region/");
 			break;
 		}
 

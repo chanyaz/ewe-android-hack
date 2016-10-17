@@ -490,6 +490,8 @@ public class SearchParams implements Parcelable, JSONable {
 			destination.setSearchType(SuggestionV2.SearchType.CITY);
 			destination.setFullName(hotelParams.getQuery());
 			destination.setDisplayName(hotelParams.getQuery());
+			destination.setRegionId(Integer.parseInt(hotelParams.getRegionId()));
+			destination.setAirportCode(hotelParams.getCorrespondingAirportCode());
 			break;
 		case HOTEL:
 			destination.setSearchType(SuggestionV2.SearchType.HOTEL);
