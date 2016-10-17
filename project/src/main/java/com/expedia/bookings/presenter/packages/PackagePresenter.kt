@@ -8,6 +8,7 @@ import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewStub
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
@@ -43,31 +44,16 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     lateinit var travelerManager: TravelerManager
 
     val searchPresenter: PackageSearchPresenter by bindView(R.id.widget_package_search_presenter)
-    val bundlePresenter: PackageOverviewPresenter by bindView(R.id.widget_bundle_overview)
-    val confirmationPresenter: PackageConfirmationPresenter by bindView(R.id.widget_package_confirmation)
-    val errorPresenter: PackageErrorPresenter by bindView(R.id.widget_package_hotel_errors)
-    val hotelOffersErrorObservable = PublishSubject.create<ApiError.Code>()
-
-    private val ANIMATION_DURATION = 400
-
-    var expediaRewards: String? = null
-
-    init {
-        Ui.getApplication(getContext()).packageComponent().inject(this)
-        travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
-        View.inflate(context, R.layout.package_presenter, this)
-        val checkoutPresenter = bundlePresenter.getCheckoutPresenter()
-
-        searchPresenter.searchViewModel = PackageSearchViewModel(context)
-        bundlePresenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServices)
-        confirmationPresenter.viewModel = PackageConfirmationViewModel(context)
-        errorPresenter.viewmodel = PackageErrorViewModel(context)
-        bundlePresenter.bundleWidget.viewModel.showSearchObservable.subscribe {
+    val bundlePresenterViewStub: ViewStub by bindView(R.id.widget_bundle_overview_view_stub)
+    val bundlePresenter: PackageOverviewPresenter by lazy {
+        val presenter = bundlePresenterViewStub.inflate() as PackageOverviewPresenter
+        val checkoutPresenter = presenter.getCheckoutPresenter()
+        presenter.bundleWidget.viewModel = BundleOverviewViewModel(context, packageServices)
+        presenter.bundleWidget.viewModel.showSearchObservable.subscribe {
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
             searchPresenter.showDefault()
         }
-
-        bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
+        presenter.bundleWidget.viewModel.showBundleTotalObservable.subscribe { visible ->
             val packagePrice = Db.getPackageResponse().packageResult.currentSelectedOffer.price
 
             val packageSavings = Money(BigDecimal(packagePrice.tripSavings.amount.toDouble()),
@@ -87,40 +73,12 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
             PackagesTracking().trackCheckoutPaymentConfirmation(response, Strings.capitalizeFirstLetter(Db.getPackageSelectedRoom().supplierType))
         }
-
-        // TODO - can we move this up to a common "base" presenter? (common between Package and Flight presenter)
-        searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
-            // Starting a new search clear previous selection
-            Db.clearPackageSelection()
-            travelerManager.updateDbTravelers(params, context)
-            errorPresenter.getViewModel().paramsSubject.onNext(params)
-            showBundleOverView()
-        }
-        searchPresenter.searchViewModel.searchParamsObservable.subscribe(bundlePresenter.bundleWidget.viewModel.hotelParamsObservable)
-        bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
-        bundlePresenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.cityTitle)
-        bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.datesTitle)
-        bundlePresenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(bundlePresenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
-        bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().packageSearchApiErrorObserver)
-        bundlePresenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
-        errorPresenter.getViewModel().defaultErrorObservable.subscribe {
-            bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
-            bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-            bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
-            show(searchPresenter, FLAG_CLEAR_BACKSTACK)
-            searchPresenter.showDefault()
-        }
-
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe(errorPresenter.getViewModel().checkoutApiErrorObserver)
         checkoutPresenter.getCreateTripViewModel().createTripErrorObservable.subscribe { show(errorPresenter) }
         checkoutPresenter.getCheckoutViewModel().checkoutErrorObservable.subscribe { show(errorPresenter) }
-
-        hotelOffersErrorObservable.subscribe(errorPresenter.getViewModel().hotelOffersApiErrorObserver)
-        hotelOffersErrorObservable.subscribe { show(errorPresenter) }
-
         errorPresenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
-            show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
+            show(presenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
         }
 
@@ -130,18 +88,63 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         }
 
         errorPresenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
-            show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
+            show(presenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
             checkoutPresenter.openTravelerPresenter()
             checkoutPresenter.show(checkoutPresenter, Presenter.FLAG_CLEAR_TOP)
         }
 
         errorPresenter.getViewModel().checkoutCardErrorObservable.subscribe {
-            show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
+            show(presenter, Presenter.FLAG_CLEAR_TOP)
             checkoutPresenter.slideToPurchase.resetSlider()
             checkoutPresenter.paymentWidget.clearCCAndCVV()
             checkoutPresenter.paymentWidget.cardInfoContainer.performClick()
         }
+        presenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(presenter.bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
+        presenter.bundleWidget.viewModel.toolbarTitleObservable.subscribe(presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.cityTitle)
+        presenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(presenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel.datesTitle)
+        presenter.bundleWidget.viewModel.toolbarSubtitleObservable.subscribe(presenter.bundleOverviewHeader.toolbar.viewModel.toolbarSubtitle)
+        presenter.bundleWidget.viewModel.errorObservable.subscribe(errorPresenter.getViewModel().packageSearchApiErrorObserver)
+        presenter.bundleWidget.viewModel.errorObservable.subscribe { show(errorPresenter) }
+        presenter
+    }
+    val confirmationPresenter: PackageConfirmationPresenter by bindView(R.id.widget_package_confirmation)
+    val errorPresenter: PackageErrorPresenter by bindView(R.id.widget_package_hotel_errors)
+    val hotelOffersErrorObservable = PublishSubject.create<ApiError.Code>()
+
+    private val ANIMATION_DURATION = 400
+
+    var expediaRewards: String? = null
+
+    init {
+        Ui.getApplication(getContext()).packageComponent().inject(this)
+        travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
+        View.inflate(context, R.layout.package_presenter, this)
+
+        searchPresenter.searchViewModel = PackageSearchViewModel(context)
+        confirmationPresenter.viewModel = PackageConfirmationViewModel(context)
+        errorPresenter.viewmodel = PackageErrorViewModel(context)
+
+        // TODO - can we move this up to a common "base" presenter? (common between Package and Flight presenter)
+        searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
+            // Starting a new search clear previous selection
+            Db.clearPackageSelection()
+            travelerManager.updateDbTravelers(params, context)
+            errorPresenter.getViewModel().paramsSubject.onNext(params)
+            bundlePresenter.bundleWidget.viewModel.hotelParamsObservable.onNext(params)
+            showBundleOverView()
+        }
+
+        errorPresenter.getViewModel().defaultErrorObservable.subscribe {
+            bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
+            bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+            bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
+            show(searchPresenter, FLAG_CLEAR_BACKSTACK)
+            searchPresenter.showDefault()
+        }
+
+        hotelOffersErrorObservable.subscribe(errorPresenter.getViewModel().hotelOffersApiErrorObserver)
+        hotelOffersErrorObservable.subscribe { show(errorPresenter) }
     }
 
     override fun onFinishInflate() {
