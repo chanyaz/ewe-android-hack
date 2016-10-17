@@ -5528,8 +5528,9 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackFlightOverview(Boolean isOutboundFlight) {
-		String pageName = isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS : FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS;
+	public static void trackFlightOverview(Boolean isOutboundFlight, Boolean isRoundTrip) {
+		String pageName = !isRoundTrip ? FLIGHT_SEARCH_ONE_WAY_DETAILS :
+			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS : FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS;
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
