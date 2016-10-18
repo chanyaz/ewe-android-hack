@@ -5690,4 +5690,38 @@ public class OmnitureTracking {
 		return str;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Rail Tracking
+	//
+	// Spec: https://confluence/display/Omniture/Mobile+App%3A+Rail
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private static final String RAIL_LOB = "rail";
+	private static final String RAIL_SEARCH_BOX = "App.Rail.Dest-Search";
+	private static final String RAIL_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE = "App.Rail.DS.Traveler.";
+	private static final String RAIL_CARD_PICKER_PICKER_CLICK_TEMPLATE = "App.Rail.DS.Card.";
+
+	private static ADMS_Measurement createTrackRailPageLoadEventBase(String pageName) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+		s.setEvar(2, "D=c2");
+		s.setProp(2, RAIL_LOB);
+		return s;
+	}
+
+	public static void trackRailSearchInit() {
+		trackRailPageLoadEventStandard(RAIL_SEARCH_BOX);
+	}
+
+	private static void trackRailPageLoadEventStandard(String pageName) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailSearchTravelerPickerChooser(String text) {
+		createAndtrackLinkEvent(RAIL_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
+	}
+
+	public static void trackRailCardPicker(String text) {
+		createAndtrackLinkEvent(RAIL_CARD_PICKER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
+	}
 }
