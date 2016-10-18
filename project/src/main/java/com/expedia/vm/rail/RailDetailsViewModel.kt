@@ -5,13 +5,14 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
+import com.expedia.bookings.utils.rail.RailConstants
 import com.expedia.bookings.utils.rail.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-abstract class BaseRailDetailsViewModel (val context: Context) {
+class RailDetailsViewModel(val context: Context) {
     val railResultsObservable = BehaviorSubject.create<RailSearchResponse>()
 
     val offerSelectedObservable = PublishSubject.create<RailOffer>()
@@ -22,7 +23,7 @@ abstract class BaseRailDetailsViewModel (val context: Context) {
     val formattedTimeIntervalSubject = BehaviorSubject.create<CharSequence>()
 
     val railLegOptionSubject = BehaviorSubject.create<RailLegOption>()
-    val railOffersPairSubject = BehaviorSubject.create<Pair<List<RailOffer>, Money?>>()
+    val railOffersAndInboundCheapestPricePairSubject = BehaviorSubject.create<Pair<List<RailOffer>, Money?>>()
 
     val overtaken = railLegOptionSubject.map { railLegOption ->
         if (railLegOption != null) railLegOption.overtakenJourney else false
@@ -38,11 +39,17 @@ abstract class BaseRailDetailsViewModel (val context: Context) {
 
             // for open return display one instance of fare class
             val filteredOffers = filterOpenReturnFareOptions(railResultsObservable.value.findOffersForLegOption(railLegOption))
-            railOffersPairSubject.onNext(Pair(filteredOffers, getComparePrice()))
+            railOffersAndInboundCheapestPricePairSubject.onNext(Pair(filteredOffers, getInboundLegCheapestPrice()))
         }
     }
 
-    protected abstract fun getComparePrice() : Money?
+    private fun getInboundLegCheapestPrice(): Money? {
+        val railSearchResponse = railResultsObservable.value
+
+        if (railSearchResponse.hasInbound()) {
+            return railSearchResponse.findLegWithBoundOrder(RailConstants.INBOUND_BOUND_ORDER)?.cheapestPrice
+        } else return null
+    }
 
     private fun filterOpenReturnFareOptions(railOffers: List<RailSearchResponse.RailOffer>): List<RailSearchResponse.RailOffer> {
         val fareServiceKeys = ArrayList<String>()

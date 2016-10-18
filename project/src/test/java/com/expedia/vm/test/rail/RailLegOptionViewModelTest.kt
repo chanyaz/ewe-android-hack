@@ -66,7 +66,6 @@ class RailLegOptionViewModelTest {
         assertEquals(testFormattedPrice, testSub.onNextEvents[0])
     }
 
-
     @Test
     fun testRoundTripOutboundTotalPrice() {
         val legOption = buildMockLegOption()
