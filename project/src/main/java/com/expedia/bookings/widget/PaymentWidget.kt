@@ -217,6 +217,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         addVisibilitySubscription(creditCardNumber.subscribeTextChange(formFilledSubscriber))
         addVisibilitySubscription(creditCardName.subscribeTextChange(formFilledSubscriber))
         addVisibilitySubscription(creditCardPostalCode.subscribeTextChange(formFilledSubscriber))
+        addVisibilitySubscription(expirationDate.subscribeTextChange(formFilledSubscriber))
     }
 
 
@@ -363,15 +364,15 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     open fun isAtLeastPartiallyFilled(): Boolean {
-        return creditCardNumber.text.toString().isNotEmpty()
-                || (isZipValidationRequired() && creditCardPostalCode.text.toString().isNotEmpty())
-                || creditCardName.text.toString().isNotEmpty()
+        return creditCardNumber.text.isNotEmpty()
+                || (isZipValidationRequired() && creditCardPostalCode.text.isNotEmpty())
+                || creditCardName.text.isNotEmpty()
     }
 
     open fun isCompletelyFilled(): Boolean {
-        return (creditCardNumber.text.toString().isNotEmpty()
-                && (!isZipValidationRequired() || creditCardPostalCode.text.toString().isNotEmpty())
-                && creditCardName.text.toString().isNotEmpty()) || hasStoredCard()
+        return (creditCardNumber.text.isNotEmpty()
+                && (!isZipValidationRequired() || creditCardPostalCode.text.isNotEmpty())
+                && creditCardName.text.isNotEmpty() && expirationDate.text.isNotEmpty()) || hasStoredCard()
     }
 
     open fun validateAndBind() {
