@@ -11,7 +11,6 @@ import com.expedia.bookings.test.MockHotelServiceTestRule
 import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.hotel.HotelResultsViewModel
-import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -40,7 +39,6 @@ class HotelResultsViewModelTest {
 
     @Test
     fun perceivedInstantSearch() {
-        SettingUtils.save(context, R.string.preference_enable_hotel_results_perceived_instant, true)
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
 
         val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
@@ -60,6 +58,7 @@ class HotelResultsViewModelTest {
         additionalResultsSubscriber.assertNoTerminalEvent()
         additionalResultsSubscriber.assertNoErrors()
         additionalResultsSubscriber.assertValueCount(1)
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest, AbacusUtils.DefaultVariate.CONTROL.ordinal)
     }
 
 
