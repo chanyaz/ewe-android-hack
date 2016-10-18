@@ -16,14 +16,13 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.rail.RailAmenitiesFareRulesWidget
 import com.expedia.util.endlessObserver
-import com.expedia.vm.rail.RailInboundResultsViewModel
-import com.expedia.vm.rail.RailOutboundResultsViewModel
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
 import com.expedia.vm.rail.RailConfirmationViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
+import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailErrorViewModel
-import com.expedia.vm.rail.RailInboundDetailsViewModel
-import com.expedia.vm.rail.RailOutboundDetailsViewModel
+import com.expedia.vm.rail.RailInboundResultsViewModel
+import com.expedia.vm.rail.RailOutboundResultsViewModel
 import com.expedia.vm.rail.RailSearchViewModel
 import rx.Observer
 import javax.inject.Inject
@@ -48,8 +47,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private val outboundResultsViewModel: RailOutboundResultsViewModel
     private val inboundResultsViewModel: RailInboundResultsViewModel
     private val createTripViewModel: RailCreateTripViewModel
-    private val outboundDetailsViewModel = RailOutboundDetailsViewModel(context)
-    private val inboundDetailsViewModel = RailInboundDetailsViewModel(context)
+    private val outboundDetailsViewModel = RailDetailsViewModel(context)
+    private val inboundDetailsViewModel = RailDetailsViewModel(context)
 
     val amenitiesFareRulesWidget: RailAmenitiesFareRulesWidget by lazy {
         var viewStub = findViewById(R.id.amenities_stub) as ViewStub

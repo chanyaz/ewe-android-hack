@@ -12,15 +12,16 @@ import com.expedia.vm.rail.RailFareOptionsViewModel
 class RailDetailsFareOptionsView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
     var viewModel: RailFareOptionsViewModel by notNullAndObservable { vm ->
-        vm.railOffersPairSubject.subscribe { pair ->
+        vm.railOffersAndInboundCheapestPricePairSubject.subscribe { pair ->
             removeAllViews()
-            addFareOptionViews(pair.first, pair.second)
+            addFareOptionViews(pair.first, pair.second, vm.showDeltaPricing)
         }
     }
 
-    private fun addFareOptionViews(railOffers: List<RailSearchResponse.RailOffer>, comparePrice: Money?) {
+    private fun addFareOptionViews(railOffers: List<RailSearchResponse.RailOffer>, inboundLegCheapestPrice: Money?,
+                                   showDeltaPricing: Boolean) {
         railOffers.forEach { offerForLeg ->
-            val fareOptionViewModel = RailFareOptionViewModel()
+            val fareOptionViewModel = RailFareOptionViewModel(context, showDeltaPricing)
             val fareOptionView = RailFareOptionView(context)
             fareOptionView.viewModel = fareOptionViewModel
 
@@ -28,7 +29,7 @@ class RailDetailsFareOptionsView(context: Context, attrs: AttributeSet) : Linear
             fareOptionViewModel.fareDetailsSelectedObservable.subscribe(viewModel.showFareRulesSubject)
             fareOptionViewModel.offerSelectedObservable.subscribe(viewModel.offerSelectedSubject)
             fareOptionViewModel.offerFareSubject.onNext(offerForLeg)
-            fareOptionViewModel.cheapestPriceSubject.onNext(comparePrice)
+            fareOptionViewModel.inboundLegCheapestPriceSubject.onNext(inboundLegCheapestPrice)
             addView(fareOptionView)
         }
     }
