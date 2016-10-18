@@ -111,7 +111,6 @@
     <string name="preference_enable_rail">preference_enable_rail</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
     <string name="preference_enable_filter_text_search">preference_enable_filter_text_search</string>
-    <string name="preference_enable_hotel_results_perceived_instant">preference_enable_hotel_results_perceived_instant</string>
     <string name="preference_enable_hotel_filter_prominence">preference_hotel_filter_prominence</string>
 
     <!-- Default values for preference keys -->
