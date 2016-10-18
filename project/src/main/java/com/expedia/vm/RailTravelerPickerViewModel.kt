@@ -2,6 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -36,6 +37,7 @@ class RailTravelerPickerViewModel(context: Context) : BaseTravelerPickerViewMode
     val seniorMinusObservable = BehaviorSubject.create<Boolean>()
 
     init {
+        lob = LineOfBusiness.RAILS
         travelerParamsObservable.subscribe { travelers ->
             val total = travelers.numberOfAdults + travelers.childrenAges.size + travelers.youthAges.size + travelers.seniorAges.size
             makeTravelerText(travelers)

@@ -7,6 +7,7 @@ import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailCardSelected
 import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.widget.RailCardPickerRowView
 import com.mobiata.android.util.SettingUtils
 import rx.Observer
@@ -69,9 +70,11 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
 
         addClickSubject.withLatestFrom(railCardTypes, {clicked, railCard -> railCard}).subscribe { railCard ->
             addRow(railCard)
+            OmnitureTracking.trackRailCardPicker("Add")
         }
 
         removeClickSubject.subscribe {
+            OmnitureTracking.trackRailCardPicker("Remove")
             cardsAndQuantitySelectionDetails.remove(rowId - 1)
             if (rowId == 1) {
                 resetClicked.onNext(Unit)

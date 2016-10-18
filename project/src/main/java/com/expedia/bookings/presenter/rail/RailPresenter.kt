@@ -11,6 +11,7 @@ import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -79,7 +80,20 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         inboundDetailsViewModel.railLegOptionSubject.onNext(selectedLegOption)
     }
 
-    private val searchToResults = LeftToRightTransition(this, RailSearchPresenter::class.java, RailOutboundPresenter::class.java)
+    private val defaultSearchTransition = object : Presenter.DefaultTransition(RailSearchPresenter::class.java.name) {
+        override fun endTransition(forward: Boolean) {
+            searchPresenter.visibility = View.VISIBLE
+            OmnitureTracking.trackRailSearchInit()
+        }
+    }
+    private val searchToResults = object : LeftToRightTransition(this, RailSearchPresenter::class.java, RailOutboundPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                OmnitureTracking.trackRailSearchInit()
+            }
+        }
+    }
     private val outboundToDetails = LeftToRightTransition(this, RailOutboundPresenter::class.java, RailDetailsPresenter::class.java)
     private val detailsToOverview = object : LeftToRightTransition(this, RailDetailsPresenter::class.java, RailTripOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
@@ -100,7 +114,14 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private val inboundDetailsToAmenities = ScaleTransition(this, RailInboundDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
     private val overviewToAmenities = ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
     private val outboundToError = ScaleTransition(this, RailOutboundPresenter::class.java, RailErrorPresenter::class.java)
-    private val errorToSearch = ScaleTransition(this, RailErrorPresenter::class.java, RailSearchPresenter::class.java)
+    private val errorToSearch = object: ScaleTransition(this, RailErrorPresenter::class.java, RailSearchPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (forward) {
+                OmnitureTracking.trackRailSearchInit()
+            }
+        }
+    }
 
     init {
         Ui.getApplication(context).railComponent().inject(this)
@@ -230,6 +251,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     }
 
     private fun addTransitions() {
+        addDefaultTransition(defaultSearchTransition)
         addTransition(searchToResults)
         addTransition(outboundToDetails)
         addTransition(detailsToOverview)
