@@ -196,6 +196,8 @@ fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
     this.subscribe { textView.isCursorVisible = it }
 }
 
-fun EditText.subscribeTextChange(observer: Observer<String>): Subscription {
-    return RxTextView.afterTextChangeEvents(this).map({ it.editable().toString() }).distinctUntilChanged().subscribe(observer)
+fun TextView.subscribeTextChange(observer: Observer<String>): Subscription {
+    return RxTextView.afterTextChangeEvents(this).map({
+        it.view().text.toString()
+    }).distinctUntilChanged().subscribe(observer)
 }

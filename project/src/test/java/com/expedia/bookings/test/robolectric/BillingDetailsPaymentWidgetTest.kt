@@ -254,6 +254,10 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
 
+        info.expirationDate = LocalDate.now()
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
+
         val location = givenLocation()
         info.location = location
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
