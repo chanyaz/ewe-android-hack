@@ -3,6 +3,7 @@ package com.expedia.vm.hotel
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
@@ -89,8 +90,8 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
 
     private fun searchHotels(params: HotelSearchParams, isInitial: Boolean = true) {
         searchingForHotelsDateTime.onNext(DateTime.now())
-        val isBucketedAndFeatureToggleOn = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest, R.string.preference_enable_hotel_results_perceived_instant)
-        val makeMultipleCalls = isInitial && isBucketedAndFeatureToggleOn
+        val isPerceivedInstant = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
+        val makeMultipleCalls = isInitial && isPerceivedInstant
         hotelServices?.search(params,if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED, resultsReceivedDateTimeObservable)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(hotelSearchResponse: HotelSearchResponse) {
                 onSearchResponse(hotelSearchResponse, isInitial)
