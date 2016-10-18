@@ -73,6 +73,8 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             }
         }
 
+        travelerEntryWidget.nameEntryViewFocused.subscribeVisibility(boardingWarning)
+
         doneClicked.subscribe {
             if (travelerEntryWidget.isValid()) {
                 viewModel.updateCompletionStatus()

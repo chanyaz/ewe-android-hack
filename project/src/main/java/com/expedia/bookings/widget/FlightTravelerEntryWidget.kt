@@ -47,6 +47,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
 
+    val nameEntryViewFocused = PublishSubject.create<Boolean>()
     val focusedView = PublishSubject.create<View>()
     val filledIn = PublishSubject.create<Boolean>()
 
@@ -103,6 +104,11 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
                         nameEntryView.lastName.nextFocusForwardId = R.id.edit_birth_date_text_btn
                     }
                 }).subscribe()
+
+        focusedView.subscribe { view ->
+            nameEntryViewFocused.onNext(nameEntryView.firstName.hasFocus() || nameEntryView.middleName.hasFocus() || nameEntryView.lastName.hasFocus())
+        }
+
         vm.showPassportCountryObservable.subscribe { show ->
             tsaEntryView.genderSpinner.nextFocusForwardId = if (show) R.id.passport_country_spinner else R.id.first_name_input
         }
@@ -139,6 +145,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         adapter.setPrefix(context.getString(R.string.passport_country_colon))
         adapter.setColoredPrefix(false)
 
+        nameEntryView.firstName.contentDescription = context.resources.getString(R.string.name_must_match_warning_new)
+        nameEntryView.middleName.contentDescription = context.resources.getString(R.string.name_must_match_warning_new)
+        nameEntryView.lastName.contentDescription = context.resources.getString(R.string.name_must_match_warning_new)
         passportCountrySpinner.adapter = adapter
         passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
         passportCountrySpinner.isFocusable = true
@@ -148,6 +157,15 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         nameEntryView.middleName.onFocusChangeListener = this
         nameEntryView.lastName.onFocusChangeListener = this
         emailEntryView.emailAddress.onFocusChangeListener = this
+        phoneEntryView.phoneSpinner.isFocusable = true
+        phoneEntryView.phoneSpinner.isFocusableInTouchMode = true
+        phoneEntryView.phoneSpinner.setOnFocusChangeListener { view, hasFocus ->
+            onFocusChange(view, hasFocus)
+            if(hasFocus){
+                Ui.hideKeyboard(this)
+                phoneEntryView.phoneSpinner.performClick()
+            }
+        }
         phoneEntryView.phoneNumber.onFocusChangeListener = this
         tsaEntryView.dateOfBirth.setOnFocusChangeListener { view, hasFocus ->
             onFocusChange(view, hasFocus)
