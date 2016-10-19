@@ -169,7 +169,7 @@
         "formattedWholePrice": "$69"
       },
       "totalFare": "696.00",
-      "totalFarePrice": {
+      "totalPrice": {
         "amount": "696.00",
         "currencyCode": "USD",
         "formattedPrice": "$696.00",
@@ -227,7 +227,7 @@
   "newTrip": {
     "itineraryNumber": "itin_happy_roundtrip_0",
     "travelRecordLocator": "742449564",
-    "tripId": "happy_roundtrip_0"
+    "tripId": "${productKey}"
   },
   "passengerCategories": [
     "ADULT"
@@ -251,7 +251,7 @@
       "CompletePenaltyRules": "https://www.expedia.com/pub/agent.dll?qscr=ffrs&itid=742449564&rtyp=1&tlid=1033"
     }
   },
-  "tealeafTransactionId": "tealeafFlight:happy_roundtrip_0",
+  "tealeafTransactionId": "tealeafFlight:${productKey}",
   "totalPrice": {
     "amount": "696.00",
     "currencyCode": "USD",

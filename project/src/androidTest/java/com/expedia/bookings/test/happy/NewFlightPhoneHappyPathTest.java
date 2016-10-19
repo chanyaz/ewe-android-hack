@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.happy;
 
 import java.lang.reflect.Method;
+import java.util.concurrent.TimeUnit;
 
 import org.joda.time.LocalDate;
 
@@ -15,6 +16,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.Common;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.NewFlightTestCase;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.newflights.FlightTestHelpers;
@@ -120,9 +122,9 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.clickTravelerDone();
 
 		PackageScreen.clickPaymentInfo();
-		assertInsuranceIsNotVisible();
 		PackageScreen.enterCreditCard();
 		PackageScreen.completePaymentForm();
+		assertInsuranceIsNotVisible();
 		PackageScreen.clickPaymentDone();
 		PackageScreen.clickLegalInformation();
 
@@ -148,7 +150,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.checkout().perform(click());
 
 		CheckoutViewModel.signInOnCheckout();
-		Common.delay(1);
+		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS);
 
 		CheckoutViewModel.clickPaymentInfo();
 		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
@@ -355,6 +357,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.showPriceBreakdown();
 		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(matches(isDisplayed()));
 		Espresso.pressBack();
+		onView(withId(R.id.bundle_total_price)).check(matches(withText("$715")));
 		onView(withId(R.id.insurance_title)).check(matches(withText("Your trip is protected for $19/person")));
 	}
 
@@ -370,6 +373,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		PackageScreen.showPriceBreakdown();
 		onView(withText(R.string.cost_summary_breakdown_flight_insurance)).check(doesNotExist());
 		Espresso.pressBack();
+		onView(withId(R.id.bundle_total_price)).check(matches(withText("$696")));
 		onView(withId(R.id.insurance_title)).check(matches(withText("Add protection for $19/person")));
 	}
 

@@ -255,7 +255,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         geoCodeSearchModel.geoResults.subscribe { geoResults ->
             fun triggerNewSearch(selectedResultIndex: Int) {
                 val newHotelSearchParams = hotelSearchParams
-                val geoLocation = geoResults.get(selectedResultIndex)
+                val geoLocation = geoResults[selectedResultIndex]
                 newHotelSearchParams.suggestion.coordinates.lat = geoLocation.latitude
                 newHotelSearchParams.suggestion.coordinates.lng = geoLocation.longitude
                 newHotelSearchParams.suggestion.type = "GOOGLE_SUGGESTION_SEARCH"

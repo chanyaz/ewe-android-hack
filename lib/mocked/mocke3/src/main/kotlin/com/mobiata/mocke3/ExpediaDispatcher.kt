@@ -252,16 +252,16 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         var lob: String? = ""
         val params = parseHttpRequest(request)
         if (params.containsKey("type")) {
-            type = params.get("type")
+            type = params["type"]
         }
         if (params.containsKey("regiontype")) {
-            regionType = params.get("regiontype")
+            regionType = params["regiontype"]
         }
         if (params.containsKey("latlong")) {
-            latlong = params.get("latlong")
+            latlong = params["latlong"]
         }
         if (params.containsKey("lob")) {
-            lob = params.get("lob")
+            lob = params["lob"]
         }
 
         if (request.path.startsWith("/hint/es/v2/ac/en_US")) {
@@ -307,7 +307,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private fun dispatchSignIn(request: RecordedRequest): MockResponse {
         // TODO Handle the case when there's no email parameter in 2nd sign-in request
         val params = parseHttpRequest(request)
-        lastSignInEmail = params.get("email") ?: lastSignInEmail
+        lastSignInEmail = params["email"] ?: lastSignInEmail
         params.put("email", lastSignInEmail)
         return if (lastSignInEmail.isNotEmpty()) {
             makeResponse("api/user/sign-in/" + lastSignInEmail + ".json", params)
@@ -322,7 +322,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
     private fun dispatchUserProfile(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)
-        return makeResponse("api/user/profile/user_profile_" + params.get("tuid") + ".json")
+        return makeResponse("api/user/profile/user_profile_" + params["tuid"] + ".json")
     }
 
     private fun makeResponse(fileName: String, params: Map<String, String>? = null): MockResponse {
@@ -330,7 +330,7 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     }
 
     private fun dispatchTravelAd(endPoint: String): MockResponse {
-        val count = travelAdRequests.get(endPoint) ?: 0
+        val count = travelAdRequests[endPoint] ?: 0
         travelAdRequests.put(endPoint, count + 1)
         return makeEmptyResponse();
     }
@@ -352,17 +352,19 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private fun dispatchInsurance(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)
 
-        if (params["insuranceProductId"].isNullOrEmpty()) {
-            // insurance removed from trip
-            return makeResponse("api/flight/trip/create/${params["tripId"]}_with_insurance_available.json")
-        } else {
-            // insurance added to trip
-            return makeResponse("api/flight/trip/create/${params["tripId"]}_with_insurance_selected.json")
-        }
+        val baseTripId = params["tripId"]!!.replace("_with_insurance", "")
+        params.put("productKey", baseTripId)
+
+        val filename = if (params["insuranceProductId"].isNullOrEmpty())
+            "${baseTripId}_with_insurance_available"
+        else
+            "${baseTripId}_with_insurance_selected"
+
+        return makeResponse("api/flight/trip/create/$filename.json", params)
     }
 
     fun numOfTravelAdRequests(key: String): Int {
-        return travelAdRequests.get(key) ?: 0
+        return travelAdRequests[key] ?: 0
     }
 }
 

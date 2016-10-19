@@ -52,7 +52,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical|left"
                 android:paddingLeft="5dp"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="@color/price_promo_banner_text_color" />
 
             <View
@@ -110,7 +110,7 @@
             android:layout_marginLeft="12dp"
             android:layout_marginRight="12dp"
             android:ellipsize="middle"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/price_promo_banner_text_color"
             android:textStyle="bold" />
     </LinearLayout>

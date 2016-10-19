@@ -6,19 +6,11 @@ import java.util.Locale;
 
 import org.joda.time.DateTime;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Html;
 import android.text.Spanned;
 import android.text.format.DateUtils;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -32,25 +24,11 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
-import com.mobiata.android.Log;
 import com.mobiata.android.util.AndroidUtils;
-import com.mobiata.android.util.ViewUtils;
 import com.squareup.phrase.Phrase;
 
 public class HotelUtils {
-
-	public static boolean checkPhoneFinishConditionsAndFinish(Activity activity) {
-		if (Db.getHotelSearch().getSelectedProperty() == null) {
-			Log.i("Detected expired DB, finishing activity.");
-			activity.finish();
-			return true;
-		}
-
-		return false;
-	}
-
 
 	/**
 	 * Tries to return the best "room" picture, but falls back to property
@@ -104,53 +82,6 @@ public class HotelUtils {
 
 		Db.getHotelSearch().setSearchResponse(searchResponse);
 		Db.getHotelSearch().updateFrom(offersResponse);
-	}
-
-	public static void setupActionBarHotelNameAndRating(Activity activity, Property property) {
-		ViewGroup actionBarView = Ui.inflate(activity, R.layout.actionbar_hotel_name_with_stars, null);
-
-		TextView titleView = Ui.findView(actionBarView, R.id.title);
-		titleView.setText(property.getName());
-
-		RatingBar ratingBar;
-		if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
-			ratingBar = Ui.findView(actionBarView, R.id.rating_circles);
-		}
-		else {
-			ratingBar = Ui.findView(actionBarView, R.id.rating_stars);
-		}
-		ratingBar.setRating((float) property.getHotelRating());
-		ratingBar.setVisibility(View.VISIBLE);
-
-		activity.getActionBar().setCustomView(actionBarView);
-	}
-
-	/**
-	 * Sets up the "checkmark" action bar item
-	 */
-	public static Button setupActionBarCheckmark(final Activity activity, final MenuItem menuItem,
-			boolean enabled) {
-		Button tv = Ui.inflate(activity, R.layout.actionbar_checkmark_item, null);
-		ViewUtils.setAllCaps(tv);
-
-		if (enabled) {
-			tv.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					activity.onOptionsItemSelected(menuItem);
-				}
-			});
-		}
-		else {
-			tv.setClickable(false);
-			tv.setFocusable(false);
-			tv.setTextColor(activity.getResources().getColor(R.color.actionbar_text_disabled));
-			tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_action_bar_checkmark_disabled, 0, 0, 0);
-		}
-
-		menuItem.setActionView(tv);
-
-		return tv;
 	}
 
 	/**
@@ -255,17 +186,6 @@ public class HotelUtils {
 		return Html.fromHtml(context.getString(templateId, fees, tripTotal));
 	}
 
-	// Convenience method for getting pay later text that goes at the bottom of checkout.
-	public static Spanned getCheckoutPayLaterText(Context context, Rate rate) {
-		if (rate.depositRequired()) {
-			String deposit = rate.getDepositAmount().getFormattedMoney();
-			return Html.fromHtml(context.getString(R.string.pay_later_deposit_disclaimer_TEMPLATE, deposit));
-		}
-		else {
-			String tripTotal = rate.getDisplayTotalPrice().getFormattedMoney();
-			return Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal));
-		}
-	}
 	/*
 	 * Helper method to check if it's valid to start the hotel search.
 	 */
@@ -326,5 +246,19 @@ public class HotelUtils {
 
 	public static boolean isCardIoAvailable() {
 		return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M && !ExpediaBookingApp.isDeviceShitty();
+	}
+
+	public static int getFirstUncommonHotelIndex(List<Hotel> firstListOfHotels, List<Hotel> secondListOfHotels) {
+		int initialRefreshIndex = Integer.MAX_VALUE;
+		int firstListSize = firstListOfHotels.size();
+		int secondListSize = secondListOfHotels.size();
+		int size = (firstListSize > secondListSize) ? secondListSize : firstListSize;
+		for (int i = 0; i < size; i++) {
+			if (!firstListOfHotels.get(i).hotelId.equals(secondListOfHotels.get(i).hotelId)) {
+				initialRefreshIndex = i;
+				break;
+			}
+		}
+		return initialRefreshIndex;
 	}
 }

@@ -296,7 +296,6 @@
     <integer name="calendar_max_days_lx_search">314</integer>
     <integer name="lx_default_search_range">14</integer>
     <integer name="lx_offers_list_initial_size">3</integer>
-    <integer name="lx_recommendation_count">3</integer>
     <integer name="lx_detail_content_description_max_lines">5</integer>
     <integer name="lx_offer_ticket_default_count">1</integer>
 

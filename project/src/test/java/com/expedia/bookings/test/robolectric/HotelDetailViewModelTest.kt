@@ -99,7 +99,7 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun strikeThroughPriceShouldShow() {
-        val chargeableRateInfo = offer1.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val df = DecimalFormat("#")
         chargeableRateInfo.priceToShowUsers = 110f
         chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers + 10f
@@ -108,7 +108,7 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun strikeThroughPriceLessThanPriceToShowUsersDontShow() {
-        val chargeableRateInfo = offer1.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         chargeableRateInfo.priceToShowUsers = 110f
         chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
         vm.hotelOffersSubject.onNext(offer1)
@@ -116,7 +116,7 @@ class HotelDetailViewModelTest {
     }
 
     @Test fun strikeThroughPriceSameAsPriceToShowUsersDontShow() {
-        val chargeableRateInfo = offer1.hotelRoomResponse.get(0).rateInfo.chargeableRateInfo
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         chargeableRateInfo.priceToShowUsers = 110f
         chargeableRateInfo.strikethroughPriceToShowUsers = 0f
         vm.hotelOffersSubject.onNext(offer1)

@@ -6,8 +6,8 @@
         android:layout_height="match_parent"
         android:background="@color/rail_background_color" />
 
-    <com.expedia.bookings.presenter.rail.RailResultsPresenter
-        android:id="@+id/widget_rail_results_presenter"
+    <com.expedia.bookings.presenter.rail.RailOutboundPresenter
+        android:id="@+id/widget_rail_outbound_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/rail_background_color"
@@ -15,6 +15,13 @@
 
     <com.expedia.bookings.presenter.rail.RailDetailsPresenter
         android:id="@+id/widget_rail_details_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/rail_background_color"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.presenter.rail.RailInboundPresenter
+        android:id="@+id/widget_rail_inbound_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/rail_background_color"
@@ -32,6 +39,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/rail_background_color"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.presenter.rail.RailConfirmationPresenter
+        android:id="@+id/rail_confirmation_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/rail_primary_color"
         android:visibility="gone" />
 
     <ViewStub

@@ -5,6 +5,7 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
+import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Strings
 import org.junit.Test
@@ -23,7 +24,8 @@ class SpinnerAdapterWithHintTest {
         val options = listOf(1, 2, 3, 4, 5)
         val hint = "Hint"
 
-        val adapter = SpinnerAdapterWithHint(context, options.map { SpinnerAdapterWithHint.SpinnerItem(it.toString(), it) }, hint)
+        val adapter = SpinnerAdapterWithHint(context, hint, R.layout.snippet_rail_card_text_view)
+        adapter.dataSetChanged(options.map { SpinnerAdapterWithHint.SpinnerItem(it.toString(), it) })
         assertEquals(options.size, adapter.count)
         val hintView = adapter.getView(5, null, LinearLayout(context)) as TextView
         assertEquals(hint, hintView.hint)

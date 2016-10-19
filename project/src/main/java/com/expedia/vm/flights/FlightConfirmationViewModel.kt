@@ -29,7 +29,7 @@ class FlightConfirmationViewModel(val context: Context) {
             val response = pair.first
             val itinNumber = response.newTrip.itineraryNumber
             val isQualified = response.airAttachInfo?.hasAirAttach ?: false
-            val itinNumberMessage = Phrase.from(context, R.string.package_itinerary_confirmation_TEMPLATE)
+            val itinNumberMessage = Phrase.from(context, R.string.itinerary_sent_to_confirmation_TEMPLATE)
                     .put("itinerary", itinNumber)
                     .put("email", email)
                     .format().toString()

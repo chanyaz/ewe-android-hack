@@ -109,6 +109,10 @@
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_hotel_favorite">preference_enable_hotel_favorite</string>
     <string name="preference_enable_rail">preference_enable_rail</string>
+    <string name="preference_enable_activity_map">preference_enable_activity_map</string>
+    <string name="preference_enable_filter_text_search">preference_enable_filter_text_search</string>
+    <string name="preference_enable_hotel_results_perceived_instant">preference_enable_hotel_results_perceived_instant</string>
+    <string name="preference_enable_hotel_filter_prominence">preference_hotel_filter_prominence</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
@@ -388,7 +392,7 @@
     <string name="pure_entertainment_en">Pure Entertainment</string>
     <string name="eat_play_enjoy_en">Eat, Play &amp; Enjoy</string>
 
-    <string name="omniture_tracking_server_url">om.expedia.com</string>
+    <string name="omniture_tracking_server_url">oms.expedia.com</string>
 
     <!-- Plus sign for Expedia+ Reward Points on Hotel Infosite -->
     <string name="plus_sign">+</string>

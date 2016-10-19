@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@color/actionbarTabletTitleColor"
         app:textStyle="condensed"
         android:textSize="18sp"/>
@@ -23,7 +23,7 @@
         android:layout_height="match_parent"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@color/actionbarTabletTitleColor"
         app:textStyle="condensed"
         android:textSize="18sp"/>

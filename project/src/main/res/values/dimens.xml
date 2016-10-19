@@ -75,6 +75,10 @@
     <dimen name="terminal_map_legend_3cols_width">460dp</dimen>
     <dimen name="terminal_map_legend_4cols_width">607dp</dimen>
 
+    <!--Calendar Height on CalendarDialogFragment-->
+    <dimen name="calendar_height_with_time_slider">320dp</dimen>
+    <dimen name="calendar_height_without_time_slider">350dp</dimen>
+
     <!-- Login screen -->
     <dimen name="login_field_text_size">18sp</dimen>
     <dimen name="login_field_padding">12dp</dimen>
@@ -318,6 +322,7 @@
     <dimen name="traveler_input_bottom_margin">4dp</dimen>
     <dimen name="traveler_input_text_size">16sp</dimen>
     <dimen name="checkout_form_padding">14dp</dimen>
+    <dimen name="checkout_earlier_api_version_edit_text_spacing">8dp</dimen>
 
     <!-- Package Bundle Overview Footer -->
     <dimen name="packages_bundle_overview_footer_primary_text">@dimen/temporary_font_size_medium</dimen>

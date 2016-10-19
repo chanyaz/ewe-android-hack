@@ -1,7 +1,9 @@
 package com.expedia.bookings.widget.packages
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
+import android.os.Build
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -9,8 +11,11 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.MaskedCreditCardEditText
 import com.expedia.bookings.widget.PaymentWidget
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.accessibility.AccessibleTextViewForSpinner
+import com.expedia.bookings.widget.rail.CreditCardFeesView
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextChange
 import com.expedia.vm.PaymentViewModel
 import com.squareup.otto.Subscribe
@@ -23,6 +28,26 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     val addressCity: AccessibleEditText by bindView(R.id.edit_address_city)
     val addressState: AccessibleEditText by bindView(R.id.edit_address_state)
     val expirationDate: AccessibleTextViewForSpinner by bindView(R.id.edit_creditcard_exp_text_btn)
+    val creditCardFeeDisclaimer: TextView by bindView(R.id.card_fee_disclaimer)
+
+    val creditCardFeesView = CreditCardFeesView(context, null)
+    val dialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        builder.setView(creditCardFeesView)
+        builder.setTitle(R.string.fees_by_card_type)
+        builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which -> dialog.dismiss() })
+        builder.create()
+    }
+
+    override fun init(viewModel: PaymentViewModel) {
+        super.init(viewModel)
+        viewModel.onTemporarySavedCreditCardChosen.subscribe { close() }
+        viewModel.ccFeeDisclaimer.subscribeTextAndVisibility(creditCardFeeDisclaimer)
+
+        creditCardFeeDisclaimer.setOnClickListener {
+            dialog.show()
+        }
+    }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -36,6 +61,14 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
             creditCardNumber.setSelection(text.length)
             creditCardNumber.visibility = VISIBLE
             maskedCreditCard.visibility = GONE
+        }
+        val isExtraPaddingRequired = Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
+        if (isExtraPaddingRequired) {
+            val editTextSpacing = context.getResources().getDimensionPixelSize(R.dimen.checkout_earlier_api_version_edit_text_spacing)
+            addressCity.setPadding(addressCity.paddingLeft, addressCity.paddingTop, addressCity.paddingRight, editTextSpacing)
+            addressState.setPadding(addressState.paddingLeft, addressState.paddingTop, addressState.paddingRight, editTextSpacing)
+            creditCardCvv.setPadding(creditCardCvv.paddingLeft, creditCardCvv.paddingTop, creditCardCvv.paddingRight, editTextSpacing)
+            creditCardPostalCode.setPadding(creditCardPostalCode.paddingLeft, creditCardPostalCode.paddingTop, creditCardPostalCode.paddingRight, editTextSpacing)
         }
     }
 
@@ -58,11 +91,11 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
     }
 
     override fun isCompletelyFilled(): Boolean {
-        return super.isCompletelyFilled()
+        return (super.isCompletelyFilled()
                 && creditCardCvv.text.toString().isNotEmpty()
                 && addressLineOne.text.toString().isNotEmpty()
                 && addressCity.text.toString().isNotEmpty()
-                && (!isStateRequired() || addressState.text.toString().isNotEmpty())
+                && (!isStateRequired() || addressState.text.toString().isNotEmpty())) || hasStoredCard()
     }
 
     override fun isSecureToolbarBucketed(): Boolean {
@@ -73,11 +106,6 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         clearBackStack()
         val activity = context as Activity
         activity.onBackPressed()
-    }
-
-    override fun init(vm: PaymentViewModel) {
-        super.init(vm)
-        viewmodel.onTemporarySavedCreditCardChosen.subscribe { close() }
     }
 
     override fun clearCCAndCVV() {

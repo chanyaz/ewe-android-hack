@@ -255,8 +255,8 @@ public class PackageScreen {
 	}
 
 	public static void tickCheckboxWithText(String title) {
-		checkBoxWithTitle(title).perform(scrollTo());
-		checkBoxWithTitle(title).perform(click());
+		checkBoxContainerWithTitle(title).perform(scrollTo());
+		checkBoxContainerWithTitle(title).perform(click());
 	}
 
 	public static ViewInteraction checkBoxWithTitle(String title) {
@@ -357,8 +357,9 @@ public class PackageScreen {
 	}
 
 	public static void clickLegalInformation() {
-		onView(withId(R.id.card_info_container)).perform(swipeUp());
-		onView(withId(R.id.card_info_container)).perform(swipeUp());
+		onView(withId(R.id.bottom_container)).perform(waitForViewToDisplay());
+		onView(withId(R.id.legal_information_text_view)).perform(scrollTo());
+		onView(withId(R.id.legal_information_text_view)).perform(swipeUp());
 		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), click());
 	}
 
@@ -392,10 +393,11 @@ public class PackageScreen {
 		CardInfoScreen.typeTextCvv("666");
 		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
 
-		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
-		BillingAddressScreen.typeTextCity("San Francisco");
-		BillingAddressScreen.typeTextState("CA");
-		BillingAddressScreen.typeTextPostalCode("94105");
+		int addressSectionParentId = R.id.section_location_address;
+		BillingAddressScreen.typeTextAddressLineOne("123 California Street", addressSectionParentId);
+		BillingAddressScreen.typeTextCity("San Francisco", addressSectionParentId);
+		BillingAddressScreen.typeTextState("CA", addressSectionParentId);
+		BillingAddressScreen.typeTextPostalCode("94105", addressSectionParentId);
 	}
 
 	public static void enterPaymentInfo() {

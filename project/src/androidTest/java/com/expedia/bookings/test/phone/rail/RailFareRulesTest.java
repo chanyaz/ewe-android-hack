@@ -29,15 +29,15 @@ public class RailFareRulesTest extends RailTestCase {
 		RailScreen.navigateToDetails();
 		RailScreen.scrollToFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
-		RailScreen.clickFareRules("First", "Travel anytime of day");
+		RailScreen.clickFareRules("Anytime Single (1st Class)", "Travel anytime of day");
 	}
 
 	private void assertFareRules() {
 		assertFareTitleIsVisible();
 		assertFareRuleIsDisplayed("Additional information about this fare can be found");
 		assertFareRuleIsDisplayed("Valid only for travel via (changing trains or passing through) London.");
-		assertFareRuleIsDisplayed("Your ticket is refundable before 28 Sep, 2016 01:30");
-		assertFareRuleIsDisplayed("If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.");
+		assertFareRuleIsDisplayed("Your ticket is refundable before 9 Dec, 2016 12:55");
+		assertFareRuleIsDisplayed("If you cancel before your ticket is printed, an admin fee of 40.00 GBP will be deducted from your refund.");
 		assertFareRuleIsDisplayed("If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP");
 	}
 
@@ -47,7 +47,7 @@ public class RailFareRulesTest extends RailTestCase {
 
 	private void assertFareTitleIsVisible() {
 		Matcher<View> matcher = Matchers.allOf(
-			withText("First anytime single"),
+			withText("First Anytime Single (1st Class)"),
 			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
 			withParent(withId(R.id.fare_rules_widget)));
 		onView(matcher).check(matches(isDisplayed()));

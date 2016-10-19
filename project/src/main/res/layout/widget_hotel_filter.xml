@@ -15,7 +15,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:clickable="true"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -23,13 +22,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:clickable="true"
                     android:orientation="vertical"
                     android:paddingTop="@dimen/lx_sort_filter_padding">
 
                     <com.expedia.bookings.widget.TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:paddingLeft="@dimen/lx_sort_filter_padding"
                         android:paddingRight="@dimen/lx_sort_filter_padding"
                         android:text="@string/Sort_By"
@@ -60,7 +60,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="1px"
                         android:layout_marginTop="15dp"
-                        android:background="@color/filter_divider_lines"  />
+                        android:background="@color/filter_divider_lines" />
 
                 </LinearLayout>
 
@@ -68,7 +68,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:clickable="true"
                     android:orientation="vertical"
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding"
@@ -77,6 +76,8 @@
                     <com.expedia.bookings.widget.TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:text="@string/Filter_By"
                         android:textColor="@color/hotel_filter_text"
                         android:textSize="15sp"
@@ -101,7 +102,7 @@
                             android:src="@drawable/filter_search_icon"
                             android:tint="@color/hotel_filter_hotel_name_icon" />
 
-                        <EditText
+                        <com.expedia.bookings.widget.accessibility.AccessibleEditText
                             android:id="@+id/filter_hotel_name_edit_text"
                             android:layout_width="match_parent"
                             android:layout_height="48dp"
@@ -110,7 +111,7 @@
                             android:gravity="center_vertical"
                             android:hint="@string/filter_hotel_name_hint2"
                             android:inputType="textNoSuggestions"
-                            android:singleLine="true"
+                            android:maxLines="1"
                             android:textColorHint="@color/hotel_filter_text"
                             android:textSize="15sp" />
 
@@ -142,6 +143,8 @@
                         android:id="@+id/price"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:text="@string/price_range"
                         android:textColor="@color/hotel_filter_text"
                         android:textSize="15sp"
@@ -163,6 +166,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:importantForAccessibility="2"
                                 android:textSize="13sp" />
 
                             <TextView
@@ -170,6 +176,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="right"
+                                android:focusable="false"
+                                android:focusableInTouchMode="false"
+                                android:importantForAccessibility="2"
                                 android:textSize="13sp" />
 
                         </FrameLayout>
@@ -187,6 +196,8 @@
                         android:id="@+id/star_rating_bar"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:focusable="true"
+                        android:focusableInTouchMode="true"
                         android:paddingTop="15dp"
                         android:text="@string/star_rating"
                         android:textColor="@color/hotel_filter_text"
@@ -318,6 +329,8 @@
                     android:id="@+id/vip_badge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:paddingBottom="5dp"
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding"
@@ -387,6 +400,8 @@
                     android:id="@+id/neighborhood_label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
                     android:paddingBottom="5dp"
                     android:paddingLeft="@dimen/lx_sort_filter_padding"
                     android:paddingRight="@dimen/lx_sort_filter_padding"

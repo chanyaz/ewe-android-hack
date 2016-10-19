@@ -44,7 +44,7 @@ class LXThemeListAdapter : LoadingRecyclerViewAdapter<LXTheme>() {
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         if (holder.itemViewType == LoadingRecyclerViewAdapter.DATA_VIEW) {
-            val theme = getItems().get(position)
+            val theme = getItems()[position]
             (holder as ViewHolder).bind(theme, themeClickSubject, imageCode)
         }
     }

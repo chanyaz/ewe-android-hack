@@ -193,4 +193,9 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
             toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
         }
     }
+
+    override fun setBundleWidgetAndToolbar(forward: Boolean) {
+        setToolbarNavIcon(forward)
+        bundleWidget.toggleMenuObservable.onNext(!forward)
+    }
 }

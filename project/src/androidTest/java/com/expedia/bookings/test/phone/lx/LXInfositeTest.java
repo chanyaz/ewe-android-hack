@@ -66,13 +66,14 @@ public class LXInfositeTest extends LxTestCase {
 		screenshot("LX validated hero image");
 
 		onView(allOf(withId(R.id.section_title), withText(
-			R.string.highlights_activity_details))).check(matches(
+			R.string.highlights_activity_details))).perform(scrollTo()).check(matches(
 			isDisplayed()));
 		onView(allOf(withId(R.id.section_title), withText(
 			R.string.highlights_activity_details))).check(matches(
 			not(isEmpty())));
 		onView(allOf(withId(R.id.section_content), hasSibling(allOf(withId(R.id.section_title),
 			withText(R.string.description_activity_details)))))
+			.perform(scrollTo())
 			.check(matches(not(isEmpty())));
 		onView(allOf(withId(R.id.section_content), hasSibling(allOf(withId(R.id.section_title),
 			withText(R.string.location_activity_details)))))

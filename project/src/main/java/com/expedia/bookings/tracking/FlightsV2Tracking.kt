@@ -213,6 +213,14 @@ object FlightsV2Tracking {
         trackFlightCheckoutError("Flight Checkout Session Timeout Error")
     }
 
+    fun trackFlightCheckoutTravelerFormInputError() {
+        trackFlightCheckoutError("Flight Checkout Traveler Form Input Error")
+    }
+
+    fun trackFlightCheckoutPaymentFormInputError() {
+        trackFlightCheckoutError("Flight Checkout Payment Form Input Error")
+    }
+
     fun trackFlightTripBookedError() {
         trackFlightCheckoutError("Flight Trip Already Booked Error")
     }

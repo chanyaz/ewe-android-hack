@@ -11,8 +11,9 @@ import java.util.*
             model is getting serialized to json and sent to the search endpoint
  */
 class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, departDate: LocalDate, returnDate: LocalDate?,
-                         departTimeMillis: Int, returnTimeMillis: Int?, isSearchRoundTrip: Boolean, val fareQualifierList: List<RailCard>) {
-
+                         departTimeMillis: Int, returnTimeMillis: Int?, isSearchRoundTrip: Boolean, val adults: Int, val children: List<Int>, val youths: List<Int>, val seniors: List<Int>, val fareQualifierList: List<RailCard>) {
+    private val DEFAULT_ADULT_AGE = 30
+    private val DEFAULT_CHILDREN_PRIMARY_TRAVELER_STATUS = false
     var pos = PointOfSaleKey()
     var clientCode = "1001" //TODO - what is this?
     var searchCriteriaList: MutableList<OriginDestinationPair> = ArrayList()
@@ -20,11 +21,35 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
     var passengerList: MutableList<RailPassenger> = ArrayList()
 
     init {
-        passengerList.add(RailPassenger(1, 65, true)) //hardcoded to specific params for now
+        buildPassengerList()
         this.searchCriteriaList.add(OriginDestinationPair(origin, destination, departDate, departTimeMillis))
         if (isSearchRoundTrip && returnDate != null && returnTimeMillis != null) {
             // isRoundTrip search switch origin-destination
             this.searchCriteriaList.add(OriginDestinationPair(destination, origin, returnDate, returnTimeMillis))
+        }
+    }
+
+    private fun buildPassengerList() {
+        var passengerIndex = 1
+        var primaryTravelerStatus = true //first non-adult is primary traveler
+
+        for (listIndex in 0..adults - 1) {
+            passengerList.add(RailPassenger(passengerIndex++, DEFAULT_ADULT_AGE, primaryTravelerStatus))
+            primaryTravelerStatus = false
+        }
+
+        for (listIndex in 0..youths.size - 1) {
+            passengerList.add(RailPassenger(passengerIndex++, youths[listIndex], primaryTravelerStatus))
+            primaryTravelerStatus = false
+        }
+
+        for (listIndex in 0..seniors.size - 1) {
+            passengerList.add(RailPassenger(passengerIndex++, seniors[listIndex], primaryTravelerStatus))
+            primaryTravelerStatus = false
+        }
+
+        for (listIndex in 0..children.size - 1) {
+            passengerList.add(RailPassenger(passengerIndex++, children[listIndex], DEFAULT_CHILDREN_PRIMARY_TRAVELER_STATUS))
         }
     }
 
@@ -64,9 +89,8 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
 
     companion object {
         fun fromSearchParams(request: RailSearchRequest): RailApiSearchModel {
-            //TODO - set passenger and railcards data
             return RailApiSearchModel(request.origin!!, request.destination!!, request.departDate, request.returnDate,
-                    request.departDateTimeMillis, request.returnDateTimeMillis, request.isRoundTripSearch(), request.selectedRailCards)
+                    request.departDateTimeMillis, request.returnDateTimeMillis, request.isRoundTripSearch(), request.adults, request.children, request.youths, request.seniors, request.selectedRailCards)
 
         }
     }

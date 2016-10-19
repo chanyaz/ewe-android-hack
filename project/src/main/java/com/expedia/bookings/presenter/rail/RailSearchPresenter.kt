@@ -9,7 +9,6 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.RailSearchPagerAdapter
-import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -26,9 +25,18 @@ import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.rail.RailSearchViewModel
 import com.expedia.vm.rail.RailSuggestionAdapterViewModel
+import com.squareup.phrase.Phrase
+import rx.Observable
 import kotlin.properties.Delegates
 
 class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
+    override fun setUpStatusBar() {
+        // Rail is smart and lets the system handle the status bar. Do nothing.
+    }
+
+    override fun getToolbarsHeight() : Int {
+        return Ui.getToolbarSize(context)
+    }
 
     lateinit private var originSuggestionAdapter: SuggestionAdapter
     lateinit private var destinationSuggestionAdapter: SuggestionAdapter
@@ -58,7 +66,7 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
     }
 
     override val travelerWidgetV2 by lazy {
-        travelerCardViewStub.inflate().findViewById(R.id.traveler_card) as RailTravelerWidgetV2
+        findViewById(R.id.traveler_card) as RailTravelerWidgetV2
     }
     override val originCardView: SearchInputTextView by lazy {
         searchWidget.locationWidget.originLocationText
@@ -72,6 +80,12 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
     var searchViewModel: RailSearchViewModel by notNullAndObservable { vm ->
         searchWidget.searchViewModel = vm
         searchViewModel.resetDatesAndTimes()
+        travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
+        travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
+            val noOfTravelers = travelers.numberOfAdults + travelers.childrenAges.size + travelers.youthAges.size + travelers.seniorAges.size
+            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
+                    put("travelers", noOfTravelers).format().toString()
+        }
 
         // we dont want to do current location now - TODO future enhancement
         originSuggestionViewModel = RailSuggestionAdapterViewModel(context, suggestionServices, false, null)
@@ -87,15 +101,13 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         }
         searchButton.subscribeOnClick(vm.searchObserver)
 
-        vm.errorMaxDurationObservable.subscribe { message ->
-            showErrorDialog(message)
-        }
-        vm.errorMaxRangeObservable.subscribe { message ->
-            showErrorDialog(message)
-        }
-        vm.errorOriginSameAsDestinationObservable.subscribe { message ->
-            showErrorDialog(message)
-        }
+        Observable.merge(vm.errorMaxDurationObservable,
+                vm.errorMaxRangeObservable,
+                vm.errorOriginSameAsDestinationObservable,
+                vm.errorInvalidCardsCountObservable)
+                .subscribe { message ->
+                    showErrorDialog(message)
+                }
     }
 
     init {
@@ -109,13 +121,6 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-
-        val statusBarHeight = Ui.getStatusBarHeight(context)
-        if (statusBarHeight > 0) {
-            val color = ContextCompat.getColor(context, R.color.rail_primary_color)
-            val statusBar = Ui.setUpStatusBarWithTabs(context, null, color)
-            addView(statusBar)
-        }
 
         adapter = RailSearchPagerAdapter(context)
         viewpager.adapter = adapter

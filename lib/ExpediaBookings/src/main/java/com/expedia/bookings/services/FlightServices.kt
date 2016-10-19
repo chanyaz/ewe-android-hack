@@ -15,7 +15,6 @@ import okhttp3.OkHttpClient
 import org.joda.time.DateTime
 import org.joda.time.Days
 import org.joda.time.Period
-import org.joda.time.format.DateTimeFormat
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
@@ -26,7 +25,6 @@ import java.util.ArrayList
 // "open" so we can mock for unit tests
 open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
-    val hourMinuteFormatter = DateTimeFormat.forPattern("hh:mma")
     val flightApi: FlightApi by lazy {
         val gson = GsonBuilder()
                 .registerTypeAdapter(DateTime::class.java, DateTimeTypeAdapter())
@@ -86,9 +84,9 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                                 segment.airlineLogoURL = Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", segment.airlineCode)
                             }
 
-                            val segmentArrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(segment.arrivalTimeRaw)
-                            val segmentDepartureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTime(segment.departureTimeRaw)
-                            segment.elapsedDays = Days.daysBetween(segmentArrivalTime.toLocalDate(), segmentDepartureTime.toLocalDate()).days
+                            val segmentArrivalTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.arrivalTimeRaw)
+                            val segmentDepartureTime = DateUtils.dateyyyyMMddHHmmSSSZToDateTimeWithTimeZone(segment.departureTimeRaw)
+                            segment.elapsedDays = Days.daysBetween(segmentDepartureTime.toLocalDate(), segmentArrivalTime.toLocalDate()).days
                             val airline = Airline(segment.airlineName, segment.airlineLogoURL)
                             airlines.add(airline)
 
@@ -109,7 +107,6 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                             lastSegment = segment
                         }
                         leg.airlines = airlines
-                        leg.baggageFeesUrl = leg.baggageFeesUrl.replace("http://www.expedia.com/", "")
                         if (leg.durationMinute > 59) {
                             val extraHours: Int = leg.durationMinute / 60
                             leg.durationHour += extraHours

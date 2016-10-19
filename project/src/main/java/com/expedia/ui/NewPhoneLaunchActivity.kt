@@ -22,6 +22,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
@@ -224,7 +225,9 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
                     }
                     PAGER_POS_ITIN -> gotoItineraries()
                     PAGER_POS_ACCOUNT -> {
-                        accountFragment?.refreshUserInfo()
+                        if (User.isLoggedIn(this@NewPhoneLaunchActivity)) {
+                            accountFragment?.refreshUserInfo()
+                        }
                         viewPager.currentItem = PAGER_POS_ACCOUNT
                         OmnitureTracking.trackAccountPageLoad()
                     }

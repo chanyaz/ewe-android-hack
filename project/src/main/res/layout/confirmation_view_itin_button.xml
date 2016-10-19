@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="bottom"
+    android:focusable="false"
+    android:orientation="vertical">
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/itin_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/itin_bg_dark_transparent"
+        android:focusable="false"
+        android:gravity="center"
+        android:paddingBottom="6dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:paddingTop="5dp"
+        android:textColor="@color/itin_white_text"
+        android:textSize="12sp" />
+
+    <Button
+        android:id="@+id/view_itin_button"
+        style="@style/MaterialFooterButtonText"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:background="?attr/hotel_select_room_ripple_drawable"
+        android:text="@string/itin_action_view" />
+
+</LinearLayout>

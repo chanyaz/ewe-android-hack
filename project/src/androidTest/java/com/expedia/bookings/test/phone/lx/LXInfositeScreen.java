@@ -33,20 +33,14 @@ public class LXInfositeScreen {
 	public static ViewInteraction detailsDateContainer() {
 		return onView(
 			allOf(withId(R.id.offer_dates_container), isDescendantOfA(
-				withId(R.id.activity_recommended_details_presenter))));
+				withId(R.id.activity_details_presenter))));
 	}
 
 	public static ViewInteraction offersWidgetContainer() {
-		return onView(allOf(withId(R.id.offers), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
+		return onView(allOf(withId(R.id.offers), isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 
 	public static ViewInteraction ticketAddButton(String ticketName, String travellerType) {
-		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
-			isDescendantOfA(hasSibling(withText(containsString(ticketName)))), isDescendantOfA(withId(R.id.activity_recommended_details_presenter)));
-		return onView(Matchers.allOf(withId(R.id.ticket_add), hasSibling(rowMatcher)));
-	}
-
-	public static ViewInteraction ticketAddButtonOnRecommendations(String ticketName, String travellerType) {
 		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
 			isDescendantOfA(hasSibling(withText(containsString(ticketName)))), isDescendantOfA(withId(R.id.activity_details_presenter)));
 		return onView(Matchers.allOf(withId(R.id.ticket_add), hasSibling(rowMatcher)));
@@ -54,62 +48,41 @@ public class LXInfositeScreen {
 
 	public static ViewInteraction ticketContainer(String ticketName) {
 		return onView(Matchers.allOf(withId(R.id.ticket_selectors_container), hasSibling(withText(ticketName)),
-			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
+			isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 
 	public static ViewInteraction selectOffer(String ticketName) {
 		return onView(Matchers.allOf(withId(R.id.offer_row), hasDescendant(withText(ticketName)),
-			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
-	}
-
-	public static ViewInteraction selectCalendarOnRecommendations() {
-		return onView(Matchers.allOf(withId(R.id.offer_dates_container),
 			isDescendantOfA(withId(R.id.activity_details_presenter))));
-	}
-
-	public static ViewInteraction selectOfferOnRecommendations(String ticketName) {
-		return onView(Matchers.allOf(withId(R.id.offer_row), hasDescendant(withText(ticketName)),
-			isDescendantOfA(withId(R.id.activity_details_presenter))));
-	}
-
-	public static ViewInteraction selectRecommendation(String activityName) {
-		return onView(Matchers.allOf(withId(R.id.result_row), hasDescendant(withText(activityName)),
-			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
 	}
 
 	public static ViewInteraction ticketRemoveButton(String ticketName, String travellerType) {
 		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
 			isDescendantOfA(hasSibling(withText(ticketName))));
 		return onView(Matchers.allOf(withId(R.id.ticket_remove), hasSibling(rowMatcher),
-			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
+			isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 
 	public static ViewInteraction ticketCount(String ticketName, String travellerType) {
 		Matcher<View> rowMatcher = Matchers.allOf(withText(containsString(travellerType)),
 			isDescendantOfA(hasSibling(withText(ticketName))));
 		return onView(Matchers.allOf(withId(R.id.ticket_count), hasSibling(rowMatcher),
-			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
+			isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 
 	public static ViewInteraction ticketRow(String ticketName, String travellerType) {
 		return onView(Matchers.allOf(withText(containsString(travellerType)), withId(R.id.ticket_details),
 			isDescendantOfA(hasSibling(withText(ticketName))),
-			isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
+			isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 
 	public static ViewInteraction priceSummary(String ticketName) {
 		return onView(
 			Matchers.allOf(withId(R.id.selected_ticket_summary), withParent(hasSibling(withText(ticketName))),
-				isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
+				isDescendantOfA(withId(R.id.activity_details_presenter))));
 	}
 
 	public static ViewInteraction bookNowButton(String ticketName) {
-		return onView(
-			Matchers.allOf(withId(R.id.lx_book_now), withParent(hasSibling(
-				withText(containsString(ticketName)))), isDescendantOfA(withId(R.id.activity_recommended_details_presenter))));
-	}
-
-	public static ViewInteraction bookNowButtonOnRecommendations(String ticketName) {
 		return onView(
 			Matchers.allOf(withId(R.id.lx_book_now), withParent(hasSibling(
 				withText(containsString(ticketName)))), isDescendantOfA(withId(R.id.activity_details_presenter))));

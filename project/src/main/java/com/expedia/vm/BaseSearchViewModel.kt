@@ -46,6 +46,10 @@ abstract class BaseSearchViewModel(val context: Context) {
     var a11yFocusSelectDatesObservable = BehaviorSubject.create<Unit>()
 
     init {
+        updateTraveler()
+    }
+
+    open fun updateTraveler() {
         travelersObservable.subscribe { update ->
             getParamsBuilder().adults(update.numberOfAdults)
             getParamsBuilder().children(update.childrenAges)

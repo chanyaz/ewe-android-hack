@@ -39,7 +39,7 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:paddingRight="40dip"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/hotel_cell_primary_color"
             android:textSize="@dimen/hotel_row_name_text_size"
             android:textStyle="bold" />
@@ -97,7 +97,7 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:paddingRight="6dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/light_gray"
             android:textSize="@dimen/hotel_row_proximity_text_size" />
 
@@ -136,7 +136,7 @@
             android:ellipsize="end"
             android:includeFontPadding="false"
             android:paddingTop="3dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:text="@string/not_rated"
             android:textColor="@color/hotel_cell_secondary_color"
             android:visibility="gone" />
@@ -148,7 +148,7 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:includeFontPadding="false"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/hotel_cell_primary_color"
             android:textStyle="bold"
             android:visibility="gone" />
@@ -171,7 +171,7 @@
         android:layout_gravity="top|right"
         android:layout_marginRight="@dimen/percent_off_corner_margin_right"
         android:layout_marginTop="@dimen/percent_off_corner_margin_top"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@android:color/white"
         android:textSize="@dimen/percent_off_corner_text_size"
         android:textStyle="bold"

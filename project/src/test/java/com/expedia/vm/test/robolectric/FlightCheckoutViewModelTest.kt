@@ -2,7 +2,6 @@ package com.expedia.vm.test.robolectric
 
 import android.app.Activity
 import android.content.Context
-import android.content.DialogInterface
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.expedia.bookings.R
@@ -34,8 +33,6 @@ import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
-import org.robolectric.Shadows
-import org.robolectric.shadows.ShadowAlertDialog
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 import rx.observers.TestSubscriber
@@ -303,16 +300,9 @@ class FlightCheckoutViewModelTest {
         givenIOExceptionOnCheckoutRequest()
         setupSystemUnderTest()
 
-        sut.noNetworkObservable.subscribe(testSubscriber)
-
+        sut.showNoInternetRetryDialog.subscribe(testSubscriber)
         sut.checkoutParams.onNext(params)
-        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val shadowAlertDialog = Shadows.shadowOf(noInternetDialog)
-        val cancelBtn = noInternetDialog.getButton(DialogInterface.BUTTON_NEGATIVE)
-        cancelBtn.performClick()
 
-        assertEquals("", shadowAlertDialog.title)
-        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", shadowAlertDialog.message)
         testSubscriber.assertValueCount(1)
     }
 
@@ -321,16 +311,11 @@ class FlightCheckoutViewModelTest {
         givenIOExceptionOnCheckoutRequest()
         setupSystemUnderTest()
 
-        sut.checkoutParams.onNext(params)
-        val noInternetDialog = ShadowAlertDialog.getLatestAlertDialog()
-        val shadowAlertDialog = Shadows.shadowOf(noInternetDialog)
-        val retryBtn = noInternetDialog.getButton(DialogInterface.BUTTON_POSITIVE)
-        retryBtn.performClick()
-        retryBtn.performClick()
+        val testSubscriber = TestSubscriber<Unit>()
+        sut.showNoInternetRetryDialog.subscribe(testSubscriber)
 
-        assertEquals("", shadowAlertDialog.title)
-        assertEquals("Your device is not connected to the internet.  Please check your connection and try again.", shadowAlertDialog.message)
-        Mockito.verify(mockFlightServices, Mockito.times(3)).checkout(params.toQueryMap()) // 1 first attempt, 2 retries
+        sut.checkoutParams.onNext(params)
+        testSubscriber.assertValueCount(1)
     }
 
     private fun givenGoodTripResponse() {

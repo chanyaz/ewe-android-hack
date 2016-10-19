@@ -18,7 +18,6 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
-import com.expedia.bookings.enums.TravelerCheckoutStatus;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -26,7 +25,6 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
-
 import rx.observers.TestSubscriber;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -67,12 +65,11 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			public void run() {
 				CheckoutTravelerViewModel mockViewModel = getMockViewModelEmptyTravelers(3);
 				testTravelerPresenter.setViewModel(mockViewModel);
-				testTravelerPresenter.showSelectOrEntryState(TravelerCheckoutStatus.CLEAN);
 				testTravelerPresenter.getTravelerPickerWidget().show();
 				List<Traveler> travelers = new ArrayList<>();
 				travelers.add(new Traveler());
 				Db.setTravelers(travelers);
-				testTravelerPresenter.showSelectOrEntryState(TravelerCheckoutStatus.CLEAN);
+				testTravelerPresenter.showSelectOrEntryState();
 				try {
 					testTravelerPresenter.getTravelerPickerWidget().show();
 				}
@@ -96,9 +93,14 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	}
 
 	@Test
-	public void testMultipleTravelerFlow() {
-		mockViewModel = getMockViewModelEmptyTravelers(2);
-		testTravelerPresenter.setViewModel(mockViewModel);
+	public void testMultipleTravelerFlow() throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(2);
+				testTravelerPresenter.setViewModel(mockViewModel);
+			}
+		});
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
@@ -148,7 +150,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		EspressoUser.clickOnText(expectedTravelerOneText);
+		EspressoUser.clickOnText(expectedIncompleteTravelerOneText);
 
 		travelerPresenterBack();
 
@@ -226,10 +228,15 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 
 	@Test
-	public void testEmptyChildInfantTraveler() {
-		List<Integer> children = Arrays.asList(1);
-		mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, true);
-		testTravelerPresenter.setViewModel(mockViewModel);
+	public void testEmptyChildInfantTraveler() throws Throwable {
+		final List<Integer> children = Arrays.asList(1);
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, true);
+				testTravelerPresenter.setViewModel(mockViewModel);
+			}
+		});
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
@@ -248,7 +255,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		EspressoUser.clickOnText(expectedTravelerInfantText);
+		EspressoUser.clickOnText(expectedFilledTravelerChildText);
 		travelerPresenterBack();
 
 		Common.delay(2);
@@ -271,7 +278,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		EspressoUser.clickOnText(expectedTravelerInfantText);
+		EspressoUser.clickOnText(expectedFilledTravelerChildText);
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		checkOscarInvalid(R.id.traveler_status_icon, R.drawable.validated, testChildFullName);
@@ -279,16 +286,21 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 
 	@Test
-	public void testValidChildTravelers() {
-		List<Integer> children = Arrays.asList(10);
-		mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, false);
-		Traveler child1 = Db.getTravelers().get(2);
-		setChildTraveler(child1, 10);
-		testTravelerPresenter.setViewModel(mockViewModel);
+	public void testValidChildTravelers() throws Throwable {
+		final List<Integer> children = Arrays.asList(10);
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, false);
+				Traveler child1 = Db.getTravelers().get(2);
+				setChildTraveler(child1, 10);
+				testTravelerPresenter.setViewModel(mockViewModel);
+			}
+		});
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		EspressoUser.clickOnText(expectedTravelerChildText);
+		EspressoUser.clickOnText(expectedFilledTravelerChildText);
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		checkOscarInvalid(R.id.traveler_status_icon, R.drawable.validated, testChildFullName);
@@ -296,15 +308,20 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 
 	@Test
 	public void testInvalidChildTravelers() throws Throwable {
-		List<Integer> children = Arrays.asList(10);
-		mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, false);
-		Traveler child1 = Db.getTravelers().get(2);
-		setChildTraveler(child1, 1);
-		testTravelerPresenter.setViewModel(mockViewModel);
+		final List<Integer> children = Arrays.asList(10);
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelersWithInfant(2, children, false);
+				Traveler child1 = Db.getTravelers().get(2);
+				setChildTraveler(child1, 1);
+				testTravelerPresenter.setViewModel(mockViewModel);
+			}
+		});
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		EspressoUser.clickOnText(expectedTravelerChildText);
+		EspressoUser.clickOnText(expectedFilledTravelerChildText);
 		travelerPresenterBack();
 
 		Common.delay(2);
@@ -313,9 +330,14 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	}
 
 	@Test
-	public void testBoardingWarning() {
-		mockViewModel = getMockViewModelEmptyTravelers(2);
-		testTravelerPresenter.setViewModel(mockViewModel);
+	public void testBoardingWarning() throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(2);
+				testTravelerPresenter.setViewModel(mockViewModel);
+			}
+		});
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
@@ -334,7 +356,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
 
-		EspressoUser.clickOnText(expectedTravelerOneText);
+		EspressoUser.clickOnText(expectedFilledTravelerOneText);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
@@ -352,7 +374,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		});
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
-		EspressoUser.clickOnText(expectedTravelerOneText);
+		EspressoUser.clickOnText(expectedFilledTravelerOneText);
 		Espresso.closeSoftKeyboard();
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
 		EspressoUtils.assertViewWithTextIsDisplayed("Passport: ");
@@ -361,10 +383,13 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewWithTextIsDisplayed("Passport: Afghanistan");
 		travelerPresenterBack();
 
-		EspressoUser.clickOnText(expectedTravelerTwoText);
+		EspressoUser.clickOnText(expectedFilledTravelerTwoText);
+		Espresso.closeSoftKeyboard();
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
 		EspressoUtils.assertViewWithTextIsDisplayed("Passport: ");
 		onView(withText("Passport: Afghanistan")).check(doesNotExist());
+		travelerPresenterBack();
+		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.id.traveler_default_state, R.drawable.invalid);
 	}
 
 	private void travelerPresenterBack() throws Throwable {

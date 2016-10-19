@@ -102,6 +102,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		mFields.add(this.mDisplayCreditCardSecurityCode);
 
 		//Validation indicator fields
+		mFields.add(mValidMaskedCCNum);
 		mFields.add(mValidCCNum);
 		mFields.add(mValidNameOnCard);
 		mFields.add(mValidFirstName);
@@ -471,6 +472,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 	//////////////////////////////////////
 	ValidationIndicatorExclaimation<BillingInfo> mValidCCNum = new ValidationIndicatorExclaimation<>(
 		R.id.edit_creditcard_number);
+	ValidationIndicatorExclaimation<BillingInfo> mValidMaskedCCNum = new ValidationIndicatorExclaimation<>(
+		R.id.edit_masked_creditcard_number);
 	ValidationIndicatorExclaimation<BillingInfo> mValidNameOnCard = new ValidationIndicatorExclaimation<>(
 		R.id.edit_name_on_card);
 	ValidationIndicatorExclaimation<BillingInfo> mValidFirstName = new ValidationIndicatorExclaimation<>(
@@ -598,6 +601,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		protected ArrayList<SectionFieldValidIndicator<?, BillingInfo>> getPostValidators() {
 			ArrayList<SectionFieldValidIndicator<?, BillingInfo>> retArr = new ArrayList<>();
 			retArr.add(mValidCCNum);
+			retArr.add(mValidMaskedCCNum);
 			return retArr;
 		}
 	};
@@ -791,6 +795,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 			MultiValidator<EditText> nameValidators = new MultiValidator<>();
 			nameValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_NAMES);
 			nameValidators.addValidator(CommonSectionValidators.REQUIRED_FIELD_VALIDATOR_ET);
+			nameValidators.addValidator(CommonSectionValidators.NAME_PATTERN_VALIDATOR);
 			return nameValidators;
 		}
 
@@ -892,7 +897,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
-				if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
+				if (mLineOfBusiness == LineOfBusiness.PACKAGES || mLineOfBusiness == LineOfBusiness.FLIGHTS_V2) {
 					if (obj == null) {
 						return ValidationError.ERROR_DATA_MISSING;
 					}

@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">Layanan Pelanggan {brand}: {localphone} dan {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">Tanggal mobil. Tombol. Buka kotak. {date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">Tampilan Google Map Lokasi Aktivitas</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotel</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">Deskripsi</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Lokasi</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">Lokasi Atraksi</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">Titik Temu Atraksi</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">Pilih Aktivitas</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Termasuk</string>
     <!-- Activity details exclusions heading -->
@@ -759,10 +768,12 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Semua Atraksi Wisata</string>
 
-    <string name="lx_you_might_also_like">Anda mungkin juga suka</string>
     <string name="lx_customers_recommend">rekomendasi pelanggan.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
+
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">Kata kunci atau frase</string>
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Urutkan &amp; Filter</string>
@@ -2136,8 +2147,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">Biaya resor sebesar &lt;b&gt;%1$s&lt;/b&gt; akan ditarik di hotel. Harga total masa inap Anda akan menjadi &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">Harga total perjalanan Anda akan menjadi &lt;b&gt;%1$s&lt;/b&gt;. Anda akan membayar total biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">Deposit sebesar &lt;b&gt; akan ditarik sekarang.%1$s&lt;/b&gt; Anda akan membayar sisa biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">Total biaya perjalanan Anda, termasuk &lt;b&gt;%1$s&lt;/b&gt; untuk biaya resor, akan menjadi &lt;b&gt;%2$s&lt;/b&gt;. Anda akan membayar total biaya kepada hotel (dalam mata uang lokal hotel) selama masa inap Anda.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2304,8 +2313,10 @@
     <string name="address_city_hint">Kota</string>
     <!-- Address state hint -->
     <string name="address_state_hint">Provinsi</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">Negara</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">Opsi Pengiriman Surat</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Kode Pos</string>
     <!-- Zip Code hint for Packages -->
@@ -2324,10 +2335,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Rincian Traveler</string>
     <string name="enter_missing_traveler_details">Harap lengkapi rincian yang kurang</string>
+    <string name="enter_traveler_details">Masukkan rincian traveler</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+{travelercount} traveler lainnya</item>
-        <item quantity="other">+{travelercount} traveler lainnya</item>
+        <item quantity="one">+ {travelercount} traveler tambahan</item>
+        <item quantity="other">+ {travelercount} traveler tambahan</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Ubah Traveler {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} tahun</string>
@@ -2406,6 +2418,8 @@
     <string name="edit_guest_details">Ubah Rincian Tamu</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Ubah Informasi Traveler</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">Edit Rincian Traveler</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Kesalahan</string>
     <!-- prefers seat template -->
@@ -3221,6 +3235,8 @@
     <string name="coupon_removing_dialog">Menghapus kupon</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Kirim</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">Tombol Kirim</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3450,6 +3466,8 @@
     <string name="e3_error_checkout_invalid_expiration">Tanggal kedaluwarsa kartu kredit tidak valid.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Harap masukkan %1$s yang valid</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">Informasi Tidak Valid</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3549,7 +3567,7 @@
     <string name="country_ee">Estonia</string>
     <string name="country_et">Etiopia</string>
     <string name="country_fk">Kepulauan Falkland (Malvinas)</string>
-    <string name="country_fo">Kepulauan Faeroe</string>
+    <string name="country_fo">Kepulauan Faroe</string>
     <string name="country_fj">Fiji</string>
     <string name="country_fi">Finlandia</string>
     <string name="country_fr">Prancis</string>
@@ -3876,9 +3894,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">Tekan untuk memfilter hotel dengan harga yang tinggi</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">Hapus filter harga hotel</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">Tekan untuk memilih hotel ini</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">Tekan untuk menampilkan ulasan terbaru</string>
@@ -4263,8 +4278,18 @@
     <string name="flight_duration_hour_short">jam</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">Waktu Keberangkatan</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">Waktu Keberangkatan Dimulai</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">Waktu Keberangkatan Berakhir</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Waktu Kedatangan</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">Waktu Kedatangan Dimulai</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">Waktu Kedatangan Berakhir</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name} Seekbar {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Ubah hotel</string>
@@ -4302,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Transit di ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Total durasi: {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
-    <string name="package_itinerary_confirmation_TEMPLATE">No. {itinerary} telah dikirim ke {email}</string>
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">No. {itinerary} telah dikirim ke {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">Kereta</string>
 
@@ -4331,6 +4358,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">Anda punya waktu {formatted_duration} untuk berpindah dari {origin_station_name} ke {destination_station_name}</string>
 
+    <string name="rail_overtaken_message">Kereta susulan: Layanan ini lebih lambat dari kereta lainnya.</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Naik {travel_mode} dari {origin_station_name} ke {destination_station_name}</string>
 
@@ -4354,6 +4383,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">Tidak ada fasilitas</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">Fasilitas mungkin tidak tersedia sepanjang waktu.</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">Tidak tersedia informasi ketentuan harga</string>
@@ -4391,18 +4423,31 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Gratis Kartu</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">Penyedia layanan kereta akan mengenakan biaya tambahan yang tidak dapat dikembalikan untuk pembayaran dengan jenis kartu tertentu. Biaya ini dapat dihindari bila menggunakan kartu debit</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">Biaya berdasarkan jenis kartu</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Pengiriman tiket</string>
 
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">Stasiun pengambilan</string>
     <string name="delivery_by_mail">Pengiriman lewat pos</string>
+    <string name="shipping_address">Alamat Pegiriman</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Bawa nomor referensi pemesanan tiket dan kartu kredit untuk membeli tiket.</string>
 
     <string name="mail_delivery_details">Tiket akan dikirim ke alamat yang Anda masukkan.</string>
     <string name="tdo_fees_non_refundable">Biaya pengiriman tiket tidak dapat dikembalikan.</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} ke {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Maaf, kami sedang mengalami masalah server. Silakan coba lagi.</string>
     <string name="pwp_trip_service_error">Maaf, kami sedang mengalami masalah server. Silakan coba lagi.</string>
@@ -4521,8 +4566,8 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} hingga {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Tanggal perjalanan. Tombol. Buka kotak. {date_range}. {nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
-    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Jumlah traveler. Tombol. Buka kotak. {travelers} traveler</item>
         <item quantity="other">Jumlah traveler. Tombol. Buka kotak. {travelers} traveler</item>
     </plurals>
@@ -4643,8 +4688,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">Bidang teks CVV</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">Informasi Traveler Tidak Lengkap</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Kesalahan: Lengkapi rincian traveler. Tombol.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Informasi Traveler Lengkap</string>
     <!--Packages accessibility content description for role Button-->

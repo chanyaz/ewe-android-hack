@@ -86,10 +86,13 @@ public class CarPresenter extends Presenter {
 		@Override
 		public void endTransition(boolean forward) {
 			carSearchPresenter.setVisibility(VISIBLE);
-			carSearchPresenter.showSuggestionState(true);
 			AccessibilityUtil.delayFocusToToolbarNavigationIcon(carSearchPresenter.getToolbar(), 300);
 		}
 	};
+
+	public void showSuggestionState() {
+		carSearchPresenter.showSuggestionState(true);
+	}
 
 	private Transition checkoutToConfirmation = new LeftToRightTransition(this, CarCheckoutPresenter.class, CarConfirmationWidget.class) {
 		@Override

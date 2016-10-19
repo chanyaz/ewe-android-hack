@@ -46,15 +46,23 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
-        vm.hotelResultsObservable.subscribe {
-            filterBtnWithCountWidget.visibility = View.VISIBLE
-            filterBtnWithCountWidget.translationY = 0f
-        }
         mapViewModel.mapInitializedObservable.subscribe{
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
         vm.hotelResultsObservable.subscribe(listResultsObserver)
+        vm.addHotelResultsObservable.subscribe(addListResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
+        vm.addHotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
+        vm.hotelResultsObservable.subscribe {
+            if (isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar()) {
+                filterBtnWithCountWidget.visibility = View.INVISIBLE
+            }
+            else {
+                filterBtnWithCountWidget.visibility = View.VISIBLE
+            }
+
+            filterBtnWithCountWidget.translationY = 0f
+        }
         vm.mapResultsObservable.subscribe(listResultsObserver)
         vm.mapResultsObservable.subscribe(mapViewModel.mapResultsSubject)
         vm.mapResultsObservable.subscribe {
@@ -90,7 +98,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).hotelComponent().inject(this)
-        toolbar.inflateMenu(R.menu.menu_search_item)
         searchMenu.setOnMenuItemClickListener({
             searchOverlaySubject.onNext(Unit)
             true
@@ -115,12 +122,6 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
         searchMenu.isVisible = true
         filterView.shopWithPointsViewModel = shopWithPointsViewModel
-
-        filterBtn?.setOnClickListener { view ->
-            showWithTracking(ResultsFilter())
-            filterView.viewmodel.sortContainerObservable.onNext(false)
-            filterView.toolbar.title = resources.getString(R.string.filter)
-        }
 
         filterBtnWithCountWidget.setOnClickListener {
             showWithTracking(ResultsFilter())
@@ -212,5 +213,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun getHotelListAdapter(): BaseHotelListAdapter {
         return HotelListAdapter(hotelSelectedSubject, headerClickedSubject)
+    }
+
+    override fun setLob() {
+        lob = LineOfBusiness.HOTELS
     }
 }

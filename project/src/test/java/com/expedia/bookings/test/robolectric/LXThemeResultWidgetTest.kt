@@ -32,10 +32,10 @@ import kotlin.properties.Delegates
         val themes = createThemes()
         themeResultsWidget.bind(themes, "SFO")
 
-        assertEquals("All Things To Do", themes.get(0).title)
-        assertEquals("Adventure Around", themes.get(1).title)
-        assertEquals("A list of all of the available activities for your selected dates.", themes.get(0).description)
-        assertEquals("Explore, take day trips and find great excursions at your destination", themes.get(1).description)
+        assertEquals("All Things To Do", themes[0].title)
+        assertEquals("Adventure Around", themes[1].title)
+        assertEquals("A list of all of the available activities for your selected dates.", themes[0].description)
+        assertEquals("Explore, take day trips and find great excursions at your destination", themes[1].description)
     }
 
     @Test fun categoryResultList() {

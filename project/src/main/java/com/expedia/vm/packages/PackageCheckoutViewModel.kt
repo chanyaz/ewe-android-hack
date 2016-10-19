@@ -22,7 +22,7 @@ import com.expedia.vm.BaseCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
 
-class PackageCheckoutViewModel(context: Context, val packageServices: PackageServices) : BaseCheckoutViewModel(context) {
+class PackageCheckoutViewModel(context: Context, var packageServices: PackageServices) : BaseCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
     val e3Endpoint = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
 
@@ -63,8 +63,8 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
         }
         legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
 
-        checkoutParams.subscribe { params ->
-            params as PackageCheckoutParams
+        checkoutParams.subscribe { params -> params as PackageCheckoutParams
+            showCheckoutDialogObservable.onNext(true)
             packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.travelers.first().email
         }
@@ -86,6 +86,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
     fun makeCheckoutResponseObserver(): Observer<PackageCheckoutResponse> {
         return object : Observer<PackageCheckoutResponse> {
             override fun onNext(response: PackageCheckoutResponse) {
+                showCheckoutDialogObservable.onNext(false)
                 if (response.hasErrors()) {
                     when (response.firstError.errorCode) {
                         ApiError.Code.INVALID_INPUT -> {
@@ -103,23 +104,18 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
                             apiError.errorInfo.field = field
                             checkoutErrorObservable.onNext(apiError)
                         }
-                        ApiError.Code.INVALID_CARD_NUMBER -> {
-                            checkoutErrorObservable.onNext(response.firstError)
-                        }
-                        ApiError.Code.CID_DID_NOT_MATCHED -> {
-                            checkoutErrorObservable.onNext(response.firstError)
-                        }
-                        ApiError.Code.INVALID_CARD_EXPIRATION_DATE -> {
-                            checkoutErrorObservable.onNext(response.firstError)
-                        }
-                        ApiError.Code.CARD_LIMIT_EXCEEDED -> {
+                        ApiError.Code.INVALID_CARD_NUMBER,
+                        ApiError.Code.CID_DID_NOT_MATCHED,
+                        ApiError.Code.INVALID_CARD_EXPIRATION_DATE,
+                        ApiError.Code.CARD_LIMIT_EXCEEDED,
+                        ApiError.Code.PAYMENT_FAILED -> {
                             checkoutErrorObservable.onNext(response.firstError)
                         }
                         ApiError.Code.PRICE_CHANGE -> {
                             priceChangeObservable.onNext(response)
                         }
-                        ApiError.Code.PAYMENT_FAILED -> {
-                            checkoutErrorObservable.onNext(response.firstError)
+                        ApiError.Code.TRIP_ALREADY_BOOKED -> {
+                            bookingSuccessResponse.onNext(Pair(response, email))
                         }
                         else -> {
                             checkoutErrorObservable.onNext(ApiError(ApiError.Code.PACKAGE_CHECKOUT_UNKNOWN))
@@ -131,6 +127,7 @@ class PackageCheckoutViewModel(context: Context, val packageServices: PackageSer
             }
 
             override fun onError(e: Throwable) {
+                showCheckoutDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
                     val retryFun = fun() {
                         val params = checkoutParams.value

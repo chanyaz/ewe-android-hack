@@ -12,6 +12,7 @@ import com.expedia.bookings.widget.LXCheckoutSummaryWidget;
 import com.expedia.bookings.lob.lx.ui.presenter.LXCheckoutMainViewPresenter;
 import com.expedia.bookings.widget.LXConfirmationWidget;
 import com.expedia.bookings.widget.LXSuggestionAdapter;
+import com.expedia.vm.LXMapViewModel;
 
 import dagger.Component;
 import rx.Observable;
@@ -28,6 +29,7 @@ public interface LXComponent {
 	void inject(LXCheckoutSummaryWidget lxCheckoutSummaryWidget);
 	void inject(LXConfirmationWidget lxConfirmationWidget);
 	void inject(LXPresenter lxPresenter);
+	void inject(LXMapViewModel lxMapViewModel);
 
 	Observable<SuggestionV4> currentLocationSuggestionObservable();
 	SuggestionV4Services suggestionsService();

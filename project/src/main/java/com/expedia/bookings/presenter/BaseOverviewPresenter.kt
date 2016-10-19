@@ -33,7 +33,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val cvv: CVVEntryWidget by bindView(R.id.cvv)
     val toolbarHeight = Ui.getStatusBarHeight(context) + Ui.getToolbarSize(context)
 
-    val viewLocation = IntArray(2)
     var scrollSpaceView: View? = null
     var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
@@ -53,6 +52,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
         checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
             resetCheckoutState()
+            if (currentState == CVVEntryWidget::class.java.name) {
+                show(checkoutPresenter, FLAG_CLEAR_TOP)
+            }
         }
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
 
@@ -126,6 +128,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         show(BundleDefault())
         cvv.setCVVEntryListener(this)
         checkoutPresenter.getCheckoutViewModel().slideAllTheWayObservable.subscribe(checkoutSliderSlidObserver)
+        checkoutPresenter.getCheckoutViewModel().checkoutParams.subscribe { cvv.enableBookButton(false) }
 
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
@@ -188,6 +191,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            setBundleWidgetAndToolbar(forward)
             bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = if (forward) View.GONE else View.VISIBLE
             bundleOverviewHeader.toggleCollapsingToolBar(!forward)
             checkoutPresenter.toggleCheckoutButton(!forward)
@@ -203,7 +207,10 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                 checkoutPresenter.trackShowBundleOverview()
             }
             bundleOverviewHeader.toolbar.subtitle = ""
-            if (forward) checkoutPresenter.adjustScrollingSpace()
+            if (forward) {
+                checkoutPresenter.adjustScrollingSpace()
+                checkoutPresenter.travelerPresenter.updateAllTravelerStatuses()
+            }
         }
 
         private fun translateHeader(f: Float, forward: Boolean) {
@@ -284,6 +291,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     class BundleDefault
 
+    open fun setBundleWidgetAndToolbar(forward: Boolean) { }
     open fun setToolbarMenu(forward: Boolean) { }
     open fun setToolbarNavIcon(forward: Boolean) { }
     abstract fun trackCheckoutPageLoad()
@@ -293,27 +301,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout () {
-            lockScrollingByContentSize(scrollSpaceView)
             updateScrollingSpace(scrollSpaceView)
-        }
-    }
-
-    private fun lockScrollingByContentSize(scrollSpaceView: View?) {
-        if (scrollSpaceView != null) {
-            scrollSpaceView.getLocationOnScreen(viewLocation)
-            val scrollSpaceCoordinateY = viewLocation[1]
-            checkoutPresenter.totalPriceWidget.getLocationOnScreen(viewLocation)
-            val bottomContainerCoordinateY = viewLocation[1] - checkoutPresenter.bottomContainerDropShadow.height
-            // content more than viewport
-            if (scrollSpaceCoordinateY > bottomContainerCoordinateY) {
-                if (!bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled) {
-                    bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled = true
-                }
-            } else {
-                if (bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled && bundleOverviewHeader.isFullyExpanded) {
-                    bundleOverviewHeader.nestedScrollView.isNestedScrollingEnabled = false
-                }
-            }
         }
     }
 

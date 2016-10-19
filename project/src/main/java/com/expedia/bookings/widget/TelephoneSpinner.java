@@ -24,7 +24,7 @@ public class TelephoneSpinner extends Spinner {
 	}
 
 	public TelephoneSpinner(Context context, AttributeSet attrs) {
-		super(context, attrs);
+		super(context, attrs, 0);
 
 		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.TelephoneSpinner);
 		int textLayout = a.getResourceId(R.styleable.TelephoneSpinner_text_view_layout,

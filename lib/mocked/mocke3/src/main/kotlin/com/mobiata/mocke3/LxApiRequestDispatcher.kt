@@ -17,7 +17,7 @@ class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
         return when {
             LxApiRequestMatcher.isSearchRequest(urlPath) -> {
                 val params = parseHttpRequest(request)
-                val location = params.get("location")
+                val location = params["location"]
                 // Return happy path response if not testing for special cases.
                 return if (location == "search_failure") {
                     getMockResponse("lx/api/search/$location.json")
@@ -28,7 +28,7 @@ class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
 
             LxApiRequestMatcher.isDetailsRequest(urlPath) -> {
                 val params = parseHttpRequest(request)
-                val activityId = params.get("activityId")
+                val activityId = params["activityId"]
                 val DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss"
                 val startDateTime = DateTime.now().withTimeAtStartOfDay()
                 // supply the dates to the response
@@ -44,11 +44,6 @@ class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
                 }
             }
 
-            LxApiRequestMatcher.isRecommendRequest(urlPath) -> {
-                val params = parseHttpRequest(request)
-                return getMockResponse("lx/api/recommend/happy.json", params)
-            }
-
             LxApiRequestMatcher.isCreateTripRequest(urlPath) -> {
                 val obj = JsonParser().parse(request.body.readUtf8()).asJsonObject
                 val activityId = obj.getAsJsonArray("items").get(0).asJsonObject.get("activityId").asString
@@ -60,8 +55,8 @@ class LxApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
 
             LxApiRequestMatcher.isCheckoutRequest(urlPath) -> {
                 val params = parseHttpRequest(request)
-                val firstName = params.get("firstName")
-                val tripId = params.get("tripId")
+                val firstName = params["firstName"]
+                val tripId = params["tripId"]
 
                 when (firstName) {
                     "AlreadyBooked" -> return getMockResponse("m/api/lx/trip/checkout/trip_already_booked.json")
@@ -91,10 +86,6 @@ class LxApiRequestMatcher {
 
         fun isDetailsRequest(urlPath: String): Boolean {
             return doesItMatch("^/lx/api/activity.*$", urlPath)
-        }
-
-        fun isRecommendRequest(urlPath: String): Boolean {
-            return doesItMatch("^/lx/api/recommend.*$", urlPath)
         }
 
         fun isCreateTripRequest(urlPath: String): Boolean {

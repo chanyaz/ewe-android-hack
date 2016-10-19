@@ -99,7 +99,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         services?.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
-        return observer.onNextEvents.get(0)
+        return observer.onNextEvents[0]
     }
 
     fun getHappyCheckoutResponse(): HotelCheckoutResponse {
@@ -148,7 +148,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         services?.createTrip(HotelCreateTripParams(productKey, false, 1, emptyList()), true, observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
-        return observer.onNextEvents.get(0)
+        return observer.onNextEvents[0]
     }
 
     private fun getApplyCouponResponse(responseFileName: String): HotelCreateTripResponse {
@@ -178,7 +178,7 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
         services?.checkout(checkoutParams, observer)
         observer.awaitTerminalEvent()
         observer.assertCompleted()
-        return observer.onNextEvents.get(0)
+        return observer.onNextEvents[0]
     }
 
     fun getRoomOffersNotAvailableHotelOffersResponse(): HotelOffersResponse {
@@ -210,6 +210,6 @@ class MockHotelServiceTestRule : ServicesRule<HotelServices>(HotelServices::clas
 
         services?.offers(hotelSearchParams, responseFileName, observer)
         observer.awaitTerminalEvent()
-        return observer.onNextEvents.get(0)
+        return observer.onNextEvents[0]
     }
 }

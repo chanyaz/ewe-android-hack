@@ -7,12 +7,14 @@ import org.robolectric.Robolectric;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Spinner;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.section.CountrySpinnerAdapter;
 import com.expedia.bookings.section.SectionLocation;
+import com.expedia.bookings.widget.TextView;
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget;
 import com.expedia.vm.PaymentViewModel;
 
@@ -39,7 +41,6 @@ public class RailPaymentWidgetTest {
 		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.RAILS);
 		paymentWidget.getCardInfoContainer().performClick();
 
-
 		SectionLocation locationWidget = (SectionLocation) paymentWidget.findViewById(R.id.section_location_address);
 		Spinner countrySpinner = (Spinner) locationWidget.findViewById(R.id.edit_country_spinner);
 
@@ -61,4 +62,23 @@ public class RailPaymentWidgetTest {
 		countrySpinner.setSelection(position);
 		assertTrue(paymentWidget.isStateRequired());
 	}
+
+	@Test
+	public void testCardFeeDisclaimerIsDisplayed() {
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.RAILS);
+		paymentWidget.getCardInfoContainer().performClick();
+
+		TextView creditCardFeeDisclaimer = (TextView) paymentWidget.findViewById(R.id.card_fee_disclaimer);
+		assertTrue(creditCardFeeDisclaimer.getVisibility() == View.VISIBLE);
+	}
+
+	@Test
+	public void testCardFeeDisclaimerIsNotDisplayedForPackages() {
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
+		paymentWidget.getCardInfoContainer().performClick();
+
+		TextView creditCardFeeDisclaimer = (TextView) paymentWidget.findViewById(R.id.card_fee_disclaimer);
+		assertTrue(creditCardFeeDisclaimer.getVisibility() == View.GONE);
+	}
+
 }

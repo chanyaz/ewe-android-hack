@@ -5,32 +5,33 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
-import android.widget.TextView
-import com.expedia.bookings.R
-import com.expedia.bookings.utils.FontCache
+import java.util.ArrayList
 
 // Spinner needs to set selection to count initially to show hint.
-class SpinnerAdapterWithHint(val context: Context, options: List<SpinnerItem>, hint: String) : BaseAdapter() {
-    val optionsWithHint = options.toMutableList()
+class SpinnerAdapterWithHint(val context: Context, val hint: String, val itemLayout: Int) : BaseAdapter() {
+    var optionsWithHint = ArrayList<SpinnerItem>()
 
     init {
+        addHint()
+    }
+
+    private fun addHint() {
         optionsWithHint.add(SpinnerItem(hint, Any()))
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         var view = convertView
         if (view == null) {
-            view = LayoutInflater.from(context).inflate(R.layout.snippet_rail_card_text_view, parent, false)
+            view = LayoutInflater.from(context).inflate(itemLayout, parent, false)
         }
 
-        FontCache.setTypeface(view as TextView, FontCache.Font.ROBOTO_LIGHT)
         val displayText = getItem(position).value
         if (position == count) {
-            view.text = ""
+            (view as TextView).text = ""
             view.hint = displayText
         }
         else {
-            view.text = displayText
+            (view as TextView).text = displayText
         }
         return view
     }
@@ -49,4 +50,10 @@ class SpinnerAdapterWithHint(val context: Context, options: List<SpinnerItem>, h
 
     data class SpinnerItem(val value: String, val item: Any)
 
+    fun dataSetChanged(options: List<SpinnerItem>) {
+        optionsWithHint.clear()
+        optionsWithHint.addAll(options)
+        addHint()
+        notifyDataSetChanged()
+    }
 }

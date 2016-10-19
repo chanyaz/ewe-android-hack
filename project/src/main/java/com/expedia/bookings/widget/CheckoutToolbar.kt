@@ -84,7 +84,8 @@ class CheckoutToolbar(context: Context, attrs: AttributeSet?) : Toolbar(context,
         menuItem.isVisible = false
         menuItem.setOnMenuItemClickListener { it ->
             when (it.title) {
-                context.getString(R.string.coupon_submit_button) -> {
+                context.getString(R.string.coupon_submit_button),
+                context.getString(R.string.coupon_submit_button_ally)-> {
                     viewModel.doneClicked.onNext(Unit)
                 }
                 context.getString(R.string.done) -> {

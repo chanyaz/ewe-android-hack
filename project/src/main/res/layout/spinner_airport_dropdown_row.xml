@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:paddingTop="4dp"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@color/spinner_airport"
         android:textSize="14dp" />
 
@@ -21,7 +21,7 @@
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:paddingBottom="4dp"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="@color/spinner_airport_details"
         android:textSize="14dp" />
 
@@ -31,7 +31,7 @@
         android:layout_height="32dp"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="#777777"
         android:textSize="14dp"
         android:textStyle="bold" />

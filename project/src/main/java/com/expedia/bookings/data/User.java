@@ -1,5 +1,6 @@
 package com.expedia.bookings.data;
 
+import com.expedia.bookings.utils.UserAccountRefresher;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -409,7 +410,7 @@ public class User implements JSONable {
 			return true;
 		}
 		catch (JSONException e) {
-			Log.e("Could not restore saved billing info.", e);
+			Log.e("Could not restore saved user info.", e);
 			return false;
 		}
 	}
@@ -548,5 +549,10 @@ public class User implements JSONable {
 			}
 		}
 		return null;
+	}
+
+	public static void loadUser(Context context, UserAccountRefresher.IUserAccountRefreshListener listener) {
+		UserAccountRefresher userAccountRefresher = new UserAccountRefresher(context, LineOfBusiness.NONE, listener);
+		userAccountRefresher.forceAccountRefresh();
 	}
 }

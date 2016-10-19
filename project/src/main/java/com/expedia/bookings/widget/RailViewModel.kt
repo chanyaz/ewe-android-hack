@@ -15,7 +15,6 @@ class RailViewModel(val context: Context) {
 
     //Outputs
     val priceObservable = BehaviorSubject.create<String>()
-    val operatorObservable = BehaviorSubject.create<String>()
     val formattedStopsAndDurationObservable = BehaviorSubject.create<String>()
 
     init {
@@ -26,7 +25,6 @@ class RailViewModel(val context: Context) {
 
             formattedStopsAndDurationObservable.onNext(formattedStopsAndDuration)
             priceObservable.onNext(it.bestPrice.formattedPrice)
-            operatorObservable.onNext(it.allOperators())
         }
     }
 

@@ -20,17 +20,17 @@ class RailCardPickerRowView(context: Context): LinearLayout(context) {
     private val cardTypeSpinnerHint = context.resources.getString(R.string.select_rail_card_hint)
     private val cardQuantitySpinnerHint = context.resources.getString(R.string.select_rail_card_quantity_hint)
 
-    var cardQuantityAdapter by Delegates.notNull<SpinnerAdapterWithHint>()
-    var railCardAdapter by Delegates.notNull<SpinnerAdapterWithHint>()
+    val railCardAdapter = SpinnerAdapterWithHint(context, cardTypeSpinnerHint, R.layout.snippet_rail_card_text_view)
+    val cardQuantityAdapter = SpinnerAdapterWithHint(context, cardQuantitySpinnerHint, R.layout.snippet_rail_card_quantity_view)
 
     var viewModel by notNullAndObservable<RailCardPickerRowViewModel> { vm ->
         vm.cardTypesList.subscribe { cardTypes ->
-            railCardAdapter = SpinnerAdapterWithHint(context, cardTypes.map { cardType ->
+            val cardTypeOptions = cardTypes.map { cardType ->
                 SpinnerAdapterWithHint.SpinnerItem(cardType.name, cardType)
-            }, cardTypeSpinnerHint)
+            }
+            railCardAdapter.dataSetChanged(cardTypeOptions)
+            post({ cardTypeSpinner.setSelection(railCardAdapter.count) })
 
-            cardTypeSpinner.adapter = railCardAdapter
-            cardTypeSpinner.setSelection(railCardAdapter.count)
         }
 
         vm.resetRow.subscribe {
@@ -38,15 +38,16 @@ class RailCardPickerRowView(context: Context): LinearLayout(context) {
             cardQuantitySpinner.setSelection(cardQuantityAdapter.count)
         }
 
-        cardQuantityAdapter = SpinnerAdapterWithHint(context,
-                IntRange(1,8).map { SpinnerAdapterWithHint.SpinnerItem(it.toString(), it) },
-                cardQuantitySpinnerHint)
-        cardQuantitySpinner.adapter = cardQuantityAdapter
-        cardQuantitySpinner.setSelection(cardQuantityAdapter.count)
+        val cardQuantityOptions = IntRange(1,8).map { SpinnerAdapterWithHint.SpinnerItem(it.toString(), it) }
+        cardQuantityAdapter.dataSetChanged(cardQuantityOptions)
+        post({ cardQuantitySpinner.setSelection(cardQuantityAdapter.count) })
     }
 
     init {
         View.inflate(context, R.layout.widget_rail_card_picker_row, this)
+
+        cardTypeSpinner.adapter = railCardAdapter
+        cardQuantitySpinner.adapter = cardQuantityAdapter
 
         cardTypeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {

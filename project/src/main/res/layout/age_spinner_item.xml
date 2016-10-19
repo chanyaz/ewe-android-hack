@@ -6,5 +6,5 @@
     android:drawablePadding="10dp"
     android:gravity="center_vertical"
     android:ellipsize="marquee"
-    android:singleLine="true"
+    android:maxLines="1"
     android:textSize="16sp" />

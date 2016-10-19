@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils;
 
+import android.app.Application;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,6 @@ import android.net.Uri;
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.FlightSearchResponse;
@@ -37,6 +37,7 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.FlightLeg;
+import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
@@ -62,7 +63,7 @@ public class TuneUtils {
 	private static boolean initialized = false;
 	public static Context context;
 
-	public static void init(ExpediaBookingApp app) {
+	public static void init(Application app) {
 		initialized = true;
 		context = app.getApplicationContext();
 
@@ -112,7 +113,13 @@ public class TuneUtils {
 	public static void updatePOS() {
 		if (initialized) {
 			String posTpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-			mobileAppTracker.setTwitterUserId(posTpid);
+			String posEapid = Integer.toString(PointOfSale.getPointOfSale().getEAPID());
+			String posData = posTpid;
+			Boolean sendEapidToTuneTracking = ProductFlavorFeatureConfiguration.getInstance().sendEapidToTuneTracking();
+			if (sendEapidToTuneTracking && Strings.isNotEmpty(posEapid) && !Strings.equals(posEapid, Integer.toString(PointOfSale.INVALID_EAPID))) {
+				posData = posTpid + "-" + posEapid;
+			}
+			mobileAppTracker.setTwitterUserId(posData);
 		}
 	}
 
@@ -732,8 +739,8 @@ public class TuneUtils {
 			double totalPrice = flightCheckoutResponse.getTotalChargesPrice().amount.doubleValue();
 			int totalGuests = flightSearchParams.getGuests();
 			double averagePrice = totalPrice/totalGuests;
-			List<FlightLeg> flightLegs = flightCheckoutResponse.getDetails().legs;
-			FlightLeg.FlightSegment firstFlightSegment = flightLegs.get(0).segments.get(0);
+			FlightTripDetails firstFlightTripDetails = flightCheckoutResponse.getFirstFlightTripDetails();
+			FlightLeg.FlightSegment firstFlightSegment = firstFlightTripDetails.getLegs().get(0).segments.get(0);
 			eventItem.withQuantity(totalGuests)
 				.withRevenue(totalPrice)
 				.withUnitPrice(averagePrice)
@@ -743,9 +750,10 @@ public class TuneUtils {
 
 
 			Date departureDate = new DateTime(firstFlightSegment.departureTimeRaw).toDate();
+
 			if (flightSearchParams.getReturnDate() != null) {
-				int lastReturnFlightSegment = flightLegs.get(1).segments.size() - 1;
-				Date returnDate = new DateTime(flightLegs.get(1).segments.get(lastReturnFlightSegment).departureTimeRaw).toDate();
+				FlightLeg.FlightSegment lastFlightSegment = flightCheckoutResponse.getLastFlightLastSegment();
+				Date returnDate = new DateTime(lastFlightSegment.departureTimeRaw).toDate();
 				event.withDate2(returnDate);
 			}
 			withTuidAndMembership(event)
@@ -995,5 +1003,5 @@ public class TuneUtils {
 	private static String isUserLoggedIn() {
 		return User.isLoggedIn(context) ? "1" : "0";
 	}
-	
+
 }

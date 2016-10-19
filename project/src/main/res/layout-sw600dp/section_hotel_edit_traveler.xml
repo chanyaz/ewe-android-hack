@@ -50,7 +50,7 @@
                     android:paddingLeft="60dp"
                     android:hint="@string/phone_number_hint"
                     android:inputType="phone"
-                    android:singleLine="true"/>
+                    android:maxLines="1"/>
 
                 <com.expedia.bookings.widget.TelephoneSpinner
                     android:id="@+id/edit_phone_number_country_code_spinner"
@@ -68,7 +68,7 @@
                 android:layout_weight="1"
                 android:hint="@string/email_address_hint"
                 android:inputType="textEmailAddress"
-                android:singleLine="true"/>
+                android:maxLines="1"/>
 
         </LinearLayout>
 

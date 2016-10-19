@@ -31,7 +31,7 @@ class RailFareOptionViewTest {
         railFareOptionViewModel.offerFare.onNext(getRailOffer())
 
         assertEquals("$10", railFareOptionView.priceView.text)
-        assertEquals("Service class", railFareOptionView.fareTitle.text)
+        assertEquals("Fare class", railFareOptionView.fareTitle.text)
         assertEquals("Fare Description", railFareOptionView.fareDescription.text)
     }
 
@@ -64,7 +64,7 @@ class RailFareOptionViewTest {
         railOffer.totalPrice = Money(10, "USD")
         railOffer.totalPrice.formattedPrice = "$10"
         val railProduct = RailProduct()
-        railProduct.aggregatedCarrierServiceClassDisplayName = "Service class"
+        railProduct.aggregatedCarrierFareClassDisplayName = "Fare class"
         railProduct.aggregatedFareDescription = "Fare Description"
         railOffer.railProductList = listOf(railProduct)
         return railOffer

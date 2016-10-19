@@ -33,6 +33,7 @@ class FlightABTest {
     @Test
     fun newFlightPath() {
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightTest)
+
         NavUtils.goToFlights(activity, true)
         val intent = Shadows.shadowOf(activity).peekNextStartedActivity()
         assertEquals(FlightActivity::class.java.name, intent.component.className)

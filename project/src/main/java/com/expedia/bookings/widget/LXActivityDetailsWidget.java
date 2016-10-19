@@ -10,6 +10,7 @@ import org.joda.time.LocalDate;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.PointF;
+import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -28,14 +29,13 @@ import com.expedia.bookings.data.lx.ActivityImages;
 import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.Offer;
 import com.expedia.bookings.data.lx.OffersDetail;
-import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 import com.expedia.bookings.data.lx.Ticket;
 import com.expedia.bookings.otto.Events;
-import com.expedia.bookings.services.LxServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.DateUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -46,8 +46,10 @@ import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import butterknife.OnClick;
+import kotlin.Unit;
 import rx.Observer;
-import rx.Subscription;
+import rx.subjects.PublishSubject;
 
 public class LXActivityDetailsWidget extends LXDetailsScrollView implements RecyclerGallery.GalleryItemListener {
 
@@ -65,6 +67,15 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@InjectView(R.id.highlights)
 	LXDetailSectionDataWidget highlights;
 
+	@InjectView(R.id.mini_map_view)
+	LocationMapImageView miniMapView;
+
+	@InjectView(R.id.map_divider)
+	View mapDivider;
+
+	@InjectView(R.id.map_click_container)
+	View miniMapContainer;
+
 	@InjectView(R.id.offers)
 	LXOffersListWidget offers;
 
@@ -73,6 +84,12 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	@InjectView(R.id.location)
 	LXDetailSectionDataWidget location;
+
+	@InjectView(R.id.event_location)
+	LXDetailSectionDataWidget eventLocation;
+
+	@InjectView(R.id.redemption_location)
+	LXDetailSectionDataWidget redemptionLocation;
 
 	@InjectView(R.id.offer_dates_container)
 	LinearLayout offerDatesContainer;
@@ -92,12 +109,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@InjectView(R.id.offer_dates_scroll_view)
 	HorizontalScrollView offerDatesScrollView;
 
-	@InjectView(R.id.more_like_this)
-	LinearLayout moreLikeThis;
-
-	@InjectView(R.id.recommendations)
-	LinearLayout recommendations;
-
 	@InjectView(R.id.recommendation_percentage_container)
 	LinearLayout recommendPercentageLayout;
 
@@ -116,15 +127,9 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	private int mGalleryHeight = 0;
 	private int mInitialScrollTop = 0;
 	private boolean mHasBeenTouched = false;
-	private int mIntroOffset = 0;
 	SegmentedLinearInterpolator mIGalleryScroll;
-	private Subscription recommendedSubscription;
-	private LXRecommendedActivitiesListAdapter recommendedActivitiesListAdapter = new LXRecommendedActivitiesListAdapter();
-	private int recommendedListInitialMaxCount = getResources().getInteger(R.integer.lx_recommendation_count);
+	public PublishSubject<Unit> mapClickSubject =  PublishSubject.create();
 
-	@Inject
-	LxServices lxServices;
-	private boolean isUserBucketedForRecommendationTest;
 	private boolean userBucketedForRTRTest;
 	private boolean isGroundTransport;
 
@@ -143,10 +148,11 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		location.setVisibility(View.GONE);
 		inclusions.setVisibility(View.GONE);
 		exclusions.setVisibility(View.GONE);
+		eventLocation.setVisibility(View.GONE);
+		redemptionLocation.setVisibility(View.GONE);
 		knowBeforeYouBook.setVisibility(View.GONE);
 		cancellation.setVisibility(View.GONE);
 		offerDatesContainer.setVisibility(View.GONE);
-		recommendations.setVisibility(GONE);
 		offers.setVisibility(View.GONE);
 		offset = Ui.toolbarSizeWithStatusBar(getContext());
 		offers.getOfferPublishSubject().subscribe(lxOfferObserever);
@@ -155,13 +161,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 
 	public void defaultScroll() {
 		smoothScrollTo(0, mInitialScrollTop);
-	}
-
-	public void cleanUp() {
-		if (recommendedSubscription != null) {
-			recommendedSubscription.unsubscribe();
-			recommendedSubscription = null;
-		}
 	}
 
 	@Override
@@ -173,29 +172,29 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	@Override
 	protected void onDetachedFromWindow() {
 		Events.unregister(this);
-		cleanUp();
 		super.onDetachedFromWindow();
 	}
 
+	@OnClick(R.id.transparent_view_over_mini_map)
+	public void openFullMap() {
+		mapClickSubject.onNext(Unit.INSTANCE);
+	}
+
 	public void onShowActivityDetails(ActivityDetailsResponse activityDetails) {
-		recommendations.setVisibility(GONE);
 		//  Track Product Information on load of this Local Expert Information screen.
 		OmnitureTracking.trackAppLXProductInformation(activityDetails, lxState.searchParams, isGroundTransport);
 		this.activityDetails = activityDetails;
 
-		if (isUserBucketedForRecommendationTest) {
-			recommendedSubscription = lxServices
-				.lxRecommendedSearch(activityDetails.id, activityDetails.location,
-					lxState.searchParams.getActivityStartDate(), lxState.searchParams.getActivityEndDate(), recommendedObserver);
-		}
-
-		buildRecommendationPecentage(activityDetails.recommendationScore);
+		buildRecommendationPercentage(activityDetails.recommendationScore);
 		buildGallery(activityDetails);
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_activity_map)) {
+			buildMapSection(activityDetails);
+		}
 		buildSections(activityDetails);
 		buildOfferDatesSelector(activityDetails.offersDetail, lxState.searchParams.getActivityStartDate());
 	}
 
-	private void buildRecommendationPecentage(int recommendationScore) {
+	private void buildRecommendationPercentage(int recommendationScore) {
 
 		if (recommendationScore > 0 && userBucketedForRTRTest) {
 			recommendedPercentage.setText(LXDataUtils.getUserRecommendPercentString(getContext(), recommendationScore));
@@ -229,7 +228,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	}
 
 	private void buildGallery(ActivityDetailsResponse activityDetails) {
-		final List<LXMedia> mediaList = new ArrayList<LXMedia>();
+		final List<LXMedia> mediaList = new ArrayList<>();
 		for (ActivityImages activityImages : activityDetails.images) {
 			List<String> imageURLs = Images
 				.getLXImageURLBasedOnWidth(activityImages.getImages(), AndroidUtils.getDisplaySize(getContext()).x);
@@ -284,6 +283,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 				knowBeforeYouBookContent, 0);
 			knowBeforeYouBook.setVisibility(View.VISIBLE);
 		}
+
 		String cancellationPolicyText = LXDataUtils
 			.getCancelationPolicyDisplayText(getContext(), activityDetailsResponse.freeCancellationMinHours);
 		cancellation.bindData(getResources().getString(R.string.cancellation_policy),
@@ -294,6 +294,29 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 			CollectionUtils.isNotEmpty(activityDetailsResponse.highlights) ? R.drawable.lx_dates_container_background
 				: R.drawable.lx_dates_container_background_no_top_border;
 		offerDatesScrollView.setBackground(getResources().getDrawable(datesScrollerDrawable));
+	}
+
+	public void buildMapSection(ActivityDetailsResponse activityDetailsResponse) {
+		mapDivider.setVisibility(VISIBLE);
+		miniMapContainer.setVisibility(VISIBLE);
+		miniMapView.setLocation(ActivityDetailsResponse.LXLocation.getLocation(activityDetails.eventLocation.latLng));
+		if (Strings.isNotEmpty(activityDetailsResponse.eventLocation.city)) {
+			List<String> eventLocationCity = new ArrayList<>();
+			eventLocationCity.add(activityDetailsResponse.eventLocation.city);
+			CharSequence eventLocationBullet = StrUtils.generateBulletedList(eventLocationCity);
+			eventLocation
+				.bindData(getResources().getString(R.string.event_location_activity_details), eventLocationBullet, 0);
+			eventLocation.setVisibility(View.VISIBLE);
+		}
+		if (CollectionUtils.isNotEmpty(activityDetailsResponse.redemptionLocation)) {
+			List<String> redemptionLocationList = StrUtils
+				.getRedemptionLocationList(activityDetailsResponse.redemptionLocation);
+			CharSequence redemptionLocations = StrUtils.generateBulletedList(redemptionLocationList);
+			redemptionLocation
+				.bindData(getResources().getString(R.string.redemption_location_activity_details), redemptionLocations,
+					6);
+			redemptionLocation.setVisibility(View.VISIBLE);
+		}
 	}
 
 	// Not all activities have all the sections. Reset before building details.
@@ -447,7 +470,7 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 			int screenHeight = getHeight();
 			PointF p1 = new PointF(0, screenHeight - mGalleryHeight / 2);
 			PointF p2 = new PointF(mGalleryHeight, screenHeight - mGalleryHeight);
-			PointF p3 = new PointF(screenHeight, (screenHeight - mGalleryHeight + mIntroOffset) / 2);
+			PointF p3 = new PointF(screenHeight, (screenHeight - mGalleryHeight) / 2);
 			mIGalleryScroll = new SegmentedLinearInterpolator(p1, p2, p3);
 		}
 
@@ -480,66 +503,6 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		animateScrollY(from, to);
 	}
 
-	private Observer<RecommendedActivitiesResponse> recommendedObserver = new Observer<RecommendedActivitiesResponse>() {
-		@Override
-		public void onCompleted() {
-			// ignore
-		}
-
-		@Override
-		public void onError(Throwable e) {
-		}
-
-		@Override
-		public void onNext(RecommendedActivitiesResponse recommendedActivitiesResponse) {
-			if (recommendedActivitiesResponse != null && CollectionUtils
-				.isNotEmpty(recommendedActivitiesResponse.getActivities())) {
-				buildMoreLikeThis(recommendedActivitiesResponse);
-			}
-		}
-	};
-
-	private void buildMoreLikeThis(RecommendedActivitiesResponse recommendedActivitiesResponse) {
-		recommendedActivitiesListAdapter.setActivities(recommendedActivitiesResponse.getActivities());
-		moreLikeThis.removeAllViews();
-
-
-		for (int position = 0; position < Math.min(recommendedListInitialMaxCount,
-			recommendedActivitiesResponse.getActivities().size()); position++) {
-			View offerRow = recommendedActivitiesListAdapter.getView(position, null, moreLikeThis);
-			moreLikeThis.addView(offerRow);
-		}
-		recommendations.setVisibility(VISIBLE);
-	}
-
-	public void setUserBucketedForRecommendationTest(boolean isUserBucketedForTest) {
-		this.isUserBucketedForRecommendationTest = isUserBucketedForTest;
-	}
-
-	public ActivityDetailsResponse getActivityDetails() {
-		return activityDetails;
-	}
-
-	public void setActivityDetails(ActivityDetailsResponse activityDetailsResponse) {
-		 activityDetails = activityDetailsResponse;
-	}
-
-	public LinearLayout getMoreLikeThis() {
-		return moreLikeThis;
-	}
-
-	public LinearLayout getRecommendations() {
-		return recommendations;
-	}
-
-	public LinearLayout getOfferDatesContainer() {
-		return offerDatesContainer;
-	}
-
-	public Observer<RecommendedActivitiesResponse> getRecommendedObserver() {
-		return recommendedObserver;
-	}
-
 	public void setUserBucketedForRTRTest(boolean userBucketedForRTRTest) {
 		this.userBucketedForRTRTest = userBucketedForRTRTest;
 	}
@@ -547,5 +510,15 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	public void setIsFromGroundTransport(boolean isGroundTransport) {
 		this.isGroundTransport = isGroundTransport;
 		offers.setIsFromGroundTransport(isGroundTransport);
+	}
+
+	@VisibleForTesting
+	protected ActivityDetailsResponse getActivityDetails() {
+		return activityDetails;
+	}
+
+	@VisibleForTesting
+	protected void setActivityDetails(ActivityDetailsResponse activityDetails) {
+		this.activityDetails = activityDetails;
 	}
 }

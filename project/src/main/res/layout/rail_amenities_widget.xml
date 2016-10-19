@@ -1,8 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout android:id="@+id/amenities_container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_marginTop="@dimen/card_view_container_margin"
-    android:paddingTop="@dimen/card_view_container_margin"/>
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/amenities_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="@dimen/card_view_container_margin"
+        android:orientation="vertical"
+        android:paddingTop="@dimen/card_view_container_margin" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="bottom|center"
+        android:padding="10dp"
+        android:text="@string/rail_amenities_disclaimer"/>
+</LinearLayout>

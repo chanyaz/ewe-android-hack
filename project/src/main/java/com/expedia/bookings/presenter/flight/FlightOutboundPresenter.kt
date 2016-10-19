@@ -7,6 +7,11 @@ import com.expedia.bookings.tracking.FlightsV2Tracking
 
 class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
 
+    override fun back(): Boolean {
+        flightOfferViewModel.cancelSearchObservable.onNext(Unit)
+        return super.back()
+    }
+
     override fun setupComplete() {
         super.setupComplete()
         flightOfferViewModel.outboundResultsObservable.subscribe(resultsPresenter.resultsViewModel.flightResultsObservable)

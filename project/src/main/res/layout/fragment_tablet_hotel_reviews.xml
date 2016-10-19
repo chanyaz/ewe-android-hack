@@ -72,7 +72,7 @@
                         android:layout_height="wrap_content"
                         android:ellipsize="end"
                         android:padding="12dp"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         android:textColor="#ffffff"
                         android:textSize="18dp"
                         app:textStyle="light" />

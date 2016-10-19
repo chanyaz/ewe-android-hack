@@ -4,11 +4,14 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.hotel.HotelResultsViewModel
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -36,9 +39,15 @@ class HotelResultsViewModelTest {
     }
 
     @Test
-    fun happySearch() {
+    fun perceivedInstantSearch() {
+        SettingUtils.save(context, R.string.preference_enable_hotel_results_perceived_instant, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
+
         val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
+        val additionalResultsSubscriber = TestSubscriber<HotelSearchResponse>()
+
         sut.hotelResultsObservable.subscribe(resultsSubscriber)
+        sut.addHotelResultsObservable.subscribe(additionalResultsSubscriber)
 
         sut.paramsSubject.onNext(makeHappyParams())
 
@@ -46,6 +55,31 @@ class HotelResultsViewModelTest {
         resultsSubscriber.assertNoTerminalEvent()
         resultsSubscriber.assertNoErrors()
         resultsSubscriber.assertValueCount(1)
+
+        additionalResultsSubscriber.awaitTerminalEvent(1, TimeUnit.SECONDS)
+        additionalResultsSubscriber.assertNoTerminalEvent()
+        additionalResultsSubscriber.assertNoErrors()
+        additionalResultsSubscriber.assertValueCount(1)
+    }
+
+
+    @Test
+    fun happySearch() {
+        val resultsSubscriber = TestSubscriber<HotelSearchResponse>()
+        val additionalResultsSubscriber = TestSubscriber<HotelSearchResponse>()
+
+        sut.hotelResultsObservable.subscribe(resultsSubscriber)
+        sut.addHotelResultsObservable.subscribe(additionalResultsSubscriber)
+
+        sut.paramsSubject.onNext(makeHappyParams())
+
+        resultsSubscriber.awaitTerminalEvent(1, TimeUnit.SECONDS)
+        resultsSubscriber.assertNoTerminalEvent()
+        resultsSubscriber.assertNoErrors()
+        resultsSubscriber.assertValueCount(1)
+
+        additionalResultsSubscriber.assertNoValues()
+        additionalResultsSubscriber.assertNoErrors()
     }
 
     @Test

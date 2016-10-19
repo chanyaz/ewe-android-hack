@@ -571,11 +571,11 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         val commonValueAdds = getCommonValueAdds(hotelOffersResponse)
         var list = Array(hotelRooms!!.size, { i -> "" }).toMutableList()
         for (iRoom in 0..hotelRooms.size - 1) {
-            val rate = hotelOffersResponse.hotelRoomResponse.get(iRoom)
+            val rate = hotelOffersResponse.hotelRoomResponse[iRoom]
             if (rate.valueAdds != null) {
                 val unique = rate.valueAdds.filter { !commonValueAdds.contains(it.description) }
                 if (unique.size > 0) {
-                    list.add(iRoom, context.getString(R.string.value_add_template, unique.get(0).description.toLowerCase(Locale.getDefault())))
+                    list.add(iRoom, context.getString(R.string.value_add_template, unique[0].description.toLowerCase(Locale.getDefault())))
                 }
             }
         }

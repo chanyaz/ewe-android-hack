@@ -26,11 +26,13 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     val railDestinationObservable = BehaviorSubject.create<SuggestionV4>()
     val railRequestBuilder = RailSearchRequest.Builder(getMaxSearchDurationDays(), getMaxDateRange())
     val railErrorNoLocationsObservable = PublishSubject.create<Unit>()
+    val errorInvalidCardsCountObservable = PublishSubject.create<String>()
 
     val defaultTimeTooltipColor = ContextCompat.getColor(context, R.color.rail_primary_color)
     val errorTimeTooltipColor = ContextCompat.getColor(context, R.color.cars_tooltip_disabled_color)
 
     init {
+        updateTraveler()
         departTimeSubject.subscribe {
             val isValid = !isStartTimeBeforeNow()
             departTimeSliderTooltipColor.onNext(if (isValid) defaultTimeTooltipColor else errorTimeTooltipColor)
@@ -42,6 +44,15 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         }
 
         setUpTimeSliderSubject.onNext(Pair(null,null))
+    }
+
+    override fun updateTraveler() {
+        travelersObservable.subscribe { update ->
+            getParamsBuilder().adults(update.numberOfAdults)
+            getParamsBuilder().children(update.childrenAges)
+            getParamsBuilder().youths(update.youthAges)
+            getParamsBuilder().seniors(update.seniorAges)
+        }
     }
 
     override val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
@@ -75,6 +86,8 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
                 errorMaxDurationObservable.onNext(context.getString(R.string.rail_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else if (!getParamsBuilder().isWithinDateRange()) {
                 errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far))
+            } else if (getParamsBuilder().isRailCardsCountInvalid()) {
+                errorInvalidCardsCountObservable.onNext(context.getString(R.string.error_rail_cards_greater_than_number_travelers))
             } else {
                 var searchParams = getParamsBuilder().build()
                 searchParamsObservable.onNext(searchParams)
@@ -195,13 +208,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         } else if (end == null && isRoundTripSearchObservable.value) {
             return context.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
         } else {
-            val datesText = if (isRoundTripSearchObservable.value)
-                                Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
-                                        .put("startdate", DateUtils.localDateToMMMd(start))
-                                        .put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
-                            else Phrase.from(context, R.string.calendar_instructions_date_rail_one_way_TEMPLATE)
-                                        .put("startdate", DateUtils.localDateToMMMd(start)).format().toString()
-            return datesText
+            return DateFormatUtils.formatRailDateRange(context, start, end)
         }
     }
 

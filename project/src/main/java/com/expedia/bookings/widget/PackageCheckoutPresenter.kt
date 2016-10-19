@@ -8,7 +8,6 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
@@ -20,7 +19,7 @@ import com.expedia.vm.packages.PackageCreateTripViewModel
 import com.squareup.otto.Subscribe
 import javax.inject.Inject
 
-class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
+class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
     lateinit var paymentViewModel: PaymentViewModel
         @Inject set
 
@@ -42,7 +41,11 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
             priceChangeWidget.viewmodel.newPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel).packageCostSummaryObservable.onNext(response)
+            totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+            val packageTotalPrice = response.packageDetails.pricing
+            totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
+            val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
+            costSummaryViewModel.packageCostSummaryObservable.onNext(response)
 
             val messageString =
                     if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
@@ -50,13 +53,9 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
                     else
                         R.string.bundle_total_text
             totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
-
-            val packageTotalPrice = response.packageDetails.pricing
             totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-
-            totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
             isPassportRequired(response)
+            resetTravelers()
             trackShowBundleOverview()
         }
         getCheckoutViewModel().priceChangeObservable.subscribe(getCreateTripViewModel().tripResponseObservable)
@@ -78,7 +77,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheck
     override fun updateDbTravelers() {
         val params = Db.getPackageParams()
         travelerManager.updateDbTravelers(params, context)
-        travelerPresenter.resetTravelers(TravelerCheckoutStatus.CLEAN)
         resetTravelers()
     }
 

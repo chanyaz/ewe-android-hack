@@ -115,7 +115,7 @@ open class HotelResultsMapViewModel(val context: Context, val currentLocation: L
             return allHotelsBox
             //If current location is near a neighborhood, zoom to closest neighborhood
         } else if (closestHotelWithNeighborhood != null) {
-            val closestNieghborhood = response.neighborhoodsMap.get(closestHotelWithNeighborhood.locationId)
+            val closestNieghborhood = response.neighborhoodsMap[closestHotelWithNeighborhood.locationId]
             if (closestNieghborhood == null) {
                 return allHotelsBox
             } else {

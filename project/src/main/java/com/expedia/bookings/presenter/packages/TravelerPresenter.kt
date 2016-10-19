@@ -44,6 +44,14 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             show(travelerPickerWidget, Presenter.FLAG_CLEAR_BACKSTACK)
         }
         vm.showMainTravelerMinAgeMessaging.subscribeVisibility(travelerPickerWidget.mainTravelerMinAgeTextView)
+        vm.singleTravelerCompletenessStatus.subscribe {
+            val selectedTraveler = travelerPickerWidget.travelerIndexSelectedSubject.value
+            if (selectedTraveler != null) {
+                val selectedTravelerPickerTravelerViewModel = travelerPickerWidget.travelerViewModels[selectedTraveler.first]
+                selectedTravelerPickerTravelerViewModel.updateStatus(it)
+            }
+        }
+        vm.passportRequired.subscribe(travelerPickerWidget.passportRequired)
     }
 
     init {
@@ -53,6 +61,10 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             toolbarTitleSubject.onNext(selectedTraveler.second)
             travelerEntryWidget.viewModel = FlightTravelerViewModel(context, selectedTraveler.first, viewModel.passportRequired.value)
             travelerEntryWidget.viewModel.showPassportCountryObservable.subscribe(travelerPickerWidget.passportRequired)
+            val selectedTravelerPickerTravelerViewModel = travelerPickerWidget.travelerViewModels[selectedTraveler.first]
+            if (selectedTravelerPickerTravelerViewModel.status == TravelerCheckoutStatus.DIRTY) {
+                travelerEntryWidget.viewModel.validate()
+            }
             show(travelerEntryWidget)
         }
 
@@ -114,18 +126,18 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                     FlightsV2Tracking.trackCheckoutEditTraveler()
                 }
             } else {
-               viewModel.refresh()
+                viewModel.updateCompletionStatusForTraveler(travelerEntryWidget.viewModel.travelerIndex)
+                viewModel.refresh()
             }
         }
     }
 
-    fun showSelectOrEntryState(status : TravelerCheckoutStatus) {
+    fun showSelectOrEntryState() {
         if (viewModel.getTravelers().size > 1) {
             toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
-            resetTravelers(status)
+            updateAllTravelerStatuses()
             show(travelerPickerWidget)
         } else {
-            resetTravelers(status)
             val travelerViewModel = FlightTravelerViewModel(context, 0, viewModel.passportRequired.value)
             travelerEntryWidget.viewModel = travelerViewModel
             toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
@@ -137,12 +149,26 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         }
     }
 
-    fun resetTravelers(status : TravelerCheckoutStatus) {
-        travelerPickerWidget.refresh(status, viewModel.getTravelers())
+    fun resetTravelers() {
+        travelerPickerWidget.refresh(viewModel.getTravelers())
+    }
+
+    fun updateAllTravelerStatuses() {
+        viewModel.getTravelers().forEachIndexed { i, traveler ->
+            if (viewModel.isValidForBooking(traveler, i)) {
+                travelerPickerWidget.travelerViewModels[i].updateStatus(TravelerCheckoutStatus.COMPLETE)
+            } else if (viewModel.isTravelerEmpty(traveler)) {
+                travelerPickerWidget.travelerViewModels[i].updateStatus(TravelerCheckoutStatus.CLEAN)
+            } else {
+                travelerPickerWidget.travelerViewModels[i].updateStatus(TravelerCheckoutStatus.DIRTY)
+            }
+        }
     }
 
     fun onLogin(isLoggedIn: Boolean) {
+        resetTravelers()
         travelerEntryWidget.emailEntryView.visibility = if (isLoggedIn) GONE else VISIBLE
+        viewModel.refresh()
     }
 
     override fun back(): Boolean {

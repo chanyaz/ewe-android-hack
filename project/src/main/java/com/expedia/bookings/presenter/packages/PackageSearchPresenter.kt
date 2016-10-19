@@ -10,8 +10,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseTwoLocationSearchPresenter
 import com.expedia.bookings.services.SuggestionV4Services
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
@@ -50,7 +50,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
             destinationCardView.contentDescription = Phrase.from(context, R.string.search_flying_to_destination_cont_desc_TEMPLATE)
                     .put("to_destination", text)
                     .format().toString()
-            if (this.visibility == VISIBLE && vm.startDate() == null) {
+            if (this.visibility == VISIBLE && vm.startDate() == null && !AccessibilityUtil.isTalkBackEnabled(context)) {
                 calendarWidgetV2.showCalendarDialog()
             }
         }
@@ -60,7 +60,7 @@ class PackageSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLoc
         }
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
             val noOfTravelers = travelers.numberOfAdults + travelers.childrenAges.size
-            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.packages_search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
+            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
                     put("travelers", noOfTravelers).format().toString()
         }
 

@@ -1,17 +1,19 @@
 package com.expedia.bookings.data.rail.responses;
 
 import java.util.List;
+import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-
+import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.TripResponse;
+import com.expedia.bookings.data.flights.ValidFormOfPayment;
 
-public class RailCreateTripResponse extends TripResponse {
 
+public class RailCreateTripResponse extends BaseApiResponse {
 	public Money totalPrice;
 	public String offerToken;
 	public RailDomainProduct railDomainProduct;
+	public List<RailValidFormOfPayment> validFormsOfPayment;
+	public String tripId;
 
 	public static class RailDomainProduct {
 		public RailTripOffer railOffer;
@@ -27,7 +29,7 @@ public class RailCreateTripResponse extends TripResponse {
 	}
 
 	public static class RailTicketDeliveryOption {
-		public String ticketDeliveryOptionToken;
+		public RailTicketDeliveryOptionToken ticketDeliveryOptionToken;
 		public String ticketDeliveryOptionCategoryCode;
 		public String ticketDeliveryDescription;
 		public Money ticketDeliveryFee;
@@ -35,20 +37,22 @@ public class RailCreateTripResponse extends TripResponse {
 		public boolean departureStation;
 	}
 
-	@NotNull
-	@Override
-	public Money getTripTotalExcludingFee() {
-		return totalPrice;
+	public static class RailValidFormOfPayment extends ValidFormOfPayment {
+		public Map<RailTicketDeliveryOptionToken, Fee> fees;
 	}
 
-	@NotNull
-	@Override
-	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {       //what does it mean???
-		throw new UnsupportedOperationException("TripTotalIncludingFee is not implemented for rail");
+	public static class Fee {
+		public Money feePrice;
+		public Money tripTotalPrice;
 	}
 
-	@Override
-	public boolean isCardDetailsRequiredForBooking() {
-		return true;
+	public enum RailTicketDeliveryOptionToken {
+		SEND_BY_EXPRESS_POST_UK,
+		SEND_BY_OVERNIGHT_POST_GLOBAL,
+		SEND_BY_OVERNIGHT_POST_EU,
+		PICK_UP_AT_TICKETING_OFFICE_NONE,
+		KIOSK_NONE,
+		SEND_BY_POST_UK,
+		SEND_BY_OVERNIGHT_POST_UK
 	}
 }

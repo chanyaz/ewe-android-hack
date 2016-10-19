@@ -7,16 +7,16 @@ import com.mobiata.android.util.SettingUtils
 
 class FeatureToggleUtil {
     companion object {
-        @JvmStatic fun isUserBucketedAndFeatureEnabled(context: Context, abacusTestKey: Int, featureKey: Int, featureDefaultValue: Boolean): Boolean {
+        @JvmStatic fun isUserBucketedAndFeatureEnabled(context: Context, abacusTestKey: Int, featureKey: Int): Boolean {
             val isTestBucketed = isTestBucketed(abacusTestKey)
-            val isFeatureEnabled = isFeatureEnabled(context, featureKey, featureDefaultValue)
+            val isFeatureEnabled = isFeatureEnabled(context, featureKey)
             return isTestBucketed && isFeatureEnabled
         }
 
-        @JvmStatic fun isFeatureEnabled(context: Context, featureKey: Int, featureDefaultValue: Boolean): Boolean {
+        @JvmStatic fun isFeatureEnabled(context: Context, featureKey: Int): Boolean {
             // enforcing everyone to clean the feature toggle before feature start showing in RC
             if (BuildConfig.RELEASE) return false
-            val isFeatureEnabled = SettingUtils.get(context, featureKey, featureDefaultValue)
+            val isFeatureEnabled = SettingUtils.get(context, featureKey, false)
             return isFeatureEnabled
         }
 

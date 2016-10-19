@@ -43,6 +43,7 @@ abstract class BaseCheckoutViewModel(val context: Context) {
     val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
     val selectedFlightChargesFees = BehaviorSubject.create<String>("")
     val obFeeDetailsUrlSubject = BehaviorSubject.create<String>("")
+    val showCheckoutDialogObservable = PublishSubject.create<Boolean>()
 
     // Inputs
     val creditCardRequired = PublishSubject.create<Boolean>()
@@ -157,6 +158,7 @@ abstract class BaseCheckoutViewModel(val context: Context) {
         }).subscribe()
 
         paymentViewModel.resetCardFees.subscribe {
+            cardFeeService?.cancel()
             paymentTypeSelectedHasCardFee.onNext(false)
             cardFeeTextSubject.onNext(Html.fromHtml(""))
             cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(selectedFlightChargesFees.value, obFeeDetailsUrlSubject.value))

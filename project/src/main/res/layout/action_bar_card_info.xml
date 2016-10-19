@@ -6,7 +6,7 @@
     android:drawableRight="@drawable/ic_action_bar_secure_lock"
     android:ellipsize="end"
     android:gravity="center_vertical"
-    android:singleLine="true"
+    android:maxLines="1"
     android:text="@string/card_info"
     android:textColor="@color/action_bar_flight_text_color"
     android:textSize="18sp"/>

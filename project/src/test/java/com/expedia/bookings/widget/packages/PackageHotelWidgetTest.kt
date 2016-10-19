@@ -5,6 +5,8 @@ import android.content.Intent
 import android.view.View
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -129,5 +131,33 @@ class PackageHotelWidgetTest {
         val actualIntent = shadowActivity.nextStartedActivity
 
         assertTrue(actualIntent.filterEquals(expectedIntent));
+    }
+
+    @Test
+    fun testOnlyFreeCancellationOrNonRefundShow() {
+        val hotel = Hotel()
+        hotel.localizedName = ""
+        hotel.address = ""
+        hotel.city = ""
+        hotel.stateProvinceCode = "US"
+        val room = HotelOffersResponse.HotelRoomResponse()
+        room.roomThumbnailUrl = ""
+        room.hasFreeCancellation = true
+        room.freeCancellationWindowDate = "2016-02-01 11:59"
+        Db.setPackageSelectedHotel(hotel, room)
+
+        testHotelWidget.canExpand = true
+        testHotelWidget.isRowClickable = true
+        testHotelWidget.mainContainer.visibility = Presenter.GONE
+        testHotelWidget.rowContainer.performClick()
+
+        testHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+        assertTrue(testHotelWidget.hotelFreeCancellation.visibility.equals(Presenter.VISIBLE))
+        assertTrue(testHotelWidget.hotelNotRefundable.visibility.equals(Presenter.GONE))
+
+        room.hasFreeCancellation = false
+        testHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
+        assertTrue(testHotelWidget.hotelNotRefundable.visibility.equals(Presenter.VISIBLE))
+        assertTrue(testHotelWidget.hotelFreeCancellation.visibility.equals(Presenter.GONE))
     }
 }

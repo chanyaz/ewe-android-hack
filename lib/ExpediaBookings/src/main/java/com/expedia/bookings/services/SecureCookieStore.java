@@ -62,7 +62,6 @@ final class SecureCookieStore implements CookieStore {
 			return new URI(uri.getScheme(), uri.getHost(), null, null);
 		}
 		catch (URISyntaxException e) {
-			System.out.print("malcolm" + e.getMessage());
 			return uri; // probably a URI with no host
 		}
 	}

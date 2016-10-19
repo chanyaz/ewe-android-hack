@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">{brand}s kundstjänst: {localphone} och {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">Hyrbilsdatum. Knapp. Öppnar dialog. {date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">Aktivitetens plats på Google Maps</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotell</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">Beskrivning</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Plats</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">Plats för aktivitet</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">Mötes- eller inlösenadress</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">Välj aktivitet</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Inkluderas</string>
     <!-- Activity details exclusions heading -->
@@ -759,10 +768,12 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Alla saker att göra</string>
 
-    <string name="lx_you_might_also_like">Du kanske också gillar</string>
     <string name="lx_customers_recommend">av våra kunder rekommenderar.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
+
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">Nyckelord eller fras</string>
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Sortera och filtrera</string>
@@ -2136,8 +2147,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">Resortavgiften på &lt;b&gt;%1$s&lt;/b&gt; kommer att debiteras på hotellet. Det totala priset för din vistelse blir &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">Totalbeloppet för din resa blir &lt;b&gt;%1$s&lt;/b&gt;. Du betalar hotellet den totala kostnaden för din bokning (i hotellets lokala valuta) under din vistelse.</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">En deposition på &lt;b&gt;%1$s&lt;/b&gt; kommer att debiteras nu. Du betalar hotellet den resterande kostnaden för din bokning (i hotellets lokala valuta) under din vistelse.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">Totalbeloppet för din resa, inklusive resortavgiften på &lt;b&gt;%1$s&lt;/b&gt;, blir &lt;b&gt;%2$s&lt;/b&gt;. Du betalar hotellet den totala kostnaden för din bokning (i hotellets lokala valuta) under din vistelse.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2304,8 +2313,10 @@
     <string name="address_city_hint">Stad</string>
     <!-- Address state hint -->
     <string name="address_state_hint">Län</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">Land</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">Leveransalternativ</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postnr</string>
     <!-- Zip Code hint for Packages -->
@@ -2324,10 +2335,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Resenärsuppgifter</string>
     <string name="enter_missing_traveler_details">Ange resenärsuppgifter som saknas</string>
+    <string name="enter_traveler_details">Ange resenärens uppgifter</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ {travelercount} resenär</item>
-        <item quantity="other">+ {travelercount} resenärer</item>
+        <item quantity="one">+ {travelercount} ytterligare resenär</item>
+        <item quantity="other">+ {travelercount} ytterligare resenärer</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Ändra resenär {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} år</string>
@@ -2406,6 +2418,8 @@
     <string name="edit_guest_details">Ändra gästuppgifter</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Ändra resenärens uppgifter</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">Redigera resenärsuppgifter</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Det uppstod ett fel</string>
     <!-- prefers seat template -->
@@ -3221,6 +3235,8 @@
     <string name="coupon_removing_dialog">Raderar kupong</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Skicka</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">Knapp för att skicka in</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3450,6 +3466,8 @@
     <string name="e3_error_checkout_invalid_expiration">Ogiltigt utgångsdatum för kreditkort.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Ange ett giltigt %1$s</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">Ogiltiga uppgifter</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3876,9 +3894,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">Tryck för att filtrera efter höga hotellpriser</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">Ta bort hotellprisfilter</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">Tryck för att välja det här hotellet</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">Tryck för att visa de senaste recensionerna</string>
@@ -4263,8 +4278,18 @@
     <string name="flight_duration_hour_short">h</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">Avgångstid</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">Avgångstid start</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">Avgångstid slut</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Ankomsttid</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">Ankomsttid start</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">Ankomsttid slut</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name} sökreglage {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Ändra hotell</string>
@@ -4302,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Mellanlandning i ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Total restid: {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
-    <string name="package_itinerary_confirmation_TEMPLATE">#{itinerary} skickat till {email}</string>
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} skickat till {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">Tåg</string>
 
@@ -4331,6 +4358,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">Du har {formatted_duration} på dig för att ta dig från {origin_station_name} till {destination_station_name}</string>
 
+    <string name="rail_overtaken_message">Långsamt tåg: Detta tåg är långsammare än andra tåg.</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Ta {travel_mode} från {origin_station_name} till {destination_station_name}</string>
 
@@ -4354,6 +4383,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">Inga bekvämligheter</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">Det är möjligt att bekvämligheter inte alltid är tillgängliga.</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">Ingen information om prisregler tillgänglig</string>
@@ -4391,18 +4423,31 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Kortavgift</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">Tågoperatören tar ut en ej återbetalningsbar extraavgift vid betalning med vissa korttyper. Du slipper betala avgiften om du betalar med bankkort</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">Avgift efter korttyp</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Biljettleverans</string>
 
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">Hämta på station</string>
     <string name="delivery_by_mail">Postleverans</string>
+    <string name="shipping_address">Leveransadress</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Ta med ditt referensnummer och kreditkortet för betalning.</string>
 
     <string name="mail_delivery_details">Få biljetten skickad med post till den adress du anger.</string>
     <string name="tdo_fees_non_refundable">Avgifter för biljettleverans återbetalas inte.</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} till {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Vi har tyvärr stött på ett problem med vår server. Försök igen.</string>
     <string name="pwp_trip_service_error">Vi har tyvärr stött på ett problem med vår server. Försök igen.</string>
@@ -4521,8 +4566,8 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} till {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Resedatum. Knapp. Öppnar dialog. {date_range}. {nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
-    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Antal resenärer. Knapp. Öppnar dialog. {travelers} resenär</item>
         <item quantity="other">Antal resenärer. Knapp. Öppnar dialog. {travelers} resenärer</item>
     </plurals>
@@ -4643,8 +4688,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">Textfält för CVV</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">Resenärsinformation ej fullständig</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Fel: Ange resenärsuppgifter som saknas. Knapp.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Resenärsinformation fullständig</string>
     <!--Packages accessibility content description for role Button-->

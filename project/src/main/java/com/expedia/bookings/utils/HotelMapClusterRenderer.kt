@@ -17,7 +17,7 @@ import com.google.maps.android.clustering.ClusterManager
 import com.google.maps.android.ui.IconGenerator
 import rx.subjects.PublishSubject
 
-class HotelMapClusterRenderer(private val context: Context, private val map: GoogleMap?, private val clusterManager: ClusterManager<MapItem>?, clusterChangeSubject: PublishSubject<Unit>) : DefaultClusterRenderer<MapItem>(context, map, clusterManager, clusterChangeSubject) {
+class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clusterManager: ClusterManager<MapItem>?, clusterChangeSubject: PublishSubject<Unit>) : DefaultClusterRenderer<MapItem>(context, map, clusterManager, clusterChangeSubject) {
     private val clusterIconGenerator = IconGenerator(context)
     private val clusterCountText: TextView
     private val clusterRangeText: TextView
