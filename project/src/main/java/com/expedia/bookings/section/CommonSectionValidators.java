@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.PatternValidator;
 import com.mobiata.android.validation.PatternValidator.TelephoneValidator;
@@ -78,11 +79,19 @@ public class CommonSectionValidators {
 		}
 	};
 
-	public static class PhoneNumberLengthValidator extends PatternValidator {
-		private static final Pattern THREE_NUMBERS_PATTERN = Pattern.compile(".*\\d+.*\\d+.*\\d+.*");//atleast three digits
+	public static class PhoneNumberLengthValidator extends TelephoneValidator {
 
-		public PhoneNumberLengthValidator() {
-			super(THREE_NUMBERS_PATTERN);
+		@Override
+		public int validate(CharSequence text) {
+			if (Strings.isEmpty(text)) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else {
+				String userInput = text.toString();
+				String filteredNumbers = userInput.replaceAll("[^0-9,]","");
+				return filteredNumbers.length() > 15 || filteredNumbers.length() < 4 ?
+					ValidationError.ERROR_DATA_INVALID : ValidationError.NO_ERROR;
+			}
 		}
 	}
 
@@ -148,6 +157,22 @@ public class CommonSectionValidators {
 			}
 			Matcher matcher = InvalidCharacterHelper.getSupportedCharacterPattern(Mode.NAME).matcher(obj.getText());
 			return matcher.matches() ? ValidationError.NO_ERROR : ValidationError.ERROR_DATA_INVALID;
+		}
+	};
+
+	public static final Validator<EditText> NAME_PATTERN_VALIDATOR = new Validator<EditText>() {
+		//This pattern is borrowed from iOS
+		private static final String NAME_PATTERN_VALIDATOR_REGEX = "^.+\\s+.+$";
+		PatternValidator mValidator = new PatternValidator(Pattern.compile(NAME_PATTERN_VALIDATOR_REGEX));
+
+		@Override
+		public int validate(EditText obj) {
+			if (TextUtils.isEmpty(obj.getText().toString())) {
+				return ValidationError.ERROR_DATA_MISSING;
+			}
+			else {
+				return mValidator.validate(obj.getText().toString());
+			}
 		}
 	};
 

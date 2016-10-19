@@ -746,6 +746,10 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@Override
 	public void onUserAccountRefreshed() {
+		doCreateTripAndScrollToCheckout();
+	}
+
+	private void doCreateTripAndScrollToCheckout() {
 		if (User.isLoggedIn(getContext())) {
 			listenToScroll = true;
 			if (getLineOfBusiness() == LineOfBusiness.HOTELS && listenToScroll) {
@@ -779,7 +783,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		mainContactInfoCardView.onLogin();
 		paymentInfoCardView.getViewmodel().getUserLogin().onNext(true);
 		hintContainer.setVisibility(GONE);
-		showCheckout();
+		show(new CheckoutDefault());
+		doCreateTripAndScrollToCheckout();
 	}
 
 	@Override

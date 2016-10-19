@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:padding="6dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/actionbar_suggestion_text_color"
             android:textSize="18sp"
             android:textStyle="bold" />

@@ -38,6 +38,7 @@ import com.expedia.bookings.utils.Strings;
 import com.expedia.vm.hotel.HotelViewModel;
 
 import rx.observers.TestSubscriber;
+import rx.schedulers.Schedulers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -47,7 +48,7 @@ import static org.junit.Assert.assertTrue;
 @Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class })
 public class HotelViewModelTest {
 	@Rule
-	public ServicesRule<PackageServices> serviceRule = new ServicesRule<>(PackageServices.class, "../lib/mocked/templates", true);
+	public ServicesRule<PackageServices> serviceRule = new ServicesRule<>(PackageServices.class, Schedulers.immediate(), "../lib/mocked/templates", true);
 
 	HotelViewModel vm;
 	Hotel hotel;

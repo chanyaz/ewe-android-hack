@@ -27,7 +27,7 @@ class RailAmenitiesAndRulesAdapter(val context: Context) : PagerAdapter() {
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return context.getString(Tab.values().get(position).titleResourceId)
+        return context.getString(Tab.values()[position].titleResourceId)
     }
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any? {

@@ -85,10 +85,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         phoneEntryView.viewModel = vm.phoneViewModel
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
-
         vm.passportCountrySubject.subscribe { countryCode ->
             selectPassport(countryCode)
         }
+
         vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
         vm.showEmailObservable.subscribeVisibility(emailEntryView)
         vm.showPhoneNumberObservable.subscribeVisibility(phoneEntryView)
@@ -175,14 +175,15 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
-        if (visibility == View.VISIBLE) {
-            compositeSubscription = CompositeSubscription()
-            compositeSubscription?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
-        } else {
-            compositeSubscription?.unsubscribe()
+        compositeSubscription?.unsubscribe()
+        if (changedView is FlightTravelerEntryWidget) {
+            if (visibility == View.VISIBLE) {
+                compositeSubscription = CompositeSubscription()
+                compositeSubscription?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
+                compositeSubscription?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
+                compositeSubscription?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
+                compositeSubscription?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
+            }
         }
     }
 
@@ -197,6 +198,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         val newTraveler = Traveler()
         val passengerCategory = viewModel.getTraveler().passengerCategory
         newTraveler.passengerCategory = passengerCategory
+        newTraveler.phoneCountryCode = viewModel.getTraveler().phoneCountryCode
         viewModel.updateTraveler(newTraveler)
     }
 
@@ -252,7 +254,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
                 nameEntryView.lastName.text.isNotEmpty() &&
                 (!TravelerUtils.isMainTraveler(viewModel.travelerIndex) || phoneEntryView.phoneNumber.text.isNotEmpty()) &&
                 (tsaEntryView.dateOfBirth.text.isNotEmpty() && tsaEntryView.genderSpinner.selectedItemPosition != 0) &&
-                ((passportCountrySpinner.visibility == View.VISIBLE && passportCountrySpinner.selectedItemPosition != 0) || passportCountrySpinner.visibility == View.GONE)
+                ((passportCountrySpinner.visibility == View.VISIBLE && passportCountrySpinner.selectedItemPosition != 0) || passportCountrySpinner.visibility == View.GONE) &&
                 ((emailEntryView.visibility == View.VISIBLE && emailEntryView.emailAddress.text.isNotEmpty()) || User.isLoggedIn(context) || emailEntryView.visibility == View.GONE)
     }
 
@@ -269,6 +271,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         passportCountrySpinner.onItemSelectedListener = null
         val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
         val position = if (countryCode?.isNullOrEmpty() ?: true) DEFAULT_EMPTY_PASSPORT else adapter.getPositionByCountryThreeLetterCode(countryCode)
+        if (position == 0) {
+            adapter.setErrorVisible(false);
+        }
         passportCountrySpinner.setSelection(position, false)
         passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
     }

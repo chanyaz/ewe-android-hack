@@ -6,11 +6,13 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import android.support.test.espresso.ViewInteraction;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.closeSoftKeyboard;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static org.hamcrest.Matchers.allOf;
 
 public class BillingAddressScreen {
 	private static final int sAddressLine1EditTextID = R.id.edit_address_line_one;
@@ -22,24 +24,24 @@ public class BillingAddressScreen {
 
 	//Object access
 
-	public static ViewInteraction addressLineOneEditText() {
-		return onView(withId(sAddressLine1EditTextID));
+	public static ViewInteraction addressLineOneEditText(int parentId) {
+		return onView(allOf(withId(sAddressLine1EditTextID), isDescendantOfA(withId(parentId))));
 	}
 
-	public static ViewInteraction addressLineTwoEditText() {
-		return onView(withId(sAddressLine2EditTextID));
+	public static ViewInteraction addressLineTwoEditText(int parentId) {
+		return onView(allOf(withId(sAddressLine2EditTextID), isDescendantOfA(withId(parentId))));
 	}
 
-	public static ViewInteraction cityEditText() {
-		return onView(withId(sAddressCityEditTextID));
+	public static ViewInteraction cityEditText(int parentId) {
+		return onView(allOf(withId(sAddressCityEditTextID), isDescendantOfA(withId(parentId))));
 	}
 
-	public static ViewInteraction stateEditText() {
-		return onView(withId(sAddressStateEditTextID));
+	public static ViewInteraction stateEditText(int parentId) {
+		return onView(allOf(withId(sAddressStateEditTextID), isDescendantOfA(withId(parentId))));
 	}
 
-	public static ViewInteraction postalCodeEditText() {
-		return onView(withId(sAddressPostalCodeEditTextID));
+	public static ViewInteraction postalCodeEditText(int parentId) {
+		return onView(allOf(withId(sAddressPostalCodeEditTextID), isDescendantOfA(withId(parentId))));
 	}
 
 	public static ViewInteraction nextButton() {
@@ -48,20 +50,20 @@ public class BillingAddressScreen {
 
 	//Object interaction
 
-	public static void typeTextAddressLineOne(String text) {
-		addressLineOneEditText().perform(typeText(text), closeSoftKeyboard());
+	public static void typeTextAddressLineOne(String text, int parentId) {
+		addressLineOneEditText(parentId).perform(typeText(text), closeSoftKeyboard());
 	}
 
-	public static void typeTextCity(String text) {
-		cityEditText().perform(typeText(text), closeSoftKeyboard());
+	public static void typeTextCity(String text, int parentId) {
+		cityEditText(parentId).perform(typeText(text), closeSoftKeyboard());
 	}
 
-	public static void typeTextState(String text) {
-		stateEditText().perform(typeText(text), closeSoftKeyboard());
+	public static void typeTextState(String text, int parentId) {
+		stateEditText(parentId).perform(typeText(text), closeSoftKeyboard());
 	}
 
-	public static void typeTextPostalCode(String text) {
-		postalCodeEditText().perform(typeText(text), closeSoftKeyboard());
+	public static void typeTextPostalCode(String text, int parentId) {
+		postalCodeEditText(parentId).perform(typeText(text), closeSoftKeyboard());
 	}
 
 	public static void clickNextButton() {

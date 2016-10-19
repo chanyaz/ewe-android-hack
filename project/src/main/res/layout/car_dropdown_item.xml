@@ -24,7 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
-        android:singleLine="true"
+        android:maxLines="1"
         android:ellipsize="end"
         android:paddingLeft="4dp"
         android:textColor="?attr/skin_carsSecondaryColor"/>
@@ -36,7 +36,7 @@
         android:textColor="?attr/skin_carsSecondaryColor"
         android:textSize="11sp"
         android:layout_gravity="center_vertical"
-        android:singleLine="true"
+        android:maxLines="1"
         android:ellipsize="end"
         android:paddingLeft="4dp"/>
     </LinearLayout>

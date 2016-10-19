@@ -122,7 +122,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="#ffffff"
                     android:textSize="16sp"
                     android:paddingLeft="8dp"
@@ -135,7 +135,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:gravity="center"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textColor="#ffffff"
                     android:textSize="16sp"
                     app:textStyle="light"/>
@@ -201,7 +201,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_price_alert_exclamation"/>
+                    android:src="@drawable/ic_alert_exclamation"/>
 
                 <TextView
                     android:id="@+id/price_change_notification_text"

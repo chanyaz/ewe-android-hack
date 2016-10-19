@@ -20,6 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.FlightLeg;
+import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.utils.LegalClickableSpan;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionStrUtils;
@@ -343,5 +344,47 @@ public class StrUtilsTest {
 	public void testFormatLowerCaseGuestString() {
 		assertEquals("1 guest", StrUtils.formatLowerCaseGuestString(getContext(), 1));
 		assertEquals("3 guests", StrUtils.formatLowerCaseGuestString(getContext(), 3));
+	}
+
+	@Test
+	public void getRedemptionLocationListTest() {
+		List<ActivityDetailsResponse.LXLocation> redemptionLocations = new ArrayList<>();
+		String redemptionLocationString;
+		List<String> expectedRedemptionLocations = new ArrayList<>();
+		List<String> obtainedRedemptionLocations;
+		ActivityDetailsResponse.LXLocation redemptionLocation1 = new ActivityDetailsResponse.LXLocation();
+		ActivityDetailsResponse.LXLocation redemptionLocation2 = new ActivityDetailsResponse.LXLocation();
+		ActivityDetailsResponse.LXLocation redemptionLocation3 = new ActivityDetailsResponse.LXLocation();
+
+		redemptionLocation1.addressName = "California Academy of Sciences";
+		redemptionLocation1.street = "55 Music Concourse Dr";
+		redemptionLocation1.city = "San Francisco";
+		redemptionLocation1.province = "";
+		redemptionLocation1.postalCode = "94118";
+		redemptionLocations.add(redemptionLocation1);
+
+		redemptionLocation2.addressName = "Aquarium of the Bay";
+		redemptionLocation2.street = "2 Beach Street Pier 39";
+		redemptionLocation2.city = "San Francisco";
+		redemptionLocation2.province = "SFO";
+		redemptionLocation2.postalCode = "94133";
+		redemptionLocations.add(redemptionLocation2);
+
+		redemptionLocation3.addressName = "Blue & Gold Fleet Bay Cruise";
+		redemptionLocation3.street = "Pier 39";
+		redemptionLocation3.city = "San Francisco";
+		redemptionLocation3.province = "";
+		redemptionLocation3.postalCode = "";
+		redemptionLocations.add(redemptionLocation3);
+
+		redemptionLocationString = "California Academy of Sciences, 55 Music Concourse Dr, San Francisco, 94118";
+		expectedRedemptionLocations.add(redemptionLocationString);
+		redemptionLocationString = "Aquarium of the Bay, 2 Beach Street Pier 39, San Francisco, SFO, 94133";
+		expectedRedemptionLocations.add(redemptionLocationString);
+		redemptionLocationString = "Blue & Gold Fleet Bay Cruise, Pier 39, San Francisco";
+		expectedRedemptionLocations.add(redemptionLocationString);
+
+		obtainedRedemptionLocations = StrUtils.getRedemptionLocationList(redemptionLocations);
+		assertEquals(obtainedRedemptionLocations, expectedRedemptionLocations);
 	}
 }

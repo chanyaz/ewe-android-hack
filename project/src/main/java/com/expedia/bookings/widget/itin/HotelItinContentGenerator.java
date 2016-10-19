@@ -25,6 +25,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.FailedUrlCache;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -297,7 +298,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
 
 		if (itinCardData.getPropertyLocation() != null) {
-			staticMapImageView.setLocation(itinCardData.getPropertyLocation());
+			staticMapImageView.setLocation(new LatLong(itinCardData.getPropertyLocation().getLatitude(), itinCardData.getPropertyLocation().getLongitude()));
 		}
 
 		addressTextView.setText(itinCardData.getAddressString());

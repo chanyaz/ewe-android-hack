@@ -11,7 +11,7 @@ class RailFareOptionViewModel {
     val offerSelectButtonClicked = PublishSubject.create<Unit>()
 
     val priceObservable = offerFare.map { it.totalPrice.formattedPrice }
-    val fareTitleObservable = offerFare.map { it.railProductList.first().aggregatedCarrierServiceClassDisplayName }
+    val fareTitleObservable = offerFare.map { it.railProductList.first().aggregatedCarrierFareClassDisplayName }
     val fareDescriptionObservable = offerFare.map { it.railProductList.first().aggregatedFareDescription }
 
     val showAmenitiesDetails = showAmenitiesForFareClicked.withLatestFrom(offerFare, { selected, offerFare -> offerFare })

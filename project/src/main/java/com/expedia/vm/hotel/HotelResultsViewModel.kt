@@ -2,9 +2,11 @@ package com.expedia.vm.hotel
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -13,6 +15,7 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -24,11 +27,15 @@ import rx.subjects.PublishSubject
 
 class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness, private val clientLogBuilder: ClientLog.Builder?) {
 
+    private val INITIAL_RESULTS_TO_BE_LOADED = 25
+    private val ALL_RESULTS_TO_BE_LOADED = 200
+
     // Inputs
     val paramsSubject = BehaviorSubject.create<HotelSearchParams>()
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
 
     // Outputs
+    val addHotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val errorObservable = PublishSubject.create<ApiError>()
@@ -75,26 +82,20 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 .format())
 
         clientLogBuilder?.logTime(DateTime.now())
-        hotelServices?.search(params, clientLogBuilder)?.subscribe(object : Observer<HotelSearchResponse> {
-            override fun onNext(it: HotelSearchResponse) {
-                clientLogBuilder?.processingTime(DateTime.now())
-                if (it.hasErrors()) {
-                    errorObservable.onNext(it.firstError)
-                } else if (it.hotelList.isEmpty()) {
-                    var error: ApiError
-                    if (titleSubject.value == context.getString(R.string.visible_map_area)) {
-                        error = ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS)
-                    } else {
-                        error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
-                    }
-                    errorObservable.onNext(error)
-                } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
-                    mapResultsObservable.onNext(it)
-                } else {
-                    hotelResultsObservable.onNext(it)
-                    HotelTracking().trackHotelsSearch(paramsSubject.value, it)
+        searchHotels(params)
+    }
+
+    private fun searchHotels(params: HotelSearchParams, isInitial: Boolean = true) {
+        val isBucketedAndFeatureToggleOn = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest, R.string.preference_enable_hotel_results_perceived_instant)
+        val makeMultipleCalls = isInitial && isBucketedAndFeatureToggleOn
+        hotelServices?.search(params, clientLogBuilder, if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED)?.subscribe(object : Observer<HotelSearchResponse> {
+            override fun onNext(hotelSearchResponse: HotelSearchResponse) {
+                onSearchResponse(hotelSearchResponse, isInitial)
+                if (makeMultipleCalls) {
+                    searchHotels(params, false)
                 }
             }
+
 
             override fun onCompleted() {
             }
@@ -112,4 +113,29 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
             }
         })
     }
+
+    private fun onSearchResponse(hotelSearchResponse: HotelSearchResponse, isInitial: Boolean) {
+        clientLogBuilder?.processingTime(DateTime.now())
+        if (hotelSearchResponse.hasErrors()) {
+            errorObservable.onNext(hotelSearchResponse.firstError)
+        } else if (hotelSearchResponse.hotelList.isEmpty()) {
+            var error: ApiError
+            if (titleSubject.value == context.getString(R.string.visible_map_area)) {
+                error = ApiError(ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS)
+            } else {
+                error = ApiError(ApiError.Code.HOTEL_SEARCH_NO_RESULTS)
+            }
+            errorObservable.onNext(error)
+        } else if (titleSubject.value == context.getString(R.string.visible_map_area)) {
+            mapResultsObservable.onNext(hotelSearchResponse)
+        } else {
+            if (isInitial) {
+                hotelResultsObservable.onNext(hotelSearchResponse)
+            } else {
+                addHotelResultsObservable.onNext(hotelSearchResponse)
+            }
+            HotelTracking().trackHotelsSearch(paramsSubject.value, hotelSearchResponse)
+        }
+    }
+
 }

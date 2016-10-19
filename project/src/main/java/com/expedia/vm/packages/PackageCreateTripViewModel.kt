@@ -19,11 +19,18 @@ import org.joda.time.format.DateTimeFormat
 import rx.Observer
 import rx.subjects.BehaviorSubject
 
-class PackageCreateTripViewModel(val packageServices: PackageServices, val context: Context) : BaseCreateTripViewModel() {
+class PackageCreateTripViewModel(var packageServices: PackageServices, val context: Context) : BaseCreateTripViewModel() {
 
     val tripParams = BehaviorSubject.create<PackageCreateTripParams>()
 
     init {
+        tripParams.subscribe { params ->
+            //When changing room, packageHotelOffers uses the old piid, with default associated flights
+            //We need to update this to use the selected flights piid
+            val hotel = Db.getPackageSelectedHotel()
+            hotel.packageOfferModel.piid = params.productKey
+        }
+
         performCreateTrip.subscribe {
             showCreateTripDialogObservable.onNext(true)
             packageServices.createTrip(tripParams.value).subscribe(makeCreateTripResponseObserver())

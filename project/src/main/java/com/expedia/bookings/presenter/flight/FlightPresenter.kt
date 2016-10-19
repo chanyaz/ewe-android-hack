@@ -13,7 +13,6 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
@@ -75,6 +74,11 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             flightOverviewPresenter.showCheckout()
             val params = flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutParams.value
             flightOverviewPresenter.getCheckoutPresenter().getCheckoutViewModel().checkoutParams.onNext(params)
+        }
+        presenter.getViewModel().showTravelerForm.subscribe {
+            show(flightOverviewPresenter, Presenter.FLAG_CLEAR_TOP)
+            flightOverviewPresenter.showCheckout()
+            flightOverviewPresenter.getCheckoutPresenter().openTravelerPresenter()
         }
         presenter.getViewModel().showPaymentForm.subscribe {
             show(flightOverviewPresenter, Presenter.FLAG_CLEAR_TOP)
@@ -163,11 +167,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         Observable.combineLatest( flightOfferViewModel.confirmedOutboundFlightSelection,
                 flightOfferViewModel.confirmedInboundFlightSelection,
                 { outbound, inbound ->
-                    val outboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(outbound.baggageFeesUrl)
-                    val inboundBaggageFeeUrl = e3EndpointProvider.getE3EndpointUrlWithPath(inbound.baggageFeesUrl)
                     val baggageFeesTextFormatted = Phrase.from(context, R.string.split_ticket_baggage_fees_TEMPLATE)
-                            .put("departurelink", outboundBaggageFeeUrl)
-                            .put("returnlink", inboundBaggageFeeUrl).format().toString()
+                            .put("departurelink", outbound.baggageFeesUrl)
+                            .put("returnlink", inbound.baggageFeesUrl).format().toString()
                     val baggageFeesTextWithColoredClickableLinks =
                             StrUtils.getSpannableTextByColor(baggageFeesTextFormatted,
                                     ContextCompat.getColor(context, R.color.flight_primary_color), true)
@@ -289,7 +291,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         flightOfferViewModel.outboundResultsObservable.subscribe {
             outBoundPresenter.trackFlightResultsLoad()
-            show(outBoundPresenter)
         }
         flightOfferViewModel.inboundResultsObservable.subscribe {
             inboundPresenter.trackFlightResultsLoad()
@@ -299,7 +300,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     override fun onFinishInflate() {
         super.onFinishInflate()
-        addTransition(if (displayFlightDropDownRoutes()) restrictedSearchToOutbound else searchToOutbound)
+        addTransition(searchToOutbound)
         addTransition(inboundFlightToOverview)
         addTransition(outboundToInbound)
         addTransition(overviewToConfirmation)
@@ -354,8 +355,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     private val flightOverviewToError = object : Presenter.Transition(FlightOverviewPresenter::class.java, FlightErrorPresenter::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            flightOverviewPresenter.getCheckoutPresenter().checkoutDialog.hide()
-            flightOverviewPresenter.getCheckoutPresenter().createTripDialog.hide()
             errorPresenter.visibility = View.VISIBLE
         }
 
@@ -438,7 +437,15 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     private val overviewToConfirmation = LeftToRightTransition(this, FlightOverviewPresenter::class.java, FlightConfirmationPresenter::class.java)
-    private val outboundToInbound = ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java)
+    
+    private val outboundToInbound = object : ScaleTransition(this, FlightOutboundPresenter::class.java, FlightInboundPresenter::class.java) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            if (forward) {
+                inboundPresenter.resultsPresenter.recyclerView.scrollToPosition(0)
+            }
+        }
+    }
 
     private val defaultOutboundTransition = object : Presenter.DefaultTransition(FlightOutboundPresenter::class.java.name){
         override fun endTransition(forward: Boolean) {
@@ -447,10 +454,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private val searchToOutbound = SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightOutboundPresenter::class.java)
-    private val restrictedSearchToOutbound = SearchToOutboundTransition(this, FlightSearchAirportDropdownPresenter::class.java, FlightOutboundPresenter::class.java)
-    private val searchToInbound = SearchToOutboundTransition(this, FlightSearchPresenter::class.java, FlightInboundPresenter::class.java)
-
+    private val searchToOutbound = SearchToOutboundTransition(this, searchPresenter.javaClass, FlightOutboundPresenter::class.java)
+    private val searchToInbound = SearchToOutboundTransition(this, searchPresenter.javaClass, FlightInboundPresenter::class.java)
+ 
     private val defaultSearchTransition = object : Presenter.DefaultTransition(getDefaultSearchPresenterClassName()) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE

@@ -1,7 +1,7 @@
 <CheckedTextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@android:id/text1"
     style="?android:attr/spinnerDropDownItemStyle"
-    android:singleLine="true"
+    android:maxLines="1"
     android:layout_width="match_parent"
     android:layout_height="?android:attr/listPreferredItemHeight"
     android:textColor="?attr/spinner_traveler_text_color_drawable"

@@ -50,8 +50,8 @@ class HotelMapViewModelTest {
         assertEquals("", subjectUnderTest.strikethroughPrice.value.toString())
         strikeThroughPriceVisibilitySubscriber.assertValues(false, false)
         assertEquals("From $109", subjectUnderTest.fromPrice.value.toString())
-        assertEquals(37.78458, subjectUnderTest.hotelLatLng.value.get(0))
-        assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value.get(1))
+        assertEquals(37.78458, subjectUnderTest.hotelLatLng.value[0])
+        assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value[1])
         assertEquals(false, subjectUnderTest.selectARoomInvisibility.value)
 
         val testSubscriber = TestSubscriber.create<Boolean>()
@@ -71,8 +71,8 @@ class HotelMapViewModelTest {
         assertEquals(true, subjectUnderTest.hotelStarRatingVisibility.value)
         assertEquals("$284", subjectUnderTest.strikethroughPrice.value.toString())
         assertEquals("From $241", subjectUnderTest.fromPrice.value.toString())
-        assertEquals(37.78458, subjectUnderTest.hotelLatLng.value.get(0))
-        assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value.get(1))
+        assertEquals(37.78458, subjectUnderTest.hotelLatLng.value[0])
+        assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value[1])
         assertEquals(false, subjectUnderTest.selectARoomInvisibility.value)
 
         val testSubscriber = TestSubscriber.create<Boolean>()
@@ -92,8 +92,8 @@ class HotelMapViewModelTest {
         assertEquals(false, subjectUnderTest.hotelStarRatingVisibility.value)
         assertEquals("$284", subjectUnderTest.strikethroughPrice.value.toString())
         assertEquals("From $241", subjectUnderTest.fromPrice.value.toString())
-        assertEquals(37.78458, subjectUnderTest.hotelLatLng.value.get(0))
-        assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value.get(1))
+        assertEquals(37.78458, subjectUnderTest.hotelLatLng.value[0])
+        assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value[1])
         assertEquals(false, subjectUnderTest.selectARoomInvisibility.value)
 
         val testSubscriber = TestSubscriber.create<Boolean>()
@@ -115,8 +115,8 @@ class HotelMapViewModelTest {
         assertEquals(true, subjectUnderTest.hotelStarRatingVisibility.value)
         assertEquals("", subjectUnderTest.strikethroughPrice.value.toString())
         assertEquals("", subjectUnderTest.fromPrice.value.toString())
-        assertEquals(37.78458, subjectUnderTest.hotelLatLng.value.get(0))
-        assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value.get(1))
+        assertEquals(37.78458, subjectUnderTest.hotelLatLng.value[0])
+        assertEquals(-122.40854, subjectUnderTest.hotelLatLng.value[1])
         assertEquals(true, subjectUnderTest.selectARoomInvisibility.value)
 
         val testSubscriber = TestSubscriber.create<Boolean>()

@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">Assistance clientèle {brand} : {localphone} et {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">Dates de la location de voiture. Bouton. Ouvre la boîte de dialogue. {date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">Affichage de l\&apos;emplacement de l\&apos;activité sur Google Map</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hôtels</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">Description</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Destination</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">Lieu de l\&apos;activité</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">Adresse d\&apos;utilisation / point de rencontre</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">Sélectionner une activité</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Inclus</string>
     <!-- Activity details exclusions heading -->
@@ -759,10 +768,12 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Toutes les choses à faire</string>
 
-    <string name="lx_you_might_also_like">Autres activités qui pourraient vous plaire</string>
     <string name="lx_customers_recommend">de recommandations clients.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend} %</string>
+
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">Mot-clé ou phrase</string>
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Trier &amp; filtrer</string>
@@ -2136,8 +2147,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">Les frais d\&apos;établissement d\&apos;un montant de &lt;b&gt;%1$s&lt;/b&gt; seront payés à l\&apos;hôtel. Le prix total pour votre séjour sera de &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">Le montant total pour votre séjour sera de &lt;b&gt;%1$s&lt;/b&gt;. Vous paierez le coût total de votre réservation à l\&apos;hôtel (dans la devise locale de l\&apos;hôtel) au cours de votre séjour.</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">Un acompte de &lt;b&gt;%1$s&lt;/b&gt; sera prélevé maintenant. Vous paierez le coût restant de votre réservation à l\&apos;hôtel (dans la devise locale de l\&apos;hôtel) au cours de votre séjour.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">Le montant total pour votre voyage, y compris les frais d\&apos;établissement de &lt;b&gt;%1$s&lt;/b&gt;, sera de &lt;b&gt;%2$s&lt;/b&gt;. Vous paierez le coût total de votre réservation à l\&apos;hôtel (dans la devise locale de l\&apos;hôtel) au cours de votre séjour.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2304,8 +2313,10 @@
     <string name="address_city_hint">Ville</string>
     <!-- Address state hint -->
     <string name="address_state_hint">Dép.</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">Pays</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">Options d\&apos;envoi du courrier</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Code postal</string>
     <!-- Zip Code hint for Packages -->
@@ -2324,10 +2335,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Détails du voyageur</string>
     <string name="enter_missing_traveler_details">Saisir les détails manquants sur le voyageur</string>
+    <string name="enter_traveler_details">Saisissez les informations sur le voyageur</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ {travelercount} autre voyageur</item>
-        <item quantity="other">+ {travelercount} autres voyageurs</item>
+        <item quantity="one">+ {travelercount} voyageur supplémentaire</item>
+        <item quantity="other">+ {travelercount} voyageurs supplémentaires</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Modifier voyageur {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} an</string>
@@ -2406,6 +2418,8 @@
     <string name="edit_guest_details">Modifier les informations du client</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Modifier les informations sur le voyageur</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">Modifier les détails sur le voyageur</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Erreur</string>
     <!-- prefers seat template -->
@@ -3221,6 +3235,8 @@
     <string name="coupon_removing_dialog">Retrait du bon de réduction en cours</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Envoyer</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">Bouton Envoyer</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3450,6 +3466,8 @@
     <string name="e3_error_checkout_invalid_expiration">Date d\&apos;expiration de la carte invalide.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">%1$s non valide</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">Info incorrecte</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3876,9 +3894,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">Appuyez pour afficher les tarifs les plus élevés</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">Arrêtez le filtrage par prix</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">Appuyez pour sélectionner cet hôtel</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">Appuyez pour afficher les avis récents</string>
@@ -4263,8 +4278,18 @@
     <string name="flight_duration_hour_short">h</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">Heure de départ</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">le début du créneau horaire de départ</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">la fin du créneau horaire de départ</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Heure d\&apos;arrivée</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">le début du créneau horaire d\&apos;arrivée</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">la fin du créneau horaire d\&apos;arrivée</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">Barre de filtre pour {name} placée à {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Modifier l\&apos;hôtel</string>
@@ -4302,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Escale à ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Durée totale : {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
-    <string name="package_itinerary_confirmation_TEMPLATE">N° {itinerary} envoyé à {email}</string>
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">N° {itinerary} envoyé à {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">Trains</string>
 
@@ -4331,6 +4358,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">Vous avez {formatted_duration} pour vous rendre de {origin_station_name} à {destination_station_name}</string>
 
+    <string name="rail_overtaken_message">Dépassement du train : ce service est plus lent que d\&apos;autres trains.</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Prenez le {travel_mode} de {origin_station_name} à {destination_station_name}</string>
 
@@ -4354,6 +4383,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">Aucun service ou équipement</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">Les services et équipements peuvent ne pas être disponibles à tout moment.</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">Aucun renseignement disponible sur les règles tarifaires</string>
@@ -4391,18 +4423,31 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Frais de carte bancaire</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">Le fournisseur du billet de train facture des frais supplémentaires non remboursables pour les paiements avec certains types de cartes. Vous pouvez éviter ces frais en utilisant une carte de débit.</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">Frais par type de carte</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Délivrance du billet</string>
 
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">Remise du billet à la gare</string>
     <string name="delivery_by_mail">Envoi par courrier</string>
+    <string name="shipping_address">Adresse de livraison</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Veuillez apporter le numéro de référence de votre billet et la carte de paiement utilisée pour effectuer l\&apos;achat.</string>
 
     <string name="mail_delivery_details">Faites-vous envoyer le billet à l\&apos;adresse que vous avez indiquée.</string>
     <string name="tdo_fees_non_refundable">Les frais d\&apos;envoi du billet ne sont pas remboursables.</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} à {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Désolés, un problème technique est survenu. Veuillez réessayer.</string>
     <string name="pwp_trip_service_error">Désolés, un problème technique est survenu. Veuillez réessayer.</string>
@@ -4521,8 +4566,8 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">du {startdate} au {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Dates du voyage. Bouton. Ouvre la boîte de dialogue. {date_range}. {nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
-    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Nombre de voyageurs. Bouton. Ouvre la boîte de dialogue. {travelers} voyageur</item>
         <item quantity="other">Nombre de voyageurs. Bouton. Ouvre la boîte de dialogue. {travelers} voyageurs</item>
     </plurals>
@@ -4643,8 +4688,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">Champ de texte cryptogramme</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">Informations sur le voyageur incomplètes</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Erreur : saisissez les détails manquants sur le voyageur. Bouton.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Informations sur le voyageur complètes</string>
     <!--Packages accessibility content description for role Button-->
@@ -4687,7 +4732,7 @@
     </plurals>
     <!-- Package cost summary row snippet  e.g. 1 night-->
     <plurals name="number_of_nights_TEMPLATE">
-        <item quantity="zero">{night} nuits</item>
+        <item quantity="zero">{night} nuit</item>
         <item quantity="one">{night} nuit</item>
         <item quantity="two">{night} nuits</item>
         <item quantity="many">{night} nuits</item>
@@ -4695,7 +4740,7 @@
     </plurals>
     <!-- Package cost summary row snippet  e.g. 4 guests-->
     <plurals name="number_of_guest_TEMPLATE">
-        <item quantity="zero">{guest} personnes</item>
+        <item quantity="zero">{guest} personne</item>
         <item quantity="one">{guest} personne</item>
         <item quantity="two">{guest} personnes</item>
         <item quantity="many">{guest} personnes</item>

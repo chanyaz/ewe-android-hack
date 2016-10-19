@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">{brand} 客戶支援：{localphone} 及 {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">租車日期。按鈕。開啟對話方塊。{date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">在 Google 地圖上查看活動地點</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">飯店</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">說明</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">地點</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">活動地點</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">集合/兌換地址</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">選擇活動</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">包含項目</string>
     <!-- Activity details exclusions heading -->
@@ -713,9 +722,9 @@
     <!-- Text for traveler adult error-->
     <string name="traveler_adult_error">此旅客必須年滿 18 歲。</string>
     <!-- Text informing guest that main travler is checking into hotel-->
-    <string name="traveler_main_message">主要旅客必須入住飯店。必須年滿 18 歲。</string>
+    <string name="traveler_main_message">主要旅客必須登記入住飯店。必須年滿 18 歲。</string>
     <!-- Text for enter traveler details-->
-    <string name="traveler_enter_details_text">輸入旅客詳細資料</string>
+    <string name="traveler_enter_details_text">輸入旅客資料</string>
     <!--Price sort button -->
     <string name="lx_price_sort_button">價格</string>
     <!-- Popularity sort button -->
@@ -759,10 +768,12 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">所有當地玩樂</string>
 
-    <string name="lx_you_might_also_like">您可能也會喜歡</string>
     <string name="lx_customers_recommend">的旅客推薦。</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend}%</string>
+
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">請輸入關鍵詞</string>
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">排序和篩選</string>
@@ -2136,8 +2147,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">飯店將會收取休閒設施費 &lt;b&gt;%1$s&lt;/b&gt;。您住宿的總價為 &lt;b&gt;%2$s&lt;/b&gt;。</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">您行程的總價為 &lt;b&gt;%1$s&lt;/b&gt;。您需要在入住期間將預訂總金額支付給飯店 (以飯店當地的貨幣)。</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">現在會先收取訂金 &lt;b&gt;%1$s&lt;/b&gt;。您需要在入住期間將預訂的餘額支付給飯店 (以飯店當地的貨幣)。</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">您行程的總金額 (包括 &lt;b&gt;%1$s&lt;/b&gt; 休閒設施費) 為 &lt;b&gt;%2$s&lt;/b&gt;。您需要在入住期間將預訂總金額支付給飯店 (以飯店當地的貨幣)。</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2304,8 +2313,10 @@
     <string name="address_city_hint">縣市</string>
     <!-- Address state hint -->
     <string name="address_state_hint">州/省</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">國家</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">郵遞選項</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">郵遞區號</string>
     <!-- Zip Code hint for Packages -->
@@ -2324,10 +2335,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">旅客資料</string>
     <string name="enter_missing_traveler_details">請輸入遺漏的旅客資料</string>
+    <string name="enter_traveler_details">輸入旅客資料</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+{travelercount} 位旅客</item>
-        <item quantity="other">+{travelercount} 位旅客</item>
+        <item quantity="one">+ {travelercount} 位額外旅客</item>
+        <item quantity="other">+ {travelercount} 位額外旅客</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">修改旅客 {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 歲</string>
@@ -2406,6 +2418,8 @@
     <string name="edit_guest_details">編輯旅客資訊</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">修改旅客資訊</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">修改旅客資訊</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">錯誤</string>
     <!-- prefers seat template -->
@@ -3221,6 +3235,8 @@
     <string name="coupon_removing_dialog">正在刪除優惠券</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">送出</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">送出按鈕</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3236,7 +3252,7 @@
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">很抱歉，目前我們遇到問題。請再試一次。</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
-    <string name="coupon_error_price_change">由於預訂費用已經改變，因此我們沒有套用優惠代碼。請檢查並再試一次。</string>
+    <string name="coupon_error_price_change">由於預訂費用已經改變，因此我們沒有套用優惠代碼。請查看並再試一次。</string>
     <!-- Error when applying coupon - the coupon is for another region -->
     <string name="coupon_error_invalid_region">很抱歉，此優惠代碼是給其他國家使用的。</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
@@ -3450,6 +3466,8 @@
     <string name="e3_error_checkout_invalid_expiration">信用卡到期日無效。</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">請輸入有效的%1$s</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">無效的資訊</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3876,9 +3894,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">按一下以篩選高價的飯店</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">清除價格篩選</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">按一下以選擇此飯店</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">按一下以顯示最近的評論</string>
@@ -4105,7 +4120,7 @@
     <!-- Accessibility - Content Description for Expiration date: decrease year -->
     <string name="decrease_year_cont_desc">減少月份</string>
     <!-- Accessibility - Content Description for hotel map view on hotel details -->
-    <string name="hotel_map_view_cont_desc">飯店位置 Google 地圖檢視</string>
+    <string name="hotel_map_view_cont_desc">在 Google 地圖上查看飯店位置</string>
     <!-- Label for per person -->
     <string name="per_person">每人</string>
     <!-- Label for package bundle price on overview-->
@@ -4263,8 +4278,18 @@
     <string name="flight_duration_hour_short">小時</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">出發時間</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">最早出發時間</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">最晚出發時間</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">抵達時間</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">最早抵達時間</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">最晚抵達時間</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name}拖動條 {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">變更飯店</string>
@@ -4302,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">中途停留：({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">轉機等待時間：{duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
-    <string name="package_itinerary_confirmation_TEMPLATE">#{itinerary} 已傳送到 {email}</string>
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} 已傳送到 {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">火車</string>
 
@@ -4331,6 +4358,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">您有 {formatted_duration} 可以從{origin_station_name}前往{destination_station_name}</string>
 
+    <string name="rail_overtaken_message">會被超越的火車：此班車比其他火車慢。</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">從{origin_station_name}搭乘{travel_mode}前往{destination_station_name}</string>
 
@@ -4354,6 +4383,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">不提供設施</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">設施服務不一定可全時間提供。</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">無法提供票價規則資訊</string>
@@ -4391,18 +4423,31 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">信用卡手續費</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">使用某些信用卡付款時，火車公司會額外收取不得退款的手續費。為避免此費用，您可以使用金融卡。</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">各種信用卡類型的手續費</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">取票方式</string>
 
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">車站取票</string>
     <string name="delivery_by_mail">郵寄</string>
+    <string name="shipping_address">郵寄地址</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">請攜帶您的票券參考編號和信用卡前往購買。</string>
 
     <string name="mail_delivery_details">將車票郵寄到您所提供的地址。</string>
     <string name="tdo_fees_non_refundable">車票運費不得退款。</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation}到{arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}，{travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">很抱歉，伺服器出現問題。請再試一次。</string>
     <string name="pwp_trip_service_error">很抱歉，伺服器出現問題。請再試一次。</string>
@@ -4521,8 +4566,8 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate}到{enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">旅遊日期。按鈕。開啟對話方塊。{date_range}。{nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
-    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">旅客人數。按鈕。開啟對話方塊。{travelers} 位旅客</item>
         <item quantity="other">旅客人數。按鈕。開啟對話方塊。{travelers} 位旅客</item>
     </plurals>
@@ -4643,8 +4688,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">CVV 文字欄位</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">旅客資料未填妥</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title}錯誤：請輸入遺漏的旅客資料。按鈕。</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">旅客資料已填妥</string>
     <!--Packages accessibility content description for role Button-->

@@ -29,7 +29,7 @@ class FlightResultsViewModelTest {
 
         sut.isOutboundResults.onNext(true)
 
-        testSubscriber.assertValue(true)
+        testSubscriber.assertValue(false)
     }
 
     @Test

@@ -1,10 +1,13 @@
 package com.expedia.bookings.test.phone.launch;
 
+import java.util.concurrent.TimeUnit;
+
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.assertion.ViewAssertions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.otto.Events;
@@ -16,10 +19,13 @@ import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
 import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 
 public class LaunchScreenToHotelTest extends PhoneTestCase {
 
 	public void testPopularLocationSelection() {
+		waitForLaunchScreenToDisplay();
+
 		CollectionLocation collectionLocation = new CollectionLocation();
 		CollectionLocation.Location suggestion = new CollectionLocation.Location();
 		String city = "San Francisco";
@@ -50,6 +56,8 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 	}
 
 	public void testSeeMore() throws Throwable {
+		waitForLaunchScreenToDisplay();
+
 		CollectionLocation collectionLocation = new CollectionLocation();
 		CollectionLocation.Location suggestion = new CollectionLocation.Location();
 		suggestion.type = HotelSearchParams.SearchType.MY_LOCATION.toString();
@@ -66,6 +74,10 @@ public class LaunchScreenToHotelTest extends PhoneTestCase {
 		Common.pressBack();
 		// Test that searching still works
 		SearchScreen.searchButton().perform(click());
+	}
+
+	private void waitForLaunchScreenToDisplay() {
+		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.launch_toolbar), 10, TimeUnit.SECONDS);
 	}
 
 }

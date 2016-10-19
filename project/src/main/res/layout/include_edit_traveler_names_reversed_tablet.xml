@@ -23,7 +23,7 @@ We have moved this because some Locales (Japan) prefer different name orders
             android:nextFocusDown="@+id/edit_middle_name"
             android:nextFocusRight="@+id/edit_middle_name"
             android:paddingBottom="12dp"
-            android:singleLine="true" />
+            android:maxLines="1" />
 
         <EditText
             android:id="@+id/edit_middle_name"
@@ -35,7 +35,7 @@ We have moved this because some Locales (Japan) prefer different name orders
             android:nextFocusDown="@+id/edit_first_name"
             android:nextFocusRight="@+id/edit_first_name"
             android:paddingBottom="12dp"
-            android:singleLine="true" />
+            android:maxLines="1" />
 
         <EditText
             android:id="@+id/edit_first_name"
@@ -46,7 +46,7 @@ We have moved this because some Locales (Japan) prefer different name orders
             android:hint="@string/first_name"
             android:inputType="textPersonName|textCapWords"
             android:paddingBottom="12dp"
-            android:singleLine="true" />
+            android:maxLines="1" />
     </LinearLayout>
 
 </merge>

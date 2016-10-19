@@ -30,9 +30,10 @@ import android.widget.TableRow
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.HotelFavoriteHelper
-import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -282,10 +283,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.numberOfReviewsObservable.subscribeText(numberOfReviews)
         vm.hotelLatLngObservable.subscribe {
             values ->
-            val location = Location()
-            location.latitude = values[0]
-            location.longitude = values[1]
-            miniMapView.setLocation(location)
+            miniMapView.setLocation(LatLong(values[0], values[1]))
         }
         vm.payByPhoneContainerVisibility.subscribe { spaceAboveSelectARoom() }
         vm.payByPhoneContainerVisibility.subscribeVisibility(payByPhoneContainer)
@@ -397,7 +395,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
                     etpRoomList.first.forEachIndexed { roomResponseIndex, room ->
                         val hasETP = viewmodel.hasETPObservable.value
                         val view = HotelRoomRateView(context, roomResponseIndex)
-                        view.viewmodel = HotelRoomRateViewModel(context, vm.hotelOffersResponse.hotelId, etpRoomList.first.get(roomResponseIndex).payLaterOffer, etpRoomList.second.get(roomResponseIndex), roomResponseIndex, vm.rowExpandingObservable, vm.roomSelectedObserver, hasETP, viewmodel.getLOB())
+                        view.viewmodel = HotelRoomRateViewModel(context, vm.hotelOffersResponse.hotelId, etpRoomList.first[roomResponseIndex].payLaterOffer, etpRoomList.second[roomResponseIndex], roomResponseIndex, vm.rowExpandingObservable, vm.roomSelectedObserver, hasETP, viewmodel.getLOB())
                         view.animateRoom.subscribe(rowAnimation)
                         var parent = view.parent
                         if (parent != null) {
@@ -770,6 +768,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         FontCache.setTypeface(payNowButton, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
 
+        AccessibilityUtil.appendRoleContDesc(etpInfoTextSmall, etpInfoTextSmall.text.toString(), R.string.accessibility_cont_desc_role_button);
     }
 
     private fun trackSelectRoomClick(isStickyButton: Boolean) {

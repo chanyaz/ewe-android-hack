@@ -9,6 +9,7 @@ import org.joda.time.LocalDate
 import org.junit.Rule
 import org.junit.Test
 import rx.observers.TestSubscriber
+import rx.schedulers.Schedulers
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertFalse
@@ -18,7 +19,7 @@ import kotlin.test.assertTrue
 import com.expedia.bookings.testrule.ServicesRule
 
 class HotelShopWithPointsServicesTest {
-    var serviceRule = ServicesRule(HotelServices::class.java, "../mocked/templates")
+    var serviceRule = ServicesRule(HotelServices::class.java, Schedulers.immediate(), "../mocked/templates")
         @Rule get
 
     @Test
@@ -34,7 +35,7 @@ class HotelShopWithPointsServicesTest {
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams
 
-        serviceRule.services!!.search(hotelSearchParams, null).subscribe(testObserver)
+        serviceRule.services!!.search(hotelSearchParams, null, 200).subscribe(testObserver)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertCompleted()
@@ -58,7 +59,7 @@ class HotelShopWithPointsServicesTest {
                 .endDate(LocalDate.now().plusDays(1)) as HotelSearchParams.Builder
         val hotelSearchParams = builder.shopWithPoints(true).build()
 
-        serviceRule.services!!.search(hotelSearchParams, null).subscribe(testObserver)
+        serviceRule.services!!.search(hotelSearchParams, null, 200).subscribe(testObserver)
 
         testObserver.awaitTerminalEvent()
         testObserver.assertCompleted()
@@ -88,7 +89,7 @@ class HotelShopWithPointsServicesTest {
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams
 
-        serviceRule.services!!.search(hotelSearchParams, null).subscribe(testObserver)
+        serviceRule.services!!.search(hotelSearchParams, null, 200).subscribe(testObserver)
 
         testObserver.awaitTerminalEvent(10, TimeUnit.SECONDS)
         testObserver.assertCompleted()

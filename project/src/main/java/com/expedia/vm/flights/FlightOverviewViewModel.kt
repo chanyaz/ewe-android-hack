@@ -10,6 +10,6 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
     override val showBundlePriceSubject = BehaviorSubject.create(false)
 
     override fun pricePerPersonString(selectedFlight: FlightLeg): String {
-        return selectedFlight.packageOfferModel.price.averageTotalPricePerTicket.formattedPrice
+        return selectedFlight.packageOfferModel.price.averageTotalPricePerTicket.formattedMoneyFromAmountAndCurrencyCode
     }
 }

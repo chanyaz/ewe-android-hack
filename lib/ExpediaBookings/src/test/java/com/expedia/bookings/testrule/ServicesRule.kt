@@ -20,7 +20,8 @@ import java.lang.reflect.InvocationTargetException
 import java.util.HashMap
 import kotlin.properties.Delegates
 
-open class ServicesRule<T : Any>(val servicesClass: Class<T>, val rootPath: String = "../lib/mocked/templates", val setExpediaDispatcher: Boolean = true) : TestRule {
+open class ServicesRule<T : Any>(val servicesClass: Class<T>, val scheduler:Scheduler = Schedulers.immediate(), val rootPath: String = "../lib/mocked/templates", val setExpediaDispatcher: Boolean = true) : TestRule {
+
     var server: MockWebServer by Delegates.notNull()
     var services: T? = null
 
@@ -59,12 +60,11 @@ open class ServicesRule<T : Any>(val servicesClass: Class<T>, val rootPath: Stri
             urlMap.put(Constants.MOCK_MODE, "http://localhost:" + server.port)
             return servicesClass.getConstructor(HashMap::class.java, OkHttpClient::class.java, Interceptor::class.java, Scheduler::class.java,
                     Scheduler::class.java).newInstance(urlMap, client.build(), MockInterceptor(),
-                    Schedulers.immediate(), Schedulers.io())
-        }
-        else {
+                    Schedulers.immediate(), scheduler)
+        } else {
             return servicesClass.getConstructor(String::class.java, OkHttpClient::class.java, Interceptor::class.java, Scheduler::class.java,
                     Scheduler::class.java).newInstance("http://localhost:" + server.port, client.build(), MockInterceptor(),
-                    Schedulers.immediate(), Schedulers.io())
+                    Schedulers.immediate(), scheduler)
         }
     }
 

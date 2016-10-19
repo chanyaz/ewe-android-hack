@@ -2,6 +2,7 @@ package com.expedia.bookings.test.happy;
 
 import org.joda.time.LocalDate;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
@@ -53,10 +54,11 @@ public class FlightPhoneHappyPathTest extends PhoneTestCase {
 		Common.pressBack();
 		CommonCheckoutScreen.clickCheckoutButton();
 		CommonCheckoutScreen.clickSelectPaymentButton();
-		BillingAddressScreen.typeTextAddressLineOne("123 California Street");
-		BillingAddressScreen.typeTextCity("San Francisco");
-		BillingAddressScreen.typeTextState("CA");
-		BillingAddressScreen.typeTextPostalCode("94105");
+		int addressSectionParentId = R.id.address_section;
+		BillingAddressScreen.typeTextAddressLineOne("123 California Street", addressSectionParentId);
+		BillingAddressScreen.typeTextCity("San Francisco", addressSectionParentId);
+		BillingAddressScreen.typeTextState("CA", addressSectionParentId);
+		BillingAddressScreen.typeTextPostalCode("94105", addressSectionParentId);
 		BillingAddressScreen.clickNextButton();
 
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");

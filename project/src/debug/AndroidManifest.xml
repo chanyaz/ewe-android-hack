@@ -29,19 +29,6 @@
             android:theme="@style/V2.Theme.Cars" />
 
         <activity
-            android:name="com.expedia.ui.FlightActivity"
-            android:exported="true"
-            android:label="Flights"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"
-            android:taskAffinity="com.expedia.ui.FlightActivity"
-            android:theme="@style/V2.Theme.Packages">
-            <meta-data
-                android:name="debug"
-                android:value="true" />
-        </activity>
-
-        <activity
             android:name="com.expedia.ui.RailActivity"
             android:exported="true"
             android:label="Rail"

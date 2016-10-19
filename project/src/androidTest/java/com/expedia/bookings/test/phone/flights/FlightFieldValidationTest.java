@@ -86,10 +86,11 @@ public class FlightFieldValidationTest extends FlightTestCase {
 			onView(withId(R.id.edit_address_postal_code)).perform(setText("ш"));
 			assertPopup();
 
-			BillingAddressScreen.typeTextAddressLineOne("123 California Street");
-			BillingAddressScreen.typeTextCity("San Francisco");
-			BillingAddressScreen.typeTextState("CA");
-			BillingAddressScreen.typeTextPostalCode("94105");
+			int addressSectionParentId = R.id.address_section;
+			BillingAddressScreen.typeTextAddressLineOne("123 California Street", addressSectionParentId);
+			BillingAddressScreen.typeTextCity("San Francisco", addressSectionParentId);
+			BillingAddressScreen.typeTextState("CA", addressSectionParentId);
+			BillingAddressScreen.typeTextPostalCode("94105", addressSectionParentId);
 			BillingAddressScreen.clickNextButton();
 		}
 		catch (Exception e) {

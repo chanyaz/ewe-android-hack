@@ -5,8 +5,8 @@ import org.joda.time.LocalDate
 
 open class BaseSearchParams(val origin: SuggestionV4?, val destination: SuggestionV4?, val adults: Int, val children: List<Int>, val startDate: LocalDate, val endDate: LocalDate?) {
 
-    val guests = children.size + adults
-    val guestString = listOf(adults).plus(children).joinToString(",")
+    open val guests = children.size + adults
+    open val guestString = listOf(adults).plus(children).joinToString(",")
     val childrenString = children.joinToString(",")
 
     abstract class Builder(var maxStay: Int, val maxRange: Int) {
@@ -17,7 +17,7 @@ open class BaseSearchParams(val origin: SuggestionV4?, val destination: Suggesti
         protected var adults: Int = 1
         protected var children: List<Int> = emptyList()
 
-        abstract fun isOriginSameAsDestination(): Boolean;
+        abstract fun isOriginSameAsDestination(): Boolean
 
         fun origin(city: SuggestionV4?): Builder {
             this.originLocation = city

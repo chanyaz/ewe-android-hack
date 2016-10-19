@@ -41,7 +41,7 @@
             android:maxWidth="400dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textSize="@dimen/search_params_destination_text_size"
             android:textColor="@color/tablet_search_params_text"
             app:minTextSize="@dimen/search_params_right_container_text_size"

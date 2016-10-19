@@ -36,7 +36,6 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
-            android:singleLine="true"
             android:textColor="@color/itin_white_text"
             android:textSize="16sp"
             app:minTextSize="10sp" />
@@ -45,7 +44,7 @@
             android:id="@+id/flight_status_bottom_line"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:singleLine="true"
+            android:maxLines="1"
             android:textColor="@color/itin_offwhite_text"
             android:textSize="15sp"
             app:minTextSize="10sp"

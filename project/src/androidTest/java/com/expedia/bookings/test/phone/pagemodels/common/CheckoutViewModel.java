@@ -31,7 +31,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withClassName;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.allOf;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.Matchers.is;
@@ -180,7 +180,7 @@ public class CheckoutViewModel {
 
 	public static void pressDoLogin() {
 		ViewInteraction signInButton = onView(withId(R.id.sign_in_button));
-		signInButton.perform(waitFor(isDisplayed(), 10, TimeUnit.SECONDS));
+		signInButton.perform(waitForViewToDisplay());
 		Common.closeSoftKeyboard(CheckoutViewModel.password());
 		Common.delay(1);
 		signInButton.perform(click());

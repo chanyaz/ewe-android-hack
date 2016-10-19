@@ -51,7 +51,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
-                    android:singleLine="true" />
+                    android:maxLines="1" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/hotels_dates_guest_info_text"
@@ -59,7 +59,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:contentDescription="@null"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:tint="?attr/primary_color"
                     android:visibility="gone" />
             </LinearLayout>
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:paddingBottom="8dp"
                     android:layout_marginRight="8dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:focusable="true"
                     android:textSize="12sp"
                     app:textStyle="normal"
@@ -149,7 +149,7 @@
                     android:paddingTop="8dp"
                     android:focusable="true"
                     android:layout_marginRight="8dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="12sp"
                     app:textStyle="normal"
                     android:textColor="@color/packages_bundle_overview_hotel_expanded_text" />
@@ -161,7 +161,7 @@
                     android:paddingBottom="8dp"
                     android:focusable="true"
                     android:layout_marginRight="8dp"
-                    android:singleLine="true"
+                    android:maxLines="1"
                     android:textSize="12sp"
                     app:textStyle="normal"
                     android:textColor="@color/packages_bundle_overview_hotel_expanded_text" />
@@ -187,7 +187,7 @@
                         android:focusable="true"
                         android:drawableLeft="@drawable/room_checkmark"
                         android:drawablePadding="9dp"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         android:textSize="12sp"
                         android:visibility="gone"
                         app:textStyle="normal"
@@ -199,7 +199,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/room_non_refundable"
                         android:drawablePadding="9dp"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         android:textSize="12sp"
                         android:focusable="true"
                         android:visibility="gone"
@@ -212,7 +212,7 @@
                         android:layout_height="wrap_content"
                         android:drawableLeft="@drawable/room_checkmark"
                         android:drawablePadding="9dp"
-                        android:singleLine="true"
+                        android:maxLines="1"
                         android:focusable="true"
                         android:textSize="12sp"
                         app:textStyle="normal"

@@ -7,7 +7,6 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
-import com.expedia.bookings.data.lx.RecommendedActivitiesResponse;
 
 import retrofit2.http.Body;
 import retrofit2.http.FieldMap;
@@ -37,14 +36,6 @@ public interface LXApi {
 	@GET("/lx/api/activity")
 	@Headers("Cache-Control: no-cache")
 	Observable<ActivityDetailsResponse> activityDetails(
-		@Query("activityId") String activityId,
-		@Query("location") String location,
-		@Query("startDate") String startDate,
-		@Query("endDate") String endDate);
-
-	@GET("/lx/api/recommend")
-	@Headers("Cache-Control: no-cache")
-	Observable<RecommendedActivitiesResponse> recommendedActivities(
 		@Query("activityId") String activityId,
 		@Query("location") String location,
 		@Query("startDate") String startDate,

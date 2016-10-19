@@ -297,9 +297,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     override fun onFocusChange(v: View, hasFocus: Boolean) {
         if (hasFocus) {
             focusedView.onNext(v as EditText)
-            if (v === creditCardPostalCode && isZipValidationRequired()) {
-                sectionLocation.resetValidation()
-            }
+            sectionLocation.resetValidation(v.id, true)
             sectionBillingInfo.resetValidation(v.id, true)
         }
     }
@@ -345,9 +343,9 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     open fun isCompletelyFilled(): Boolean {
-        return creditCardNumber.text.toString().isNotEmpty()
+        return (creditCardNumber.text.toString().isNotEmpty()
                 && (!isZipValidationRequired() || creditCardPostalCode.text.toString().isNotEmpty())
-                && creditCardName.text.toString().isNotEmpty()
+                && creditCardName.text.toString().isNotEmpty()) || hasStoredCard()
     }
 
     open fun validateAndBind() {
@@ -674,4 +672,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     open fun showMaskedCreditCardNumber() {
     }
 
+    override fun back(): Boolean {
+        if (currentState == PaymentOption::class.java.name) {
+            enableMenuItem.onNext(true)
+        }
+        return super.back()
+    }
 }

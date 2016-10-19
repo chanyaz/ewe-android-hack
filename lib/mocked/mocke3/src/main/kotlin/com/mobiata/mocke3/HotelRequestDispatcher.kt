@@ -31,20 +31,20 @@ class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
                 return getMockResponse("m/api/hotel/search/$gaiaId.json")
             }
 
-            HotelRequestMatcher.isHotelInfoRequest(urlPath) -> getMockResponse("m/api/hotel/info/" + params.get("hotelId") + ".json", params)
+            HotelRequestMatcher.isHotelInfoRequest(urlPath) -> getMockResponse("m/api/hotel/info/" + params["hotelId"] + ".json", params)
 
-            HotelRequestMatcher.isHotelOffersRequest(urlPath) -> getMockResponse("m/api/hotel/offers/" + params.get("hotelId") + ".json", params)
+            HotelRequestMatcher.isHotelOffersRequest(urlPath) -> getMockResponse("m/api/hotel/offers/" + params["hotelId"] + ".json", params)
 
             HotelRequestMatcher.isHotelProductRequest(urlPath) -> {
-                val productKey = params.get("productKey") ?: return make404()
+                val productKey = params["productKey"] ?: return make404()
                 val isHotelCouponError = doesItMatch("^hotel_coupon_errors$", productKey)
                 if (isHotelCouponError) params.put("productKey", "hotel_coupon_errors")
 
-                return getMockResponse("m/api/hotel/product/" + params.get("productKey") + ".json", params)
+                return getMockResponse("m/api/hotel/product/" + params["productKey"] + ".json", params)
             }
 
             HotelRequestMatcher.isHotelCreateTripRequest(urlPath) -> {
-                val productKey = params.get("productKey") ?: return make404()
+                val productKey = params["productKey"] ?: return make404()
                 val isHotelCouponError = doesItMatch("^hotel_coupon_errors$", productKey)
                 var fileName = if (!isHotelCouponError) productKey else "hotel_coupon_errors"
                 if (productKey == "tealeaf_id" && createTripRequestCount++ == 1) {
@@ -54,14 +54,14 @@ class HotelRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOp
                 return getMockResponse("m/api/hotel/trip/create/$fileName.json", params)
             }
 
-            HotelRequestMatcher.isCouponApplyCall(urlPath) -> getMockResponse("api/m/trip/coupon/" + params.get("coupon.code") + ".json", params)
+            HotelRequestMatcher.isCouponApplyCall(urlPath) -> getMockResponse("api/m/trip/coupon/" + params["coupon.code"] + ".json", params)
 
-            HotelRequestMatcher.isCouponRemoveCall(urlPath) -> getMockResponse("api/m/trip/remove/coupon/" + params.get("tripId") + ".json", params)
+            HotelRequestMatcher.isCouponRemoveCall(urlPath) -> getMockResponse("api/m/trip/remove/coupon/" + params["tripId"] + ".json", params)
 
             HotelRequestMatcher.isHotelCheckoutRequest(urlPath) -> {
-                val tripId = params.get("tripId") ?: throw RuntimeException("tripId required")
-                val expectedTotalFare = params.get("expectedTotalFare") ?: throw RuntimeException("expectedTotalFare required")
-                val tealeafTransactionId = params.get("tealeafTransactionId") ?: throw RuntimeException("tealeafTransactionId required")
+                val tripId = params["tripId"] ?: throw RuntimeException("tripId required")
+                val expectedTotalFare = params["expectedTotalFare"] ?: throw RuntimeException("expectedTotalFare required")
+                val tealeafTransactionId = params["tealeafTransactionId"] ?: throw RuntimeException("tealeafTransactionId required")
 
                 if ("tealeafHotel:" + tripId != tealeafTransactionId) {
                     throw RuntimeException("tripId must match tealeafTransactionId got: $tealeafTransactionId")

@@ -102,7 +102,7 @@ class HotelDeepLinkHandlerTest {
         // 4) verify
         Assert.assertEquals(0, testCurrentLocationSearchObserver.onNextEvents.size)
         Assert.assertEquals(1, testSuggestionLookupObserver.onNextEvents.size)
-        Assert.assertEquals("Portland, ME", testSuggestionLookupObserver.onNextEvents.get(0).first)
+        Assert.assertEquals("Portland, ME", testSuggestionLookupObserver.onNextEvents[0].first)
         Assert.assertEquals(0, testDeepLinkSearchObserver.onNextEvents.size)
         testSearchSuggestionObserver.assertReceivedOnNext(listOf(hotelSearchParams.suggestion))
 	}

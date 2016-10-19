@@ -165,19 +165,19 @@ public class AnimUtils {
 
 	public static void slideOut(final View v) {
 		Animation slideUp = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_out);
-		slideUp.setDuration(400);
+		slideUp.setDuration(200);
 		v.startAnimation(slideUp);
 		v.postDelayed(new Runnable() {
 			@Override
 			public void run() {
 				v.setVisibility(View.GONE);
 			}
-		}, 400L);
+		}, 200L);
 	}
 
 	public static void slideIn(View v) {
 		Animation slideDown = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_in);
-		slideDown.setDuration(400);
+		slideDown.setDuration(200);
 		slideDown.setFillAfter(true);
 		v.startAnimation(slideDown);
 	}

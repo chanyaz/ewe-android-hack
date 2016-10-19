@@ -10,7 +10,7 @@
     android:paddingLeft="8dp"
     android:paddingRight="8dp"
     android:gravity="center_vertical"
-    android:singleLine="true"
+    android:maxLines="1"
     android:textColor="#f3f3f3"
     android:textSize="17sp"
     app:textStyle="light" />

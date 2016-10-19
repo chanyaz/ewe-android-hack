@@ -1,5 +1,7 @@
 package com.expedia.bookings.utils;
 
+import android.app.Application;
+import com.expedia.bookings.data.flights.FlightTripDetails;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -12,7 +14,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
-
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -57,7 +58,7 @@ public class LeanPlumUtils {
 	private static Context context;
 	private static boolean initialized = false;
 
-	public static void init(ExpediaBookingApp app) {
+	public static void init(Application app) {
 		initialized = true;
 		context = app.getApplicationContext();
 		Leanplum.setIsTestModeEnabled(ExpediaBookingApp.isAutomation());
@@ -282,14 +283,15 @@ public class LeanPlumUtils {
 
 	public static void trackFlightV2Booked(FlightCheckoutResponse flightCheckoutResponse, com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
 		if (initialized) {
-			List<com.expedia.bookings.data.flights.FlightLeg> flightLegs = flightCheckoutResponse.getDetails().legs;
+			FlightTripDetails firstFlightDetails = flightCheckoutResponse.getFirstFlightTripDetails();
+			List<com.expedia.bookings.data.flights.FlightLeg> flightLegs = firstFlightDetails.legs;
 			String eventName = "Sale Flight";
 			String currencyCode = flightCheckoutResponse.getCurrencyCode();
 			String totalPrice = flightCheckoutResponse.getTotalChargesPrice().amount.toString();
 			Log.i("LeanPlum flight booking event currency=" + currencyCode + " total=" + totalPrice);
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
-			int lastSegment = flightCheckoutResponse.getDetails().legs.get(0).segments.size() - 1;
-			com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress = flightCheckoutResponse.getDetails().legs.get(0).segments.get(lastSegment).arrivalAirportAddress;
+			int lastSegment = flightLegs.get(0).segments.size() - 1;
+			com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress = flightLegs.get(0).segments.get(lastSegment).arrivalAirportAddress;
 
 			addFlightV2SearchInfo(flightSearchParams, airportAddress, eventParams);
 
@@ -300,13 +302,16 @@ public class LeanPlumUtils {
 				new DateTime(flightLegs.get(0).segments.get(lastFlightSegment).arrivalTimeRaw)
 					.toString(DATE_PATTERN));
 
+
 			if (flightSearchParams.getReturnDate() != null) {
+				com.expedia.bookings.data.flights.FlightLeg lastFlightLeg = flightCheckoutResponse.getLastFlightLeg();
 				eventParams.put("ReturnTakeoffDatetime",
-					new DateTime(flightLegs.get(1).segments.get(0).departureTimeRaw).toString(DATE_PATTERN));
-				int lastReturnFlightSegment = flightLegs.get(1).segments.size() - 1;
+					new DateTime(lastFlightLeg.segments.get(0).departureTimeRaw).toString(DATE_PATTERN));
 				eventParams.put("ReturnLandingDatetime",
-					new DateTime(flightLegs.get(1).segments.get(lastReturnFlightSegment).arrivalTimeRaw).toString(DATE_PATTERN));
+					new DateTime(flightCheckoutResponse.getLastFlightLastSegment().arrivalTimeRaw)
+						.toString(DATE_PATTERN));
 			}
+
 			int numberOfTravelers = flightSearchParams.getAdults();
 			String productId =
 				flightSearchParams.getArrivalAirport().gaiaId + "/" + flightSearchParams.getDepartureAirport().gaiaId;

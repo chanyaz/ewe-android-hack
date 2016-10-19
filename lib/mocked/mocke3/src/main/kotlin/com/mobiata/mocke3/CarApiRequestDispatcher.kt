@@ -15,7 +15,7 @@ class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileO
 
         return when {
             CarApiRequestMatcher.isSearchRequest(path) -> {
-                return when(params.get("airportCode")) {
+                return when(params["airportCode"]) {
                     "KTM" -> getMockResponse("m/api/cars/search/airport/ktm_no_product.json")
 
                     "DTW" -> getMockResponse("m/api/cars/search/airport/dtw_invalid_input.json")
@@ -25,7 +25,7 @@ class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileO
             }
 
             CarApiRequestMatcher.isCreateTripRequest(path) -> {
-                val productKey = params.get("productKey")
+                val productKey = params["productKey"]
                 return when (productKey) {
                     "CreateTripPriceChange" -> getMockResponse("m/api/cars/trip/create/price_change.json")
 
@@ -34,7 +34,7 @@ class CarApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileO
             }
 
             CarApiRequestMatcher.isCheckoutRequest(path) -> {
-                val responseType = params.get("mainMobileTraveler.firstName")
+                val responseType = params["mainMobileTraveler.firstName"]
                 return when (responseType) {
                     "AlreadyBooked" -> getMockResponse("m/api/cars/trip/checkout/trip_already_booked.json")
                     "PriceChange" -> getMockResponse("m/api/cars/trip/checkout/price_change.json")

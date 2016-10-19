@@ -27,6 +27,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     val showSearch = PublishSubject.create<Unit>()
     val retrySearch = PublishSubject.create<Unit>()
     val paramsSubject = PublishSubject.create<com.expedia.bookings.data.flights.FlightSearchParams>()
+    val showTravelerForm = PublishSubject.create<Unit>()
 
     private val retryCreateTripBtnClicked = PublishSubject.create<Unit>()
     private var retryCreateTripBtnCount = 0
@@ -36,7 +37,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     init {
         clickBack.subscribe {
             when(error.errorCode) {
-                ApiError.Code.PAYMENT_FAILED -> errorButtonClickedObservable.onNext(Unit)
+                ApiError.Code.PAYMENT_FAILED, ApiError.Code.INVALID_INPUT  -> errorButtonClickedObservable.onNext(Unit)
                 else -> defaultErrorObservable.onNext(Unit)
             }
         }
@@ -154,6 +155,26 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 ApiError.Code.TRIP_ALREADY_BOOKED -> {
                     showConfirmation.onNext(Unit)
                     FlightsV2Tracking.trackFlightTripBookedError()
+                }
+
+                ApiError.Code.INVALID_INPUT -> {
+                    val isTravelerFormInputError = it.errorInfo.field.contains("Passenger")
+
+                    if (isTravelerFormInputError) {
+                        subscribeActionToButtonPress(showTravelerForm)
+                        buttonOneTextObservable.onNext(context.getString(R.string.edit_traveler_details))
+                        FlightsV2Tracking.trackFlightCheckoutTravelerFormInputError()
+                    }
+                    else {
+                        subscribeActionToButtonPress(showPaymentForm)
+                        buttonOneTextObservable.onNext(context.resources.getString(R.string.edit_payment))
+                        FlightsV2Tracking.trackFlightCheckoutPaymentFormInputError()
+                    }
+                    errorMessageObservable.onNext(context.getString(R.string.e3_error_checkout_invalid_input))
+                    checkoutUnknownErrorObservable.onNext(Unit)
+                    imageObservable.onNext(R.drawable.error_default)
+                    titleObservable.onNext(context.resources.getString(R.string.e3_error_checkout_invalid_info))
+                    subTitleObservable.onNext("")
                 }
 
                 else -> {

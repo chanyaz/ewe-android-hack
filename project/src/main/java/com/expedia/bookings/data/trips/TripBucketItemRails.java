@@ -18,8 +18,8 @@ public class TripBucketItemRails extends TripBucketItem {
 	}
 
 	private void addValidFormsOfPayment() {
-		if (railTripResponse.getValidFormsOfPayment() != null) {
-			addValidPaymentsV2(railTripResponse.getValidFormsOfPayment());
+		if (railTripResponse.validFormsOfPayment != null) {
+			addValidPaymentsV2(railTripResponse.validFormsOfPayment);
 		}
 	}
 }

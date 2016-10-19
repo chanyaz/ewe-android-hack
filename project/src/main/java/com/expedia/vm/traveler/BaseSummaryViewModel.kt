@@ -27,16 +27,16 @@ abstract class BaseSummaryViewModel(val context: Context) {
     init {
         inject()
         travelerStatusObserver.subscribe { status ->
+            val subTitle = resources.getString(R.string.enter_missing_traveler_details)
             if (status == TravelerCheckoutStatus.CLEAN) {
                 if (isTravelerOneEmpty()) {
                     val title = resources.getString(R.string.checkout_enter_traveler_details)
-                    val subTitle = resources.getString(R.string.enter_missing_traveler_details)
-                    setTravelerSummaryInfo(title, subTitle, ContactDetailsCompletenessStatus.DEFAULT)
+                    setTravelerSummaryInfo(title, getSubtitle(), ContactDetailsCompletenessStatus.DEFAULT)
                 } else {
-                    setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.INCOMPLETE)
+                    setTravelerSummaryInfo(getTitle(), subTitle, ContactDetailsCompletenessStatus.INCOMPLETE)
                 }
             } else if (status == TravelerCheckoutStatus.DIRTY) {
-                setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.INCOMPLETE)
+                setTravelerSummaryInfo(getTitle(), subTitle, ContactDetailsCompletenessStatus.INCOMPLETE)
             } else {
                 setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.COMPLETE)
             }
@@ -55,7 +55,7 @@ abstract class BaseSummaryViewModel(val context: Context) {
         return null
     }
 
-    private fun setTravelerSummaryInfo(title: String, subTitle: String, completenessStatus: ContactDetailsCompletenessStatus) {
+    fun setTravelerSummaryInfo(title: String, subTitle: String, completenessStatus: ContactDetailsCompletenessStatus) {
         titleObservable.onNext(title)
         subtitleObservable.onNext(subTitle)
         iconStatusObservable.onNext(completenessStatus)

@@ -2,9 +2,7 @@ package com.expedia.vm
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.text.Html
 import android.text.SpannableStringBuilder
-import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
@@ -13,20 +11,15 @@ import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
-import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(context) {
@@ -37,7 +30,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     override val builder = FlightCheckoutParams.Builder()
     // outputs
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>()
-    val receivedCheckoutResponse = PublishSubject.create<Unit>()
+    val showNoInternetRetryDialog = PublishSubject.create<Unit>()
 
     init {
         val pointOfSale = PointOfSale.getPointOfSale()
@@ -62,6 +55,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         }
 
         checkoutParams.subscribe { params -> params as FlightCheckoutParams
+            showCheckoutDialogObservable.onNext(true)
             flightServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.travelers.first().email
         }
@@ -105,12 +99,9 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     private fun makeCheckoutResponseObserver(): Observer<FlightCheckoutResponse> {
         return object : Observer<FlightCheckoutResponse> {
             override fun onNext(response: FlightCheckoutResponse) {
-                receivedCheckoutResponse.onNext(Unit)
+                showCheckoutDialogObservable.onNext(false)
                 if (response.hasErrors()) {
                     when (response.firstError.errorCode) {
-                        ApiError.Code.INVALID_INPUT -> {
-                            // TODO
-                        }
                         ApiError.Code.PRICE_CHANGE -> {
                             priceChangeObservable.onNext(response)
                         }
@@ -125,14 +116,9 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
             }
 
             override fun onError(e: Throwable) {
+                showCheckoutDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        flightServices.checkout(checkoutParams.value.toQueryMap()).subscribe(makeCheckoutResponseObserver())
-                    }
-                    val cancelFun = fun() {
-                        noNetworkObservable.onNext(Unit)
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                    showNoInternetRetryDialog.onNext(Unit)
                     FlightsV2Tracking.trackFlightCheckoutAPINoResponseError()
                 }
             }

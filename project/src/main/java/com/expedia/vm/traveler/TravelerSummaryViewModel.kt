@@ -36,7 +36,7 @@ class TravelerSummaryViewModel(context: Context) : BaseSummaryViewModel(context)
 
         var traveler = getFirstTraveler()
         if (traveler == null || travelerStatusObserver.value != TravelerCheckoutStatus.COMPLETE) {
-            return resources.getString(R.string.enter_missing_traveler_details)
+            return resources.getString(R.string.enter_traveler_details)
         } else {
             return traveler!!.birthDate!!.toString("MM/dd/yyyy")
         }

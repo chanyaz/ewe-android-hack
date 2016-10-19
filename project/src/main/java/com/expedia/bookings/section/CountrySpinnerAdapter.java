@@ -94,6 +94,16 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		return mCountries;
 	}
 
+	private void setCountryList(List<String> countryCodes) {
+		List<CountryNameData> countryList = new ArrayList();
+		for (CountryNameData countryNameData: mCountries) {
+			if (countryCodes.contains(countryNameData.mTwoLetter)) {
+				countryList.add(countryNameData);
+			}
+		}
+		mCountries = countryList;
+	}
+
 	public void setPrefix(String prefix) {
 		this.prefix = prefix;
 	}
@@ -207,15 +217,6 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		return mCountries.get(position).getValue(displayType);
 	}
 
-	public int getPositionByCountryName(String countryName) {
-		for (int i = 0; i < mCountries.size(); i++) {
-			if (mCountries.get(i).mName.compareToIgnoreCase(countryName) == 0) {
-				return i;
-			}
-		}
-		return -1;
-	}
-
 	public int getPositionByCountryThreeLetterCode(String countryCode) {
 		for (int i = 0; i < mCountries.size(); i++) {
 			if (mCountries.get(i).mThreeLetter.compareToIgnoreCase(countryCode) == 0) {
@@ -278,6 +279,11 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 
 	public void setErrorVisible(boolean hasError) {
 		this.hasError = hasError;
+		notifyDataSetChanged();
+	}
+
+	public void dataSetChanged(List<String> countryCodes) {
+		setCountryList(countryCodes);
 		notifyDataSetChanged();
 	}
 }

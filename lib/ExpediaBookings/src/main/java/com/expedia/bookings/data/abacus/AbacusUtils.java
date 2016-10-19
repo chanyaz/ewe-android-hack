@@ -30,19 +30,20 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelTravelerTest = 9478;
 	public static final int EBAndroidAppHotelsMemberDealTest = 9044;
 	public static final int EBAndroidAppFlightsRoundtripMessageTest = 9636;
-	public static final int EBAndroidAppLXRecommendedActivitiesTest = 9639;
 	public static final int EBAndroidAppFlightsNumberOfTicketsUrgencyTest = 9897;
 	public static final int EBAndroidAppHotelSecureCheckoutMessaging = 9898;
 	public static final int EBAndroidAppShowSignInOnLaunch = 8687;
 	public static final int EBAndroidAppLXRTROnSearchAndDetails = 10000;
 	public static final int EBAndroidAppFeedsOnLaunch = 10065;
-	public static final int EBAndroidAppFlightTest = 10136;
+	public static final int EBAndroidAppFlightTest = 12182;
 	public static final int EBAndroidAppFlightInsurance = 10212;
 	public static final int EBAndroidAppHotelSearchScreenSoldOutTest = 10554;
 	public static final int EBAndroidAppLXCrossSellOnHotelConfirmationTest = 10556;
 	public static final int EBAndroidAppHotelHCKOCardIOTest = 10799;
 	public static final int EBAndroidAppHotelFavoriteTest = 10989;
 	public static final int EBAndroidAppSmartLockTest = 11269;
+	public static final int EBAndroidAppHotelResultsPerceivedInstantTest = 10555;
+	public static final int EBAndroidAppHotelFilterProminence = 11790;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
@@ -55,6 +56,12 @@ public class AbacusUtils {
 		WITH_COLOR_NO_SUPERLATIVES,
 		NO_COLOR_WITH_SUPERLATIVES,
 		WITH_COLOR_WITH_SUPERLATIVES
+	}
+
+	public enum HotelFilterProminenceVariate {
+		CONTROL,
+		NEVER_HIDE_SORT_FILTER,
+		FILTER_IN_NAV_BAR
 	}
 
 	// Test ID's that we are bucketing the user for.
@@ -77,7 +84,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelTravelerTest);
 		testIDs.add(EBAndroidAppHotelsMemberDealTest);
 		testIDs.add(EBAndroidAppFlightsRoundtripMessageTest);
-		testIDs.add(EBAndroidAppLXRecommendedActivitiesTest);
 		testIDs.add(EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 		testIDs.add(EBAndroidAppHotelSecureCheckoutMessaging);
 		testIDs.add(EBAndroidAppShowSignInOnLaunch);
@@ -86,10 +92,12 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightTest);
 		testIDs.add(EBAndroidAppFlightInsurance);
 		testIDs.add(EBAndroidAppHotelSearchScreenSoldOutTest);
+		testIDs.add(EBAndroidAppHotelResultsPerceivedInstantTest);
 		testIDs.add(EBAndroidAppLXCrossSellOnHotelConfirmationTest);
 		testIDs.add(EBAndroidAppHotelHCKOCardIOTest);
 		testIDs.add(EBAndroidAppSmartLockTest);
 		testIDs.add(EBAndroidAppHotelFavoriteTest);
+		testIDs.add(EBAndroidAppHotelFilterProminence);
 		return testIDs;
 	}
 

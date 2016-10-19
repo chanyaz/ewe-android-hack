@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/ic_price_alert_exclamation"/>
+                    android:src="@drawable/ic_alert_exclamation"/>
 
                 <TextView
                     android:id="@+id/price_change_notification_text"

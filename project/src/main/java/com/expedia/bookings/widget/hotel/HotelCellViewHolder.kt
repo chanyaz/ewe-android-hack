@@ -30,7 +30,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FavoriteButton
 import com.expedia.bookings.widget.StarRatingBar
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.ToggleFeatureConfiguration
 import com.expedia.util.getABTestGuestRatingBackground
 import com.expedia.util.getABTestGuestRatingText
 import com.expedia.util.subscribeBackgroundColor
@@ -203,7 +202,7 @@ open class HotelCellViewHolder(val root: ViewGroup, val width: Int) :
             gradient.background = drawable
 
             if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(root.context, AbacusUtils.EBAndroidAppHotelFavoriteTest,
-                    R.string.preference_enable_hotel_favorite, ToggleFeatureConfiguration.HOTEL_FAVORITE_FEATURE)) {
+                    R.string.preference_enable_hotel_favorite)) {
                 heartView.bringToFront()
             }
         }

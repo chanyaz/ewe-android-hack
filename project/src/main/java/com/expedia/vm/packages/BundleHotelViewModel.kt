@@ -72,7 +72,9 @@ class BundleHotelViewModel(val context: Context) {
 
             if (selectHotelRoom.hasFreeCancellation) {
                 hotelFreeCancellationObservable.onNext(getCancellationText(selectHotelRoom))
+                hotelNonRefundableObservable.onNext("")
             } else {
+                hotelFreeCancellationObservable.onNext("")
                 hotelNonRefundableObservable.onNext(context.resources.getString(R.string.non_refundable))
             }
 

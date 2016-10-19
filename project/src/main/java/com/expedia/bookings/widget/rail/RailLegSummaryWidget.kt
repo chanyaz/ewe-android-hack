@@ -6,6 +6,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AnimUtils
@@ -14,8 +15,10 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailLegSummaryViewModel
+import rx.subjects.PublishSubject
 
 class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
 
@@ -29,6 +32,9 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(co
     val legDetailsWidget: RailDetailsTimeline by bindView(R.id.rail_leg_details)
     val fareDescription: TextView by bindView(R.id.fare_description)
     val fareDescriptionContainer: View by bindView(R.id.fare_description_container)
+    val overtakenMessage: android.widget.TextView by bindView(R.id.overtaken_message)
+    val overtakenDivider: View by bindView(R.id.overtaken_message_divider)
+    val legContainerClicked = PublishSubject.create<Unit>()
 
     var viewModel: RailLegSummaryViewModel by notNullAndObservable { vm ->
         vm.operatorObservable.subscribeText(trainOperator)
@@ -41,13 +47,16 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(co
 
         vm.selectedRailOfferObservable.subscribe(legDetailsWidget.viewmodel.offerViewModel.offerSubject)
 
-        legContainer.setOnClickListener {
+        legContainer.subscribeOnClick(legContainerClicked)
+
+        legContainerClicked.withLatestFrom(vm.overtakenSubject, { clicked, overtaken ->
             if (!isLegDetailsExpanded()) {
-                expandLegDetails()
+                expandLegDetails(overtaken)
             } else {
                 collapseLegDetails()
             }
-        }
+        }).subscribe()
+
         fareDescriptionContainer.subscribeOnClick(viewModel.showLegInfoObservable)
     }
 
@@ -57,13 +66,17 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(co
         legDetailsWidget.viewmodel = RailDetailsViewModel(context)
     }
 
-    private fun expandLegDetails() {
+    private fun expandLegDetails(overtaken: Boolean) {
         legDetailsWidget.visibility = Presenter.VISIBLE
+        overtakenMessage.visibility = if (overtaken) View.VISIBLE else View.GONE
+        overtakenDivider.visibility = if (overtaken) View.VISIBLE else View.GONE
         AnimUtils.rotate(legDetailsIcon)
     }
 
     private fun collapseLegDetails() {
         legDetailsWidget.visibility = Presenter.GONE
+        overtakenMessage.visibility = View.GONE
+        overtakenDivider.visibility = View.GONE
         AnimUtils.reverseRotate(legDetailsIcon)
         legDetailsIcon.clearAnimation()
     }

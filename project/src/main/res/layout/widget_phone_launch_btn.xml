@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|bottom"
         android:layout_marginBottom="10dp"
-        android:singleLine="true"
+        android:maxLines="1"
         android:textColor="#FFFFFF"
         android:textSize="20sp"
         app:maxTextSize="20sp"

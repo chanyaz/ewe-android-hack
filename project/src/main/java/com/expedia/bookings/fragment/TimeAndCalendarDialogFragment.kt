@@ -21,6 +21,7 @@ import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
+import com.mobiata.android.time.widget.CalendarPicker
 import com.squareup.phrase.Phrase
 import rx.Subscription
 import kotlin.properties.Delegates
@@ -55,6 +56,10 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
         val dialog = super.onCreateDialog(savedInstanceState)
         val timeStub = calendarDialogView.findViewById(R.id.timesStub) as ViewStub
         timeStub.inflate()
+
+        var params = calendar.layoutParams
+        params.height = resources.getDimension(R.dimen.calendar_height_with_time_slider).toInt()
+        calendar.layoutParams = params
 
         sliderContainer = calendarDialogView.findViewById(R.id.slider_container) as ViewGroup
         departTimeSlider = calendarDialogView.findViewById(R.id.depart_time_slider) as TimeSlider

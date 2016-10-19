@@ -124,7 +124,6 @@
     <color name="hotel_price_breakdown_discount_green">#218b22</color>
     <color name="hotel_result_background">@color/gray1</color>
     <color name="hotel_favorite_button">@color/burst_red</color>
-    <color name="actionbar_text_disabled">#505c69</color>
     <color name="amenity_text_color_large">#79848f</color>
     <color name="amenity_icon_color">#717880</color>
     <color name="hotels_room_title">@color/gray10</color>
@@ -389,6 +388,11 @@
     <color name="lx_confirmation_email_text_color">@color/gray3</color>
     <color name="search_dropdown_disabled_stroke">@color/gray3</color>
 
+    <!--LX Filter Colors -->
+    <color name="lx_filter_activity_name_icon">@color/gray5</color>
+    <color name="lx_filter_neighborhood_text">@color/gray7</color>
+    <color name="lx_filter_text">@color/gray8</color>
+
     <!-- these colors crazy -->
     <color name="lx_confirmation_gradient">#80000000</color>
     <color name="lx_confirmation_background">#1A1D20</color>
@@ -396,7 +400,6 @@
     <color name="lx_confirmation_action_background">#3A424C</color>
     <color name="lx_unchecked_toggle_text_color">#FFC48E</color>
     <color name="lx_primary_disabled_color">#40E88534</color>
-    <color name="lx_more_like_this">#FAFAFA</color>
     <color name="lx_color_primary_dark">#A8540D</color>
     <color name="lx_offer_date_ripple_color">#a25d24</color>
 
@@ -496,6 +499,7 @@
     <color name="rail_primary_color">@color/exp_rail_navy</color>
     <color name="rail_button_ripple_color">@color/exp_rail_dark_navy</color>
     <color name="rail_background_color">@color/gray1</color>
+    <color name="rail_status_bar_color">@color/exp_rail_darker_navy</color>
     <color name="rail_bundle_icon_color">@color/gray6</color>
     <color name="rail_title_color">@color/gray10</color>
     <color name="rail_regular_text_color">@color/gray7</color>
@@ -557,8 +561,6 @@
     <color name="account_reward_top_tier_color">@color/reward_top_tier_color</color>
     <color name="account_reward_top_tier_text_color">@color/reward_top_tier_text_color</color>
 
-
-
     <!-- Search result cells gray text on cardviews.  -->
     <color name="result_cells_gray_text">@color/gray6</color>
 
@@ -591,4 +593,5 @@
     <!-- Rail Card Picker button colors-->
     <color name="card_picker_add_button_color">@color/gray9</color>
     <color name="card_picker_remove_button_color">@color/gray3</color>
+    <color name="card_fee_text_color">@color/gray5</color>
 </resources>

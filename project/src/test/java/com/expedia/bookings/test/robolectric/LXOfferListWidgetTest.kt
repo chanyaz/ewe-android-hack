@@ -41,14 +41,14 @@ class LXOfferListWidgetTest {
         bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.BUCKETED)
         val offersList = setActivityOfferList()
         widget.sortTicketByPriorityAndOfferByPrice(offersList)
-        assertTrue(offersList.get(0).isToggled)
+        assertTrue(offersList[0].isToggled)
     }
 
     @Test
     fun testSetOffersControlledForFirstOfferExpandedABTest() {
         bucketFirstOfferInListExpandedABTest(AbacusUtils.DefaultVariate.CONTROL)
         val offersList = setActivityOfferList()
-        assertFalse(offersList.get(0).isToggled)
+        assertFalse(offersList[0].isToggled)
     }
 
     @Test
@@ -125,11 +125,11 @@ class LXOfferListWidgetTest {
 
         var expectedOffers = widget.sortTicketByPriorityAndOfferByPrice(availableOffers) as ArrayList<Offer>
         assertEquals(3, expectedOffers.size)
-        assertEquals(LXTicketType.Adult, expectedOffers.get(0).availabilityInfoOfSelectedDate.tickets.get(0).code)
+        assertEquals(LXTicketType.Adult, expectedOffers[0].availabilityInfoOfSelectedDate.tickets[0].code)
 
-        assertEquals("2-Day New York Pass", expectedOffers.get(0).title)
-        assertEquals("3-Day New York Pass", expectedOffers.get(1).title)
-        assertEquals("1-Day New York Pass", expectedOffers.get(2).title)
+        assertEquals("2-Day New York Pass", expectedOffers[0].title)
+        assertEquals("3-Day New York Pass", expectedOffers[1].title)
+        assertEquals("1-Day New York Pass", expectedOffers[2].title)
     }
 
 }

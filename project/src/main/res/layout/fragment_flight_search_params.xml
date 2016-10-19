@@ -69,7 +69,7 @@
                 android:hint="@string/hint_select_departure"
                 android:inputType="textNoSuggestions"
                 android:longClickable="false"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:textColor="#999999"/>
 
             <ImageView

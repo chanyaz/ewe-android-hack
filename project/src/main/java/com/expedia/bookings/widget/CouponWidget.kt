@@ -23,7 +23,9 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
 import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.HotelCouponViewModel
@@ -37,7 +39,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     val unexpanded: TextView by bindView(R.id.unexpanded)
     val expanded: LinearLayout by bindView(R.id.expanded)
     val applied: LinearLayout by bindView(R.id.applied)
-    val couponCode: EditText by bindView(R.id.edit_coupon_code)
+    val couponCode: AccessibleEditText by bindView(R.id.edit_coupon_code)
     val error: TextView by bindView(R.id.error_message)
     val appliedCouponMessage: TextView by bindView(R.id.applied_coupon_text)
     val removeCoupon: ImageView by bindView(R.id.remove_coupon_button)
@@ -218,7 +220,11 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     }
 
     override fun getMenuButtonTitle(): String? {
-       return resources.getString(R.string.coupon_submit_button)
+        if (AccessibilityUtil.isTalkBackEnabled(context)) {
+            return resources.getString(R.string.coupon_submit_button_ally)
+        } else {
+            return resources.getString(R.string.coupon_submit_button)
+        }
     }
 
     private fun resetFields() {

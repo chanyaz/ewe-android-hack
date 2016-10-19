@@ -16,7 +16,6 @@ public class LatLong {
 			(locationLng != null && locationLng >= -180d && locationLng <= 180d);
 	}
 
-
 	public static LatLong fromLatLngStrings(String locationLatStr, String locationLngStr) {
 		LatLong latLong = null;
 
@@ -27,5 +26,13 @@ public class LatLong {
 		}
 
 		return latLong;
+	}
+
+	public double getLatitude() {
+		return lat;
+	}
+
+	public double getLongitude() {
+		return lng;
 	}
 }

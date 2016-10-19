@@ -46,14 +46,19 @@ class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Trave
             } else {
                 "flight.associatedFlightPassengers[" + (i - 1) + "]."
             }
-            params.put(key+"firstName", travelers[i].firstName)
-            params.put(key+"lastName", travelers[i].lastName)
-            params.put(key+"phoneCountryCode", travelers[i].phoneCountryCode)
-            params.put(key+"phone", travelers[i].phoneNumber)
-            params.put(key+"birthDate", dtf.print(travelers[i].birthDate))
-            params.put(key+"gender", travelers[i].gender)
+            params.put(key + "firstName", travelers[i].firstName)
+            if (!travelers[i].middleName.isNullOrEmpty()) {
+                params.put(key + "middleName", travelers[i].middleName)
+            }
+            params.put(key + "lastName", travelers[i].lastName)
+            params.put(key + "phoneCountryCode", travelers[i].phoneCountryCode)
+            params.put(key + "phone", travelers[i].phoneNumber)
+            params.put(key + "birthDate", dtf.print(travelers[i].birthDate))
+            params.put(key + "gender", travelers[i].gender)
+            params.put(key + "passengerCategory", travelers[i].passengerCategory)
+
             if (travelers[i].primaryPassportCountry != null) {
-                params.put(key+"passportCountryCode", travelers[i].primaryPassportCountry)
+                params.put(key + "passportCountryCode", travelers[i].primaryPassportCountry)
             }
             if (travelers[i].assistance != null) {
                 params.put(key + "specialAssistanceOption", travelers[i].assistance)

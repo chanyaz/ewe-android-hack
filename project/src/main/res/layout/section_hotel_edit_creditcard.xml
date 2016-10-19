@@ -33,7 +33,7 @@
             android:focusableInTouchMode="true"
             android:hint="@string/credit_debit_card_hint"
             app:numberFormat="creditcard"
-            android:singleLine="true" />
+            android:maxLines="1" />
     </LinearLayout>
 
     <include

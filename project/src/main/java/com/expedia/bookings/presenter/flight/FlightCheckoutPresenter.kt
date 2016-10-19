@@ -12,6 +12,7 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
@@ -59,8 +60,26 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         getCreateTripViewModel().priceChangeObservable.subscribe { it as FlightCreateTripResponse
             handlePriceChange(it)
         }
-        getCheckoutViewModel().receivedCheckoutResponse.subscribe {
-            checkoutDialog.hide()
+
+        getCheckoutViewModel().tripResponseObservable.subscribe(flightCostSummaryObservable)
+        getCreateTripViewModel().showNoInternetRetryDialog.subscribe {
+            val retryFun = fun() {
+                getCreateTripViewModel().performCreateTrip.onNext(Unit)
+            }
+            val cancelFun = fun() {
+                getCreateTripViewModel().noNetworkObservable.onNext(Unit)
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
+
+        getCheckoutViewModel().showNoInternetRetryDialog.subscribe {
+            val retryFun = fun() {
+                getCheckoutViewModel().checkoutParams.onNext(getCheckoutViewModel().checkoutParams.value)
+            }
+            val cancelFun = fun() {
+                getCheckoutViewModel().noNetworkObservable.onNext(Unit)
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
 
         getCheckoutViewModel().tripResponseObservable.subscribe(flightCostSummaryObservable)
@@ -89,25 +108,24 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             insuranceWidget.viewModel.tripObservable.onNext(response)
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
-            (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(response)
             isPassportRequired(response)
+            resetTravelers()
             trackShowBundleOverview()
         }
     }
 
     private fun handlePriceChange(tripResponse: FlightCreateTripResponse) {
-        val flightTripDetails = tripResponse.details
+        val newPrice = tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints()
 
-        // TODO - we may have to change from totalFarePrice -> totalPrice in order to support SubPub fares
-        if (flightTripDetails.oldOffer != null) {
-            val originalPrice = flightTripDetails.oldOffer.totalFarePrice
-            val newPrice = flightTripDetails.offer.totalFarePrice
+        val oldOffer = tripResponse.details.oldOffer
+        if (oldOffer != null) {
+            val originalPrice = oldOffer.totalPriceWithInsurance ?: oldOffer.totalPrice
             priceChangeWidget.viewmodel.originalPrice.onNext(originalPrice)
             priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
         }
 
-        // TODO - update to totalPrice when checkout response starts returning totalPrice (required for SubPub fare support)
-        totalPriceWidget.viewModel.total.onNext(tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+        insuranceWidget.viewModel.tripObservable.onNext(tripResponse)
+        totalPriceWidget.viewModel.total.onNext(newPrice)
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
     }
@@ -181,7 +199,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun setInsuranceWidgetVisibility(visible: Boolean){
-        insuranceWidget.viewModel.updateVisibility(visible)
+        insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(visible)
     }
 
 }

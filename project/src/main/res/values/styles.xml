@@ -15,6 +15,7 @@
         <item name="android:actionMenuTextColor">@color/white</item>
         <item name="actionMenuTextColor">@color/white</item>
         <item name="android:actionBarItemBackground">?android:selectableItemBackground</item>
+        <item name="skin_material_checkout_account_logo">@drawable/brand_logo_white</item>
 
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonTextColor">@color/cvv_book_button_text_color</item>
@@ -694,6 +695,7 @@
 
     <style name="LightDialog" parent="Theme.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:buttonBarButtonStyle">@style/customButtonStyle</item>
     </style>
 
     <style name="CreditCardButton">
@@ -1398,4 +1400,11 @@
         <item name="android:src">@drawable/minus</item>
     </style>
 
+    <style name="AccountDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="android:buttonBarButtonStyle">@style/customButtonStyle</item>
+    </style>
+    <style name="customButtonStyle" parent="Widget.AppCompat.Button.Borderless">
+        <item name="android:textColor">@color/new_launch_alert_dialog_button_color</item>
+        <item name="android:background">@color/white</item>
+    </style>
 </resources>

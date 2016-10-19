@@ -70,6 +70,8 @@ public class AbacusResponse {
 	}
 
 	public void updateFrom(AbacusResponse otherResponse) {
+		abacusTestMap.clear();
+		abacusTestDebugMap.clear();
 		abacusTestMap.putAll(otherResponse.abacusTestMap);
 		abacusTestDebugMap.putAll(otherResponse.abacusTestDebugMap);
 	}

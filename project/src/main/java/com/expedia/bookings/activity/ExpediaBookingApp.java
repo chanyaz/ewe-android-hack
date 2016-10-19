@@ -35,7 +35,6 @@ import com.expedia.bookings.dagger.RailComponent;
 import com.expedia.bookings.dagger.TravelerComponent;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.PushNotificationRegistrationResponse;
-import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleConfigHelper;
 import com.expedia.bookings.data.trips.ItineraryManager;
@@ -51,10 +50,8 @@ import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.FontCache;
-import com.expedia.bookings.utils.LeanPlumUtils;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.bookings.utils.StethoShim;
-import com.expedia.bookings.utils.TuneUtils;
 import com.facebook.FacebookSdk;
 import com.facebook.applinks.AppLinkData;
 import com.github.stkent.bugshaker.BugShaker;
@@ -79,9 +76,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 	private static final String PREF_FIRST_LAUNCH = "PREF_FIRST_LAUNCH";
 
 	public static final String PREF_LAST_VERSION_OF_APP_LAUNCHED = "PREF_LAST_VERSION_OF_APP_LAUNCHED";
-
-	// For logged in backward compatibility with AccountManager
-	private static final String PREF_UPGRADED_TO_ACCOUNT_MANAGER = "PREF_UPGRADED_TO_ACCOUNT_MANAGER";
 
 	// For bug #2249 where we did not point at the production push server
 	private static final String PREF_UPGRADED_TO_PRODUCTION_PUSH = "PREF_UPGRADED_TO_PRODUCTION_PUSH";
@@ -242,18 +236,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		ItineraryManager.getInstance().startSync(false, true, false);
 		startupTimer.addSplit("ItineraryManager Init/Load");
 
-		// If we are upgrading from a pre-AccountManager version, update account manager to include our logged in user.
-		if (!SettingUtils.get(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, false)) {
-			if (User.isLoggedInOnDisk(this) && !User.isLoggedInToAccountManager(this)) {
-				if (Db.getUser() == null) {
-					Db.loadUser(this);
-				}
-				if (Db.getUser() != null) {
-					User.addUserToAccountManager(this, Db.getUser());
-				}
-			}
-			SettingUtils.save(this, PREF_UPGRADED_TO_ACCOUNT_MANAGER, true);
-		}
 		startupTimer.addSplit("User upgraded to use AccountManager (if needed)");
 
 		if (!isAutomation()) {
@@ -275,21 +257,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 					}
 				}
 			);
-		}
-
-		if (!isAutomation()) {
-			AdTracker.init(getApplicationContext());
-			startupTimer.addSplit("AdTracker started.");
-
-			if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled()) {
-				LeanPlumUtils.init(this);
-				startupTimer.addSplit("LeanPlum started.");
-			}
-
-			if (ProductFlavorFeatureConfiguration.getInstance().isTuneEnabled()) {
-				TuneUtils.init(this);
-				startupTimer.addSplit("Tune started.");
-			}
 		}
 
 		// 2249: We were not sending push registrations to the prod push server

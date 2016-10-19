@@ -38,12 +38,16 @@ import android.widget.Toast
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.HotelMapClusterAlgorithm
 import com.expedia.bookings.utils.HotelMapClusterRenderer
 import com.expedia.bookings.utils.MapItem
@@ -88,6 +92,11 @@ import kotlin.properties.Delegates
 abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     //Views
+    lateinit var lob: LineOfBusiness
+    val isUserBucketedForTestAndFeatureEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppHotelFilterProminence, R.string.preference_enable_hotel_filter_prominence)
+    var filterButtonText: TextView by Delegates.notNull()
+
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
     var mapView: MapView by Delegates.notNull()
     open val loadingOverlay: MapLoadingOverlayWidget? = null
@@ -257,6 +266,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         return (mapTransitionRunning || (recyclerView.adapter as BaseHotelListAdapter).isLoading())
     }
 
+    val addListResultsObserver = endlessObserver<HotelSearchResponse> {
+        filterView.viewmodel.setHotelList(it)
+        adapter.addResultsSubject.onNext(it)
+    }
+
     val listResultsObserver = endlessObserver<HotelSearchResponse> {
         filterView.viewmodel.setHotelList(it)
         loadingOverlay?.animate(false)
@@ -324,6 +338,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     init {
         inflate()
+        setLob()
         mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe())
         mapViewModel.clusterChangeSubject.subscribe {
             updateCarouselItems()
@@ -456,7 +471,18 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
+        if (lob == LineOfBusiness.HOTELS) {
+            toolbar.inflateMenu(R.menu.menu_search_item)
+        }
+
         toolbar.inflateMenu(R.menu.menu_filter_item)
+
+        if ((lob == LineOfBusiness.PACKAGES ||  (isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar()))) {
+            filterMenuItem.isVisible = true
+        }
+        else {
+            filterMenuItem.isVisible = false
+        }
 
         toolbar.setNavigationOnClickListener { view ->
             val activity = context as AppCompatActivity
@@ -479,7 +505,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
-        filterMenuItem.isVisible = false
         var fabLp = fab.layoutParams as FrameLayout.LayoutParams
         fabLp.bottomMargin += resources.getDimension(R.dimen.hotel_filter_height).toInt()
 
@@ -504,6 +529,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             toast.show()
             true
         }
+        filterBtn?.setOnClickListener { view ->
+            showWithTracking(ResultsFilter())
+            val isResults = currentState == ResultsList::class.java.name
+            filterView.viewmodel.sortContainerObservable.onNext(isResults)
+            filterView.toolbar.title = if (isResults) resources.getString(R.string.sort_and_filter) else resources.getString(R.string.filter)
+        }
+        filterButtonText = filterMenuItem.actionView.findViewById(R.id.filter_text) as TextView
+        filterButtonText.visibility = GONE
     }
 
     fun showDefault() {
@@ -635,7 +668,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !Strings.equals(ResultsMap::class.java.name, getCurrentState())) {
                 if (topOffset == halfway) {
                     filterBtnWithCountWidget?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
-                } else if (scrolledDistance > heightOfButton / 2) {
+                } else if ((scrolledDistance > heightOfButton / 2) && (lob == LineOfBusiness.PACKAGES ||  !isUserBucketedForTestAndFeatureEnabled)) {
                     filterBtnWithCountWidget?.animate()?.translationY(heightOfButton.toFloat())?.setInterpolator(DecelerateInterpolator())?.start()
                     fab.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
                 } else {
@@ -693,7 +726,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     if (topOffset > halfway) {
                         filterBtnWithCountWidget?.translationY = 0f
                         fab.translationY = 0f
-                    } else if (scrolledDistance > 0) {
+                    } else if ((scrolledDistance > 0) &&  (lob == LineOfBusiness.PACKAGES ||  !isUserBucketedForTestAndFeatureEnabled)) {
                         filterBtnWithCountWidget?.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
                         fab.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
                     } else {
@@ -835,7 +868,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 toolbarSubtitle.translationY = 0f
                 updateFilterButtonText(forward)
                 showSearchMenu.onNext(forward)
-                filterMenuItem.isVisible = !forward
                 showMenuItem(forward)
             }
 
@@ -1140,16 +1172,24 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         return set
     }
 
-    open fun updateFilterButtonText(isResults: Boolean) {
-        //
+    fun updateFilterButtonText(isResults: Boolean) {
+        if (isResults) {
+            filterButtonText.visibility = GONE
+        } else {
+            filterButtonText.visibility = VISIBLE
+        }
     }
 
     open fun hideBundlePriceOverview(hide: Boolean) {
         //
     }
 
-    open fun showMenuItem(isResults: Boolean) {
-        //
+    fun showMenuItem(isResults: Boolean) {
+        if (lob == LineOfBusiness.PACKAGES ||  (isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar())) {
+            filterMenuItem.isVisible = true
+        } else {
+            filterMenuItem.isVisible = !isResults
+        }
     }
 
     fun showWithTracking(newState: Any) {
@@ -1209,6 +1249,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         googleMap?.moveCamera(CameraUpdateFactory.newCameraPosition(cameraPosition))
     }
 
+    fun isFilterInNavBar(): Boolean {
+        return getHotelFilterProminenceABVariant() == AbacusUtils.HotelFilterProminenceVariate.FILTER_IN_NAV_BAR.ordinal
+    }
+
+    private fun getHotelFilterProminenceABVariant(): Int {
+        return Db.getAbacusResponse().variateForTest(AbacusUtils.EBAndroidAppHotelFilterProminence)
+    }
+
     abstract fun inflate()
     abstract fun getFilterViewModel(): HotelFilterViewModel
     abstract fun doAreaSearch()
@@ -1220,5 +1268,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackMapPinTap()
     abstract fun trackFilterShown()
     abstract fun trackMapSearchAreaClick()
+    abstract fun setLob()
     abstract fun getHotelListAdapter(): BaseHotelListAdapter
 }

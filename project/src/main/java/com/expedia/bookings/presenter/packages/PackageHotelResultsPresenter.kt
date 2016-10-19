@@ -10,17 +10,14 @@ import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
-import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
-import kotlin.properties.Delegates
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
     override val heightOfButton = 0
-    var filterButtonText: TextView by Delegates.notNull()
 
     var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
@@ -55,15 +52,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     override fun onFinishInflate() {
         super.onFinishInflate()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
-        filterButtonText = filterMenuItem.actionView.findViewById(R.id.filter_text) as TextView
-        filterButtonText.visibility = GONE
-        filterMenuItem.isVisible = true
-        filterBtn?.setOnClickListener { view ->
-            showWithTracking(ResultsFilter())
-            val isResults = currentState == ResultsList::class.java.name
-            filterView.viewmodel.sortContainerObservable.onNext(isResults)
-            filterView.toolbar.title = if (isResults) resources.getString(R.string.sort_and_filter) else resources.getString(R.string.filter)
-        }
         (mapCarouselRecycler.adapter as HotelMapCarouselAdapter).setLob(LineOfBusiness.PACKAGES)
         filterView.viewmodel.priceRangeContainerVisibility.onNext(false)
     }
@@ -79,18 +67,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     }
 
     override fun showSearchThisArea() {
-    }
-
-    override fun updateFilterButtonText(isResults: Boolean) {
-        if (isResults) {
-            filterButtonText.visibility = GONE
-        } else {
-            filterButtonText.visibility = VISIBLE
-        }
-    }
-
-    override fun showMenuItem(isResults: Boolean) {
-        filterMenuItem.isVisible = true
     }
 
     override fun hideBundlePriceOverview(hide: Boolean) {
@@ -124,4 +100,9 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     override fun getHotelListAdapter(): BaseHotelListAdapter {
         return PackageHotelListAdapter(hotelSelectedSubject, headerClickedSubject)
     }
+
+    override fun setLob() {
+        lob = LineOfBusiness.PACKAGES
+    }
+
 }

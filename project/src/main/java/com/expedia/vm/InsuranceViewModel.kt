@@ -10,6 +10,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.insurance.InsurancePriceType
 import com.expedia.bookings.data.insurance.InsuranceProduct
@@ -25,45 +26,50 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class InsuranceViewModel(private val context: Context, private val insuranceServices: InsuranceServices) {
+    // inputs
+    val tripObservable = BehaviorSubject.create<FlightCreateTripResponse>()
+    val userInitiatedToggleObservable = PublishSubject.create<Boolean>()
+    val widgetVisibilityAllowedObservable = BehaviorSubject.create<Boolean>()
+
+    // outputs
     val benefitsObservable = BehaviorSubject.create<Spanned>()
     val programmaticToggleObservable = PublishSubject.create<Boolean>()
     val termsObservable = PublishSubject.create<SpannableStringBuilder>()
     val titleColorObservable = PublishSubject.create<Int>()
     val titleObservable = PublishSubject.create<SpannableStringBuilder>()
-    val tripObservable = BehaviorSubject.create<FlightCreateTripResponse>()
     val updatedTripObservable = PublishSubject.create<FlightCreateTripResponse>()
-    val userInitiatedToggleObservable = PublishSubject.create<Boolean>()
     val widgetVisibilityObservable = PublishSubject.create<Boolean>()
 
-    val errorDialog: AlertDialog by lazy {
+    private var canWidgetBeDisplayed: Boolean = true
+    private val haveProduct: Boolean get() = product != null
+    private var product: InsuranceProduct? = null
+
+    lateinit private var lastAction: InsuranceAction
+    lateinit private var trip: FlightCreateTripResponse
+    lateinit var tripId: String
+
+    enum class InsuranceAction {
+        ADD, REMOVE
+    }
+
+    private val errorDialog: AlertDialog by lazy {
         AlertDialog.Builder(context).setPositiveButton(R.string.button_done, null).create()
     }
 
-    private val hasProduct: Boolean get() = product != null
-
-    private var product: InsuranceProduct? = null
-
-    val updatingTripDialog: ProgressDialog by lazy {
+    private val updatingTripDialog: ProgressDialog by lazy {
         val dialog = ProgressDialog(context)
         dialog.isIndeterminate = true
         dialog.setCancelable(false)
         dialog
     }
 
-    lateinit var lastAction: InsuranceAction
-    lateinit var trip: FlightCreateTripResponse
-
-    enum class InsuranceAction {
-        ADD, REMOVE
-    }
-
     init {
         tripObservable.subscribe { tripResponse ->
             product = tripResponse.selectedInsuranceProduct ?: tripResponse.availableInsuranceProducts.firstOrNull()
             trip = tripResponse
-            trip.tripId = trip.newTrip.tripId!!
+            trip.newTrip?.tripId?.let { tripId = it }
 
-            if (hasProduct) {
+            if (haveProduct) {
                 updateBenefits()
                 updateTerms()
                 updateTitle()
@@ -77,28 +83,34 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
                 lastAction = InsuranceAction.ADD
                 updatingTripDialog.setMessage(context.resources.getString(R.string.insurance_adding))
                 updatingTripDialog.show()
-                insuranceServices.addInsuranceToTrip(InsuranceTripParams(trip.tripId, product!!.productId))
-                        .subscribe(updatedTripObserver)
+                insuranceServices.addInsuranceToTrip(InsuranceTripParams(tripId, product!!.productId))
+                        .subscribe(insuranceSelectionUpdatedObserver)
             } else {
                 lastAction = InsuranceAction.REMOVE
                 updatingTripDialog.setMessage(context.resources.getString(R.string.insurance_removing))
                 updatingTripDialog.show()
-                insuranceServices.removeInsuranceFromTrip(InsuranceTripParams(trip.tripId))
-                        .subscribe(updatedTripObserver)
+                insuranceServices.removeInsuranceFromTrip(InsuranceTripParams(tripId))
+                        .subscribe(insuranceSelectionUpdatedObserver)
             }
             FlightsV2Tracking.trackInsuranceUpdated(if (isSelected) InsuranceAction.ADD else InsuranceAction.REMOVE)
         }
+
+        widgetVisibilityAllowedObservable.subscribe {
+            canWidgetBeDisplayed = it
+            updateVisibility()
+        }
     }
 
-    val updatedTripObserver = object : Observer<FlightCreateTripResponse> {
-        fun handleError(message: String) {
-            val messageId: Int
-            when (lastAction) {
-                InsuranceAction.ADD    -> messageId = R.string.insurance_add_error
-                InsuranceAction.REMOVE -> messageId = R.string.insurance_remove_error
-            }
+    val insuranceSelectionUpdatedObserver = object : Observer<FlightCreateTripResponse> {
+        private fun handleError(message: String) {
             FlightsV2Tracking.trackInsuranceError(message)
-            errorDialog.setMessage(context.resources.getString(messageId))
+
+            val displayMessage = context.resources.getString(when (lastAction) {
+                InsuranceAction.ADD    -> R.string.insurance_add_error
+                InsuranceAction.REMOVE -> R.string.insurance_remove_error
+            })
+
+            errorDialog.setMessage(displayMessage)
             errorDialog.show()
         }
 
@@ -116,6 +128,13 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
             tripObservable.onNext(response)
 
             if (!response.hasErrors()) {
+
+                // NOTE: Populating details.offer totalPrice with correct totalPrice (including insurance) from top level of response
+                // API incorrectly returning details.offer totalPrice without insurance when it is added.
+                // We point to details.offer totalPrice in order to correctly support subPub fares.
+                // Until flights API team fixes createTrip/insurance endpoint we will need to do this
+                response.details.offer.totalPrice = response.totalPrice.copy()
+
                 updatedTripObservable.onNext(response)
             } else {
                 handleError(response.errorsToString())
@@ -179,7 +198,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         programmaticToggleObservable.onNext(trip.selectedInsuranceProduct != null)
     }
 
-    fun updateVisibility(requestVisible: Boolean = true) {
-        widgetVisibilityObservable.onNext(requestVisible && hasProduct)
+    fun updateVisibility() {
+        widgetVisibilityObservable.onNext(canWidgetBeDisplayed && haveProduct)
     }
 }

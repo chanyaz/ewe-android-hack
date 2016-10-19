@@ -21,7 +21,7 @@
                 android:gravity="center"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
-                android:singleLine="true"
+                android:maxLines="1"
                 android:text="@string/guest_field_required"
                 android:textColor="@android:color/white"
                 android:textSize="12sp"

@@ -35,7 +35,7 @@
         android:layout_weight="1"
         android:gravity="bottom|center_horizontal"
         android:padding="12dp"
-        android:singleLine="true"
+        android:maxLines="1"
         android:text="@string/traveler_main_message"
         android:textColor="@color/checkout_main_traveler_message"
         android:textSize="10sp"

@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/lx_details_background_color"
-    android:fillViewport="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -93,6 +92,52 @@
 
             </HorizontalScrollView>
 
+            <include
+                android:id="@+id/event_location"
+                layout="@layout/widget_lx_detail_section_data"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="0dp"
+                android:visibility="gone"/>
+
+            <include
+                android:id="@+id/redemption_location"
+                layout="@layout/widget_lx_detail_section_data"
+                android:visibility="gone"/>
+
+
+            <View
+                android:id="@+id/map_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/hotel_detail_divider"
+                android:visibility="gone"/>
+
+            <com.expedia.bookings.widget.FrameLayout
+                android:id="@+id/map_click_container"
+                android:layout_width="wrap_content"
+                android:layout_height="160dp"
+                android:contentDescription="@string/activity_map_view_cont_desc"
+                android:visibility="gone">
+
+                <com.expedia.bookings.widget.LocationMapImageView
+                    android:id="@+id/mini_map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="480dp"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop" />
+
+                <View
+                    android:id="@+id/transparent_view_over_mini_map"
+                    android:layout_width="match_parent"
+                    android:layout_height="480dp"
+                    android:layout_gravity="center"
+                    android:clickable="true"
+                    android:paddingBottom="160dp" />
+
+            </com.expedia.bookings.widget.FrameLayout>
+
             <include layout="@layout/widget_lx_offer_list" />
 
             <include
@@ -121,38 +166,6 @@
             <include
                 android:id="@+id/location"
                 layout="@layout/widget_lx_detail_section_data" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/recommendations"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:background="@color/lx_more_like_this"
-            android:orientation="vertical"
-            android:paddingBottom="12dp"
-            android:paddingLeft="12dp"
-            android:paddingRight="12dp"
-            android:paddingTop="12dp"
-            android:visibility="gone">
-
-            <com.expedia.bookings.widget.TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="@string/lx_you_might_also_like"
-                android:textColor="@color/lx_details_heading_text_color"
-                android:textSize="14sp"
-                app:textStyle="bold" />
-
-            <LinearLayout
-                android:id="@+id/more_like_this"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_gravity="top"
-                android:layout_marginTop="12dp"
-                android:orientation="vertical" />
-
         </LinearLayout>
     </LinearLayout>
 

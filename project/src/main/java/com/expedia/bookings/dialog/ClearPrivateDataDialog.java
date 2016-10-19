@@ -22,7 +22,7 @@ public class ClearPrivateDataDialog extends DialogFragment {
 	@Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.AccountDialogTheme);
 
 		builder.setTitle(R.string.dialog_clear_private_data_title);
 		if (User.isLoggedIn(getActivity())) {

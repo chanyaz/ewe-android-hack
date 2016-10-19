@@ -129,6 +129,8 @@
     <string name="calendar_desc_support_TEMPLATE">{brand}n asiakaspalvelu: {localphone} ja {phone}</string>
     <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
     <string name="car_search_date_range_cont_desc_TEMPLATE">Vuokra-auton päivät. Painike. Avaa dialogin. {date_time_range}</string>
+    <!-- Accessibility - Content Description for activity map view on activity details -->
+    <string name="activity_map_view_cont_desc">Aktiviteetin sijainti Google Map -näkymässä</string>
 
     <!-- Label for hotel search toolbar -->
     <string name="hotel_search_toolbar_title">Hotellit</string>
@@ -340,6 +342,13 @@
     <string name="description_activity_details">Kuvaus</string>
     <!-- Activity details location heading -->
     <string name="location_activity_details">Sijainti</string>
+    <!-- Activity event location heading -->
+    <string name="event_location_activity_details">Aktiviteetin sijainti</string>
+    <!-- Activity redemtion location heading -->
+    <string name="redemption_location_activity_details">Tapaamis-/lunastusosoite</string>
+    <!-- Instruction at the bottom of lx infosite map to select an activity from the list -->
+    <string name="select_an_activity_instruction">Valitse aktiviteetti</string>
+
     <!-- Activity details inclusions heading -->
     <string name="inclusions_activity_details">Sisältyy hintaan</string>
     <!-- Activity details exclusions heading -->
@@ -759,10 +768,12 @@
     <!-- Category Title "All Things To Do" -->
     <string name="lx_category_all_things_to_do">Kaikki ajanvietteet</string>
 
-    <string name="lx_you_might_also_like">Voit myös pitää näistä</string>
     <string name="lx_customers_recommend">asiakkaista suosittelee.</string>
     <!-- LX user recommended percentage template-->
     <string name="lx_recommend_percent_Template">{recommend} %</string>
+
+    <!-- Hint for filtering results by activity name -->
+    <string name="lx_filter_hint">Hakusana tai lause</string>
 
     <!-- Sort & Filter label -->
     <string name="sort_and_filter">Järjestä ja suodata</string>
@@ -2136,8 +2147,6 @@
     <string name="resort_fee_disclaimer_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; lomakeskusmaksu veloitetaan hotellilla. Yöpymisesi loppusumma on &lt;b&gt;%2$s&lt;/b&gt;.</string>
     <!-- Pay later disclaimer at bottom of checkout -->
     <string name="pay_later_disclaimer_TEMPLATE">Matkasi loppusumma on &lt;b&gt;%1$s&lt;/b&gt;. Maksat hotellille varauksesi loppusumman (hotellin omassa valuutassa) vierailusi aikana.</string>
-    <!-- Pay later disclaimer with deposit -->
-    <string name="pay_later_deposit_disclaimer_TEMPLATE">Veloitamme &lt;b&gt;%1$s&lt;/b&gt; takuumaksun nyt. Maksat varauksen loppusumman hotellille hotellin omassa valuutassa vierailusi aikana.</string>
     <!-- Pay later disclaimer with resort fees -->
     <string name="pay_later_resort_disclaimer_TEMPLATE">Yöpymisesi loppusumma, sisältäen &lt;b&gt;%1$s&lt;/b&gt; lomakeskusmaksun, on &lt;b&gt;%2$s&lt;/b&gt;. Maksat hotellille varauksesi loppusumman (hotellin omassa valuutassa) vierailusi aikana.</string>
     <!-- Pay later disclaimer with deposit and resort fees -->
@@ -2304,8 +2313,10 @@
     <string name="address_city_hint">Postitoimipaikka</string>
     <!-- Address state hint -->
     <string name="address_state_hint">Osavaltio</string>
-    <!-- Address country content desctiption -->
+    <!-- Address country content description -->
     <string name="address_state_country_cont_desc">Maa</string>
+    <!-- Address mail delivery option hint -->
+    <string name="address_mail_delivery_option_hint">Postin toimitusvaihtoehdot</string>
     <!-- Postal Code hint -->
     <string name="address_postal_code_hint">Postinumero</string>
     <!-- Zip Code hint for Packages -->
@@ -2324,10 +2335,11 @@
     <!-- Enter traveler details prompt -->
     <string name="checkout_enter_traveler_details">Matkustajan tiedot</string>
     <string name="enter_missing_traveler_details">Anna puuttuvat matkustajatiedot</string>
+    <string name="enter_traveler_details">Anna matkustajan tiedot</string>
     <!-- Number of travelers in a Package Checkout Booking -->
     <plurals name="checkout_more_travelers_TEMPLATE">
-        <item quantity="one">+ {travelercount} matkustaja lisää</item>
-        <item quantity="other">+ {travelercount} muuta matkustajaa</item>
+        <item quantity="one">+ {travelercount} lisämatkustaja</item>
+        <item quantity="other">+ {travelercount} lisämatkustajaa</item>
     </plurals>
     <string name="checkout_edit_traveler_TEMPLATE">Muokkaa matkustajaa {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age}-vuotias</string>
@@ -2406,6 +2418,8 @@
     <string name="edit_guest_details">Muokkaa vierailijan tietoja</string>
     <!-- Edit current traveler details -->
     <string name="edit_current_traveler">Muokkaa matkustajan tietoja</string>
+    <!-- Edit current traveler details from Error Screen -->
+    <string name="edit_traveler_details">Muokkaa matkustajan tietoja</string>
     <!-- Generic error when user is editing traveler details, eg: a user leaves a required field empty -->
     <string name="accessibility_cont_desc_role_error">Virhe</string>
     <!-- prefers seat template -->
@@ -3221,6 +3235,8 @@
     <string name="coupon_removing_dialog">Kuponkia poistetaan</string>
     <!-- Coupon submit button -->
     <string name="coupon_submit_button">Lähetä</string>
+    <!-- Coupon submit button for accessibility -->
+    <string name="coupon_submit_button_ally">Lähetyspainike</string>
 
     <!-- Coupon Error Strings -->
     <!-- Error when applying coupon - the coupon isn't known -->
@@ -3450,6 +3466,8 @@
     <string name="e3_error_checkout_invalid_expiration">Luottokortin vanhenemispäivä on väärin.</string>
     <!-- Error message displayed when the traveler information is invalid -->
     <string name="e3_error_checkout_invalid_traveler_info_TEMPLATE">Anna oikea %1$s</string>
+    <!-- Text for error toolbar-->
+    <string name="e3_error_checkout_invalid_info">Väärät tiedot</string>
 
     <!-- SearchResults API method -->
     <!-- For some reason the API failed and we couldn't complete the search -->
@@ -3876,9 +3894,6 @@
     <string name="filter_for_high_range_hotel_prices_cont_desc">Napauta suodattaaksesi kalliimmat hotellihinnat</string>
     <!-- Content description for action: Press to remove hotel price filters -->
     <string name="filter_remove_hotel_price_filters_cont_desc">Poista hotellin hintasuodattimet</string>
-    <!-- Hotel info screen -->
-    <!-- Content description for action: Press to select this hotel -->
-    <string name="hotel_info_select_button_cont_desc">Napauta valitaksesi tämä hotelli</string>
     <!-- Hotel review screen -->
     <!-- Content description for action: Press to display recent reviews -->
     <string name="display_recent_reviews_cont_desc">Napauta näyttääksesi tuoreimmat arvostelut</string>
@@ -4263,8 +4278,18 @@
     <string name="flight_duration_hour_short">h</string>
     <!-- Departure Time Range filter label-->
     <string name="departure_time_range">Lähtöaika</string>
+    <!-- Departure Time Range start filter label for accessibility -->
+    <string name="departure_time_range_start">Lähtöaika alkaen</string>
+    <!-- Departure Time Range end filter label for accessibility -->
+    <string name="departure_time_range_end">Lähtöaika päättyen</string>
     <!-- Arrival Time Range filter label-->
     <string name="arrival_time_range">Saapumisaika</string>
+    <!-- Arrival Time Range start filter label for accessibility -->
+    <string name="arrival_time_range_start">Saapumisaika alkaen</string>
+    <!-- Arrival Time Range end filter label for accessibility -->
+    <string name="arrival_time_range_end">Saapumisaika päättyen</string>
+    <!-- Content description for seekbar role. Example: Arrival Time Start Seekbar 12:00am -->
+    <string name="accessibility_seekbar_cont_desc_name_role_value_TEMPLATE">{name} suodatinpalkki {value}</string>
 
     <!-- Package Change hotel description -->
     <string name="package_change_hotel">Vaihda hotellia</string>
@@ -4302,8 +4327,10 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Välilasku ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Kesto yhteensä: {duration}</string>
-    <!-- Itinerary summary text- Itinerary number sent to the user email -->
-    <string name="package_itinerary_confirmation_TEMPLATE">N {itinerary}lähetetty osoitteeseen {email}</string>
+
+    <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">N {itinerary}lähetetty osoitteeseen {email}</string>
+
     <!--Rail search screen title-->
     <string name="trains">Junat</string>
 
@@ -4331,6 +4358,8 @@
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">Sinulla on {formatted_duration} aikaa siirtyä asemalta {origin_station_name} asemalle {destination_station_name}</string>
 
+    <string name="rail_overtaken_message">Ohitettava juna: tämä juna on muita junia hitaampi.</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Kulje kulkumuodolla: {travel_mode} kohteesta {origin_station_name} kohteeseen {destination_station_name}</string>
 
@@ -4354,6 +4383,9 @@
 
     <!-- Label to indicate no amenities are available for a rail segment on the rail amenities screen -->
     <string name="rail_segment_no_amenities">Ei palveluja</string>
+
+    <!-- Label for amenities disclaimer on the rail amenities screen -->
+    <string name="rail_amenities_disclaimer">Mukavuudet eivät välttämättä ole saatavilla kaikkina aikoina.</string>
 
     <!-- Label to indicate no fare rules are available for a rail product on the rail fare rules screen -->
     <string name="no_fare_rules_available">Tietoja hintaehdoista ei saatavilla</string>
@@ -4391,18 +4423,31 @@
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Korttimaksu</string>
 
+    <!-- Credit card fee disclaimer on payment screen -->
+    <string name="rail_card_fee_disclaimer">Junayhtiö veloittaa ylimääräisen ei-hyvitettävän maksun tietyllä luottokortilla maksamisesta. Voit välttää tämän maksun maksamalla pankkikortilla</string>
+
+    <!-- Credit card fees dialog title -->
+    <string name="fees_by_card_type">Maksut korttityypin mukaan</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Lipun toimitus</string>
 
     <!-- Ticket delivery options-->
     <string name="pickup_at_station">Nouto asemalta</string>
     <string name="delivery_by_mail">Toimitus postitse</string>
+    <string name="shipping_address">Lähetysosoite</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Ota mukaasi lipun viitenumero ja kortti, jolla maksoit lipun.</string>
 
     <string name="mail_delivery_details">Toimitamme lipun antamaasi osoitteeseen.</string>
     <string name="tdo_fees_non_refundable">Lippujen toimituskuluja ei hyvitetä.</string>
+
+    <!-- Confirmation screen -->
+    <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
+    <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} –&gt; {arrivalstation}</string>
+    <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
+    <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
     <string name="pwp_points_conversion_unauthenticated_access">Olemme pahoillamme, mutta palvelimellamme on ongelmia. Ole hyvä ja yritä uudelleen.</string>
     <string name="pwp_trip_service_error">Olemme pahoillamme, mutta palvelimellamme on ongelmia. Ole hyvä ja yritä uudelleen.</string>
@@ -4521,8 +4566,8 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} –&gt; {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Matkustuspäivät. Painike. Avaa dialogin. {date_range}. {nights}</string>
-    <!--Packages search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
-    <plurals name="packages_search_travelers_cont_desc_TEMPLATE">
+    <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
+    <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Matkustajien lukumäärä. Painike. Avaa dialogin. {travelers} matkustaja</item>
         <item quantity="other">Matkustajien lukumäärä. Painike. Avaa dialogin. {travelers} matkustajaa</item>
     </plurals>
@@ -4643,8 +4688,8 @@
     <!-- Content description on cvv entry screen for the field on back of the card, populated by user input-->
     <string name="cvv_text_field_cont_desc">CVV-tekstikenttä</string>
 
-    <!--Packages accessibility content description for  traveler details complete-->
-    <string name="traveler_details_incomplete_cont_desc">Matkustajan tietoja ei ole täytetty</string>
+    <!--Packages accessibility content description for traveler details complete e.g. Traveler Details Error: Enter missing traveler details. Button.-->
+    <string name="traveler_details_incomplete_cont_desc_TEMPLATE">{title} Virhe: Anna puuttuvat matkustajatiedot. Painike.</string>
     <!--Packages accessibility content description for  traveler details complete-->
     <string name="traveler_details_complete_cont_desc">Matkustajan tiedot on täytetty</string>
     <!--Packages accessibility content description for role Button-->

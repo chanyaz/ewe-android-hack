@@ -34,7 +34,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:singleLine="true"
+            android:maxLines="1"
             android:ellipsize="end"
             android:paddingLeft="4dp"
             android:textColor="@color/search_autocomplete_text" />
@@ -44,7 +44,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:singleLine="true"
+            android:maxLines="1"
             android:ellipsize="end"
             android:paddingLeft="4dp"
             android:textColor="@color/search_autocomplete_text"

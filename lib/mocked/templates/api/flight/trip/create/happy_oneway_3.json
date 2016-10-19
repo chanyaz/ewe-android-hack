@@ -95,7 +95,7 @@
                 "formattedWholePrice": "$69"
             },
             "totalFare": "546.00",
-            "totalFarePrice": {
+            "totalPrice": {
                 "amount": "546.00",
                 "currencyCode": "USD",
                 "formattedPrice": "$546.00",

@@ -16,7 +16,7 @@ import rx.Subscription
 import rx.subjects.BehaviorSubject
 import java.text.NumberFormat
 
-class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>, val userLoginChangedModel: UserLoginStateChangedModel) {
+class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>, userLoginChangedModel: UserLoginStateChangedModel) {
 
     lateinit var subscription: Subscription
     val isShopWithPointsAvailableObservable = BehaviorSubject.create<Boolean>()

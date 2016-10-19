@@ -1,6 +1,7 @@
 package com.expedia.bookings.activity;
 
 import java.text.NumberFormat;
+import java.util.Calendar;
 
 import android.content.pm.ActivityInfo;
 import android.graphics.Point;
@@ -29,6 +30,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import com.expedia.account.Config;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -60,9 +63,6 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
-
-import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class AccountSettingsActivity extends AppCompatActivity implements AboutSectionFragmentListener,
 	AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener,
@@ -278,7 +278,7 @@ public class AccountSettingsActivity extends AppCompatActivity implements AboutS
 
 	private String getCopyrightString() {
 		return Phrase.from(this, R.string.copyright_TEMPLATE).put("brand", BuildConfig.brand)
-			.put("year", AndroidUtils.getAppBuildYear(this)).format().toString();
+			.put("year", Calendar.getInstance().get(Calendar.YEAR)).format().toString();
 	}
 
 	@Override

@@ -60,25 +60,25 @@ class WithLatestFromWithMultipleArgumentsTest {
         //Emission from the operator when each Observable/Subject has emiited atleast one value and there is an emission in the main Observable/Subject
         input.onNext(Unit)
         output.assertValueCount(1)
-        output.assertValue("First Observable Emission: " + output1.onNextEvents.get(0)
-                + "  Second Observable Emission: " + output2.onNextEvents.get(0)
-                + "  Third Observable Emission: " + output3.onNextEvents.get(0))
+        output.assertValue("First Observable Emission: " + output1.onNextEvents[0]
+                + "  Second Observable Emission: " + output2.onNextEvents[0]
+                + "  Third Observable Emission: " + output3.onNextEvents[0])
 
         //Emission in one of the latest Observable/Subject will not trigger any emission from the operator
         input1.onNext(7)
         output.assertValueCount(1)
-        output.assertValue("First Observable Emission: " + output1.onNextEvents.get(0)
-                + "  Second Observable Emission: " + output2.onNextEvents.get(0)
-                + "  Third Observable Emission: " + output3.onNextEvents.get(0))
+        output.assertValue("First Observable Emission: " + output1.onNextEvents[0]
+                + "  Second Observable Emission: " + output2.onNextEvents[0]
+                + "  Third Observable Emission: " + output3.onNextEvents[0])
 
         //Emission from the main operator will trigger an emission from the operator with the latest values
         input.onNext(Unit)
         output.assertValueCount(2)
-        output.assertValues("First Observable Emission: " + output1.onNextEvents.get(0)
-                + "  Second Observable Emission: " + output2.onNextEvents.get(0)
-                + "  Third Observable Emission: " + output3.onNextEvents.get(0),
-                "First Observable Emission: " + output1.onNextEvents.get(1)
-                        + "  Second Observable Emission: " + output2.onNextEvents.get(0)
-                        + "  Third Observable Emission: " + output3.onNextEvents.get(0))
+        output.assertValues("First Observable Emission: " + output1.onNextEvents[0]
+                + "  Second Observable Emission: " + output2.onNextEvents[0]
+                + "  Third Observable Emission: " + output3.onNextEvents[0],
+                "First Observable Emission: " + output1.onNextEvents[1]
+                        + "  Second Observable Emission: " + output2.onNextEvents[0]
+                        + "  Third Observable Emission: " + output3.onNextEvents[0])
     }
 }
