@@ -136,7 +136,6 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 addHotelResultsObservable.onNext(hotelSearchResponse)
             }
             HotelFavoriteHelper.setLocalFavorites(hotelSearchResponse.hotelList as ArrayList<Hotel>, context)
-            HotelTracking().trackHotelsSearch(paramsSubject.value, hotelSearchResponse)
         }
     }
 
