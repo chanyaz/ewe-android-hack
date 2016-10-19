@@ -2,6 +2,7 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.squareup.phrase.Phrase
@@ -9,7 +10,7 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 class RailFareRulesViewModel(val context: Context) {
-    val offerObservable = PublishSubject.create<RailOffer>()
+    val railProductObservable = PublishSubject.create<RailProduct>()
 
     //outputs
     val fareInfoObservable = PublishSubject.create<String>()
@@ -17,9 +18,9 @@ class RailFareRulesViewModel(val context: Context) {
     val noFareRulesObservable = PublishSubject.create<Boolean>()
 
     init {
-        offerObservable.subscribe { offer ->
-            fareInfoObservable.onNext(formatFareInfo(offer.railProductList?.firstOrNull()))
-            val fareRules = getFareRulesList(offer.railProductList?.firstOrNull())
+        railProductObservable.subscribe { railProduct ->
+            fareInfoObservable.onNext(formatFareInfo(railProduct))
+            val fareRules = getFareRulesList(railProduct)
             fareRulesObservable.onNext(fareRules)
             noFareRulesObservable.onNext(fareRules.isEmpty())
         }

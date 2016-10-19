@@ -3,6 +3,7 @@ package com.expedia.bookings.unit;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -140,9 +141,10 @@ public class RailServicesTest {
 
 	@Test
 	public void happyMockCreateTrip() {
-		String railOfferToken = "fakeToken";
+		List<String> offerTokens = new ArrayList<>();
+		offerTokens.add("fakeToken");
 
-		service.railCreateTrip(railOfferToken, createTripResponseObserver);
+		service.railCreateTrip(offerTokens, createTripResponseObserver);
 		createTripResponseObserver.awaitTerminalEvent();
 
 		createTripResponseObserver.assertCompleted();

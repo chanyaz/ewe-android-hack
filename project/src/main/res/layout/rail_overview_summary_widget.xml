@@ -23,6 +23,29 @@
         android:animateLayoutChanges="true"
         android:foreground="?android:attr/selectableItemBackground" />
 
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/inbound_dates_view"
+        style="@style/HeaderTextAboveCardviews"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginBottom="11dp"
+        android:layout_marginLeft="@dimen/card_view_container_margin"
+        android:layout_marginRight="@dimen/card_view_container_margin"
+        android:layout_marginTop="11dp"
+        tools:text="Return - Mon, Feb 22"
+        android:visibility="gone"/>
+
+    <com.expedia.bookings.widget.rail.RailLegSummaryWidget
+        android:id="@+id/rail_inbound_leg_widget"
+        style="@style/MaterialCardView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="12dp"
+        android:animateLayoutChanges="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:visibility="gone"/>
+
     <Space
         android:id="@+id/space_view"
         android:layout_width="match_parent"

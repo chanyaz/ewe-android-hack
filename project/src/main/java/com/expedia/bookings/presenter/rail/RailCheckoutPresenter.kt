@@ -80,15 +80,11 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     private val travelerCheckoutViewModel = RailCheckoutTravelerViewModel(context)
 
     var createTripViewModel: RailCreateTripViewModel by notNullAndObservable { vm ->
-        vm.offerCodeSelectedObservable.subscribe {
-            createTripDialog.show()
-        }
         vm.tripResponseObservable.subscribe { response ->
             updateCreateTrip(response)
         }
 
     }
-    val createTripDialog = CreateTripProgressDialog(context)
 
     init {
         View.inflate(context, R.layout.rail_checkout_presenter, this)
@@ -230,7 +226,6 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     private fun updateCreateTrip(response: RailCreateTripResponse) {
-        createTripDialog.hide()
         paymentWidget.clearCCAndCVV()
         ticketDeliveryEntryViewModel.ticketDeliveryOptions.onNext(response.railDomainProduct?.railOffer?.ticketDeliveryOptionList)
         checkoutViewModel.createTripObserver.onNext(response)

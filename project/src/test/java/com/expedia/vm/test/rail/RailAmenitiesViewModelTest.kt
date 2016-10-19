@@ -3,10 +3,13 @@ package com.expedia.vm.test.rail
 import com.expedia.bookings.data.rail.responses.PassengerSegmentFare
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailProduct
+import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSegment
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.rail.RailAmenitiesViewModel
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import java.util.ArrayList
@@ -18,43 +21,34 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class RailAmenitiesViewModelTest {
     lateinit var amenitiesVM: RailAmenitiesViewModel
+    lateinit var testLegOption: RailLegOption
+    lateinit var testRailProduct: RailProduct
+
+    @Before
+    fun setUp() {
+        testLegOption = generateLegOption()
+        testRailProduct = generateRailProduct()
+    }
 
     @Test
     fun outboundLegNotSet() {
         amenitiesVM = RailAmenitiesViewModel()
-        amenitiesVM.offerObservable.onNext(RailOffer())
+        amenitiesVM.railProductObservable.onNext(testRailProduct)
 
-        assertTrue(amenitiesVM.segmentAmenitiesSubject.value.isEmpty())
-    }
-
-    @Test
-    fun noRailProductInOffers() {
-        amenitiesVM = RailAmenitiesViewModel()
-        val offer = buildRailOfferWithNoSegmentFares()
-        offer.railProductList = emptyList()
-        amenitiesVM.offerObservable.onNext(offer)
-
-        assertSegmentFaresMissing(amenitiesVM.segmentAmenitiesSubject.value)
-    }
-
-    @Test
-    fun missingSegmentFares() {
-        amenitiesVM = RailAmenitiesViewModel()
-        amenitiesVM.offerObservable.onNext(buildRailOfferWithNoSegmentFares())
-
-        assertSegmentFaresMissing(amenitiesVM.segmentAmenitiesSubject.value)
+        assertNull(amenitiesVM.segmentAmenitiesSubject.value)
     }
 
     @Test
     fun availableSegmentFares() {
         amenitiesVM = RailAmenitiesViewModel()
-        amenitiesVM.offerObservable.onNext(buildRailOfferWithSegmentFares())
+        amenitiesVM.legOptionObservable.onNext(testLegOption)
+        amenitiesVM.railProductObservable.onNext(testRailProduct)
 
         assertSegmentFaresPopulated(amenitiesVM.segmentAmenitiesSubject.value)
     }
 
     private fun assertSegmentFaresPopulated(pairs: List<Pair<RailSegment, PassengerSegmentFare?>>) {
-        assertEquals(2, pairs.size)
+        assertEquals(3, pairs.size)
         assertNotNull(pairs[0].second)
         assertNotNull(pairs[1].second)
 
@@ -62,47 +56,16 @@ class RailAmenitiesViewModelTest {
         assertEquals(pairs[1].first.travelSegmentIndex, pairs[1].second?.travelSegmentIndex)
     }
 
-    private fun assertSegmentFaresMissing(pairs: List<Pair<RailSegment, PassengerSegmentFare?>>) {
-        assertEquals(2, pairs.size)
-        assertNull(pairs[0].second)
-        assertNull(pairs[1].second)
+    private fun generateRailProduct(): RailProduct {
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_product_segments_8_9_10.json")
+        val railProduct = resourceReader.constructUsingGson(RailProduct::class.java)
+        return railProduct
     }
 
-    private fun buildRailOfferWithSegmentFares(): RailOffer {
-        var offer = buildRailOfferWithNoSegmentFares()
-        val  segmentFareDetailList = ArrayList<PassengerSegmentFare>()
-
-        var segmentFare1 = PassengerSegmentFare()
-        segmentFare1.travelSegmentIndex = 1
-        var segmentFare2 = PassengerSegmentFare()
-        segmentFare2.travelSegmentIndex = 2
-        segmentFareDetailList.add(segmentFare1)
-        segmentFareDetailList.add(segmentFare2)
-        offer.railProductList[0].segmentFareDetailList = segmentFareDetailList
-        return offer
-    }
-
-    private fun buildRailOfferWithNoSegmentFares(): RailOffer {
-        var legOption = buildLegOptionWithSegments()
-        var offer = RailOffer()
-        offer.outboundLeg = legOption
-
-        offer.railProductList = ArrayList<RailProduct>()
-        offer.railProductList.add(RailProduct())
-        return offer
-    }
-
-    private fun buildLegOptionWithSegments(): RailLegOption {
-        var legOption = RailLegOption()
-        legOption.travelSegmentList = ArrayList<RailSegment>()
-        var segment1 = RailSegment()
-        segment1.travelSegmentIndex = 1
-        var segment2 = RailSegment()
-        segment2.travelSegmentIndex = 2
-
-        legOption.travelSegmentList.add(segment1)
-        legOption.travelSegmentList.add(segment2)
-
+    private fun generateLegOption(): RailLegOption {
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_leg_option_segments_8_9_10.json")
+        val legOption = resourceReader.constructUsingGson(RailLegOption::class.java)
         return legOption
+
     }
 }

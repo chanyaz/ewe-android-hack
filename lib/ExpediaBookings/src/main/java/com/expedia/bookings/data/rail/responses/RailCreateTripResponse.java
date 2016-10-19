@@ -24,10 +24,19 @@ public class RailCreateTripResponse extends BaseApiResponse {
 	public static class RailTripOffer extends BaseRailOffer {
 		public List<RailTripProduct> railProductList;
 		public List<RailTicketDeliveryOption> ticketDeliveryOptionList;
+
+		@Override
+		public List<? extends RailProduct> getRailProductList() {
+			return railProductList;
+		}
 	}
 
 	public static class RailTripProduct extends RailProduct {
-		public List<RailLegOption> legList;
+		public List<RailLegOption> legOptionList;
+
+		public RailLegOption getLegOption() {
+			return legOptionList.get(0);
+		}
 	}
 
 	public static class RailTicketDeliveryOption {
