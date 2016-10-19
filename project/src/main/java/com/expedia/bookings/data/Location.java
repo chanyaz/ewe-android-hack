@@ -62,6 +62,20 @@ public class Location implements JSONable, Parcelable {
 		return mStreetAddress;
 	}
 
+	public String getStreetAddressLine1() {
+		if (mStreetAddress.size() >= 1) {
+			return mStreetAddress.get(0);
+		}
+		return "";
+	}
+
+	public String getStreetAddressLine2() {
+		if (mStreetAddress.size() >= 2) {
+			return mStreetAddress.get(1);
+		}
+		return "";
+	}
+
 	public String getStreetAddressString() {
 		if (mStreetAddress == null) {
 			return null;
