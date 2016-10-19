@@ -1,0 +1,31 @@
+{
+  "travelSegmentIndex": 8,
+  "travelMode": "Transfer",
+  "departureStation": {
+    "stationCode": "GB*L6",
+    "stationDisplayName": "London Underground Zones 1-6"
+  },
+  "arrivalStation": {
+    "stationCode": "GBQQU",
+    "stationDisplayName": "London Euston"
+  },
+  "departureDateTime": {
+    "raw": "2016-11-04T12:12:00",
+    "epochSeconds": 1478261520,
+    "localized": "4 Nov, 2016 12:12",
+    "localizedShortDate": "Fri, 4 Nov"
+  },
+  "arrivalDateTime": {
+    "raw": "2016-11-04T12:12:00",
+    "epochSeconds": 1478261520,
+    "localized": "4 Nov, 2016 12:12",
+    "localizedShortDate": "Fri, 4 Nov"
+  },
+  "marketingCarrier": "London Underground",
+  "operatingCarrier": "London Underground",
+  "travelMedium": {
+    "travelMediumName": "Metro/City-Transit",
+    "travelMediumCode": "MCT"
+  },
+  "duration": "PT1M"
+}
