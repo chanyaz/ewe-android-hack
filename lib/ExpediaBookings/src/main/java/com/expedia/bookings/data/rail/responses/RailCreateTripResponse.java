@@ -3,10 +3,12 @@ package com.expedia.bookings.data.rail.responses;
 import java.util.List;
 import java.util.Map;
 
+import org.jetbrains.annotations.Nullable;
+
 import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.flights.ValidFormOfPayment;
-
+import com.expedia.bookings.utils.CollectionUtils;
 
 public class RailCreateTripResponse extends BaseApiResponse {
 	public Money totalPrice;
@@ -14,8 +16,12 @@ public class RailCreateTripResponse extends BaseApiResponse {
 	public RailDomainProduct railDomainProduct;
 	public List<RailValidFormOfPayment> validFormsOfPayment;
 	public String tripId;
-	public Money totalPriceIncludingFees = null;
-	public Money selectedCardFees = null;
+
+	// Set through code
+	@Nullable
+	public Money totalPriceIncludingFees;
+	public Money selectedCardFees;
+	public Money ticketDeliveryFees;
 
 	public static class RailDomainProduct {
 		public RailTripOffer railOffer;
@@ -65,5 +71,31 @@ public class RailCreateTripResponse extends BaseApiResponse {
 		KIOSK_NONE,
 		SEND_BY_POST_UK,
 		SEND_BY_OVERNIGHT_POST_UK
+	}
+
+	// total = totalPrice + tdo fees + cc fees + booking fee (if present)
+	public Money getTotalPayablePrice() {
+		if (totalPriceIncludingFees != null && !totalPriceIncludingFees.isZero()) {
+			return totalPriceIncludingFees;
+		}
+		return totalPrice;
+	}
+
+	public Money getTicketDeliveryFeeForOption(String tdoToken) {
+		List<RailTicketDeliveryOption> ticketDeliveryOptionList = railDomainProduct.railOffer.ticketDeliveryOptionList;
+		if (CollectionUtils.isNotEmpty(ticketDeliveryOptionList)) {
+			for (RailTicketDeliveryOption deliveryOption : ticketDeliveryOptionList) {
+				if (tdoToken.equals(deliveryOption.ticketDeliveryOptionToken.name())) {
+					return deliveryOption.ticketDeliveryFee;
+				}
+			}
+		}
+		return null;
+	}
+
+	public void updateOfferWithTDOAndCCFees() {
+		RailTripOffer offer = railDomainProduct.railOffer;
+		offer.addPriceBreakdownForCode(ticketDeliveryFees, BaseRailOffer.PriceCategoryCode.TICKET_DELIVERY);
+		offer.addPriceBreakdownForCode(selectedCardFees, BaseRailOffer.PriceCategoryCode.CREDIT_CARD_FEE);
 	}
 }

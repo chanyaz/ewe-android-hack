@@ -17,7 +17,7 @@ class RailTotalPriceViewModel(context: Context) : BaseTotalPriceWidgetViewModel(
     }
 
     fun updatePricing(response: RailCreateTripResponse) {
-        total.onNext(response.totalPrice)
+        total.onNext(response.totalPayablePrice)
         costBreakdownEnabledObservable.onNext(true)
     }
 }
