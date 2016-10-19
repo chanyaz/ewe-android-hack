@@ -38,7 +38,7 @@ class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : Present
             createTripDialog.hide()
             tripSummaryViewModel.railOfferObserver.onNext(response.railDomainProduct.railOffer)
             railPriceViewModel.updatePricing(response)
-            railCostBreakDownViewModel.railCostSummaryBreakdownObservable.onNext(response.railDomainProduct.railOffer)
+            railCostBreakDownViewModel.railCostSummaryBreakdownObservable.onNext(response)
         }
 
         vm.createTripCallTriggeredObservable.subscribe {

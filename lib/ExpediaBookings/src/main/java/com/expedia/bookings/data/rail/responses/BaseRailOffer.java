@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.rail.responses;
 
+import java.math.BigDecimal;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -13,25 +14,48 @@ import com.expedia.bookings.data.rail.RailPassenger;
 public abstract class BaseRailOffer {
 	public Money totalPrice;
 	public String railOfferToken;
-	public List<PriceBreakdown> priceBreakdown;
-	public List<RailPassenger> passengerList;
+	public List<PriceBreakdown> priceBreakdown = Collections.emptyList();
+	public List<RailPassenger> passengerList = Collections.emptyList();
+
+	private Map<PriceCategoryCode, PriceBreakdown> mapping = new HashMap<>();
 
 	public abstract List<? extends RailProduct> getRailProductList();
 
 	@NotNull
 	public Map<PriceCategoryCode, PriceBreakdown> getPriceBreakdownByCode() {
-		Map<PriceCategoryCode, PriceBreakdown> mapping = new HashMap<>();
+		return Collections.unmodifiableMap(getPriceBreakdownMap());
+	}
+
+	public void addPriceBreakdownForCode(Money money, PriceCategoryCode code) {
+		PriceBreakdown priceBreakdown = new PriceBreakdown();
+		if (money != null) {
+			priceBreakdown.amount = money.amount;
+			priceBreakdown.currencyCode = money.currencyCode;
+			priceBreakdown.formattedPrice = money.formattedPrice;
+			priceBreakdown.formattedWholePrice = money.formattedWholePrice;
+		}
+		priceBreakdown.priceCategoryCode = code;
+		mapping.put(priceBreakdown.priceCategoryCode, priceBreakdown);
+	}
+
+	private Map<PriceCategoryCode, PriceBreakdown> getPriceBreakdownMap() {
 		for (PriceBreakdown breakdown : priceBreakdown) {
 			mapping.put(breakdown.priceCategoryCode, breakdown);
 		}
-		return Collections.unmodifiableMap(mapping);
+		return mapping;
 	}
 
 	public static class PriceBreakdown {
+		public BigDecimal amount;
+		public String currencyCode;
 		public String formattedPrice;
 		public String formattedWholePrice;
 		public String priceCategory;
 		public PriceCategoryCode priceCategoryCode;
+
+		public boolean isZero() {
+			return (amount == null || amount.compareTo(BigDecimal.ZERO) == 0);
+		}
 	}
 
 	public enum PriceCategoryCode {
