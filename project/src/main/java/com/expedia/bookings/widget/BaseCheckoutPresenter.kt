@@ -370,7 +370,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             if (forward) {
                 setToolbarTitle()
             }
-            if (User.isLoggedIn(context)) paymentWidget.viewmodel.userLogin.onNext(true)
         }
     }
 

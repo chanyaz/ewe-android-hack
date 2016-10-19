@@ -5,12 +5,15 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.BaseApiResponse
-import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Location
-import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.BaseApiResponse
+import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.hotels.Hotel
@@ -22,6 +25,10 @@ import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -44,7 +51,7 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-@Config(shadows = arrayOf(ShadowResourcesEB::class))
+@Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class PackageCheckoutTest {
 
     val server = MockWebServer()
@@ -108,6 +115,69 @@ class PackageCheckoutTest {
         checkoutResponseSubscriber.assertValueCount(1)
 
         assertEquals("malcolmnguyen@gmail.com", checkoutResponseSubscriber.onNextEvents[0].second)
+    }
+
+    @Test
+    fun testLoggedInUserPaymentStatusMultipleCards() {
+        val testUserLoggedIn = TestSubscriber<Boolean>()
+        checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
+        createTrip()
+
+        val testUser = User()
+        val testCard1 = setUpCreditCards("4111111111111111", "testVisa", PaymentType.CARD_VISA, "1")
+        val testCard2 = setUpCreditCards("6111111111111111", "testDiscover", PaymentType.CARD_DISCOVER, "2")
+        testUser.addStoredCreditCard(testCard1)
+        testUser.addStoredCreditCard(testCard2)
+        testUser.primaryTraveler = enterTraveler(Traveler())
+        Db.setUser(testUser)
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
+
+        checkout.onLoginSuccess()
+
+        assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
+
+        checkout.showPaymentPresenter()
+        checkout.paymentWidget.selectFirstAvailableCard()
+        checkout.paymentWidget.validateAndBind()
+        assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
+    }
+
+    @Test
+    fun testLoggedInUserPaymentStatusSingleCard() {
+        val testUserLoggedIn = TestSubscriber<Boolean>()
+        checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
+        createTrip()
+
+        val testUser = User()
+        val testCard1 = setUpCreditCards("4111111111111111", "testVisa", PaymentType.CARD_VISA, "1")
+        testUser.addStoredCreditCard(testCard1)
+        testUser.primaryTraveler = enterTraveler(Traveler())
+        Db.setUser(testUser)
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
+
+        checkout.onLoginSuccess()
+
+        testUserLoggedIn.awaitTerminalEvent(1, TimeUnit.SECONDS)
+        assertEquals(true, testUserLoggedIn.onNextEvents[0])
+        assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
+    }
+
+    @Test
+    fun testLoggedInUserPaymentStatusNoCards() {
+        val testUserLoggedIn = TestSubscriber<Boolean>()
+        checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
+        createTrip()
+
+        val testUser = User()
+        testUser.primaryTraveler = enterTraveler(Traveler())
+        Db.setUser(testUser)
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
+
+        checkout.onLoginSuccess()
+
+        testUserLoggedIn.awaitTerminalEvent(1, TimeUnit.SECONDS)
+        assertEquals(true, testUserLoggedIn.onNextEvents[0])
+        assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
     }
 
     private fun createTrip() {
@@ -208,5 +278,17 @@ class PackageCheckoutTest {
 
         val packageParams = PackageSearchParams.Builder(12, 329).infantSeatingInLap(infantsInLap).startDate(LocalDate.now().plusDays(1)).endDate(LocalDate.now().plusDays(2)).origin(origin).destination(destination).adults(adults).children(children).build() as PackageSearchParams
         Db.setPackageParams(packageParams)
+    }
+
+    private fun setUpCreditCards(cardNumber: String, description: String, type: PaymentType, id: String) : StoredCreditCard{
+        val fakeCreditCard = StoredCreditCard()
+        val billingInfo = getBillingInfo()
+        fakeCreditCard.cardNumber = cardNumber
+        fakeCreditCard.nameOnCard = billingInfo.nameOnCard
+        fakeCreditCard.description = description
+        fakeCreditCard.type = type
+        fakeCreditCard.id = id
+        fakeCreditCard.setIsSelectable(true)
+        return fakeCreditCard
     }
 }
