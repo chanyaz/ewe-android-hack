@@ -16,6 +16,7 @@ import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
 import android.widget.ListView;
@@ -54,6 +55,7 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 	private ListView mListView;
 	private TextView mNumFlightsTextView;
 	private TextView mPriceLabelTextView;
+	private TextView airlineFeeBar;
 	private FlightLegSummarySection mSectionFlightLeg;
 
 	private int mLegPosition;
@@ -99,16 +101,16 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 		// Configure the header
 		mListView = Ui.findView(v, android.R.id.list);
 		mListView.setDividerHeight(0);
-		ViewGroup header = Ui.inflate(inflater, R.layout.snippet_flight_header, mListView, false);
+		final ViewGroup header = Ui.inflate(inflater, R.layout.snippet_flight_header, mListView, false);
 		mNumFlightsTextView = Ui.findView(header, R.id.num_flights_text_view);
 		mPriceLabelTextView = Ui.findView(header, R.id.flight_price_label_text_view);
 		mSectionFlightLeg = Ui.findView(header, R.id.flight_leg);
+		airlineFeeBar = Ui.findView(v, R.id.airline_fee_bar);
 		mSectionFlightLeg.setBackgroundResource(R.drawable.bg_flight_card_search_results_top);
 		mListView.addHeaderView(header);
 		mListView.setHeaderDividersEnabled(false);
 
 		if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
-			TextView airlineFeeBar = Ui.findView(v, R.id.airline_fee_bar);
 			if (PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee()) {
 				airlineFeeBar.setText(getString(R.string.airline_may_charge_notice));
 			}
@@ -116,6 +118,14 @@ public class FlightListFragment extends ListFragment implements OnScrollListener
 				airlineFeeBar.setText(getString(R.string.airline_charge_notice));
 			}
 			airlineFeeBar.setVisibility(View.VISIBLE);
+			airlineFeeBar.getViewTreeObserver().addOnGlobalLayoutListener(
+				new ViewTreeObserver.OnGlobalLayoutListener() {
+					@Override
+					public void onGlobalLayout() {
+						airlineFeeBar.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+						mSectionFlightLeg.setTranslationY(airlineFeeBar.getHeight());
+					}
+				});
 		}
 
 
