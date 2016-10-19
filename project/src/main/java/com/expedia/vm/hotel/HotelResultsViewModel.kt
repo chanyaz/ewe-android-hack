@@ -16,7 +16,6 @@ import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -84,12 +83,11 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
                 .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format())
-
+        searchingForHotelsDateTime.onNext(DateTime.now())
         searchHotels(params)
     }
 
     private fun searchHotels(params: HotelSearchParams, isInitial: Boolean = true) {
-        searchingForHotelsDateTime.onNext(DateTime.now())
         val isPerceivedInstant = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
         val makeMultipleCalls = isInitial && isPerceivedInstant
         hotelServices?.search(params,if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED, resultsReceivedDateTimeObservable)?.subscribe(object : Observer<HotelSearchResponse> {
