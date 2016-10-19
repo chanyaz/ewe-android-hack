@@ -83,15 +83,6 @@ public class RailSearchResponse {
 			return false;
 		}
 
-		public boolean hasRailCardApplied() {
-			boolean railCardApplied = false;
-			if (CollectionUtils.isNotEmpty(railProductList)) {
-				List<RailCard> fareQualifierList = railProductList.get(0).fareQualifierList;
-				railCardApplied = CollectionUtils.isNotEmpty(fareQualifierList);
-			}
-			return railCardApplied;
-		}
-
 		public boolean isOpenReturn() {
 			boolean openReturn = false;
 			if (CollectionUtils.isNotEmpty(railProductList)) {
@@ -103,6 +94,11 @@ public class RailSearchResponse {
 		public String getUniqueIdentifier() {
 			return railProductList.get(0).aggregatedCarrierFareClassDisplayName +
 				railProductList.get(0).aggregatedCarrierServiceClassDisplayName + totalPrice.amount;
+		}
+
+		@Override
+		public List<? extends RailProduct> getRailProductList() {
+			return railProductList;
 		}
 	}
 

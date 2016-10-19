@@ -8,6 +8,8 @@ import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.expedia.bookings.utils.CollectionUtils;
+
 public class RailProduct {
 	public List<Integer> legOptionIndexList;
 	public List<PassengerSegmentFare> segmentFareDetailList = new ArrayList();
@@ -27,5 +29,9 @@ public class RailProduct {
 			mapping.put(segmentFare.travelSegmentIndex, segmentFare);
 		}
 		return Collections.unmodifiableMap(mapping);
+	}
+
+	public boolean hasRailCardApplied() {
+		return CollectionUtils.isNotEmpty(fareQualifierList);
 	}
 }

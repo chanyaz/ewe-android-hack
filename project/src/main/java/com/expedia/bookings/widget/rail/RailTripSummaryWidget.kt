@@ -14,21 +14,45 @@ import com.expedia.vm.rail.RailLegSummaryViewModel
 import com.expedia.vm.rail.RailTripSummaryViewModel
 
 class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
-    val travelDates: TextView by bindView(R.id.outbound_dates_view)
+    val outboundDateView: TextView by bindView(R.id.outbound_dates_view)
     val outboundLegSummary: RailLegSummaryWidget by bindView(R.id.rail_outbound_leg_widget)
 
+    val inboundDateView: TextView by bindView(R.id.inbound_dates_view)
+    val inboundLegSummary: RailLegSummaryWidget by bindView(R.id.rail_inbound_leg_widget)
+
     private val outboundSummaryViewModel = RailLegSummaryViewModel(context)
+    private val inboundSummaryViewModel = RailLegSummaryViewModel(context)
 
     init {
         View.inflate(context, R.layout.rail_overview_summary_widget, this)
         orientation = VERTICAL
-        outboundLegSummary.viewModel = outboundSummaryViewModel
+        outboundLegSummary.bindViewModel(outboundSummaryViewModel)
+        inboundLegSummary.bindViewModel(inboundSummaryViewModel)
     }
 
     var viewModel: RailTripSummaryViewModel by notNullAndObservable { vm ->
-        vm.formattedDatesObservable.subscribeText(travelDates)
-        vm.railLegObserver.subscribe(outboundSummaryViewModel.railLegOptionObserver)
-        vm.railCardNameObservable.subscribe(outboundSummaryViewModel.railCardAppliedNameSubject)
-        vm.fareDescriptionObservable.subscribe(outboundSummaryViewModel.fareDescriptionLabelObservable)
+        vm.railOfferObserver.subscribe { offer ->
+            outboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[0])
+            if (offer.railProductList.size == 2) {
+                inboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[1])
+                inboundLegSummary.visibility = View.VISIBLE
+            }
+        }
+
+        vm.formattedOutboundDateObservable.subscribeText(outboundDateView)
+        vm.formattedInboundDateObservable.subscribeTextAndVisibility(inboundDateView)
+
+        vm.railOutboundLegObserver.subscribe(outboundSummaryViewModel.railLegOptionObserver)
+        vm.railInboundLegObserver.subscribe(inboundSummaryViewModel.railLegOptionObserver)
+
+        outboundSummaryViewModel.showLegInfoObservable.subscribe(vm.moreInfoOutboundClicked)
+        inboundSummaryViewModel.showLegInfoObservable.subscribe(vm.moreInfoInboundClicked)
+    }
+
+    fun reset() {
+        inboundDateView.visibility = View.GONE
+        inboundLegSummary.visibility = View.GONE
+        outboundLegSummary.reset()
+        inboundLegSummary.reset()
     }
 }

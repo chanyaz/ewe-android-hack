@@ -1,11 +1,8 @@
 package com.expedia.vm.test.rail
 
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.rail.responses.RailCard
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailDateTime
 import com.expedia.bookings.data.rail.responses.RailLegOption
-import com.expedia.bookings.data.rail.responses.RailProduct
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.rail.RailTripSummaryViewModel
 import org.junit.Test
@@ -17,34 +14,23 @@ import kotlin.test.assertEquals
 @RunWith(RobolectricRunner::class)
 class RailTripSummaryViewModelTest {
 
-    val fareDescription = "Fare Description"
-    val railCardName = "Rail Card Name"
     @Test
     fun testOutputs() {
         val viewModel = RailTripSummaryViewModel(RuntimeEnvironment.application)
 
         val testFormattedDatesSubscriber = TestSubscriber<String>()
-        val testFareDescriptionSubscriber = TestSubscriber<String>()
-        val testRailCardNameSubscriber = TestSubscriber<String>()
 
-        viewModel.formattedDatesObservable.subscribe(testFormattedDatesSubscriber)
-        viewModel.fareDescriptionObservable.subscribe(testFareDescriptionSubscriber)
-        viewModel.railCardNameObservable.subscribe(testRailCardNameSubscriber)
+        viewModel.formattedOutboundDateObservable.subscribe(testFormattedDatesSubscriber)
 
         viewModel.railOfferObserver.onNext(getRailOffer())
-        viewModel.railLegObserver.onNext(getRailLegOption())
+        viewModel.railOutboundLegObserver.onNext(getRailLegOption())
 
-        assertEquals(fareDescription, testFareDescriptionSubscriber.onNextEvents[0])
-        assertEquals(railCardName, testRailCardNameSubscriber.onNextEvents[0])
         assertEquals("Outbound - Sat Oct 08", testFormattedDatesSubscriber.onNextEvents[0])
     }
 
-    private fun getRailOffer(): RailSearchResponse.RailOffer {
-        val railOffer = RailSearchResponse.RailOffer()
-        val railProduct = RailProduct()
-        railProduct.aggregatedFareDescription = fareDescription
-        val fareQualifierList = listOf(RailCard("", "", railCardName))
-        railProduct.fareQualifierList = fareQualifierList
+    private fun getRailOffer(): RailCreateTripResponse.RailTripOffer {
+        val railOffer = RailCreateTripResponse.RailTripOffer()
+        val railProduct = RailCreateTripResponse.RailTripProduct()
         railOffer.railProductList = listOf(railProduct)
         return railOffer
     }

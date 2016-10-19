@@ -26,7 +26,7 @@ class RailAmenitiesWidget(context: Context) : FrameLayout(context) {
         View.inflate(context, R.layout.rail_amenities_widget, this)
     }
 
-    private fun addAmenityViews(segmentAmenities: List<Pair<RailSegment, PassengerSegmentFare?>>) {
+    private fun addAmenityViews(segmentAmenities: List<Pair<RailSegment, PassengerSegmentFare>>) {
         segmentAmenities.forEach { segmentAmenity ->
             if (!segmentAmenity.first.isTransfer) {
                 val amenityView = RailSegmentAmenitiesView(context)

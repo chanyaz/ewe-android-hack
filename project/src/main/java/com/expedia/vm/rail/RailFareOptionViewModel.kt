@@ -18,13 +18,15 @@ class RailFareOptionViewModel(val context: Context, val showDeltaPricing: Boolea
     val priceObservable = offerFareSubject.zipWith(inboundLegCheapestPriceSubject, { offer, cheapestPrice ->
         calculatePrice(offer, cheapestPrice)
     })
-
-    val fareTitleObservable = offerFareSubject.map { offer -> offer.railProductList.first().aggregatedCarrierFareClassDisplayName }
-    val fareDescriptionObservable = offerFareSubject.map { offer -> offer.railProductList.first().aggregatedFareDescription }
-    val railCardAppliedObservable = offerFareSubject.map { offer -> offer.hasRailCardApplied() }
     val amenitiesSelectedObservable = showAmenitiesForFareClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
     val fareDetailsSelectedObservable = showFareRulesForFareClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
     val offerSelectedObservable = offerSelectButtonClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
+
+    private val railProductObservable = offerFareSubject.map { offer -> offer.railProductList.first() }
+    val fareTitleObservable = railProductObservable.map { railProduct -> railProduct.aggregatedCarrierFareClassDisplayName }
+    val fareDescriptionObservable = railProductObservable.map { railProduct -> railProduct.aggregatedFareDescription }
+    val railCardAppliedObservable = railProductObservable.map { railProduct -> railProduct.hasRailCardApplied() }
+
 
     private fun calculatePrice(offer: RailSearchResponse.RailOffer, inboundLegCheapestPrice: Money?): String {
         if (inboundLegCheapestPrice == null) {

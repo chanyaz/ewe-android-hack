@@ -16,6 +16,8 @@ public abstract class BaseRailOffer {
 	public List<PriceBreakdown> priceBreakdown;
 	public List<RailPassenger> passengerList;
 
+	public abstract List<? extends RailProduct> getRailProductList();
+
 	@NotNull
 	public Map<PriceCategoryCode, PriceBreakdown> getPriceBreakdownByCode() {
 		Map<PriceCategoryCode, PriceBreakdown> mapping = new HashMap<>();

@@ -5,6 +5,7 @@ import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.rail.RailFareRulesViewModel
 import org.junit.Before
 import org.junit.Test
@@ -22,6 +23,12 @@ class RailFareRulesViewModelTest {
 
     private var activity: Activity by Delegates.notNull()
 
+    val expectedFareNoteOne = "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx"
+    val expectedFareNoteTwo = "Valid only for travel via (changing trains or passing through) London."
+
+    val expectedRefundRuleOne = "Your ticket is refundable before 9 Dec, 2016 12:35"
+    val expectedRefundRuleTwo = "If you cancel before your ticket is printed, an admin fee of 40.00 GBP will be deducted from your refund."
+
     @Before
     fun setUp() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
@@ -33,7 +40,10 @@ class RailFareRulesViewModelTest {
 
         val fareRulesSubscriber = TestSubscriber<List<String>>()
         fareRulesVM.fareRulesObservable.subscribe(fareRulesSubscriber)
-        fareRulesVM.offerObservable.onNext(buildRailOfferWithFareNotesOnly())
+
+        val railProduct = generateRailProduct()
+        railProduct.refundableRules = emptyList()
+        fareRulesVM.railProductObservable.onNext(railProduct)
 
         assertEquals(2, fareRulesSubscriber.onNextEvents[0].size)
         assertFareNotes(fareRulesSubscriber.onNextEvents[0])
@@ -45,9 +55,9 @@ class RailFareRulesViewModelTest {
 
         val fareRulesSubscriber = TestSubscriber<List<String>>()
         fareRulesVM.fareRulesObservable.subscribe(fareRulesSubscriber)
-        fareRulesVM.offerObservable.onNext(buildRailOfferWithRefundableRulesAndFareNotes())
+        fareRulesVM.railProductObservable.onNext(generateRailProduct())
 
-        assertEquals(4, fareRulesSubscriber.onNextEvents[0].size)
+        assertEquals(5, fareRulesSubscriber.onNextEvents[0].size)
         assertFareNotesAndRefundableRules(fareRulesSubscriber.onNextEvents[0])
     }
 
@@ -58,48 +68,25 @@ class RailFareRulesViewModelTest {
         val noFareRulesSubscriber = TestSubscriber<Boolean>()
         fareRulesVM.noFareRulesObservable.subscribe(noFareRulesSubscriber)
 
-        fareRulesVM.offerObservable.onNext(buildRailOfferWithNoFareRules())
+        fareRulesVM.railProductObservable.onNext(RailProduct())
         assertTrue(noFareRulesSubscriber.onNextEvents[0])
     }
 
     private fun assertFareNotes(fareRules: List<String>) {
-        assertEquals("Fare note 1", fareRules[0])
-        assertEquals("Fare note 2", fareRules[1])
+        assertEquals(expectedFareNoteOne, fareRules[0])
+        assertEquals(expectedFareNoteTwo, fareRules[1])
     }
 
     private fun assertFareNotesAndRefundableRules(fareRules: List<String>) {
-        assertEquals("Fare note 1", fareRules[0])
-        assertEquals("Fare note 2", fareRules[1])
-        assertEquals("Refundable 1", fareRules[2])
-        assertEquals("Refundable 2", fareRules[3])
+        assertEquals(expectedFareNoteOne, fareRules[0])
+        assertEquals(expectedFareNoteTwo, fareRules[1])
+        assertEquals(expectedRefundRuleOne, fareRules[2])
+        assertEquals(expectedRefundRuleTwo, fareRules[3])
     }
 
-    private fun buildRailOfferWithRefundableRulesAndFareNotes(): RailOffer {
-        val offer = buildRailOfferWithFareNotesOnly()
-        offer.railProductList[0].refundableRules = ArrayList<String>()
-        offer.railProductList[0].refundableRules.add("Refundable 1")
-        offer.railProductList[0].refundableRules.add("Refundable 2")
-
-        return offer
-    }
-
-    private fun buildRailOfferWithFareNotesOnly(): RailOffer {
-        var offer = RailOffer()
-
-        var product = RailProduct()
-        product.fareNotes = ArrayList<String>()
-        product.fareNotes.add("Fare note 1")
-        product.fareNotes.add("Fare note 2")
-        offer.railProductList = ArrayList<RailProduct>()
-        offer.railProductList.add(product)
-
-        return offer
-    }
-
-    private fun buildRailOfferWithNoFareRules(): RailOffer {
-        var offer = RailOffer()
-        offer.railProductList = ArrayList<RailProduct>()
-        offer.railProductList.add(RailProduct())
-        return offer
+    private fun generateRailProduct(): RailProduct {
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_product_segments_8_9_10.json")
+        val railProduct = resourceReader.constructUsingGson(RailProduct::class.java)
+        return railProduct
     }
 }

@@ -79,6 +79,14 @@ public class EspressoUtils {
 		onView(withId(id)).check(matches(not(isDisplayed())));
 	}
 
+	public static void assertViewIsDisplayed(Matcher<View> viewMatcher) {
+		onView(viewMatcher).check(matches(isDisplayed()));
+	}
+
+	public static void assertViewIsNotDisplayed(Matcher<View> viewMatcher) {
+		onView(viewMatcher).check(matches(not(isDisplayed())));
+	}
+
 	public static void assertViewWithContentDescription(ViewInteraction view, String description) {
 		view.check(matches(withContentDescription(description)));
 	}
