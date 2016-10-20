@@ -39,6 +39,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
@@ -132,7 +133,7 @@ class HotelDetailViewModelTest {
         vm.hotelPriceContentDesc.subscribe(testSubscriberText)
         vm.hotelOffersSubject.onNext(offer2)
 
-        assertEquals("Regularly ${vm.strikeThroughPriceObservable.value}, now ${vm.pricePerNightObservable.value}.\\u0020Original price discounted ${vm.discountPercentageObservable.value.first}.\\u0020",
+        assertEquals("Regularly ${vm.strikeThroughPriceObservable.value}, now ${vm.priceToShowCustomerObservable.value}.\\u0020Original price discounted ${vm.discountPercentageObservable.value.first}.\\u0020",
                 testSubscriberText.onNextEvents[0])
     }
 
@@ -216,6 +217,9 @@ class HotelDetailViewModelTest {
         packageHotelOffer.packagePricing.hotelPricing.mandatoryFees.feeTotal = Money(20, "USD")
         packageHotelOffer.cancellationPolicy = PackageOffersResponse.CancellationPolicy()
         packageHotelOffer.cancellationPolicy.hasFreeCancellation = false
+        packageHotelOffer.pricePerPerson = Money()
+        packageHotelOffer.pricePerPerson.amount = BigDecimal(25.00)
+        packageHotelOffer.pricePerPerson.currencyCode = "USD"
         packageOffer.packageHotelOffers = arrayListOf(packageHotelOffer)
 
         val offer = HotelOffersResponse.convertToHotelOffersResponse(offer1, packageOffer, packageSearchParams)
@@ -305,7 +309,7 @@ class HotelDetailViewModelTest {
         val dates = DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)) + " - " +
                 DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate))
         assertEquals(dates, vm.searchDatesObservable.value)
-        assertEquals("1 Room, ${searchParams.guests} Guests", vm.searchInfoObservable.value)
+        assertEquals("$dates, ${searchParams.guests} Guests", vm.searchInfoObservable.value)
     }
 
     @Test fun priceShownToCustomerIncludesCustomerFees() {

@@ -6,9 +6,12 @@ import android.graphics.drawable.Drawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.Rate
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -17,9 +20,18 @@ import com.expedia.util.getABTestGuestRatingBackground
 import com.expedia.util.getABTestGuestRatingText
 import com.expedia.vm.BaseHotelDetailViewModel
 import rx.Observer
+import java.math.BigDecimal
 
 open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         BaseHotelDetailViewModel(context, roomSelectedObserver) {
+
+    override fun pricePerDescriptor(): String {
+        return context.getString(R.string.per_night)
+    }
+
+    override fun getLobPriceObservable(rate: HotelRate) {
+        priceToShowCustomerObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
+    }
 
     override fun showFeeType() : Boolean {
         return false
