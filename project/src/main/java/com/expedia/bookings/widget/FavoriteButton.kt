@@ -29,7 +29,7 @@ class FavoriteButton(context: Context, attrs : AttributeSet) : ImageView(context
 
     init {
         setOnClickListener(this)
-        setImageResource(R.drawable.favoriting_unselected_with_shadow)
+        setImageResource(R.drawable.favoriting_unselected)
     }
 
     override fun onClick(v: View?) {
@@ -65,11 +65,11 @@ class FavoriteButton(context: Context, attrs : AttributeSet) : ImageView(context
             }
             val handler = Handler()
             handler.postDelayed({
-                val imageRes = if (isInDetailView) R.drawable.favoriting_selected else R.drawable.favoriting_selected_with_shadow
+                val imageRes = if (isInDetailView) R.drawable.favoriting_selected else R.drawable.favoriting_selected
                 setImageResource(imageRes)
             }, if (animated) HEART_IMAGE_WAIT_TIME else 0)
         } else {
-            val imageRes = if (isInDetailView) R.drawable.favoriting_unselected else R.drawable.favoriting_unselected_with_shadow
+            val imageRes = if (isInDetailView) R.drawable.favoriting_unselected else R.drawable.favoriting_unselected
             setImageResource(imageRes)
         }
     }
