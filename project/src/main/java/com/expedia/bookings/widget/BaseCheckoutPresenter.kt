@@ -42,6 +42,7 @@ import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.safeSubscribe
 import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
@@ -55,18 +56,19 @@ import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import rx.Observable
+import rx.Subscription
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
     /** abstract methods **/
+    protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
     abstract fun getPaymentWidgetViewModel(): PaymentViewModel
     abstract fun injectComponents()
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateDbTravelers()
     abstract fun trackShowSlideToPurchase()
-    abstract fun trackShowBundleOverview()
     abstract fun makeCheckoutViewModel(): BaseCheckoutViewModel
     abstract fun makeCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun getCheckoutViewModel(): BaseCheckoutViewModel
@@ -84,6 +86,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     protected var userAccountRefresher = UserAccountRefresher(context, getLineOfBusiness(), this)
     private val checkoutDialog = ProgressDialog(context)
     private val createTripDialog = ProgressDialog(context)
+    private var trackShowingCkoOverviewSubscription: Subscription? = null
 
     /** views **/
     val handle: FrameLayout by bindView(R.id.handle)
@@ -259,13 +262,28 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         initLoggedInState(User.isLoggedIn(context))
     }
 
+    fun trackShowBundleOverview() {
+        trackShowingCkoOverviewSubscription?.unsubscribe()
+        val createTripResponse = getCreateTripViewModel().tripResponseObservable.value
+        if (createTripResponse != null) {
+            fireCheckoutOverviewTracking(createTripResponse)
+        }
+        else {
+            trackShowingCkoOverviewSubscription = getCreateTripViewModel().tripResponseObservable.safeSubscribe { tripResponse ->
+                // Un-subscribe:- as we only want to track the initial load of cko overview
+                trackShowingCkoOverviewSubscription?.unsubscribe()
+                fireCheckoutOverviewTracking(tripResponse!!)
+            }
+        }
+    }
+
     private fun setUpViewModels() {
         priceChangeViewModel = PriceChangeViewModel(context, getLineOfBusiness())
         baseCostSummaryBreakdownViewModel =  getCostSummaryBreakdownViewModel()
         bundleTotalPriceViewModel = BundleTotalPriceViewModel(context)
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
-        getCreateTripViewModel().tripResponseObservable.subscribe(getCheckoutViewModel().tripResponseObservable)
+        getCreateTripViewModel().tripResponseObservable.safeSubscribe(getCheckoutViewModel().tripResponseObservable)
         getCheckoutViewModel().cardFeeTripResponse.subscribe(getCreateTripViewModel().tripResponseObservable)
     }
 
