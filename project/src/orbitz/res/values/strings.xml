@@ -145,9 +145,4 @@
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Showing package details. Button to close.</string>
 
-    <!-- package hotel results O-Mazing Deal text label -->
-    <string name="unreal_deal_text">O\u002DMazing Deal</string>
-    <!-- Hotel O-Mazing Deal content description for accessibility. Eg. O-Mazing Deal Book this and get free hotel -->
-    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">O\u002DMazing Deal {unrealdeal}\u0020</string>
-
 </resources>
