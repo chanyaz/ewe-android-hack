@@ -22,6 +22,7 @@ import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
+import com.expedia.util.safeSubscribe
 import com.expedia.vm.WebViewViewModel
 
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
@@ -47,7 +48,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     init {
         inflate()
-        checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
+        checkoutPresenter.getCreateTripViewModel().tripResponseObservable.safeSubscribe { trip ->
             resetCheckoutState()
         }
         checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {
@@ -147,6 +148,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutPresenter.mainContent.visibility = View.GONE
             bundleOverviewHeader.nestedScrollView.visibility = VISIBLE
             bundleOverviewHeader.nestedScrollView.foreground?.alpha = 0
+            checkoutPresenter.trackShowBundleOverview()
         }
     }
 
@@ -203,13 +205,12 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.nestedScrollView.foreground.alpha = if (forward) 255 else 0
             checkoutPresenter.chevron.rotation = if (forward) 0f else 180f
             bundleOverviewHeader.nestedScrollView.visibility =  if (forward) GONE else VISIBLE
-            if (!forward) {
-                checkoutPresenter.trackShowBundleOverview()
-            }
             bundleOverviewHeader.toolbar.subtitle = ""
             if (forward) {
                 checkoutPresenter.adjustScrollingSpace()
                 checkoutPresenter.travelerPresenter.updateAllTravelerStatuses()
+            } else {
+                checkoutPresenter.trackShowBundleOverview()
             }
         }
 
