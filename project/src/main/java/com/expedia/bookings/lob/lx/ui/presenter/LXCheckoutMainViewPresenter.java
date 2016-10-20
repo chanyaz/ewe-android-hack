@@ -69,6 +69,11 @@ public class LXCheckoutMainViewPresenter extends CheckoutBasePresenter
 	}
 
 	@Override
+	protected String getAccessibilityTextForPurchaseButton() {
+		return getResources().getString(R.string.accessibility_reserve_button);
+	}
+
+	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);

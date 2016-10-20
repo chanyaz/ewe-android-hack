@@ -60,6 +60,11 @@ public class CarCheckoutMainViewPresenter extends CheckoutBasePresenter implemen
 	}
 
 	@Override
+	protected String getAccessibilityTextForPurchaseButton() {
+		return getResources().getString(R.string.accessibility_reserve_button);
+	}
+
+	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
 		ButterKnife.inject(this);

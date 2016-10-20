@@ -193,7 +193,6 @@
                 android:layout_marginLeft="@dimen/car_slide_to_purchase_padding"
                 android:layout_marginRight="@dimen/car_slide_to_purchase_padding"
                 android:background="#00000000" />
-
         </LinearLayout>
     </LinearLayout>
 

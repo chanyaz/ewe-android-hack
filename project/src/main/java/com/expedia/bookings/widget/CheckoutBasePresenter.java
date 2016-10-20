@@ -48,6 +48,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	ExpandableCardView.IExpandedListener {
 
 	protected abstract LineOfBusiness getLineOfBusiness();
+	protected abstract String getAccessibilityTextForPurchaseButton();
 
 	public CheckoutBasePresenter(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -209,7 +210,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			scrollView.addOnScrollListener(checkoutScrollListener);
 		}
 
-		slideToContainer.setOnClickListener(new OnClickListener() {
+		slideWidget.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (AccessibilityUtil.isTalkBackEnabled(getContext())) {
@@ -395,17 +396,25 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	};
 
 	public void animateInSlideToPurchase(boolean visible) {
-		// If its already in position, don't do it again
-		if (slideToContainer.getVisibility() == (visible ? VISIBLE : INVISIBLE)) {
-			return;
-		}
-
 		boolean acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox();
 		boolean acceptedTerms = acceptTermsWidget.getVm().getAcceptedTermsObservable().getValue();
 		if (acceptTermsRequired && !acceptedTerms) {
 			return; // don't show if terms have not ben accepted yet
 		}
 
+		// If its already in position, don't do it again
+		if (slideToContainer.getVisibility() == (visible ? VISIBLE : INVISIBLE)) {
+			return;
+		}
+
+		if (AccessibilityUtil.isTalkBackEnabled(getContext()) && visible) {
+			//hide the slider for talkback users and show a purchase button
+			slideWidget.setText(getAccessibilityTextForPurchaseButton());
+			slideWidget.hideTouchTarget();
+			AccessibilityUtil.appendRoleContDesc(slideWidget, getAccessibilityTextForPurchaseButton(), R.string.accessibility_cont_desc_role_button);
+		}
+
+		// animate the container in
 		slideToContainer.setTranslationY(visible ? slideToContainer.getHeight() : 0);
 		slideToContainer.setVisibility(VISIBLE);
 		ObjectAnimator animator = ObjectAnimator

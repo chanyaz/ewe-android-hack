@@ -46,7 +46,6 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : CheckoutBasePresenter(context, attr) {
-
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
     var emailOptInStatus = PublishSubject.create<MerchandiseSpam>()
     var hotelCheckoutSummaryWidget: HotelCheckoutSummaryWidget by Delegates.notNull()
@@ -272,4 +271,7 @@ class HotelCheckoutMainViewPresenter(context: Context, attr: AttributeSet) : Che
         }
     }
 
+    override fun getAccessibilityTextForPurchaseButton(): String {
+        return resources.getString(R.string.accessibility_purchase_button)
+    }
 }
