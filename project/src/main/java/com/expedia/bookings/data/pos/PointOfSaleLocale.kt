@@ -98,16 +98,4 @@ class PointOfSaleLocale(private val data: JSONObject) {
 
     /** Rails Payment and Ticket Delivery Fees URL */
     val railsPaymentAndTicketDeliveryFeesURL by lazy { data.optString("railsPaymentAndTicketDeliveryFeesURL") }
-
-    /** National Rail Conditions of Travel text */
-    val railsNationalRailConditionsOfTravelLinkText by lazy { data.optString("railsNationalRailConditionsOfTravelLinkText") }
-
-    /** Rails Supplier Terms and Conditions text */
-    val railsSupplierTermsAndConditionsLinkText by lazy { data.optString("railsSupplierTermsAndConditionsLinkText") }
-
-    /** Rails Terms of Use text */
-    val railsTermOfUseLinkText by lazy { data.optString("railsTermOfUseLinkText") }
-
-    /** Rails Payment and Ticket Delivery Fees text */
-    val railsPaymentAndTicketDeliveryFeesLinkText by lazy { data.optString("railsPaymentAndTicketDeliveryFeesLinkText") }
 }
