@@ -73,6 +73,8 @@
     <string name="cars_total_template">Total %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Slide to reserve</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Reserve</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Checkout</string>
     <!-- Text for error toolbar-->
