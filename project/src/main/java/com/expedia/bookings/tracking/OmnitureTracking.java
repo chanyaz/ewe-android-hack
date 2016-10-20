@@ -85,6 +85,8 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.rail.requests.RailSearchRequest;
+import com.expedia.bookings.data.rail.responses.RailLeg;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -5718,6 +5720,9 @@ public class OmnitureTracking {
 	private static final String RAIL_ONE_WAY_TRIP_DETAILS = "App.Rail.Search.Oneway.Details";
 	private static final String RAIL_AMENITIES = "App.Rail.Amenities";
 	private static final String RAIL_FARES = "App.Rail.FareRules";
+	private static final String RAIL_SEARCH_ONE_WAY = "App.Rail.Search.Oneway";
+	private static final String RAIL_SEARCH_ROUND_TRIP_OUT = "App.Rail.Search.Roundtrip.Out";
+	private static final String RAIL_SEARCH_ROUND_TRIP_IN = "App.Rail.Search.Roundtrip.In";
 
 	private static ADMS_Measurement createTrackRailPageLoadEventBase(String pageName) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
@@ -5767,4 +5772,55 @@ public class OmnitureTracking {
 		String pageName = RAIL_FARES;
 		createTrackRailPageLoadEventBase(pageName).track();
 	}
+
+	public static void trackRailOneWaySearch(RailLeg outboundLeg, RailSearchRequest railSearchRequest) {
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(RAIL_SEARCH_ONE_WAY);
+		Log.d(TAG, "Tracking \"" + RAIL_SEARCH_ONE_WAY + "\"");
+		s.setAppState(RAIL_SEARCH_ONE_WAY);
+		setOutboundTrackingDetails(s, outboundLeg, railSearchRequest);
+		s.track();
+	}
+
+	public static void trackRailRoundTripOutbound(RailLeg outboundLeg, RailSearchRequest railSearchRequest) {
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(RAIL_SEARCH_ROUND_TRIP_OUT);
+		Log.d(TAG, "Tracking \"" + RAIL_SEARCH_ROUND_TRIP_OUT + "\"");
+		s.setAppState(RAIL_SEARCH_ROUND_TRIP_OUT);
+		setOutboundTrackingDetails(s, outboundLeg, railSearchRequest);
+		s.track();
+	}
+
+	private static void setOutboundTrackingDetails(ADMS_Measurement s, RailLeg outboundLeg, RailSearchRequest railSearchRequest) {
+		s.setEvents("event12,event124");
+		s.setProp(1, String.valueOf(outboundLeg.legOptionList.size()));
+
+		s.setProp(3, railSearchRequest.getOrigin().hierarchyInfo.rails.stationCode);
+		s.setEvar(3, "D=c3");
+		s.setProp(4,  railSearchRequest.getDestination().hierarchyInfo.rails.stationCode);
+		s.setEvar(4, "D=c4");
+		setDateValues(s, railSearchRequest.getStartDate(), railSearchRequest.getEndDate());
+
+		StringBuilder evar47String = new StringBuilder("RL|");
+		if (railSearchRequest.isRoundTripSearch()) {
+			evar47String.append("RT|");
+		}
+		else {
+			evar47String.append("OW|");
+		}
+		evar47String.append("A" + railSearchRequest.getAdults() + "|");
+		evar47String.append("S" + railSearchRequest.getSeniors().size() + "|");
+		evar47String.append("C" + railSearchRequest.getChildren().size() + "|");
+		evar47String.append("Y" + railSearchRequest.getYouths().size());
+
+		s.setEvar(47, evar47String.toString());
+
+		// Freeform location
+		if (!TextUtils.isEmpty(railSearchRequest.getDestination().regionNames.fullName)) {
+			s.setEvar(48, railSearchRequest.getDestination().regionNames.fullName);
+		}
+	}
+
+	public static void trackRailRoundTripInbound() {
+		createTrackRailPageLoadEventBase(RAIL_SEARCH_ROUND_TRIP_IN).track();
+	}
+
 }
