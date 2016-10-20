@@ -264,12 +264,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     fun trackShowBundleOverview() {
         trackShowingCkoOverviewSubscription?.unsubscribe()
-        val createTripResponse = getCreateTripViewModel().tripResponseObservable.value
+        val createTripResponse = getCreateTripViewModel().createTripResponseObservable.value
         if (createTripResponse != null) {
             fireCheckoutOverviewTracking(createTripResponse)
         }
         else {
-            trackShowingCkoOverviewSubscription = getCreateTripViewModel().tripResponseObservable.safeSubscribe { tripResponse ->
+            trackShowingCkoOverviewSubscription = getCreateTripViewModel().createTripResponseObservable.safeSubscribe { tripResponse ->
                 // Un-subscribe:- as we only want to track the initial load of cko overview
                 trackShowingCkoOverviewSubscription?.unsubscribe()
                 fireCheckoutOverviewTracking(tripResponse!!)
@@ -283,8 +283,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         bundleTotalPriceViewModel = BundleTotalPriceViewModel(context)
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
-        getCreateTripViewModel().tripResponseObservable.safeSubscribe(getCheckoutViewModel().tripResponseObservable)
-        getCheckoutViewModel().cardFeeTripResponse.subscribe(getCreateTripViewModel().tripResponseObservable)
+        getCreateTripViewModel().createTripResponseObservable.safeSubscribe(getCheckoutViewModel().createTripResponseObservable)
+        getCheckoutViewModel().cardFeeTripResponse.subscribe(getCreateTripViewModel().createTripResponseObservable)
     }
 
     private fun initLoggedInState(isUserLoggedIn: Boolean) {

@@ -183,7 +183,7 @@ class PackageCheckoutTest {
     private fun createTrip() {
         checkout.travelerManager.updateDbTravelers(Db.getPackageParams(), activity)
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
-        checkout.getCreateTripViewModel().tripResponseObservable.subscribe(tripResponseSubscriber)
+        checkout.getCreateTripViewModel().createTripResponseObservable.subscribe(tripResponseSubscriber)
 
         val createTripParams = PackageCreateTripParams("create_trip", "", 1, false, emptyList())
         checkout.getCreateTripViewModel().tripParams.onNext(createTripParams)

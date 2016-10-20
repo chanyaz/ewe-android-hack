@@ -228,7 +228,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse)
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
-        createTripViewModel.tripResponseObservable.safeSubscribe { trip -> trip!!
+        createTripViewModel.createTripResponseObservable.safeSubscribe { trip -> trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
         }

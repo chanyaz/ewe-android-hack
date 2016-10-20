@@ -37,7 +37,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
-        vm.tripResponseObservable.safeSubscribe { response ->
+        vm.createTripResponseObservable.safeSubscribe { response ->
             response as PackageCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
@@ -57,7 +57,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
             totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
             isPassportRequired(response)
         }
-        getCheckoutViewModel().priceChangeObservable.subscribe(getCreateTripViewModel().tripResponseObservable)
+        getCheckoutViewModel().priceChangeObservable.subscribe(getCreateTripViewModel().createTripResponseObservable)
     }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {

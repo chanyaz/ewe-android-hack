@@ -54,7 +54,7 @@ abstract class BaseCheckoutViewModel(val context: Context) {
     val clearTravelers = BehaviorSubject.create<Unit>()
     val paymentCompleted = BehaviorSubject.create<BillingInfo?>()
     val cvvCompleted = BehaviorSubject.create<String>()
-    val tripResponseObservable = BehaviorSubject.create<TripResponse?>()
+    val createTripResponseObservable = BehaviorSubject.create<TripResponse?>()
     val checkoutParams = BehaviorSubject.create<BaseCheckoutParams>()
     val bookingSuccessResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
 
@@ -109,7 +109,7 @@ abstract class BaseCheckoutViewModel(val context: Context) {
             compositeSubscription?.add(paymentViewModel.cardBIN
                     .debounce(1, TimeUnit.SECONDS, getScheduler())
                     .subscribe { fetchCardFees(cardId = it, tripId = getTripId()) })
-            compositeSubscription?.add(tripResponseObservable
+            compositeSubscription?.add(createTripResponseObservable
                     .subscribe {
                         val cardId = paymentViewModel.cardBIN.value
                         fetchCardFees(cardId, getTripId())

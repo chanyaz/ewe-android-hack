@@ -48,7 +48,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     init {
         inflate()
-        checkoutPresenter.getCreateTripViewModel().tripResponseObservable.safeSubscribe { trip ->
+        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
             resetCheckoutState()
         }
         checkoutPresenter.getCheckoutViewModel().priceChangeObservable.subscribe {

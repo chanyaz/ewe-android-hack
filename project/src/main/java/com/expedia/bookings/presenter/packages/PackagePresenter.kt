@@ -66,7 +66,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                     packagePrice.packageTotalPrice.currencyCode))
             checkoutPresenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
         }
-        checkoutPresenter.getCreateTripViewModel().tripResponseObservable.safeSubscribe { trip -> trip!!
+        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip -> trip!!
             expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
         }
         checkoutPresenter.getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->

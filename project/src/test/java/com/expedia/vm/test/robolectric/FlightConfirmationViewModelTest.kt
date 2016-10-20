@@ -20,7 +20,6 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowApplication
 import rx.observers.TestSubscriber
@@ -68,7 +67,7 @@ class FlightConfirmationViewModelTest {
         vm.confirmationObservable.onNext(Pair(response, customerEmail))
 
         destinationTestSubscriber.assertValue(destination)
-        itinNumberTestSubscriber.assertValue("#${response.newTrip.itineraryNumber} sent to $customerEmail")
+        itinNumberTestSubscriber.assertValue("#${response.newTrip!!.itineraryNumber} sent to $customerEmail")
         expediaPointsSubscriber.assertValue("$userPoints Expedia+ Points")
         crossSellWidgetView.assertValue(true)
     }

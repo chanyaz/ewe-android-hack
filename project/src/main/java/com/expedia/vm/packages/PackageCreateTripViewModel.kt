@@ -48,7 +48,7 @@ class PackageCreateTripViewModel(var packageServices: PackageServices, val conte
                 } else {
                     Db.getTripBucket().clearPackages()
                     Db.getTripBucket().add(TripBucketItemPackages(response))
-                    tripResponseObservable.onNext(response)
+                    createTripResponseObservable.onNext(response)
 
                     //set the hotel check in, check out dates on checkout overview from create trip response
                     val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");

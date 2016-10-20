@@ -1,10 +1,23 @@
 package com.expedia.bookings.data.flights
 
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.TripResponse
 import com.google.gson.annotations.SerializedName
 import org.joda.time.DateTime
 
-class FlightCheckoutResponse() : FlightCreateTripResponse() {
+class FlightCheckoutResponse() : TripResponse() {
+    override fun getTripTotalExcludingFee(): Money {
+        throw UnsupportedOperationException("TripTotalExcludingFee is not implemented for flights. totalPrice field is untouched/fee-less")
+    }
+
+    override fun tripTotalPayableIncludingFeeIfZeroPayableByPoints(): Money {
+        val totalPrice = details.offer.totalPrice.copy()
+        return totalPrice
+    }
+
+    override fun isCardDetailsRequiredForBooking(): Boolean {
+        return true
+    }
 
     @SerializedName("flightDetailResponse")
     lateinit override var details: FlightTripDetails
@@ -58,10 +71,6 @@ class FlightCheckoutResponse() : FlightCreateTripResponse() {
     fun getLastFlightLeg(): FlightLeg {
         val legs = getLastFlightTripDetails().legs
         return legs[legs.size - 1]
-    }
-
-    override fun getOffer(): FlightTripDetails.FlightOffer {
-        return getFirstFlightTripDetails().offer
     }
 
     fun getLastFlightLastSegment(): FlightLeg.FlightSegment {
