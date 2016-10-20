@@ -5,9 +5,9 @@ import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class RailFareOptionsViewModel {
+class RailFareOptionsViewModel(val showDeltaPricing: Boolean) {
     //inputs
-    val railOffersPairSubject = BehaviorSubject.create<Pair<List<RailSearchResponse.RailOffer>, Money?>>()
+    val railOffersAndInboundCheapestPricePairSubject = BehaviorSubject.create<Pair<List<RailSearchResponse.RailOffer>, Money?>>()
 
     //outputs
     val offerSelectedSubject = PublishSubject.create<RailSearchResponse.RailOffer>()

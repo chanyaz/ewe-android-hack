@@ -14,7 +14,6 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
-import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class RailFareOptionViewTest {
@@ -25,13 +24,13 @@ class RailFareOptionViewTest {
 
     @Test
     fun testOneWayRailFareOptionDisplayed() {
-        val railFareOptionViewModel = RailFareOptionViewModel()
+        val railFareOptionViewModel = RailFareOptionViewModel(getContext(), false)
 
         val railFareOptionView = RailFareOptionView(getContext())
         railFareOptionView.viewModel = railFareOptionViewModel
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
-        railFareOptionViewModel.cheapestPriceSubject.onNext(null)
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(null)
 
         assertEquals("$10", railFareOptionView.priceView.text)
         assertEquals("Fare class", railFareOptionView.fareTitle.text)
@@ -41,13 +40,13 @@ class RailFareOptionViewTest {
 
     @Test
     fun testRoundTripRailFareOptionDisplayed() {
-        val railFareOptionViewModel = RailFareOptionViewModel()
+        val railFareOptionViewModel = RailFareOptionViewModel(getContext(), false)
 
         val railFareOptionView = RailFareOptionView(getContext())
         railFareOptionView.viewModel = railFareOptionViewModel
 
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
-        railFareOptionViewModel.cheapestPriceSubject.onNext(Money("15", "USD"))
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("15", "USD"))
 
         assertEquals("$25", railFareOptionView.priceView.text)
         assertEquals("Fare class", railFareOptionView.fareTitle.text)
@@ -55,8 +54,23 @@ class RailFareOptionViewTest {
     }
 
     @Test
+    fun testRoundTripDeltaPriceFareOptionDisplayed() {
+        val railFareOptionViewModel = RailFareOptionViewModel(getContext(), true)
+
+        val railFareOptionView = RailFareOptionView(getContext())
+        railFareOptionView.viewModel = railFareOptionViewModel
+
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("5", "USD"))
+
+        assertEquals("+$5", railFareOptionView.priceView.text)
+        assertEquals("Fare class", railFareOptionView.fareTitle.text)
+        assertEquals("Fare Description", railFareOptionView.fareDescription.text)
+    }
+
+    @Test
     fun testRailFareOptionClickEvents() {
-        val railFareOptionViewModel = RailFareOptionViewModel()
+        val railFareOptionViewModel = RailFareOptionViewModel(getContext(), false)
 
         val testOfferClickedSubscriber = TestSubscriber<Unit>()
         val testShowAmenitiesClickedSubscriber = TestSubscriber<Unit>()

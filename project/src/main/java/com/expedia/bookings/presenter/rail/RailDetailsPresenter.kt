@@ -15,7 +15,7 @@ import com.expedia.bookings.widget.rail.RailDetailsTimeline
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.rail.BaseRailDetailsViewModel
+import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailFareOptionsViewModel
 
 open class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -27,17 +27,16 @@ open class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Present
     val overtakenMessage: TextView by bindView(R.id.overtaken_message)
     val overtakenDivider: View by bindView(R.id.overtaken_message_divider)
 
-    private val fareOptionsViewModel = RailFareOptionsViewModel()
+    private val fareOptionsViewModel = RailFareOptionsViewModel(showDeltaPricing())
 
-    var viewModel: BaseRailDetailsViewModel by notNullAndObservable { detailsVM ->
+    var viewModel: RailDetailsViewModel by notNullAndObservable { detailsVM ->
         detailsVM.formattedTimeIntervalSubject.subscribeText(timeRangeTextView)
         detailsVM.formattedLegInfoSubject.subscribeText(infoLine)
         detailsVM.overtaken.subscribeVisibility(overtakenMessage)
         detailsVM.overtaken.subscribeVisibility(overtakenDivider)
 
         detailsVM.railLegOptionSubject.subscribe(timeline.railLegOptionObserver)
-        detailsVM.railOffersPairSubject.subscribe(fareOptionsViewModel.railOffersPairSubject)
-
+        detailsVM.railOffersAndInboundCheapestPricePairSubject.subscribe(fareOptionsViewModel.railOffersAndInboundCheapestPricePairSubject)
         fareOptionsViewModel.showAmenitiesSubject.subscribe(detailsVM.showAmenitiesObservable)
         fareOptionsViewModel.offerSelectedSubject.subscribe(detailsVM.offerSelectedObservable)
         fareOptionsViewModel.showFareRulesSubject.subscribe(detailsVM.showFareRulesObservable)
@@ -52,6 +51,10 @@ open class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Present
             val activity = context as AppCompatActivity
             activity.onBackPressed()
         }
+    }
+
+    protected open fun showDeltaPricing(): Boolean {
+        return false
     }
 }
 

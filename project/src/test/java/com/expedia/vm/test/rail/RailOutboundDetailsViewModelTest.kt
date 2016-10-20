@@ -6,7 +6,7 @@ import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
-import com.expedia.vm.rail.RailOutboundDetailsViewModel
+import com.expedia.vm.rail.RailDetailsViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -18,7 +18,7 @@ import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class RailOutboundDetailsViewModelTest {
-    val viewModel = RailOutboundDetailsViewModel(RuntimeEnvironment.application)
+    val viewModel = RailDetailsViewModel(RuntimeEnvironment.application)
 
     @Test
     fun testOvertaken() {
@@ -48,7 +48,7 @@ class RailOutboundDetailsViewModelTest {
 
         val offerList = generateOffersForLeg()
         val offerPairSubscriber = TestSubscriber.create<Pair<List<RailSearchResponse.RailOffer>, Money?>>()
-        viewModel.railOffersPairSubject.subscribe(offerPairSubscriber)
+        viewModel.railOffersAndInboundCheapestPricePairSubject.subscribe(offerPairSubscriber)
 
         val mockSearchResponse = Mockito.mock(RailSearchResponse::class.java)
         mockSearchResponse.legList = emptyList()
