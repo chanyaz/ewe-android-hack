@@ -97,7 +97,7 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
         if (!url.isNullOrBlank()) hotelLargeThumbnailUrlObservable.onNext(url)
 
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
-        val isMidOrTopTier = Db.getUser() != null && Db.getUser().primaryTraveler.loyaltyMembershipTier.isMidOrTopTier
+        val isMidOrTopTier = Db.getUser()?.primaryTraveler?.loyaltyMembershipTier?.isMidOrTopTier ?: false
         vipMessageVisibilityObservable.onNext(isVipAvailable && isMidOrTopTier)
         val isVipLoyaltyApplied = isVipAvailable && isMidOrTopTier && loyaltyAvailabilityObservable.value
         vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyApplied)

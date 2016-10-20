@@ -22,10 +22,11 @@ class TravelerValidator {
         infantsInLap = params.infantSeatingInLap
     }
 
-    fun isValidForFlightBooking(traveler: Traveler, index: Int, passportRequired: Boolean): Boolean {
-        return hasValidBirthDate(traveler) && hasValidName(traveler.name)
-                && (!TravelerUtils.isMainTraveler(index) || isValidPhone(traveler.phoneNumber)) && hasValidGender(traveler)
-                && (!passportRequired || hasValidPassport(traveler)) && (index > 0 || isValidEmail(traveler.email))
+    fun isValidForFlightBooking(traveler: Traveler, index: Int, passportRequired: Boolean, isLoggedIn: Boolean): Boolean {
+        return hasValidBirthDate(traveler) && hasValidName(traveler.name) && hasValidGender(traveler)
+                && (!TravelerUtils.isMainTraveler(index) || isValidPhone(traveler.phoneNumber))
+                && (isLoggedIn || !TravelerUtils.isMainTraveler(index) || isValidEmail(traveler.email))
+                && (!passportRequired || hasValidPassport(traveler))
     }
 
     fun isValidForRailBooking(traveler: Traveler) : Boolean {
