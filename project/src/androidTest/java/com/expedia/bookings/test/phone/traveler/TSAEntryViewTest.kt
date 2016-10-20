@@ -34,12 +34,11 @@ class TSAEntryViewTest {
     @Test
     fun birthDateErrorState() {
         tsaEntryView = activityTestRule.root as TSAEntryView
-        val tsaVM = TravelerTSAViewModel(activityTestRule.activity)
-        tsaVM.updateTraveler(Traveler())
+        val tsaVM = TravelerTSAViewModel(Traveler(), activityTestRule.activity)
 
         uiThreadTestRule.runOnUiThread {
             tsaEntryView.viewModel = tsaVM
-            tsaVM.dateOfBirthErrorSubject.onNext(true)
+            tsaVM.dateOfBirthViewModel.errorSubject.onNext(true)
         }
 
         //test for accessibility content description

@@ -20,7 +20,10 @@ import com.expedia.bookings.widget.FlightTravelerEntryWidget;
 import com.expedia.vm.traveler.FlightTravelerViewModel;
 
 import static android.support.test.espresso.Espresso.onView;
+import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static org.hamcrest.core.AllOf.allOf;
@@ -56,6 +59,23 @@ public class FlightTravelerEntryWidgetTest {
 		EspressoUtils.assertViewIsDisplayed(R.id.passport_country_spinner);
 		onView(allOf(withSpinnerText(testEmptyPassport)));
 		onView(allOf(withSpinnerText(testEmptyPassport), withCompoundDrawable(R.drawable.ic_error_blue))).check(doesNotExist());
+	}
+
+	@Test
+	public void testFocusValidation() throws Throwable {
+		Db.getTravelers().add(new Traveler());
+		testVM = new FlightTravelerViewModel(InstrumentationRegistry.getTargetContext(), 0, true);
+		setViewModel(testVM);
+
+		onView(withId(R.id.first_name_input)).perform(click());
+		onView(withId(R.id.last_name_input)).perform(click());
+		onView(withId(R.id.first_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)));
+
+		onView(withId(R.id.edit_email_address)).perform(click());
+		onView(withId(R.id.last_name_input)).check(matches(withCompoundDrawable(R.drawable.invalid)));
+
+		onView(withId(R.id.edit_phone_number)).perform(click());
+		onView(withId(R.id.edit_email_address)).check(matches(withCompoundDrawable(R.drawable.invalid)));
 	}
 
 	@Test

@@ -2,38 +2,23 @@ package com.expedia.vm.traveler
 
 import android.content.Context
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.validation.TravelerValidator
-import com.expedia.util.endlessObserver
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
-import javax.inject.Inject
+import com.expedia.bookings.section.CommonSectionValidators
+import com.mobiata.android.validation.ValidationError
 
-open class TravelerEmailViewModel(val context: Context) {
-    lateinit var travelerValidator: TravelerValidator
-        @Inject set
-
-    private var traveler: Traveler? = null
-
-    val emailAddressSubject = BehaviorSubject.create<String>()
-    val emailErrorSubject = PublishSubject.create<Boolean>()
-
-    val emailAddressObserver = endlessObserver<String>() { email ->
-        traveler?.email = email
-    }
+open class TravelerEmailViewModel(var traveler: Traveler, val context: Context) : BaseTravelerValidatorViewModel() {
 
     init {
-        Ui.getApplication(context).travelerComponent().inject(this)
+        textSubject.subscribe { email -> traveler?.email = email }
+        textSubject.onNext(if (traveler.email.isNullOrEmpty()) "" else traveler.email)
+        updateEmail(traveler)
     }
 
     fun updateEmail(traveler: Traveler) {
         this.traveler = traveler
-        emailAddressSubject.onNext(if (traveler.email.isNullOrEmpty()) "" else traveler.email)
+        textSubject.onNext(traveler.email)
     }
 
-    open fun validate(): Boolean {
-        val validEmail = travelerValidator.isValidEmail(traveler?.email)
-        emailErrorSubject.onNext(!validEmail)
-        return validEmail
+    override fun isValid(): Boolean {
+        return CommonSectionValidators.EMAIL_STRING_VALIDATIOR_STRICT.validate(getText()) == ValidationError.NO_ERROR
     }
 }

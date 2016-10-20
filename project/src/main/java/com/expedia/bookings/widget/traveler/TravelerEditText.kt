@@ -7,28 +7,40 @@ import android.support.v4.content.ContextCompat
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.AttributeSet
-import android.util.Log
 import android.view.View
 import android.view.accessibility.AccessibilityNodeInfo
 import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeEditText
 import com.expedia.util.subscribeTextChange
+import com.expedia.vm.traveler.BaseTravelerValidatorViewModel
 import rx.Observer
 import rx.Subscription
-import rx.subjects.PublishSubject
+import rx.subjects.BehaviorSubject
+import java.util.ArrayList
 
-class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(context, attrs) {
+class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(context, attrs), View.OnFocusChangeListener {
     var valid = true
     var preErrorDrawable: Drawable? = null
+
     val errorIcon: Drawable
     var errorContDesc = ""
 
     private var textChangedSubscription: Subscription? = null
     private var errorSubscription: Subscription? = null
+    private var onFocusChangeListeners = ArrayList<OnFocusChangeListener>()
+
+    var viewModel: BaseTravelerValidatorViewModel by notNullAndObservable {
+        viewModel.textSubject.subscribeEditText(this)
+        subscribeToError(viewModel.errorSubject)
+        addTextChangedSubscriber(viewModel.textSubject)
+    }
 
     init {
+        onFocusChangeListener = this
         errorIcon = ContextCompat.getDrawable(context,
                 Ui.obtainThemeResID(context, R.attr.skin_errorIndicationExclaimationDrawable))
         addTextChangedListener(TravelerTextWatcher())
@@ -43,6 +55,10 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         }
     }
 
+    fun addOnFocusChangeListener(listener: OnFocusChangeListener) {
+        onFocusChangeListeners.add(listener)
+    }
+
     fun addTextChangedSubscriber(observer: Observer<String>?) {
         if (observer != null) {
             textChangedSubscription?.unsubscribe()
@@ -50,7 +66,7 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
         }
     }
 
-    fun subscribeToError(errorSubject: PublishSubject<Boolean>?) {
+    fun subscribeToError(errorSubject: BehaviorSubject<Boolean>?) {
         if (errorSubject != null) {
             errorSubscription?.unsubscribe()
             errorSubscription = errorSubject.subscribe { error ->
@@ -96,6 +112,15 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
                 setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], preErrorDrawable, compounds[3])
                 valid = true
             }
+        }
+    }
+
+    override fun onFocusChange(view: View?, hasFocus: Boolean) {
+        if (!hasFocus) {
+            viewModel.validate()
+        }
+        onFocusChangeListeners.forEach { listener ->
+            listener.onFocusChange(view, hasFocus)
         }
     }
 

@@ -32,6 +32,7 @@ import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.RootMatchers.isDialog;
 import static android.support.test.espresso.matcher.RootMatchers.withDecorView;
 import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
@@ -354,6 +355,11 @@ public class PackageScreen {
 	public static void clickTravelerAdvanced() {
 		onView(withId(R.id.traveler_advanced_options_button)).perform(click());
 
+	}
+
+	public static void closeDateErrorDialog() {
+		onView(withId(android.R.id.button1)).perform(waitForViewToDisplay());
+		onView(withId(android.R.id.button1)).inRoot(isDialog()).perform(click());
 	}
 
 	public static void clickLegalInformation() {

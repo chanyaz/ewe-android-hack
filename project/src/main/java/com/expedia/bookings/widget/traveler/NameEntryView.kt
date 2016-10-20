@@ -7,7 +7,6 @@ import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeEditText
 import com.expedia.vm.traveler.TravelerNameViewModel
 
 class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
@@ -16,18 +15,10 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
     val middleName: TravelerEditText by bindView(R.id.middle_name_input)
     val lastName: TravelerEditText by bindView(R.id.last_name_input)
 
-    var viewModel: TravelerNameViewModel by notNullAndObservable {
-        viewModel.firstNameSubject.subscribeEditText(firstName)
-        firstName.subscribeToError(viewModel.firstNameErrorSubject)
-        firstName.addTextChangedSubscriber(viewModel.firstNameObserver)
-
-        viewModel.middleNameSubject.subscribeEditText(middleName)
-        middleName.subscribeToError(viewModel.middleNameErrorSubject)
-        middleName.addTextChangedSubscriber(viewModel.middleNameObserver)
-
-        viewModel.lastNameSubject.subscribeEditText(lastName)
-        lastName.subscribeToError(viewModel.lastNameErrorSubject)
-        lastName.addTextChangedSubscriber(viewModel.lastNameObserver)
+    var viewModel: TravelerNameViewModel by notNullAndObservable { vm ->
+        firstName.viewModel = vm.firstNameViewModel
+        middleName.viewModel = vm.middleNameViewModel
+        lastName.viewModel = vm.lastNameViewModel
     }
 
     init {

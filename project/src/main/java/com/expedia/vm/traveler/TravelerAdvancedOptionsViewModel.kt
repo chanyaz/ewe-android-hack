@@ -1,19 +1,18 @@
 package com.expedia.vm.traveler
 
+import android.content.Context
 import com.expedia.bookings.data.Traveler
 import com.expedia.util.endlessObserver
 import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
-class TravelerAdvancedOptionsViewModel() {
+class TravelerAdvancedOptionsViewModel(context: Context) {
     private var traveler: Traveler by Delegates.notNull()
+    val redressViewModel = RedressViewModel(context)
 
-    val redressNumberSubject = BehaviorSubject.create<String>()
     val seatPreferenceSubject = BehaviorSubject.create<Traveler.SeatPreference>()
     val assistancePreferenceSubject = BehaviorSubject.create<Traveler.AssistanceType>()
-
-    val redressNumberObserver = endlessObserver<String>() { traveler.redressNumber = it }
 
     val seatPreferenceObserver = endlessObserver<Traveler.SeatPreference> { seatPref ->
         traveler.seatPreference = seatPref
@@ -25,7 +24,7 @@ class TravelerAdvancedOptionsViewModel() {
 
     fun updateTraveler(traveler: Traveler) {
         this.traveler = traveler
-        redressNumberSubject.onNext(traveler.redressNumber)
+        redressViewModel.traveler = traveler
         seatPreferenceSubject.onNext(traveler.seatPreference)
         assistancePreferenceSubject.onNext(traveler.assistance)
     }

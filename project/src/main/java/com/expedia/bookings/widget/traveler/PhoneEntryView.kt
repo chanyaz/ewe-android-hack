@@ -12,7 +12,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TelephoneSpinner
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeEditText
 import com.expedia.vm.traveler.TravelerPhoneViewModel
 
 class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
@@ -20,10 +19,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
 
     var viewModel: TravelerPhoneViewModel by notNullAndObservable { vm ->
-        vm.phoneNumberSubject.subscribeEditText(phoneNumber)
-        phoneNumber.subscribeToError(vm.phoneErrorSubject)
-        phoneNumber.addTextChangedSubscriber(vm.phoneNumberObserver)
-
+        phoneNumber.viewModel = vm.phoneViewModel
         vm.phoneCountyCodeSubject.subscribe { countryCode ->
             if (!TextUtils.isEmpty(countryCode)) {
                 phoneSpinner.update(countryCode, "")

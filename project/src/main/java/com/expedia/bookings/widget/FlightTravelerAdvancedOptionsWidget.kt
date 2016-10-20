@@ -12,7 +12,6 @@ import com.expedia.bookings.section.SeatPreferenceSpinnerAdapter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeEditText
 import com.expedia.vm.traveler.TravelerAdvancedOptionsViewModel
 
 class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
@@ -22,8 +21,7 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
     val seatPreferenceSpinner: Spinner by bindView(R.id.edit_seat_preference_spinner)
 
     var viewModel: TravelerAdvancedOptionsViewModel by notNullAndObservable { vm ->
-        vm.redressNumberSubject.subscribeEditText(redressNumber)
-        redressNumber.addTextChangedSubscriber(vm.redressNumberObserver)
+        redressNumber.viewModel = vm.redressViewModel
 
         vm.seatPreferenceSubject.subscribe { seatPref ->
             val seatAdapter = seatPreferenceSpinner.adapter as SeatPreferenceSpinnerAdapter
