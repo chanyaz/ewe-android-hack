@@ -719,22 +719,6 @@ public class PointOfSale {
 		return getPosLocale().getRailsPaymentAndTicketDeliveryFeesURL();
 	}
 
-	public String getRailsNationalRailConditionsOfTravelText() {
-		return getPosLocale().getRailsNationalRailConditionsOfTravelLinkText();
-	}
-
-	public String getRailsSupplierTermsAndConditionsText() {
-		return getPosLocale().getRailsSupplierTermsAndConditionsLinkText();
-	}
-
-	public String getRailsTermOfUseText() {
-		return getPosLocale().getRailsTermOfUseLinkText();
-	}
-
-	public String getRailsPaymentAndTicketDeliveryFeesText() {
-		return getPosLocale().getRailsPaymentAndTicketDeliveryFeesLinkText();
-	}
-
 	public String getAccountCreationTermsAndConditionsURL() {
 		return getLoyaltyTermsAndConditionsUrl() == null ? getPosLocale().getTermsAndConditionsUrl()
 			: getLoyaltyTermsAndConditionsUrl();
