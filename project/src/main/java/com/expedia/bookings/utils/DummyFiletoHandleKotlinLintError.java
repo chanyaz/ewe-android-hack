@@ -351,7 +351,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.checkout_selected_card,
 		R.drawable.add_new_credit_card,
 		R.layout.rail_cell,
-		R.string.number_results_announcement_text_TEMPLATE,
+		R.plurals.number_results_announcement_text_TEMPLATE,
 		R.string.checkout_hotelsv2_enter_payment_details_line2,
 		R.string.package_flight_overview_bundle_total_label,
 		R.string.package_flight_overview_per_person_TEMPLATE,

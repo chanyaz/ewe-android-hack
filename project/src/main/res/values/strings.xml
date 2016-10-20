@@ -187,8 +187,11 @@
         <item quantity="one">{number} Result</item>
         <item quantity="other">{number} Results</item>
     </plurals>
-    <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered -->
-    <string name="number_results_announcement_text_TEMPLATE">{results} Filtered</string>
+    <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
+    <plurals name="number_results_announcement_text_TEMPLATE">
+        <item quantity="one">{number} Result Filtered</item>
+        <item quantity="other">{number} Results Filtered</item>
+    </plurals>
 
     <!-- Checkout -->
     <!-- Car model templates-->
