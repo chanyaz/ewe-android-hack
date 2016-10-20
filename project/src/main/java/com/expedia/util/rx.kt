@@ -70,6 +70,34 @@ fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
     }
 }
 
+// Only emits non-null data
+fun <T : Any?> Observable<T>.safeSubscribe(observer: Observer<T>): Subscription {
+    return this.subscribe(object : Observer<T> {
+        override fun onNext(t: T) {
+            if (t != null) {
+                observer.onNext(t)
+            }
+        }
+
+        override fun onCompleted() {
+            observer.onCompleted()
+        }
+
+        override fun onError(e: Throwable?) {
+            observer.onError(e)
+        }
+    })
+}
+
+// Only emits non-null data
+fun <T: Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Subscription {
+    return this.subscribe {
+        if (it != null) {
+            onNextFunc.invoke(it as T)
+        }
+    }
+}
+
 fun Observable<FontCache.Font>.subscribeFont(textview: TextView?) {
     this.subscribe { font ->
         FontCache.setTypeface(textview, font)

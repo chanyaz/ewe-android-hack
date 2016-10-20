@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.safeSubscribe
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.InsuranceViewModel
@@ -60,7 +61,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             handlePriceChange(it)
         }
 
-        getCheckoutViewModel().tripResponseObservable.subscribe(flightCostSummaryObservable)
+        getCheckoutViewModel().tripResponseObservable.safeSubscribe(flightCostSummaryObservable)
         getCreateTripViewModel().showNoInternetRetryDialog.subscribe {
             val retryFun = fun() {
                 getCreateTripViewModel().performCreateTrip.onNext(Unit)
@@ -102,13 +103,12 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             userAccountRefresher.ensureAccountIsRefreshed()
         }
 
-        getCheckoutViewModel().tripResponseObservable.subscribe { response -> response as FlightCreateTripResponse
+        getCheckoutViewModel().tripResponseObservable.safeSubscribe { response -> response as FlightCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
             insuranceWidget.viewModel.tripObservable.onNext(response)
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
             isPassportRequired(response)
-            trackShowBundleOverview()
         }
     }
 
@@ -151,10 +151,10 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         FlightsV2Tracking.trackSlideToPurchase(cardType ?: PaymentType.UNKNOWN)
     }
 
-    override fun trackShowBundleOverview() {
+    override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
+        createTripResponse as FlightCreateTripResponse
         val flightSearchParams = Db.getFlightSearchParams()
-        val flightCreateTripResponse = getCreateTripViewModel().tripResponseObservable.value as FlightCreateTripResponse
-        FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, flightCreateTripResponse)
+        FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, createTripResponse)
     }
 
     override fun makeCheckoutViewModel(): FlightCheckoutViewModel {
