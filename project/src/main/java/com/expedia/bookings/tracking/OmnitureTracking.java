@@ -4583,6 +4583,9 @@ public class OmnitureTracking {
 		else if (lineOfBusiness.equals(LineOfBusiness.LX) || lineOfBusiness.equals(LineOfBusiness.TRANSPORT)) {
 			trackAppLXCheckoutPayment(lineOfBusiness);
 		}
+		else if (lineOfBusiness.equals(LineOfBusiness.FLIGHTS_V2)) {
+			trackPageLoadFlightCheckoutPaymentEditCard();
+		}
 	}
 
 	public static void trackCheckoutTraveler(LineOfBusiness lineOfBusiness) {
@@ -4592,6 +4595,10 @@ public class OmnitureTracking {
 		else if (lineOfBusiness.equals(LineOfBusiness.LX) || lineOfBusiness.equals(LineOfBusiness.TRANSPORT)) {
 			trackAppLXCheckoutTraveler(lineOfBusiness);
 		}
+	}
+
+	public static void trackFlightCheckoutTravelerEditInfo() {
+		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO);
 	}
 
 	// Pay with points tracking
@@ -5615,10 +5622,6 @@ public class OmnitureTracking {
 
 	public static void trackFlightCheckoutSelectTraveler() {
 		createAndtrackLinkEvent(FLIGHTS_V2_SELECT_TRAVELER, "Flight Checkout");
-	}
-
-	public static void trackFlightCheckoutEditTraveler() {
-		createAndtrackLinkEvent(FLIGHTS_V2_ENTER_TRAVELER, "Flight Checkout");
 	}
 
 	public static void trackPaymentStoredCCSelect() {
