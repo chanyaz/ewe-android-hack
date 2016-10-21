@@ -35,6 +35,7 @@ import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
@@ -647,7 +648,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
+    private val checkoutToConfirmation = object : ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            if (forward) {
+                checkoutPresenter.visibility = GONE
+                AccessibilityUtil.delayFocusToToolbarNavigationIcon(confirmationPresenter.toolbar, 300)
+            }
+        }
+    }
     private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
