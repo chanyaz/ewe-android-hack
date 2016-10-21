@@ -132,9 +132,11 @@ class BillingDetailsPaymentWidgetTest {
 
         givenTripResponse("AmericanExpress")
 
-        billingDetailsPaymentWidget.addressLineOne.setText("891y398y2hifjsuiahssadbajbdjhasbdhjabsdhjbasjhbhjasdbhjasbdhjabsdhjbasjhdbjbasdhjasjhdbjhasbdhjbashjdbashjbdjhasbdhjbashjdbasjhbdjhbasdbhjasbdhjabsdjh")
-
+        billingDetailsPaymentWidget.addressLineOne.setText("12345678901234567890123456789012345678901234567890")
         assertEquals(40, billingDetailsPaymentWidget.addressLineOne.text.length)
+
+        billingDetailsPaymentWidget.addressLineTwo.setText("12345678901234567890123456789012345678901234567890")
+        assertEquals(40, billingDetailsPaymentWidget.addressLineTwo.text.length)
     }
 
     @Test

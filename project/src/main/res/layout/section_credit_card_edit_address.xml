@@ -31,6 +31,7 @@
         android:inputType="textPostalAddress|textCapWords"
         android:nextFocusForward="@id/edit_address_city"
         android:paddingBottom="11dp"
+        android:maxLength="@integer/max_billing_address_length"
         android:maxLines="1"
         android:textSize="@dimen/traveler_input_text_size" />
 
