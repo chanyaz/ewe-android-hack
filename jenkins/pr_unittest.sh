@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 
+KOTLIN_DUMMY_FILE="./project/src/main/java/com/expedia/bookings/utils/DummyFiletoHandleKotlinLintError.java"
+KOTLIN_UNUSED_RESOURCES_REPORT_FILE="project/build/outputs/kotlin-unused-resources.txt"
+
 if [ -n "${BUILD_NUMBER}" ]; then
 	isJenkins=true
 fi
 
 # do python scripts related setup only if we are running in CI context and a special feature requiring python setup is asked for
-if [[ $isJenkins && ("$isPRPoliceEnabled" == "true" || "$isUnitTestsFeedbackBotEnabled" == "true")]]; then
+if [[ $isJenkins && ("$isPRPoliceEnabled" == "true" || "$isUnitTestsFeedbackBotEnabled" == "true") ]]; then
     GITHUB_TOKEN=7d400f5e78f24dbd24ee60814358aa0ab0cd8a76
     HIPCHAT_TOKEN=MdHG4PNWYSGD41jwF4TvVfhNADhw0NnOyGdjw3uI
     export PYTHONIOENCODING=utf-8
@@ -59,6 +62,13 @@ run() {
 run || run
 unitTestStatus=$?
 
+rm ${KOTLIN_UNUSED_RESOURCES_REPORT_FILE}
+cat ${KOTLIN_DUMMY_FILE} | perl ./jenkins/check_for_resources_not_used_by_kotlin.pl > ${KOTLIN_UNUSED_RESOURCES_REPORT_FILE}
+kotlinUnusedResourcesStatus=$?
+if [ $kotlinUnusedResourcesStatus -ne 0 ]; then
+    cat ./project/build/outputs/kotlin-unused-resources.txt
+fi
+
 # only if we are running in CI context and unittests Feedback Bot is enabled
 if [[ $isJenkins && "$isUnitTestsFeedbackBotEnabled" == "true" ]]; then
     python ./jenkins/pr_unit_feedback.py $GITHUB_TOKEN $ghprbGhRepository $ghprbPullId $HIPCHAT_TOKEN
@@ -73,7 +83,7 @@ else
     coverageBotStatus=1
 fi
 
-if [[ ($unitTestStatus -ne 0) || ($prPoliceStatus -ne 0) ]]; then
+if [[ ($unitTestStatus -ne 0) || ($prPoliceStatus -ne 0) || ($kotlinUnusedResourcesStatus -ne 0) ]]; then
     exit 1
 else
     exit 0

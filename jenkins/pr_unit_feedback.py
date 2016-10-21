@@ -22,6 +22,13 @@ def extractCheckstyleErrorMessage(errorMessageList, errorLineList, errorFileName
 def extractUnitTestErrorMessage(failureMessageList, failureClassList, failureFunctionList):
     return reduce(lambda accumulator, (index, failureClass, failureFunction, message): accumulator + "**ERROR " + str(index+1) + "**\n\n" + failureClass + "." + failureFunction + ":" + message + "\n\n", zip(range(len(failureMessageList)), failureClassList, failureFunctionList, failureMessageList), "")
 
+def formatKotlinUnusedResourcesMessage(kotlinUnusedResourcesReportFileName):
+    unusedResourcesErrorMsg = ""
+    if os.path.exists(kotlinUnusedResourcesReportFileName):
+        with open(kotlinUnusedResourcesReportFileName) as unusedResourcesReport:
+            unusedResourcesErrorMsg = unusedResourcesReport.read()
+    return unusedResourcesErrorMsg
+
 def formatLintErrorMessage(lintTestReportFileList):
     lintTestErrorMsg = ""
     for filepath in lintTestReportFileList:
@@ -81,8 +88,9 @@ def main():
     checkstyleReportFileList = ['./lib/ExpediaBookings/build/reports/checkstyle/main.xml', './lib/ExpediaBookings/build/reports/checkstyle/test.xml', './project/build/reports/checkstyle/checkstyle.xml']
     unitTestReportFileList = ['./lib/ExpediaBookings/build/test-results/TEST-com.expedia.*', './project/build/test-results/TEST-com.expedia.*']
     lintTestReportFilePath = ['./project/build/outputs/lint-results-expediaDebug.xml', './project/build/outputs/lint-results-expediaRelease.xml']
+    kotlinUnusedResourcesReportFileName = './project/build/outputs/kotlin-unused-resources.txt'
 
-    unittestsErrorMessage = formatUnitTestErrorMessage(unitTestReportFileList) + formatCheckstyleErrorMessage(checkstyleReportFileList) + formatLintErrorMessage(lintTestReportFilePath)
+    unittestsErrorMessage = formatUnitTestErrorMessage(unitTestReportFileList) + formatCheckstyleErrorMessage(checkstyleReportFileList) + formatLintErrorMessage(lintTestReportFilePath) + formatKotlinUnusedResourcesMessage(kotlinUnusedResourcesReportFileName)
     print unittestsErrorMessage
     createUpdateOrDeleteAutomatedFeedbackComment(githubAccessToken, githubOrganization, githubRepository, prPullId, prBuilderType, unittestsErrorMessage, "java")
 
