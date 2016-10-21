@@ -152,7 +152,7 @@ class FlightCreateTripViewModelTest {
     }
 
     private fun givenGoodCreateTripParams() {
-        val productKey = "happy_roundtrip_0"
+        val productKey = "happy_round_trip"
         val withInsurance = false
         params = FlightCreateTripParams(productKey, withInsurance)
     }

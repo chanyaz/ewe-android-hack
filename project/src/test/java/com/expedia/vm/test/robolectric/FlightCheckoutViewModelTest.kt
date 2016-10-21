@@ -381,12 +381,12 @@ class FlightCheckoutViewModelTest {
         newTripResponse.tealeafTransactionId = tealeafTransactionId
     }
 
-    private fun makeBillingInfo(): BillingInfo {
+    private fun makeBillingInfo(firstName: String = "JexperCC"): BillingInfo {
         val billingInfo = BillingInfo()
         billingInfo.expirationDate = LocalDate()
         billingInfo.location = Location()
         billingInfo.email = "qa-ehcc@mobiata.com"
-        billingInfo.firstName = "JexperCC"
+        billingInfo.firstName = firstName
         billingInfo.lastName = "MobiataTestaverde"
         billingInfo.nameOnCard = billingInfo.firstName + " " + billingInfo.lastName
         billingInfo.setNumberAndDetectType("4111111111111111")
@@ -409,12 +409,12 @@ class FlightCheckoutViewModelTest {
         val billingInfo = makeBillingInfo()
         val traveler = makeTraveler()
         params = FlightCheckoutParams.Builder()
-                        .tealeafTransactionId("tealeafFlight:happy_roundtrip_0")
+                        .tealeafTransactionId("tealeafFlight:happy_round_trip")
                         .travelers(listOf(traveler))
                         .billingInfo(billingInfo)
                         .expectedFareCurrencyCode("USD")
                         .expectedTotalFare("$42")
-                        .tripId("happy_roundtrip_0")
+                        .tripId("happy_round_trip")
                         .cvv("123")
                         .build() as FlightCheckoutParams
     }
@@ -437,7 +437,7 @@ class FlightCheckoutViewModelTest {
         params = FlightCheckoutParams.Builder()
                 .tealeafTransactionId("tealeafFlight:UNKNOWN_ERROR")
                 .travelers(listOf(makeTraveler()))
-                .billingInfo(makeBillingInfo())
+                .billingInfo(makeBillingInfo("unknownerror"))
                 .expectedFareCurrencyCode("USD")
                 .expectedTotalFare("$42")
                 .tripId("UNKNOWN_ERROR")

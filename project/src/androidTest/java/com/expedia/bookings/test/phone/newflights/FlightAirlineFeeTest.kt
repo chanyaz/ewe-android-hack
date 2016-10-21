@@ -18,6 +18,7 @@ import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.joda.time.LocalDate
@@ -86,7 +87,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
     fun testAirlineMayChargeFeesAlwaysShownAustraliaPOS() {
         Common.setPOS(PointOfSaleId.AUSTRALIA)
 
-        SearchScreen.selectFlightOriginAndDestination(0, 1)
+        SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)
 
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
@@ -101,7 +102,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
     fun testAirlineMayChargeFeesAlwaysShownFrenchPOS() {
         Common.setPOS(PointOfSaleId.FRANCE)
 
-        SearchScreen.selectFlightOriginAndDestination(0, 1)
+        SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, 0)
 
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)
@@ -148,7 +149,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
     }
 
     private fun selectFlightsProceedToCheckout() {
-        SearchScreen.selectFlightOriginAndDestination(5, 0)
+        SearchScreen.selectFlightOriginAndDestination(FlightApiMockResponseGenerator.SuggestionResponseType.MAY_CHARGE_OB_FEES, 0)
 
         val startDate = LocalDate.now().plusDays(3)
         val endDate = LocalDate.now().plusDays(8)

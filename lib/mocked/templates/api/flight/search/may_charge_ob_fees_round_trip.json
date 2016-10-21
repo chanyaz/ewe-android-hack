@@ -214,8 +214,8 @@
     {
       "averageTotalPricePerTicket": {
         "amount": "696.00",
-        "formattedPrice": "$696.00",
         "currencyCode": "USD",
+        "formattedPrice": "$696.00",
         "formattedWholePrice": "$696"
       },
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
@@ -242,7 +242,7 @@
         "leg1",
         "leg0"
       ],
-      "mayChargeOBFees": false,
+      "mayChargeOBFees": true,
       "numberOfTickets": 1,
       "pricePerPassengerCategory": [
         {
@@ -267,7 +267,7 @@
           }
         }
       ],
-      "productKey": "checkout_session_timeout",
+      "productKey": "happy_round_trip",
       "seatsRemaining": 1,
       "segmentAttributes": [
         [
@@ -359,7 +359,7 @@
         "currencyCode": "USD"
       },
       "showFees": true,
-      "productKey": "checkout_session_timeout",
+      "productKey": "split_ticket_roundtrip_0",
       "mobileShoppingKey": "MXwwfHxmYWxzZQ-v5-539b59ff4e15338e700a978396b47afc-35-1-st-v5-db30a7e04fb5efaeb4bd6ca09788e9ef-6-1",
       "seatsRemaining": 7,
       "segmentAttributes": [
@@ -380,7 +380,6 @@
       "isInternational": false,
       "isSplitTicket": true,
       "isPassportNeeded": false,
-      "isSplitTicket": true,
       "mayChargeOBFees": false,
       "hasBagFee": false,
       "hasNoBagFee": false
@@ -425,8 +424,8 @@
       "baseFare": "812.46",
       "baseFarePrice": {
         "amount": "812.46",
-        "formattedPrice": "$812.46",
         "currencyCode": "USD",
+        "formattedPrice": "$812.46",
         "formattedWholePrice": "$812"
       },
       "currency": "USD",
@@ -451,8 +450,8 @@
         {
           "basePrice": {
             "amount": "820.46",
-            "currencyCode": "USD",
             "formattedPrice": "$820.46",
+            "currencyCode": "USD",
             "formattedWholePrice": "$820"
           },
           "passengerCategory": "ADULT",
@@ -470,7 +469,7 @@
           }
         }
       ],
-      "productKey": "checkout_session_timeout",
+      "productKey": "happy_roundtrip_0",
       "seatsRemaining": 1,
       "segmentAttributes": [
         [
@@ -490,8 +489,8 @@
       "taxes": "88.54",
       "taxesPrice": {
         "amount": "88.54",
-        "formattedPrice": "$88.54",
         "currencyCode": "USD",
+        "formattedPrice": "$88.54",
         "formattedWholePrice": "$89"
       },
       "totalFare": "896.00",

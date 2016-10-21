@@ -5,7 +5,6 @@
         "changePenaltyAmount": "200.00",
         "changePenaltyPrice": {
           "amount": "200.00",
-          "currencyCode": "USD",
           "formattedPrice": "$200.00",
           "formattedWholePrice": "$200"
         },
@@ -18,98 +17,29 @@
     ],
     "obFeePrice": {
       "amount": "0.00",
-      "currencyCode": "USD",
       "formattedPrice": "$0.00",
       "formattedWholePrice": "$0"
     },
     "obFeeTotalAmount": "0.00",
-    "legs": [
-      {
-        "legId": "c69c1bfb0521dbe1eb2b3891ed4cbe84",
-        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
-        "segments": [
-          {
-            "airlineCode": "AA",
-            "airlineName": "American Airlines",
-            "arrivalAirportCode": "${departureAirport}",
-            "arrivalAirportLocation": "${departureAirport}",
-            "arrivalTimeEpochSeconds": "${returnFlightLandingTimeEpochSeconds}",
-            "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-            "arrivalTimeRaw": "2016-03-22T20:15:00.000-07:00",
-            "arrivalTime": "March 22, 2016 8:15:00 PM",
-            "departureAirportCode": "${arrivalAirport}",
-            "departureAirportLocation": "${arrivalAirport}",
-            "departureTime": "March 22, 2016 5:40:00 PM",
-            "departureTimeEpochSeconds": "${returnFlightTakeoffTimeEpochSeconds}",
-            "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-            "departureTimeRaw": "2016-03-22T17:40:00.000-07:00",
-            "duration": "PT2H35M",
-            "distance": 2572,
-            "distanceUnits": "miles",
-            "equipmentCode": "32B",
-            "equipmentDescription": "Boeing 757-200",
-            "flightNumber": "179",
-            "meal": "Food and beverage for purchase",
-            "onTimePercentage": "70",
-            "providerCode": "Amadeus",
-            "stops": 0
-          }
-        ]
-      },
-      {
-        "legId": "731b8ff3da1b46fd7acf8b7c26f6d82f",
-        "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SEA&destinationapt=SFO&cabinclass=3&mktgcarrier=VX&opcarrier=&farebasis=G21N4&bookingclass=U&travelDate=2016-03-22&flightNumber=798&langid=1033",
-        "segments": [
-          {
-            "airlineCode": "DL",
-            "airlineName": "Delta",
-            "arrivalAirportCode": "${arrivalAirport}",
-            "arrivalAirportLocation": "${arrivalAirport}",
-            "arrivalTimeEpochSeconds": "${departingFlightLandingTimeEpochSeconds}",
-            "arrivalTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-            "arrivalTimeRaw": "2016-03-22T20:15:00.000-07:00",
-            "arrivalTime": "March 22, 2016 8:15:00 PM",
-            "departureAirportCode": "${departureAirport}",
-            "departureAirportLocation": "${departureAirport}",
-            "departureTime": "March 22, 2016 5:40:00 PM",
-            "departureTimeEpochSeconds": "${departingFlightTakeoffTimeEpochSeconds}",
-            "departureTimeZoneOffsetSeconds": "${tzOffsetSeconds}",
-            "departureTimeRaw": "2016-03-22T21:00:00.000-07:00",
-            "duration": "PT2H35M",
-            "distance": 2572,
-            "distanceUnits": "miles",
-            "equipmentCode": "752",
-            "equipmentDescription": "Boeing 757-200",
-            "flightNumber": "2340",
-            "meal": "Food For Purchase",
-            "onTimePercentage": "100",
-            "providerCode": "Amadeus",
-            "stops": 0
-          }
-        ]
-      }
-    ],
     "offer": {
       "averageTotalPricePerTicket": {
-        "amount": "696.00",
+        "amount": "596.00",
         "currencyCode": "USD",
-        "formattedPrice": "$696.00",
-        "formattedWholePrice": "$696"
+        "formattedPrice": "$596.00",
+        "formattedWholePrice": "$596"
       },
       "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=JFK&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
-      "baseFare": "620.46",
+      "baseFare": "520.46",
       "baseFarePrice": {
-        "amount": "620.46",
-        "currencyCode": "USD",
-        "formattedPrice": "$620.46",
-        "formattedWholePrice": "$620"
+        "amount": "520.46",
+        "formattedPrice": "$520.46",
+        "formattedWholePrice": "$520"
       },
       "currency": "USD",
       "fareType": "PUBLISHED",
       "fees": "7.00",
       "feesPrice": {
         "amount": "7.00",
-        "currencyCode": "USD",
         "formattedPrice": "$7.00",
         "formattedWholePrice": "$7"
       },
@@ -117,34 +47,50 @@
       "hasNoBagFee": false,
       "isInternational": false,
       "legIds": [
-        "c69c1bfb0521dbe1eb2b3891ed4cbe84",
-        "731b8ff3da1b46fd7acf8b7c26f6d82f"
+        "leg0"
       ],
       "numberOfTickets": 1,
       "pricePerPassengerCategory": [
         {
           "basePrice": {
-            "amount": "620.46",
-            "currencyCode": "USD",
-            "formattedPrice": "$620.46",
-            "formattedWholePrice": "$620"
+            "amount": "520.46",
+            "formattedPrice": "$520.46",
+            "formattedWholePrice": "$520"
           },
           "passengerCategory": "ADULT",
           "taxesPrice": {
             "amount": "68.54",
-            "currencyCode": "USD",
             "formattedPrice": "$68.54",
             "formattedWholePrice": "$69"
           },
           "totalPrice": {
-            "amount": "689.00",
+            "amount": "589.00",
             "currencyCode": "USD",
-            "formattedPrice": "$689.00",
-            "formattedWholePrice": "$689"
+            "formattedPrice": "$589.00",
+            "formattedWholePrice": "$589"
+          }
+        },
+        {
+          "basePrice": {
+            "amount": "520.46",
+            "formattedPrice": "$520.46",
+            "formattedWholePrice": "$520"
+          },
+          "passengerCategory": "CHILD",
+          "taxesPrice": {
+            "amount": "68.54",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "589.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$589.00",
+            "formattedWholePrice": "$589"
           }
         }
       ],
-      "productKey": "happy_roundtrip_0",
+      "productKey": "happy_oneway_1",
       "seatsRemaining": 1,
       "segmentAttributes": [
         [
@@ -164,28 +110,28 @@
       "taxes": "68.54",
       "taxesPrice": {
         "amount": "68.54",
-        "currencyCode": "USD",
         "formattedPrice": "$68.54",
         "formattedWholePrice": "$69"
       },
-      "totalFare": "696.00",
+      "totalFare": "596.00",
       "totalPrice": {
-        "amount": "696.00",
+        "amount": "596.00",
         "currencyCode": "USD",
-        "formattedPrice": "$696.00",
-        "formattedWholePrice": "$696"
+        "formattedPrice": "$596.00",
+        "formattedWholePrice": "$596"
       }
     },
-    "productKey": "happy_roundtrip_0"
+    "productKey": "happy_oneway_1"
   },
   "isCustomerTitleRequired": false,
   "newTrip": {
-    "itineraryNumber": "itin_PAYMENT_FAILED",
+    "itineraryNumber": "itin_happy_oneway_1",
     "travelRecordLocator": "742449564",
-    "tripId": "PAYMENT_FAILED"
+    "tripId": "happy_oneway_1"
   },
   "passengerCategories": [
-    "ADULT"
+    "ADULT",
+    "CHILD"
   ],
   "rewardsPoints": "",
   "rules": {
@@ -206,12 +152,12 @@
       "CompletePenaltyRules": "https://www.expedia.com/pub/agent.dll?qscr=ffrs&itid=742449564&rtyp=1&tlid=1033"
     }
   },
-  "tealeafTransactionId": "tealeafFlight:PAYMENT_FAILED",
+  "tealeafTransactionId": "tealeafFlight:${productKey}",
   "totalPrice": {
-    "amount": "696.00",
+    "amount": "596.00",
     "currencyCode": "USD",
-    "formattedPrice": "$696.00",
-    "formattedWholePrice": "$696"
+    "formattedPrice": "$596.00",
+    "formattedWholePrice": "$596"
   },
   "validFormsOfPayment": [
     {
@@ -230,11 +176,7 @@
       "name": "MasterCard"
     },
     {
-      "name": "Visa",
-      "fee": "2.94",
-      "feeCurrencyCode": "USD",
-      "formattedFee": "$2.94",
-      "totalFarePriceWithFee": "$696.00"
+      "name": "Visa"
     }
   ]
 }
