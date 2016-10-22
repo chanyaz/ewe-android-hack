@@ -5412,10 +5412,6 @@ public class OmnitureTracking {
 		s.setProp(72, checkoutResponse.getOrderId());
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
 
-		// tests
-		if (checkoutResponse.getSelectedInsuranceProduct() != null) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
-		}
 		s.track();
 	}
 
@@ -5446,6 +5442,10 @@ public class OmnitureTracking {
 		// date variables 5, 6
 		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
+
+		if (tripResponse.getSelectedInsuranceProduct() != null) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
+		}
 
 		s.track();
 	}
