@@ -39,6 +39,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -60,9 +61,9 @@ import com.expedia.bookings.widget.HotelCarouselRecycler
 import com.expedia.bookings.widget.HotelFilterView
 import com.expedia.bookings.widget.HotelListRecyclerView
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
+import com.expedia.bookings.widget.HotelMarkerIconGenerator
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.createHotelMarkerIcon
 import com.expedia.util.endlessObserver
 import com.expedia.util.havePermissionToAccessLocation
 import com.expedia.util.notNullAndObservable
@@ -81,11 +82,11 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.Marker
 import com.google.maps.android.clustering.ClusterManager
-import com.google.maps.android.ui.IconGenerator
 import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
 import rx.Observer
+import rx.Subscription
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
@@ -112,7 +113,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val searchThisArea: Button? = null
     var isMapReady = false
 
-    lateinit var filterViewModel: HotelFilterViewModel
+    var filterViewModel: HotelFilterViewModel
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
 
@@ -153,10 +154,20 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     var halfway = 0
     var threshold = 0
 
-    val iconFactory = IconGenerator(context)
+    val hotelIconFactory = HotelMarkerIconGenerator(context)
+
     var mapItems = arrayListOf<MapItem>()
     private val ANIMATION_DURATION_FILTER = 500
     var hotels = emptyList<Hotel>()
+
+    val hotelFavoriteChangeObserver = endlessObserver<Pair<String, Boolean>> { hotelIdAndFavorite ->
+        val hotelId = hotelIdAndFavorite.first
+        val mapItem = mapItems.filter { it.hotel.hotelId.equals(hotelId)}
+        val firstMapItem = mapItem.first()
+        val favoriteMarker = hotelMapClusterRenderer.getMarker(firstMapItem)
+        firstMapItem.isFavorite = hotelIdAndFavorite.second
+        favoriteMarker?.setIcon(firstMapItem.getHotelMarkerIcon())
+    }
 
     private val carouselContainerReadyListner = object : ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout() {
@@ -175,13 +186,14 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         vm.soldOutHotel.subscribe { hotel ->
             val mapItem = mapItems.firstOrNull { it.hotel.hotelId == hotel.hotelId }
             if (mapItem != null) {
-                hotelMapClusterRenderer.getMarker(mapItem)?.setIcon(mapItem.soldOutIcon)
+                hotelMapClusterRenderer.getMarker(mapItem)?.setIcon(mapItem.getHotelMarkerIcon())
                 clusterMarkers()
             }
         }
         vm.carouselSwipedObservable.subscribe {
             selectMarker(it, true)
         }
+
     }
 
     private fun selectMarker(mapItem: MapItem, shouldZoom: Boolean = false, animateCarousel: Boolean = true) {
@@ -191,7 +203,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         mapItem.isSelected = true
         val selectedMarker = hotelMapClusterRenderer.getMarker(mapItem)
         if (!mapItem.hotel.isSoldOut) {
-            selectedMarker?.setIcon(mapItem.selectedIcon)
+            selectedMarker?.setIcon(mapItem.getHotelMarkerIcon())
         }
         selectedMarker?.showInfoWindow()
         if (shouldZoom) {
@@ -347,6 +359,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         }
         headerClickedSubject.subscribe(mapSelectedObserver)
         adapter = getHotelListAdapter()
+        adapter.hotelFavoriteChange.subscribe(hotelFavoriteChangeObserver)
 
         recyclerView.adapter = adapter
         filterViewModel = HotelFilterViewModel(context, getLineOfBusiness())
@@ -376,7 +389,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                 }
             }
         }
-
     }
 
     fun clearMarkers(setUpMap: Boolean = true) {
@@ -395,8 +407,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
         hotels.forEach {
             hotel ->
-            val bitmap = createHotelMarkerIcon(context, iconFactory, hotel, false)
-            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel.hotelId, bitmap, iconFactory, hotel)
+            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
             mapItems.add(mapItem)
             clusterManager.addItem(mapItem)
         }
@@ -466,7 +477,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         recyclerView.addOnItemTouchListener(touchListener)
 
         mapCarouselRecycler.mapSubject.subscribe { hotel ->
-            val markersForHotel = mapItems.filter { it.title == hotel.hotelId }
+            val markersForHotel = mapItems.filter { it.hotel.hotelId == hotel.hotelId }
             if (markersForHotel.isNotEmpty()) {
                 val marker = markersForHotel.first()
                 mapViewModel.carouselSwipedObservable.onNext(marker)
@@ -650,7 +661,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         if (prevMapItem != null) {
             prevMapItem.isSelected = false
             if (!prevMapItem.hotel.isSoldOut) {
-                hotelMapClusterRenderer.getMarker(prevMapItem)?.setIcon(prevMapItem.icon)
+                hotelMapClusterRenderer.getMarker(prevMapItem)?.setIcon(prevMapItem.getHotelMarkerIcon())
             }
         }
     }

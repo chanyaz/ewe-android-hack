@@ -47,9 +47,6 @@ class HotelDetailPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         addTransition(detailToMap)
         addDefaultTransition(default)
         show(hotelDetailView)
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
-            hotelDetailView.hotelDetailsToolbar.heartIcon.updateImageState()
-        }
     }
 
     val default = object : Presenter.DefaultTransition(HotelDetailView::class.java.name) {

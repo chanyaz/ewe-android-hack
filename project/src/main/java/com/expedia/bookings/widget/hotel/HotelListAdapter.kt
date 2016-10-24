@@ -20,13 +20,13 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
     }
 
     override fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder {
-
         val bucketedAndFeatureEnabledForFavoriteTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(parent.context, AbacusUtils.EBAndroidAppHotelFavoriteTest,
                 R.string.preference_enable_hotel_favorite)
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell, parent, false)
         val heart_cell = view.findViewById(R.id.hotel_cell_heart_container)
         heart_cell.visibility = if (bucketedAndFeatureEnabledForFavoriteTest) View.VISIBLE else View.GONE
-        return HotelCellViewHolder(view as ViewGroup, parent.width)
+        val holder = HotelCellViewHolder(view as ViewGroup, parent.width, hotelFavoriteChange)
+        return holder
     }
 
 }
