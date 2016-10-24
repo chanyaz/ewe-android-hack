@@ -129,7 +129,7 @@ object FlightsV2Tracking {
     }
 
     fun trackCheckoutEditTraveler() {
-        OmnitureTracking.trackFlightCheckoutEditTraveler()
+        OmnitureTracking.trackFlightCheckoutTravelerEditInfo()
     }
 
     fun trackPaymentStoredCCSelect() {
