@@ -112,6 +112,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
     val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
+    val checkoutButtonContainer: View by bindView(R.id.button_container)
     val checkoutButton: Button by bindView(R.id.checkout_button)
     val rootWindow: Window by lazy { (context as Activity).window }
     val decorView: View by lazy { rootWindow.decorView.findViewById(android.R.id.content) }
@@ -317,12 +318,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 }
             }
         })
-        checkoutButton.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+        checkoutButtonContainer.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
             override fun onGlobalLayout() {
-                checkoutButtonHeight = checkoutButton.height.toFloat()
+                checkoutButtonHeight = checkoutButtonContainer.height.toFloat()
                 if (sliderHeight != 0f) {
-                    checkoutButton.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    checkoutButton.translationY = checkoutButtonHeight
+                    checkoutButtonContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
+                    checkoutButtonContainer.translationY = checkoutButtonHeight
                 }
             }
         })
@@ -562,7 +563,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     fun toggleCheckoutButton(isEnabled: Boolean) {
-        checkoutButton.translationY = if (isEnabled) 0f else checkoutButtonHeight
+        checkoutButtonContainer.translationY = if (isEnabled) 0f else checkoutButtonHeight
         val shouldShowSlider = currentState == CheckoutDefault::class.java.name && ckoViewModel.isValidForBooking()
         bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else sliderHeight
         checkoutButton.isEnabled = isEnabled
