@@ -46,7 +46,6 @@
     <dimen name="account_button_height">52dp</dimen>
     <dimen name="account_button_padding">6dp</dimen>
     <dimen name="login_button_text_size">17sp</dimen>
-    <dimen name="account_button_rewards_text_size">19sp</dimen>
     <dimen name="account_button_points_text_size">15sp</dimen>
     <dimen name="card_icon_padding">6dp</dimen>
     <dimen name="account_reward_textview_padding">3dp</dimen>
@@ -177,7 +176,6 @@
     <dimen name="hotel_flight_card_padding_y">0dp</dimen>
     <dimen name="hotel_flight_card_content_margin_x">14dp</dimen>
     <dimen name="hotel_flight_card_content_margin_y">14dp</dimen>
-    <dimen name="tripbucket_bookbutton_height">40dp</dimen>
     <dimen name="trip_bucket_sold_out_container_padding">2dp</dimen>
     <dimen name="trip_bucket_sold_out_container_padding_bottom">6dp</dimen>
 

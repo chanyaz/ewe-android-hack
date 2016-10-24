@@ -20,20 +20,6 @@
         <item name="textStyle">light</item>
     </style>
 
-    <!-- This is actually the "left" text -->
-    <style name="LoginButtonTopTextStyle">
-        <item name="android:textColor">#363636</item>
-        <item name="android:textSize">@dimen/login_button_text_size</item>
-        <item name="textStyle">light</item>
-    </style>
-
-    <style name="LoginButtonLogoutImageStyle">
-        <item name="android:paddingTop">8dp</item>
-        <item name="android:paddingBottom">8dp</item>
-        <item name="android:paddingLeft">12dp</item>
-        <item name="android:paddingRight">20dp</item>
-    </style>
-
     <style name="RatingBar.Star.HotelDetails">
         <item name="android:progressDrawable">@drawable/ratingbar_star_hotel_details_small</item>
         <item name="android:minHeight">13dp</item>

@@ -33,7 +33,6 @@
     <!-- Account / Login button -->
     <dimen name="account_button_padding">10dp</dimen>
     <dimen name="login_button_text_size">18sp</dimen>
-    <dimen name="account_button_rewards_text_size">20sp</dimen>
     <dimen name="card_icon_padding">12dp</dimen>
 
     <!-- Search Results -->
@@ -112,7 +111,6 @@
     <dimen name="hotel_flight_card_padding_y">6dp</dimen>
     <dimen name="hotel_flight_card_content_margin_x">17dp</dimen>
     <dimen name="hotel_flight_card_content_margin_y">18dp</dimen>
-    <dimen name="tripbucket_bookbutton_height">50dp</dimen>
 
     <!-- Trip Bucket Fragment -->
     <dimen name="bucket_card_divider_size">20dp</dimen>
@@ -156,9 +154,6 @@
     <dimen name="gallery_size">600dp</dimen>
 
     <!-- Login screen -->
-    <dimen name="login_field_text_size">22sp</dimen>
-    <dimen name="login_field_padding">12dp</dimen>
-    <dimen name="login_field_width">508dp</dimen>
     <dimen name="login_button_width">328dp</dimen>
     <dimen name="login_header_text_size">33sp</dimen>
     <dimen name="login_divider_height">3dp</dimen>

@@ -64,7 +64,6 @@
     <dimen name="itin_card_flight_vertical_offset">-48dp</dimen>
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
     <dimen name="itin_map_bounds_padding">24dp</dimen>
-    <dimen name="itin_card_alert_dialog">258dp</dimen>
 
     <!-- The visible area of the parallaxed map on the Itin details view -->
     <dimen name="itin_map_visible_size">160dp</dimen>
@@ -80,9 +79,6 @@
     <dimen name="calendar_height_without_time_slider">350dp</dimen>
 
     <!-- Login screen -->
-    <dimen name="login_field_text_size">18sp</dimen>
-    <dimen name="login_field_padding">12dp</dimen>
-    <dimen name="login_field_width">400dp</dimen>
     <dimen name="login_button_width">328dp</dimen>
     <dimen name="login_button_text_size">16sp</dimen>
     <dimen name="login_header_text_size">25sp</dimen>
@@ -144,10 +140,6 @@
     <!-- Hotel Checkout -->
     <!-- This is overridden for tablets in landscape -->
     <dimen name="checkout_login_padding_top">10dp</dimen>
-
-    <!-- Amount due today text size-->
-    <dimen name="amount_due_today_label_text_size">16sp</dimen>
-    <dimen name="amount_due_today_text_size">16sp</dimen>
 
     <!-- Dimensions For hotel traveler edit page -->
     <dimen name="hotel_traveler_edit_email_disclaimer_text_size">12sp</dimen>
@@ -382,16 +374,12 @@
     <dimen name="alert_dialog_window_title_height">64dip</dimen>
 
     <!-- Material search -->
-    <dimen name="material_search_field_height">64dp</dimen>
     <dimen name="search_form_margin">9dp</dimen>
     <dimen name="search_form_top_margin">10dp</dimen>
-    <dimen name="flights_search_form_top_margin">60dp</dimen>
     <dimen name="material_search_field_bottom_margin">3dp</dimen>
 
     <!-- Recent Search item height -->
     <dimen name="recent_search_item_height">55dp</dimen>
-    <dimen name="package_bundle_scroll_view_padding">200dp</dimen>
-
 
     <!-- Dimension for left margin on icon of new login button on flight checkout-->
     <dimen name="checkout_icon_right_margin_flight">16dp</dimen>
@@ -405,7 +393,6 @@
     <!-- Filter Screen Padding -->
     <dimen name="sort_filter_padding_small">5dp</dimen>
     <dimen name="sort_filter_padding_normal">16dp</dimen>
-    <dimen name="sort_filter_padding_large">24dp</dimen>
     <dimen name="sort_filter_padding_checkmarks">10dp</dimen>
     <dimen name="sort_filter_padding_dropdowns">13dp</dimen>
 
