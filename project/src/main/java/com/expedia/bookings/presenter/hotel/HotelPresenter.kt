@@ -37,7 +37,6 @@ import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -131,7 +130,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.viewmodel.errorObservable.subscribe { show(errorPresenter) }
         presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
         presenter.viewmodel.hotelResultsObservable.subscribe({ hotelSearchResponse ->
-            HotelTracking().trackHotelsSearch(hotelSearchParams, hotelSearchResponse)
+            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)) {
+                HotelTracking().trackHotelsSearch(hotelSearchParams, hotelSearchResponse)
+            }
+        })
+        presenter.viewmodel.addHotelResultsObservable.subscribe({ hotelSearchResponse ->
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)) {
+                HotelTracking().trackHotelsSearch(hotelSearchParams, hotelSearchResponse)
+            }
         })
         presenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
         presenter.showDefault()

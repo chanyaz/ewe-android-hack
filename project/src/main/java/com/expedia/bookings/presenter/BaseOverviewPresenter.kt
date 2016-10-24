@@ -229,6 +229,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     }
 
     private fun translateBottomContainer(f: Float, forward: Boolean) {
+        checkoutPresenter.sliderHeight = checkoutPresenter.slideToPurchaseLayout.height.toFloat()
         val hasCompleteInfo = checkoutPresenter.getCheckoutViewModel().isValidForBooking()
         val bottomDistance = checkoutPresenter.sliderHeight - checkoutPresenter.checkoutButtonHeight
         val slideIn = if (hasCompleteInfo) {
