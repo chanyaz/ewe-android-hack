@@ -176,7 +176,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertFalse(sut.isShoppingWithPoints.value)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBestPriceGuaranteeMessagingNotShown() {
         givenHappyHotelProductResponse()
         setup()
