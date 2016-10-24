@@ -12,11 +12,13 @@ import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 class RailCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreakdownViewModel(context) {
-    val railCostSummaryBreakdownObservable = PublishSubject.create<RailCreateTripResponse.RailTripOffer>()
+    val railCostSummaryBreakdownObservable = PublishSubject.create<RailCreateTripResponse>()
 
     init {
-        railCostSummaryBreakdownObservable.subscribe { offer ->
+        railCostSummaryBreakdownObservable.subscribe { response ->
             val breakdowns = arrayListOf<CostSummaryBreakdownRow>()
+
+            val offer = response.railDomainProduct.railOffer
 
             addPassengerPriceBreakdown(breakdowns, offer.passengerList)
             addFees(breakdowns, offer.priceBreakdownByCode)
@@ -25,7 +27,7 @@ class RailCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreak
             breakdowns.add(CostSummaryBreakdownRow.Builder().separator())
 
             var title = context.getString(R.string.total)
-            breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(offer.totalPrice.formattedPrice).build())
+            breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(response.totalPayablePrice.formattedPrice).build())
 
             addRows.onNext(breakdowns)
             iconVisibilityObservable.onNext(true)
@@ -33,22 +35,23 @@ class RailCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreak
     }
 
     private fun addFees(breakdowns: ArrayList<CostSummaryBreakdownRow>, priceBreakdowns: Map<BaseRailOffer.PriceCategoryCode, BaseRailOffer.PriceBreakdown>) {
+        // show fee line item if non zero
         val ticketDeliveryFee = priceBreakdowns[BaseRailOffer.PriceCategoryCode.TICKET_DELIVERY]
-        if (ticketDeliveryFee != null) {
+        if (ticketDeliveryFee != null && !ticketDeliveryFee.isZero) {
             breakdowns.add(CostSummaryBreakdownRow.Builder()
                     .title(context.getString(R.string.rail_ticket_delivery_fee))
                     .cost(ticketDeliveryFee.formattedPrice).build())
         }
 
         val creditCardFee = priceBreakdowns[BaseRailOffer.PriceCategoryCode.CREDIT_CARD_FEE]
-        if (creditCardFee != null) {
+        if (creditCardFee != null && !creditCardFee.isZero) {
             breakdowns.add(CostSummaryBreakdownRow.Builder()
                     .title(context.getString(R.string.rail_credit_card_fee))
                     .cost(creditCardFee.formattedPrice).build())
         }
 
         val bookingFee = priceBreakdowns[BaseRailOffer.PriceCategoryCode.EXPEDIA_SERVICE_FEE]
-        if (bookingFee != null) {
+        if (bookingFee != null && !bookingFee.isZero) {
             val title = Phrase.from(context, R.string.brand_booking_fee)
                     .put("brand", ProductFlavorFeatureConfiguration.getInstance().getPOSSpecificBrandName(context))
                     .format().toString()

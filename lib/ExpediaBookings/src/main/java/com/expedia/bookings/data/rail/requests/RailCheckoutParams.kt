@@ -103,7 +103,7 @@ class RailCheckoutParams(val travelers: List<Traveler>,
             val currencyCode: String? = null,
             val country:String? = null)
 
-    class TicketDeliveryOption(
+    data class TicketDeliveryOption(
             val deliveryOptionToken: String,
             val deliveryAddressLine1: String? = null,
             val deliveryAddressLine2: String? = null,
