@@ -324,12 +324,22 @@
         android:layout_height="4dp"
         android:background="@drawable/tb_shadow" />
 
-    <Button
-        android:id="@+id/checkout_button"
-        style="@style/MaterialFooterButtonText"
+    <FrameLayout
+        android:id="@+id/button_container"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:text="@string/Checkout" />
+        android:background="@color/white">
+
+        <Button
+            android:id="@+id/checkout_button"
+            style="@style/MaterialFooterRoundButtonText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="48dp"
+            android:layout_margin="9dp"
+            android:text="@string/Checkout" />
+    </FrameLayout>
 
     <com.expedia.bookings.presenter.packages.TravelerPresenter
         android:id="@+id/traveler_presenter"
