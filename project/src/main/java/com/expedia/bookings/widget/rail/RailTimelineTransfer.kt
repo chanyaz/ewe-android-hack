@@ -4,11 +4,11 @@ import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.ImageView
-import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.RailTravelMediumDrawableProvider
 import com.expedia.bookings.data.rail.responses.RailSegment
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TextView
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 

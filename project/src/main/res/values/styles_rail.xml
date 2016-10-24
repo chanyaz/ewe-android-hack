@@ -22,8 +22,6 @@
         <item name="traveler_checkout_circle_drawable">@drawable/packages_traveler_checkout_circle</item>
     </style>
 
-    <style name="RailCell.CarrierText" parent="MaterialFlightCell.CarrierText" />
-
     <style name="RailButton" parent="Core.Widget.Button">
         <item name="android:background">@drawable/rail_button_selector</item>
     </style>
@@ -37,4 +35,7 @@
         <item name="android:gravity">left</item>
     </style>
 
+    <style name="Rail.Text.Link" parent="Core.Text.Default.Medium">
+        <item name="android:textColor">@color/rail_primary_color</item>
+    </style>
 </resources>

@@ -22,32 +22,32 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/departure_arrival_time"
-            style="@style/MaterialFlightCell.PrimaryText"
+            style="@style/Core.Text.Large.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/departure_arrival_airport"
-            style="@style/MaterialFlightCell.CarrierText"
+            style="@style/Core.Text.Default"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="5dp" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/airline_airplane_type"
-            style="@style/MaterialFlightCell"
+            style="@style/Core.Text.Default.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/operating_airline_name"
-            style="@style/MaterialFlightCell.OperatingAirlineText"
+            style="@style/Core.Text.Default.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/flight_duration"
-            style="@style/MaterialFlightCell.DurationText"
+            style="@style/Core.Text.Default.LightColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>

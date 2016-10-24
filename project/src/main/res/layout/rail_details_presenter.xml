@@ -42,7 +42,7 @@
                         android:paddingTop="12dp">
 
 
-                    <TextView
+                    <com.expedia.bookings.widget.TextView
                         android:id="@+id/overtaken_message"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -62,15 +62,16 @@
                         android:paddingLeft="100dp"
                         android:background="?android:dividerHorizontal" />
 
-                        <TextView
+                        <com.expedia.bookings.widget.TextView
                             android:id="@+id/details_times"
-                            style="@style/RailCell.PrimaryText"
+                            style="@style/Core.Text.Large.Medium"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="9:10 - 11:42" />
 
-                        <TextView
+                        <com.expedia.bookings.widget.TextView
                             android:id="@+id/details_info"
+                            style="@style/Core.Text.Default"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             tools:text="2h 32m, 1 change" />
