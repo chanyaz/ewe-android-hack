@@ -59,7 +59,7 @@ class RailApiRequestMatcher {
         }
 
         fun isRailApiCreateTripRequest(urlPath: String): Boolean {
-            return doesItMatch("^/m/api/rails/trip/create.*", urlPath)
+            return doesItMatch("^/rails/domain/m/api/v1/createTrip.*", urlPath)
         }
 
         fun isRailApiCheckoutRequest(urlPath: String): Boolean {

@@ -126,16 +126,16 @@ public class RailScreen {
 		onView(withId(R.id.edit_email_address)).perform(typeText(email));
 	}
 
-	public static ViewInteraction legInfo() {
-		return onView(withId(R.id.rail_leg_container));
+	public static ViewInteraction outboundLegInfo() {
+		return onView(allOf(isDescendantOfA(withId(R.id.rail_outbound_leg_widget)), withId(R.id.rail_leg_container)));
 	}
 
-	public static ViewInteraction detailsIcon() {
-		return onView(allOf(isDescendantOfA(withId(R.id.rail_leg_container)), withId(R.id.rail_leg_details_icon)));
+	public static ViewInteraction outboundDetailsIcon() {
+		return onView(allOf(isDescendantOfA(withId(R.id.rail_outbound_leg_widget)), withId(R.id.rail_leg_details_icon)));
 	}
 
-	public static ViewInteraction fareDesciptionInfo() {
-		return onView(withId(R.id.fare_description_container));
+	public static ViewInteraction ouboundFareDescriptionInfo() {
+		return onView(allOf(isDescendantOfA(withId(R.id.rail_outbound_leg_widget)), withId(R.id.fare_description)));
 	}
 
 	public static void navigateToDetails() throws Throwable {

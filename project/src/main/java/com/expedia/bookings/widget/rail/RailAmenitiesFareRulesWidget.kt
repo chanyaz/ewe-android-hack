@@ -10,7 +10,8 @@ import android.view.View
 import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.RailAmenitiesAndRulesAdapter
-import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
+import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.rail.RailAmenitiesViewModel
 import com.expedia.vm.rail.RailFareRulesViewModel
@@ -22,6 +23,9 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
     val tabs: TabLayout by bindView(R.id.amenities_rules_tabs)
 
     lateinit var adapter: RailAmenitiesAndRulesAdapter
+    
+    private val amenitiesViewModel = RailAmenitiesViewModel()
+    private val fareRulesViewModel = RailFareRulesViewModel(context)
 
     init {
         View.inflate(context, R.layout.rail_amenities_rules_widget, this)
@@ -30,24 +34,37 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
             activity.onBackPressed()
         }
         setupTabs()
-        adapter.amenitiesWidget.viewModel = RailAmenitiesViewModel()
-        adapter.fareRulesWidget.viewModel = RailFareRulesViewModel(context)
+        adapter.amenitiesWidget.viewModel = amenitiesViewModel
+        adapter.fareRulesWidget.viewModel = fareRulesViewModel
     }
 
     override fun onFinishInflate() {
         super.onFinishInflate()
     }
 
-    fun showAmenitiesForOffer(offer: RailOffer) {
-        updateOffer(offer)
+    fun showAmenitiesForOffer(legOption : RailLegOption, railProduct: RailProduct) {
+        updateAmenitiesData(legOption, railProduct)
+        updateFareRulesData(railProduct)
+
         viewPager.currentItem = RailAmenitiesAndRulesAdapter.Tab.AMENITIES.ordinal
         updateToolbar(RailAmenitiesAndRulesAdapter.Tab.AMENITIES.ordinal)
     }
 
-    fun showFareRulesForOffer(offer: RailOffer) {
-        updateOffer(offer)
+    fun showFareRulesForOffer(legOption: RailLegOption, railProduct: RailProduct) {
+        updateAmenitiesData(legOption, railProduct)
+        updateFareRulesData(railProduct)
+
         viewPager.currentItem = RailAmenitiesAndRulesAdapter.Tab.FARE_RULES.ordinal
         updateToolbar(RailAmenitiesAndRulesAdapter.Tab.FARE_RULES.ordinal)
+    }
+
+    private fun updateAmenitiesData(legOption : RailLegOption, railProduct: RailProduct) {
+        amenitiesViewModel.legOptionObservable.onNext(legOption)
+        amenitiesViewModel.railProductObservable.onNext(railProduct)
+    }
+
+    private fun updateFareRulesData(railProduct: RailProduct) {
+        fareRulesViewModel.railProductObservable.onNext(railProduct)
     }
 
     private fun setupTabs() {
@@ -65,11 +82,6 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
             }
         })
-    }
-
-    private fun updateOffer(offer: RailOffer) {
-        adapter.amenitiesWidget.viewModel.offerObservable.onNext(offer)
-        adapter.fareRulesWidget.viewModel.offerObservable.onNext(offer)
     }
 
     private fun updateToolbar(tab: Int) {

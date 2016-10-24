@@ -4424,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Outbound - {date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Return - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 
