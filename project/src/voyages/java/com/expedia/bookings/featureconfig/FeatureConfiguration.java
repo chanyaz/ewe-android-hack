@@ -260,7 +260,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public int getLaunchScreenActionLogo() {
-		return 0;
+		return R.drawable.ic_action_bar_logo;
 	}
 
 	@Override
