@@ -176,16 +176,25 @@
             android:layout_height="8dp"
             android:background="@drawable/drop_shadow" />
 
-        <Button
-            android:id="@+id/search_btn"
-            style="@style/HotelButtonStyle"
+        <FrameLayout
+            android:id="@+id/button_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?attr/hotel_select_room_ripple_drawable"
-            android:enabled="true"
-            android:minHeight="@dimen/recent_search_item_height"
-            android:text="@string/search"
-            android:textSize="17sp" />
+            android:layout_gravity="bottom"
+            android:background="@color/white">
+
+            <Button
+                android:id="@+id/search_btn"
+                style="@style/MaterialFooterRoundButtonText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="48dp"
+                android:layout_margin="9dp"
+                android:text="@string/search"
+                android:textSize="17sp"
+                android:enabled="true"/>
+        </FrameLayout>
+
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

@@ -308,7 +308,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
     private fun updateScrollingSpace(scrollSpaceView: View?) {
         val scrollSpaceViewLp = scrollSpaceView?.layoutParams
-        var scrollspaceheight = checkoutPresenter.bottomContainer.height + checkoutPresenter.checkoutButton.height
+        var scrollspaceheight = checkoutPresenter.bottomContainer.height + checkoutPresenter.checkoutButtonContainer.height
         if (checkoutPresenter.slideToPurchaseLayout.height > 0) {
             scrollspaceheight -= checkoutPresenter.slideToPurchaseLayout.height
         }
