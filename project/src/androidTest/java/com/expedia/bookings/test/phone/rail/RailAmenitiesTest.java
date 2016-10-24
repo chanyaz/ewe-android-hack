@@ -28,7 +28,7 @@ public class RailAmenitiesTest extends RailTestCase {
 
 	private void navigateFromSearchToAmenities() throws Throwable {
 		RailScreen.navigateToDetails();
-		RailScreen.scrollToFareOptions();
+		RailScreen.scrollToOutboundFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
 		RailScreen.clickAmenitiesLink("Any off-peak train");
 	}

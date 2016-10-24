@@ -7,7 +7,7 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.RailTestCase;
-import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
+import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.rail.RailScreen;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -32,22 +32,22 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		RailScreen.ouboundFareDescriptionInfo().check(matches(
 			allOf(isDisplayed(), withText("Travel anytime of day"))));
 
-		RailScreen.checkout().perform(click());
+		RailScreen.checkoutAndPurchase();
 
-		RailScreen.clickTravelerCard();
-		RailScreen.fillInTraveler();
-		assertCheckoutDisplayed();
-
-		CheckoutViewModel.waitForPaymentInfoDisplayed();
-		CheckoutViewModel.paymentInfo().perform(click());
-		RailScreen.enterPaymentDetails();
-
-		RailScreen.performSlideToPurchase();
 		assertConfirmationScreen();
 	}
 
-	private void assertCheckoutDisplayed() {
-		onView(withId(R.id.rail_traveler_card_view)).check(matches(isDisplayed()));
+	public void testRoundTripSearch() throws Throwable {
+		RailScreen.performRoundTripSearch();
+		onView(withText(R.string.select_outbound)).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
+
+		RailScreen.selectRoundTripOutbound();
+		EspressoUtils.assertViewIsDisplayed(R.id.outbound_header_view);
+
+		RailScreen.selectRoundTripInbound();
+		RailScreen.checkoutAndPurchase();
+
+		onView(allOf(withId(R.id.view_itin_button), withText("View Itinerary"))).check(matches(isDisplayed()));
 	}
 
 	private void assertLegInfo() {
