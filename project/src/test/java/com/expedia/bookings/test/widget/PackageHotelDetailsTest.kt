@@ -3,6 +3,7 @@ package com.expedia.bookings.test.widget
 import android.app.Activity
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
@@ -19,7 +20,8 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
-import java.util.*
+import java.math.BigDecimal
+import java.util.ArrayList
 import kotlin.properties.Delegates
 
 @RunWith(RobolectricRunner::class)
@@ -54,6 +56,7 @@ class PackageHotelDetailsTest {
         offers.hotelStarRating = 5.0
         offers.deskTopOverrideNumber = false
         offers.telesalesNumber = "1-800-766-6658"
+        offers.isPackage = true
     }
 
     @Test
@@ -63,12 +66,15 @@ class PackageHotelDetailsTest {
         val lowRateInfo = HotelRate()
         lowRateInfo.strikethroughPriceToShowUsers = 100f
         lowRateInfo.currencyCode = "USD"
+        lowRateInfo.packagePricePerPerson = Money()
+        lowRateInfo.packagePricePerPerson.amount = BigDecimal(23.67)
+        lowRateInfo.packagePricePerPerson.currencyCode = "USD"
 
         val rateInfo = HotelOffersResponse.RateInfo()
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
