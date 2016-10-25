@@ -77,10 +77,6 @@ class PackageActivity : AbstractAppCompatActivity() {
                         //is is change hotel search, call createTrip, otherwise start outbound flight search
                         if (!Db.getPackageParams().isChangePackageSearch()) {
                             packageFlightSearch()
-                            // making sure after select hotel room we show bundle overview
-                            if (packagePresenter.currentState == PackageSearchPresenter::class.java.name) {
-                                packagePresenter.showBundleOverView()
-                            }
                             val intent = Intent(this, PackageHotelActivity::class.java)
                             intent.putExtra(Constants.PACKAGE_LOAD_HOTEL_ROOM, true)
                             intent.putExtra(Constants.REQUEST, Constants.HOTEL_REQUEST_CODE)
@@ -88,6 +84,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                         } else {
                             packageCreateTrip()
                         }
+                        packagePresenter.showBundleOverView()
                         packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.selectedHotelObservable.onNext(Unit)
                         packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
                     }
@@ -131,6 +128,7 @@ class PackageActivity : AbstractAppCompatActivity() {
                     packagePresenter.bundlePresenter.bundleWidget.inboundFlightWidget.viewModel.flight.onNext(Db.getPackageFlightBundle().second)
 
                     packageCreateTrip()
+                    packagePresenter.showBundleOverView()
                     packagePresenter.bundlePresenter.bundleWidget.viewModel.showBundleTotalObservable.onNext(true)
                     packagePresenter.bundlePresenter.setToolbarNavIcon(false)
                     packagePresenter.bundlePresenter.getCheckoutPresenter().getCheckoutViewModel().updateMayChargeFees(Db.getPackageFlightBundle().second)
@@ -191,9 +189,11 @@ class PackageActivity : AbstractAppCompatActivity() {
         changedOutboundFlight = false
         val params = PackageCreateTripParams.fromPackageSearchParams(Db.getPackageParams())
         if (params.isValid) {
-            packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().tripParams.onNext(params)
+            getCreateTripViewModel().reset()
+            getCreateTripViewModel().tripParams.onNext(params)
         }
     }
 
+    private fun getCreateTripViewModel() = packagePresenter.bundlePresenter.getCheckoutPresenter().getCreateTripViewModel()
 
 }

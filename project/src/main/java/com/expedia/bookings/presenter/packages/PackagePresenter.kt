@@ -29,6 +29,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.safeSubscribe
 import com.expedia.vm.packages.BundleOverviewViewModel
 import com.expedia.vm.packages.PackageConfirmationViewModel
 import com.expedia.vm.packages.PackageErrorViewModel
@@ -63,7 +64,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                     packagePrice.packageTotalPrice.currencyCode))
             checkoutPresenter.totalPriceWidget.viewModel.savings.onNext(packageSavings)
         }
-        checkoutPresenter.getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
+        checkoutPresenter.getCreateTripViewModel().tripResponseObservable.safeSubscribe { trip -> trip!!
             expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
         }
         checkoutPresenter.getCheckoutViewModel().bookingSuccessResponse.subscribe { pair: Pair<BaseApiResponse, String> ->
@@ -125,7 +126,6 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         confirmationPresenter.viewModel = PackageConfirmationViewModel(context)
         errorPresenter.viewmodel = PackageErrorViewModel(context)
 
-        // TODO - can we move this up to a common "base" presenter? (common between Package and Flight presenter)
         searchPresenter.searchViewModel.searchParamsObservable.subscribe { params ->
             // Starting a new search clear previous selection
             Db.clearPackageSelection()
@@ -211,6 +211,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
             if (!forward) {
                 trackSearchPageLoad()
                 AccessibilityUtil.setFocusToToolbarNavigationIcon(searchPresenter.toolbar)
+                bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().reset()
             } else {
                 trackViewBundlePageLoad()
             }
@@ -278,6 +279,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 if (AccessibilityUtil.isTalkBackEnabled(context)) {
                     searchPresenter.searchButton.isEnabled = false
                 }
+                bundlePresenter.getCheckoutPresenter().getCreateTripViewModel().reset()
             }
         }
     }
@@ -293,6 +295,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
     fun showBundleOverView() {
         show(bundlePresenter)
         bundlePresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+        bundlePresenter.getCheckoutPresenter().trackShowBundleOverview()
     }
 
 }

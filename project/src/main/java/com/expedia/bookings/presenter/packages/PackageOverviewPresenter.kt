@@ -18,6 +18,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.PackageCheckoutPresenter
 import com.expedia.ui.PackageHotelActivity
+import com.expedia.util.safeSubscribe
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
@@ -46,7 +47,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(bundleWidget)
-        getCheckoutPresenter().getCreateTripViewModel().tripResponseObservable.subscribe { trip ->
+        getCheckoutPresenter().getCreateTripViewModel().tripResponseObservable.safeSubscribe { trip ->
             trip as PackageCreateTripResponse
             bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)
