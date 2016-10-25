@@ -277,6 +277,43 @@ class BillingDetailsPaymentWidgetTest {
                 billingDetailsPaymentWidget.shouldShowPaymentOptions())
     }
 
+    @Test
+    fun testChangeOfBillingCountryStateRequirement() {
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
+        Db.getTripBucket().clear(LineOfBusiness.PACKAGES)
+
+        val info = BillingInfo()
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
+
+        info.setNumberAndDetectType("345104799171123")
+        info.nameOnCard = "Expedia Chicago"
+        info.expirationDate = LocalDate(2017, 1, 1)
+        info.securityCode = "1234"
+
+        val location = givenLocation()
+        info.location = location
+        info.location.countryCode = "SWE"
+        info.location.stateCode = ""
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+
+        assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
+
+        info.location.countryCode = "CAN"
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
+
+        info.location.countryCode = "USA"
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
+
+        info.location.stateCode = "CA"
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
+    }
+
     private fun getUserWithStoredCard() : User {
         val user = User()
         user.addStoredCreditCard(getNewCard())

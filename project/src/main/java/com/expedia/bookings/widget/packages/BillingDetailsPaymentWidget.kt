@@ -5,7 +5,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.os.Build
 import android.util.AttributeSet
-import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.utils.bindView
@@ -76,6 +75,8 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         addVisibilitySubscription(addressLineOne.subscribeTextChange(formFilledSubscriber))
         addVisibilitySubscription(addressCity.subscribeTextChange(formFilledSubscriber))
         addVisibilitySubscription(addressState.subscribeTextChange(formFilledSubscriber))
+        addVisibilitySubscription(sectionLocation.countrySubject.subscribe(formFilledSubscriber))
+        sectionLocation.countrySubject.subscribe { sectionLocation.resetValidation(R.id.edit_address_state, true) }
     }
 
     override fun isAtLeastPartiallyFilled(): Boolean {
