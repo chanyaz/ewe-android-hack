@@ -99,10 +99,11 @@ class HotelsV2DataUtil {
         }
 
         fun getHotelRatingContentDescription(context: Context, hotelStarRating: Int): String {
+            if (hotelStarRating <= 0) return ""
             var contDesc: String
             if (PointOfSale.getPointOfSale().shouldShowCircleForRatings()) {
                 var stringID: Int = 0
-                when(hotelStarRating) {
+                when (hotelStarRating) {
                     1 -> stringID = R.string.star_circle_rating_one_cont_desc
                     2 -> stringID = R.string.star_circle_rating_two_cont_desc
                     3 -> stringID = R.string.star_circle_rating_three_cont_desc
@@ -110,8 +111,8 @@ class HotelsV2DataUtil {
                     5 -> stringID = R.string.star_circle_rating_five_cont_desc
                 }
                 contDesc = context.getString(stringID)
-            }
-            else {
+
+            } else {
                 contDesc = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, hotelStarRating))
                         .put("rating", hotelStarRating)
                         .format()

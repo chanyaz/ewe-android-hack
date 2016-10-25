@@ -64,6 +64,7 @@ public class HotelViewModelTest {
 		hotel.distanceUnit = "Miles";
 		hotel.lowRateInfo.currencyCode = "USD";
 		hotel.percentRecommended = 2;
+		hotel.hotelStarRating = 2.0f;
 		hotel.localizedName = "Test Hotel";
 		hotel.lowRateInfo.loyaltyInfo = new LoyaltyInformation(null,
 			new LoyaltyEarnInfo(new PointsEarnInfo(320, 0, 320), null), false);
@@ -78,7 +79,7 @@ public class HotelViewModelTest {
 
 		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
 		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
-		assertEquals("Test Hotel with 0 stars of 5 rating. 0.0 of 5 guest rating.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
+		assertEquals("Test Hotel with 2 stars of 5 rating. 0.0 of 5 guest rating.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
 	}
 
 	@Test
