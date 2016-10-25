@@ -32,7 +32,6 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
     val heartViewContainer: android.widget.FrameLayout by bindView(R.id.hotel_detail_toolbar_heart_container)
     var viewModel: BaseHotelDetailViewModel by Delegates.notNull()
     var navIcon: ArrowXDrawable by Delegates.notNull()
-    //TODO handle click when user favorite from detail screen.
     val heartIcon: FavoriteButton by bindView(R.id.heart_image_view)
 
     init {
@@ -44,8 +43,6 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
             toolBarRating = findViewById(R.id.hotel_star_rating_bar) as StarRatingBar
         }
 
-        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(context)
-        heartViewContainer.visibility = if (bucketed) View.VISIBLE else View.GONE
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
@@ -60,9 +57,7 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
         }
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
-            heartIcon.isInDetailView = true
-        }
+
     }
 
     fun hideGradient() {
@@ -71,6 +66,10 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
 
     fun setHotelDetailViewModel(vm: BaseHotelDetailViewModel) {
         viewModel = vm
+        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(context, viewModel.showHotelFavorite())
+        heartViewContainer.visibility = if (bucketed) View.VISIBLE else View.GONE
+        heartIcon.isInDetailView = bucketed
+
         vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
         vm.hotelNameObservable.subscribeText(toolbarTitle)
         vm.hotelRatingObservable.subscribe {
