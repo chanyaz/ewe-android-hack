@@ -2,7 +2,6 @@ package com.expedia.bookings.test
 
 import android.preference.PreferenceManager
 import com.expedia.bookings.data.HotelFavoriteHelper
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
@@ -10,6 +9,7 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
+import com.expedia.vm.AbstractHotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel
 import org.junit.Before
 import org.junit.Test
@@ -29,7 +29,7 @@ class HotelFilterViewModelTest {
     @Before
     fun before() {
         val context = RuntimeEnvironment.application
-        vm = HotelFilterViewModel(context, LineOfBusiness.HOTELS)
+        vm = HotelFilterViewModel(context)
     }
 
     @Test
@@ -153,7 +153,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByPopular() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.RECOMMENDED)
+        vm.sortByObservable.onNext(AbstractHotelFilterViewModel.Sort.RECOMMENDED)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).sortIndex
@@ -165,7 +165,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByPrice() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.PRICE)
+        vm.sortByObservable.onNext(AbstractHotelFilterViewModel.Sort.PRICE)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.priceToShowUsers
@@ -177,7 +177,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByDeals() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.DEALS)
+        vm.sortByObservable.onNext(AbstractHotelFilterViewModel.Sort.DEALS)
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val currentDeals = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.discountPercent
             val previousDeals = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.discountPercent
@@ -188,7 +188,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByPackageDiscount() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.PACKAGE_DISCOUNT)
+        vm.sortByObservable.onNext(AbstractHotelFilterViewModel.Sort.PACKAGE_DISCOUNT)
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val currentDeals = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.discountPercent
             val previousDeals = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.discountPercent
@@ -199,7 +199,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByRating() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.RATING)
+        vm.sortByObservable.onNext(AbstractHotelFilterViewModel.Sort.RATING)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).hotelGuestRating
@@ -211,7 +211,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByDistance() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.DISTANCE)
+        vm.sortByObservable.onNext(AbstractHotelFilterViewModel.Sort.DISTANCE)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).proximityDistanceInMiles
@@ -390,9 +390,9 @@ class HotelFilterViewModelTest {
                 .subscribe { listOfHotelNames ->
                     resultsList.add(listOfHotelNames)
                 }
-        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.PRICE)
-        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.DEALS)
-        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.RATING)
+        vm.sortByObservable.onNext(AbstractHotelFilterViewModel.Sort.PRICE)
+        vm.sortByObservable.onNext(AbstractHotelFilterViewModel.Sort.DEALS)
+        vm.sortByObservable.onNext(AbstractHotelFilterViewModel.Sort.RATING)
         assertEquals(expectedList, resultsList)
     }
 
