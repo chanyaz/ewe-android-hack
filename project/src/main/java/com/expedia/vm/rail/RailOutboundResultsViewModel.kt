@@ -9,11 +9,8 @@ import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailsApiStatusCodes
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.RailServices
-import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.util.endlessObserver
 import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -22,7 +19,7 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
     val errorObservable = PublishSubject.create<ApiError>()
     val retryObservable = PublishSubject.create<Unit>()
 
-    val showChildrenWarningObservable = railResultsObservable.map {response ->
+    val showChildrenWarningObservable = railResultsObservable.map { response ->
         response.hasChildrenAreFreeWarning()
     }
 
@@ -36,6 +33,11 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
         retryObservable.withLatestFrom(paramsSubject, { retry, params ->
             doSearch(params)
         }).subscribe()
+
+        railResultsObservable.map { response ->
+            val leg = response.outboundLeg!!
+            Pair(leg.legOptionList, leg.cheapestInboundPrice)
+        }.subscribe(legOptionsAndCheapestPriceSubject)
     }
 
     private fun doSearch(params: RailSearchRequest) {
@@ -44,8 +46,7 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
                 if (response.hasError()) {
                     if (response.responseStatus.statusCategory == RailsApiStatusCodes.STATUS_CATEGORY_NO_PRODUCT) {
                         errorObservable.onNext(ApiError(ApiError.Code.RAIL_SEARCH_NO_RESULTS))
-                    }
-                    else {
+                    } else {
                         errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                     }
                 }

@@ -3,6 +3,7 @@ package com.expedia.vm.test.rail
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailDateTime
 import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
@@ -47,7 +48,7 @@ class RailOutboundDetailsViewModelTest {
         val EXPECTED_FILTERED_OFFER_LIST_SIZE = 4
 
         val offerList = generateOffersForLeg()
-        val offerPairSubscriber = TestSubscriber.create<Pair<List<RailSearchResponse.RailOffer>, Money?>>()
+        val offerPairSubscriber = TestSubscriber.create<Pair<List<RailOffer>, Money?>>()
         viewModel.railOffersAndInboundCheapestPricePairSubject.subscribe(offerPairSubscriber)
 
         val mockSearchResponse = Mockito.mock(RailSearchResponse::class.java)
@@ -75,7 +76,7 @@ class RailOutboundDetailsViewModelTest {
         return leg
     }
 
-    private fun generateOffersForLeg(): List<RailSearchResponse.RailOffer> {
+    private fun generateOffersForLeg(): List<RailOffer> {
         val resourceReader = JSONResourceReader("src/test/resources/raw/stripped_roundtrip_open_return.json")
         val searchResponse = resourceReader.constructUsingGson(RailSearchResponse::class.java)
         return searchResponse.offerList

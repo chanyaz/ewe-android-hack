@@ -4,7 +4,7 @@ import com.expedia.bookings.data.rail.responses.PassengerSegmentFare
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSegment
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader

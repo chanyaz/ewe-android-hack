@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.StrUtils
@@ -15,7 +16,7 @@ import java.util.Locale
 
 class RailConfirmationViewModel(val context: Context) {
     val confirmationObservable = PublishSubject.create<Pair<RailCheckoutResponse, String>>()
-    val railOfferObserver = PublishSubject.create<RailSearchResponse.RailOffer>()
+    val railOfferObserver = PublishSubject.create<RailOffer>()
 
     // Outputs
     val itinNumberObservable = BehaviorSubject.create<String>()

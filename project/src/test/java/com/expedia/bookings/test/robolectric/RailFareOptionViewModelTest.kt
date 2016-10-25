@@ -2,6 +2,7 @@ package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailCard
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.vm.rail.RailFareOptionViewModel
@@ -66,9 +67,9 @@ class RailFareOptionViewModelTest {
     fun testFareOptionClickEvents() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, false)
 
-        val testOfferSelectedSubscriber = TestSubscriber<RailSearchResponse.RailOffer>()
-        val testShowAmenitiesSelectedSubscriber = TestSubscriber<RailSearchResponse.RailOffer>()
-        val testShowFareSelectedSubscriber = TestSubscriber<RailSearchResponse.RailOffer>()
+        val testOfferSelectedSubscriber = TestSubscriber<RailOffer>()
+        val testShowAmenitiesSelectedSubscriber = TestSubscriber<RailOffer>()
+        val testShowFareSelectedSubscriber = TestSubscriber<RailOffer>()
 
         railFareOptionViewModel.offerSelectedObservable.subscribe(testOfferSelectedSubscriber)
         railFareOptionViewModel.amenitiesSelectedObservable.subscribe(testShowAmenitiesSelectedSubscriber)
@@ -84,8 +85,8 @@ class RailFareOptionViewModelTest {
         testShowFareSelectedSubscriber.assertValueCount(1)
     }
 
-    private fun getRailOffer(): RailSearchResponse.RailOffer {
-        val railOffer = RailSearchResponse.RailOffer()
+    private fun getRailOffer(): RailOffer {
+        val railOffer = RailOffer()
         railOffer.totalPrice = Money(10, "USD")
         railOffer.totalPrice.formattedPrice = "$10"
         val railProduct = RailProduct()

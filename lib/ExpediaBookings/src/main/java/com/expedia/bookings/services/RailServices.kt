@@ -8,9 +8,9 @@ import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.Constants
-import com.expedia.bookings.utils.rail.RailConstants
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -67,9 +67,9 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
 
     private val BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE = { response: RailSearchResponse ->
         if (!response.hasError()) {
-            val outboundLeg = response.findLegWithBoundOrder(RailConstants.OUTBOUND_BOUND_ORDER)!!
+            val outboundLeg = response.outboundLeg!!
             for (legOption: RailLegOption in outboundLeg.legOptionList) {
-                for (railOffer: RailSearchResponse.RailOffer in response.offerList) {
+                for (railOffer: RailOffer in response.offerList) {
                     val railOfferWithFareQualifiers = railOffer.railProductList.filter { !it.fareQualifierList.isEmpty() }
                     val railOfferLegListWithFareQualifiers = railOfferWithFareQualifiers.flatMap { it.legOptionIndexList }
 
@@ -81,7 +81,7 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
             }
 
             if (response.hasInbound()) {
-                val inboundLeg = response.findLegWithBoundOrder(RailConstants.INBOUND_BOUND_ORDER)!!
+                val inboundLeg = response.inboundLeg!!
                 outboundLeg.cheapestInboundPrice = inboundLeg.cheapestPrice
             }
         }
