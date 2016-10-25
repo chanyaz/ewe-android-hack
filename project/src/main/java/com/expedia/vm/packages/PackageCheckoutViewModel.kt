@@ -18,6 +18,7 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.safeSubscribe
 import com.expedia.vm.BaseCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
@@ -31,7 +32,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
     }
 
     init {
-        tripResponseObservable.subscribe {
+        tripResponseObservable.safeSubscribe {
             it as PackageCreateTripResponse
             builder.tripId(it.packageDetails.tripId)
             builder.expectedTotalFare(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())

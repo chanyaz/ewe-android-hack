@@ -40,7 +40,7 @@ class BaseCheckoutViewModelTest {
                 paymentViewModel = PaymentViewModel(activity)
             }
             override fun getTripId(): String {
-                return tripResponseObservable.value.tripId
+                return tripResponseObservable.value!!.tripId
             }
         }
         testViewModel.builder.tripId("4321")

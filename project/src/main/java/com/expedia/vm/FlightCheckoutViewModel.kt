@@ -16,6 +16,7 @@ import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.util.safeSubscribe
 import com.squareup.phrase.Phrase
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -37,7 +38,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
 
         legalText.onNext(SpannableStringBuilder(pointOfSale.getColorizedFlightBookingStatement(ContextCompat.getColor(context, R.color.flight_primary_color))))
 
-        tripResponseObservable.subscribe { it as FlightCreateTripResponse
+        tripResponseObservable.safeSubscribe { it as FlightCreateTripResponse
             builder.tripId(it.newTrip.tripId)
             builder.expectedTotalFare(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())
             builder.expectedFareCurrencyCode(it.details.offer.totalPrice.currency)
