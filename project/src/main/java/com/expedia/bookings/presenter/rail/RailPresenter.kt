@@ -173,6 +173,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         initInboundDetailsPresenter()
         initOverviewPresenter()
         initCheckoutPresenter()
+        initConfirmationPresenter()
         initErrorPresenter()
 
         show(searchPresenter)
@@ -222,7 +223,6 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             } else {
                 transitionToTripSummary()
                 createTripViewModel.offerTokensSelected.onNext(listOf(offer.railOfferToken))
-                confirmationPresenter.viewModel.railOfferObserver.onNext(offer)
             }
         }
 
@@ -278,6 +278,12 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         railCheckoutPresenter.checkoutViewModel.bookingSuccessSubject.subscribe { pair ->
             confirmationPresenter.viewModel.confirmationObservable.onNext(pair)
             show(confirmationPresenter)
+        }
+    }
+
+    private fun initConfirmationPresenter() {
+        createTripViewModel.tripResponseObservable.subscribe { response ->
+            confirmationPresenter.viewModel.railOfferObserver.onNext(response.railDomainProduct.railOffer)
         }
     }
 
