@@ -120,7 +120,7 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		assertConfirmation();
 	}
 
-	public void testPackagePhoneHappyPathSingedIn() throws Throwable {
+	public void testPackagePhoneHappyPathSignedIn() throws Throwable {
 		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);

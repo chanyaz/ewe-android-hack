@@ -1,16 +1,16 @@
 package com.expedia.vm.traveler
 
 import android.content.Context
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import rx.subjects.BehaviorSubject
 import javax.inject.Inject
 
-open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness,
+open class CheckoutTravelerViewModel(val context: Context, val lob: LineOfBusiness,
                                      showMainTravelerMinAgeMessaging: Boolean) : BaseCheckoutTravelerViewModel() {
 
     lateinit var travelerValidator: TravelerValidator
@@ -26,7 +26,7 @@ open class CheckoutTravelerViewModel(context: Context, val lob: LineOfBusiness,
     }
 
     override fun isValidForBooking(traveler: Traveler, index: Int): Boolean {
-        return travelerValidator.isValidForFlightBooking(traveler, index, passportRequired.value)
+        return travelerValidator.isValidForFlightBooking(traveler, index, passportRequired.value, User.isLoggedIn(context))
     }
 
     override fun isTravelerEmpty(traveler: Traveler): Boolean {
