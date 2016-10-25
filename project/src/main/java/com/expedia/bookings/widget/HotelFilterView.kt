@@ -154,7 +154,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             vm.vipFilteredObserver.onNext(filterHotelVip.isChecked)
         }
 
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context, viewmodel.lob == LineOfBusiness.HOTELS)) {
             filterFavoriteContainer.setOnClickListener {
                 clearHotelNameFocus()
                 updateFavoriteFilter()
@@ -184,7 +184,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             resetStars()
 
             filterHotelVip.isChecked = false
-            if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+            if (HotelFavoriteHelper.showHotelFavoriteTest(context, viewmodel.lob == LineOfBusiness.HOTELS)) {
                 filterHotelFavorite.isChecked = false
             }
 
@@ -535,7 +535,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     fun refreshFavoriteCheckbox() {
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context) && viewmodel.lob == LineOfBusiness.HOTELS) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context, viewmodel.lob == LineOfBusiness.HOTELS)) {
             if (HotelFavoriteHelper.getLocalFavorites().isNotEmpty()) {
                 filterFavoriteContainer.visibility = View.VISIBLE
                 optionLabel.text = context.resources.getString(R.string.filter_options)
