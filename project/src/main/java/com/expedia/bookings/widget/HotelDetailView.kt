@@ -49,13 +49,13 @@ import com.expedia.util.publishOnClick
 import com.expedia.util.subscribeBackground
 import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeBackgroundResource
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeGalleryColorFilter
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
-import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
 import com.mobiata.android.util.AndroidUtils
@@ -499,7 +499,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             recycleImageView(room.roomHeaderImage)
         }
         roomContainer.removeAllViews()
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context, viewmodel.showHotelFavorite())) {
             hotelDetailsToolbar.heartIcon.updateImageState()
         }
     }
@@ -782,7 +782,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     fun refresh() {
         detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         resetGallery()
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context, viewmodel.showHotelFavorite())) {
             hotelDetailsToolbar.heartIcon.updateImageState()
         }
     }

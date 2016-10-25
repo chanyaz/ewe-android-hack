@@ -29,7 +29,7 @@ class FavoritesTest {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelFavoriteTest, 1)
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
         sharedPreferences.edit().putBoolean(activity.resources.getString(R.string.preference_enable_hotel_favorite), true).apply()
-        assertTrue(HotelFavoriteHelper.showHotelFavoriteTest(activity))
+        assertTrue(HotelFavoriteHelper.showHotelFavoriteTest(activity, true))
     }
 
     @Test

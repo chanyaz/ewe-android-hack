@@ -740,7 +740,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
 
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(context, true)) {
             detailPresenter.hotelDetailView.hotelId = hotelId
             val favoriteButtonViewModel = FavoriteButtonViewModel(context, hotelId, HotelTracking(), HotelTracking.PageName.INFOSITE)
             detailPresenter.hotelDetailView.hotelDetailsToolbar.heartIcon.viewModel = favoriteButtonViewModel
