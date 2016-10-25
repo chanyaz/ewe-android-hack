@@ -205,7 +205,7 @@ android {
             applicationId "com.expedia.bookings"
 
             def major = 7
-            def minor = 6
+            def minor = 7
             def patch = 0
             def build = 0
 
