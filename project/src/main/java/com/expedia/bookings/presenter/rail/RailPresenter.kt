@@ -14,7 +14,7 @@ import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.RailServices
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -83,6 +83,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     val inboundLegSelectedObserver: Observer<RailLegOption> = endlessObserver { selectedLegOption ->
         show(inboundDetailsPresenter)
+        RailTracking().trackRailRoundTripInDetails()
         inboundDetailsViewModel.railLegOptionSubject.onNext(selectedLegOption)
         tripOverviewPresenter.tripSummaryViewModel.railInboundLegObserver.onNext(selectedLegOption)
     }
@@ -90,14 +91,14 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private val defaultSearchTransition = object : Presenter.DefaultTransition(RailSearchPresenter::class.java.name) {
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
-            OmnitureTracking.trackRailSearchInit()
+            RailTracking().trackRailSearchInit()
         }
     }
     private val searchToOutbound = object : LeftToRightTransition(this, RailSearchPresenter::class.java, RailOutboundPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
-                OmnitureTracking.trackRailSearchInit()
+                RailTracking().trackRailSearchInit()
             }
         }
     }
@@ -148,7 +149,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (forward) {
-                OmnitureTracking.trackRailSearchInit()
+                RailTracking().trackRailSearchInit()
             }
         }
     }
@@ -315,6 +316,11 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     private fun transitionToDetails() {
         show(outboundDetailsPresenter)
+        if (searchPresenter.searchViewModel.isRoundTripSearchObservable.value) {
+            RailTracking().trackRailRoundTripJourneyDetailsAndFareOptions()
+        } else {
+            RailTracking().trackRailOneWayTripDetails()
+        }
     }
 
     private fun transitionToTripSummary() {
