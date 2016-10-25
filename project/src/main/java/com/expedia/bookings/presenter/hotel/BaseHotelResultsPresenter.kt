@@ -1097,6 +1097,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val mapFilterTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsFilter::class.java, DecelerateInterpolator(2f), ANIMATION_DURATION_FILTER) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            filterView.refreshFavoriteCheckbox()
             filterView.visibility = View.VISIBLE
             if (forward) {
                 fab.visibility = View.GONE
