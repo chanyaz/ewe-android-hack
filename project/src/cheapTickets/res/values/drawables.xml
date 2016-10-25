@@ -2,7 +2,6 @@
 <resources>
     <item name="border_horizontal_striped_drawable" type="drawable">@drawable/bg_breakdown_candycane</item>
     <item name="brand_phone_checkout_logo_drawable" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
-    <item name="brand_tablet_checkout_login_logo_drawable" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
     <item name="brand_phone_checkout_login_logo_drawable" type="drawable">@drawable/brand_logo_white</item>
 
     <item name="ic_action_bar_logo_dark" type="drawable">@drawable/ic_action_bar_logo_dark_icon</item>

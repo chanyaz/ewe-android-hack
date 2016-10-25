@@ -101,10 +101,6 @@
     <string name="enter_driver_details_cont_desc">Enter driver details button</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Select saved contacts</string>
-    <!-- Text for enter payment details-->
-    <string name="enter_payment_details">Enter payment details</string>
-    <!-- Template for selected credit card-->
-    <string name="selected_card_template">Expires %s</string>
     <!-- Car doors text-->
     <string name="car_doors_text">Doors</string>
     <!-- Car bags text-->
@@ -232,8 +228,6 @@
     <string name="successful_checkout_email_label">Itinerary sent to</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Directions to %1$s</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">Credit Card/Debit Card</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">Enter new Debit/Credit Card</string>
     <!-- Text for enter guest details line 1 -->
@@ -246,8 +240,6 @@
     <string name="checkout_enter_payment_details">Payment Method</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Enter credit card</string>
-    <!-- Label to indicate that the user has selected a stored credit card -->
-    <string name="checkout_payment_line2_storedcc">Stored Credit Card</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Paying with Points</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1914,7 +1906,6 @@
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
-    <string name="room_with_guests_TEMPLATE">1 Room, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Free Cancellation by {date}</string>
 
     <!-- Flight details fragment -->
@@ -2145,8 +2136,6 @@
     <string name="please_enter_a_valid_email_address">Please enter a valid email address</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Fees paid at hotel</string>
-    <!-- Row label for when we show resort fees as its own line item -->
-    <string name="fees_due_at_hotel">Fees due at hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Due to {brand}</string>
     <!-- Due to expedia today - today -->
@@ -2215,8 +2204,6 @@
     <!-- Edit button for traveler/payment -->
     <string name="edit_button">Edit</string>
 
-    <!-- Title in toolbar on checkout telling user to select travelers he wants for booking-->
-    <string name="select_travelers">Select travelers</string>
     <!-- Select traveler/contact from checkout saved travelers list -->
     <string name="select_traveler">Select Contact</string>
     <!-- Add new traveler, checkout saved travelers list -->
@@ -2489,8 +2476,6 @@
     <string name="add_to_your_trip">Add to your trip</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
-    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
-    <string name="hotels_guest_TEMPLATE">1 Room, %s guests</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Cars in %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2905,11 +2890,7 @@
     <string name="vip_access">+VIP Access</string>
     <!--Options title for favorite and VIP checkboxes for Hotel Results -->
     <string name="filter_options">Options</string>
-    <!-- Title for Favorites message for Hotel Results -->
-    <string name="favorites">Favorites</string>
-    <!-- Filter for showing only favorited hotels -->
-    <string name="favorites_only">Favorites Only</string>
-    <!-- Filter for showing only VIP access hotels -->
+    <!-- Filter for showing favorited hotels -->
     <string name="filter_favorites">Favorited Hotels</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">At +VIP Access hotels, +silver and +gold members receive free room upgrades and other perks on availability at check-in.</string>
@@ -4190,8 +4171,6 @@
         <item quantity="one">{night} free night when you book with a flight.</item>
         <item quantity="other">{night} free nights when you book with a flight.</item>
     </plurals>
-    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
-    <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s at %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -4386,9 +4365,6 @@
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Return</string>
 
-    <!--used on the rail search screen - this is equivalent to a round trip air ticket with a return trip any time within a 30 day window (typically)-->
-    <string name="rail_open_return">Open Return</string>
-
     <!--used on the rail results/details screen to signify that a trip doesn't have any stops -->
     <string name="rail_direct">Direct</string>
 
@@ -4523,8 +4499,6 @@
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">Flight Protection</string>
-    <!-- Cost summary breakdown line item for flights -->
-    <string name="cost_summary_breakdown_flight_summary">Flights</string>
     <!-- Cost summary breakdown line item for a hotel + flight package -->
     <string name="cost_summary_breakdown_hotel_flight_summary">Hotel + Flights</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
@@ -4690,10 +4664,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Bundle price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Showing bundle details. Button to close.</string>
-    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
-    <string name="select_hotel_selected_expand_cont_desc">expand</string>
-    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
-    <string name="select_hotel_selected_collapse_cont_desc">collapse</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
