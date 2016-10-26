@@ -39,7 +39,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -70,7 +69,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.HotelFilterViewModel
+import com.expedia.vm.AbstractHotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsMapViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -86,7 +85,6 @@ import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
 import rx.Observer
-import rx.Subscription
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
@@ -112,8 +110,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val filterBtnWithCountWidget: FilterButtonWithCountWidget? = null
     open val searchThisArea: Button? = null
     var isMapReady = false
-
-    var filterViewModel: HotelFilterViewModel
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
 
@@ -362,8 +358,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.hotelFavoriteChange.subscribe(hotelFavoriteChangeObserver)
 
         recyclerView.adapter = adapter
-        filterViewModel = HotelFilterViewModel(context, getLineOfBusiness())
-        filterView.viewmodel = filterViewModel
+        filterView.viewmodel = createFilterViewModel()
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
@@ -1292,6 +1287,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun doAreaSearch()
     abstract fun hideSearchThisArea()
     abstract fun showSearchThisArea()
+    abstract fun createFilterViewModel(): AbstractHotelFilterViewModel
     abstract fun trackSearchMap()
     abstract fun trackMapToList()
     abstract fun trackCarouselScroll()

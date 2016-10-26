@@ -11,7 +11,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.endlessObserver
-import com.expedia.vm.HotelFilterViewModel
+import com.expedia.vm.AbstractHotelFilterViewModel
 import rx.Observer
 import kotlin.properties.Delegates
 
@@ -23,10 +23,10 @@ class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearLayout(c
     var amenity: FilterAmenity ?= null
     var amenityId: Int ? = null
 
-    var viewModel: HotelFilterViewModel by Delegates.notNull()
+    var hotelFilterViewModel: AbstractHotelFilterViewModel by Delegates.notNull()
 
-    fun bind(amenity: FilterAmenity, id:Int, vm: HotelFilterViewModel) {
-        this.viewModel = vm
+    fun bind(amenity: FilterAmenity, id:Int, vm: AbstractHotelFilterViewModel) {
+        this.hotelFilterViewModel = vm
         this.amenity = amenity
         this.amenityId = id
         amenityTextView.text = context.getString(amenity.strId)
@@ -43,7 +43,7 @@ class HotelAmenityFilter(context: Context, attrs: AttributeSet) : LinearLayout(c
         } else {
             changeColor(ContextCompat.getColor(context, R.color.hotelsv2_checkout_text_color))
         }
-        viewModel.selectAmenity.onNext(amenityId)
+        hotelFilterViewModel.selectAmenity.onNext(amenityId)
     }
 
     fun changeColor(color: Int){
