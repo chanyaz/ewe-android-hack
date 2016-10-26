@@ -66,12 +66,14 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
 
     init {
         addResultsSubject.subscribe { response ->
-            val elements = response.hotelList.filter { responseHotel -> hotels.filter { responseHotel.hotelId.contains(it.hotelId) }.isEmpty() }
-            hotels.addAll(elements)
-            var newHotels = HotelServices.putSponsoredItemsInCorrectPlaces(hotels)
-            var initialRefreshIndex = HotelUtils.getFirstUncommonHotelIndex(hotels, newHotels)
+            val nonDuplicateHotels = response.hotelList.filter { responseHotel -> hotels.filter { responseHotel.hotelId.contains(it.hotelId) }.isEmpty() }
+            val initialSize = hotels.size
+            hotels.addAll(nonDuplicateHotels)
+            val newHotels = HotelServices.putSponsoredItemsInCorrectPlaces(hotels)
+            val initialRefreshIndex = HotelUtils.getFirstUncommonHotelIndex(hotels, newHotels)
             hotels = newHotels as ArrayList<Hotel>
-            notifyItemRangeInserted(initialRefreshIndex, hotels.size)
+            notifyItemRangeChanged(initialRefreshIndex, initialSize)
+            notifyItemRangeInserted(initialSize, hotels.size)
         }
 
         resultsSubject.subscribe { response ->
