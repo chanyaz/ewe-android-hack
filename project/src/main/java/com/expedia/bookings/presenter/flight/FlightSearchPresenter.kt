@@ -23,6 +23,7 @@ import com.expedia.vm.AirportSuggestionViewModel
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.FlightSearchViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
+import com.squareup.phrase.Phrase
 
 open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
 
@@ -38,6 +39,12 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             searchButton.setTextColor(if (enable) ContextCompat.getColor(context, R.color.hotel_filter_spinner_dropdown_color) else ContextCompat.getColor(context, R.color.white_disabled))
         }
         searchButton.subscribeOnClick(vm.performSearchObserver)
+
+        travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
+            val noOfTravelers = travelers.getTravelerCount()
+            travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
+                    put("travelers", noOfTravelers).format().toString()
+        }
 
         vm.errorNoDestinationObservable.subscribe { AnimUtils.doTheHarlemShake(destinationCardView) }
         vm.errorNoOriginObservable.subscribe { AnimUtils.doTheHarlemShake(originCardView) }
