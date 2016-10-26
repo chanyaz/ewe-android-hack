@@ -66,7 +66,7 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
 
     fun setHotelDetailViewModel(vm: BaseHotelDetailViewModel) {
         viewModel = vm
-        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(context, viewModel.showHotelFavorite())
+        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(viewModel.showHotelFavorite())
         heartViewContainer.visibility = if (bucketed) View.VISIBLE else View.GONE
         heartIcon.isInDetailView = bucketed
 
