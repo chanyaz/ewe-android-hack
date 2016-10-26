@@ -16,6 +16,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val bundlePriceSubject = BehaviorSubject.create<String>()
     val urgencyMessagingSubject = BehaviorSubject.create<String>()
     val totalDurationSubject = BehaviorSubject.create<CharSequence>()
+    val totalDurationContDescSubject = BehaviorSubject.create<String>()
     val baggageFeeURLSubject = BehaviorSubject.create<String>()
     val selectedFlightClickedSubject = BehaviorSubject.create<FlightLeg>()
     val chargesObFeesTextSubject = PublishSubject.create<String>()
@@ -31,6 +32,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
             updateOBFees(selectedFlight)
 
             totalDurationSubject.onNext(FlightV2Utils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
+            totalDurationContDescSubject.onNext(FlightV2Utils.getFlightLegDurationContentDescription(context, selectedFlight))
 
             var perPersonPrice = Phrase.from(context.resources.getString(R.string.package_flight_overview_per_person_TEMPLATE))
                     .put("money", selectedFlight.packageOfferModel.price.pricePerPersonFormatted)
