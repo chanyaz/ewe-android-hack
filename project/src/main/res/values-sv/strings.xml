@@ -73,6 +73,8 @@
     <string name="cars_total_template">Totalt %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Dra för att boka</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Boka</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Betalning</string>
     <!-- Text for error toolbar-->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Avresa: {date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Återresa - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Totalbelopp</string>
 
@@ -4489,6 +4494,9 @@
     <string name="pickup_at_station">Hämta på station</string>
     <string name="delivery_by_mail">Postleverans</string>
     <string name="shipping_address">Leveransadress</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">Genom att slutföra bokningen bekräftar jag att jag har läst och godkänt dess &lt;a href=\"{rules_and_restrictions_url}\"&gt;regler och restriktioner&lt;/a&gt;, &lt;a href=\"{conditions_of_travel_url}\"&gt;resevillkoren&lt;/a&gt;, &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;leverantörens regler och villkor&lt;/a&gt;, &lt;a href=\"{terms_of_use_url}\"&gt;användarvillkoren&lt;/a&gt;, &lt;a href=\"{privacy_policy_url}\"&gt;sekretesspolicyn&lt;/a&gt; samt &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;informationen om avgifter för betalning och biljettleverans&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Ta med ditt referensnummer och kreditkortet för betalning.</string>

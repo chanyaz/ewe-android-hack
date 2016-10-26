@@ -73,6 +73,8 @@
     <string name="cars_total_template">총 합계 %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">밀어서 예약하기</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">예약하기</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">결제</string>
     <!-- Text for error toolbar-->
@@ -4420,7 +4422,10 @@
     <string name="rail_returning_at">올 때</string>
 
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
-    <string name="rail_checkout_outbound_TEMPLATE">가는 날짜 - {date}</string>
+    <string name="rail_checkout_outbound_TEMPLATE">가는날: {date}</string>
+
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">오는날: {date}</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">총 합계</string>
@@ -4489,6 +4494,9 @@
     <string name="pickup_at_station">역에서 수령</string>
     <string name="delivery_by_mail">우편 배송</string>
     <string name="shipping_address">배송 주소</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">이 예약을 완료함으로써 본인은 &lt;a href=\"{rules_and_restrictions_url}\"&gt;규칙 및 제한 사항&lt;/a&gt;, &lt;a href=\"{conditions_of_travel_url}\"&gt;여행 조건&lt;/a&gt;, &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;공급업체 이용약관&lt;/a&gt;, &lt;a href=\"{terms_of_use_url}\"&gt;이용약관&lt;/a&gt;, &lt;a href=\"{privacy_policy_url}\"&gt;개인정보 보호정책&lt;/a&gt; 및 &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;결제 및 티켓 배송료&lt;/a&gt;를 읽고 이에 동의함을 명시합니다.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">구매하시려면 티켓 참조 번호와 신용카드가 필요합니다.</string>

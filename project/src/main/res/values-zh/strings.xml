@@ -73,6 +73,8 @@
     <string name="cars_total_template">总额 %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">滑动屏幕，开始预订</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">预订</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">付款</string>
     <!-- Text for error toolbar-->
@@ -2347,7 +2349,7 @@
         <item quantity="one">+ 其他 {travelercount} 位旅客</item>
         <item quantity="other">+ 其他 {travelercount} 位旅客</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber}({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">编辑旅客 {travelernumber} ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 岁</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">出发：{date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">返程：{date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">总额</string>
 
@@ -4489,6 +4494,9 @@
     <string name="pickup_at_station">到车站取票</string>
     <string name="delivery_by_mail">邮寄送票</string>
     <string name="shipping_address">邮寄地址</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">选择完成此次预订即表示，我承认：我已经阅读并接受相关&lt;a href=\"{rules_and_restrictions_url}\"&gt;规定和限制&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;旅行条件&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;供应商条款和条件&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;使用条款&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;隐私政策&lt;/a&gt;以及&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;付款和送票费&lt;/a&gt;。</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">请出示订票参考编号及付款时使用的信用卡。</string>
@@ -4602,7 +4610,7 @@
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。价格 {price}。含酒店和机票\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。\u0020</string>
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}，评分 {starrating} 分（满分 5 分）。住客评分 {guestrating} 分（满分 5 分）。 \u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">旧价格 {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
@@ -4632,7 +4640,7 @@
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">行程日期。按钮。打开对话框。{date_range}。{nights}</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
-    <string name="hotel_card_view_price_cont_desc_TEMPLATE">价格 {price}。\u0020</string>
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">价格 {price}。 \u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">旅客人数。按钮。打开对话框。{travelers} 位旅客</item>
@@ -4742,7 +4750,7 @@
 
     <!-- Generic content description -->
     <!-- Append 'Button' to Content description for LX/Cars search results card button -->
-    <string name="list_card_announce_button_cont_desc">. 按钮</string>
+    <string name="list_card_announce_button_cont_desc">。按钮</string>
     <!-- Content description for toolbar 'X' i.e. close/back button -->
     <string name="toolbar_nav_icon_cont_desc">返回</string>
     <string name="toolbar_nav_icon_close_cont_desc">关闭</string>
