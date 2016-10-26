@@ -73,6 +73,8 @@
     <string name="cars_total_template">Totale %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Procedi alla prenotazione</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Prenota</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Procedi al pagamento</string>
     <!-- Text for error toolbar-->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Partenza: {date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Ritorno: {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Totale</string>
 
@@ -4489,6 +4494,9 @@
     <string name="pickup_at_station">Ritiro in stazione</string>
     <string name="delivery_by_mail">Consegna per posta</string>
     <string name="shipping_address">Indirizzo di spedizione</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">Scegliendo di completare questa prenotazione, dichiaro di aver letto e accettato le &lt;a href=\"{rules_and_restrictions_url}\"&gt;regole e restrizioni&lt;/a&gt;, le &lt;a href=\"{conditions_of_travel_url}\"&gt;condizioni di viaggio&lt;/a&gt;, &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;i termini e le condizioni del fornitore&lt;/a&gt;, i &lt;a href=\"{terms_of_use_url}\"&gt;termini di utilizzo&lt;/a&gt;, l\&apos;&lt;a href=\"{privacy_policy_url}\"&gt;informativa sulla privacy&lt;/a&gt; e le &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;commissioni sul pagamento e sulla consegna dei biglietti&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Porta con te il numero di riferimento del biglietto e la carta di credito utilizzata per l\&apos;acquisto.</string>
