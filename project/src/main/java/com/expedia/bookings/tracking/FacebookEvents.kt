@@ -574,11 +574,11 @@ class FacebookEvents() {
     }
 
     private fun getLoyaltyTier(user: User?): String {
-        var loyaltyTier = "N/A"
-        if (user != null && user.primaryTraveler.loyaltyMembershipTier != LoyaltyMembershipTier.NONE) {
-            loyaltyTier = Db.getUser().primaryTraveler.loyaltyMembershipTier.toApiValue()
+        var loyaltyTierNotAvailable = "N/A"
+        if (user?.primaryTraveler?.loyaltyMembershipTier != LoyaltyMembershipTier.NONE) {
+            return user?.primaryTraveler?.loyaltyMembershipTier?.toApiValue() ?: loyaltyTierNotAvailable
         }
-        return loyaltyTier
+        return loyaltyTierNotAvailable
     }
 
     private fun addCommonHotelParams(parameters: Bundle, searchParams: HotelSearchParams, location: Location) {
