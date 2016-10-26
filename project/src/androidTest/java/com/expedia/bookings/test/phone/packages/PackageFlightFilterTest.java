@@ -232,8 +232,8 @@ public class PackageFlightFilterTest extends PackageTestCase {
 		onView(withId(R.id.sort_by_selection_spinner)).perform(scrollTo(), click());
 		onData(allOf(is(instanceOf(String.class)), is(duration))).perform(click());
 		onView(withId(R.id.sort_by_selection_spinner)).check(matches(withSpinnerText(containsString(duration))));
-		onView(withId(R.id.sort_by_selection_spinner)).check(matches(withContentDescription("Sort by. " + duration.toUpperCase(
-			Locale.US) + ".")));
+		onView(withId(R.id.sort_by_selection_spinner)).check(matches(withContentDescription("Sort by " + duration.toUpperCase(
+			Locale.US))));
 	}
 
 	private void navigateFromLaunchToFlightFilter() throws Throwable {
