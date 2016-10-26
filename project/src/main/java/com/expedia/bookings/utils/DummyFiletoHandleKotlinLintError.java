@@ -91,6 +91,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.widget_hotel_checkout,
 		R.string.filters_cleared,
 		R.layout.widget_hotel_confirmation,
+		R.string.package_flight_overview_departure_arrival_cont_desc_TEMPLATE,
 		R.string.hotel_calendar_tooltip_bottom,
 		R.string.select_checkout_date_TEMPLATE,
 		R.string.traveler_details_complete_cont_desc,
