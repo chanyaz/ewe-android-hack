@@ -151,15 +151,31 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
         return hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
     }
 
+    fun getRatingContentDesc(): String {
+        var phrase: Phrase
+        if (hotel.hotelStarRating.toInt() <= 0 && hotel.hotelGuestRating <= 0f) {
+            phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE)
+                    .put("hotel", hotel.localizedName)
+        } else if (hotel.hotelStarRating.toInt() <= 0) {
+            phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_starrating_TEMPLATE)
+                    .put("hotel", hotel.localizedName)
+                    .put("guestrating", hotelGuestRatingObservable.value.toString())
+        } else if (hotel.hotelGuestRating <= 0f) {
+            phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_guestrating_TEMPLATE)
+                    .put("hotel", hotel.localizedName)
+                    .put("starrating", hotelStarRatingContentDescriptionObservable.value)
+        } else {
+            phrase = Phrase.from(context, R.string.hotel_details_cont_desc_TEMPLATE)
+                    .put("hotel", hotel.localizedName)
+                    .put("starrating", hotelStarRatingContentDescriptionObservable.value)
+                    .put("guestrating", hotelGuestRatingObservable.value.toString())
+        }
+        return phrase.format().toString()
+    }
+
     open fun getHotelContentDesc(): CharSequence {
         var result = SpannableBuilder()
-
-        result.append(Phrase.from(context, R.string.hotel_details_cont_desc_TEMPLATE)
-                .put("hotel", hotel.localizedName)
-                .put("starrating", hotelStarRatingContentDescriptionObservable.value)
-                .put("guestrating", hotelGuestRatingObservable.value.toString())
-                .format()
-                .toString())
+        result.append(getRatingContentDesc())
 
         if (urgencyMessageVisibilityObservable.value) {
             result.append(urgencyMessageBoxObservable.value + " ")

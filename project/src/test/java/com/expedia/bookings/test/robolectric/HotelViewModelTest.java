@@ -78,7 +78,7 @@ public class HotelViewModelTest {
 
 		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
 		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
-		assertEquals("Test Hotel with 0 stars of 5 rating. 0.0 of 5 guest rating.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
+		assertEquals("Test Hotel.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
 	}
 
 	@Test
@@ -94,6 +94,38 @@ public class HotelViewModelTest {
 
 		assertTrue(vm.getShowDiscountObservable().getValue());
 		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020Original price discounted 10%.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
+	}
+
+	@Test
+	public void contentDescriptionWithZeroStarRating() {
+		hotel.hotelStarRating = 0;
+		hotel.hotelGuestRating = 3;
+		setupSystemUnderTest();
+		assertEquals("Test Hotel with 3.0 of 5 guest rating.\\u0020", vm.getRatingContentDesc());
+	}
+
+	@Test
+	public void contentDescriptionWithZeroGuestRating() {
+		hotel.hotelStarRating = 4;
+		hotel.hotelGuestRating = 0;
+		setupSystemUnderTest();
+		assertEquals("Test Hotel with 4 stars of 5 rating.\\u0020", vm.getRatingContentDesc());
+	}
+
+	@Test
+	public void contentDescriptionWithZeroStarRatingAndZeroGuestRating() {
+		hotel.hotelStarRating = 0;
+		hotel.hotelGuestRating = 0;
+		setupSystemUnderTest();
+		assertEquals("Test Hotel.\\u0020", vm.getRatingContentDesc());
+	}
+
+	@Test
+	public void contentDescriptionWithNonZeroRatings() {
+		hotel.hotelStarRating = 4;
+		hotel.hotelGuestRating = 3;
+		setupSystemUnderTest();
+		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020", vm.getRatingContentDesc());
 	}
 
 	@Test
