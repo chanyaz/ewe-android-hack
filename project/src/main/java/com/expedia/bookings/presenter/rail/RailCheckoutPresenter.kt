@@ -6,6 +6,7 @@ import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
+import android.view.animation.Animation
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
@@ -77,6 +78,8 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
 
     private val travelerCardViewModel = RailTravelerSummaryViewModel(context)
     private val travelerCheckoutViewModel = RailCheckoutTravelerViewModel(context)
+
+    private var cardFeeSlideAnimation: Animation? = null
 
     var createTripViewModel: RailCreateTripViewModel by notNullAndObservable { vm ->
         vm.tripResponseObservable.subscribe { response ->
@@ -156,10 +159,9 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         checkoutViewModel.displayCardFeesObservable.subscribe { displayCardFee ->
             if (displayCardFee && cardProcessingFeeTextView.visibility == View.GONE) {
                 cardProcessingFeeTextView.visibility = View.VISIBLE
-                AnimUtils.slideInTranslate(cardProcessingFeeTextView, paymentWidget, 0L)
+                cardFeeSlideAnimation = AnimUtils.slideInAbove(cardProcessingFeeTextView, paymentWidget)
             } else if (!displayCardFee && cardProcessingFeeTextView.visibility == View.VISIBLE) {
-                AnimUtils.slideOut(cardProcessingFeeTextView)
-                paymentWidget.translationY = 0f
+                cardProcessingFeeTextView.startAnimation(cardFeeSlideAnimation)
             }
         }
 

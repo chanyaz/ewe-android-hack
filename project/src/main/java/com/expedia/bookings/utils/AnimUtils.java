@@ -20,6 +20,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.DecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.TranslateAnimation;
+import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -54,7 +55,6 @@ public class AnimUtils {
 
 	/**
 	 * Backwards-compatible method for creating a PropertyValuesHolder ObjectAnimator.
-	 * 
 	 * Without wrapping the View first, you can't use PropertyValuesHolder with
 	 * NineOldAndroid's back-compat methods.
 	 */
@@ -182,17 +182,50 @@ public class AnimUtils {
 		v.startAnimation(slideDown);
 	}
 
-	public static void slideInTranslate(final View v, final View toTranslate, long delay) {
-		Animation slideDown = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_in);
-		slideDown.setDuration(200);
-		slideDown.setFillAfter(true);
-		v.startAnimation(slideDown);
-		v.postDelayed(new Runnable() {
+	public static Animation slideInAbove(final View view, final View child) {
+		final RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) child.getLayoutParams();
+		final int originalTopMargin = params.topMargin;
+
+		Animation slideInAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_in);
+		slideInAnimation.setDuration(200);
+		slideInAnimation.setFillAfter(true);
+		slideInAnimation.setAnimationListener(new Animation.AnimationListener() {
 			@Override
-			public void run() {
-				toTranslate.setTranslationY(v.getHeight());
+			public void onAnimationStart(Animation animation) {
 			}
-		}, delay);
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				params.topMargin += view.getHeight();
+				child.setLayoutParams(params);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+		});
+		view.startAnimation(slideInAnimation);
+
+		Animation slideOutAnimation = AnimationUtils.loadAnimation(view.getContext(), R.anim.slide_out);
+		slideOutAnimation.setDuration(200);
+		slideOutAnimation.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				params.topMargin = originalTopMargin;
+				child.setLayoutParams(params);
+				view.setVisibility(View.GONE);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+			}
+		});
+
+		return slideOutAnimation;
 	}
 
 	public static void slideInOut(final View view, final int height) {
@@ -225,7 +258,8 @@ public class AnimUtils {
 	public static void progressForward(View v) {
 		Context context = v.getContext();
 		final int screenWidth = context.getResources().getDisplayMetrics().widthPixels;
-		final int loadingImgWidth = ContextCompat.getDrawable(context, R.drawable.packages_loading_pattern).getIntrinsicWidth();
+		final int loadingImgWidth = ContextCompat.getDrawable(context, R.drawable.packages_loading_pattern)
+			.getIntrinsicWidth();
 		int animatedViewWidth = 0;
 		while (animatedViewWidth < screenWidth) {
 			animatedViewWidth += loadingImgWidth;
