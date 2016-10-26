@@ -178,7 +178,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
             drawable.shape = RectShape()
 
 
-            if (vipMessage.visibility == View.VISIBLE || HotelFavoriteHelper.showHotelFavoriteTest(root.context, showHotelFavorite())) {
+            if (vipMessage.visibility == View.VISIBLE || HotelFavoriteHelper.showHotelFavoriteTest(showHotelFavorite())) {
                 drawable.shaderFactory = getShader(colorArrayFull)
             } else {
                 drawable.shaderFactory = getShader(colorArrayBottom)
