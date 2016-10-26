@@ -1,5 +1,6 @@
 package com.mobiata.mocke3
 
+import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.google.gson.GsonBuilder
 import okhttp3.mockwebserver.MockResponse
@@ -42,7 +43,12 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
             }
 
             RailApiRequestMatcher.isRailApiCheckoutRequest(urlPath) -> {
-                if (isRoundTrip) {
+                val gson = GsonBuilder().create()
+                val checkoutParams = gson.fromJson(request.body.readUtf8(), RailCheckoutParams::class.java)
+
+                if ("pricechange".equals(checkoutParams.travelers[0].firstName, true)) {
+                    getMockResponse("m/api/rails/trip/checkout/price_change.json")
+                } else if (isRoundTrip) {
                     getMockResponse("m/api/rails/trip/checkout/roundtrip_happy.json")
                 } else {
                     getMockResponse("m/api/rails/trip/checkout/oneway_happy.json")

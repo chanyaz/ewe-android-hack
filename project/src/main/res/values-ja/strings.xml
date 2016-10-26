@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">重複した旅行</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">料金変更</string>
+    <string name="price_changed_text">料金変更</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">支払い手続失敗</string>
     <!-- Text for error toolbar-->

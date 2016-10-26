@@ -78,6 +78,12 @@
             android:animateLayoutChanges="true"
             android:orientation="vertical">
 
+            <com.expedia.bookings.widget.PriceChangeWidget
+                android:id="@+id/rail_price_change_widget"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone" />
+
             <com.expedia.bookings.widget.TotalPriceWidget
                 android:id="@+id/rail_total_price_widget"
                 android:layout_width="match_parent"

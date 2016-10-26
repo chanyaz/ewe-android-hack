@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Chuyến đi trùng</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">Giá thay đổi</string>
+    <string name="price_changed_text">Giá thay đổi</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Thanh toán không thành công</string>
     <!-- Text for error toolbar-->

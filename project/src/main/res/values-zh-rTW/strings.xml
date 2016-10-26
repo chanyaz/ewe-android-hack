@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">行程重複</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">價格已變更</string>
+    <string name="price_changed_text">價格已變更</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">付款失敗</string>
     <!-- Text for error toolbar-->

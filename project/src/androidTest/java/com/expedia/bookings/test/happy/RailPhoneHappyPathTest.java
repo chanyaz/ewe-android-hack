@@ -47,7 +47,9 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 		RailScreen.selectRoundTripInbound();
 		RailScreen.checkoutAndPurchase();
 
-		onView(allOf(withId(R.id.view_itin_button), withText("View Itinerary"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.view_itin_button), withText("View Itinerary")))
+			.perform(ViewActions.waitForViewToDisplay())
+			.check(matches(isDisplayed()));
 	}
 
 	private void assertLegInfo() {

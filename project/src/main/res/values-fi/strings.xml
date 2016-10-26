@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Sama matka</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">Hinta on muuttunut</string>
+    <string name="price_changed_text">Hinta on muuttunut</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Maksu hylätty</string>
     <!-- Text for error toolbar-->

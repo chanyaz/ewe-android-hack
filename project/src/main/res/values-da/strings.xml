@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Dobbeltbooket rejse</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">Prisen har ændret sig</string>
+    <string name="price_changed_text">Prisen har ændret sig</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Betalingen mislykkedes</string>
     <!-- Text for error toolbar-->
