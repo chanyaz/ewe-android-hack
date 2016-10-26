@@ -146,7 +146,15 @@ object FlightV2Utils {
     }
 
     @JvmStatic fun getFlightDepartureArrivalCityAirport(context: Context, flightSegment: FlightLeg.FlightSegment): String {
-        return Phrase.from(context.resources.getString(R.string.package_flight_overview_departure_arrival_TEMPLATE))
+        return getFlightDepartureArrivalCityAirportString(context, flightSegment, R.string.package_flight_overview_departure_arrival_TEMPLATE)
+    }
+
+    @JvmStatic fun getFlightDepartureArrivalCityAirportContDesc(context: Context, flightSegment: FlightLeg.FlightSegment): String {
+        return getFlightDepartureArrivalCityAirportString(context, flightSegment, R.string.package_flight_overview_departure_arrival_cont_desc_TEMPLATE)
+    }
+
+    @JvmStatic fun getFlightDepartureArrivalCityAirportString(context: Context, flightSegment: FlightLeg.FlightSegment, stringResID: Int): String {
+        return Phrase.from(context.resources.getString(stringResID))
                 .put("departurecity", flightSegment.departureCity)
                 .put("departureairportcode", flightSegment.departureAirportCode)
                 .put("arrivalcity", flightSegment.arrivalCity)
