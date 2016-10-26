@@ -22,7 +22,7 @@ open class RailLegOptionViewModel(val context: Context) {
                 .put("formattedchangecount", RailUtils.formatRailChangesText(context, legOption.noOfChanges)).format().toString()
     }
     val formattedTimeSubject = legOptionObservable.map { legOption ->
-        DateTimeUtils.formatInterval(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime())
+        RailUtils.formatTimeInterval(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime())
     }
     val aggregatedOperatingCarrierSubject = legOptionObservable.map { legOption -> legOption.aggregatedOperatingCarrier }
     val railCardAppliedObservable = legOptionObservable.map { legOption -> legOption.doesAnyOfferHasFareQualifier }

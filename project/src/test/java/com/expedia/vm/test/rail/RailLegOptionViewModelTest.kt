@@ -4,6 +4,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.utils.rail.RailUtils
 import com.expedia.bookings.widget.RailLegOptionViewModel
 import com.mobiata.flightlib.utils.DateTimeUtils
@@ -12,11 +13,13 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowDateFormat::class))
 class RailLegOptionViewModelTest {
     val context = RuntimeEnvironment.application
     val testViewModel = RailLegOptionViewModel(context)
@@ -30,6 +33,7 @@ class RailLegOptionViewModelTest {
 
     val expectedDuration = DateTimeUtils.formatDuration(context.resources, testDurationMinutes)
     val expectedChangeText = RailUtils.formatRailChangesText(context, testNoOfChanges)
+    val expectedFormattedTime = RailUtils.formatTimeInterval(context, DateTime.now(), DateTime.now().plusHours(1))
 
     @Test
     fun testFormattedStopsAndDuration() {
@@ -40,6 +44,17 @@ class RailLegOptionViewModelTest {
         testViewModel.legOptionObservable.onNext(legOption)
 
         assertEquals("$expectedDuration, $expectedChangeText", testSub.onNextEvents[0])
+    }
+
+    @Test
+    fun testFormattedTime() {
+        val legOption = buildMockLegOption()
+
+        val testSub = TestSubscriber<String>()
+        testViewModel.formattedTimeSubject.subscribe(testSub)
+        testViewModel.legOptionObservable.onNext(legOption)
+
+        assertEquals("$expectedFormattedTime", testSub.onNextEvents[0])
     }
 
     @Test

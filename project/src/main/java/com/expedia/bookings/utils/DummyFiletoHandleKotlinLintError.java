@@ -240,7 +240,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_nonstop_description,
 		R.string.select_flight_to,
 		R.string.flight_toolbar_date_range_with_guests_TEMPLATE,
-		R.string.flight_departure_arrival_time_multi_day_TEMPLATE,
+		R.string.departure_arrival_time_multi_day_TEMPLATE,
 		R.string.flight_departure_arrival_time_template,
 		R.layout.section_airline_logo_name_row,
 		R.layout.rail_activity,
