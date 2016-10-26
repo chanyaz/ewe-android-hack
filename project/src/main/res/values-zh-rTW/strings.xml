@@ -4452,18 +4452,6 @@
     <string name="rail_location_hint">城市或車站</string>
     <string name="error_same_station_departure_arrival">出發車站不得與抵達車站相同。</string>
 
-    <!-- Label for adult passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Adult") -->
-    <string name="rail_adult_number_TEMPLATE">旅客 {number}：成人</string>
-
-    <!-- Label for child passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Child") -->
-    <string name="rail_child_number_TEMPLATE">旅客 {number}：兒童</string>
-
-    <!-- Label for youth passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Youth") -->
-    <string name="rail_youth_number_TEMPLATE">旅客 {number}：青年</string>
-
-    <!-- Label for senior passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Senior")-->
-    <string name="rail_senior_number_TEMPLATE">旅客 {number}：銀髮族</string>
-
     <!-- Label for ticket delivery fee on the Rail cost breakdown screen -->
     <string name="rail_ticket_delivery_fee">票券運費</string>
 

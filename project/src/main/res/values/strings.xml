@@ -4414,6 +4414,9 @@
     <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">Return - {date}</string>
 
+    <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
+    <string name="rail_price_breakdown_journey">Journey</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 
@@ -4443,18 +4446,6 @@
 
     <string name="rail_location_hint">City or station</string>
     <string name="error_same_station_departure_arrival">Departure and arrival stations must be different.</string>
-
-    <!-- Label for adult passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Adult") -->
-    <string name="rail_adult_number_TEMPLATE">Traveler {number}: Adult</string>
-
-    <!-- Label for child passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Child") -->
-    <string name="rail_child_number_TEMPLATE">Traveler {number}: Child</string>
-
-    <!-- Label for youth passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Youth") -->
-    <string name="rail_youth_number_TEMPLATE">Traveler {number}: Youth</string>
-
-    <!-- Label for senior passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Senior")-->
-    <string name="rail_senior_number_TEMPLATE">Traveler {number}: Senior</string>
 
     <!-- Label for ticket delivery fee on the Rail cost breakdown screen -->
     <string name="rail_ticket_delivery_fee">Ticket Delivery Fee</string>

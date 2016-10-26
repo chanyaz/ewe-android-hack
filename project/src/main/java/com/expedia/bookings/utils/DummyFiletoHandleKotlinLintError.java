@@ -704,10 +704,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.packages_guest_room_night_TEMPLATE,
 		R.string.package_resort_fees_and_total_price_disclaimer_TEMPLATE,
 		R.string.package_resort_fees_disclaimer_TEMPLATE,
-		R.string.rail_adult_number_TEMPLATE,
-		R.string.rail_child_number_TEMPLATE,
-		R.string.rail_youth_number_TEMPLATE,
-		R.string.rail_senior_number_TEMPLATE,
 		R.string.rail_ticket_delivery_fee,
 		R.string.rail_credit_card_fee,
 		R.string.select_outbound,
@@ -778,6 +774,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.favoriting_map,
 		R.string.rail_search_legal_banner_round_trip,
 		R.string.rail_search_legal_banner_one_way,
-		R.string.rail_search_legal_web_view_heading
+		R.string.rail_search_legal_web_view_heading,
+		R.string.rail_price_breakdown_journey
 	};
 }
