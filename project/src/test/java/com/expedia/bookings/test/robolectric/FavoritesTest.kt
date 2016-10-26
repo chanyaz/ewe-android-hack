@@ -2,7 +2,6 @@ package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
 import android.preference.PreferenceManager
-import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.utils.AbacusTestUtils
@@ -27,9 +26,7 @@ class FavoritesTest {
     @Test
     fun testIsUserBucketed() {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelFavoriteTest, 1)
-        val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(activity)
-        sharedPreferences.edit().putBoolean(activity.resources.getString(R.string.preference_enable_hotel_favorite), true).apply()
-        assertTrue(HotelFavoriteHelper.showHotelFavoriteTest(activity, true))
+        assertTrue(HotelFavoriteHelper.showHotelFavoriteTest(true))
     }
 
     @Test

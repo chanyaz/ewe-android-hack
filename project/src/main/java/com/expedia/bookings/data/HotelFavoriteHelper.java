@@ -9,10 +9,8 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
 
-import com.expedia.bookings.R;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 
 public class HotelFavoriteHelper {
 
@@ -43,9 +41,8 @@ public class HotelFavoriteHelper {
 		}
 	}
 
-	public static boolean showHotelFavoriteTest(Context context, boolean isOkayToShowFavorites) {
-		return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelFavoriteTest,
-			R.string.preference_enable_hotel_favorite) && isOkayToShowFavorites;
+	public static boolean showHotelFavoriteTest(boolean isOkayToShowFavorites) {
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelFavoriteTest) && isOkayToShowFavorites;
 	}
 
 	private static void saveHotelFavorites(SharedPreferences prefs, Set<String> set) {

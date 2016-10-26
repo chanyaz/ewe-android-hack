@@ -21,8 +21,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		// Load the preferences from an XML resource
 		addPreferencesFromResource(R.xml.preferences_feature_toggle);
 
-		// Hotel Features
-		initializeFeatureCheck(R.string.preference_enable_hotel_favorite);
 		// Login Features
 		initializeFeatureCheck(R.string.preference_enable_smart_lock);
 		initializeFeatureCheck(R.string.preference_enable_rail);
