@@ -510,7 +510,7 @@ public class StrUtils {
 		String statement = Phrase.from(context, R.string.rails_legal_TEMPLATE)
 			.put("rules_and_restrictions_url", rulesAndRestrictionsURL)
 			.put("conditions_of_travel_url", pos.getRailsNationalRailConditionsOfTravelUrl())
-			.put("supplier_terms_and_cnditions_url", pos.getRailsSupplierTermsAndConditionsUrl())
+			.put("supplier_terms_and_conditions_url", pos.getRailsSupplierTermsAndConditionsUrl())
 			.put("terms_of_use_url", pos.getRailsTermOfUseUrl())
 			.put("privacy_policy_url", pos.getRailsPrivacyPolicyUrl())
 			.put("payment_and_ticket_delivery_fees_url", pos.getRailsPaymentAndTicketDeliveryFeesUrl())
