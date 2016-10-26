@@ -150,10 +150,10 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
 
         paymentViewModel.cardBIN
                 .debounce(1, TimeUnit.SECONDS)
-                .subscribe { checkoutViewModel.fetchCardFees(cardId = it, tdoToken = ticketDeliveryEntryWidget.getTicketDeliveryOption().deliveryOptionToken.name) }
+                .subscribe { checkoutViewModel.fetchCardFees(cardId = it) }
 
         paymentViewModel.resetCardFees.subscribe {
-            checkoutViewModel.resetCardFees(ticketDeliveryEntryWidget.getTicketDeliveryOption().deliveryOptionToken.name)
+            checkoutViewModel.resetCardFees()
         }
 
         checkoutViewModel.displayCardFeesObservable.subscribe { displayCardFee ->
@@ -229,7 +229,8 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         }
 
         ticketDeliveryEntryViewModel.ticketDeliveryOptionSubject.subscribe { tdo ->
-            checkoutViewModel.fetchCardFees(paymentViewModel.cardBIN.value, tdo.deliveryOptionToken.name)
+            checkoutViewModel.updateTicketDeliveryToken(tdo.deliveryOptionToken.name)
+            checkoutViewModel.fetchCardFees(paymentViewModel.cardBIN.value)
         }
     }
 

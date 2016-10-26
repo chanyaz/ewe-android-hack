@@ -11,7 +11,7 @@ import java.util.*
             model is getting serialized to json and sent to the search endpoint
  */
 class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, departDate: LocalDate, returnDate: LocalDate?,
-                         departTimeMillis: Int, returnTimeMillis: Int?, isSearchRoundTrip: Boolean, val adults: Int, val children: List<Int>, val youths: List<Int>, val seniors: List<Int>, val fareQualifierList: List<RailCard>) {
+                         departTimeMillis: Int, returnTimeMillis: Int?, val isSearchRoundTrip: Boolean, val adults: Int, val children: List<Int>, val youths: List<Int>, val seniors: List<Int>, val fareQualifierList: List<RailCard>) {
     private val DEFAULT_ADULT_AGE = 30
     private val DEFAULT_CHILDREN_PRIMARY_TRAVELER_STATUS = false
     var pos = PointOfSaleKey()

@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.rail;
 
+import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.Espresso;
@@ -7,12 +8,14 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.TabletViewActions;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.BillingAddressScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.utils.DateUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -55,9 +58,17 @@ public class RailScreen {
 		return onView(withId(android.R.id.button1));
 	}
 
-	public static void scrollToFareOptions() {
-		onView(allOf(withId(R.id.details_fare_options),
-			isDescendantOfA(withId(R.id.rail_outbound_details_presenter)))).perform(scrollTo());
+	public static void scrollToOutboundFareOptions() {
+		scrollToIdWithGrandParent(R.id.details_fare_options, R.id.rail_outbound_details_presenter);
+	}
+
+	public static void scrollToInboundFareOptions() {
+		scrollToIdWithGrandParent(R.id.details_fare_options, R.id.rail_inbound_details_presenter);
+	}
+
+	private static void scrollToIdWithGrandParent(int targetId, int grandParentViewId) {
+		onView(allOf(withId(targetId),
+			isDescendantOfA(withId(grandParentViewId)))).perform(scrollTo());
 	}
 
 	public static ViewInteraction selectFareOption(String fareOption) {
@@ -69,8 +80,8 @@ public class RailScreen {
 		);
 	}
 
-	public static void clickSelectFareOption() {
-		selectFareOption("£617.20").perform(scrollTo(), click());
+	public static void clickSelectFareOption(String amount) {
+		selectFareOption(amount).perform(scrollTo(), click());
 	}
 
 	public static void clickAmenitiesLink(String fareClass) {
@@ -91,7 +102,7 @@ public class RailScreen {
 		onView(allOf(withText(fareType), hasSibling(withText(fareDesc)))).perform(scrollTo(), click());
 	}
 
-	public static ViewInteraction checkout() {
+	public static ViewInteraction checkoutButton() {
 		return onView(withId(R.id.checkout_button));
 	}
 
@@ -153,12 +164,68 @@ public class RailScreen {
 			isDescendantOfA(withId(R.id.details_timeline)))).check(matches(isDisplayed()));
 	}
 
+	public static void performRoundTripSearch() throws Throwable {
+		selectRoundTrip();
+		SearchScreen.selectRailOriginAndDestination();
+		selectRoundTripDates();
+		SearchScreen.searchButton().perform(click());
+	}
+
+	public static void selectRoundTripOutbound() {
+		onView(withText("8:30 AM – 12:37 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
+			.perform(click());
+
+		scrollToOutboundFareOptions();
+		onView(withText("Anytime Day Single")).check(matches(isDisplayed()));
+		clickSelectFareOption("£30.00");
+	}
+
+	public static void selectRoundTripInbound() {
+		onView(withText("12:52 PM – 5:14 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
+			.perform(click());
+		scrollToInboundFareOptions();
+		clickSelectFareOption("+£0.00");
+	}
+
+	public static void checkoutAndPurchase() {
+		checkoutButton().perform(click());
+
+		clickTravelerCard();
+		fillInTraveler();
+		onView(withId(R.id.rail_traveler_card_view)).check(matches(isDisplayed()));
+
+		CheckoutViewModel.waitForPaymentInfoDisplayed();
+		CheckoutViewModel.paymentInfo().perform(click());
+		enterPaymentDetails();
+
+		performSlideToPurchase();
+	}
+
+	public static void selectRoundTripDates() {
+		calendarButton().perform(click());
+
+		DateTime startDateTime = DateTime.now().plusDays(3).withTimeAtStartOfDay();
+		LocalDate startDate = startDateTime.toLocalDate();
+		String expectedStartDateTime = DateUtils.dateTimeToMMMdhmma(startDateTime);
+
+		DateTime endDateTime = startDateTime.plusDays(1).withTimeAtStartOfDay();
+		LocalDate endDate = endDateTime.toLocalDate();
+		String expectedEndDateTime = DateUtils.dateTimeToMMMdhmma(endDateTime);
+		selectDates(startDate, endDate);
+
+		EspressoUtils.assertViewIsDisplayed(R.id.depart_slider_container);
+		EspressoUtils.assertViewIsDisplayed(R.id.return_slider_container);
+		dialogDoneButton().perform(click());
+
+		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDateTime + " – " + expectedEndDateTime);
+	}
+
 	public static void navigateToTripOverview() throws Throwable {
 		navigateToDetails();
 
-		RailScreen.scrollToFareOptions();
+		RailScreen.scrollToOutboundFareOptions();
 		onView(withText("Any off-peak train")).check(matches(isDisplayed()));
-		RailScreen.clickSelectFareOption();
+		RailScreen.clickSelectFareOption("£617.20");
 
 		onView(withText("Outbound - Thu Nov 10")).perform(ViewActions.waitForViewToDisplay())
 			.check(matches(isDisplayed()));

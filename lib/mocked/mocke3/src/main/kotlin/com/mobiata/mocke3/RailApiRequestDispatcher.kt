@@ -6,6 +6,7 @@ import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
 
 class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(fileOpener) {
+    var isRoundTrip = false
 
     override fun dispatch(request: RecordedRequest): MockResponse {
         val urlPath = request.path
@@ -21,16 +22,31 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
                 when(searchParams.clientCode) {
                     "no_search_results" -> getMockResponse("rails/v1/shopping/search/no_search_results.json")
                     "validation_error" -> getMockResponse("rails/v1/shopping/search/validation_error.json")
-                    else -> getMockResponse("rails/v1/shopping/search/happy.json")
+                    else ->
+                        if (searchParams.isSearchRoundTrip) {
+                            isRoundTrip = true
+                            getMockResponse("rails/v1/shopping/search/roundtrip_happy.json")
+                        } else {
+                            isRoundTrip = false
+                            getMockResponse("rails/v1/shopping/search/oneway_happy.json")
+                        }
                 }
             }
 
             RailApiRequestMatcher.isRailApiCreateTripRequest(urlPath) -> {
-                getMockResponse("m/api/rails/trip/create/happy.json")
+                if (isRoundTrip) {
+                    getMockResponse("m/api/rails/trip/create/roundtrip_happy.json")
+                } else {
+                    getMockResponse("m/api/rails/trip/create/oneway_happy.json")
+                }
             }
 
             RailApiRequestMatcher.isRailApiCheckoutRequest(urlPath) -> {
-                getMockResponse("m/api/rails/trip/checkout/happy.json")
+                if (isRoundTrip) {
+                    getMockResponse("m/api/rails/trip/checkout/roundtrip_happy.json")
+                } else {
+                    getMockResponse("m/api/rails/trip/checkout/oneway_happy.json")
+                }
             }
 
             RailApiRequestMatcher.isRailApiCardsRequest(urlPath) -> {
