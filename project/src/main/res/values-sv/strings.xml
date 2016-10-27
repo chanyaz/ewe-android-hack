@@ -4452,18 +4452,6 @@
     <string name="rail_location_hint">Stad eller station</string>
     <string name="error_same_station_departure_arrival">Avgångs- och ankomststation kan inte vara desamma.</string>
 
-    <!-- Label for adult passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Adult") -->
-    <string name="rail_adult_number_TEMPLATE">Resenär {number}: Vuxen</string>
-
-    <!-- Label for child passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Child") -->
-    <string name="rail_child_number_TEMPLATE">Resenär {number}: Barn</string>
-
-    <!-- Label for youth passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Youth") -->
-    <string name="rail_youth_number_TEMPLATE">Resenär {number}: Ungdom</string>
-
-    <!-- Label for senior passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Senior")-->
-    <string name="rail_senior_number_TEMPLATE">Resenär {number}: Pensionär</string>
-
     <!-- Label for ticket delivery fee on the Rail cost breakdown screen -->
     <string name="rail_ticket_delivery_fee">Avgift för biljettleverans</string>
 

@@ -2,7 +2,7 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.rail.RailPassenger
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
@@ -20,7 +20,7 @@ class RailCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreak
 
             val offer = response.railDomainProduct.railOffer
 
-            addPassengerPriceBreakdown(breakdowns, offer.passengerList)
+            addPassengerPriceBreakdown(breakdowns, response.totalPrice)
             addFees(breakdowns, offer.priceBreakdownByCode)
 
             // Adding divider line
@@ -59,28 +59,8 @@ class RailCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreak
         }
     }
 
-    private fun addPassengerPriceBreakdown(breakdowns: ArrayList<CostSummaryBreakdownRow>, passengers: MutableList<RailPassenger>) {
-        var title: String
-        var travelerNumber: Int = 0
-        passengers.forEach { passenger ->
-            when (passenger.passengerAgeGroup) {
-                RailPassenger.PassengerAgeGroup.ADULT -> {
-                    title = Phrase.from(context, R.string.rail_adult_number_TEMPLATE).put("number", ++travelerNumber).format().toString()
-                }
-
-                RailPassenger.PassengerAgeGroup.CHILD -> {
-                    title = Phrase.from(context, R.string.rail_child_number_TEMPLATE).put("number", ++travelerNumber).format().toString()
-                }
-
-                RailPassenger.PassengerAgeGroup.YOUTH -> {
-                    title = Phrase.from(context, R.string.rail_youth_number_TEMPLATE).put("number", ++travelerNumber).format().toString()
-                }
-
-                RailPassenger.PassengerAgeGroup.SENIOR -> {
-                    title = Phrase.from(context, R.string.rail_senior_number_TEMPLATE).put("number", ++travelerNumber).format().toString()
-                }
-            }
-            breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(passenger.price.formattedPrice).build())
-        }
+    private fun addPassengerPriceBreakdown(breakdowns: ArrayList<CostSummaryBreakdownRow>, totalTicketsPriceWithoutFees: Money ) {
+        var title: String = context.getString(R.string.rail_price_breakdown_journey)
+        breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(totalTicketsPriceWithoutFees.formattedPrice).build())
     }
 }

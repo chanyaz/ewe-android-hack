@@ -4453,18 +4453,6 @@
     <string name="rail_location_hint">Stadt oder Bahnhof</string>
     <string name="error_same_station_departure_arrival">Bitte wählen Sie für Start- und Zielort zwei verschiedene Bahnhöfe aus.</string>
 
-    <!-- Label for adult passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Adult") -->
-    <string name="rail_adult_number_TEMPLATE">Reisender {number}: Erwachsener</string>
-
-    <!-- Label for child passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Child") -->
-    <string name="rail_child_number_TEMPLATE">Reisender {number}: Kind</string>
-
-    <!-- Label for youth passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Youth") -->
-    <string name="rail_youth_number_TEMPLATE">Reisender {number}: Jugendlicher</string>
-
-    <!-- Label for senior passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Senior")-->
-    <string name="rail_senior_number_TEMPLATE">Reisender {number}: Senior</string>
-
     <!-- Label for ticket delivery fee on the Rail cost breakdown screen -->
     <string name="rail_ticket_delivery_fee">Zustellungsgebühr</string>
 
