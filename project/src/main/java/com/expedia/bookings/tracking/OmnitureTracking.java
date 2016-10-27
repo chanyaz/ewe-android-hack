@@ -5704,8 +5704,14 @@ public class OmnitureTracking {
 	private static final String RAIL_SEARCH_BOX = "App.Rail.Dest-Search";
 	private static final String RAIL_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE = "App.Rail.DS.Traveler.";
 	private static final String RAIL_CARD_PICKER_PICKER_CLICK_TEMPLATE = "App.Rail.DS.Card.";
+	private static final String RAIL_ROUND_TRIP_OUT_DETAILS = "App.Rail.Search.Roundtrip.Out.Details";
+	private static final String RAIL_ROUND_TRIP_IN_DETAILS = "App.Rail.Search.Roundtrip.In.Details";
+	private static final String RAIL_ONE_WAY_TRIP_DETAILS = "App.Rail.Search.Oneway.Details";
+	private static final String RAIL_AMENITIES = "App.Rail.Amenities";
+	private static final String RAIL_FARES = "App.Rail.FareRules";
 
 	private static ADMS_Measurement createTrackRailPageLoadEventBase(String pageName) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, RAIL_LOB);
@@ -5717,7 +5723,6 @@ public class OmnitureTracking {
 	}
 
 	private static void trackRailPageLoadEventStandard(String pageName) {
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackRailPageLoadEventBase(pageName).track();
 	}
 
@@ -5727,5 +5732,30 @@ public class OmnitureTracking {
 
 	public static void trackRailCardPicker(String text) {
 		createAndtrackLinkEvent(RAIL_CARD_PICKER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
+	}
+
+	public static void trackRailRoundTripJourneyDetailsAndFareOptions() {
+		String pageName = RAIL_ROUND_TRIP_OUT_DETAILS;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailRoundTripInDetails() {
+		String pageName = RAIL_ROUND_TRIP_IN_DETAILS;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailOneWayTripDetails() {
+		String pageName = RAIL_ONE_WAY_TRIP_DETAILS;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailAmenities() {
+		String pageName = RAIL_AMENITIES;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailFares() {
+		String pageName = RAIL_FARES;
+		createTrackRailPageLoadEventBase(pageName).track();
 	}
 }
