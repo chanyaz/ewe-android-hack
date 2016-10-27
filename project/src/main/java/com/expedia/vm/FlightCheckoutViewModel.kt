@@ -43,7 +43,8 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
             builder.expectedFareCurrencyCode(it.details.offer.totalPrice.currency)
             builder.tealeafTransactionId(it.tealeafTransactionId)
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
-            val totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
+            val resId = if (!selectedFlightChargesFees.value.isNullOrEmpty()) R.string.your_card_will_be_charged_plus_airline_fee_template else R.string.your_card_will_be_charged_template
+            val totalPrice = Phrase.from(context, resId)
                     .put("dueamount", it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
                     .format()
             sliderPurchaseTotalText.onNext(totalPrice)

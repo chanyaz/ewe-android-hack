@@ -8,7 +8,7 @@ import com.expedia.bookings.widget.shared.AbstractWebViewWidget
 
 class PaymentFeeInfoWebView(context: Context, attrs: AttributeSet) : AbstractWebViewWidget(context, attrs) {
 
-    val airlinesChargePaymentFees = PointOfSale.getPointOfSale().doAirlinesChargeAdditionalFeeBasedOnPaymentMethod()
+    val airlinesChargePaymentFees = PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()
 
     override fun onFinishInflate() {
         super.onFinishInflate()
