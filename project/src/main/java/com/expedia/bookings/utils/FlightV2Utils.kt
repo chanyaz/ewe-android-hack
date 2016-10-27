@@ -28,6 +28,17 @@ object FlightV2Utils {
         return getDurationString(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
     }
 
+    @JvmStatic fun getFlightLegDurationContentDescription(context: Context, flightLeg: FlightLeg): String {
+        val flightDuration = getDurationContentDesc(context, flightLeg.durationHour, flightLeg.durationMinute)
+        return getTotalDurationString(context, flightDuration)
+    }
+
+    private fun getTotalDurationString(context: Context, flightDuration: String): String {
+        return Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
+                .put("duration", flightDuration)
+                .format().toString()
+    }
+
     @JvmStatic fun getFlightSegmentLayoverDurationContentDescription(context: Context, segment: FlightLeg.FlightSegment): String {
         return getDurationContentDesc(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
     }
@@ -38,9 +49,7 @@ object FlightV2Utils {
 
     @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int): CharSequence {
         val flightDuration = FlightV2Utils.getFlightDurationString(context, flight)
-        var totalDuration = Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
-                .put("duration", flightDuration)
-                .format().toString()
+        var totalDuration = getTotalDurationString(context, flightDuration)
 
         val start = totalDuration.indexOf(flightDuration)
         val end = start + flightDuration.length
