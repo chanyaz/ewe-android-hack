@@ -218,37 +218,50 @@ public class PersistentCookieManagerTest {
 
 	@Test
 	public void setNewMC1CookieEmptyCookieStoreCase() {
-		manager.setMC1Cookie("GUID=1111", "expedia.com");
-		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get("www.expedia.com");
-		expectMC1CookieValues(expediaCookies);
+		String host = expedia.host();
+		manager.setMC1Cookie("GUID=1111", host);
+		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get(host);
+		expectMC1CookieValues(expediaCookies, "expedia.com");
 		Assert.assertEquals(1, manager.getCookieStore().size());
 	}
 
 	@Test
 	public void setNewMC1CookieNonExpediaCookiesCase() {
+		String host = expedia.host();
 		manager.saveFromResponse(reviews, NO_COOKIES);
-		manager.setMC1Cookie("GUID=1111", "expedia.com");
-		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get("www.expedia.com");
-		expectMC1CookieValues(expediaCookies);
+		manager.setMC1Cookie("GUID=1111", host);
+		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get(host);
+		expectMC1CookieValues(expediaCookies, "expedia.com");
 		Assert.assertEquals(2, manager.getCookieStore().size());
 	}
 
 	@Test
 	public void setNewMC1CookieExpediaCookiesExistsCase() {
+		String host = expedia.host();
 		manager.saveFromResponse(expedia, EXPEDIA_COOKIES);
-		manager.setMC1Cookie("GUID=1111", "expedia.com");
-		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get("www.expedia.com");
-		expectMC1CookieValues(expediaCookies);
+		manager.setMC1Cookie("GUID=1111", host);
+		HashMap<String, Cookie> expediaCookies = manager.getCookieStore().get(host);
+		expectMC1CookieValues(expediaCookies, "expedia.com");
 		Assert.assertEquals(1, manager.getCookieStore().size());
 	}
 
-	public void expectMC1CookieValues(HashMap<String, Cookie> expediaCookies) {
+	@Test
+	public void setVoyagesMC1CookieEmptyCookieStore() {
+		HttpUrl voyages = HttpUrl.parse("https://agence.voyages-sncf.com");
+		String host = voyages.host();
+		manager.setMC1Cookie("GUID=1111", host);
+		HashMap<String, Cookie> voyagesCookies = manager.getCookieStore().get(host);
+		expectMC1CookieValues(voyagesCookies, "agence.voyages-sncf.com");
+		Assert.assertEquals(1, manager.getCookieStore().size());
+	}
+
+	public void expectMC1CookieValues(HashMap<String, Cookie> expediaCookies, String expectedDomain) {
 		Cookie mc1Cookie = expediaCookies.get("MC1");
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(new Date());
 		calendar.add(Calendar.YEAR, 5);
 		Assert.assertEquals("GUID=1111", mc1Cookie.value());
-		Assert.assertEquals("expedia.com", mc1Cookie.domain());
+		Assert.assertEquals(expectedDomain, mc1Cookie.domain());
 		Assert.assertTrue(Math.abs(calendar.getTimeInMillis() - mc1Cookie.expiresAt()) < 60000);
 	}
 
