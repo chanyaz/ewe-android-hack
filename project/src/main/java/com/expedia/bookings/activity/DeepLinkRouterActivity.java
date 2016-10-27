@@ -32,6 +32,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
+import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
@@ -43,6 +44,7 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
@@ -181,6 +183,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		case "destination":
 			Log.i(TAG, "Launching destination search from deep link!");
 			handleDestination(data);
+			finish = true;
+			break;
+		case "supportemail":
+			handleSupportEmail();
 			finish = true;
 			break;
 		default:
@@ -692,6 +698,12 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			Log.w(TAG, "Could not decode destination", e);
 			NavUtils.goToLaunchScreen(this);
 		}
+	}
+
+	private void handleSupportEmail() {
+		Intent intent = SocialUtils
+			.getEmailIntent(this, getString(R.string.email_app_support), getString(R.string.email_app_support_headline), DebugInfoUtils.generateEmailBody(this));
+		startActivity(intent);
 	}
 
 	private void handleSignIn() {
