@@ -528,6 +528,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             if (HotelFavoriteHelper.getLocalFavorites().isNotEmpty()) {
                 filterFavoriteContainer.visibility = View.VISIBLE
                 optionLabel.text = context.resources.getString(R.string.filter_options)
+                viewmodel.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
             } else {
                 if (viewmodel.userFilterChoices.favorites) updateFavoriteFilter()
                 filterFavoriteContainer.visibility = View.GONE
