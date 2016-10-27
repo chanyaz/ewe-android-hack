@@ -775,6 +775,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_search_legal_banner_round_trip,
 		R.string.rail_search_legal_banner_one_way,
 		R.string.rail_search_legal_web_view_heading,
-		R.string.rail_price_breakdown_journey
+		R.string.rail_price_breakdown_journey,
+		R.string.rail_cardfee_error_title,
+		R.string.rail_cardfee_error_message
 	};
 }
