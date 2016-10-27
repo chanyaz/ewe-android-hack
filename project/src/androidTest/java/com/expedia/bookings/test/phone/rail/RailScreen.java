@@ -160,7 +160,7 @@ public class RailScreen {
 
 		onView(withText("12:55 PM – 4:16 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
-		onView(allOf(withText("You have 42m to get from London Euston to London Paddington"),
+		onView(allOf(withText("London Underground"),
 			isDescendantOfA(withId(R.id.details_timeline)))).check(matches(isDisplayed()));
 	}
 
