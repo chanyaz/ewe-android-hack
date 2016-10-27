@@ -219,8 +219,8 @@ android {
             applicationId "com.ebookers"
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
-            def major = 5
-            def minor = 5
+            def major = 6
+            def minor = 0
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -247,8 +247,8 @@ android {
             applicationId "com.travelocity.android"
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
-            def major = 8
-            def minor = 7
+            def major = 9
+            def minor = 0
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -317,8 +317,8 @@ android {
             applicationId "com.orbitz"
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
-            def major = 7
-            def minor = 4
+            def major = 8
+            def minor = 0
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -331,8 +331,8 @@ android {
             applicationId "com.cheaptickets"
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
-            def major = 5
-            def minor = 4
+            def major = 6
+            def minor = 0
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
