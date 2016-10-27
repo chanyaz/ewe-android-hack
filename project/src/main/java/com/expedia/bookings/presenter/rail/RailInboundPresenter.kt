@@ -10,9 +10,11 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.rail.RailOutboundHeaderView
 import com.expedia.bookings.widget.rail.RailResultsAdapter
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnClick
 import com.expedia.vm.rail.RailInboundResultsViewModel
 import com.expedia.vm.rail.RailOutboundHeaderViewModel
 import rx.subjects.PublishSubject
@@ -22,8 +24,10 @@ class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     val toolbar: Toolbar by bindView(R.id.rail_inbound_toolbar)
     val outboundHeaderView: RailOutboundHeaderView by bindView(R.id.outbound_header_view)
     val recyclerView: RecyclerView by bindView(R.id.rail_inbound_list)
+    val legalBanner: TextView by bindView(R.id.inbound_legal_banner)
     var adapter: RailResultsAdapter by Delegates.notNull()
     val legSelectedSubject = PublishSubject.create<RailLegOption>()
+    val legalBannerClicked = PublishSubject.create<Unit>()
 
     var viewmodel: RailInboundResultsViewModel by notNullAndObservable { vm ->
         val outboundHeaderViewModel = RailOutboundHeaderViewModel(context)
@@ -58,6 +62,7 @@ class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(co
 
         adapter = RailResultsAdapter(context, legSelectedSubject)
         recyclerView.adapter = adapter
+        legalBanner.subscribeOnClick(legalBannerClicked)
     }
 
 }
