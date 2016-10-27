@@ -23,6 +23,7 @@ import com.expedia.bookings.data.rail.responses.RailCard;
 import com.expedia.bookings.data.rail.responses.RailCardsResponse;
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
+import com.expedia.bookings.data.rail.responses.RailOffer;
 import com.expedia.bookings.data.rail.responses.RailProduct;
 import com.expedia.bookings.data.rail.responses.RailSearchResponse;
 import com.expedia.bookings.data.rail.responses.RailsApiStatusCodes;
@@ -97,7 +98,7 @@ public class RailServicesTest {
 		assertEquals(60, passengers.get(3).age);
 		assertEquals(false, passengers.get(3).primaryTraveler);
 		assertTrue(railSearchResponse.offerList.size() > 0);
-		List<RailSearchResponse.RailOffer> railOffers = railSearchResponse.offerList;
+		List<RailOffer> railOffers = railSearchResponse.offerList;
 		assertTrue(railOffers.get(0).railProductList.size() > 0);
 		RailProduct railProduct = railOffers.get(0).railProductList.get(0);
 		assertEquals(3, railProduct.segmentFareDetailList.size());

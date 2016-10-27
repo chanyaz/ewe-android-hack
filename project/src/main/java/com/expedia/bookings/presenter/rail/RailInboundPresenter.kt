@@ -31,9 +31,9 @@ class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(co
 
     var viewmodel: RailInboundResultsViewModel by notNullAndObservable { vm ->
         val outboundHeaderViewModel = RailOutboundHeaderViewModel(context)
-        vm.legSubject.subscribe { leg ->
-            adapter.legSubject.onNext(leg)
-            outboundHeaderViewModel.cheapestLegPriceObservable.onNext(leg.cheapestPrice)
+        vm.legOptionsAndCheapestPriceSubject.subscribe { pair ->
+            adapter.legOptionsAndCompareToPriceSubject.onNext(pair)
+            outboundHeaderViewModel.cheapestLegPriceObservable.onNext(pair.second)
         }
 
         vm.outboundLegOptionSubject.subscribe(outboundHeaderViewModel.legOptionObservable)
@@ -60,7 +60,7 @@ class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(co
             activity.onBackPressed()
         }
 
-        adapter = RailResultsAdapter(context, legSelectedSubject)
+        adapter = RailResultsAdapter(context, legSelectedSubject, true)
         recyclerView.adapter = adapter
         legalBanner.subscribeOnClick(legalBannerClicked)
     }

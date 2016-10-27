@@ -4,8 +4,7 @@ import android.content.Context
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
-import com.expedia.bookings.utils.rail.RailConstants
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.utils.rail.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import rx.subjects.BehaviorSubject
@@ -47,17 +46,17 @@ class RailDetailsViewModel(val context: Context) {
         val railSearchResponse = railResultsObservable.value
 
         if (railSearchResponse.hasInbound()) {
-            return railSearchResponse.findLegWithBoundOrder(RailConstants.INBOUND_BOUND_ORDER)?.cheapestPrice
+            return railSearchResponse.inboundLeg?.cheapestPrice
         } else return null
     }
 
-    private fun filterOpenReturnFareOptions(railOffers: List<RailSearchResponse.RailOffer>): List<RailSearchResponse.RailOffer> {
+    private fun filterOpenReturnFareOptions(railOffers: List<RailOffer>): List<RailOffer> {
         val fareServiceKeys = ArrayList<String>()
         val filteredOfferList = railOffers.orEmpty().filter { shouldAddOffer(it, fareServiceKeys) }
         return filteredOfferList
     }
 
-    private fun shouldAddOffer(railOffer: RailSearchResponse.RailOffer, fareServiceKeys: ArrayList<String>): Boolean {
+    private fun shouldAddOffer(railOffer: RailOffer, fareServiceKeys: ArrayList<String>): Boolean {
         //add the offer if it is not open return
         if (!railOffer.isOpenReturn) return true
 

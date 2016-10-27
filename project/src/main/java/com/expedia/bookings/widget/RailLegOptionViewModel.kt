@@ -2,18 +2,18 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.rail.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
-open class RailLegOptionViewModel(val context: Context) {
+open class RailLegOptionViewModel(val context: Context, val inbound: Boolean) {
 
     //Inputs
     val legOptionObservable = PublishSubject.create<RailLegOption>()
-    val legObservable = PublishSubject.create<RailSearchResponse.RailLeg>()
+    val cheapestLegPriceObservable = PublishSubject.create<Money?>()
 
     //Outputs
     val formattedStopsAndDurationObservable = legOptionObservable.map { legOption ->
@@ -26,26 +26,21 @@ open class RailLegOptionViewModel(val context: Context) {
     }
     val aggregatedOperatingCarrierSubject = legOptionObservable.map { legOption -> legOption.aggregatedOperatingCarrier }
     val railCardAppliedObservable = legOptionObservable.map { legOption -> legOption.doesAnyOfferHasFareQualifier }
-
-    val priceObservable = legObservable.zipWith(legOptionObservable, { leg, legOption ->
-        calculatePrice(legOption, leg)
+    val priceObservable = legOptionObservable.zipWith(cheapestLegPriceObservable, { legOption, cheapestPrice ->
+        calculatePrice(legOption, cheapestPrice)
     })
 
-    private fun calculatePrice(legOption: RailLegOption, leg: RailSearchResponse.RailLeg): String {
-        val inbound = leg.legBoundOrder == 2
+    private fun calculatePrice(legOption: RailLegOption, cheapestPrice: Money?): String {
+        if (cheapestPrice == null) {
+            return legOption.bestPrice.formattedPrice
+        }
 
         if (inbound) {
-            val priceDiff = RailUtils.subtractAndFormatMoney(legOption.bestPrice, leg.cheapestPrice)
+            val priceDiff = RailUtils.subtractAndFormatMoney(legOption.bestPrice, cheapestPrice)
             return Phrase.from(context, R.string.rail_price_difference_TEMPLATE)
                     .put("pricedifference", priceDiff)
                     .format().toString()
         }
-
-        val cheapestPrice = leg.cheapestInboundPrice
-        if (cheapestPrice != null) {
-            return RailUtils.addAndFormatMoney(legOption.bestPrice, cheapestPrice)
-        }
-
-        return legOption.bestPrice.formattedPrice
+        return RailUtils.addAndFormatMoney(legOption.bestPrice, cheapestPrice)
     }
 }

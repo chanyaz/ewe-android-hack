@@ -11,7 +11,6 @@ import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.utils.rail.RailConstants
 import com.expedia.bookings.widget.rail.RailResultsAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -32,10 +31,7 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val legalBannerClicked = PublishSubject.create<Unit>()
 
     var viewmodel: RailOutboundResultsViewModel by notNullAndObservable { vm ->
-        vm.railResultsObservable.subscribe { response ->
-            adapter.legSubject.onNext(response.findLegWithBoundOrder(RailConstants.OUTBOUND_BOUND_ORDER))
-        }
-
+        vm.legOptionsAndCheapestPriceSubject.subscribe(adapter.legOptionsAndCompareToPriceSubject)
         vm.showChildrenWarningObservable.subscribeVisibility(childWarning)
 
         vm.titleSubject.subscribe {
@@ -62,7 +58,7 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
             activity.onBackPressed()
         }
 
-        adapter = RailResultsAdapter(context, legSelectedSubject)
+        adapter = RailResultsAdapter(context, legSelectedSubject, false)
         recyclerView.adapter = adapter
         adapter.showLoading()
         legalBanner.subscribeOnClick(legalBannerClicked)

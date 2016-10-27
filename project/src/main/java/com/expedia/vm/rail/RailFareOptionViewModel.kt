@@ -3,13 +3,14 @@ package com.expedia.vm.rail
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.rail.RailUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 class RailFareOptionViewModel(val context: Context, val showDeltaPricing: Boolean) {
-    val offerFareSubject = PublishSubject.create<RailSearchResponse.RailOffer>()
+    val offerFareSubject = PublishSubject.create<RailOffer>()
     val inboundLegCheapestPriceSubject = PublishSubject.create<Money?>()
 
     val showAmenitiesForFareClicked = PublishSubject.create<Unit>()
@@ -28,7 +29,7 @@ class RailFareOptionViewModel(val context: Context, val showDeltaPricing: Boolea
     val railCardAppliedObservable = railProductObservable.map { railProduct -> railProduct.hasRailCardApplied() }
 
 
-    private fun calculatePrice(offer: RailSearchResponse.RailOffer, inboundLegCheapestPrice: Money?): String {
+    private fun calculatePrice(offer: RailOffer, inboundLegCheapestPrice: Money?): String {
         if (inboundLegCheapestPrice == null) {
             return offer.totalPrice.formattedPrice
         }
