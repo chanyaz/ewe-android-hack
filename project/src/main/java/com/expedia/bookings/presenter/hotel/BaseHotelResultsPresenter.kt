@@ -163,10 +163,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val hotelFavoriteChangeObserver = endlessObserver<Pair<String, Boolean>> { hotelIdAndFavorite ->
         val hotelId = hotelIdAndFavorite.first
         val mapItem = mapItems.filter { it.hotel.hotelId.equals(hotelId)}
-        val firstMapItem = mapItem.first()
-        val favoriteMarker = hotelMapClusterRenderer.getMarker(firstMapItem)
-        firstMapItem.isFavorite = hotelIdAndFavorite.second
-        favoriteMarker?.setIcon(firstMapItem.getHotelMarkerIcon())
+        if (mapItem.isNotEmpty()) {
+            val firstMapItem = mapItem.first()
+            val favoriteMarker = hotelMapClusterRenderer.getMarker(firstMapItem)
+            firstMapItem.isFavorite = hotelIdAndFavorite.second
+            favoriteMarker?.setIcon(firstMapItem.getHotelMarkerIcon())
+        }
     }
 
     private val carouselContainerReadyListner = object : ViewTreeObserver.OnGlobalLayoutListener {
