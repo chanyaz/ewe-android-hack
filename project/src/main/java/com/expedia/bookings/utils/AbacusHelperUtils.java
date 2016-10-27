@@ -3,6 +3,8 @@ package com.expedia.bookings.utils;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import javax.inject.Inject;
+
 import android.content.Context;
 
 import com.crashlytics.android.Crashlytics;
@@ -19,8 +21,7 @@ import com.expedia.bookings.services.PersistentCookieManager;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
-import javax.inject.Inject;
-
+import okhttp3.HttpUrl;
 import rx.Observer;
 
 public class AbacusHelperUtils {
@@ -105,7 +106,11 @@ public class AbacusHelperUtils {
 		String abacusGuid = UUID.randomUUID().toString().replaceAll("-", "");
 		String mc1Cookie = "GUID=" + abacusGuid;
 		CookiesReference cookiesReference = new CookiesReference(context);
-		cookiesReference.mCookieManager.setMC1Cookie(mc1Cookie, getPosUrl());
+		String endpointUrl = Ui.getApplication(context).appComponent().endpointProvider().getE3EndpointUrl();
+		HttpUrl url = HttpUrl.parse(endpointUrl);
+		String host = url.host();
+
+		cookiesReference.mCookieManager.setMC1Cookie(mc1Cookie, host);
 		SettingUtils.save(context, PREF_ABACUS_GUID, abacusGuid);
 		Db.setAbacusGuid(abacusGuid);
 		return abacusGuid;
@@ -116,11 +121,6 @@ public class AbacusHelperUtils {
 		SettingUtils.save(context, PREF_ABACUS_GUID, abacusGuid);
 		Db.setAbacusGuid(abacusGuid);
 		return abacusGuid;
-	}
-
-	private static String getPosUrl() {
-		PointOfSale info = PointOfSale.getPointOfSale();
-		return info.getUrl();
 	}
 
 	public static class CookiesReference {
