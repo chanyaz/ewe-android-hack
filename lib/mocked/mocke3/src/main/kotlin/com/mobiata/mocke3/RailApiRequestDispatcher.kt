@@ -54,7 +54,13 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
             }
 
             RailApiRequestMatcher.isRailApiCardFeeRequest(urlPath) -> {
-                getMockResponse("m/api/rails/trip/cardfee/visa.json")
+                val params = parseHttpRequest(request)
+                val creditCardId = params["creditCardId"]
+                if (creditCardId.equals("000000")) {
+                    getMockResponse("m/api/rails/trip/cardfee/unknown_error.json")
+                } else {
+                    getMockResponse("m/api/rails/trip/cardfee/visa.json")
+                }
             }
 
             else -> make404()

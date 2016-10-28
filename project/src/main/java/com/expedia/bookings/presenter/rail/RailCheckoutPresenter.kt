@@ -1,5 +1,6 @@
 package com.expedia.bookings.presenter.rail
 
+import android.app.AlertDialog
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.text.method.LinkMovementMethod
@@ -168,6 +169,20 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         checkoutViewModel.updatePricingSubject.subscribe { response ->
             updatePricing(response)
         }
+
+        checkoutViewModel.cardFeeErrorObservable.subscribe {
+            checkoutViewModel.updateTotalPriceWithTdoFees()
+            showErrorDialog(R.string.rail_cardfee_error_title, R.string.rail_cardfee_error_message)
+        }
+    }
+
+    private fun showErrorDialog(title: Int, message: Int) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(title)
+        builder.setMessage(message)
+        builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, which -> dialog.dismiss() }
+        val dialog = builder.create()
+        dialog.show()
     }
 
     fun onCheckoutOpened() {

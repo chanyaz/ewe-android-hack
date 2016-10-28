@@ -51,6 +51,7 @@ class RailCheckoutViewModel(val context: Context) {
     val displayCardFeesObservable = PublishSubject.create<Boolean>()
     val showingPaymentForm = PublishSubject.create<Boolean>()
     val updatePricingSubject = PublishSubject.create<RailCreateTripResponse>()
+    val cardFeeErrorObservable = PublishSubject.create<Unit>()
 
     private var currentTicketDeliveryToken: String = ""
 
@@ -163,7 +164,7 @@ class RailCheckoutViewModel(val context: Context) {
         updateTotalPriceWithTdoFees()
     }
 
-    private fun shouldCallCardFee(cardId: String) : Boolean {
+    private fun shouldCallCardFee(cardId: String): Boolean {
         return getTripId().isNotBlank() && currentTicketDeliveryToken.isNotBlank() && cardId.length >= 6;
     }
 
@@ -185,6 +186,8 @@ class RailCheckoutViewModel(val context: Context) {
             override fun onNext(it: CardFeeResponse) {
                 if (!it.hasErrors()) {
                     updateCostBreakdownWithFees(it.feePrice, it.tripTotalPrice)
+                } else {
+                    cardFeeErrorObservable.onNext(Unit)
                 }
             }
 
@@ -192,13 +195,12 @@ class RailCheckoutViewModel(val context: Context) {
             }
 
             override fun onError(e: Throwable?) {
-                updateTotalPriceWithTdoFees()
-                //TODO error handling #9005
+                cardFeeErrorObservable.onNext(Unit)
             }
         }
     }
 
-    private fun updateTotalPriceWithTdoFees() {
+    fun updateTotalPriceWithTdoFees() {
         /* To show the correct cost breakdown:
              1. when user selects a TDO with fees but has not entered CC
              2. when cardFee service fails

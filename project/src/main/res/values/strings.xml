@@ -4417,6 +4417,12 @@
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
     <string name="rail_price_breakdown_journey">Journey</string>
 
+    <!-- rail checkout card fee error message title -->
+    <string name="rail_cardfee_error_title">Card Fee Error</string>
+
+    <!-- rail checkout card fee error message -->
+    <string name="rail_cardfee_error_message">We are unable to calculate the exact credit card fee at this time. Additional fees may apply for this booking.</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 

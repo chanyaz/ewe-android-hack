@@ -216,6 +216,18 @@ public class RailServicesTest {
 		assertEquals("£2.90", cardFeeResponse.feePrice.formattedPrice);
 	}
 
+	@Test
+	public void unHappyGetRailCreditCardFees() {
+		service.railGetCardFees(RailCheckoutParamsMock.tripDetails().getTripId(), "000000",
+			RailCheckoutParamsMock.railTicketDeliveryStationInfo().getDeliveryOptionToken(), cardFeeResponseObserver);
+		cardFeeResponseObserver.awaitTerminalEvent();
+		cardFeeResponseObserver.assertCompleted();
+		cardFeeResponseObserver.assertValueCount(1);
+
+		CardFeeResponse cardFeeResponse = cardFeeResponseObserver.getOnNextEvents().get(0);
+		assertTrue(cardFeeResponse.hasErrors());
+	}
+
 	private void givenSearchRequest(String clientCode) {
 		SuggestionV4 origin = new SuggestionV4();
 		SuggestionV4 destination = new SuggestionV4();
