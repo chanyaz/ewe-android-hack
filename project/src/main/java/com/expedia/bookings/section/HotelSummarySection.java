@@ -12,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.support.annotation.ColorInt;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.util.StateSet;
 import android.view.View;
@@ -35,6 +34,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.AdImpressionTracking;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -155,13 +155,6 @@ public class HotelSummarySection extends RelativeLayout {
 	/**
 	 * Binds the data from the passed Property to the views in this Section. Uses the lowest
 	 * rate available for the property (property.getLowestRate()).
-	 *
-	 * @param property
-	 * @param shouldShowVipIcon
-	 * @param priceTextSize     interpreted as "scaled pixel" units
-	 * @param showDistance
-	 * @param distanceUnit
-	 * @param isSelected
 	 */
 	public void bind(final Property property, boolean shouldShowVipIcon, float priceTextSize,
 					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected) {
@@ -172,14 +165,6 @@ public class HotelSummarySection extends RelativeLayout {
 
 	/**
 	 * Binds the data from the passed Property & rate to the views in this Section.
-	 *
-	 * @param property
-	 * @param rate
-	 * @param shouldShowVipIcon
-	 * @param priceTextSize     interpreted as "scaled pixel" units
-	 * @param showDistance
-	 * @param distanceUnit
-	 * @param isSelected
 	 */
 	public void bind(final Property property, final Rate rate, boolean shouldShowVipIcon, float priceTextSize,
 					 boolean showDistance, DistanceUnit distanceUnit, boolean isSelected, boolean showTotal) {
@@ -219,7 +204,7 @@ public class HotelSummarySection extends RelativeLayout {
 			if (rate.isOnSale() && rate.isSaleTenPercentOrBetter()) {
 				if (hotelPrice.length() < HOTEL_PRICE_TOO_LONG) {
 					mStrikethroughPriceText.setVisibility(View.VISIBLE);
-					mStrikethroughPriceText.setText(Html.fromHtml(
+					mStrikethroughPriceText.setText(HtmlCompat.fromHtml(
 						context.getString(R.string.strike_template,
 							StrUtils.formatHotelPrice(rate.getDisplayBasePrice())), null,
 						new StrikethroughTagHandler()
@@ -269,7 +254,7 @@ public class HotelSummarySection extends RelativeLayout {
 			else if (highestPriceFromSurvey != null
 				&& (highestPriceFromSurvey.compareTo(lowestRate.getDisplayPrice()) > 0)) {
 				mStrikethroughPriceText.setVisibility(View.VISIBLE);
-				mStrikethroughPriceText.setText(Html.fromHtml(
+				mStrikethroughPriceText.setText(HtmlCompat.fromHtml(
 					context.getString(R.string.strike_template,
 						StrUtils.formatHotelPrice(highestPriceFromSurvey)), null,
 					new StrikethroughTagHandler()
@@ -354,10 +339,10 @@ public class HotelSummarySection extends RelativeLayout {
 		if (mDoUrgencyTextColorMatching && mUrgencyText != null && mUrgencyText.getVisibility() == View.VISIBLE) {
 			if (mIsSelected) {
 				mUrgencyText.setSelected(true);
-				setDominantColor(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay));
+				setDominantColor(ContextCompat.getColor(getContext(), R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay));
 			}
 			else {
-				setDominantColor(getResources().getColor(R.color.transparent_dark));
+				setDominantColor(ContextCompat.getColor(getContext(), R.color.transparent_dark));
 			}
 		}
 
@@ -506,13 +491,13 @@ public class HotelSummarySection extends RelativeLayout {
 		StateListDrawable stateListDrawable = new StateListDrawable();
 		stateListDrawable.addState(new int[] {
 			android.R.attr.state_pressed, android.R.attr.state_selected
-		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_pressed_selected_overlay)));
+		}, new ColorDrawable(ContextCompat.getColor(getContext(), R.color.tablet_hotel_urgency_msg_pressed_selected_overlay)));
 		stateListDrawable.addState(new int[] {
 			android.R.attr.state_pressed
-		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_pressed_unselected_overlay)));
+		}, new ColorDrawable(ContextCompat.getColor(getContext(), R.color.tablet_hotel_urgency_msg_pressed_unselected_overlay)));
 		stateListDrawable.addState(new int[] {
 			android.R.attr.state_selected
-		}, new ColorDrawable(getResources().getColor(R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay)));
+		}, new ColorDrawable(ContextCompat.getColor(getContext(), R.color.tablet_hotel_urgency_msg_selected_unpressed_overlay)));
 
 		stateListDrawable.addState(StateSet.WILD_CARD, new ColorDrawable(color));
 		mUrgencyText.setBackground(stateListDrawable);

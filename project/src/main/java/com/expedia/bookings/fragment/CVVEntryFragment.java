@@ -5,7 +5,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
-import android.text.Html;
 import android.text.InputFilter;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,13 +15,14 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.section.CreditCardInputSection;
 import com.expedia.bookings.section.CreditCardInputSection.CreditCardInputListener;
 import com.expedia.bookings.section.CreditCardSection;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CVVTextView;
@@ -185,7 +185,8 @@ public class CVVEntryFragment extends Fragment implements CreditCardInputListene
 
 		resetCVVText();
 
-		mCVVPromptTextView.setText(Html.fromHtml(getResources().getString(R.string.security_code_TEMPLATE, cardName)));
+		mCVVPromptTextView.setText(
+			HtmlCompat.fromHtml(getResources().getString(R.string.security_code_TEMPLATE, cardName)));
 
 		// Subprompt, i.e. "see front/back of card"
 		if (mCVVSubpromptTextView != null) {

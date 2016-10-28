@@ -1,12 +1,12 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.text.Html
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
@@ -85,14 +85,14 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     open val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().origin(suggestion)
-        val origin = SuggestionStrUtils.formatAirportName(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        val origin = SuggestionStrUtils.formatAirportName(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
         formattedOriginObservable.onNext(origin)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
     open val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().destination(suggestion)
-        val destination = SuggestionStrUtils.formatAirportName(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        val destination = SuggestionStrUtils.formatAirportName(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
         formattedDestinationObservable.onNext(destination)
         requiredSearchParamsObserver.onNext(Unit)
     }
@@ -143,7 +143,7 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     open fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
-            return context.getString(R.string.select_checkin_date);
+            return context.getString(R.string.select_checkin_date)
         }
 
         val dateRangeText = computeDateRangeText(start, end)
@@ -153,7 +153,7 @@ abstract class BaseSearchViewModel(val context: Context) {
         if (start != null && end != null) {
             val nightCount = JodaUtils.daysBetween(start, end)
             val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-            sb.append(" ");
+            sb.append(" ")
             sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString))
         }
         return sb.build()
@@ -193,13 +193,17 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     open fun computeDateRangeText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): String? {
         if (start == null && end == null) {
-            var stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_dates
+            val stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_dates
             return context.resources.getString(stringID)
         } else if (end == null) {
             return context.resources.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
         } else {
-            var stringID = if (isContentDescription) R.string.packages_search_date_range_cont_desc_TEMPLATE else R.string.calendar_instructions_date_range_TEMPLATE
-            return Phrase.from(context, stringID).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
+            val stringID = if (isContentDescription) R.string.packages_search_date_range_cont_desc_TEMPLATE else R.string.calendar_instructions_date_range_TEMPLATE
+            return Phrase.from(context, stringID)
+                .put("startdate", DateUtils.localDateToMMMd(start))
+                .put("enddate", DateUtils.localDateToMMMd(end))
+                .format()
+                .toString()
         }
     }
 

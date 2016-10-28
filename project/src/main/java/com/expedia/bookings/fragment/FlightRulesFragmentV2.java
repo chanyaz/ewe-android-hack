@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +8,7 @@ import android.view.ViewGroup;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
+import com.expedia.bookings.text.HtmlCompat;
 
 public class FlightRulesFragmentV2 extends BaseRulesFragment {
 
@@ -96,7 +96,7 @@ public class FlightRulesFragmentV2 extends BaseRulesFragment {
 				flightCreateTripResponse.flightRules.rulesToText.get(RulesKeys.LCC_CHECKIN_TEXT.getKey()));
 			appendStringWithBreak(builder,
 				flightCreateTripResponse.flightRules.rulesToText.get(RulesKeys.LCC_LITE_TEXT.getKey()));
-			mLccTextView.setText(Html.fromHtml(builder.toString()));
+			mLccTextView.setText(HtmlCompat.fromHtml(builder.toString()));
 			mLccTextView.setVisibility(View.VISIBLE);
 		}
 	}

@@ -1,8 +1,7 @@
 package com.expedia.bookings.fragment;
 
 import java.util.Locale;
-import android.app.Activity;
-import android.text.Html;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -19,12 +18,13 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
 import com.expedia.bookings.section.HotelReceiptExtraSection;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.Ui;
@@ -37,8 +37,7 @@ import com.squareup.phrase.Phrase;
 public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 	public static TripBucketHotelFragment newInstance() {
-		TripBucketHotelFragment frag = new TripBucketHotelFragment();
-		return frag;
+		return new TripBucketHotelFragment();
 	}
 
 	private TextView mNowBookingTv;
@@ -132,11 +131,11 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 					mBedTypeTv.setText(rate.getFormattedBedNames());
 				}
 				if (mRoomAndBedTv != null) {
-					mRoomAndBedTv.setText(Html.fromHtml(getString(R.string.room_and_bed_type_TEMPLATE, rate.getRoomDescription(), rate.getFormattedBedNames())));
+					mRoomAndBedTv.setText(HtmlCompat.fromHtml(getString(R.string.room_and_bed_type_TEMPLATE, rate.getRoomDescription(), rate.getFormattedBedNames())));
 				}
 				if (mNowBookingTv != null) {
 					String hotelName = itemHotel.getProperty().getName();
-					mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase(Locale.getDefault())));
+					mNowBookingTv.setText(HtmlCompat.fromHtml(getString(R.string.now_booking_TEMPLATE, hotelName).toUpperCase(Locale.getDefault())));
 				}
 
 				refreshRate();
@@ -219,7 +218,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 
 	@Override
 	public void addTripBucketImage(ImageView imageView, HeaderBitmapColorAveragedDrawable headerBitmapDrawable) {
-		int placeholderResId = Ui.obtainThemeResID((Activity) getActivity(), R.attr.skin_HotelRowThumbPlaceHolderDrawable);
+		int placeholderResId = Ui.obtainThemeResID(getActivity(), R.attr.skin_HotelRowThumbPlaceHolderDrawable);
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null && hotel.getProperty() != null) {
 			if (hotel.getProperty().getThumbnail() != null) {
@@ -266,8 +265,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 		TripBucketItemHotel hotel = Db.getTripBucket().getHotel();
 		if (hotel != null) {
 			Rate rate = hotel.getRate();
-			String rateString = rate.getDisplayTotalPrice().getFormattedMoney(Money.F_NO_DECIMAL);
-			return rateString;
+			return rate.getDisplayTotalPrice().getFormattedMoney(Money.F_NO_DECIMAL);
 		}
 		else {
 			return null;
@@ -341,8 +339,7 @@ public class TripBucketHotelFragment extends TripBucketItemFragment {
 			Money weCareAbout = hotel.getRate().getCheckoutPriceType() == Rate.CheckoutPriceType.TOTAL_WITH_MANDATORY_FEES ?
 				oldRate.getTotalPriceWithMandatoryFees() : oldRate.getDisplayTotalPrice();
 			String amount = weCareAbout.getFormattedMoney();
-			String message = getString(R.string.price_changed_from_TEMPLATE, amount);
-			return message;
+			return getString(R.string.price_changed_from_TEMPLATE, amount);
 		}
 
 		return null;

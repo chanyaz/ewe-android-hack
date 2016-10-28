@@ -20,7 +20,6 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.StringRes;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.StyleSpan;
@@ -38,6 +37,7 @@ import com.expedia.bookings.data.User;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.CrossContextHelper;
 import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Strings;
@@ -889,7 +889,7 @@ public class PointOfSale {
 
 
 	private CharSequence getStylizedStatement(String statement, boolean keepHyperLinks) {
-		SpannableStringBuilder text = new SpannableStringBuilder(Html.fromHtml(statement));
+		SpannableStringBuilder text = new SpannableStringBuilder(HtmlCompat.fromHtml(statement));
 
 		// Replace <a> spans with our own version: bold and underlined.
 		// Partially stylistic, but also we don't want them to be clickable

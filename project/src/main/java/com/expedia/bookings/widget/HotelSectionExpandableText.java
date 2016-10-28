@@ -1,13 +1,13 @@
 package com.expedia.bookings.widget;
 
 import android.content.Context;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RelativeLayout;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelTextSection;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.Ui;
 
@@ -87,7 +87,7 @@ public class HotelSectionExpandableText extends RelativeLayout {
 		mTitleText.setVisibility(View.VISIBLE);
 		mTitleText.setText(mHotelSection.getNameWithoutHtml());
 
-		mSectionBody = Html.fromHtml(mHotelSection.getContentFormatted(getContext()));
+		mSectionBody = HtmlCompat.fromHtml(mHotelSection.getContentFormatted(getContext()));
 
 		// Add "read more" button if the paragraph is longer than mParagraphCutOff
 		if (mShouldCut) {

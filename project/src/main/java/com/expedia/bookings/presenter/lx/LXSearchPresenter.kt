@@ -3,21 +3,21 @@ package com.expedia.bookings.presenter.lx
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.RecyclerView
-import android.text.Html
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
+import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
-import com.expedia.bookings.widget.LXSuggestionAdapter
-import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
-import com.expedia.vm.BaseSearchViewModel
-import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.LXSuggestionAdapter
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnClick
+import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.LXSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
@@ -66,7 +66,7 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         vm.suggestionSelectedSubject.subscribe { suggestion ->
             com.mobiata.android.util.Ui.hideKeyboard(this)
             searchViewModel.destinationLocationObserver.onNext(suggestion)
-            val suggestionName = Html.fromHtml(suggestion.regionNames.displayName).toString()
+            val suggestionName = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
             destinationCardView.setText(suggestionName)
             searchLocationEditText?.setQuery(suggestionName, false)
             SuggestionV4Utils.saveSuggestionHistory(context, suggestion, getSuggestionHistoryFileName())

@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.zip.GZIPInputStream;
 
 import android.content.Context;
-import android.text.Html;
 import android.text.TextUtils;
 
 import com.expedia.bookings.BuildConfig;
@@ -24,6 +23,7 @@ import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Response;
 import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.ServerError.ApiMethod;
+import com.expedia.bookings.text.HtmlCompat;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.mobiata.android.Log;
@@ -174,7 +174,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 
 			if (name.equals("name")) {
 				// Property name can sometimes have HTML encoded entities in it (e.g. &amp;)
-				property.setName(Html.fromHtml(reader.nextString()).toString());
+				property.setName(HtmlCompat.stripHtml(reader.nextString()));
 			}
 			else if (name.equals("hotelId")) {
 				property.setPropertyId(reader.nextString());
@@ -217,7 +217,7 @@ public class HotelSearchResponseHandler implements ResponseHandler<HotelSearchRe
 				property.setDistanceFromUser(new Distance(reader.nextDouble(), DistanceUnit.MILES));
 			}
 			else if (name.equals("address")) {
-				List<String> streetAddress = new ArrayList<String>();
+				List<String> streetAddress = new ArrayList<>();
 				streetAddress.add(reader.nextString());
 				location.setStreetAddress(streetAddress);
 			}

@@ -12,7 +12,6 @@ import org.robolectric.annotation.Config;
 
 import android.app.Application;
 import android.content.Context;
-import android.text.Html;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
@@ -33,6 +32,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.testrule.ServicesRule;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.vm.hotel.HotelViewModel;
@@ -325,7 +325,7 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
-		assertEquals(Html.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)),
+		assertEquals(HtmlCompat.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)),
 			vm.getMapLoyaltyMessageTextObservable().getValue());
 	}
 

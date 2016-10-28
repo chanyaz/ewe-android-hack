@@ -2,7 +2,6 @@ package com.expedia.vm
 
 import android.content.Context
 import android.support.annotation.DrawableRes
-import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -11,6 +10,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.HotelUtils
@@ -165,7 +165,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         discountPercentage.onNext(context.resources.getString(R.string.percent_off_TEMPLATE, discountPercent))
         if (!isPayLater && (chargeableRateInfo.priceToShowUsers < chargeableRateInfo.strikethroughPriceToShowUsers)) {
             val strikeThroughPriceToShowUsers = Money(BigDecimal(chargeableRateInfo.strikethroughPriceToShowUsers.toDouble()), currencyCode).formattedMoney
-            strikeThroughPriceObservable.onNext(Html.fromHtml(context.resources.getString(R.string.strike_template, strikeThroughPriceToShowUsers), null, StrikethroughTagHandler()))
+            strikeThroughPriceObservable.onNext(HtmlCompat.fromHtml(context.resources.getString(R.string.strike_template, strikeThroughPriceToShowUsers), null, StrikethroughTagHandler()))
         }
 
         //TODO: Get Package hotel Delta Price Type

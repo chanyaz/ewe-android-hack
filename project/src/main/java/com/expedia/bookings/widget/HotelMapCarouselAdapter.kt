@@ -2,7 +2,6 @@ package com.expedia.bookings.widget
 
 import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
-import android.text.Html
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +14,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.extension.shouldShowCircleForRatings
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -68,7 +68,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder? {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_marker_preview_cell, parent, false)
         val screen = Ui.getScreenSize(parent.context)
-        var lp = view.findViewById(R.id.root).layoutParams
+        val lp = view.findViewById(R.id.root).layoutParams
         lp.width = screen.x
         return HotelViewHolder(view as ViewGroup)
     }
@@ -167,7 +167,7 @@ fun priceFormatter(resources: Resources, rate: HotelRate?, strikeThrough: Boolea
         return ""
     }
     else {
-        var hotelPrice = rate.getDisplayMoney(strikeThrough, shouldFallbackToZeroIfNegative).getFormattedMoney(Money.F_NO_DECIMAL)
-        return if (strikeThrough) Html.fromHtml(resources.getString(R.string.strike_template, hotelPrice), null, StrikethroughTagHandler()) else hotelPrice
+        val hotelPrice = rate.getDisplayMoney(strikeThrough, shouldFallbackToZeroIfNegative).getFormattedMoney(Money.F_NO_DECIMAL)
+        return if (strikeThrough) HtmlCompat.fromHtml(resources.getString(R.string.strike_template, hotelPrice), null, StrikethroughTagHandler()) else hotelPrice
     }
 }

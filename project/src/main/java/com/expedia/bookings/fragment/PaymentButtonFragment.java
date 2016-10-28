@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,8 @@ import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.fragment.base.LobableFragment;
 import com.expedia.bookings.model.FlightPaymentFlowState;
 import com.expedia.bookings.model.HotelPaymentFlowState;
@@ -27,6 +26,7 @@ import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.StoredCreditCardSpinnerAdapter;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.util.Ui;
@@ -161,7 +161,7 @@ public class PaymentButtonFragment extends LobableFragment {
 				FlightTrip trip = Db.getTripBucket().getFlight().getFlightTrip();
 				Money cardFee = Db.getTripBucket().getFlight().getPaymentFee(bi);
 				if (cardFee != null && trip.showFareWithCardFee(getActivity(), bi)) {
-					mCCFeesMessageText.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
+					mCCFeesMessageText.setText(HtmlCompat.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
 						cardFee.getFormattedMoney())));
 					mCCFeesMessageContainer.setVisibility(View.VISIBLE);
 					Events.post(new Events.LCCPaymentFeesAdded());
@@ -257,8 +257,6 @@ public class PaymentButtonFragment extends LobableFragment {
 	/**
 	 * Returns whether a valid credit card is selected. Updates the button to show or hide a validation
 	 * checkmark image.
-	 *
-	 * @return
 	 */
 	public boolean validate() {
 		if (Db.hasBillingInfo()) {

@@ -1,5 +1,7 @@
 package com.expedia.bookings.fragment;
 
+import java.util.Collection;
+
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
@@ -10,7 +12,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,6 +21,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ItineraryGuestAddActivity;
@@ -32,6 +34,7 @@ import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
@@ -41,7 +44,6 @@ import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
-import java.util.Collection;
 
 public class ItinItemListFragment extends Fragment implements LoginConfirmLogoutDialogFragment.DoLogoutListener,
 	ItinerarySyncListener {
@@ -136,7 +138,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mEmptyListLoadingContainer = Ui.findView(view, R.id.empty_list_loading_container);
 		mEmptyListContent = Ui.findView(view, R.id.empty_list_content);
 		mLoginButton = Ui.findView(view, R.id.login_button);
-		mLoginButton.setText(Html.fromHtml(getString(R.string.sign_in_for_your_trips)));
+		mLoginButton.setText(HtmlCompat.fromHtml(getString(R.string.sign_in_for_your_trips)));
 		mNoTripsRefreshButton = Ui.findView(view, R.id.no_trips_refresh_button);
 		mNoTripsTryAgainButton = Ui.findView(view, R.id.no_trips_try_again_button);
 		mErrorTv = Ui.findView(view, R.id.no_trips_error_message);

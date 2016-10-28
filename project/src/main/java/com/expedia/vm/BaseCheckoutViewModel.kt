@@ -2,9 +2,9 @@ package com.expedia.vm
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.SpannedString
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.CardFeeService
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
@@ -164,7 +165,7 @@ abstract class BaseCheckoutViewModel(val context: Context) {
         compositeSubscription?.add(paymentViewModel.resetCardFees.subscribe {
             cardFeeService?.cancel()
             paymentTypeSelectedHasCardFee.onNext(false)
-            cardFeeTextSubject.onNext(Html.fromHtml(""))
+            cardFeeTextSubject.onNext(SpannedString(""))
             cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(selectedFlightChargesFees.value, obFeeDetailsUrlSubject.value))
         })
 
@@ -180,11 +181,11 @@ abstract class BaseCheckoutViewModel(val context: Context) {
                                 .put("card_fee", selectedCardFee.formattedPrice)
                                 .format().toString()
                         paymentTypeSelectedHasCardFee.onNext(true)
-                        cardFeeTextSubject.onNext(Html.fromHtml(cardFeeText))
-                        cardFeeWarningTextSubject.onNext(Html.fromHtml(cardFeeWarningText))
+                        cardFeeTextSubject.onNext(HtmlCompat.fromHtml(cardFeeText))
+                        cardFeeWarningTextSubject.onNext(HtmlCompat.fromHtml(cardFeeWarningText))
                     } else {
                         paymentTypeSelectedHasCardFee.onNext(false)
-                        cardFeeTextSubject.onNext(Html.fromHtml(""))
+                        cardFeeTextSubject.onNext(SpannedString(""))
                         cardFeeWarningTextSubject.onNext(getAirlineMayChargeFeeText(selectedFlightChargesFees.value, obFeeDetailsUrlSubject.value))
                     }
                 }

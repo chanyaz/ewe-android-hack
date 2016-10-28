@@ -1,9 +1,9 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.SuggestionStrUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -23,7 +23,7 @@ class LXSuggestionViewModel(val context: Context) {
     init {
         suggestionObserver.subscribe { suggestion ->
             cityNameObservable.onNext(SuggestionStrUtils.formatAirportName(suggestion.regionNames.shortName))
-            titleObservable.onNext(Html.fromHtml(SuggestionStrUtils.formatCityName(suggestion.regionNames.displayName)).toString())
+            titleObservable.onNext(HtmlCompat.stripHtml(SuggestionStrUtils.formatCityName(suggestion.regionNames.displayName)))
             if (suggestion.iconType == SuggestionV4.IconType.HISTORY_ICON) {
                 cityNameVisibility.onNext(true)
                 iconObservable.onNext(R.drawable.recents)

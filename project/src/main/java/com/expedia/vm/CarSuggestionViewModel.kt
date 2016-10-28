@@ -1,9 +1,9 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.SuggestionStrUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -27,11 +27,11 @@ class CarSuggestionViewModel(val context: Context) {
                 titleObservable.onNext(context.getString(R.string.current_location))
                 cityNameVisibility.onNext(false)
             } else if (suggestion.isMajorAirport) {
-                titleObservable.onNext(Html.fromHtml(SuggestionStrUtils.formatCityName(suggestion.regionNames.displayName)).toString())
+                titleObservable.onNext(HtmlCompat.stripHtml(SuggestionStrUtils.formatCityName(suggestion.regionNames.displayName)))
                 cityNameObservable.onNext(SuggestionStrUtils.formatAirportName(suggestion.regionNames.shortName))
                 cityNameVisibility.onNext(true)
             } else {
-                titleObservable.onNext(Html.fromHtml(SuggestionStrUtils.formatCityName(suggestion.regionNames.displayName)).toString())
+                titleObservable.onNext(HtmlCompat.stripHtml(SuggestionStrUtils.formatCityName(suggestion.regionNames.displayName)))
                 cityNameObservable.onNext(suggestion.regionNames.shortName)
                 cityNameVisibility.onNext(true)
             }

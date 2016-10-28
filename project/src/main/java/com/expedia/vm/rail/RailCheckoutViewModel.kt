@@ -1,23 +1,24 @@
 package com.expedia.vm.rail
 
 import android.content.Context
+import android.text.Spanned
+import android.text.SpannedString
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
-import com.expedia.bookings.data.CardFeeResponse
-import android.text.Html
-import android.text.Spanned
-import com.expedia.bookings.services.RailServices
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.server.RailCardFeeServiceProvider
+import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.RetrofitUtils
+import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -118,7 +119,7 @@ class RailCheckoutViewModel(val context: Context) {
     fun resetCardFees() {
         cardFeeServiceProvider.resetCardFees(railServices)
         paymentTypeSelectedHasCardFee.onNext(false)
-        cardFeeTextSubject.onNext(Html.fromHtml(""))
+        cardFeeTextSubject.onNext(SpannedString(""))
 
         val newTripResponse = tripResponseObservable.value
         newTripResponse.selectedCardFees = null
@@ -141,10 +142,10 @@ class RailCheckoutViewModel(val context: Context) {
                         .put("card_fee", selectedCardFee.formattedPrice)
                         .format().toString()
                 paymentTypeSelectedHasCardFee.onNext(true)
-                cardFeeTextSubject.onNext(Html.fromHtml(cardFeeText))
+                cardFeeTextSubject.onNext(HtmlCompat.fromHtml(cardFeeText))
             } else {
                 paymentTypeSelectedHasCardFee.onNext(false)
-                cardFeeTextSubject.onNext(Html.fromHtml(""))
+                cardFeeTextSubject.onNext(SpannedString(""))
             }
         }
 
