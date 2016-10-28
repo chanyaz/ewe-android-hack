@@ -446,4 +446,9 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return false;
 	}
 
+	@Override
+	public boolean shouldShowPackageIncludesView() {
+		return true;
+	}
+
 }
