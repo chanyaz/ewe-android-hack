@@ -10,7 +10,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -39,6 +38,7 @@ import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.enums.ResultsHotelsState;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -81,9 +81,9 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	private BitmapDescriptor mPinSale;
 	private BitmapDescriptor mPinAirAttach;
 
-	private Map<Property, Marker> mPropertiesToMarkers = new HashMap<Property, Marker>();
-	private Map<Marker, Property> mMarkersToProperties = new HashMap<Marker, Property>();
-	private Map<String, BitmapDescriptor> mPricePins = new HashMap<String, BitmapDescriptor>();
+	private Map<Property, Marker> mPropertiesToMarkers = new HashMap<>();
+	private Map<Marker, Property> mMarkersToProperties = new HashMap<>();
+	private Map<String, BitmapDescriptor> mPricePins = new HashMap<>();
 
 	private HotelMapFragmentListener mListener;
 
@@ -103,7 +103,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 
 	private boolean mIsFromHotelReceipt;
 
-	private WeakHashMap<Marker, Boolean> markerMap = new WeakHashMap<Marker, Boolean>();
+	private WeakHashMap<Marker, Boolean> markerMap = new WeakHashMap<>();
 
 	public static HotelMapFragment newInstance() {
 		return new HotelMapFragment();
@@ -246,8 +246,8 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 							price.setText(stringToSpan);
 						}
 						else {
-							price
-								.setText(Html.fromHtml(getString(R.string.map_snippet_price_template, formattedMoney)));
+							price.setText(
+								HtmlCompat.fromHtml(getString(R.string.map_snippet_price_template, formattedMoney)));
 						}
 					}
 					else {
@@ -441,7 +441,7 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 	}
 
 	public void setProperty(Property property) {
-		List<Property> properties = new ArrayList<Property>();
+		List<Property> properties = new ArrayList<>();
 		properties.add(property);
 		setProperties(properties);
 	}

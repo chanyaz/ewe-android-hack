@@ -1,13 +1,21 @@
 package com.expedia.bookings.activity;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
 import org.joda.time.LocalDate;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.util.TimeFormatException;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.Db;
@@ -30,6 +38,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
@@ -46,13 +55,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.Ui;
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -685,7 +687,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 				}
 
 				params.setSearchType(SearchType.ADDRESS);
-				params.setQuery(Html.fromHtml(data.getQueryParameter("displayName")).toString());
+				params.setQuery(HtmlCompat.stripHtml(data.getQueryParameter("displayName")));
 				params.setSearchLatLon(lat, lng);
 				Log.d(TAG, "Setting hotel search lat/lng: (" + lat + ", " + lng + ")");
 

@@ -9,7 +9,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
@@ -57,6 +56,7 @@ import com.expedia.bookings.interfaces.helpers.StateListenerLogger;
 import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.model.TravelerFlowStateTablet;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FlightUtils;
@@ -464,7 +464,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 			}
 		}
 		if (getResources().getBoolean(R.bool.show_now_booking_heading)) {
-			addGroupHeading(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, headingArg)));
+			addGroupHeading(HtmlCompat.fromHtml(getString(R.string.now_booking_TEMPLATE, headingArg)));
 		}
 
 		// LOGIN CONTAINER
@@ -669,7 +669,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 
 	protected View addGroupHeading(CharSequence headingText) {
 		TextView tv = Ui.inflate(R.layout.checkout_form_tablet_heading, mCheckoutRowsC, false);
-		tv.setText(Html.fromHtml(headingText.toString()));
+		tv.setText(HtmlCompat.fromHtml(headingText.toString()));
 		return add(tv);
 	}
 
@@ -921,7 +921,7 @@ public class TabletCheckoutFormsFragment extends LobableFragment implements IBac
 	/*
 	 * ISTATEPROVIDER
 	 */
-	private StateListenerCollection<CheckoutFormState> mStateListeners = new StateListenerCollection<CheckoutFormState>();
+	private StateListenerCollection<CheckoutFormState> mStateListeners = new StateListenerCollection<>();
 
 	@Override
 	public void startStateTransition(CheckoutFormState stateOne, CheckoutFormState stateTwo) {

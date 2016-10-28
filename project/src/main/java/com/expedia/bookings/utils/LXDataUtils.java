@@ -13,7 +13,6 @@ import org.joda.time.LocalDate;
 
 import android.content.Context;
 import android.net.Uri;
-import android.text.Html;
 import android.view.View;
 import android.widget.TextView;
 
@@ -26,6 +25,7 @@ import com.expedia.bookings.data.lx.LXTicketType;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.SearchType;
 import com.expedia.bookings.data.lx.Ticket;
+import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.flightlib.data.Airport;
 import com.squareup.phrase.Phrase;
@@ -358,7 +358,7 @@ public class LXDataUtils {
 		else {
 			activityOriginalPrice.setVisibility(View.VISIBLE);
 			String formattedOriginalPrice = originalPrice.getFormattedMoney(Money.F_NO_DECIMAL | Money.F_ROUND_HALF_UP);
-			activityOriginalPrice.setText(Html.fromHtml(
+			activityOriginalPrice.setText(HtmlCompat.fromHtml(
 				context.getString(R.string.strike_template, formattedOriginalPrice),
 				null,
 				new StrikethroughTagHandler()));

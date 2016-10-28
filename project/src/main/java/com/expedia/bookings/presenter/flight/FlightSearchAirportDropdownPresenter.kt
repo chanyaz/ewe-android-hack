@@ -5,13 +5,13 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.ListPopupWindow
-import android.text.Html
 import android.util.AttributeSet
 import android.widget.AdapterView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.server.CrossContextHelper
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RecentAirports
 import com.expedia.bookings.widget.FlightRouteAdapter
@@ -155,7 +155,7 @@ class FlightSearchAirportDropdownPresenter(context: Context, attrs: AttributeSet
     private fun getSuggestionV4FromAirport(airport: Airport): SuggestionV4 {
         val airportSuggestion = SuggestionV4()
         airportSuggestion.regionNames = SuggestionV4.RegionNames()
-        val airportName = "" + Html.fromHtml(context.getString(R.string.dropdown_airport_selection, airport.mAirportCode, airport.mName))
+        val airportName = HtmlCompat.stripHtml(context.getString(R.string.dropdown_airport_selection, airport.mAirportCode, airport.mName))
         airportSuggestion.regionNames.displayName = airportName
         airportSuggestion.regionNames.shortName = airportName
         airportSuggestion.regionNames.fullName = airportName

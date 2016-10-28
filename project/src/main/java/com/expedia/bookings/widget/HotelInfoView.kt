@@ -1,10 +1,10 @@
 package com.expedia.bookings.widget
 
 import android.content.Context
-import android.text.Html
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.bindView
 
@@ -21,8 +21,8 @@ class HotelInfoView(context: Context) : LinearLayout(context) {
     }
 
     fun setText(header: String, info: String): HotelInfoView {
-        infoHeader.text = Html.fromHtml(header).toString()
-        infoText.text = Html.fromHtml(StrUtils.getFormattedContent(context, info))
+        infoHeader.text = HtmlCompat.stripHtml(header)
+        infoText.text = HtmlCompat.fromHtml(StrUtils.getFormattedContent(context, info))
         return this
     }
 }

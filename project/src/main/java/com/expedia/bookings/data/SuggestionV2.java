@@ -9,10 +9,10 @@ import org.json.JSONObject;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.ParcelUtils;
@@ -238,7 +238,7 @@ public class SuggestionV2 implements JSONable, Parcelable, Comparable<Suggestion
 
 	@Override
 	public String toString() {
-		return Html.fromHtml(mDisplayName).toString();
+		return HtmlCompat.stripHtml(mDisplayName);
 	}
 
 	//////////////////////////////////////////////////////////////////////////

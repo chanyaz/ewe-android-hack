@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
-import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelMedia
@@ -18,6 +17,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.CollectionUtils
@@ -271,7 +271,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         hasETPObservable.onNext(hasETPOffer)
 
         if (response.firstHotelOverview != null) {
-            sectionBody = Html.fromHtml(response.firstHotelOverview).toString()
+            sectionBody = HtmlCompat.stripHtml(response.firstHotelOverview)
             sectionBodyObservable.onNext(sectionBody)
         }
 

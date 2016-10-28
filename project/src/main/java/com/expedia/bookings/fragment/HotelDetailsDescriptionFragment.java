@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +18,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.widget.HotelSectionExpandableText;
 import com.mobiata.android.Log;
@@ -122,7 +122,7 @@ public class HotelDetailsDescriptionFragment extends Fragment {
 				TextView bodyText = Ui.findView(sectionContainer, R.id.body_text);
 				titleText.setVisibility(View.VISIBLE);
 				titleText.setText(section.getNameWithoutHtml());
-				bodyText.setText(Html.fromHtml(section.getContentFormatted(getActivity())));
+				bodyText.setText(HtmlCompat.fromHtml(section.getContentFormatted(getActivity())));
 				allSectionsContainer.addView(sectionContainer);
 			}
 		}

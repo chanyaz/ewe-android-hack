@@ -1,12 +1,12 @@
 package com.expedia.bookings.test.robolectric
 
 import android.app.Activity
-import android.text.Html
 import com.expedia.bookings.data.FlightSearchParams
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.Ui
 import com.expedia.ui.FlightActivity
 import com.expedia.vm.FlightSearchViewModel
@@ -74,8 +74,8 @@ class FlightDeeplinkTest {
         assertTrue(flightSearchViewModel.getParamsBuilder().areRequiredParamsFilled())
 
         testDateSubscriber.assertValue(Pair(flightSearchParams.departureDate, flightSearchParams.returnDate))
-        testOriginSubscriber.assertValue(Html.fromHtml(flightSearchParams.departureLocation.destinationId).toString())
-        testDestinationSubscriber.assertValue(Html.fromHtml(flightSearchParams.arrivalLocation.destinationId).toString())
+        testOriginSubscriber.assertValue(HtmlCompat.stripHtml(flightSearchParams.departureLocation.destinationId))
+        testDestinationSubscriber.assertValue(HtmlCompat.stripHtml(flightSearchParams.arrivalLocation.destinationId))
         val travelerParams = testTravelersSubscriber.onNextEvents[0]
         assertEquals(flightSearchParams.numAdults, travelerParams.numberOfAdults)
         assertEquals(0, travelerParams.childrenAges.size)

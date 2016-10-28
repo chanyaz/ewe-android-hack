@@ -8,10 +8,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.Context;
-import android.text.Html;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.ServerError.ErrorCode;
+import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.FormatUtils;
 import com.mobiata.android.FormatUtils.Conjunction;
 import com.mobiata.android.Log;
@@ -124,7 +124,7 @@ public class HotelOffersResponse extends Response {
 			return null;
 		}
 
-		return Html.fromHtml(context.getString(R.string.common_value_add_template,
+		return HtmlCompat.fromHtml(context.getString(R.string.common_value_add_template,
 				FormatUtils.series(context, commonValueAdds, ",", Conjunction.AND).toLowerCase(Locale.getDefault())));
 	}
 

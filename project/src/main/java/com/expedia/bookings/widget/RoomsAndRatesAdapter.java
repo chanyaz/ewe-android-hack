@@ -6,7 +6,7 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.text.Html;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +21,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.LayoutUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.FormatUtils;
@@ -71,20 +72,20 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		// #12669: Somehow we're getting back null rates.  At the very least, we just want to show *no* results
 		// rather than a crash.  Easiest to just have an empty List to indicate zero results.
 		if (mRates == null) {
-			mRates = new ArrayList<Rate>();
+			mRates = new ArrayList<>();
 		}
 		mHiddenRates = new ArrayList<>();
 		// Calculate the individual value-adds for each row, based on the common value-adds
 		List<String> common = response.getCommonValueAdds();
-		mValueAdds = new ArrayList<CharSequence>(mRates.size());
+		mValueAdds = new ArrayList<>(mRates.size());
 		for (int a = 0; a < mRates.size(); a++) {
 			Rate rate = mRates.get(a);
-			List<String> unique = new ArrayList<String>(rate.getValueAdds());
+			List<String> unique = new ArrayList<>(rate.getValueAdds());
 			if (common != null) {
 				unique.removeAll(common);
 			}
 			if (unique.size() > 0) {
-				mValueAdds.add(Html.fromHtml(context.getString(R.string.value_add_template,
+				mValueAdds.add(HtmlCompat.fromHtml(context.getString(R.string.value_add_template,
 					FormatUtils.series(context, unique, ",", null).toLowerCase(Locale.getDefault()))));
 			}
 			else {
@@ -95,7 +96,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 		// Calculate the size of the sale text size
 		mSaleTextSize = LayoutUtils.getSaleTextSize(context);
 
-		mBedSalePadding = (int) Math.round(mResources.getDisplayMetrics().density * 26);
+		mBedSalePadding = Math.round(mResources.getDisplayMetrics().density * 26);
 
 		mBuilder = new StringBuilder();
 
@@ -193,7 +194,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		Rate rate = (Rate) getItem(position);
 
-		holder.description.setText(Html.fromHtml(rate.getRoomDescription()));
+		holder.description.setText(HtmlCompat.fromHtml(rate.getRoomDescription()));
 
 		mBuilder.setLength(0);
 
@@ -205,12 +206,12 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 			mBuilder.append(' ');
 			if (rate.isSaleTenPercentOrBetter() && rate.isAirAttached()) {
 				holder.saleLabel.setBackgroundResource(R.drawable.rooms_rates_airattach_ribbon);
-				priceTextColor = R.color.hotel_price_air_attach_text_color;
+				priceTextColor = ContextCompat.getColor(mContext, R.color.hotel_price_air_attach_text_color);
 			}
 			else {
 				holder.saleLabel.setBackgroundResource(R.drawable.rooms_rates_ribbon);
-				priceTextColor = ProductFlavorFeatureConfiguration.getInstance()
-					.getHotelSalePriceTextColorResourceId(mContext);
+				priceTextColor = ContextCompat.getColor(mContext, ProductFlavorFeatureConfiguration.getInstance()
+					.getHotelSalePriceTextColorResourceId(mContext));
 			}
 			holder.saleLabel.setText(mContext.getString(R.string.percent_off_template, rate.getDiscountPercent()));
 			holder.saleLabel.setVisibility(View.VISIBLE);
@@ -232,8 +233,8 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 				holder.priceDescription.setTextColor(mDefaultTextColor);
 			}
 			else {
-				holder.price.setTextColor(mContext.getResources().getColor(R.color.etp_text_color));
-				holder.priceDescription.setTextColor(mContext.getResources().getColor(R.color.etp_text_color));
+				holder.price.setTextColor(ContextCompat.getColor(mContext, R.color.etp_text_color));
+				holder.priceDescription.setTextColor(ContextCompat.getColor(mContext, R.color.etp_text_color));
 			}
 			rateQualifier = StrUtils.formatHotelPrice(rate.getDisplayPrice()) + " ";
 		}
@@ -254,7 +255,7 @@ public class RoomsAndRatesAdapter extends BaseAdapter {
 
 		if (mBuilder.length() > 0) {
 			holder.priceExplanation.setVisibility(View.VISIBLE);
-			holder.priceExplanation.setText(Html.fromHtml(mBuilder.toString(), null, new StrikethroughTagHandler()));
+			holder.priceExplanation.setText(HtmlCompat.fromHtml(mBuilder.toString(), null, new StrikethroughTagHandler()));
 		}
 		else {
 			holder.priceExplanation.setVisibility(View.GONE);

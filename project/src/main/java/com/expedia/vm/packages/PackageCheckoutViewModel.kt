@@ -3,7 +3,6 @@ package com.expedia.vm.packages
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.text.Html
 import android.text.SpannableStringBuilder
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
@@ -15,6 +14,7 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.PackageServices
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
@@ -53,7 +53,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                         .putOptional("trip_total", it.bundleTotal.formattedPrice)
                         .format().toString()
             }
-            depositPolicyText.onNext(Html.fromHtml(depositText))
+            depositPolicyText.onNext(HtmlCompat.fromHtml(depositText))
 
             val totalPrice = Phrase.from(context, R.string.your_card_will_be_charged_template)
                     .put("dueamount", it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)

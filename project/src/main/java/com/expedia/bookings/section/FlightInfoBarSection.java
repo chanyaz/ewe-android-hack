@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.AttributeSet;
@@ -16,6 +15,7 @@ import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
@@ -69,11 +69,11 @@ public class FlightInfoBarSection extends LinearLayout {
 		String duration = FlightUtils.formatDuration(context, leg);
 		int distanceInMiles = leg.getDistanceInMiles();
 		if (distanceInMiles <= 0) {
-			mLeftTextView.setText(Html.fromHtml(context.getString(R.string.bold_template, duration)));
+			mLeftTextView.setText(HtmlCompat.fromHtml(context.getString(R.string.bold_template, duration)));
 		}
 		else {
 			String distance = FlightUtils.formatDistance(context, leg, false);
-			mLeftTextView.setText(Html.fromHtml(context.getString(R.string.time_distance_TEMPLATE, duration,
+			mLeftTextView.setText(HtmlCompat.fromHtml(context.getString(R.string.time_distance_TEMPLATE, duration,
 				distance)));
 		}
 
@@ -95,7 +95,7 @@ public class FlightInfoBarSection extends LinearLayout {
 					R.plurals.urgency_book_min_TEMPLATE : R.plurals.urgency_book_TEMPLATE;
 			String urgencyStr = getResources().getQuantityString(templateID, seatsRemaining,
 					seatsRemaining, fare);
-			mRightTextView.setText(Html.fromHtml(urgencyStr));
+			mRightTextView.setText(HtmlCompat.fromHtml(urgencyStr));
 		}
 		else {
 			int bookNowResId;
@@ -114,7 +114,7 @@ public class FlightInfoBarSection extends LinearLayout {
 							R.string.book_now_price_min_TEMPLATE : R.string.book_now_price_TEMPLATE;
 				}
 			}
-			mRightTextView.setText(Html.fromHtml(context.getString(bookNowResId, fare)));
+			mRightTextView.setText(HtmlCompat.fromHtml(context.getString(bookNowResId, fare)));
 		}
 
 		if (mBottomTextView != null) {

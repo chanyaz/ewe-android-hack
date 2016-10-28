@@ -12,7 +12,6 @@ import android.animation.PropertyValuesHolder;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +29,7 @@ import com.expedia.bookings.data.FlightTripLeg;
 import com.expedia.bookings.section.FlightInfoBarSection;
 import com.expedia.bookings.section.FlightInfoSection;
 import com.expedia.bookings.section.FlightSegmentSection;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.FlightUtils;
@@ -130,7 +130,7 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 				String duration = DateTimeUtils.formatDuration(getResources(), layover.mDuration);
 				String waypoint = StrUtils.formatWaypoint(flight.getOriginWaypoint());
 				flightLayoverSection.bind(R.drawable.ic_clock_small,
-						Html.fromHtml(getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint)));
+						HtmlCompat.fromHtml(getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint)));
 				mInfoContainer.addView(flightLayoverSection);
 			}
 
@@ -227,7 +227,7 @@ public class FlightDetailsFragment extends Fragment implements FlightUtils.OnBag
 	// Animators
 
 	public Animator createAnimator(int top, int bottom, boolean enter) {
-		List<Animator> set = new ArrayList<Animator>();
+		List<Animator> set = new ArrayList<>();
 		float[] values = new float[2];
 		PropertyValuesHolder pvhAlpha = AnimUtils.createFadePropertyValuesHolder(enter);
 		PropertyValuesHolder pvhTranslation = null;

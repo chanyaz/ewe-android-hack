@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.expedia.bookings.data.Rate.UserPriceType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.dialog.VipBadgeClickListener;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -140,7 +140,7 @@ public class HotelDetailsPricePromoFragment extends Fragment {
 			// "<strike>$400</strike>" (if it's on sale)
 			TextView strikethroughTextView = Ui.findView(view, R.id.strikethrough_price_text_view);
 			if (rate.isOnSale()) {
-				strikethroughTextView.setText(Html.fromHtml(
+				strikethroughTextView.setText(HtmlCompat.fromHtml(
 					getString(R.string.strike_template, StrUtils.formatHotelPrice(rate.getDisplayBasePrice())),
 					null,
 					new StrikethroughTagHandler()));

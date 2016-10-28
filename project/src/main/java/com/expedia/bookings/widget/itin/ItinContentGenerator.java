@@ -15,7 +15,6 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -56,6 +55,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ClipboardUtils;
@@ -151,9 +151,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public abstract int getHeaderImagePlaceholderResId();
 
-	/**
-	 * @return a UrlBitmapDrawable to display, or null if we want to use the placeholder
-	 */
 	public abstract void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target);
 
 	public abstract String getHeaderText();
@@ -315,8 +312,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Extend this method to return any local notifications related to this trip component.
-	 *
-	 * @return
 	 */
 	public List<Notification> generateNotifications() {
 		return null;
@@ -349,8 +344,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * - Insurance
 	 * <p/>
 	 * These get added to the viewgroup only if they exist (or have fallback behavior defined)
-	 *
-	 * @param container
 	 */
 	protected void addSharedGuiElements(ViewGroup container) {
 		boolean addedConfNumber = addConfirmationNumber(container);
@@ -600,8 +593,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Add this trip's insurance to the passed in container
-	 *
-	 * @param container
 	 */
 	protected boolean addInsurance(ViewGroup container) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().shouldDisplayInsuranceDetailsIfAvailableOnItinCard() ||
@@ -625,7 +616,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				}
 				View insuranceRow = getLayoutInflater().inflate(R.layout.snippet_itin_insurance_row, null);
 				TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
-				insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
+				insuranceName.setText(HtmlCompat.stripHtml(insurance.getPolicyName()));
 				AccessibilityUtil.appendRoleContDesc(insuranceName, insuranceName.getText().toString(), R.string.accessibility_cont_desc_role_button);
 
 				insuranceRow.setOnClickListener(ProductFlavorFeatureConfiguration.getInstance().getInsuranceLinkViewClickListener(mContext, insurance.getTermsUrl()));
@@ -640,8 +631,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Does this particular card have displayable insurance info
-	 *
-	 * @return
 	 */
 	protected boolean hasInsurance() {
 		boolean hasInsurance = false;
@@ -683,8 +672,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Get a horizontal divider view with the itin divider color
-	 *
-	 * @return
 	 */
 	protected View getHorizontalDividerView(int margin) {
 		View v = new View(this.getContext());
@@ -703,9 +690,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * Returns a descriptive CharSequence of the start date relative to today.
 	 * (Examples: "Today" or "May 15" or "10/25/2022")
 	 * Rules defined here: https://mingle.karmalab.net/projects/eb_ad_app/cards/234
-	 *
-	 * @param context
-	 * @return
 	 * @see #getItinRelativeTimeSpan(Context context, DateTime time, DateTime now) for relative time span
 	 */
 	public CharSequence getItinRelativeStartDate() {
@@ -784,10 +768,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * 2. If between 1 and 24 hours, "in 2 hours and 27 minutes" or "in 5 hours"
 	 * 3. Otherwise, we'll use JodaUtils.getRelativeTimeSpanString, "in 5 days" or "in 35 minutes"
 	 *
-	 * @param context
-	 * @param time
-	 * @param now
-	 * @return
 	 * @see #getItinRelativeStartDate() for relative date
 	 */
 	public CharSequence getItinRelativeTimeSpan(Context context, DateTime time, DateTime now) {

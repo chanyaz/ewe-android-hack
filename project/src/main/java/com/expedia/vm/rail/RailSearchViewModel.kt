@@ -2,10 +2,10 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
@@ -56,7 +56,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     override val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().origin(suggestion)
         railOriginObservable.onNext(suggestion)
-        val origin = Html.fromHtml(suggestion.regionNames.displayName).toString()
+        val origin = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
         formattedOriginObservable.onNext(origin)
         requiredSearchParamsObserver.onNext(Unit)
     }
@@ -64,7 +64,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().destination(suggestion)
         railDestinationObservable.onNext(suggestion)
-        val destination = Html.fromHtml(suggestion.regionNames.shortName).toString()
+        val destination = HtmlCompat.stripHtml(suggestion.regionNames.shortName)
         formattedDestinationObservable.onNext(destination)
         requiredSearchParamsObserver.onNext(Unit)
     }
