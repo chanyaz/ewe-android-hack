@@ -2210,8 +2210,6 @@
     <string name="add_new_traveler">Add New Traveler</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Guest details</string>
-    <!-- Guest all fields are required -->
-    <string name="guest_field_required">All fields are required.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Adult %1$s details</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
