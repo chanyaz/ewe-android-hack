@@ -151,4 +151,14 @@ class RailSearchViewModelTest {
         searchVM.searchObserver.onNext(Unit)
         assertEquals("The number of railcards cannot exceed the number of travelers.", errorRailCardCountSubscriber.onNextEvents[0].toString())
     }
+
+    @Test
+    fun testStartDate() {
+        assertEquals(LocalDate.now().plusDays(1), searchVM.getStartDate(), "Start Date is Tomorrow")
+    }
+
+    @Test
+    fun testSameStartAndEndDateAllowed() {
+        assertEquals(false, searchVM.sameStartAndEndDateAllowed(), "Same Start And EndDate Are Not Allowed")
+    }
 }
