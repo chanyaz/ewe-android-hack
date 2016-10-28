@@ -2318,6 +2318,10 @@
     <string name="address_zip_code_hint">Zip Code</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">Zip</string>
+    <!--Address Province hint-->
+    <string name="address_province_hint">Province</string>
+    <!--Address Country/State/Province hint-->
+    <string name="address_county_hint">County/State/Province</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->

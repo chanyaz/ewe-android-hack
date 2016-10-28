@@ -8,7 +8,9 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.res.Resources;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.InputType;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
@@ -35,15 +37,20 @@ import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
 
+import rx.subjects.BehaviorSubject;
+
 public class SectionLocation extends LinearLayout
 	implements ISection<Location>, ISectionEditable, InvalidCharacterListener {
 
 	ArrayList<SectionChangeListener> mChangeListeners = new ArrayList<>();
 	SectionFieldList<Location> mFields = new SectionFieldList<>();
+	List<String> mCountriesWithStates = Arrays
+		.asList(getContext().getResources().getStringArray(R.array.countriesWithStateForBilling));
 
 	Location mLocation;
 	Context mContext;
 	LineOfBusiness mLineOfBusiness;
+	public BehaviorSubject countrySubject = BehaviorSubject.create();
 
 	public SectionLocation(Context context) {
 		super(context);
@@ -155,29 +162,17 @@ public class SectionLocation extends LinearLayout
 	}
 
 	public boolean isStateRequired() {
-		if (mLineOfBusiness != LineOfBusiness.RAILS) {  //Just for rails for now...
+		if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
 			return true;
 		}
 		CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
 		String selectedCountryCode = countryAdapter
 			.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(), CountryDisplayType.THREE_LETTER);
-
-		List<String> countriesWithStates = Arrays
-			.asList(getContext().getResources().getStringArray(R.array.countriesWithStateForBilling));
-		return countriesWithStates.contains(selectedCountryCode);
+		return mCountriesWithStates.contains(selectedCountryCode);
 	}
 
 	protected void rebindCountryDependantFields() {
 		mEditAddressPostalCode.bindData(mLocation);
-	}
-
-	protected void showHideCountryDependantFields() {
-		if (isStateRequired()) {
-			mFields.setFieldEnabled(mEditAddressState, true);
-		}
-		else {
-			mFields.removeField(mEditAddressState);
-		}
 	}
 
 	//////////////////////////////////////
@@ -429,7 +424,7 @@ public class SectionLocation extends LinearLayout
 		protected Validator<EditText> getValidator() {
 			MultiValidator<EditText> addrValidators = new MultiValidator<>();
 			addrValidators.addValidator(CommonSectionValidators.SUPPORTED_CHARACTER_VALIDATOR_ASCII);
-			if (mLineOfBusiness == LineOfBusiness.FLIGHTS || mLineOfBusiness == LineOfBusiness.PACKAGES) {
+			if (isStateRequired()) {
 				addrValidators.addValidator(CommonSectionValidators.ADDRESS_STATE_VALIDATOR);
 			}
 			else {
@@ -449,7 +444,19 @@ public class SectionLocation extends LinearLayout
 					onChange(SectionLocation.this);
 				}
 			});
-
+			field.setFilters(new InputFilter[] { new InputFilter() {
+					public CharSequence filter(CharSequence src, int start,
+						int end, Spanned dst, int dstart, int dend) {
+						if (src.equals("")) { // for backspace
+							return src;
+						}
+						if (src.toString().matches("[a-zA-Z]+")) {
+							return src;
+						}
+						return "";
+					}
+				}
+			});
 			InvalidCharacterHelper.generateInvalidCharacterTextWatcher(field, SectionLocation.this, Mode.ADDRESS);
 		}
 
@@ -619,6 +626,22 @@ public class SectionLocation extends LinearLayout
 					.setCountryCode(countryAdapter.getItemValue(position, CountryDisplayType.THREE_LETTER));
 				updateCountryDependantValidation();
 				rebindCountryDependantFields();
+				if (mEditAddressState.mField != null) {
+					String countryCode = getData().getCountryCode();
+					countrySubject.onNext(countryCode);
+					if (countryCode.equals(mCountriesWithStates.get(0))) {
+						mEditAddressState.mField.setHint(R.string.address_state_hint);
+						mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+					}
+					else if (countryCode.equals(mCountriesWithStates.get(1))) {
+						mEditAddressState.mField.setHint(R.string.address_province_hint);
+						mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_CHARACTERS);
+					}
+					else {
+						mEditAddressState.mField.setHint(R.string.address_county_hint);
+						mEditAddressState.mField.setInputType(InputType.TYPE_CLASS_TEXT);
+					}
+				}
 			}
 		}
 
@@ -639,7 +662,6 @@ public class SectionLocation extends LinearLayout
 				@Override
 				public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 					updateData(position);
-					showHideCountryDependantFields();
 					if (!mSetFieldManually) {
 						onChange(SectionLocation.this);
 					}
