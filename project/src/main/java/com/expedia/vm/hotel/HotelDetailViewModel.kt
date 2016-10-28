@@ -4,11 +4,9 @@ import android.content.Context
 import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -59,8 +57,7 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
     }
 
     override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean {
-        val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
-        return roomOffer.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
+        return roomOffer.isMemberDeal && User.isLoggedIn(context)
     }
 
     override fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {

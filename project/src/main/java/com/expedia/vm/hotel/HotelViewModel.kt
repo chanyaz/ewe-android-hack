@@ -7,7 +7,6 @@ import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
@@ -147,8 +146,7 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
     }
 
     open fun hasMemberDeal(): Boolean {
-        val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
-        return hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
+        return hotel.isMemberDeal && User.isLoggedIn(context)
     }
 
     fun getRatingContentDesc(): String {
