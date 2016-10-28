@@ -101,7 +101,7 @@ class RailCheckoutViewModel(val context: Context) {
                 billingInfo?.expirationDate?.year.toString(), billingInfo?.expirationDate?.monthOfYear.toString(),
                 billingInfo?.securityCode, billingInfo?.nameOnCard,
                 billingInfo?.location?.streetAddressString, null,
-                billingInfo?.location?.city, billingInfo?.location?.stateCode,
+                billingInfo?.location?.city, billingInfo?.location?.stateCode ?: null,
                 billingInfo?.location?.postalCode, null, billingInfo?.location?.countryCode)
         val paymentInfo = RailCheckoutParams.PaymentInfo(listOf(cardDetails))
         builder.paymentInfo(paymentInfo)
