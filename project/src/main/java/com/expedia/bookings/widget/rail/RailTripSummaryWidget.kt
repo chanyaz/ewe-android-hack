@@ -33,7 +33,7 @@ class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayou
     var viewModel: RailTripSummaryViewModel by notNullAndObservable { vm ->
         vm.railOfferObserver.subscribe { offer ->
             outboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[0])
-            if (offer.railProductList.size == 2) {
+            if (offer.isRoundTrip) {
                 inboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[1])
                 inboundLegSummary.visibility = View.VISIBLE
             }

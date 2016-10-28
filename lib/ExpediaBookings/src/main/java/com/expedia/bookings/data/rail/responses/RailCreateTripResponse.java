@@ -35,6 +35,28 @@ public class RailCreateTripResponse extends BaseApiResponse {
 		public List<? extends RailProduct> getRailProductList() {
 			return railProductList;
 		}
+
+		@Nullable
+		public RailLegOption getOutboundLegOption() {
+			if (CollectionUtils.isNotEmpty(railProductList)) {
+				return railProductList.get(0).getLegOption();
+			}
+			return null;
+		}
+
+		@Nullable
+		public RailLegOption getInboundLegOption() {
+			// todo will change with open return
+			if (CollectionUtils.isNotEmpty(railProductList) && isRoundTrip()) {
+				return railProductList.get(1).getLegOption();
+			}
+			return null;
+		}
+
+		public boolean isRoundTrip() {
+			return railProductList.size() == 2;
+		}
+
 	}
 
 	public static class RailTripProduct extends RailProduct {

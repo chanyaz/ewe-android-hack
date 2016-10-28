@@ -36,6 +36,7 @@ open class ConfirmationRowCardView(context: Context, attrs: AttributeSet?) : Lin
         try {
             title.text = ta.getString(R.styleable.ConfirmationRow_row_title)
             subTitle.text = ta.getString(R.styleable.ConfirmationRow_row_subTitle)
+            title.maxLines = ta.getInt(R.styleable.ConfirmationRow_row_title_max_lines, 1)
             val drawable = ta.getDrawable(R.styleable.ConfirmationRow_row_icon)
             val color = ta.getColor(R.styleable.ConfirmationRow_row_icon_tint_color, 0)
             drawable.colorFilter = PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN)
