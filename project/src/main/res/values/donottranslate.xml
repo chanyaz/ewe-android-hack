@@ -54,6 +54,7 @@
 
     <!-- Email addresses -->
     <string name="email_app_support">Expedia-Android@mobiata.com</string>
+    <string name="email_app_support_headline">Feedback In-App Prompt</string>
 
     <!-- Fragment tags -->
     <string name="tag_itinerary_list">ITINERARY_LIST</string>
