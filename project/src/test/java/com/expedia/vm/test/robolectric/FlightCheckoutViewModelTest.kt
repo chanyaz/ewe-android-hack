@@ -93,7 +93,7 @@ class FlightCheckoutViewModelTest {
         val legalTextTestSubscriber = TestSubscriber<SpannableStringBuilder>()
         sut.legalText.subscribe(legalTextTestSubscriber)
 
-        sut.tripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(newTripResponse)
 
         legalTextTestSubscriber.assertValueCount(1)
         assertEquals("By completing this booking I agree that I have read and accept the Rules and Restrictions, the Terms and Conditions, the Privacy Policy and Fare Information.", legalTextTestSubscriber.onNextEvents[0].toString())
@@ -109,7 +109,7 @@ class FlightCheckoutViewModelTest {
         val sliderPurchaseTotalTextTestSubscriber = TestSubscriber<CharSequence>()
         sut.sliderPurchaseTotalText.subscribe(sliderPurchaseTotalTextTestSubscriber)
 
-        sut.tripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(newTripResponse)
         sut.paymentViewModel.cardBIN.onNext("654321")
 
         sliderPurchaseTotalTextTestSubscriber.assertValueCount(2)
@@ -118,7 +118,7 @@ class FlightCheckoutViewModelTest {
 
         givenAirlineChargesFees()
 
-        sut.tripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(newTripResponse)
         sliderPurchaseTotalTextTestSubscriber.assertValueCount(3)
         assertEquals("Your card will be charged $44.50 (plus airline fee)", sliderPurchaseTotalTextTestSubscriber.onNextEvents[2].toString())
     }
@@ -132,7 +132,7 @@ class FlightCheckoutViewModelTest {
         val selectedCardFeeSubscriber = TestSubscriber<Money>()
         sut.selectedCardFeeObservable.subscribe(selectedCardFeeSubscriber)
 
-        sut.tripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(newTripResponse)
         sut.paymentViewModel.cardBIN.onNext("654321")
 
         selectedCardFeeSubscriber.assertValueCount(1)
@@ -152,7 +152,7 @@ class FlightCheckoutViewModelTest {
         sut.legalText.subscribe(legalTextTestSubscriber)
         sut.sliderPurchaseTotalText.subscribe(sliderPurchaseTotalTextTestSubscriber)
 
-        sut.tripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(newTripResponse)
 
         // populate builder with required data not set on receipt of a createTrip response (just for this unit test)
         sut.builder.billingInfo(makeBillingInfo()).travelers(listOf(Traveler())).cvv("")
@@ -226,7 +226,7 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
         sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
 
-        sut.tripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(newTripResponse)
         sut.paymentViewModel.resetCardFees.onNext(Unit)
 
         hasCardFeeTestSubscriber.assertValue(false)
@@ -252,7 +252,7 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeWarningTextSubject.subscribeOn(AndroidSchedulers.mainThread()).subscribe(cardFeeWarningTextSubscriber)
         sut.paymentTypeSelectedHasCardFee.subscribeOn(AndroidSchedulers.mainThread()).subscribe(hasCardFeeTestSubscriber)
 
-        sut.tripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(newTripResponse)
         sut.paymentViewModel.cardBIN.onNext("654321")
 
         cardFeeTextSubscriber.assertValueCount(1)
@@ -280,7 +280,7 @@ class FlightCheckoutViewModelTest {
         sut.cardFeeWarningTextSubject.subscribe(cardFeeWarningTextSubscriber)
         sut.paymentTypeSelectedHasCardFee.subscribe(hasCardFeeTestSubscriber)
 
-        sut.tripResponseObservable.onNext(newTripResponse)
+        sut.createTripResponseObservable.onNext(newTripResponse)
         sut.paymentViewModel.cardBIN.onNext("654321")
         sut.paymentViewModel.resetCardFees.onNext(Unit)
 
@@ -491,7 +491,7 @@ class FlightCheckoutViewModelTest {
         Ui.getApplication(context).defaultFlightComponents()
         sut = TestFlightCheckoutViewModelClass(context)
         sut.email = "qa-ehcc@mobiata.com"
-        sut.cardFeeTripResponse.subscribe(sut.tripResponseObservable)
+        sut.cardFeeTripResponse.subscribe(sut.createTripResponseObservable)
         sut.flightServices = flightServices
         sut.cardFeeService = cardFeeService
     }

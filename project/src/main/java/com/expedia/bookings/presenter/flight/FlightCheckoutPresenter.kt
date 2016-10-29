@@ -61,7 +61,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             handlePriceChange(it)
         }
 
-        getCheckoutViewModel().tripResponseObservable.safeSubscribe(flightCostSummaryObservable)
+        getCheckoutViewModel().createTripResponseObservable.safeSubscribe(flightCostSummaryObservable)
         getCreateTripViewModel().showNoInternetRetryDialog.subscribe {
             val retryFun = fun() {
                 getCreateTripViewModel().performCreateTrip.onNext(Unit)
@@ -95,13 +95,13 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         vm as FlightCreateTripViewModel
 
         insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
-        insuranceWidget.viewModel.updatedTripObservable.subscribe(vm.tripResponseObservable)
+        insuranceWidget.viewModel.updatedTripObservable.subscribe(vm.createTripResponseObservable)
 
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
 
-        getCheckoutViewModel().tripResponseObservable.safeSubscribe { response -> response as FlightCreateTripResponse
+        getCheckoutViewModel().createTripResponseObservable.safeSubscribe { response -> response as FlightCreateTripResponse
             loginWidget.updateRewardsText(getLineOfBusiness())
             insuranceWidget.viewModel.tripObservable.onNext(response)
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
@@ -110,7 +110,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
     }
 
-    private fun handlePriceChange(tripResponse: FlightCreateTripResponse) {
+    private fun handlePriceChange(tripResponse: TripResponse) {
         val newPrice = tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints()
 
         val oldOffer = tripResponse.details.oldOffer

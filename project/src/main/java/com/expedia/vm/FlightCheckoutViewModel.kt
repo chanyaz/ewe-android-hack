@@ -38,21 +38,21 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
 
         legalText.onNext(SpannableStringBuilder(pointOfSale.getColorizedFlightBookingStatement(ContextCompat.getColor(context, R.color.flight_primary_color))))
 
-        tripResponseObservable.safeSubscribe { it as FlightCreateTripResponse
-            builder.tripId(it.newTrip.tripId)
-            builder.expectedTotalFare(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())
-            builder.expectedFareCurrencyCode(it.details.offer.totalPrice.currency)
-            builder.tealeafTransactionId(it.tealeafTransactionId)
+        createTripResponseObservable.safeSubscribe { createTripResponse -> createTripResponse as FlightCreateTripResponse
+            builder.tripId(createTripResponse.newTrip!!.tripId)
+            builder.expectedTotalFare(createTripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())
+            builder.expectedFareCurrencyCode(createTripResponse.details.offer.totalPrice.currency)
+            builder.tealeafTransactionId(createTripResponse.tealeafTransactionId)
             builder.suppressFinalBooking(BookingSuppressionUtils.shouldSuppressFinalBooking(context, R.string.preference_suppress_flight_bookings))
             val resId = if (!selectedFlightChargesFees.value.isNullOrEmpty()) R.string.your_card_will_be_charged_plus_airline_fee_template else R.string.your_card_will_be_charged_template
             val totalPrice = Phrase.from(context, resId)
-                    .put("dueamount", it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
+                    .put("dueamount", createTripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints().formattedMoneyFromAmountAndCurrencyCode)
                     .format()
             sliderPurchaseTotalText.onNext(totalPrice)
         }
 
-        priceChangeObservable.subscribe { it as FlightCheckoutResponse
-            val flightTripDetails = it.details
+        priceChangeObservable.subscribe { checkoutResponse ->
+            val flightTripDetails = checkoutResponse.details
             builder.expectedTotalFare(flightTripDetails.offer.totalPrice.amount.toString())
         }
 
@@ -75,9 +75,9 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
 
     override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
         // add card fee to trip response
-        val response =  tripResponseObservable.value
+        val response =  createTripResponseObservable.value
         if (response != null) {
-            val newTripResponse = response as FlightCreateTripResponse
+            val newTripResponse = response
             newTripResponse.selectedCardFees = cardFee
             newTripResponse.totalPriceIncludingFees = totalPriceInclFees
             cardFeeTripResponse.onNext(newTripResponse)
@@ -86,9 +86,9 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     }
 
     override fun resetCardFees() {
-        val response =  tripResponseObservable.value
+        val response =  createTripResponseObservable.value
         if (response != null) {
-            val newTripResponse = response as FlightCreateTripResponse
+            val newTripResponse = response
             newTripResponse.selectedCardFees = null
             newTripResponse.totalPriceIncludingFees = null
             cardFeeTripResponse.onNext(newTripResponse)
@@ -96,9 +96,9 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     }
 
     override fun getTripId(): String {
-        if (tripResponseObservable.value != null) {
-            val flightCreateTripResponse = tripResponseObservable.value as FlightCreateTripResponse
-            val tripId = flightCreateTripResponse.newTrip.tripId!!
+        if (createTripResponseObservable.value != null) {
+            val flightCreateTripResponse = createTripResponseObservable.value as FlightCreateTripResponse
+            val tripId = flightCreateTripResponse.newTrip!!.tripId!!
             return tripId
         }
         return ""

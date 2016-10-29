@@ -5417,7 +5417,7 @@ public class OmnitureTracking {
 		com.expedia.bookings.data.flights.FlightCheckoutResponse checkoutResponse = Db.getTripBucket().getFlightV2()
 			.flightCheckoutResponse;
 		s.setCurrencyCode(checkoutResponse.getCurrencyCode());
-		s.setProp(71, checkoutResponse.newTrip.getTravelRecordLocator());
+		s.setProp(71, checkoutResponse.getNewTrip().getTravelRecordLocator());
 		s.setProp(72, checkoutResponse.getOrderId());
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
 

@@ -27,7 +27,7 @@ class FlightConfirmationViewModel(val context: Context) {
         confirmationObservable.subscribe { pair ->
             val email = pair.second
             val response = pair.first
-            val itinNumber = response.newTrip.itineraryNumber
+            val itinNumber = response.newTrip!!.itineraryNumber
             val isQualified = response.airAttachInfo?.hasAirAttach ?: false
             val itinNumberMessage = Phrase.from(context, R.string.itinerary_sent_to_confirmation_TEMPLATE)
                     .put("itinerary", itinNumber)

@@ -32,7 +32,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
     }
 
     init {
-        tripResponseObservable.safeSubscribe {
+        createTripResponseObservable.safeSubscribe {
             it as PackageCreateTripResponse
             builder.tripId(it.packageDetails.tripId)
             builder.expectedTotalFare(it.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())
@@ -76,8 +76,8 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
     }
 
     override fun getTripId(): String {
-        if (tripResponseObservable.value != null) {
-            val flightCreateTripResponse = tripResponseObservable.value as PackageCreateTripResponse
+        if (createTripResponseObservable.value != null) {
+            val flightCreateTripResponse = createTripResponseObservable.value as PackageCreateTripResponse
             val tripId = flightCreateTripResponse.packageDetails.tripId!!
             return tripId
         }
@@ -152,7 +152,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
 
     override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
         // add card fee to trip response
-        val response =  tripResponseObservable.value
+        val response =  createTripResponseObservable.value
         if (response != null) {
             val newTripResponse = response as PackageCreateTripResponse
             newTripResponse.selectedCardFees = cardFee
@@ -163,7 +163,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
     }
 
     override fun resetCardFees() {
-        val response =  tripResponseObservable.value
+        val response =  createTripResponseObservable.value
         if (response != null) {
             val newTripResponse = response as PackageCreateTripResponse
             newTripResponse.selectedCardFees = null

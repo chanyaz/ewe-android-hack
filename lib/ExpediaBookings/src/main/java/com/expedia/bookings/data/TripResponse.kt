@@ -1,6 +1,8 @@
 package com.expedia.bookings.data
 
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.flights.ValidFormOfPayment
+import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsDetails
@@ -17,6 +19,10 @@ abstract class TripResponse : BaseApiResponse() {
     var rewards: RewardsInfo? = null
     var validFormsOfPayment: List<ValidFormOfPayment> = emptyList()
     var guestUserPromoEmailOptInStatus: String? = null
+    open var newTrip: TripDetails? = null
+    open lateinit var details: FlightTripDetails
+    var totalPriceIncludingFees: Money? = null
+    var selectedCardFees: Money? = null
 
     fun getPointDetails(): PointsDetails? {
         val programName = getProgramName()
@@ -116,4 +122,10 @@ abstract class TripResponse : BaseApiResponse() {
             return rewardsUserAccountDetails().tripTotalPayable!!
         }
     }
+
+    fun getSelectedInsuranceProduct() : InsuranceProduct? = getOffer().selectedInsuranceProduct
+
+    fun getAvailableInsuranceProducts(): List<InsuranceProduct> = getOffer().availableInsuranceProducts
+
+    fun getOffer(): FlightTripDetails.FlightOffer = details.offer
 }
