@@ -109,6 +109,8 @@ import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
 
+import kotlin.NotImplementedError;
+
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
  * can be inserted into the business logic as cleanly as possible. The events rely on Db.java to populate values when
@@ -3739,6 +3741,8 @@ public class OmnitureTracking {
 
 	private static final String HOTEL_LOB_NAVIGATION = "Hotel";
 	private static final String FLIGHT_LOB_NAVIGATION = "Flight";
+	private static final String PACKAGE_LOB_NAVIGATION = "Package";
+	private static final String RAIL_LOB_NAVIGATION = "Rail";
 	private static final String CAR_LOB_NAVIGATION = "Car";
 	private static final String LX_LOB_NAVIGATION = "LX";
 	private static final String TRANSPORT_LOB_NAVIGATION = "Transport";
@@ -3753,6 +3757,12 @@ public class OmnitureTracking {
 		case FLIGHTS:
 			lobString = FLIGHT_LOB_NAVIGATION;
 			break;
+		case PACKAGES:
+			lobString = PACKAGE_LOB_NAVIGATION;
+			break;
+		case RAILS:
+			lobString = RAIL_LOB_NAVIGATION;
+			break;
 		case CARS:
 			lobString = CAR_LOB_NAVIGATION;
 			break;
@@ -3762,6 +3772,8 @@ public class OmnitureTracking {
 		case TRANSPORT:
 			lobString = TRANSPORT_LOB_NAVIGATION;
 			break;
+		default:
+			throw new NotImplementedError("This LOB Navigation is not tracked in Omniture");
 		}
 		String link = LAUNCH_SCREEN_LOB_NAVIGATION + "." + lobString;
 
