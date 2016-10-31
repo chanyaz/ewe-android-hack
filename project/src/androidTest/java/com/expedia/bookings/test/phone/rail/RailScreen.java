@@ -117,8 +117,7 @@ public class RailScreen {
 		Espresso.closeSoftKeyboard();
 		enterPhoneNumber("7732025862");
 
-		onView(withId(R.id.menu_done)).perform(ViewActions.waitForViewToDisplay());
-		onView(withId(R.id.menu_done)).perform(click());
+		clickToolbarDone(R.id.rail_traveler_toolbar);
 	}
 
 	public static void enterFirstName(String name) {
@@ -231,10 +230,6 @@ public class RailScreen {
 			.check(matches(isDisplayed()));
 	}
 
-	public static void clickDone() {
-		onView(withId(R.id.menu_done)).perform(click());
-	}
-
 	public static void enterPaymentDetails() {
 		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
@@ -253,11 +248,17 @@ public class RailScreen {
 		BillingAddressScreen.typeTextState("CA", addressSectionParentId);
 		BillingAddressScreen.typeTextPostalCode("94105", addressSectionParentId);
 
-		CheckoutViewModel.clickDone();
+		clickToolbarDone(R.id.rail_checkout_toolbar);
 	}
 
 	public static void performSlideToPurchase() {
 		onView(withId(R.id.rail_slide_to_purchase_widget)).perform(ViewActions.waitForViewToDisplay());
 		onView(withId(R.id.rail_slide_to_purchase_widget)).perform(ViewActions.swipeRight());
+	}
+
+	private static void clickToolbarDone(int toolbarId) {
+		onView(allOf(isDescendantOfA(withId(toolbarId)), withId(R.id.menu_done)))
+			.perform(ViewActions.waitForViewToDisplay());
+		onView(allOf(isDescendantOfA(withId(toolbarId)), withId(R.id.menu_done))).perform(click());
 	}
 }

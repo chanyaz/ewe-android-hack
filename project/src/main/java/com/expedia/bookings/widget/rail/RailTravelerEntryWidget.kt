@@ -1,31 +1,38 @@
 package com.expedia.bookings.widget.rail
 
 import android.content.Context
+import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.CheckoutToolbar
 import com.expedia.bookings.widget.traveler.EmailEntryView
 import com.expedia.bookings.widget.traveler.NameEntryView
 import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeTextChange
+import com.expedia.vm.CheckoutToolbarViewModel
 import com.expedia.vm.traveler.SimpleTravelerViewModel
 import rx.subjects.PublishSubject
+import rx.subscriptions.CompositeSubscription
 
 class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
+    val toolbar: CheckoutToolbar by bindView(R.id.rail_traveler_toolbar)
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
     val emailEntryView: EmailEntryView by bindView(R.id.email_entry_widget)
     val phoneEntryView: PhoneEntryView by bindView(R.id.phone_entry_widget)
 
     val travelerCompleteSubject = PublishSubject.create<Unit>()
 
-    val doneSelectedObserver = endlessObserver<Unit> {
-        if (viewModel.validate()) {
-            travelerCompleteSubject.onNext(Unit)
-        }
+    val formFilledSubscriber = endlessObserver<String>() {
+        toolbarViewModel.formFilledIn.onNext(isCompletelyFilled())
     }
+
+    val toolbarViewModel = CheckoutToolbarViewModel(context)
 
     var viewModel: SimpleTravelerViewModel by notNullAndObservable { vm ->
         nameEntryView.viewModel = vm.nameViewModel
@@ -33,11 +40,48 @@ class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLa
         phoneEntryView.viewModel = vm.phoneViewModel
     }
 
+    var compositeSubscription: CompositeSubscription? = null
+
     init {
         View.inflate(context, R.layout.rail_traveler_entry_widget, this)
+        toolbar.setNavigationOnClickListener {
+            val activity = context as AppCompatActivity
+            activity.onBackPressed()
+        }
+
+        toolbar.viewModel = toolbarViewModel
+        toolbarViewModel.menuVisibility.onNext(true)
+        toolbarViewModel.visibleMenuWithTitleDone.onNext(Unit)
+        toolbarViewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+        toolbarViewModel.doneClicked.subscribe {
+            if (viewModel.validate()) {
+                travelerCompleteSubject.onNext(Unit)
+            }
+        }
+        toolbarViewModel.nextClicked.subscribe {
+            val nextFocus: View? = findFocus()?.focusSearch(FOCUS_FORWARD)
+            nextFocus?.requestFocus() ?: nameEntryView.requestFocus()
+        }
     }
 
-    fun getToolbarTitle() : String {
-        return context.getString(R.string.traveler_enter_details_text)
+    override fun onVisibilityChanged(changedView: View, visibility: Int) {
+        super.onVisibilityChanged(changedView, visibility)
+        compositeSubscription?.unsubscribe()
+        if (changedView is RailTravelerEntryWidget) {
+            if (visibility == View.VISIBLE) {
+                compositeSubscription = CompositeSubscription()
+                compositeSubscription?.add(nameEntryView.firstName.subscribeTextChange(formFilledSubscriber))
+                compositeSubscription?.add(nameEntryView.lastName.subscribeTextChange(formFilledSubscriber))
+                compositeSubscription?.add(phoneEntryView.phoneNumber.subscribeTextChange(formFilledSubscriber))
+                compositeSubscription?.add(emailEntryView.emailAddress.subscribeTextChange(formFilledSubscriber))
+            }
+        }
+    }
+
+    private fun isCompletelyFilled(): Boolean {
+        return nameEntryView.firstName.text.isNotEmpty()
+                && nameEntryView.lastName.text.isNotEmpty()
+                && phoneEntryView.phoneNumber.text.isNotEmpty()
+                && emailEntryView.emailAddress.text.isNotEmpty()
     }
 }

@@ -40,7 +40,6 @@
         android:layout_height="wrap_content"
         android:hint="@string/last_name"
         android:inputType="textPersonName|textCapWords"
-        android:nextFocusForward="@+id/edit_email_address"
         android:maxLines="1"
         android:textSize="@dimen/traveler_input_text_size"
         app:error_cont_desc="@string/accessibility_cont_desc_role_error"/>
