@@ -1057,7 +1057,7 @@
     <!-- Packages -->
     <string name="nav_packages">Bundle Deals</string>
     <!-- Rail -->
-    <string name="nav_rail">Rail</string>
+    <string name="nav_rail">Trains</string>
     <string name="add_rail_card">Add railcard</string>
     <string name="select_rail_card_hint">Select a railcard</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->

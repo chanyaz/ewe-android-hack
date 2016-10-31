@@ -134,6 +134,9 @@ public class PointOfSale {
 	// Whether to show packages on this POS
 	private boolean mSupportsPackages;
 
+	// Whether to show packages on this POS
+	private boolean mSupportsRails;
+
 	// Whether or not to use downloaded routes (for AirAsia) or not
 	private boolean mDisplayFlightDropDownRoutes;
 
@@ -633,6 +636,8 @@ public class PointOfSale {
 			return true;
 		case PACKAGES:
 			return mSupportsPackages && !sIsTablet;
+		case RAILS:
+			return mSupportsRails && !sIsTablet;
 		}
 
 		return false;
@@ -1240,6 +1245,7 @@ public class PointOfSale {
 		pos.mSupportsLx = data.optBoolean("lxEnabled");
 		pos.mSupportsGT = data.optBoolean("gtEnabled");
 		pos.mSupportsPackages = data.optBoolean("packagesEnabled", false);
+		pos.mSupportsRails = data.optBoolean("railsEnabled", false);
 		pos.mDisplayFlightDropDownRoutes = data.optBoolean("shouldDisplayFlightDropDownList");
 		pos.mShowHotelCrossSell = !data.optBoolean("hideHotelCrossSell", false);
 		pos.mDoesNotAcceptDebitCardsFlights = data.optBoolean("doesNotAcceptDebitCards:flights", false);
