@@ -36,6 +36,9 @@ class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayou
             if (offer.isRoundTrip) {
                 inboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[1])
                 inboundLegSummary.visibility = View.VISIBLE
+            } else if (offer.isOpenReturn) {
+                inboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[0])
+                inboundLegSummary.visibility = View.VISIBLE
             }
         }
 

@@ -18,816 +18,903 @@
         "formattedPrice": "£30.00",
         "formattedWholePrice": "£30"
       },
-      "priceBreakdown": [{
-        "amount": "0",
-        "currencyCode": "GBP",
-        "mainCurrency": 0,
-        "fractionalCurrency": 0,
-        "currencySymbol": "£",
-        "formattedPrice": "£0.00",
-        "formattedWholePrice": "£0",
-        "priceCategory": "Expedia Booking Fee",
-        "priceCategoryCode": "EXPEDIA_SERVICE_FEE"
-      }, {
-        "amount": "30.00",
-        "currencyCode": "GBP",
-        "mainCurrency": 30,
-        "fractionalCurrency": 0,
-        "currencySymbol": "£",
-        "formattedPrice": "£30.00",
-        "formattedWholePrice": "£30",
-        "priceCategory": "Ticket Price",
-        "priceCategoryCode": "TICKET"
-      }],
-      "railProductList": [{
-        "aggregatedCarrierServiceClassDisplayName": "Standard",
-        "aggregatedCarrierFareClassDisplayName": "Anytime Day Single",
-        "aggregatedFareDescription": "Travel anytime of day",
-        "aggregatedCarrierFareClassCategoryName": "Anytime",
-        "fareNotes": ["Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx", "Travel is allowed via any permitted route."],
-        "refundable": "REFUNDABLE",
-        "refundableRules": ["Your ticket is refundable before 30 Dec, 2016 08:30", "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.", "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."],
-        "legOptionList": [{
-          "legOptionIndex": 3,
-          "departureStation": {
-            "stationCode": "GBQQM",
-            "stationDisplayName": "Manchester Piccadilly"
-          },
-          "arrivalStation": {
-            "stationCode": "GBSUG",
-            "stationDisplayName": "Sugar Loaf"
-          },
-          "departureDateTime": {
-            "raw": "2016-12-02T08:30:00",
-            "epochSeconds": 1480667400,
-            "localized": "2 Dec, 2016 08:30",
-            "localizedShortDate": "Fri, 2 Dec"
-          },
-          "arrivalDateTime": {
-            "raw": "2016-12-02T12:37:00",
-            "epochSeconds": 1480682220,
-            "localized": "2 Dec, 2016 12:37",
-            "localizedShortDate": "Fri, 2 Dec"
-          },
-          "duration": "PT4H7M",
-          "aggregatedMarketingCarrier": "Arriva Trains Wales",
-          "aggregatedOperatingCarrier": "Arriva Trains Wales",
-          "travelSegmentList": [{
-            "travelSegmentIndex": 6,
-            "travelMode": "Train",
-            "departureStation": {
-              "stationCode": "GBQQM",
-              "stationDisplayName": "Manchester Piccadilly"
-            },
-            "arrivalStation": {
-              "stationCode": "GBSHR",
-              "stationDisplayName": "Shrewsbury"
-            },
-            "departureDateTime": {
-              "raw": "2016-12-02T08:30:00",
-              "epochSeconds": 1480667400,
-              "localized": "2 Dec, 2016 08:30",
-              "localizedShortDate": "Fri, 2 Dec"
-            },
-            "arrivalDateTime": {
-              "raw": "2016-12-02T09:37:00",
-              "epochSeconds": 1480671420,
-              "localized": "2 Dec, 2016 09:37",
-              "localizedShortDate": "Fri, 2 Dec"
-            },
-            "marketingCarrier": "Arriva Trains Wales",
-            "operatingCarrier": "Arriva Trains Wales",
-            "travelMedium": {
-              "travelMediumName": "Inter-City",
-              "travelMediumCode": "ICY",
-              "supplierTravelMediumId": "AW1019"
-            },
-            "duration": "PT1H7M",
-            "fareDetail": {
-              "travelSegmentIndex": 6,
-              "carrierServiceClassDisplayName": "Standard",
-              "carrierFareClassDisplayName": "Anytime Day Single",
-              "carrierFareClassCategoryName": "Anytime",
-              "fareDescription": "Travel anytime of day",
-              "amenityList": [{
-                "displayName": "Snack Trolley Service"
-              }]
-            }
-          }, {
-            "travelSegmentIndex": 7,
-            "travelMode": "Train",
-            "departureStation": {
-              "stationCode": "GBSHR",
-              "stationDisplayName": "Shrewsbury"
-            },
-            "arrivalStation": {
-              "stationCode": "GBSUG",
-              "stationDisplayName": "Sugar Loaf"
-            },
-            "departureDateTime": {
-              "raw": "2016-12-02T10:09:00",
-              "epochSeconds": 1480673340,
-              "localized": "2 Dec, 2016 10:09",
-              "localizedShortDate": "Fri, 2 Dec"
-            },
-            "arrivalDateTime": {
-              "raw": "2016-12-02T12:37:00",
-              "epochSeconds": 1480682220,
-              "localized": "2 Dec, 2016 12:37",
-              "localizedShortDate": "Fri, 2 Dec"
-            },
-            "marketingCarrier": "Arriva Trains Wales",
-            "operatingCarrier": "Arriva Trains Wales",
-            "travelMedium": {
-              "travelMediumName": "Branch-Line/Regional",
-              "travelMediumCode": "BLR",
-              "supplierTravelMediumId": "AW4007"
-            },
-            "duration": "PT2H28M",
-            "fareDetail": {
-              "travelSegmentIndex": 7,
-              "carrierServiceClassDisplayName": "Standard",
-              "carrierFareClassDisplayName": "Anytime Day Single",
-              "carrierFareClassCategoryName": "Anytime",
-              "fareDescription": "Travel anytime of day"
-            }
-          }],
-          "noOfChanges": 1,
-          "legBoundOrder": 1,
-          "showTrainIcon": false,
-          "overtakenJourney": false
-        }],
-        "fareBreakdownList": [{
-          "farePrice": {
-            "amount": "19.10",
-            "currencyCode": "GBP",
-            "mainCurrency": 19,
-            "fractionalCurrency": 10,
-            "currencySymbol": "£",
-            "formattedPrice": "£19.10",
-            "formattedWholePrice": "£19"
-          },
-          "passengerFareList": [{
-            "passengerIndex": 1,
-            "passengerSegmentFareList": [{
-              "travelSegmentIndex": 6,
-              "carrierServiceClassDisplayName": "Standard",
-              "carrierFareClassDisplayName": "Anytime Day Single",
-              "carrierFareClassCategoryName": "Anytime",
-              "fareDescription": "Travel anytime of day",
-              "amenityList": [{
-                "displayName": "Snack Trolley Service"
-              }]
-            }, {
-              "travelSegmentIndex": 7,
-              "carrierServiceClassDisplayName": "Standard",
-              "carrierFareClassDisplayName": "Anytime Day Single",
-              "carrierFareClassCategoryName": "Anytime",
-              "fareDescription": "Travel anytime of day"
-            }]
-          }],
-          "fareQualifierList": [{
-            "category": "DISCOUNT_CARD",
-            "program": "UK_DISABILITY",
-            "name": "UK Disability Railcard"
-          }]
-        }],
-        "fareQualifierList": [{
-          "category": "DISCOUNT_CARD",
-          "program": "UK_DISABILITY",
-          "name": "UK Disability Railcard"
-        }],
-        "segmentFareDetailList": [{
-          "travelSegmentIndex": 6,
-          "carrierServiceClassDisplayName": "Standard",
-          "carrierFareClassDisplayName": "Anytime Day Single",
-          "carrierFareClassCategoryName": "Anytime",
-          "fareDescription": "Travel anytime of day",
-          "amenityList": [{
-            "displayName": "Snack Trolley Service"
-          }]
-        }, {
-          "travelSegmentIndex": 7,
-          "carrierServiceClassDisplayName": "Standard",
-          "carrierFareClassDisplayName": "Anytime Day Single",
-          "carrierFareClassCategoryName": "Anytime",
-          "fareDescription": "Travel anytime of day"
-        }],
-        "openReturn": false
-      }, {
-        "aggregatedCarrierServiceClassDisplayName": "Standard",
-        "aggregatedCarrierFareClassDisplayName": "Advance Single",
-        "aggregatedFareDescription": "Specified train only",
-        "aggregatedCarrierFareClassCategoryName": "Advance",
-        "fareNotes": ["Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx", "Only valid on booked Arriva Trains Wales services.", "Outbound: VALID ON DATE&TRAIN SHOWN ONLY.LMTD CHNGE.NO RFND."],
-        "refundable": "NON_REFUNDABLE",
-        "refundableRules": ["Your ticket is non-refundable."],
-        "legOptionList": [{
-          "legOptionIndex": 4,
-          "departureStation": {
-            "stationCode": "GBSUG",
-            "stationDisplayName": "Sugar Loaf"
-          },
-          "arrivalStation": {
-            "stationCode": "GBQQM",
-            "stationDisplayName": "Manchester Piccadilly"
-          },
-          "departureDateTime": {
-            "raw": "2016-12-04T12:52:00",
-            "epochSeconds": 1480855920,
-            "localized": "4 Dec, 2016 12:52",
-            "localizedShortDate": "Sun, 4 Dec"
-          },
-          "arrivalDateTime": {
-            "raw": "2016-12-04T17:14:00",
-            "epochSeconds": 1480871640,
-            "localized": "4 Dec, 2016 17:14",
-            "localizedShortDate": "Sun, 4 Dec"
-          },
-          "duration": "PT4H22M",
-          "aggregatedMarketingCarrier": "Arriva Trains Wales",
-          "aggregatedOperatingCarrier": "Arriva Trains Wales",
-          "travelSegmentList": [{
-            "travelSegmentIndex": 8,
-            "travelMode": "Train",
-            "departureStation": {
-              "stationCode": "GBSUG",
-              "stationDisplayName": "Sugar Loaf"
-            },
-            "arrivalStation": {
-              "stationCode": "GBSHR",
-              "stationDisplayName": "Shrewsbury"
-            },
-            "departureDateTime": {
-              "raw": "2016-12-04T12:52:00",
-              "epochSeconds": 1480855920,
-              "localized": "4 Dec, 2016 12:52",
-              "localizedShortDate": "Sun, 4 Dec"
-            },
-            "arrivalDateTime": {
-              "raw": "2016-12-04T15:12:00",
-              "epochSeconds": 1480864320,
-              "localized": "4 Dec, 2016 15:12",
-              "localizedShortDate": "Sun, 4 Dec"
-            },
-            "marketingCarrier": "Arriva Trains Wales",
-            "operatingCarrier": "Arriva Trains Wales",
-            "travelMedium": {
-              "travelMediumName": "Branch-Line/Regional",
-              "travelMediumCode": "BLR",
-              "supplierTravelMediumId": "AW4201"
-            },
-            "duration": "PT2H20M",
-            "fareDetail": {
-              "travelSegmentIndex": 8,
-              "carrierServiceClassDisplayName": "Standard",
-              "carrierFareClassDisplayName": "Advance Single",
-              "carrierFareClassCategoryName": "Advance",
-              "fareDescription": "Specified train only"
-            }
-          }, {
-            "travelSegmentIndex": 9,
-            "travelMode": "Train",
-            "departureStation": {
-              "stationCode": "GBSHR",
-              "stationDisplayName": "Shrewsbury"
-            },
-            "arrivalStation": {
-              "stationCode": "GBQQM",
-              "stationDisplayName": "Manchester Piccadilly"
-            },
-            "departureDateTime": {
-              "raw": "2016-12-04T15:40:00",
-              "epochSeconds": 1480866000,
-              "localized": "4 Dec, 2016 15:40",
-              "localizedShortDate": "Sun, 4 Dec"
-            },
-            "arrivalDateTime": {
-              "raw": "2016-12-04T17:14:00",
-              "epochSeconds": 1480871640,
-              "localized": "4 Dec, 2016 17:14",
-              "localizedShortDate": "Sun, 4 Dec"
-            },
-            "marketingCarrier": "Arriva Trains Wales",
-            "operatingCarrier": "Arriva Trains Wales",
-            "travelMedium": {
-              "travelMediumName": "Inter-City",
-              "travelMediumCode": "ICY",
-              "supplierTravelMediumId": "AW1215"
-            },
-            "duration": "PT1H34M",
-            "fareDetail": {
-              "travelSegmentIndex": 9,
-              "carrierServiceClassDisplayName": "Standard",
-              "carrierFareClassDisplayName": "Advance Single",
-              "carrierFareClassCategoryName": "Advance",
-              "fareDescription": "Specified train only",
-              "amenityList": [{
-                "displayName": "Snack Trolley Service"
-              }]
-            }
-          }],
-          "noOfChanges": 1,
-          "legBoundOrder": 2,
-          "showTrainIcon": false,
-          "overtakenJourney": false
-        }],
-        "fareBreakdownList": [{
-          "farePrice": {
-            "amount": "10.90",
-            "currencyCode": "GBP",
-            "mainCurrency": 10,
-            "fractionalCurrency": 90,
-            "currencySymbol": "£",
-            "formattedPrice": "£10.90",
-            "formattedWholePrice": "£11"
-          },
-          "passengerFareList": [{
-            "passengerIndex": 1,
-            "passengerSegmentFareList": [{
-              "travelSegmentIndex": 8,
-              "carrierServiceClassDisplayName": "Standard",
-              "carrierFareClassDisplayName": "Advance Single",
-              "carrierFareClassCategoryName": "Advance",
-              "fareDescription": "Specified train only"
-            }, {
-              "travelSegmentIndex": 9,
-              "carrierServiceClassDisplayName": "Standard",
-              "carrierFareClassDisplayName": "Advance Single",
-              "carrierFareClassCategoryName": "Advance",
-              "fareDescription": "Specified train only",
-              "amenityList": [{
-                "displayName": "Snack Trolley Service"
-              }]
-            }]
-          }],
-          "fareQualifierList": [{
-            "category": "DISCOUNT_CARD",
-            "program": "UK_DISABILITY",
-            "name": "UK Disability Railcard"
-          }]
-        }],
-        "fareQualifierList": [{
-          "category": "DISCOUNT_CARD",
-          "program": "UK_DISABILITY",
-          "name": "UK Disability Railcard"
-        }],
-        "segmentFareDetailList": [{
-          "travelSegmentIndex": 8,
-          "carrierServiceClassDisplayName": "Standard",
-          "carrierFareClassDisplayName": "Advance Single",
-          "carrierFareClassCategoryName": "Advance",
-          "fareDescription": "Specified train only"
-        }, {
-          "travelSegmentIndex": 9,
-          "carrierServiceClassDisplayName": "Standard",
-          "carrierFareClassDisplayName": "Advance Single",
-          "carrierFareClassCategoryName": "Advance",
-          "fareDescription": "Specified train only",
-          "amenityList": [{
-            "displayName": "Snack Trolley Service"
-          }]
-        }],
-        "openReturn": false
-      }],
-      "railOfferToken": "eNrjYBYK4HLhuHZIVoBB4gKXwj4-LSmOZxN6njEJPLvwp4cZJHaNW4vNMdzQwNASJAcSBcqd2cYkMY0HpB4oZ2JgYC7EwsEkwCzFxCEONnHaTZCJd_gUXgiBdQHVQ00Ein0RAOsyMjBEmAiyU2KNIEg9yDYjQ1OgiQwQEyWsAW2wMrQ=",
-      "passengerList": [{
-        "passengerIndex": 1,
-        "age": 30,
-        "primaryTraveler": true,
-        "passengerAgeGroup": "ADULT",
-        "price": {
+      "priceBreakdown": [
+        {
+          "amount": "0",
+          "currencyCode": "GBP",
+          "mainCurrency": 0,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£0.00",
+          "formattedWholePrice": "£0",
+          "priceCategory": "Expedia Booking Fee",
+          "priceCategoryCode": "EXPEDIA_SERVICE_FEE"
+        },
+        {
           "amount": "30.00",
           "currencyCode": "GBP",
           "mainCurrency": 30,
           "fractionalCurrency": 0,
           "currencySymbol": "£",
           "formattedPrice": "£30.00",
-          "formattedWholePrice": "£30"
+          "formattedWholePrice": "£30",
+          "priceCategory": "Ticket Price",
+          "priceCategoryCode": "TICKET"
         }
-      }],
-      "ticketDeliveryOptionList": [{
-        "ticketDeliveryOptionToken": "SEND_BY_POST_UK",
-        "ticketDeliveryOptionCategoryCode": "SEND_BY_POST",
-        "ticketDeliveryDescription": "£1.00 - Royal Mail First Class Post Domestic UK",
-        "ticketDeliveryFee": {
-          "amount": "1.00",
-          "currencyCode": "GBP",
-          "mainCurrency": 1,
-          "fractionalCurrency": 0,
-          "currencySymbol": "£",
-          "formattedPrice": "£1.00",
-          "formattedWholePrice": "£1"
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Day Single",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Travel is allowed via any permitted route."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 30 Dec, 2016 08:30",
+            "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."
+          ],
+          "legOptionList": [
+            {
+              "legOptionIndex": 3,
+              "departureStation": {
+                "stationCode": "GBQQM",
+                "stationDisplayName": "Manchester Piccadilly"
+              },
+              "arrivalStation": {
+                "stationCode": "GBSUG",
+                "stationDisplayName": "Sugar Loaf"
+              },
+              "departureDateTime": {
+                "raw": "2016-12-02T08:30:00",
+                "epochSeconds": 1480667400,
+                "localized": "2 Dec, 2016 08:30",
+                "localizedShortDate": "Fri, 2 Dec"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-12-02T12:37:00",
+                "epochSeconds": 1480682220,
+                "localized": "2 Dec, 2016 12:37",
+                "localizedShortDate": "Fri, 2 Dec"
+              },
+              "duration": "PT4H7M",
+              "aggregatedMarketingCarrier": "Arriva Trains Wales",
+              "aggregatedOperatingCarrier": "Arriva Trains Wales",
+              "travelSegmentList": [
+                {
+                  "travelSegmentIndex": 6,
+                  "travelMode": "Train",
+                  "departureStation": {
+                    "stationCode": "GBQQM",
+                    "stationDisplayName": "Manchester Piccadilly"
+                  },
+                  "arrivalStation": {
+                    "stationCode": "GBSHR",
+                    "stationDisplayName": "Shrewsbury"
+                  },
+                  "departureDateTime": {
+                    "raw": "2016-12-02T08:30:00",
+                    "epochSeconds": 1480667400,
+                    "localized": "2 Dec, 2016 08:30",
+                    "localizedShortDate": "Fri, 2 Dec"
+                  },
+                  "arrivalDateTime": {
+                    "raw": "2016-12-02T09:37:00",
+                    "epochSeconds": 1480671420,
+                    "localized": "2 Dec, 2016 09:37",
+                    "localizedShortDate": "Fri, 2 Dec"
+                  },
+                  "marketingCarrier": "Arriva Trains Wales",
+                  "operatingCarrier": "Arriva Trains Wales",
+                  "travelMedium": {
+                    "travelMediumName": "Inter-City",
+                    "travelMediumCode": "ICY",
+                    "supplierTravelMediumId": "AW1019"
+                  },
+                  "duration": "PT1H7M",
+                  "fareDetail": {
+                    "travelSegmentIndex": 6,
+                    "carrierServiceClassDisplayName": "Standard",
+                    "carrierFareClassDisplayName": "Anytime Day Single",
+                    "carrierFareClassCategoryName": "Anytime",
+                    "fareDescription": "Travel anytime of day",
+                    "amenityList": [
+                      {
+                        "displayName": "Snack Trolley Service"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "travelSegmentIndex": 7,
+                  "travelMode": "Train",
+                  "departureStation": {
+                    "stationCode": "GBSHR",
+                    "stationDisplayName": "Shrewsbury"
+                  },
+                  "arrivalStation": {
+                    "stationCode": "GBSUG",
+                    "stationDisplayName": "Sugar Loaf"
+                  },
+                  "departureDateTime": {
+                    "raw": "2016-12-02T10:09:00",
+                    "epochSeconds": 1480673340,
+                    "localized": "2 Dec, 2016 10:09",
+                    "localizedShortDate": "Fri, 2 Dec"
+                  },
+                  "arrivalDateTime": {
+                    "raw": "2016-12-02T12:37:00",
+                    "epochSeconds": 1480682220,
+                    "localized": "2 Dec, 2016 12:37",
+                    "localizedShortDate": "Fri, 2 Dec"
+                  },
+                  "marketingCarrier": "Arriva Trains Wales",
+                  "operatingCarrier": "Arriva Trains Wales",
+                  "travelMedium": {
+                    "travelMediumName": "Branch-Line/Regional",
+                    "travelMediumCode": "BLR",
+                    "supplierTravelMediumId": "AW4007"
+                  },
+                  "duration": "PT2H28M",
+                  "fareDetail": {
+                    "travelSegmentIndex": 7,
+                    "carrierServiceClassDisplayName": "Standard",
+                    "carrierFareClassDisplayName": "Anytime Day Single",
+                    "carrierFareClassCategoryName": "Anytime",
+                    "fareDescription": "Travel anytime of day"
+                  }
+                }
+              ],
+              "noOfChanges": 1,
+              "legBoundOrder": 1,
+              "showTrainIcon": false,
+              "overtakenJourney": false
+            }
+          ],
+          "fareBreakdownList": [
+            {
+              "farePrice": {
+                "amount": "19.10",
+                "currencyCode": "GBP",
+                "mainCurrency": 19,
+                "fractionalCurrency": 10,
+                "currencySymbol": "£",
+                "formattedPrice": "£19.10",
+                "formattedWholePrice": "£19"
+              },
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "travelSegmentIndex": 6,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Day Single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    },
+                    {
+                      "travelSegmentIndex": 7,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Day Single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day"
+                    }
+                  ]
+                }
+              ],
+              "fareQualifierList": [
+                {
+                  "category": "DISCOUNT_CARD",
+                  "program": "UK_DISABILITY",
+                  "name": "UK Disability Railcard"
+                }
+              ]
+            }
+          ],
+          "fareQualifierList": [
+            {
+              "category": "DISCOUNT_CARD",
+              "program": "UK_DISABILITY",
+              "name": "UK Disability Railcard"
+            }
+          ],
+          "segmentFareDetailList": [
+            {
+              "travelSegmentIndex": 6,
+              "carrierServiceClassDisplayName": "Standard",
+              "carrierFareClassDisplayName": "Anytime Day Single",
+              "carrierFareClassCategoryName": "Anytime",
+              "fareDescription": "Travel anytime of day",
+              "amenityList": [
+                {
+                  "displayName": "Snack Trolley Service"
+                }
+              ]
+            },
+            {
+              "travelSegmentIndex": 7,
+              "carrierServiceClassDisplayName": "Standard",
+              "carrierFareClassDisplayName": "Anytime Day Single",
+              "carrierFareClassCategoryName": "Anytime",
+              "fareDescription": "Travel anytime of day"
+            }
+          ],
+          "openReturn": false
         },
-        "ticketDeliveryCountryCodeList": ["GB"],
-        "departureStation": false
-      }, {
-        "ticketDeliveryOptionToken": "SEND_BY_OVERNIGHT_POST_UK",
-        "ticketDeliveryOptionCategoryCode": "SEND_BY_OVERNIGHT_POST",
-        "ticketDeliveryDescription": "£7.00 - Royal Mail Special Delivery Guaranteed™ by 1pm with £500 Insurance Domestic UK",
-        "ticketDeliveryFee": {
-          "amount": "7.00",
-          "currencyCode": "GBP",
-          "mainCurrency": 7,
-          "fractionalCurrency": 0,
-          "currencySymbol": "£",
-          "formattedPrice": "£7.00",
-          "formattedWholePrice": "£7"
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Advance Single",
+          "aggregatedFareDescription": "Specified train only",
+          "aggregatedCarrierFareClassCategoryName": "Advance",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Only valid on booked Arriva Trains Wales services.",
+            "Outbound: VALID ON DATE&TRAIN SHOWN ONLY.LMTD CHNGE.NO RFND."
+          ],
+          "refundable": "NON_REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is non-refundable."
+          ],
+          "legOptionList": [
+            {
+              "legOptionIndex": 4,
+              "departureStation": {
+                "stationCode": "GBSUG",
+                "stationDisplayName": "Sugar Loaf"
+              },
+              "arrivalStation": {
+                "stationCode": "GBQQM",
+                "stationDisplayName": "Manchester Piccadilly"
+              },
+              "departureDateTime": {
+                "raw": "2016-12-04T12:52:00",
+                "epochSeconds": 1480855920,
+                "localized": "4 Dec, 2016 12:52",
+                "localizedShortDate": "Sun, 4 Dec"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-12-04T17:14:00",
+                "epochSeconds": 1480871640,
+                "localized": "4 Dec, 2016 17:14",
+                "localizedShortDate": "Sun, 4 Dec"
+              },
+              "duration": "PT4H22M",
+              "aggregatedMarketingCarrier": "Arriva Trains Wales",
+              "aggregatedOperatingCarrier": "Arriva Trains Wales",
+              "travelSegmentList": [
+                {
+                  "travelSegmentIndex": 8,
+                  "travelMode": "Train",
+                  "departureStation": {
+                    "stationCode": "GBSUG",
+                    "stationDisplayName": "Sugar Loaf"
+                  },
+                  "arrivalStation": {
+                    "stationCode": "GBSHR",
+                    "stationDisplayName": "Shrewsbury"
+                  },
+                  "departureDateTime": {
+                    "raw": "2016-12-04T12:52:00",
+                    "epochSeconds": 1480855920,
+                    "localized": "4 Dec, 2016 12:52",
+                    "localizedShortDate": "Sun, 4 Dec"
+                  },
+                  "arrivalDateTime": {
+                    "raw": "2016-12-04T15:12:00",
+                    "epochSeconds": 1480864320,
+                    "localized": "4 Dec, 2016 15:12",
+                    "localizedShortDate": "Sun, 4 Dec"
+                  },
+                  "marketingCarrier": "Arriva Trains Wales",
+                  "operatingCarrier": "Arriva Trains Wales",
+                  "travelMedium": {
+                    "travelMediumName": "Branch-Line/Regional",
+                    "travelMediumCode": "BLR",
+                    "supplierTravelMediumId": "AW4201"
+                  },
+                  "duration": "PT2H20M",
+                  "fareDetail": {
+                    "travelSegmentIndex": 8,
+                    "carrierServiceClassDisplayName": "Standard",
+                    "carrierFareClassDisplayName": "Advance Single",
+                    "carrierFareClassCategoryName": "Advance",
+                    "fareDescription": "Specified train only"
+                  }
+                },
+                {
+                  "travelSegmentIndex": 9,
+                  "travelMode": "Train",
+                  "departureStation": {
+                    "stationCode": "GBSHR",
+                    "stationDisplayName": "Shrewsbury"
+                  },
+                  "arrivalStation": {
+                    "stationCode": "GBQQM",
+                    "stationDisplayName": "Manchester Piccadilly"
+                  },
+                  "departureDateTime": {
+                    "raw": "2016-12-04T15:40:00",
+                    "epochSeconds": 1480866000,
+                    "localized": "4 Dec, 2016 15:40",
+                    "localizedShortDate": "Sun, 4 Dec"
+                  },
+                  "arrivalDateTime": {
+                    "raw": "2016-12-04T17:14:00",
+                    "epochSeconds": 1480871640,
+                    "localized": "4 Dec, 2016 17:14",
+                    "localizedShortDate": "Sun, 4 Dec"
+                  },
+                  "marketingCarrier": "Arriva Trains Wales",
+                  "operatingCarrier": "Arriva Trains Wales",
+                  "travelMedium": {
+                    "travelMediumName": "Inter-City",
+                    "travelMediumCode": "ICY",
+                    "supplierTravelMediumId": "AW1215"
+                  },
+                  "duration": "PT1H34M",
+                  "fareDetail": {
+                    "travelSegmentIndex": 9,
+                    "carrierServiceClassDisplayName": "Standard",
+                    "carrierFareClassDisplayName": "Advance Single",
+                    "carrierFareClassCategoryName": "Advance",
+                    "fareDescription": "Specified train only",
+                    "amenityList": [
+                      {
+                        "displayName": "Snack Trolley Service"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "noOfChanges": 1,
+              "legBoundOrder": 2,
+              "showTrainIcon": false,
+              "overtakenJourney": false
+            }
+          ],
+          "fareBreakdownList": [
+            {
+              "farePrice": {
+                "amount": "10.90",
+                "currencyCode": "GBP",
+                "mainCurrency": 10,
+                "fractionalCurrency": 90,
+                "currencySymbol": "£",
+                "formattedPrice": "£10.90",
+                "formattedWholePrice": "£11"
+              },
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "travelSegmentIndex": 8,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Advance Single",
+                      "carrierFareClassCategoryName": "Advance",
+                      "fareDescription": "Specified train only"
+                    },
+                    {
+                      "travelSegmentIndex": 9,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Advance Single",
+                      "carrierFareClassCategoryName": "Advance",
+                      "fareDescription": "Specified train only",
+                      "amenityList": [
+                        {
+                          "displayName": "Snack Trolley Service"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "fareQualifierList": [
+                {
+                  "category": "DISCOUNT_CARD",
+                  "program": "UK_DISABILITY",
+                  "name": "UK Disability Railcard"
+                }
+              ]
+            }
+          ],
+          "fareQualifierList": [
+            {
+              "category": "DISCOUNT_CARD",
+              "program": "UK_DISABILITY",
+              "name": "UK Disability Railcard"
+            }
+          ],
+          "segmentFareDetailList": [
+            {
+              "travelSegmentIndex": 8,
+              "carrierServiceClassDisplayName": "Standard",
+              "carrierFareClassDisplayName": "Advance Single",
+              "carrierFareClassCategoryName": "Advance",
+              "fareDescription": "Specified train only"
+            },
+            {
+              "travelSegmentIndex": 9,
+              "carrierServiceClassDisplayName": "Standard",
+              "carrierFareClassDisplayName": "Advance Single",
+              "carrierFareClassCategoryName": "Advance",
+              "fareDescription": "Specified train only",
+              "amenityList": [
+                {
+                  "displayName": "Snack Trolley Service"
+                }
+              ]
+            }
+          ],
+          "openReturn": false
+        }
+      ],
+      "railOfferToken": "eNrjYBYK4HLhuHZIVoBB4gKXwj4-LSmOZxN6njEJPLvwp4cZJHaNW4vNMdzQwNASJAcSBcqd2cYkMY0HpB4oZ2JgYC7EwsEkwCzFxCEONnHaTZCJd_gUXgiBdQHVQ00Ein0RAOsyMjBEmAiyU2KNIEg9yDYjQ1OgiQwQEyWsAW2wMrQ=",
+      "passengerList": [
+        {
+          "passengerIndex": 1,
+          "age": 30,
+          "primaryTraveler": true,
+          "passengerAgeGroup": "ADULT",
+          "price": {
+            "amount": "30.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 30,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£30.00",
+            "formattedWholePrice": "£30"
+          }
+        }
+      ],
+      "ticketDeliveryOptionList": [
+        {
+          "ticketDeliveryOptionToken": "SEND_BY_POST_UK",
+          "ticketDeliveryOptionCategoryCode": "SEND_BY_POST",
+          "ticketDeliveryDescription": "£1.00 - Royal Mail First Class Post Domestic UK",
+          "ticketDeliveryFee": {
+            "amount": "1.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 1,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£1.00",
+            "formattedWholePrice": "£1"
+          },
+          "ticketDeliveryCountryCodeList": [
+            "GB"
+          ],
+          "departureStation": false
         },
-        "ticketDeliveryCountryCodeList": ["GB"],
-        "departureStation": false
-      }, {
-        "ticketDeliveryOptionToken": "PICK_UP_AT_TICKETING_OFFICE_NONE",
-        "ticketDeliveryOptionCategoryCode": "PICK_UP_AT_TICKETING_OFFICE",
-        "ticketDeliveryDescription": "Collect at Ticket Office",
-        "ticketDeliveryFee": {
-          "amount": "0.00",
-          "currencyCode": "GBP",
-          "mainCurrency": 0,
-          "fractionalCurrency": 0,
-          "currencySymbol": "£",
-          "formattedPrice": "£0.00",
-          "formattedWholePrice": "£0"
+        {
+          "ticketDeliveryOptionToken": "SEND_BY_OVERNIGHT_POST_UK",
+          "ticketDeliveryOptionCategoryCode": "SEND_BY_OVERNIGHT_POST",
+          "ticketDeliveryDescription": "£7.00 - Royal Mail Special Delivery Guaranteed™ by 1pm with £500 Insurance Domestic UK",
+          "ticketDeliveryFee": {
+            "amount": "7.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 7,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£7.00",
+            "formattedWholePrice": "£7"
+          },
+          "ticketDeliveryCountryCodeList": [
+            "GB"
+          ],
+          "departureStation": false
         },
-        "departureStation": true
-      }, {
-        "ticketDeliveryOptionToken": "KIOSK_NONE",
-        "ticketDeliveryOptionCategoryCode": "KIOSK",
-        "ticketDeliveryDescription": "Collect at Ticket Vending Machine",
-        "ticketDeliveryFee": {
-          "amount": "0.00",
-          "currencyCode": "GBP",
-          "mainCurrency": 0,
-          "fractionalCurrency": 0,
-          "currencySymbol": "£",
-          "formattedPrice": "£0.00",
-          "formattedWholePrice": "£0"
+        {
+          "ticketDeliveryOptionToken": "PICK_UP_AT_TICKETING_OFFICE_NONE",
+          "ticketDeliveryOptionCategoryCode": "PICK_UP_AT_TICKETING_OFFICE",
+          "ticketDeliveryDescription": "Collect at Ticket Office",
+          "ticketDeliveryFee": {
+            "amount": "0.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 0,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£0.00",
+            "formattedWholePrice": "£0"
+          },
+          "departureStation": true
         },
-        "departureStation": true
-      }]
+        {
+          "ticketDeliveryOptionToken": "KIOSK_NONE",
+          "ticketDeliveryOptionCategoryCode": "KIOSK",
+          "ticketDeliveryDescription": "Collect at Ticket Vending Machine",
+          "ticketDeliveryFee": {
+            "amount": "0.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 0,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£0.00",
+            "formattedWholePrice": "£0"
+          },
+          "departureStation": true
+        }
+      ]
     }
   },
-  "validFormsOfPayment": [{
-    "name": "AmericanExpress",
-    "fees": {
-      "PICK_UP_AT_TICKETING_OFFICE_NONE": {
-        "feePrice": {
-          "amount": "0.75",
-          "formattedPrice": "£0.75",
-          "formattedWholePrice": "£1",
-          "currencyCode": "GBP"
+  "validFormsOfPayment": [
+    {
+      "name": "AmericanExpress",
+      "fees": {
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "0.75",
+            "formattedPrice": "£0.75",
+            "formattedWholePrice": "£1",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.75",
+            "formattedPrice": "£30.75",
+            "formattedWholePrice": "£31",
+            "currencyCode": "GBP"
+          }
         },
-        "tripTotalPrice": {
-          "amount": "30.75",
-          "formattedPrice": "£30.75",
-          "formattedWholePrice": "£31",
-          "currencyCode": "GBP"
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "0.75",
+            "formattedPrice": "£0.75",
+            "formattedWholePrice": "£1",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.75",
+            "formattedPrice": "£30.75",
+            "formattedWholePrice": "£31",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "0.78",
+            "formattedPrice": "£0.78",
+            "formattedWholePrice": "£1",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "31.77",
+            "formattedPrice": "£31.77",
+            "formattedWholePrice": "£32",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "0.93",
+            "formattedPrice": "£0.93",
+            "formattedWholePrice": "£1",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "37.93",
+            "formattedPrice": "£37.93",
+            "formattedWholePrice": "£38",
+            "currencyCode": "GBP"
+          }
         }
-      },
-      "KIOSK_NONE": {
-        "feePrice": {
-          "amount": "0.75",
-          "formattedPrice": "£0.75",
-          "formattedWholePrice": "£1",
-          "currencyCode": "GBP"
+      }
+    },
+    {
+      "name": "Maestro",
+      "fees": {
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "0.45",
+            "formattedPrice": "£0.45",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.45",
+            "formattedPrice": "£30.45",
+            "formattedWholePrice": "£30",
+            "currencyCode": "GBP"
+          }
         },
-        "tripTotalPrice": {
-          "amount": "30.75",
-          "formattedPrice": "£30.75",
-          "formattedWholePrice": "£31",
-          "currencyCode": "GBP"
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "0.45",
+            "formattedPrice": "£0.45",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.45",
+            "formattedPrice": "£30.45",
+            "formattedWholePrice": "£30",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "0.47",
+            "formattedPrice": "£0.47",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "31.47",
+            "formattedPrice": "£31.47",
+            "formattedWholePrice": "£31",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "0.56",
+            "formattedPrice": "£0.56",
+            "formattedWholePrice": "£1",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "37.56",
+            "formattedPrice": "£37.56",
+            "formattedWholePrice": "£38",
+            "currencyCode": "GBP"
+          }
         }
-      },
-      "SEND_BY_POST_UK": {
-        "feePrice": {
-          "amount": "0.78",
-          "formattedPrice": "£0.78",
-          "formattedWholePrice": "£1",
-          "currencyCode": "GBP"
+      }
+    },
+    {
+      "name": "MasterCard",
+      "fees": {
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "0.45",
+            "formattedPrice": "£0.45",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.45",
+            "formattedPrice": "£30.45",
+            "formattedWholePrice": "£30",
+            "currencyCode": "GBP"
+          }
         },
-        "tripTotalPrice": {
-          "amount": "31.77",
-          "formattedPrice": "£31.77",
-          "formattedWholePrice": "£32",
-          "currencyCode": "GBP"
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "0.45",
+            "formattedPrice": "£0.45",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.45",
+            "formattedPrice": "£30.45",
+            "formattedWholePrice": "£30",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "0.47",
+            "formattedPrice": "£0.47",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "31.47",
+            "formattedPrice": "£31.47",
+            "formattedWholePrice": "£31",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "0.56",
+            "formattedPrice": "£0.56",
+            "formattedWholePrice": "£1",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "37.56",
+            "formattedPrice": "£37.56",
+            "formattedWholePrice": "£38",
+            "currencyCode": "GBP"
+          }
         }
-      },
-      "SEND_BY_OVERNIGHT_POST_UK": {
-        "feePrice": {
-          "amount": "0.93",
-          "formattedPrice": "£0.93",
-          "formattedWholePrice": "£1",
-          "currencyCode": "GBP"
+      }
+    },
+    {
+      "name": "Visa",
+      "fees": {
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "0.45",
+            "formattedPrice": "£0.45",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.45",
+            "formattedPrice": "£30.45",
+            "formattedWholePrice": "£30",
+            "currencyCode": "GBP"
+          }
         },
-        "tripTotalPrice": {
-          "amount": "37.93",
-          "formattedPrice": "£37.93",
-          "formattedWholePrice": "£38",
-          "currencyCode": "GBP"
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "0.45",
+            "formattedPrice": "£0.45",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.45",
+            "formattedPrice": "£30.45",
+            "formattedWholePrice": "£30",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "0.47",
+            "formattedPrice": "£0.47",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "31.47",
+            "formattedPrice": "£31.47",
+            "formattedWholePrice": "£31",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "0.56",
+            "formattedPrice": "£0.56",
+            "formattedWholePrice": "£1",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "37.56",
+            "formattedPrice": "£37.56",
+            "formattedWholePrice": "£38",
+            "currencyCode": "GBP"
+          }
+        }
+      }
+    },
+    {
+      "name": "Visa Delta",
+      "fees": {
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "0.45",
+            "formattedPrice": "£0.45",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.45",
+            "formattedPrice": "£30.45",
+            "formattedWholePrice": "£30",
+            "currencyCode": "GBP"
+          }
+        },
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "0.45",
+            "formattedPrice": "£0.45",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.45",
+            "formattedPrice": "£30.45",
+            "formattedWholePrice": "£30",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "0.47",
+            "formattedPrice": "£0.47",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "31.47",
+            "formattedPrice": "£31.47",
+            "formattedWholePrice": "£31",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "0.56",
+            "formattedPrice": "£0.56",
+            "formattedWholePrice": "£1",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "37.56",
+            "formattedPrice": "£37.56",
+            "formattedWholePrice": "£38",
+            "currencyCode": "GBP"
+          }
+        }
+      }
+    },
+    {
+      "name": "Visa Electron",
+      "fees": {
+        "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+          "feePrice": {
+            "amount": "0.45",
+            "formattedPrice": "£0.45",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.45",
+            "formattedPrice": "£30.45",
+            "formattedWholePrice": "£30",
+            "currencyCode": "GBP"
+          }
+        },
+        "KIOSK_NONE": {
+          "feePrice": {
+            "amount": "0.45",
+            "formattedPrice": "£0.45",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "30.45",
+            "formattedPrice": "£30.45",
+            "formattedWholePrice": "£30",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_POST_UK": {
+          "feePrice": {
+            "amount": "0.47",
+            "formattedPrice": "£0.47",
+            "formattedWholePrice": "£0",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "31.47",
+            "formattedPrice": "£31.47",
+            "formattedWholePrice": "£31",
+            "currencyCode": "GBP"
+          }
+        },
+        "SEND_BY_OVERNIGHT_POST_UK": {
+          "feePrice": {
+            "amount": "0.56",
+            "formattedPrice": "£0.56",
+            "formattedWholePrice": "£1",
+            "currencyCode": "GBP"
+          },
+          "tripTotalPrice": {
+            "amount": "37.56",
+            "formattedPrice": "£37.56",
+            "formattedWholePrice": "£38",
+            "currencyCode": "GBP"
+          }
         }
       }
     }
-  }, {
-    "name": "Maestro",
-    "fees": {
-      "PICK_UP_AT_TICKETING_OFFICE_NONE": {
-        "feePrice": {
-          "amount": "0.45",
-          "formattedPrice": "£0.45",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "30.45",
-          "formattedPrice": "£30.45",
-          "formattedWholePrice": "£30",
-          "currencyCode": "GBP"
-        }
-      },
-      "KIOSK_NONE": {
-        "feePrice": {
-          "amount": "0.45",
-          "formattedPrice": "£0.45",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "30.45",
-          "formattedPrice": "£30.45",
-          "formattedWholePrice": "£30",
-          "currencyCode": "GBP"
-        }
-      },
-      "SEND_BY_POST_UK": {
-        "feePrice": {
-          "amount": "0.47",
-          "formattedPrice": "£0.47",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "31.47",
-          "formattedPrice": "£31.47",
-          "formattedWholePrice": "£31",
-          "currencyCode": "GBP"
-        }
-      },
-      "SEND_BY_OVERNIGHT_POST_UK": {
-        "feePrice": {
-          "amount": "0.56",
-          "formattedPrice": "£0.56",
-          "formattedWholePrice": "£1",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "37.56",
-          "formattedPrice": "£37.56",
-          "formattedWholePrice": "£38",
-          "currencyCode": "GBP"
-        }
-      }
-    }
-  }, {
-    "name": "MasterCard",
-    "fees": {
-      "PICK_UP_AT_TICKETING_OFFICE_NONE": {
-        "feePrice": {
-          "amount": "0.45",
-          "formattedPrice": "£0.45",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "30.45",
-          "formattedPrice": "£30.45",
-          "formattedWholePrice": "£30",
-          "currencyCode": "GBP"
-        }
-      },
-      "KIOSK_NONE": {
-        "feePrice": {
-          "amount": "0.45",
-          "formattedPrice": "£0.45",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "30.45",
-          "formattedPrice": "£30.45",
-          "formattedWholePrice": "£30",
-          "currencyCode": "GBP"
-        }
-      },
-      "SEND_BY_POST_UK": {
-        "feePrice": {
-          "amount": "0.47",
-          "formattedPrice": "£0.47",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "31.47",
-          "formattedPrice": "£31.47",
-          "formattedWholePrice": "£31",
-          "currencyCode": "GBP"
-        }
-      },
-      "SEND_BY_OVERNIGHT_POST_UK": {
-        "feePrice": {
-          "amount": "0.56",
-          "formattedPrice": "£0.56",
-          "formattedWholePrice": "£1",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "37.56",
-          "formattedPrice": "£37.56",
-          "formattedWholePrice": "£38",
-          "currencyCode": "GBP"
-        }
-      }
-    }
-  }, {
-    "name": "Visa",
-    "fees": {
-      "PICK_UP_AT_TICKETING_OFFICE_NONE": {
-        "feePrice": {
-          "amount": "0.45",
-          "formattedPrice": "£0.45",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "30.45",
-          "formattedPrice": "£30.45",
-          "formattedWholePrice": "£30",
-          "currencyCode": "GBP"
-        }
-      },
-      "KIOSK_NONE": {
-        "feePrice": {
-          "amount": "0.45",
-          "formattedPrice": "£0.45",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "30.45",
-          "formattedPrice": "£30.45",
-          "formattedWholePrice": "£30",
-          "currencyCode": "GBP"
-        }
-      },
-      "SEND_BY_POST_UK": {
-        "feePrice": {
-          "amount": "0.47",
-          "formattedPrice": "£0.47",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "31.47",
-          "formattedPrice": "£31.47",
-          "formattedWholePrice": "£31",
-          "currencyCode": "GBP"
-        }
-      },
-      "SEND_BY_OVERNIGHT_POST_UK": {
-        "feePrice": {
-          "amount": "0.56",
-          "formattedPrice": "£0.56",
-          "formattedWholePrice": "£1",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "37.56",
-          "formattedPrice": "£37.56",
-          "formattedWholePrice": "£38",
-          "currencyCode": "GBP"
-        }
-      }
-    }
-  }, {
-    "name": "Visa Delta",
-    "fees": {
-      "PICK_UP_AT_TICKETING_OFFICE_NONE": {
-        "feePrice": {
-          "amount": "0.45",
-          "formattedPrice": "£0.45",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "30.45",
-          "formattedPrice": "£30.45",
-          "formattedWholePrice": "£30",
-          "currencyCode": "GBP"
-        }
-      },
-      "KIOSK_NONE": {
-        "feePrice": {
-          "amount": "0.45",
-          "formattedPrice": "£0.45",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "30.45",
-          "formattedPrice": "£30.45",
-          "formattedWholePrice": "£30",
-          "currencyCode": "GBP"
-        }
-      },
-      "SEND_BY_POST_UK": {
-        "feePrice": {
-          "amount": "0.47",
-          "formattedPrice": "£0.47",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "31.47",
-          "formattedPrice": "£31.47",
-          "formattedWholePrice": "£31",
-          "currencyCode": "GBP"
-        }
-      },
-      "SEND_BY_OVERNIGHT_POST_UK": {
-        "feePrice": {
-          "amount": "0.56",
-          "formattedPrice": "£0.56",
-          "formattedWholePrice": "£1",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "37.56",
-          "formattedPrice": "£37.56",
-          "formattedWholePrice": "£38",
-          "currencyCode": "GBP"
-        }
-      }
-    }
-  }, {
-    "name": "Visa Electron",
-    "fees": {
-      "PICK_UP_AT_TICKETING_OFFICE_NONE": {
-        "feePrice": {
-          "amount": "0.45",
-          "formattedPrice": "£0.45",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "30.45",
-          "formattedPrice": "£30.45",
-          "formattedWholePrice": "£30",
-          "currencyCode": "GBP"
-        }
-      },
-      "KIOSK_NONE": {
-        "feePrice": {
-          "amount": "0.45",
-          "formattedPrice": "£0.45",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "30.45",
-          "formattedPrice": "£30.45",
-          "formattedWholePrice": "£30",
-          "currencyCode": "GBP"
-        }
-      },
-      "SEND_BY_POST_UK": {
-        "feePrice": {
-          "amount": "0.47",
-          "formattedPrice": "£0.47",
-          "formattedWholePrice": "£0",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "31.47",
-          "formattedPrice": "£31.47",
-          "formattedWholePrice": "£31",
-          "currencyCode": "GBP"
-        }
-      },
-      "SEND_BY_OVERNIGHT_POST_UK": {
-        "feePrice": {
-          "amount": "0.56",
-          "formattedPrice": "£0.56",
-          "formattedWholePrice": "£1",
-          "currencyCode": "GBP"
-        },
-        "tripTotalPrice": {
-          "amount": "37.56",
-          "formattedPrice": "£37.56",
-          "formattedWholePrice": "£38",
-          "currencyCode": "GBP"
-        }
-      }
-    }
-  }],
+  ],
   "activityId": "3c638d01-64f0-4c01-addd-ca88058e8d05",
   "guestUserPromoEmailOptInStatus": "CONSENT_TO_OPT_OUT"
 }

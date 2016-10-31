@@ -9,6 +9,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
@@ -243,7 +244,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         inboundDetailsPresenter.viewModel = inboundDetailsViewModel
         inboundDetailsViewModel.offerSelectedObservable.subscribe  { offer ->
             transitionToTripSummary()
-            createTripViewModel.offerTokensSelected.onNext(listOf(latestOutboundOfferToken!!, offer.railOfferToken))
+            createTripViewModel.offerTokensSelected.onNext(getRoundTripOfferTokens(offer))
         }
         inboundDetailsViewModel.showAmenitiesObservable.withLatestFrom(inboundDetailsViewModel.railLegOptionSubject,
                 { offer, legOption -> showAmenities(offer, legOption) }).subscribe()
@@ -255,12 +256,16 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private fun initOverviewPresenter() {
         tripOverviewPresenter.tripSummaryViewModel.moreInfoOutboundClicked.subscribe {
             val railProduct = tripOverviewPresenter.tripSummaryViewModel.railOfferObserver.value.railProductList[0]
-            showFareRules(railProduct, railProduct.legOption)
+            showFareRules(railProduct, railProduct.firstLegOption)
         }
 
         tripOverviewPresenter.tripSummaryViewModel.moreInfoInboundClicked.subscribe {
-            val railProduct = tripOverviewPresenter.tripSummaryViewModel.railOfferObserver.value.railProductList[1]
-            showFareRules(railProduct, railProduct.legOption)
+            val offer = tripOverviewPresenter.tripSummaryViewModel.railOfferObserver.value
+            if (offer.isRoundTrip) {
+                showFareRules(offer.railProductList[1], offer.railProductList[1].firstLegOption)
+            } else if (offer.isOpenReturn) {
+                showFareRules(offer.railProductList[0], offer.railProductList[0].secondLegOption)
+            }
         }
 
         tripOverviewPresenter.showCheckoutSubject.subscribe {
@@ -335,7 +340,6 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         show(tripOverviewPresenter)
     }
 
-
     private fun showAmenities(offer: BaseRailOffer, legOption: RailLegOption) {
         show(amenitiesFareRulesWidget)
         amenitiesFareRulesWidget.showAmenitiesForOffer(legOption, offer.railProductList[0])
@@ -344,6 +348,13 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private fun showFareRules(railProduct: RailProduct, legOption: RailLegOption) {
         show(amenitiesFareRulesWidget)
         amenitiesFareRulesWidget.showFareRulesForOffer(legOption, railProduct)
+    }
+
+    private fun getRoundTripOfferTokens(offer: RailOffer) : List<String> {
+        if (offer.isOpenReturn) {
+            return listOf(offer.railOfferToken)
+        }
+        return listOf(latestOutboundOfferToken!!, offer.railOfferToken)
     }
 
     override fun back(): Boolean {

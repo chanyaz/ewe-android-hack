@@ -5,8 +5,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemRails
 import com.expedia.bookings.services.RailServices
-import com.expedia.util.endlessObserver
-import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -27,7 +25,6 @@ class RailCreateTripViewModel(val railServices: RailServices) {
     }
 
     fun makeCreateTripResponseObserver(): Observer<RailCreateTripResponse> {
-
         return object : Observer<RailCreateTripResponse> {
             override fun onNext(response: RailCreateTripResponse) {
                 if (response.hasErrors() && !response.hasPriceChange()) {

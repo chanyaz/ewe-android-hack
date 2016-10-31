@@ -39,7 +39,7 @@ public class RailCreateTripResponse extends BaseApiResponse {
 		@Nullable
 		public RailLegOption getOutboundLegOption() {
 			if (CollectionUtils.isNotEmpty(railProductList)) {
-				return railProductList.get(0).getLegOption();
+				return railProductList.get(0).getFirstLegOption();
 			}
 			return null;
 		}
@@ -48,7 +48,12 @@ public class RailCreateTripResponse extends BaseApiResponse {
 		public RailLegOption getInboundLegOption() {
 			// todo will change with open return
 			if (CollectionUtils.isNotEmpty(railProductList) && isRoundTrip()) {
-				return railProductList.get(1).getLegOption();
+				if (isRoundTrip()) {
+					return railProductList.get(1).getFirstLegOption();
+				}
+				else if (isOpenReturn()) {
+					return railProductList.get(0).getSecondLegOption();
+				}
 			}
 			return null;
 		}
@@ -56,14 +61,23 @@ public class RailCreateTripResponse extends BaseApiResponse {
 		public boolean isRoundTrip() {
 			return railProductList.size() == 2;
 		}
-
 	}
 
 	public static class RailTripProduct extends RailProduct {
 		public List<RailLegOption> legOptionList;
 
-		public RailLegOption getLegOption() {
-			return legOptionList.get(0);
+		public RailLegOption getFirstLegOption() {
+			if (CollectionUtils.isNotEmpty(legOptionList)) {
+				return legOptionList.get(0);
+			}
+			return null;
+		}
+
+		public RailLegOption getSecondLegOption() {
+			if (CollectionUtils.isNotEmpty(legOptionList) && legOptionList.size() == 2) {
+				return legOptionList.get(1);
+			}
+			return null;
 		}
 	}
 

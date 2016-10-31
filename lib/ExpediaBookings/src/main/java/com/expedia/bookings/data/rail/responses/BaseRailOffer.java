@@ -10,6 +10,7 @@ import org.jetbrains.annotations.NotNull;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.rail.RailPassenger;
+import com.expedia.bookings.utils.CollectionUtils;
 
 public abstract class BaseRailOffer {
 	public Money totalPrice;
@@ -43,6 +44,14 @@ public abstract class BaseRailOffer {
 			mapping.put(breakdown.priceCategoryCode, breakdown);
 		}
 		return mapping;
+	}
+
+	public boolean isOpenReturn() {
+		boolean openReturn = false;
+		if (CollectionUtils.isNotEmpty(getRailProductList())) {
+			openReturn = getRailProductList().get(0).openReturn;
+		}
+		return openReturn;
 	}
 
 	public static class PriceBreakdown {
