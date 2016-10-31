@@ -848,7 +848,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_TRAVELER_INFO);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelTravelerTest);
 		s.track();
 
 	}

@@ -20,15 +20,12 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -40,6 +37,9 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.mobiata.android.Log;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 import kotlin.Unit;
 import rx.Observer;
 
@@ -63,9 +63,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@InjectView(R.id.checkout_toolbar)
 	public CheckoutToolbar toolbar;
-
-	@InjectView(R.id.mandatory_text)
-	TextView requiredFieldTextView;
 
 	@InjectView(R.id.main_contact_info_card_view)
 	public TravelerContactDetailsWidget mainContactInfoCardView;
@@ -120,9 +117,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	protected UserAccountRefresher userAccountRefresher;
 
 	private boolean listenToScroll = true;
-	boolean isBucketedForTravelerTest = Db.getAbacusResponse()
-		.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelTravelerTest);
-
 
 	@Override
 	protected void onFinishInflate() {
@@ -274,10 +268,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 				lastExpandedCard = currentExpandedCard;
 				currentExpandedCard = cardView;
 				menuDone.setTitle(currentExpandedCard.getMenuButtonTitle());
-				if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELS
-					&& cardView instanceof TravelerContactDetailsWidget) {
-					requiredFieldTextView.setVisibility(VISIBLE);
-				}
 				show(new WidgetExpanded());
 			}
 		});
@@ -816,10 +806,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	@Override
 	public void collapsed(ExpandableCardView view) {
 		acceptTermsWidget.setAlpha(1f);
-		if (isBucketedForTravelerTest && getLineOfBusiness() == LineOfBusiness.HOTELS
-			&& view instanceof TravelerContactDetailsWidget) {
-			requiredFieldTextView.setVisibility(GONE);
-		}
 	}
 
 	@Override

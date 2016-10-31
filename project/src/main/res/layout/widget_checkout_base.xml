@@ -13,21 +13,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/mandatory_text"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/hotel_promo_background"
-                android:gravity="center"
-                android:paddingBottom="8dp"
-                android:paddingTop="8dp"
-                android:maxLines="1"
-                android:text="@string/guest_field_required"
-                android:textColor="@android:color/white"
-                android:textSize="12sp"
-                android:visibility="gone"
-                app:textStyle="normal" />
-
             <LinearLayout
                 android:id="@+id/scroll_content"
                 android:layout_width="match_parent"

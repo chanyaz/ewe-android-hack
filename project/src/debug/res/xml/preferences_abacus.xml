@@ -70,15 +70,6 @@
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
-            android:key="9478"
-            android:summary="%s"
-            android:layout="@layout/preference"
-            android:title="Hotels Traveler AB Test - 9478" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
             android:key="10554"
             android:layout="@layout/preference"
             android:summary="%s"
