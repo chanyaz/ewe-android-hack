@@ -19,11 +19,6 @@
             android:summary="Click to view tests and change buckets" />
 
         <Preference
-            android:title="View Core Text Styles"
-            android:key="@string/preference_open_core_text_styles"
-            android:layout="@layout/preference"/>
-
-        <Preference
             android:title="Feature Toggle"
             android:key="@string/preference_open_feature_toggle_settings"
             android:layout="@layout/preference"

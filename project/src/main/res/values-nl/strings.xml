@@ -73,6 +73,8 @@
     <string name="cars_total_template">%s in totaal</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Swipe om te reserveren</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Reserveren</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Betaling</string>
     <!-- Text for error toolbar-->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Heenreis - {date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Terug - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Totaal</string>
 
@@ -4477,6 +4482,9 @@
     <string name="pickup_at_station">Ophalen bij station</string>
     <string name="delivery_by_mail">Levering per post</string>
     <string name="shipping_address">Leveringsadres</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">Door deze boeking te voltooien, bevestig ik dat ik de &lt;a href=\"{rules_and_restrictions_url}\"&gt;regels en beperkingen&lt;/a&gt;, de &lt;a href=\"{conditions_of_travel_url}\"&gt;reisvoorwaarden&lt;/a&gt;, de &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;leveranciersvoorwaarden en -bepalingen&lt;/a&gt;, de &lt;a href=\"{terms_of_use_url}\"&gt;gebruiksvoorwaarden&lt;/a&gt;, het &lt;a href=\"{privacy_policy_url}\"&gt;privacybeleid&lt;/a&gt; en de info over &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;transactie- en ticketleveringskosten&lt;/a&gt; heb gelezen en goedgekeurd.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Breng je ticketreferentienummer en de creditcard die voor de aankoop gebruikt werd.</string>

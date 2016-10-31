@@ -499,7 +499,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             recycleImageView(room.roomHeaderImage)
         }
         roomContainer.removeAllViews()
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
             hotelDetailsToolbar.heartIcon.updateImageState()
         }
     }
@@ -782,7 +782,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     fun refresh() {
         detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         resetGallery()
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
             hotelDetailsToolbar.heartIcon.updateImageState()
         }
     }

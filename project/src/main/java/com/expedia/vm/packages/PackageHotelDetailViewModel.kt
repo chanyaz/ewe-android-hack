@@ -16,8 +16,6 @@ import com.expedia.util.getControlGuestRatingBackground
 import com.expedia.util.getControlGuestRatingText
 import com.expedia.vm.BaseHotelDetailViewModel
 import rx.Observer
-import java.math.BigDecimal
-import java.util.Locale
 
 class PackageHotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         BaseHotelDetailViewModel(context, roomSelectedObserver) {
@@ -32,6 +30,10 @@ class PackageHotelDetailViewModel(context: Context, roomSelectedObserver: Observ
 
     override fun showFeeType() : Boolean {
         return true
+    }
+
+    override fun showHotelFavorite(): Boolean {
+        return false
     }
 
     override fun getFeeTypeText() : Int {

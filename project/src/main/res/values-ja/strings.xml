@@ -73,6 +73,8 @@
     <string name="cars_total_template">合計 : %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">スライドして予約</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">予約する</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">購入手続き</string>
     <!-- Text for error toolbar-->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">往路 (行き) - {date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">復路 (帰り) - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">合計</string>
 
@@ -4477,6 +4482,9 @@
     <string name="pickup_at_station">鉄道駅で受取</string>
     <string name="delivery_by_mail">郵送で受取</string>
     <string name="shipping_address">郵送先</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">このご予約の完了をもって、&lt;a href=\"{rules_and_restrictions_url}\"&gt;規則および制限事項&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;旅行規約&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;サプライヤー利用規約&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;利用規約&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;プライバシーポリシー&lt;/a&gt;、&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;お支払いおよび発券手数料&lt;/a&gt;を読み、その内容に同意したものとみなされます。</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">チケットの予約番号および購入時にご利用のクレジットカードをお持ちください。</string>

@@ -73,6 +73,8 @@
     <string name="cars_total_template">I alt %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Skub for at reservere</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Reserver</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Betaling</string>
     <!-- Text for error toolbar-->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Udrejse - {date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Hjemrejse - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 
@@ -4477,6 +4482,9 @@
     <string name="pickup_at_station">Billetafhentning på stationen</string>
     <string name="delivery_by_mail">Forsendelse med posten</string>
     <string name="shipping_address">Leveringsadresse</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">Ved at gennemføre denne reservation bekræfter jeg, at jeg har læst og accepterer &lt;a href=\"{rules_and_restrictions_url}\"&gt;reglerne og begrænsningerne&lt;/a&gt;, &lt;a href=\"{conditions_of_travel_url}\"&gt;betingelserne for rejsen&lt;/a&gt;, &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;leverandørens vilkår og betingelser&lt;/a&gt;, &lt;a href=\"{terms_of_use_url}\"&gt;vilkårene for brug&lt;/a&gt;, &lt;a href=\"{privacy_policy_url}\"&gt;fortrolighedspolitikken&lt;/a&gt; og &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;gebyrerne i forbindelse med betaling og forsendelse af billet&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Medbring dit referencenummer for din billet samt det kreditkort, du brugte under købet.</string>

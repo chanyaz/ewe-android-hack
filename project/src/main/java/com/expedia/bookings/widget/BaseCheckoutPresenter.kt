@@ -284,7 +284,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
         getCreateTripViewModel().createTripResponseObservable.safeSubscribe(getCheckoutViewModel().createTripResponseObservable)
-        getCheckoutViewModel().cardFeeTripResponse.subscribe(getCreateTripViewModel().createTripResponseObservable)
+        getCheckoutViewModel().cardFeeTripResponse.safeSubscribe(getCreateTripViewModel().createTripResponseObservable)
     }
 
     private fun initLoggedInState(isUserLoggedIn: Boolean) {

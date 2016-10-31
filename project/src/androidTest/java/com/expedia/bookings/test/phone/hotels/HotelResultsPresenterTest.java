@@ -4,7 +4,6 @@ import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.joda.time.DateTime;
 
-import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.test.espresso.UiController;
 import android.support.test.espresso.ViewAction;
@@ -79,9 +78,6 @@ public class HotelResultsPresenterTest extends HotelTestCase {
 	public void testSearchResultWithFavorite() throws Throwable {
 		// bucket the user for the favorite ab test
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelFavoriteTest);
-		SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-		sharedPreferences.edit().putBoolean(getActivity().getResources().getString(R.string.preference_enable_hotel_favorite), true).apply();
-
 		final DateTime startDateTime = DateTime.now().withTimeAtStartOfDay();
 		final DateTime endDateTime = startDateTime.plusDays(3);
 

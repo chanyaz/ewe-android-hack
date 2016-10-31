@@ -244,7 +244,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             checkoutPresenter.sliderHeight - (f * checkoutPresenter.checkoutButtonHeight)
         }
         checkoutPresenter.bottomContainer.translationY = if (forward) slideIn else slideOut
-        checkoutPresenter.checkoutButton.translationY = if (forward) f * checkoutPresenter.checkoutButtonHeight else (1 - f) * checkoutPresenter.checkoutButtonHeight
+        checkoutPresenter.checkoutButtonContainer.translationY = if (forward) f * checkoutPresenter.checkoutButtonHeight else (1 - f) * checkoutPresenter.checkoutButtonHeight
     }
 
     private fun resetCheckoutState() {

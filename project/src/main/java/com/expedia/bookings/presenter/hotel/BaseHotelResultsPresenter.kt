@@ -159,10 +159,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     val hotelFavoriteChangeObserver = endlessObserver<Pair<String, Boolean>> { hotelIdAndFavorite ->
         val hotelId = hotelIdAndFavorite.first
         val mapItem = mapItems.filter { it.hotel.hotelId.equals(hotelId)}
-        val firstMapItem = mapItem.first()
-        val favoriteMarker = hotelMapClusterRenderer.getMarker(firstMapItem)
-        firstMapItem.isFavorite = hotelIdAndFavorite.second
-        favoriteMarker?.setIcon(firstMapItem.getHotelMarkerIcon())
+        if (mapItem.isNotEmpty()) {
+            val firstMapItem = mapItem.first()
+            val favoriteMarker = hotelMapClusterRenderer.getMarker(firstMapItem)
+            firstMapItem.isFavorite = hotelIdAndFavorite.second
+            favoriteMarker?.setIcon(firstMapItem.getHotelMarkerIcon())
+        }
     }
 
     private val carouselContainerReadyListner = object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -1092,6 +1094,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     private val mapFilterTransition = object : Presenter.Transition(ResultsMap::class.java, ResultsFilter::class.java, DecelerateInterpolator(2f), ANIMATION_DURATION_FILTER) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            filterView.refreshFavoriteCheckbox()
             filterView.visibility = View.VISIBLE
             if (forward) {
                 fab.visibility = View.GONE

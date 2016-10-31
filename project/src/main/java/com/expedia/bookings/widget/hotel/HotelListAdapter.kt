@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -20,11 +21,10 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
     }
 
     override fun getHotelCellHolder(parent: ViewGroup): HotelCellViewHolder {
-        val bucketedAndFeatureEnabledForFavoriteTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(parent.context, AbacusUtils.EBAndroidAppHotelFavoriteTest,
-                R.string.preference_enable_hotel_favorite)
+        val bucketedForFavoriteTest = HotelFavoriteHelper.showHotelFavoriteTest(true)
         val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell, parent, false)
         val heart_cell = view.findViewById(R.id.hotel_cell_heart_container)
-        heart_cell.visibility = if (bucketedAndFeatureEnabledForFavoriteTest) View.VISIBLE else View.GONE
+        heart_cell.visibility = if (bucketedForFavoriteTest) View.VISIBLE else View.GONE
         val holder = HotelCellViewHolder(view as ViewGroup, parent.width, hotelFavoriteChange)
         return holder
     }

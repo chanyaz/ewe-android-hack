@@ -73,6 +73,8 @@
     <string name="cars_total_template">總計 %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">滑動以預訂</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">預訂</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">付款</string>
     <!-- Text for error toolbar-->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">去程：{date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">回程 - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">總計</string>
 
@@ -4477,6 +4482,9 @@
     <string name="pickup_at_station">車站取票</string>
     <string name="delivery_by_mail">郵寄</string>
     <string name="shipping_address">郵寄地址</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">選擇完成此預訂，即表示我確認已閱讀並接受&lt;a href=\"{rules_and_restrictions_url}\"&gt;規則和限制&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;行程條件&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;供應商條款和條件&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;使用條款&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;隱私權政策&lt;/a&gt;以及&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;付款和車票寄送費用&lt;/a&gt;。</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">請攜帶您的票券參考編號和信用卡前往購買。</string>

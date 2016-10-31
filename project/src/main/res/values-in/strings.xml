@@ -73,6 +73,8 @@
     <string name="cars_total_template">Total %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Geser untuk memesan</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Pesan</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Pembayaran</string>
     <!-- Text for error toolbar-->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Berangkat - {date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Pulang - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 
@@ -4477,6 +4482,9 @@
     <string name="pickup_at_station">Stasiun pengambilan</string>
     <string name="delivery_by_mail">Pengiriman lewat pos</string>
     <string name="shipping_address">Alamat Pengiriman</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">Dengan memilih menyelesaikan pemesanan ini, saya menyatakan bahwa saya telah membaca dan menerima &lt;a href=\"{rules_and_restrictions_url}\"&gt;aturan dan batasan&lt;/a&gt;, &lt;a href=\"{conditions_of_travel_url}\"&gt;ketentuan perjalanan&lt;/a&gt;, &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;syarat dan ketentuan suplier&lt;/a&gt;, &lt;a href=\"{terms_of_use_url}\"&gt;ketentuan penggunaan&lt;/a&gt;, &lt;a href=\"{privacy_policy_url}\"&gt;kebijakan privasi&lt;/a&gt;, serta &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;biaya pembayaran dan pengantaran tiket&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Bawa nomor referensi pemesanan tiket dan kartu kredit untuk membeli tiket.</string>
