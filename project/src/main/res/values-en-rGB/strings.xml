@@ -73,6 +73,8 @@
     <string name="cars_total_template">Total %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Slide to reserve</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Reserve</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Checkout</string>
     <!-- Text for error toolbar-->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Outbound - {date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Return - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 
@@ -4477,6 +4482,9 @@
     <string name="pickup_at_station">Pick-up at station</string>
     <string name="delivery_by_mail">Delivery by mail</string>
     <string name="shipping_address">Shipping Address</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">By selecting to complete this booking I acknowledge that I have read and accept the &lt;a href=\"{rules_and_restrictions_url}\"&gt;rules and restrictions&lt;/a&gt;, the &lt;a href=\"{conditions_of_travel_url}\"&gt;conditions of travel&lt;/a&gt;, the &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;supplier terms and conditions&lt;/a&gt;, the &lt;a href=\"{terms_of_use_url}\"&gt;terms of use&lt;/a&gt;, the &lt;a href=\"{privacy_policy_url}\"&gt;privacy policy&lt;/a&gt;, and the &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;payment and ticket delivery fees&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Bring your ticket reference number and the credit card to purchase.</string>

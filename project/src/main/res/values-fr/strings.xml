@@ -73,6 +73,8 @@
     <string name="cars_total_template">Total de %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Faites glisser pour réserver</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Réserver</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Paiement</string>
     <!-- Text for error toolbar-->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Aller : {date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Retour - {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
 
@@ -4477,6 +4482,9 @@
     <string name="pickup_at_station">Remise du billet à la gare</string>
     <string name="delivery_by_mail">Envoi par courrier</string>
     <string name="shipping_address">Adresse de livraison</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">En finalisant cette réservation, je reconnais avoir lu et accepté les &lt;a href=\"{rules_and_restrictions_url}\"&gt;règles et restrictions&lt;/a&gt;, les &lt;a href=\"{conditions_of_travel_url}\"&gt;conditions de voyage&lt;/a&gt;, les &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;conditions générales du fournisseur&lt;/a&gt;, les &lt;a href=\"{terms_of_use_url}\"&gt;conditions d\&apos;utilisation&lt;/a&gt;, la &lt;a href=\"{privacy_policy_url}\"&gt;charte de confidentialité&lt;/a&gt;, et les &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;frais de paiement et d\&apos;envoi du billet&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Veuillez apporter le numéro de référence de votre billet et la carte de paiement utilisée pour effectuer l\&apos;achat.</string>

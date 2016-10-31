@@ -73,6 +73,8 @@
     <string name="cars_total_template">Yhteensä %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Liu\&apos;uta varataksesi</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Varaa</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Maksu</string>
     <!-- Text for error toolbar-->
@@ -4422,6 +4424,9 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Meno – {date}</string>
 
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Paluu – {date}</string>
+
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Yhteensä</string>
 
@@ -4477,6 +4482,9 @@
     <string name="pickup_at_station">Nouto asemalta</string>
     <string name="delivery_by_mail">Toimitus postitse</string>
     <string name="shipping_address">Lähetysosoite</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">Tekemällä tämän varauksen, vahvistan, että olen lukenut ja hyväksyn &lt;a href=\"{rules_and_restrictions_url}\"&gt;ehdot ja rajoitukset&lt;/a&gt;, &lt;a href=\"{conditions_of_travel_url}\"&gt;matkustusehdot&lt;/a&gt;, &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;myyjän ehdot ja rajoitukset&lt;/a&gt;, &lt;a href=\"{terms_of_use_url}\"&gt;käyttöehdot&lt;/a&gt;, &lt;a href=\"{privacy_policy_url}\"&gt;tietosuojakäytännön&lt;/a&gt; ja &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;lisämaksut maksamisesta ja lipun toimituksesta&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Ota mukaasi lipun viitenumero ja kortti, jolla maksoit lipun.</string>

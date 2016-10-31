@@ -14,7 +14,6 @@ import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.flights.FlightLeg
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.shared.FlightOverviewPresenter
@@ -166,6 +165,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     private val overviewTransition = object : ScaleTransition(this, FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
+            disableSlidingWidget(forward)
             toolbarViewModel.menuVisibilitySubject.onNext(false)
         }
 
@@ -284,6 +284,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             val lp = view.layoutParams as LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
         }
+    }
+
+    open fun disableSlidingWidget(isDisabled: Boolean) {
     }
 
     abstract fun makeFlightOverviewModel(): AbstractFlightOverviewViewModel

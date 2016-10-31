@@ -177,7 +177,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
             val drawable = PaintDrawable()
             drawable.shape = RectShape()
 
-            if (vipMessage.visibility == View.VISIBLE || HotelFavoriteHelper.showHotelFavoriteTest(root.context)) {
+
+            if (vipMessage.visibility == View.VISIBLE || HotelFavoriteHelper.showHotelFavoriteTest(showHotelFavorite())) {
                 drawable.shaderFactory = getShader(colorArrayFull)
             } else {
                 drawable.shaderFactory = getShader(colorArrayBottom)
@@ -214,5 +215,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
     abstract fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String
 
     abstract fun getGuestRatingBackground(rating: Float, context: Context): Drawable
+
+    abstract fun showHotelFavorite(): Boolean
     
 }

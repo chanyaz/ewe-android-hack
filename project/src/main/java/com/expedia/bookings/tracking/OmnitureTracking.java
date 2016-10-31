@@ -97,7 +97,6 @@ import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -358,11 +357,7 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsMemberDealTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFilterProminence);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest);
-
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppHotelFavoriteTest,
-			R.string.preference_enable_hotel_favorite)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
 
 		// Send the tracking data
 		s.track();
@@ -5451,7 +5446,7 @@ public class OmnitureTracking {
 		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
 
-		if (tripResponse.getSelectedInsuranceProduct() != null) {
+		if (tripResponse.getSelectedInsuranceProduct() != null || !tripResponse.getAvailableInsuranceProducts().isEmpty()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
 		}
 

@@ -19,7 +19,7 @@ import rx.subjects.PublishSubject
 
 class HotelCellViewHolder(root: ViewGroup, width: Int, private val hotelFavoriteChange: PublishSubject<Pair<String, Boolean>>) : AbstractHotelCellViewHolder(root, width) {
 
-    val showFavorites = HotelFavoriteHelper.showHotelFavoriteTest(root.context)
+    val showFavorites = HotelFavoriteHelper.showHotelFavoriteTest(true)
     val heartView: FavoriteButton by root.bindView(R.id.heart_image_view)
 
     override fun bind(viewModel: HotelViewModel) {
@@ -39,5 +39,9 @@ class HotelCellViewHolder(root: ViewGroup, width: Int, private val hotelFavorite
 
     override fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
         return getABTestGuestRatingText(rating, resources)
+    }
+
+    override fun showHotelFavorite(): Boolean {
+        return true
     }
 }
