@@ -49,8 +49,9 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
                     } else {
                         errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                     }
+                } else {
+                    railResultsObservable.onNext(response)
                 }
-                railResultsObservable.onNext(response)
             }
 
             override fun onCompleted() {
