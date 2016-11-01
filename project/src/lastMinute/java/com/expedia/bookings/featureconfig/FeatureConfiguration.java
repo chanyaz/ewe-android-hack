@@ -427,5 +427,10 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	public boolean sendEapidToTuneTracking() {
 		return true;
 	}
+
+	@Override
+	public boolean shouldShowPackageIncludesView() {
+		return true;
+	}
 }
 

@@ -28,6 +28,7 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelerPresenter
@@ -220,7 +221,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     protected var bundleTotalPriceViewModel: BundleTotalPriceViewModel by notNullAndObservable { vm ->
         totalPriceWidget.viewModel = vm
-        vm.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
+            vm.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
     }
 
     protected var baseCostSummaryBreakdownViewModel: BaseCostSummaryBreakdownViewModel by notNullAndObservable { vm ->
