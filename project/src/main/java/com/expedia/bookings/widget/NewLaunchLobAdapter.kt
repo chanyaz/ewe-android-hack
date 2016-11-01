@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LobInfo
+import com.expedia.bookings.utils.AccessibilityUtil
 import java.util.ArrayList
 
 class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewModel) : RecyclerView.Adapter<NewLaunchLobAdapter.LobViewHolder>() {
@@ -63,6 +64,7 @@ class NewLaunchLobAdapter(private val newLaunchLobViewModel: NewLaunchLobViewMod
             lobInfo = info
             isLobEnabled = lobEnabled
             lobText.setText(info.labelRes)
+            AccessibilityUtil.appendRoleContDesc(lobText, context.getString(info.labelRes), R.string.accessibility_cont_desc_role_button)
             val lobDrawable = ContextCompat.getDrawable(context, lobInfo.iconRes).mutate()
             if (isLobEnabled) {
                 lobDrawable.setColorFilter(ContextCompat.getColor(context, lobInfo.colorRes), PorterDuff.Mode.SRC_IN)
