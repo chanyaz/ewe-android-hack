@@ -98,6 +98,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="@string/children_age_label"
+                            android:contentDescription="@string/children_age_label_cont_desc"
                             android:textColor="@color/traveler_picker_secondary_text"
                             android:textSize="12sp" />
                     </LinearLayout>

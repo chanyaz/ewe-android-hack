@@ -4063,6 +4063,9 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 years old)</string>
 
+    <!-- Children age label content description -->
+    <string name="children_age_label_cont_desc">(0 to 17 years old)</string>
+
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Neighborhoods</string>
     <string name="amenities">Amenities</string>
