@@ -2,7 +2,7 @@ package com.expedia.bookings.presenter
 
 import android.view.View
 
-open class ScaleTransition(val presenter: Presenter, val left: Class<*>, val right: Class<*>): Presenter.Transition(left, right) {
+open class ScaleTransition(open val presenter: Presenter, val left: Class<*>, val right: Class<*>): Presenter.Transition(left, right) {
 
 
     constructor(presenter: Presenter,left: Class<*>, right: Class<*>, leftClassName: Class<*>) : this(presenter, left, right) {
