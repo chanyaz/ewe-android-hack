@@ -231,8 +231,6 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         toolbarViewModel.doneClicked.subscribe {
             if (currentState == BillingDetailsPaymentWidget::class.java.name) {
                 paymentWidget.doneClicked.onNext(Unit)
-            } else if (currentState == RailTicketDeliveryEntryWidget::class.java.name) {
-                ticketDeliveryEntryWidget.doneClicked.onNext(Unit)
             }
         }
         paymentWidget.toolbarTitle.subscribe(toolbarViewModel.toolbarTitle)
@@ -361,12 +359,6 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             super.startTransition(forward)
             if (forward) {
                 hideCheckoutStart()
-
-                toolbarViewModel.toolbarTitle.onNext(resources.getString(R.string.ticket_delivery))
-                toolbarViewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
-                toolbarViewModel.enableMenuItem.onNext(ticketDeliveryEntryWidget.isComplete())
-                toolbarViewModel.visibleMenuWithTitleDone.onNext(Unit)
-                toolbarViewModel.menuVisibility.onNext(true)
             } else {
                 transitionToCheckoutStart()
             }

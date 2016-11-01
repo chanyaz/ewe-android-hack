@@ -2,7 +2,7 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.expedia.bookings.widget.CheckoutToolbar
+    <com.expedia.bookings.widget.shared.EntryFormToolbar
         android:id="@+id/rail_traveler_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
