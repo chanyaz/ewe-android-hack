@@ -121,7 +121,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.date.onNext(params.departureDate)
         }
         presenter.menuSearch.setOnMenuItemClickListener ({
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(searchPresenter)
             true
         })
         presenter.setupComplete()
@@ -140,7 +140,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
         presenter.menuSearch.setOnMenuItemClickListener ({
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(searchPresenter)
             true
         })
         presenter.setupComplete()
@@ -298,7 +298,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             travelerManager.updateDbTravelers(params, context)
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
-            show(outBoundPresenter)
+            show(outBoundPresenter, Presenter.FLAG_CLEAR_TOP)
         }
     }
 
