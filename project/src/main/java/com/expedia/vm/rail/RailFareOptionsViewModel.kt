@@ -2,7 +2,6 @@ package com.expedia.vm.rail
 
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailOffer
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 

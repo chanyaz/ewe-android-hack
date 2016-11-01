@@ -1,10 +1,11 @@
 package com.expedia.vm.test.rail
 
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.rail.responses.RailDateTime
-import com.expedia.bookings.data.rail.responses.RailLegOption
-import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
+import com.expedia.bookings.data.rail.responses.RailOffer
+import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailLeg
+import com.expedia.bookings.data.rail.responses.RailDateTime
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.rail.RailDetailsViewModel
@@ -43,23 +44,20 @@ class RailOutboundDetailsViewModelTest {
     }
 
     @Test
-    fun testOpenReturnOffersFiltered() {
-        val SEARCH_RESPONSE_RETURNED_OFFERS_SIZE = 6
+    fun testDuplicateOpenReturnOffersFiltered() {
+        val OFFERS_FOR_LEG_OPTION = 6
         val EXPECTED_FILTERED_OFFER_LIST_SIZE = 4
 
-        val offerList = generateOffersForLeg()
         val offerPairSubscriber = TestSubscriber.create<Pair<List<RailOffer>, Money?>>()
         viewModel.railOffersAndInboundCheapestPricePairSubject.subscribe(offerPairSubscriber)
 
-        val mockSearchResponse = Mockito.mock(RailSearchResponse::class.java)
-        mockSearchResponse.legList = emptyList()
-        Mockito.`when`(mockSearchResponse.findOffersForLegOption(Mockito.any())).thenReturn(offerList)
+        val mockSearchResponse = mockSearchResponse()
         viewModel.railResultsObservable.onNext(mockSearchResponse)
 
-        val leg = mockLegOption()
-        viewModel.railLegOptionSubject.onNext(leg)
+        val outboundLeg = mockLegOption()
+        viewModel.railLegOptionSubject.onNext(outboundLeg)
 
-        assertEquals(SEARCH_RESPONSE_RETURNED_OFFERS_SIZE, viewModel.railResultsObservable.value.findOffersForLegOption(leg).size)
+        assertEquals(OFFERS_FOR_LEG_OPTION, viewModel.railResultsObservable.value.findOffersForLegOption(outboundLeg).size)
         offerPairSubscriber.assertValueCount(1)
         val pair = offerPairSubscriber.onNextEvents[0]
         assertEquals(EXPECTED_FILTERED_OFFER_LIST_SIZE, pair.first.size)
@@ -73,11 +71,32 @@ class RailOutboundDetailsViewModelTest {
         leg.arrivalDateTime = railDateTime
         leg.duration = "PT4H31M"
         leg.noOfChanges = 0
+        leg.legOptionIndex = 8
         return leg
     }
 
+    private fun mockSearchResponse():RailSearchResponse {
+        val response = RailSearchResponse()
+        response.legList = getLegs()
+        response.offerList = generateOffersForLeg()
+        return response
+    }
+
+    private fun getLegs(): MutableList<RailLeg> {
+        val leg1 = RailLeg()
+        leg1.legBoundOrder = 1
+        leg1.legOptionList = listOf(createLegOption(8))
+        return arrayListOf(leg1)
+    }
+
+    private fun createLegOption(legId: Int): RailLegOption {
+        val legOption = RailLegOption()
+        legOption.legOptionIndex = legId
+        return legOption
+    }
+
     private fun generateOffersForLeg(): List<RailOffer> {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/stripped_roundtrip_open_return.json")
+        val resourceReader = JSONResourceReader("src/test/resources/raw/roundtrip_open_return.json")
         val searchResponse = resourceReader.constructUsingGson(RailSearchResponse::class.java)
         return searchResponse.offerList
     }

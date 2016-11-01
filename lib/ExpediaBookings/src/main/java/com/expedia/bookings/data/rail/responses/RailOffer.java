@@ -24,6 +24,7 @@ public class RailOffer extends BaseRailOffer {
 		return false;
 	}
 
+	// creating a key by combining fare class, service class and total fare amount
 	public String getUniqueIdentifier() {
 		return railProductList.get(0).aggregatedCarrierFareClassDisplayName +
 			railProductList.get(0).aggregatedCarrierServiceClassDisplayName + totalPrice.amount;
