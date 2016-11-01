@@ -60,7 +60,7 @@ runUnitTests() {
 runUnitTests
 unitTestStatus=$?
 
-rm ${KOTLIN_UNUSED_RESOURCES_REPORT_FILE}
+rm -f ${KOTLIN_UNUSED_RESOURCES_REPORT_FILE}
 cat ${KOTLIN_DUMMY_FILE} | perl ./jenkins/check_for_resources_not_used_by_kotlin.pl > ${KOTLIN_UNUSED_RESOURCES_REPORT_FILE}
 kotlinUnusedResourcesStatus=$?
 if [ $kotlinUnusedResourcesStatus -ne 0 ]; then
