@@ -21,7 +21,6 @@ locHandbackCommitMessage = sys.argv[3]
 gitBaseBranchName = sys.argv[4]
 mingleCardNumber = sys.argv[5]
 zipFileLocation = sys.argv[6]
-tpmComments = sys.argv[7]
 
 if isMultiBrand(brandName):
     mingleProjectId = 'india_mobile_team'
@@ -40,7 +39,6 @@ print "locHandbackChangesBranchName = " + locHandbackChangesBranchName
 print "gitCommitMessage = " + locHandbackCommitMessage
 print "gitBaseBranchName = " + gitBaseBranchName
 print "mingleCardNumber = " + mingleCardNumber
-print "tpmComments = " + tpmComments
 
 try:
     subprocess.check_call('git status'.split())
