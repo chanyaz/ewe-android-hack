@@ -130,8 +130,8 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         travelerEntryWidget.travelerCompleteSubject.subscribe {
             show(DefaultCheckout(), FLAG_CLEAR_BACKSTACK)
         }
-        toolbar.viewModel = toolbarViewModel
 
+        toolbar.viewModel = toolbarViewModel
         slideToPurchaseWidget.addSlideListener(this)
 
         initializePriceWidget()
@@ -212,8 +212,6 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
                 paymentWidget.doneClicked.onNext(Unit)
             } else if (currentState == RailTicketDeliveryEntryWidget::class.java.name) {
                 ticketDeliveryEntryWidget.doneClicked.onNext(Unit)
-            } else if (currentState == RailTravelerEntryWidget::class.java.name) {
-                travelerEntryWidget.doneSelectedObserver.onNext(Unit)
             }
         }
         paymentWidget.toolbarTitle.subscribe(toolbarViewModel.toolbarTitle)
@@ -330,10 +328,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
                 Ui.hideKeyboard(paymentWidget)
                 paymentWidget.setFocusForView()
             } else {
-                toolbarViewModel.menuVisibility.onNext(true)
-                toolbarViewModel.visibleMenuWithTitleDone.onNext(Unit)
-                toolbarViewModel.toolbarTitle.onNext(travelerEntryWidget.getToolbarTitle())
-                toolbarViewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.CLOSE)
+                toolbar.visibility = View.GONE
                 travelerEntryWidget.visibility = View.VISIBLE
             }
         }
@@ -379,6 +374,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     private fun transitionToCheckoutStart() {
+        toolbar.visibility = View.VISIBLE
         toolbarViewModel.toolbarNavIcon.onNext(ArrowXDrawableUtil.ArrowDrawableType.BACK)
         toolbarViewModel.toolbarTitle.onNext(context.getString(R.string.checkout_text))
         toolbarViewModel.enableMenuItem.onNext(true)

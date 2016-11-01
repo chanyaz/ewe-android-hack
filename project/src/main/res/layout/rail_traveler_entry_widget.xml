@@ -1,20 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<merge xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.expedia.bookings.widget.traveler.NameEntryView
-        android:id="@+id/name_entry_widget"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <com.expedia.bookings.widget.traveler.EmailEntryView
-        android:id="@+id/email_entry_widget"
+    <com.expedia.bookings.widget.CheckoutToolbar
+        android:id="@+id/rail_traveler_toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
+        android:minHeight="?attr/actionBarSize"
+        android:background="@color/rail_primary_color"
+        app:contentInsetEnd="16dp"
+        app:contentInsetRight="16dp"
+        app:title="@string/traveler_enter_details_text"
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"/>
 
-    <com.expedia.bookings.widget.traveler.PhoneEntryView
-        android:id="@+id/phone_entry_widget"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
+        android:background="@drawable/card_background"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/card_view_container_margin"
+        android:layout_marginLeft="@dimen/card_view_container_margin"
+        android:layout_marginRight="@dimen/card_view_container_margin"
+        android:padding="@dimen/checkout_form_padding"
+        android:animateLayoutChanges="true">
+
+        <com.expedia.bookings.widget.traveler.NameEntryView
+            android:id="@+id/name_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+            android:nextFocusForward="@+id/email_entry_widget"/>
+
+        <com.expedia.bookings.widget.traveler.EmailEntryView
+            android:id="@+id/email_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+            android:nextFocusForward="@+id/phone_entry_widget"/>
+
+        <com.expedia.bookings.widget.traveler.PhoneEntryView
+            android:id="@+id/phone_entry_widget"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/traveler_input_bottom_margin" />
+    </LinearLayout>
 </merge>
