@@ -124,9 +124,6 @@
     <dimen name="hotel_map_popup_thumbnail_height">126dp</dimen>
     <dimen name="hotel_map_popup_thumbnail_width">111dp</dimen>
 
-    <!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
-    <dimen name="gallery_size">200dp</dimen>
-
     <!-- Dimensions for book now button or any other button in the header -->
     <dimen name="min_height_rating_bar_small">16dp</dimen>
     <dimen name="max_height_rating_bar_small">16dp</dimen>
@@ -269,7 +266,6 @@
     <dimen name="hotel_detail_gradient_height">120dp</dimen>
 
     <dimen name="hotel_room_list_container_margin">9dp</dimen>
-    <dimen name="price_promo_banner_height">45dp</dimen>
 
     <!--Dimensions for hotel review row-->
     <dimen name="hotel_review_title_text_size">13dp</dimen>

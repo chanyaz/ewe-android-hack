@@ -920,16 +920,6 @@
 
     <style name="V2.Dialog.Coupon.Phone" />
 
-    <!-- Tablet Sold out screen, buttons style -->
-    <style name="BannerTextView">
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingRight">20dp</item>
-        <item name="android:textColor">@color/price_promo_banner_text_color</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style name="Widget.SlidingRadioButton" />
 
     <style name="Widget.SlidingRadioButton.Filter">
