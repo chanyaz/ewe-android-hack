@@ -162,23 +162,24 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         }
     }
 
-    private val overviewTransition = object : ScaleTransition(this, FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
+    open class OverviewTransition(override val presenter: BaseFlightPresenter) : ScaleTransition(presenter, FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            disableSlidingWidget(forward)
-            toolbarViewModel.menuVisibilitySubject.onNext(false)
+            presenter.toolbarViewModel.menuVisibilitySubject.onNext(false)
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            toolbarViewModel.refreshToolBar.onNext(!forward)
-            viewBundleSetVisibility(!forward)
+            presenter.toolbarViewModel.refreshToolBar.onNext(!forward)
+            presenter.viewBundleSetVisibility(!forward)
             if (!forward) {
-                trackFlightResultsLoad()
+                presenter.trackFlightResultsLoad()
             }
-            postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
+            presenter.postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(presenter.toolbar) }, 50L)
         }
     }
+
+    open val overviewTransition = object : OverviewTransition(this) {}
 
     private val baggageFeeTransition = object : Transition(FlightOverviewPresenter::class.java, BaggageFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
@@ -284,9 +285,6 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
             val lp = view.layoutParams as LayoutParams
             lp.topMargin = lp.topMargin + statusBarHeight
         }
-    }
-
-    open fun disableSlidingWidget(isDisabled: Boolean) {
     }
 
     abstract fun makeFlightOverviewModel(): AbstractFlightOverviewViewModel

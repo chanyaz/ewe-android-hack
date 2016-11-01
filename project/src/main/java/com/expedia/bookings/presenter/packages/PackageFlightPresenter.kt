@@ -39,6 +39,13 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
     lateinit var slidingBundleWidgetListener: SlidingBundleWidgetListener
 
+    override val overviewTransition = object : OverviewTransition(this) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            disableSlidingWidget(forward)
+        }
+    }
+
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->
         val params = Db.getPackageParams()
         if (flight.outbound) {
@@ -255,7 +262,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         return LineOfBusiness.PACKAGES
     }
 
-    override fun disableSlidingWidget(isDisabled: Boolean) {
+    fun disableSlidingWidget(isDisabled: Boolean) {
         bundleSlidingWidget.bundlePriceWidget.isClickable = !isDisabled
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(if (isDisabled) null else slidingBundleWidgetListener.onTouchListener)
     }
