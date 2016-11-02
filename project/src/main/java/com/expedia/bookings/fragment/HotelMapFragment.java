@@ -36,7 +36,6 @@ import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.GoogleMapsUtil;
@@ -285,23 +284,10 @@ public class HotelMapFragment extends SupportMapFragment implements OnFilterChan
 			});
 		}
 
-		boolean isUserBucketedForSalePinGreenTest = Db.getAbacusResponse()
-			.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelHSRSalePinTest);
-		int pinSaleAttrID;
-
-		if (isUserBucketedForSalePinGreenTest) {
-			pinSaleAttrID = R.drawable.map_pin_sale_green;
-		}
-		else {
-			pinSaleAttrID = R.drawable.map_pin_sale;
-		}
-
 		// Load graphics
-		mPin = BitmapDescriptorFactory
-			.fromResource(R.drawable.map_pin_normal);
-		mPinSale = BitmapDescriptorFactory.fromResource(pinSaleAttrID);
-		mPinAirAttach = BitmapDescriptorFactory
-			.fromResource(R.drawable.map_pin_airattach);
+		mPin = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_normal);
+		mPinSale = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_sale);
+		mPinAirAttach = BitmapDescriptorFactory.fromResource(R.drawable.map_pin_airattach);
 
 		onRestoreSavedInstanceState(savedInstanceState);
 		runReadyActions();

@@ -1,7 +1,5 @@
 package com.expedia.bookings.section;
 
-import java.text.DecimalFormat;
-
 import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
@@ -32,7 +30,6 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.AdImpressionTracking;
@@ -66,7 +63,6 @@ public class HotelSummarySection extends RelativeLayout {
 	private ViewGroup mAirAttachC;
 	private TextView mAirAttachTv;
 	private RatingBar mUserRatingBar;
-	private TextView mUserRating;
 	private TextView mNotRatedText;
 	private TextView mProximityText;
 	private TextView mSoldOutText;
@@ -91,10 +87,6 @@ public class HotelSummarySection extends RelativeLayout {
 	private int mPriceTextColor;
 
 	private boolean mIsSelected;
-
-	//Value for AB test
-	boolean isUserBucketedForTest = false;
-	private DecimalFormat df = new DecimalFormat("#.0");
 
 	public HotelSummarySection(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -135,7 +127,6 @@ public class HotelSummarySection extends RelativeLayout {
 		mSoldOutText = Ui.findView(this, R.id.sold_out_text_view);
 		mCardCornersBottom = Ui.findView(this, R.id.card_corners_bottom);
 		mBgImgOverlay = Ui.findView(this, R.id.gradient_header_mask);
-		mUserRating = Ui.findView(this, R.id.rating);
 		ratingInfo = Ui.findView(this, R.id.rating_info);
 
 		// We'll fill mUrgencyText either from urgency_text_view or urgency_text_view_color_matched
@@ -147,9 +138,6 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		mSelectedOverlay = Ui.findView(this, R.id.selected_hotel_overlay);
-		if (!ExpediaBookingApp.useTabletInterface(getContext())) {
-			isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppSRPercentRecommend);
-		}
 	}
 
 	/**
@@ -283,10 +271,6 @@ public class HotelSummarySection extends RelativeLayout {
 		}
 
 		if (mUrgencyText != null) {
-			boolean isEtpSearchResultsBucket =
-				(!ExpediaBookingApp.useTabletInterface(getContext())) && Db.getAbacusResponse()
-					.isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelETPSearchResults);
-
 			int roomsLeft = property.getRoomsLeftAtThisRate();
 			mUrgencyText.setTextSize(14f);
 			mUrgencyText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
@@ -300,11 +284,6 @@ public class HotelSummarySection extends RelativeLayout {
 				}
 				mUrgencyText.setText(context.getString(R.string.sponsored));
 				mUrgencyText.setVisibility(View.VISIBLE);
-			}
-			else if (isEtpSearchResultsBucket && property.isETPHotel()) {
-				mUrgencyText.setText(context.getString(R.string.book_now_pay_later));
-				mUrgencyText.setVisibility(View.VISIBLE);
-				mUrgencyText.setTextSize(12f);
 			}
 			else if (property.isLowestRateTonightOnly()) {
 				mUrgencyText.setText(context.getString(R.string.tonight_only));
@@ -353,32 +332,17 @@ public class HotelSummarySection extends RelativeLayout {
 		mPriceText.setTextSize(priceTextSize);
 		mPriceText.setText(hotelPrice);
 
-		if (isUserBucketedForTest) {
+		if (!ExpediaBookingApp.useTabletInterface(getContext())) {
+			ratingInfo.setVisibility(GONE);
+		}
+		mUserRatingBar.setRating((float) property.getAverageExpediaRating());
+		if (mUserRatingBar.getRating() == 0f) {
 			mUserRatingBar.setVisibility(View.GONE);
-			double rating = property.getAverageExpediaRating();
-			if (rating == 0f) {
-				ratingInfo.setVisibility(GONE);
-				mNotRatedText.setVisibility(View.VISIBLE);
-			}
-			else {
-				mNotRatedText.setVisibility(View.GONE);
-				mUserRating.setText(df.format(rating));
-				ratingInfo.setVisibility(VISIBLE);
-			}
+			mNotRatedText.setVisibility(View.VISIBLE);
 		}
 		else {
-			if (!ExpediaBookingApp.useTabletInterface(getContext())) {
-				ratingInfo.setVisibility(GONE);
-			}
-			mUserRatingBar.setRating((float) property.getAverageExpediaRating());
-			if (mUserRatingBar.getRating() == 0f) {
-				mUserRatingBar.setVisibility(View.GONE);
-				mNotRatedText.setVisibility(View.VISIBLE);
-			}
-			else {
-				mUserRatingBar.setVisibility(View.VISIBLE);
-				mNotRatedText.setVisibility(View.GONE);
-			}
+			mUserRatingBar.setVisibility(View.VISIBLE);
+			mNotRatedText.setVisibility(View.GONE);
 		}
 
 		if (showDistance && property.getDistanceFromUser() != null) {
