@@ -150,9 +150,6 @@
     <!-- Select Airport button top margin (used when no origin is set) -->
     <dimen name="pick_airport_button_top_margin">20dp</dimen>
 
-    <!-- The limiting dimension of the gallery (either height or width, depending on orientation) -->
-    <dimen name="gallery_size">600dp</dimen>
-
     <!-- Login screen -->
     <dimen name="login_button_width">328dp</dimen>
     <dimen name="login_header_text_size">33sp</dimen>

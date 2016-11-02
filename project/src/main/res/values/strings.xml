@@ -2484,8 +2484,6 @@
     <string name="cars_in_TEMPLATE">Cars in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">More Actions</string>
-    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">Actions</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Share via Email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2518,8 +2516,6 @@
     <string name="itin_departing_cont_desc">Departing</string>
 
     <!-- Hotel confirmation page -->
-    <!-- Title for section helping users get flights after booking a hotel -->
-    <string name="get_there">Get There</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="flights_to_TEMPLATE">Flights to %s</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
@@ -2845,8 +2841,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/night</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt">/nt</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Not Rated</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2909,8 +2903,6 @@
     <string name="switch_off">OFF</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
-    <!-- Discount percent shown in hotel results list -->
-    <string name="minus_x_percent">-%2.0f%%</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">of 5 - guest rating</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3759,12 +3751,6 @@
     <string name="cc_carte_bleue">Carte Bleue</string>
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
-
-    <!-- Handling sold out hotels -->
-    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available_from_brand_TEMPLATE">Not currently available from {brand}</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_from_brand_dates_TEMPLATE">Not available from {brand} {dates}</string>
 
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->

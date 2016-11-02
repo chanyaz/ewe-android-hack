@@ -780,6 +780,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_cardfee_error_message,
 		R.layout.include_itin_card_summary_rail,
 		R.drawable.rail_itin_icon,
-		R.string.itin_card_rail_summary_TEMPLATE
+		R.string.itin_card_rail_summary_TEMPLATE,
+		R.string.stay_summary_TEMPLATE
 	};
 }
