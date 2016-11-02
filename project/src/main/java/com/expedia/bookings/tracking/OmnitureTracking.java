@@ -1208,9 +1208,6 @@ public class OmnitureTracking {
 			addProducts(s, property);
 		}
 
-		// 4761 - AB Test: Collapse Amenities, Policies, and fees on Infosite
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCollapseAmenities);
-
 		// Send the tracking data
 		s.track();
 	}

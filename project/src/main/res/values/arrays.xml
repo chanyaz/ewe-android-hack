@@ -831,20 +831,6 @@
         <item>1</item>
     </string-array>
 
-    <string-array name="abacus_hsr_map_choices">
-        <item>@string/preference_abacus_setting_server</item>
-        <item>@string/preference_abacus_setting_control</item>
-        <item>Pin Icon</item>
-        <item>Text Only</item>
-    </string-array>
-
-    <string-array name="abacus_hsr_map_choice_values">
-        <item>-1</item>
-        <item>0</item>
-        <item>1</item>
-        <item>2</item>
-    </string-array>
-    
     <string-array name="abacus_hotel_review_superlatives">
         <item>@string/preference_abacus_setting_server</item>
         <item>@string/preference_abacus_setting_control</item>

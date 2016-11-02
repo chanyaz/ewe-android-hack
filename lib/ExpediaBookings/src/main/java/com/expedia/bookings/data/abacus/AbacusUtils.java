@@ -13,16 +13,7 @@ public class AbacusUtils {
 	 * participating in the AB Test.
 	 */
 
-	public static final int EBAndroidAppSRPercentRecommend = 7373;
-	public static final int EBAndroidAppHotelHSRSalePinTest = 7535;
-	public static final int EBAndroidAppHotelETPSearchResults = 7532;
-	public static final int EBAndroidAppHSRMapIconTest = 7772;
 	public static final int EBAndroidAppCarInsuranceIncludedCKO = 7774;
-	public static final int EBAndroidAppHotelHCKOTraveler = 7775;
-	public static final int EBAndroidAppHotelPayLaterCouponMessaging = 7777;
-	public static final int EBAndroidAppHotelCollapseAmenities = 8126;
-	public static final int EBAndroidAppHotelShowAddressMapInReceipt = 8129;
-	public static final int EBAndroidHotelCKOMerEmailGuestOpt = 8127;
 	public static final int ExpediaAndroidAppAATestSep2015 = 11455;
 	public static final int EBAndroidAppHotelsV2SuperlativeReviewsABTest = 8688;
 	public static final int EBAndroidAppLXCategoryABTest = 9165;
@@ -66,16 +57,7 @@ public class AbacusUtils {
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
-		testIDs.add(EBAndroidAppSRPercentRecommend);
-		testIDs.add(EBAndroidAppHotelHSRSalePinTest);
-		testIDs.add(EBAndroidAppHotelETPSearchResults);
-		testIDs.add(EBAndroidAppHSRMapIconTest);
 		testIDs.add(EBAndroidAppCarInsuranceIncludedCKO);
-		testIDs.add(EBAndroidAppHotelHCKOTraveler);
-		testIDs.add(EBAndroidAppHotelPayLaterCouponMessaging);
-		testIDs.add(EBAndroidAppHotelCollapseAmenities);
-		testIDs.add(EBAndroidAppHotelShowAddressMapInReceipt);
-		testIDs.add(EBAndroidHotelCKOMerEmailGuestOpt);
 		testIDs.add(ExpediaAndroidAppAATestSep2015);
 		testIDs.add(EBAndroidAppHotelsV2SuperlativeReviewsABTest);
 		testIDs.add(EBAndroidAppLXCategoryABTest);
