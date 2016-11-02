@@ -1050,6 +1050,95 @@
         }
       ],
       "readTripError": false
+    },
+    {
+      "levelOfDetail": "SUMMARY",
+      "tripId": "9ec46519-713e-4886-8ae7-d1d9abbca701",
+      "apiDetailsURL": "https://wwwexpediacouk.trunk.sb.karmalab.net/api/trips/71103262324",
+      "webDetailsURL": "https://wwwexpediacouk.trunk.sb.karmalab.net/trips/71103262324",
+      "tripNumber": 71103262324,
+      "title": "Reading-Manchester Piccadilly",
+      "description": "",
+      "startTime": {
+        "raw": "2016-10-14T23:47:00-07:00",
+        "localized": "Oct 14, 2016 11:47:00 PM",
+        "epochSeconds": "${railStartEpochSeconds}",
+        "timeZoneOffsetSeconds": "${railStartTzOffset}",
+        "localizedShortDate": "Fri, 14 Oct",
+        "localizedMediumDate": "14 Oct 2016",
+        "localizedFullDate": "Friday, 14 October 2016",
+        "localizedLongDate": "14 October 2016",
+        "localizedShortTime": "23:47"
+      },
+      "endTime": {
+        "raw": "2016-10-26T04:25:00-07:00",
+        "localized": "Oct 26, 2016 4:25:00 AM",
+        "epochSeconds": "${railEndEpochSeconds}",
+        "timeZoneOffsetSeconds": "${railEndTzOffset}",
+        "localizedShortDate": "Wed, 26 Oct",
+        "localizedMediumDate": "26 Oct 2016",
+        "localizedFullDate": "Wednesday, 26 October 2016",
+        "localizedLongDate": "26 October 2016",
+        "localizedShortTime": "04:25"
+      },
+      "tripCreatedTime": {
+        "raw": "2016-09-27T12:55:26Z",
+        "localized": "Sep 27, 2016 12:55:26 PM",
+        "epochSeconds": 1474980926,
+        "timeZoneOffsetSeconds": 0,
+        "localizedShortDate": "Tue, 27 Sep",
+        "localizedMediumDate": "27 Sep 2016",
+        "localizedFullDate": "Tuesday, 27 September 2016",
+        "localizedLongDate": "27 September 2016",
+        "localizedShortTime": "12:55"
+      },
+      "tripUpdatedTime": {
+        "raw": "2016-09-27T12:57:55Z",
+        "localized": "Sep 27, 2016 12:57:55 PM",
+        "epochSeconds": 1474981075,
+        "timeZoneOffsetSeconds": 0,
+        "localizedShortDate": "Tue, 27 Sep",
+        "localizedMediumDate": "27 Sep 2016",
+        "localizedFullDate": "Tuesday, 27 September 2016",
+        "localizedLongDate": "27 September 2016",
+        "localizedShortTime": "12:57"
+      },
+      "ownerId": 0,
+      "bookingStatus": "BOOKED",
+      "timePeriod": "INPROGRESS",
+      "hotels": [],
+      "flights": [],
+      "rails": [
+        {
+          "bookingStatusText": "BOOKED",
+          "startTime": {
+            "raw": "2016-10-14T23:47:00-07:00",
+            "localized": "Oct 14, 2016 11:47:00 PM",
+            "epochSeconds": "${railStartEpochSeconds}",
+            "timeZoneOffsetSeconds": "${railStartTzOffset}",
+            "localizedShortDate": "Fri, 14 Oct",
+            "localizedMediumDate": "Oct 14, 2016",
+            "localizedFullDate": "Friday, October 14, 2016",
+            "localizedLongDate": "October 14, 2016",
+            "localizedShortTime": "11:47 PM"
+          },
+          "endTime": {
+            "raw": "2016-10-26T04:25:00-07:00",
+            "localized": "Oct 26, 2016 4:25:00 AM",
+            "epochSeconds": "${railEndEpochSeconds}",
+            "timeZoneOffsetSeconds": "${railEndTzOffset}",
+            "localizedShortDate": "Wed, 26 Oct",
+            "localizedMediumDate": "Oct 26, 2016",
+            "localizedFullDate": "Wednesday, October 26, 2016",
+            "localizedLongDate": "October 26, 2016",
+            "localizedShortTime": "4:25 AM"
+          }
+        }
+      ],
+      "tripSource": "expedia",
+      "zetaTrip": false,
+      "isMRP": false,
+      "isTripUpgradable": false
     }
   ]
 }

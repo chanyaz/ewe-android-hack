@@ -110,6 +110,10 @@ public class DateUtils {
 		return date.toString("MMM d, h:mm a");
 	}
 
+	public static String dateTimeToEEEMMMdhmma(DateTime date) {
+		return date.toString("EEE, MMM d - h:mm a");
+	}
+
 	public static LocalDate yyyyMMddToLocalDate(String dateyyyyMMdd) {
 		return LocalDate.parse(dateyyyyMMdd, DateTimeFormat.forPattern("yyyy-MM-dd"));
 	}

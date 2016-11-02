@@ -1591,6 +1591,8 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Checked out %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Valid starting &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Summary for rail card: Departure - Sunday, Feb 22 - 9:00 am -->
+    <string name="itin_card_rail_summary_TEMPLATE">Departure - {datetime}</string>
     <!-- Message to users about when they check in of their flight-->
     <string name="itin_card_flight_checkin">Check In Now</string>
     <!-- Title of alert dialog when user come back from check in-->

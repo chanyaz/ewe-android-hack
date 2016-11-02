@@ -30,6 +30,7 @@ import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
+import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
@@ -870,23 +871,30 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		else if (view instanceof ItinAirAttachCard) {
 			return;
 		}
+		else if (data instanceof ItinCardDataRails) {
+			openItinInWebView(data.getDetailsUrl());
+		}
 		else if (data.hasDetailData()) {
 			showDetails(position, true);
 		}
 		else if (!TextUtils.isEmpty(data.getDetailsUrl())) {
-			Context context = getContext();
-			WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
-			builder.setUrl(data.getDetailsUrl());
-			builder.setTitle(R.string.itinerary);
-			builder.setTheme(R.style.ItineraryTheme);
-			builder.setInjectExpediaCookies(true);
-			builder.setAllowMobileRedirects(false);
-			context.startActivity(builder.getIntent());
+			openItinInWebView(data.getDetailsUrl());
 		}
 
 		if (mOnItemClickListener != null) {
 			mOnItemClickListener.onItemClick(parent, view, position, id);
 		}
+	}
+
+	private void openItinInWebView(String webDetailsURL) {
+		Context context = getContext();
+		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(context);
+		builder.setUrl(webDetailsURL);
+		builder.setTitle(R.string.itinerary);
+		builder.setTheme(R.style.ItineraryTheme);
+		builder.setInjectExpediaCookies(true);
+		builder.setAllowMobileRedirects(false);
+		context.startActivity(builder.getIntent());
 	}
 
 	@Override

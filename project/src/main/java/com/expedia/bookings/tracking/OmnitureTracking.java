@@ -3186,6 +3186,9 @@ public class OmnitureTracking {
 		case CRUISE:
 			//TODO:track cruise info
 			break;
+		case RAILS:
+			//TODO:track rails info
+			break;
 		default:
 			break;
 		}

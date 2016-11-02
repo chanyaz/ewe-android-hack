@@ -47,6 +47,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
 import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
+import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -126,6 +127,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		}
 		else if (itinCardData instanceof ItinCardDataLXAttach) {
 			return new LXAttachItinContentGenerator(context, (ItinCardDataLXAttach) itinCardData);
+		}
+		else if (itinCardData != null && itinCardData.getTripComponentType() == Type.RAILS) {
+			return new RailsItinContentGenerator(context, (ItinCardDataRails) itinCardData);
 		}
 		return null;
 	}
