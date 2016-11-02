@@ -497,7 +497,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                     pendingPointsTextView.visibility = View.GONE
                 }
 
-                if (userLoyaltyInfo?.isAllowedToShopWithPoints ?: false) {
+                if (userLoyaltyInfo?.isAllowedToShopWithPoints ?: false && ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
                     val loyaltyMonetaryValue = userLoyaltyInfo?.loyaltyMonetaryValue
                     currencyTextView.text = loyaltyMonetaryValue?.currency
                     setupCountryView(secondRowContainer.findViewById(R.id.country) as TextView)
