@@ -1,5 +1,6 @@
 package com.expedia.bookings.presenter
 
+import android.support.annotation.CallSuper
 import android.view.View
 
 open class ScaleTransition(open val presenter: Presenter, val left: Class<*>, val right: Class<*>): Presenter.Transition(left, right) {
@@ -25,7 +26,7 @@ open class ScaleTransition(open val presenter: Presenter, val left: Class<*>, va
     var leftView: View? = null
     var leftClassName: Class<*>? = null
 
-    override fun startTransition(forward: Boolean) {
+    @CallSuper override fun startTransition(forward: Boolean) {
         if (rightView == null) {
             rightView = getRightChildView()
         }
@@ -42,13 +43,13 @@ open class ScaleTransition(open val presenter: Presenter, val left: Class<*>, va
         rightView?.scaleY = (if (forward) yScale else 1f)
     }
 
-    override fun updateTransition(f: Float, forward: Boolean) {
+    @CallSuper override fun updateTransition(f: Float, forward: Boolean) {
         rightView?.alpha = (if (forward) f else (1-f))
         rightView?.scaleX = (if (forward) (1 - (1-xScale) * -(f-1)) else (xScale + (1-xScale) * -(f-1)))
         rightView?.scaleY = (if (forward) (1 - (1-yScale) * -(f-1)) else (yScale + (1-yScale) * -(f-1)))
     }
 
-    override fun endTransition(forward: Boolean) {
+    @CallSuper override fun endTransition(forward: Boolean) {
         leftView?.visibility = (if (forward) View.GONE else View.VISIBLE)
 
         rightView?.alpha = 1f

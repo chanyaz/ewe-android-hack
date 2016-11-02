@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.flight
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -163,12 +164,12 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     }
 
     open class OverviewTransition(override val presenter: BaseFlightPresenter) : ScaleTransition(presenter, FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
-        override fun startTransition(forward: Boolean) {
+        @CallSuper override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             presenter.toolbarViewModel.menuVisibilitySubject.onNext(false)
         }
 
-        override fun endTransition(forward: Boolean) {
+        @CallSuper override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             presenter.toolbarViewModel.refreshToolBar.onNext(!forward)
             presenter.viewBundleSetVisibility(!forward)
