@@ -279,7 +279,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     private fun showLegalInformationText(response: RailCreateTripResponse) {
-        val rulesAndRestrictionsURL = PointOfSale.getPointOfSale().railsRulesAndRestrictionsUrl + response.tripId
+        val rulesAndRestrictionsURL = PointOfSale.getPointOfSale().railsRulesAndRestrictionsUrl + response.offerToken
         legalInformationText.text = StrUtils.generateRailLegalClickableLink(context, rulesAndRestrictionsURL)
         legalInformationText.movementMethod = LinkMovementMethod.getInstance()
     }
