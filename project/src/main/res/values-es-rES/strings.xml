@@ -101,10 +101,6 @@
     <string name="enter_driver_details_cont_desc">Botón para introducir los datos del conductor</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Seleccionar de la lista de contactos</string>
-    <!-- Text for enter payment details-->
-    <string name="enter_payment_details">Introducir información de pago</string>
-    <!-- Template for selected credit card-->
-    <string name="selected_card_template">Fecha de caducidad: %s</string>
     <!-- Car doors text-->
     <string name="car_doors_text">Puertas</string>
     <!-- Car bags text-->
@@ -232,8 +228,6 @@
     <string name="successful_checkout_email_label">Itinerario enviado a</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Instrucciones para llegar a %1$s</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">Tarjeta de crédito o débito</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">Introduce la nueva tarjeta de débito o crédito</string>
     <!-- Text for enter guest details line 1 -->
@@ -246,8 +240,6 @@
     <string name="checkout_enter_payment_details">Forma de pago</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Introduce la tarjeta de crédito</string>
-    <!-- Label to indicate that the user has selected a stored credit card -->
-    <string name="checkout_payment_line2_storedcc">Tarjeta de crédito guardada</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Pago con puntos</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1914,7 +1906,6 @@
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
-    <string name="room_with_guests_TEMPLATE">1 habitación, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Cancelación gratuita antes del {date}</string>
 
     <!-- Flight details fragment -->
@@ -2145,8 +2136,6 @@
     <string name="please_enter_a_valid_email_address">Introduce una dirección de correo electrónico válida</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Tasas a pagar en el hotel</string>
-    <!-- Row label for when we show resort fees as its own line item -->
-    <string name="fees_due_at_hotel">Tasas a pagar en el hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">A pagar a {brand}</string>
     <!-- Due to expedia today - today -->
@@ -2215,16 +2204,12 @@
     <!-- Edit button for traveler/payment -->
     <string name="edit_button">Editar</string>
 
-    <!-- Title in toolbar on checkout telling user to select travelers he wants for booking-->
-    <string name="select_travelers">Seleccionar viajeros</string>
     <!-- Select traveler/contact from checkout saved travelers list -->
     <string name="select_traveler">Seleccionar contacto</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Añadir nuevo viajero</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Datos del huésped</string>
-    <!-- Guest all fields are required -->
-    <string name="guest_field_required">Todos los campos son obligatorios.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Datos del adulto %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
@@ -2331,6 +2316,10 @@
     <string name="address_zip_code_hint">Código Postal</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">Código postal</string>
+    <!--Address Province hint-->
+    <string name="address_province_hint">Provincia</string>
+    <!--Address Country/State/Province hint-->
+    <string name="address_county_hint">Condado/Estado/Provincia</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2489,8 +2478,6 @@
     <string name="add_to_your_trip">Añadir al viaje</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hoteles en %s</string>
-    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
-    <string name="hotels_guest_TEMPLATE">1 habitación, %s personas</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Coches en %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2905,11 +2892,7 @@
     <string name="vip_access">Acceso VIP+</string>
     <!--Options title for favorite and VIP checkboxes for Hotel Results -->
     <string name="filter_options">Opciones</string>
-    <!-- Title for Favorites message for Hotel Results -->
-    <string name="favorites">Favoritos</string>
-    <!-- Filter for showing only favorited hotels -->
-    <string name="favorites_only">Solo favoritos</string>
-    <!-- Filter for showing only VIP access hotels -->
+    <!-- Filter for showing favorited hotels -->
     <string name="filter_favorites">Hoteles favoritos</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Los hoteles con acceso VIP+ ofrecen a los miembros +silver y +gold de Expedia mejoras gratuitas de la categoría de la habitación, así como otras comodidades según disponibilidad en el momento de la llegada al hotel.</string>
@@ -4111,8 +4094,8 @@
     <string name="show_more">VER MÁS</string>
     <string name="show_less">VER MENOS</string>
     <string name="price_range">Intervalo de precios</string>
-    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
-    <string name="filter_sort_by_content_description_TEMPLATE">Ordenar por {sort}.</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
+    <string name="filter_sort_by_content_description_TEMPLATE">Ordenar por {sort}</string>
     <!-- Hotel Price Range start filter label for accessibility -->
     <string name="hotel_price_range_start">Inicio del intervalo de precios</string>
     <!-- Hotel Price Range end filter label for accessibility -->
@@ -4120,8 +4103,7 @@
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
     <string name="hotels_filter_show_more_cont_desc">Botón para mostrar más zonas</string>
     <!--Content description for "SHOW LESS" button in filter used for Talkback-->
-    <string name="hotels_filter_show_less_cont_desc">Botón para mostrar menos zonas
-</string>
+    <string name="hotels_filter_show_less_cont_desc">Botón para mostrar menos zonas</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Se ha añadido a los favoritos</string>
@@ -4191,8 +4173,6 @@
         <item quantity="one">{night} noche gratis si lo reservas con un vuelo.</item>
         <item quantity="other">{night} noches gratis si lo reservas con un vuelo.</item>
     </plurals>
-    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
-    <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s a las %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -4371,6 +4351,8 @@
     <string name="package_flight_overview_bundle_total_label">Total del paquete</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/persona</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <!-- Flight segment departure to arrival, content description. Example: (SFO) San Francisco to (DEN) Denver -->
+    <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">De ({departureairportcode}) {departurecity} a ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">Escala en ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Duración total: {duration}</string>
@@ -4387,9 +4369,6 @@
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Ida y vuelta</string>
 
-    <!--used on the rail search screen - this is equivalent to a round trip air ticket with a return trip any time within a 30 day window (typically)-->
-    <string name="rail_open_return">Vuelta abierta</string>
-
     <!--used on the rail results/details screen to signify that a trip doesn't have any stops -->
     <string name="rail_direct">Directo</string>
 
@@ -4398,6 +4377,15 @@
 
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
+
+    <!-- Heading for web view which shows payment and ticket delivery fees legal details -->
+    <string name="rail_search_legal_web_view_heading">Tasas de pago y recogida de billete</string>
+
+    <!-- Legal message shown on search result screen for one way search -->
+    <string name="rail_search_legal_banner_one_way">Los precios son para todos los pasajeros por trayecto de solo ida. Pueden aplicarse tasas adicionales por el tipo de pago o por recogida de billete.</string>
+
+    <!-- Legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip">Los precios son para todos los pasajeros por trayecto de ida y vuelta. Pueden aplicarse tasas adicionales por el tipo de pago o por recogida de billete.</string>
 
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
@@ -4427,6 +4415,15 @@
 
     <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">Vuelta: {date}</string>
+
+    <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
+    <string name="rail_price_breakdown_journey">Viaje</string>
+
+    <!-- rail checkout card fee error message title -->
+    <string name="rail_cardfee_error_title">Error al calcular la tasa de pago con tarjeta</string>
+
+    <!-- rail checkout card fee error message -->
+    <string name="rail_cardfee_error_message">No ha sido posible calcular el recargo por el tipo de tarjeta utilizado. Es posible que se aplique algún cargo adicional por esta reserva.</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
@@ -4485,7 +4482,7 @@
     <string name="shipping_address">Dirección de envío</string>
 
     <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
-    <string name="rails_legal_TEMPLATE">Al completar esta reserva, confirmo que he leído y acepto las &lt;a href=\"{rules_and_restrictions_url}\"&gt;reglas y restricciones&lt;/a&gt;, los &lt;a href=\"{conditions_of_travel_url}\"&gt;términos y condiciones del viaje&lt;/a&gt;, los &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;términos y condiciones del proveedor&lt;/a&gt;, los &lt;a href=\"{terms_of_use_url}\"&gt;términos de uso&lt;/a&gt;, la &lt;a href=\"{privacy_policy_url}\"&gt;política de privacidad&lt;/a&gt; y las &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;tasas por tipo de pago escogido y envío de billetes&lt;/a&gt;.</string>
+    <string name="rails_legal_TEMPLATE">Al completar esta reserva, confirmo que he leído y acepto las &lt;a href=\"{rules_and_restrictions_url}\"&gt;reglas y restricciones&lt;/a&gt;, los &lt;a href=\"{conditions_of_travel_url}\"&gt;términos y condiciones del viaje&lt;/a&gt;, los &lt;a href=\"{supplier_terms_and_conditions_url}\"&gt;términos y condiciones del proveedor&lt;/a&gt;, los &lt;a href=\"{terms_of_use_url}\"&gt;términos de uso&lt;/a&gt;, la &lt;a href=\"{privacy_policy_url}\"&gt;política de privacidad&lt;/a&gt; y las &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;tasas por tipo de pago escogido y envío de billetes&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Debes traer el número de referencia del billete y la tarjeta de crédito utilizada.</string>
@@ -4506,14 +4503,12 @@
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Introduce el destino</string>
     <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
-    <string name="enter_destination_cont_desc">Botón para introducir el destino</string>
+    <string name="enter_destination_cont_desc">Introducir destino. Botón</string>
     <!-- New Hotel Content description for destination entered, e.g- Destination. San Francisco, CA. Button-->
-    <string name="hotel_search_destination_cont_desc_TEMPLATE">Botón de destino: {destination}</string>
+    <string name="hotel_search_destination_cont_desc_TEMPLATE">Destino. {destination}. Botón</string>
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">Seguro de vuelo</string>
-    <!-- Cost summary breakdown line item for flights -->
-    <string name="cost_summary_breakdown_flight_summary">Vuelos</string>
     <!-- Cost summary breakdown line item for a hotel + flight package -->
     <string name="cost_summary_breakdown_hotel_flight_summary">Hotel + vuelos</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
@@ -4596,10 +4591,16 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">El horario del vuelo es {time}; con una diferencia de precio de {pricedifference}. Vuelo operado por {airline}. La duración del vuelo es de {hours} y {minutes}, con {stops} escalas\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}, con una puntuación de {starrating} sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5. Precio: {price}. Incluye hotel y vuelo\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel}, clasificación {starrating} estrellas sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
+    <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel}, con una puntuación de los huéspedes de {guestrating} sobre 5.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel}, con una puntuación de {starrating} sobre 5.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
+    <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}.\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Antes costaba: {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
@@ -4679,10 +4680,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">El precio del paquete es {price_per_person} por persona. Este precio incluye impuestos y las tasas aplicables a los vuelos y al hotel. Botón para ver el paquete.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Se muestran los detalles del paquete. Botón para cerrar.</string>
-    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
-    <string name="select_hotel_selected_expand_cont_desc">ampliar</string>
-    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
-    <string name="select_hotel_selected_collapse_cont_desc">contraer</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
