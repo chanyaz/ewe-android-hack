@@ -9,7 +9,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.rail.RailLegSummaryViewModel
 import com.expedia.vm.rail.RailTripSummaryViewModel
 
@@ -36,14 +35,16 @@ class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayou
             if (offer.isRoundTrip) {
                 inboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[1])
                 inboundLegSummary.visibility = View.VISIBLE
+                inboundDateView.visibility = View.VISIBLE
             } else if (offer.isOpenReturn) {
                 inboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[0])
                 inboundLegSummary.visibility = View.VISIBLE
+                inboundDateView.visibility = View.VISIBLE
             }
         }
 
         vm.formattedOutboundDateObservable.subscribeText(outboundDateView)
-        vm.formattedInboundDateObservable.subscribeTextAndVisibility(inboundDateView)
+        vm.formattedInboundDateObservable.subscribeText(inboundDateView)
 
         vm.railOutboundLegObserver.subscribe(outboundSummaryViewModel.railLegOptionObserver)
         vm.railInboundLegObserver.subscribe(inboundSummaryViewModel.railLegOptionObserver)
