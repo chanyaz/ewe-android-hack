@@ -1,8 +1,9 @@
 package com.expedia.bookings.tracking
 
-/**
- * Created by prassingh on 10/26/16.
- */
+import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.data.rail.responses.RailLeg
+import com.expedia.bookings.data.rail.responses.RailSearchResponse
+
 class RailTracking {
 
     fun trackRailSearchInit() {
@@ -35,5 +36,17 @@ class RailTracking {
 
     fun trackRailFares() {
         OmnitureTracking.trackRailFares()
+    }
+
+    fun trackRailOneWaySearch(outboundLeg: RailLeg, railSearchRequest: RailSearchRequest) {
+        OmnitureTracking.trackRailOneWaySearch(outboundLeg, railSearchRequest)
+    }
+
+    fun trackRailRoundTripOutbound(outboundLeg: RailLeg, railSearchRequest: RailSearchRequest) {
+        OmnitureTracking.trackRailRoundTripOutbound(outboundLeg, railSearchRequest)
+    }
+
+    fun trackRailRoundTripInbound() {
+        OmnitureTracking.trackRailRoundTripInbound()
     }
 }

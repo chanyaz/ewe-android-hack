@@ -9,6 +9,7 @@ import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailsApiStatusCodes
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -38,6 +39,17 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
             val leg = response.outboundLeg!!
             Pair(leg.legOptionList, leg.cheapestInboundPrice)
         }.subscribe(legOptionsAndCheapestPriceSubject)
+
+        railResultsObservable.withLatestFrom(paramsSubject, { railSearchResponse, searchRequest ->
+            val outboundLeg = railSearchResponse.outboundLeg
+            if (outboundLeg!!.legOptionList.size > 0) {
+                if (searchRequest.isRoundTripSearch()) {
+                    RailTracking().trackRailRoundTripOutbound(outboundLeg, searchRequest)
+                } else {
+                    RailTracking().trackRailOneWaySearch(outboundLeg, searchRequest)
+                }
+            }
+        }).subscribe()
     }
 
     private fun doSearch(params: RailSearchRequest) {

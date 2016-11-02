@@ -15,6 +15,7 @@ import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.RailServices
+
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -125,7 +126,14 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         }
     }
 
-    private val detailsToInbound = LeftToRightTransition(this, RailDetailsPresenter::class.java, RailInboundPresenter::class.java)
+    private val detailsToInbound = object: LeftToRightTransition(this, RailDetailsPresenter::class.java, RailInboundPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                RailTracking().trackRailRoundTripInbound()
+            }
+        }
+    }
     private val inboundToDetails = LeftToRightTransition(this, RailInboundPresenter::class.java, RailInboundDetailsPresenter::class.java)
     private val inboundDetailsToOverview = object : LeftToRightTransition(this, RailInboundDetailsPresenter::class.java, RailTripOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
