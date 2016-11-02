@@ -216,20 +216,22 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         // Communicate
         var communicateFragment: AboutSectionFragment? = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_COMMUNICATE)
         if (communicateFragment == null) {
-            builder = AboutSectionFragment.Builder(context)
+            if (ProductFlavorFeatureConfiguration.getInstance().isCommunicateSectionEnabled()) {
+                builder = AboutSectionFragment.Builder(context)
 
-            builder.setTitle(R.string.about_section_communicate)
+                builder.setTitle(R.string.about_section_communicate)
 
-            if (ProductFlavorFeatureConfiguration.getInstance().isRateOurAppEnabled()) {
-                builder.addRow(R.string.rate_our_app, ROW_RATE_APP)
+                if (ProductFlavorFeatureConfiguration.getInstance().isRateOurAppEnabled()) {
+                    builder.addRow(R.string.rate_our_app, ROW_RATE_APP)
+                }
+
+                if (ProductFlavorFeatureConfiguration.getInstance().isWeReHiringEnabled()) {
+                    builder.addRow(R.string.WereHiring, ROW_WERE_HIRING)
+                }
+
+                communicateFragment = builder.build()
+                ft.add(R.id.section_communicate, communicateFragment, TAG_COMMUNICATE)
             }
-
-            if (ProductFlavorFeatureConfiguration.getInstance().isWeReHiringEnabled()) {
-                builder.addRow(R.string.WereHiring, ROW_WERE_HIRING)
-            }
-
-            communicateFragment = builder.build()
-            ft.add(R.id.section_communicate, communicateFragment, TAG_COMMUNICATE)
         }
 
         // T&C, privacy, etc
