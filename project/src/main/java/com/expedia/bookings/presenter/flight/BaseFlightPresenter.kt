@@ -209,6 +209,10 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             filter.visibility = View.VISIBLE
+            if (!forward) {
+                resultsPresenter.visibility = VISIBLE
+                toolbar.visibility = VISIBLE
+            }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -224,6 +228,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
                 filter.visibility = View.VISIBLE
                 filter.translationY = 0f
                 trackFlightSortFilterLoad()
+                resultsPresenter.visibility = GONE
+                toolbar.visibility = GONE
             } else {
                 filter.visibility = View.GONE
                 filter.translationY = (filter.height).toFloat()
