@@ -19,16 +19,26 @@ abstract class BaseCheckoutTravelerViewModel() {
         if (allTravelersValid()){
             allTravelersCompleteSubject.onNext(getTravelers())
             travelerCompletenessStatus.onNext(TravelerCheckoutStatus.COMPLETE)
+        } else if (Db.getTravelers().size > 1 && singleTravelerCompletenessStatus.value != TravelerCheckoutStatus.DIRTY) {
+            invalidTravelersSubject.onNext(Unit)
+            travelerCompletenessStatus.onNext(TravelerCheckoutStatus.CLEAN)
         } else {
             invalidTravelersSubject.onNext(Unit)
             travelerCompletenessStatus.onNext(TravelerCheckoutStatus.DIRTY)
         }
     }
 
+    fun resetCompleteness() {
+        singleTravelerCompletenessStatus.onNext(TravelerCheckoutStatus.CLEAN)
+    }
+
     fun updateCompletionStatusForTraveler(index: Int) {
         if (isValidForBooking(getTraveler(index), index)){
             singleTravelerCompletenessStatus.onNext(TravelerCheckoutStatus.COMPLETE)
         } else {
+            if (getTraveler(index).lastName.isNullOrEmpty()) {
+                getTraveler(index).lastName = " "
+            }
             singleTravelerCompletenessStatus.onNext(TravelerCheckoutStatus.DIRTY)
         }
     }

@@ -159,6 +159,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
     fun resetTravelers() {
         travelerPickerWidget.refresh(viewModel.getTravelers())
+        viewModel.resetCompleteness()
     }
 
     fun updateAllTravelerStatuses() {
