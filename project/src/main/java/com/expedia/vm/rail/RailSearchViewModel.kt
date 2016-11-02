@@ -221,7 +221,11 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     }
 
     override fun sameStartAndEndDateAllowed(): Boolean {
-        return true
+        return false
+    }
+
+    override fun getStartDate(): LocalDate {
+        return LocalDate.now().plusDays(1)
     }
 
     override fun getCalendarSliderTooltipStartTimeLabel(): String{

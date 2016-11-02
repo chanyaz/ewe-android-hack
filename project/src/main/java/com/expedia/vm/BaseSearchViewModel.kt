@@ -131,6 +131,10 @@ abstract class BaseSearchViewModel(val context: Context) {
 
     abstract fun isStartDateOnlyAllowed(): Boolean
 
+    open fun getStartDate(): LocalDate {
+        return LocalDate.now()
+    }
+
     protected fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
         if (start == null && end == null) {
             return context.resources.getString(R.string.select_dates_proper_case)
