@@ -101,10 +101,6 @@
     <string name="enter_driver_details_cont_desc">ドライバーの情報を入力ボタン</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">保存済みの連絡先から選択</string>
-    <!-- Text for enter payment details-->
-    <string name="enter_payment_details">支払い情報を入力</string>
-    <!-- Template for selected credit card-->
-    <string name="selected_card_template">有効期限 : %s</string>
     <!-- Car doors text-->
     <string name="car_doors_text">ドア</string>
     <!-- Car bags text-->
@@ -232,8 +228,6 @@
     <string name="successful_checkout_email_label">旅程送信先 :</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">%1$sへのアクセス方法</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">クレジットカード / デビットカード</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">新しいデビット / クレジットカード情報を入力</string>
     <!-- Text for enter guest details line 1 -->
@@ -246,8 +240,6 @@
     <string name="checkout_enter_payment_details">お支払い方法</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">クレジットカード情報を入力</string>
-    <!-- Label to indicate that the user has selected a stored credit card -->
-    <string name="checkout_payment_line2_storedcc">保存済みのクレジット カード</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">ポイントで支払い</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1501,9 +1493,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア自動車</string>
-    <string name="car_type_three_door">3 ドア自動車</string>
-    <string name="car_type_four_door">4 ドア自動車</string>
+    <string name="car_type_two_door">2 ドア 自動車</string>
+    <string name="car_type_three_door">3 ドア 自動車</string>
+    <string name="car_type_four_door">4 ドア 自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1914,7 +1906,6 @@
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
-    <string name="room_with_guests_TEMPLATE">1 室、{guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">無料キャンセル期限 : {date}</string>
 
     <!-- Flight details fragment -->
@@ -2145,8 +2136,6 @@
     <string name="please_enter_a_valid_email_address">有効なメールアドレスを入力してください</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">ホテルでのお支払い料金</string>
-    <!-- Row label for when we show resort fees as its own line item -->
-    <string name="fees_due_at_hotel">ホテルでお支払いいただく料金</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">{brand} へのお支払い金額</string>
     <!-- Due to expedia today - today -->
@@ -2215,16 +2204,12 @@
     <!-- Edit button for traveler/payment -->
     <string name="edit_button">編集</string>
 
-    <!-- Title in toolbar on checkout telling user to select travelers he wants for booking-->
-    <string name="select_travelers">旅行者を選択</string>
     <!-- Select traveler/contact from checkout saved travelers list -->
     <string name="select_traveler">代表者を選択</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">新しい旅行者情報を追加</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">ゲストの詳細</string>
-    <!-- Guest all fields are required -->
-    <string name="guest_field_required">すべて必須項目です。</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">大人 %1$s の詳細</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
@@ -2331,6 +2316,10 @@
     <string name="address_zip_code_hint">郵便番号</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">郵便番号</string>
+    <!--Address Province hint-->
+    <string name="address_province_hint">州</string>
+    <!--Address Country/State/Province hint-->
+    <string name="address_county_hint">都道府県</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2349,7 +2338,7 @@
         <item quantity="one">その他 {travelercount} 名の旅行者</item>
         <item quantity="other">その他 {travelercount} 名の旅行者</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 歳</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -2489,8 +2478,6 @@
     <string name="add_to_your_trip">旅行に追加する</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%sのホテル</string>
-    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
-    <string name="hotels_guest_TEMPLATE">1 室、%s 名</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%sのレンタカー</string>
     <!-- Title for section helping users in other various ways -->
@@ -2905,11 +2892,7 @@
     <string name="vip_access">+VIP Access</string>
     <!--Options title for favorite and VIP checkboxes for Hotel Results -->
     <string name="filter_options">オプション</string>
-    <!-- Title for Favorites message for Hotel Results -->
-    <string name="favorites">お気に入り</string>
-    <!-- Filter for showing only favorited hotels -->
-    <string name="favorites_only">お気に入りのみ</string>
-    <!-- Filter for showing only VIP access hotels -->
+    <!-- Filter for showing favorited hotels -->
     <string name="filter_favorites">お気に入りホテル</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">+VIP Access 提携ホテルでは、+シルバー 会員および +ゴールド 会員は、客室無料アップグレードおよびその他の特典をご利用いただけます (チェックイン時の利用状況による)。</string>
@@ -4111,8 +4094,8 @@
     <string name="show_more">すべて表示</string>
     <string name="show_less">一部のみ表示</string>
     <string name="price_range">価格帯</string>
-    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
-    <string name="filter_sort_by_content_description_TEMPLATE">並べ替え。{sort}。</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
+    <string name="filter_sort_by_content_description_TEMPLATE">{sort}で並べ替え</string>
     <!-- Hotel Price Range start filter label for accessibility -->
     <string name="hotel_price_range_start">最低料金</string>
     <!-- Hotel Price Range end filter label for accessibility -->
@@ -4190,8 +4173,6 @@
         <item quantity="one">航空券との同時予約で、このホテルが {night} 泊無料になります。</item>
         <item quantity="other">航空券との同時予約で、このホテルが {night} 泊無料になります。</item>
     </plurals>
-    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
-    <string name="flight_time_traveler_TEMPLATE">%1$s、%2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s %2$s、%3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -4370,6 +4351,8 @@
     <string name="package_flight_overview_bundle_total_label">ツアー (航空券 + ホテル) 合計料金</string>
     <string name="package_flight_overview_per_person_TEMPLATE">1 名あたり {money}</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <!-- Flight segment departure to arrival, content description. Example: (SFO) San Francisco to (DEN) Denver -->
+    <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">({departureairportcode}) {departurecity} → ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">{city} ({airportcode}) で乗り継ぎ</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">合計所要時間 : {duration}</string>
@@ -4386,9 +4369,6 @@
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">往復</string>
 
-    <!--used on the rail search screen - this is equivalent to a round trip air ticket with a return trip any time within a 30 day window (typically)-->
-    <string name="rail_open_return">往復 (オープン チケット)</string>
-
     <!--used on the rail results/details screen to signify that a trip doesn't have any stops -->
     <string name="rail_direct">直行</string>
 
@@ -4397,6 +4377,15 @@
 
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}、{formattedchangecount}</string>
+
+    <!-- Heading for web view which shows payment and ticket delivery fees legal details -->
+    <string name="rail_search_legal_web_view_heading">支払い手数料およびチケット配送料</string>
+
+    <!-- Legal message shown on search result screen for one way search -->
+    <string name="rail_search_legal_banner_one_way">表示料金は旅行者全員分の片道料金です。支払い手数料およびチケット配送料が加算される場合があります。</string>
+
+    <!-- Legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip">表示料金は旅行者全員分の往復料金です。支払い手数料およびチケット配送料が加算される場合があります。</string>
 
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
@@ -4426,6 +4415,15 @@
 
     <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">復路 (帰り) - {date}</string>
+
+    <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
+    <string name="rail_price_breakdown_journey">旅程</string>
+
+    <!-- rail checkout card fee error message title -->
+    <string name="rail_cardfee_error_title">カード手数料エラー</string>
+
+    <!-- rail checkout card fee error message -->
+    <string name="rail_cardfee_error_message">現時点では、正確なクレジットカード手数料を算出することができません。この予約に対して追加料金が加算される場合があります。</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">合計</string>
@@ -4484,7 +4482,7 @@
     <string name="shipping_address">郵送先</string>
 
     <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
-    <string name="rails_legal_TEMPLATE">このご予約の完了をもって、&lt;a href=\"{rules_and_restrictions_url}\"&gt;規則および制限事項&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;旅行規約&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;サプライヤー利用規約&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;利用規約&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;プライバシーポリシー&lt;/a&gt;、&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;お支払いおよび発券手数料&lt;/a&gt;を読み、その内容に同意したものとみなされます。</string>
+    <string name="rails_legal_TEMPLATE">このご予約の完了をもって、&lt;a href=\"{rules_and_restrictions_url}\"&gt;規則および制限事項&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;旅行規約&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_conditions_url}\"&gt;サプライヤー利用規約&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;利用規約&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;プライバシーポリシー&lt;/a&gt;、&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;お支払いおよび発券手数料&lt;/a&gt;を読み、その内容に同意したものとみなされます。</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">チケットの予約番号および購入時にご利用のクレジットカードをお持ちください。</string>
@@ -4511,8 +4509,6 @@
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">航空保険</string>
-    <!-- Cost summary breakdown line item for flights -->
-    <string name="cost_summary_breakdown_flight_summary">航空券</string>
     <!-- Cost summary breakdown line item for a hotel + flight package -->
     <string name="cost_summary_breakdown_hotel_flight_summary">ホテル + 航空券</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
@@ -4595,10 +4591,16 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">フライト時間は {time} で差額は {pricedifference} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の{hotel}。ゲスト評価 5 段階中 {guestrating}。料金 {price}。ホテルと航空券込み \u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の{hotel}。ゲスト評価 5 段階中 {guestrating}。\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
+    <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">ゲスト評価 5 段階中 {guestrating} の{hotel}。\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">5 段階中 {hotel} の評価の{starrating}。\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
+    <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}。\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">前の料金 {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
@@ -4678,10 +4680,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">ツアー (航空券 + ホテル) 料金は 1 名 {price_per_person} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ツアー (航空券 + ホテル) を表示するボタン。</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">ツアー (航空券 + ホテル) 詳細を表示しています。閉じるボタン。</string>
-    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
-    <string name="select_hotel_selected_expand_cont_desc">展開</string>
-    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
-    <string name="select_hotel_selected_collapse_cont_desc">折りたたみ</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
