@@ -18,6 +18,7 @@ import com.expedia.bookings.test.espresso.TabletViewActions
 import com.expedia.bookings.test.espresso.TestValues
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.phone.hotels.HotelScreen
+import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
@@ -172,15 +173,16 @@ object SearchScreen {
         search(1, 0, false, true)
     }
 
-    @JvmStatic fun selectFlightOriginAndDestination(originPosition: Int, destinationPosition: Int) {
+    @JvmStatic fun selectFlightOriginAndDestination(suggestionResponseType: FlightApiMockResponseGenerator.SuggestionResponseType, destinationPosition: Int) {
         origin().perform(click())
         searchEditText().perform(ViewActions.waitForViewToDisplay())
         searchEditText().perform(android.support.test.espresso.action.ViewActions.typeText("origin"))
         Espresso.closeSoftKeyboard()
         Common.delay(1)
         suggestionList().perform(ViewActions.waitForViewToDisplay())
-        suggestionList().perform(RecyclerViewActions.scrollToPosition<RecyclerView.ViewHolder>(originPosition))
-        suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(originPosition, click()))
+
+        suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(suggestionResponseType.suggestionString))
+                , click()))
 
         //Delay for the auto advance to destination picker
         Common.delay(1)
@@ -195,19 +197,19 @@ object SearchScreen {
 
     @Throws(Throwable::class)
     @JvmStatic fun selectFlightOrigin() {
-        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
-        selectLocation(TestValues.FLIGHT_ORIGIN_LOCATION_SFO)
+        searchEditText().perform(typeText("happy"))
+        selectLocation("happy")
     }
 
     @Throws(Throwable::class)
     @JvmStatic fun selectFlightOriginAndDestination() {
-        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
-        selectLocation(TestValues.FLIGHT_ORIGIN_LOCATION_SFO)
+        searchEditText().perform(typeText("happy"))
+        selectLocation("happy")
         //Delay from the auto advance anim
         Common.delay(1)
         searchEditText().perform(ViewActions.waitForViewToDisplay())
-        searchEditText().perform(typeText(TestValues.TYPE_TEXT_DTW))
-        selectLocation(TestValues.DESTINATION_LOCATION_DTW)
+        searchEditText().perform(typeText(TestValues.TYPE_TEXT_SFO))
+        selectLocation(TestValues.FLIGHT_ORIGIN_LOCATION_SFO)
     }
 
     @Throws(Throwable::class)
@@ -288,5 +290,10 @@ object SearchScreen {
 
     @JvmStatic fun searchEditText(): ViewInteraction {
         return onView(withId(android.support.v7.appcompat.R.id.search_src_text)).perform(ViewActions.waitForViewToDisplay())
+    }
+
+    fun selectDate(startDate: LocalDate?) {
+        calendar().perform(TabletViewActions.clickDates(startDate, null))
+        searchAlertDialogDone().perform(click())
     }
 }

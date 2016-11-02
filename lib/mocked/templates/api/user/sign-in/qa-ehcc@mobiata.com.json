@@ -57,7 +57,15 @@
         "nameOnCard": "Quite Test",
         "expired": "false",
         "expirationDate": "2015-04"
-      }
+      },
+     {
+       "description": "checkoutpricechange",
+       "paymentsInstrumentsId": "EB5BBFFF-A91F-4B79-8685-6A5A4C1D4059",
+       "creditCardType": "AmericanExpress",
+       "nameOnCard": "checkoutpricechange lastname",
+       "expired": "false",
+       "expirationDate": "2016-03"
+     }
     ],
    "loyaltyMembershipNumber":"308127915",
    "isSmokingPreferred":false,

@@ -4,24 +4,19 @@ import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions.matches
-import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
-import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
-import com.expedia.bookings.test.espresso.NewFlightTestCase
-import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
-import org.joda.time.LocalDate
+import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.junit.Test
 
-class FlightPriceChangeTest: NewFlightTestCase() {
+class FlightPriceChangeTest: FlightErrorTestCase() {
 
     enum class PriceChangeType {
         CHECKOUT,
@@ -52,7 +47,7 @@ class FlightPriceChangeTest: NewFlightTestCase() {
         getToCheckoutOverview(PriceChangeType.CHECKOUT)
 
         PackageScreen.enterTravelerInfo()
-        PackageScreen.enterPaymentInfo()
+        PackageScreen.enterPaymentInfo("checkoutpricechange lastname")
         CheckoutViewModel.performSlideToPurchase()
 
         FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
@@ -62,14 +57,14 @@ class FlightPriceChangeTest: NewFlightTestCase() {
     fun testCheckoutPriceChangeWithInsurance() {
         bucketInsuranceTest(true)
 
-        getToCheckoutOverview(PriceChangeType.CHECKOUT)
+        getToCheckoutOverview(PriceChangeType.CHECKOUT, false)
 
         assertInsuranceIsVisible()
         PackageScreen.toggleInsurance()
         assertInsuranceBeforePriceChange()
 
         PackageScreen.enterTravelerInfo()
-        PackageScreen.enterPaymentInfo()
+        PackageScreen.enterPaymentInfo("checkoutpricechangewithinsurance lastname")
         CheckoutViewModel.performSlideToPurchase()
 
         FlightsOverviewScreen.assertPriceChangeShown("Price changed from $715")
@@ -84,41 +79,24 @@ class FlightPriceChangeTest: NewFlightTestCase() {
 
         Common.delay(2) // waitForViewToDisplay does not work as this button is not in previous view (sign in)
         CheckoutViewModel.clickPaymentInfo()
-        CheckoutViewModel.selectStoredCard("Saved AmexTesting")
+        CheckoutViewModel.selectStoredCard("Saved checkoutpricechange")
         Common.pressBack()
         CheckoutViewModel.performSlideToPurchase(true)
         FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
     }
 
-    private fun getToCheckoutOverview(priceChangeType: PriceChangeType) {
-        val originListIndex = when (priceChangeType) {
-            PriceChangeType.CHECKOUT -> 6
-            PriceChangeType.CREATE_TRIP -> 7
+    private fun getToCheckoutOverview(priceChangeType: PriceChangeType, isOneWay: Boolean = true) {
+        searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, isOneWay)
+        if (priceChangeType == PriceChangeType.CREATE_TRIP) {
+            selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.CREATE_TRIP_PRICE_CHANGE)
+        } else {
+            if (isOneWay) {
+                selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ONE_WAY)
+            } else {
+                selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ROUND_TRIP)
+                selectFirstInboundFlight()
+            }
         }
-
-        SearchScreen.origin().perform(ViewActions.click())
-        SearchScreen.searchEditText().perform(ViewActions.typeText("price change origin"))
-        SearchScreen.suggestionList().perform(waitForViewToDisplay())
-        SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(originListIndex, ViewActions.click()))
-
-        //Delay for the auto advance to destination picker
-        Common.delay(1)
-        SearchScreen.searchEditText().perform(waitForViewToDisplay())
-        SearchScreen.searchEditText().perform(ViewActions.typeText("SFO"))
-        SearchScreen.suggestionList().perform(waitForViewToDisplay())
-        SearchScreen.suggestionList().perform(RecyclerViewActions.actionOnItemAtPosition<RecyclerView.ViewHolder>(0, ViewActions.click()))
-
-        val startDate = LocalDate.now().plusDays(3)
-        val endDate = LocalDate.now().plusDays(8)
-        SearchScreen.selectDates(startDate, endDate)
-        SearchScreen.searchButton().perform(ViewActions.click())
-        FlightTestHelpers.assertFlightOutbound()
-
-        FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0)
-        FlightsScreen.selectOutboundFlight().perform(ViewActions.click())
-        FlightTestHelpers.assertFlightInbound()
-        FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0)
-        FlightsScreen.selectInboundFlight().perform(ViewActions.click())
         PackageScreen.checkout().perform(ViewActions.click())
     }
 

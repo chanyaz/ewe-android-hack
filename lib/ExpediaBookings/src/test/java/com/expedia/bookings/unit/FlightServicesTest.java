@@ -1,5 +1,6 @@
 package com.expedia.bookings.unit;
 
+import com.mobiata.mocke3.FlightApiMockResponseGenerator;
 import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -99,13 +100,13 @@ public class FlightServicesTest {
 
 		TestSubscriber<FlightSearchResponse> observer = new TestSubscriber<>();
 		SuggestionV4 departureSuggestion = getDummySuggestion();
-		departureSuggestion.hierarchyInfo.airport.airportCode = "SearchError";
-		departureSuggestion.gaiaId = "SearchError";
+		String suggestion = FlightApiMockResponseGenerator.SuggestionResponseType.SEARCH_ERROR.getSuggestionString();
+		departureSuggestion.hierarchyInfo.airport.airportCode = suggestion;
+		departureSuggestion.gaiaId = suggestion;
 		FlightSearchParams params = (FlightSearchParams) new FlightSearchParams.Builder(26, 500)
 			.origin(departureSuggestion)
 			.destination(getDummySuggestion())
 			.startDate(LocalDate.now())
-			.endDate(LocalDate.now().plusDays(1))
 			.adults(1)
 			.build();
 

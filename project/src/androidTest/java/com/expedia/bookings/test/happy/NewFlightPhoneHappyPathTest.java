@@ -87,7 +87,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		FlightTestHelpers.assertFlightInbound();
 		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Delta");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("happy_round_trip");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
 		FlightsScreen.selectInboundFlight().perform(click());
@@ -235,11 +235,11 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		onView(allOf(withId(R.id.first_row),
 			isDescendantOfA(withId(R.id.outbound_flight_card)))).check(
-			matches(withText("Flight to (DTW) Detroit")));
+			matches(withText("Flight to (SFO) Detroit")));
 
 		onView(allOf(withId(R.id.first_row),
 			isDescendantOfA(withId(R.id.inbound_flight_card)))).check(
-			matches(withText("Flight to (SFO) San Francisco")));
+			matches(withText("Flight to (happy) San Francisco")));
 
 		onView(allOf(withId(R.id.hotel_cross_sell_widget),
 			isDescendantOfA(withId(R.id.confirmation_container)))).check(
@@ -268,11 +268,11 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		onView(allOf(withId(R.id.first_row),
 			isDescendantOfA(withId(R.id.outbound_flight_card)))).check(
-			matches(withText("Flight to (DTW) Detroit")));
+			matches(withText("Flight to (SFO) Detroit")));
 
 		onView(allOf(withId(R.id.first_row),
 			isDescendantOfA(withId(R.id.inbound_flight_card)))).check(
-			matches(withText("Flight to (SFO) San Francisco")));
+			matches(withText("Flight to (happy) San Francisco")));
 
 		onView(allOf(withId(R.id.hotel_cross_sell_widget),
 			isDescendantOfA(withId(R.id.confirmation_container)))).check(
@@ -321,17 +321,17 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	private void assertCheckoutOverview() {
 		onView(allOf(withId(R.id.destination), withParent(withId(R.id.checkout_overview_floating_toolbar)),
-			withText("Detroit, MI"))).check(matches(isDisplayed()));
+			withText("San Francisco, CA"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.travelers), withParent(withId(R.id.checkout_overview_floating_toolbar)),
 			withText("1 Traveler"))).check(matches(isDisplayed()));
 
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)))).check(
-			matches(withText("Flight to (DTW) Detroit")));
+			matches(withText("Flight to (SFO) Detroit")));
 
 		onView(allOf(withId(R.id.flight_card_view_text),
 			isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)))).check(
-			matches(withText("Flight to (SFO) San Francisco")));
+			matches(withText("Flight to (happy) San Francisco")));
 
 		onView(allOf(withId(R.id.bundle_total_includes_text), isDescendantOfA(withId(R.id.total_price_widget)),
 			withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),

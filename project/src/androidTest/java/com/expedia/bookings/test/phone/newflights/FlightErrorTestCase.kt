@@ -4,22 +4,39 @@ import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.withClassName
 import android.support.test.espresso.matcher.ViewMatchers.withId
 import android.support.test.espresso.matcher.ViewMatchers.withText
+import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import com.expedia.bookings.widget.TextView
+import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
 
 open class FlightErrorTestCase : NewFlightTestCase() {
 
+    protected fun searchFlights(suggestionResponseType: FlightApiMockResponseGenerator.SuggestionResponseType, isOneWay: Boolean = true) {
+        if (isOneWay) {
+            onView(withText("ONE WAY")).perform(ViewActions.click())
+        }
+        SearchScreen.selectFlightOriginAndDestination(suggestionResponseType, 0)
+        val startDate = LocalDate.now().plusDays(3)
+        if (isOneWay) {
+            SearchScreen.selectDate(startDate)
+        } else{
+            SearchScreen.selectDates(startDate, startDate.plusDays(5))
+        }
+        SearchScreen.searchButton().perform(ViewActions.click())
+    }
 
     protected fun assertConfirmationViewIsDisplayed() {
         onView(withId(R.id.confirmation_container))
@@ -74,24 +91,18 @@ open class FlightErrorTestCase : NewFlightTestCase() {
                 .check(ViewAssertions.matches(isDisplayed()))
     }
 
-    fun searchForFlights(errorType: ApiError.Code, testType: TestType) {
-        val originIndex = when (errorType) {
-            ApiError.Code.UNKNOWN_ERROR -> if (testType == TestType.CREATE_TRIP) 8 else 12
-            ApiError.Code.FLIGHT_SOLD_OUT -> 9
-            ApiError.Code.FLIGHT_PRODUCT_NOT_FOUND -> 10
-            ApiError.Code.SESSION_TIMEOUT -> if (testType == TestType.CREATE_TRIP) 11 else 14
-            ApiError.Code.PAYMENT_FAILED -> 13
-            ApiError.Code.TRIP_ALREADY_BOOKED -> 15
-            ApiError.Code.FLIGHT_SEARCH_NO_RESULTS -> 16
+    protected fun selectOutboundFlight(searchResultsResponseType: FlightApiMockResponseGenerator.SearchResultsResponseType) {
+        selectOutboundFlight(searchResultsResponseType.responseName)
+    }
 
-            else -> throw IllegalArgumentException("I do not support testing ${errorType.name} error types")
-        }
-        SearchScreen.selectFlightOriginAndDestination(originIndex, 0)
+    protected fun selectOutboundFlight(code: ApiError.Code) {
+        selectOutboundFlight(code.toString())
+    }
 
-        val startDate = LocalDate.now().plusDays(3)
-        val endDate = LocalDate.now().plusDays(8)
-        SearchScreen.selectDates(startDate, endDate)
-        SearchScreen.searchButton().perform(ViewActions.click())
+    private fun selectOutboundFlight(flight: String) {
+        FlightsScreen.outboundFlightList().perform(waitForViewToDisplay())
+        FlightsScreen.outboundFlightList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(flight)), ViewActions.click()))
+        FlightsScreen.selectOutboundFlight().perform(ViewActions.click())
     }
 
     protected fun selectFirstInboundFlight() {
@@ -100,14 +111,4 @@ open class FlightErrorTestCase : NewFlightTestCase() {
         FlightsScreen.selectInboundFlight().perform(ViewActions.click())
     }
 
-    protected fun selectFirstOutboundFlight() {
-        FlightTestHelpers.assertFlightOutbound()
-        FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0)
-        FlightsScreen.selectOutboundFlight().perform(ViewActions.click())
-    }
-
-    enum class TestType {
-        CHECKOUT,
-        CREATE_TRIP
-    }
 }

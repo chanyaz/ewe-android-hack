@@ -87,12 +87,14 @@
                     "basePrice": {
                         "amount": "620.46",
                         "formattedPrice": "$620.46",
+                        "currencyCode": "USD",
                         "formattedWholePrice": "$620"
                     },
                     "passengerCategory": "ADULT",
                     "taxesPrice": {
                         "amount": "68.54",
                         "formattedPrice": "$68.54",
+                        "currencyCode": "USD",
                         "formattedWholePrice": "$69"
                     },
                     "totalPrice": {
@@ -123,6 +125,7 @@
             "taxes": "68.54",
             "taxesPrice": {
                 "amount": "68.54",
+                "currencyCode": "USD",
                 "formattedPrice": "$68.54",
                 "formattedWholePrice": "$69"
             },

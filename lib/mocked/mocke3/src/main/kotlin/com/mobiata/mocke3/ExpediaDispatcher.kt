@@ -288,13 +288,17 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
                 return makeResponse("/hint/es/v1/nearby/en_US/suggestion.json")
             }// City
         } else if (request.path.startsWith("/api/v4/typeahead/")) {
-            val requestPath = request.path
-            val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?')).toLowerCase()
-            if ("Flights".equals(lob, false)) {
-                return makeResponse("/api/v4/suggestion_" + unUrlEscape(filename) + ".json")
-            }
-            else {
-                return makeResponse("/api/v4/suggestion.json")
+            if ("FLIGHTS".equals(lob)) {
+                //Material Flights
+                return makeResponse("/api/v4/suggestion_flights.json")
+            } else {
+                val requestPath = request.path
+                val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?')).toLowerCase()
+                if ("Flights".equals(lob, false)) {
+                    return makeResponse("/api/v4/suggestion_" + unUrlEscape(filename) + ".json")
+                } else {
+                    return makeResponse("/api/v4/suggestion.json")
+                }
             }
         } else if (request.path.startsWith("/api/v4/nearby/")) {
             if (latlong == "31.32|75.57") {

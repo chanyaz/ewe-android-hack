@@ -1,23 +1,25 @@
 package com.expedia.bookings.test.phone.newflights
 
 import android.support.test.espresso.action.ViewActions
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
+import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.junit.Test
 
-class FlightCheckoutErrorTest: FlightErrorTestCase() {
+class FlightCheckoutErrorTest : FlightErrorTestCase() {
+
+    fun getToCheckoutWithFilledInTravelerDetails() {
+        searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH)
+        selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ONE_WAY)
+        PackageScreen.checkout().perform(ViewActions.click())
+        PackageScreen.enterTravelerInfo()
+    }
 
     @Test
     fun testCheckoutUnknownError() {
-        searchForFlights(ApiError.Code.UNKNOWN_ERROR, FlightErrorTestCase.TestType.CHECKOUT)
-        selectFirstOutboundFlight()
-        selectFirstInboundFlight()
-        PackageScreen.checkout().perform(ViewActions.click())
-
-        PackageScreen.enterTravelerInfo()
-        PackageScreen.enterPaymentInfo()
+        getToCheckoutWithFilledInTravelerDetails()
+        PackageScreen.enterPaymentInfo("unknownerror lastname")
 
         CheckoutViewModel.performSlideToPurchase()
 
@@ -32,13 +34,8 @@ class FlightCheckoutErrorTest: FlightErrorTestCase() {
 
     @Test
     fun testCheckoutPaymentFailedError() {
-        searchForFlights(ApiError.Code.PAYMENT_FAILED, FlightErrorTestCase.TestType.CHECKOUT)
-        selectFirstOutboundFlight()
-        selectFirstInboundFlight()
-        PackageScreen.checkout().perform(ViewActions.click())
-
-        PackageScreen.enterTravelerInfo()
-        PackageScreen.enterPaymentInfo()
+        getToCheckoutWithFilledInTravelerDetails()
+        PackageScreen.enterPaymentInfo("paymentfailederror lastname")
 
         CheckoutViewModel.performSlideToPurchase()
 
@@ -53,13 +50,8 @@ class FlightCheckoutErrorTest: FlightErrorTestCase() {
 
     @Test
     fun testCheckoutSessionTimeout() {
-        searchForFlights(ApiError.Code.SESSION_TIMEOUT, FlightErrorTestCase.TestType.CHECKOUT)
-        selectFirstOutboundFlight()
-        selectFirstInboundFlight()
-        PackageScreen.checkout().perform(ViewActions.click())
-
-        PackageScreen.enterTravelerInfo()
-        PackageScreen.enterPaymentInfo()
+        getToCheckoutWithFilledInTravelerDetails()
+        PackageScreen.enterPaymentInfo("sessiontimeout lastname")
 
         CheckoutViewModel.performSlideToPurchase()
 
@@ -74,13 +66,8 @@ class FlightCheckoutErrorTest: FlightErrorTestCase() {
 
     @Test
     fun testCheckoutTripAlreadyBooked() {
-        searchForFlights(ApiError.Code.TRIP_ALREADY_BOOKED, FlightErrorTestCase.TestType.CHECKOUT)
-        selectFirstOutboundFlight()
-        selectFirstInboundFlight()
-        PackageScreen.checkout().perform(ViewActions.click())
-
-        PackageScreen.enterTravelerInfo()
-        PackageScreen.enterPaymentInfo()
+        getToCheckoutWithFilledInTravelerDetails()
+        PackageScreen.enterPaymentInfo("tripalreadybooked lastname")
 
         CheckoutViewModel.performSlideToPurchase()
 
