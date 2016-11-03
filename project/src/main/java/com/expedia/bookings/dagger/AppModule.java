@@ -1,15 +1,31 @@
 package com.expedia.bookings.dagger;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.Security;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Singleton;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import android.content.Context;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.server.PersistentCookieManager;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
-import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.utils.EncryptionUtil;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
@@ -20,6 +36,7 @@ import com.google.android.gms.security.ProviderInstaller;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
+
 import dagger.Module;
 import dagger.Provides;
 import java.io.File;
@@ -52,6 +69,7 @@ public class AppModule {
 
 	public AppModule(Context context) {
 		this.context = context;
+		Security.addProvider(new org.spongycastle.jce.provider.BouncyCastleProvider());
 	}
 
 	@Provides
@@ -124,17 +142,17 @@ public class AppModule {
 		}
 	}
 
+	private static final String COOKIE_FILE_V6 = "cookies-6-encrypted.dat";
 	private static final String COOKIE_FILE_V5 = "cookies-5.dat";
-	private static final String COOKIE_FILE_V4 = "cookies-4.dat";
-	private static final String COOKIE_FILE_OLD = COOKIE_FILE_V4;
-	private static final String COOKIE_FILE_LATEST = COOKIE_FILE_V5;
+	private static final String COOKIE_FILE_OLD = COOKIE_FILE_V5;
+	private static final String COOKIE_FILE_LATEST = COOKIE_FILE_V6;
 
 	@Provides
 	@Singleton
-	PersistentCookieManager provideCookieManager(Context context) {
+	PersistentCookieManager provideCookieManager(Context context, EncryptionUtil encryptionUtil) {
 		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
 		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		PersistentCookieManager manager = new PersistentCookieManager(storage, oldStorage);
+		PersistentCookieManager manager = new PersistentCookieManager(context, storage, oldStorage, encryptionUtil);
 		return manager;
 	}
 

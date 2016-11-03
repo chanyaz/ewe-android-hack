@@ -1,5 +1,7 @@
 package com.expedia.bookings.test.espresso;
 
+import java.io.File;
+
 import android.app.Application;
 import android.app.KeyguardManager;
 import android.os.Bundle;
@@ -22,6 +24,11 @@ public class InstrumentationTestRunner extends AndroidJUnitRunner {
 		if (!BuildConfig.IS_SCREENSHOT_BUILD) {
 			ExpediaBookingApp.setIsInstrumentation(true);
 		}
+		Application app = (Application) getTargetContext().getApplicationContext();
+		File cookies = app.getFileStreamPath("secure_key_file.dat");
+		File secretKeystore = app.getFileStreamPath("cookies-6-encrypted.dat");
+		cookies.delete();
+		secretKeystore.delete();
 		super.onCreate(args);
 	}
 
