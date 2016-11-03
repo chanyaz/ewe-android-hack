@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">ทริปซ้ำกัน</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">ราคาเปลี่ยนแปลง</string>
+    <string name="price_changed_text">ราคาเปลี่ยนแปลง</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">การชำระเงินล้มเหลว</string>
     <!-- Text for error toolbar-->

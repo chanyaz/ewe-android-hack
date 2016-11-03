@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Ulangi Perjalanan</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">Perubahan Harga</string>
+    <string name="price_changed_text">Perubahan Harga</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Pembayaran Tidak Berhasil</string>
     <!-- Text for error toolbar-->

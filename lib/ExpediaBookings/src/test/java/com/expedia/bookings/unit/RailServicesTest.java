@@ -21,7 +21,7 @@ import com.expedia.bookings.data.rail.requests.RailCheckoutParams;
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
 import com.expedia.bookings.data.rail.responses.RailCard;
 import com.expedia.bookings.data.rail.responses.RailCardsResponse;
-import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponseWrapper;
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
 import com.expedia.bookings.data.rail.responses.RailOffer;
 import com.expedia.bookings.data.rail.responses.RailProduct;
@@ -54,7 +54,7 @@ public class RailServicesTest {
 	private RailApiSearchModel railSearchRequest;
 	private TestSubscriber<RailSearchResponse> searchResponseObserver;
 	private TestSubscriber<RailCreateTripResponse> createTripResponseObserver;
-	private TestSubscriber<RailCheckoutResponse> checkoutTripResponseObserver;
+	private TestSubscriber<RailCheckoutResponseWrapper> checkoutTripResponseObserver;
 	private TestSubscriber<CardFeeResponse> cardFeeResponseObserver;
 
 	@Before
@@ -189,9 +189,9 @@ public class RailServicesTest {
 
 		checkoutTripResponseObserver.assertCompleted();
 		checkoutTripResponseObserver.assertValueCount(1);
-		RailCheckoutResponse checkoutResponse = checkoutTripResponseObserver.getOnNextEvents().get(0);
+		RailCheckoutResponseWrapper checkoutResponseWrapper = checkoutTripResponseObserver.getOnNextEvents().get(0);
 
-		assertEquals("8009690310416", checkoutResponse.orderId);
+		assertEquals("8009690310416", checkoutResponseWrapper.checkoutResponse.orderId);
 	}
 
 	@Test

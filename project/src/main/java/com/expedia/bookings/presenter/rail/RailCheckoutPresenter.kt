@@ -1,6 +1,7 @@
 package com.expedia.bookings.presenter.rail
 
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.text.method.LinkMovementMethod
@@ -23,6 +24,7 @@ import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.CheckoutToolbar
 import com.expedia.bookings.widget.PaymentWidget
+import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
@@ -40,6 +42,7 @@ import com.expedia.vm.rail.RailCheckoutViewModel
 import com.expedia.vm.rail.RailCostSummaryBreakdownViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
 import com.expedia.vm.rail.RailCreditCardFeesViewModel
+import com.expedia.vm.rail.RailPriceChangeViewModel
 import com.expedia.vm.rail.RailTicketDeliveryEntryViewModel
 import com.expedia.vm.rail.RailTicketDeliveryOverviewViewModel
 import com.expedia.vm.rail.RailTotalPriceViewModel
@@ -63,14 +66,18 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     val ticketDeliveryEntryWidget: RailTicketDeliveryEntryWidget by bindView(R.id.ticket_delivery_entry_widget)
     val ticketDeliveryOverviewWidget: RailTicketDeliveryOverviewWidget by bindView(R.id.ticket_delivery_overview_widget)
 
+    val priceChangeWidget: PriceChangeWidget by bindView(R.id.rail_price_change_widget)
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.rail_total_price_widget)
     val slideToPurchaseWidget: SlideToPurchaseWidget by bindView(R.id.rail_slide_to_purchase_widget)
+
+    private val checkoutDialog = ProgressDialog(context)
 
     val checkoutViewModel = RailCheckoutViewModel(context)
 
     private val toolbarViewModel = CheckoutToolbarViewModel(context)
     private val totalPriceViewModel = RailTotalPriceViewModel(context)
     private val priceBreakDownViewModel = RailCostSummaryBreakdownViewModel(context)
+    private val priceChangeViewModel = RailPriceChangeViewModel(context)
 
     private val paymentViewModel = PaymentViewModel(context)
     private val cardFeeViewModel = RailCreditCardFeesViewModel()
@@ -125,6 +132,20 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         }
         checkoutViewModel.sliderPurchaseTotalText.subscribe { total ->
             slideToPurchaseWidget.updatePricingDisplay(total.toString())
+        }
+        checkoutViewModel.showCheckoutDialogObservable.subscribe { show ->
+            if (show) checkoutDialog.show() else checkoutDialog.dismiss()
+        }
+        checkoutViewModel.bookingSuccessSubject.subscribe {
+            slideToPurchaseWidget.reset()
+        }
+
+        priceChangeWidget.viewmodel = priceChangeViewModel
+        checkoutViewModel.priceChangeObservable.subscribe {
+            checkoutViewModel.fetchCardFees(paymentViewModel.cardBIN.value)
+            priceChangeViewModel.priceChangedObserver.onNext(Unit)
+            priceChangeWidget.visibility = View.VISIBLE
+            slideToPurchaseWidget.reset()
         }
 
         travelerEntryWidget.travelerCompleteSubject.subscribe {
@@ -280,6 +301,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     private val defaultTransition = object : Presenter.DefaultTransition(DefaultCheckout::class.java.name) {
         override fun endTransition(forward: Boolean) {
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+            priceChangeWidget.visibility = View.GONE
             if (checkoutViewModel.isValidForBooking()) {
                 slideToPurchaseWidget.show()
             } else {
@@ -370,6 +392,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         ticketDeliveryOverviewWidget.visibility = View.GONE
         totalPriceWidget.visibility = View.GONE
         legalInformationText.visibility = View.GONE
+        priceChangeWidget.visibility = View.GONE
         slideToPurchaseWidget.visibility = View.GONE
     }
 

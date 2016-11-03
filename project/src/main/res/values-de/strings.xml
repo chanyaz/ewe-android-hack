@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Doppelt gebuchte Reise</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">Preisänderung</string>
+    <string name="price_changed_text">Preisänderung</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Bezahlung fehlgeschlagen</string>
     <!-- Text for error toolbar-->

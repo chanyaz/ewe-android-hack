@@ -1,11 +1,12 @@
 package com.expedia.bookings.services
 
 import com.expedia.bookings.data.CardFeeResponse
+import com.expedia.bookings.data.rail.deserializers.RailCheckoutResponseDeserializer
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.requests.RailCreateTripRequest
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.expedia.bookings.data.rail.responses.RailCardsResponse
-import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponseWrapper
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailOffer
@@ -43,10 +44,9 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
     val mobileUrl = endpointMap[Constants.MOCK_MODE] ?: endpointMap[Constants.MOBILE]
 
     val railMApi by lazy {
-        val gson = GsonBuilder().create();
         val adapter = Retrofit.Builder()
                 .baseUrl(mobileUrl)
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(buildRailGsonConverter())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
                 .build()
@@ -97,7 +97,7 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
         return subscription
     }
 
-    fun railCheckoutTrip(params: RailCheckoutParams, observer: Observer<RailCheckoutResponse>): Subscription {
+    fun railCheckoutTrip(params: RailCheckoutParams, observer: Observer<RailCheckoutResponseWrapper>): Subscription {
         cancel()
         val subscription = railMApi.railCheckout(params)
                 .subscribeOn(subscribeOn)
@@ -130,5 +130,12 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
     fun cancel() {
         // cancels any existing calls we're waiting on
         subscription?.unsubscribe()
+    }
+
+    private fun buildRailGsonConverter() : GsonConverterFactory {
+        val gsonBuilder = GsonBuilder();
+        gsonBuilder.registerTypeAdapter(RailCheckoutResponseWrapper::class.java, RailCheckoutResponseDeserializer());
+        val myGson = gsonBuilder.create();
+        return GsonConverterFactory.create(myGson);
     }
 }

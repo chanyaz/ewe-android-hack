@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Voyage en double</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">Prix modifié</string>
+    <string name="price_changed_text">Prix modifié</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Paiement non réussi</string>
     <!-- Text for error toolbar-->

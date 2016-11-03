@@ -12,6 +12,7 @@ import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponseWrapper
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.server.RailCardFeeServiceProvider
@@ -39,7 +40,7 @@ class RailCheckoutViewModel(val context: Context) {
     val checkoutParams = BehaviorSubject.create<RailCheckoutParams>()
     val builder = RailCheckoutParams.Builder()
 
-    val bookingSuccessSubject: PublishSubject<Pair<RailCheckoutResponse, String>> = PublishSubject.create<Pair<RailCheckoutResponse, String>>()
+    val bookingSuccessSubject = PublishSubject.create<Pair<RailCheckoutResponse, String>>()
     private var email: String by Delegates.notNull()
 
     var createTripId: String? = null
@@ -53,6 +54,9 @@ class RailCheckoutViewModel(val context: Context) {
     val showingPaymentForm = PublishSubject.create<Boolean>()
     val updatePricingSubject = PublishSubject.create<RailCreateTripResponse>()
     val cardFeeErrorObservable = PublishSubject.create<Unit>()
+
+    val priceChangeObservable = PublishSubject.create<Unit>()
+    val showCheckoutDialogObservable = PublishSubject.create<Boolean>()
 
     private var currentTicketDeliveryToken: String = ""
 
@@ -218,23 +222,15 @@ class RailCheckoutViewModel(val context: Context) {
         updateCostBreakdownWithFees(null, totalPriceInclFees)
     }
 
-    private fun makeCheckoutResponseObserver(): Observer<RailCheckoutResponse> {
-        return object : Observer<RailCheckoutResponse> {
-            override fun onNext(response: RailCheckoutResponse) {
-                if (response.hasErrors()) {
-                    when (response.firstError.errorCode) {
-                        ApiError.Code.INVALID_INPUT -> {
-                            // TODO
-                        }
-                        ApiError.Code.PRICE_CHANGE -> {
-                            //TODO
-                        }
-                        else -> {
-                            // TODO checkoutErrorObservable.onNext(response.firstError)
-                        }
-                    }
+    private fun makeCheckoutResponseObserver(): Observer<RailCheckoutResponseWrapper> {
+        return object : Observer<RailCheckoutResponseWrapper> {
+            override fun onNext(response: RailCheckoutResponseWrapper) {
+                if (response.checkoutResponse != null) {
+                    handleCheckoutReturned(response.checkoutResponse)
+                } else if (response.createTripResponse != null) {
+                    handleNewCreateTripReturned(response.createTripResponse)
                 } else {
-                    bookingSuccessSubject.onNext(Pair(response, email))
+                    // TODO something went very wrong return to search.
                 }
             }
 
@@ -252,6 +248,36 @@ class RailCheckoutViewModel(val context: Context) {
 
             override fun onCompleted() {
                 // ignore
+            }
+        }
+    }
+
+    private fun handleCheckoutReturned(response: RailCheckoutResponse) {
+        if (response.hasErrors()) {
+            when (response.firstError.errorCode) {
+                ApiError.Code.INVALID_INPUT -> {
+                    // TODO
+                }
+                else -> {
+                    // TODO checkoutErrorObservable.onNext(response.firstError)
+                }
+            }
+        } else {
+            bookingSuccessSubject.onNext(Pair(response, email))
+        }
+    }
+
+    private fun handleNewCreateTripReturned(response: RailCreateTripResponse) {
+        if (response.hasErrors()) {
+            when (response.firstError.errorCode) {
+                ApiError.Code.PRICE_CHANGE -> {
+                    priceChangeObservable.onNext(Unit)
+                    createTripObserver.onNext(response)
+                    updatePricingSubject.onNext(response)
+                }
+                else -> {
+                    // TODO checkoutErrorObservable.onNext(response.firstError)
+                }
             }
         }
     }
