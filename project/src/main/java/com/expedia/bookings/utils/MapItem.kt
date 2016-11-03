@@ -9,11 +9,11 @@ import com.google.android.gms.maps.model.BitmapDescriptor
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.clustering.ClusterItem
 
-class MapItem(val context: Context, val pos: LatLng, val hotel: Hotel, val hotelIconGenerator: HotelMarkerIconGenerator) : ClusterItem {
+class MapItem(val context: Context, val pos: LatLng, val hotel: Hotel, val hotelIconGenerator: HotelMarkerIconGenerator, isFavoritingSupported: Boolean) : ClusterItem {
 
     var isSelected = false
     var isClustered = false
-    var isFavorite: Boolean = HotelFavoriteHelper.isHotelFavorite(context, hotel.hotelId)
+    var isFavorite: Boolean = HotelFavoriteHelper.isHotelFavorite(context, hotel.hotelId, isFavoritingSupported)
 
     val price: HotelRate? by lazy {
         if (hotel.isSoldOut) null else hotel.lowRateInfo
