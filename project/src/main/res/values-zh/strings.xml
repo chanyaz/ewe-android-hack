@@ -4484,7 +4484,7 @@
     <string name="shipping_address">邮寄地址</string>
 
     <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
-    <string name="rails_legal_TEMPLATE">选择完成此次预订即表示，我承认：我已经阅读并接受相关&lt;a href=\"{rules_and_restrictions_url}\"&gt;规定和限制&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;旅行条件&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;供应商条款和条件&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;使用条款&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;隐私政策&lt;/a&gt;以及&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;付款和送票费&lt;/a&gt;。</string>
+    <string name="rails_legal_TEMPLATE">选择完成此次预订即表示，我承认：我已经阅读并接受相关&lt;a href=\"{rules_and_restrictions_url}\"&gt;规定和限制&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;旅行条件&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_conditions_url}\"&gt;供应商条款和条件&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;使用条款&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;隐私政策&lt;/a&gt;以及&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;付款和送票费&lt;/a&gt;。</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">请出示订票参考编号及付款时使用的信用卡。</string>
