@@ -21,11 +21,11 @@ class FavoritesTest {
     @Before
     fun setup() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-       }
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelFavoriteTest, AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+    }
 
     @Test
     fun testIsUserBucketed() {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppHotelFavoriteTest, 1)
         assertTrue(HotelFavoriteHelper.showHotelFavoriteTest(true))
     }
 

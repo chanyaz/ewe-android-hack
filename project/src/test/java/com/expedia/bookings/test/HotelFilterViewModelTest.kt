@@ -1,8 +1,11 @@
 package com.expedia.bookings.test
 
 import android.preference.PreferenceManager
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
@@ -267,6 +270,10 @@ class HotelFilterViewModelTest {
 
     @Test
     fun filterFavorite() {
+        val abacusResponse = AbacusResponse()
+        abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelFavoriteTest,
+                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+        Db.setAbacusResponse(abacusResponse)
         val ogResponse = fakeFilteredResponse()
         val hotel = ogResponse.hotelList[0]
         hotel.isSponsoredListing = true
