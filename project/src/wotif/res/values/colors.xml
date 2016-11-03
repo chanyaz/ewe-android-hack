@@ -4,8 +4,6 @@
     <color name="action_bar_text_color">#1F8EDE</color>
     <color name="hotels_primary_color">#7AC231</color>
     <color name="action_bar_selected_tab_underline_color">#599027</color>
-    <color name="actionbar_tab_text_selected">@color/action_bar_text_color</color>
-    <color name="actionbar_tab_text_unselected">#8C1F8EDE</color>
     <color name="preferences_text">#495863</color>
     <color name="launch_tab_indicator">@color/action_bar_selected_tab_underline_color</color>
 
@@ -141,5 +139,16 @@
 
     <color name="error_widget_edit_button_selected_color">#2F5806</color>
     <color name="error_button_color">#7AC231</color>
+
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+    <color name="new_launch_lob_color">#1F8EDE</color>
+    <color name="new_launch_screen_color">#7AC231</color>
+    <color name="new_launch_hotels_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
 
 </resources>
