@@ -5218,7 +5218,6 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_SELECT_CARD = "App.Flight.CKO.Payment.Select.Existing";
 	private static final String FLIGHTS_V2_ENTER_CARD = "App.Flight.CKO.Payment.EnterManually";
 	private static final String FLIGHTS_V2_CHECKOUT_PAYMENT_SELECT = "App.Flight.CKO.Payment.Select";
-	private static final String FLIGHTS_V2_SLIDE_TO_PURCHASE = "App.Flight.Checkout.Payment.SlideToPurchase";
 	private static final String FLIGHTS_V2_PAYMENT_CID = "App.Flight.Checkout.Payment.CID";
 	private static final String FLIGHTS_V2_ERROR = "App.Flight.Error";
 	private static final String FLIGHTS_V2_CHECKOUT_ERROR = "App.Flight.CKO.Error";
@@ -5645,7 +5644,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackSlideToPurchase(String cardType) {
-		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHTS_V2_SLIDE_TO_PURCHASE);
+		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37, cardType);
 		s.track();
 	}
