@@ -56,7 +56,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     override val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().origin(suggestion)
         railOriginObservable.onNext(suggestion)
-        val origin = HtmlCompat.stripHtml(suggestion.regionNames.displayName)
+        val origin = HtmlCompat.stripHtml(suggestion.regionNames.shortName)
         formattedOriginObservable.onNext(origin)
         requiredSearchParamsObserver.onNext(Unit)
     }
