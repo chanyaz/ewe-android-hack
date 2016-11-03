@@ -184,12 +184,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 	}
 
 	@Override
-	protected void onPause() {
-		super.onPause();
-		FacebookEvents.Companion.deactivateAppIfEnabledInConfig(this);
-	}
-
-	@Override
 	protected void onDestroy() {
 		super.onDestroy();
 		Db.setLaunchListHotelData(null);

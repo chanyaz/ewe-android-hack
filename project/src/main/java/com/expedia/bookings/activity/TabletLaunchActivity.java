@@ -120,7 +120,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 	@Override
 	protected void onPause() {
 		super.onPause();
-		FacebookEvents.Companion.deactivateAppIfEnabledInConfig(this);
 		Events.unregister(this);
 		busRegistered = false;
 	}
