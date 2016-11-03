@@ -129,7 +129,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private val detailsToInbound = object: LeftToRightTransition(this, RailDetailsPresenter::class.java, RailInboundPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            if (!forward) {
+            if (forward) {
                 RailTracking().trackRailRoundTripInbound()
             }
         }
