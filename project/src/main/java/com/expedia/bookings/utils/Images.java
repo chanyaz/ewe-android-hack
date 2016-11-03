@@ -139,7 +139,7 @@ public class Images {
 	public static List<HotelMedia> getHotelImages(HotelOffersResponse offer) {
 		List<HotelMedia> urlList = new ArrayList<>();
 		if (offer != null && offer.photos != null) {
-			for (int index = 0; index < offer.photos.size() - 1; index++) {
+			for (int index = 0; index < offer.photos.size(); index++) {
 				HotelMedia hotelMedia = new HotelMedia(getMediaHost() + offer.photos.get(index).url);
 				urlList.add(hotelMedia);
 			}

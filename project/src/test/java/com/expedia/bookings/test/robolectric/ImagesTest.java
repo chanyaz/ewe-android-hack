@@ -9,6 +9,8 @@ import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 
+import com.expedia.bookings.data.HotelMedia;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.lx.LXImage;
 import com.expedia.bookings.utils.Images;
 
@@ -108,6 +110,25 @@ public class ImagesTest {
 				+ "/mobiata/mobile/apps/ExpediaBooking/ActivityCategories/images/Attractions.jpg?downsize=450px:*&";
 		String obtainedURL = Images.forLxCategory(getContext(), categoryAllThingsToDo, imageCode, 450);
 		Assert.assertEquals(expectedURL, obtainedURL);
+	}
+
+	@Test
+	public void testHotelImagesCount() {
+		HotelOffersResponse offer = new HotelOffersResponse();
+		HotelOffersResponse.Photos photo1 = new HotelOffersResponse.Photos();
+		photo1.url = "/hotels/1000000/20000/12600/12539/12539_81_l.jpg";
+		HotelOffersResponse.Photos photo2 = new HotelOffersResponse.Photos();
+		photo2.url = "/hotels/1000000/20000/12600/12539/12539_114_l.jpg";
+		HotelOffersResponse.Photos photo3 = new HotelOffersResponse.Photos();
+		photo3.url = "/hotels/1000000/20000/12600/12539/12539_115_l.jpg";
+
+		offer.photos = new ArrayList<>();
+		offer.photos.add(photo1);
+		offer.photos.add(photo2);
+		offer.photos.add(photo3);
+
+		List<HotelMedia> urlList = Images.getHotelImages(offer);
+		Assert.assertEquals(urlList.size(), 3);
 	}
 
 	private List<LXImage> getAllResImages() {
