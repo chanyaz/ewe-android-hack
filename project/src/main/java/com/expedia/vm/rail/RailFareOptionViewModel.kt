@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailOffer
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.rail.RailUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
@@ -27,7 +26,6 @@ class RailFareOptionViewModel(val context: Context, val showDeltaPricing: Boolea
     val fareTitleObservable = railProductObservable.map { railProduct -> railProduct.aggregatedCarrierFareClassDisplayName }
     val fareDescriptionObservable = railProductObservable.map { railProduct -> railProduct.aggregatedFareDescription }
     val railCardAppliedObservable = railProductObservable.map { railProduct -> railProduct.hasRailCardApplied() }
-
 
     private fun calculatePrice(offer: RailOffer, inboundLegCheapestPrice: Money?): String {
         if (inboundLegCheapestPrice == null) {
