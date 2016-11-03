@@ -144,7 +144,7 @@
     </style>
 
     <style name="LoginTheme" parent="Theme.Phone.Dark">
-        <item name="android:logo" tools:targetApi="11">@drawable/ic_ab_wotif_logo</item>
+        <item name="android:logo" tools:targetApi="11">@drawable/ic_action_bar_wotif_logo_small</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowActionBarOverlay">true</item>
     </style>
