@@ -25,7 +25,7 @@
     <color name="actionbar_button_text_color">#1F8EDE</color>
     <color name="bg_btn_color_wotif">#7bae00</color>
     <color name="bg_btn_pressed_color_wotif">#295600</color>
-    <color name="itin_flight_line_color_wotif">#7da426</color>
+    <color name="itin_flight_line_color">#7da426</color>
     <color name="login_text_flight">@color/white</color>
     <color name="coupon_success_message_color">#7baed4</color>
     <color name="collection_overlay_color">#56a1d5</color>
