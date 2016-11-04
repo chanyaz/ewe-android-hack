@@ -342,19 +342,19 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * <p/>
 	 * Currently supported shared elemenets (in this order)
 	 * - Confirmation Code (selectable)
+	 * - Insurance
 	 * - Itinerary number
 	 * - Special Expedia+ Rewards support phone numbers
 	 * - Booking Info (additional information link)
-	 * - Insurance
 	 * <p/>
 	 * These get added to the viewgroup only if they exist (or have fallback behavior defined)
 	 */
 	protected void addSharedGuiElements(ViewGroup container) {
 		boolean addedConfNumber = addConfirmationNumber(container);
+		boolean addedInsurance = addInsurance(container);
 		boolean addedItinNumber = addItineraryNumber(container);
 		boolean addedSupportNumber = addGoldOrSilverSupportNumber(container);
 		boolean addedBookingInfo = addBookingInfo(container);
-		boolean addedInsurance = addInsurance(container);
 		boolean addedSharedoptions = addSharedOptions(container);
 		Log.d("ITIN: ItinCard.addSharedGuiElements - addedConfNumber:" + addedConfNumber + " addedItinNumber:"
 			+ addedItinNumber + " addedGoldOrSilverNumber:" + addedSupportNumber + " addedBookingInfo:"
