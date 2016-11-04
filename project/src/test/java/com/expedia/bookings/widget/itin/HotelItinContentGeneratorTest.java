@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric;
+package com.expedia.bookings.widget.itin;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -12,8 +12,7 @@ import android.content.Context;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripHotel;
-import com.expedia.bookings.widget.itin.HotelItinContentGenerator;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 
 @RunWith(RobolectricRunner.class)
 public class HotelItinContentGeneratorTest {

@@ -1,11 +1,10 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.utils
 
 import android.content.Context
 import com.expedia.bookings.data.trips.TripComponent
-import com.expedia.bookings.utils.ItinUtils
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.joda.time.DateTime
 import org.joda.time.DateTimeUtils
-import org.junit.After
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
@@ -13,7 +12,7 @@ import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-class FlightItinCheckinTest {
+class ItinUtilsTest {
 
     private val context: Context
         get() = RuntimeEnvironment.application
