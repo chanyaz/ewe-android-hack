@@ -21,6 +21,7 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.TravelerName;
 import com.expedia.bookings.data.packages.PackageSearchParams;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.PassengerCategory;
 import com.expedia.bookings.presenter.packages.TravelerPresenter;
 import com.expedia.bookings.test.espresso.Common;
@@ -59,7 +60,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected final String testPhone = "7732025862";
 	protected final String testBirthDay = "Jan 27, 1991";
 	protected final String testPassport = "Passport: Vietnam";
-	protected final String testEmptyPassport = "Passport: ";
+	protected final String testEmptyPassport = "Passport: Country";
 	protected final String testGender = "Gender";
 
 	protected final String expectedMainText = "Main Traveler";
@@ -82,6 +83,7 @@ public class BaseTravelerPresenterTestHelper {
 		.format().toString();
 
 	private Context context = InstrumentationRegistry.getTargetContext();
+	protected String pointOfSaleCountry = context.getString(PointOfSale.getPointOfSale().getCountryNameResId());
 
 	@Rule
 	public PlaygroundRule activityTestRule = new PlaygroundRule(R.layout.test_traveler_presenter,
