@@ -7,6 +7,9 @@ from pr_utils import moveMingleCardsOnPRRaise, pingPRAuthors
 
 TAG = "on_pr_raised"
 
+MINGLE_ACCESS_ID='mingler'
+MINGLE_ACCESS_SECRET="+94zjsneYF6iwS1lqdLdKmvAyx0ilt8o1RuV71fKU+E="
+
 def hasPRBeenProcessed(pr):
 	return os.path.exists("./processed_prs/" + str(pr.number))
 
@@ -52,6 +55,13 @@ def main():
 	gh = login(token=githubAccessToken)
 	repo = gh.repository('ExpediaInc', 'ewe-android-eb')
 	pr = repo.pull_request(pullRequestId)
+
+
+	prIssue = pr.issue()
+    labelsOnPr = prIssue.labels()
+    if any("team-checkout" in s.name for s in labelsOnPr):
+        mingleProject = "ios_checkout"
+
 
 	#Act on the PR if it is open and has not been processed!
 	if pr.state == 'open' and not hasPRBeenProcessed(pr):
