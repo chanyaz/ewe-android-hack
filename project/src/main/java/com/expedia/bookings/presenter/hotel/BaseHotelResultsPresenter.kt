@@ -47,7 +47,6 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.HotelMapClusterAlgorithm
 import com.expedia.bookings.utils.HotelMapClusterRenderer
 import com.expedia.bookings.utils.MapItem
@@ -92,8 +91,7 @@ import kotlin.properties.Delegates
 abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     //Views
-    val shouldShowHotelFilterProminenceTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppHotelFilterProminence, R.string.preference_enable_hotel_filter_prominence)
+    val shouldShowHotelFilterProminenceTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelFilterProminence)
     var filterButtonText: TextView by Delegates.notNull()
 
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
