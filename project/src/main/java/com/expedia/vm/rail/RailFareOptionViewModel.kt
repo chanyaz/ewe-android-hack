@@ -28,12 +28,12 @@ class RailFareOptionViewModel(val context: Context, val showDeltaPricing: Boolea
     val railCardAppliedObservable = railProductObservable.map { railProduct -> railProduct.hasRailCardApplied() }
 
     private fun calculatePrice(offer: RailOffer, inboundLegCheapestPrice: Money?): String {
-        if (inboundLegCheapestPrice == null) {
+        if (inboundLegCheapestPrice == null || offer.isOpenReturn && !showDeltaPricing) {
             return offer.totalPrice.formattedPrice
         }
 
         if (showDeltaPricing) {
-            val priceDiff = RailUtils.subtractAndFormatMoney(offer.totalPrice, inboundLegCheapestPrice)
+            val priceDiff = RailUtils.subtractAndFormatMoney(offer.totalPrice, if (offer.isOpenReturn) offer.totalPrice else inboundLegCheapestPrice)
             return Phrase.from(context, R.string.rail_price_difference_TEMPLATE)
                     .put("pricedifference", priceDiff)
                     .format().toString()

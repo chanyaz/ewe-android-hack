@@ -4,7 +4,6 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -52,6 +51,30 @@ class RailFareOptionViewModelTest {
     }
 
     @Test
+    fun testOutboundOpenReturnFareOptionDetails() {
+        val railFareOptionViewModel = RailFareOptionViewModel(context, false)
+
+        val testPriceSubscriber = TestSubscriber<String>()
+        railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
+
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer(true))
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("15", "USD"))
+        assertEquals("$10", testPriceSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testInboundOpenReturnFareOptionDetails() {
+        val railFareOptionViewModel = RailFareOptionViewModel(context, true)
+
+        val testPriceSubscriber = TestSubscriber<String>()
+        railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
+
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer(true))
+        railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("15", "USD"))
+        assertEquals("+$0", testPriceSubscriber.onNextEvents[0])
+    }
+
+    @Test
     fun testRoundTripInboundDeltaPriceFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel(context, true)
 
@@ -86,12 +109,17 @@ class RailFareOptionViewModelTest {
     }
 
     private fun getRailOffer(): RailOffer {
+        return getRailOffer(false)
+    }
+
+    private fun getRailOffer(openReturn: Boolean): RailOffer {
         val railOffer = RailOffer()
         railOffer.totalPrice = Money(10, "USD")
         railOffer.totalPrice.formattedPrice = "$10"
         val railProduct = RailProduct()
         railProduct.aggregatedCarrierFareClassDisplayName = "Fare class"
         railProduct.aggregatedFareDescription = "Fare Description"
+        railProduct.openReturn = openReturn
         val fareQualifierList = listOf(RailCard("", "", ""))
         railProduct.fareQualifierList = fareQualifierList
         railOffer.railProductList = listOf(railProduct)
