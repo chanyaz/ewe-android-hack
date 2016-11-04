@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.newflights
 
+import android.support.test.espresso.Espresso
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.phone.packages.PackageScreen
@@ -52,7 +53,7 @@ class FlightCheckoutMultiTravelerTest : NewFlightTestCase() {
                 isDescendantOfA(withId(R.id.additional_traveler_container)))).check(
                 doesNotExist())
         EspressoUser.clickOnText("Edit Traveler 2 (Adult)")
-        Common.pressBack()
+        Espresso.closeSoftKeyboard()
         Common.pressBack()
         EspressoUtils.waitForViewNotYetInLayoutToDisplay((withId(R.id.additional_traveler_container)), 10, TimeUnit.SECONDS)
         onView(allOf(withImageDrawable(R.drawable.invalid),
