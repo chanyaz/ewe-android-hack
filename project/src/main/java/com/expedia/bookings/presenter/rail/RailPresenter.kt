@@ -147,12 +147,27 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         }
     }
 
-    private val overviewToCheckout = LeftToRightTransition(this, RailTripOverviewPresenter::class.java, RailCheckoutPresenter::class.java)
+    private val overviewToCheckout = object : LeftToRightTransition(this, RailTripOverviewPresenter::class.java, RailCheckoutPresenter::class.java) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            if (!forward) {
+                RailTracking().trackRailDetails(tripOverviewPresenter.createTripViewModel.tripResponseObservable.value)
+            }
+        }
+    }
+
     private val checkoutToConfirmation = LeftToRightTransition(this, RailCheckoutPresenter::class.java, RailConfirmationPresenter::class.java)
 
     private val outboundDetailsToAmenities = ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
     private val inboundDetailsToAmenities = ScaleTransition(this, RailInboundDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
-    private val overviewToAmenities = ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
+    private val overviewToAmenities = object: ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                RailTracking().trackRailDetails(tripOverviewPresenter.createTripViewModel.tripResponseObservable.value)
+            }
+        }
+    }
 
     private val outboundToError = ScaleTransition(this, RailOutboundPresenter::class.java, RailErrorPresenter::class.java)
     private val errorToSearch = object: ScaleTransition(this, RailErrorPresenter::class.java, RailSearchPresenter::class.java) {

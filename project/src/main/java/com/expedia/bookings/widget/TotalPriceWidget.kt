@@ -16,6 +16,7 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
@@ -27,6 +28,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BaseTotalPriceWidgetViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
+import com.expedia.vm.rail.RailCostSummaryBreakdownViewModel
 import java.math.BigDecimal
 
 class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
@@ -79,6 +81,8 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
                     FlightsV2Tracking.trackFlightCostBreakdownClick()
                 } else if (breakdown.viewmodel is PackageCostSummaryBreakdownViewModel) {
                     PackagesTracking().trackBundleOverviewCostBreakdownClick()
+                } else if (breakdown.viewmodel is RailCostSummaryBreakdownViewModel) {
+                    RailTracking().trackRailDetailsTotalCostToolTip()
                 }
             }
         }

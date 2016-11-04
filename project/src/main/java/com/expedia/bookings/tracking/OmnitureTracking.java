@@ -89,6 +89,8 @@ import com.expedia.bookings.data.rail.requests.RailSearchRequest;
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
 import com.expedia.bookings.data.rail.responses.RailLeg;
 import com.expedia.bookings.data.rail.responses.RailTripOffer;
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
+import com.expedia.bookings.data.rail.responses.RailLegOption;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -101,6 +103,7 @@ import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -5722,6 +5725,9 @@ public class OmnitureTracking {
 	private static final String RAIL_SEARCH_ROUND_TRIP_OUT = "App.Rail.Search.Roundtrip.Out";
 	private static final String RAIL_SEARCH_ROUND_TRIP_IN = "App.Rail.Search.Roundtrip.In";
 	private static final String RAIL_CHECKOUT_CONFIRMATION = "App.Rail.Checkout.Confirmation";
+	private static final String RAIL_RATE_DETAILS = "App.Rail.RateDetails";
+	private static final String RAIL_RATE_DETAILS_TOTAL_COST = "App.Rail.RD.TotalCost";
+	private static final String RAIL_RATE_DETAILS_VIEW_DETAILS = "App.Rail.RD.ViewDetails";
 
 	private static ADMS_Measurement createTrackRailPageLoadEventBase(String pageName) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
@@ -5879,5 +5885,70 @@ public class OmnitureTracking {
 		productString.append(startDate.toString(EVAR30_DATE_FORMAT) + "-" + endDate.toString(EVAR30_DATE_FORMAT));
 
 		return productString.toString();
+	}
+
+	public static void trackRailDetails(RailCreateTripResponse railCreateTripResponse) {
+		String pageName = RAIL_RATE_DETAILS;
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(pageName);
+		s.setEvents("event4");
+		s = processRailCreateTripResponse(s, railCreateTripResponse);
+		s.track();
+	}
+
+	private static ADMS_Measurement processRailCreateTripResponse(ADMS_Measurement s, RailCreateTripResponse railCreateTripResponse) {
+		String products = ";Rail:";
+		String departureStation;
+		String arrivalStation;
+		int searchWindow, searchDuration;
+
+		RailLegOption outboundLegOption = railCreateTripResponse.railDomainProduct.railOffer.getOutboundLegOption();
+		RailLegOption inboundLegOption = railCreateTripResponse.railDomainProduct.railOffer.getInboundLegOption();
+
+		products += outboundLegOption.aggregatedOperatingCarrier;
+		departureStation = outboundLegOption.departureStation.getStationCode();
+		arrivalStation = outboundLegOption.arrivalStation.getStationCode();
+		searchWindow = JodaUtils.daysBetween(new DateTime(), outboundLegOption.getDepartureDateTime());
+
+		if (!railCreateTripResponse.railDomainProduct.railOffer.isRoundTrip()) {
+			products += ":OW;;";
+		}
+		else {
+			products += ":";
+			products += inboundLegOption.aggregatedMarketingCarrier;
+			products += ":RT;;";
+			searchDuration = JodaUtils.daysBetween(outboundLegOption.getDepartureDateTime(), inboundLegOption.getDepartureDateTime());
+			s.setEvar(6, String.valueOf(searchDuration));
+			s.setProp(6, DateUtils.localDateToyyyyMMdd(inboundLegOption.departureDateTime.toDateTime().toLocalDate()));
+		}
+
+		s.setProducts(products);
+		s.setEvar(3, "D=c3");
+		s.setProp(3, departureStation);
+		s.setEvar(4, "D=c4");
+		s.setProp(4, arrivalStation);
+		s.setEvar(5, String.valueOf(searchWindow));
+		s.setProp(5, DateUtils.localDateToyyyyMMdd(outboundLegOption.departureDateTime.toDateTime().toLocalDate()));
+
+		return s;
+	}
+
+	public static void trackRailDetailsTotalCostToolTip() {
+		Log.d(TAG, "Tracking \"" + RAIL_RATE_DETAILS_TOTAL_COST + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(7, "1");
+		s.setEvar(28, RAIL_RATE_DETAILS_TOTAL_COST);
+		s.setProp(16, RAIL_RATE_DETAILS_TOTAL_COST);
+		s.setEvar(61, "1");
+		s.trackLink(null, "o", "Rate Details", null, null);
+	}
+
+	public static void trackRailTripOverviewDetailsExpand() {
+		Log.d(TAG, "Tracking \"" + RAIL_RATE_DETAILS_VIEW_DETAILS + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(7, "1");
+		s.setEvar(28, RAIL_RATE_DETAILS_VIEW_DETAILS);
+		s.setProp(16, RAIL_RATE_DETAILS_VIEW_DETAILS);
+		s.setEvar(61, "1");
+		s.trackLink(null, "o", "Rate Details View", null, null);
 	}
 }
