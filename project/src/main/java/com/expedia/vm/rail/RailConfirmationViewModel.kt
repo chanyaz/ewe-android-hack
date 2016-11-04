@@ -2,9 +2,12 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailTripOffer
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.StrUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
@@ -15,7 +18,8 @@ import java.util.Locale
 
 class RailConfirmationViewModel(val context: Context) {
     val confirmationObservable = PublishSubject.create<Pair<RailCheckoutResponse, String>>()
-    val railOfferObserver = PublishSubject.create<RailCreateTripResponse.RailTripOffer>()
+    val railOfferObserver = PublishSubject.create<RailTripOffer>()
+    val paramsSubject = PublishSubject.create<RailSearchRequest>()
 
     // Outputs
     val itinNumberObservable = BehaviorSubject.create<String>()
@@ -52,6 +56,8 @@ class RailConfirmationViewModel(val context: Context) {
                 inboundCardVisibility.onNext(false)
             }
         }
+
+        confirmationObservable.subscribe { pair -> RailTracking().trackRailConfirmation(pair.first)}
     }
 
     private fun getCardSubtitle(legOption: RailLegOption?, numOfTravelers: Int): String {
@@ -71,4 +77,5 @@ class RailConfirmationViewModel(val context: Context) {
                 .put("arrivalstation", legOption?.arrivalStation?.stationDisplayName)
                 .format().toString()
     }
+
 }

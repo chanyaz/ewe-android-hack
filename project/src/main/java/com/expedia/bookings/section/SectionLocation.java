@@ -27,7 +27,7 @@ import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RailLocation;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
+import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.section.CountrySpinnerAdapter.CountryDisplayType;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
@@ -762,7 +762,7 @@ public class SectionLocation extends LinearLayout
 					}
 					else {
 						railLocation.setTicketDeliveryOptionSelected(
-							(RailCreateTripResponse.RailTicketDeliveryOption) selected.getItem());
+							(RailTicketDeliveryOption) selected.getItem());
 					}
 					onChange(SectionLocation.this);
 				}

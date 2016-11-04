@@ -1,6 +1,8 @@
 package com.expedia.bookings.tracking
 
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLeg
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 
@@ -48,5 +50,9 @@ class RailTracking {
 
     fun trackRailRoundTripInbound() {
         OmnitureTracking.trackRailRoundTripInbound()
+    }
+
+    fun trackRailConfirmation(checkoutResponse: RailCheckoutResponse) {
+        OmnitureTracking.trackAppRailsCheckoutConfirmation(checkoutResponse)
     }
 }

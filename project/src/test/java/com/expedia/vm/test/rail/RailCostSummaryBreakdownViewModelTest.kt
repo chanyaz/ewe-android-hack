@@ -4,6 +4,8 @@ import android.app.Activity
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+import com.expedia.bookings.data.rail.responses.RailDomainProduct
+import com.expedia.bookings.data.rail.responses.RailTripOffer
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.rail.RailCostSummaryBreakdownViewModel
@@ -65,14 +67,14 @@ class RailCostSummaryBreakdownViewModelTest {
     private fun buildRailResponseWithPassengerBreakdowns(): RailCreateTripResponse {
 
         val response = RailCreateTripResponse()
-        val domainProduct = RailCreateTripResponse.RailDomainProduct()
+        val domainProduct = RailDomainProduct()
         response.railDomainProduct = domainProduct
         response.totalPrice = Money(BigDecimal(120), "$")
         response.totalPrice.formattedPrice = "$120.00"
         response.totalPriceIncludingFees = Money(BigDecimal(0), "$")
         response.totalPriceIncludingFees?.formattedPrice = "$120.00"
 
-        var offer = RailCreateTripResponse.RailTripOffer()
+        var offer = RailTripOffer()
         offer.totalPrice = Money()
         offer.totalPrice.formattedPrice = "$120.00"
         offer.priceBreakdown = ArrayList<BaseRailOffer.PriceBreakdown>()
@@ -84,14 +86,14 @@ class RailCostSummaryBreakdownViewModelTest {
     private fun buildRailResponseWithFees(): RailCreateTripResponse {
 
         val response = RailCreateTripResponse()
-        val domainProduct = RailCreateTripResponse.RailDomainProduct()
+        val domainProduct = RailDomainProduct()
         response.railDomainProduct = domainProduct
         response.totalPrice = Money(BigDecimal(120), "$")
         response.totalPrice.formattedPrice = "$120.00"
         response.totalPriceIncludingFees = Money(BigDecimal(131), "$")
         response.totalPriceIncludingFees?.formattedPrice = "$131.00"
 
-        var offer = RailCreateTripResponse.RailTripOffer()
+        var offer = RailTripOffer()
         offer.totalPrice = Money()
         offer.totalPrice.formattedPrice = "$120.00"
         offer.priceBreakdown = ArrayList<BaseRailOffer.PriceBreakdown>()
