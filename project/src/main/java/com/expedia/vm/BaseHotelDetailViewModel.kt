@@ -147,7 +147,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     val numberOfReviewsObservable = BehaviorSubject.create<String>()
     val hotelLatLngObservable = BehaviorSubject.create<DoubleArray>()
     val discountPercentageBackgroundObservable = BehaviorSubject.create<Int>()
-    val discountPercentageObservable = BehaviorSubject.create<String>()
+    val discountPercentageObservable = BehaviorSubject.create<Pair<String, String>>()
     val showDiscountPercentageObservable = BehaviorSubject.create<Boolean>(false)
     val showAirAttachSWPImageObservable = BehaviorSubject.create<Boolean>(false)
     val hasVipAccessObservable = BehaviorSubject.create<Boolean>(false)
@@ -236,8 +236,10 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         val chargeableRateInfo = response.hotelRoomResponse?.firstOrNull()?.rateInfo?.chargeableRateInfo
         val isRateShopWithPoints = chargeableRateInfo?.loyaltyInfo?.isBurnApplied ?: false
         var discountPercentage: Int? = chargeableRateInfo?.discountPercent?.toInt()
-        discountPercentageObservable.onNext(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
-                .put("discount", discountPercentage ?: 0).format().toString())
+        discountPercentageObservable.onNext(Pair(Phrase.from(context.resources, R.string.hotel_discount_percent_Template)
+                .put("discount", discountPercentage ?: 0).format().toString(),
+                Phrase.from(context, R.string.hotel_discount_cont_desc_TEMPLATE)
+                        .put("percent", Math.abs(discountPercentage ?: 0)).format().toString()))
 
         showDiscountPercentageObservable.onNext(!response.isPackage && !isRateShopWithPoints && chargeableRateInfo?.isDiscountPercentNotZero ?: false)
         val isVipAccess = response.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess()

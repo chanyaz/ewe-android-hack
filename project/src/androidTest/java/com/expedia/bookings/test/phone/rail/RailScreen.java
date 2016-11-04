@@ -22,6 +22,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withChild;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -61,9 +62,8 @@ public class RailScreen {
 	public static ViewInteraction selectFareOption(String fareOption) {
 		return onView(
 			allOf(
-				withId(R.id.select_button), allOf(withText(R.string.select)),
-				isDescendantOfA(allOf(withId(R.id.details_fare_options))),
-				hasSibling(allOf(withId(R.id.price), withText(fareOption))),
+				withId(R.id.select_button), withText(R.string.select),
+				hasSibling(allOf(withId(R.id.price_container), withChild(withText(fareOption)))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
 	}
@@ -148,7 +148,8 @@ public class RailScreen {
 
 		onView(withText("12:55 PM – 4:16 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
-		onView(withText("You have 42m to get from London Euston to London Paddington")).check(matches(isDisplayed()));
+		onView(allOf(withText("You have 42m to get from London Euston to London Paddington"),
+			isDescendantOfA(withId(R.id.details_timeline)))).check(matches(isDisplayed()));
 	}
 
 	public static void navigateToTripOverview() throws Throwable {
@@ -162,11 +163,6 @@ public class RailScreen {
 			.check(matches(isDisplayed()));
 	}
 
-	public static void navigateToCheckout() throws Throwable {
-		navigateToTripOverview();
-		checkout().perform(click());
-	}
-
 	public static void clickDone() {
 		onView(withId(R.id.menu_done)).perform(click());
 	}
@@ -174,6 +170,7 @@ public class RailScreen {
 	public static void enterPaymentDetails() {
 		CardInfoScreen.creditCardNumberEditText().perform(waitForViewToDisplay());
 		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		CardInfoScreen.assertPaymentFormCardFeeWarningShown("Credit card fees: £2.90");
 
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();

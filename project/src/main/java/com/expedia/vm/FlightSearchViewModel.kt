@@ -2,17 +2,11 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
-import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.flights.FlightSearchParams
-import com.expedia.bookings.data.flights.FlightSearchResponse
-import com.expedia.bookings.dialog.DialogFactory
-import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
-import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
@@ -20,34 +14,26 @@ import com.expedia.ui.FlightActivity
 import com.expedia.util.endlessObserver
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
-import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-class FlightSearchViewModel(context: Context, val flightServices: FlightServices) : BaseSearchViewModel(context) {
+class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
-    val errorObservable = PublishSubject.create<ApiError>()
-    val noNetworkObservable = PublishSubject.create<Unit>()
 
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val cachedEndDateObservable = BehaviorSubject.create<LocalDate?>()
     val isRoundTripSearchObservable = BehaviorSubject.create<Boolean>(true)
     val deeplinkDefaultTransitionObservable = PublishSubject.create<FlightActivity.Screen>()
-    val flightSearchResponseSubject = PublishSubject.create<FlightSearchResponse>()
 
     private val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
-
-        searchParamsObservable.subscribe { params ->
-            flightServices.flightSearch(params).subscribe(makeResultsObserver())
-        }
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
             getParamsBuilder().roundTrip(isRoundTripSearch)
@@ -189,36 +175,5 @@ class FlightSearchViewModel(context: Context, val flightServices: FlightServices
             deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.SEARCH)
         }
         performSearchObserver.onNext(Unit)
-    }
-
-    private fun makeResultsObserver(): Observer<FlightSearchResponse> {
-
-        return object: Observer<FlightSearchResponse> {
-
-            override fun onNext(response: FlightSearchResponse) {
-                if (response.hasErrors()) {
-                    errorObservable.onNext(response.firstError)
-                } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
-                    errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
-                } else {
-                    flightSearchResponseSubject.onNext(response)
-                }
-            }
-
-            override fun onError(e: Throwable) {
-                if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        flightServices.flightSearch(searchParamsObservable.value).subscribe(makeResultsObserver())
-                    }
-                    val cancelFun = fun() {
-                        noNetworkObservable.onNext(Unit)
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
-                    FlightsV2Tracking.trackFlightSearchAPINoResponseError()
-                }
-            }
-
-            override fun onCompleted() {}
-        }
     }
 }

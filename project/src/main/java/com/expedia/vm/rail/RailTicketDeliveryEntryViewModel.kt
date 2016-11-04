@@ -23,6 +23,7 @@ class RailTicketDeliveryEntryViewModel(val context: Context) {
     val ticketDeliveryObservable = BehaviorSubject.create<TicketDeliveryMethod>(TicketDeliveryMethod.PICKUP_AT_STATION)
     val ticketDeliveryMethodSelected = BehaviorSubject.create<TicketDeliveryMethod>()
     var ticketDeliveryOption: TicketDeliveryOption? = null
+    val ticketDeliveryOptionSubject = BehaviorSubject.create<TicketDeliveryOption>()
 
     init {
         deliveryByMailSupported.subscribe { supported ->
@@ -30,6 +31,7 @@ class RailTicketDeliveryEntryViewModel(val context: Context) {
                 ticketDeliveryObservable.onNext(TicketDeliveryMethod.PICKUP_AT_STATION)
                 ticketDeliveryMethodSelected.onNext(TicketDeliveryMethod.PICKUP_AT_STATION)
                 ticketDeliveryOption = TicketDeliveryOption(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE)
+                ticketDeliveryOptionSubject.onNext(ticketDeliveryOption)
             }
         }
     }

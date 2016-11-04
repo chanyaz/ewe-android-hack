@@ -5,8 +5,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
@@ -18,9 +16,9 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.rail.RailDetailsViewModel
+import com.expedia.vm.rail.RailFareOptionsViewModel
 
 class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
-    val detailsContainer: ViewGroup by bindView(R.id.rail_details_container)
     val toolbar: Toolbar by bindView(R.id.rail_details_toolbar)
     val timeline: RailDetailsTimeline by bindView(R.id.details_timeline)
     val fareOptionsView: RailDetailsFareOptionsView by bindView(R.id.details_fare_options)
@@ -29,13 +27,21 @@ class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     val overtakenMessage: TextView by bindView(R.id.overtaken_message)
     val overtakenDivider: View by bindView(R.id.overtaken_message_divider)
 
-    var viewmodel: RailDetailsViewModel by notNullAndObservable { vm ->
-        timeline.viewmodel = vm
-        fareOptionsView.viewmodel = vm
-        vm.offerViewModel.formattedTimeIntervalSubject.subscribeText(timeRangeTextView)
-        vm.offerViewModel.formattedLegInfoSubject.subscribeText(infoLine)
-        vm.offerViewModel.overtaken.subscribeVisibility(overtakenMessage)
-        vm.offerViewModel.overtaken.subscribeVisibility(overtakenDivider)
+    private val fareOptionsViewModel = RailFareOptionsViewModel()
+
+    var viewModel: RailDetailsViewModel by notNullAndObservable { detailsVM ->
+        detailsVM.formattedTimeIntervalSubject.subscribeText(timeRangeTextView)
+        detailsVM.formattedLegInfoSubject.subscribeText(infoLine)
+        detailsVM.overtaken.subscribeVisibility(overtakenMessage)
+        detailsVM.overtaken.subscribeVisibility(overtakenDivider)
+
+        detailsVM.railLegOptionSubject.subscribe(timeline.railLegOptionObserver)
+        detailsVM.railOffersPairSubject.subscribe(fareOptionsViewModel.railOffersPairSubject)
+
+        fareOptionsViewModel.showAmenitiesSubject.subscribe(detailsVM.showAmenitiesObservable)
+        fareOptionsViewModel.offerSelectedSubject.subscribe(detailsVM.offerSelectedObservable)
+        fareOptionsViewModel.showFareRulesSubject.subscribe(detailsVM.showFareRulesObservable)
+        fareOptionsView.viewModel = fareOptionsViewModel
     }
 
     init {

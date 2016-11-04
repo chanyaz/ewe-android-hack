@@ -56,6 +56,7 @@ import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.expedia.vm.traveler.CheckoutTravelerViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import rx.Observable
+import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
@@ -127,10 +128,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     protected fun setUpPaymentViewModel() {
         paymentWidget.viewmodel = getPaymentWidgetViewModel()
         paymentWidget.viewmodel.paymentTypeWarningHandledByCkoView.onNext(true)
-        paymentWidget.viewmodel.cardTypeSubject.subscribe { paymentType ->
-            cardType = paymentType
-        }
-        paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() }
         paymentWidget.viewmodel.lineOfBusiness.onNext(getLineOfBusiness())
     }
 
@@ -169,17 +166,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         presenter
     }
 
-    var travelerManager: TravelerManager by notNullAndObservable { manager ->
-        manager.travelersUpdated.subscribe {
-            travelerPresenter.resetTravelers()
-        }
-    }
+    var travelerManager: TravelerManager by Delegates.notNull()
 
     protected var ckoViewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.viewmodel.isCreditCardRequired.onNext(required)
         }
-        paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribe(vm.paymentCompleted)
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeText(depositPolicyText)
         vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
@@ -265,6 +257,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         addTransition(defaultToPayment)
         setUpLayoutListeners()
         setUpErrorMessaging()
+        initLoggedInState(User.isLoggedIn(context))
     }
 
     private fun setUpViewModels() {
@@ -277,12 +270,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         getCheckoutViewModel().cardFeeTripResponse.subscribe(getCreateTripViewModel().tripResponseObservable)
     }
 
-    private fun initLoggedInState() {
-        val isUserLoggedIn = User.isLoggedIn(context)
+    private fun initLoggedInState(isUserLoggedIn: Boolean) {
         loginWidget.bind(false, isUserLoggedIn, Db.getUser(), getLineOfBusiness())
-        travelerPresenter.onLogin(isUserLoggedIn)
         hintContainer.visibility = if (isUserLoggedIn) View.GONE else View.VISIBLE
-        if (User.isLoggedIn(context)) {
+        travelerPresenter.onLogin(isUserLoggedIn)
+        paymentWidget.viewmodel.userLogin.onNext(isUserLoggedIn)
+        if (isUserLoggedIn) {
             val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
             lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
         }
@@ -378,7 +371,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             updateTravelerPresenter()
             if (forward) {
                 setToolbarTitle()
-                initLoggedInState()
             }
             if (User.isLoggedIn(context)) paymentWidget.viewmodel.userLogin.onNext(true)
         }
@@ -504,26 +496,15 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         User.signOut(context)
         animateInSlideToPurchase(false)
         updateDbTravelers()
+        initLoggedInState(false)
         updateTravelerPresenter()
-        travelerPresenter.onLogin(false)
-        loginWidget.bind(false, false, null, getLineOfBusiness())
-        paymentWidget.viewmodel.userLogin.onNext(false)
-        hintContainer.visibility = View.VISIBLE
-        val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
-        lp.bottomMargin = 0
         tripViewModel.performCreateTrip.onNext(Unit)
     }
 
     fun onLoginSuccess() {
-        loginWidget.bind(false, true, Db.getUser(), getLineOfBusiness())
-        paymentWidget.viewmodel.userLogin.onNext(true)
-        hintContainer.visibility = View.GONE
-        val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
-        lp.bottomMargin = resources.getDimension(R.dimen.card_view_container_margin).toInt()
-        travelerManager.updateDbTravelers(Db.getSearchParams(), context)
-        travelerPresenter.onLogin(true)
-        travelerManager.onSignIn(context)
         animateInSlideToPurchase(true)
+        updateDbTravelers()
+        initLoggedInState(true)
         tripViewModel.performCreateTrip.onNext(Unit)
     }
 
@@ -714,5 +695,18 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             lp.height = distance
             space.layoutParams = lp
         }, ANIMATION_DELAY)
+    }
+
+    override fun addWindowSubscriptions() {
+        super.addWindowSubscriptions()
+        addWindowSubscription(travelerManager.travelersUpdated.subscribe { travelerPresenter.resetTravelers() })
+        addWindowSubscription(paymentWidget.viewmodel.cardTypeSubject.subscribe { paymentType -> cardType = paymentType })
+        addWindowSubscription(paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() })
+        addWindowSubscription(paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribe(ckoViewModel.paymentCompleted))
+    }
+
+    override fun unsubscribeWindowAtTeardown() {
+        super.unsubscribeWindowAtTeardown()
+        getCheckoutViewModel().unsubscribeAll()
     }
 }

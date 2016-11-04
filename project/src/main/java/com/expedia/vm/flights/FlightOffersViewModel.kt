@@ -2,20 +2,29 @@ package com.expedia.vm.flights
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.flights.FlightSearchResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.utils.RetrofitUtils
+import rx.Observer
 import rx.Subscription
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.HashMap
 import java.util.LinkedHashSet
 
-class FlightOffersViewModel(context: Context,
-                            val flightSearchResponseSubject: PublishSubject<FlightSearchResponse>,
-                            val isRoundTripSearchSubject: BehaviorSubject<Boolean>) {
+class FlightOffersViewModel(val context: Context, val flightServices: FlightServices) {
+
+    val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
+    val errorObservable = PublishSubject.create<ApiError>()
+    val noNetworkObservable = PublishSubject.create<Unit>()
 
     val confirmedOutboundFlightSelection = BehaviorSubject.create<FlightLeg>()
     val confirmedInboundFlightSelection = BehaviorSubject.create<FlightLeg>()
@@ -29,17 +38,21 @@ class FlightOffersViewModel(context: Context,
     val inboundResultsObservable = BehaviorSubject.create<List<FlightLeg>>()
     val obFeeDetailsUrlObservable = BehaviorSubject.create<String>()
     val cancelSearchObservable = PublishSubject.create<Unit>()
+    val isRoundTripSearchSubject = BehaviorSubject.create<Boolean>()
 
     private var isRoundTripSearch = true
     private lateinit var flightMap: HashMap<String, LinkedHashSet<FlightLeg>>
     private lateinit var flightOfferModels: HashMap<String, FlightTripDetails.FlightOffer>
-    private var flightSearchResponseSubjectSubscription: Subscription? = null
+
+    private var flightSearchSubscription: Subscription? = null
 
     init {
-        makeNewFlightSearchResponseSubject()
-
+        searchParamsObservable.subscribe { params ->
+            isRoundTripSearchSubject.onNext(params.isRoundTrip())
+            flightSearchSubscription = flightServices.flightSearch(params, makeResultsObserver())
+        }
         cancelSearchObservable.subscribe {
-            makeNewFlightSearchResponseSubject()
+            flightSearchSubscription?.unsubscribe()
         }
 
         isRoundTripSearchSubject.subscribe {
@@ -70,20 +83,6 @@ class FlightOffersViewModel(context: Context,
                 val paymentFeeText = context.getString(stringID)
                 offerSelectedChargesObFeesSubject.onNext(paymentFeeText)
             }
-        }
-    }
-
-    private fun makeNewFlightSearchResponseSubject() {
-        flightSearchResponseSubjectSubscription?.unsubscribe()
-        flightSearchResponseSubjectSubscription = flightSearchResponseSubject.subscribe {
-            val obFeeDetailsUrl =
-                    if (getAirlineChargesPaymentFees()) {
-                        PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL
-                    } else {
-                        it.obFeesDetails
-                    }
-            obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
-            createFlightMap(it)
         }
     }
 
@@ -200,5 +199,43 @@ class FlightOffersViewModel(context: Context,
         offerModel.urgencyMessage = urgencyMessage
         offerModel.price = price
         return offerModel
+    }
+
+    private fun makeResultsObserver(): Observer<FlightSearchResponse> {
+
+        return object: Observer<FlightSearchResponse> {
+
+            override fun onNext(response: FlightSearchResponse) {
+                if (response.hasErrors()) {
+                    errorObservable.onNext(response.firstError)
+                } else if (response.offers.isEmpty() || response.legs.isEmpty()) {
+                    errorObservable.onNext(ApiError(ApiError.Code.FLIGHT_SEARCH_NO_RESULTS))
+                } else {
+                    val obFeeDetailsUrl =
+                            if (getAirlineChargesPaymentFees()) {
+                                PointOfSale.getPointOfSale().airlineFeeBasedOnPaymentMethodTermsAndConditionsURL
+                            } else {
+                                response.obFeesDetails
+                            }
+                    obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
+                    createFlightMap(response)
+                }
+            }
+
+            override fun onError(e: Throwable) {
+                if (RetrofitUtils.isNetworkError(e)) {
+                    val retryFun = fun() {
+                        flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver())
+                    }
+                    val cancelFun = fun() {
+                        noNetworkObservable.onNext(Unit)
+                    }
+                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                    FlightsV2Tracking.trackFlightSearchAPINoResponseError()
+                }
+            }
+
+            override fun onCompleted() {}
+        }
     }
 }

@@ -5,13 +5,17 @@ import android.content.Context
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import com.expedia.bookings.R
+import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.BillingInfo
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.TripBucketItemFlightV2
 import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutParams
-import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.pos.PointOfSale
@@ -31,30 +35,30 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.mockito.Mockito
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.Scheduler
 import rx.android.schedulers.AndroidSchedulers
 import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
-import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
 import java.io.File
 import java.io.IOException
+import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class FlightCheckoutViewModelTest {
 
-    val server = MockWebServer()
+    private var server: MockWebServer = MockWebServer()
+        @Rule get
 
     private val context = RuntimeEnvironment.application
 
     lateinit private var sut: FlightCheckoutViewModel
-    lateinit private var mockFlightServices: FlightServices
+    lateinit private var flightServices: FlightServices
     lateinit private var cardFeeService: CardFeeService
     lateinit private var params: FlightCheckoutParams
     lateinit private var newTripResponse: FlightCreateTripResponse
@@ -62,7 +66,6 @@ class FlightCheckoutViewModelTest {
     @Test
     fun debitCardNotAccepted() {
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_no_debit_cards_permitted.json")
-        createMockFlightServices()
         setupSystemUnderTest()
 
         val debitCardNotAcceptedSubscriber = TestSubscriber<Boolean>()
@@ -74,7 +77,6 @@ class FlightCheckoutViewModelTest {
     @Test
     fun debitCardAccepted() {
         PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_test_config.json")
-        createMockFlightServices()
         setupSystemUnderTest()
 
         val debitCardNotAcceptedSubscriber = TestSubscriber<Boolean>()
@@ -85,7 +87,6 @@ class FlightCheckoutViewModelTest {
 
     @Test
     fun legalTextObservable() {
-        createMockFlightServices()
         givenGoodTripResponse()
         setupSystemUnderTest()
 
@@ -102,7 +103,6 @@ class FlightCheckoutViewModelTest {
     fun slideToPurchaseTotalLabel() {
         givenGoodCheckoutParams()
         setupCardFeeService()
-        createMockFlightServices()
         givenGoodTripResponse()
         setupSystemUnderTest()
 
@@ -126,8 +126,6 @@ class FlightCheckoutViewModelTest {
     @Test
     fun guestCardPaymentFees() {
         givenGoodCheckoutParams()
-        setupCardFeeService()
-        createMockFlightServices()
         givenGoodTripResponse()
         setupSystemUnderTest()
 
@@ -145,7 +143,6 @@ class FlightCheckoutViewModelTest {
     @Test
     fun flightCheckoutParamsBuiltOnNewCreateTripResponse() {
         givenGoodCheckoutParams()
-        createMockFlightServices()
         givenGoodTripResponse()
         setupSystemUnderTest()
 
@@ -170,7 +167,6 @@ class FlightCheckoutViewModelTest {
 
     @Test
     fun selectedFlightHasFeesShowCardFeeWarnings() {
-        createMockFlightServices()
         setupSystemUnderTest()
 
         val cardFeeWarningTestSubscriber = TestSubscriber<Spanned>()
@@ -199,7 +195,6 @@ class FlightCheckoutViewModelTest {
 
     @Test
     fun selectedFlightHasNoFeesDontShowCardFeeWarnings() {
-        createMockFlightServices()
         setupSystemUnderTest()
 
         val cardFeeWarningTestSubscriber = TestSubscriber<Spanned>()
@@ -218,7 +213,6 @@ class FlightCheckoutViewModelTest {
         givenGoodCheckoutParams()
         givenGoodTripResponse()
         setupCardFeeService()
-        createMockFlightServices()
         setupSystemUnderTest()
 
         givenAirlineChargesFees()
@@ -248,7 +242,6 @@ class FlightCheckoutViewModelTest {
         givenGoodCheckoutParams()
         givenGoodTripResponse()
         setupCardFeeService()
-        createMockFlightServices()
         setupSystemUnderTest()
 
         val cardFeeTextSubscriber = TestSubscriber<Spanned>()
@@ -277,7 +270,6 @@ class FlightCheckoutViewModelTest {
         givenGoodCheckoutParams()
         givenGoodTripResponse()
         setupCardFeeService()
-        createMockFlightServices()
         setupSystemUnderTest()
 
         val cardFeeTextSubscriber = TestSubscriber<Spanned>()
@@ -305,38 +297,71 @@ class FlightCheckoutViewModelTest {
     }
 
     @Test
-    fun flightServicesCheckoutCalledWithGoodParams() {
-        givenGoodCheckoutParams()
-        createMockFlightServices()
+    fun unknownError() {
         setupSystemUnderTest()
+        givenUnknownErrorCheckoutParams()
 
+        val testSubscriber = TestSubscriber<ApiError>()
+        sut.checkoutErrorObservable.subscribe(testSubscriber)
         sut.checkoutParams.onNext(params)
 
-        Mockito.verify(mockFlightServices).checkout(params.toQueryMap())
+        testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        testSubscriber.assertValueCount(1)
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, testSubscriber.onNextEvents[0].errorCode)
+    }
+
+    @Test
+    fun happyPath() {
+        setupSystemUnderTest()
+        givenGoodCheckoutParams()
+        val createTripResponse = FlightCreateTripResponse()
+        Db.getTripBucket().add(TripBucketItemFlightV2(createTripResponse))
+
+        val testSubscriber = TestSubscriber<Pair<BaseApiResponse, String>>()
+        sut.bookingSuccessResponse.subscribe(testSubscriber)
+        sut.checkoutParams.onNext(params)
+
+        testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        testSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun priceChange() {
+        setupSystemUnderTest()
+        givenCheckoutPriceChangeParams()
+
+        val testSubscriber = TestSubscriber<TripResponse>()
+        sut.priceChangeObservable.subscribe(testSubscriber)
+        sut.checkoutParams.onNext(params)
+
+        testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
+        testSubscriber.assertValueCount(1)
     }
 
     @Test
     fun networkErrorDialogCancel() {
-        val testSubscriber = TestSubscriber<Unit>()
-        givenIOExceptionOnCheckoutRequest()
         setupSystemUnderTest()
 
+        val testSubscriber = TestSubscriber<Unit>()
         sut.showNoInternetRetryDialog.subscribe(testSubscriber)
-        sut.checkoutParams.onNext(params)
+        givenIOExceptionOnCheckoutRequest()
 
         testSubscriber.assertValueCount(1)
     }
 
     @Test
     fun networkErrorDialogRetry() {
-        givenIOExceptionOnCheckoutRequest()
         setupSystemUnderTest()
 
         val testSubscriber = TestSubscriber<Unit>()
         sut.showNoInternetRetryDialog.subscribe(testSubscriber)
+        givenIOExceptionOnCheckoutRequest()
 
-        sut.checkoutParams.onNext(params)
         testSubscriber.assertValueCount(1)
+    }
+
+    private fun givenIOExceptionOnCheckoutRequest() {
+        sut.makeCheckoutResponseObserver().onError(IOException())
     }
 
     private fun givenGoodTripResponse() {
@@ -360,52 +385,88 @@ class FlightCheckoutViewModelTest {
         val billingInfo = BillingInfo()
         billingInfo.expirationDate = LocalDate()
         billingInfo.location = Location()
+        billingInfo.email = "qa-ehcc@mobiata.com"
+        billingInfo.firstName = "JexperCC"
+        billingInfo.lastName = "MobiataTestaverde"
+        billingInfo.nameOnCard = billingInfo.firstName + " " + billingInfo.lastName
+        billingInfo.setNumberAndDetectType("4111111111111111")
+        billingInfo.securityCode = "111"
+        billingInfo.telephone = "4155555555"
+        billingInfo.telephoneCountryCode = "1"
+        billingInfo.expirationDate = LocalDate.now()
+
+        val location = Location()
+        location.streetAddress = arrayListOf("123 street")
+        location.city = "city"
+        location.stateCode = "CA"
+        location.countryCode = "US"
+        location.postalCode = "12334"
+        billingInfo.location = location
         return billingInfo
     }
 
     private fun givenGoodCheckoutParams() {
         val billingInfo = makeBillingInfo()
-        val traveler = Traveler()
-        traveler.middleName = ""
-        traveler.birthDate = LocalDate()
-        traveler.email = ""
-        traveler.passengerCategory = PassengerCategory.ADULT
-        traveler.redressNumber = ""
+        val traveler = makeTraveler()
         params = FlightCheckoutParams.Builder()
-                        .tealeafTransactionId("")
+                        .tealeafTransactionId("tealeafFlight:happy_roundtrip_0")
                         .travelers(listOf(traveler))
                         .billingInfo(billingInfo)
                         .expectedFareCurrencyCode("USD")
                         .expectedTotalFare("$42")
-                        .tripId("1234")
+                        .tripId("happy_roundtrip_0")
                         .cvv("123")
                         .build() as FlightCheckoutParams
     }
 
-    private fun givenIOExceptionOnCheckoutRequest() {
-        givenGoodCheckoutParams()
-
-        mockFlightServices = Mockito.mock(FlightServices::class.java)
-        val observableWithIOException = BehaviorSubject.create<FlightCheckoutResponse>()
-        observableWithIOException.onError(IOException())
-        Mockito.`when`(mockFlightServices.checkout(params.toQueryMap()))
-                .thenReturn(observableWithIOException)
+    private fun givenCheckoutPriceChangeParams() {
+        val billingInfo = makeBillingInfo()
+        val traveler = makeTraveler()
+        params = FlightCheckoutParams.Builder()
+                .tealeafTransactionId("tealeafFlight:checkout_price_change")
+                .travelers(listOf(traveler))
+                .billingInfo(billingInfo)
+                .expectedFareCurrencyCode("USD")
+                .expectedTotalFare("$42")
+                .tripId("checkout_price_change")
+                .cvv("123")
+                .build() as FlightCheckoutParams
     }
 
-    private fun createMockFlightServices() {
-        givenGoodCheckoutParams()
+    private fun givenUnknownErrorCheckoutParams() {
+        params = FlightCheckoutParams.Builder()
+                .tealeafTransactionId("tealeafFlight:UNKNOWN_ERROR")
+                .travelers(listOf(makeTraveler()))
+                .billingInfo(makeBillingInfo())
+                .expectedFareCurrencyCode("USD")
+                .expectedTotalFare("$42")
+                .tripId("UNKNOWN_ERROR")
+                .cvv("123")
+                .build() as FlightCheckoutParams
+    }
 
-        mockFlightServices = Mockito.mock(FlightServices::class.java)
-        val checkoutResponseObservable = PublishSubject.create<FlightCheckoutResponse>()
-        Mockito.`when`(mockFlightServices.checkout(params.toQueryMap()))
-                .thenReturn(checkoutResponseObservable)
+    private fun makeTraveler(): Traveler {
+        val traveler = Traveler()
+        traveler.firstName = "JexperCC"
+        traveler.lastName = "MobiataTestaverde"
+        traveler.birthDate = LocalDate()
+        traveler.email = "qa-ehcc@mobiata.com"
+        traveler.phoneNumber = "4155555555"
+        traveler.phoneCountryCode = "US"
+        traveler.passengerCategory = PassengerCategory.ADULT
+        return traveler
+    }
+
+    private fun setupFlightService() {
+        val logger = HttpLoggingInterceptor()
+        logger.level = HttpLoggingInterceptor.Level.BODY
+        val interceptor = MockInterceptor()
+        flightServices = FlightServices("http://localhost:" + server.port,
+                OkHttpClient.Builder().addInterceptor(logger).build(),
+                interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 
     private fun setupCardFeeService() {
-        val root = File("../lib/mocked/templates").canonicalPath
-        val opener = FileSystemOpener(root)
-        server.setDispatcher(ExpediaDispatcher(opener))
-
         val logger = HttpLoggingInterceptor()
         logger.level = HttpLoggingInterceptor.Level.BODY
         val interceptor = MockInterceptor()
@@ -414,15 +475,24 @@ class FlightCheckoutViewModelTest {
                 interceptor, Schedulers.immediate(), Schedulers.immediate())
     }
 
+    private fun setupMockServer() {
+        val root = File("../lib/mocked/templates").canonicalPath
+        val opener = FileSystemOpener(root)
+        server.setDispatcher(ExpediaDispatcher(opener))
+    }
+
     private fun setupSystemUnderTest() {
+        setupMockServer()
+        setupFlightService()
         setupCardFeeService()
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.FlightTheme)
         Ui.getApplication(context).defaultTravelerComponent()
         Ui.getApplication(context).defaultFlightComponents()
         sut = TestFlightCheckoutViewModelClass(context)
+        sut.email = "qa-ehcc@mobiata.com"
         sut.cardFeeTripResponse.subscribe(sut.tripResponseObservable)
-        sut.flightServices = mockFlightServices
+        sut.flightServices = flightServices
         sut.cardFeeService = cardFeeService
     }
 

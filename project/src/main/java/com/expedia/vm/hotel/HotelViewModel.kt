@@ -15,6 +15,7 @@ import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
+import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.priceFormatter
 import com.squareup.phrase.Phrase
@@ -57,8 +58,8 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
         //Order in list below is important as it decides the priority of messages to be displayed in the urgency banner!
         listOf(soldOutUrgency, memberDealUrgency, fewRoomsLeftUrgency, tonightOnlyUrgency, mobileExclusiveUrgency).firstOrNull { it != null }
     }
-    val urgencyMessageVisibilityObservable = highestPriorityUrgencyMessageObservable.map { it != null }
-    val urgencyMessageBoxObservable = highestPriorityUrgencyMessageObservable.filter { it != null }.map { it!!.message }
+    val urgencyMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
+    val urgencyMessageBoxObservable = BehaviorSubject.create<String>()
     val urgencyMessageBackgroundObservable = highestPriorityUrgencyMessageObservable.filter { it != null }.map { ContextCompat.getColor(context, it!!.backgroundColorId) }
     val urgencyIconObservable = highestPriorityUrgencyMessageObservable.filter { it != null && it.iconDrawableId != null }.map { ContextCompat.getDrawable(context, it!!.iconDrawableId!!) }
     val urgencyIconVisibilityObservable = highestPriorityUrgencyMessageObservable.map { it != null && it.iconDrawableId != null }
@@ -123,6 +124,9 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
             UrgencyMessage(null, R.color.hotel_sold_out_color,
                     resources.getString(R.string.trip_bucket_sold_out))
         }.subscribe(soldOutUrgency)
+
+        highestPriorityUrgencyMessageObservable.map { it != null }.subscribe(urgencyMessageVisibilityObservable)
+        highestPriorityUrgencyMessageObservable.filter { it != null }.map { it!!.message }.subscribe(urgencyMessageBoxObservable)
     }
 
     private fun getTopAmenityTitle(hotel: Hotel, resources: Resources): String {
@@ -141,5 +145,39 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
     open fun hasMemberDeal(): Boolean {
         val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
         return hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
+    }
+
+    open fun getHotelContentDesc(): CharSequence {
+        var result = SpannableBuilder()
+
+        result.append(Phrase.from(context, R.string.hotel_details_cont_desc_TEMPLATE)
+                .put("hotel", hotel.localizedName)
+                .put("starrating", hotelStarRatingObservable.value.toString())
+                .put("guestrating", hotelGuestRatingObservable.value.toString())
+                .put("price", pricePerNightObservable.value)
+                .format()
+                .toString())
+
+        if (urgencyMessageVisibilityObservable.value) {
+            result.append(urgencyMessageBoxObservable.value + " ")
+        }
+
+        if (showDiscountObservable.value) {
+            result.append(Phrase.from(context, R.string.hotel_discount_cont_desc_TEMPLATE)
+                    .put("percent", Math.abs(hotel.lowRateInfo?.discountPercent?.toInt() ?: 0))
+                    .format()
+                    .toString())
+        }
+
+        if (hotelStrikeThroughPriceVisibility.value) {
+            result.append(Phrase.from(context, R.string.hotel_price_cont_desc_TEMPLATE)
+                    .put("strikethroughprice", hotelStrikeThroughPriceFormatted.value)
+                    .format()
+                    .toString())
+        }
+
+        result.append(Phrase.from(context.resources.getString(R.string.accessibility_cont_desc_role_button)).format().toString())
+
+        return result.build()
     }
 }

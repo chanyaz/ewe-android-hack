@@ -21,6 +21,8 @@ public class RailLegOption {
 	public Integer noOfChanges;
 	public Money bestPrice;
 	public boolean overtakenJourney;
+	// Not returned by api but set in code.
+	public boolean doesAnyOfferHasFareQualifier;
 
 	public int durationMinutes() {
 		return DateUtils.parseDurationMinutes(duration);

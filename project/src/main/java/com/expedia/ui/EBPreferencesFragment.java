@@ -7,13 +7,12 @@ import android.preference.Preference;
 import android.preference.PreferenceScreen;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.ExpediaBookingPreferenceActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.MockModeShim;
 import com.expedia.util.PermissionsHelperKt;
-import com.github.stkent.bugshaker.BugShaker;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import java.io.IOException;
@@ -71,11 +70,11 @@ public class EBPreferencesFragment extends BasePreferenceFragment {
 							PermissionsHelperKt.requestWriteToExternalStoragePermission(getActivity());
 						}
 						else {
-							ExpediaBookingApp.startNewBugShaker(getActivity().getApplication());
+							BugShakerShim.startNewBugShaker(getActivity().getApplication());
 						}
 					}
 					else {
-						BugShaker.turnOff();
+						BugShakerShim.turnOff();
 					}
 					return true;
 				}

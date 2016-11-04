@@ -20,7 +20,7 @@ import rx.Observable;
 public interface PackageApi {
 
 	@FormUrlEncoded
-	@POST("/getpackages/v1?packageType=fh")
+	@POST("/getpackages/v1?forceNoRedir=1&packageType=fh")
 	Observable<PackageSearchResponse> packageSearch(
 		@FieldMap Map<String, Object> queryParams);
 
@@ -33,7 +33,6 @@ public interface PackageApi {
 		@Query("roomTypeCode") String roomTypeCode,
 		@Query("numberOfAdultTravelers") Integer numberOfAdultTravelers,
 		@Query("childTravelerAge") Integer childTravelerAge);
-
 
 	@GET("/m/api/hotel/info")
 	Observable<HotelOffersResponse> hotelInfo(

@@ -2,29 +2,24 @@ package com.expedia.bookings.widget.rail
 
 import android.content.Context
 import android.support.design.widget.TabLayout
-import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
 import android.widget.FrameLayout
-import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.adapter.RailAmenitiesAndRulesAdapter
 import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.rail.RailAmenitiesViewModel
 import com.expedia.vm.rail.RailFareRulesViewModel
 
 class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
-    val viewPager: ViewPager by bindView(R.id.viewpager)
-    val toolbar: Toolbar by bindView(R.id.toolbar)
-    val tabs: TabLayout by bindView(R.id.tabs)
-    val container: RelativeLayout by bindView(R.id.amenities_rules_container)
+    val viewPager: ViewPager by bindView(R.id.amenities_rules_view_pager)
+    val toolbar: Toolbar by bindView(R.id.amenities_rules_toolbar)
+    val tabs: TabLayout by bindView(R.id.amenities_rules_tabs)
 
     lateinit var adapter: RailAmenitiesAndRulesAdapter
 

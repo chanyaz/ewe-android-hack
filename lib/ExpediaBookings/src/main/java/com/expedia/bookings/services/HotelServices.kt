@@ -1,6 +1,5 @@
 package com.expedia.bookings.services
 
-import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelApplyCouponParameters
 import com.expedia.bookings.data.hotels.HotelCheckoutV2Params
@@ -24,6 +23,7 @@ import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
+import rx.subjects.PublishSubject
 
 class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
@@ -51,7 +51,7 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 			.subscribe(observer)
 	}
 
-	fun search(params: HotelSearchParams, clientLogBuilder: ClientLog.Builder?, numberOfResults: Int): Observable<HotelSearchResponse> {
+	fun search(params: HotelSearchParams, numberOfResults: Int, resultsResponseReceivedObservable: PublishSubject<DateTime>? = null): Observable<HotelSearchResponse> {
 		// null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
 		val lat = if (params.suggestion.coordinates.lat != 0.0) params.suggestion.coordinates.lat else null
 		val lng = if (params.suggestion.coordinates.lng != 0.0) params.suggestion.coordinates.lng else null
@@ -61,8 +61,10 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 				params.checkIn.toString(), params.checkOut.toString(), params.guestString, params.shopWithPoints, params.filterUnavailable.toString(), numberOfResults)
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
+				.doOnNext{
+					resultsResponseReceivedObservable?.onNext(DateTime.now())
+				}
 				.doOnNext { response ->
-					clientLogBuilder?.responseTime(DateTime.now())
 					if (response.hasErrors()) return@doOnNext
 
 					response.userPriceType = getUserPriceType(response.hotelList)

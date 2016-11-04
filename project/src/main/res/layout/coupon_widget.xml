@@ -37,12 +37,13 @@
             app:textStyle="normal"
             android:textColor="@color/hotelsv2_coupon_applied_color" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/remove_coupon_button"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="center_vertical"
             android:background="@drawable/bg_clickable_row"
+            android:contentDescription="@string/toolbar_nav_icon_close_cont_desc"
             android:padding="16dp"
             android:src="@drawable/widget_close" />
 

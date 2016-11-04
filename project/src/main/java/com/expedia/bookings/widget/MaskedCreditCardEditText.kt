@@ -26,7 +26,7 @@ class MaskedCreditCardEditText(context: Context, attributeSet: AttributeSet?) : 
     override fun onCreateInputConnection(outAttrs: EditorInfo): InputConnection {
         outAttrs.inputType = InputType.TYPE_CLASS_NUMBER
         outAttrs.imeOptions = EditorInfo.IME_ACTION_NEXT
-        return NumericKeyWatcher(super.onCreateInputConnection(outAttrs), false, cardNumberTextSubject)
+        return NumericKeyWatcher(this, false, cardNumberTextSubject)
     }
 
     private fun clearAndSetText(text: CharSequence?) {

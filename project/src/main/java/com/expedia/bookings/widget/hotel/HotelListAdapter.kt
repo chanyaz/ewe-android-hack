@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.hotel
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -22,8 +23,9 @@ class HotelListAdapter(hotelSelectedSubject: PublishSubject<Hotel>, headerSubjec
 
         val bucketedAndFeatureEnabledForFavoriteTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(parent.context, AbacusUtils.EBAndroidAppHotelFavoriteTest,
                 R.string.preference_enable_hotel_favorite)
-        val layoutId = if (bucketedAndFeatureEnabledForFavoriteTest) R.layout.new_hotel_cell_fav else R.layout.new_hotel_cell
-        val view = LayoutInflater.from(parent.context).inflate(layoutId, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.hotel_cell, parent, false)
+        val heart_cell = view.findViewById(R.id.hotel_cell_heart_container)
+        heart_cell.visibility = if (bucketedAndFeatureEnabledForFavoriteTest) View.VISIBLE else View.GONE
         return HotelCellViewHolder(view as ViewGroup, parent.width)
     }
 

@@ -1,0 +1,123 @@
+{
+  "validFormsOfPayment": [{
+    "name": "AmericanExpress",
+    "fees": {
+      "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+        "feePrice": {
+          "amount": "15.99",
+          "formattedPrice": "£15.99",
+          "formattedWholePrice": "£16",
+          "currencyCode": "GBP"
+        },
+        "tripTotalPrice": {
+          "amount": "655.74",
+          "formattedPrice": "£655.74",
+          "formattedWholePrice": "£656",
+          "currencyCode": "GBP"
+        }
+      },
+      "KIOSK_NONE": {
+        "feePrice": {
+          "amount": "15.99",
+          "formattedPrice": "£15.99",
+          "formattedWholePrice": "£16",
+          "currencyCode": "GBP"
+        },
+        "tripTotalPrice": {
+          "amount": "655.74",
+          "formattedPrice": "£655.74",
+          "formattedWholePrice": "£656",
+          "currencyCode": "GBP"
+        }
+      },
+      "SEND_BY_POST_UK": {
+        "feePrice": {
+          "amount": "16.02",
+          "formattedPrice": "£16.02",
+          "formattedWholePrice": "£16",
+          "currencyCode": "GBP"
+        },
+        "tripTotalPrice": {
+          "amount": "656.77",
+          "formattedPrice": "£656.77",
+          "formattedWholePrice": "£657",
+          "currencyCode": "GBP"
+        }
+      },
+      "SEND_BY_OVERNIGHT_POST_UK": {
+        "feePrice": {
+          "amount": "16.17",
+          "formattedPrice": "£16.17",
+          "formattedWholePrice": "£16",
+          "currencyCode": "GBP"
+        },
+        "tripTotalPrice": {
+          "amount": "662.92",
+          "formattedPrice": "£662.92",
+          "formattedWholePrice": "£663",
+          "currencyCode": "GBP"
+        }
+      }
+    }
+  }, {
+    "name": "Visa",
+    "fees": {
+      "PICK_UP_AT_TICKETING_OFFICE_NONE": {
+        "feePrice": {
+          "amount": "9.60",
+          "formattedPrice": "£9.60",
+          "formattedWholePrice": "£10",
+          "currencyCode": "GBP"
+        },
+        "tripTotalPrice": {
+          "amount": "649.35",
+          "formattedPrice": "£649.35",
+          "formattedWholePrice": "£649",
+          "currencyCode": "GBP"
+        }
+      },
+      "KIOSK_NONE": {
+        "feePrice": {
+          "amount": "9.60",
+          "formattedPrice": "£9.60",
+          "formattedWholePrice": "£10",
+          "currencyCode": "GBP"
+        },
+        "tripTotalPrice": {
+          "amount": "649.35",
+          "formattedPrice": "£649.35",
+          "formattedWholePrice": "£649",
+          "currencyCode": "GBP"
+        }
+      },
+      "SEND_BY_POST_UK": {
+        "feePrice": {
+          "amount": "9.61",
+          "formattedPrice": "£9.61",
+          "formattedWholePrice": "£10",
+          "currencyCode": "GBP"
+        },
+        "tripTotalPrice": {
+          "amount": "650.36",
+          "formattedPrice": "£650.36",
+          "formattedWholePrice": "£650",
+          "currencyCode": "GBP"
+        }
+      },
+      "SEND_BY_OVERNIGHT_POST_UK": {
+        "feePrice": {
+          "amount": "9.70",
+          "formattedPrice": "£9.70",
+          "formattedWholePrice": "£10",
+          "currencyCode": "GBP"
+        },
+        "tripTotalPrice": {
+          "amount": "656.45",
+          "formattedPrice": "£656.45",
+          "formattedWholePrice": "£656",
+          "currencyCode": "GBP"
+        }
+      }
+    }
+  }]
+}

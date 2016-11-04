@@ -23,8 +23,8 @@ class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(co
     val legSelectedSubject = PublishSubject.create<RailLegOption>()
 
     var viewmodel: RailInboundResultsViewModel by notNullAndObservable { vm ->
-        vm.legOptionListSubject.subscribe { legOptionList ->
-            adapter.legOptionListSubject.onNext(legOptionList)
+        vm.legSubject.subscribe { leg ->
+            adapter.legSubject.onNext(leg)
         }
 
         vm.titleSubject.subscribe {
@@ -38,7 +38,6 @@ class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(co
         vm.directionHeaderSubject.subscribe(adapter.directionHeaderSubject)
         vm.priceHeaderSubject.subscribe(adapter.priceHeaderSubject)
     }
-
 
     init {
         View.inflate(context, R.layout.widget_rail_inbound_results, this)

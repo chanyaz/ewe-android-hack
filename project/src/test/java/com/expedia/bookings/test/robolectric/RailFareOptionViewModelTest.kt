@@ -1,34 +1,51 @@
 package com.expedia.bookings.test.robolectric
 
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class RailFareOptionViewModelTest {
 
     @Test
-    fun testFareOptionDetails() {
+    fun testOneWayFareOptionDetails() {
         val railFareOptionViewModel = RailFareOptionViewModel()
 
         val testPriceSubscriber = TestSubscriber<String>()
         val testFareTitleSubscriber = TestSubscriber<String>()
         val testFareDescriptionSubscriber = TestSubscriber<String>()
+        val testRailCardAppliedSubscriber = TestSubscriber<Boolean>()
+
         railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
         railFareOptionViewModel.fareTitleObservable.subscribe(testFareTitleSubscriber)
         railFareOptionViewModel.fareDescriptionObservable.subscribe(testFareDescriptionSubscriber)
+        railFareOptionViewModel.railCardAppliedObservable.subscribe(testRailCardAppliedSubscriber)
 
-        railFareOptionViewModel.offerFare.onNext(getRailOffer())
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
+        railFareOptionViewModel.cheapestPriceSubject.onNext(null)
         assertEquals("$10", testPriceSubscriber.onNextEvents[0])
         assertEquals("Fare class", testFareTitleSubscriber.onNextEvents[0])
         assertEquals("Fare Description", testFareDescriptionSubscriber.onNextEvents[0])
+        assertTrue(testRailCardAppliedSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testRoundTripFareOptionDetails() {
+        val railFareOptionViewModel = RailFareOptionViewModel()
+
+        val testPriceSubscriber = TestSubscriber<String>()
+        railFareOptionViewModel.priceObservable.subscribe(testPriceSubscriber)
+
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
+        railFareOptionViewModel.cheapestPriceSubject.onNext(Money("15", "USD"))
+        assertEquals("$25", testPriceSubscriber.onNextEvents[0])
     }
 
     @Test
@@ -39,11 +56,11 @@ class RailFareOptionViewModelTest {
         val testShowAmenitiesSelectedSubscriber = TestSubscriber<RailSearchResponse.RailOffer>()
         val testShowFareSelectedSubscriber = TestSubscriber<RailSearchResponse.RailOffer>()
 
-        railFareOptionViewModel.offerSelected.subscribe(testOfferSelectedSubscriber)
-        railFareOptionViewModel.showAmenitiesDetails.subscribe(testShowAmenitiesSelectedSubscriber)
-        railFareOptionViewModel.showFareDetails.subscribe(testShowFareSelectedSubscriber)
+        railFareOptionViewModel.offerSelectedObservable.subscribe(testOfferSelectedSubscriber)
+        railFareOptionViewModel.amenitiesSelectedObservable.subscribe(testShowAmenitiesSelectedSubscriber)
+        railFareOptionViewModel.fareDetailsSelectedObservable.subscribe(testShowFareSelectedSubscriber)
 
-        railFareOptionViewModel.offerFare.onNext(getRailOffer())
+        railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
         railFareOptionViewModel.offerSelectButtonClicked.onNext(Unit)
         railFareOptionViewModel.showAmenitiesForFareClicked.onNext(Unit)
         railFareOptionViewModel.showFareRulesForFareClicked.onNext(Unit)
@@ -60,6 +77,8 @@ class RailFareOptionViewModelTest {
         val railProduct = RailProduct()
         railProduct.aggregatedCarrierFareClassDisplayName="Fare class"
         railProduct.aggregatedFareDescription = "Fare Description"
+        val fareQualifierList = listOf(RailCard("", "", ""))
+        railProduct.fareQualifierList = fareQualifierList
         railOffer.railProductList = listOf(railProduct)
         return railOffer
     }

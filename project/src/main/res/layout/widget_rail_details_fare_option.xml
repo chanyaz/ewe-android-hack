@@ -56,14 +56,30 @@
         android:gravity="right"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/price"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/price_container"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingRight="4dp"
-            android:paddingTop="5dp"
-            android:textSize="14sp"
-            tools:text="Change at Crewe" />
+            android:gravity="right"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/rail_card_image"
+                android:layout_height="20dp"
+                android:layout_width="23dp"
+                android:paddingTop="8dp"
+                android:paddingRight="2dp"
+                android:src="@drawable/rail_card_icon" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="4dp"
+                android:paddingTop="5dp"
+                android:textSize="14sp"
+                tools:text="$50" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/select_button"

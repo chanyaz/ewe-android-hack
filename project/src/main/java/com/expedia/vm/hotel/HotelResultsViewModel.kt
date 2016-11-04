@@ -25,7 +25,7 @@ import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness, private val clientLogBuilder: ClientLog.Builder?) {
+class HotelResultsViewModel(private val context: Context, private val hotelServices: HotelServices?, private val lob: LineOfBusiness) {
 
     private val INITIAL_RESULTS_TO_BE_LOADED = 25
     private val ALL_RESULTS_TO_BE_LOADED = 200
@@ -35,6 +35,8 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
 
     // Outputs
+    val searchingForHotelsDateTime = PublishSubject.create<DateTime>()
+    val resultsReceivedDateTimeObservable = PublishSubject.create<DateTime>()
     val addHotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
@@ -81,14 +83,14 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format())
 
-        clientLogBuilder?.logTime(DateTime.now())
         searchHotels(params)
     }
 
     private fun searchHotels(params: HotelSearchParams, isInitial: Boolean = true) {
+        searchingForHotelsDateTime.onNext(DateTime.now())
         val isBucketedAndFeatureToggleOn = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest, R.string.preference_enable_hotel_results_perceived_instant)
         val makeMultipleCalls = isInitial && isBucketedAndFeatureToggleOn
-        hotelServices?.search(params, clientLogBuilder, if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED)?.subscribe(object : Observer<HotelSearchResponse> {
+        hotelServices?.search(params,if (makeMultipleCalls) INITIAL_RESULTS_TO_BE_LOADED else ALL_RESULTS_TO_BE_LOADED, resultsReceivedDateTimeObservable)?.subscribe(object : Observer<HotelSearchResponse> {
             override fun onNext(hotelSearchResponse: HotelSearchResponse) {
                 onSearchResponse(hotelSearchResponse, isInitial)
                 if (makeMultipleCalls) {
@@ -115,7 +117,6 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     }
 
     private fun onSearchResponse(hotelSearchResponse: HotelSearchResponse, isInitial: Boolean) {
-        clientLogBuilder?.processingTime(DateTime.now())
         if (hotelSearchResponse.hasErrors()) {
             errorObservable.onNext(hotelSearchResponse.firstError)
         } else if (hotelSearchResponse.hotelList.isEmpty()) {

@@ -40,7 +40,7 @@ class PackageFlightListAdapterTest {
         val service = FlightServices("http://localhost:" + server.port,
                 OkHttpClient.Builder().build(), MockInterceptor(),
                 Schedulers.immediate(), Schedulers.immediate())
-        flightSearchViewModel = FlightSearchViewModel(context, service)
+        flightSearchViewModel = FlightSearchViewModel(context)
     }
 
     fun createSystemUnderTest() {

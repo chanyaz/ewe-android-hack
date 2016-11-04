@@ -56,10 +56,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         filterView.viewmodel.priceRangeContainerVisibility.onNext(false)
     }
 
-    override fun getFilterViewModel(): HotelFilterViewModel {
-        return HotelFilterViewModel(context, LineOfBusiness.PACKAGES)
-    }
-
     override fun doAreaSearch() {
     }
 
@@ -101,8 +97,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
         return PackageHotelListAdapter(hotelSelectedSubject, headerClickedSubject)
     }
 
-    override fun setLob() {
-        lob = LineOfBusiness.PACKAGES
+    override fun getLineOfBusiness(): LineOfBusiness {
+        return LineOfBusiness.PACKAGES
     }
-
 }

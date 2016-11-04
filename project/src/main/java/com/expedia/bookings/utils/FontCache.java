@@ -28,7 +28,6 @@ public class FontCache {
 		ROBOTO_CONDENSED_BOLD("fonts/RobotoCondensed-Bold.ttf"),
 		ROBOTO_CONDENSED_LIGHT("fonts/RobotoCondensed-Light.ttf"),
 		ROBOTO_CONDENSED_REGULAR("fonts/RobotoCondensed-Regular.ttf"),
-		BEBAS_NEUE("fonts/BebasNeue.otf"),
 		EXPEDIASANS_LIGHT("fonts/ExpediaSans-Light.ttf"),
 		EXPEDIASANS_REGULAR("fonts/ExpediaSans-Regular.ttf"),
 		;

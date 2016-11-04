@@ -14,7 +14,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/boarding_warning"
-            style="@style/FlightWarningBar"
+            style="@style/WarningBar"
             android:maxLines="2"
             android:text="@string/name_must_match_warning_new"
             android:visibility="gone"/>

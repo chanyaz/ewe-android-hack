@@ -748,13 +748,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -1441,13 +1434,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -1596,13 +1582,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -1793,13 +1772,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -1948,13 +1920,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -2145,13 +2110,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -2300,13 +2258,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -2475,13 +2426,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -2564,13 +2508,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -2716,13 +2653,6 @@
                       ]
                     }
                   ]
-                }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
                 }
               ]
             },
@@ -2960,13 +2890,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -3049,13 +2972,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -3433,13 +3349,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -3522,13 +3431,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -3698,13 +3600,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -3853,13 +3748,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -4391,13 +4279,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -4546,13 +4427,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -4743,13 +4617,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -4898,13 +4765,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -5095,13 +4955,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -5250,13 +5103,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -5448,13 +5294,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -5603,13 +5442,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -6141,13 +5973,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -6296,13 +6121,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -6493,13 +6311,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -6648,13 +6459,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -6845,13 +6649,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -7000,13 +6797,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -7198,13 +6988,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -7353,13 +7136,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -7889,13 +7665,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -8044,13 +7813,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -8243,13 +8005,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -8398,13 +8153,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [
@@ -8595,13 +8343,6 @@
                     }
                   ]
                 }
-              ],
-              "fareQualifierList": [
-                {
-                  "category": "DISCOUNT_CARD",
-                  "program": "UK_YOUTH",
-                  "name": "UK Youth Railcard (16-25)"
-                }
               ]
             },
             {
@@ -8750,13 +8491,6 @@
                   ]
                 }
               ]
-            }
-          ],
-          "fareQualifierList": [
-            {
-              "category": "DISCOUNT_CARD",
-              "program": "UK_YOUTH",
-              "name": "UK Youth Railcard (16-25)"
             }
           ],
           "segmentFareDetailList": [

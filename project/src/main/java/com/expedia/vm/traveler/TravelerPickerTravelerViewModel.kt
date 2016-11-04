@@ -14,7 +14,7 @@ import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import javax.inject.Inject
 
-open class TravelerPickerTravelerViewModel(val context: Context, val index: Int, val age: Int, val isPassportRequired: Boolean) {
+open class TravelerPickerTravelerViewModel(val context: Context, val index: Int, val age: Int) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
     val resources = context.resources
@@ -30,6 +30,7 @@ open class TravelerPickerTravelerViewModel(val context: Context, val index: Int,
     val titleFontObservable = BehaviorSubject.create<FontCache.Font>()
 
     var status: TravelerCheckoutStatus
+    var isPassportRequired = false
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)

@@ -4,6 +4,7 @@ import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.RailScope;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.server.RailCardFeeServiceProvider;
 import com.expedia.bookings.services.RailServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 import com.expedia.vm.PaymentViewModel;
@@ -36,6 +37,12 @@ public final class RailModule {
 	@RailScope
 	PaymentViewModel providePaymentViewModel(Context context) {
 		return new PaymentViewModel(context);
+	}
+
+	@Provides
+	@RailScope
+	RailCardFeeServiceProvider provideCardFeeServiceProvider() {
+		return new RailCardFeeServiceProvider();
 	}
 }
 
