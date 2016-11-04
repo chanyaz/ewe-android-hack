@@ -3,36 +3,33 @@ package com.expedia.bookings.widget.rail
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.LinearLayout
-import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
+import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailFareOptionViewModel
+import com.expedia.vm.rail.RailFareOptionsViewModel
 
 class RailDetailsFareOptionsView(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
-    var viewmodel: RailDetailsViewModel by notNullAndObservable { vm ->
-        vm.offerViewModel.offerSubject.subscribe {
+    var viewModel: RailFareOptionsViewModel by notNullAndObservable { vm ->
+        vm.railOffersPairSubject.subscribe { pair ->
             removeAllViews()
-            addFareOptionViews(it)
+            addFareOptionViews(pair.first, pair.second)
         }
     }
 
-    private fun addFareOptionViews(offer: RailOffer) {
-        val outboundLegOption = offer.outboundLeg
-        if (outboundLegOption != null) {
-            val offers = viewmodel.railResultsObservable.value.findOffersForLegOption(outboundLegOption)
-            offers.forEach { offerForLeg ->
-                val fareOptionViewModel = RailFareOptionViewModel()
-                val fareOptionView = RailFareOptionView(context)
-                fareOptionView.viewModel = fareOptionViewModel
+    private fun addFareOptionViews(railOffers: List<RailSearchResponse.RailOffer>, comparePrice: Money?) {
+        railOffers.forEach { offerForLeg ->
+            val fareOptionViewModel = RailFareOptionViewModel()
+            val fareOptionView = RailFareOptionView(context)
+            fareOptionView.viewModel = fareOptionViewModel
 
-                fareOptionViewModel.showAmenitiesDetails.subscribe(viewmodel.showAmenitiesObservable)
-                fareOptionViewModel.showFareDetails.subscribe(viewmodel.showFareRulesObservable)
-                fareOptionViewModel.offerSelected.subscribe(viewmodel.offerSelectedObservable)
-                fareOptionViewModel.offerFare.onNext(offerForLeg)
-
-                addView(fareOptionView)
-            }
+            fareOptionViewModel.amenitiesSelectedObservable.subscribe(viewModel.showAmenitiesSubject)
+            fareOptionViewModel.fareDetailsSelectedObservable.subscribe(viewModel.showFareRulesSubject)
+            fareOptionViewModel.offerSelectedObservable.subscribe(viewModel.offerSelectedSubject)
+            fareOptionViewModel.offerFareSubject.onNext(offerForLeg)
+            fareOptionViewModel.cheapestPriceSubject.onNext(comparePrice)
+            addView(fareOptionView)
         }
     }
 }

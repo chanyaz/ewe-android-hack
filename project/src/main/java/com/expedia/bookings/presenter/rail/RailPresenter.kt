@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
-import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
+import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -62,9 +62,10 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         inboundPresenter.viewmodel.paramsSubject.onNext(params)
     }
 
-    val offerSelectedObserver: Observer<RailOffer> = endlessObserver { selectedOffer ->
+    val legOptionSelectedObserver: Observer<RailLegOption> = endlessObserver { selectedLegOption ->
         transitionToDetails()
-        detailsPresenter.viewmodel.offerViewModel.offerSubject.onNext(selectedOffer)
+        detailsPresenter.viewModel.railLegOptionSubject.onNext(selectedLegOption)
+        tripOverviewPresenter.tripSummaryViewModel.railLegObserver.onNext(selectedLegOption)
     }
 
     private val searchToResults = LeftToRightTransition(this, RailSearchPresenter::class.java, RailOutboundPresenter::class.java)
@@ -121,9 +122,9 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         outboundPresenter.viewmodel = outboundResultsViewModel
         outboundPresenter.setOnClickListener { transitionToDetails() }
         outboundPresenter.viewmodel.railResultsObservable.subscribe {
-            detailsPresenter.viewmodel.railResultsObservable.onNext(it)
+            detailsPresenter.viewModel.railResultsObservable.onNext(it)
         }
-        outboundPresenter.offerSelectedObserver = offerSelectedObserver
+        outboundPresenter.legSelectedSubject.subscribe(legOptionSelectedObserver)
     }
 
     private fun initInboundPresenter() {
@@ -131,25 +132,25 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     }
 
     private fun initDetailsPresenter() {
-        detailsPresenter.viewmodel = RailDetailsViewModel(context)
-        detailsPresenter.viewmodel.offerSelectedObservable.subscribe { offer ->
+        detailsPresenter.viewModel = RailDetailsViewModel(context)
+        detailsPresenter.viewModel.offerSelectedObservable.subscribe { offer ->
             if (searchPresenter.searchViewModel.isRoundTripSearchObservable.value) {
                 inboundResultsViewModel.resultsReturnedObserver.onNext(outboundResultsViewModel.railResultsObservable.value)
                 transitionToInboundResults()
             } else {
                 transitionToTripSummary()
-                tripOverviewPresenter.railTripSummary.viewModel.railOfferObserver.onNext(offer)
+                tripOverviewPresenter.tripSummaryViewModel.railOfferObserver.onNext(offer)
                 createTripViewModel.offerCodeSelectedObservable.onNext(offer.railOfferToken)
                 confirmationPresenter.viewModel.railOfferObserver.onNext(offer)
             }
         }
 
-        detailsPresenter.viewmodel.showAmenitiesObservable.subscribe { offer ->
+        detailsPresenter.viewModel.showAmenitiesObservable.subscribe { offer ->
             show(amenitiesFareRulesWidget)
             amenitiesFareRulesWidget.showAmenitiesForOffer(offer)
         }
 
-        detailsPresenter.viewmodel.showFareRulesObservable.subscribe { offer ->
+        detailsPresenter.viewModel.showFareRulesObservable.subscribe { offer ->
             show(amenitiesFareRulesWidget)
             amenitiesFareRulesWidget.showFareRulesForOffer(offer)
         }
@@ -158,7 +159,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private fun initOverviewPresenter() {
         tripOverviewPresenter.railTripSummary.outboundLegSummary.viewModel.showLegInfoObservable.subscribe {
             show(amenitiesFareRulesWidget)
-            amenitiesFareRulesWidget.showFareRulesForOffer(tripOverviewPresenter.railTripSummary.outboundLegSummary.viewModel.railOfferObserver.value)
+            amenitiesFareRulesWidget.showFareRulesForOffer(tripOverviewPresenter.tripSummaryViewModel.railOfferObserver.value)
         }
 
         tripOverviewPresenter.showCheckoutSubject.subscribe {

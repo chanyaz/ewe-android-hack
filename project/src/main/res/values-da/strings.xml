@@ -182,7 +182,7 @@
     <string name="car_vendors">Biludlejningsfirmaer</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">Ryd filtre</string>
-    <!-- Label to tell the user how many products match thier filter -->
+    <!-- Label to tell the user how many products match their filter -->
     <plurals name="number_results_template">
         <item quantity="one">{number} resultat</item>
         <item quantity="other">{number} resultater</item>
@@ -1747,6 +1747,9 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Der opkræves et &lt;a href=\"{airline_fee_url}\"&gt;gebyr til flyselskabet&lt;/a&gt; ved betaling afhængigt af din korttype. Et sådant gebyr lægges til rejsens samlede beløb ved betaling.</string>
+    <!-- An airline fee may be added upon payment message
+        Example: An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">Der opkræves muligvis et &lt;a href=\"{airline_fee_url}\"&gt;gebyr til flyselskabet&lt;/a&gt; ved betaling afhængigt af din korttype. Et sådant gebyr lægges til rejsens samlede beløb ved betaling.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debetkort accepteres ikke.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2108,10 +2111,6 @@
     <string name="Finish_Booking">Afslut reservation</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Prisgaranti</string>
-    <!-- Label for address of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_address">Adresse:</string>
-    <!-- Label to view map of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_view_map">Vis kort</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis afbestilling&lt;/b&gt; inden &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -2902,7 +2901,7 @@
     <!-- Filter for showing only favorited hotels -->
     <string name="favorites_only">Kun favoritter</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_favorites">Kun favorithoteller</string>
+    <string name="filter_favorites">Favorithoteller</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">På +VIP Access-hoteller kan +silver- og +gold-medlemmer få gratis værelsesopgraderinger og andre fordele, der er tilgængelige ved indtjekning.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4076,11 +4075,39 @@
     <string name="neighborhoods">Kvarterer</string>
     <string name="amenities">Faciliteter</string>
     <string name="star_rating">Antal stjerner</string>
+    <!-- Hotel Filters One star rating content description -->
+    <string name="star_rating_one_cont_desc">En stjerne</string>
+    <!-- Hotel Filters Two star rating content description -->
+    <string name="star_rating_two_cont_desc">To stjerner</string>
+    <!-- Hotel Filters Three star rating content description -->
+    <string name="star_rating_three_cont_desc">Tre stjerner</string>
+    <!-- Hotel Filters Four star rating content description -->
+    <string name="star_rating_four_cont_desc">Fire stjerner</string>
+    <!-- Hotel Filters Five star rating content description -->
+    <string name="star_rating_five_cont_desc">Fem stjerner</string>
+    <!-- Hotel Filters One star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_one_cont_desc">En stjerne</string>
+    <!-- Hotel Filters Two star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_two_cont_desc">To stjerner</string>
+    <!-- Hotel Filters Three star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_three_cont_desc">Tre stjerner</string>
+    <!-- Hotel Filters Four star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_four_cont_desc">Fire stjerner</string>
+    <!-- Hotel Filters Five star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_five_cont_desc">Fem stjerner</string>
+    <!-- Hotel Filters rating selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Selected 2) Class Rating One Selected -->
+    <string name="star_rating_selected_cont_desc_TEMPLATE">Du har valgt kategorien {star_rating}</string>
+    <!-- Hotel Filters rating not selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Not Selected 2) Class Rating One Not Selected -->
+    <string name="star_rating_not_selected_cont_desc_TEMPLATE">Du har ikke valgt kategorien {star_rating}</string>
     <string name="show_more">VIS MERE</string>
     <string name="show_less">VIS MINDRE</string>
     <string name="price_range">Prisinterval</string>
     <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
     <string name="filter_sort_by_content_description_TEMPLATE">Sorter efter {sort}.</string>
+    <!-- Hotel Price Range start filter label for accessibility -->
+    <string name="hotel_price_range_start">Prisintervallet starter ved</string>
+    <!-- Hotel Price Range end filter label for accessibility -->
+    <string name="hotel_price_range_end">Prisintervallet slutter ved</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Føjet til favoritter</string>
@@ -4102,6 +4129,12 @@
     <string name="airline_fee_notice_payment">Der opkræves gebyrer til flyselskabet afhængigt af din betalingsmetode</string>
     <string name="airline_notice_fee_added">Der opkræves et <u><b>gebyr til flyselskabet</b></u> ved betaling afhængigt af din korttype. Et sådant gebyr lægges til rejsens samlede beløb ved betaling.</string>
     <string name="airline_notice_fee_added_tablet">Der opkræves et &lt;u&gt;&lt;b&gt;gebyr til flyselskabet&lt;/b&gt;&lt;/u&gt; ved betaling afhængigt af din korttype. Et sådant gebyr lægges til rejsens samlede beløb ved betaling.</string>
+
+    <!-- French compliance warnings d/5810 -->
+    <string name="airline_maybe_fee_notice">Der opkræves muligvis et gebyr til flyselskabet ved betaling afhængigt af din korttype.</string>
+    <string name="airline_may_charge_notice">Flyselskaberne opkræver muligvis et ekstra gebyr afhængigt af betalingsmetoden.</string>
+    <string name="airline_may_fee_notice_payment">Der opkræves muligvis et gebyr til flyselskabet afhængigt af betalingsmetoden</string>
+    <string name="airline_notice_fee_maybe_added_tablet">Der opkræves muligvis et &lt;u&gt;&lt;b&gt;gebyr til flyselskabet&lt;/b&gt;&lt;/u&gt; ved betaling afhængigt af din korttype. Et sådant gebyr lægges til rejsens samlede beløb ved betaling.</string>
 
     <!-- Packages -->
 
@@ -4429,6 +4462,9 @@
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">Gebyrer efter korttype</string>
 
+    <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
+    <string name="rail_cc_processing_fee_TEMPLATE">Kreditkortgebyrer: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Forsendelse af billet</string>
 
@@ -4542,10 +4578,14 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">Flyvetiden er {time} med en prisforskel på {pricedifference}. Flyrejsen er med {airline}. Flyrejsen varer {hours} og {minutes} med {stops} mellemlandinger\u0020</string>
-    <!-- Hotel card view content description for accessibility. Eg. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} med gæstebedømmelsen {starrating} ud af 5. Gæstebedømmelse på {guestrating} ud af 5. Pris {price}. Inkluderer hotel og fly\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} med gæstebedømmelsen {starrating} ud af 5. Gæstebedømmelse på {guestrating} ud af 5. Pris {price}. Inkluderer hotel og fly\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} med gæstebedømmelsen {starrating} ud af 5. Gæstebedømmelse på {guestrating} ud af 5. Pris {price}\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Tidligere pris {strikethroughprice}\u0020</string>
+    <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
+    <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 rabat på normalprisen\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Utroligt tilbud {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->

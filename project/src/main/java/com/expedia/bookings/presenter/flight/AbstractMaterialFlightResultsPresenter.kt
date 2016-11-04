@@ -33,6 +33,9 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
         toolbarViewModel.isOutboundSearch.onNext(isOutboundResultsPresenter())
         flightOfferViewModel.obFeeDetailsUrlObservable.subscribe(paymentFeeInfoWebView.viewModel.webViewURLObservable)
         flightOfferViewModel.offerSelectedChargesObFeesSubject.subscribeTextAndVisibility(overviewPresenter.paymentFeesMayApplyTextView)
+        flightOfferViewModel.searchParamsObservable.subscribe {
+            resultsPresenter.setLoadingState()
+        }
     }
 
     override fun makeFlightOverviewModel(): AbstractFlightOverviewViewModel {

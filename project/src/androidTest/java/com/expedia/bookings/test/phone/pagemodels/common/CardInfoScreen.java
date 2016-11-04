@@ -1,8 +1,10 @@
 package com.expedia.bookings.test.phone.pagemodels.common;
 
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.assertion.ViewAssertions;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.espresso.ViewActions;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -13,6 +15,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
+import static org.hamcrest.CoreMatchers.not;
 
 public class CardInfoScreen {
 	private static final int CREDIT_CARD_NUMBER_EDIT_TEXT_ID = R.id.edit_creditcard_number;
@@ -148,5 +151,15 @@ public class CardInfoScreen {
 			.perform(waitForViewToDisplay())
 			.check(matches(isDisplayed()))
 			.check(matches(withText("Card Info")));
+	}
+
+	public static void assertPaymentFormCardFeeWarningShown(String warningText) {
+		onView(withId(R.id.card_processing_fee)).perform(ViewActions.waitForViewToDisplay())
+			.check(ViewAssertions.matches(isDisplayed()))
+			.check(ViewAssertions.matches(withText(warningText)));
+	}
+
+	public static void assertPaymentFormCardFeeWarningNotShown() {
+		onView(withId(R.id.card_processing_fee)).check(ViewAssertions.matches(not(isDisplayed())));
 	}
 }

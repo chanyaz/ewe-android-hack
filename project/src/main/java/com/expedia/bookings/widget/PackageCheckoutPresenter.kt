@@ -57,7 +57,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
             if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
                 totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
             isPassportRequired(response)
-            resetTravelers()
             trackShowBundleOverview()
         }
         getCheckoutViewModel().priceChangeObservable.subscribe(getCreateTripViewModel().tripResponseObservable)

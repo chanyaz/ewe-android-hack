@@ -15,9 +15,8 @@ class PackageHotelViewModel(var context: Context, hotel: Hotel) : HotelViewModel
     val unrealDealMessageVisibilityObservable = BehaviorSubject.create<Boolean>(getUnrealDeal().isNotEmpty())
 
     val priceIncludesFlightsObservable = BehaviorSubject.create<Boolean>(hotel.isPackage)
-    var contentDescription = getHotelContentDesc()
 
-    private fun getHotelContentDesc(): CharSequence {
+    override  fun getHotelContentDesc(): CharSequence {
         var result = SpannableBuilder()
         if (unrealDealMessageVisibilityObservable.value) {
             result.append(Phrase.from(context, R.string.hotel_unreal_deal_cont_desc_TEMPLATE)
@@ -25,7 +24,7 @@ class PackageHotelViewModel(var context: Context, hotel: Hotel) : HotelViewModel
                     .format()
                     .toString())
         }
-        result.append(Phrase.from(context, R.string.hotel_details_cont_desc_TEMPLATE)
+        result.append(Phrase.from(context, R.string.packages_hotel_details_cont_desc_TEMPLATE)
                 .put("hotel", hotel.localizedName)
                 .put("starrating", hotelStarRatingObservable.value.toString())
                 .put("guestrating", hotelGuestRatingObservable.value.toString())

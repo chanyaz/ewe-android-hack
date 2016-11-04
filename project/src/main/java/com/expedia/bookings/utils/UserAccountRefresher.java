@@ -18,6 +18,7 @@ import com.facebook.AccessToken;
 import com.facebook.FacebookSdk;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
+
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -65,7 +66,12 @@ public class UserAccountRefresher {
 			if (results == null || results.hasErrors()) {
 				//The refresh failed, so we just log them out. They can always try to login again.
 				if (User.isLoggedIn(context)) {
-					doLogout();
+					if (isUserFacebookSessionActive()) {
+						forceAccountRefresh();
+					}
+					else {
+						doLogout();
+					}
 				}
 			}
 			else {
@@ -101,9 +107,7 @@ public class UserAccountRefresher {
 		Log.d("Refreshing user profile...");
 		mLastRefreshedUserTimeMillis = System.currentTimeMillis();
 
-		FacebookSdk.sdkInitialize(context);
-		AccessToken token = AccessToken.getCurrentAccessToken();
-		if (token != null) {
+		if (isUserFacebookSessionActive()) {
 			fetchFacebookUserInfo();
 		}
 		else {
@@ -171,5 +175,10 @@ public class UserAccountRefresher {
 					}
 				}
 			});
+	}
+
+	private boolean isUserFacebookSessionActive() {
+		FacebookSdk.sdkInitialize(context);
+		return AccessToken.getCurrentAccessToken() != null;
 	}
 }

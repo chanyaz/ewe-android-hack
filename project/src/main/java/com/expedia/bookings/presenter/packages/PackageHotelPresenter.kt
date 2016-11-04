@@ -92,7 +92,7 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         resultsStub.addView(resultsMapView)
         presenter.mapView = resultsMapView
         presenter.mapView.getMapAsync(presenter)
-        presenter.viewmodel = HotelResultsViewModel(context, null, LineOfBusiness.PACKAGES, null)
+        presenter.viewmodel = HotelResultsViewModel(context, null, LineOfBusiness.PACKAGES)
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.hideBundlePriceOverviewSubject.subscribe(hideBundlePriceOverviewObserver)
         presenter

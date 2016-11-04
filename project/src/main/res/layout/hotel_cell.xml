@@ -15,7 +15,7 @@
         android:layout_marginRight="@dimen/card_view_container_margin"
         android:foreground="?android:attr/selectableItemBackground">
 
-        <include layout="@layout/base_hotel_cell"/>
+        <include layout="@layout/hotel_cell_content"/>
 
     </android.support.v7.widget.CardView>
 

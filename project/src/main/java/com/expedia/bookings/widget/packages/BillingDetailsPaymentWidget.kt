@@ -39,10 +39,10 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         builder.create()
     }
 
-    override fun init(viewModel: PaymentViewModel) {
-        super.init(viewModel)
-        viewModel.onTemporarySavedCreditCardChosen.subscribe { close() }
-        viewModel.ccFeeDisclaimer.subscribeTextAndVisibility(creditCardFeeDisclaimer)
+    override fun init(paymentViewModel: PaymentViewModel) {
+        super.init(paymentViewModel)
+        paymentViewModel.onTemporarySavedCreditCardChosen.subscribe { close() }
+        paymentViewModel.ccFeeDisclaimer.subscribeTextAndVisibility(creditCardFeeDisclaimer)
 
         creditCardFeeDisclaimer.setOnClickListener {
             dialog.show()
@@ -72,14 +72,12 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
         }
     }
 
-    override fun onVisibilityChanged(changedView: View?, visibility: Int) {
-        super.onVisibilityChanged(changedView, visibility)
-        if (visibility == View.VISIBLE) {
-            compositeSubscription?.add(creditCardCvv.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(addressLineOne.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(addressCity.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(addressState.subscribeTextChange(formFilledSubscriber))
-        }
+    override fun addVisibilitySubscriptions() {
+        super.addVisibilitySubscriptions()
+        addVisibilitySubscription(creditCardCvv.subscribeTextChange(formFilledSubscriber))
+        addVisibilitySubscription(addressLineOne.subscribeTextChange(formFilledSubscriber))
+        addVisibilitySubscription(addressCity.subscribeTextChange(formFilledSubscriber))
+        addVisibilitySubscription(addressState.subscribeTextChange(formFilledSubscriber))
     }
 
     override fun isAtLeastPartiallyFilled(): Boolean {

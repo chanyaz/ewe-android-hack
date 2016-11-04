@@ -182,7 +182,7 @@
     <string name="car_vendors">Agencias de alquiler</string>
     <!-- Button label to clear user selected filters -->
     <string name="clear_filters">Borrar filtros</string>
-    <!-- Label to tell the user how many products match thier filter -->
+    <!-- Label to tell the user how many products match their filter -->
     <plurals name="number_results_template">
         <item quantity="one">{number} resultado</item>
         <item quantity="other">{number} resultados</item>
@@ -1747,6 +1747,9 @@
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
     <string name="flights_fee_added_based_on_payment_TEMPLATE">Se agregará un &lt;a href=\"{airline_fee_url}\"&gt;cargo de la aerolínea&lt;/a&gt; al momento del pago dependiendo del tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
+    <!-- An airline fee may be added upon payment message
+        Example: An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment -->
+    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">Se puede agregar un &lt;a href=\"{airline_fee_url}\"&gt;cargo de la aerolínea&lt;/a&gt; al momento del pago dependiendo del tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">No se aceptan tarjetas de débito.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -2108,10 +2111,6 @@
     <string name="Finish_Booking">Finalizar la reservación</string>
     <!-- Our best price gaurentee string -->
     <string name="best_price_guarantee">Garantía del mejor precio</string>
-    <!-- Label for address of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_address">Dirección:</string>
-    <!-- Label to view map of hotel in checkout/receipt screen-->
-    <string name="hotel_receipt_view_map">Ver mapa</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Cancelación gratuita&lt;/b&gt; antes del &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -2902,7 +2901,7 @@
     <!-- Filter for showing only favorited hotels -->
     <string name="favorites_only">Solo favoritos</string>
     <!-- Filter for showing only VIP access hotels -->
-    <string name="filter_favorites">Solo hoteles favoritos</string>
+    <string name="filter_favorites">Hoteles favoritos</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">En los hoteles +VIP Access, los socios +silver y +gold reciben ascensos de categoría de habitación gratuitos, así como otros beneficios, según disponibilidad, al hacer el check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -4076,11 +4075,39 @@
     <string name="neighborhoods">Áreas</string>
     <string name="amenities">Amenidades</string>
     <string name="star_rating">Clasificación por estrellas</string>
+    <!-- Hotel Filters One star rating content description -->
+    <string name="star_rating_one_cont_desc">Clasificación de una estrella</string>
+    <!-- Hotel Filters Two star rating content description -->
+    <string name="star_rating_two_cont_desc">Clasificación de dos estrellas</string>
+    <!-- Hotel Filters Three star rating content description -->
+    <string name="star_rating_three_cont_desc">Clasificación de tres estrellas</string>
+    <!-- Hotel Filters Four star rating content description -->
+    <string name="star_rating_four_cont_desc">Clasificación de cuatro estrellas</string>
+    <!-- Hotel Filters Five star rating content description -->
+    <string name="star_rating_five_cont_desc">Clasificación de cinco estrellas</string>
+    <!-- Hotel Filters One star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_one_cont_desc">Clasificación de nivel uno</string>
+    <!-- Hotel Filters Two star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_two_cont_desc">Clasificación de nivel dos</string>
+    <!-- Hotel Filters Three star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_three_cont_desc">Clasificación de nivel tres</string>
+    <!-- Hotel Filters Four star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_four_cont_desc">Clasificación de nivel cuatro</string>
+    <!-- Hotel Filters Five star rating content description for POS which uses circle icon instead of stars -->
+    <string name="star_circle_rating_five_cont_desc">Clasificación de nivel cinco</string>
+    <!-- Hotel Filters rating selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Selected 2) Class Rating One Selected -->
+    <string name="star_rating_selected_cont_desc_TEMPLATE">{star_rating} seleccionada</string>
+    <!-- Hotel Filters rating not selected content description. For AU/NZ POS we don't show stars, but circles and read "Class Rating <number>" Example - 1) One Star Rating Not Selected 2) Class Rating One Not Selected -->
+    <string name="star_rating_not_selected_cont_desc_TEMPLATE">{star_rating} no seleccionada</string>
     <string name="show_more">MOSTRAR MÁS</string>
     <string name="show_less">MOSTRAR MENOS</string>
     <string name="price_range">Rango de precios</string>
     <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
     <string name="filter_sort_by_content_description_TEMPLATE">Ordenar por. {sort}.</string>
+    <!-- Hotel Price Range start filter label for accessibility -->
+    <string name="hotel_price_range_start">Inicio del rango de precios</string>
+    <!-- Hotel Price Range end filter label for accessibility -->
+    <string name="hotel_price_range_end">Fin del rango de precios</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Agregado a favoritos en la pantalla de filtros</string>
@@ -4102,6 +4129,12 @@
     <string name="airline_fee_notice_payment">Se aplicará un cargo de la aerolínea dependiendo del método de pago utilizado</string>
     <string name="airline_notice_fee_added">Se agregará un <u><b>cargo de la aerolínea</b></u> al momento del pago dependiendo del tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
     <string name="airline_notice_fee_added_tablet">Se agregará un &lt;u&gt;&lt;b&gt;cargo de la aerolínea&lt;/b&gt;&lt;/u&gt; al momento del pago dependiendo del tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
+
+    <!-- French compliance warnings d/5810 -->
+    <string name="airline_maybe_fee_notice">Se puede agregar un cargo de la aerolínea al momento del pago dependiendo del tipo de tarjeta.</string>
+    <string name="airline_may_charge_notice">Las aerolíneas pueden cobrar un cargo adicional en función del método de pago utilizado.</string>
+    <string name="airline_may_fee_notice_payment">Se puede aplicar un cargo de la aerolínea en función del método de pago utilizado</string>
+    <string name="airline_notice_fee_maybe_added_tablet">Se puede agregar un &lt;u&gt;&lt;b&gt;cargo de la aerolínea&lt;/b&gt;&lt;/u&gt; al momento del pago dependiendo del tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
 
     <!-- Packages -->
 
@@ -4429,6 +4462,9 @@
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">Cargos por tipo de tarjeta</string>
 
+    <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
+    <string name="rail_cc_processing_fee_TEMPLATE">Cargos de tarjeta de crédito: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Entrega del boleto</string>
 
@@ -4542,10 +4578,14 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">El horario del vuelo es {time}, con una diferencia de precio de {pricedifference}. Vuelo operado por {airline}. La duración del vuelo es {hours} {minutes}, y tiene {stops} escalas\u0020</string>
-    <!-- Hotel card view content description for accessibility. Eg. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} con una puntuación de {starrating} sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5. Precio: {price}. Incluye hotel y vuelos\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} con una puntuación de {starrating} sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5. Precio: {price}. Incluye hotel y vuelos\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} con una puntuación de {starrating} sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5. Precio: {price}\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Antes costaba {strikethroughprice}\u0020</string>
+    <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
+    <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 de descuento sobre el precio normal\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Oferta increíble: {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->

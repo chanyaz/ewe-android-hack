@@ -16,7 +16,7 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/airline_charges_fees_header"
-        style="@style/FlightWarningBar"
+        style="@style/WarningBar"
         android:text="@string/airline_charge_notice"
         android:visibility="gone" />
 

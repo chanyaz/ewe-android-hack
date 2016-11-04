@@ -143,7 +143,6 @@
 
     <!-- Hotel Checkout -->
     <!-- This is overridden for tablets in landscape -->
-    <dimen name="hotel_checkout_overview_image_height">120dp</dimen>
     <dimen name="checkout_login_padding_top">10dp</dimen>
 
     <!-- Amount due today text size-->

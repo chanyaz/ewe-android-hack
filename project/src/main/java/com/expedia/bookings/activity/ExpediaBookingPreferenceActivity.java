@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.BugShakerShim;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.ui.EBPreferencesFragment;
 import com.expedia.util.PermissionsHelperKt;
@@ -20,7 +21,7 @@ public class ExpediaBookingPreferenceActivity extends AppCompatActivity {
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 		if (requestCode == Constants.PERMISSION_WRITE_EXTERNAL_STORAGE_BUGSHAKER) {
 			if (PermissionsHelperKt.hasPermissionToWriteToExternalStorage(getBaseContext())) {
-				ExpediaBookingApp.startNewBugShaker(getApplication());
+				BugShakerShim.startNewBugShaker(getApplication());
 			}
 		}
 	}

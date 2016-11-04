@@ -140,8 +140,6 @@ class PackageActivity : AbstractAppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        packagePresenter.bundlePresenter.bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
-
         //for change package path
         if (packagePresenter.backStack.peek() is PackageOverviewPresenter && Db.getPackageParams()?.isChangePackageSearch() ?: false) {
             if (changedOutboundFlight) {
@@ -176,6 +174,11 @@ class PackageActivity : AbstractAppCompatActivity() {
             clearCCNumber()
             clearStoredCard()
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Db.getTripBucket().clearPackages()
     }
 
     private fun packageFlightSearch() {

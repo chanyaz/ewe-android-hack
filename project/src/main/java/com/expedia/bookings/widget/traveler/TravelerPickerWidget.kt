@@ -33,7 +33,8 @@ class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         addTravelersContainer.removeAllViews()
         travelerViewModels.clear()
         travelerList.forEachIndexed { i, traveler ->
-            val travelerViewModel = TravelerPickerTravelerViewModel(context, i, traveler.searchedAge, passportRequired.value)
+            val travelerViewModel = TravelerPickerTravelerViewModel(context, i, traveler.searchedAge)
+            travelerViewModel.isPassportRequired = passportRequired.value
             travelerViewModel.updateStatus(TravelerCheckoutStatus.CLEAN)
             travelerViewModels.add(travelerViewModel)
 

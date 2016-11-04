@@ -3,25 +3,17 @@ package com.expedia.bookings.data.rail.responses;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.rail.RailPassenger;
+import com.expedia.bookings.utils.CollectionUtils;
 
 public class RailSearchResponse {
 
 	public List<RailPassenger> passengerList;
 	public List<RailLeg> legList;
 	public List<RailOffer> offerList;
-
-	public RailOffer findOfferForLeg(@NotNull RailLegOption it) {
-		for (RailOffer offer : offerList) {
-			if (offer.containsLegOptionId(it.legOptionIndex)) {
-				return offer;
-			}
-		}
-		return null;
-	}
 
 	public List<RailOffer> findOffersForLegOption(RailLegOption legOption) {
 		List<RailOffer> offers = new ArrayList<>();
@@ -41,6 +33,10 @@ public class RailSearchResponse {
 		public RailStation departureStation;
 		public RailStation arrivalStation;
 		public List<RailLegOption> legOptionList;
+		public Money cheapestPrice;
+
+		@Nullable
+		public Money cheapestInboundPrice; //Set in code when showing outbound legs
 	}
 
 	public static class RailOffer extends BaseRailOffer {
@@ -62,5 +58,15 @@ public class RailSearchResponse {
 			}
 			return false;
 		}
+
+		public boolean hasRailCardApplied() {
+			boolean railCardApplied = false;
+			if (CollectionUtils.isNotEmpty(railProductList)) {
+				List<RailCard> fareQualifierList = railProductList.get(0).fareQualifierList;
+				railCardApplied = CollectionUtils.isNotEmpty(fareQualifierList);
+			}
+			return railCardApplied;
+		}
+
 	}
 }

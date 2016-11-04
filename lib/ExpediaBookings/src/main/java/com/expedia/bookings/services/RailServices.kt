@@ -1,10 +1,12 @@
 package com.expedia.bookings.services
 
+import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.Constants
 import com.google.gson.GsonBuilder
@@ -19,6 +21,8 @@ import rx.Subscription
 import java.util.HashMap
 
 class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+
+    var subscription: Subscription? = null
 
     val railApi by lazy {
         val gson = GsonBuilder().create();
@@ -49,30 +53,76 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
     }
 
     fun railSearch(params: RailApiSearchModel, observer: Observer<RailSearchResponse>): Subscription {
-        return railApi.railSearch(params)
+        cancel()
+        val subscription = railApi.railSearch(params)
+                .doOnNext(BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
+        this.subscription = subscription
+        return subscription
+    }
+
+    private val BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE = { response: RailSearchResponse ->
+        val outboundLeg = response.legList[0]
+        for (legOption: RailLegOption in outboundLeg.legOptionList) {
+            for (railOffer: RailSearchResponse.RailOffer in response.offerList) {
+                val railOfferWithFareQualifiers = railOffer.railProductList.filter { !it.fareQualifierList.isEmpty() }
+                val railOfferLegListWithFareQualifiers = railOfferWithFareQualifiers.flatMap { it.legOptionIndexList }
+
+                if (railOfferLegListWithFareQualifiers.contains(legOption.legOptionIndex)) {
+                    legOption.doesAnyOfferHasFareQualifier = true
+                    break
+                }
+            }
+        }
+        if (response.legList.size == 2) {
+            outboundLeg.cheapestInboundPrice = response.legList[1].cheapestPrice
+        }
     }
 
     fun railCreateTrip(railOfferToken: String, observer: Observer<RailCreateTripResponse>): Subscription {
-        return railMApi.railCreateTrip(railOfferToken)
+        cancel()
+        val subscription = railMApi.railCreateTrip(railOfferToken)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
+        this.subscription = subscription
+        return subscription
     }
 
     fun railCheckoutTrip(params: RailCheckoutParams, observer: Observer<RailCheckoutResponse>): Subscription {
-        return railMApi.railCheckout(params)
+        cancel()
+        val subscription = railMApi.railCheckout(params)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
+        this.subscription = subscription
+        return subscription
     }
 
     fun railGetCards(locale: String, observer: Observer<RailCardsResponse>): Subscription {
-        return railApi.railCards(locale)
+        cancel()
+        val subscription = railApi.railCards(locale)
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)
+        this.subscription = subscription
+        return subscription
+    }
+
+    fun railGetCardFees(tripId: String, creditCardId: String, ticketDeliveryOption: String, observer: Observer<CardFeeResponse>): Subscription {
+        cancel()
+        val subscription = railMApi.cardFees(tripId, creditCardId, ticketDeliveryOption)
+                .observeOn(observeOn)
+                .subscribeOn(subscribeOn)
+                .subscribe(observer)
+        this.subscription = subscription
+        return subscription
+    }
+
+    fun cancel() {
+        // cancels any existing calls we're waiting on
+        subscription?.unsubscribe()
     }
 }

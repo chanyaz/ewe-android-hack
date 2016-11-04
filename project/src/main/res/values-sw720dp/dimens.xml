@@ -20,8 +20,6 @@
     <dimen name="tablet_flight_details_addtotrip_height">42dp</dimen>
     <dimen name="tablet_flight_details_header_margin">1dp</dimen>
 
-    <dimen name="hotel_checkout_overview_image_height">320dp</dimen>
-
     <!-- Launch Screen -->
     <dimen name="destination_search_stack_width">279dp</dimen>
     <dimen name="destination_search_stack_height">240dp</dimen>

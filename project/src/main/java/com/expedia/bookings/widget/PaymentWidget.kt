@@ -56,7 +56,6 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.PaymentViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
 
 open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(context, attr), View.OnFocusChangeListener {
     val REQUEST_CODE_GOOGLE_WALLET_ACTIVITY = 1989
@@ -94,7 +93,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val focusedView = PublishSubject.create<EditText>()
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
 
-    var compositeSubscription: CompositeSubscription? = null
     val formFilledSubscriber = endlessObserver<String>() {
         filledIn.onNext(isCompletelyFilled())
     }
@@ -157,6 +155,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
 
         vm.userLogin.subscribe { isLoggedIn ->
+            if (isLoggedIn) {
+                reset()
+                clearCCAndCVV()
+            }
+
             if (isLoggedIn && !isAtLeastPartiallyFilled()) {
                 if (Db.getUser()?.storedCreditCards?.size == 1 && Db.getTemporarilySavedCard() == null) {
                     sectionBillingInfo.bind(Db.getBillingInfo())
@@ -165,9 +168,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
                 }
             }
-            else if (!isLoggedIn) {
-                storedCreditCardList.updateAdapter()
-            }
+
+            storedCreditCardList.updateAdapter()
         }
 
         vm.emptyBillingInfo.subscribe {
@@ -196,16 +198,17 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     override fun onVisibilityChanged(changedView: View?, visibility: Int) {
         super.onVisibilityChanged(changedView, visibility)
         if (visibility == View.VISIBLE) {
-            compositeSubscription?.unsubscribe()
-            compositeSubscription = CompositeSubscription()
-            compositeSubscription?.add(creditCardNumber.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(creditCardName.subscribeTextChange(formFilledSubscriber))
-            compositeSubscription?.add(creditCardPostalCode.subscribeTextChange(formFilledSubscriber))
             creditCardNumber.setHint(R.string.credit_debit_card_hint)
-        } else {
-            compositeSubscription?.unsubscribe()
         }
     }
+
+    override fun addVisibilitySubscriptions() {
+        super.addVisibilitySubscriptions()
+        addVisibilitySubscription(creditCardNumber.subscribeTextChange(formFilledSubscriber))
+        addVisibilitySubscription(creditCardName.subscribeTextChange(formFilledSubscriber))
+        addVisibilitySubscription(creditCardPostalCode.subscribeTextChange(formFilledSubscriber))
+    }
+
 
     open val storedCreditCardListener = object : StoredCreditCardList.IStoredCreditCardListener {
         override fun onStoredCreditCardChosen(card: StoredCreditCard) {
@@ -313,7 +316,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     fun selectFirstAvailableCard() {
         val storedCreditCard = Db.getUser().storedCreditCards[0]
-        if (Db.getTripBucket().getItem(getLineOfBusiness()).isPaymentTypeSupported(storedCreditCard.type)) {
+        val tripItem = Db.getTripBucket().getItem(getLineOfBusiness())
+        if (tripItem != null && tripItem.isPaymentTypeSupported(storedCreditCard.type)) {
             Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
             val currentCC = Db.getBillingInfo().storedCard
             BookingInfoUtils.resetPreviousCreditCardSelectState(context, currentCC)

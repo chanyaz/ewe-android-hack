@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.phone.hotels;
 
 import android.support.test.espresso.contrib.RecyclerViewActions;
+import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
@@ -15,6 +16,7 @@ import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
+import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.doneButton;
@@ -76,6 +78,7 @@ public class HotelFilterTest extends HotelTestCase {
 		//zero results, done button is disabled
 		SearchScreen.doGenericHotelSearch();
 		sortFilter();
+		assertResultsViewVisibility(false);
 		filterHotelName().perform(typeText("Hilton"));
 		Common.closeSoftKeyboard(filterHotelName());
 		onView(withId(R.id.rating_one_background)).perform(click());
@@ -87,6 +90,7 @@ public class HotelFilterTest extends HotelTestCase {
 		onView(withId(R.id.rating_four_background)).perform(click());
 		doneButton().perform(click());
 		HotelScreen.waitForResultsLoaded();
+		assertResultsViewVisibility(true);
 
 		Common.delay(2);
 		//from map to filter, return to result map
@@ -123,5 +127,19 @@ public class HotelFilterTest extends HotelTestCase {
 
 		onView(withText("Civic Center")).perform(click());
 		filterResultsSnackBar().check(matches(not(isDisplayed())));
+	}
+
+	public void assertResultsViewVisibility(boolean shown) {
+		ViewMatchers.Visibility visibility;
+		if (shown) {
+			visibility = ViewMatchers.Visibility.VISIBLE;
+		}
+		else {
+			visibility = ViewMatchers.Visibility.GONE;
+		}
+		onView(withId(R.id.list_view)).check(matches(withEffectiveVisibility(visibility)));
+		onView(withId(R.id.hotel_results_toolbar)).check(matches(withEffectiveVisibility(visibility)));
+		onView(withId(R.id.map_view)).check(matches(withEffectiveVisibility(visibility)));
+		onView(withId(R.id.sort_filter_button)).check(matches(withEffectiveVisibility(visibility)));
 	}
 }

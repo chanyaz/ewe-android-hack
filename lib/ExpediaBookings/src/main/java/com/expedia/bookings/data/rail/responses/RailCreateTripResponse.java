@@ -14,6 +14,8 @@ public class RailCreateTripResponse extends BaseApiResponse {
 	public RailDomainProduct railDomainProduct;
 	public List<RailValidFormOfPayment> validFormsOfPayment;
 	public String tripId;
+	public Money totalPriceIncludingFees = null;
+	public Money selectedCardFees = null;
 
 	public static class RailDomainProduct {
 		public RailTripOffer railOffer;

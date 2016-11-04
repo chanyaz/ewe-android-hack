@@ -182,6 +182,19 @@ public class AnimUtils {
 		v.startAnimation(slideDown);
 	}
 
+	public static void slideInTranslate(final View v, final View toTranslate, long delay) {
+		Animation slideDown = AnimationUtils.loadAnimation(v.getContext(), R.anim.slide_in);
+		slideDown.setDuration(200);
+		slideDown.setFillAfter(true);
+		v.startAnimation(slideDown);
+		v.postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				toTranslate.setTranslationY(v.getHeight());
+			}
+		}, delay);
+	}
+
 	public static void slideInOut(final View view, final int height) {
 		final long animDuration = 400L;
 		final long startDelay = 5000L;

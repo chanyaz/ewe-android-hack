@@ -12,7 +12,7 @@ open class BaseRailResultsViewModel(context: Context) {
     //input
     val paramsSubject = PublishSubject.create<RailSearchRequest>()
 
-    //output
+    //outputs
     val titleSubject = BehaviorSubject.create<String>()
     val subtitleSubject = BehaviorSubject.create<CharSequence>()
     val directionHeaderSubject = BehaviorSubject.create<CharSequence>()

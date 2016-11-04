@@ -1,5 +1,7 @@
 package com.expedia.bookings.test
 
+import android.preference.PreferenceManager
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
@@ -16,6 +18,7 @@ import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -149,7 +152,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByPopular() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.RECOMMENDED)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.RECOMMENDED)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).sortIndex
@@ -161,7 +164,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByPrice() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.PRICE)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.PRICE)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.priceToShowUsers
@@ -173,7 +176,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByDeals() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.DEALS)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.DEALS)
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val currentDeals = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.discountPercent
             val previousDeals = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.discountPercent
@@ -184,7 +187,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByPackageDiscount() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.PACKAGE_DISCOUNT)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.PACKAGE_DISCOUNT)
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val currentDeals = vm.filteredResponse.hotelList.elementAt(i).lowRateInfo.discountPercent
             val previousDeals = vm.filteredResponse.hotelList.elementAt(i-1).lowRateInfo.discountPercent
@@ -195,7 +198,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByRating() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.RATING)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.RATING)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).hotelGuestRating
@@ -207,7 +210,7 @@ class HotelFilterViewModelTest {
     @Test
     fun sortByDistance() {
         vm.filteredResponse = fakeFilteredResponse()
-        vm.sortObserver.onNext(HotelFilterViewModel.Sort.DISTANCE)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.DISTANCE)
 
         for (i in 1..vm.filteredResponse.hotelList.size - 1) {
             val current = vm.filteredResponse.hotelList.elementAt(i).proximityDistanceInMiles
@@ -259,6 +262,24 @@ class HotelFilterViewModelTest {
 
         vm.selectNeighborhood.onNext(region1)
         assertTrue(vm.filterCountObservable.value == 4)
+    }
+
+    @Test
+    fun filterFavorite() {
+        val ogResponse = fakeFilteredResponse()
+        val hotel = ogResponse.hotelList[0]
+        hotel.isSponsoredListing = true
+        hotel.hotelId = "abc"
+        vm.userFilterChoices.favorites = true
+
+        val sharedPreference = PreferenceManager.getDefaultSharedPreferences(vm.context)
+        sharedPreference.edit().clear().apply()
+        HotelFavoriteHelper.toggleHotelFavoriteState(vm.context, hotel.hotelId)
+
+        assertFalse(vm.filterFavorites(hotel))
+
+        hotel.isSponsoredListing = false
+        assertTrue(vm.filterFavorites(hotel))
     }
 
     private fun fakeFilteredResponse() : HotelSearchResponse {

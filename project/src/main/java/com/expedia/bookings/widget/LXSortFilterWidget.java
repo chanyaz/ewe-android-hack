@@ -296,6 +296,7 @@ public class LXSortFilterWidget extends LinearLayout {
 				else {
 					Events.post(new Events.LXFilterDoneClicked());
 				}
+				Ui.hideKeyboard(doneButton);
 			}
 		});
 

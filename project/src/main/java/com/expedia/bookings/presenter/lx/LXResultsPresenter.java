@@ -23,6 +23,7 @@ import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
@@ -48,6 +49,8 @@ import com.expedia.bookings.widget.LXSortFilterWidget;
 import com.expedia.bookings.widget.LXThemeResultsWidget;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
+
+import java.util.HashMap;
 
 import butterknife.InjectView;
 import butterknife.OnClick;
@@ -251,7 +254,7 @@ public class LXResultsPresenter extends Presenter {
 			sortFilterButton.showNumberOfFilters(0);
 			sortFilterButton.setVisibility(VISIBLE);
 			searchSubscription = lxServices.lxThemeSortAndFilter(
-				themeSelected, new LXSortFilterMetadata(theme.filterCategories, LXSortType.POPULARITY),
+				themeSelected, new LXSortFilterMetadata(new HashMap<String, LXCategoryMetadata>(), LXSortType.POPULARITY),
 				themeResultSortObserver, lxFilterTextSearchToggle);
 			setToolbarTitles(theme.title,
 				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false),

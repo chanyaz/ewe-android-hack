@@ -25,7 +25,6 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
     val railOriginObservable = BehaviorSubject.create<SuggestionV4>()
     val railDestinationObservable = BehaviorSubject.create<SuggestionV4>()
     val railRequestBuilder = RailSearchRequest.Builder(getMaxSearchDurationDays(), getMaxDateRange())
-    val railErrorNoLocationsObservable = PublishSubject.create<Unit>()
     val errorInvalidCardsCountObservable = PublishSubject.create<String>()
 
     val defaultTimeTooltipColor = ContextCompat.getColor(context, R.color.rail_primary_color)

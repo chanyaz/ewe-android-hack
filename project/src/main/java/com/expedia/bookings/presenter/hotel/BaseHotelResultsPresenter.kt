@@ -92,7 +92,6 @@ import kotlin.properties.Delegates
 abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     //Views
-    lateinit var lob: LineOfBusiness
     val isUserBucketedForTestAndFeatureEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
             AbacusUtils.EBAndroidAppHotelFilterProminence, R.string.preference_enable_hotel_filter_prominence)
     var filterButtonText: TextView by Delegates.notNull()
@@ -112,6 +111,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val filterBtnWithCountWidget: FilterButtonWithCountWidget? = null
     open val searchThisArea: Button? = null
     var isMapReady = false
+
+    lateinit var filterViewModel: HotelFilterViewModel
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
 
@@ -267,12 +268,11 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     val addListResultsObserver = endlessObserver<HotelSearchResponse> {
-        filterView.viewmodel.setHotelList(it)
         adapter.addResultsSubject.onNext(it)
+        filterView.viewmodel.setHotelList(it)
     }
 
     val listResultsObserver = endlessObserver<HotelSearchResponse> {
-        filterView.viewmodel.setHotelList(it)
         loadingOverlay?.animate(false)
         loadingOverlay?.visibility = View.GONE
         adapter.resultsSubject.onNext(it)
@@ -287,7 +287,10 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         } else {
             recyclerView.setBackgroundColor(ContextCompat.getColor(context, android.R.color.transparent))
         }
-        filterBtnWithCountWidget?.visibility = View.VISIBLE
+        if (!(isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar())) {
+            filterBtnWithCountWidget?.visibility = View.VISIBLE
+        }
+        filterView.viewmodel.setHotelList(it)
     }
 
     fun lastBestLocationSafe(): Location {
@@ -338,7 +341,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
 
     init {
         inflate()
-        setLob()
         mapViewModel = HotelResultsMapViewModel(context, lastBestLocationSafe())
         mapViewModel.clusterChangeSubject.subscribe {
             updateCarouselItems()
@@ -347,7 +349,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter = getHotelListAdapter()
 
         recyclerView.adapter = adapter
-        filterView.viewmodel = getFilterViewModel()
+        filterViewModel = HotelFilterViewModel(context, getLineOfBusiness())
+        filterView.viewmodel = filterViewModel
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
@@ -471,13 +474,13 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             }
         }
 
-        if (lob == LineOfBusiness.HOTELS) {
+        if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
             toolbar.inflateMenu(R.menu.menu_search_item)
         }
 
         toolbar.inflateMenu(R.menu.menu_filter_item)
 
-        if ((lob == LineOfBusiness.PACKAGES ||  (isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar()))) {
+        if (getLineOfBusiness() == LineOfBusiness.PACKAGES) {
             filterMenuItem.isVisible = true
         }
         else {
@@ -579,6 +582,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.showLoading()
         recyclerView.viewTreeObserver.addOnGlobalLayoutListener(adapterListener)
         filterBtnWithCountWidget?.visibility = View.GONE
+        if (getLineOfBusiness() == LineOfBusiness.HOTELS && isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar()) {
+            filterMenuItem?.isVisible = false
+        }
     }
 
     private val mapViewLayoutReadyListener = object : ViewTreeObserver.OnGlobalLayoutListener {
@@ -668,7 +674,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (!mapTransitionRunning && newState == RecyclerView.SCROLL_STATE_IDLE && !Strings.equals(ResultsMap::class.java.name, getCurrentState())) {
                 if (topOffset == halfway) {
                     filterBtnWithCountWidget?.animate()?.translationY(0f)?.setInterpolator(DecelerateInterpolator())?.start()
-                } else if ((scrolledDistance > heightOfButton / 2) && (lob == LineOfBusiness.PACKAGES ||  !isUserBucketedForTestAndFeatureEnabled)) {
+                } else if ((scrolledDistance > heightOfButton / 2) && (getLineOfBusiness() == LineOfBusiness.PACKAGES ||  !isUserBucketedForTestAndFeatureEnabled)) {
                     filterBtnWithCountWidget?.animate()?.translationY(heightOfButton.toFloat())?.setInterpolator(DecelerateInterpolator())?.start()
                     fab.animate().translationY(heightOfButton.toFloat()).setInterpolator(DecelerateInterpolator()).start()
                 } else {
@@ -726,7 +732,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
                     if (topOffset > halfway) {
                         filterBtnWithCountWidget?.translationY = 0f
                         fab.translationY = 0f
-                    } else if ((scrolledDistance > 0) &&  (lob == LineOfBusiness.PACKAGES ||  !isUserBucketedForTestAndFeatureEnabled)) {
+                    } else if ((scrolledDistance > 0) &&  (getLineOfBusiness() == LineOfBusiness.PACKAGES ||  !isUserBucketedForTestAndFeatureEnabled)) {
                         filterBtnWithCountWidget?.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
                         fab.translationY = Math.min(heightOfButton, scrolledDistance).toFloat()
                     } else {
@@ -1043,6 +1049,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (forward) {
                 fab.visibility = View.GONE
             }
+            else {
+                recyclerView.visibility = View.VISIBLE
+                toolbar.visibility = View.VISIBLE
+                mapView.visibility = View.VISIBLE
+                filterBtnWithCountWidget?.visibility = View.VISIBLE
+            }
             hideBundlePriceOverview(forward)
         }
 
@@ -1059,6 +1071,12 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
             if (!forward && !fabShouldBeHiddenOnList()) {
                 fab.visibility = View.VISIBLE
                 getFabAnimIn().start()
+            }
+            if (forward) {
+                recyclerView.visibility = View.GONE
+                toolbar.visibility = View.GONE
+                mapView.visibility = View.GONE
+                filterBtnWithCountWidget?.visibility = View.GONE
             }
         }
     }
@@ -1185,7 +1203,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     fun showMenuItem(isResults: Boolean) {
-        if (lob == LineOfBusiness.PACKAGES ||  (isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar())) {
+        if (getLineOfBusiness() == LineOfBusiness.PACKAGES ||  (isUserBucketedForTestAndFeatureEnabled && isFilterInNavBar())) {
             filterMenuItem.isVisible = true
         } else {
             filterMenuItem.isVisible = !isResults
@@ -1258,7 +1276,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     }
 
     abstract fun inflate()
-    abstract fun getFilterViewModel(): HotelFilterViewModel
     abstract fun doAreaSearch()
     abstract fun hideSearchThisArea()
     abstract fun showSearchThisArea()
@@ -1268,6 +1285,6 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun trackMapPinTap()
     abstract fun trackFilterShown()
     abstract fun trackMapSearchAreaClick()
-    abstract fun setLob()
+    abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun getHotelListAdapter(): BaseHotelListAdapter
 }

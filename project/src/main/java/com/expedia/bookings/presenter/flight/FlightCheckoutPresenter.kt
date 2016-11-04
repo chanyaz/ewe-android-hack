@@ -109,7 +109,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
             isPassportRequired(response)
-            resetTravelers()
             trackShowBundleOverview()
         }
     }

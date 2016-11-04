@@ -6,7 +6,6 @@ import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
 import android.view.View
-import android.view.ViewTreeObserver
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
@@ -145,6 +144,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     }
 
     override fun back(): Boolean {
+        bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
+
         if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name && bundleOverviewHeader.appBarLayout.isActivated) {
             showBackToSearchDialog()
             return true

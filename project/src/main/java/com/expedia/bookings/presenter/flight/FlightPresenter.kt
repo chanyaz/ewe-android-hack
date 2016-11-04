@@ -263,27 +263,41 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter
     }
 
-    val e3EndpointProvider = Ui.getApplication(getContext()).appComponent().endpointProvider()
-
-    lateinit var flightOfferViewModel: FlightOffersViewModel
+    val flightOfferViewModel: FlightOffersViewModel by lazy {
+        val viewModel = FlightOffersViewModel(context, flightServices)
+        viewModel.flightProductId.subscribe { productKey ->
+            val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
+            val createTripParams = FlightCreateTripParams(productKey, requestInsurance)
+            flightCreateTripViewModel.tripParams.onNext(createTripParams)
+            show(flightOverviewPresenter)
+            flightOverviewPresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+        }
+        viewModel.outboundResultsObservable.subscribe {
+            outBoundPresenter.trackFlightResultsLoad()
+        }
+        viewModel.inboundResultsObservable.subscribe {
+            inboundPresenter.trackFlightResultsLoad()
+            show(inboundPresenter)
+        }
+        viewModel.errorObservable.subscribe {
+            errorPresenter.viewmodel.searchApiErrorObserver.onNext(it)
+            show(errorPresenter)
+        }
+        viewModel.noNetworkObservable.subscribe {
+            show(searchPresenter)
+        }
+        viewModel
+    }
 
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         searchPresenter.searchViewModel = vm
         vm.searchParamsObservable.subscribe { params ->
+            flightOfferViewModel.searchParamsObservable.onNext(params)
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             travelerManager.updateDbTravelers(params, context)
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
-            outBoundPresenter.resultsPresenter.setLoadingState()
-            outBoundPresenter.showResults()
             show(outBoundPresenter)
-        }
-        vm.errorObservable.subscribe {
-            errorPresenter.viewmodel.searchApiErrorObserver.onNext(it)
-            show(errorPresenter)
-        }
-        vm.noNetworkObservable.subscribe {
-            show(searchPresenter)
         }
     }
 
@@ -291,24 +305,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         travelerManager = Ui.getApplication(getContext()).travelerComponent().travelerManager()
         Ui.getApplication(getContext()).flightComponent().inject(this)
         View.inflate(context, R.layout.flight_presenter, this)
-        searchViewModel = FlightSearchViewModel(context, flightServices)
+        searchViewModel = FlightSearchViewModel(context)
         searchViewModel.deeplinkDefaultTransitionObservable.subscribe { screen ->
             setDefaultTransition(screen)
-        }
-        flightOfferViewModel = FlightOffersViewModel(context, searchViewModel.flightSearchResponseSubject, searchViewModel.isRoundTripSearchObservable)
-        flightOfferViewModel.flightProductId.subscribe { productKey ->
-            val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
-            val createTripParams = FlightCreateTripParams(productKey, requestInsurance)
-            flightCreateTripViewModel.tripParams.onNext(createTripParams)
-            show(flightOverviewPresenter)
-            flightOverviewPresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
-        }
-        flightOfferViewModel.outboundResultsObservable.subscribe {
-            outBoundPresenter.trackFlightResultsLoad()
-        }
-        flightOfferViewModel.inboundResultsObservable.subscribe {
-            inboundPresenter.trackFlightResultsLoad()
-            show(inboundPresenter)
         }
     }
 

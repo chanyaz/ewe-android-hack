@@ -1,10 +1,5 @@
 package com.expedia.bookings.data;
 
-import com.expedia.bookings.utils.UserAccountRefresher;
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +24,7 @@ import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.FileCipher;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
@@ -36,6 +32,10 @@ import com.mobiata.android.json.JSONable;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.IoUtils;
 import com.mobiata.android.util.TimingLogger;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class User implements JSONable {
 
@@ -140,7 +140,13 @@ public class User implements JSONable {
 	 * @return true if a user is logged in, false otherwise.
 	 */
 	public static boolean isLoggedIn(Context context) {
-		return isLoggedInOnDisk(context) && isLoggedInToAccountManager(context);
+		boolean isLoggedIn = isLoggedInOnDisk(context) && isLoggedInToAccountManager(context);
+		if (isLoggedIn) {
+			if (Db.getUser() == null) {
+				Db.loadUser(context);
+			}
+		}
+		return isLoggedIn;
 	}
 
 	/**
