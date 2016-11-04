@@ -79,7 +79,9 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		CountryNameDataComparator comparator = new CountryNameDataComparator(displayType);
 		Collections.sort(mCountries, comparator);
 		if (mShowEmptyRow) {
-			mCountries.add(0, new CountryNameData("", "", ""));
+			mCountries.add(0, new CountryNameData(mContext.getResources().getString(R.string.country), "", ""));
+			mCountries.add(1, new CountryNameData(mContext.getResources()
+				.getString(PointOfSale.getPointOfSale().getCountryNameResId()), PointOfSale.getPointOfSale().getTwoLetterCountryCode(), PointOfSale.getPointOfSale().getThreeLetterCountryCode()));
 		}
 	}
 

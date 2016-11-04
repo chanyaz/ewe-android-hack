@@ -2384,6 +2384,8 @@
     <!-- next page buttn -->
     <string name="next">Next</string>
     <string name="next_cont_desc">Next button</string>
+    <!-- Passport country placeholder for passport country spinner -->
+    <string name="country">Country</string>
     <!-- Passport country label -->
     <string name="passport_country">Passport Country</string>
     <!-- Passport country / origin heading -->
