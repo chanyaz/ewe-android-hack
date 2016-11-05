@@ -15,7 +15,7 @@ class HotelFavoriteBurstAnimation(val color: Int,val radius: Int,val duration: L
     private var alphaTransparency = 255
     private val burstPaint = Paint(Paint.ANTI_ALIAS_FLAG)
     private val animatorSet = AnimatorSet()
-    private var animator: Animator? = null
+    private lateinit var animator: Animator
 
     override fun draw(canvas: Canvas) {
         burstPaint.style = Paint.Style.FILL
@@ -27,11 +27,7 @@ class HotelFavoriteBurstAnimation(val color: Int,val radius: Int,val duration: L
 
     fun startAnimation() {
         animator = generateAnimation()
-        animator?.start()
-    }
-
-    fun isAnimationRunning(): Boolean {
-        return animator?.isRunning ?: false
+        animator.start()
     }
 
     private fun generateAnimation() : Animator {
@@ -47,6 +43,11 @@ class HotelFavoriteBurstAnimation(val color: Int,val radius: Int,val duration: L
 
         animatorSet.playTogether(burstAnimator, alphaAnimator)
         return animatorSet
+    }
+
+    fun setScale(s: Float) {
+        this.scale = s;
+        invalidateSelf();
     }
 
     override fun getOpacity(): Int {

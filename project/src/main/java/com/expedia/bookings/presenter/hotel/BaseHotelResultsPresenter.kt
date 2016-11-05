@@ -71,6 +71,7 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.AbstractHotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsMapViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -112,6 +113,8 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     var isMapReady = false
 
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
+
+    abstract var viewmodel: HotelResultsViewModel
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
@@ -404,7 +407,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
         hotels.forEach {
             hotel ->
-            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
+            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory, viewmodel.isFavoritingSupported)
             mapItems.add(mapItem)
             clusterManager.addItem(mapItem)
         }
