@@ -20,7 +20,7 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
     override val heightOfButton = 0
 
-    var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
+    override var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 

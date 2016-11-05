@@ -45,7 +45,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         showSearchMenu.subscribe { searchMenu.isVisible = it }
     }
 
-    var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
+    override var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         mapViewModel.mapInitializedObservable.subscribe{
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }

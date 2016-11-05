@@ -101,10 +101,6 @@
     <string name="enter_driver_details_cont_desc">Nút nhập thông tin người lái xe</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Chọn từ thông tin đã lưu</string>
-    <!-- Text for enter payment details-->
-    <string name="enter_payment_details">Nhập chi tiết thanh toán</string>
-    <!-- Template for selected credit card-->
-    <string name="selected_card_template">Hết hạn %s</string>
     <!-- Car doors text-->
     <string name="car_doors_text">Cửa</string>
     <!-- Car bags text-->
@@ -232,8 +228,6 @@
     <string name="successful_checkout_email_label">Lịch trình được gửi đến</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Hướng dẫn đến %1$s</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">Thẻ tín dụng/ghi nợ</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">Nhập thẻ tín dụng/ghi nợ mới</string>
     <!-- Text for enter guest details line 1 -->
@@ -246,8 +240,6 @@
     <string name="checkout_enter_payment_details">Phương thức thanh toán</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Nhập thẻ tín dụng</string>
-    <!-- Label to indicate that the user has selected a stored credit card -->
-    <string name="checkout_payment_line2_storedcc">Thẻ tín dụng đã lưu</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Thanh toán bằng điểm thưởng</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1914,7 +1906,6 @@
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
-    <string name="room_with_guests_TEMPLATE">1 phòng, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Hủy miễn phí đến {date}</string>
 
     <!-- Flight details fragment -->
@@ -2145,8 +2136,6 @@
     <string name="please_enter_a_valid_email_address">Vui lòng nhập địa chỉ email hợp lệ</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Phí thanh toán tại khách sạn</string>
-    <!-- Row label for when we show resort fees as its own line item -->
-    <string name="fees_due_at_hotel">Phí cần thah toán tại khách sạn</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Cần thanh toán cho {brand}</string>
     <!-- Due to expedia today - today -->
@@ -2215,16 +2204,12 @@
     <!-- Edit button for traveler/payment -->
     <string name="edit_button">Chỉnh sửa</string>
 
-    <!-- Title in toolbar on checkout telling user to select travelers he wants for booking-->
-    <string name="select_travelers">Chọn khách</string>
     <!-- Select traveler/contact from checkout saved travelers list -->
     <string name="select_traveler">Chọn khách</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Thêm khách mới</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Chi tiết khách</string>
-    <!-- Guest all fields are required -->
-    <string name="guest_field_required">Cần điền tất cả thông tin.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Chi tiết người lớn %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
@@ -2331,6 +2316,10 @@
     <string name="address_zip_code_hint">Mã zip</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">ZIP</string>
+    <!--Address Province hint-->
+    <string name="address_province_hint">Tỉnh</string>
+    <!--Address Country/State/Province hint-->
+    <string name="address_county_hint">Hạt/Bang/Tỉnh</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2489,8 +2478,6 @@
     <string name="add_to_your_trip">Thêm vào chuyến đi của quý vị</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Khách sạn tại %s</string>
-    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
-    <string name="hotels_guest_TEMPLATE">1 phòng, %s khách</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Xe tại %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2905,11 +2892,7 @@
     <string name="vip_access">+VIP Access</string>
     <!--Options title for favorite and VIP checkboxes for Hotel Results -->
     <string name="filter_options">Tùy chọn</string>
-    <!-- Title for Favorites message for Hotel Results -->
-    <string name="favorites">Yêu thích</string>
-    <!-- Filter for showing only favorited hotels -->
-    <string name="favorites_only">Chỉ yêu thích</string>
-    <!-- Filter for showing only VIP access hotels -->
+    <!-- Filter for showing favorited hotels -->
     <string name="filter_favorites">Khách sạn yêu thích</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Tại khách sạn +VIP Access, thành viên +silver và +gold sẽ được nâng hạng phòng miễn phí và nhận những ưu đãi khác tùy tình hình thực tế khi nhận phòng.</string>
@@ -4111,8 +4094,8 @@
     <string name="show_more">HIỂN THỊ THÊM</string>
     <string name="show_less">HIỂN THỊ ÍT HƠN</string>
     <string name="price_range">Khoảng giá</string>
-    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
-    <string name="filter_sort_by_content_description_TEMPLATE">Sắp xếp theo {sort}.</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
+    <string name="filter_sort_by_content_description_TEMPLATE">Sắp xếp theo {sort}</string>
     <!-- Hotel Price Range start filter label for accessibility -->
     <string name="hotel_price_range_start">Bắt đầu mức giá</string>
     <!-- Hotel Price Range end filter label for accessibility -->
@@ -4190,8 +4173,6 @@
         <item quantity="one">{night} đêm miễn phí khi đặt cùng chuyến bay.</item>
         <item quantity="other">{night} đêm miễn phí khi đặt cùng chuyến bay.</item>
     </plurals>
-    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
-    <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s lúc %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -4370,6 +4351,8 @@
     <string name="package_flight_overview_bundle_total_label">Tổng gói</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/người</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <!-- Flight segment departure to arrival, content description. Example: (SFO) San Francisco to (DEN) Denver -->
+    <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">({departureairportcode}) {departurecity} đến ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">Tạm dừng tại ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Tổng thời gian: {duration}</string>
@@ -4386,9 +4369,6 @@
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Trở về</string>
 
-    <!--used on the rail search screen - this is equivalent to a round trip air ticket with a return trip any time within a 30 day window (typically)-->
-    <string name="rail_open_return">Vé về mở</string>
-
     <!--used on the rail results/details screen to signify that a trip doesn't have any stops -->
     <string name="rail_direct">Bay thẳng</string>
 
@@ -4397,6 +4377,15 @@
 
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
+
+    <!-- Heading for web view which shows payment and ticket delivery fees legal details -->
+    <string name="rail_search_legal_web_view_heading">Phí thanh toán &amp; giao vé</string>
+
+    <!-- Legal message shown on search result screen for one way search -->
+    <string name="rail_search_legal_banner_one_way">Giá một chiều cho tất cả khách. Có thể áp dụng phí thanh toán và giao vé.</string>
+
+    <!-- Legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip">Giá hai chiều cho tất cả khách. Có thể áp dụng phí thanh toán và giao vé.</string>
 
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
@@ -4426,6 +4415,15 @@
 
     <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">Trở về - {date}</string>
+
+    <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
+    <string name="rail_price_breakdown_journey">Chuyến đi</string>
+
+    <!-- rail checkout card fee error message title -->
+    <string name="rail_cardfee_error_title">Lỗi phí thẻ</string>
+
+    <!-- rail checkout card fee error message -->
+    <string name="rail_cardfee_error_message">Chúng tôi không tính được chính xác phí thẻ tín dụng vào thời điểm hiện tại. Có thể áp dụng thêm phụ phí với đặt chỗ này.</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Tổng cộng</string>
@@ -4511,8 +4509,6 @@
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">Bảo hiểm chuyến bay</string>
-    <!-- Cost summary breakdown line item for flights -->
-    <string name="cost_summary_breakdown_flight_summary">Chuyến bay</string>
     <!-- Cost summary breakdown line item for a hotel + flight package -->
     <string name="cost_summary_breakdown_hotel_flight_summary">Khách sạn + Chuyến bay</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
@@ -4595,10 +4591,16 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">Giờ chuyến bay: {time}, với chênh lệch giá {pricedifference}. Bay với {airline}. Thời gian chuyến bay là {hours} {minutes} với {stops} điểm dừng\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} với xếp hạng {starrating} trên 5. Xếp hạng của khách {guestrating} trên 5. Giá {price}. Gồm khách sạn và chuyến bay\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} với xếp hạng {starrating} trên 5. Xếp hạng của khách {guestrating} trên 5.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
+    <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel} với đánh giá của khách {guestrating} trên 5.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} với xếp hạng {starrating} trên 5.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
+    <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}.\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Giá cũ {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
@@ -4678,10 +4680,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Giá gói là {price_per_person} mỗi người. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. Nút để xem gói.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Hiển thị chi tiết gói. Nút để đóng.</string>
-    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
-    <string name="select_hotel_selected_expand_cont_desc">mở</string>
-    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
-    <string name="select_hotel_selected_collapse_cont_desc">đóng</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->

@@ -101,10 +101,6 @@
     <string name="enter_driver_details_cont_desc">Knop Bestuurdersinfo invoeren</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Kies uit opgeslagen contacten</string>
-    <!-- Text for enter payment details-->
-    <string name="enter_payment_details">Betalingsinfo invoeren</string>
-    <!-- Template for selected credit card-->
-    <string name="selected_card_template">Vervaldatum: %s</string>
     <!-- Car doors text-->
     <string name="car_doors_text">Deuren</string>
     <!-- Car bags text-->
@@ -232,8 +228,6 @@
     <string name="successful_checkout_email_label">Reisplan gestuurd naar</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Route naar %1$s</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">Creditcard/betaalpas</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">Voer nieuwe debit/creditcard in</string>
     <!-- Text for enter guest details line 1 -->
@@ -246,8 +240,6 @@
     <string name="checkout_enter_payment_details">Betalingsmethode</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Voer creditcard in</string>
-    <!-- Label to indicate that the user has selected a stored credit card -->
-    <string name="checkout_payment_line2_storedcc">Opgeslagen creditcard</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Betalen met punten</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1914,7 +1906,6 @@
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
-    <string name="room_with_guests_TEMPLATE">1 kamer, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Gratis annulering tot {date}</string>
 
     <!-- Flight details fragment -->
@@ -2145,8 +2136,6 @@
     <string name="please_enter_a_valid_email_address">Voer een geldig e-mailadres in</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Toeslagen betaald in hotel</string>
-    <!-- Row label for when we show resort fees as its own line item -->
-    <string name="fees_due_at_hotel">Toeslagen te betalen in hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Te betalen aan {brand}</string>
     <!-- Due to expedia today - today -->
@@ -2215,16 +2204,12 @@
     <!-- Edit button for traveler/payment -->
     <string name="edit_button">Bewerken</string>
 
-    <!-- Title in toolbar on checkout telling user to select travelers he wants for booking-->
-    <string name="select_travelers">Selecteer reizigers</string>
     <!-- Select traveler/contact from checkout saved travelers list -->
     <string name="select_traveler">Selecteer contact</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Nieuwe reiziger toevoegen</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Reizigersinfo</string>
-    <!-- Guest all fields are required -->
-    <string name="guest_field_required">Alle velden zijn verplicht.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Info volwassene %1$s</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
@@ -2331,6 +2316,10 @@
     <string name="address_zip_code_hint">Zip code</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">Zip</string>
+    <!--Address Province hint-->
+    <string name="address_province_hint">Provincie</string>
+    <!--Address Country/State/Province hint-->
+    <string name="address_county_hint">Provincie</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2489,8 +2478,6 @@
     <string name="add_to_your_trip">Toevoegen aan reis</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
-    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
-    <string name="hotels_guest_TEMPLATE">1 kamer, %s gasten</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Auto\&apos;s in %s</string>
     <!-- Title for section helping users in other various ways -->
@@ -2905,11 +2892,7 @@
     <string name="vip_access">+VIP Access</string>
     <!--Options title for favorite and VIP checkboxes for Hotel Results -->
     <string name="filter_options">Opties</string>
-    <!-- Title for Favorites message for Hotel Results -->
-    <string name="favorites">Favorieten</string>
-    <!-- Filter for showing only favorited hotels -->
-    <string name="favorites_only">Alleen Favorieten</string>
-    <!-- Filter for showing only VIP access hotels -->
+    <!-- Filter for showing favorited hotels -->
     <string name="filter_favorites">Favoriete hotels</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">Bij +VIP Access hotels genieten +silver en +gold-leden bij check-in van gratis kamerupgrades en andere extraatjes, indien beschikbaar.</string>
@@ -4111,8 +4094,8 @@
     <string name="show_more">MEER TONEN</string>
     <string name="show_less">MINDER TONEN</string>
     <string name="price_range">Prijs</string>
-    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
-    <string name="filter_sort_by_content_description_TEMPLATE">Sorteer op {sort}.</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
+    <string name="filter_sort_by_content_description_TEMPLATE">Sorteer op{sort}</string>
     <!-- Hotel Price Range start filter label for accessibility -->
     <string name="hotel_price_range_start">Begin prijsbereik</string>
     <!-- Hotel Price Range end filter label for accessibility -->
@@ -4190,8 +4173,6 @@
         <item quantity="one">{night} gratis nacht wanneer je samen met een vlucht boekt.</item>
         <item quantity="other">{night} gratis nachten wanneer je samen met een vlucht boekt.</item>
     </plurals>
-    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
-    <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s om %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -4370,6 +4351,8 @@
     <string name="package_flight_overview_bundle_total_label">Totaal pakket</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/persoon</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <!-- Flight segment departure to arrival, content description. Example: (SFO) San Francisco to (DEN) Denver -->
+    <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">({departureairportcode}) {departurecity} naar ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">Tussenstop in ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Totale reisduur: {duration}</string>
@@ -4386,9 +4369,6 @@
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Retour</string>
 
-    <!--used on the rail search screen - this is equivalent to a round trip air ticket with a return trip any time within a 30 day window (typically)-->
-    <string name="rail_open_return">Open retour</string>
-
     <!--used on the rail results/details screen to signify that a trip doesn't have any stops -->
     <string name="rail_direct">Rechtstreeks</string>
 
@@ -4397,6 +4377,15 @@
 
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
+
+    <!-- Heading for web view which shows payment and ticket delivery fees legal details -->
+    <string name="rail_search_legal_web_view_heading">Transactie- &amp; ticketleveringskosten</string>
+
+    <!-- Legal message shown on search result screen for one way search -->
+    <string name="rail_search_legal_banner_one_way">Prijzen zijn voor enkele reizen voor alle passagiers. Mogelijk gelden er ook transactie- en ticketleveringskosten.</string>
+
+    <!-- Legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip">Prijzen zijn voor retourreizen voor alle passagiers. Mogelijk gelden er ook transactie- en ticketleveringskosten.</string>
 
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
@@ -4422,10 +4411,19 @@
     <string name="rail_returning_at">Terugreis om</string>
 
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
-    <string name="rail_checkout_outbound_TEMPLATE">Heenreis - {date}</string>
+    <string name="rail_checkout_outbound_TEMPLATE">Heen - {date}</string>
 
     <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">Terug - {date}</string>
+
+    <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
+    <string name="rail_price_breakdown_journey">Reis</string>
+
+    <!-- rail checkout card fee error message title -->
+    <string name="rail_cardfee_error_title">Fout creditcardtoeslag</string>
+
+    <!-- rail checkout card fee error message -->
+    <string name="rail_cardfee_error_message">We zijn voorlopig niet in staat om de exacte creditcardtoeslag te berekenen. Mogelijk gelden er extra toeslagen bij deze boeking.</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Totaal</string>
@@ -4458,7 +4456,7 @@
     <string name="error_same_station_departure_arrival">De stations van vertrek en aankomst dienen te verschillen.</string>
 
     <!-- Label for ticket delivery fee on the Rail cost breakdown screen -->
-    <string name="rail_ticket_delivery_fee">Ticketlevering gratis</string>
+    <string name="rail_ticket_delivery_fee">Ticketleveringskosten</string>
 
     <!-- Label for credit card fee on the Rail cost breakdown screen -->
     <string name="rail_credit_card_fee">Creditcardtoeslag</string>
@@ -4511,8 +4509,6 @@
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">Vluchtverzekering</string>
-    <!-- Cost summary breakdown line item for flights -->
-    <string name="cost_summary_breakdown_flight_summary">Vluchten</string>
     <!-- Cost summary breakdown line item for a hotel + flight package -->
     <string name="cost_summary_breakdown_hotel_flight_summary">Vlucht + Hotel</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
@@ -4595,10 +4591,16 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">Vluchttijd is {time} met een prijsverschil van {pricedifference}. Vlucht met {airline} De vluchtduur is {hours} {minutes} met {stops} tussenstops\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5. Prijs {price}. Inclusief hotel en vluchten\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} met een gastenscore van {starrating} / 5. Gastenscore van {guestrating} / 5.  \u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
+    <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel} met een gastenscore van {guestrating} / 5.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} met een score van {starrating} / 5. \u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
+    <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}.\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Oude prijs {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
@@ -4678,10 +4680,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakketprijs is {price_per_person} per persoon. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. Knop om pakket te bekijken.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Pakketdetails worden weergegeven. Sluitknop.</string>
-    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
-    <string name="select_hotel_selected_expand_cont_desc">uitvouwen</string>
-    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
-    <string name="select_hotel_selected_collapse_cont_desc">samenvouwen</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->
