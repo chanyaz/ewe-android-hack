@@ -10,6 +10,5 @@ then
 	git log $last_release_tag..HEAD >> $output_file
 else
 	echo "Cannot find release tag: $last_release_tag" > $output_file
-	exit 1
 fi
 
