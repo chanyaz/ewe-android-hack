@@ -44,6 +44,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Anmelden und {reward} BONUS+ Guthaben verdienen</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Schaltfläche „Anmelden und {reward} in BONUS+ verdienen“</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
@@ -85,7 +87,7 @@
     <string name="swp_widget_points_value_TEMPLATE">Sie haben BONUS+ Guthaben im Wert von {points_or_amount}</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">Verwendetes BONUS+ Guthaben</string>
-    
+
     <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+ Guthaben wurde eingelöst! (zzgl. Steuern und Gebühren)</string>
     <string name="youll_earn_points_TEMPLATE">Für diese Buchung würden Sie {reward_currency} BONUS+ Guthaben erhalten!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Für diese Reise würden Sie {reward_currency} BONUS+ Guthaben erhalten!</string>
@@ -122,4 +124,21 @@
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">Flug + Hotel</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Gesamtpreis Flug + Hotel</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Flug + Hotel ansehen</string>
+    <string name="package_flight_overview_bundle_total_label">Gesamtpreis Flug + Hotel</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Ersparnis bei Flug + Hotel</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Der Gesamtpreis für Flug + Hotel beträgt {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Der Gesamtpreis für Flug + Hotel beträgt {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}. Dialogfeld mit Kostenaufschlüsselung. Schaltfläche.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Der Preis für Flug + Hotel beträgt {price_per_person} pro Person. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. Schaltfläche zum Anzeigen von Flug + Hotel.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Details von Flug + Hotel werden angezeigt. Schaltfläche zum Schließen.</string>
 </resources>

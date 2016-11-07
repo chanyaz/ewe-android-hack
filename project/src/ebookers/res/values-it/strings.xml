@@ -25,12 +25,12 @@
     <string name="not_currently_available_ebookers_TEMPLATE">Non disponibile su ebookers per le date %s</string>
 
     <!-- Missing strings for ebookers from Expedia-->
-    <string name="tell_a_friend_body_ebookers">Ciao,\n\ndai un’occhiata a ebookers Hotels per iPhone e Android. L’applicazione è GRATIS e ti permette di prenotare facilmente più di 140.000 hotel in tutto il mondo. Il modo più semplice per prenotare un hotel dal tuo cellulare.</string>
-    <string name="cd_log_in_email_edit_text_ebookers">Inserisci l’indirizzo e-mail dell’account ebookers</string>
+    <string name="tell_a_friend_body_ebookers">Ciao,\n\ndai un\&apos;occhiata a ebookers Hotels per iPhone e Android. L\&apos;applicazione è GRATIS e ti permette di prenotare facilmente più di 140.000 hotel in tutto il mondo. Il modo più semplice per prenotare un hotel dal tuo cellulare.</string>
+    <string name="cd_log_in_email_edit_text_ebookers">Inserisci l\&apos;indirizzo e-mail dell\&apos;account ebookers</string>
     <string name="tell_a_friend_subject_ebookers">ebookers Hotels</string>
-    <string name="cd_log_in_password_edit_text_ebookers">Inserisci la password dell’account ebookers</string>
+    <string name="cd_log_in_password_edit_text_ebookers">Inserisci la password dell\&apos;account ebookers</string>
     <string name="cd_launch_open_eb_info_screen_ebookers">Apri la schermata delle informazioni sulle prenotazioni ebookers</string>
-    <string name="loading_ebookers_account">Caricamento dell’account ebookers in corso</string>
+    <string name="loading_ebookers_account">Caricamento dell\&apos;account ebookers in corso</string>
     <string name="ebookers_password_hint">Password ebookers</string>
     <string name="dialog_message_launch_ebookers_mobile_site">Passare al sito mobile di ebookers?</string>
     <!-- ebookers App download link -->
@@ -44,10 +44,12 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Accedi per guadagnare {reward} in BONUS+</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Pulsante Accedi per guadagnare {reward} in BONUS+</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Voglio accumulare punti immediatamente con {brand_reward_currency}. Effettuando l’iscrizione, accetto {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Voglio accumulare punti immediatamente con {brand_reward_currency}. Effettuando l\&apos;iscrizione, accetto {terms_and_conditions}.</string>
 
     <!-- Bonus+ -->
     <string name="paying_with_rewards">Pagamento con BONUS+</string>
@@ -65,7 +67,7 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">VIP</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Presso gli hotel VIP, gli iscritti gold e platinum ricevono l’upgrade gratuito della camera e tanti altri extra, previa disponibilità al momento del check-in.</string>
+    <string name="vip_access_message">Presso gli hotel VIP, gli iscritti gold e platinum ricevono l\&apos;upgrade gratuito della camera e tanti altri extra, previa disponibilità al momento del check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="filter_vip_access">Solo hotel VIP</string>
     <!-- Filter for showing only VIP access hotels -->
@@ -85,7 +87,7 @@
     <string name="swp_widget_points_value_TEMPLATE">Hai {points_or_amount} in BONUS+</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+ utilizzati</string>
-    
+
     <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+ applicati! (tasse e oneri esclusi)</string>
     <string name="youll_earn_points_TEMPLATE">Per questa prenotazione riceverai {reward_currency} in BONUS+!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Per questo viaggio riceverai {reward_currency} in BONUS+!</string>
@@ -122,4 +124,21 @@
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">Volo + hotel</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Totale volo + hotel</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Visualizza il tuo pacchetto volo + hotel</string>
+    <string name="package_flight_overview_bundle_total_label">Totale volo + hotel</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Sconto volo + hotel</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Il totale del pacchetto volo + hotel è di {totalprice}. Questo prezzo include tasse e oneri per voli e hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Il totale del pacchetto volo + hotel è di {totalprice}. Questo prezzo include tasse e oneri per voli e hotel. {savings}. Finestra Dettaglio dei costi. Pulsante.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Il prezzo del pacchetto volo + hotel è di {price_per_person} a persona. Questo prezzo include tasse e oneri per voli e hotel. Pulsante per visualizzare il pacchetto volo + hotel.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Mostra i dettagli del pacchetto. Pulsante di chiusura.</string>
 </resources>
