@@ -22,7 +22,7 @@
     <string name="not_currently_available_orbitz_TEMPLATE">Ikke tilgjengelig på Orbitz i tidsrommet %s</string>
 
     <!-- Missing strings for Orbitz from Expedia-->
-    <string name="tell_a_friend_body_orbitz">Hei!\n\nPrøv Orbitz Hotels for iPhone og Android-telefoner. Appen er GRATIS, og med den kan du enkelt bestille rom på flere enn 140 000 hoteller over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din på.</string>
+    <string name="tell_a_friend_body_orbitz">Hei!\n\nPrøv Orbitz Hotels for iPhone og Android-telefoner. Appen er GRATIS, og med den kan du enkelt bestille rom på flere enn 140 000 hoteller over hele verden. Det er den enkleste måten å bestille hoteller på telefonen din på.</string>
     <string name="cd_log_in_email_edit_text_orbitz">Angi e-postadressen for Orbitz-kontoen</string>
     <string name="tell_a_friend_subject_orbitz">Orbitz Hotels</string>
     <string name="cd_log_in_password_edit_text_orbitz">Angi passordet for Orbitz-kontoen</string>
@@ -34,7 +34,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Beløp som må betales til Orbitz i dag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Du må opprette en ny, internasjonal pålogging for alle Orbitz\' nettsider.&lt;br&gt;Nullstill passordet ditt ved å klikke på ‘Glemt passordet ditt?’ nedenfor.</string>
+    <string name="login_reset_password">Du må opprette en ny, internasjonal pålogging for alle Orbitz\' nettsider.&lt;br&gt;Nullstill passordet ditt ved å klikke på ‘Glemt passordet ditt?\&apos; nedenfor.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Beløp som må betales til Orbitz i dag:</string>
@@ -87,6 +87,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Logg på for å tjene {reward} i Orbucks</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Logg på for å tjene {reward} i Orbucks-knapp</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks brukt! (skatter og avgifter ikke inkludert)</string>
     <string name="youll_earn_points_TEMPLATE">Du vil tjene {reward_currency} i Orbucks på denne bestillingen!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Du vil tjene {reward_currency} i Orbucks på denne reisen!</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">Tjen Orbucks som kan løses inn med det samme på det neste hotellet du bestiller</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Søk om {brand_reward_name} Visa®-kort</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Pakkereiser</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Pakkereisen i alt</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Se pakkereisen din</string>
+    <string name="package_flight_overview_bundle_total_label">Pakkereisen i alt</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Pakkereiserabatt</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Pakkereisen er {totalprice} i alt. Denne prisen inkluderer skatter og avgifter for både fly og hotell. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Pakkereisen er {totalprice} i alt. Denne prisen inkluderer skatter og avgifter for både fly og hotell. {savings}. Dialogvinduvindu for prisoversikt. Knapp.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakkeprisen er {price_per_person} per person. Denne prisen inkluderer skatter og avgifter for både fly og hotell. Knapp for å vise pakkereise.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Viser informasjon om pakkereisen. Knapp for å lukke.</string>
 
 </resources>

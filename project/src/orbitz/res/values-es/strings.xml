@@ -19,7 +19,7 @@
     <!--A message stating this hotel is Not currently available on Orbitz -->
     <string name="not_currently_available_orbitz">Sin disponibilidad en Orbitz en este momento</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Orbitz Nov. 3-4" -->
-    <string name="not_currently_available_orbitz_TEMPLATE">Sin disponibilidad en Orbitz  para las fechas %s</string>
+    <string name="not_currently_available_orbitz_TEMPLATE">Sin disponibilidad en Orbitz para las fechas %s</string>
 
     <!-- Missing strings for Orbitz from Expedia-->
     <string name="tell_a_friend_body_orbitz">Hola, \n\n descubre Orbitz Hotels para dispositivos iPhone y Android. Es GRATIS, y puedes fácilmente buscar y reservar habitaciones en más de 140.000 hoteles en el mundo. Es la mejor forma de reservar hoteles en tu teléfono.</string>
@@ -81,12 +81,14 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">En los hoteles VIP Access, los socios gold y platinum  reciben ascensos de categoría de habitación gratuitos, así como otros beneficios, según disponibilidad, al hacer el check-in.</string>
+    <string name="vip_access_message">En los hoteles VIP Access, los socios gold y platinum reciben ascensos de categoría de habitación gratuitos, así como otros beneficios, según disponibilidad, al hacer el check-in.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="VIP_Access_Only">Solo VIP Access</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Inicia sesión para acumular {reward} en Orbucks</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Botón para iniciar sesión y acumular {reward} en Orbucks</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">¡Orbucks aplicados! (impuestos y cargos no incluidos)</string>
     <string name="youll_earn_points_TEMPLATE">¡Acumularás {reward_currency} en Orbucks por esta reservación!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">¡Acumularás {reward_currency} en Orbucks por este viaje!</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">Acumula Orbucks y canjéalos de forma inmediata en tu próximo hotel</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Solicitar la tarjeta {brand_reward_name} Visa®</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Paquetes</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Total del paquete</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Ver paquete</string>
+    <string name="package_flight_overview_bundle_total_label">Total del paquete</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Descuento de paquete</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">El total del paquete es {totalprice}. El precio incluye impuestos y cargos aplicables a los vuelos y al hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">El total del paquete es {totalprice}. El precio incluye impuestos y cargos aplicables a los vuelos y al hotel. {savings}. Cuadro de diálogo del desglose de gastos. Botón.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">El precio del paquete es {price_per_person} por persona. El precio incluye impuestos y cargos aplicables a los vuelos y al hotel. Botón para ver el paquete.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Se muestran los detalles del paquete. Botón para cerrar.</string>
 
 </resources>

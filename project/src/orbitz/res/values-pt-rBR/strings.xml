@@ -87,6 +87,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Conecte-se para ganhar {reward} em Orbucks</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Botão para se conectar e ganhar {reward} em Orbucks</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks aplicados! (impostos e taxas não incluídos)</string>
     <string name="youll_earn_points_TEMPLATE">Você ganhará {reward_currency} em Orbucks com esta reserva!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Você ganhará {reward_currency} em Orbucks com esta viagem!</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">Acumule Orbucks que poderão ser utilizados imediatamente em sua próxima reserva de hotel</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Solicite o cartão {brand_reward_name} Visa®</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Pacotes</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Total do pacote</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Visualize seu pacote</string>
+    <string name="package_flight_overview_bundle_total_label">Total do pacote</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Desconto do pacote</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">O total do pacote é de {totalprice}. Esse preço inclui impostos e taxas de ambos os voos e hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">O total do pacote é de {totalprice}. Esse preço inclui impostos e taxas de ambos os voos e hotel. {savings}. Caixa de diálogo de lista detalhada de custos. Botão.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">O preço do pacote é de {price_per_person} por pessoa. Esse preço inclui impostos e taxas de ambos os voos e hotel. Botão para visualizar o pacote.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Exibindo detalhes do pacote. Botão para fechar.</string>
 
 </resources>

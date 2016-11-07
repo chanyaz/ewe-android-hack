@@ -87,6 +87,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">登录以赚取 {reward} Orbucks</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">按钮：登录帐户，赚取 {reward} Orbucks</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">使用了 Orbucks！（不含税费）</string>
     <string name="youll_earn_points_TEMPLATE">此次预订将累积 {reward_currency} Orbucks！</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">此行程将累积 {reward_currency} Orbucks！</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">累积 Orbucks，下次订酒店时即可使用</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">申请 {brand_reward_name} Visa® 信用卡</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">套餐</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">套餐总计</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">查看套餐</string>
+    <string name="package_flight_overview_bundle_total_label">套餐总计</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">套餐折扣</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">套餐总计为 {totalprice}。此价格不含机票和酒店的税费。{savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套餐总计为 {totalprice}。此价格不含机票和酒店的税费。{savings}。费用明细对话框。按钮。</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">套餐价格为每人 {price_per_person}。此价格不含机票和酒店的税费。查看套餐的按钮。</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">显示套餐详细信息。关闭按钮。</string>
 
 </resources>
