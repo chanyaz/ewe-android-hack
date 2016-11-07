@@ -73,6 +73,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         viewModel.address.subscribeText(address)
         viewModel.city.subscribeText(cityState)
         viewModel.hasFreeCancellation.subscribeVisibility(freeCancellationView)
+        viewModel.freeCancellationText.subscribeText(freeCancellationView)
         viewModel.roomDescriptions.subscribeText(selectedRoom)
         viewModel.bedDescriptions.subscribeText(selectedBed)
         viewModel.numNights.subscribeText(numberNights)

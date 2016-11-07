@@ -364,4 +364,8 @@ public class CheckoutViewModel {
 	public static ViewInteraction resortFeeDisclaimerText() {
 		return onView(withId(R.id.disclaimer_text));
 	}
+
+	public static ViewInteraction freeCancellationText() {
+		return onView(withId(R.id.free_cancellation_text));
+	}
 }
