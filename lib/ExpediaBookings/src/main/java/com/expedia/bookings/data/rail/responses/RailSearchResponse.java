@@ -89,6 +89,79 @@ public class RailSearchResponse {
 		return hasError;
 	}
 
+	/**
+	 * For one-way and outbound
+	 * Filters duplicate open return offers based on uniqueIdentifier
+	 */
+	public List<RailOffer> filterOutboundOffers(List<RailOffer> offerList) {
+		ArrayList<String> fareServiceKeys = new ArrayList<>();
+		ArrayList<RailOffer> filteredList = new ArrayList<>();
+
+		for (RailOffer offer : offerList) {
+			if (!offer.isOpenReturn()) {
+				filteredList.add(offer);
+			}
+			else {
+				String currentKey = offer.getUniqueIdentifier();
+				if (!fareServiceKeys.contains(currentKey)) {
+					fareServiceKeys.add(currentKey);
+					filteredList.add(offer);
+				}
+			}
+		}
+		return filteredList;
+	}
+
+	/**
+	 * Returns a list of filtered inbound offers based on
+	 * If outbound selected offer is -
+	 * openReturn - show only the matching open return offers on inbound
+	 * non openReturn - show only non open return offers on inbound
+	 */
+	public List<RailOffer> filterInboundOffers(List<RailOffer> offerList, RailOffer outboundOffer) {
+		if (outboundOffer.isOpenReturn()) {
+			return filterMatchingInboundOpenReturnOffer(offerList, outboundOffer);
+		}
+		return filterOutInboundOpenReturnOffers(offerList, outboundOffer);
+	}
+
+	/**
+	 * Returns a list of non open return offers
+	 */
+	private List<RailOffer> filterOutInboundOpenReturnOffers(List<RailOffer> offerList, RailOffer outboundOffer) {
+		List<RailOffer> filteredList = new ArrayList<>();
+		for (RailOffer offer : offerList) {
+			if (!offer.isOpenReturn()) {
+				filteredList.add(offer);
+			}
+		}
+		return filteredList;
+	}
+
+	/**
+	 * Returns a list of matching inbound open return offers for selected outbound offer
+	 */
+	private List<RailOffer> filterMatchingInboundOpenReturnOffer(List<RailOffer> offerList, RailOffer outboundOffer) {
+		List<RailOffer> filteredList = new ArrayList<>();
+		for (RailOffer offer : offerList) {
+			if (isMatchingInboundOpenReturnOffer(offer, outboundOffer)) {
+				filteredList.add(offer);
+				break;
+			}
+		}
+		return filteredList;
+	}
+
+	/**
+	 * Returns true if current railOffer matches selected outboundOffer based on leg option indices and uniqueIdentifier
+	 * false otherwise
+	 */
+	private boolean isMatchingInboundOpenReturnOffer(RailOffer railOffer, RailOffer outboundOffer) {
+		boolean valid = railOffer.isOpenReturn()
+			&& railOffer.containsLegOptionId(outboundOffer.getOutboundLegOptionId());
+		return (valid && outboundOffer.getUniqueIdentifier().equals(railOffer.getUniqueIdentifier()));
+	}
+
 	@Nullable
 	private RailLeg findLegWithBoundOrder(Integer legBoundOrder) {
 		for (RailLeg railLeg : legList) {

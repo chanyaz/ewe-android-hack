@@ -32,6 +32,7 @@ import com.expedia.vm.rail.RailErrorViewModel
 import com.expedia.vm.rail.RailInboundResultsViewModel
 import com.expedia.vm.rail.RailOutboundResultsViewModel
 import com.expedia.vm.rail.RailSearchViewModel
+import com.expedia.vm.rail.RailInboundDetailsViewModel
 import rx.Observer
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -56,7 +57,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private val inboundResultsViewModel: RailInboundResultsViewModel
     private val createTripViewModel: RailCreateTripViewModel
     private val outboundDetailsViewModel = RailDetailsViewModel(context)
-    private val inboundDetailsViewModel = RailDetailsViewModel(context)
+    private val inboundDetailsViewModel = RailInboundDetailsViewModel(context)
 
     val amenitiesFareRulesWidget: RailAmenitiesFareRulesWidget by lazy {
         var viewStub = findViewById(R.id.amenities_stub) as ViewStub
@@ -250,6 +251,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     private fun initInboundDetailsPresenter() {
         inboundDetailsPresenter.viewModel = inboundDetailsViewModel
+        inboundResultsViewModel.outboundOfferSubject.subscribe(inboundDetailsViewModel.selectedOutboundOfferSubject)
+
         inboundDetailsViewModel.offerSelectedObservable.subscribe  { offer ->
             transitionToTripSummary()
             createTripViewModel.offerTokensSelected.onNext(getRoundTripOfferTokens(offer))

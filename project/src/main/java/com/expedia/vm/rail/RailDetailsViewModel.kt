@@ -11,7 +11,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-class RailDetailsViewModel(val context: Context) {
+open class RailDetailsViewModel(val context: Context) {
     val railResultsObservable = BehaviorSubject.create<RailSearchResponse>()
 
     val offerSelectedObservable = PublishSubject.create<RailOffer>()
@@ -36,10 +36,17 @@ class RailDetailsViewModel(val context: Context) {
             formattedLegInfoSubject.onNext("${DateTimeUtils.formatDuration(context.resources,
                     railLegOption.durationMinutes())}, $changesString")
 
-            // for open return display one instance of fare class
-            val filteredOffers = filterOpenReturnFareOptions(railResultsObservable.value.findOffersForLegOption(railLegOption))
+            // filter offers for one-way and round trip
+            val filteredOffers = filterFareOptions(railResultsObservable.value.findOffersForLegOption(railLegOption))
             railOffersAndInboundCheapestPricePairSubject.onNext(Pair(filteredOffers, getInboundLegCheapestPrice()))
         }
+    }
+
+    open fun filterFareOptions (railOffers: List<RailOffer>): List<RailOffer> {
+        // for open return display one instance of fare class
+        val railSearchResponse = railResultsObservable.value
+        val filteredOfferList = railSearchResponse.filterOutboundOffers(railOffers)
+        return filteredOfferList
     }
 
     private fun getInboundLegCheapestPrice(): Money? {
@@ -48,25 +55,6 @@ class RailDetailsViewModel(val context: Context) {
         if (railSearchResponse.hasInbound()) {
             return railSearchResponse.inboundLeg?.cheapestPrice
         } else return null
-    }
-
-    private fun filterOpenReturnFareOptions(railOffers: List<RailOffer>): List<RailOffer> {
-        val fareServiceKeys = ArrayList<String>()
-        val filteredOfferList = railOffers.orEmpty().filter { shouldAddOffer(it, fareServiceKeys) }
-        return filteredOfferList
-    }
-
-    private fun shouldAddOffer(railOffer: RailOffer, fareServiceKeys: ArrayList<String>): Boolean {
-        //add the offer if it is not open return
-        if (!railOffer.isOpenReturn) return true
-
-        // creating a key by combining fare class, service class and total fare amount
-        val currentKey = railOffer.uniqueIdentifier
-        if (!fareServiceKeys.contains(currentKey)) {
-            fareServiceKeys.add(currentKey)
-            return true
-        }
-        return false
     }
 }
 
