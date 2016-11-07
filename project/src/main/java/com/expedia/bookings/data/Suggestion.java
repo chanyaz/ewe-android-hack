@@ -6,6 +6,7 @@ import org.json.JSONObject;
 import android.util.Pair;
 
 import com.expedia.bookings.data.HotelSearchParams.SearchType;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.SuggestionStrUtils;
 import com.mobiata.android.json.JSONUtils;
@@ -120,8 +121,9 @@ public class Suggestion implements JSONable {
 	// Utility
 
 	public Pair<String, String> splitDisplayNameForFlights() {
-		return new Pair<String, String>(StrUtils.formatCityStateCountryName(mDisplayName),
-			SuggestionStrUtils.formatAirportName(mDisplayName));
+		String formattedDisplayName = HtmlCompat.stripHtml(mDisplayName);
+		return new Pair<String, String>(StrUtils.formatCityStateCountryName(formattedDisplayName),
+			SuggestionStrUtils.formatAirportName(formattedDisplayName));
 	}
 
 	public HotelSearchParams toHotelSearchParams() {
