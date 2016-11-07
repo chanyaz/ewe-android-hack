@@ -35,7 +35,7 @@
     <string name="not_currently_available_cheapTickets_TEMPLATE">Inte tillgängligt på CheapTickets %s</string>
 
     <!-- Missing strings for CheapTickets from Expedia-->
-    <string name="tell_a_friend_body_cheapTickets">Hej,\n\nKolla in vår hotellapp CheapTickets Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
+    <string name="tell_a_friend_body_cheapTickets">Hej,\n\nKolla in vår hotellapp CheapTickets Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
     <string name="cd_log_in_email_edit_text_cheapTickets">Ange e-postadress för ditt CheapTickets-konto</string>
     <string name="tell_a_friend_subject_cheapTickets">CheapTickets Hotels</string>
     <string name="cd_log_in_password_edit_text_cheapTickets">Ange lösenord för CheapTickets-kontot</string>
@@ -47,7 +47,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Totalbelopp att betala CheapTickets idag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga CheapTickets sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken ’Har du glömt ditt lösenord?’ nedan.</string>
+    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga CheapTickets sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken \&apos;Har du glömt ditt lösenord?\&apos; nedan.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Att betala CheapTickets idag:</string>
@@ -61,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">Det finns redan ett CheapTickets-konto med den här e-postadressen</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Logga in för att tjäna {reward} i CheapCash</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knapp för att logga in för att tjäna {reward} i CheapCash</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
     <string name="account_creation_legal_rewards_TEMPLATE">Tjäna gratis resebonus med {brand_reward_name_link}. Genom att gå med i {brand_reward_name} godkänner jag samtliga {terms_and_conditions}</string>
 
@@ -81,6 +83,11 @@
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Betala med CheapCash och {carddescription}</string>
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">Kreditkort, betala med CheapCash</string>
+
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
 
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
@@ -106,4 +113,21 @@
     <!-- Label above the slider when user is paying with CheapCash and Card. Eg: You are using $1000.12 in CheapCash\nYour card will be charged $100.00-->
     <string name="payment_through_card_and_bucks_TEMPLATE">Du använder {amount} i CheapCash\nDitt kort kommer att debiteras {dueamount}</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">Paket</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Totalbelopp</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Se din paketresa</string>
+    <string name="package_flight_overview_bundle_total_label">Totalbelopp</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Paketrabatt</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Totalbeloppet för paketresan är {totalprice}. I priset ingår skatter samt avgifter för både flyg och hotell. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Totalbeloppet för paketresan är {totalprice}. I priset ingår skatter samt avgifter för både flyg och hotell. {savings}. Dialogruta för prisinformation. Knapp.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Paketpriset är {price_per_person} per person. I priset ingår skatter samt avgifter för både flyg och hotell. Knapp för att se paket.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Visar paketinformation. Knapp för att stänga.</string>
 </resources>

@@ -4,7 +4,7 @@
     <string name="cheapTickets_best_price_guarantee">Garantie du meilleur prix de CheapTickets</string>
 
 
-    <string name="customer_support_text">Appeler l’assistance clientèle CheapTickets</string>
+    <string name="customer_support_text">Appeler l\&apos;assistance clientèle CheapTickets</string>
 
     <!-- Customer Support -->
     <string name="customer_support">Service client</string>
@@ -22,35 +22,35 @@
     <string name="cheapTickets_info_url">http://www.cheapTickets.com/</string>
 
     <!-- Label for logout confirmation -->
-    <string name="logout_confirmation_cheapTickets">Êtes-vous sûr de vouloir vous déconnecter de votre compte CheapTickets ?</string>
+    <string name="logout_confirmation_cheapTickets">Êtes-vous sûr de vouloir vous déconnecter de votre compte CheapTickets ?</string>
 
     <!-- Contact Expedia via email subject -->
     <string name="contact_cheapTickets_email_subject">Assistance réservations CheapTickets</string>
 
     <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_cheapTickets">Désolés, cette chambre n’est plus disponible sur CheapTickets.</string>
+    <string name="error_room_is_now_sold_out_cheapTickets">Désolés, cette chambre n\&apos;est plus disponible sur CheapTickets.</string>
     <!--A message stating this hotel is Not currently available on CheapTickets -->
     <string name="not_currently_available_cheapTickets">Actuellement non disponible sur CheapTickets</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from CheapTickets Nov. 3-4" -->
     <string name="not_currently_available_cheapTickets_TEMPLATE">Non disponible sur CheapTickets les %s</string>
 
     <!-- Missing strings for CheapTickets from Expedia-->
-    <string name="tell_a_friend_body_cheapTickets">Bonjour,\n\nVenez découvrir CheapTickets Hotels pour iPhone et appareils Android. Cette application est GRATUITE et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C’est le moyen le plus simple de réserver un hôtel avec votre téléphone.</string>
-    <string name="cd_log_in_email_edit_text_cheapTickets">Saisissez l’adresse e-mail rattachée à votre compte CheapTickets</string>
+    <string name="tell_a_friend_body_cheapTickets">Bonjour,\n\nVenez découvrir CheapTickets Hotels pour iPhone et appareils Android. Cette application est GRATUITE et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone.</string>
+    <string name="cd_log_in_email_edit_text_cheapTickets">Saisissez l\&apos;adresse e-mail rattachée à votre compte CheapTickets</string>
     <string name="tell_a_friend_subject_cheapTickets">CheapTickets Hotels</string>
     <string name="cd_log_in_password_edit_text_cheapTickets">Saisissez le mot de passe de votre compte CheapTickets</string>
     <string name="cd_launch_open_eb_info_screen_cheapTickets">Ouvrez la page de vos réservations CheapTickets</string>
     <string name="loading_cheapTickets_account">Chargement du compte CheapTickets</string>
     <string name="cheapTickets_password_hint">Mot de passe CheapTickets</string>
-    <string name="dialog_message_launch_cheapTickets_mobile_site">Ouvrir le site mobile de CheapTickets ?</string>
+    <string name="dialog_message_launch_cheapTickets_mobile_site">Ouvrir le site mobile de CheapTickets ?</string>
     <!-- CheapTickets App download link -->
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_our_brand_today">Total à payer à CheapTickets aujourd’hui :</string>
+    <string name="total_due_to_our_brand_today">Total à payer à CheapTickets aujourd\&apos;hui :</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Vous devez créer un nouvel identifiant de connexion international pour tous les sites CheapTickets.&lt;br&gt;Veuillez réinitialiser votre mot de passe en utilisant le lien « Mot de passe oublié ? » situé ci-dessous.</string>
+    <string name="login_reset_password">Vous devez créer un nouvel identifiant de connexion international pour tous les sites CheapTickets.&lt;br&gt;Veuillez réinitialiser votre mot de passe en utilisant le lien « Mot de passe oublié ? » situé ci-dessous.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">À payer à CheapTickets aujourd’hui</string>
+    <string name="total_due_today">À payer à CheapTickets aujourd\&apos;hui</string>
 
     <!-- Account Creation Strings -->
     <!-- Button text for account creation button -->
@@ -61,14 +61,16 @@
     <string name="acct_CheapTickets_account_already_exists">Un compte CheapTickets est déjà associé à cette adresse e-mail</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Connectez-vous pour gagner {reward} en CheapCash</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Bouton Connectez-vous pour gagner {reward} en CheapCash</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Gagnez des voyages gratuits avec {brand_reward_name_link}. En rejoignant {brand_reward_name}, j’accepte l’ensemble des {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Gagnez des voyages gratuits avec {brand_reward_name_link}. En rejoignant {brand_reward_name}, j\&apos;accepte l\&apos;ensemble des {terms_and_conditions}.</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->
-    <string name="youll_earn_points_TEMPLATE">Vous gagnerez {reward_currency} en CheapCash avec cette réservation !</string>
+    <string name="youll_earn_points_TEMPLATE">Vous gagnerez {reward_currency} en CheapCash avec cette réservation !</string>
     <!-- Blurb text displayed on account sign in button when already signed in -->
-    <string name="x_rewards_currency_for_this_trip_TEMPLATE">Vous gagnerez {reward_currency} en CheapCash avec ce voyage !</string>
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">Vous gagnerez {reward_currency} en CheapCash avec ce voyage !</string>
 
     <!-- CheapCash -->
     <!-- Paying with reward points -->
@@ -82,11 +84,16 @@
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">Carte de paiement, payer avec des CheapCash</string>
 
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
+
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
-    <string name="loyalty_applied_excluding_taxes_and_fees_message">CheapCash appliqués ! (taxes et frais non compris)</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">CheapCash appliqués ! (taxes et frais non compris)</string>
     <!-- Loyalty applied.-->
-    <string name="regular_loyalty_applied_message">CheapCash appliqués !</string>
+    <string name="regular_loyalty_applied_message">CheapCash appliqués !</string>
     <!-- SWP off header - Apply CheapCash -->
     <string name="swp_off_widget_header">Appliquer des CheapCash</string>
     <!-- SWP on header - CheapCash Applied -->
@@ -106,4 +113,21 @@
     <!-- Label above the slider when user is paying with CheapCash and Card. Eg: You are using $1000.12 in CheapCash\nYour card will be charged $100.00-->
     <string name="payment_through_card_and_bucks_TEMPLATE">Vous allez utiliser {amount} en CheapCash\nUn montant de {dueamount} sera facturé sur votre carte.</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">Formules</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Total de la formule</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Afficher votre formule</string>
+    <string name="package_flight_overview_bundle_total_label">Total de la formule</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Réduction formule</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Le total de la formule est de {totalprice}. Ce prix inclut les frais et taxes pour les vols et pour l\&apos;hôtel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Le total de la formule est de {totalprice}. Ce prix inclut les frais et taxes pour les vols et pour l\&apos;hôtel. {savings}. Boîte de dialogue pour le détail du prix. Bouton.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Le prix de la formule est de {price_per_person} par personne. Ce prix inclut les frais et taxes pour les vols et pour l\&apos;hôtel. Bouton pour voir la formule.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Affichage des détails de la formule. Bouton pour fermer.</string>
 </resources>

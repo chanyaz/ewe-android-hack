@@ -40,14 +40,14 @@
     <string name="tell_a_friend_subject_cheapTickets">CheapTickets Hotels</string>
     <string name="cd_log_in_password_edit_text_cheapTickets">Voer het wachtwoord van je CheapTickets-account in</string>
     <string name="cd_launch_open_eb_info_screen_cheapTickets">Open het overzicht van je CheapTickets-boekingen</string>
-    <string name="loading_cheapTickets_account">Je CheapTickets-account wordt geladen ...</string>
+    <string name="loading_cheapTickets_account">Je CheapTickets-account wordt geladen …</string>
     <string name="cheapTickets_password_hint">CheapTickets-wachtwoord</string>
     <string name="dialog_message_launch_cheapTickets_mobile_site">Wil je de mobiele website van CheapTickets opstarten?</string>
     <!-- CheapTickets App download link -->
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Totaal nu te betalen aan CheapTickets:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle CheapTickets-sites te creëren.&lt;br&gt;Reset je wachtwoord via de onderstaande link ’Wachtwoord vergeten?’.</string>
+    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle CheapTickets-sites te creëren.&lt;br&gt;Reset je wachtwoord via de onderstaande link \&apos;Wachtwoord vergeten?\&apos;.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Nu te betalen aan CheapTickets:</string>
@@ -61,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">Er bestaat al een CheapTickets-account met dit e-mailadres</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Meld je aan om {reward} aan CheapCash te verzamelen</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knop Meld je aan om {reward} aan CheapCash te verzamelen</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
     <string name="account_creation_legal_rewards_TEMPLATE">Verzamel gratis reisrewards met {brand_reward_name_link}. Door me te registreren voor {brand_reward_name} aanvaard ik alle {terms_and_conditions}</string>
 
@@ -81,6 +83,11 @@
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Betaling met CheapCash &amp; {carddescription}</string>
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">Creditcard, betaal met CheapCash</string>
+
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
 
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
@@ -106,4 +113,21 @@
     <!-- Label above the slider when user is paying with CheapCash and Card. Eg: You are using $1000.12 in CheapCash\nYour card will be charged $100.00-->
     <string name="payment_through_card_and_bucks_TEMPLATE">Je gebruikt {amount} aan CheapCash\nOp je kaart wordt {dueamount} in rekening gebracht</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">Pakketten</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Totaalprijs pakket</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Jouw pakket bekijken</string>
+    <string name="package_flight_overview_bundle_total_label">Totaalprijs pakket</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Pakketkorting</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Totaalprijs pakket is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Totaalprijs pakket is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}. Dialoogvenster kostenoverzicht. Knop.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakketprijs is {price_per_person} per persoon. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. Knop om pakket te bekijken.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Pakketdetails worden weergegeven Sluitknop.</string>
 </resources>
