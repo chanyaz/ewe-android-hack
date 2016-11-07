@@ -183,7 +183,7 @@ public class RailScreen {
 		onView(withText("12:52 PM – 5:14 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
 		scrollToInboundFareOptions();
-		clickSelectFareOption("+£0.00");
+		clickSelectFareOption("+£8.20");
 	}
 
 	public static void checkoutAndPurchase() {
