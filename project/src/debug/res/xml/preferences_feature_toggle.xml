@@ -3,18 +3,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Hotel Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_hotel_filter_prominence"
-            android:layout="@layout/preference"
-            android:summary="AB test with 2 variants"
-            android:title="Enable Hotel Filter Prominence Test" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Login Features">
 
         <CheckBoxPreference
