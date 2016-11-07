@@ -187,7 +187,7 @@ public class CheckoutViewModel {
 	}
 
 	public static void clickLogin() {
-		onView(withId(R.id.login_widget)).perform(click());
+		onView(withId(R.id.login_widget)).perform(scrollTo(), click());
 	}
 
 	public static void signInOnCheckout() {
@@ -318,7 +318,7 @@ public class CheckoutViewModel {
 	public static void waitForCheckout() {
 		Matcher<View> displayedAndFilled = allOf(isDisplayed(), CustomMatchers.withAtLeastChildCount(1));
 		onView(withId(R.id.summary_container)).perform(ViewActions.waitFor(displayedAndFilled, 10, TimeUnit.SECONDS));
-		onView(withId(R.id.hint_container)).perform(ViewActions.waitForViewToDisplay());
+		onView(withId(R.id.hint_container)).perform(scrollTo(), ViewActions.waitForViewToDisplay());
 	}
 
 	public static void applyCoupon(String coupon) {

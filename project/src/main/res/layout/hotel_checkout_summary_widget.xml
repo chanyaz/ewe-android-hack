@@ -86,6 +86,12 @@
             android:drawablePadding="8dp"
             android:paddingBottom="3dp" />
 
+        <com.expedia.bookings.widget.ValueAddsContainer
+            android:id="@+id/value_adds_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" />
+
         <com.expedia.bookings.widget.TextView
             android:id="@+id/best_price_guarantee"
             style="@style/HotelCheckoutSummaryCommon.Common"
