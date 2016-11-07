@@ -1014,7 +1014,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">旅行を作成中…</string>
+    <string name="spinner_text_create_trip">旅行を作成中…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->

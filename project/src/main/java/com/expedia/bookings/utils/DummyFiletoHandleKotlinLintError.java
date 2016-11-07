@@ -483,7 +483,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.traveler_adult_error,
 		R.string.hotel_cost_breakdown_burn_points_TEMPLATE,
 		R.color.packages_total_duration_text,
-		R.string.spinner_text_hotel_create_trip,
+		R.string.spinner_text_create_trip,
 		R.string.ChooseLocation,
 		R.string.search_error,
 		R.string.etp_pay_now_charges_text_TEMPLATE,

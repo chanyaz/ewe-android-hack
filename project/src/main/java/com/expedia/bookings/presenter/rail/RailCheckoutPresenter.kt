@@ -1,7 +1,6 @@
 package com.expedia.bookings.presenter.rail
 
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.text.method.LinkMovementMethod
@@ -28,6 +27,7 @@ import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
+import com.expedia.bookings.widget.rail.AccessibleProgressDialog
 import com.expedia.bookings.widget.rail.RailTicketDeliveryEntryWidget
 import com.expedia.bookings.widget.rail.RailTicketDeliveryOverviewWidget
 import com.expedia.bookings.widget.rail.RailTravelerEntryWidget
@@ -70,7 +70,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.rail_total_price_widget)
     val slideToPurchaseWidget: SlideToPurchaseWidget by bindView(R.id.rail_slide_to_purchase_widget)
 
-    private val checkoutDialog = ProgressDialog(context)
+    private val checkoutDialog = AccessibleProgressDialog(context)
 
     val checkoutViewModel = RailCheckoutViewModel(context)
 
@@ -134,7 +134,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             slideToPurchaseWidget.updatePricingDisplay(total.toString())
         }
         checkoutViewModel.showCheckoutDialogObservable.subscribe { show ->
-            if (show) checkoutDialog.show() else checkoutDialog.dismiss()
+            if (show) checkoutDialog.show(context.getString(R.string.booking_loading)) else checkoutDialog.dismiss()
         }
         checkoutViewModel.bookingSuccessSubject.subscribe {
             slideToPurchaseWidget.reset()
