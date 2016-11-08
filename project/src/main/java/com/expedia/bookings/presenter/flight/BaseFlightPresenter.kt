@@ -48,6 +48,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     } // not used for flights LOB
     val menuSearch: MenuItem by lazy {
         val menuSearch = toolbar.menu.findItem(R.id.menu_search)
+        AccessibilityUtil.setMenuItemContentDescription(toolbar, context.getString(R.string.search_button_cont_desc))
         menuSearch
     }
 
