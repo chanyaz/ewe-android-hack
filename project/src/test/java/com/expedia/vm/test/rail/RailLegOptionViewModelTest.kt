@@ -1,7 +1,10 @@
 package com.expedia.vm.test.rail
 
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailOffer
+import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import com.expedia.bookings.utils.rail.RailUtils
@@ -28,6 +31,7 @@ class RailLegOptionViewModelTest {
     val testFormattedPrice = "$15"
     val testRoundTripOutboundFormattedPrice = "$25"
     val testRoundTripInboundFormattedPrice = "+$10"
+    val testOpenReturnFormattedPrice = "+$0"
 
     val expectedDuration = DateTimeUtils.formatDuration(context.resources, testDurationMinutes)
     val expectedChangeText = RailUtils.formatRailChangesText(context, testNoOfChanges)
@@ -78,6 +82,7 @@ class RailLegOptionViewModelTest {
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
         testViewModel.cheapestLegPriceObservable.onNext(null)
+        testViewModel.offerSubject.onNext(null)
 
         assertEquals(testFormattedPrice, testSub.onNextEvents[0])
     }
@@ -91,6 +96,7 @@ class RailLegOptionViewModelTest {
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
         testViewModel.cheapestLegPriceObservable.onNext(Money("10", "USD"))
+        testViewModel.offerSubject.onNext(null)
 
         assertEquals(testRoundTripOutboundFormattedPrice, testSub.onNextEvents[0])
     }
@@ -104,8 +110,23 @@ class RailLegOptionViewModelTest {
         testViewModel.priceObservable.subscribe(testSub)
         testViewModel.legOptionObservable.onNext(legOption)
         testViewModel.cheapestLegPriceObservable.onNext(Money("5", "USD"))
+        testViewModel.offerSubject.onNext(getRailOffer(false))
 
         assertEquals(testRoundTripInboundFormattedPrice, testSub.onNextEvents[0])
+    }
+
+    @Test
+    fun testOpenReturnPrice() {
+        val testViewModel = RailLegOptionViewModel(context, true)
+        val legOption = buildMockLegOption()
+
+        val testSub = TestSubscriber<String>()
+        testViewModel.priceObservable.subscribe(testSub)
+        testViewModel.legOptionObservable.onNext(legOption)
+        testViewModel.cheapestLegPriceObservable.onNext(Money("5", "USD"))
+        testViewModel.offerSubject.onNext(getRailOffer(true))
+
+        assertEquals(testOpenReturnFormattedPrice, testSub.onNextEvents[0])
     }
 
     @Test
@@ -136,4 +157,17 @@ class RailLegOptionViewModelTest {
         return legOption
     }
 
+    private fun getRailOffer(openReturn: Boolean): RailOffer {
+        val railOffer = RailOffer()
+        railOffer.totalPrice = Money(10, "USD")
+        railOffer.totalPrice.formattedPrice = "$10"
+        val railProduct = RailProduct()
+        railProduct.aggregatedCarrierFareClassDisplayName = "Fare class"
+        railProduct.aggregatedFareDescription = "Fare Description"
+        railProduct.openReturn = openReturn
+        val fareQualifierList = listOf(RailCard("", "", ""))
+        railProduct.fareQualifierList = fareQualifierList
+        railOffer.railProductList = listOf(railProduct)
+        return railOffer
+    }
 }
