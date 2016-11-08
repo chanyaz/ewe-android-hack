@@ -57,6 +57,7 @@
     <color name="itin_offwhite_text">#A9ABAE</color>
     <color name="itin_section_divider_text">@color/itin_offwhite_text</color>
     <color name="itin_section_text">#F4F4F4</color>
+    <color name="itin_bg_enter_itin_number_tv">#2E3437</color>
     <color name="itin_divider_color">#454E56</color>
     <color name="itin_flight_line_color">#5195BB</color>
     <color name="itin_flight_canceled_color">#C42126</color>
