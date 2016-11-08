@@ -31,6 +31,8 @@ class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(co
 
     var viewmodel: RailInboundResultsViewModel by notNullAndObservable { vm ->
         val outboundHeaderViewModel = RailOutboundHeaderViewModel(context)
+        vm.outboundOfferSubject.subscribe(adapter.outboundOfferSubject)
+
         vm.legOptionsAndCheapestPriceSubject.subscribe { pair ->
             adapter.legOptionsAndCompareToPriceSubject.onNext(pair)
             outboundHeaderViewModel.cheapestLegPriceObservable.onNext(pair.second)

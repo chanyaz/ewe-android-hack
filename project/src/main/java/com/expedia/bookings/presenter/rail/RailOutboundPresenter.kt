@@ -31,6 +31,7 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val legalBannerClicked = PublishSubject.create<Unit>()
 
     var viewmodel: RailOutboundResultsViewModel by notNullAndObservable { vm ->
+        adapter.outboundOfferSubject.onNext(null)
         vm.legOptionsAndCheapestPriceSubject.subscribe(adapter.legOptionsAndCompareToPriceSubject)
         vm.showChildrenWarningObservable.subscribeVisibility(childWarning)
 
