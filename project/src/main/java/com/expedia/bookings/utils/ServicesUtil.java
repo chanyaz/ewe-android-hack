@@ -7,6 +7,7 @@ import android.os.Build;
 
 import com.expedia.account.AccountService;
 import com.expedia.bookings.BuildConfig;
+import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -124,4 +125,7 @@ public class ServicesUtil {
 			generateUserAgentString(context));
 	}
 
+	public static String getRailApiKey(Context context) {
+			return context.getResources().getString(R.string.rails_prod_api_key);
+	}
 }

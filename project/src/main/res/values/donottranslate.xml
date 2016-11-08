@@ -48,6 +48,9 @@
     <!-- Maps v2 key configured to work with many application package names -->
     <string name="mapsv2_key">AIzaSyCcUFcOBytf5_4zQCVisZeZ1Vw1PHuVI24</string>
 
+    <!-- Rails api key -->
+    <string name="rails_prod_api_key">5b4e726f-abe4-4f3f-aad3-0dc9e48e7ea6</string>
+
     <!-- Lawyer labels for UK ATOL information -->
     <string name="lawyer_label_atol_information">ATOL Information</string>
     <string name="lawyer_label_atol_long_message">Flight-Plus arrangements created on the UK Expedia mobile app are financially protected by the Civil Aviation Authority (under Expedia, Inc.\&apos;s ATOL number 5788). But ATOL protection does not apply to all flight and hotel services listed on this mobile app. Please ask us to confirm what protection may apply to your booking. If you do not receive an ATOL Certificate then your booking will not be ATOL protected. Please see our general terms and conditions for further details on ATOL or for more information about financial protection and the ATOL Certificate go to: &lt;a href="http://www.atol.org.uk/ATOLCertificate"&gt;www.atol.org.uk/ATOLCertificate&lt;/a&gt;</string>

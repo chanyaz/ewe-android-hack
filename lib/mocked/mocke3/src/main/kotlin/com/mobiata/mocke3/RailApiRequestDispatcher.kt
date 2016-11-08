@@ -21,15 +21,15 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
                 val gson = GsonBuilder().create()
                 val searchParams = gson.fromJson(request.body.readUtf8(), RailApiSearchModel::class.java)
                 when(searchParams.clientCode) {
-                    "no_search_results" -> getMockResponse("rails/v1/shopping/search/no_search_results.json")
-                    "validation_error" -> getMockResponse("rails/v1/shopping/search/validation_error.json")
+                    "no_search_results" -> getMockResponse("m/api/rails/shop/no_search_results.json")
+                    "validation_error" -> getMockResponse("m/api/rails/shop/validation_error.json")
                     else ->
                         if (searchParams.isSearchRoundTrip) {
                             isRoundTrip = true
-                            getMockResponse("rails/v1/shopping/search/roundtrip_happy.json")
+                            getMockResponse("m/api/rails/shop/roundtrip_happy.json")
                         } else {
                             isRoundTrip = false
-                            getMockResponse("rails/v1/shopping/search/oneway_happy.json")
+                            getMockResponse("m/api/rails/shop/oneway_happy.json")
                         }
                 }
             }
@@ -56,7 +56,7 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
             }
 
             RailApiRequestMatcher.isRailApiCardsRequest(urlPath) -> {
-                getMockResponse("rails/v1/shopping/cards/en_GB.json")
+                getMockResponse("m/api/rails/shop/cards/en_GB.json")
             }
 
             RailApiRequestMatcher.isRailApiCardFeeRequest(urlPath) -> {
@@ -77,29 +77,28 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
 class RailApiRequestMatcher {
     companion object {
         fun isRailApiRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/domain/m/api/v1/.*$", urlPath) ||
-                    doesItMatch("^/m/api/rails.*$", urlPath) ||
-                    doesItMatch("^/rails/domain/api/v1/.*$", urlPath)
+            return urlPath.startsWith("/rails") || urlPath.startsWith("/shop") || urlPath.startsWith("/trip") ||
+                    urlPath.startsWith("/domain/trip") || urlPath.startsWith("/domain/static")
         }
 
         fun isRailApiSearchRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/domain/m/api/v1/search.*$", urlPath)
+            return doesItMatch("^/shop/search.*$", urlPath)
         }
 
         fun isRailApiCreateTripRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/domain/m/api/v1/createTrip.*", urlPath)
+            return doesItMatch("^/domain/trip/createTrip.*$", urlPath)
         }
 
         fun isRailApiCheckoutRequest(urlPath: String): Boolean {
-            return doesItMatch("^/m/api/rails/trip/checkout.*", urlPath)
+            return doesItMatch("^/trip/checkout.*$", urlPath)
         }
 
         fun isRailApiCardsRequest(urlPath: String): Boolean {
-            return doesItMatch("^/rails/domain/api/v1/static/RailCards.*$", urlPath)
+            return doesItMatch("^/domain/static/RailCards.*$", urlPath)
         }
 
         fun isRailApiCardFeeRequest(urlPath: String): Boolean {
-            return doesItMatch("^/m/api/rails/trip/cardFee.*$", urlPath)
+            return doesItMatch("^/trip/cardFee.*$", urlPath)
         }
     }
 }
