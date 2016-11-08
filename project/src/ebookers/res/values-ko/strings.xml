@@ -37,13 +37,15 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">오늘 ebookers에 결제할 총 금액:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">모든 ebookers 사이트에 사용할 새로운 글로벌 로그인 계정을 생성해 주셔야 합니다.&lt;br&gt;아래의 ’비밀번호를 잊으셨나요?’ 링크를 이용해 비밀번호를 재설정해 주세요.</string>
+    <string name="login_reset_password">모든 ebookers 사이트에 사용할 새로운 글로벌 로그인 계정을 생성해 주셔야 합니다.&lt;br&gt;아래의 \&apos;비밀번호를 잊으셨나요?\&apos; 링크를 이용해 비밀번호를 재설정해 주세요.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">오늘 ebookers에 결제할 금액</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">로그인하고 {reward}의 BONUS+를 적립하세요.</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">로그인하고 {reward}의 BONUS+를 적립하는 버튼입니다.</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
@@ -85,7 +87,7 @@
     <string name="swp_widget_points_value_TEMPLATE">{points_or_amount}의 BONUS+가 있습니다.</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+ 사용됨</string>
-    
+
     <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+ 적용됨! (세금 및 수수료 제외)</string>
     <string name="youll_earn_points_TEMPLATE">이 예약에 대해 {reward_currency}의 BONUS+가 적립됩니다!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">이 여행에 대해 {reward_currency}의 BONUS+가 적립됩니다!</string>
@@ -122,4 +124,21 @@
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">항공 + 호텔</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">항공 + 호텔 총액</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">항공 + 호텔 확인하기</string>
+    <string name="package_flight_overview_bundle_total_label">항공 + 호텔 총액</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">항공 + 호텔 할인</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">항공 + 호텔 총액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">항공 + 호텔 총액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}. 요금 내역 대화상자. 버튼.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">항공 + 호텔 요금은 1인당 {price_per_person}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. 항공 + 호텔을 보려면 버튼을 탭하세요.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">항공 + 호텔 세부 내용을 표시합니다. 닫으려면 버튼을 탭하세요.</string>
 </resources>

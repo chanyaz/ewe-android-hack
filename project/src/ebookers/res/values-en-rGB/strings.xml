@@ -37,13 +37,15 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Due to ebookers Today:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all ebookers sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?’ link below.</string>
+    <string name="login_reset_password">We need you to create a new, international sign in for all ebookers sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Due to ebookers Today</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in BONUS+</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Sign in to earn {reward} in BONUS+ button</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
@@ -85,7 +87,7 @@
     <string name="swp_widget_points_value_TEMPLATE">You have {points_or_amount} in BONUS+</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">BONUS+ Used</string>
-    
+
     <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+ applied! (excludes taxes and fees)</string>
     <string name="youll_earn_points_TEMPLATE">You\'ll earn {reward_currency} in BONUS+ for this booking!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">You\'ll earn {reward_currency} in BONUS+ for this trip!</string>
@@ -123,20 +125,20 @@
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
     <!-- Packages -->
-    <string name="nav_packages">Packages</string>
+    <string name="nav_packages">Flight + Hotel</string>
     <!-- Label for package bundle price on overview-->
-    <string name="bundle_total_text">Package total</string>
+    <string name="bundle_total_text">Flight + Hotel total</string>
     <!-- Label for package bundle price on search-->
-    <string name="search_bundle_total_text">View your package</string>
-    <string name="package_flight_overview_bundle_total_label">Package Total</string>
+    <string name="search_bundle_total_text">View your Flight + Hotel</string>
+    <string name="package_flight_overview_bundle_total_label">Flight + Hotel Total</string>
     <!-- Cost summary breakdown line item for savings -->
-    <string name="cost_summary_breakdown_total_savings">Package Discount</string>
-    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget_TEMPLATE">Package total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}</string>
-    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Package total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Cost Breakdown dialog. Button.</string>
-    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Package price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view package.</string>
+    <string name="cost_summary_breakdown_total_savings">Flight + Hotel Discount</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Flight + Hotel total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Flight + Hotel total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Cost Breakdown dialog. Button.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Flight + Hotel price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view Flight + Hotel.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
-    <string name="bundle_overview_price_widget_button_close">Showing package details. Button to close.</string>
+    <string name="bundle_overview_price_widget_button_close">Showing Flight + Hotel details. Button to close.</string>
 </resources>

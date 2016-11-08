@@ -43,7 +43,9 @@
     <string name="total_due_today">今天要付给 ebookers 的金额：</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
-    <string name="Sign_in_to_earn_TEMPLATE">登录帐户，以累积 {reward} BONUS+</string>
+    <string name="Sign_in_to_earn_TEMPLATE">登录帐户，累积 {reward} BONUS+</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">按钮：登录帐户，累积 {reward} BONUS+</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
@@ -85,7 +87,7 @@
     <string name="swp_widget_points_value_TEMPLATE">您现有 {points_or_amount} BONUS+</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">已使用 BONUS+</string>
-    
+
     <string name="loyalty_applied_excluding_taxes_and_fees_message">使用了 BONUS+！（不含税费）</string>
     <string name="youll_earn_points_TEMPLATE">此次预订将累积 {reward_currency} BONUS+！</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">此次行程将累积 {reward_currency} BONUS+！</string>
@@ -122,4 +124,21 @@
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">机 + 酒</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">机 + 酒总计</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">查看您的机 + 酒</string>
+    <string name="package_flight_overview_bundle_total_label">机 + 酒总计</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">机 + 酒折扣</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">机 + 酒总计为 {totalprice}。此价格不含机票和酒店的税费。{savings}</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">机 + 酒总计为 {totalprice}。此价格不含机票和酒店的税费。{savings}。费用明细对话框。按钮。</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">机 + 酒价格为每人 {price_per_person}。此价格不含机票和酒店的税费。查看机 + 酒的按钮。</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">显示机 + 酒详细信息。关闭按钮。</string>
 </resources>
