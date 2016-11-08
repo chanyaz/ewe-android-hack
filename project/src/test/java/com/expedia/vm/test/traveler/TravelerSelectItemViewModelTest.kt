@@ -15,22 +15,19 @@ import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
-import com.expedia.vm.traveler.TravelerPickerTravelerViewModel
+import com.expedia.vm.traveler.TravelerSelectItemViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import javax.inject.Inject
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class TravelerPickerTravelerViewModelTest {
-    lateinit var travelerValidator: TravelerValidator
-        @Inject set
-    lateinit var selectVM: TestTravelerSelectViewModel
+class TravelerSelectItemViewModelTest {
+    lateinit var selectVM: TestTravelerSelectItemViewModel
     private var activity: Activity by Delegates.notNull()
     private var resources: Resources by Delegates.notNull()
 
@@ -72,13 +69,13 @@ class TravelerPickerTravelerViewModelTest {
 
         Ui.getApplication(activity).defaultTravelerComponent()
         testParams = setPackageParams()
+
     }
 
     @Test
     fun testAdultTitle() {
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
-        selectVM.isPassportRequired = false
-        selectVM.updateStatus(TravelerCheckoutStatus.CLEAN)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM.passportRequired.onNext(false) 
 
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
@@ -89,9 +86,8 @@ class TravelerPickerTravelerViewModelTest {
 
     @Test
     fun testChildTitle() {
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, 5)
-        selectVM.isPassportRequired = false
-        selectVM.updateStatus(TravelerCheckoutStatus.CLEAN)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, 5)
+        selectVM.passportRequired.onNext(false) 
 
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitleChild, selectVM.titleObservable.value)
@@ -99,19 +95,16 @@ class TravelerPickerTravelerViewModelTest {
         assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
 
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, 1)
-        selectVM.isPassportRequired = false
-        selectVM.updateStatus(TravelerCheckoutStatus.CLEAN)
-
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, 1)
+        selectVM.passportRequired.onNext(false)
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitleInfant, selectVM.titleObservable.value)
         assertEquals(expectedEmptySubTitle, selectVM.subtitleObservable.value)
         assertEquals(expectedDefaultColor, selectVM.subtitleTextColorObservable.value)
         assertEquals(expectedEmptyFont, selectVM.titleFontObservable.value)
 
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, 1)
-        selectVM.isPassportRequired = false
-        selectVM.updateStatus(TravelerCheckoutStatus.CLEAN)
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, 1)
+        selectVM.passportRequired.onNext(false) 
 
         assertEquals(ContactDetailsCompletenessStatus.DEFAULT, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitleInfant, selectVM.titleObservable.value)
@@ -122,10 +115,9 @@ class TravelerPickerTravelerViewModelTest {
 
     @Test
     fun testUpdateStatusDirtyEmptyTraveler() {
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
-        selectVM.isPassportRequired = false
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM.passportRequired.onNext(false)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
-
         assertEquals(ContactDetailsCompletenessStatus.INCOMPLETE, selectVM.iconStatusObservable.value)
         assertEquals(expectedEmptyTitle, selectVM.titleObservable.value)
         assertEquals(expectedSubTitleErrorMessage, selectVM.subtitleObservable.value)
@@ -138,8 +130,8 @@ class TravelerPickerTravelerViewModelTest {
         val travelerWithName = Traveler()
         travelerWithName.fullName = mockTravelerProvider.testFullName
 
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
-        selectVM.isPassportRequired = false
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = travelerWithName
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -156,8 +148,8 @@ class TravelerPickerTravelerViewModelTest {
         val travelerWithPhone= Traveler()
         travelerWithPhone.phoneNumber = mockTravelerProvider.testNumber
 
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
-        selectVM.isPassportRequired = false
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = travelerWithPhone
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -175,8 +167,8 @@ class TravelerPickerTravelerViewModelTest {
         traveler.fullName = mockTravelerProvider.testFullName
         traveler.phoneNumber = mockTravelerProvider.testNumber
 
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
-        selectVM.isPassportRequired = false
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = traveler
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -189,8 +181,8 @@ class TravelerPickerTravelerViewModelTest {
 
     @Test
     fun testUpdateStatusDirtyValidTraveler() {
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
-        selectVM.isPassportRequired = false
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
         selectVM.travelerValidator.updateForNewSearch(testParams)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
@@ -204,10 +196,10 @@ class TravelerPickerTravelerViewModelTest {
 
     @Test
     fun testUpdateStatusDirtyValidTravelerNeedingPassport() {
-        val selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
-        selectVM.isPassportRequired = true
+        val selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM.passportRequired.onNext(true) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
-        mockTravelerProvider.addPassportToTraveler(selectVM.testTraveler)
+        mockTravelerProvider.addPassportToTraveler(selectVM.testTraveler!!)
         selectVM.travelerValidator.updateForNewSearch(testParams)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -225,8 +217,8 @@ class TravelerPickerTravelerViewModelTest {
         traveler.phoneNumber = mockTravelerProvider.testNumber
         traveler.gender = mockTravelerProvider.testGender
 
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
-        selectVM.isPassportRequired = false
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = traveler
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
 
@@ -244,8 +236,8 @@ class TravelerPickerTravelerViewModelTest {
         traveler.phoneNumber = mockTravelerProvider.testNumber
         traveler.gender = mockTravelerProvider.testGender
 
-        selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
-        selectVM.isPassportRequired = false
+        selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = traveler
         selectVM.travelerValidator.updateForNewSearch(testParams)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
@@ -259,8 +251,8 @@ class TravelerPickerTravelerViewModelTest {
 
     @Test
     fun testUpdateStatusNeedsPassportDirtyBooking() {
-        val selectVM = TestTravelerSelectViewModel(activity, testIndex, -1)
-        selectVM.isPassportRequired = true
+        val selectVM = TestTravelerSelectItemViewModel(activity, testIndex, -1)
+        selectVM.passportRequired.onNext(true) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTraveler()
         selectVM.travelerValidator.updateForNewSearch(testParams)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
@@ -274,8 +266,8 @@ class TravelerPickerTravelerViewModelTest {
 
     @Test
     fun testUpdateStatusNoPhoneAddTravelers() {
-        selectVM = TestTravelerSelectViewModel(activity, testAddTravelerIndex, -1)
-        selectVM.isPassportRequired = false
+        selectVM = TestTravelerSelectItemViewModel(activity, testAddTravelerIndex, -1)
+        selectVM.passportRequired.onNext(false) 
         selectVM.testTraveler = mockTravelerProvider.getCompleteMockTravelerWithoutPhone()
         selectVM.travelerValidator.updateForNewSearch(testParams)
         selectVM.updateStatus(TravelerCheckoutStatus.DIRTY)
@@ -297,11 +289,17 @@ class TravelerPickerTravelerViewModelTest {
         return packageParams
     }
 
-    class TestTravelerSelectViewModel(context: Context, index: Int, age: Int) : TravelerPickerTravelerViewModel(context, index, age) {
-        var testTraveler = Traveler()
+    class TestTravelerSelectItemViewModel(context: Context, index: Int, age: Int) : TravelerSelectItemViewModel(context, index, age) {
+        var testTraveler:Traveler? = null
 
         override fun getTraveler(): Traveler {
-            return testTraveler
+            if(testTraveler ==null) testTraveler = Traveler()
+            return testTraveler!!
+        }
+
+        fun updateStatus(travelerCheckoutStatus: TravelerCheckoutStatus) {
+            currentStatusObservable.onNext(travelerCheckoutStatus)
+            refreshStatusObservable.onNext(Unit)
         }
     }
 }

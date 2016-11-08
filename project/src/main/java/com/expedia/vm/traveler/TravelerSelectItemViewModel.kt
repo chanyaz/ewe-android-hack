@@ -13,9 +13,10 @@ import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-open class TravelerPickerTravelerViewModel(val context: Context, val index: Int, val age: Int) {
+open class TravelerSelectItemViewModel(val context: Context, val index: Int, val age: Int) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
     val resources = context.resources
@@ -29,34 +30,38 @@ open class TravelerPickerTravelerViewModel(val context: Context, val index: Int,
     val subtitleObservable = BehaviorSubject.create<String>()
     val subtitleTextColorObservable = BehaviorSubject.create<Int>()
     val titleFontObservable = BehaviorSubject.create<FontCache.Font>()
-
-    var status: TravelerCheckoutStatus
-    var isPassportRequired = false
+    val refreshStatusObservable= PublishSubject.create<Unit>()
+    var passportRequired = BehaviorSubject.create<Boolean>(false)
+    var currentStatusObservable = BehaviorSubject.create<TravelerCheckoutStatus>(TravelerCheckoutStatus.CLEAN)
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
         setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
-        status = TravelerCheckoutStatus.CLEAN
         subtitleTextColorObservable.onNext(ContextCompat.getColor(context, R.color.traveler_default_card_text_color))
-    }
-
-    fun updateStatus(status: TravelerCheckoutStatus) {
-        this.status = status
-        val traveler = getTraveler()
-        val validForBooking = travelerValidator.isValidForFlightBooking(traveler, index, isPassportRequired, User.isLoggedIn(context))
-        if (status != TravelerCheckoutStatus.CLEAN) {
-            if (!validForBooking) {
-                setTravelerSummaryInfo(getTitle(traveler), getErrorSubtitle(),
-                        ContactDetailsCompletenessStatus.INCOMPLETE, getFont(traveler))
-            } else {
-                setTravelerSummaryInfo(getTitle(traveler), getCompletedFormSubtitle(traveler),
-                        ContactDetailsCompletenessStatus.COMPLETE, getFont(traveler))
-            }
-        } else {
-            setTravelerSummaryInfo(emptyText, "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
+        refreshStatus()
+        refreshStatusObservable.subscribe{
+            refreshStatus()
         }
     }
 
+    private fun refreshStatus() {
+        val traveler = getTraveler()
+        val validForBooking = travelerValidator.isValidForFlightBooking(traveler, index, passportRequired.value, User.isLoggedIn(context))
+        if (!validForBooking) {
+            if (currentStatusObservable.value == TravelerCheckoutStatus.CLEAN && travelerValidator.isTravelerEmpty(traveler)) {
+                setTravelerSummaryInfo(getTitle(traveler), "", ContactDetailsCompletenessStatus.DEFAULT, FontCache.Font.ROBOTO_REGULAR)
+            } else {
+                currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)
+                setTravelerSummaryInfo(getTitle(traveler), getErrorSubtitle(),
+                        ContactDetailsCompletenessStatus.INCOMPLETE, getFont(traveler))
+            }
+        } else {
+            currentStatusObservable.onNext(TravelerCheckoutStatus.COMPLETE)
+            setTravelerSummaryInfo(getTitle(traveler), getCompletedFormSubtitle(traveler),
+                    ContactDetailsCompletenessStatus.COMPLETE, getFont(traveler))
+        }
+    }
+    
     private fun getTitle(traveler : Traveler) : String {
         return if (isNameEmpty(traveler)) emptyText else traveler.fullName
     }
@@ -103,4 +108,5 @@ open class TravelerPickerTravelerViewModel(val context: Context, val index: Int,
                 .format().toString()
         return ageText
     }
+
 }

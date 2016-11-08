@@ -26,7 +26,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextChange
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.traveler.FlightTravelerViewModel
+import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import rx.Observable
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
@@ -80,7 +80,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         resizeAnimator
     }
 
-    var viewModel: FlightTravelerViewModel by notNullAndObservable { vm ->
+    var viewModel: FlightTravelerEntryWidgetViewModel by notNullAndObservable { vm ->
         nameEntryView.viewModel = vm.nameViewModel
         emailEntryView.viewModel = vm.emailViewModel
         phoneEntryView.viewModel = vm.phoneViewModel

@@ -8,7 +8,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.vm.traveler.CheckoutTravelerViewModel
+import com.expedia.vm.traveler.TravelersViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Test
@@ -22,7 +22,7 @@ import kotlin.test.assertTrue
 class CheckoutTravelerViewModelTest {
     val context = RuntimeEnvironment.application
     val mockTravelerProvider = MockTravelerProvider()
-    lateinit var testViewModel: CheckoutTravelerViewModel
+    lateinit var testViewModel: TravelersViewModel
     lateinit var searchParams: PackageSearchParams
     private var LOTS_MORE: Long = 100
 
@@ -30,19 +30,19 @@ class CheckoutTravelerViewModelTest {
     fun setUp() {
         searchParams = setUpParams()
         Ui.getApplication(context).defaultTravelerComponent()
-        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, false)
+        testViewModel = TravelersViewModel(context, LineOfBusiness.PACKAGES, false)
         testViewModel.travelerValidator.updateForNewSearch(searchParams)
     }
 
     @Test
     fun testMainTravelerMinAgeShow() {
-        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, true)
+        testViewModel = TravelersViewModel(context, LineOfBusiness.PACKAGES, true)
         assertTrue(testViewModel.showMainTravelerMinAgeMessaging.value)
     }
 
     @Test
     fun testMainTravelerMinAgeHide() {
-        testViewModel = CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES, false)
+        testViewModel = TravelersViewModel(context, LineOfBusiness.PACKAGES, false)
         assertFalse(testViewModel.showMainTravelerMinAgeMessaging.value)
     }
 
@@ -119,7 +119,7 @@ class CheckoutTravelerViewModelTest {
         testViewModel.allTravelersCompleteSubject.subscribe(testAllTravelersComplete)
         testViewModel.invalidTravelersSubject.subscribe(testInvalidTravelers)
         testViewModel.emptyTravelersSubject.subscribe(testEmptyTravelers)
-        testViewModel.travelerCompletenessStatus.subscribe(testTravelerCompleteness)
+        testViewModel.travelersCompletenessStatus.subscribe(testTravelerCompleteness)
         mockTravelerProvider.updateDBWithMockTravelers(1, Traveler())
         testViewModel.refresh()
 
