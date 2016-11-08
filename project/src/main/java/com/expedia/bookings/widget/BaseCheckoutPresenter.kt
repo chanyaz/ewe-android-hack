@@ -235,6 +235,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 createTripDialog.setContentView(R.layout.process_dialog_layout)
                 AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.progress_dialog_container), 0)
                 createTripDialog.findViewById(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_create_trip)
+                announceForAccessibility(context.getString(R.string.spinner_text_create_trip))
             } else {
                 createTripDialog.dismiss()
             }
