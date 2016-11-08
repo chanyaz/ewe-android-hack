@@ -25,6 +25,5 @@
 
     <!-- Brand reward name -->
     <string name="brand_reward_name">CheapCash</string>
-    <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
 
 </resources>

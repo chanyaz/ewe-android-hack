@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- disabled state -->
-    <item android:state_enabled="false" android:color="@color/acct__btn_sign_in_text" />
-    <item android:color="@color/acct__btn_sign_in_text"/>
+    <item android:state_enabled="false" android:color="@color/acct__btn_text_disabled" />
+    <item android:color="@color/acct__btn_text_default"/>
 </selector>
