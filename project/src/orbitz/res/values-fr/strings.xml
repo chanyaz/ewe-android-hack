@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
-    <string name="orbitz_best_price_guarantee">Garantie du meilleur prix d’Orbitz</string>
-    <string name="customer_support_text">Appeler l’assistance clientèle Orbitz</string>
+    <string name="orbitz_best_price_guarantee">Garantie du meilleur prix d\&apos;Orbitz</string>
+    <string name="customer_support_text">Appeler l\&apos;assistance clientèle Orbitz</string>
 
     <!-- Content description for action: Press to log in with your Orbitz account -->
     <string name="cd_checkout_log_in_with_orbitz">Appuyez pour vous connecter à votre compte Orbitz</string>
@@ -9,35 +9,35 @@
     <string name="orbitz_info_url">http://www.orbitz.com/</string>
 
     <!-- Label for logout confirmation -->
-    <string name="logout_confirmation_orbitz">Êtes-vous sûr de vouloir vous déconnecter de votre compte Orbitz ?</string>
+    <string name="logout_confirmation_orbitz">Êtes-vous sûr de vouloir vous déconnecter de votre compte Orbitz ?</string>
 
     <!-- Contact Expedia via email subject -->
     <string name="contact_orbitz_email_subject">Assistance réservations Orbitz</string>
 
     <!-- Message displayed when the hotel room is sold out -->
-    <string name="error_room_is_now_sold_out_orbitz">Désolés, cette chambre n’est plus disponible sur Orbitz.</string>
+    <string name="error_room_is_now_sold_out_orbitz">Désolés, cette chambre n\&apos;est plus disponible sur Orbitz.</string>
     <!--A message stating this hotel is Not currently available on Orbitz -->
     <string name="not_currently_available_orbitz">Actuellement non disponible sur Orbitz</string>
     <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Orbitz Nov. 3-4" -->
     <string name="not_currently_available_orbitz_TEMPLATE">Non disponible sur Orbitz à ces dates : %s</string>
 
     <!-- Missing strings for Orbitz from Expedia-->
-    <string name="tell_a_friend_body_orbitz">Bonjour,\n\nVenez découvrir Orbitz Hotels pour iPhone et appareils Android. Cette application est GRATUITE et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C’est le moyen le plus simple de réserver un hôtel avec votre téléphone.</string>
-    <string name="cd_log_in_email_edit_text_orbitz">Saisissez l’adresse e-mail rattachée à votre compte Orbitz</string>
+    <string name="tell_a_friend_body_orbitz">Bonjour,\n\nVenez découvrir Orbitz Hotels pour iPhone et appareils Android. Cette application est GRATUITE et vous permettra de rechercher et de réserver plus de 140 000 hôtels dans le monde entier. C\&apos;est le moyen le plus simple de réserver un hôtel avec votre téléphone.</string>
+    <string name="cd_log_in_email_edit_text_orbitz">Saisissez l\&apos;adresse e-mail rattachée à votre compte Orbitz</string>
     <string name="tell_a_friend_subject_orbitz">Orbitz Hotels</string>
     <string name="cd_log_in_password_edit_text_orbitz">Saisissez le mot de passe de votre compte Orbitz</string>
     <string name="cd_launch_open_eb_info_screen_orbitz">Ouvrez la page de vos réservations Orbitz</string>
     <string name="loading_orbitz_account">Chargement du compte Orbitz</string>
     <string name="orbitz_password_hint">Mot de passe Orbitz</string>
-    <string name="dialog_message_launch_orbitz_mobile_site">Ouvrir le site mobile d’Orbitz ?</string>
+    <string name="dialog_message_launch_orbitz_mobile_site">Ouvrir le site mobile d\&apos;Orbitz ?</string>
     <!-- Orbitz App download link -->
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
-    <string name="total_due_to_our_brand_today">Total à payer à Orbitz aujourd’hui :</string>
+    <string name="total_due_to_our_brand_today">Total à payer à Orbitz aujourd\&apos;hui :</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Vous devez créer un nouvel identifiant de connexion international pour tous les sites Orbitz.&lt;br&gt;Veuillez réinitialiser votre mot de passe en utilisant le lien « Mot de passe oublié ? » situé ci-dessous.</string>
+    <string name="login_reset_password">Vous devez créer un nouvel identifiant de connexion international pour tous les sites Orbitz.&lt;br&gt;Veuillez réinitialiser votre mot de passe en utilisant le lien « Mot de passe oublié ? » situé ci-dessous.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
-    <string name="total_due_today">À payer à Orbitz aujourd’hui</string>
+    <string name="total_due_today">À payer à Orbitz aujourd\&apos;hui</string>
 
     <!-- Account Creation Strings -->
     <!-- Button text for account creation button -->
@@ -47,7 +47,7 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Un compte Orbitz est déjà associé à cette adresse e-mail</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Gagnez des voyages gratuits avec {brand_reward_name_link}. En rejoignant {brand_reward_name}, j’accepte l’ensemble des {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Gagnez des voyages gratuits avec {brand_reward_name_link}. En rejoignant {brand_reward_name}, j\&apos;accepte l\&apos;ensemble des {terms_and_conditions}.</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Payer avec des Orbucks</string>
@@ -58,7 +58,7 @@
     <string name="checkout_payment_options">Carte de paiement, payer avec des Orbucks</string>
 
     <!-- Shop with points -->
-    <string name="regular_loyalty_applied_message">Orbucks appliqués !</string>
+    <string name="regular_loyalty_applied_message">Orbucks appliqués !</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="swp_off_widget_header">Appliquer des Orbucks</string>
     <string name="swp_on_widget_header">Orbucks appliqués</string>
@@ -68,7 +68,7 @@
     <!-- Label indicating Orbucks used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">Orbucks utilisés</string>
 
-    <string name="vip_loyalty_applied_message">Orbucks appliqués !</string>
+    <string name="vip_loyalty_applied_message">Orbucks appliqués !</string>
     <string name="vip_loyalty_applied_header_message">@string/vip_loyalty_applied_message</string>
     <string name="vip_loyalty_applied_map_message">Orbucks &lt;b&gt;VIP&lt;/b&gt; appliqués !</string>
 
@@ -81,15 +81,17 @@
     <!-- Title for VIP Access message -->
     <string name="vip_access">VIP Access</string>
     <!-- Message that explains the meaning of VIP Access -->
-    <string name="vip_access_message">Les hôtels VIP Access offrent le surclassement sans frais en catégorie supérieure aux membres gold et platinum, ainsi que de nombreux autres avantages, selon disponibilité à l’arrivée.</string>
+    <string name="vip_access_message">Les hôtels VIP Access offrent le surclassement sans frais en catégorie supérieure aux membres gold et platinum, ainsi que de nombreux autres avantages, selon disponibilité à l\&apos;arrivée.</string>
     <!-- Filter for showing only VIP access hotels -->
     <string name="VIP_Access_Only">VIP Access uniquement</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Connectez-vous pour gagner {reward} en Orbucks</string>
-    <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks appliqués ! (taxes et frais non compris)</string>
-    <string name="youll_earn_points_TEMPLATE">Vous gagnerez {reward_currency} en Orbucks avec cette réservation !</string>
-    <string name="x_rewards_currency_for_this_trip_TEMPLATE">Vous gagnerez {reward_currency} en Orbucks avec ce voyage !</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Bouton Connectez-vous pour gagner {reward} en Orbucks</string>
+    <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks appliqués ! (taxes et frais non compris)</string>
+    <string name="youll_earn_points_TEMPLATE">Vous gagnerez {reward_currency} en Orbucks avec cette réservation !</string>
+    <string name="x_rewards_currency_for_this_trip_TEMPLATE">Vous gagnerez {reward_currency} en Orbucks avec ce voyage !</string>
 
     <!-- Label indicating Orbucks Available. Eg: $1000.12 in Orbucks available-->
     <string name="bucks_available_TEMPLATE">{money} en Orbucks disponibles</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">Gagnez des Orbucks à utiliser instantanément sur votre prochain hôtel.</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Demander la carte {brand_reward_name} Visa®</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Formules</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Total de la formule</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Afficher votre formule</string>
+    <string name="package_flight_overview_bundle_total_label">Total de la formule</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Réduction formule</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Le total de la formule est de {totalprice}. Ce prix inclut les frais et taxes pour les vols et pour l\&apos;hôtel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Le total de la formule est de {totalprice}. Ce prix inclut les frais et taxes pour les vols et pour l\&apos;hôtel. {savings}. Boîte de dialogue pour le détail du prix. Bouton.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Le prix de la formule est de {price_per_person} par personne. Ce prix inclut les frais et taxes pour les vols et pour l\&apos;hôtel. Bouton pour voir la formule.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Affichage des détails de la formule. Bouton pour fermer.</string>
 
 </resources>

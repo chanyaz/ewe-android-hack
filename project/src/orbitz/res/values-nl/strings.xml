@@ -27,14 +27,14 @@
     <string name="tell_a_friend_subject_orbitz">Orbitz Hotels</string>
     <string name="cd_log_in_password_edit_text_orbitz">Voer het wachtwoord van je Orbitz-account in</string>
     <string name="cd_launch_open_eb_info_screen_orbitz">Open het overzicht van je Orbitz-boekingen</string>
-    <string name="loading_orbitz_account">Orbitz-account aan het laden ...</string>
+    <string name="loading_orbitz_account">Orbitz-account aan het laden …</string>
     <string name="orbitz_password_hint">Orbitz-wachtwoord</string>
     <string name="dialog_message_launch_orbitz_mobile_site">Wil je de mobiele website van Orbitz opstarten?</string>
     <!-- Orbitz App download link -->
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Totaal nu te betalen aan Orbitz:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle Orbitz-sites te creëren.&lt;br&gt;Reset je wachtwoord via de onderstaande link ’Wachtwoord vergeten?’.</string>
+    <string name="login_reset_password">We hebben jouw hulp nodig om nieuwe, universele aanmeldingsinfo voor alle Orbitz-sites te creëren.&lt;br&gt;Reset je wachtwoord via de onderstaande link \&apos;Wachtwoord vergeten?\&apos;.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Nu te betalen aan Orbitz</string>
@@ -87,6 +87,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Meld je aan om {reward} aan Orbucks te verzamelen</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knop Meld je aan om {reward} aan Orbucks te verzamelen</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks toegepast! (excl. belastingen en toeslagen)</string>
     <string name="youll_earn_points_TEMPLATE">Je verzamelt {reward_currency} aan Orbucks voor deze boeking!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Je verzamelt {reward_currency} aan Orbucks voor deze reis!</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">Verzamel Orbucks en wissel deze gelijk in bij je volgende hotel</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Vraag een {brand_reward_name} Visa® Card aan</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Pakketten</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Totaalprijs pakket</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Jouw pakket bekijken</string>
+    <string name="package_flight_overview_bundle_total_label">Totaalprijs pakket</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Pakketkorting</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Totaalprijs pakket is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Totaalprijs pakket is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}. Dialoogvenster kostenoverzicht. Knop.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakketprijs is {price_per_person} per persoon. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. Knop om pakket te bekijken.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Pakketdetails worden weergegeven Sluitknop.</string>
 
 </resources>
