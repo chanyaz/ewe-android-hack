@@ -55,7 +55,7 @@
     <string name="acct_Travelocity_account_already_exists">A Travelocity account already exists with this email</string>
 
     <!-- Packages -->
-    <string name="nav_packages">Packages</string>
+    <string name="nav_packages">Vacation Packages</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">Package total</string>
     <!-- Label for package bundle price on search-->
