@@ -11,6 +11,7 @@ import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -170,6 +171,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     }
 
     private val outboundToError = ScaleTransition(this, RailOutboundPresenter::class.java, RailErrorPresenter::class.java)
+    private val createTripToError = ScaleTransition(this, RailTripOverviewPresenter::class.java, RailErrorPresenter::class.java)
     private val errorToSearch = object: ScaleTransition(this, RailErrorPresenter::class.java, RailSearchPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
@@ -300,6 +302,22 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         }
 
         tripOverviewPresenter.createTripViewModel = createTripViewModel
+        tripOverviewPresenter.createTripViewModel.showNoInternetRetryDialog.subscribe {
+            tripOverviewPresenter.createTripDialog.dismiss()
+            val retryFun = fun() {
+                createTripViewModel.retryObservable.onNext(Unit)
+            }
+            val cancelFun = fun() {
+                back()
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+        }
+
+        tripOverviewPresenter.createTripViewModel.createTripErrorObservable.subscribe {
+            tripOverviewPresenter.createTripDialog.dismiss()
+            errorPresenter.viewmodel.createTripErrorObserverable.onNext(it)
+            show(errorPresenter)
+        }
     }
 
     private fun initCheckoutPresenter() {
@@ -340,6 +358,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         addTransition(checkoutToConfirmation)
         addTransition(outboundToError)
         addTransition(errorToSearch)
+        addTransition(createTripToError)
         addTransition(outboundToLegalInfo)
         addTransition(inboundToLegalInfo)
     }

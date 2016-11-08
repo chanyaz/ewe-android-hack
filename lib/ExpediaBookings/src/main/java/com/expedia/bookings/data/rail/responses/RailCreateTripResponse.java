@@ -16,6 +16,7 @@ public class RailCreateTripResponse extends BaseApiResponse {
 	public RailDomainProduct railDomainProduct;
 	public List<RailValidFormOfPayment> validFormsOfPayment;
 	public String tripId;
+	public RailResponseStatus responseStatus;
 
 	// Set through code
 	@Nullable
@@ -66,5 +67,10 @@ public class RailCreateTripResponse extends BaseApiResponse {
 		RailTripOffer offer = railDomainProduct.railOffer;
 		offer.addPriceBreakdownForCode(ticketDeliveryFees, BaseRailOffer.PriceCategoryCode.TICKET_DELIVERY);
 		offer.addPriceBreakdownForCode(selectedCardFees, BaseRailOffer.PriceCategoryCode.CREDIT_CARD_FEE);
+	}
+
+	public boolean isErrorResponse() {
+		return (hasErrors() || (responseStatus != null &&
+			!responseStatus.status.equals(RailsApiStatusCodes.STATUS_SUCCESS)));
 	}
 }

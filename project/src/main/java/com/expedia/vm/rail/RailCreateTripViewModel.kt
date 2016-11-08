@@ -5,6 +5,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemRails
 import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -16,30 +17,31 @@ class RailCreateTripViewModel(val railServices: RailServices) {
     val tripResponseObservable = BehaviorSubject.create<RailCreateTripResponse>()
     val createTripErrorObservable = PublishSubject.create<ApiError>()
     val createTripCallTriggeredObservable = PublishSubject.create<Unit>()
+    val showNoInternetRetryDialog = PublishSubject.create<Unit>()
+    val retryObservable = PublishSubject.create<Unit>()
+    val priceChangeObservable = PublishSubject.create<RailCreateTripResponse>()
+    var createTripTokens: List<String> = emptyList()
 
     init {
         offerTokensSelected.subscribe { offerTokens ->
+            createTripTokens = offerTokens
             railServices.railCreateTrip(offerTokens, makeCreateTripResponseObserver())
             createTripCallTriggeredObservable.onNext(Unit)
+        }
+
+        retryObservable.subscribe {
+            offerTokensSelected.onNext(createTripTokens)
         }
     }
 
     fun makeCreateTripResponseObserver(): Observer<RailCreateTripResponse> {
         return object : Observer<RailCreateTripResponse> {
             override fun onNext(response: RailCreateTripResponse) {
-                if (response.hasErrors() && !response.hasPriceChange()) {
-                    when (response.firstError.errorCode) {
-                        ApiError.Code.UNKNOWN_ERROR -> {
-                            createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
-                        }
-                        ApiError.Code.RAIL_PRODUCT_LOOKUP_ERROR -> {
-                            createTripErrorObservable.onNext(ApiError(ApiError.Code.RAIL_PRODUCT_LOOKUP_ERROR))
-                        }
-                        else -> createTripErrorObservable.onNext(ApiError(response.firstError.errorCode))
-                    }
+                if (response.isErrorResponse && !response.hasPriceChange()) {
+                    createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                 } else {
                     if (response.hasPriceChange()) {
-                        //TODO handle price change
+                        priceChangeObservable.onNext(response)
                     } else {
                         Db.getTripBucket().clearRails()
                         Db.getTripBucket().add(TripBucketItemRails(response))
@@ -49,7 +51,11 @@ class RailCreateTripViewModel(val railServices: RailServices) {
             }
 
             override fun onError(e: Throwable?) {
-                throw UnsupportedOperationException(e)
+                if (RetrofitUtils.isNetworkError(e)) {
+                    showNoInternetRetryDialog.onNext(Unit)
+                } else {
+                    createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                }
             }
 
             override fun onCompleted() {
