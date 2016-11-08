@@ -41,7 +41,6 @@ object SearchScreen {
 
     @JvmStatic fun selectDates(start: LocalDate, end: LocalDate?) {
         calendar().perform(TabletViewActions.clickDates(start, end))
-        searchAlertDialogDone().perform(click())
     }
 
     @JvmStatic fun searchAlertDialogDone(): ViewInteraction {
@@ -128,8 +127,7 @@ object SearchScreen {
     @JvmStatic fun search(adults: Int, children: Int, clickSwP: Boolean = false, hotelSearch: Boolean = false) {
         if (hotelSearch) {
             selectDestination()
-        }
-        else {
+        } else {
             selectPackageOriginAndDestination()
         }
         val startDate = LocalDate.now().plusDays(3)
