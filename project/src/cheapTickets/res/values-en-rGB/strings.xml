@@ -47,7 +47,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Due to CheapTickets Today:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">We need you to create a new, international sign in for all CheapTickets sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?’ link below.</string>
+    <string name="login_reset_password">We need you to create a new, international sign in for all CheapTickets sites.&lt;br&gt;Please reset your password using the ‘Forgot your password?\&apos; link below.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Due to CheapTickets Today</string>
@@ -61,6 +61,8 @@
     <string name="acct_CheapTickets_account_already_exists">A CheapTickets account already exists with this email</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in CheapCash</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Sign in to earn {reward} in CheapCash button</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
     <string name="account_creation_legal_rewards_TEMPLATE">Earn free travel rewards with {brand_reward_name_link}. By joining {brand_reward_name}, I accept all {terms_and_conditions}</string>
 
@@ -81,6 +83,11 @@
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Paying with CheapCash &amp; {carddescription}</string>
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">Credit card, pay with CheapCash</string>
+
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
 
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
