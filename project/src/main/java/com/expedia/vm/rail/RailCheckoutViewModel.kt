@@ -64,6 +64,7 @@ class RailCheckoutViewModel(val context: Context) {
         Ui.getApplication(context).railComponent().inject(this)
 
         checkoutParams.subscribe { params ->
+            showCheckoutDialogObservable.onNext(true)
             railServices.railCheckoutTrip(params, makeCheckoutResponseObserver())
         }
 
@@ -225,6 +226,7 @@ class RailCheckoutViewModel(val context: Context) {
     private fun makeCheckoutResponseObserver(): Observer<RailCheckoutResponseWrapper> {
         return object : Observer<RailCheckoutResponseWrapper> {
             override fun onNext(response: RailCheckoutResponseWrapper) {
+                showCheckoutDialogObservable.onNext(false)
                 if (response.checkoutResponse != null) {
                     handleCheckoutReturned(response.checkoutResponse)
                 } else if (response.createTripResponse != null) {

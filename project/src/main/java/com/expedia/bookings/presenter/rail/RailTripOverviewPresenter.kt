@@ -9,7 +9,7 @@ import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.TotalPriceWidget
-import com.expedia.bookings.widget.rail.CreateTripProgressDialog
+import com.expedia.bookings.widget.rail.AccessibleProgressDialog
 import com.expedia.bookings.widget.rail.RailTripSummaryWidget
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
@@ -31,18 +31,18 @@ class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : Present
 
     val showCheckoutSubject = PublishSubject.create<Unit>()
 
-    val createTripDialog = CreateTripProgressDialog(context)
+    val createTripDialog = AccessibleProgressDialog(context)
 
     var createTripViewModel: RailCreateTripViewModel by notNullAndObservable { vm ->
         vm.tripResponseObservable.subscribe { response ->
-            createTripDialog.hide()
+            createTripDialog.dismiss()
             tripSummaryViewModel.railOfferObserver.onNext(response.railDomainProduct.railOffer)
             railPriceViewModel.updatePricing(response)
             railCostBreakDownViewModel.railCostSummaryBreakdownObservable.onNext(response)
         }
 
         vm.createTripCallTriggeredObservable.subscribe {
-            createTripDialog.show()
+            createTripDialog.show(context.getString(R.string.spinner_text_create_trip))
             railTripSummary.reset()
         }
     }
