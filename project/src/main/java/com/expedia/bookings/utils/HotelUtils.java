@@ -253,4 +253,18 @@ public class HotelUtils {
 		}
 		return initialRefreshIndex;
 	}
+
+	public static String getFreeCancellationText(Context context, String cancellationWindow) {
+		if (cancellationWindow != null) {
+			String cancellationDate = com.expedia.bookings.utils.DateUtils
+				.localDateToEEEMMMd(com.expedia.bookings.utils.DateUtils.yyyyMMddHHmmToDateTime(cancellationWindow).toLocalDate());
+			return Phrase.from(context, R.string.hotel_free_cancellation_before_TEMPLATE)
+				.put("date", cancellationDate)
+				.format()
+				.toString();
+		}
+		else {
+			return context.getString(R.string.free_cancellation);
+		}
+	}
 }

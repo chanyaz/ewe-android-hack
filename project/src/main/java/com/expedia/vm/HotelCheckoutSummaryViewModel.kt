@@ -5,6 +5,7 @@ import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
+import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplitsType
@@ -13,9 +14,11 @@ import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
+import com.expedia.bookings.utils.HotelUtils
 import com.mobiata.android.util.AndroidUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
 
@@ -34,6 +37,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val guestCountObserver = BehaviorSubject.create<Int>()
     val numGuests = BehaviorSubject.create<String>()
     val hasFreeCancellation = BehaviorSubject.create<Boolean>(false)
+    val freeCancellationText = PublishSubject.create<String>()
     val currencyCode = BehaviorSubject.create<String>()
     val nightlyRatesPerRoom = BehaviorSubject.create<List<HotelRate.NightlyRatesPerRoom>>()
     val nightlyRateTotal = BehaviorSubject.create<String>()
@@ -115,6 +119,7 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             numNights.onNext(context.resources.getQuantityString(R.plurals.number_of_nights, it.newHotelProductResponse.numberOfNights.toInt(), it.newHotelProductResponse.numberOfNights.toInt()))
             bedDescriptions.onNext(room.formattedBedNames)
             hasFreeCancellation.onNext(room.hasFreeCancellation)
+            freeCancellationText.onNext(HotelUtils.getFreeCancellationText(context, it.newHotelProductResponse.hotelRoomResponse.freeCancellationWindowDate))
             currencyCode.onNext(rate.currencyCode)
             nightlyRatesPerRoom.onNext(rate.nightlyRatesPerRoom)
             nightlyRateTotal.onNext(rate.nightlyRateTotal.toString())

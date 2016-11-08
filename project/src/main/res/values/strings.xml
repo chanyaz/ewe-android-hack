@@ -1909,6 +1909,8 @@
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
     <string name="hotel_free_cancellation_TEMPLATE">Free Cancellation by {date}</string>
+    <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
+    <string name="hotel_free_cancellation_before_TEMPLATE">Free cancellation before {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
