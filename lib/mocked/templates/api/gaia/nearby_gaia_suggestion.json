@@ -14,7 +14,9 @@
       {
         "lcid": 1043,
         "value": "Delhi (and vicinity)",
-        "extendedValue": "Delhi (and vicinity), India"
+        "extendedValue": "Delhi (and vicinity), India",
+        "friendlyName": "Delhi (and vicinity), India",
+        "airportName": "DEL"
       }
     ],
     "country": {
@@ -37,7 +39,9 @@
       {
         "lcid": 1043,
         "value": "Gurgaon (and vicinity)",
-        "extendedValue": "Gurgaon (and vicinity), India"
+        "extendedValue": "Gurgaon (and vicinity), India",
+        "friendlyName": "Gurgaon (and vicinity), India",
+        "airportName": "DEL"
       }
     ],
     "country": {

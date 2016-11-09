@@ -816,4 +816,16 @@ public class StrUtils {
 		}
 		return redemptionLocationList;
 	}
+
+	public static String getDisplayNameForGaiaNearby(String friendlyName, String airportName) {
+		if (Strings.isEmpty(airportName)) {
+			return friendlyName;
+		}
+		else {
+			StringBuilder sb = new StringBuilder();
+			sb.append(friendlyName).append(" (").append(airportName).append(")");
+			return sb.toString();
+		}
+
+	}
 }

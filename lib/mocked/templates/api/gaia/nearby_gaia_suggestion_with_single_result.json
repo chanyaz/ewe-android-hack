@@ -14,7 +14,9 @@
       {
         "lcid": 1043,
         "value": "Delhi (and vicinity)",
-        "extendedValue": "Delhi (and vicinity), India"
+        "extendedValue": "Delhi (and vicinity), India",
+        "friendlyName": "Delhi (and vicinity), India",
+        "airportName": "DEL"
       }
     ],
     "country": {
