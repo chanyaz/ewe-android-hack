@@ -8,12 +8,14 @@ import org.jetbrains.annotations.Nullable;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.rail.RailPassenger;
 import com.expedia.bookings.utils.CollectionUtils;
+import com.expedia.bookings.utils.Strings;
 
 public class RailSearchResponse {
 
 	public List<RailPassenger> passengerList;
 	public List<RailLeg> legList;
 	public List<RailOffer> offerList;
+	public RailResponseStatus responseStatus;
 
 	public List<RailOffer> findOffersForLegOption(RailLegOption legOption) {
 		List<RailOffer> offers = new ArrayList<>();
@@ -28,8 +30,30 @@ public class RailSearchResponse {
 		return offers;
 	}
 
+	public boolean hasWarnings() {
+		return responseStatus != null && !responseStatus.warningList.isEmpty();
+	}
+
+	public boolean hasChildrenAreFreeWarning() {
+		return hasWarnings() && responseStatus.getWarningByCode("WARN0001") != null;
+	}
+
+	@Nullable
+	public RailLeg findLegWithBoundOrder(Integer legBoundOrder) {
+		for (RailLeg railLeg: legList) {
+			if (railLeg.legBoundOrder.equals(legBoundOrder)) {
+				return railLeg;
+			}
+		}
+		return null;
+	}
+
+	public boolean hasInbound() {
+		return legList.size() == 2;
+	}
+
 	public static class RailLeg {
-		public Integer legIndex;
+		public Integer legBoundOrder;
 		public RailStation departureStation;
 		public RailStation arrivalStation;
 		public List<RailLegOption> legOptionList;
@@ -59,14 +83,34 @@ public class RailSearchResponse {
 			return false;
 		}
 
-		public boolean hasRailCardApplied() {
-			boolean railCardApplied = false;
+		public boolean isOpenReturn() {
+			boolean openReturn = false;
 			if (CollectionUtils.isNotEmpty(railProductList)) {
-				List<RailCard> fareQualifierList = railProductList.get(0).fareQualifierList;
-				railCardApplied = CollectionUtils.isNotEmpty(fareQualifierList);
+				openReturn = railProductList.get(0).openReturn;
 			}
-			return railCardApplied;
+			return openReturn;
 		}
 
+		public String getUniqueIdentifier() {
+			return railProductList.get(0).aggregatedCarrierFareClassDisplayName +
+				railProductList.get(0).aggregatedCarrierServiceClassDisplayName + totalPrice.amount;
+		}
+
+		@Override
+		public List<? extends RailProduct> getRailProductList() {
+			return railProductList;
+		}
+	}
+
+	public boolean hasError() {
+		boolean hasError = false;
+		if (!responseStatus.status.equals(RailsApiStatusCodes.STATUS_SUCCESS)) {
+			hasError = true;
+		}
+		else if (Strings.isNotEmpty(responseStatus.statusCategory) && responseStatus.statusCategory
+			.equals(RailsApiStatusCodes.STATUS_CATEGORY_NO_PRODUCT)) {
+			hasError = true;
+		}
+		return hasError;
 	}
 }

@@ -8,10 +8,17 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
+import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.vm.PaymentViewModel
@@ -25,10 +32,12 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.Shadows
+import org.robolectric.annotation.Config
 import java.util.ArrayList
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
 class BillingDetailsPaymentWidgetTest {
     lateinit private var billingDetailsPaymentWidget: BillingDetailsPaymentWidget
     lateinit private var activity: Activity
@@ -71,7 +80,27 @@ class BillingDetailsPaymentWidgetTest {
 
         assertFalse(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
     }
+    
+    @Test
+    fun testFocusValidation() {
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
 
+        Db.getTripBucket().clear(LineOfBusiness.PACKAGES)
+
+        assertEquals(null, billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2])
+        assertEquals(R.drawable.material_dropdown, Shadows.shadowOf(billingDetailsPaymentWidget.expirationDate.compoundDrawables[2]).createdFromResId)
+        assertEquals(null, billingDetailsPaymentWidget.creditCardCvv.compoundDrawables[2])
+        assertEquals(null, billingDetailsPaymentWidget.creditCardName.compoundDrawables[2])
+
+        billingDetailsPaymentWidget.creditCardNumber.requestFocus()
+        billingDetailsPaymentWidget.expirationDate.requestFocus()
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
+        billingDetailsPaymentWidget.creditCardCvv.requestFocus()
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.expirationDate.compoundDrawables[2]).createdFromResId)
+        billingDetailsPaymentWidget.addressLineOne.requestFocus()
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardCvv.compoundDrawables[2]).createdFromResId)
+    }
 
     @Test
     fun testAmexSecurityCodeValidator() {
@@ -94,6 +123,20 @@ class BillingDetailsPaymentWidgetTest {
         info.securityCode = "1234"
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertTrue(billingDetailsPaymentWidget.sectionBillingInfo.performValidation())
+    }
+
+    @Test
+    fun testAddressLimit() {
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
+        givenTripResponse("AmericanExpress")
+
+        billingDetailsPaymentWidget.addressLineOne.setText("12345678901234567890123456789012345678901234567890")
+        assertEquals(40, billingDetailsPaymentWidget.addressLineOne.text.length)
+
+        billingDetailsPaymentWidget.addressLineTwo.setText("12345678901234567890123456789012345678901234567890")
+        assertEquals(40, billingDetailsPaymentWidget.addressLineTwo.text.length)
     }
 
     @Test
@@ -213,10 +256,45 @@ class BillingDetailsPaymentWidgetTest {
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
 
+        info.expirationDate = LocalDate.now()
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
+        assertFalse(billingDetailsPaymentWidget.isCompletelyFilled())
+
         val location = givenLocation()
         info.location = location
         billingDetailsPaymentWidget.sectionBillingInfo.bind(info)
         assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
+    }
+
+    @Test
+    fun testSavedPaymentOffForRail() {
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(getUserWithStoredCard())
+        // Make sure we meet all other requirements before asserting rail
+        assertTrue(billingDetailsPaymentWidget.shouldShowPaymentOptions())
+
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.RAILS)
+        assertFalse("Error: Should not show payment options for rail!",
+                billingDetailsPaymentWidget.shouldShowPaymentOptions())
+    }
+
+    private fun getUserWithStoredCard() : User {
+        val user = User()
+        user.addStoredCreditCard(getNewCard())
+        val traveler = Traveler()
+        traveler.email = "qa-ehcc@mobiata.com"
+        user.primaryTraveler = traveler
+        return user
+    }
+
+    private fun getNewCard(): StoredCreditCard {
+        val card = StoredCreditCard()
+
+        card.cardNumber = "4111111111111111"
+        card.id = "stored-card-id"
+        card.type = PaymentType.CARD_AMERICAN_EXPRESS
+        card.description = "Visa 4111"
+        card.setIsGoogleWallet(false)
+        return card
     }
 
     private fun givenLocation(): Location {

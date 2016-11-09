@@ -35,8 +35,8 @@ import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.ReviewsServices
 import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ClientLogConstants
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -57,6 +57,7 @@ import com.expedia.vm.HotelMapViewModel
 import com.expedia.vm.HotelPresenterViewModel
 import com.expedia.vm.HotelReviewsViewModel
 import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.hotel.FavoriteButtonViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.MapView
@@ -130,7 +131,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.viewmodel.errorObservable.subscribe { show(errorPresenter) }
         presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
         presenter.viewmodel.hotelResultsObservable.subscribe({ hotelSearchResponse ->
-            HotelTracking().trackHotelsSearch(hotelSearchParams, hotelSearchResponse)
+            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)) {
+                HotelTracking().trackHotelsSearch(hotelSearchParams, hotelSearchResponse)
+            }
+        })
+        presenter.viewmodel.addHotelResultsObservable.subscribe({ hotelSearchResponse ->
+            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)) {
+                HotelTracking().trackHotelsSearch(hotelSearchParams, hotelSearchResponse)
+            }
         })
         presenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
         presenter.showDefault()
@@ -166,6 +174,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         viewModel.hotelSoldOutWithHotelId.subscribe ((resultsPresenter.mapCarouselRecycler.adapter as HotelMapCarouselAdapter).hotelSoldOut)
         viewModel.hotelSoldOutWithHotelId.subscribe (resultsPresenter.adapter.hotelSoldOut)
         viewModel.hotelSoldOutWithHotelId.subscribe (resultsPresenter.mapViewModel.hotelSoldOutWithIdObserver)
+        viewModel.hotelFavoriteChange.subscribe(resultsPresenter.hotelFavoriteChangeObserver)
 
         presenter
     }
@@ -647,7 +656,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
     }
 
-    private val checkoutToConfirmation = ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java)
+    private val checkoutToConfirmation = object : ScaleTransition(this, HotelCheckoutPresenter::class.java, HotelConfirmationPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            if (forward) {
+                checkoutPresenter.visibility = GONE
+                AccessibilityUtil.delayFocusToToolbarNavigationIcon(confirmationPresenter.toolbar, 300)
+            }
+        }
+    }
     private val detailsToReview = object : ScaleTransition(this, HotelDetailPresenter::class.java, HotelReviewsView::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
@@ -724,10 +740,13 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         }
 
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(true)) {
             detailPresenter.hotelDetailView.hotelId = hotelId
-            detailPresenter.hotelDetailView.hotelDetailsToolbar.heartIcon.hotelId = hotelId
+            val favoriteButtonViewModel = FavoriteButtonViewModel(context, hotelId, HotelTracking(), HotelTracking.PageName.INFOSITE)
+            detailPresenter.hotelDetailView.hotelDetailsToolbar.heartIcon.viewModel = favoriteButtonViewModel
+            favoriteButtonViewModel.favoriteChangeSubject.subscribe(viewModel.hotelFavoriteChange)
         }
+
         val subject = PublishSubject.create<HotelOffersResponse>()
         subject.subscribe(object : Observer<HotelOffersResponse> {
             override fun onNext(t: HotelOffersResponse?) {

@@ -73,6 +73,8 @@
     <string name="cars_total_template">總計 %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">滑動以預訂</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">預訂</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">付款</string>
     <!-- Text for error toolbar-->
@@ -187,6 +189,11 @@
         <item quantity="one">{number} 個結果</item>
         <item quantity="other">{number} 個結果</item>
     </plurals>
+    <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
+    <plurals name="number_results_announcement_text_TEMPLATE">
+        <item quantity="one">已篩選 {number} 個結果</item>
+        <item quantity="other">已篩選 {number} 個結果</item>
+    </plurals>
 
     <!-- Checkout -->
     <!-- Car model templates-->
@@ -263,6 +270,8 @@
     <string name="scan_card_text">掃描信用卡</string>
     <!-- Card.io instruction text -->
     <string name="scan_card_instruction_text">請將卡片對準這裡。系統會自動掃瞄。</string>
+    <!--Hotels accessibility content description for Cost Summary Button-->
+    <string name="accessibility_cost_summary_cont_desc_role_button">費用摘要資訊按鈕</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1732,8 +1741,8 @@
     <string name="flights_round_trip_label">來回行程</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">單程</string>
-    <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">去程</string>
+    <!-- Label to identify selected outbound flight/rail card -->
+    <string name="outbound_label">去程</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">機票</string>
     <string name="flights_title_cont_desc">機票按鈕</string>
@@ -3437,7 +3446,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
@@ -4108,6 +4117,10 @@
     <string name="hotel_price_range_start">價格範圍下限</string>
     <!-- Hotel Price Range end filter label for accessibility -->
     <string name="hotel_price_range_end">價格範圍上限</string>
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="hotels_filter_show_more_cont_desc">顯示更多鄰近地區。按鈕</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="hotels_filter_show_less_cont_desc">顯示較少鄰近地區。按鈕</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">已新增至篩選視窗中的我的最愛</string>
@@ -4385,6 +4398,9 @@
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}，{formattedchangecount}</string>
 
+    <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
+    <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
+
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">行程詳細資訊 + 票價選項</string>
 
@@ -4407,6 +4423,9 @@
 
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">去程：{date}</string>
+
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">回程 - {date}</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">總計</string>
@@ -4465,6 +4484,9 @@
     <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
     <string name="rail_cc_processing_fee_TEMPLATE">信用卡手續費：&lt;b&gt;{card_fee}&lt;/b&gt;</string>
 
+    <!--A message on search results that children under 5 cab travel for free -->
+    <string name="rail_children_warning">不佔座位的 5 歲以下兒童可免費搭乘。您也可以在兒童年齡欄位輸入 6 歲並付款以預留座位。</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">取票方式</string>
 
@@ -4472,6 +4494,9 @@
     <string name="pickup_at_station">車站取票</string>
     <string name="delivery_by_mail">郵寄</string>
     <string name="shipping_address">郵寄地址</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">選擇完成此預訂，即表示我確認已閱讀並接受&lt;a href=\"{rules_and_restrictions_url}\"&gt;規則和限制&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;行程條件&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;供應商條款和條件&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;使用條款&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;隱私權政策&lt;/a&gt;以及&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;付款和車票寄送費用&lt;/a&gt;。</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">請攜帶您的票券參考編號和信用卡前往購買。</string>
@@ -4491,6 +4516,10 @@
 
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">輸入目的地</string>
+    <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
+    <string name="enter_destination_cont_desc">輸入目的地。按鈕</string>
+    <!-- New Hotel Content description for destination entered, e.g- Destination. San Francisco, CA. Button-->
+    <string name="hotel_search_destination_cont_desc_TEMPLATE">目的地。{destination}。按鈕</string>
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">飛行保險</string>
@@ -4580,12 +4609,16 @@
     <string name="flight_detail_card_cont_desc_TEMPLATE">班機時間：{time}，價差：{pricedifference}。航空公司：{airline}。飛行時間 {hours} {minutes}，轉機 {stops} 次\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，5 星評等中的 {starrating} 星級飯店。滿分為 5 分的旅客評分為 {guestrating} 分。價格為 {price}。包含機票和飯店 \u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}，5 星評等中的 {starrating} 星級飯店。滿分為 5 分的旅客評分為 {guestrating} 分。價格為 {price} \u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel}，5 星評等中的 {starrating} 星級飯店。滿分為 5 分的旅客評分為 {guestrating} 分。\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">原價 {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
     <string name="hotel_discount_cont_desc_TEMPLATE">原價減 {percent}\u0025 \u0020</string>
+    <!-- Hotel strike through price content description for accessibility. Example. Regularly $100, now $80. -->
+    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">原價 {strikethroughprice}，現在 {price}。\u0020</string>
+    <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
+    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">原價 {percentage} 折扣。\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">最超值機 + 酒 {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
@@ -4606,6 +4639,8 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate}到{enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">旅遊日期。按鈕。開啟對話方塊。{date_range}。{nights}</string>
+    <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">價格為 {price}。\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">旅客人數。按鈕。開啟對話方塊。{travelers} 位旅客</item>

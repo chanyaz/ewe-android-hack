@@ -106,6 +106,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/hotel_booking_summary"
         android:background="@drawable/cost_breakdown"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         android:orientation="vertical"
         android:paddingBottom="9dp"
         android:paddingLeft="14dp"
@@ -117,7 +119,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <com.expedia.bookings.widget.TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/total_tax_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -147,7 +149,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
-        <com.expedia.bookings.widget.TextView
+            <com.expedia.bookings.widget.TextView
                 android:id="@+id/fees_paid_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -175,17 +177,16 @@
             android:id="@+id/dotted_divider"
             android:layout_width="match_parent"
             android:layout_height="2dp"
-            android:layout_marginTop="7dp"
             android:layout_marginBottom="4dp"
+            android:layout_marginTop="7dp"
+            android:background="@drawable/dotted_divider"
             android:layerType="software"
-            android:visibility="gone"
-            android:background="@drawable/dotted_divider" />
+            android:visibility="gone" />
 
         <RelativeLayout
             android:id="@+id/amount_due_today_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
+            android:layout_height="wrap_content">
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/amount_due_today_label"

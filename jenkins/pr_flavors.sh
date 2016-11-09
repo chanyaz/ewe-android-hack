@@ -4,6 +4,7 @@ set -e
 
 TERM=dumb
 
+flavor=$1
 GITHUB_TOKEN=0a1f692d47819eec1349e990240525233a12b4fd
 HIPCHAT_TOKEN=MdHG4PNWYSGD41jwF4TvVfhNADhw0NnOyGdjw3uI
 
@@ -32,16 +33,7 @@ fi
 build() {
     ./gradlew --no-daemon -PrunProguard=false \
         "clean" \
-        "assembleTravelocityDebug" \
-        "assembleAirAsiaGoDebug" \
-        "assembleVoyagesDebug" \
-        "assembleWotifDebug" \
-        "assembleLastMinuteDebug" \
-        "assembleSamsungDebug" \
-        "assembleOrbitzDebug" \
-        "assembleCheapTicketsDebug" \
-        "assembleEbookersDebug" \
-        "assembleMrJetDebug" 2> >(tee /tmp/flavorsFeedbackBotErrors.txt >&2)
+        "assemble${flavor}Debug" 2> >(tee /tmp/flavorsFeedbackBotErrors.txt >&2)
 }
 
 # Retry once because of current kotlin compilation issue. The 2nd time should work

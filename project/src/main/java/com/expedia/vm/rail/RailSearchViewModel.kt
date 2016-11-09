@@ -13,7 +13,6 @@ import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.endlessObserver
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import com.mobiata.android.time.util.JodaUtils
-import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject

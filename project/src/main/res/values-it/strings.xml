@@ -73,6 +73,8 @@
     <string name="cars_total_template">Totale %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Procedi alla prenotazione</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Prenota</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Procedi al pagamento</string>
     <!-- Text for error toolbar-->
@@ -187,6 +189,11 @@
         <item quantity="one">{number} risultato</item>
         <item quantity="other">{number} risultati</item>
     </plurals>
+    <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
+    <plurals name="number_results_announcement_text_TEMPLATE">
+        <item quantity="one">{number} risultato filtrato</item>
+        <item quantity="other">{number} risultati filtrati</item>
+    </plurals>
 
     <!-- Checkout -->
     <!-- Car model templates-->
@@ -263,6 +270,8 @@
     <string name="scan_card_text">Scansiona carta</string>
     <!-- Card.io instruction text -->
     <string name="scan_card_instruction_text">Posiziona la carta qui. Sarà scannerizzata automaticamente.</string>
+    <!--Hotels accessibility content description for Cost Summary Button-->
+    <string name="accessibility_cost_summary_cont_desc_role_button">Pulsante riepilogo dei costi</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1732,8 +1741,8 @@
     <string name="flights_round_trip_label">ANDATA E RITORNO</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">SOLO ANDATA</string>
-    <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">Partenza</string>
+    <!-- Label to identify selected outbound flight/rail card -->
+    <string name="outbound_label">Partenza</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Voli</string>
     <string name="flights_title_cont_desc">Pulsante voli</string>
@@ -4108,6 +4117,10 @@
     <string name="hotel_price_range_start">Fascia di prezzo: inizio</string>
     <!-- Hotel Price Range end filter label for accessibility -->
     <string name="hotel_price_range_end">Fascia di prezzo: fine</string>
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="hotels_filter_show_more_cont_desc">Mostra altre zone. Pulsante</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="hotels_filter_show_less_cont_desc">Mostra meno zone. Pulsante</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Aggiunto ai preferiti nella schermata di filtro</string>
@@ -4385,6 +4398,9 @@
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
 
+    <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
+    <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
+
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">Dettagli del viaggio e opzioni tariffarie</string>
 
@@ -4407,6 +4423,9 @@
 
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Partenza: {date}</string>
+
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Ritorno: {date}</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Totale</string>
@@ -4465,6 +4484,9 @@
     <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
     <string name="rail_cc_processing_fee_TEMPLATE">Commissione carta di credito: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
 
+    <!--A message on search results that children under 5 cab travel for free -->
+    <string name="rail_children_warning">I bambini di età inferiore a 5 anni viaggiano gratis se seduti in braccio a un adulto. Tuttavia, puoi prenotare un posto a sedere, indicando che il bambino ha 6 anni.</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Consegna del biglietto</string>
 
@@ -4472,6 +4494,9 @@
     <string name="pickup_at_station">Ritiro in stazione</string>
     <string name="delivery_by_mail">Consegna per posta</string>
     <string name="shipping_address">Indirizzo di spedizione</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">Scegliendo di completare questa prenotazione, dichiaro di aver letto e accettato le &lt;a href=\"{rules_and_restrictions_url}\"&gt;regole e restrizioni&lt;/a&gt;, le &lt;a href=\"{conditions_of_travel_url}\"&gt;condizioni di viaggio&lt;/a&gt;, &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;i termini e le condizioni del fornitore&lt;/a&gt;, i &lt;a href=\"{terms_of_use_url}\"&gt;termini di utilizzo&lt;/a&gt;, l\&apos;&lt;a href=\"{privacy_policy_url}\"&gt;informativa sulla privacy&lt;/a&gt; e le &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;commissioni sul pagamento e sulla consegna dei biglietti&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Porta con te il numero di riferimento del biglietto e la carta di credito utilizzata per l\&apos;acquisto.</string>
@@ -4491,6 +4516,10 @@
 
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Inserisci destinazione</string>
+    <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
+    <string name="enter_destination_cont_desc">Inserisci destinazione. Pulsante</string>
+    <!-- New Hotel Content description for destination entered, e.g- Destination. San Francisco, CA. Button-->
+    <string name="hotel_search_destination_cont_desc_TEMPLATE">Destinazione. {destination}. Pulsante</string>
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">Assicurazione volo</string>
@@ -4580,12 +4609,16 @@
     <string name="flight_detail_card_cont_desc_TEMPLATE">L\&apos;orario del volo è {time}, con una differenza di prezzo pari a {pricedifference}. Il volo è operato da {airline}. La durata del volo è di {hours} {minutes} con {stops} scali\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} con una classificazione di {starrating} su 5 stelle. Valutazione degli ospiti di {guestrating} su 5. Prezzo {price}. Include hotel e volo\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} con una classificazione di {starrating} su 5 stelle. Valutazione degli ospiti di {guestrating} su 5. Prezzo {price}\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} con una classificazione di {starrating} su 5 stelle. Valutazione degli ospiti di {guestrating} su 5.  \u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Prezzo precedente {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
     <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 di sconto sul prezzo standard\u0020</string>
+    <!-- Hotel strike through price content description for accessibility. Example. Regularly $100, now $80. -->
+    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Prezzo standard {strikethroughprice}, ora {price}.  \u0020</string>
+    <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
+    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Prezzo originale scontato {percentage}.  \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Offerta incredibile {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
@@ -4606,6 +4639,8 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">dal giorno {startdate} al giorno {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Date di viaggio. Pulsante. Apertura finestra di dialogo. {date_range}. {nights}</string>
+    <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Prezzo {price}.  \u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Numero di viaggiatori. Pulsante. Apertura finestra di dialogo. {travelers} passeggero</item>

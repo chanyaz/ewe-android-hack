@@ -81,9 +81,9 @@ public class NameEntryViewTest {
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testViewModel.getFirstNameErrorSubject().onNext(true);
-				testViewModel.getMiddleNameErrorSubject().onNext(true);
-				testViewModel.getLastNameErrorSubject().onNext(true);
+				testViewModel.getFirstNameViewModel().getErrorSubject().onNext(true);
+				testViewModel.getMiddleNameViewModel().getErrorSubject().onNext(true);
+				testViewModel.getLastNameViewModel().getErrorSubject().onNext(true);
 			}
 		});
 

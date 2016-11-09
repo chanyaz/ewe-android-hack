@@ -73,6 +73,8 @@
     <string name="cars_total_template">Totalt %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Sveip for å bestille</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Bestill</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Betaling</string>
     <!-- Text for error toolbar-->
@@ -187,6 +189,11 @@
         <item quantity="one">{number} resultat</item>
         <item quantity="other">{number} resultater</item>
     </plurals>
+    <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
+    <plurals name="number_results_announcement_text_TEMPLATE">
+        <item quantity="one">{number} resultat er filtrert</item>
+        <item quantity="other">{number} resultater er filtrert</item>
+    </plurals>
 
     <!-- Checkout -->
     <!-- Car model templates-->
@@ -263,6 +270,8 @@
     <string name="scan_card_text">Skann kort</string>
     <!-- Card.io instruction text -->
     <string name="scan_card_instruction_text">Hold kortet her. Det vil bli skannet automatisk.</string>
+    <!--Hotels accessibility content description for Cost Summary Button-->
+    <string name="accessibility_cost_summary_cont_desc_role_button">Knapp for prissammendrag</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1732,8 +1741,8 @@
     <string name="flights_round_trip_label">TUR-RETUR</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">ÉN VEI</string>
-    <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">Avreise</string>
+    <!-- Label to identify selected outbound flight/rail card -->
+    <string name="outbound_label">Avreise</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Flyvninger</string>
     <string name="flights_title_cont_desc">Knapp for flyvninger</string>
@@ -1749,7 +1758,7 @@
     <string name="flights_fee_added_based_on_payment_TEMPLATE">En &lt;a href=\"{airline_fee_url}\"&gt;flyselskapsavgift&lt;/a&gt;, avhengig av korttypen, vil legges til ved betaling. En slik avgift vil legges til i totalsummen ved betaling.</string>
     <!-- An airline fee may be added upon payment message
         Example: An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment -->
-    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">En &lt;a href=\"{airline_fee_url}\"&gt;flyselskapsavgift&lt;/a&gt;, avhengig av korttype, kan legges til ved betaling. En slik avgift vil legges til i totalsummen ved betaling.</string>
+    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">En &lt;a href=\"{airline_fee_url}\"&gt;flyselskapsavgift&lt;/a&gt; kan legges til ved betaling, avhengig av korttype. En slik avgift vil legges til i totalsummen ved betaling.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">Debetkort godtas ikke.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -4108,6 +4117,10 @@
     <string name="hotel_price_range_start">Prisspenn start</string>
     <!-- Hotel Price Range end filter label for accessibility -->
     <string name="hotel_price_range_end">Prisspenn slutt</string>
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="hotels_filter_show_more_cont_desc">Vis flere områder. Knapp</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="hotels_filter_show_less_cont_desc">Vis færre områder. Knapp</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Lagt til som favoritt på filtreringssiden</string>
@@ -4385,6 +4398,9 @@
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
 
+    <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
+    <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
+
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">Reiseinformasjon og prisalternativer</string>
 
@@ -4407,6 +4423,9 @@
 
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Utgående: {date}</string>
+
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Returreise: {date}</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Totalt</string>
@@ -4465,6 +4484,9 @@
     <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
     <string name="rail_cc_processing_fee_TEMPLATE">Kredittkortgebyrer: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
 
+    <!--A message on search results that children under 5 cab travel for free -->
+    <string name="rail_children_warning">Barn under fem år kan reise gratis hvis de ikke behøver eget sete. Men du kan betale for å reservere sete om du angir alderen på barnet som seks år.</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Billettlevering</string>
 
@@ -4472,6 +4494,9 @@
     <string name="pickup_at_station">Hent på stasjonen</string>
     <string name="delivery_by_mail">Sendes i posten</string>
     <string name="shipping_address">Leveringsadresse</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">Når jeg velger å fullføre denne bestillingen, bekrefter jeg at jeg har lest og godtar alle &lt;a href=\"{rules_and_restrictions_url}\"&gt;regler og begrensninger&lt;/a&gt;, &lt;a href=\"{conditions_of_travel_url}\"&gt;reisevilkår&lt;/a&gt;, &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;leverandørens betingelser og vilkår&lt;/a&gt;, &lt;a href=\"{terms_of_use_url}\"&gt;betingelser for bruk&lt;/a&gt;, &lt;a href=\"{privacy_policy_url}\"&gt;personvernregler&lt;/a&gt; samt &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;betalingsavgifter og leveringsgebyr&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Ta med deg referansenummeret til billetten og kredittkortet du brukte under bestillingen.</string>
@@ -4490,7 +4515,11 @@
     <string name="pwp_unknown_error">Det oppstod en ukjent feil. Prøv på nytt.</string>
 
     <!-- New Hotel Search screen -->
-    <string name="enter_destination_hint">Angi destinasjon</string>
+    <string name="enter_destination_hint">Angi reisemål</string>
+    <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
+    <string name="enter_destination_cont_desc">Angi reisemål. Knapp</string>
+    <!-- New Hotel Content description for destination entered, e.g- Destination. San Francisco, CA. Button-->
+    <string name="hotel_search_destination_cont_desc_TEMPLATE">Reisemål. {destination}. Knapp</string>
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">Flyreiseforsikring</string>
@@ -4580,12 +4609,16 @@
     <string name="flight_detail_card_cont_desc_TEMPLATE">Flytiden er på {time}, med en prisforskjell på {pricedifference}. Flyvningen er med {airline}. Flytiden er på {hours} {minutes} med {stops} mellomlandinger\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} med stjernerangering på {starrating} av 5. Gjestevurdering på {guestrating} av 5. Pris {price}. Inkluderer hotell og flyvninger\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} med stjernerangering på {starrating} av 5. Gjestevurdering på {guestrating} av 5. Pris {price}\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} med stjernerangering på {starrating} av 5. Gjestevurdering på {guestrating} av 5.  \u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Gammel pris {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
     <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 rabatt på normal pris\u0020</string>
+    <!-- Hotel strike through price content description for accessibility. Example. Regularly $100, now $80. -->
+    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Normalt {strikethroughprice}, nå {price}.  \u0020</string>
+    <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
+    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Opprinnelig pris nedsatt med {percentage}.  \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Utrolig tilbudspris {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
@@ -4606,6 +4639,8 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">Fra {startdate} til {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Reisedatoer. Knapp. Åpner dialogvindu. {date_range}. {nights}</string>
+    <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Pris {price}.  \u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Antall reisende. Knapp. Åpner dialogvindu. {travelers} reisende</item>

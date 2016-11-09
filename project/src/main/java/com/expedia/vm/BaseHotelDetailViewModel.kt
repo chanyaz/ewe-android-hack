@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.HotelUtils
+import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -51,6 +52,9 @@ import kotlin.properties.Delegates
 abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         RecyclerGallery.GalleryItemListener, RecyclerGallery.GalleryItemScrollListener {
 
+    abstract fun getLobPriceObservable(rate: HotelRate)
+    abstract fun showHotelFavorite(): Boolean
+    abstract fun pricePerDescriptor() : String
     abstract fun getFeeTypeText() : Int
     abstract fun getResortFeeText() : Int
     abstract fun showFeesIncludedNotIncluded() : Boolean
@@ -85,6 +89,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     private val noRoomsInOffersResponse = BehaviorSubject.create<Boolean>(false)
     val hotelSoldOut = BehaviorSubject.create<Boolean>(false)
     val selectedRoomSoldOut = PublishSubject.create<Unit>()
+    val hotelPriceContentDesc = PublishSubject.create<String>()
 
     val toolBarRatingColor = hotelSoldOut.map { if (it) ContextCompat.getColor(context, android.R.color.white) else ContextCompat.getColor(context, R.color.hotelsv2_detail_star_color) }
     val galleryColorFilter = hotelSoldOut.map { if (it) HotelDetailView.zeroSaturationColorMatrixColorFilter else null }
@@ -129,11 +134,12 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     val hotelResortFeeIncludedTextObservable = BehaviorSubject.create<String>()
     val hotelNameObservable = BehaviorSubject.create<String>()
     val hotelRatingObservable = BehaviorSubject.create<Float>()
+    val hotelRatingContentDescriptionObservable = BehaviorSubject.create<String>()
     val hotelRatingObservableVisibility = BehaviorSubject.create<Boolean>()
     val onlyShowTotalPrice = BehaviorSubject.create<Boolean>(false)
     val roomPriceToShowCustomer = BehaviorSubject.create<String>()
     val totalPriceObservable = BehaviorSubject.create<String>()
-    val pricePerNightObservable = BehaviorSubject.create<String>()
+    val priceToShowCustomerObservable = BehaviorSubject.create<String>()
     val searchInfoObservable = BehaviorSubject.create<String>()
     val searchDatesObservable = BehaviorSubject.create<String>()
     val userRatingBackgroundColorObservable = BehaviorSubject.create<Drawable>()
@@ -165,16 +171,12 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     val bundlePricePerPersonObservable = BehaviorSubject.create<Money>()
     val bundleTotalPriceObservable = BehaviorSubject.create<Money>()
     val bundleSavingsObservable = BehaviorSubject.create<Money>()
-    val isPackageHotelObservable = BehaviorSubject.create<Boolean>(false)
-
     var isCurrentLocationSearch = false
     val scrollToRoom = PublishSubject.create<Unit>()
     val changeDates = PublishSubject.create<Unit>()
 
     private val offersObserver = endlessObserver<HotelOffersResponse> { response ->
         hotelOffersResponse = response
-
-        isPackageHotelObservable.onNext(response.isPackage)
 
         var galleryUrls = ArrayList<HotelMedia>()
 
@@ -203,6 +205,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
 
         hotelRatingObservable.onNext(response.hotelStarRating.toFloat())
         hotelRatingObservableVisibility.onNext(response.hotelStarRating > 0)
+        hotelRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, response.hotelStarRating.toInt()))
 
         allRoomsSoldOut.onNext(false)
         lastExpandedRowObservable.onNext(-1)
@@ -212,13 +215,13 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         if (firstHotelRoomResponse != null) {
             val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
             onlyShowTotalPrice.onNext(rate.getUserPriceType() == HotelRate.UserPriceType.RATE_FOR_WHOLE_STAY_WITH_TAXES)
-            pricePerNightObservable.onNext(Money(BigDecimal(rate.averageRate.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
+            getLobPriceObservable(rate)
+            totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             if (rate.packagePricePerPerson != null && rate.packageTotalPrice != null && rate.packageSavings != null) {
                 bundlePricePerPersonObservable.onNext(Money(BigDecimal(rate.packagePricePerPerson.amount.toDouble()), rate.packagePricePerPerson.currencyCode))
                 bundleTotalPriceObservable.onNext(rate.packageTotalPrice)
                 bundleSavingsObservable.onNext(rate.packageSavings)
             }
-            totalPriceObservable.onNext(Money(BigDecimal(rate.totalPriceWithMandatoryFees.toDouble()), rate.currencyCode).getFormattedMoney(Money.F_NO_DECIMAL))
             discountPercentageBackgroundObservable.onNext(if (rate.isShowAirAttached()) R.drawable.air_attach_background else R.drawable.guest_rating_background)
             showAirAttachSWPImageObservable.onNext(rate.loyaltyInfo?.isBurnApplied ?: false && rate.isShowAirAttached())
         }
@@ -257,10 +260,11 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         val strikethroughPriceToShowUsers = chargeableRateInfo?.strikethroughPriceToShowUsers ?: 0f
 
         val isStrikeThroughPriceGreaterThanPriceToShowUsers = priceToShowUsers < strikethroughPriceToShowUsers
-        strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(isStrikeThroughPriceGreaterThanPriceToShowUsers)
         if (isStrikeThroughPriceGreaterThanPriceToShowUsers) {
             strikeThroughPriceObservable.onNext(priceFormatter(context.resources, chargeableRateInfo, true, !hotelOffersResponse.isPackage))
         }
+        strikeThroughPriceGreaterThanPriceToShowUsersObservable.onNext(isStrikeThroughPriceGreaterThanPriceToShowUsers)
+        hotelPriceContentDesc.onNext(getHotelPriceContentDescription(isStrikeThroughPriceGreaterThanPriceToShowUsers))
 
         hasFreeCancellationObservable.onNext(hasFreeCancellation(response))
         hasBestPriceGuaranteeObservable.onNext(PointOfSale.getPointOfSale().displayBestPriceGuarantee())
@@ -355,16 +359,17 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         }
 
         onlyShowTotalPrice.subscribe { onlyShowTotalPrice ->
-            (if (onlyShowTotalPrice) totalPriceObservable else pricePerNightObservable).subscribe(roomPriceToShowCustomer)
+            (if (onlyShowTotalPrice) totalPriceObservable else priceToShowCustomerObservable).subscribe(roomPriceToShowCustomer)
         }
 
         paramsSubject.subscribe { params ->
             if (params.forPackage) {
-                searchInfoObservable.onNext(Phrase.from(context, R.string.room_with_guests_TEMPLATE)
-                        .put("guests", StrUtils.formatGuestString(context, params.guests))
+                val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+                searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
+                        DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate))).put("enddate",
+                        DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate))).put("guests", StrUtils.formatGuestString(context, params.guests))
                         .format()
                         .toString())
-                val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
                 val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
                         .put("startdate",  DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
                         .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
@@ -614,6 +619,20 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             context.resources.getString(R.string.mobile_exclusive)
         } else {
             ""
+        }
+    }
+    private fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
+        return if (showStrikeThrough) {
+            Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)
+                    .put("strikethroughprice", strikeThroughPriceObservable.value)
+                    .put("price", priceToShowCustomerObservable.value)
+                    .format()
+                    .toString() + Phrase.from(context, R.string.hotel_price_discount_percent_cont_desc_TEMPLATE)
+                        .put("percentage", discountPercentageObservable.value.first)
+                        .format()
+                        .toString()
+        } else {
+            priceToShowCustomerObservable.value + context.getString(R.string.per_night)
         }
     }
 }

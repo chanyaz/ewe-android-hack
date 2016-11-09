@@ -215,7 +215,7 @@
                         android:focusable="true"
                         android:focusableInTouchMode="true"
                         android:hint="@string/credit_debit_card_hint"
-                        android:nextFocusForward="@+id/edit_address_postal_code"
+                        android:nextFocusForward="@+id/edit_creditcard_exp_text_btn"
                         android:paddingLeft="48dp"
                         android:maxLines="1"
                         app:numberFormat="creditcard" />
@@ -263,12 +263,14 @@
                 android:layout_marginBottom="12dp"
                 android:orientation="horizontal">
 
-                <TextView
+                <com.expedia.bookings.widget.accessibility.AccessibleTextViewForSpinner
                     android:id="@+id/edit_creditcard_exp_text_btn"
                     style="@style/FakeSpinner.Light"
+                    android:drawableRight="@drawable/material_dropdown"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="3"
+                    android:nextFocusForward="@+id/edit_address_postal_code"
                     android:bufferType="spannable"
                     android:hint="@string/expiration_date"
                     android:textSize="18dp" />

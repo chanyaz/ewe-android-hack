@@ -8,13 +8,13 @@ import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
 import com.expedia.util.getControlGuestRatingBackground
 import com.expedia.util.getControlGuestRatingText
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
+import com.expedia.vm.hotel.HotelViewModel
 import com.expedia.vm.packages.PackageHotelViewModel
 
 class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : AbstractHotelCellViewHolder(root, width) {
@@ -40,5 +40,9 @@ class PackageHotelCellViewHolder(root: ViewGroup, width: Int) : AbstractHotelCel
 
     override fun getGuestRatingBackground(rating: Float, context: Context): Drawable {
         return getControlGuestRatingBackground(rating, context)
+    }
+
+    override fun showHotelFavorite(): Boolean {
+        return false
     }
 }

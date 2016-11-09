@@ -61,7 +61,7 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/layover_view"
-                    style="@style/RailCell.CarrierText"
+                    style="@style/Core.Text.Default"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp" />
@@ -100,7 +100,6 @@
             android:background="@color/divider_gray" />
 
         <LinearLayout
-            android:id="@+id/fare_description_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -116,31 +115,20 @@
                 android:drawableLeft="@drawable/rail_card_icon"
                 android:drawablePadding="6dp"
                 android:gravity="center"
-                android:paddingTop="12dp" />
+                android:paddingTop="12dp"
+                android:visibility="gone"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/fare_description"
+                style="@style/BundleOverviewWidgets.SecondaryText"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
                 android:paddingBottom="12dp"
-                android:paddingTop="12dp">
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/fare_description"
-                    style="@style/BundleOverviewWidgets.SecondaryText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    tools:text="Fare Description Here" />
-
-                <ImageView
-                    android:id="@+id/info_icon"
-                    style="@style/BundleOverviewFooter.PrimaryText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
-                    android:layout_marginRight="9dp"
-                    android:src="@drawable/ic_checkout_info" />
-            </LinearLayout>
+                android:paddingTop="12dp"
+                android:drawableRight="@drawable/ic_checkout_info"
+                android:drawablePadding="2dp"
+                android:visibility="gone"
+                tools:text="Fare Description Here" />
         </LinearLayout>
     </LinearLayout>
 </merge>

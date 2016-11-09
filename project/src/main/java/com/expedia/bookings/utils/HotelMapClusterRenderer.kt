@@ -30,18 +30,13 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         clusterRangeText = multiHotel.findViewById(R.id.price_range) as TextView
     }
 
-    override protected fun onBeforeClusterItemRendered(mapItem: MapItem, markerOptions: MarkerOptions?) {
+    override fun onBeforeClusterItemRendered(mapItem: MapItem, markerOptions: MarkerOptions?) {
         mapItem.isClustered = false
-        if (mapItem.hotel.isSoldOut) {
-            markerOptions?.icon(mapItem.soldOutIcon)?.title(mapItem.title)
-        } else if (mapItem.isSelected) {
-            markerOptions?.icon(mapItem.selectedIcon)?.title(mapItem.title)
-        } else {
-            markerOptions?.icon(mapItem.icon)?.title(mapItem.title)
-        }
+        val icon = mapItem.getHotelMarkerIcon()
+        markerOptions?.icon(icon)?.title(mapItem.hotel.hotelId)
     }
 
-    override protected fun onBeforeClusterRendered(cluster: Cluster<MapItem>, markerOptions: MarkerOptions) {
+    override fun onBeforeClusterRendered(cluster: Cluster<MapItem>, markerOptions: MarkerOptions) {
         val selected = cluster.items.filter { it.isSelected }
         selected.forEach { it.isClustered = false }
         val notSelected = cluster.items.filter { !it.isSelected }
@@ -57,7 +52,7 @@ class HotelMapClusterRenderer(private val context: Context, map: GoogleMap?, clu
         markerOptions.icon(icon)
     }
 
-    override protected fun shouldRenderAsCluster(cluster: Cluster<MapItem>): Boolean {
+    override fun shouldRenderAsCluster(cluster: Cluster<MapItem>): Boolean {
         return cluster.size > 10
     }
 

@@ -51,6 +51,7 @@ public class BaseTravelerPresenterTestHelper {
 	protected TravelerName testName = new TravelerName();
 	protected final String testChildFullName = "Oscar Grouch Jr.";
 	protected final String testFirstName = "Oscar";
+	protected final String testUpdatedFirstName = "UpdatedOscar";
 	protected final String testMiddleName = "T";
 	protected final String testLastName = "Grouch";
 	protected final String testEmail = "Grouch@gmail.com";

@@ -3,6 +3,8 @@ package com.expedia.vm.test.rail
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
+import com.expedia.bookings.data.rail.responses.RailResponseStatus
+import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
@@ -16,6 +18,7 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class RailOutboundResultsViewModelTest {
@@ -109,6 +112,22 @@ class RailOutboundResultsViewModelTest {
         testViewModel.directionHeaderSubject.subscribe(testSubscriber)
 
         assertEquals(context.getString(R.string.select_outbound), testSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testChildrenWarning() {
+        val searchResponse = RailSearchResponse()
+        val responseStatus =  RailResponseStatus()
+        val warning = RailResponseStatus.Warning()
+        warning.warningCode = "WARN0001"
+        responseStatus.warningList = listOf(warning)
+        searchResponse.responseStatus = responseStatus
+
+        val testSubscriber = TestSubscriber<Boolean>()
+        testViewModel.showChildrenWarningObservable.subscribe(testSubscriber)
+        testViewModel.railResultsObservable.onNext(searchResponse)
+
+        assertTrue(testSubscriber.onNextEvents[0])
     }
 
     private fun defaultBuilder() : RailSearchRequest.Builder {

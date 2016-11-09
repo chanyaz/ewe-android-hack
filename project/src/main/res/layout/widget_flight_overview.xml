@@ -100,13 +100,23 @@
                 android:paddingTop="6dp"
                 tools:text="$42.01" />
 
-            <Button
-                android:id="@+id/select_flight_button"
-                style="@style/MaterialFooterButtonText"
+            <FrameLayout
+                android:id="@+id/button_container"
                 android:layout_width="match_parent"
-                android:layout_below="@id/bundle_price_label"
-                android:background="?attr/hotel_select_room_ripple_drawable"
-                android:text="@string/package_flight_overview_select_flight" />
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:background="@color/white"
+                android:layout_below="@id/bundle_price_label">
+
+                <Button
+                    android:id="@+id/select_flight_button"
+                    style="@style/MaterialFooterRoundButtonText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="48dp"
+                    android:layout_margin="9dp"
+                    android:text="@string/package_flight_overview_select_flight"/>
+            </FrameLayout>
 
         </RelativeLayout>
 

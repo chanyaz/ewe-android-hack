@@ -70,6 +70,34 @@ fun View.publishOnClick(publishSubject: PublishSubject<Unit>) {
     }
 }
 
+// Only emits non-null data
+fun <T : Any?> Observable<T>.safeSubscribe(observer: Observer<T>): Subscription {
+    return this.subscribe(object : Observer<T> {
+        override fun onNext(t: T) {
+            if (t != null) {
+                observer.onNext(t)
+            }
+        }
+
+        override fun onCompleted() {
+            observer.onCompleted()
+        }
+
+        override fun onError(e: Throwable?) {
+            observer.onError(e)
+        }
+    })
+}
+
+// Only emits non-null data
+fun <T: Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Subscription {
+    return this.subscribe {
+        if (it != null) {
+            onNextFunc.invoke(it as T)
+        }
+    }
+}
+
 fun Observable<FontCache.Font>.subscribeFont(textview: TextView?) {
     this.subscribe { font ->
         FontCache.setTypeface(textview, font)
@@ -78,6 +106,10 @@ fun Observable<FontCache.Font>.subscribeFont(textview: TextView?) {
 
 fun <T : CharSequence> Observable<T>.subscribeText(textview: TextView?) {
     this.subscribe { textview?.text = it }
+}
+
+fun Observable<String>.subscribeContentDescription(view: View?) {
+    this.subscribe { view?.contentDescription = it }
 }
 
 fun <T : CharSequence> Observable<T>.subscribeEditText(edittext: EditText?) {
@@ -192,6 +224,8 @@ fun Observable<Boolean>.subscribeCursorVisible(textView: TextView) {
     this.subscribe { textView.isCursorVisible = it }
 }
 
-fun EditText.subscribeTextChange(observer: Observer<String>): Subscription {
-    return RxTextView.afterTextChangeEvents(this).map({ it.editable().toString() }).distinctUntilChanged().subscribe(observer)
+fun TextView.subscribeTextChange(observer: Observer<String>): Subscription {
+    return RxTextView.afterTextChangeEvents(this).map({
+        it.view().text.toString()
+    }).distinctUntilChanged().subscribe(observer)
 }

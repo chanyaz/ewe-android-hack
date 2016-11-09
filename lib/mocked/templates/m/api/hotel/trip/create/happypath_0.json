@@ -44,6 +44,7 @@
             "cancellationPolicy": "<p>We understand that sometimes plans fall through. We do not charge a cancel or change fee. When the hotel charges such fees in accordance with its own policies, the cost will be passed on to you. The Mosser charges the following cancellation and change fees.</p><p>Cancellations or changes made after 6:00 PM (hotel local time) on March 20, 2013 are subject to a hotel fee equal to 100% of the total amount paid for the reservation.</p><p>Your room will be guaranteed for late arrival.</p>",
             "currentAllotment": "0",
             "depositRequired": true,
+            "isPayLater": true,
             "depositPolicy": [
                 "You will be charged deposits by the property based on the following schedule. Any remaining amount will be due upon arrival:",
                 "First night (after booking) "

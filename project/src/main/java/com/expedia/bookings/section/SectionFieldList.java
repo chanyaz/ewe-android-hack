@@ -77,6 +77,35 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 		return valid;
 	}
 
+	public View firstInvalidInputField() {
+		SectionFieldEditable<?, T> editable;
+		for (SectionField<?, T> field : mFields) {
+			if (field instanceof SectionFieldEditable) {
+				editable = (SectionFieldEditable<?, T>) field;
+				boolean isValid = editable.isValid();
+				if (!isValid) {
+					return editable.getField();
+				}
+			}
+		}
+		return null;
+	}
+
+	/**
+	 * call isValid() on a single SectionFieldEditable
+	 *
+	 * @return true if field.isValid() returned true, otherwise false
+	 */
+	public boolean hasValidInput(int fieldId) {
+		SectionField<?, T> field = getLastFieldWithId(fieldId);
+		boolean valid = false;
+		if (field != null && field instanceof SectionFieldEditable) {
+			SectionFieldEditable<?, T> editable = (SectionFieldEditable<?, T>) field;
+			valid = editable.isValid();
+		}
+		return valid;
+	}
+
 	public void setValidationIndicatorState(boolean valid) {
 		for (SectionField<?, T> field : mFields) {
 			if (field instanceof SectionFieldValidIndicator && field.hasBoundField()) {
@@ -112,6 +141,22 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 		if (removalField != null) {
 			removeField(removalField);
 		}
+	}
+
+	/**
+	 * Find a field by resource id
+	 * There may be more than one so this method returns the last field found
+	 *
+	 * @param fieldId
+	 */
+	public SectionField<?, T> getLastFieldWithId(int fieldId) {
+		SectionField foundField = null;
+		for (SectionField<?, T> field : mFields) {
+			if (field.hasBoundField() && field.getField().getId() == fieldId) {
+				foundField = field;
+			}
+		}
+		return foundField;
 	}
 
 	/**

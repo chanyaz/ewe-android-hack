@@ -24,7 +24,6 @@ import rx.Observable
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -51,6 +50,7 @@ class RailCheckoutViewModel(val context: Context) {
     val cardFeeTripResponseSubject = PublishSubject.create<RailCreateTripResponse>()
     val displayCardFeesObservable = PublishSubject.create<Boolean>()
     val showingPaymentForm = PublishSubject.create<Boolean>()
+    val updatePricingSubject = PublishSubject.create<RailCreateTripResponse>()
 
     init {
         Ui.getApplication(context).railComponent().inject(this)
@@ -64,6 +64,7 @@ class RailCheckoutViewModel(val context: Context) {
     }
 
     val createTripObserver = endlessObserver<RailCreateTripResponse> { createTripResponse ->
+        //TODO update this on price change on checkout #7854
         val tripDetails = RailCheckoutParams.TripDetails(createTripResponse.tripId,
                 createTripResponse.totalPrice.amount.toString(),
                 createTripResponse.totalPrice.currencyCode,
@@ -111,22 +112,14 @@ class RailCheckoutViewModel(val context: Context) {
         sliderPurchaseTotalText.onNext(slideToPurchaseText)
     }
 
-    fun fetchCardFees(cardId: String, tdoToken: String) {
-        val tripId = getTripId()
-        if (tripId.isNotBlank() && cardId.length >= 6) {
-            cardFeeServiceProvider.fetchCardFees(railServices, tripId, cardId, tdoToken, getCardFeesCallback())
-        }
-    }
-
-    fun resetCardFees() {
+    fun resetCardFees(tdoToken: String) {
         cardFeeServiceProvider.resetCardFees(railServices)
         paymentTypeSelectedHasCardFee.onNext(false)
         cardFeeTextSubject.onNext(Html.fromHtml(""))
 
         val newTripResponse = tripResponseObservable.value
         newTripResponse.selectedCardFees = null
-        newTripResponse.totalPriceIncludingFees = null
-        cardFeeTripResponseSubject.onNext(newTripResponse)
+        updateTotalPriceWithTdoFees(tdoToken)
     }
 
     fun isValidForBooking(): Boolean {
@@ -156,21 +149,33 @@ class RailCheckoutViewModel(val context: Context) {
         }).subscribe { displayCardFeesObservable.onNext(it) }
     }
 
+    fun fetchCardFees(cardId: String, tdoToken: String) {
+        val tripId = getTripId()
+        if (tripId.isNotBlank() && cardId.length >= 6) {
+            cardFeeServiceProvider.fetchCardFees(railServices, tripId, cardId, tdoToken, getCardFeesCallback(tdoToken))
+        } else {
+            updateTotalPriceWithTdoFees(tdoToken)
+        }
+    }
 
-    private fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
-        // add card fee to trip response
+    private fun updateCostBreakdownWithFees(cardFee: Money?, totalPriceInclFees: Money?, tdoToken: String) {
+        // add credit card and tdo fees to trip response
         val newTripResponse = tripResponseObservable.value
         newTripResponse.selectedCardFees = cardFee
         newTripResponse.totalPriceIncludingFees = totalPriceInclFees
+        newTripResponse.ticketDeliveryFees = newTripResponse.getTicketDeliveryFeeForOption(tdoToken)
+
         cardFeeTripResponseSubject.onNext(newTripResponse)
         selectedCardFeeObservable.onNext(cardFee)
+        updatePricingSubject.onNext(newTripResponse)
     }
 
-    private fun getCardFeesCallback(): Observer<CardFeeResponse> {
+    private fun getCardFeesCallback(tdoToken: String): Observer<CardFeeResponse> {
+
         return object : Observer<CardFeeResponse> {
             override fun onNext(it: CardFeeResponse) {
                 if (!it.hasErrors()) {
-                    selectedPaymentHasCardFee(it.feePrice, it.tripTotalPrice)
+                    updateCostBreakdownWithFees(it.feePrice, it.tripTotalPrice, tdoToken)
                 }
             }
 
@@ -178,9 +183,27 @@ class RailCheckoutViewModel(val context: Context) {
             }
 
             override fun onError(e: Throwable?) {
+                updateTotalPriceWithTdoFees(tdoToken)
                 //TODO error handling #9005
             }
         }
+    }
+
+    private fun updateTotalPriceWithTdoFees(tdoToken: String) {
+        /* To show the correct cost breakdown:
+             1. when user selects a TDO with fees but has not entered CC
+             2. when cardFee service fails
+           We need to manually add the TDO fees to total
+         */
+        val response = tripResponseObservable.value
+        val currencyCode = response.totalPrice.currencyCode
+        val tdoFees = response.getTicketDeliveryFeeForOption(tdoToken)
+        var totalPriceInclFees = response.totalPrice
+        if (tdoFees != null) {
+            totalPriceInclFees = Money(response.totalPrice.amount.plus(tdoFees.amount), currencyCode)
+            totalPriceInclFees.formattedPrice = Money.getFormattedMoneyFromAmountAndCurrencyCode(totalPriceInclFees.amount, currencyCode)
+        }
+        updateCostBreakdownWithFees(null, totalPriceInclFees, tdoToken)
     }
 
     private fun makeCheckoutResponseObserver(): Observer<RailCheckoutResponse> {

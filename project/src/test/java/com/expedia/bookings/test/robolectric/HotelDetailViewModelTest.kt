@@ -39,14 +39,15 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import rx.observers.TestSubscriber
 import rx.subjects.PublishSubject
+import java.math.BigDecimal
 import java.text.DecimalFormat
 import java.util.ArrayList
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
-import kotlin.test.assertEquals
 import kotlin.test.assertFalse
-import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import kotlin.test.assertNull
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -123,6 +124,32 @@ class HotelDetailViewModelTest {
         assertNull(vm.strikeThroughPriceObservable.value)
     }
 
+    @Test fun getHotelPriceContentDescriptionTestWithStrikeThrough() {
+        val testSubscriberText = TestSubscriber<CharSequence>()
+        val chargeableRateInfo = offer2.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.averageRate = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers + 10f
+        vm.hotelPriceContentDesc.subscribe(testSubscriberText)
+        vm.hotelOffersSubject.onNext(offer2)
+
+        assertEquals("Regularly ${vm.strikeThroughPriceObservable.value}, now ${vm.priceToShowCustomerObservable.value}.\\u0020Original price discounted ${vm.discountPercentageObservable.value.first}.\\u0020",
+                testSubscriberText.onNextEvents[0])
+    }
+
+
+        @Test fun getHotelPriceContentDescriptionTestNoStrikeThrough() {
+        val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
+        val testSubscriberText = TestSubscriber<CharSequence>()
+        chargeableRateInfo.priceToShowUsers = 110f
+        chargeableRateInfo.strikethroughPriceToShowUsers = chargeableRateInfo.priceToShowUsers - 10f
+        chargeableRateInfo.averageRate = 110f
+        vm.hotelPriceContentDesc.subscribe(testSubscriberText)
+        vm.hotelOffersSubject.onNext(offer1)
+
+        assertEquals("$110/night", testSubscriberText.onNextEvents[0])
+    }
+
     @Test fun discountPercentageShouldNotShowForPackages() {
         val hotelOffer = HotelOffersResponse()
         vm.hotelOffersSubject.onNext(hotelOffer)
@@ -190,6 +217,9 @@ class HotelDetailViewModelTest {
         packageHotelOffer.packagePricing.hotelPricing.mandatoryFees.feeTotal = Money(20, "USD")
         packageHotelOffer.cancellationPolicy = PackageOffersResponse.CancellationPolicy()
         packageHotelOffer.cancellationPolicy.hasFreeCancellation = false
+        packageHotelOffer.pricePerPerson = Money()
+        packageHotelOffer.pricePerPerson.amount = BigDecimal(25.00)
+        packageHotelOffer.pricePerPerson.currencyCode = "USD"
         packageOffer.packageHotelOffers = arrayListOf(packageHotelOffer)
 
         val offer = HotelOffersResponse.convertToHotelOffersResponse(offer1, packageOffer, packageSearchParams)
@@ -279,7 +309,7 @@ class HotelDetailViewModelTest {
         val dates = DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)) + " - " +
                 DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate))
         assertEquals(dates, vm.searchDatesObservable.value)
-        assertEquals("1 Room, ${searchParams.guests} Guests", vm.searchInfoObservable.value)
+        assertEquals("$dates, ${searchParams.guests} Guests", vm.searchInfoObservable.value)
     }
 
     @Test fun priceShownToCustomerIncludesCustomerFees() {

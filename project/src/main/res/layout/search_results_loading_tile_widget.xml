@@ -6,8 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="12dp"
-    android:layout_marginLeft="@dimen/card_view_container_margin"
-    android:layout_marginRight="@dimen/card_view_container_margin"
     android:foreground="?android:attr/selectableItemBackground">
 
     <View

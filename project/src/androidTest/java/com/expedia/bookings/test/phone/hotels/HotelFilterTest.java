@@ -19,6 +19,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isNotChecked;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.doneButton;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterHotelName;
 import static com.expedia.bookings.test.phone.hotels.HotelScreen.filterResultsSnackBar;
@@ -113,13 +114,16 @@ public class HotelFilterTest extends HotelTestCase {
 
 		//click show more. show less
 		onView(withId(R.id.show_more_less_text)).check(matches(withText("SHOW MORE")));
+		onView(withId(R.id.collapsed_container)).check(matches(withContentDescription("Show more neighborhoods. Button")));
 		onView(withId(R.id.collapsed_container)).perform(scrollTo());
 		onView(withId(R.id.collapsed_container)).perform(click());
 		onView(withId(R.id.show_more_less_text)).check(matches(withText("SHOW LESS")));
+		onView(withId(R.id.collapsed_container)).check(matches(withContentDescription("Show fewer neighborhoods. Button")));
 		Common.delay(2);
 		onView(withId(R.id.collapsed_container)).perform(scrollTo());
 		onView(withId(R.id.collapsed_container)).perform(click());
 		onView(withId(R.id.show_more_less_text)).check(matches(withText("SHOW MORE")));
+		onView(withId(R.id.collapsed_container)).check(matches(withContentDescription("Show more neighborhoods. Button")));
 
 		//select and deselect one row
 		onView(withText("Civic Center")).perform(click());

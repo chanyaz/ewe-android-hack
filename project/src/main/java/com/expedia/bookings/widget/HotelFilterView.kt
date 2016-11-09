@@ -2,7 +2,6 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.graphics.PorterDuff
-import android.support.annotation.StringRes
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.Toolbar
 import android.text.Editable
@@ -155,11 +154,10 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             vm.vipFilteredObserver.onNext(filterHotelVip.isChecked)
         }
 
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.lob == LineOfBusiness.HOTELS)) {
             filterFavoriteContainer.setOnClickListener {
                 clearHotelNameFocus()
-                filterHotelFavorite.isChecked = !filterHotelFavorite.isChecked
-                vm.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
+                updateFavoriteFilter()
                 HotelTracking().trackHotelFilterFavoriteClicked(filterHotelFavorite.isChecked)
             }
         }
@@ -186,7 +184,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             resetStars()
 
             filterHotelVip.isChecked = false
-            if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+            if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.lob == LineOfBusiness.HOTELS)) {
                 filterHotelFavorite.isChecked = false
             }
 
@@ -396,6 +394,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             if (isSectionExpanded) {
                 AnimUtils.rotate(neighborhoodMoreLessIcon)
                 neighborhoodMoreLessLabel.text = resources.getString(R.string.show_less)
+                neighborhoodMoreLessView.contentDescription = resources.getString(R.string.hotels_filter_show_less_cont_desc)
 
                 for (i in 3..neighborhoodContainer.childCount - 1) {
                     val v = neighborhoodContainer.getChildAt(i)
@@ -439,6 +438,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     private fun setupNeighBourhoodView() {
         AnimUtils.reverseRotate(neighborhoodMoreLessIcon)
         neighborhoodMoreLessLabel.text = resources.getString(R.string.show_more)
+        neighborhoodMoreLessView.contentDescription = resources.getString(R.string.hotels_filter_show_more_cont_desc)
 
         val resizeAnimator = ResizeHeightAnimator(ANIMATION_DURATION)
         resizeAnimator.addViewSpec(neighborhoodContainer, rowHeight * 3)
@@ -535,14 +535,14 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     fun refreshFavoriteCheckbox() {
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context) && viewmodel.lob == LineOfBusiness.HOTELS) {
-            val favSize = HotelFavoriteHelper.getHotelFavorites(context).size
-            if (favSize == 0 && !viewmodel.userFilterChoices.favorites) {
-                filterFavoriteContainer.visibility = View.GONE
-                optionLabel.text = context.resources.getString(R.string.vip)
-            } else {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.lob == LineOfBusiness.HOTELS)) {
+            if (HotelFavoriteHelper.getLocalFavorites().isNotEmpty()) {
                 filterFavoriteContainer.visibility = View.VISIBLE
                 optionLabel.text = context.resources.getString(R.string.filter_options)
+            } else {
+                if (viewmodel.userFilterChoices.favorites) updateFavoriteFilter()
+                filterFavoriteContainer.visibility = View.GONE
+                optionLabel.text = context.resources.getString(R.string.vip)
             }
         }
     }
@@ -558,5 +558,10 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         filterStarThree.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_three_circle));
         filterStarFour.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_four_circle));
         filterStarFive.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.btn_filter_rating_five_circle));
+    }
+
+    private fun updateFavoriteFilter() {
+        filterHotelFavorite.isChecked = !filterHotelFavorite.isChecked
+        viewmodel.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
     }
 }

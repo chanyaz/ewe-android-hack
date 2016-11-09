@@ -372,7 +372,7 @@
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:resizeableActivity="false"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:theme="@style/com_facebook_activity_theme"
             tools:ignore="UnusedAttribute" />
 
         <activity

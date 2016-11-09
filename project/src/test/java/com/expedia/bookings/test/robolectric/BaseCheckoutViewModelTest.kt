@@ -40,7 +40,7 @@ class BaseCheckoutViewModelTest {
                 paymentViewModel = PaymentViewModel(activity)
             }
             override fun getTripId(): String {
-                return tripResponseObservable.value.tripId
+                return tripResponseObservable.value!!.tripId
             }
         }
         testViewModel.builder.tripId("4321")
@@ -76,6 +76,19 @@ class BaseCheckoutViewModelTest {
         testViewModel.travelerCompleted.onNext(travelers)
     }
 
+    @Test
+    fun testStreetAddress() {
+        val testSubscriber = TestSubscriber<BaseCheckoutParams>()
+        testViewModel.checkoutParams.subscribe(testSubscriber)
+        testViewModel.travelerCompleted.onNext(arrayListOf(getTraveler()))
+        testViewModel.paymentCompleted.onNext(getBillingInfo())
+        testViewModel.cvvCompleted.onNext("123")
+
+        testSubscriber.requestMore(LOTS_MORE)
+        assertEquals("123 street", testSubscriber.onNextEvents[0].toQueryMap().get("streetAddress"))
+        assertEquals("apt 69", testSubscriber.onNextEvents[0].toQueryMap().get("streetAddress2"))
+    }
+
     fun getBillingInfo(): BillingInfo {
         var info = BillingInfo()
         info.email = "qa-ehcc@mobiata.com"
@@ -89,7 +102,7 @@ class BaseCheckoutViewModelTest {
         info.expirationDate = LocalDate.now()
 
         val location = Location()
-        location.streetAddress = arrayListOf("123 street")
+        location.streetAddress = arrayListOf("123 street", "apt 69")
         location.city = "city"
         location.stateCode = "CA"
         location.countryCode = "US"

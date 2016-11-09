@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.TravelerUtils
 abstract class BaseTravelerViewModel(val context: Context, val travelerIndex: Int) {
     var nameViewModel = TravelerNameViewModel(context)
     var phoneViewModel = TravelerPhoneViewModel(context)
-    var emailViewModel = TravelerEmailViewModel(context)
+    var emailViewModel = TravelerEmailViewModel(getTraveler(), context)
 
     abstract fun updateTraveler(traveler: Traveler)
     abstract fun validate(): Boolean

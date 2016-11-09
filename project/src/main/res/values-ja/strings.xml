@@ -73,6 +73,8 @@
     <string name="cars_total_template">合計 : %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">スライドして予約</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">予約する</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">購入手続き</string>
     <!-- Text for error toolbar-->
@@ -187,6 +189,11 @@
         <item quantity="one">結果 {number} 件</item>
         <item quantity="other">結果 {number} 件</item>
     </plurals>
+    <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
+    <plurals name="number_results_announcement_text_TEMPLATE">
+        <item quantity="one">結果 {number} 件を絞り込みました</item>
+        <item quantity="other">結果 {number} 件を絞り込みました</item>
+    </plurals>
 
     <!-- Checkout -->
     <!-- Car model templates-->
@@ -263,6 +270,8 @@
     <string name="scan_card_text">カードをスキャンする</string>
     <!-- Card.io instruction text -->
     <string name="scan_card_instruction_text">カードを保存する。自動的にスキャンします。</string>
+    <!--Hotels accessibility content description for Cost Summary Button-->
+    <string name="accessibility_cost_summary_cont_desc_role_button">料金の概要情報ボタン</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1492,9 +1501,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア 自動車</string>
-    <string name="car_type_three_door">3 ドア 自動車</string>
-    <string name="car_type_four_door">4 ドア 自動車</string>
+    <string name="car_type_two_door">2 ドア自動車</string>
+    <string name="car_type_three_door">3 ドア自動車</string>
+    <string name="car_type_four_door">4 ドア自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1732,8 +1741,8 @@
     <string name="flights_round_trip_label">往復</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">片道</string>
-    <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">往路 (行き)</string>
+    <!-- Label to identify selected outbound flight/rail card -->
+    <string name="outbound_label">往路 (行き)</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">航空券</string>
     <string name="flights_title_cont_desc">フライト ボタン</string>
@@ -2340,7 +2349,7 @@
         <item quantity="one">その他 {travelercount} 名の旅行者</item>
         <item quantity="other">その他 {travelercount} 名の旅行者</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する ({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 歳</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -4108,6 +4117,10 @@
     <string name="hotel_price_range_start">最低料金</string>
     <!-- Hotel Price Range end filter label for accessibility -->
     <string name="hotel_price_range_end">最高料金</string>
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="hotels_filter_show_more_cont_desc">周辺情報をさらに表示するボタン</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="hotels_filter_show_less_cont_desc">周辺情報を一部のみ表示するボタン</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">絞り込み画面の「お気に入り」に追加されました</string>
@@ -4385,6 +4398,9 @@
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}、{formattedchangecount}</string>
 
+    <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
+    <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
+
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">経路の詳細 + 運賃オプション</string>
 
@@ -4407,6 +4423,9 @@
 
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">往路 (行き) - {date}</string>
+
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">復路 (帰り) - {date}</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">合計</string>
@@ -4465,6 +4484,9 @@
     <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
     <string name="rail_cc_processing_fee_TEMPLATE">クレジットカードの手数料 : &lt;b&gt;{card_fee}&lt;/b&gt;</string>
 
+    <!--A message on search results that children under 5 cab travel for free -->
+    <string name="rail_children_warning">5 歳以下のお子様で座席が不要の場合は無料です。座席が必要な場合は、お子様の年齢を 6 歳と入力して、座席を購入してください。</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">チケットの受取方法</string>
 
@@ -4472,6 +4494,9 @@
     <string name="pickup_at_station">鉄道駅で受取</string>
     <string name="delivery_by_mail">郵送で受取</string>
     <string name="shipping_address">郵送先</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">このご予約の完了をもって、&lt;a href=\"{rules_and_restrictions_url}\"&gt;規則および制限事項&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;旅行規約&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;サプライヤー利用規約&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;利用規約&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;プライバシーポリシー&lt;/a&gt;、&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;お支払いおよび発券手数料&lt;/a&gt;を読み、その内容に同意したものとみなされます。</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">チケットの予約番号および購入時にご利用のクレジットカードをお持ちください。</string>
@@ -4491,6 +4516,10 @@
 
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">目的地を入力</string>
+    <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
+    <string name="enter_destination_cont_desc">目的地を入力するボタン</string>
+    <!-- New Hotel Content description for destination entered, e.g- Destination. San Francisco, CA. Button-->
+    <string name="hotel_search_destination_cont_desc_TEMPLATE">目的地{destination}ボタン</string>
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">航空保険</string>
@@ -4580,12 +4609,16 @@
     <string name="flight_detail_card_cont_desc_TEMPLATE">フライト時間は {time} で差額は {pricedifference} です。ご利用の航空会社は{airline}です。所要時間は {stops} 回乗継で {hours} {minutes} です\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の{hotel}。ゲスト評価 5 段階中 {guestrating}。料金 {price}。ホテルと航空券込み \u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
-    <string name="hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の{hotel}。ゲスト評価 5 段階中 {guestrating}。料金{price}\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <string name="hotel_details_cont_desc_TEMPLATE">5 段階中 {starrating} の評価の{hotel}。ゲスト評価 5 段階中 {guestrating}。\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">前の料金 {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
     <string name="hotel_discount_cont_desc_TEMPLATE">通常料金から {percent} \u0020 OFF \u0020</string>
+    <!-- Hotel strike through price content description for accessibility. Example. Regularly $100, now $80. -->
+    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">通常料金 {strikethroughprice}、割引後 {price}。\u0020</string>
+    <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
+    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">通常料金から {percentage} 割引。\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">超目玉セール {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
@@ -4606,9 +4639,11 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">旅行日。ボタン。ダイアログを開きます。旅行日 {date_range}。 {nights}</string>
+    <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">料金 {price}。\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
-        <item quantity="one">旅行者数。ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
+        <item quantity="one">旅行者数ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
         <item quantity="other">旅行者数。ボタン。ダイアログを開きます。旅行者 {travelers} 名</item>
     </plurals>
     <!--Traveler widget adults plus button content description-->

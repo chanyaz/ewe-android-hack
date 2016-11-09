@@ -502,7 +502,19 @@ public class StrUtils {
 			R.string.privacy_policy));
 		String statement = context.getResources()
 			.getString(R.string.legal_TEMPLATE, spannedRules, spannedTerms, spannedPrivacy);
+		return getSpannableTextByPrimaryColor(context, statement, true);
+	}
 
+	public static SpannableStringBuilder generateRailLegalClickableLink(Context context, String rulesAndRestrictionsURL) {
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		String statement = Phrase.from(context, R.string.rails_legal_TEMPLATE)
+			.put("rules_and_restrictions_url", rulesAndRestrictionsURL)
+			.put("conditions_of_travel_url", pos.getRailsNationalRailConditionsOfTravelUrl())
+			.put("supplier_terms_and_cnditions_url", pos.getRailsSupplierTermsAndConditionsUrl())
+			.put("terms_of_use_url", pos.getRailsTermOfUseUrl())
+			.put("privacy_policy_url", pos.getRailsPrivacyPolicyUrl())
+			.put("payment_and_ticket_delivery_fees_url", pos.getRailsPaymentAndTicketDeliveryFeesUrl())
+			.format().toString();
 		return getSpannableTextByPrimaryColor(context, statement, true);
 	}
 

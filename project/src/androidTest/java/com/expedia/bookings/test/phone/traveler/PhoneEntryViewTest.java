@@ -96,7 +96,7 @@ public class PhoneEntryViewTest {
 			@Override
 			public void run() {
 				phoneEntryView.setViewModel(phoneVM);
-				phoneVM.getPhoneErrorSubject().onNext(true);
+				phoneVM.getPhoneViewModel().getErrorSubject().onNext(true);
 			}
 		});
 

@@ -28,8 +28,8 @@ object FlightsV2Tracking {
         FacebookEvents().trackFlightV2Search(flightSearchParams, flightLegs)
     }
 
-    fun trackFlightOverview(isOutboundFlight: Boolean) {
-        OmnitureTracking.trackFlightOverview(isOutboundFlight)
+    fun trackFlightOverview(isOutboundFlight: Boolean, isRoundTrip: Boolean) {
+        OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip)
     }
 
     fun trackResultInBoundFlights(flightSearchParams: FlightSearchParams,flightLegs: List<FlightLeg>) {
@@ -129,7 +129,7 @@ object FlightsV2Tracking {
     }
 
     fun trackCheckoutEditTraveler() {
-        OmnitureTracking.trackFlightCheckoutEditTraveler()
+        OmnitureTracking.trackFlightCheckoutTravelerEditInfo()
     }
 
     fun trackPaymentStoredCCSelect() {

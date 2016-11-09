@@ -87,7 +87,7 @@
                         style="@style/MaterialCardTextView"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/default_search_card_height"
-                        android:contentDescription="@string/location_edit_box_cont_desc"
+                        android:contentDescription="?attr/skin_searchLocationContDesc"
                         app:input_icon="@drawable/search_form_icon_search"
                         app:input_icon_tint_color="@color/search_screen_icon_color_v2"
                         app:input_text="?attr/skin_searchLocationText" />

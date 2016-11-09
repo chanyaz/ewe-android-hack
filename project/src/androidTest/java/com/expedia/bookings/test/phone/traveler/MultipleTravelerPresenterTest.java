@@ -25,6 +25,7 @@ import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.traveler.CheckoutTravelerViewModel;
+
 import rx.observers.TestSubscriber;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -175,7 +176,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			}
 		});
 
-		TestSubscriber testSubscriber = new TestSubscriber(1);
+		TestSubscriber testSubscriber = new TestSubscriber();
 		testTravelerPresenter.getToolbarTitleSubject().subscribe(testSubscriber);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
@@ -256,6 +257,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		EspressoUser.clickOnText(expectedFilledTravelerChildText);
+		PackageScreen.closeDateErrorDialog();
 		travelerPresenterBack();
 
 		Common.delay(2);
@@ -322,6 +324,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		EspressoUser.clickOnText(expectedFilledTravelerChildText);
+		PackageScreen.closeDateErrorDialog();
 		travelerPresenterBack();
 
 		Common.delay(2);

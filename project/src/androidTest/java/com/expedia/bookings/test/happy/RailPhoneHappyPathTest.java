@@ -1,6 +1,8 @@
 package com.expedia.bookings.test.happy;
 
-import org.hamcrest.CoreMatchers;
+import org.hamcrest.Matcher;
+
+import android.view.View;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.EspressoUtils;
@@ -23,12 +25,12 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 	public void testRailPhoneHappyPath() throws Throwable {
 		RailScreen.navigateToTripOverview();
 		assertLegInfo();
-		assertDetailsCollapsed();
-		assertDetailsExpanded();
+		assertOutboundDetailsCollapsed();
+		assertOutboundDetailsExpanded();
 
 		//assert info container
-		RailScreen.fareDesciptionInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Travel anytime of day")))));
+		RailScreen.ouboundFareDescriptionInfo().check(matches(
+			allOf(isDisplayed(), withText("Travel anytime of day"))));
 
 		RailScreen.checkout().perform(click());
 
@@ -49,22 +51,30 @@ public class RailPhoneHappyPathTest extends RailTestCase {
 	}
 
 	private void assertLegInfo() {
-		RailScreen.legInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("12:55 PM – 4:16 PM")))));
-		RailScreen.legInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("3h 21m, 2 Changes")))));
-		RailScreen.legInfo().check(matches(hasDescendant(
-			CoreMatchers.allOf(isDisplayed(), withText("Multiple train operators")))));
+		RailScreen.outboundLegInfo().check(matches(hasDescendant(
+			allOf(isDisplayed(), withText("12:55 PM – 4:16 PM")))));
+		RailScreen.outboundLegInfo().check(matches(hasDescendant(
+			allOf(isDisplayed(), withText("3h 21m, 2 Changes")))));
+		RailScreen.outboundLegInfo().check(matches(hasDescendant(
+			allOf(isDisplayed(), withText("Multiple train operators")))));
 	}
 
-	private void assertDetailsExpanded() {
-		RailScreen.detailsIcon().perform(click());
-		EspressoUtils.assertViewIsDisplayed(R.id.rail_leg_details);
-		RailScreen.detailsIcon().perform(click());
+	private void assertOutboundDetailsExpanded() {
+		RailScreen.outboundDetailsIcon().perform(click());
+		Matcher<View> matcher = allOf(
+			isDescendantOfA(withId(R.id.rail_outbound_leg_widget)),
+			withId(R.id.rail_leg_details));
+
+		EspressoUtils.assertViewIsDisplayed(matcher);
+		RailScreen.outboundDetailsIcon().perform(click());
 	}
 
-	private void assertDetailsCollapsed() {
-		EspressoUtils.assertViewIsNotDisplayed(R.id.rail_leg_details);
+	private void assertOutboundDetailsCollapsed() {
+		Matcher<View> matcher = allOf(
+			isDescendantOfA(withId(R.id.rail_outbound_leg_widget)),
+			withId(R.id.rail_leg_details));
+
+		EspressoUtils.assertViewIsNotDisplayed(matcher);
 	}
 
 	private void assertConfirmationScreen() {

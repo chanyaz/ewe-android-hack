@@ -3,6 +3,7 @@ package com.expedia.bookings.data.rail.responses;
 import org.jetbrains.annotations.NotNull;
 import org.joda.time.DateTime;
 
+import com.expedia.bookings.data.rail.RailTravelMedium;
 import com.expedia.bookings.utils.DateUtils;
 
 public class RailSegment {
@@ -25,11 +26,6 @@ public class RailSegment {
 
 	public boolean isTransfer() {
 		return TRANSFER.equals(travelMode);
-	}
-
-	public static class RailTravelMedium {
-		public String travelMediumCode; //"ICY"
-		public String travelMediumName; //"Inter-City"
 	}
 
 	@NotNull

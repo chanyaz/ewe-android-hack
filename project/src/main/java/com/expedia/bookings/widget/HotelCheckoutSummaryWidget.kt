@@ -10,13 +10,13 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
@@ -24,7 +24,6 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelBreakDownViewModel
 import com.expedia.vm.HotelCheckoutSummaryViewModel
-import com.squareup.phrase.Phrase
 import com.squareup.picasso.Picasso
 
 class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
@@ -93,14 +92,9 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         }
         viewModel.isPayLaterOrResortCase.subscribeVisibility(totalWithTaxLabelWithInfoButton.compoundDrawables[2], false)
         viewModel.isPayLaterOrResortCase.subscribeVisibility(amountDueTodayLabel.compoundDrawables[2], true)
-        viewModel.newDataObservable.subscribe {
-            amountDueTodayLabel.text = if (it.isDepositV2.value)
-                Phrase.from(getContext(), R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format()
-            else if (it.isPayLaterOrResortCase.value) {
-                Phrase.from(getContext(), R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format()
-            } else {
-                resources.getString(R.string.total_with_tax)
-            }
+        viewModel.amountDueTodayLabelObservable.subscribeText(amountDueTodayLabel)
+        viewModel.costSummaryContentDescription.subscribe { contentDescription ->
+            AccessibilityUtil.appendRoleContDesc(costSummary, contentDescription, R.string.accessibility_cost_summary_cont_desc_role_button)
         }
         viewModel.roomHeaderImage.subscribe {
             PicassoHelper.Builder(context)

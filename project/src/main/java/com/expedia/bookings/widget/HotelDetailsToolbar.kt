@@ -14,11 +14,11 @@ import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BaseHotelDetailViewModel
-import com.squareup.phrase.Phrase
 import kotlin.properties.Delegates
 
 class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
@@ -32,7 +32,6 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
     val heartViewContainer: android.widget.FrameLayout by bindView(R.id.hotel_detail_toolbar_heart_container)
     var viewModel: BaseHotelDetailViewModel by Delegates.notNull()
     var navIcon: ArrowXDrawable by Delegates.notNull()
-    //TODO handle click when user favorite from detail screen.
     val heartIcon: FavoriteButton by bindView(R.id.heart_image_view)
 
     init {
@@ -44,8 +43,6 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
             toolBarRating = findViewById(R.id.hotel_star_rating_bar) as StarRatingBar
         }
 
-        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(context)
-        heartViewContainer.visibility = if (bucketed) View.VISIBLE else View.GONE
 
         navIcon = ArrowXDrawableUtil.getNavigationIconDrawable(getContext(), ArrowXDrawableUtil.ArrowDrawableType.BACK)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
@@ -60,9 +57,7 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         if (statusBarHeight > 0) {
             toolbar.setPadding(0, statusBarHeight, 0, 0)
         }
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
-            heartIcon.isInDetailView = true
-        }
+
     }
 
     fun hideGradient() {
@@ -71,19 +66,16 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
 
     fun setHotelDetailViewModel(vm: BaseHotelDetailViewModel) {
         viewModel = vm
+        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(viewModel.showHotelFavorite())
+        heartViewContainer.visibility = if (bucketed) View.VISIBLE else View.GONE
+        heartIcon.isInDetailView = bucketed
+
         vm.toolBarRatingColor.subscribeStarColor(toolBarRating)
         vm.hotelNameObservable.subscribeText(toolbarTitle)
         vm.hotelRatingObservable.subscribe {
             toolBarRating.setRating(it)
-            setHotelRatingContentDescription(it.toInt())
         }
+        vm.hotelRatingContentDescriptionObservable.subscribeContentDescription(toolBarRating)
         vm.hotelRatingObservableVisibility.subscribeVisibility(toolBarRating)
-    }
-
-    private fun setHotelRatingContentDescription(starRating: Int) {
-        toolBarRating.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, starRating))
-                .put("rating", starRating)
-                .format()
-                .toString()
     }
 }

@@ -38,10 +38,10 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
 
     var viewModel: CheckoutTravelerViewModel by notNullAndObservable { vm ->
         vm.invalidTravelersSubject.subscribe {
-            show(travelerPickerWidget, Presenter.FLAG_CLEAR_BACKSTACK)
+            show(travelerPickerWidget, Presenter.FLAG_CLEAR_TOP)
         }
         vm.emptyTravelersSubject.subscribe {
-            show(travelerPickerWidget, Presenter.FLAG_CLEAR_BACKSTACK)
+            show(travelerPickerWidget, Presenter.FLAG_CLEAR_TOP)
         }
         vm.showMainTravelerMinAgeMessaging.subscribeVisibility(travelerPickerWidget.mainTravelerMinAgeTextView)
         vm.singleTravelerCompletenessStatus.subscribe {
@@ -63,6 +63,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         View.inflate(context, R.layout.traveler_presenter, this)
 
         travelerPickerWidget.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
+            show(travelerEntryWidget)
             toolbarTitleSubject.onNext(selectedTraveler.second)
             travelerEntryWidget.viewModel = FlightTravelerViewModel(context, selectedTraveler.first, viewModel.passportRequired.value)
             travelerEntryWidget.viewModel.showPassportCountryObservable.subscribe(travelerPickerWidget.passportRequired)
@@ -70,8 +71,9 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             if (selectedTravelerPickerTravelerViewModel.status == TravelerCheckoutStatus.DIRTY) {
                 travelerEntryWidget.viewModel.validate()
             }
-            show(travelerEntryWidget)
         }
+
+        travelerEntryWidget.nameEntryViewFocused.subscribeVisibility(boardingWarning)
 
         doneClicked.subscribe {
             if (travelerEntryWidget.isValid()) {
@@ -106,12 +108,12 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     private val selectToEntry = object : Presenter.Transition(TravelerPickerWidget::class.java,
             FlightTravelerEntryWidget::class.java) {
         override fun startTransition(forward: Boolean) {
+            travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
+            travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
+            if (!forward) travelerPickerWidget.show() else travelerPickerWidget.visibility = View.GONE
             menuVisibility.onNext(forward)
             dropShadow.visibility = View.VISIBLE
             boardingWarning.visibility =  if (forward) View.VISIBLE else View.GONE
-            if (!forward) travelerPickerWidget.show() else travelerPickerWidget.visibility = View.GONE
-            travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
-            travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
             if (!forward) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
                 travelerEntryWidget.travelerButton.dismissPopup()
@@ -141,16 +143,17 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
         if (viewModel.getTravelers().size > 1) {
             toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
             updateAllTravelerStatuses()
-            show(travelerPickerWidget)
+            show(travelerPickerWidget, FLAG_CLEAR_TOP)
         } else {
+            if (currentState == null) show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
+            show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
+
             val travelerViewModel = FlightTravelerViewModel(context, 0, viewModel.passportRequired.value)
             travelerEntryWidget.viewModel = travelerViewModel
             toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
             if (viewModel.travelerCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
                 travelerEntryWidget.viewModel.validate()
             }
-            if (currentState == null) show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
-            show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
         }
     }
 

@@ -103,7 +103,10 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             params.put("expirationDateYear", billingInfo.expirationDate.year)
             params.put("expirationDateMonth", billingInfo.expirationDate.monthOfYear)
 
-            params.put("streetAddress", billingInfo.location.streetAddress)
+            params.put("streetAddress", billingInfo.location.streetAddressLine1)
+            if (!billingInfo.location.streetAddressLine2.isNullOrEmpty()) {
+                params.put("streetAddress2", billingInfo.location.streetAddressLine2)
+            }
             params.put("city", billingInfo.location.city)
             params.put("state", billingInfo.location.stateCode)
             params.put("country", billingInfo.location.countryCode)

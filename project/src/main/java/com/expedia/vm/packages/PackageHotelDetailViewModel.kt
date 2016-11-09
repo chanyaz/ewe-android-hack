@@ -5,7 +5,9 @@ import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
@@ -14,13 +16,24 @@ import com.expedia.util.getControlGuestRatingBackground
 import com.expedia.util.getControlGuestRatingText
 import com.expedia.vm.BaseHotelDetailViewModel
 import rx.Observer
-import java.util.Locale
 
 class PackageHotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
         BaseHotelDetailViewModel(context, roomSelectedObserver) {
 
+    override fun pricePerDescriptor(): String {
+        return " " + context.getString(R.string.per_person)
+    }
+
+    override fun getLobPriceObservable(rate: HotelRate) {
+        priceToShowCustomerObservable.onNext(rate.packagePricePerPerson.getFormattedMoney(Money.F_NO_DECIMAL))
+    }
+
     override fun showFeeType() : Boolean {
         return true
+    }
+
+    override fun showHotelFavorite(): Boolean {
+        return false
     }
 
     override fun getFeeTypeText() : Int {

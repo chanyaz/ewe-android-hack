@@ -53,15 +53,18 @@ abstract class BaseErrorPresenter(context: Context, attr: AttributeSet?) : Prese
         standardToolbar.setTitleTextAppearance(getContext(), R.style.ToolbarTitleTextAppearance)
         standardToolbar.setSubtitleTextAppearance(getContext(), R.style.ToolbarSubtitleTextAppearance)
         errorButton.setBackgroundColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
+        setupStatusBar()
 
+        standardToolbar.setNavigationOnClickListener {
+           back()
+        }
+    }
+
+    open fun setupStatusBar() {
         val statusBarHeight = Ui.getStatusBarHeight(getContext())
         if (statusBarHeight > 0) {
             val statusBar = Ui.setUpStatusBar(getContext(), standardToolbar, root, ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
             addView(statusBar)
-        }
-
-        standardToolbar.setNavigationOnClickListener {
-           back()
         }
     }
 

@@ -6,18 +6,6 @@
         android:title="Hotel Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_hotel_favorite"
-            android:layout="@layout/preference"
-            android:summary="Save your favorite hotels."
-            android:title="Enable Hotel Favorite Feature" />
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_hotel_results_perceived_instant"
-            android:layout="@layout/preference"
-            android:summary="Hotel Results Perceived Instant."
-            android:title="Enable Hotel Results Perceived Instant Feature" />
-
-        <CheckBoxPreference
             android:key="@string/preference_enable_hotel_filter_prominence"
             android:layout="@layout/preference"
             android:summary="AB test with 2 variants"

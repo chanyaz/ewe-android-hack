@@ -7,7 +7,6 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
@@ -17,6 +16,7 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.EmailEntryView
 import com.expedia.bookings.widget.traveler.NameEntryView
@@ -42,11 +42,12 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
     val emailEntryView: EmailEntryView by bindView(R.id.email_entry_widget)
     val phoneEntryView: PhoneEntryView by bindView(R.id.phone_entry_widget)
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
-    val passportCountrySpinner: Spinner by bindView(R.id.passport_country_spinner)
+    val passportCountrySpinner: AccessibleSpinner by bindView(R.id.passport_country_spinner)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
 
+    val nameEntryViewFocused = PublishSubject.create<Boolean>()
     val focusedView = PublishSubject.create<View>()
     val filledIn = PublishSubject.create<Boolean>()
 
@@ -103,15 +104,20 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
                         nameEntryView.lastName.nextFocusForwardId = R.id.edit_birth_date_text_btn
                     }
                 }).subscribe()
+
+        focusedView.subscribe { view ->
+            nameEntryViewFocused.onNext(nameEntryView.firstName.hasFocus() || nameEntryView.middleName.hasFocus() || nameEntryView.lastName.hasFocus())
+        }
+
         vm.showPassportCountryObservable.subscribe { show ->
             tsaEntryView.genderSpinner.nextFocusForwardId = if (show) R.id.passport_country_spinner else R.id.first_name_input
         }
 
-        vm.tsaViewModel.formattedDateSubject.subscribe {
+        vm.tsaViewModel.dateOfBirthViewModel.textSubject.subscribe {
             filledIn.onNext(isCompletelyFilled())
         }
 
-        vm.tsaViewModel.genderSubject.subscribe {
+        vm.tsaViewModel.genderViewModel.genderSubject.subscribe {
             filledIn.onNext(isCompletelyFilled())
         }
 
@@ -120,7 +126,6 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         }
 
         vm.passportValidSubject.subscribe { isValid ->
-
             val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
             adapter.setErrorVisible(!isValid)
         }
@@ -139,30 +144,36 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         adapter.setPrefix(context.getString(R.string.passport_country_colon))
         adapter.setColoredPrefix(false)
 
+        nameEntryView.firstName.contentDescription = context.resources.getString(R.string.name_must_match_warning_new)
+        nameEntryView.middleName.contentDescription = context.resources.getString(R.string.name_must_match_warning_new)
+        nameEntryView.lastName.contentDescription = context.resources.getString(R.string.name_must_match_warning_new)
         passportCountrySpinner.adapter = adapter
         passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
         passportCountrySpinner.isFocusable = true
         passportCountrySpinner.isFocusableInTouchMode = true
         travelerButton.setTravelButtonListener(this)
-        nameEntryView.firstName.onFocusChangeListener = this
-        nameEntryView.middleName.onFocusChangeListener = this
-        nameEntryView.lastName.onFocusChangeListener = this
-        emailEntryView.emailAddress.onFocusChangeListener = this
-        phoneEntryView.phoneNumber.onFocusChangeListener = this
-        tsaEntryView.dateOfBirth.setOnFocusChangeListener { view, hasFocus ->
+        nameEntryView.firstName.addOnFocusChangeListener(this)
+        nameEntryView.middleName.addOnFocusChangeListener(this)
+        nameEntryView.lastName.addOnFocusChangeListener(this)
+        emailEntryView.emailAddress.addOnFocusChangeListener(this)
+        phoneEntryView.phoneSpinner.isFocusable = true
+        phoneEntryView.phoneSpinner.isFocusableInTouchMode = true
+        phoneEntryView.phoneSpinner.setOnFocusChangeListener { view, hasFocus ->
+            onFocusChange(view, hasFocus)
+            if(hasFocus){
+                Ui.hideKeyboard(this)
+                phoneEntryView.phoneSpinner.performClick()
+            }
+        }
+        phoneEntryView.phoneNumber.addOnFocusChangeListener(this)
+        tsaEntryView.dateOfBirth.addOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
             onFocusChange(view, hasFocus)
             if (hasFocus) {
                 Ui.hideKeyboard(this)
                 tsaEntryView.dateOfBirth.performClick()
             }
-        }
-        tsaEntryView.genderSpinner.setOnFocusChangeListener { view, hasFocus ->
-            onFocusChange(view, hasFocus)
-            if (hasFocus) {
-                Ui.hideKeyboard(this)
-                tsaEntryView.genderSpinner.performClick()
-            }
-        }
+        })
+        tsaEntryView.genderSpinner.addOnFocusChangeListener(this)
         passportCountrySpinner.setOnFocusChangeListener { view, hasFocus ->
             onFocusChange(view, hasFocus)
             if (hasFocus) {
@@ -170,7 +181,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
                 passportCountrySpinner.performClick()
             }
         }
-        advancedOptionsWidget.redressNumber.onFocusChangeListener = this
+        advancedOptionsWidget.redressNumber.addOnFocusChangeListener(this)
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {

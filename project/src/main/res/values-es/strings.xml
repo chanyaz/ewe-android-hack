@@ -73,6 +73,8 @@
     <string name="cars_total_template">Precio total: %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">Desliza para reservar</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">Reservar</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">Pago</string>
     <!-- Text for error toolbar-->
@@ -187,6 +189,11 @@
         <item quantity="one">{number} resultado</item>
         <item quantity="other">{number} resultados</item>
     </plurals>
+    <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
+    <plurals name="number_results_announcement_text_TEMPLATE">
+        <item quantity="one">{number} resultado filtrado</item>
+        <item quantity="other">{number} resultados filtrados</item>
+    </plurals>
 
     <!-- Checkout -->
     <!-- Car model templates-->
@@ -263,6 +270,8 @@
     <string name="scan_card_text">Escanear tarjeta</string>
     <!-- Card.io instruction text -->
     <string name="scan_card_instruction_text">Mantén la tarjeta a esta altura. Se escaneará automáticamente.</string>
+    <!--Hotels accessibility content description for Cost Summary Button-->
+    <string name="accessibility_cost_summary_cont_desc_role_button">Botón de resumen del costo</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1732,8 +1741,8 @@
     <string name="flights_round_trip_label">IDA Y VUELTA</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">IDA</string>
-    <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">Vuelta</string>
+    <!-- Label to identify selected outbound flight/rail card -->
+    <string name="outbound_label">Vuelta</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">Vuelos</string>
     <string name="flights_title_cont_desc">Botón de vuelos</string>
@@ -1746,10 +1755,10 @@
     <string name="flights_card_fee_warning_TEMPLATE">La aerolínea cobra un cargo de procesamiento de {card_fee} (incluido en el importe total) por utilizar esta tarjeta.</string>
     <!-- An airline fee is added upon payment message
         Example: An airline fee, based on card type, is added upon payment. Such fee is added to the total upon payment -->
-    <string name="flights_fee_added_based_on_payment_TEMPLATE">Se agregará un &lt;a href=\"{airline_fee_url}\"&gt;cargo de la aerolínea&lt;/a&gt; al momento del pago dependiendo del tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
+    <string name="flights_fee_added_based_on_payment_TEMPLATE">Se agregará un &lt;a href=\"{airline_fee_url}\"&gt;cargo de la aerolínea&lt;/a&gt; al momento del pago, según el tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
     <!-- An airline fee may be added upon payment message
         Example: An airline fee, based on card type, may be added upon payment. Such fee is added to the total upon payment -->
-    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">Se puede agregar un &lt;a href=\"{airline_fee_url}\"&gt;cargo de la aerolínea&lt;/a&gt; al momento del pago dependiendo del tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
+    <string name="flights_fee_maybe_added_based_on_payment_TEMPLATE">Se puede agregar un &lt;a href=\"{airline_fee_url}\"&gt;cargo de la aerolínea&lt;/a&gt; al momento del pago según el tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
     <!-- Flights debit cards not accepted messaging -->
     <string name="flights_debit_cards_not_accepted">No se aceptan tarjetas de débito.</string>
     <!-- Flights Sold out error screen:- warning message -->
@@ -4108,6 +4117,10 @@
     <string name="hotel_price_range_start">Inicio del rango de precios</string>
     <!-- Hotel Price Range end filter label for accessibility -->
     <string name="hotel_price_range_end">Fin del rango de precios</string>
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="hotels_filter_show_more_cont_desc">Ver más zonas. Botón</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="hotels_filter_show_less_cont_desc">Ver menos zonas. Botón</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">Agregado a favoritos en la pantalla de filtros</string>
@@ -4124,17 +4137,17 @@
     <string name="coupon_error_dialog_message">Hubo un problema con tu cupón. Intenta ingresarlo otra vez.</string>
 
     <!-- Australian compliance warnings d/5810 -->
-    <string name="airline_fee_notice">Se agregará un cargo de la aerolínea al momento del pago dependiendo del tipo de tarjeta.</string>
+    <string name="airline_fee_notice">Se agregará un cargo de la aerolínea al momento del pago, según el tipo de tarjeta.</string>
     <string name="airline_charge_notice">Algunas aerolíneas cobran un cargo adicional en función del método de pago utilizado.</string>
-    <string name="airline_fee_notice_payment">Se aplicará un cargo de la aerolínea dependiendo del método de pago utilizado</string>
-    <string name="airline_notice_fee_added">Se agregará un <u><b>cargo de la aerolínea</b></u> al momento del pago dependiendo del tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
-    <string name="airline_notice_fee_added_tablet">Se agregará un &lt;u&gt;&lt;b&gt;cargo de la aerolínea&lt;/b&gt;&lt;/u&gt; al momento del pago dependiendo del tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
+    <string name="airline_fee_notice_payment">Se aplicará un cargo de la aerolínea según el método de pago utilizado</string>
+    <string name="airline_notice_fee_added">Se agregará un <u><b>cargo de la aerolínea</b></u> al momento del pago, según el tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
+    <string name="airline_notice_fee_added_tablet">Se agregará un &lt;u&gt;&lt;b&gt;cargo de la aerolínea&lt;/b&gt;&lt;/u&gt; al momento del pago, según el tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
 
     <!-- French compliance warnings d/5810 -->
-    <string name="airline_maybe_fee_notice">Se puede agregar un cargo de la aerolínea al momento del pago dependiendo del tipo de tarjeta.</string>
+    <string name="airline_maybe_fee_notice">Se puede agregar un cargo de la aerolínea al momento del pago, según el tipo de tarjeta.</string>
     <string name="airline_may_charge_notice">Las aerolíneas pueden cobrar un cargo adicional en función del método de pago utilizado.</string>
     <string name="airline_may_fee_notice_payment">Se puede aplicar un cargo de la aerolínea en función del método de pago utilizado</string>
-    <string name="airline_notice_fee_maybe_added_tablet">Se puede agregar un &lt;u&gt;&lt;b&gt;cargo de la aerolínea&lt;/b&gt;&lt;/u&gt; al momento del pago dependiendo del tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
+    <string name="airline_notice_fee_maybe_added_tablet">Se puede agregar un &lt;u&gt;&lt;b&gt;cargo de la aerolínea&lt;/b&gt;&lt;/u&gt; al momento del pago según el tipo de tarjeta. Este cargo se agregará al total al momento del pago.</string>
 
     <!-- Packages -->
 
@@ -4385,6 +4398,9 @@
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
 
+    <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
+    <string name="rail_price_difference_TEMPLATE">+ {pricedifference}</string>
+
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">Detalles del viaje + Opciones de tarifa</string>
 
@@ -4406,7 +4422,10 @@
     <string name="rail_returning_at">Hora de regreso</string>
 
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
-    <string name="rail_checkout_outbound_TEMPLATE">Viaje de ida: {date}</string>
+    <string name="rail_checkout_outbound_TEMPLATE">Ida: {date}</string>
+
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Vuelta: {date}</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
@@ -4465,6 +4484,9 @@
     <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
     <string name="rail_cc_processing_fee_TEMPLATE">Cargos de tarjeta de crédito: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
 
+    <!--A message on search results that children under 5 cab travel for free -->
+    <string name="rail_children_warning">Los menores de 5 años pueden viajar gratis si no ocupan un asiento. Sin embargo, puedes reservar un asiento si indicas que el niño tiene 6 años.</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">Entrega del boleto</string>
 
@@ -4472,6 +4494,9 @@
     <string name="pickup_at_station">Retiro en la estación</string>
     <string name="delivery_by_mail">Entrega por correo electrónico</string>
     <string name="shipping_address">Dirección de envío</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">Al optar por completar esta reservación, reconozco haber leído y acepto las &lt;a href=\"{rules_and_restrictions_url}\"&gt;reglas y restricciones&lt;/a&gt;, las &lt;a href=\"{conditions_of_travel_url}\"&gt;condiciones del viaje&lt;/a&gt;, los &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;términos y condiciones del proveedor&lt;/a&gt;, los &lt;a href=\"{terms_of_use_url}\"&gt;términos de uso&lt;/a&gt;, la &lt;a href=\"{privacy_policy_url}\"&gt;política de privacidad&lt;/a&gt;, y los &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;cargos de gestión de pago y entrega de boletos&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Debes traer el número de referencia del boleto y la tarjeta de crédito utilizada.</string>
@@ -4491,6 +4516,10 @@
 
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Ingresa un destino</string>
+    <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
+    <string name="enter_destination_cont_desc">Ingresar destino. Botón</string>
+    <!-- New Hotel Content description for destination entered, e.g- Destination. San Francisco, CA. Button-->
+    <string name="hotel_search_destination_cont_desc_TEMPLATE">Destino. {destination}. Botón</string>
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">Seguro de vuelo</string>
@@ -4580,12 +4609,16 @@
     <string name="flight_detail_card_cont_desc_TEMPLATE">El horario del vuelo es {time}, con una diferencia de precio de {pricedifference}. Vuelo operado por {airline}. La duración del vuelo es {hours} {minutes}, y tiene {stops} escalas\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} con una puntuación de {starrating} sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5. Precio: {price}. Incluye hotel y vuelos\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} con una puntuación de {starrating} sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5. Precio: {price}\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} con una puntuación de {starrating} sobre 5. Puntuación de los huéspedes de {guestrating} sobre 5.  \u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Antes costaba {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
     <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 de descuento sobre el precio normal\u0020</string>
+    <!-- Hotel strike through price content description for accessibility. Example. Regularly $100, now $80. -->
+    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Siempre {strikethroughprice}, ahora {price}.  \u0020</string>
+    <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
+    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Precio original con {percentage} de descuento.  \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Oferta increíble: {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
@@ -4606,6 +4639,8 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">Del {startdate} al {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">Fechas de viaje. Botón. Abre el cuadro de diálogo. {date_range}. {nights}</string>
+    <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Precio: {price}.  \u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Cantidad de pasajeros. Botón. Abre el cuadro de diálogo. {travelers} pasajero</item>

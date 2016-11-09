@@ -73,6 +73,8 @@
     <string name="cars_total_template">총 합계 %s</string>
     <!-- Slide to reserve -->
     <string name="cars_slider_text">밀어서 예약하기</string>
+    <!-- Label for Reserve button on the checkout for Talkbalk/voice over users -->
+    <string name="accessibility_reserve_button">예약하기</string>
     <!-- Text for checkout toolbar-->
     <string name="checkout_text">결제</string>
     <!-- Text for error toolbar-->
@@ -184,8 +186,13 @@
     <string name="clear_filters">필터 지우기</string>
     <!-- Label to tell the user how many products match their filter -->
     <plurals name="number_results_template">
-        <item quantity="one">{number}개의 결과</item>
-        <item quantity="other">{number}개의 결과</item>
+        <item quantity="one">{number}개 결과</item>
+        <item quantity="other">{number}개 결과</item>
+    </plurals>
+    <!-- Text to announce for talkback users after any filter is applied. Example 666 Results Filtered or 1 Result Filtered -->
+    <plurals name="number_results_announcement_text_TEMPLATE">
+        <item quantity="one">{number}개 결과 필터링됨</item>
+        <item quantity="other">{number}개 결과 필터링됨</item>
     </plurals>
 
     <!-- Checkout -->
@@ -263,6 +270,8 @@
     <string name="scan_card_text">카드 스캔</string>
     <!-- Card.io instruction text -->
     <string name="scan_card_instruction_text">카드를 여기에 가져다 대세요. 자동으로 스캔됩니다.</string>
+    <!--Hotels accessibility content description for Cost Summary Button-->
+    <string name="accessibility_cost_summary_cont_desc_role_button">비용 요약 정보 버튼</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -1732,8 +1741,8 @@
     <string name="flights_round_trip_label">왕복</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">편도</string>
-    <!-- Flights label for selected outbound flight -->
-    <string name="flights_outbound_label">가는편:</string>
+    <!-- Label to identify selected outbound flight/rail card -->
+    <string name="outbound_label">가는편:</string>
     <!-- Flights Line of Business title -->
     <string name="flights_title">항공</string>
     <string name="flights_title_cont_desc">항공편 버튼</string>
@@ -3437,7 +3446,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
@@ -4108,6 +4117,10 @@
     <string name="hotel_price_range_start">가격대 시작</string>
     <!-- Hotel Price Range end filter label for accessibility -->
     <string name="hotel_price_range_end">가격대 끝</string>
+    <!--Content description for "SHOW MORE" button in filter used for Talkback-->
+    <string name="hotels_filter_show_more_cont_desc">주변 자세히 보기. 버튼</string>
+    <!--Content description for "SHOW LESS" button in filter used for Talkback-->
+    <string name="hotels_filter_show_less_cont_desc">주변 간단히 보기. 버튼</string>
 
     <!-- Hotel Favoriting Strings -->
     <string name="favorite_toast">필터 화면의 즐겨찾기에 추가됨</string>
@@ -4385,6 +4398,9 @@
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
 
+    <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
+    <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
+
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
     <string name="rail_journey_details_and_fare_options">여행 정보 + 요금 옵션</string>
 
@@ -4406,7 +4422,10 @@
     <string name="rail_returning_at">올 때</string>
 
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
-    <string name="rail_checkout_outbound_TEMPLATE">가는 날짜 - {date}</string>
+    <string name="rail_checkout_outbound_TEMPLATE">가는날: {date}</string>
+
+    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">오는날: {date}</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">총 합계</string>
@@ -4465,6 +4484,9 @@
     <!-- Credit card processing fee for this card. Example: Credit card fees: £2.90 -->
     <string name="rail_cc_processing_fee_TEMPLATE">신용카드 수수료: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
 
+    <!--A message on search results that children under 5 cab travel for free -->
+    <string name="rail_children_warning">만 5세 미만의 아동은 좌석이 필요하지 않은 경우 무료로 여행이 가능합니다. 그러나 아동의 나이를 만 6세로 표시해 좌석을 예약하고 결제하실 수 있습니다.</string>
+
     <!-- Label for ticket delivery -->
     <string name="ticket_delivery">티켓 배송</string>
 
@@ -4472,6 +4494,9 @@
     <string name="pickup_at_station">역에서 수령</string>
     <string name="delivery_by_mail">우편 배송</string>
     <string name="shipping_address">배송 주소</string>
+
+    <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
+    <string name="rails_legal_TEMPLATE">이 예약을 완료함으로써 본인은 &lt;a href=\"{rules_and_restrictions_url}\"&gt;규칙 및 제한 사항&lt;/a&gt;, &lt;a href=\"{conditions_of_travel_url}\"&gt;여행 조건&lt;/a&gt;, &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;공급업체 이용약관&lt;/a&gt;, &lt;a href=\"{terms_of_use_url}\"&gt;이용약관&lt;/a&gt;, &lt;a href=\"{privacy_policy_url}\"&gt;개인정보 보호정책&lt;/a&gt; 및 &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;결제 및 티켓 배송료&lt;/a&gt;를 읽고 이에 동의함을 명시합니다.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">구매하시려면 티켓 참조 번호와 신용카드가 필요합니다.</string>
@@ -4491,6 +4516,10 @@
 
     <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">목적지 입력</string>
+    <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
+    <string name="enter_destination_cont_desc">목적지 입력. 버튼</string>
+    <!-- New Hotel Content description for destination entered, e.g- Destination. San Francisco, CA. Button-->
+    <string name="hotel_search_destination_cont_desc_TEMPLATE">목적지. {destination}. 버튼</string>
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">항공 여행자 보험</string>
@@ -4580,12 +4609,16 @@
     <string name="flight_detail_card_cont_desc_TEMPLATE">항공편 시간은 {time}이며, 요금 차액은 {pricedifference}입니다. 운항사는 {airline}입니다. 비행 시간은 {hours} {minutes}이며, {stops}번 경유 포함입니다.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점. 가격 {price}. 호텔 및 항공 포함\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123-->
-    <string name="hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점. 가격 {price}\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <string name="hotel_details_cont_desc_TEMPLATE">5성급 중 {starrating}성급의 {hotel}. 고객 평점 5점 만점 중 {guestrating}점.  \u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">원래 가격 {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
     <string name="hotel_discount_cont_desc_TEMPLATE">{percent}\u0025 할인 정상가\u0020</string>
+    <!-- Hotel strike through price content description for accessibility. Example. Regularly $100, now $80. -->
+    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">정상가 {strikethroughprice}, 현재 할인가 {price}.  \u0020</string>
+    <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
+    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">원래 가격 {percentage} 할인.  \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">믿을 수 없는 특가 상품 {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
@@ -4606,6 +4639,8 @@
     <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate}부터 {enddate}까지</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
     <string name="trip_search_date_range_cont_desc_TEMPLATE">여행 날짜. 버튼. 대화상자 열림. {date_range}. {nights}</string>
+    <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">가격 {price}.  \u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">여행객 수. 버튼. 대화상자 열림. 여행객 {travelers}명</item>

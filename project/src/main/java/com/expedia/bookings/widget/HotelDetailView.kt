@@ -49,6 +49,7 @@ import com.expedia.util.publishOnClick
 import com.expedia.util.subscribeBackground
 import com.expedia.util.subscribeBackgroundColor
 import com.expedia.util.subscribeBackgroundResource
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeGalleryColorFilter
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeOnClick
@@ -89,7 +90,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val priceContainer: ViewGroup by bindView(R.id.price_widget)
     val strikeThroughPrice: TextView by bindView(R.id.strike_through_price)
     val price: TextView by bindView(R.id.price)
-    val perNight: TextView by bindView(R.id.per_night)
+    val perDescriptor: TextView by bindView(R.id.per_night)
     val detailsSoldOut: TextView by bindView(R.id.details_sold_out)
     val priceWidget: View by bindView(R.id.price_widget)
     val searchDatesInfo: TextView by bindView(R.id.search_dates_info)
@@ -264,13 +265,13 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }
         vm.strikeThroughPriceObservable.subscribeText(strikeThroughPrice)
         vm.strikeThroughPriceVisibility.subscribeVisibility(strikeThroughPrice)
-        vm.pricePerNightObservable.subscribeText(price)
-        vm.searchInfoObservable.subscribeText(searchInfo)
+        vm.priceToShowCustomerObservable.subscribeText(price)
         vm.roomPriceToShowCustomer.subscribeText(price)
-        vm.perNightVisibility.subscribeInverseVisibility(perNight)
+        vm.searchInfoObservable.subscribeText(searchInfo)
+        vm.perNightVisibility.subscribeInverseVisibility(perDescriptor)
+        perDescriptor.text = vm.pricePerDescriptor()
 
-        vm.isPackageHotelObservable.subscribeInverseVisibility(hotelPriceContainer)
-        vm.isPackageHotelObservable.subscribeVisibility(searchDatesInfo)
+        vm.hotelPriceContentDesc.subscribeContentDescription(hotelPriceContainer)
         vm.searchDatesObservable.subscribeText(searchDatesInfo)
 
         vm.isUserRatingAvailableObservable.subscribeVisibility(userRating)
@@ -498,7 +499,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             recycleImageView(room.roomHeaderImage)
         }
         roomContainer.removeAllViews()
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
             hotelDetailsToolbar.heartIcon.updateImageState()
         }
     }
@@ -645,7 +646,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     fun priceViewAlpha(ratio: Float) {
-        perNight.alpha = ratio
+        perDescriptor.alpha = ratio
         price.alpha = ratio
         searchDatesInfo.alpha = ratio
         searchInfo.alpha = ratio
@@ -781,7 +782,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     fun refresh() {
         detailContainer.viewTreeObserver.addOnScrollChangedListener(scrollListener)
         resetGallery()
-        if (HotelFavoriteHelper.showHotelFavoriteTest(context)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
             hotelDetailsToolbar.heartIcon.updateImageState()
         }
     }

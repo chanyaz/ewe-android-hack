@@ -1,5 +1,7 @@
 package com.mobiata.mocke3
 
+import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
+import com.google.gson.GsonBuilder
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.RecordedRequest
 
@@ -14,7 +16,13 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
 
         return when {
             RailApiRequestMatcher.isRailApiSearchRequest(urlPath) -> {
-                getMockResponse("rails/v1/shopping/search/happy.json")
+                val gson = GsonBuilder().create()
+                val searchParams = gson.fromJson(request.body.readUtf8(), RailApiSearchModel::class.java)
+                when(searchParams.clientCode) {
+                    "no_search_results" -> getMockResponse("rails/v1/shopping/search/no_search_results.json")
+                    "validation_error" -> getMockResponse("rails/v1/shopping/search/validation_error.json")
+                    else -> getMockResponse("rails/v1/shopping/search/happy.json")
+                }
             }
 
             RailApiRequestMatcher.isRailApiCreateTripRequest(urlPath) -> {
@@ -51,7 +59,7 @@ class RailApiRequestMatcher {
         }
 
         fun isRailApiCreateTripRequest(urlPath: String): Boolean {
-            return doesItMatch("^/m/api/rails/trip/create.*", urlPath)
+            return doesItMatch("^/rails/domain/m/api/v1/createTrip.*", urlPath)
         }
 
         fun isRailApiCheckoutRequest(urlPath: String): Boolean {

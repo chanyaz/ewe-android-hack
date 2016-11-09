@@ -1,6 +1,7 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -17,6 +18,7 @@ import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 import java.text.NumberFormat
+
 
 class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: PaymentModel<HotelCreateTripResponse>) {
     // output
@@ -55,6 +57,8 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
     val burnAmountShownOnHotelCostBreakdown = BehaviorSubject.create<String>()
     val burnPointsShownOnHotelCostBreakdown = BehaviorSubject.create<String>()
     val isShoppingWithPoints = BehaviorSubject.create<Boolean>()
+    val costSummaryContentDescription = BehaviorSubject.create<String>()
+    val amountDueTodayLabelObservable = BehaviorSubject.create<String>()
 
     init {
         paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse.map {
@@ -131,16 +135,41 @@ class HotelCheckoutSummaryViewModel(val context: Context, val paymentModel: Paym
             } else {
                 tripTotalPrice.onNext(rate.displayTotalPrice.getFormattedMoney(Money.F_ALWAYS_TWO_PLACES_AFTER_DECIMAL))
                 dueNowAmount.onNext(it.newHotelProductResponse.dueNowAmount.formattedMoney)
-
                 isShoppingWithPoints.onNext(false)
             }
 
             newDataObservable.onNext(this)
-
             roomHeaderImage.onNext(it.newHotelProductResponse.largeThumbnailUrl)
+
+            var amountDueTodayText: String
+            var accessibilityCostSummaryContentDescription = StringBuilder()
+            accessibilityCostSummaryContentDescription.append(context.getString(R.string.total_with_tax)).append(" ").append(tripTotalPrice.value).append(" ")
+
+            if (isDepositV2.value) {
+                amountDueTodayText = Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+                appendFeesPaidCostSummaryContDesc(accessibilityCostSummaryContentDescription)
+                accessibilityCostSummaryContentDescription.append(Phrase.from(context, R.string.due_to_brand_today_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()).append(" ").append(dueNowAmount.value).append(" ")
+
+            } else if (isPayLaterOrResortCase.value) {
+                amountDueTodayText = Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()
+                appendFeesPaidCostSummaryContDesc(accessibilityCostSummaryContentDescription)
+                accessibilityCostSummaryContentDescription.append(Phrase.from(context, R.string.due_to_brand_today_TEMPLATE).put("brand", BuildConfig.brand).format().toString()).append(" ").append(dueNowAmount.value).append(" ")
+            } else {
+                amountDueTodayText = context.getString(R.string.total_with_tax)
+            }
+
+            amountDueTodayLabelObservable.onNext(amountDueTodayText)
+            costSummaryContentDescription.onNext(accessibilityCostSummaryContentDescription.toString())
+
         }
         guestCountObserver.subscribe {
             numGuests.onNext(StrUtils.formatGuestString(context, it))
+        }
+    }
+
+    private fun appendFeesPaidCostSummaryContDesc(accessibilityCostSummaryContentDescription: StringBuilder) {
+        if (showFeesPaidAtHotel.value) {
+            accessibilityCostSummaryContentDescription.append(context.getString(R.string.fees_paid_at_hotel)).append(" ").append(feesPaidAtHotel.value).append(" ")
         }
     }
 }

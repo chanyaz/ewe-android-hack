@@ -177,6 +177,14 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		return mFields.hasValidInput();
 	}
 
+	public View getFirstInvalidField() {
+		return mFields.firstInvalidInputField();
+	}
+
+	public boolean validateField(int fieldId) {
+		return mFields.hasValidInput(fieldId);
+	}
+
 	public void resetValidation() {
 		mFields.setValidationIndicatorState(true);
 	}
@@ -903,7 +911,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 					}
 					else {
 						String text = obj.getText().toString();
-						boolean amex = getData().getPaymentType() == PaymentType.CARD_AMERICAN_EXPRESS;
+						boolean amex = getData() != null && getData().getPaymentType() == PaymentType.CARD_AMERICAN_EXPRESS;
 						if (text.length() != (amex ? 4 : 3)) {
 							return ValidationError.ERROR_DATA_INVALID;
 						}

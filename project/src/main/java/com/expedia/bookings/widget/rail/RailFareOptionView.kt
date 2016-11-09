@@ -4,9 +4,9 @@ import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
@@ -15,8 +15,8 @@ import com.expedia.vm.rail.RailFareOptionViewModel
 
 class RailFareOptionView(context: Context) : LinearLayout(context) {
 
-    val priceView: TextView by bindView(R.id.price)
-    val fareTitle: TextView by bindView(R.id.fare_title)
+    val priceView: TextView by bindView(R.id.rail_fare_price)
+    val fareTitle: TextView by bindView(R.id.rail_fare_title)
     val railCardImage: ImageView by bindView(R.id.rail_card_image)
     val fareDescription: TextView by bindView(R.id.fare_description)
     val selectButton: View by bindView(R.id.select_button)

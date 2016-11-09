@@ -2,6 +2,7 @@ package com.expedia.bookings.services
 
 import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
+import com.expedia.bookings.data.rail.requests.RailCreateTripRequest
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
@@ -9,6 +10,7 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.rail.RailConstants
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -64,26 +66,30 @@ class RailServices(endpointMap: HashMap<String, String>, okHttpClient: OkHttpCli
     }
 
     private val BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE = { response: RailSearchResponse ->
-        val outboundLeg = response.legList[0]
-        for (legOption: RailLegOption in outboundLeg.legOptionList) {
-            for (railOffer: RailSearchResponse.RailOffer in response.offerList) {
-                val railOfferWithFareQualifiers = railOffer.railProductList.filter { !it.fareQualifierList.isEmpty() }
-                val railOfferLegListWithFareQualifiers = railOfferWithFareQualifiers.flatMap { it.legOptionIndexList }
+        if (!response.hasError()) {
+            val outboundLeg = response.findLegWithBoundOrder(RailConstants.OUTBOUND_BOUND_ORDER)!!
+            for (legOption: RailLegOption in outboundLeg.legOptionList) {
+                for (railOffer: RailSearchResponse.RailOffer in response.offerList) {
+                    val railOfferWithFareQualifiers = railOffer.railProductList.filter { !it.fareQualifierList.isEmpty() }
+                    val railOfferLegListWithFareQualifiers = railOfferWithFareQualifiers.flatMap { it.legOptionIndexList }
 
-                if (railOfferLegListWithFareQualifiers.contains(legOption.legOptionIndex)) {
-                    legOption.doesAnyOfferHasFareQualifier = true
-                    break
+                    if (railOfferLegListWithFareQualifiers.contains(legOption.legOptionIndex)) {
+                        legOption.doesAnyOfferHasFareQualifier = true
+                        break
+                    }
                 }
             }
-        }
-        if (response.legList.size == 2) {
-            outboundLeg.cheapestInboundPrice = response.legList[1].cheapestPrice
+
+            if (response.hasInbound()) {
+                val inboundLeg = response.findLegWithBoundOrder(RailConstants.INBOUND_BOUND_ORDER)!!
+                outboundLeg.cheapestInboundPrice = inboundLeg.cheapestPrice
+            }
         }
     }
 
-    fun railCreateTrip(railOfferToken: String, observer: Observer<RailCreateTripResponse>): Subscription {
+    fun railCreateTrip(railOfferTokens: List<String>, observer: Observer<RailCreateTripResponse>): Subscription {
         cancel()
-        val subscription = railMApi.railCreateTrip(railOfferToken)
+        val subscription = railApi.railCreateTrip(RailCreateTripRequest(railOfferTokens))
                 .subscribeOn(subscribeOn)
                 .observeOn(observeOn)
                 .subscribe(observer)

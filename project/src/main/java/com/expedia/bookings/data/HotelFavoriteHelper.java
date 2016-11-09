@@ -1,20 +1,22 @@
 package com.expedia.bookings.data;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
-import com.expedia.bookings.R;
+
 import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.tracking.HotelTracking;
-import com.expedia.bookings.utils.FeatureToggleUtil;
-import java.util.HashSet;
-import java.util.Set;
+import com.expedia.bookings.data.hotels.Hotel;
 
 public class HotelFavoriteHelper {
 
 	private static final String firstTimeKey = "Hotel_Favorites_First_Time";
 	private static final String listKey = "Hotel_Favorites_List";
+	private static final HashSet<String> localFavorites = new HashSet<>();
 
 	public static Boolean isFirstTimeFavoriting(Context context) {
 		return getDefaultSharedPreferences(context).getBoolean(firstTimeKey, true);
@@ -39,14 +41,8 @@ public class HotelFavoriteHelper {
 		}
 	}
 
-	public static void trackToggleHotelFavoriteState(Context context, String hotelId, int parent) {
-		new HotelTracking().trackHotelV2FavoriteClick(hotelId, parent, isHotelFavorite(context, hotelId));
-	}
-
-
-	public static boolean showHotelFavoriteTest(Context context) {
-		return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppHotelFavoriteTest,
-			R.string.preference_enable_hotel_favorite);
+	public static boolean showHotelFavoriteTest(boolean isOkayToShowFavorites) {
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelFavoriteTest) && isOkayToShowFavorites;
 	}
 
 	private static void saveHotelFavorites(SharedPreferences prefs, Set<String> set) {
@@ -59,6 +55,7 @@ public class HotelFavoriteHelper {
 		SharedPreferences prefs = getDefaultSharedPreferences(context);
 		Set<String> favoritesList = getHotelFavorites(context);
 		favoritesList.add(hotelId);
+		localFavorites.add(hotelId);
 		saveHotelFavorites(prefs, favoritesList);
 		// mark first time flag false
 		Editor editor = prefs.edit();
@@ -69,6 +66,7 @@ public class HotelFavoriteHelper {
 	private static void removeHotelFromFavorites(Context context, String hotelId) {
 		Set<String> favoritesList = getHotelFavorites(context);
 		favoritesList.remove(hotelId);
+		localFavorites.remove(hotelId);
 		saveHotelFavorites(getDefaultSharedPreferences(context), favoritesList);
 	}
 
@@ -76,4 +74,17 @@ public class HotelFavoriteHelper {
 		return PreferenceManager.getDefaultSharedPreferences(context);
 	}
 
+	public static HashSet<String> getLocalFavorites() {
+		return localFavorites;
+	}
+
+	public static void setLocalFavorites(ArrayList<Hotel> list, Context context) {
+		Set<String> currentFavorites = getHotelFavorites(context);
+		localFavorites.clear();
+		for (Hotel hotel: list) {
+			if (currentFavorites.contains(hotel.hotelId)) {
+				localFavorites.add(hotel.hotelId);
+			}
+		}
+	}
 }

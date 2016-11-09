@@ -48,11 +48,11 @@ class HotelCouponTest {
 
     @Test
     fun couponErrors() {
-        val testSubscriber = TestSubscriber<ApiError>(2)
+        val testSubscriber = TestSubscriber<ApiError>()
         val s = TestSubscriber<Observable<HotelCreateTripResponse>>()
         val expected = arrayListOf<ApiError>()
 
-        vm.errorObservable.take(6).subscribe(testSubscriber)
+        vm.errorObservable.subscribe(testSubscriber)
         vm.createTripDownloadsObservable.subscribe(s)
 
         var couponParamsBuilder = HotelApplyCouponParameters.Builder()
@@ -67,16 +67,15 @@ class HotelCouponTest {
         expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_not_configured").build(), "CampaignIsNotConfigured"))
         expected.add(applyCouponWithError(couponParamsBuilder.couponCode("hotel_coupon_errors_product_missing").build(), "PackageProductMissing"))
 
-        testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
-        testSubscriber.assertCompleted()
         testSubscriber.assertReceivedOnNext(expected)
     }
 
     private fun applyCouponWithError(couponParameters: HotelApplyCouponParameters, expectedError: String): ApiError {
         val latch = CountDownLatch(1)
-        vm.enableSubmitButtonObservable.subscribe { latch.countDown() }
+        val subscription = vm.enableSubmitButtonObservable.subscribe { latch.countDown() }
         vm.couponParamsObservable.onNext(couponParameters)
         latch.await(10, TimeUnit.SECONDS)
+        subscription.unsubscribe()
         return makeErrorInfo(ApiError.Code.APPLY_COUPON_ERROR, expectedError)
     }
 

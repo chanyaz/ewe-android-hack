@@ -1,5 +1,19 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -7,7 +21,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -20,6 +33,7 @@ import android.support.v4.content.ContextCompat;
 import android.text.Html;
 import android.text.TextUtils;
 import android.util.Pair;
+
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -83,7 +97,6 @@ import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -95,19 +108,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -356,11 +356,8 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsMemberDealTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFilterProminence);
-
-		if (FeatureToggleUtil.isUserBucketedAndFeatureEnabled(sContext, AbacusUtils.EBAndroidAppHotelFavoriteTest,
-			R.string.preference_enable_hotel_favorite)) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
-		}
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
 
 		// Send the tracking data
 		s.track();
@@ -389,11 +386,11 @@ public class OmnitureTracking {
 
 	}
 
-	public static void trackHotelV2FavoriteClick(String hotelId, Boolean favorite, int parent) {
+	public static void trackHotelFavoriteClick(String hotelId, Boolean favorite, HotelTracking.PageName page) {
 		Log.d(TAG, "Tracking \"" + HOTELS_FAVORITE_CLICK + "\" click...");
 
 		String event = (favorite) ? HOTELS_FAVORITE_CLICK : HOTELS_UNFAVORITE_CLICK;
-		String pageName = (parent == R.id.hotel_cell_heart_container) ? PAGE_NAME_HOTEL_SEARCH : HOTELSV2_DETAILS_PAGE;
+		String pageName = (page == HotelTracking.PageName.SEARCH_RESULT) ? PAGE_NAME_HOTEL_SEARCH : HOTELSV2_DETAILS_PAGE;
 		ADMS_Measurement s = createTrackLinkEvent(event);
 		s.setProducts(String.format(";Hotel:%s;;", hotelId));
 		s.setEvents((favorite) ? "event214" : "event215");
@@ -4582,6 +4579,9 @@ public class OmnitureTracking {
 		else if (lineOfBusiness.equals(LineOfBusiness.LX) || lineOfBusiness.equals(LineOfBusiness.TRANSPORT)) {
 			trackAppLXCheckoutPayment(lineOfBusiness);
 		}
+		else if (lineOfBusiness.equals(LineOfBusiness.FLIGHTS_V2)) {
+			trackPageLoadFlightCheckoutPaymentEditCard();
+		}
 	}
 
 	public static void trackCheckoutTraveler(LineOfBusiness lineOfBusiness) {
@@ -4591,6 +4591,10 @@ public class OmnitureTracking {
 		else if (lineOfBusiness.equals(LineOfBusiness.LX) || lineOfBusiness.equals(LineOfBusiness.TRANSPORT)) {
 			trackAppLXCheckoutTraveler(lineOfBusiness);
 		}
+	}
+
+	public static void trackFlightCheckoutTravelerEditInfo() {
+		internalTrackPageLoadEventStandard(FLIGHT_CHECKOUT_TRAVELER_EDIT_INFO);
 	}
 
 	// Pay with points tracking
@@ -5412,10 +5416,6 @@ public class OmnitureTracking {
 		s.setProp(72, checkoutResponse.getOrderId());
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
 
-		// tests
-		if (checkoutResponse.getSelectedInsuranceProduct() != null) {
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
-		}
 		s.track();
 	}
 
@@ -5446,6 +5446,10 @@ public class OmnitureTracking {
 		// date variables 5, 6
 		Pair<LocalDate, LocalDate> takeoffDates = getFlightSearchDepartureAndReturnDates();
 		setDateValues(s, takeoffDates.first, takeoffDates.second);
+
+		if (tripResponse.getSelectedInsuranceProduct() != null || !tripResponse.getAvailableInsuranceProducts().isEmpty()) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
+		}
 
 		s.track();
 	}
@@ -5528,8 +5532,9 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackFlightOverview(Boolean isOutboundFlight) {
-		String pageName = isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS : FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS;
+	public static void trackFlightOverview(Boolean isOutboundFlight, Boolean isRoundTrip) {
+		String pageName = !isRoundTrip ? FLIGHT_SEARCH_ONE_WAY_DETAILS :
+			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS : FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS;
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
@@ -5615,10 +5620,6 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(FLIGHTS_V2_SELECT_TRAVELER, "Flight Checkout");
 	}
 
-	public static void trackFlightCheckoutEditTraveler() {
-		createAndtrackLinkEvent(FLIGHTS_V2_ENTER_TRAVELER, "Flight Checkout");
-	}
-
 	public static void trackPaymentStoredCCSelect() {
 		createAndtrackLinkEvent(FLIGHTS_V2_SELECT_CARD, "Flight Checkout");
 	}
@@ -5689,4 +5690,38 @@ public class OmnitureTracking {
 		return str;
 	}
 
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	// Rail Tracking
+	//
+	// Spec: https://confluence/display/Omniture/Mobile+App%3A+Rail
+	//
+	////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	private static final String RAIL_LOB = "rail";
+	private static final String RAIL_SEARCH_BOX = "App.Rail.Dest-Search";
+	private static final String RAIL_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE = "App.Rail.DS.Traveler.";
+	private static final String RAIL_CARD_PICKER_PICKER_CLICK_TEMPLATE = "App.Rail.DS.Card.";
+
+	private static ADMS_Measurement createTrackRailPageLoadEventBase(String pageName) {
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+		s.setEvar(2, "D=c2");
+		s.setProp(2, RAIL_LOB);
+		return s;
+	}
+
+	public static void trackRailSearchInit() {
+		trackRailPageLoadEventStandard(RAIL_SEARCH_BOX);
+	}
+
+	private static void trackRailPageLoadEventStandard(String pageName) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailSearchTravelerPickerChooser(String text) {
+		createAndtrackLinkEvent(RAIL_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
+	}
+
+	public static void trackRailCardPicker(String text) {
+		createAndtrackLinkEvent(RAIL_CARD_PICKER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
+	}
 }

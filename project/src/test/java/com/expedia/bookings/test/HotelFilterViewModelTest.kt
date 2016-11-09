@@ -9,6 +9,7 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.HotelFilterViewModel
 import org.junit.Before
 import org.junit.Test
@@ -362,6 +363,42 @@ class HotelFilterViewModelTest {
         response.hotelList.add(hotel2)
         response.hotelList.add(hotel3)
 
+        return response
+    }
+
+    @Test
+    fun testSortBy() {
+        vm.setHotelList(generateHotelSearchResponse())
+        val expectedList = arrayListOf<List<String>>(
+                // List Sorted by PRICE
+                arrayListOf("happypath", "Non Merchant Hotel", "error_room_unavailable", "error_create_trip", "error_checkout_session_timeout", "error_checkout_card_limit_exceeded", "Sold_out_hotel", "valid_forms_of_payment", "hotel_coupon_errors", "hotel_etp_renovation_resort", "hotel_etp_renovation_resort_with_free_cancellation", "hotel_non_etp_with_free_cancellation", "error_checkout_card", "error_checkout_traveller_info", "error_checkout_unknown", "error_checkout_trip_already_booked", "hotel_email_opt_in", "tealeaf_id", "sold_out_hotel_with_2_rooms", "happypath_pwp", "visa_not_supported", "vip_hotel", "air_attached_hotel", "hotel_price_change"),
+                // List Sorted by DEALS
+                arrayListOf("happypath", "air_attached_hotel", "Non Merchant Hotel", "error_room_unavailable", "error_create_trip", "error_checkout_session_timeout", "error_checkout_card_limit_exceeded", "Sold_out_hotel", "valid_forms_of_payment", "hotel_coupon_errors", "hotel_etp_renovation_resort", "hotel_etp_renovation_resort_with_free_cancellation", "hotel_non_etp_with_free_cancellation", "error_checkout_card", "error_checkout_traveller_info", "error_checkout_unknown", "error_checkout_trip_already_booked", "hotel_email_opt_in", "tealeaf_id", "sold_out_hotel_with_2_rooms", "happypath_pwp", "visa_not_supported", "vip_hotel", "hotel_price_change"),
+                // List Sorted by RATING
+                arrayListOf("happypath", "vip_hotel", "error_room_unavailable", "error_create_trip", "error_checkout_session_timeout", "error_checkout_card_limit_exceeded", "Sold_out_hotel", "valid_forms_of_payment", "hotel_coupon_errors", "hotel_etp_renovation_resort", "hotel_etp_renovation_resort_with_free_cancellation", "hotel_non_etp_with_free_cancellation", "error_checkout_card", "error_checkout_traveller_info", "error_checkout_unknown", "error_checkout_trip_already_booked", "hotel_email_opt_in", "tealeaf_id", "sold_out_hotel_with_2_rooms", "happypath_pwp", "visa_not_supported", "air_attached_hotel", "hotel_price_change", "Non Merchant Hotel"))
+        val resultsList = ArrayList<List<String>>()
+
+        vm.filterObservable
+                .map { response ->
+                    response.hotelList
+                }
+                .map { list ->
+                    list.map { hotel ->
+                        hotel.localizedName
+                    }
+                }
+                .subscribe { listOfHotelNames ->
+                    resultsList.add(listOfHotelNames)
+                }
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.PRICE)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.DEALS)
+        vm.sortByObservable.onNext(HotelFilterViewModel.Sort.RATING)
+        assertEquals(expectedList, resultsList)
+    }
+
+    private fun generateHotelSearchResponse(): HotelSearchResponse {
+        val resourceReader = JSONResourceReader("../lib/mocked/templates/m/api/hotel/search/happy.json")
+        val response = resourceReader.constructUsingGson(HotelSearchResponse::class.java)
         return response
     }
 }

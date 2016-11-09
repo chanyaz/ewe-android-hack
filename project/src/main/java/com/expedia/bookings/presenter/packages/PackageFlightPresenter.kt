@@ -29,16 +29,16 @@ import com.expedia.bookings.widget.SlidingBundleWidgetListener
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.packages.PackageFlightListAdapter
 import com.expedia.util.endlessObserver
-import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.util.subscribeInverseVisibility
 import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.packages.FlightOverviewViewModel
 
 class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlightPresenter(context, attrs) {
 
     val bundleSlidingWidget: SlidingBundleWidget by bindView(R.id.sliding_bundle_widget)
+    lateinit var slidingBundleWidgetListener: SlidingBundleWidgetListener
 
     private val flightOverviewSelected = endlessObserver<FlightLeg> { flight ->
         val params = Db.getPackageParams()
@@ -225,8 +225,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
         bundleSlidingWidget.bundlePriceWidget.setOnClickListener {
             show(bundleSlidingWidget)
         }
-
-        val slidingBundleWidgetListener = SlidingBundleWidgetListener(bundleSlidingWidget, this)
+        slidingBundleWidgetListener =  SlidingBundleWidgetListener(bundleSlidingWidget, this)
         bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(slidingBundleWidgetListener.onTouchListener)
     }
 
@@ -258,4 +257,10 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.PACKAGES
     }
+
+    override fun disableSlidingWidget(isDisabled: Boolean) {
+        bundleSlidingWidget.bundlePriceWidget.isClickable = !isDisabled
+        bundleSlidingWidget.bundlePriceWidget.setOnTouchListener(if (isDisabled) null else slidingBundleWidgetListener.onTouchListener)
+    }
+
 }

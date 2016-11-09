@@ -28,6 +28,7 @@ import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.ui.FlightActivity
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.FlightSearchViewModel
@@ -227,7 +228,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse)
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
-        createTripViewModel.tripResponseObservable.subscribe { trip ->
+        createTripViewModel.tripResponseObservable.safeSubscribe { trip -> trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
         }
@@ -360,6 +361,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             if (forward) {
                 FlightsV2Tracking.trackSearchPageLoad()
                 searchPresenter.showDefault()
+                flightCreateTripViewModel.reset()
             }
         }
     }
@@ -407,7 +409,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private val inboundFlightToOverview = object : LeftToRightTransition(this, FlightInboundPresenter::class.java, FlightOverviewPresenter::class.java) {
+    private inner class FlightResultsToCheckoutOverviewTransition(presenter: Presenter, left: Class<*>, right: Class<*>): LeftToRightTransition(presenter, left, right) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
@@ -424,30 +426,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             super.endTransition(forward)
             if (!forward) {
                 flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(false)
+                flightCreateTripViewModel.reset()
             }
         }
     }
-
-    private val outboundFlightToOverview = object : LeftToRightTransition(this, FlightOutboundPresenter::class.java, FlightOverviewPresenter::class.java) {
-        override fun startTransition(forward: Boolean) {
-            super.startTransition(forward)
-            if (forward) {
-                flightOverviewPresenter.resetFlightSummary()
-                flightOverviewPresenter.resetScrollSpaceHeight()
-                flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
-                flightListToOverviewTransition()
-            } else {
-                flightOverviewPresenter.scrollSpaceView?.viewTreeObserver?.removeOnGlobalLayoutListener(flightOverviewPresenter.overviewLayoutListener)
-            }
-        }
-
-        override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
-            if (!forward) {
-                flightOverviewPresenter.bundleOverviewHeader.toggleOverviewHeader(false)
-            }
-        }
-    }
+    private val inboundFlightToOverview = FlightResultsToCheckoutOverviewTransition(this, FlightInboundPresenter::class.java, FlightOverviewPresenter::class.java)
+    private val outboundFlightToOverview = FlightResultsToCheckoutOverviewTransition(this, FlightOutboundPresenter::class.java, FlightOverviewPresenter::class.java)
 
     private val overviewToConfirmation = LeftToRightTransition(this, FlightOverviewPresenter::class.java, FlightConfirmationPresenter::class.java)
     
@@ -477,11 +461,12 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
     }
 
-    private open class SearchToOutboundTransition(presenter: Presenter, left: Class<*>, right: Class<*>) : ScaleTransition(presenter, left, right) {
+    private inner class SearchToOutboundTransition(presenter: Presenter, left: Class<*>, right: Class<*>) : ScaleTransition(presenter, left, right) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
                 FlightsV2Tracking.trackSearchPageLoad()
+                flightCreateTripViewModel.reset()
             }
         }
     }
