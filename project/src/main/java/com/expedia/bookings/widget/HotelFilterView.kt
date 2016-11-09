@@ -467,6 +467,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         if (PointOfSale.getPointOfSale().supportsVipAccess()) {
             filterVipContainer.visibility = View.VISIBLE
+            optionLabel.visibility = View.VISIBLE
         }
 
         if (shouldShowCircleForRatings()) {
@@ -536,6 +537,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
     fun refreshFavoriteCheckbox() {
         if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.lob == LineOfBusiness.HOTELS)) {
+            optionLabel.visibility = View.VISIBLE
             if (HotelFavoriteHelper.getLocalFavorites().isNotEmpty()) {
                 filterFavoriteContainer.visibility = View.VISIBLE
                 optionLabel.text = context.resources.getString(R.string.filter_options)
