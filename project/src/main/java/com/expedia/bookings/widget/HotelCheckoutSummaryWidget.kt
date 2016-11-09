@@ -20,6 +20,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Images
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.HotelBreakDownViewModel
@@ -40,6 +41,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     val numberNights: android.widget.TextView by bindView(R.id.number_nights)
     val numberGuests: android.widget.TextView by bindView(R.id.number_guests)
     val freeCancellationView: android.widget.TextView by bindView(R.id.free_cancellation_text)
+    val valueAddsContainer: ValueAddsContainer by bindView(R.id.value_adds_container)
     val totalWithTaxLabelWithInfoButton: android.widget.TextView by bindView(R.id.total_tax_label)
     val totalPriceWithTax: android.widget.TextView by bindView(R.id.total_price_with_tax)
     val feesPaidLabel: android.widget.TextView by bindView(R.id.fees_paid_label)
@@ -74,6 +76,7 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
         viewModel.city.subscribeText(cityState)
         viewModel.hasFreeCancellation.subscribeVisibility(freeCancellationView)
         viewModel.freeCancellationText.subscribeText(freeCancellationView)
+        viewModel.valueAddsListObservable.safeSubscribe(valueAddsContainer.valueAddsSubject)
         viewModel.roomDescriptions.subscribeText(selectedRoom)
         viewModel.bedDescriptions.subscribeText(selectedBed)
         viewModel.numNights.subscribeText(numberNights)

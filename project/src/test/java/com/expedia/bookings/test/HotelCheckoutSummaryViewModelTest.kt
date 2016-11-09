@@ -89,6 +89,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(sut, sut.newDataObservable.value)
         assertEquals("Free Cancellation", testTextSubscriber.onNextEvents[0])
         assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)
+        assertEquals(hotelRoomResponse.valueAdds, sut.valueAddsListObservable.value)
     }
 
     @Test

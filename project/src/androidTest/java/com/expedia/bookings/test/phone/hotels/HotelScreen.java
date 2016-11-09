@@ -379,7 +379,7 @@ public class HotelScreen {
 	}
 
 	public static void clickSignIn() {
-		onView(withId(R.id.login_text_view)).perform(click());
+		onView(withId(R.id.login_text_view)).perform(scrollTo(), click());
 	}
 
 	public static void clickSignOut() {
