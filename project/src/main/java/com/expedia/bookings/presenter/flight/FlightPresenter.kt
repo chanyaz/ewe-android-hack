@@ -275,9 +275,15 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         viewModel.outboundResultsObservable.subscribe {
             outBoundPresenter.trackFlightResultsLoad()
+            announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_outbound_flights_TEMPLATE)
+                    .put("city", viewModel.searchParamsObservable.value.arrivalAirport?.regionNames?.shortName)
+                    .format().toString())
         }
         viewModel.inboundResultsObservable.subscribe {
             inboundPresenter.trackFlightResultsLoad()
+            announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_inbound_flights_TEMPLATE)
+                    .put("city", viewModel.searchParamsObservable.value.departureAirport?.regionNames?.shortName)
+                    .format().toString())
             show(inboundPresenter)
         }
         viewModel.errorObservable.subscribe {
@@ -293,6 +299,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         searchPresenter.searchViewModel = vm
         vm.searchParamsObservable.subscribe { params ->
+            announceForAccessibility(context.getString(R.string.accessibility_announcement_searching_flights))
             flightOfferViewModel.searchParamsObservable.onNext(params)
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             travelerManager.updateDbTravelers(params, context)

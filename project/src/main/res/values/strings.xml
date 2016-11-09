@@ -4252,6 +4252,12 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Operated by {operatingairlinename}</string>
 
+    <!-- Accessibility announcement when showing searching/loading screen -->
+    <string name="accessibility_announcement_searching_flights">Searching for flights. Please wait.</string>
+    <!-- Accessibility announcement when search has completed and we're showing inbound flights results. Example: Showing inbound flights to San Francisco, CA -->
+    <string name="accessibility_announcement_showing_inbound_flights_TEMPLATE">Showing inbound flights to {city}</string>
+    <!-- Accessibility announcement when search has completed and we're showing outbound flights results. Example: Showing outbound flights to Denver, CO -->
+    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Showing outbound flights to {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Select flight to %1$s</string>
     <!-- Flight to template -->
