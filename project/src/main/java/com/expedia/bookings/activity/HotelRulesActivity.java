@@ -4,14 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.tracking.OmnitureTracking;
 
-public class HotelRulesActivity extends FragmentActivity {
+public class HotelRulesActivity extends TrackingFragmentActivity {
 
 	public static final String LOB_KEY = "LOB";
 

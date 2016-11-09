@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +26,7 @@ import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.Ui;
 
-public class FlightPaymentOptionsActivity extends FragmentActivity implements FlightPaymentYoYoListener {
+public class FlightPaymentOptionsActivity extends TrackingFragmentActivity implements FlightPaymentYoYoListener {
 
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";
 	public static final String ADDRESS_FRAGMENT_TAG = "ADDRESS_FRAGMENT_TAG";

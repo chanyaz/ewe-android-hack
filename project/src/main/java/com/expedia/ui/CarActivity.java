@@ -18,7 +18,7 @@ import com.squareup.otto.Subscribe;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-public class CarActivity extends AbstractAppCompatActivity {
+public class CarActivity extends TrackingAbstractAppCompatActivity {
 
 	@InjectView(R.id.car_presenter)
 	CarPresenter carsPresenter;

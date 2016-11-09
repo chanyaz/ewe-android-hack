@@ -47,7 +47,7 @@ import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 
-class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
+class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
         , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener {
 
@@ -311,7 +311,6 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
             PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen()
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
-
     }
 
     inner class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {

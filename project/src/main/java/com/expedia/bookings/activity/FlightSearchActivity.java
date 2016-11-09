@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,7 +20,7 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.phrase.Phrase;
 
-public class FlightSearchActivity extends FragmentActivity implements FlightSearchParamsFragmentListener {
+public class FlightSearchActivity extends TrackingFragmentActivity implements FlightSearchParamsFragmentListener {
 
 	public static final String EXTRA_DATA_EXPIRED = "EXTRA_DATA_EXPIRED";
 
@@ -95,7 +94,6 @@ public class FlightSearchActivity extends FragmentActivity implements FlightSear
 	@Override
 	protected void onResume() {
 		super.onResume();
-
 		if (mUpdateOnResume) {
 			if (!Db.getFlightSearch().getSearchParams().isFilled()) {
 				// F1073: If we got back here but the search params are not filled, that is probably an indicator
