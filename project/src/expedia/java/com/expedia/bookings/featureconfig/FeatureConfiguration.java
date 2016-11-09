@@ -426,7 +426,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean showUserRewardsEnrollmentCheck() {
-		return false;
+		return true;
 	}
 
 	@Override

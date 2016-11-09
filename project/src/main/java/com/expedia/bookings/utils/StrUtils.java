@@ -560,7 +560,7 @@ public class StrUtils {
 			PointOfSale.getPointOfSale().getAccountCreationTermsAndConditionsURL(),
 			context.getResources().getString(R.string.info_label_terms_conditions));
 
-		int statementResId = PointOfSale.getPointOfSale().shouldShowRewards() ? R.string.account_creation_legal_TEMPLATE
+		int statementResId = PointOfSale.getPointOfSale().shouldShowRewards() ? R.string.account_creation_legal_excluding_rewards_TEMPLATE
 			: R.string.account_creation_legal_excluding_rewards_TEMPLATE;
 
 		legalTextSpan.append(HtmlCompat.fromHtml(Phrase.from(context.getResources(), statementResId)
@@ -571,10 +571,10 @@ public class StrUtils {
 			.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
 
-		return formatLegalTextSpan(legalTextSpan, spans);
+		return formatLegalTextSpan(context, legalTextSpan, spans);
 	}
 
-	private static SpannableStringBuilder formatLegalTextSpan(SpannableStringBuilder legalTextSpan, URLSpan[] spans) {
+	private static SpannableStringBuilder formatLegalTextSpan(Context context, SpannableStringBuilder legalTextSpan, URLSpan[] spans) {
 		for (final URLSpan span : spans) {
 			int start = legalTextSpan.getSpanStart(span);
 			int end = legalTextSpan.getSpanEnd(span);
@@ -583,9 +583,6 @@ public class StrUtils {
 			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), false), start,
 					end, 0);
 			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
-			legalTextSpan.setSpan(new ForegroundColorSpan(Color.WHITE), start,
-					end,
-					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
 
 		return legalTextSpan;
@@ -612,7 +609,7 @@ public class StrUtils {
 				.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
 
-		return formatLegalTextSpan(legalTextSpan, spans);
+		return formatLegalTextSpan(context, legalTextSpan, spans);
 	}
 
 	public static SpannableStringBuilder generateBulletedList(List<String> contentList) {
