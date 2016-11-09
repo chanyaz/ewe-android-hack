@@ -1,19 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -21,6 +7,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -32,7 +19,6 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Pair;
-
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -115,7 +101,19 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
-
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
 import kotlin.NotImplementedError;
 
 /**
@@ -5243,19 +5241,34 @@ public class OmnitureTracking {
 			(legs.second != null) ? legs.second.segments.get(legs.second.segments.size() - 1) : null);
 	}
 
-	public static String getFlightInsuranceProductString() {
+	public static String getFlightInsuranceProductStringOnCheckout() {
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
 		List<InsuranceProduct> insuranceProducts = trip.getAvailableInsuranceProducts();
-
 		if (!insuranceProducts.isEmpty()) {
 			InsuranceProduct insuranceProduct = insuranceProducts.get(0);
-			boolean isCheckoutConfirmation = (Db.getTripBucket().getFlightV2().flightCheckoutResponse != null);
-			return String.format(Locale.ENGLISH, ";Insurance:%s;%s;%.2f%s",
-				insuranceProduct.typeId, trip.getDetails().offer.numberOfTickets, insuranceProduct.totalPrice.amount,
-				!isCheckoutConfirmation ? ";;eVar63=Merchant:SA" : "");
+			return String.format(Locale.ENGLISH, ",;Insurance:%s;%s;%.2f%s",
+				insuranceProduct.typeId, trip.getDetails().offer.numberOfTickets,
+				insuranceProduct.totalPrice.amount, ";;eVar63=Merchant:SA");
 		}
-		return "";
+		else {
+			return "";
+		}
 	}
+
+	public static String getFlightInsuranceProductStringOnConfirmation() {
+		com.expedia.bookings.data.flights.FlightCheckoutResponse trip = Db.getTripBucket()
+			.getFlightV2().flightCheckoutResponse;
+		InsuranceProduct selectedInsuranceProduct = trip.getSelectedInsuranceProduct();
+		if (selectedInsuranceProduct != null) {
+			return String.format(Locale.ENGLISH, ",;Insurance:%s;%s;%.2f",
+				selectedInsuranceProduct.typeId, trip.getDetails().offer.numberOfTickets,
+				selectedInsuranceProduct.totalPrice.amount);
+		}
+		else {
+			return "";
+		}
+	}
+
 
 	public static String getFlightInventoryTypeString() {
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
@@ -5396,21 +5409,20 @@ public class OmnitureTracking {
 		String products;
 		if (!isSplitTicket) {
 			if (takeoffDateStrings.second != null) {
-				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s,%s", getFlightProductString(true),
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s%s", getFlightProductString(true),
 					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
-					takeoffDateStrings.second, getFlightInsuranceProductString());
+					takeoffDateStrings.second, getFlightInsuranceProductStringOnConfirmation());
 			}
 			else {
-				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s,%s", getFlightProductString(true),
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s%s", getFlightProductString(true),
 					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
-					getFlightInsuranceProductString());
+					getFlightInsuranceProductStringOnConfirmation());
 			}
 		}
 		else {
-			products = getFlightProductString(true) + getFlightInsuranceProductString();
+			products = getFlightProductString(true) + getFlightInsuranceProductStringOnConfirmation();
 		}
 		s.setProducts(products);
-
 		// miscellaneous variables
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
@@ -5445,7 +5457,7 @@ public class OmnitureTracking {
 		s.setEvents("event36, event71" /* checkout start, flight checkout start */ +
 			(tripResponse.getAvailableInsuranceProducts().isEmpty() ? "" : ", event122" /* insurance present */));
 
-		String products = getFlightProductString(false) + getFlightInsuranceProductString();
+		String products = getFlightProductString(false) + getFlightInsuranceProductStringOnCheckout();
 
 		// products
 		s.setProducts(products);
