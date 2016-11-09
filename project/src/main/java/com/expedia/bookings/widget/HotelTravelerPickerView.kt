@@ -135,6 +135,7 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrave
                     spinner.contentDescription = Phrase.from(context, R.string.search_child_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).format().toString()
                 }
             }
+            adultMinus.setAccessibilityHoverFocus()
         }
     }
 
