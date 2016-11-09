@@ -10,9 +10,11 @@
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/insurance_label"
-        style="@style/TextView.Itin.SectionHeader.Padded"
+        style="@style/TextView.Itin.SectionHeader"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
         android:text="@string/insurance_itin_label" />
 
     <LinearLayout
