@@ -25,8 +25,7 @@ public class RailTripOffer extends BaseRailOffer {
 
 	@Nullable
 	public RailLegOption getInboundLegOption() {
-		// todo will change with open return
-		if (CollectionUtils.isNotEmpty(railProductList) && isRoundTrip()) {
+		if (CollectionUtils.isNotEmpty(railProductList)) {
 			if (isRoundTrip()) {
 				return railProductList.get(1).getFirstLegOption();
 			}

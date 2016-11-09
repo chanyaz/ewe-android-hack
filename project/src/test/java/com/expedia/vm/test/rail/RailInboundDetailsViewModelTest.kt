@@ -108,7 +108,7 @@ class RailInboundDetailsViewModelTest {
     }
 
     private fun generateOffersForLeg(): List<RailOffer> {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/roundtrip_open_return.json")
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail/roundtrip_open_return.json")
         val searchResponse = resourceReader.constructUsingGson(RailSearchResponse::class.java)
         return searchResponse.offerList
     }

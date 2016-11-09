@@ -82,7 +82,7 @@ class RailCreditCardFeesViewModelTest {
 
 
     private fun generateVFOPList() : List<RailCreateTripResponse.RailValidFormOfPayment> {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_vfop.json")
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_vfop.json")
         val createTripShell = resourceReader.constructUsingGson(RailCreateTripResponse::class.java)
 
         return createTripShell.validFormsOfPayment
