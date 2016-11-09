@@ -3,12 +3,12 @@ package com.expedia.vm
 import android.content.Context
 import android.location.Location
 import com.expedia.bookings.R
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.SuggestionResultType
+import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.SuggestionV4Services
 import com.expedia.bookings.utils.Constants
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.util.endlessObserver
@@ -78,6 +78,32 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
                 .subscribe(generateSuggestionServiceCallback())
     }
 
+    private fun getGaiaNearbySuggestions(location: Location) {
+        suggestionsService
+                .suggestNearbyGaia(location.latitude, location.longitude, getNearbySortTypeForGaia(),
+                        getLineOfBusinessForGaia(), PointOfSale.getSuggestLocaleIdentifier(), PointOfSale.getPointOfSale().siteId)
+                .map { it ->
+                    SuggestionV4Utils.convertToSuggestionV4(it)
+                }
+                .doOnNext { nearbySuggestions ->
+                    if (nearbySuggestions.size < 1) {
+                        throw ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS)
+                    }
+                    if (shouldShowCurrentLocation) {
+                        val suggestion = modifySuggestionToCurrentLocation(location, nearbySuggestions.first())
+                        nearbySuggestions.add(0, suggestion)
+                    }
+                }
+                .doOnNext {
+                    nearby.addAll(it)
+                    nearby.forEach { it.iconType = SuggestionV4.IconType.CURRENT_LOCATION_ICON }
+                }
+                .doOnNext { nearbySuggestions ->
+                    nearbySuggestions.addAll(loadRecentSuggestions())
+                }
+                .subscribe(generateSuggestionServiceCallback())
+    }
+
     // Utility
     private fun modifySuggestionToCurrentLocation(location: Location, suggestion: SuggestionV4): SuggestionV4 {
         val currentLocation = suggestion.copy()
@@ -93,7 +119,12 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     private fun generateLocationServiceCallback(): Observer<Location> {
         return object : Observer<Location> {
             override fun onNext(location: Location) {
-                getNearbySuggestions(location)
+                if (FeatureToggleUtil.isFeatureEnabled(context,
+                        R.string.preference_enable_gaia_current_location_suggestion)) {
+                    getGaiaNearbySuggestions(location)
+                } else {
+                    getNearbySuggestions(location)
+                }
             }
 
             override fun onCompleted() {
@@ -150,6 +181,14 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     abstract fun getNearbyRegionType(): Int
 
     abstract fun getNearbySortType(): String
+
+    open fun getLineOfBusinessForGaia(): String {
+        return getLineOfBusiness().toLowerCase()
+    }
+
+    open fun getNearbySortTypeForGaia(): String {
+        return getNearbySortType()
+    }
 
     fun setCustomerSelectingOrigin(isOrigin: Boolean) {
         isCustomerSelectingOrigin = isOrigin

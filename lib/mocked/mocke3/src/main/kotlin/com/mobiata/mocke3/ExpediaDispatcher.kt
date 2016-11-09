@@ -95,6 +95,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
             return dispatchSuggest(request)
         }
 
+        //GAIA Suggest
+        if (request.path.contains("/features")) {
+            return dispatchGaiaSuggest(request)
+        }
+
         // User API
         if (request.path.contains("/api/user/sign-in")) {
             return dispatchSignIn(request)
@@ -317,6 +322,28 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
                 return makeResponse("/api/v4/suggestion_with_airports_cities.json")
             }
             return makeResponse("/api/v4/suggestion_nearby.json")
+        }
+        return make404()
+    }
+
+    private fun dispatchGaiaSuggest(request: RecordedRequest): MockResponse {
+        val params = parseHttpRequest(request)
+        var latitude: String? = ""
+        var longitude: String? = ""
+        if (params.containsKey("lat")) {
+            latitude = params["lat"]
+        }
+        if (params.containsKey("lng")) {
+            longitude = params["lng"]
+        }
+        if ((latitude == "3.0") && (longitude == "3.0")) {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion.json");
+        }
+        if ((latitude == "1.0") && (longitude == "1.0")) {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result.json");
+        }
+        if ((latitude == "0.0") && (longitude == "0.0")) {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_zero_results.json");
         }
         return make404()
     }
