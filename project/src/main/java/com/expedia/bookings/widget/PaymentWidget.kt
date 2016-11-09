@@ -85,8 +85,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val pwpSmallIcon: ImageView? by bindOptionalView(R.id.pwp_small_icon)
 
     val filledIn = PublishSubject.create<Boolean>()
-    val enableMenuItem = PublishSubject.create<Boolean>()
-    val menuVisibility = PublishSubject.create<Boolean>()
     val visibleMenuWithTitleDone = PublishSubject.create<Unit>()
     val toolbarTitle = PublishSubject.create<String>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
@@ -94,7 +92,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     val focusedView = PublishSubject.create<View>()
     val enableToolbarMenuButton = PublishSubject.create<Boolean>()
 
-    val formFilledSubscriber = endlessObserver<String>() {
+    val formFilledSubscriber = endlessObserver<String> {
         filledIn.onNext(isCompletelyFilled())
     }
 
@@ -140,6 +138,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
         doneClicked.subscribe {
             if (currentState == PaymentDetails::class.java.name) {
+                Ui.hideKeyboard(this@PaymentWidget)
                 val hasStoredCard = hasStoredCard()
                 val billingIsValid = !hasStoredCard && sectionBillingInfo.performValidation()
                 val postalIsValid = !hasStoredCard && (!isZipValidationRequired() || sectionLocation.performValidation())
@@ -151,17 +150,16 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     }
                 }
                 else {
-                    var firstInvalidField = sectionBillingInfo.getFirstInvalidField()
-                    if (firstInvalidField != null) {
-                        firstInvalidField.requestFocus()
-                        sectionBillingInfo.resetValidation(firstInvalidField.id, false)
+                    if (vm.newCheckoutIsEnabled.value) {
+                        announceErrorsOnForm()
+                        sectionBillingInfo.requestFocus()
+                    } else {
+                        goToFirstInvalidField()
                     }
                 }
-
             } else {
                 close()
             }
-            Ui.hideKeyboard(this@PaymentWidget)
         }
 
         vm.selectCorrectCardObservable.subscribe { isLoggedIn ->
@@ -198,8 +196,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             }
         }
 
-        vm.onStoredCardChosen.map { true }.subscribe(enableMenuItem)
-
         viewmodel.isZipValidationRequired.subscribeVisibility(sectionLocation)
 
         vm.moveFocusToPostalCodeSubject.subscribe {
@@ -216,10 +212,12 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     override fun addVisibilitySubscriptions() {
         super.addVisibilitySubscriptions()
-        addVisibilitySubscription(creditCardNumber.subscribeTextChange(formFilledSubscriber))
-        addVisibilitySubscription(creditCardName.subscribeTextChange(formFilledSubscriber))
-        addVisibilitySubscription(creditCardPostalCode.subscribeTextChange(formFilledSubscriber))
-        addVisibilitySubscription(expirationDate.subscribeTextChange(formFilledSubscriber))
+        if (!viewmodel.newCheckoutIsEnabled.value) {
+            addVisibilitySubscription(creditCardNumber.subscribeTextChange(formFilledSubscriber))
+            addVisibilitySubscription(creditCardName.subscribeTextChange(formFilledSubscriber))
+            addVisibilitySubscription(creditCardPostalCode.subscribeTextChange(formFilledSubscriber))
+            addVisibilitySubscription(expirationDate.subscribeTextChange(formFilledSubscriber))
+        }
     }
 
 
@@ -256,14 +254,12 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         creditCardName.onFocusChangeListener = this
         creditCardPostalCode.onFocusChangeListener = this
         expirationDate.onFocusChangeListener = this
-        expirationDate.isFocusable = true;
-        expirationDate.isFocusableInTouchMode = true;
         expirationDate.setOnFocusChangeListener { view, hasFocus ->
-            onFocusChange(view, hasFocus)
             if (hasFocus) {
                 Ui.hideKeyboard(this)
                 expirationDate.performClick()
             }
+            onFocusChange(view, hasFocus)
         }
         sectionBillingInfo.addInvalidCharacterListener { text, mode ->
             val activity = context as AppCompatActivity
@@ -517,7 +513,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     private val defaultTransition = object : Presenter.DefaultTransition(PaymentDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
-            menuVisibility.onNext(false)
+            viewmodel.menuVisibility.onNext(false)
             toolbarTitle.onNext(getCheckoutToolbarTitle(resources, isSecureToolbarBucketed()))
             cardInfoContainer.visibility = View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
@@ -530,7 +526,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     private val defaultToOptions = object : Presenter.Transition(PaymentDefault::class.java,
             PaymentOption::class.java) {
         override fun startTransition(forward: Boolean) {
-            menuVisibility.onNext(false)
+            viewmodel.menuVisibility.onNext(false)
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = if (forward) View.VISIBLE else View.GONE
             paymentOptionGoogleWallet.visibility = if (WalletUtils.isWalletSupported(getLineOfBusiness())) View.VISIBLE else View.GONE
@@ -542,20 +538,28 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                         getCheckoutToolbarTitle(resources, isSecureToolbarBucketed())
                     })
             storedCreditCardList.bind()
-            updateToolbarMenu(forward)
             if (!forward) validateAndBind()
             else viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
-
+            if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu() else updateLegacyToolbarMenu(forward)
         }
     }
 
-    protected open fun updateToolbarMenu(forward: Boolean) {
+    protected open fun updateLegacyToolbarMenu(forward: Boolean) {
         if (forward) {
             visibleMenuWithTitleDone.onNext(Unit)
             enableToolbarMenuButton.onNext(true)
-            enableMenuItem.onNext(isComplete())
+            viewmodel.enableMenuItem.onNext(isComplete())
         } else {
-            enableMenuItem.onNext(true)
+            viewmodel.enableMenuItem.onNext(true)
+        }
+    }
+
+    protected fun updateUniversalToolbarMenu() {
+        if (currentState == PaymentOption::class.java.name) {
+            visibleMenuWithTitleDone.onNext(Unit)
+            viewmodel.enableMenuItem.onNext(true)
+        } else {
+            viewmodel.menuVisibility.onNext(false)
         }
     }
 
@@ -568,7 +572,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     private val defaultToDetails = object : Presenter.Transition(PaymentDefault::class.java,
             PaymentDetails::class.java) {
         override fun endTransition(forward: Boolean) {
-            menuVisibility.onNext(forward)
+            viewmodel.menuVisibility.onNext(forward)
             setToolbarTitleForPaymentDetailsView(forward, getCheckoutToolbarTitle(resources, isSecureToolbarBucketed()))
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = View.GONE
@@ -587,7 +591,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     private val optionsToDetails = object : Presenter.Transition(PaymentOption::class.java,
             PaymentDetails::class.java) {
         override fun endTransition(forward: Boolean) {
-            menuVisibility.onNext(forward)
+            viewmodel.menuVisibility.onNext(forward)
             setToolbarTitleForPaymentDetailsView(forward, resources.getString(R.string.checkout_enter_payment_details))
             cardInfoContainer.visibility = View.GONE
             paymentOptionsContainer.visibility = if (forward) View.GONE else View.VISIBLE
@@ -608,7 +612,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                 viewmodel.userHasAtleastOneStoredCard.onNext(User.isLoggedIn(context) && (Db.getUser().storedCreditCards.isNotEmpty() || Db.getTemporarilySavedCard() != null))
             }
             viewmodel.showingPaymentForm.onNext(forward)
-            updateToolbarMenu(!forward)
+            if (viewmodel.newCheckoutIsEnabled.value) updateUniversalToolbarMenu() else updateLegacyToolbarMenu(!forward)
         }
     }
 
@@ -716,7 +720,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
 
     override fun back(): Boolean {
         if (currentState == PaymentOption::class.java.name) {
-            enableMenuItem.onNext(true)
+            viewmodel.enableMenuItem.onNext(true)
         }
         return super.back()
     }
@@ -724,5 +728,25 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     fun clearPaymentInfo() {
         reset()
         clearCCAndCVV()
+    }
+
+    private fun goToFirstInvalidField() {
+        var firstInvalidField = sectionBillingInfo.getFirstInvalidField()
+        if (firstInvalidField != null) {
+            firstInvalidField.requestFocus()
+            sectionBillingInfo.resetValidation(firstInvalidField.id, false)
+        }
+    }
+
+    private fun announceErrorsOnForm() {
+        val numberOfInvalidFields = sectionBillingInfo.numberOfInvalidFields.plus(sectionLocation.numberOfInvalidFields)
+        val announcementString = StringBuilder()
+        announcementString.append(Phrase.from(context.resources.getQuantityString(R.plurals.number_of_errors_TEMPLATE, numberOfInvalidFields))
+                .put("number", numberOfInvalidFields)
+                .format()
+                .toString())
+                .append(" ")
+                .append(context.getString(R.string.accessibility_announcement_please_review_and_resubmit))
+        announceForAccessibility(announcementString)
     }
 }
