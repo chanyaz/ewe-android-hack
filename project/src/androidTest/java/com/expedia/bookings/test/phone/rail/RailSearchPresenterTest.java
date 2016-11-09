@@ -14,7 +14,9 @@ import com.expedia.bookings.utils.DateUtils;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 public class RailSearchPresenterTest extends RailTestCase {
@@ -39,6 +41,7 @@ public class RailSearchPresenterTest extends RailTestCase {
 		EspressoUtils.assertViewWithTextIsDisplayed(expectedStartDateTime);
 		SearchScreen.searchButton().perform(click());
 		Common.delay(1);
+		onView(withId(R.id.rail_outbound_list)).perform(scrollToPosition(5));
 		onView(withText("12:55 PM – 4:16 PM")).perform(ViewActions.waitForViewToDisplay()).check(matches(isDisplayed()));
 	}
 

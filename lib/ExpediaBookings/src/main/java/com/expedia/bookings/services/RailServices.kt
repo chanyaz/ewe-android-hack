@@ -20,6 +20,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
+import java.util.Collections
 
 class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
@@ -50,6 +51,10 @@ class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: In
     private val BUCKET_FARE_QUALIFIERS_AND_CHEAPEST_PRICE = { response: RailSearchResponse ->
         if (!response.hasError()) {
             val outboundLeg = response.outboundLeg!!
+
+            // Sorting legOptionList by DepartureDateTime
+            Collections.sort(outboundLeg.legOptionList)
+
             for (legOption: RailLegOption in outboundLeg.legOptionList) {
                 for (railOffer: RailOffer in response.offerList) {
                     val railOfferWithFareQualifiers = railOffer.railProductList.filter { !it.fareQualifierList.isEmpty() }
@@ -64,6 +69,10 @@ class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: In
 
             if (response.hasInbound()) {
                 val inboundLeg = response.inboundLeg!!
+
+                // Sorting legOptionList by DepartureDateTime
+                Collections.sort(inboundLeg.legOptionList)
+
                 outboundLeg.cheapestInboundPrice = inboundLeg.cheapestPrice
             }
         }

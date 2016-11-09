@@ -100,9 +100,11 @@ public class RailServicesTest {
 		assertEquals(3, railProduct.segmentFareDetailList.size());
 		assertEquals(3, railProduct.getSegmentToFareMapping().size());
 		assertEquals(1, railProduct.fareQualifierList.size());
-		assertTrue(railSearchResponse.legList.get(0).legOptionList.get(0).doesAnyOfferHasFareQualifier);
-		assertTrue(railSearchResponse.legList.get(0).legOptionList.get(1).doesAnyOfferHasFareQualifier);
-		assertFalse(railSearchResponse.legList.get(0).legOptionList.get(2).doesAnyOfferHasFareQualifier);
+		assertFalse(railSearchResponse.legList.get(0).legOptionList.get(0).doesAnyOfferHasFareQualifier);
+		assertFalse(railSearchResponse.legList.get(0).legOptionList.get(1).doesAnyOfferHasFareQualifier);
+		assertTrue(railSearchResponse.legList.get(0).legOptionList.get(2).doesAnyOfferHasFareQualifier);
+		assertTrue(railSearchResponse.legList.get(0).legOptionList.get(3).doesAnyOfferHasFareQualifier);
+		assertFalse(railSearchResponse.legList.get(0).legOptionList.get(4).doesAnyOfferHasFareQualifier);
 		assertEquals(RailsApiStatusCodes.STATUS_SUCCESS, railSearchResponse.responseStatus.status);
 	}
 

@@ -5,6 +5,7 @@ import org.joda.time.LocalDate;
 
 import android.support.test.espresso.Espresso;
 import android.support.test.espresso.ViewInteraction;
+import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
@@ -22,6 +23,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.RecyclerViewActions.scrollToPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
@@ -156,11 +158,10 @@ public class RailScreen {
 		RailScreen.dialogDoneButton().perform(click());
 
 		SearchScreen.searchButton().perform(click());
-
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(onView(withId(R.id.rail_outbound_list)), 3, R.id.timesView,
+		onView(withId(R.id.rail_outbound_list)).perform(scrollToPosition(5));
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(onView(withId(R.id.rail_outbound_list)), 5, R.id.timesView,
 			"12:55 PM – 4:16 PM");
-		onView(withText("12:55 PM – 4:16 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
-			.perform(click());
+		onView(withId(R.id.rail_outbound_list)).perform(RecyclerViewActions.actionOnItemAtPosition(5, click()));
 		onView(allOf(withText("London Underground"),
 			isDescendantOfA(withId(R.id.details_timeline)))).check(matches(isDisplayed()));
 	}
@@ -173,10 +174,10 @@ public class RailScreen {
 	}
 
 	public static void selectRoundTripOutbound() {
-		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(onView(withId(R.id.rail_outbound_list)), 1, R.id.timesView,
+		onView(withId(R.id.rail_outbound_list)).perform(scrollToPosition(3));
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(onView(withId(R.id.rail_outbound_list)), 3, R.id.timesView,
 			"8:30 AM – 12:37 PM");
-		onView(withText("8:30 AM – 12:37 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
-			.perform(click());
+		onView(withId(R.id.rail_outbound_list)).perform(RecyclerViewActions.actionOnItemAtPosition(3, click()));
 
 		scrollToOutboundFareOptions();
 		onView(withText("Standard Anytime Day Single")).check(matches(isDisplayed()));
@@ -186,8 +187,7 @@ public class RailScreen {
 	public static void selectRoundTripInbound() {
 		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(onView(withId(R.id.rail_inbound_list)), 1, R.id.timesView,
 			"12:52 PM – 5:14 PM");
-		onView(withText("12:52 PM – 5:14 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
-			.perform(click());
+		onView(withId(R.id.rail_inbound_list)).perform(RecyclerViewActions.actionOnItemAtPosition(1, click()));
 		scrollToInboundFareOptions();
 		clickSelectFareOption("+£8.20");
 	}
