@@ -1,7 +1,7 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!-- Lollipop / Material specific styles-->
-<!-- Borderless button for "Enter Itinerary Number" in login screen -->
+<?xml version="1.0" encoding="utf-8"?><!-- Lollipop / Material specific styles--><!-- Borderless button for "Enter Itinerary Number" in login screen -->
 <resources>
+
     <style name="Widget.BorderlessButton" parent="android:Widget.Material.Button.Borderless">
+        <item name="android:background">@drawable/bg_btn_borderless</item>
     </style>
 </resources>

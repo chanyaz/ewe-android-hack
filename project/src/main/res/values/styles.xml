@@ -1051,7 +1051,7 @@
 
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->
     <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
+        <item name="android:background">@drawable/bg_btn_borderless</item>
     </style>
 
     <style name="Widget.InfoIconButton" parent="Widget.AppCompat.Button.Borderless">
