@@ -35,6 +35,7 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
+import com.expedia.bookings.dialog.TextViewDialog
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
@@ -66,6 +67,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val TAG_COPYRIGHT = "TAG_COPYRIGHT"
     private val TAG_COMMUNICATE = "TAG_COMMUNICATE"
     private val TAG_APP_SETTINGS = "TAG_APP_SETTINGS"
+    private val GOOGLE_SIGN_IN_SUPPORT = "GOOGLE_SIGN_IN_SUPPORT"
 
     private val ROW_BOOKING_SUPPORT = 1
     private val ROW_EXPEDIA_WEBSITE = 2
@@ -114,6 +116,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     val signOutButton: Button by bindView(R.id.sign_out_button)
     val facebookSignInButton: Button by bindView(R.id.sign_in_with_facebook_button)
     val createAccountButton: Button by bindView(R.id.create_account_button)
+    val googleAccountChange: TextView by bindView(R.id.google_account_change)
 
     val signInSection: ViewGroup by bindView(R.id.section_sign_in)
     val loyaltySection: ViewGroup by bindView(R.id.section_loyalty_info)
@@ -186,6 +189,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         gestureDetector = GestureDetectorCompat(context, mOnGestureListener)
         var builder: AboutSectionFragment.Builder
         val ft = activity.supportFragmentManager.beginTransaction()
+        setGoogleAccountChangeVisiblity(googleAccountChange)
+        googleAccountChange.setOnClickListener(GoogleAccountChangeListener())
 
         // App Settings
         appSettingsFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_APP_SETTINGS)
@@ -684,6 +689,30 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     fun onCopyrightLogoClick() {
         SocialUtils.openSite(context, ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(context))
+    }
+
+    private fun setGoogleAccountChangeVisiblity(view: View) {
+        view.visibility = if (ProductFlavorFeatureConfiguration.getInstance().isGoogleAccountChangeEnabled)
+            View.VISIBLE
+        else
+            View.GONE
+    }
+
+    private inner class GoogleAccountChangeListener : View.OnClickListener {
+
+        override fun onClick(view: View) {
+            val fm = fragmentManager
+            var mDialog: TextViewDialog? = fm.findFragmentByTag(GOOGLE_SIGN_IN_SUPPORT) as? TextViewDialog
+            if (mDialog == null) {
+                //Create the dialog
+                mDialog = TextViewDialog()
+                mDialog.isCancelable = false
+                mDialog.setCanceledOnTouchOutside(false)
+                mDialog.setMessage(
+                        Phrase.from(context, R.string.google_account_change_message_TEMPLATE).put("brand", BuildConfig.brand).format())
+            }
+            mDialog.show(fm, GOOGLE_SIGN_IN_SUPPORT)
+        }
     }
 
 }
