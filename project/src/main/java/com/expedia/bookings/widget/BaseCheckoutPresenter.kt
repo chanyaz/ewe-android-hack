@@ -519,10 +519,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     fun onLoginSuccess() {
-        animateInSlideToPurchase(true)
         updateDbTravelers()
         initLoggedInState(true)
         tripViewModel.performCreateTrip.onNext(Unit)
+        animateInSlideToPurchase(true)
     }
 
     fun animateInSlideToPurchase(visible: Boolean) {
