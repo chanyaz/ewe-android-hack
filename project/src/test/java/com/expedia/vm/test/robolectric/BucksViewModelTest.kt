@@ -15,6 +15,8 @@ import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.payment.PointsType
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
@@ -92,7 +94,7 @@ class BucksViewModelTest {
         paymentModel.createTripSubject.onNext(createTripResponse)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testSubscribersAfterCreateTrip() {
         updateToggleTestSubscriber.assertValueCount(1)
         pointsAppliedMessageColorTestSubscriber.assertValue(enableColor)
@@ -102,6 +104,7 @@ class BucksViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun userToggleBucksSwitch() {
         bucksViewModel.bucksOpted.onNext(false)
 

@@ -18,7 +18,9 @@ import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -156,7 +158,8 @@ class HotelDetailViewModelTest {
         assertFalse(vm.showDiscountPercentageObservable.value)
     }
 
-    @Test fun resortFeeShowsForPackages() {
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun resortFeeShowsForPackages() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
         val vm = PackageHotelDetailViewModel(RuntimeEnvironment.application, endlessObserver { /*ignore*/ })
         val testSubscriber = TestSubscriber<String>()
@@ -170,7 +173,8 @@ class HotelDetailViewModelTest {
         assertEquals("per night", context.getString(vm.getFeeTypeText()))
     }
 
-    @Test fun resortFeeShowUKPOS() {
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun resortFeeShowUKPOS() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
         setPOS(PointOfSaleId.UNITED_KINGDOM)
         val testSubscriber = TestSubscriber<String>()
@@ -184,7 +188,8 @@ class HotelDetailViewModelTest {
         assertEquals("total fee", context.getString(vm.getFeeTypeText()))
     }
 
-    @Test fun resortFeeShowUSPOS() {
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun resortFeeShowUSPOS() {
         CurrencyUtils.initMap(RuntimeEnvironment.application)
         setPOS(PointOfSaleId.UNITED_STATES)
         val testSubscriber = TestSubscriber<String>()
@@ -407,7 +412,9 @@ class HotelDetailViewModelTest {
         hotelSoldOutTestSubscriber.assertValues(false, false, true)
     }
 
-    @Test fun regularAndVIPLoyaltyPointsAppliedHeaderVisibility() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
+    fun regularAndVIPLoyaltyPointsAppliedHeaderVisibility() {
 
         //Non VIP hotel and one of the hotel room has loyality info (isBurnApplied = true)
         offer1.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo = true

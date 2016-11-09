@@ -31,7 +31,7 @@ class AbstractFlightOverviewViewModelTest {
         sut = FlightOverviewViewModel(context)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testObFeesLink() {
         val testSubscriber = TestSubscriber<String>()
         sut.obFeeDetailsUrlObservable.subscribe(testSubscriber)
@@ -45,7 +45,7 @@ class AbstractFlightOverviewViewModelTest {
         testSubscriber.assertValues("https://www.expedia.co.uk/p/regulatory/obfees", "")
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testObFeesReset() {
         val obFeeTestSubscriber = TestSubscriber<String>()
         sut.chargesObFeesTextSubject.subscribe(obFeeTestSubscriber)

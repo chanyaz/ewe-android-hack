@@ -5,6 +5,8 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.UserLoyaltyMembershipInformation
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -33,7 +35,7 @@ class ShopWithPointsWidgetTest {
         Ui.getApplication(context).defaultHotelComponents()
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun pointsAvailableMessage() {
         val user = User()
         val traveler = Traveler()

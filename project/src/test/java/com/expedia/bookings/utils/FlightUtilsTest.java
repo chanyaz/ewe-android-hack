@@ -21,7 +21,9 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.FlightSearchResponse;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.widget.FrameLayout;
 import com.mobiata.flightlib.data.Flight;
@@ -54,6 +56,7 @@ public class FlightUtilsTest {
 
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void testConfigureBaggageFeeViewsNoPaymentFees() {
 		FlightTrip trip = new FlightTrip();
 		trip.setMayChargeObFees(false);
@@ -98,6 +101,7 @@ public class FlightUtilsTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void testConfigureBaggageFeeViewsWithPaymentFees() {
 		FlightTrip trip = new FlightTrip();
 		trip.setMayChargeObFees(true);

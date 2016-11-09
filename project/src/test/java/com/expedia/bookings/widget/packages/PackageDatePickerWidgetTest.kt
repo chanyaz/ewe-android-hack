@@ -6,6 +6,8 @@ import android.support.v4.app.FragmentManager
 import android.util.AttributeSet
 import com.expedia.bookings.fragment.AccessibleDatePickerFragment
 import com.expedia.bookings.fragment.CalendarDialogFragment
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.CalendarWidgetV2
 import com.expedia.vm.BaseSearchViewModel
@@ -40,6 +42,7 @@ class PackageDatePickerWidgetTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testAccessibleDatePicker() {
         val mockViewModel = getMockViewModel()
         Mockito.`when`(mockViewModel.isTalkbackActive()).thenReturn(true)

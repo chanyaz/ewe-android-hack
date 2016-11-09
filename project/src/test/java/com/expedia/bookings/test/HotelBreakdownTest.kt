@@ -43,7 +43,7 @@ class HotelBreakdownTest {
         vm = HotelBreakDownViewModel(context, hotelCheckoutSummaryViewModel)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun verifyCostBreakdownForUserWithNoRewardPoints() {
         givenHappyCreateTripResponse()
 
@@ -95,6 +95,7 @@ class HotelBreakdownTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun verifyCostBreakDownForFeesWithIncludedTaxes() {
         givenHotelWithFeesAndIncludedTaxesResponse()
 
@@ -115,7 +116,7 @@ class HotelBreakdownTest {
         testSubscriber.unsubscribe()
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun verifyCostBreakDownForFeesPaidAtHotel() {
         givenHotelWithFeesPaidAtHotelResponse()
 
@@ -136,7 +137,7 @@ class HotelBreakdownTest {
         testSubscriber.unsubscribe()
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun verifyCostBreakDownForGuestCharge() {
         givenHotelWithGuestChargeResponse()
 

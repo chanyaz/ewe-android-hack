@@ -139,6 +139,7 @@ class FlightOffersViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testShowFlightChargesObFees() {
         val showObChargesTestSubscriber = TestSubscriber<Boolean>()
         val urlTestSubscriber = TestSubscriber<String>()
@@ -167,6 +168,7 @@ class FlightOffersViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testFlightChargesObFeesPosNotAirlineSpecific() {
         val testSubscriber = TestSubscriber<String>()
         sut.offerSelectedChargesObFeesSubject.subscribe(testSubscriber)

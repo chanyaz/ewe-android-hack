@@ -7,6 +7,8 @@ import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.data.insurance.InsuranceProduct
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
@@ -19,7 +21,7 @@ import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
-@RunWith(RobolectricRunner::class)
+@RunWith(RobolectricRunner::class) @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
 class FlightCostSummaryBreakdownViewModelTest {
 
     private val context = RuntimeEnvironment.application

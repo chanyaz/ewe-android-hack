@@ -9,6 +9,8 @@ import com.expedia.bookings.data.UserLoyaltyMembershipInformation
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -69,7 +71,7 @@ class ShopWithPointsViewModelTest {
         assertFalse(testObserver.onNextEvents[0])
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun loggedInUserWithLoyaltyPoints() {
         val user = mockUser()
         val loyaltyInfo = UserLoyaltyMembershipInformation()
@@ -92,7 +94,7 @@ class ShopWithPointsViewModelTest {
         assertEquals("You have 4,444 points", testPointsDetailStringObserver.onNextEvents[0])
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun loggedInUserWithChangingLoyaltyPoints() {
         val user = mockUser()
         val loyaltyInfo = UserLoyaltyMembershipInformation()

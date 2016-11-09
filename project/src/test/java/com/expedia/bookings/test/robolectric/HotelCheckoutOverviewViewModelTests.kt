@@ -10,6 +10,8 @@ import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.vm.HotelCheckoutOverviewViewModel
 import org.junit.Before
@@ -49,6 +51,7 @@ class HotelCheckoutOverviewViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun happyTest() {
         givenHappyCreateTripResponse()
         sut.newRateObserver.onNext(hotelProductResponse)
@@ -68,7 +71,7 @@ class HotelCheckoutOverviewViewModelTest {
         assertEquals("The $0 resort fee will be collected at the hotel. The total price for your stay will be $135.81.", sut.disclaimerText.value.toString())
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun totalPriceCharged() {
         val totalPriceChargedSubscriber = TestSubscriber.create<String>()
         val paymentSplitsSubscriber = TestSubscriber.create<PaymentSplits>()

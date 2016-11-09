@@ -6,7 +6,9 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import org.junit.Before
@@ -47,6 +49,7 @@ class FlightListAdapterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun flightResultsHeaderRoundTrip() {
         createSystemUnderTest()
         givenRoundTripFlight()
@@ -56,6 +59,7 @@ class FlightListAdapterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun flightResultsHeaderOneWay() {
         createSystemUnderTest()
         givenOneWayFlight()
