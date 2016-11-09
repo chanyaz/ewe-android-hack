@@ -121,13 +121,13 @@ public class EndpointProvider {
 			endpoint = getCustomServerAddress();
 			break;
 		case INTEGRATION:
-			endpoint = "http://apim.int.expedia.com:8000/rails/";
+			endpoint = "https://apim.int.expedia.com/rails/";
 			break;
 		case PRODUCTION:
 			endpoint = "https://apim.expedia.com/rails/";
 			break;
 		default:
-			endpoint = "http://apim.int.expedia.com:8000/rails/test/";
+			endpoint = "https://apim.int.expedia.com/rails/test/";
 
 		}
 		return endpoint;
