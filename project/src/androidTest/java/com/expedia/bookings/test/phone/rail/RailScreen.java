@@ -157,6 +157,8 @@ public class RailScreen {
 
 		SearchScreen.searchButton().perform(click());
 
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(onView(withId(R.id.rail_outbound_list)), 3, R.id.timesView,
+			"12:55 PM – 4:16 PM");
 		onView(withText("12:55 PM – 4:16 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
 		onView(allOf(withText("London Underground"),
@@ -171,6 +173,8 @@ public class RailScreen {
 	}
 
 	public static void selectRoundTripOutbound() {
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(onView(withId(R.id.rail_outbound_list)), 1, R.id.timesView,
+			"8:30 AM – 12:37 PM");
 		onView(withText("8:30 AM – 12:37 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
 
@@ -180,6 +184,8 @@ public class RailScreen {
 	}
 
 	public static void selectRoundTripInbound() {
+		EspressoUtils.assertViewWithTextIsDisplayedAtPosition(onView(withId(R.id.rail_inbound_list)), 1, R.id.timesView,
+			"12:52 PM – 5:14 PM");
 		onView(withText("12:52 PM – 5:14 PM")).perform(waitForViewToDisplay()).check(matches(isDisplayed()))
 			.perform(click());
 		scrollToInboundFareOptions();
