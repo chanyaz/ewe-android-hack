@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric
+package com.expedia.bookings.widget.itin
 
 import android.content.Context
 import android.view.View
@@ -6,13 +6,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.server.TripParser
+import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.widget.itin.ItinContentGenerator
 import okio.Okio
 import org.json.JSONArray
 import org.json.JSONObject
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

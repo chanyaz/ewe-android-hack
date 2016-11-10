@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric;
+package com.expedia.bookings.data.trips;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,7 +9,7 @@ import org.joda.time.LocalDateTime;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 
 import static org.junit.Assert.assertEquals;
 

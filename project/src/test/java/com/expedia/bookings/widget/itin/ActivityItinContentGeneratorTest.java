@@ -1,4 +1,12 @@
-package com.expedia.bookings.test.robolectric;
+package com.expedia.bookings.widget.itin;
+
+import org.joda.time.DateTime;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mockito;
+import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -10,18 +18,10 @@ import com.expedia.bookings.data.Activity;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripActivity;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.TextView;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.util.Ui;
-
-import org.joda.time.DateTime;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mockito;
-import org.robolectric.RuntimeEnvironment;
 
 @RunWith(RobolectricRunner.class)
 public class ActivityItinContentGeneratorTest {

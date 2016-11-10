@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.robolectric;
+package com.expedia.bookings.widget.itin;
 
 import org.joda.time.DateTime;
 import org.junit.Assert;
@@ -14,8 +14,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripRails;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.DateUtils;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.squareup.phrase.Phrase;
 
 @RunWith(RobolectricRunner.class)
