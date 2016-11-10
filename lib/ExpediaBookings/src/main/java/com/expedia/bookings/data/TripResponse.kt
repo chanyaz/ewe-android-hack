@@ -127,5 +127,5 @@ abstract class TripResponse : BaseApiResponse() {
 
     fun getAvailableInsuranceProducts(): List<InsuranceProduct> = getOffer().availableInsuranceProducts
 
-    fun getOffer(): FlightTripDetails.FlightOffer = details.offer
+    open fun getOffer(): FlightTripDetails.FlightOffer = details.offer
 }
