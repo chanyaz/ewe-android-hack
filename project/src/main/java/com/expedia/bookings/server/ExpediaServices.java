@@ -65,6 +65,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
@@ -335,17 +336,27 @@ public class ExpediaServices implements DownloadListener {
 		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
 		params.add(new BasicNameValuePair("client", ServicesUtil.generateClient(mContext)));
 
-		return doSuggestionRequest(url, params);
+		return doSuggestionRequest(url, params, false);
 	}
 
 	public SuggestionResponse suggestionsAirportsNearby(double latitude, double longitude, SuggestionSort sort) {
 		// 1 == airports
-		return suggestionsNearby(latitude, longitude, sort, SuggestionResultType.AIRPORT);
+		if (FeatureToggleUtil.isFeatureEnabled(mContext, R.string.preference_enable_gaia_current_location_suggestion)) {
+			return suggestionsGaiaNearby(latitude, longitude, sort, "flights");
+		}
+		else {
+			return suggestionsNearby(latitude, longitude, sort, SuggestionResultType.AIRPORT);
+		}
 	}
 
 	public SuggestionResponse suggestionsCityNearby(double latitude, double longitude) {
 		// 2 == city
-		return suggestionsNearby(latitude, longitude, SuggestionSort.DISTANCE, SuggestionResultType.CITY);
+		if (FeatureToggleUtil.isFeatureEnabled(mContext, R.string.preference_enable_gaia_current_location_suggestion)) {
+			return suggestionsGaiaNearby(latitude, longitude, SuggestionSort.DISTANCE, "hotels");
+		}
+		else {
+			return suggestionsNearby(latitude, longitude, SuggestionSort.DISTANCE, SuggestionResultType.CITY);
+		}
 	}
 
 	private SuggestionResponse suggestionsNearby(double latitude, double longitude, SuggestionSort sort,
@@ -366,7 +377,23 @@ public class ExpediaServices implements DownloadListener {
 		params.add(new BasicNameValuePair("maxresults", "50"));
 		params.add(new BasicNameValuePair("latlong", latitude + "|" + longitude));
 
-		return doSuggestionRequest(url, params);
+		return doSuggestionRequest(url, params, false);
+	}
+
+	private SuggestionResponse suggestionsGaiaNearby(double latitude, double longitude, SuggestionSort sort,
+		String lob) {
+		String url = NetUtils.formatUrl(getGaiaNearbySuggestUrl());
+		List<BasicNameValuePair> params = new ArrayList<BasicNameValuePair>();
+		String sortCriteria = (sort == SuggestionSort.DISTANCE) ? "distance" : "popularity";
+		params.add(new BasicNameValuePair("lat", "" + latitude));
+		params.add(new BasicNameValuePair("lng", "" + longitude));
+		params.add(new BasicNameValuePair("limit", "2"));
+		params.add(new BasicNameValuePair("lob", lob));
+		params.add(new BasicNameValuePair("sortBy", sortCriteria));
+		params.add(new BasicNameValuePair("locale", PointOfSale.getSuggestLocaleIdentifier()));
+		params.add(new BasicNameValuePair("site", "" + PointOfSale.getPointOfSale().getSiteId()));
+
+		return doSuggestionRequest(url, params, true);
 	}
 
 	public SuggestionResponse suggestionsHotelId(String hotelId) {
@@ -378,10 +405,10 @@ public class ExpediaServices implements DownloadListener {
 
 		params.add(new BasicNameValuePair("id", hotelId));
 
-		return doSuggestionRequest(url, params);
+		return doSuggestionRequest(url, params, false);
 	}
 
-	private SuggestionResponse doSuggestionRequest(String url, List<BasicNameValuePair> params) {
+	private SuggestionResponse doSuggestionRequest(String url, List<BasicNameValuePair> params, boolean isGaiaNearby) {
 		Request.Builder get = createHttpGet(url, params);
 
 		// Make sure the response comes back as JSON
@@ -390,7 +417,12 @@ public class ExpediaServices implements DownloadListener {
 		// Some logging before passing the request along
 		Log.d(TAG_REQUEST, "Suggestion request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
-		return doRequest(get, new SuggestionResponseHandler(), 0);
+		if (isGaiaNearby) {
+			return doRequest(get, new GaiaSuggestionResponseHandler(), 0);
+		}
+		else {
+			return doRequest(get, new SuggestionResponseHandler(), 0);
+		}
 	}
 
 	/**
@@ -428,6 +460,13 @@ public class ExpediaServices implements DownloadListener {
 			break;
 		}
 
+		return sb.toString();
+	}
+
+	private String getGaiaNearbySuggestUrl() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(mEndpointProvider.getGaiaEndpointUrl());
+		sb.append("/v1/features/");
 		return sb.toString();
 	}
 

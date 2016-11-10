@@ -89,7 +89,8 @@ class SuggestionV4ServicesTest {
         suggestion.gaiaID = "180000"
         suggestion.type = "multi_city_vicinity"
         val position = GaiaSuggestion.Position("Point", arrayOf(77.22496, 28.635308))
-        val localizedNames = arrayOf(GaiaSuggestion.LocalizedName(1043, "Delhi (and vicinity)", "Delhi (and vicinity), India"))
+        val localizedNames = arrayOf(GaiaSuggestion.LocalizedName(1043, "Delhi (and vicinity)",
+                "Delhi (and vicinity), India", "Delhi (and vicinity), India", "DEL"))
         val country = GaiaSuggestion.Country("India", "IND")
         suggestion.name = "Delhi (and vicinity), India"
         suggestion.country = country

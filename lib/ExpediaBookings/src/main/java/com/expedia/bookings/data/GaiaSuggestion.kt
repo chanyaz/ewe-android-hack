@@ -14,6 +14,9 @@ class GaiaSuggestion() {
     lateinit var localizedNames: Array<LocalizedName>
     lateinit var country: Country
 
+    @SerializedName("isMajor")
+    var isMajorAirport: Boolean = false
+
     @SerializedName("iataCode")
     var airportCode: String? = null
 
@@ -35,7 +38,9 @@ class GaiaSuggestion() {
             @SerializedName("value")
             val shortName: String,
             @SerializedName("extendedValue")
-            val fullName: String
+            val fullName: String,
+            val friendlyName: String,
+            var airportName: String? = null
     )
 
     data class Country(

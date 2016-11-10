@@ -75,7 +75,7 @@ object SuggestionV4Utils {
             val regionName = SuggestionV4.RegionNames();
             val localizedNames = it.localizedNames.get(0)
             regionName.fullName = localizedNames.fullName
-            regionName.displayName = localizedNames.fullName
+            regionName.displayName = StrUtils.getDisplayNameForGaiaNearby(localizedNames.friendlyName, localizedNames.airportName)
             regionName.shortName = localizedNames.shortName
             suggestion.regionNames = regionName
 
@@ -96,6 +96,7 @@ object SuggestionV4Utils {
 
             suggestion.hierarchyInfo = hierarchyInfo
 
+            suggestion.isMinorAirport = !it.isMajorAirport
             suggestionList.add(suggestion)
         }
         return suggestionList.toMutableList()
