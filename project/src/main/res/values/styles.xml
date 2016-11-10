@@ -1087,7 +1087,19 @@
         <item name="android:textColor">@color/light_text_color</item>
     </style>
 
+    <style name="Core.Text.Default.WhiteColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="Core.Text.Default.Medium.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="Core.Text.Small">
+        <item name="android:textSize">@dimen/small_text_size</item>
+    </style>
+
+    <style name="Core.Text.Small.LightColor">
         <item name="android:textColor">@color/light_text_color</item>
     </style>
 
@@ -1096,6 +1108,22 @@
     </style>
 
     <style name="Core.Text.Large.Medium">
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="Core.Text.Large.Medium.WhiteColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Core.Text.Large.Medium.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="Core.Text.XLarge">
+        <item name="android:textSize">@dimen/xlarge_text_size</item>
+    </style>
+
+    <style name="Core.Text.XLarge.Medium">
         <item name="textStyle">medium</item>
     </style>
 

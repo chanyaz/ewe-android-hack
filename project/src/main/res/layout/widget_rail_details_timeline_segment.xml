@@ -14,7 +14,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_departure_time"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_gravity="center"
             android:gravity="top"
             android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
         <com.expedia.bookings.widget.TextView
             android:layout_gravity="center"
             android:id="@+id/rail_timeline_arrival_time"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -52,7 +52,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_departure_station"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="London Euston" />
@@ -77,7 +77,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_arrival_station"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Crewe" />

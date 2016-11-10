@@ -17,6 +17,7 @@ class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayou
     val outboundLegSummary: RailLegSummaryWidget by bindView(R.id.rail_outbound_leg_widget)
 
     val inboundDateView: TextView by bindView(R.id.inbound_dates_view)
+    val openReturnMessaging: TextView by bindView(R.id.open_return_messaging)
     val inboundLegSummary: RailLegSummaryWidget by bindView(R.id.rail_inbound_leg_widget)
 
     private val outboundSummaryViewModel = RailLegSummaryViewModel(context)
@@ -40,6 +41,7 @@ class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayou
                 inboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[0])
                 inboundLegSummary.visibility = View.VISIBLE
                 inboundDateView.visibility = View.VISIBLE
+                openReturnMessaging.visibility = View.VISIBLE
             }
         }
 
@@ -55,6 +57,7 @@ class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayou
 
     fun reset() {
         inboundDateView.visibility = View.GONE
+        openReturnMessaging.visibility = View.GONE
         inboundLegSummary.visibility = View.GONE
         outboundLegSummary.reset()
         inboundLegSummary.reset()

@@ -1,5 +1,5 @@
-<merge xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<merge xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,14 +24,43 @@
             android:background="@color/white"
             android:orientation="vertical"
             android:paddingBottom="12dp"
-            android:paddingLeft="@dimen/rail_outbound_header_left_right_pad"
-            android:paddingRight="@dimen/rail_outbound_header_left_right_pad"
+            android:paddingLeft="@dimen/rail_results_header_left_right_pad"
+            android:paddingRight="@dimen/rail_results_header_left_right_pad"
             android:paddingTop="12dp" />
+
+        <LinearLayout
+            android:id="@+id/open_return_selected_header"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/outbound_header_view"
+            android:background="@color/rail_primary_dark_background_color"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/rail_results_header_left_right_pad"
+            android:paddingRight="@dimen/rail_results_header_left_right_pad"
+            android:paddingTop="12dp"
+            android:paddingBottom="12dp"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/open_return_header_messaging"
+                style="@style/Core.Text.Large.Medium.WhiteColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rail_open_return_selected" />
+
+            <com.expedia.bookings.widget.TextView
+                android:id="@+id/open_return_description"
+                style="@style/Core.Text.Default.WhiteColor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/rail_open_return_description"/>
+        </LinearLayout>
 
         <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_below="@id/outbound_header_view"
+            android:layout_below="@id/open_return_selected_header"
             android:layout_above="@+id/inbound_legal_banner">
 
             <com.expedia.bookings.widget.rail.RailResultsRecyclerView
@@ -57,17 +86,17 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/inbound_legal_banner"
-            style="@style/BundleOverviewWidgets.SecondaryText"
+            style="@style/Core.Text.Small.LightColor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
-            android:drawablePadding="30dp"
             android:drawableRight="@drawable/info"
-            android:paddingBottom="4dp"
-            android:paddingLeft="8dp"
-            android:paddingRight="30dp"
-            android:paddingTop="4dp"
+            android:drawablePadding="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="@dimen/rail_results_header_left_right_pad"
+            android:paddingRight="@dimen/rail_results_header_left_right_pad"
+            android:paddingTop="8dp"
             android:text="@string/rail_search_legal_banner_round_trip" />
     </RelativeLayout>
 </merge>

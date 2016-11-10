@@ -4399,6 +4399,12 @@
 
     <string name="rail_overtaken_message">Overtaken train: This service is slower than other trains.</string>
 
+    <!-- Messaging indicating to the user of their previously selected choice. -->
+    <string name="rail_open_return_selected">You\'ve Selected an open return</string>
+
+    <!-- When the user selects an open return they can choose any inbound train journey -->
+    <string name="rail_open_return_description">You don\'t have to travel on the train you select, but please tell us your preference</string>
+
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Take the {travel_mode} from {origin_station_name} to {destination_station_name}</string>
 
@@ -4416,6 +4422,9 @@
 
     <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">Inbound - {date}</string>
+
+    <!-- rail checkout overview label indicating the user selected an open return journey.-->
+    <string name="rail_open_return_messaging">Travel on any valid train within 1 month of departure</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
     <string name="rail_price_breakdown_journey">Journey</string>

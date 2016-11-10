@@ -9,7 +9,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/outbound_card_time_text"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -17,7 +17,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/outbound_card_price_text"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="right"

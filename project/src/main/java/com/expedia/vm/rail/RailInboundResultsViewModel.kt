@@ -13,9 +13,12 @@ class RailInboundResultsViewModel(context: Context) : BaseRailResultsViewModel(c
     val outboundOfferSubject = PublishSubject.create<RailOffer>()
     val resultsReturnedSubject = BehaviorSubject.create<RailSearchResponse>()
 
+    val openReturnSubject = PublishSubject.create<Boolean>()
+
     init {
         directionHeaderSubject.onNext(context.getString(R.string.select_return))
         outboundOfferSubject.withLatestFrom(resultsReturnedSubject, { offer, response ->
+            openReturnSubject.onNext(offer.isOpenReturn)
             Pair(getLegOptionsForOffer(offer, response), response.inboundLeg?.cheapestPrice)
         }).subscribe(legOptionsAndCheapestPriceSubject)
     }
