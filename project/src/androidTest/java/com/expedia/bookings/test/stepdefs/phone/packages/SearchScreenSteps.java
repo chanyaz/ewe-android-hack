@@ -56,13 +56,13 @@ public class SearchScreenSteps {
 	public void selectPackageDates(final int startDate, final int endDate) throws Throwable {
 		LocalDate stDate = LocalDate.now().plusDays(startDate);
 		LocalDate enDate = LocalDate.now().plusDays(endDate);
-		SearchScreen.selectDates(stDate, enDate);
+		SearchScreen.selectDatesOnly(stDate, enDate);
 	}
 
 	@Then("^I select start date as (\\d+) on packages search page")
 	public void selectStartDateOnly(final int startDate) throws Throwable {
 		LocalDate stDate = LocalDate.now().plusDays(startDate);
-		SearchScreen.selectDates(stDate, null);
+		SearchScreen.selectDatesOnly(stDate, null);
 	}
 
 	@Then("^I click on calender done button")
