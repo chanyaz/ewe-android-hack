@@ -240,7 +240,7 @@ public class AccountButton extends LinearLayout {
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
-		updateBrandLogo(traveler.isLoyaltyMember());
+		updateBrandLogoVisibility();
 
 		// Traveler Email Text
 		TextView travelerEmailTextView = Ui.findView(mLogoutContainer, R.id.account_top_textview);
@@ -306,9 +306,6 @@ public class AccountButton extends LinearLayout {
 			mRewardsContainer.setVisibility(View.GONE);
 			setLogoutContainerBackground(mLogoutContainer);
 		}
-
-		// Logo
-		mExpediaLogo.setImageResource(R.drawable.checkout_logout_logo);
 	}
 
 	public void updateRewardsText(LineOfBusiness lob) {
@@ -328,13 +325,10 @@ public class AccountButton extends LinearLayout {
 		return false;
 	}
 
-	private void updateBrandLogo(boolean isLoyaltyMember) {
+	private void updateBrandLogoVisibility() {
 		boolean showBrandLogo = ProductFlavorFeatureConfiguration.getInstance().shouldShowBrandLogoOnAccountButton();
 		if (!showBrandLogo) {
 			mExpediaLogo.setVisibility(View.INVISIBLE);
-		}
-		else if (!isLoyaltyMember) {
-			mExpediaLogo.setImageResource(R.drawable.checkout_logout_logo);
 		}
 	}
 
