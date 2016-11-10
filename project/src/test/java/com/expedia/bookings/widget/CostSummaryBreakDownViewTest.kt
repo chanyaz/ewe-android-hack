@@ -22,7 +22,10 @@ class CostSummaryBreakDownViewTest {
     @Test
     fun testRow() {
         val costSummaryBreakDownView = CostSummaryBreakDownView(getContext(), null)
-        costSummaryBreakDownView.viewmodel = BaseCostSummaryBreakdownViewModel(getContext())
+        costSummaryBreakDownView.viewmodel = object: BaseCostSummaryBreakdownViewModel(getContext()) {
+            override fun trackBreakDownClicked() {
+            }
+        }
 
         val list = ArrayList<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
         list.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow
@@ -52,7 +55,10 @@ class CostSummaryBreakDownViewTest {
     @Test
     fun testSeparatorRow() {
         val costSummaryBreakDownView = CostSummaryBreakDownView(getContext(), null)
-        costSummaryBreakDownView.viewmodel = BaseCostSummaryBreakdownViewModel(getContext())
+        costSummaryBreakDownView.viewmodel = object: BaseCostSummaryBreakdownViewModel(getContext()) {
+            override fun trackBreakDownClicked() {
+            }
+        }
 
         val list = ArrayList<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>()
         list.add(BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow

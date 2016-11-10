@@ -5,6 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails.PassengerCategory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.squareup.phrase.Phrase
@@ -93,5 +94,9 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
             addRows.onNext(breakdowns)
             iconVisibilityObservable.onNext(true)
         }
+    }
+
+    override fun trackBreakDownClicked() {
+        FlightsV2Tracking.trackFlightCostBreakdownClick()
     }
 }
