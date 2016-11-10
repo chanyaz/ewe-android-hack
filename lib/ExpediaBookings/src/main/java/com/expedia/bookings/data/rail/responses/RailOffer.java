@@ -6,7 +6,9 @@ import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.utils.CollectionUtils;
 
-public class RailOffer extends BaseRailOffer {
+import static com.expedia.bookings.utils.Constants.RAIL_STANDARD_FARE_CLASS;
+
+public class RailOffer extends BaseRailOffer implements Comparable<RailOffer> {
 	public List<RailProduct> railProductList;
 
 	@Nullable
@@ -50,5 +52,27 @@ public class RailOffer extends BaseRailOffer {
 			return railProductList.get(0).legOptionIndexList.get(1);
 		}
 		return -1;
+	}
+
+	@Override
+	public int compareTo(RailOffer other) {
+		if (this != null && other != null && CollectionUtils.isNotEmpty(this.railProductList)
+			&& CollectionUtils.isNotEmpty(other.railProductList)) {
+
+			String thisFareClassDisplayName = this.railProductList.get(0).aggregatedCarrierServiceClassDisplayName;
+			String otherFareClassDisplayName = other.railProductList.get(0).aggregatedCarrierServiceClassDisplayName;
+			if (thisFareClassDisplayName.equals(otherFareClassDisplayName)) {
+				return this.totalPrice.compareTo(other.totalPrice);
+			}
+			else {
+				if (thisFareClassDisplayName.equalsIgnoreCase(RAIL_STANDARD_FARE_CLASS)) {
+					return -1;
+				}
+				else {
+					return 1;
+				}
+			}
+		}
+		return 0;
 	}
 }

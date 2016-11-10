@@ -23,7 +23,9 @@ class RailFareOptionViewModel(val context: Context, val showDeltaPricing: Boolea
     val offerSelectedObservable = offerSelectButtonClicked.withLatestFrom(offerFareSubject, { selected, offerFare -> offerFare })
 
     private val railProductObservable = offerFareSubject.map { offer -> offer.railProductList.first() }
-    val fareTitleObservable = railProductObservable.map { railProduct -> railProduct.aggregatedCarrierFareClassDisplayName }
+    val fareTitleObservable = railProductObservable.map { railProduct ->
+        "${railProduct.aggregatedCarrierServiceClassDisplayName} ${railProduct.aggregatedCarrierFareClassDisplayName}"
+    }
     val fareDescriptionObservable = railProductObservable.map { railProduct -> railProduct.aggregatedFareDescription }
     val railCardAppliedObservable = railProductObservable.map { railProduct -> railProduct.hasRailCardApplied() }
 
