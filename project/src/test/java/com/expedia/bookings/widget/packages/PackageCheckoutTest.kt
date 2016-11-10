@@ -27,7 +27,6 @@ import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
-import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
@@ -49,6 +48,7 @@ import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -124,8 +124,11 @@ class PackageCheckoutTest {
         createTrip()
 
         val testUser = User()
-        val testCard1 = setUpCreditCards("4111111111111111", "testVisa", PaymentType.CARD_VISA, "1")
-        val testCard2 = setUpCreditCards("6111111111111111", "testDiscover", PaymentType.CARD_DISCOVER, "2")
+        val testInvalidCard = setUpCreditCards("1234567890123456", "testInvalid", PaymentType.UNKNOWN, "1")
+        val testCard1 = setUpCreditCards("4111111111111111", "testVisa", PaymentType.CARD_VISA, "2")
+        val testCard2 = setUpCreditCards("6111111111111111", "testDiscover", PaymentType.CARD_DISCOVER, "3")
+
+        testUser.addStoredCreditCard(testInvalidCard)
         testUser.addStoredCreditCard(testCard1)
         testUser.addStoredCreditCard(testCard2)
         testUser.primaryTraveler = enterTraveler(Traveler())
@@ -134,23 +137,24 @@ class PackageCheckoutTest {
 
         checkout.onLoginSuccess()
 
-        assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
-
-        checkout.showPaymentPresenter()
-        checkout.paymentWidget.selectFirstAvailableCard()
-        checkout.paymentWidget.validateAndBind()
+        assertNotEquals(checkout.paymentWidget.sectionBillingInfo.billingInfo.storedCard, testInvalidCard)
+        assertEquals(checkout.paymentWidget.sectionBillingInfo.billingInfo.storedCard, testCard1)
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
     }
 
     @Test
-    fun testLoggedInUserPaymentStatusSingleCard() {
+    fun testLoggedInUserPaymentStatusNoValidCards() {
         val testUserLoggedIn = TestSubscriber<Boolean>()
         checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
         createTrip()
 
         val testUser = User()
-        val testCard1 = setUpCreditCards("4111111111111111", "testVisa", PaymentType.CARD_VISA, "1")
-        testUser.addStoredCreditCard(testCard1)
+        val testFirstInvalidCard = setUpCreditCards("1234567890123456", "testInvalid", PaymentType.UNKNOWN, "1")
+        val testSecondInvalidCard = setUpCreditCards("6543210987654321", "testInvalidOther", PaymentType.CARD_CHINA_UNION_PAY, "2")
+        val testThirdInvalidCard = setUpCreditCards("0000000000000000", "testInvalidLast", PaymentType.CARD_CARTE_BLEUE, "3")
+        testUser.addStoredCreditCard(testFirstInvalidCard)
+        testUser.addStoredCreditCard(testSecondInvalidCard)
+        testUser.addStoredCreditCard(testThirdInvalidCard)
         testUser.primaryTraveler = enterTraveler(Traveler())
         Db.setUser(testUser)
         UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
@@ -159,20 +163,29 @@ class PackageCheckoutTest {
 
         testUserLoggedIn.awaitTerminalEvent(1, TimeUnit.SECONDS)
         assertEquals(true, testUserLoggedIn.onNextEvents[0])
-        assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
+        assertEquals(checkout.paymentWidget.sectionBillingInfo.billingInfo.storedCard, null)
+        assertEquals(ContactDetailsCompletenessStatus.DEFAULT, checkout.paymentWidget.paymentStatusIcon.status)
     }
 
     @Test
-    fun testLoggedInUserPaymentStatusNoCards() {
+    fun testGuestPaymentInfoClearedAfterUserLogsIn() {
         val testUserLoggedIn = TestSubscriber<Boolean>()
         checkout.paymentWidget.viewmodel.userLogin.subscribe(testUserLoggedIn)
+
         createTrip()
+        enterValidTraveler()
+        enterValidPayment()
+
+        assertEquals(TravelerCheckoutStatus.COMPLETE, checkout.travelerSummaryCard.getStatus())
+        assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
+        assertEquals(View.VISIBLE, checkout.totalPriceWidget.visibility)
+        assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
+        assertEquals(0f, checkout.slideToPurchaseLayout.translationY)
 
         val testUser = User()
         testUser.primaryTraveler = enterTraveler(Traveler())
         Db.setUser(testUser)
         UserLoginTestUtil.Companion.setupUserAndMockLogin(testUser)
-
         checkout.onLoginSuccess()
 
         testUserLoggedIn.awaitTerminalEvent(1, TimeUnit.SECONDS)

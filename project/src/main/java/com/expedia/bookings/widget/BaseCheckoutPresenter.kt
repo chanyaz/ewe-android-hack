@@ -384,8 +384,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private val defaultTransition = object : Presenter.DefaultTransition(CheckoutDefault::class.java.name) {
         override fun endTransition(forward: Boolean) {
-            loginWidget.bind(false, User.isLoggedIn(context), Db.getUser(), getLineOfBusiness())
+            val isLoggedIn = User.isLoggedIn(context)
+            loginWidget.bind(false, isLoggedIn, Db.getUser(), getLineOfBusiness())
             paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+            paymentWidget.viewmodel.selectCorrectCardObservable.onNext(isLoggedIn)
             updateTravelerPresenter()
             if (forward) {
                 setToolbarTitle()
@@ -574,8 +576,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     fun clearPaymentInfo() {
         if (!User.isLoggedIn(context)) {
-            paymentWidget.reset()
-            paymentWidget.clearCCAndCVV()
+            paymentWidget.clearPaymentInfo()
         }
     }
 

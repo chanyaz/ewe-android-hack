@@ -164,22 +164,24 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             Ui.hideKeyboard(this@PaymentWidget)
         }
 
-        vm.userLogin.subscribe { isLoggedIn ->
-            if (isLoggedIn) {
-                reset()
-                clearCCAndCVV()
-            }
-
+        vm.selectCorrectCardObservable.subscribe { isLoggedIn ->
             if (isLoggedIn && !isAtLeastPartiallyFilled()) {
-                if (Db.getUser()?.storedCreditCards?.size == 1 && Db.getTemporarilySavedCard() == null) {
-                    sectionBillingInfo.bind(Db.getBillingInfo())
+                val numberOfSavedCards = Db.getUser()?.storedCreditCards?.size ?: 0
+                val tempSavedCard = Db.getTemporarilySavedCard()
+                if (numberOfSavedCards >= 1 && tempSavedCard == null && !hasStoredCard()) {
                     selectFirstAvailableCard()
-                } else if (Db.getUser().storedCreditCards.size == 0 && Db.getTemporarilySavedCard() != null) {
+                } else if (numberOfSavedCards == 0 && tempSavedCard != null) {
                     storedCreditCardListener.onTemporarySavedCreditCardChosen(Db.getTemporarilySavedCard())
                 }
             }
-
             storedCreditCardList.updateAdapter()
+        }
+
+        vm.userLogin.subscribe { isLoggedIn ->
+            if (isLoggedIn) {
+                clearPaymentInfo()
+                vm.selectCorrectCardObservable.onNext(isLoggedIn)
+            }
         }
 
         vm.emptyBillingInfo.subscribe {
@@ -333,7 +335,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
-    fun reset() {
+    private fun reset() {
         sectionBillingInfo.bind(BillingInfo())
         val location = Location()
         sectionBillingInfo.billingInfo.location = location
@@ -343,19 +345,25 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     }
 
     fun selectFirstAvailableCard() {
-        val storedCreditCard = Db.getUser().storedCreditCards[0]
+        sectionBillingInfo.bind(Db.getBillingInfo())
         val tripItem = Db.getTripBucket().getItem(getLineOfBusiness())
-        if (tripItem != null && tripItem.isPaymentTypeSupported(storedCreditCard.type)) {
-            Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
-            val currentCC = Db.getBillingInfo().storedCard
-            BookingInfoUtils.resetPreviousCreditCardSelectState(context, currentCC)
-            val card = storedCreditCard
-            Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = card
-            Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
-            sectionBillingInfo.billingInfo.storedCard = card
-            temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
-            viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
-            viewmodel.cardBIN.onNext(card.id)
+        if (tripItem != null) {
+            val storedUserCreditCards = Db.getUser().storedCreditCards
+            for (storedCard in storedUserCreditCards) {
+                if (tripItem.isPaymentTypeSupported(storedCard.type)) {
+                    Db.getWorkingBillingInfoManager().shiftWorkingBillingInfo(BillingInfo())
+                    val currentCC = Db.getBillingInfo().storedCard
+                    BookingInfoUtils.resetPreviousCreditCardSelectState(context, currentCC)
+                    val card = storedCard
+                    Db.getWorkingBillingInfoManager().workingBillingInfo.storedCard = card
+                    Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
+                    sectionBillingInfo.billingInfo.storedCard = card
+                    temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
+                    viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
+                    viewmodel.cardBIN.onNext(card.id)
+                    break
+                }
+            }
         }
     }
 
@@ -711,5 +719,10 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             enableMenuItem.onNext(true)
         }
         return super.back()
+    }
+
+    fun clearPaymentInfo() {
+        reset()
+        clearCCAndCVV()
     }
 }

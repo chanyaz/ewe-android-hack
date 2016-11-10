@@ -19,6 +19,8 @@ import static android.support.test.espresso.Espresso.pressBack;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
@@ -85,6 +87,38 @@ public class PackageCheckoutTravelerAndPaymentInfoClearTest extends PackageTestC
 		onView(withId(R.id.error_action_button)).perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_cvv, "");
+	}
+
+	public void testPaymentInfoChangedAfterUserLoggedIn() throws Throwable {
+		PackageScreen.doPackageSearch();
+		PackageScreen.checkout().perform(click());
+		PackageScreen.enterTravelerInfo();
+
+		CheckoutViewModel.clickPaymentInfo();
+		CardInfoScreen.typeTextCreditCardEditText("4111111111111111");
+		CardInfoScreen.clickOnExpirationDateButton();
+		CardInfoScreen.clickMonthUpButton();
+		CardInfoScreen.clickYearUpButton();
+		CardInfoScreen.clickSetButton();
+		CardInfoScreen.typeTextCvv("666");
+		CardInfoScreen.typeTextNameOnCardEditText("malcolm nguyen");
+
+		int addressSectionParentId = R.id.section_location_address;
+		BillingAddressScreen.typeTextAddressLineOne("123 California Street", addressSectionParentId);
+		BillingAddressScreen.typeTextCity("errorcheckoutcard", addressSectionParentId);
+		BillingAddressScreen.typeTextState("CA", addressSectionParentId);
+		BillingAddressScreen.typeTextPostalCode("94105", addressSectionParentId);
+		CheckoutViewModel.clickDone();
+
+		CheckoutViewModel.paymentInfo().check(matches(hasDescendant(withText("Visa …1111"))));
+		Espresso.onView(ViewMatchers.withId(R.id.slide_to_purchase_widget)).check(ViewAssertions.matches(isCompletelyDisplayed()));
+
+		CheckoutViewModel.signInOnCheckout();
+		CheckoutViewModel.waitForPaymentInfoDisplayed();
+
+		CheckoutViewModel.paymentInfo().check(matches(hasDescendant(withText("AmexTesting"))));
+		CheckoutViewModel.waitForSlideToPurchase();
+		Espresso.onView(ViewMatchers.withId(R.id.slide_to_purchase_widget)).check(ViewAssertions.matches(isCompletelyDisplayed()));
 	}
 
 	private void assertTravelerInfoCleared() {
