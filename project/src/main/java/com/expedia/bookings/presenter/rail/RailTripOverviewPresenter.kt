@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.TotalPriceWidget
@@ -36,6 +37,7 @@ class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : Present
     var createTripViewModel: RailCreateTripViewModel by notNullAndObservable { vm ->
         vm.tripResponseObservable.subscribe { response ->
             createTripDialog.dismiss()
+            RailTracking().trackRailDetails(response)
             tripSummaryViewModel.railOfferObserver.onNext(response.railDomainProduct.railOffer)
             railPriceViewModel.updatePricing(response)
             railCostBreakDownViewModel.railCostSummaryBreakdownObservable.onNext(response)
