@@ -1,8 +1,9 @@
 package com.expedia.vm.test.rail
 
-import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailDateTime
 import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailTripOffer
+import com.expedia.bookings.data.rail.responses.RailTripProduct
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.rail.RailTripSummaryViewModel
 import org.junit.Test
@@ -28,9 +29,9 @@ class RailTripSummaryViewModelTest {
         assertEquals("Outbound - Sat Oct 08", testFormattedDatesSubscriber.onNextEvents[0])
     }
 
-    private fun getRailOffer(): RailCreateTripResponse.RailTripOffer {
-        val railOffer = RailCreateTripResponse.RailTripOffer()
-        val railProduct = RailCreateTripResponse.RailTripProduct()
+    private fun getRailOffer(): RailTripOffer {
+        val railOffer = RailTripOffer()
+        val railProduct = RailTripProduct()
         railOffer.railProductList = listOf(railProduct)
         return railOffer
     }

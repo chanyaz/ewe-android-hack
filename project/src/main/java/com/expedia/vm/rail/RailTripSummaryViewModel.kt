@@ -4,13 +4,14 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailLegOption
+import com.expedia.bookings.data.rail.responses.RailTripOffer
 import com.expedia.bookings.utils.DateFormatUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class RailTripSummaryViewModel(context: Context) {
-    val railOfferObserver = BehaviorSubject.create<RailCreateTripResponse.RailTripOffer>()
+    val railOfferObserver = BehaviorSubject.create<RailTripOffer>()
     val railOutboundLegObserver = PublishSubject.create<RailLegOption>()
     val railInboundLegObserver = PublishSubject.create<RailLegOption>()
 

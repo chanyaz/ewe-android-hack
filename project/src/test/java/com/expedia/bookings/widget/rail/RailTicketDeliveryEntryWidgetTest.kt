@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption
 import com.expedia.bookings.section.RailDeliverySpinnerWithValidationIndicator
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TicketDeliverySelectionStatus
@@ -19,7 +20,6 @@ import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 class RailTicketDeliveryEntryWidgetTest {
@@ -78,8 +78,8 @@ class RailTicketDeliveryEntryWidgetTest {
         testMailDeliveryContainerSelectionSubscriber.assertValueCount(2)
         assertEquals(TicketDeliverySelectionStatus.SELECTED, testMailDeliveryContainerSelectionSubscriber.onNextEvents[1])
 
-        var ticketDeliveryOptionsAll = ArrayList<RailCreateTripResponse.RailTicketDeliveryOption>()
-        val option1 = RailCreateTripResponse.RailTicketDeliveryOption()
+        var ticketDeliveryOptionsAll = ArrayList<RailTicketDeliveryOption>()
+        val option1 = RailTicketDeliveryOption()
         option1.ticketDeliveryCountryCodeList = listOf("GB")
         option1.ticketDeliveryDescription = "Delivery by post"
         option1.ticketDeliveryOptionToken = RailCreateTripResponse.RailTicketDeliveryOptionToken.SEND_BY_EXPRESS_POST_UK

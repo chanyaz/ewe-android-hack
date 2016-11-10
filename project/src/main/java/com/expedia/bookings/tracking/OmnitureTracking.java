@@ -86,7 +86,9 @@ import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.rail.requests.RailSearchRequest;
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
 import com.expedia.bookings.data.rail.responses.RailLeg;
+import com.expedia.bookings.data.rail.responses.RailTripOffer;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -5719,6 +5721,7 @@ public class OmnitureTracking {
 	private static final String RAIL_SEARCH_ONE_WAY = "App.Rail.Search.Oneway";
 	private static final String RAIL_SEARCH_ROUND_TRIP_OUT = "App.Rail.Search.Roundtrip.Out";
 	private static final String RAIL_SEARCH_ROUND_TRIP_IN = "App.Rail.Search.Roundtrip.In";
+	private static final String RAIL_CHECKOUT_CONFIRMATION = "App.Rail.Checkout.Confirmation";
 
 	private static ADMS_Measurement createTrackRailPageLoadEventBase(String pageName) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
@@ -5819,4 +5822,62 @@ public class OmnitureTracking {
 		createTrackRailPageLoadEventBase(RAIL_SEARCH_ROUND_TRIP_IN).track();
 	}
 
+	public static void trackAppRailsCheckoutConfirmation(RailCheckoutResponse checkoutResponse) {
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(RAIL_CHECKOUT_CONFIRMATION);
+		String orderId = checkoutResponse.orderId;
+		String currencyCode = checkoutResponse.currencyCode;
+		String travelRecordLocator = checkoutResponse.newTrip.travelRecordLocator;
+		s.setEvents("purchase");
+		s.setPurchaseID("onum" + orderId);
+		s.setProp(72, orderId);
+		s.setProp(71, travelRecordLocator);
+		s.setCurrencyCode(currencyCode);
+		RailTripOffer railOffer = checkoutResponse.railDomainProduct.railOffer;
+		DateTime endDate;
+		String destinationStationCode;
+		String departureStationCode = railOffer.getOutboundLegOption().departureStation.getStationCode();
+
+		if (railOffer.isRoundTrip()) {
+			endDate = railOffer.getInboundLegOption().arrivalDateTime.toDateTime();
+			destinationStationCode = railOffer.getInboundLegOption().arrivalStation.getStationCode();
+		}
+		else {
+			endDate = railOffer.getOutboundLegOption().arrivalDateTime.toDateTime();
+			destinationStationCode = railOffer.getOutboundLegOption().arrivalStation.getStationCode();
+		}
+		DateTime startDate = railOffer.getOutboundLegOption().departureDateTime.toDateTime();
+
+		s.setProducts(getRailProductString(checkoutResponse, endDate, startDate, departureStationCode, destinationStationCode));
+		s.setProp(3, departureStationCode);
+		s.setEvar(3, "D=c3");
+
+		s.setProp(4, destinationStationCode);
+		s.setEvar(4, "D=c4");
+		setDateValues(s, startDate.toLocalDate(), endDate.toLocalDate());
+		s.track();
+	}
+
+	private static String getRailProductString(RailCheckoutResponse checkoutResponse, DateTime endDate,
+		DateTime startDate, String departureStationCode, String destinationStationCode) {
+		String carrier = checkoutResponse.railDomainProduct.railOffer.colonSeparatedMarketingCarriers();
+
+		StringBuilder productString = new StringBuilder(";Rail:");
+		productString.append(carrier + ":");
+
+		RailTripOffer railOffer = checkoutResponse.railDomainProduct.railOffer;
+		if (checkoutResponse.railDomainProduct.railOffer.isRoundTrip()) {
+			productString.append("RT;");
+		}
+		else {
+			productString.append("OW;");
+		}
+		productString.append(railOffer.passengerList.size() + ";");
+		productString.append(checkoutResponse.totalCharges + ";;");
+		productString.append("evar30=Agency:Rail:");
+		productString.append(departureStationCode + "-" + destinationStationCode + ":");
+
+		productString.append(startDate.toString(EVAR30_DATE_FORMAT) + "-" + endDate.toString(EVAR30_DATE_FORMAT));
+
+		return productString.toString();
+	}
 }
