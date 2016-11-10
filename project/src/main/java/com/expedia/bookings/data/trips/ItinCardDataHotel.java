@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.trips;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -10,8 +11,8 @@ import android.text.TextUtils;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.HotelMedia;
+import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardData.ConfirmationNumberable;
 import com.expedia.bookings.utils.JodaUtils;
@@ -35,7 +36,7 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private Property mProperty;
-
+	public List<HotelMedia> mediaList = new ArrayList<>();
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTOR
 	//////////////////////////////////////////////////////////////////////////////////////

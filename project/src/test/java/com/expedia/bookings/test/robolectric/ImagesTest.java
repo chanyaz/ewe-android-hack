@@ -127,7 +127,7 @@ public class ImagesTest {
 		offer.photos.add(photo2);
 		offer.photos.add(photo3);
 
-		List<HotelMedia> urlList = Images.getHotelImages(offer);
+		List<HotelMedia> urlList = Images.getHotelImages(offer, 0);
 		Assert.assertEquals(urlList.size(), 3);
 	}
 

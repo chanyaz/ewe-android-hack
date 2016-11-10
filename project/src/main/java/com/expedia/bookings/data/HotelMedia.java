@@ -8,10 +8,10 @@ import java.util.List;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
 import android.view.ViewTreeObserver.OnPreDrawListener;
 import android.widget.ImageView;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.bitmaps.PicassoHelper;
@@ -29,7 +29,7 @@ import com.mobiata.android.json.JSONable;
  */
 public class HotelMedia implements JSONable, IMedia {
 
-	/*
+/*
 	 * The suffixes for different image sizes is documented here:
 	 * https://team.mobiata.com/wiki/EAN_Servers#Expedia_Hotels_Image_Derivatives
 	 *
@@ -92,8 +92,10 @@ public class HotelMedia implements JSONable, IMedia {
 	private static final int SUFFIX_LENGTH = 5;
 
 	private String mBaseUrl;
+	public String mDescription = "";
 	private Size mOriginalType;
-	private boolean mIsPlaceholder;
+	private boolean mIsPlaceholder = false;
+	private int placeholderId = R.drawable.room_fallback;
 
 	public HotelMedia() {
 		// Default constructor
@@ -103,12 +105,18 @@ public class HotelMedia implements JSONable, IMedia {
 		setUrl(url);
 	}
 
+	public HotelMedia(String url, String description) {
+		this.mDescription = description;
+		setUrl(url);
+	}
+
+	@Override
 	public void setIsPlaceholder(boolean isPlaceholder) {
 		mIsPlaceholder = isPlaceholder;
 	}
 
 	@Override
-	public boolean isPlaceHolder() {
+	public boolean getIsPlaceHolder() {
 		return mIsPlaceholder;
 	}
 
@@ -235,12 +243,6 @@ public class HotelMedia implements JSONable, IMedia {
 				return true;
 			}
 		});
-	}
-
-
-	@Override
-	public void preloadImage(Context context) {
-		new PicassoHelper.Builder(context).build().load(getHighResUrls());
 	}
 
 	public List<String> getHighResUrls() {
@@ -373,5 +375,10 @@ public class HotelMedia implements JSONable, IMedia {
 				return true;
 			}
 		});
+	}
+
+	@Override
+	public int getPlaceHolderId() {
+		return placeholderId;
 	}
 }

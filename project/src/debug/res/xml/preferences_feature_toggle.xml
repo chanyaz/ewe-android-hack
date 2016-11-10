@@ -67,4 +67,17 @@
             android:title="Enable GAIA Current Location Suggestion" />
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Itin Gallery">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_itin_gallery"
+            android:layout="@layout/preference"
+            android:summary="Itin Gallery"
+            android:title="Enable Hotel Gallery on Itin" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

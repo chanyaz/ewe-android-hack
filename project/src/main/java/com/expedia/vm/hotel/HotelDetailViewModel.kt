@@ -14,6 +14,7 @@ import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.util.getABTestGuestRatingBackground
 import com.expedia.util.getABTestGuestRatingText
 import com.expedia.vm.BaseHotelDetailViewModel
+import com.expedia.vm.HotelDetailToolbarViewModel
 import rx.Observer
 import java.math.BigDecimal
 
@@ -91,4 +92,10 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
     override fun trackHotelDetailMapViewClick() {
         HotelTracking().trackHotelDetailMapView()
     }
+    companion object {
+        @JvmStatic fun convertToToolbarViewModel(detailViewModel: BaseHotelDetailViewModel) : HotelDetailToolbarViewModel {
+            val viewModel = HotelDetailToolbarViewModel(detailViewModel.context, detailViewModel.hotelNameObservable.value, detailViewModel.hotelRatingObservable.value, detailViewModel.showHotelFavorite(), detailViewModel.hotelSoldOut.value)
+            return viewModel
+        }
+     }
 }

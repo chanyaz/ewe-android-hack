@@ -18,7 +18,9 @@ class HotelErrorPresenter(context: Context, attr: AttributeSet?) : BaseErrorPres
     val hotelDetailsToolbar: HotelDetailsToolbar by bindView(R.id.hotel_details_toolbar)
 
     var hotelDetailViewModel: HotelDetailViewModel by notNullAndObservable { vm ->
-        hotelDetailsToolbar.setHotelDetailViewModel(vm)
+        vm.hotelOffersSubject.subscribe{
+            hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
+        }
     }
 
     init {

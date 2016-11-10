@@ -18,13 +18,13 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.Car;
+import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -39,7 +39,6 @@ import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
 
 public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCar> {
-
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -86,17 +85,12 @@ public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCa
 	}
 
 	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
-		Car car = getItinCardData().getCar();
-
-		String url = Images.getCarRental(car, getResources().getDimension(R.dimen.car_image_width));
-
-		new PicassoHelper.Builder(getContext())
-			.setPlaceholder(getHeaderImagePlaceholderResId())
-			.setError(R.drawable.cars_fallback)
-			.setTarget(target.getCallBack())
-			.build().load(url);
-		setSharableImageURL(url);
+	public List<? extends IMedia> getHeaderBitmapDrawable() {
+		List<String> urls = new ArrayList<>();
+		List<IMedia> mediaList =  new ArrayList<>();
+		urls.add(Images.getCarRental(getItinCardData().getCar(), getResources().getDimension(R.dimen.car_image_width)));
+		mediaList.add(new DefaultMedia(urls, "", getHeaderImagePlaceholderResId()));
+		return mediaList;
 	}
 
 	@Override

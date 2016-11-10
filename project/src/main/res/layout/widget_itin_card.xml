@@ -127,12 +127,15 @@
                             android:layout_height="@dimen/itin_card_expanded_image_height"
                             app:scrollMin="@dimen/itin_card_expanded_parallax_slop">
 
-                            <com.expedia.bookings.widget.OptimizedImageView
+                            <com.expedia.bookings.widget.RecyclerGallery
                                 android:id="@+id/header_image_view"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_centerInParent="true"
-                                android:scaleType="centerCrop" />
+                                android:fadingEdge="none"
+                                android:spacing="20dp"
+                                android:unselectedAlpha="1.0"
+                                app:placeholder="@null" />
                         </com.expedia.bookings.widget.ParallaxContainer>
 
                         <ImageView

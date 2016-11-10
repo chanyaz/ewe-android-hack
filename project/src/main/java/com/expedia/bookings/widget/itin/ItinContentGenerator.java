@@ -32,6 +32,7 @@ import android.widget.Toast;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -54,7 +55,6 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
@@ -71,12 +71,13 @@ import com.squareup.phrase.Phrase;
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	private Context mContext;
-	private T mItinCardData;
+	public T mItinCardData;
 
 	private boolean mDetailsSummaryHideTypeIcon = true;
 	private boolean mDetailsSummaryHideTitle = true;
 
 	private String mSharableImageURL;
+	protected MediaCallback callback;
 
 	public ItinContentGenerator(Context context, T itinCardData) {
 		mContext = context;
@@ -97,6 +98,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	protected LayoutInflater getLayoutInflater() {
 		return LayoutInflater.from(mContext);
+	}
+
+	public void setCallback(MediaCallback callback) {
+		this.callback = callback;
 	}
 
 	// Convenience method
@@ -155,7 +160,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public abstract int getHeaderImagePlaceholderResId();
 
-	public abstract void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target);
+	public abstract List<? extends IMedia> getHeaderBitmapDrawable();
 
 	public abstract String getHeaderText();
 
@@ -813,5 +818,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public String getFacebookShareName() {
 		return getHeaderText();
+	}
+
+	public interface MediaCallback {
+		void onMediaReady(List<? extends IMedia> media);
 	}
 }

@@ -22,7 +22,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.LXMedia;
+import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.lx.ActivityImages;
@@ -228,11 +228,11 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	}
 
 	private void buildGallery(ActivityDetailsResponse activityDetails) {
-		final List<LXMedia> mediaList = new ArrayList<>();
+		final List<DefaultMedia> mediaList = new ArrayList<>();
 		for (ActivityImages activityImages : activityDetails.images) {
 			List<String> imageURLs = Images
 				.getLXImageURLBasedOnWidth(activityImages.getImages(), AndroidUtils.getDisplaySize(getContext()).x);
-			LXMedia media = new LXMedia(imageURLs, Phrase.from(getContext(),
+			DefaultMedia media = new DefaultMedia(imageURLs, Phrase.from(getContext(),
 					R.string.lx_carousal_cont_desc_TEMPLATE).put("caption",
 					activityImages.getImageCaption()).format().toString());
 			mediaList.add(media);
