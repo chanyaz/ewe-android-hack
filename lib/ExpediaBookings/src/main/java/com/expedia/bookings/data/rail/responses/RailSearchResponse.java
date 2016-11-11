@@ -72,8 +72,7 @@ public class RailSearchResponse {
 			return inboundLeg.legOptionList;
 		}
 
-		int outboundIndex = offer.getOutboundLegOptionId();
-		Set<Integer> inboundLegOptionIds = findOpenReturnInboundLegOptionIdsFor(outboundIndex);
+		Set<Integer> inboundLegOptionIds = findOpenReturnInboundLegOptionIdsFor(offer);
 		return inboundLeg.filterLegOptions(inboundLegOptionIds);
 	}
 
@@ -172,10 +171,14 @@ public class RailSearchResponse {
 		return null;
 	}
 
-	private Set<Integer> findOpenReturnInboundLegOptionIdsFor(int outboundIndex) {
+	private Set<Integer> findOpenReturnInboundLegOptionIdsFor(RailOffer outboundOffer) {
+		int outboundIndex = outboundOffer.getOutboundLegOptionId();
+		String offerUniqueId = outboundOffer.getUniqueIdentifier();
+
 		Set<Integer> inboundIds = new HashSet<>();
 		for (RailOffer offer : offerList) {
-			if (offer.isOpenReturn() && offer.containsLegOptionId(outboundIndex)) {
+			if (offer.isOpenReturn() && offer.containsLegOptionId(outboundIndex) && offer.getUniqueIdentifier()
+				.equals(offerUniqueId)) {
 				int inboundId = offer.getInboundLegOptionId();
 				if (inboundId >= 0) {
 					inboundIds.add(inboundId);

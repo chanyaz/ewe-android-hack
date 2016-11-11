@@ -14,7 +14,7 @@ import kotlin.test.assertTrue
 class RailSearchResponseTest {
 
     @Test
-    fun testInboundLegsNotFilteredForOpenReturnOffer() {
+    fun testInboundLegsNotFilteredForNonOpenReturnOffer() {
         val response = getMockRailSearchResponse()
         val offer = createOffer(listOf(1))
         val legOptions = response.getInboundLegOptionsForOffer(offer)
@@ -25,11 +25,17 @@ class RailSearchResponseTest {
     @Test
     fun testInboundLegsFilteredForOpenReturnOffer() {
         val response = getMockRailSearchResponse()
-        val offer = createOffer(listOf(1, 3), true, Money(BigDecimal(121.00), "$"))
+        var offer = createOffer("First class", listOf(1, 3), true, Money(BigDecimal(121.00), "$"))
 
-        val legOptions = response.getInboundLegOptionsForOffer(offer)
+        var legOptions = response.getInboundLegOptionsForOffer(offer)
         assertTrue(legOptions.size == 1, "1 inbound leg option should be returned")
         assertLegOptions(legOptions, listOf(3))
+
+        offer = createOffer("Standard", listOf(1, 3), true, Money(BigDecimal(99.00), "$"))
+
+        legOptions = response.getInboundLegOptionsForOffer(offer)
+        assertTrue(legOptions.size == 2, "2 inbound leg option should be returned")
+        assertLegOptions(legOptions, listOf(3,4))
     }
 
     @Test
@@ -43,7 +49,7 @@ class RailSearchResponseTest {
     @Test
     fun testFilterInboundOffersForNonOpenReturn() {
         val response = getMockRailSearchResponse()
-        val outboundOffer = createOffer(listOf(1), false, Money(BigDecimal(121.00), "$"))
+        val outboundOffer = createOffer("First class", listOf(1), false, Money(BigDecimal(121.00), "$"))
 
         val filteredOffers = response.filterInboundOffers(response.offerList, outboundOffer)
         assertEquals(response.offerList.size, 8)
@@ -53,7 +59,7 @@ class RailSearchResponseTest {
     @Test
     fun testFilterInboundOffersForOpenReturn() {
         val response = getMockRailSearchResponse()
-        val outboundOffer = createOffer(listOf(1, 3), true, Money(BigDecimal(121.00), "$"))
+        val outboundOffer = createOffer("First class", listOf(1, 3), true, Money(BigDecimal(121.00), "$"))
 
         val filteredOffers = response.filterInboundOffers(response.offerList, outboundOffer)
         assertEquals(response.offerList.size, 8)
@@ -79,21 +85,21 @@ class RailSearchResponseTest {
     private fun getOffers(): List<RailOffer> {
         return listOf(createOffer(listOf(1)), createOffer(listOf(2)), createOffer(listOf(3)),
                 createOffer(listOf(4)), createOffer(listOf(5)),
-                createOffer(listOf(1, 3), true, Money(BigDecimal(99.00), "$")),
-                createOffer(listOf(1, 3), true, Money(BigDecimal(99.00), "$")),
-                createOffer(listOf(1, 3), true, Money(BigDecimal(121.00), "$")))
+                createOffer("Standard", listOf(1, 3), true, Money(BigDecimal(99.00), "$")),
+                createOffer("Standard", listOf(1, 4), true, Money(BigDecimal(99.00), "$")),
+                createOffer("First class", listOf(1, 3), true, Money(BigDecimal(121.00), "$")))
     }
 
     private fun createOffer(legOptionIds: List<Int>): RailOffer {
-        return createOffer(legOptionIds, false, Money(BigDecimal(99.00), "$"))
+        return createOffer("Standard", legOptionIds, false, Money(BigDecimal(99.00), "$"))
     }
 
-    private fun createOffer(legOptionIds: List<Int>, openReturn: Boolean, price: Money): RailOffer {
+    private fun createOffer(serviceClass: String, legOptionIds: List<Int>, openReturn: Boolean, price: Money): RailOffer {
         val offer = RailOffer()
         val product = RailProduct()
         product.openReturn = openReturn
         product.legOptionIndexList = legOptionIds
-        product.aggregatedCarrierFareClassDisplayName = "Standard"
+        product.aggregatedCarrierServiceClassDisplayName = serviceClass
         product.aggregatedCarrierFareClassDisplayName = "Off-Peak Return"
         offer.railProductList = listOf(product)
         offer.totalPrice = price
