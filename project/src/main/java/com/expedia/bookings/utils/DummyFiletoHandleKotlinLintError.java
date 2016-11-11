@@ -788,6 +788,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.itin_card_rail_summary_TEMPLATE,
 		R.string.stay_summary_TEMPLATE,
 		R.string.rail_create_trip_error_message,
-		R.string.rail_create_trip_error_title
+		R.string.rail_create_trip_error_title,
+		R.string.payment_and_ticket_delivery_fees_may_also_apply
 	};
 }

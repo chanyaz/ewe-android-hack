@@ -30,7 +30,7 @@ class RailTotalPriceViewModelTest {
         testVM.bundleTotalIncludesObservable.subscribe(totalIncludesTestSub)
 
         assertEquals(context.getString(R.string.total), bundleTextTestSub.onNextEvents[0])
-        assertEquals(context.getString(R.string.includes_taxes_and_fees), totalIncludesTestSub.onNextEvents[0])
+        assertEquals(context.getString(R.string.payment_and_ticket_delivery_fees_may_also_apply), totalIncludesTestSub.onNextEvents[0])
     }
 
     @Test

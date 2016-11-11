@@ -2047,6 +2047,8 @@
     <string name="your_trip_to_TEMPLATE">Trip to %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Includes taxes and fees</string>
+    <!-- Payment and ticket delivery fees may also apply -->
+    <string name="payment_and_ticket_delivery_fees_may_also_apply">Payment and ticket delivery fees may also apply</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">Includes flights + hotel</string>
     <!-- Includes taxes (but not necessarily fees) -->
