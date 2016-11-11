@@ -785,6 +785,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.rail_itin_icon,
 		R.layout.checkmark_row,
 		R.string.itin_card_rail_summary_TEMPLATE,
-		R.string.stay_summary_TEMPLATE
+		R.string.stay_summary_TEMPLATE,
+		R.string.rail_create_trip_error_message,
+		R.string.rail_create_trip_error_title
 	};
 }

@@ -4500,6 +4500,9 @@
     <string name="mail_delivery_details">Have the ticket shipped to you at the address you provide.</string>
     <string name="tdo_fees_non_refundable">Ticket delivery fees are non-refundable.</string>
 
+    <string name="rail_create_trip_error_title">Something went wrong</string>
+    <string name="rail_create_trip_error_message">Please edit your search criteria and try again.</string>
+
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
     <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} to {arrivalstation}</string>

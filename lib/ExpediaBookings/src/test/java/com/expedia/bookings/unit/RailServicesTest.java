@@ -175,6 +175,48 @@ public class RailServicesTest {
 	}
 
 	@Test
+	public void createTripPriceChangeError() {
+		List<String> offerTokens = new ArrayList<>();
+		offerTokens.add("price_change");
+
+		service.railCreateTrip(offerTokens, createTripResponseObserver);
+		createTripResponseObserver.awaitTerminalEvent();
+
+		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertValueCount(1);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+		assertTrue(createTripResponse.hasPriceChange());
+	}
+
+	@Test
+	public void createTripValidationErrors() {
+		List<String> offerTokens = new ArrayList<>();
+		offerTokens.add("validation_errors");
+
+		service.railCreateTrip(offerTokens, createTripResponseObserver);
+		createTripResponseObserver.awaitTerminalEvent();
+
+		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertValueCount(1);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+		assertTrue(createTripResponse.isErrorResponse());
+	}
+
+	@Test
+	public void otherCreateTripErrors() {
+		List<String> offerTokens = new ArrayList<>();
+		offerTokens.add("other_errors");
+
+		service.railCreateTrip(offerTokens, createTripResponseObserver);
+		createTripResponseObserver.awaitTerminalEvent();
+
+		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertValueCount(1);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+		assertTrue(createTripResponse.isErrorResponse());
+	}
+
+	@Test
 	public void happyMockCheckout() {
 		RailCheckoutParams params = new RailCheckoutParams(RailCheckoutParamsMock.travelers(),
 			RailCheckoutParamsMock.tripDetails(), RailCheckoutParamsMock.paymentInfo(),

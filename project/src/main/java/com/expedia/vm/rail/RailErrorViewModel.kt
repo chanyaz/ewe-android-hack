@@ -10,7 +10,7 @@ import com.expedia.vm.AbstractErrorViewModel
 import rx.Observer
 import rx.subjects.PublishSubject
 
-class RailErrorViewModel(context: Context): AbstractErrorViewModel(context) {
+class RailErrorViewModel(context: Context) : AbstractErrorViewModel(context) {
     val showSearch = PublishSubject.create<Unit>()
     val retrySearch = PublishSubject.create<Unit>()
     val paramsSubject = PublishSubject.create<RailSearchRequest>()
@@ -47,10 +47,20 @@ class RailErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     }
 
     override fun createTripErrorHandler(): Observer<ApiError> {
-        return endlessObserver {  }
+        return endlessObserver { error ->
+            imageObservable.onNext(R.drawable.error_default)
+            errorMessageObservable.onNext(context.resources.getString(R.string.rail_create_trip_error_message))
+            buttonOneTextObservable.onNext(context.resources.getString(R.string.retry))
+            titleObservable.onNext(context.resources.getString(R.string.rail_create_trip_error_title))
+            subTitleObservable.onNext("")
+            subscribeActionToButtonPress(retrySearch)
+            clickBack.subscribe {
+                defaultErrorObservable.onNext(Unit)
+            }
+        }
     }
 
     override fun checkoutApiErrorHandler(): Observer<ApiError> {
-        return endlessObserver {  }
+        return endlessObserver { }
     }
 }

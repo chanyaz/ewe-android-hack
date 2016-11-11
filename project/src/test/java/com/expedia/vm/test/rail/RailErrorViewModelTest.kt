@@ -78,4 +78,22 @@ class RailErrorViewModelTest {
         testButtonTextSubscriber .assertValueCount(1)
         assertEquals(context.getString(R.string.retry), testButtonTextSubscriber.onNextEvents[0])
     }
+
+    @Test
+    fun testCreateTripErrors() {
+        val testErrorImageSubscriber = TestSubscriber<Int>()
+        val testErrorMessageSubscriber = TestSubscriber<String>()
+        val testButtonTextSubscriber = TestSubscriber<String>()
+        subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
+        subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
+        subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
+
+        subjectUnderTest.createTripErrorObserverable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+        testErrorImageSubscriber.assertValueCount(1)
+        testErrorMessageSubscriber.assertValueCount(1)
+        assertEquals(context.getString(R.string.rail_create_trip_error_message), testErrorMessageSubscriber.onNextEvents[0])
+        testButtonTextSubscriber .assertValueCount(1)
+        assertEquals(context.getString(R.string.retry), testButtonTextSubscriber.onNextEvents[0])
+    }
+
 }

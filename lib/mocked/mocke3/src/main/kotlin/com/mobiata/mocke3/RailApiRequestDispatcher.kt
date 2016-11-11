@@ -1,6 +1,7 @@
 package com.mobiata.mocke3
 
 import com.expedia.bookings.data.rail.requests.RailCheckoutParams
+import com.expedia.bookings.data.rail.requests.RailCreateTripRequest
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel
 import com.google.gson.GsonBuilder
 import okhttp3.mockwebserver.MockResponse
@@ -38,7 +39,14 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
                 if (isRoundTrip) {
                     getMockResponse("m/api/rails/trip/create/roundtrip_happy.json")
                 } else {
-                    getMockResponse("m/api/rails/trip/create/oneway_happy.json")
+                    val gson = GsonBuilder().create()
+                    val params = gson.fromJson(request.body.readUtf8(), RailCreateTripRequest::class.java)
+                    when(params.offerTokens[0]) {
+                        "price_change" -> getMockResponse("m/api/rails/trip/checkout/price_change.json")
+                        "validation_errors" -> getMockResponse("m/api/rails/trip/create/validation_error.json")
+                        "other_errors" -> getMockResponse("m/api/rails/trip/unknown_error.json")
+                        else -> getMockResponse("m/api/rails/trip/create/oneway_happy.json")
+                    }
                 }
             }
 
@@ -63,7 +71,7 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
                 val params = parseHttpRequest(request)
                 val creditCardId = params["creditCardId"]
                 if (creditCardId.equals("000000")) {
-                    getMockResponse("m/api/rails/trip/cardfee/unknown_error.json")
+                    getMockResponse("m/api/rails/trip/unknown_error.json")
                 } else {
                     getMockResponse("m/api/rails/trip/cardfee/visa.json")
                 }
