@@ -1770,7 +1770,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">錯誤</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">很抱歉！請再試一次！</string>
+    <string name="error_try_again_warning">很抱歉！請再試一次！</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">重試</string>
 

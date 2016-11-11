@@ -1770,7 +1770,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">Fout</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">Oeps! Laten we dat nog eens proberen.</string>
+    <string name="error_try_again_warning">Oeps! Laten we dat nog eens proberen.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Opnieuw proberen</string>
 

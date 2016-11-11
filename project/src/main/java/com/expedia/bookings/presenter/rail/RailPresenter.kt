@@ -199,6 +199,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     private val outboundToError = ScaleTransition(this, RailOutboundPresenter::class.java, RailErrorPresenter::class.java)
     private val createTripToError = ScaleTransition(this, RailTripOverviewPresenter::class.java, RailErrorPresenter::class.java)
+    private val checkoutToError = ScaleTransition(this, RailCheckoutPresenter::class.java, RailErrorPresenter::class.java)
     private val errorToSearch = object: ScaleTransition(this, RailErrorPresenter::class.java, RailSearchPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
@@ -355,6 +356,13 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             confirmationPresenter.viewModel.confirmationObservable.onNext(pair)
             show(confirmationPresenter)
         }
+
+        railCheckoutPresenter.checkoutViewModel.checkoutErrorObservable.subscribe {
+            railCheckoutPresenter.checkoutDialog.dismiss()
+            railCheckoutPresenter.slideToPurchaseWidget.reset()
+            errorPresenter.viewmodel.checkoutApiErrorObserver.onNext(it)
+            show(errorPresenter)
+        }
     }
 
     private fun initConfirmationPresenter() {
@@ -368,6 +376,16 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         errorPresenter.getViewModel().showSearch.subscribe { show(searchPresenter, FLAG_CLEAR_BACKSTACK) }
         errorPresenter.getViewModel().retrySearch.subscribe { searchPresenter.searchViewModel.searchObserver.onNext(Unit) }
         errorPresenter.getViewModel().defaultErrorObservable.subscribe { show(searchPresenter, FLAG_CLEAR_BACKSTACK) }
+
+        errorPresenter.getViewModel().showCheckoutForm.subscribe {
+            show(railCheckoutPresenter, Presenter.FLAG_CLEAR_TOP)
+            railCheckoutPresenter.slideToPurchaseWidget.reset()
+            railCheckoutPresenter.travelerCheckoutViewModel.refresh()
+        }
+
+        errorPresenter.getViewModel().retryCheckout.subscribe {
+            railCheckoutPresenter.checkoutViewModel.retryObservable.onNext(Unit)
+        }
     }
 
     private fun addTransitions() {
@@ -386,6 +404,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         addTransition(outboundToError)
         addTransition(errorToSearch)
         addTransition(createTripToError)
+        addTransition(checkoutToError)
         addTransition(outboundToLegalInfo)
         addTransition(inboundToLegalInfo)
     }

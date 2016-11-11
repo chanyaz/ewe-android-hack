@@ -12,6 +12,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -70,7 +71,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.rail_total_price_widget)
     val slideToPurchaseWidget: SlideToPurchaseWidget by bindView(R.id.rail_slide_to_purchase_widget)
 
-    private val checkoutDialog = AccessibleProgressDialog(context)
+    val checkoutDialog = AccessibleProgressDialog(context)
 
     val checkoutViewModel = RailCheckoutViewModel(context)
 
@@ -85,7 +86,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     private val ticketDeliveryEntryViewModel = RailTicketDeliveryEntryViewModel(context)
 
     private val travelerCardViewModel = RailTravelerSummaryViewModel(context)
-    private val travelerCheckoutViewModel = RailCheckoutTravelerViewModel(context)
+    val travelerCheckoutViewModel = RailCheckoutTravelerViewModel(context)
 
     private var cardFeeSlideAnimation: Animation? = null
 
@@ -146,6 +147,18 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             priceChangeViewModel.priceChangedObserver.onNext(Unit)
             priceChangeWidget.visibility = View.VISIBLE
             slideToPurchaseWidget.reset()
+        }
+
+        checkoutViewModel.showNoInternetRetryDialog.subscribe {
+            checkoutDialog.dismiss()
+            val retryFun = fun() {
+                onSlideAllTheWay()
+            }
+            val cancelFun = fun() {
+                onSlideAbort()
+                back()
+            }
+            DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
 
         travelerEntryWidget.travelerCompleteSubject.subscribe {

@@ -71,7 +71,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
     override fun makeDefaultError() {
         imageObservable.onNext(R.drawable.error_default)
-        errorMessageObservable.onNext(context.getString(R.string.flight_error_try_again_warning))
+        errorMessageObservable.onNext(context.getString(R.string.error_try_again_warning))
         buttonOneTextObservable.onNext(context.getString(R.string.retry))
     }
 
@@ -80,7 +80,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
 
         fun retryCreateTripErrorHandler() {
             imageObservable.onNext(R.drawable.error_default)
-            errorMessageObservable.onNext(context.resources.getString(R.string.flight_error_try_again_warning))
+            errorMessageObservable.onNext(context.resources.getString(R.string.error_try_again_warning))
             buttonOneTextObservable.onNext(context.resources.getString(R.string.flight_error_retry))
             titleObservable.onNext(context.resources.getString(R.string.flight_generic_error_title))
             subTitleObservable.onNext("")
@@ -188,7 +188,7 @@ class FlightErrorViewModel(context: Context): AbstractErrorViewModel(context) {
     private fun handleCheckoutUnknownError() {
         checkoutUnknownErrorObservable.onNext(Unit)
         imageObservable.onNext(R.drawable.error_default)
-        errorMessageObservable.onNext(context.resources.getString(R.string.flight_error_try_again_warning))
+        errorMessageObservable.onNext(context.resources.getString(R.string.error_try_again_warning))
         buttonOneTextObservable.onNext(context.resources.getString(R.string.flight_error_retry))
         titleObservable.onNext(context.resources.getString(R.string.flight_generic_error_title))
         subTitleObservable.onNext("")

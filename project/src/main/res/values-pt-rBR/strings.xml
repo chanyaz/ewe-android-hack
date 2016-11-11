@@ -1770,7 +1770,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">Erro</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">Ops! Vamos tentar novamente.</string>
+    <string name="error_try_again_warning">Ops! Vamos tentar novamente.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Tentar novamente</string>
 
