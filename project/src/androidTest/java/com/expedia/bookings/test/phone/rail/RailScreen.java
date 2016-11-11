@@ -179,7 +179,7 @@ public class RailScreen {
 			.perform(click());
 
 		scrollToOutboundFareOptions();
-		onView(withText("Anytime Day Single")).check(matches(isDisplayed()));
+		onView(withText("Standard Anytime Day Single")).check(matches(isDisplayed()));
 		clickSelectFareOption("£30.00");
 	}
 

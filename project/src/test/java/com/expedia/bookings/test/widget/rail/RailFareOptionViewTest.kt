@@ -18,6 +18,7 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class RailFareOptionViewTest {
+    val expectedFareTitle = "Standard Fare class"
 
     fun getContext(): Context {
         return RuntimeEnvironment.application
@@ -34,7 +35,7 @@ class RailFareOptionViewTest {
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(null)
 
         assertEquals("$10", railFareOptionView.priceView.text)
-        assertEquals("Fare class", railFareOptionView.fareTitle.text)
+        assertEquals(expectedFareTitle, railFareOptionView.fareTitle.text)
         assertEquals("Fare Description", railFareOptionView.fareDescription.text)
         assertEquals(View.VISIBLE, railFareOptionView.railCardImage.visibility)
     }
@@ -50,7 +51,7 @@ class RailFareOptionViewTest {
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("15", "USD"))
 
         assertEquals("$25", railFareOptionView.priceView.text)
-        assertEquals("Fare class", railFareOptionView.fareTitle.text)
+        assertEquals(expectedFareTitle, railFareOptionView.fareTitle.text)
         assertEquals("Fare Description", railFareOptionView.fareDescription.text)
     }
 
@@ -65,7 +66,7 @@ class RailFareOptionViewTest {
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("5", "USD"))
 
         assertEquals("+$5", railFareOptionView.priceView.text)
-        assertEquals("Fare class", railFareOptionView.fareTitle.text)
+        assertEquals(expectedFareTitle, railFareOptionView.fareTitle.text)
         assertEquals("Fare Description", railFareOptionView.fareDescription.text)
     }
 
@@ -98,6 +99,7 @@ class RailFareOptionViewTest {
         railOffer.totalPrice = Money(10, "USD")
         railOffer.totalPrice.formattedPrice = "$10"
         val railProduct = RailProduct()
+        railProduct.aggregatedCarrierServiceClassDisplayName = "Standard"
         railProduct.aggregatedCarrierFareClassDisplayName = "Fare class"
         railProduct.aggregatedFareDescription = "Fare Description"
         val fareQualifierList = listOf(RailCard("", "", ""))

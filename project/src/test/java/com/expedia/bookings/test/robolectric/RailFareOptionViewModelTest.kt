@@ -33,7 +33,7 @@ class RailFareOptionViewModelTest {
         railFareOptionViewModel.offerFareSubject.onNext(getRailOffer())
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(null)
         assertEquals("$10", testPriceSubscriber.onNextEvents[0])
-        assertEquals("Fare class", testFareTitleSubscriber.onNextEvents[0])
+        assertEquals("Standard Fare class", testFareTitleSubscriber.onNextEvents[0])
         assertEquals("Fare Description", testFareDescriptionSubscriber.onNextEvents[0])
         assertTrue(testRailCardAppliedSubscriber.onNextEvents[0])
     }
@@ -117,6 +117,7 @@ class RailFareOptionViewModelTest {
         railOffer.totalPrice = Money(10, "USD")
         railOffer.totalPrice.formattedPrice = "$10"
         val railProduct = RailProduct()
+        railProduct.aggregatedCarrierServiceClassDisplayName = "Standard"
         railProduct.aggregatedCarrierFareClassDisplayName = "Fare class"
         railProduct.aggregatedFareDescription = "Fare Description"
         railProduct.openReturn = openReturn

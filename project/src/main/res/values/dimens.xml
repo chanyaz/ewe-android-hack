@@ -430,7 +430,7 @@
     <dimen name="earn_message_icon_dimen">0dp</dimen>
     <dimen name="overview_height">165dp</dimen>
 
-    <dimen name="rail_screen_content_padding">9dp</dimen>
+    <dimen name="rail_screen_content_padding">8dp</dimen>
     <dimen name="rail_card_content_padding">12dp</dimen>
     <!--rail_screen_content_padding + rail_card_content_padding. #ImpossibleDesignStandards-->
     <dimen name="rail_results_header_left_right_pad">21dp</dimen>

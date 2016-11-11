@@ -9,7 +9,7 @@ import com.expedia.bookings.utils.rail.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
-import java.util.ArrayList
+import java.util.Collections
 
 open class RailDetailsViewModel(val context: Context) {
     val railResultsObservable = BehaviorSubject.create<RailSearchResponse>()
@@ -38,6 +38,7 @@ open class RailDetailsViewModel(val context: Context) {
 
             // filter offers for one-way and round trip
             val filteredOffers = filterFareOptions(railResultsObservable.value.findOffersForLegOption(railLegOption))
+            Collections.sort(filteredOffers)
             railOffersAndInboundCheapestPricePairSubject.onNext(Pair(filteredOffers, getInboundLegCheapestPrice()))
         }
     }

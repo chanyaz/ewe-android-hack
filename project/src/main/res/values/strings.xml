@@ -4392,7 +4392,7 @@
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
-    <string name="rail_journey_details_and_fare_options">Journey details + Fare options</string>
+    <string name="rail_journey_details_and_fare_options">Details &amp; Fares</string>
 
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">You have {formatted_duration} to get from {origin_station_name} to {destination_station_name}</string>
