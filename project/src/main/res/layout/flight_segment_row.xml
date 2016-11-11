@@ -22,7 +22,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/departure_arrival_time"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 

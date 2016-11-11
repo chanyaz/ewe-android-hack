@@ -13,12 +13,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_toRightOf="@+id/right_container"
+        android:layout_toLeftOf="@+id/right_container"
         android:orientation="vertical">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_fare_title"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="6dp"
@@ -73,7 +73,7 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/rail_fare_price"
-                style="@style/Core.Text.Large.Medium"
+                style="@style/Core.Text.XLarge.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="4dp"

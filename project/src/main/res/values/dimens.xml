@@ -315,8 +315,10 @@
     <dimen name="packages_bundle_overview_footer_primary_text">@dimen/temporary_font_size_medium</dimen>
     <dimen name="packages_bundle_overview_footer_secondary_text">@dimen/temporary_font_size_small</dimen>
 
-    <dimen name="default_text_size">@dimen/temporary_font_size_small</dimen>
-    <dimen name="large_text_size">@dimen/temporary_font_size_large</dimen>
+    <dimen name="small_text_size">10sp</dimen>
+    <dimen name="default_text_size">12sp</dimen>
+    <dimen name="large_text_size">14sp</dimen>
+    <dimen name="xlarge_text_size">16sp</dimen>
 
     <!-- Package Hotel Map -->
     <dimen name="packages_hotel_map_message">@dimen/temporary_font_size_small</dimen>
@@ -431,5 +433,5 @@
     <dimen name="rail_screen_content_padding">9dp</dimen>
     <dimen name="rail_card_content_padding">12dp</dimen>
     <!--rail_screen_content_padding + rail_card_content_padding. #ImpossibleDesignStandards-->
-    <dimen name="rail_outbound_header_left_right_pad">21dp</dimen>
+    <dimen name="rail_results_header_left_right_pad">21dp</dimen>
 </resources>
