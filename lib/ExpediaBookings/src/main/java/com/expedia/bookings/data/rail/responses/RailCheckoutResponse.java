@@ -9,7 +9,7 @@ public class RailCheckoutResponse extends BaseApiResponse {
 	public String totalCharges;
 	public RailDomainProduct railDomainProduct;
 
-	public class RailNewTrip {
+	public static class RailNewTrip {
 		public String itineraryNumber;
 		public String travelRecordLocator;
 		public String tripId;

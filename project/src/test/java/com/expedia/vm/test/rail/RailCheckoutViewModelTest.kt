@@ -138,13 +138,13 @@ class RailCheckoutViewModelTest {
     }
 
     private fun getPriceChangeRequest() : RailCheckoutParams {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_price_change_cko_request.json")
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_price_change_cko_request.json")
         val checkoutParams = resourceReader.constructUsingGson(RailCheckoutParams::class.java)
         return checkoutParams
     }
 
     private fun getCheckoutRequest() : RailCheckoutParams {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_cko_request.json")
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_cko_request.json")
         val checkoutParams = resourceReader.constructUsingGson(RailCheckoutParams::class.java)
         return checkoutParams
     }

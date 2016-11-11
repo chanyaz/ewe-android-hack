@@ -57,15 +57,14 @@ class RailAmenitiesViewModelTest {
     }
 
     private fun generateRailProduct(): RailProduct {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_product_segments_8_9_10.json")
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_product_segments_8_9_10.json")
         val railProduct = resourceReader.constructUsingGson(RailProduct::class.java)
         return railProduct
     }
 
     private fun generateLegOption(): RailLegOption {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_leg_option_segments_8_9_10.json")
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_leg_option_segments_8_9_10.json")
         val legOption = resourceReader.constructUsingGson(RailLegOption::class.java)
         return legOption
-
     }
 }

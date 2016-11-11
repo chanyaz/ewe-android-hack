@@ -12,7 +12,7 @@ import kotlin.test.assertEquals
 class RailTravelMediumDrawableProviderTest {
     @Test
     fun testLondonUndergroundDisplaysAsSubway()  {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_underground_travel_segment.json")
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_underground_travel_segment.json")
         val railTravelSegment = resourceReader.constructUsingGson(RailSegment::class.java)
 
         val drawableId = RailTravelMediumDrawableProvider.findMappedDrawable(railTravelSegment.travelMedium.travelMediumCode)

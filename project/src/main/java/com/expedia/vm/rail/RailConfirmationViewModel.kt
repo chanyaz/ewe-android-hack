@@ -47,7 +47,7 @@ class RailConfirmationViewModel(val context: Context) {
             outboundCardTitleObservable.onNext(getCardTitle(outbound))
             outboundCardSubTitleObservable.onNext(getCardSubtitle(outbound, offer.passengerList.size))
 
-            if (offer.isRoundTrip) {
+            if (offer.isRoundTrip || offer.isOpenReturn) {
                 val inbound = offer.inboundLegOption
                 inboundCardVisibility.onNext(true)
                 inboundCardTitleObservable.onNext(getCardTitle(inbound))
