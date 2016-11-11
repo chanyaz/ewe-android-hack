@@ -23,8 +23,9 @@ class RailFareRulesViewModelTest {
 
     private var activity: Activity by Delegates.notNull()
 
-    val expectedFareNoteOne = "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx"
-    val expectedFareNoteTwo = "Valid only for travel via (changing trains or passing through) London."
+    val expectedFareNoteOne = "Travel anytime of day"
+    val expectedFareNoteTwo = "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx"
+    val expectedFareNoteThree = "Valid only for travel via (changing trains or passing through) London."
 
     val expectedRefundRuleOne = "Your ticket is refundable before 9 Dec, 2016 12:35"
     val expectedRefundRuleTwo = "If you cancel before your ticket is printed, an admin fee of 40.00 GBP will be deducted from your refund."
@@ -45,7 +46,7 @@ class RailFareRulesViewModelTest {
         railProduct.refundableRules = emptyList()
         fareRulesVM.railProductObservable.onNext(railProduct)
 
-        assertEquals(2, fareRulesSubscriber.onNextEvents[0].size)
+        assertEquals(3, fareRulesSubscriber.onNextEvents[0].size)
         assertFareNotes(fareRulesSubscriber.onNextEvents[0])
     }
 
@@ -57,7 +58,7 @@ class RailFareRulesViewModelTest {
         fareRulesVM.fareRulesObservable.subscribe(fareRulesSubscriber)
         fareRulesVM.railProductObservable.onNext(generateRailProduct())
 
-        assertEquals(5, fareRulesSubscriber.onNextEvents[0].size)
+        assertEquals(6, fareRulesSubscriber.onNextEvents[0].size)
         assertFareNotesAndRefundableRules(fareRulesSubscriber.onNextEvents[0])
     }
 
@@ -75,13 +76,15 @@ class RailFareRulesViewModelTest {
     private fun assertFareNotes(fareRules: List<String>) {
         assertEquals(expectedFareNoteOne, fareRules[0])
         assertEquals(expectedFareNoteTwo, fareRules[1])
+        assertEquals(expectedFareNoteThree, fareRules[2])
     }
 
     private fun assertFareNotesAndRefundableRules(fareRules: List<String>) {
         assertEquals(expectedFareNoteOne, fareRules[0])
         assertEquals(expectedFareNoteTwo, fareRules[1])
-        assertEquals(expectedRefundRuleOne, fareRules[2])
-        assertEquals(expectedRefundRuleTwo, fareRules[3])
+        assertEquals(expectedFareNoteThree, fareRules[2])
+        assertEquals(expectedRefundRuleOne, fareRules[3])
+        assertEquals(expectedRefundRuleTwo, fareRules[4])
     }
 
     private fun generateRailProduct(): RailProduct {
