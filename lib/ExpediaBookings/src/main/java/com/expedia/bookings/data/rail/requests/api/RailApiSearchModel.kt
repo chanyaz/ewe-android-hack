@@ -3,6 +3,7 @@ package com.expedia.bookings.data.rail.requests.api
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCard
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
 import org.joda.time.LocalDate
 import java.util.*
@@ -15,7 +16,7 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
     private val DEFAULT_ADULT_AGE = 30
     private val DEFAULT_CHILDREN_PRIMARY_TRAVELER_STATUS = false
     var pos = PointOfSaleKey()
-    var clientCode = "1001" //TODO - what is this?
+    var clientCode = Constants.RAIL_CLIENT_CODE
     var searchCriteriaList: MutableList<OriginDestinationPair> = ArrayList()
 
     var passengerList: MutableList<RailPassenger> = ArrayList()
