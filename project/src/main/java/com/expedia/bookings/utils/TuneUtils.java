@@ -402,7 +402,7 @@ public class TuneUtils {
 				.withAttribute2(isUserLoggedIn())
 				.withRevenue(revenue)
 				.withCurrencyCode(currency)
-				.withAdvertiserRefId(transactionId)
+				.withAdvertiserRefId(getAdvertiserRefId(transactionId))
 				.withQuantity(stayDuration)
 				.withContentType(hotel.getProperty().getName())
 				.withContentId(hotel.getProperty().getPropertyId())
@@ -435,7 +435,7 @@ public class TuneUtils {
 				.withAttribute2(isUserLoggedIn())
 				.withRevenue(revenue)
 				.withCurrencyCode(hotelCheckoutResponse.currencyCode)
-				.withAdvertiserRefId(hotelCheckoutResponse.orderId)
+				.withAdvertiserRefId(getAdvertiserRefId(hotelCheckoutResponse.orderId))
 				.withQuantity(stayDuration)
 				.withContentType(hotelCheckoutResponse.checkoutResponse.productResponse.getHotelName())
 				.withContentId(hotelCheckoutResponse.checkoutResponse.productResponse.hotelId)
@@ -723,7 +723,7 @@ public class TuneUtils {
 				.withRevenue(totalPrice)
 				.withCurrencyCode(currency)
 				.withQuantity(tripBucketItemFlight.getFlightSearchParams().getNumTravelers())
-				.withAdvertiserRefId(orderId)
+				.withAdvertiserRefId(getAdvertiserRefId(orderId))
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);
 
@@ -761,7 +761,7 @@ public class TuneUtils {
 				.withRevenue(totalPrice)
 				.withCurrencyCode(flightCheckoutResponse.getTotalChargesPrice().currencyCode)
 				.withQuantity(totalGuests)
-				.withAdvertiserRefId(flightCheckoutResponse.getOrderId())
+				.withAdvertiserRefId(getAdvertiserRefId(flightCheckoutResponse.getOrderId()))
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);
 
@@ -853,7 +853,7 @@ public class TuneUtils {
 				.withAttribute2(isUserLoggedIn())
 				.withRevenue(carOffer.detailedFare.grandTotal.getAmount().doubleValue())
 				.withCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency())
-				.withAdvertiserRefId(carCheckoutResponse.orderId)
+				.withAdvertiserRefId(getAdvertiserRefId(carCheckoutResponse.orderId))
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(pickupTime)
 				.withDate2(dropOffTime);
@@ -941,7 +941,7 @@ public class TuneUtils {
 				.withRevenue(revenue)
 				.withQuantity(1)
 				.withCurrencyCode(totalPrice.getCurrency())
-				.withAdvertiserRefId(orderId)
+				.withAdvertiserRefId(getAdvertiserRefId(orderId))
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(DateUtils
 					.yyyyMMddHHmmssToLocalDate(lxActivityStartDate)
@@ -1002,6 +1002,11 @@ public class TuneUtils {
 
 	private static String isUserLoggedIn() {
 		return User.isLoggedIn(context) ? "1" : "0";
+	}
+
+	private static String getAdvertiserRefId(String orderId) {
+		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
+		return String.format("%s:%s", orderId, tpid);
 	}
 
 }
