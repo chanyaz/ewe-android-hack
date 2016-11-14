@@ -125,6 +125,9 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
                 overviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                 overviewHeader.toggleOverviewHeader(true)
             }
+            else {
+                RailTracking().trackRailOneWayTripDetails()
+            }
         }
     }
 
@@ -133,6 +136,9 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             super.endTransition(forward)
             if (forward) {
                 RailTracking().trackRailRoundTripInbound()
+            }
+            else {
+                RailTracking().trackRailRoundTripJourneyDetailsAndFareOptions()
             }
         }
     }
@@ -144,6 +150,9 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
                 val overviewHeader = tripOverviewPresenter.bundleOverviewHeader
                 overviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                 overviewHeader.toggleOverviewHeader(true)
+            }
+            else {
+                RailTracking().trackRailRoundTripInDetails()
             }
         }
     }
@@ -159,8 +168,26 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     private val checkoutToConfirmation = LeftToRightTransition(this, RailCheckoutPresenter::class.java, RailConfirmationPresenter::class.java)
 
-    private val outboundDetailsToAmenities = ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
-    private val inboundDetailsToAmenities = ScaleTransition(this, RailInboundDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java)
+    private val outboundDetailsToAmenities = object: ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                if (searchPresenter.searchViewModel.isRoundTripSearchObservable.value) {
+                    RailTracking().trackRailRoundTripJourneyDetailsAndFareOptions()
+                } else {
+                    RailTracking().trackRailOneWayTripDetails()
+                }
+            }
+        }
+    }
+    private val inboundDetailsToAmenities = object: ScaleTransition(this, RailInboundDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                RailTracking().trackRailRoundTripInDetails()
+            }
+        }
+    }
     private val overviewToAmenities = object: ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
