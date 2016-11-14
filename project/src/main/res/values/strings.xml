@@ -4409,7 +4409,7 @@
     <string name="rail_overtaken_message">Overtaken train: This service is slower than other trains.</string>
 
     <!-- Messaging indicating to the user of their previously selected choice. -->
-    <string name="rail_open_return_selected">You\'ve Selected an open return</string>
+    <string name="rail_open_return_selected">You\'ve selected an open return</string>
 
     <!-- When the user selects an open return they can choose any inbound train journey -->
     <string name="rail_open_return_description">You don\'t have to travel on the train you select, but please tell us your preference</string>

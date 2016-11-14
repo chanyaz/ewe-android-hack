@@ -26,7 +26,8 @@
             android:layout_weight="3"
             android:layout_gravity="center"
             android:layout_width="20dp"
-            android:layout_height="20dp" />
+            android:layout_height="20dp"
+            tools:src="@drawable/rails_walk_icon"/>
 
         <com.expedia.bookings.widget.TextView
             android:layout_gravity="center"
@@ -34,8 +35,8 @@
             style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="bottom"/>
+            android:gravity="bottom"
+            tools:text="10:00"/>
     </LinearLayout>
 
     <View
