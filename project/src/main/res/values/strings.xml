@@ -3413,6 +3413,15 @@
         <item quantity="other">Days</item>
     </plurals>
 
+    <!-- A number of railcards. Capitalized -->
+    <plurals name="number_of_railcards">
+        <item quantity="zero">%d Railcards</item>
+        <item quantity="one">%d Railcard</item>
+        <item quantity="two">%d Railcards</item>
+        <item quantity="many">%d Railcards</item>
+        <item quantity="other">%d Railcards</item>
+    </plurals>
+
     <!-- Distance strings -->
     <!-- Abbreviated miles (used in distance_template) -->
     <string name="unit_miles">mi</string>

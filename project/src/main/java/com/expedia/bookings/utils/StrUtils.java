@@ -765,6 +765,11 @@ public class StrUtils {
 			guests);
 	}
 
+	public static String formatRailcardString(Context context, int cards) {
+		return context.getResources().getQuantityString(R.plurals.number_of_railcards, cards,
+			cards);
+	}
+
 	public static String formatTravelerString(Context context, int numOfTravelers) {
 		return context.getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numOfTravelers,
 			numOfTravelers);

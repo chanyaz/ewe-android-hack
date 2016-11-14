@@ -43,21 +43,24 @@ class RailCardPickerViewModelTest {
         viewModel.railCardsSelectionChangedObservable.onNext(RailCardSelected(0, mockRailCardTypeOne(), 1))
         assertEquals(viewModel.cardsAndQuantitySelectionDetails.size, 1)
         assertEquals(1, viewModel.cardsAndQuantitySelectionDetails[0]!!.quantity)
-
         viewModel.railCardsSelectionChangedObservable.onNext(RailCardSelected(0, mockRailCardTypeOne(), 2))
         assertEquals(viewModel.cardsAndQuantitySelectionDetails.size, 1)
         assertEquals(2, viewModel.cardsAndQuantitySelectionDetails[0]!!.quantity)
 
         val cardsListForSearchParamsTestSubscriber = TestSubscriber.create<List<RailCard>>()
         val validationSuccessTestSubscriber = TestSubscriber.create<Unit>()
+        val selectedCardsTextSubscriber = TestSubscriber.create<String>()
+
         viewModel.cardsListForSearchParams.subscribe(cardsListForSearchParamsTestSubscriber)
         viewModel.validationSuccess.subscribe(validationSuccessTestSubscriber)
+        viewModel.cardsSelectedTextObservable.subscribe(selectedCardsTextSubscriber)
 
         viewModel.numberOfTravelers.onNext(2)
         viewModel.doneClickedSubject.onNext(Unit)
         cardsListForSearchParamsTestSubscriber.assertValueCount(1)
         validationSuccessTestSubscriber.assertValueCount(1)
         assertEquals(2, cardsListForSearchParamsTestSubscriber.onNextEvents[0].size)
+        assertEquals("2 Railcards", selectedCardsTextSubscriber.onNextEvents[0])
 
         viewModel.addClickSubject.onNext(Unit)
         viewModel.railCardsSelectionChangedObservable.onNext(RailCardSelected(1, mockRailCardTypeTwo(), 1))
@@ -69,6 +72,7 @@ class RailCardPickerViewModelTest {
         cardsListForSearchParamsTestSubscriber.assertValueCount(2)
         validationSuccessTestSubscriber.assertValueCount(2)
         assertEquals(3, cardsListForSearchParamsTestSubscriber.onNextEvents[1].size)
+        assertEquals("3 Railcards", selectedCardsTextSubscriber.onNextEvents[1])
     }
 
     @Test
@@ -82,6 +86,7 @@ class RailCardPickerViewModelTest {
         viewModel.removeClickSubject.onNext(Unit)
         assertEquals(1, viewModel.cardsAndQuantitySelectionDetails.size)
         assertNull(viewModel.cardsAndQuantitySelectionDetails[1])
+
     }
 
     @Test
