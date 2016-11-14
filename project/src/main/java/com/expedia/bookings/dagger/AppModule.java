@@ -18,6 +18,7 @@ import com.expedia.bookings.utils.TLSSocketFactory;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.google.android.gms.security.ProviderInstaller;
 import com.mobiata.android.DebugUtils;
+import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
 import dagger.Module;
 import dagger.Provides;
@@ -218,6 +219,9 @@ public class AppModule {
 				}
 				request.addHeader("Accept", "application/json");
 
+				if (Strings.isNotEmpty(AdvertisingIdUtils.getIDFA())) {
+					request.addHeader("x-mobvisid", AdvertisingIdUtils.getIDFA());
+				}
 				request.url(url.build());
 				Response response = chain.proceed(request.build());
 				return response;
