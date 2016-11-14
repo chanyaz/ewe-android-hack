@@ -84,7 +84,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getViewModel().showPaymentForm.subscribe {
             show(flightOverviewPresenter, Presenter.FLAG_CLEAR_TOP)
             flightOverviewPresenter.showCheckout()
-            flightOverviewPresenter.getCheckoutPresenter().paymentWidget.showPaymentForm()
+            flightOverviewPresenter.getCheckoutPresenter().paymentWidget.showPaymentForm(fromPaymentError = true)
         }
         presenter.getViewModel().showConfirmation.subscribe {
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)

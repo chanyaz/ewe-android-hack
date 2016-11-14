@@ -30,7 +30,7 @@
         "description": "Expired Credit Card",
         "paymentsInstrumentsId": "500C0690-D5C7-4208-8BB0-2A3760C21B4F",
         "creditCardType": "Visa",
-        "nameOnCard": "JexperCC MobiataTestaverde",
+        "nameOnCard": "paymentfailederror lastname",
         "expired": "true",
         "expirationDate": "2013-07"
       },

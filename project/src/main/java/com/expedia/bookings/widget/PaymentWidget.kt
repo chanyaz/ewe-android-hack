@@ -272,7 +272,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         storedCreditCardList.setStoredCreditCardListener(storedCreditCardListener)
 
         cardInfoContainer.setOnClickListener {
-            showPaymentForm()
+            showPaymentForm(fromPaymentError = false)
         }
 
         filledInCardDetailsMiniView.setOnClickListener {
@@ -299,14 +299,19 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         Db.setTemporarilySavedCard(null)
     }
 
-    fun showPaymentForm() {
-        if (shouldShowPaymentOptions()) {
-            show(PaymentOption(), FLAG_CLEAR_BACKSTACK)
-            trackShowPaymentOptions()
-        } else {
+    fun showPaymentForm(fromPaymentError: Boolean) {
+        if (!shouldShowPaymentOptions() || fromPaymentError && sectionBillingInfo.billingInfo.isTempCard) {
             show(PaymentDetails(), FLAG_CLEAR_BACKSTACK)
             trackShowPaymentEdit()
-
+            if (fromPaymentError) {
+                clearCCAndCVV()
+            }
+        } else {
+            show(PaymentOption(), FLAG_CLEAR_BACKSTACK)
+            trackShowPaymentOptions()
+            if (fromPaymentError) {
+                removeStoredCard()
+            }
         }
         viewmodel.expandObserver.onNext(true)
     }
