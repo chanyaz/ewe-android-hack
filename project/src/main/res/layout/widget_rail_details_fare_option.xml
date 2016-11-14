@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_toRightOf="@+id/right_container"
+            android:layout_toLeftOf="@+id/right_container"
             android:orientation="vertical">
 
             <com.expedia.bookings.widget.TextView
@@ -30,7 +30,7 @@
                 android:drawableRight="@drawable/ic_checkout_info"
                 android:gravity="center_vertical"
                 android:paddingTop="5dp"
-                tools:text="Anytime Single" />
+                tools:text="Standard Anytime Single, Any Off Peak Train" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/fare_description"
