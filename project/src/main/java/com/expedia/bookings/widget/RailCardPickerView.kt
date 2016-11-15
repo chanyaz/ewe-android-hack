@@ -8,7 +8,6 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -27,12 +26,18 @@ class RailCardPickerView(context: Context, attrs: AttributeSet) : LinearLayout(c
         View.inflate(context, R.layout.widget_rail_card_picker, this)
         orientation = VERTICAL
 
-        addButton.setColorFilter(enabledCardSelectorColor, PorterDuff.Mode.SRC_IN)
-        removeButton.setColorFilter(disabledCardSelectorColor, PorterDuff.Mode.SRC_IN)
-        removeButton.isEnabled = false
+        enableButton(addButton)
+        disableButton(removeButton)
     }
 
     var viewModel: RailCardPickerViewModel by notNullAndObservable { viewModel ->
+
+        viewModel.railCardError.subscribe { errorString ->
+            disableButton(removeButton)
+            disableButton(addButton)
+            errorMessage.visibility = View.VISIBLE
+            errorMessage.text = errorString
+        }
 
         addButton.subscribeOnClick(viewModel.addClickSubject)
         removeButton.subscribeOnClick(viewModel.removeClickSubject)
@@ -48,8 +53,11 @@ class RailCardPickerView(context: Context, attrs: AttributeSet) : LinearLayout(c
         }
 
         viewModel.removeButtonEnableState.subscribe { enabled ->
-            removeButton.isEnabled = enabled
-            removeButton.setColorFilter(if (enabled) enabledCardSelectorColor else disabledCardSelectorColor, PorterDuff.Mode.SRC_IN)
+            if (enabled) enableButton(removeButton) else disableButton(removeButton)
+        }
+
+        viewModel.addButtonEnableState.subscribe { enabled ->
+            if (enabled) enableButton(addButton) else disableButton(addButton)
         }
 
         viewModel.validationError.subscribe { message ->
@@ -58,11 +66,23 @@ class RailCardPickerView(context: Context, attrs: AttributeSet) : LinearLayout(c
         }
 
         viewModel.validationSuccess.subscribe {
-            errorMessage.visibility = View.GONE
+            if (viewModel.railCardError.value.isNullOrBlank()) {
+                errorMessage.visibility = View.GONE
+            }
         }
     }
 
     private fun removeRow() {
         removeViewAt(this.childCount - 1)
+    }
+
+    private fun enableButton(button: ImageButton) {
+        button.isEnabled = true
+        button.setColorFilter(enabledCardSelectorColor, PorterDuff.Mode.SRC_IN)
+    }
+
+    private fun disableButton(button: ImageButton) {
+        button.isEnabled = false
+        button.setColorFilter(disabledCardSelectorColor, PorterDuff.Mode.SRC_IN)
     }
 }
