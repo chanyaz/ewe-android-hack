@@ -1,5 +1,6 @@
 package com.expedia.bookings.tracking
 
+import android.app.Activity
 import android.content.Context
 import android.os.Bundle
 import com.expedia.bookings.data.Db
@@ -58,17 +59,11 @@ class FacebookEvents() {
     companion object {
         fun activateAppIfEnabledInConfig(context: Context) {
             if (ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled) {
-                AppEventsLogger.activateApp(context)
+                AppEventsLogger.activateApp((context as Activity).application)
             }
         }
 
-        fun deactivateAppIfEnabledInConfig(context: Context) {
-            if (ProductFlavorFeatureConfiguration.getInstance().isFacebookTrackingEnabled) {
-                AppEventsLogger.deactivateApp(context)
-            }
-        }
-
-        private fun track(event: String, parameters: Bundle) {
+      private fun track(event: String, parameters: Bundle) {
             val keys = parameters.keySet()
 
             if (keys.size > 10) {
@@ -237,8 +232,7 @@ class FacebookEvents() {
         parameters.putInt("Num_Rooms", 1)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, hotelCheckoutResponse.currencyCode ?: "")
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
-        facebookLogger?.logPurchase(BigDecimal(hotelCheckoutResponse.totalCharges), Currency.getInstance(hotelCheckoutResponse.currencyCode));
-        track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
+        facebookLogger?.logPurchase(BigDecimal(hotelCheckoutResponse.totalCharges), Currency.getInstance(hotelCheckoutResponse.currencyCode), parameters)
     }
 
     fun trackFlightSearch(search: FlightSearch) {
@@ -371,8 +365,7 @@ class FacebookEvents() {
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, flightTrip.legs[0].firstAirlineCode)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, money.currency)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
-        facebookLogger?.logPurchase(money.amount, Currency.getInstance(money.currencyCode));
-        track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
+        facebookLogger?.logPurchase(money.amount, Currency.getInstance(money.currencyCode), parameters)
     }
 
     fun trackFlightV2Confirmation(flightCheckoutResponse: FlightCheckoutResponse, flightSearchParams: com.expedia.bookings.data.flights.FlightSearchParams) {
@@ -387,8 +380,7 @@ class FacebookEvents() {
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_ID, airLineCode)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, flightCheckoutResponse.totalChargesPrice?.currencyCode)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
-        facebookLogger?.logPurchase(flightCheckoutResponse.totalChargesPrice?.amount, Currency.getInstance(flightCheckoutResponse.totalChargesPrice?.currencyCode))
-        track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
+        facebookLogger?.logPurchase(flightCheckoutResponse.totalChargesPrice?.amount, Currency.getInstance(flightCheckoutResponse.totalChargesPrice?.currencyCode), parameters)
     }
 
     fun trackCarSearch(search: CarSearchParam, carSearch: CarSearch) {
@@ -453,8 +445,7 @@ class FacebookEvents() {
         parameters.putString("Booking_Value", grandTotal.getAmount().toString())
         parameters.putString(AppEventsConstants.EVENT_PARAM_CURRENCY, grandTotal.currencyCode)
         parameters.putString(AppEventsConstants.EVENT_PARAM_CONTENT_TYPE, "product")
-        facebookLogger?.logPurchase(grandTotal.getAmount(), Currency.getInstance(grandTotal.currencyCode));
-        track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
+        facebookLogger?.logPurchase(grandTotal.getAmount(), Currency.getInstance(grandTotal.currencyCode), parameters)
     }
 
     fun trackLXSearch(searchParams: LxSearchParams, lxSearchResponse: LXSearchResponse) {
@@ -511,8 +502,7 @@ class FacebookEvents() {
         parameters.putString("Booking_Value", totalPrice.getAmount().toString())
         parameters.putInt("Num_People", ticketCount)
         parameters.putInt("Number_Children", childTicketCount)
-        facebookLogger?.logPurchase(totalPrice.getAmount(), Currency.getInstance(totalPrice.currencyCode));
-        track(AppEventsConstants.EVENT_NAME_PURCHASED, parameters)
+        facebookLogger?.logPurchase(totalPrice.getAmount(), Currency.getInstance(totalPrice.currencyCode), parameters)
     }
 
     private fun getBookingWindow(time: LocalDate): Int {

@@ -33,6 +33,7 @@ import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.tracking.AdTracker
+import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
@@ -305,6 +306,7 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onResume() {
         super.onResume()
+        FacebookEvents.activateAppIfEnabledInConfig(this)
         when(viewPager.currentItem) {
             PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen()
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
