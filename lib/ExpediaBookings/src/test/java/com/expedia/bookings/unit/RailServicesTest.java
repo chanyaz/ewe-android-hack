@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -266,6 +267,32 @@ public class RailServicesTest {
 
 		CardFeeResponse cardFeeResponse = cardFeeResponseObserver.getOnNextEvents().get(0);
 		assertTrue(cardFeeResponse.hasErrors());
+	}
+
+	@Test
+	public void testRailSearchTravelerParams() {
+		SuggestionV4 origin = new SuggestionV4();
+		SuggestionV4 destination = new SuggestionV4();
+		DateTime startDateTime = DateTime.now().plusDays(1);
+		LocalDate startDate = startDateTime.toLocalDate();
+		Integer startTime = startDateTime.toLocalTime().getMillisOfDay();
+		int adults = 1;
+		List<Integer> children = Arrays.asList(10, 12);
+		List<Integer> senior = Arrays.asList(60, 61);
+		List<Integer> youth = Arrays.asList(16, 18);
+
+		railSearchRequest = new RailApiSearchModel(origin, destination, startDate, null, startTime, null, false, adults, children, youth, senior, Collections.<RailCard>emptyList());
+		List<RailApiSearchModel.RailPassenger> passengerList = railSearchRequest.getPassengerList();
+		int cnt = 0;
+		for (RailApiSearchModel.RailPassenger passenger : passengerList) {
+			if (passenger.getAge() > 15 && passenger.getPrimaryTraveler()) {
+				cnt ++;
+			}
+		}
+
+		assertEquals(passengerList.size(), 7);
+		// assert exactly one non child traveler set as primary traveler
+		assertEquals(cnt, 1);
 	}
 
 	private void givenSearchRequest(String clientCode) {
