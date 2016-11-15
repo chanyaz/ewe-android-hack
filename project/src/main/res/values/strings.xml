@@ -1253,6 +1253,8 @@
     <string name="arrive_tz_TEMPLATE">Arrive (%1$s)</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">Airline Confirmation</string>
+    <!-- Flight Itinerary airline support number -->
+    <string name="flight_itin_airline_support_number_label">Airline Customer Support</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s Confirmation</string>
     <!-- Car rental agency name and location in car itin detail -->

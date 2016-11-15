@@ -37,6 +37,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -55,6 +56,7 @@ import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -66,6 +68,8 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightMapImageView;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
+import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
@@ -298,9 +302,36 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 			//Add shared data
 			addSharedGuiElements(commonItinDataContainer);
+
+			if (FeatureToggleUtil
+				.isFeatureEnabled(getContext(), R.string.preference_flight_itin_airline_phone_number)) {
+				addAirlineSupportNumber(commonItinDataContainer);
+			}
 		}
 
 		return view;
+	}
+
+	private boolean addAirlineSupportNumber(ViewGroup container) {
+		String airlineCode = getItinCardData().getFlightLeg().getSegment(0).getPrimaryFlightCode().mAirlineCode;
+		Airline airline = Db.getAirline(airlineCode);
+
+		boolean haveAirlinePhoneNumber = airline != null && airline.mAirlinePhone != null;
+		if (haveAirlinePhoneNumber) {
+			final String mAirlinePhone = airline.mAirlinePhone;
+			int labelResId = R.string.flight_itin_airline_support_number_label;
+			View view = getItinDetailItem(labelResId, mAirlinePhone, false,
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						SocialUtils.call(getContext(), mAirlinePhone);
+					}
+				});
+			container.addView(view, 1);
+			return true;
+		}
+
+		return false;
 	}
 
 	private static class SummaryViewHolder {
