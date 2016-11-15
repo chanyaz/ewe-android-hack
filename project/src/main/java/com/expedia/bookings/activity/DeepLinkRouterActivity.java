@@ -48,7 +48,6 @@ import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TrackingUtils;
-import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
@@ -114,7 +113,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		Set<String> queryData = StrUtils.getQueryParameterNames(data);
 
 		OmnitureTracking.parseAndTrackDeepLink(data, queryData);
-		TuneUtils.startTune(this);
 
 		/*
 		 * Let's handle iOS implementation of sharing/importing itins, cause we can - Yeah, Android ROCKS !!!

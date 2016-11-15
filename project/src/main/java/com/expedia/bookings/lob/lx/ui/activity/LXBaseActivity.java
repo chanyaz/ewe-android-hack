@@ -23,7 +23,7 @@ import com.expedia.bookings.utils.AlertDialogUtils;
 import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.ui.AbstractAppCompatActivity;
+import com.expedia.ui.TrackingAbstractAppCompatActivity;
 import com.google.android.gms.maps.MapView;
 import com.squareup.otto.Subscribe;
 
@@ -34,7 +34,7 @@ import kotlin.Unit;
 import rx.Observable;
 import rx.Subscription;
 
-public class LXBaseActivity extends AbstractAppCompatActivity {
+public class LXBaseActivity extends TrackingAbstractAppCompatActivity {
 
 	@InjectView(R.id.lx_base_presenter)
 	LXPresenter lxPresenter;

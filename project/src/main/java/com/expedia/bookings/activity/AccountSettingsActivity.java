@@ -15,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GestureDetectorCompat;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.GestureDetector.OnGestureListener;
@@ -64,7 +63,7 @@ import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
-public class AccountSettingsActivity extends AppCompatActivity implements AboutSectionFragmentListener,
+public class AccountSettingsActivity extends TrackingAppCompatActivity implements AboutSectionFragmentListener,
 	AboutUtils.CountrySelectDialogListener, LoginConfirmLogoutDialogFragment.DoLogoutListener,
 	UserAccountRefresher.IUserAccountRefreshListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener,
 	GoogleApiClient.ConnectionCallbacks {

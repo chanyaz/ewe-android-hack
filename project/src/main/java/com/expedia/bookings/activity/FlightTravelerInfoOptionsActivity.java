@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -41,7 +40,7 @@ import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
-public class FlightTravelerInfoOptionsActivity extends FragmentActivity implements TravelerInfoYoYoListener,
+public class FlightTravelerInfoOptionsActivity extends TrackingFragmentActivity implements TravelerInfoYoYoListener,
 	IDialogForwardBackwardListener {
 
 	public static final String OPTIONS_FRAGMENT_TAG = "OPTIONS_FRAGMENT_TAG";

@@ -3,7 +3,6 @@ package com.expedia.bookings.activity
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -21,7 +20,7 @@ import com.google.android.gms.wallet.WalletConstants
 import java.math.BigDecimal
 import kotlin.properties.Delegates
 
-class GoogleWalletActivity : AppCompatActivity() {
+class GoogleWalletActivity : TrackingAppCompatActivity() {
     val REQUEST_CODE_RESOLVE_LOAD_MASKED_WALLET: Int = 1001
     val REQUEST_CODE_RESOLVE_LOAD_FULL_WALLET: Int = 1003
     var googleApiClient: GoogleApiClient by Delegates.notNull()

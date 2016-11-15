@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,11 +34,10 @@ import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
-import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
 
-public class TabletLaunchActivity extends FragmentActivity implements MeasurableFragmentListener,
+public class TabletLaunchActivity extends TrackingFragmentActivity implements MeasurableFragmentListener,
 	IBackManageable, IMeasurementProvider, FragmentAvailabilityUtils.IFragmentAvailabilityProvider {
 
 	private static final String FTAG_CONTROLLER_FRAGMENT = "CONTROLLER_FRAGMENT";
@@ -105,7 +103,6 @@ public class TabletLaunchActivity extends FragmentActivity implements Measurable
 		busRegistered = true;
 		Sp.loadSearchParamsFromDisk(this);
 		LaunchDb.getCollections(this);
-		TuneUtils.startTune(this);
 	}
 
 	@Override

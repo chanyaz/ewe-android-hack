@@ -25,7 +25,7 @@ import io.card.payment.CardIOActivity
 import io.card.payment.CreditCard
 import rx.Observer
 
-class HotelActivity : AbstractAppCompatActivity() {
+class HotelActivity : TrackingAbstractAppCompatActivity() {
 
     companion object {
         const val EXTRA_HOTEL_SEARCH_PARAMS = "hotelSearchParams"
