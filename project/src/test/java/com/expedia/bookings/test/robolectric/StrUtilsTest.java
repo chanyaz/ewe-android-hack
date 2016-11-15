@@ -126,8 +126,8 @@ public class StrUtilsTest {
 		String termsText = getContext().getString(R.string.terms_and_conditions);
 
 		String loyaltyLegalText = getLoyaltyLegalText();
-
-		int brandNameStart = loyaltyLegalText.indexOf(brandRewardNameLink);
+		// brandname span is located in second occurrence of brandRewardNameLink
+		int brandNameStart = loyaltyLegalText.indexOf(brandRewardNameLink, loyaltyLegalText.indexOf(brandRewardNameLink) + 1);
 		int termStart = loyaltyLegalText.indexOf(termsText);
 		int brandNameEnd = brandNameStart + brandRewardNameLink.length();
 		int termEnd = termStart + termsText.length();
@@ -142,7 +142,6 @@ public class StrUtilsTest {
 		for (Object[] spans : spansList) {
 			assertEquals(spans[0].getClass(), LegalClickableSpan.class);
 			assertEquals(spans[1].getClass(), StyleSpan.class);
-			assertEquals(spans[2].getClass(), ForegroundColorSpan.class);
 		}
 	}
 
