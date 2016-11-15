@@ -20,7 +20,8 @@ class RailCardPickerRowView(context: Context): LinearLayout(context) {
     private val cardTypeSpinnerHint = context.resources.getString(R.string.select_rail_card_hint)
     private val cardQuantitySpinnerHint = context.resources.getString(R.string.select_rail_card_quantity_hint)
 
-    val railCardAdapter = SpinnerAdapterWithHint(context, cardTypeSpinnerHint, R.layout.snippet_rail_card_text_view)
+    val railCardAdapter = SpinnerAdapterWithHint(context, cardTypeSpinnerHint, R.layout.rail_card_spinner_item_view,
+            R.layout.rail_card_dropdown_item)
     val cardQuantityAdapter = SpinnerAdapterWithHint(context, cardQuantitySpinnerHint, R.layout.snippet_rail_card_quantity_view)
 
     var viewModel by notNullAndObservable<RailCardPickerRowViewModel> { vm ->

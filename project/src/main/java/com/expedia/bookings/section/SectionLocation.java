@@ -743,7 +743,8 @@ public class SectionLocation extends LinearLayout
 		protected void onFieldBind() {
 			super.onFieldBind();
 			if (hasBoundField()) {
-				SpinnerAdapterWithHint deliveryOptionsAdapter = new SpinnerAdapterWithHint(mContext, hint, R.layout.snippet_rail_delivery_option_text_view);
+				SpinnerAdapterWithHint deliveryOptionsAdapter = new SpinnerAdapterWithHint(mContext, hint,
+					R.layout.snippet_rail_delivery_option_text_view, null);
 				getField().getSpinner().setAdapter(deliveryOptionsAdapter);
 			}
 		}
