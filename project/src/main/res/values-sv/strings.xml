@@ -1770,7 +1770,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">Det uppstod ett fel</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">Oj då. Vi gör ett nytt försök.</string>
+    <string name="error_try_again_warning">Oj då. Vi gör ett nytt försök.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Försök igen</string>
 

@@ -56,6 +56,12 @@ class RailApiRequestDispatcher(fileOpener: FileOpener) : AbstractDispatcher(file
 
                 if ("pricechange".equals(checkoutParams.travelers[0].firstName, true)) {
                     getMockResponse("m/api/rails/trip/checkout/price_change.json")
+                } else if ("invalidinput".equals(checkoutParams.travelers[0].firstName, true)) {
+                    getMockResponse("m/api/rails/trip/checkout/invalid_payment_error.json")
+                } else if ("unknownpayment".equals(checkoutParams.travelers[0].firstName, true)) {
+                    getMockResponse("m/api/rails/trip/checkout/unknown_payment_error.json")
+                } else if ("unknown".equals(checkoutParams.travelers[0].firstName, true)) {
+                    make404()
                 } else if (isRoundTrip) {
                     getMockResponse("m/api/rails/trip/checkout/roundtrip_happy.json")
                 } else {

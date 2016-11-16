@@ -1,0 +1,15 @@
+{
+  "errors": [
+    {
+      "errorCode": "INVALID_INPUT",
+      "errorInfo": {
+        "summary": "Invalid input error",
+        "field": "paymentInfo.cards[0].creditCardNumber",
+        "cause": "invalid credit card number"
+      },
+      "diagnosticId": 0
+    }
+  ],
+  "activityId": "d1f376c2-5bc7-414a-883a-9bc36f26092f"
+}
+

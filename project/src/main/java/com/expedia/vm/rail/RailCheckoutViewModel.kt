@@ -14,7 +14,6 @@ import com.expedia.bookings.data.rail.requests.RailCheckoutParams
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
 import com.expedia.bookings.data.rail.responses.RailCheckoutResponseWrapper
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
-import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.server.RailCardFeeServiceProvider
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.text.HtmlCompat
@@ -57,15 +56,25 @@ class RailCheckoutViewModel(val context: Context) {
 
     val priceChangeObservable = PublishSubject.create<Unit>()
     val showCheckoutDialogObservable = PublishSubject.create<Boolean>()
+    val checkoutErrorObservable = PublishSubject.create<ApiError>()
+    val showNoInternetRetryDialog = PublishSubject.create<Unit>()
+    val retryObservable = PublishSubject.create<Unit>()
 
     private var currentTicketDeliveryToken: String = ""
+    private var isRetry = false
 
     init {
         Ui.getApplication(context).railComponent().inject(this)
 
         checkoutParams.subscribe { params ->
             showCheckoutDialogObservable.onNext(true)
+            isRetry = false
             railServices.railCheckoutTrip(params, makeCheckoutResponseObserver())
+        }
+
+        retryObservable.subscribe {
+            isRetry = true
+            railServices.railCheckoutTrip(checkoutParams.value, makeCheckoutResponseObserver())
         }
 
         cardFeeTripResponseSubject.subscribe(tripResponseObservable)
@@ -233,19 +242,15 @@ class RailCheckoutViewModel(val context: Context) {
                 } else if (response.createTripResponse != null) {
                     handleNewCreateTripReturned(response.createTripResponse)
                 } else {
-                    // TODO something went very wrong return to search.
+                    checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                 }
             }
 
             override fun onError(e: Throwable) {
                 if (RetrofitUtils.isNetworkError(e)) {
-                    val retryFun = fun() {
-                        // TODO retry
-                    }
-                    val cancelFun = fun() {
-                        //TODO noNetworkObservable.onNext(Unit)
-                    }
-                    DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
+                    showNoInternetRetryDialog.onNext(Unit)
+                } else {
+                    checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                 }
             }
 
@@ -258,11 +263,9 @@ class RailCheckoutViewModel(val context: Context) {
     private fun handleCheckoutReturned(response: RailCheckoutResponse) {
         if (response.hasErrors()) {
             when (response.firstError.errorCode) {
-                ApiError.Code.INVALID_INPUT -> {
-                    // TODO
-                }
+                ApiError.Code.INVALID_INPUT -> checkoutErrorObservable.onNext(ApiError(ApiError.Code.INVALID_INPUT))
                 else -> {
-                    // TODO checkoutErrorObservable.onNext(response.firstError)
+                    handleError()
                 }
             }
         } else {
@@ -279,9 +282,17 @@ class RailCheckoutViewModel(val context: Context) {
                     updatePricingSubject.onNext(response)
                 }
                 else -> {
-                    // TODO checkoutErrorObservable.onNext(response.firstError)
+                    handleError()
                 }
             }
+        }
+    }
+
+    private fun handleError() {
+        if (isRetry) {
+            checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+        } else {
+            checkoutErrorObservable.onNext(ApiError(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR))
         }
     }
 }

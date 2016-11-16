@@ -1774,7 +1774,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">Error</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">Whoops. Let\'s try that again.</string>
+    <string name="error_try_again_warning">Whoops. Let\'s try that again.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Retry</string>
 
@@ -4511,8 +4511,9 @@
     <string name="mail_delivery_details">Have the ticket shipped to you at the address you provide.</string>
     <string name="tdo_fees_non_refundable">Ticket delivery fees are non-refundable.</string>
 
-    <string name="rail_create_trip_error_title">Something went wrong</string>
-    <string name="rail_create_trip_error_message">Please edit your search criteria and try again.</string>
+    <string name="rail_error_title">Something went wrong</string>
+    <string name="rail_unknown_error_message">Please edit your search criteria and try again.</string>
+    <string name="rail_cko_invalid_input_error_message">Please check your billing information and try again.</string>
 
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->

@@ -639,7 +639,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.flight_session_expired_toolbar_title,
 		R.string.flight_new_search,
 		R.string.flight_generic_error_title,
-		R.string.flight_error_try_again_warning,
+		R.string.error_try_again_warning,
 		R.layout.insurance_benefits_dialog_body,
 		R.layout.insurance_widget,
 		R.string.insurance_adding,
@@ -787,8 +787,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.checkmark_row,
 		R.string.itin_card_rail_summary_TEMPLATE,
 		R.string.stay_summary_TEMPLATE,
-		R.string.rail_create_trip_error_message,
-		R.string.rail_create_trip_error_title,
-		R.string.payment_and_ticket_delivery_fees_may_also_apply
+		R.string.payment_and_ticket_delivery_fees_may_also_apply,
+		R.string.rail_unknown_error_message,
+		R.string.rail_cko_invalid_input_error_message,
+		R.string.rail_error_title
 	};
 }

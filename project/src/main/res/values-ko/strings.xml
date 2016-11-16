@@ -1770,7 +1770,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">오류</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">잠시만요. 다시 시도해 주세요.</string>
+    <string name="error_try_again_warning">잠시만요. 다시 시도해 주세요.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">다시 시도</string>
 
