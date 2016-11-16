@@ -18,6 +18,11 @@
         android:orientation="vertical"
         android:layout_gravity="bottom" >
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/drop_shadow" />
+
         <com.expedia.bookings.widget.PriceChangeWidget
             android:id="@+id/rail_price_change_widget"
             android:layout_width="match_parent"
