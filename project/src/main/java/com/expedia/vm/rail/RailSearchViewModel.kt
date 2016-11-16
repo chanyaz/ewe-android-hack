@@ -13,6 +13,7 @@ import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.endlessObserver
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
 import com.mobiata.android.time.util.JodaUtils
+import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
@@ -204,7 +205,7 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
             val resId = if (isRoundTripSearchObservable.value) R.string.select_dates else R.string.select_departure_date
             return context.getString(resId)
         } else if (end == null && isRoundTripSearchObservable.value) {
-            return context.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+            return Phrase.from(context.resources, R.string.select_return_date_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).format().toString()
         } else {
             return DateFormatUtils.formatRailDateRange(context, start, end)
         }
