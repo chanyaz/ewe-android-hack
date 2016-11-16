@@ -390,6 +390,7 @@ public class CarFilterWidget extends LinearLayout {
 	@Subscribe
 	public void onDynamicFeedbackClearButtonClicked(Events.DynamicFeedbackClearButtonClicked event) {
 		reset();
+		setFocusToToolbarForAccessibility();
 		Events.post(new Events.CarsFilterDone(filter));
 	}
 
