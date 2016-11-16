@@ -1,5 +1,6 @@
 package com.expedia.vm.test.rail
 
+import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailDateTime
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailProduct
@@ -9,6 +10,7 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
+import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
@@ -40,5 +42,20 @@ class RailLegSummaryViewModelTest {
         viewModel.railLegOptionObserver.onNext(leg)
         overtakenTestSubscriber.assertValueCount(2)
         assertTrue(overtakenTestSubscriber.onNextEvents[1])
+    }
+
+    @Test
+    fun testRailcardsGetConcatenated() {
+        val viewModel = RailLegSummaryViewModel(RuntimeEnvironment.application)
+        val railProduct = RailProduct()
+        val card1 = RailCard("cat", "prog", "name1")
+        val card2 = RailCard("cat", "prog", "name2")
+        railProduct.fareQualifierList = listOf(card1, card2)
+
+        val cardNameTestSubscriber = TestSubscriber.create<String>()
+        viewModel.railCardNameObservable.subscribe(cardNameTestSubscriber)
+
+        viewModel.railProductObserver.onNext(railProduct)
+        assertEquals("name1, name2", cardNameTestSubscriber.onNextEvents[0])
     }
 }
