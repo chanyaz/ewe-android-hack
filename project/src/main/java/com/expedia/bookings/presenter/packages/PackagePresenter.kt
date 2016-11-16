@@ -126,10 +126,8 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
         presenter.getViewModel().checkoutCardErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
-            bundlePresenter.show(bundlePresenter.getCheckoutPresenter())
-            bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
-            bundlePresenter.getCheckoutPresenter().paymentWidget.clearCCAndCVV()
-            bundlePresenter.getCheckoutPresenter().paymentWidget.cardInfoContainer.performClick()
+            bundlePresenter.showCheckout()
+            bundlePresenter.getCheckoutPresenter().paymentWidget.showPaymentForm(fromPaymentError = true)
         }
         presenter
     }

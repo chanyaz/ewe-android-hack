@@ -206,7 +206,7 @@ class PackageCheckoutTest {
         checkout.paymentWidget.sectionBillingInfo.bind(billingInfo)
         checkout.paymentWidget.sectionLocation.bind(billingInfo.location)
         checkout.showPaymentPresenter()
-        checkout.paymentWidget.showPaymentForm()
+        checkout.paymentWidget.showPaymentForm(false)
         checkout.paymentWidget.validateAndBind()
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
     }
