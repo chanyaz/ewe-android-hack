@@ -1066,6 +1066,8 @@
     <string name="error_select_rail_card_details">Please select rail cards details.</string>
     <!-- Error message when rail cards selected is greater than no. of travelers -->
     <string name="error_rail_cards_greater_than_number_travelers">The number of railcards cannot exceed the number of travelers.</string>
+    <!-- Error message indicating we were unable to fetch rail cards at this time -->
+    <string name="no_rail_cards_error_message">We were unable to retrieve railcards at this time. Please try again later.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Going from</string>
