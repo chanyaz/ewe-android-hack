@@ -5921,7 +5921,7 @@ public class OmnitureTracking {
 		arrivalStation = outboundLegOption.arrivalStation.getStationCode();
 		searchWindow = JodaUtils.daysBetween(new DateTime(), outboundLegOption.getDepartureDateTime());
 
-		if (!railCreateTripResponse.railDomainProduct.railOffer.isRoundTrip()) {
+		if (!railCreateTripResponse.railDomainProduct.railOffer.isRoundTrip() && !railCreateTripResponse.railDomainProduct.railOffer.isOpenReturn()) {
 			products += ":OW;;";
 		}
 		else {
