@@ -114,6 +114,7 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
         railServices.railGetCards(PointOfSale.getPointOfSale().localeIdentifier, object : Observer<RailCardsResponse> {
             override fun onError(e: Throwable?) {
                 railCardError.onNext(context.getString(R.string.no_rail_cards_error_message))
+                RailTracking().trackRailCardsApiNoResponseError()
             }
 
             override fun onNext(response: RailCardsResponse) {
