@@ -109,8 +109,12 @@ class RailCheckoutViewModelTest {
 
     @Test
     fun testPriceChange() {
-        val priceChangeTestSub = TestSubscriber<Unit>()
+        val priceChangeTestSub = TestSubscriber<Pair<Money, Money>>()
         val pricingSubjectTestSub = TestSubscriber<RailCreateTripResponse>()
+
+        val oldMockResponse = RailCreateTripResponse()
+        oldMockResponse.totalPrice = Money("12120", "USD")
+        testViewModel.tripResponseObservable.onNext(oldMockResponse)
 
         testViewModel.priceChangeObservable.subscribe(priceChangeTestSub)
         testViewModel.updatePricingSubject.subscribe(pricingSubjectTestSub)

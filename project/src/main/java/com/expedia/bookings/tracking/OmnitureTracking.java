@@ -5740,6 +5740,9 @@ public class OmnitureTracking {
 	private static final String RAIL_RATE_DETAILS = "App.Rail.RateDetails";
 	private static final String RAIL_RATE_DETAILS_TOTAL_COST = "App.Rail.RD.TotalCost";
 	private static final String RAIL_RATE_DETAILS_VIEW_DETAILS = "App.Rail.RD.ViewDetails";
+	private static final String RAIL_ERROR = "App.Rail.Error";
+	private static final String RAIL_CHECKOUT_ERROR = "App.Rail.CKO.Error";
+	private static final String RAIL_CHECKOUT_PRICE_CHANGE = "App.Rail.CKO.PriceChange";
 
 	private static ADMS_Measurement createTrackRailPageLoadEventBase(String pageName) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
@@ -5962,5 +5965,40 @@ public class OmnitureTracking {
 		s.setProp(16, RAIL_RATE_DETAILS_VIEW_DETAILS);
 		s.setEvar(61, "1");
 		s.trackLink(null, "o", "Rate Details View", null, null);
+	}
+
+	public static void trackRailError(String errorType) {
+		Log.d(TAG, "Tracking \"" + RAIL_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(7, "1");
+		s.setEvar(28, RAIL_ERROR);
+		s.setProp(16, RAIL_ERROR);
+		s.setProp(36, errorType);
+		s.setEvar(61, "1");
+		s.trackLink(null, "o", "Rail Error", null, null);
+	}
+
+	public static void trackRailCheckoutError(String errorType) {
+		Log.d(TAG, "Tracking \"" + RAIL_CHECKOUT_ERROR + "\" pageLoad...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(7, "1");
+		s.setEvar(28, RAIL_CHECKOUT_ERROR);
+		s.setProp(16, RAIL_CHECKOUT_ERROR);
+		s.setProp(36, errorType);
+		s.setEvar(61, "1");
+		s.setEvents("event38");
+		s.trackLink(null, "o", "Rail Checkout", null, null);
+	}
+
+	public static void trackRailCheckoutPriceChange(int priceDiff) {
+		Log.d(TAG, "Tracking \"" + RAIL_CHECKOUT_PRICE_CHANGE + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvents("event62");
+		s.setProp(9, "RAIL|" + priceDiff);
+		s.setEvar(28, RAIL_CHECKOUT_PRICE_CHANGE);
+		s.setProp(16, RAIL_CHECKOUT_PRICE_CHANGE);
+		s.setProp(7, "1");
+		s.setEvar(61, "1");
+		s.trackLink(null, "o", "Rail Checkout", null, null);
 	}
 }

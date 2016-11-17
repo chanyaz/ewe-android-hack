@@ -142,7 +142,8 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         }
 
         priceChangeWidget.viewmodel = priceChangeViewModel
-        checkoutViewModel.priceChangeObservable.subscribe {
+        checkoutViewModel.priceChangeObservable.subscribe { pair ->
+            checkoutViewModel.trackPriceChange(pair.first, pair.second)
             checkoutViewModel.fetchCardFees(paymentViewModel.cardBIN.value)
             priceChangeViewModel.priceChangedObserver.onNext(Unit)
             priceChangeWidget.visibility = View.VISIBLE

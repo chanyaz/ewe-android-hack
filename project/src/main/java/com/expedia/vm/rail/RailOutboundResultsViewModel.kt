@@ -58,8 +58,10 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
                 if (response.hasError()) {
                     if (response.responseStatus.statusCategory == RailsApiStatusCodes.STATUS_CATEGORY_NO_PRODUCT) {
                         errorObservable.onNext(ApiError(ApiError.Code.RAIL_SEARCH_NO_RESULTS))
+                        RailTracking().trackRailSearchNoResults()
                     } else {
                         errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                        RailTracking().trackSearchUnknownError()
                     }
                 } else {
                     railResultsObservable.onNext(response)
@@ -80,6 +82,7 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
                     }
                     DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
                 }
+                RailTracking().trackSearchApiNoResponseError()
             }
         })
     }
