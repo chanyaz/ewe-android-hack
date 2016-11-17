@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">중복된 여행</string>
     <!-- Text for error toolbar-->
-    <string name="price_changed_text">가격 변동됨</string>
+    <string name="price_changed_text">가격 변경됨</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">결제 실패함</string>
     <!-- Text for error toolbar-->
@@ -359,7 +359,7 @@
     <!-- Template for ticket details -->
     <string name="ticket_details_template">%1$s, %2$s(%3$s)</string>
     <!-- Template for ticket details without restrictions (eg: $40 Traveler) -->
-    <string name="ticket_details_no_restriction_TEMPLATE">%1$s, %2$s</string>
+    <string name="ticket_details_no_restriction_TEMPLATE">%1$s %2$s</string>
     <!-- Template for ticket selection summary -->
     <string name="offer_book_now_TEMPLATE">지금 예약: %1$s</string>
     <!-- Template for multiple duration text on Search results Eg: 2d+ -->
@@ -1014,7 +1014,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_create_trip">여행 만드는 중…</string>
+    <string name="spinner_text_hotel_create_trip">여행 만드는 중…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1591,6 +1591,8 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">체크아웃한 날짜: %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt;부터 유효</string>
+    <!-- Summary for rail card: Departure - Sunday, Feb 22 - 9:00 am -->
+    <string name="itin_card_rail_summary_TEMPLATE">갈 때 - {datetime}</string>
     <!-- Message to users about when they check in of their flight-->
     <string name="itin_card_flight_checkin">지금 체크인</string>
     <!-- Title of alert dialog when user come back from check in-->
@@ -1770,7 +1772,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">오류</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="error_try_again_warning">잠시만요. 다시 시도해 주세요.</string>
+    <string name="flight_error_try_again_warning">잠시만요. 다시 시도해 주세요.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">다시 시도</string>
 
@@ -2382,6 +2384,8 @@
     <!-- next page buttn -->
     <string name="next">다음</string>
     <string name="next_cont_desc">다음 버튼</string>
+    <!-- Passport country placeholder for passport country spinner -->
+    <string name="country">국가</string>
     <!-- Passport country label -->
     <string name="passport_country">여권 국가</string>
     <!-- Passport country / origin heading -->
@@ -2482,8 +2486,6 @@
     <string name="cars_in_TEMPLATE">%s 렌터카</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">고객 지원 더 보기</string>
-    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">고객 지원</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">이메일로 공유하기</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2516,8 +2518,6 @@
     <string name="itin_departing_cont_desc">출발 공항</string>
 
     <!-- Hotel confirmation page -->
-    <!-- Title for section helping users get flights after booking a hotel -->
-    <string name="get_there">가는 방법</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="flights_to_TEMPLATE">%s행 항공편</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
@@ -2843,8 +2843,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/1박</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt">/1박</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">평점 없음</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2907,8 +2905,6 @@
     <string name="switch_off">끄기</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
-    <!-- Discount percent shown in hotel results list -->
-    <string name="minus_x_percent">-%2.0f%%</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">(5점 만점의 고객 평점)</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3429,7 +3425,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
@@ -3758,12 +3754,6 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
 
-    <!-- Handling sold out hotels -->
-    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available_from_brand_TEMPLATE">현재 {brand}에서 이용 불가</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_from_brand_dates_TEMPLATE">{dates}에 {brand}에서 이용 불가</string>
-
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">고객님의 %1$s행 항공편이 %2$s시간 지연입니다.</string>
@@ -4062,6 +4052,9 @@
 
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(만 0~17세)</string>
+
+    <!-- Children age label content description -->
+    <string name="children_age_label_cont_desc">(만 0~17세)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">주변</string>
@@ -4413,7 +4406,7 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">가는날: {date}</string>
 
-    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">오는날: {date}</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
@@ -4444,7 +4437,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} -&gt; {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>

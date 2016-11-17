@@ -1014,7 +1014,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_create_trip">Reise wird erstellt…</string>
+    <string name="spinner_text_hotel_create_trip">Reise wird erstellt…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1591,6 +1591,8 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Ausgecheckt am %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Gültig ab &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Summary for rail card: Departure - Sunday, Feb 22 - 9:00 am -->
+    <string name="itin_card_rail_summary_TEMPLATE">Abfahrt: {datetime}</string>
     <!-- Message to users about when they check in of their flight-->
     <string name="itin_card_flight_checkin">Jetzt einchecken</string>
     <!-- Title of alert dialog when user come back from check in-->
@@ -1770,7 +1772,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">Fehler</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="error_try_again_warning">Hoppla. Das versuchen wir noch mal.</string>
+    <string name="flight_error_try_again_warning">Hoppla. Das versuchen wir noch mal.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Wiederholen</string>
 
@@ -2382,6 +2384,8 @@
     <!-- next page buttn -->
     <string name="next">Weiter</string>
     <string name="next_cont_desc">Schaltfläche Weiter</string>
+    <!-- Passport country placeholder for passport country spinner -->
+    <string name="country">Land</string>
     <!-- Passport country label -->
     <string name="passport_country">Ausweis ausgestellt in:</string>
     <!-- Passport country / origin heading -->
@@ -2482,8 +2486,6 @@
     <string name="cars_in_TEMPLATE">Mietwagen in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Weitere Aktionen</string>
-    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">Was möchten Sie tun?</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Per E-Mail versenden</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2516,8 +2518,6 @@
     <string name="itin_departing_cont_desc">Abflughafen</string>
 
     <!-- Hotel confirmation page -->
-    <!-- Title for section helping users get flights after booking a hotel -->
-    <string name="get_there">Hinreise</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="flights_to_TEMPLATE">Flüge nach %s</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
@@ -2844,8 +2844,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/Nacht</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt">/Nacht</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Ohne Bewertung</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2908,8 +2906,6 @@
     <string name="switch_off">AUS</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
-    <!-- Discount percent shown in hotel results list -->
-    <string name="minus_x_percent">-%2.0f%%</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">von 5 – Gästebewertung</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3759,12 +3755,6 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">CartaSi</string>
 
-    <!-- Handling sold out hotels -->
-    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available_from_brand_TEMPLATE">Derzeit nicht bei {brand} verfügbar</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_from_brand_dates_TEMPLATE">Für {dates} nicht bei {brand} verfügbar</string>
-
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Ihr Flug nach %1$s hat %2$s Std. Verspätung.</string>
@@ -4063,6 +4053,9 @@
 
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 Jahre)</string>
+
+    <!-- Children age label content description -->
+    <string name="children_age_label_cont_desc">(0 bis 17 Jahre)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Umgebung</string>
@@ -4414,7 +4407,7 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Hinfahrt: {date}</string>
 
-    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">Rückfahrt: {date}</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
