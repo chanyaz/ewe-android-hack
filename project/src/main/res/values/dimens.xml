@@ -61,7 +61,6 @@
     <dimen name="itin_flight_segment_divider_padding">10dp</dimen>
     <dimen name="itin_simple_list_width">440dp</dimen>
     <dimen name="itin_card_corner_radius">2dp</dimen>
-    <dimen name="itin_card_flight_vertical_offset">-48dp</dimen>
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
     <dimen name="itin_map_bounds_padding">24dp</dimen>
 

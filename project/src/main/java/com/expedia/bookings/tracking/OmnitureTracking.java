@@ -3168,7 +3168,9 @@ public class OmnitureTracking {
 	}
 
 	public static void trackItinHotelInfo() {
-		internalTrackLink(ITIN_HOTEL_INFO);
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_INFO);
+		trackAbacusTest(s, AbacusUtils.EBAndroidItinHotelGallery);
+		internalTrackLink(s);
 	}
 
 	public static void trackItinInfoClicked(Type type) {

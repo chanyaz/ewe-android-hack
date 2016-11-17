@@ -13,6 +13,7 @@ import android.content.Context;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
@@ -35,6 +36,9 @@ public class ItinContentGeneratorTest {
 
 	private ItinContentGenerator<?> getItinGenerator(DateTime checkIn, DateTime checkOut) {
 		TripHotel trip = new TripHotel();
+		Property property = new Property();
+		property.setPropertyId("1");
+		trip.setProperty(property);
 		trip.setStartDate(checkIn);
 		trip.setEndDate(checkOut);
 		return ItinContentGenerator.createGenerator(getContext(), new ItinCardDataHotel(trip));

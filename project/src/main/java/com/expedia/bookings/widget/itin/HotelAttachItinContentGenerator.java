@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.Ui;
 
 public class HotelAttachItinContentGenerator extends ItinButtonContentGenerator<ItinCardDataHotelAttach> {
+
 	public HotelAttachItinContentGenerator(Context context, ItinCardDataHotelAttach itinCardData) {
 		super(context, itinCardData);
 	}

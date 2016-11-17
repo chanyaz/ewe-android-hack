@@ -10,6 +10,7 @@ import org.robolectric.RuntimeEnvironment;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
@@ -30,6 +31,9 @@ public class HotelItinContentGeneratorTest {
 
 	private HotelItinContentGenerator getHotelItinGenerator(DateTime checkIn, DateTime checkOut) {
 		TripHotel trip = new TripHotel();
+		Property property = new Property();
+		property.setPropertyId("1");
+		trip.setProperty(property);
 		trip.setStartDate(checkIn);
 		trip.setEndDate(checkOut);
 		return new HotelItinContentGenerator(getContext(), new ItinCardDataHotel(trip));

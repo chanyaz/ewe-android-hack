@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTimeZone;
@@ -25,10 +26,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
@@ -42,6 +44,15 @@ import com.expedia.bookings.widget.InfoTripletView;
 import com.mobiata.android.SocialUtils;
 
 public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardDataActivity> {
+
+	@Override
+	public List<? extends IMedia> getHeaderBitmapDrawable() {
+		ArrayList<DefaultMedia> mediaList = new ArrayList<>();
+		DefaultMedia placeholder = new DefaultMedia(Collections.<String>emptyList(), "", getHeaderImagePlaceholderResId());
+		placeholder.setIsPlaceholder(true);
+		mediaList.add(placeholder);
+		return mediaList;
+	}
 
 	private static final int[] GUEST_ICONS = new int[] {
 		R.drawable.bg_activities_guest_cirlce_blue,
@@ -91,10 +102,6 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	@Override
 	public int getHeaderImagePlaceholderResId() {
 		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinActivityPlaceholderDrawable);
-	}
-
-	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 	}
 
 	@Override
