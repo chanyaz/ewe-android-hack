@@ -74,6 +74,7 @@ class RailCheckoutViewModel(val context: Context) {
 
         retryObservable.subscribe {
             isRetry = true
+            showCheckoutDialogObservable.onNext(true)
             railServices.railCheckoutTrip(checkoutParams.value, makeCheckoutResponseObserver())
         }
 
@@ -247,6 +248,7 @@ class RailCheckoutViewModel(val context: Context) {
             }
 
             override fun onError(e: Throwable) {
+                showCheckoutDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
                     showNoInternetRetryDialog.onNext(Unit)
                 } else {
