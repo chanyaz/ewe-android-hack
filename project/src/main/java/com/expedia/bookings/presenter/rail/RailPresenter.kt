@@ -16,7 +16,6 @@ import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.RailServices
-
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
@@ -30,10 +29,10 @@ import com.expedia.vm.rail.RailConfirmationViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
 import com.expedia.vm.rail.RailDetailsViewModel
 import com.expedia.vm.rail.RailErrorViewModel
+import com.expedia.vm.rail.RailInboundDetailsViewModel
 import com.expedia.vm.rail.RailInboundResultsViewModel
 import com.expedia.vm.rail.RailOutboundResultsViewModel
 import com.expedia.vm.rail.RailSearchViewModel
-import com.expedia.vm.rail.RailInboundDetailsViewModel
 import rx.Observer
 import javax.inject.Inject
 import kotlin.properties.Delegates
@@ -205,6 +204,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             super.endTransition(forward)
             if (forward) {
                 RailTracking().trackRailSearchInit()
+                searchPresenter.showDefault()
             }
         }
     }
