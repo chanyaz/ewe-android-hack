@@ -43,6 +43,9 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         }
 
         setUpTimeSliderSubject.onNext(Pair(null,null))
+        isRoundTripSearchObservable.subscribe { isRoundTrip ->
+            getParamsBuilder().searchType(isRoundTrip)
+        }
     }
 
     override fun updateTraveler() {
@@ -76,7 +79,6 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         getParamsBuilder().destination(railDestinationObservable.value)
         getParamsBuilder().departDateTimeMillis(departTimeSubject.value)
         getParamsBuilder().returnDateTimeMillis(returnTimeSubject.value)
-        getParamsBuilder().searchType(isRoundTripSearchObservable.value)
 
         if (getParamsBuilder().areRequiredParamsFilled()) {
             if (getParamsBuilder().isOriginSameAsDestination()) {
