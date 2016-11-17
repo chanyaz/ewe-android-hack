@@ -905,7 +905,8 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
-				if (mLineOfBusiness == LineOfBusiness.PACKAGES || mLineOfBusiness == LineOfBusiness.FLIGHTS_V2) {
+				if (mLineOfBusiness == LineOfBusiness.PACKAGES || mLineOfBusiness == LineOfBusiness.FLIGHTS_V2
+					|| mLineOfBusiness == LineOfBusiness.RAILS) {
 					if (obj == null) {
 						return ValidationError.ERROR_DATA_MISSING;
 					}
