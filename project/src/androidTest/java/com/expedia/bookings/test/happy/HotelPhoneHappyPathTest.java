@@ -15,8 +15,11 @@ import com.mobiata.mocke3.ExpediaDispatcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
+import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.EspressoUtils.assertViewIsDisplayed;
 
 public class HotelPhoneHappyPathTest extends HotelTestCase {
 
@@ -54,6 +57,23 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 		CheckoutViewModel.performSlideToPurchase(true);
 
 		assertICanSeeItinNumber();
+	}
+
+	public void testSingleStoredCard() throws Throwable {
+		SearchScreen.doGenericHotelSearch();
+		HotelScreen.selectHotel("happypath");
+
+		HotelScreen.selectRoomButton().perform(click());
+		HotelScreen.clickRoom("happypath_2_night_stay_0");
+		HotelScreen.clickAddRoom();
+
+		CheckoutViewModel.enterSingleCardLoginDetails();
+
+		CheckoutViewModel.pressDoLogin();
+		CheckoutViewModel.performSlideToPurchase(true);
+
+		onView(withId(R.id.itin_text_view)).check(matches((withText("Itinerary #184327605820"))));
+		assertViewIsDisplayed(R.id.confirmation_text);
 	}
 
 	private void assertICanSeeItinNumber() throws Throwable {
