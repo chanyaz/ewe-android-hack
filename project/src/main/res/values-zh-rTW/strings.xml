@@ -1014,7 +1014,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_create_trip">正在建立行程…</string>
+    <string name="spinner_text_hotel_create_trip">正在建立行程…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1591,6 +1591,8 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">%1$s退房</string>
     <string name="itin_card_activity_summary_TEMPLATE">生效日：&lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Summary for rail card: Departure - Sunday, Feb 22 - 9:00 am -->
+    <string name="itin_card_rail_summary_TEMPLATE">出發 - {datetime}</string>
     <!-- Message to users about when they check in of their flight-->
     <string name="itin_card_flight_checkin">立即預辦登機</string>
     <!-- Title of alert dialog when user come back from check in-->
@@ -1770,7 +1772,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">錯誤</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="error_try_again_warning">很抱歉！請再試一次！</string>
+    <string name="flight_error_try_again_warning">很抱歉！請再試一次！</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">重試</string>
 
@@ -2382,6 +2384,8 @@
     <!-- next page buttn -->
     <string name="next">下一頁</string>
     <string name="next_cont_desc">下一頁按鈕</string>
+    <!-- Passport country placeholder for passport country spinner -->
+    <string name="country">國家</string>
     <!-- Passport country label -->
     <string name="passport_country">護照國家/地區</string>
     <!-- Passport country / origin heading -->
@@ -2482,8 +2486,6 @@
     <string name="cars_in_TEMPLATE">%s租車</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">更多選項</string>
-    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">選項</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">透過電子郵件分享</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2516,8 +2518,6 @@
     <string name="itin_departing_cont_desc">出發</string>
 
     <!-- Hotel confirmation page -->
-    <!-- Title for section helping users get flights after booking a hotel -->
-    <string name="get_there">前往目的地</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="flights_to_TEMPLATE">前往%s的班機</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
@@ -2843,12 +2843,10 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/晚</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt">/晚</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">沒有評等</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_off_template">%2.0f %% 折扣</string>
+    <string name="percent_off_template">%2.0f%% 折扣</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_minus_template">-%2.0f%%</string>
 
@@ -2907,8 +2905,6 @@
     <string name="switch_off">關</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
-    <!-- Discount percent shown in hotel results list -->
-    <string name="minus_x_percent">-%2.0f%%</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/ 5 - 旅客評分</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3758,12 +3754,6 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si 卡</string>
 
-    <!-- Handling sold out hotels -->
-    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available_from_brand_TEMPLATE">目前在 {brand} 上已搶訂一空</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_from_brand_dates_TEMPLATE">{brand} 在 {dates}沒有空房</string>
-
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">前往%1$s的班機將延遲 %2$s 小時起飛。</string>
@@ -4062,6 +4052,9 @@
 
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 歲)</string>
+
+    <!-- Children age label content description -->
+    <string name="children_age_label_cont_desc">(0 至 17 歲)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">鄰近地區</string>
@@ -4413,7 +4406,7 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">去程：{date}</string>
 
-    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">回程 - {date}</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
@@ -4675,7 +4668,7 @@
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget">套裝行程總價：{totalprice}。此價格包含機票與飯店的稅金和費用。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套裝行程總價：{totalprice}。此價格包含機票與飯店的稅金和費用。{savings}. 費用明細對話方塊。按鈕。</string>
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套裝行程總價：{totalprice}。此價格包含機票與飯店的稅金和費用。{savings}。費用明細對話方塊。按鈕。</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">套裝價格為每人 {price_per_person}。此價格包含機票與飯店的稅金和費用。查看套裝按鈕。</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
