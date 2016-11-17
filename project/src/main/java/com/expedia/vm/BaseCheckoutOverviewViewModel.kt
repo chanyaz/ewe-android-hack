@@ -18,6 +18,7 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
 
     val cityTitle = BehaviorSubject.create<String>()
     val datesTitle = BehaviorSubject.create<String>()
+    val datesTitleContDesc = BehaviorSubject.create<String>()
     val travelersTitle = BehaviorSubject.create<String>()
     val url = BehaviorSubject.create<List<String>>()
     val placeHolderDrawable = BehaviorSubject.create<Int>()
@@ -32,13 +33,17 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
         }).subscribe()
 
         Observable.zip(checkIn, checkOut, { checkIn, checkOut ->
-            val text =
-                    if (checkIn != null && checkOut != null) {
-                        DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
-                    } else {
-                        DateFormatUtils.formatLocalDateToShortDayAndDate(checkIn)
-                    }
+            var text: String
+            var contDesc: String
+            if (checkIn != null && checkOut != null) {
+                text = DateFormatUtils.formatPackageDateRange(context, checkIn, checkOut)
+                contDesc = DateFormatUtils.formatPackageDateRangeContDesc(context, checkIn, checkOut)
+            } else {
+                text = DateFormatUtils.formatLocalDateToShortDayAndDate(checkIn)
+                contDesc = text
+            }
             datesTitle.onNext(text)
+            datesTitleContDesc.onNext(contDesc)
         }).subscribe()
 
         guests.subscribe { travelers ->

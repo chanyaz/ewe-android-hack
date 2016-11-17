@@ -185,12 +185,22 @@ public class DateFormatUtils {
 			.format().toString();
 	}
 
+	public static String formatPackageDateRangeContDesc(Context context, String checkinDate, String checkoutDate) {
+		return formatPackageDateRangeTemplate(context, checkinDate, checkoutDate,
+			R.string.calendar_instructions_date_range_cont_desc_TEMPLATE);
+	}
+
 	public static String formatPackageDateRange(Context context, String checkinDate, String checkoutDate) {
+		return formatPackageDateRangeTemplate(context, checkinDate, checkoutDate, R.string.calendar_instructions_date_range_TEMPLATE);
+	}
+
+	private static String formatPackageDateRangeTemplate(Context context, String checkinDate, String checkoutDate,
+		int stringResID) {
 		DateTimeFormatter parser = DateTimeFormat.forPattern("yyyy-MM-dd");
 		String checkinDateTime = formatDateToShortDayAndDate(parser.parseDateTime(checkinDate));
 		String checkoutDateTime = formatDateToShortDayAndDate(parser.parseDateTime(checkoutDate));
 
-		return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+		return Phrase.from(context, stringResID)
 			.put("startdate", checkinDateTime).put("enddate", checkoutDateTime).format().toString();
 	}
 
