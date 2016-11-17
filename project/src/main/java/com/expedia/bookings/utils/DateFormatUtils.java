@@ -117,10 +117,12 @@ public class DateFormatUtils {
 	public static String formatStartEndDateTimeRange(Context context, DateTime startDateTime, DateTime endDateTime,
 		boolean isContDesc) {
 		String formattedStartDateTime = com.expedia.bookings.utils.DateUtils
-			.dateTimeToMMMdhmma(startDateTime);
+			.dateTimeToMMMd(startDateTime) + ", " + DateUtils
+			.formatDateTime(context, startDateTime.getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
 		if (endDateTime != null) {
-			String formattedEndDateTime = com.expedia.bookings.utils.DateUtils.dateTimeToMMMdhmma(
-				endDateTime);
+			String formattedEndDateTime = com.expedia.bookings.utils.DateUtils.dateTimeToMMMd(
+				endDateTime) + ", " + DateUtils
+				.formatDateTime(context, endDateTime.getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
 			return Phrase.from(context,
 				isContDesc ? R.string.car_toolbar_date_range_cont_desc_TEMPLATE
 					: R.string.car_toolbar_date_range_TEMPLATE)
@@ -143,7 +145,8 @@ public class DateFormatUtils {
 			return formatStartEndDateTimeRange(context, startDateTime, endDateTime, false);
 		}
 		else {
-			return com.expedia.bookings.utils.DateUtils.dateTimeToMMMdhmma(startDateTime);
+			return com.expedia.bookings.utils.DateUtils.dateTimeToMMMd(startDateTime) + ", " + DateUtils
+				.formatDateTime(context, startDateTime.getMillis(), DateFormatUtils.FLAGS_TIME_FORMAT);
 		}
 	}
 
