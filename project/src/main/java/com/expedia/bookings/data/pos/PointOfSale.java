@@ -788,7 +788,7 @@ public class PointOfSale {
 	}
 
 	public boolean shouldShowMarketingOptIn() {
-		return mMarketingOptIn != MarketingOptIn.DO_NOT_SHOW && mMarketingOptIn != MarketingOptIn.DO_NOT_SHOW_AUTO_ENROLL;
+		return true;
 	}
 
 	public boolean shouldEnableMarketingOptIn() {
