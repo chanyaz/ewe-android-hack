@@ -9,7 +9,7 @@ import java.util.ArrayList
 
 // Spinner needs to set selection to count initially to show hint.
 class SpinnerAdapterWithHint(val context: Context, val hint: String, val itemLayout: Int,
-                             val dropDownLayout: Int? = null) : BaseAdapter() {
+                             val dropDownLayout: Int? = null, val dropDownTextResourceId :Int? = null) : BaseAdapter() {
     var optionsWithHint = ArrayList<SpinnerItem>()
 
     init {
@@ -43,7 +43,11 @@ class SpinnerAdapterWithHint(val context: Context, val hint: String, val itemLay
             val layoutId = dropDownLayout ?: itemLayout
             view = LayoutInflater.from(context).inflate(layoutId, parent, false)
         }
-        (view as TextView).text = getItem(position).value
+        if (dropDownTextResourceId != null) {
+            (view?.findViewById(dropDownTextResourceId) as TextView).text = getItem(position).value
+        } else {
+            (view as TextView).text = getItem(position).value
+        }
 
         return view
     }

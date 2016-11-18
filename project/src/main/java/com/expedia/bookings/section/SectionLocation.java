@@ -744,7 +744,8 @@ public class SectionLocation extends LinearLayout
 			super.onFieldBind();
 			if (hasBoundField()) {
 				SpinnerAdapterWithHint deliveryOptionsAdapter = new SpinnerAdapterWithHint(mContext, hint,
-					R.layout.snippet_rail_delivery_option_text_view, null);
+					R.layout.snippet_rail_delivery_option_text_view, R.layout.rail_delivery_option_dropdown_item,
+					R.id.rail_delivery_drop_down_text);
 				getField().getSpinner().setAdapter(deliveryOptionsAdapter);
 			}
 		}
