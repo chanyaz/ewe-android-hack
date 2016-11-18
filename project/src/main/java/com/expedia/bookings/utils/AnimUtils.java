@@ -228,7 +228,7 @@ public class AnimUtils {
 		return slideOutAnimation;
 	}
 
-	public static void slideInOut(final View view, final int height) {
+	public static void slideInOut(final View view, final int height, Animator.AnimatorListener listener) {
 		final long animDuration = 400L;
 		final long startDelay = 5000L;
 
@@ -247,7 +247,14 @@ public class AnimUtils {
 
 			animatorSet.playSequentially(objectAnimatorIn, objectAnimatorOut);
 			animatorSet.start();
+			if (listener != null) {
+				animatorSet.addListener(listener);
+			}
 		}
+	}
+
+	public static void slideInOut(final View view, final int height) {
+		slideInOut(view, height, null);
 	}
 
 	public static void fadeIn(View v) {
