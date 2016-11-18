@@ -15,6 +15,7 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -77,7 +78,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
 
     private val toolbarViewModel = CheckoutToolbarViewModel(context)
     private val totalPriceViewModel = RailTotalPriceViewModel(context)
-    private val priceBreakDownViewModel = RailCostSummaryBreakdownViewModel(context)
+    private val priceBreakDownViewModel = RailCostSummaryBreakdownViewModel(context, true)
     private val priceChangeViewModel = RailPriceChangeViewModel(context)
 
     private val paymentViewModel = PaymentViewModel(context)
@@ -115,6 +116,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         paymentViewModel.showingPaymentForm.subscribe(checkoutViewModel.showingPaymentForm)
         paymentViewModel.expandObserver.subscribe {
             show(paymentWidget)
+            RailTracking().trackRailEditPaymentInfo()
         }
         paymentWidget.creditCardFeesView.viewModel = cardFeeViewModel
 
@@ -349,6 +351,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
                 travelerEntryWidget.viewModel = SimpleTravelerViewModel(context, 0)
                 paymentWidget.visibility = View.GONE
                 hideCheckoutStart()
+                RailTracking().trackRailEditTravelerInfo()
             } else {
                 travelerCheckoutViewModel.updateCompletionStatus()
                 transitionToCheckoutStart()
@@ -429,6 +432,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     override fun onSlideStart() {
+        RailTracking().trackRailCheckoutSlideToPurchase(paymentWidget.getCardType())
     }
 
     override fun onSlideProgress(pixels: Float, total: Float) {

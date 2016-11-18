@@ -5,6 +5,7 @@ import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
@@ -145,5 +146,9 @@ class PackageCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBr
                 .cost(formattedPrice)
                 .typeface(FontCache.Font.ROBOTO_MEDIUM)
                 .build()
+    }
+
+    override fun trackBreakDownClicked() {
+        PackagesTracking().trackBundleOverviewCostBreakdownClick()
     }
 }

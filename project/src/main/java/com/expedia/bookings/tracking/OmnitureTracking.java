@@ -5743,6 +5743,11 @@ public class OmnitureTracking {
 	private static final String RAIL_ERROR = "App.Rail.Error";
 	private static final String RAIL_CHECKOUT_ERROR = "App.Rail.CKO.Error";
 	private static final String RAIL_CHECKOUT_PRICE_CHANGE = "App.Rail.CKO.PriceChange";
+	private static final String RAIL_CHECKOUT_INFO = "App.Rail.Checkout.Info";
+	private static final String RAIL_CHECKOUT_TOTAL_COST = "App.Rail.CKO.TotalCost";
+	private static final String RAIL_CHECKOUT_EDIT_TRAVELER_INFO = "App.Rail.Checkout.Traveler.Edit.Info";
+	private static final String RAIL_CHECKOUT_EDIT_PAYMENT_CARD = "App.Rail.Checkout.Payment.Edit.Card";
+	private static final String RAIL_CHECKOUT_SLIDE_TO_PURCHASE = "App.Rail.Checkout.SlideToPurchase";
 
 	private static ADMS_Measurement createTrackRailPageLoadEventBase(String pageName) {
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
@@ -5905,8 +5910,27 @@ public class OmnitureTracking {
 	public static void trackRailDetails(RailCreateTripResponse railCreateTripResponse) {
 		String pageName = RAIL_RATE_DETAILS;
 		ADMS_Measurement s = createTrackRailPageLoadEventBase(pageName);
+		String products = s.getProducts();
+		products += ";";
+
+		s.setProducts(products);
 		s.setEvents("event4");
 		s = processRailCreateTripResponse(s, railCreateTripResponse);
+		s.track();
+	}
+
+	public static void trackRailCheckoutInfo(RailCreateTripResponse railCreateTripResponse) {
+		String pageName = RAIL_CHECKOUT_INFO;
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(pageName);
+		s = processRailCreateTripResponse(s, railCreateTripResponse);
+
+		String products = s.getProducts();
+		products += String.valueOf(railCreateTripResponse.railDomainProduct.railOffer.passengerList.size()) + ";";
+		products += String.valueOf(railCreateTripResponse.railDomainProduct.railOffer.totalPrice.amount) + ";;";
+		products += "eVar63=Merchant:SA";
+
+		s.setProducts(products);
+		s.setEvents("event36,event68");
 		s.track();
 	}
 
@@ -5925,12 +5949,12 @@ public class OmnitureTracking {
 		searchWindow = JodaUtils.daysBetween(new DateTime(), outboundLegOption.getDepartureDateTime());
 
 		if (!railCreateTripResponse.railDomainProduct.railOffer.isRoundTrip() && !railCreateTripResponse.railDomainProduct.railOffer.isOpenReturn()) {
-			products += ":OW;;";
+			products += ":OW;";
 		}
 		else {
 			products += ":";
 			products += inboundLegOption.aggregatedMarketingCarrier;
-			products += ":RT;;";
+			products += ":RT;";
 			searchDuration = JodaUtils.daysBetween(outboundLegOption.getDepartureDateTime(), inboundLegOption.getDepartureDateTime());
 			s.setEvar(6, String.valueOf(searchDuration));
 			s.setProp(6, DateUtils.localDateToyyyyMMdd(inboundLegOption.departureDateTime.toDateTime().toLocalDate()));
@@ -6000,5 +6024,32 @@ public class OmnitureTracking {
 		s.setProp(7, "1");
 		s.setEvar(61, "1");
 		s.trackLink(null, "o", "Rail Checkout", null, null);
+	}
+
+	public static void trackRailCheckoutTotalCostToolTip() {
+		Log.d(TAG, "Tracking \"" + RAIL_CHECKOUT_TOTAL_COST + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(7, "1");
+		s.setEvar(28, RAIL_CHECKOUT_TOTAL_COST);
+		s.setProp(16, RAIL_CHECKOUT_TOTAL_COST);
+		s.setEvar(61, "1");
+		s.trackLink(null, "o", "Rail Checkout", null, null);
+	}
+
+	public static void trackRailEditTravelerInfo() {
+		String pageName = RAIL_CHECKOUT_EDIT_TRAVELER_INFO;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailEditPaymentInfo() {
+		String pageName = RAIL_CHECKOUT_EDIT_PAYMENT_CARD;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailCheckoutSlideToPurchase(PaymentType paymentType) {
+		String pageName = RAIL_CHECKOUT_SLIDE_TO_PURCHASE;
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(pageName);
+		s.setEvar(37, paymentType.getOmnitureTrackingCode());
+		s.track();
 	}
 }

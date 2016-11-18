@@ -6,12 +6,13 @@ import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 
-class RailCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreakdownViewModel(context) {
+class RailCostSummaryBreakdownViewModel(context: Context, val isCheckout: Boolean) : BaseCostSummaryBreakdownViewModel(context) {
     val railCostSummaryBreakdownObservable = PublishSubject.create<RailCreateTripResponse>()
 
     init {
@@ -62,5 +63,14 @@ class RailCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBreak
     private fun addPassengerPriceBreakdown(breakdowns: ArrayList<CostSummaryBreakdownRow>, totalTicketsPriceWithoutFees: Money ) {
         var title: String = context.getString(R.string.rail_price_breakdown_journey)
         breakdowns.add(CostSummaryBreakdownRow.Builder().title(title).cost(totalTicketsPriceWithoutFees.formattedPrice).build())
+    }
+
+    override fun trackBreakDownClicked() {
+        if (isCheckout) {
+            RailTracking().trackRailCheckoutTotalCostToolTip()
+        }
+        else {
+            RailTracking().trackRailDetailsTotalCostToolTip()
+        }
     }
 }

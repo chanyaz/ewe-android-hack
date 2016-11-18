@@ -162,6 +162,9 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             if (!forward) {
                 RailTracking().trackRailDetails(tripOverviewPresenter.createTripViewModel.tripResponseObservable.value)
             }
+            else {
+                RailTracking().trackRailCheckoutInfo(tripOverviewPresenter.createTripViewModel.tripResponseObservable.value)
+            }
         }
     }
 

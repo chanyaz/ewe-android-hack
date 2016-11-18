@@ -6,9 +6,11 @@ import com.expedia.bookings.utils.FontCache
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
-open class BaseCostSummaryBreakdownViewModel(val context: Context) {
+abstract class BaseCostSummaryBreakdownViewModel(val context: Context) {
     val iconVisibilityObservable = PublishSubject.create<Boolean>()
     val addRows = BehaviorSubject.create<List<CostSummaryBreakdownRow>>()
+
+    abstract fun trackBreakDownClicked()
 
     class CostSummaryBreakdownRow(val title: String?, val cost: String?, @ColorInt val color: Int?, var typeface: FontCache.Font?, val separator: Boolean) {
         class Builder() {
