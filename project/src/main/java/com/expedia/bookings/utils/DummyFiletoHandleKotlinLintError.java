@@ -29,6 +29,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.activity_hotel,
 		R.layout.widget_hotel_detail,
 		R.string.hotel_results_map_view_cont_desc,
+		R.string.flights_tab_selection_accouncement_TEMPLATE,
 		R.string.hotel_price_cont_desc_TEMPLATE,
 		R.string.hotel_price_strike_through_cont_desc_TEMPLATE,
 		R.string.hotel_price_discount_percent_cont_desc_TEMPLATE,
