@@ -59,24 +59,15 @@ class RailCheckoutViewModel(val context: Context) {
     val showCheckoutDialogObservable = PublishSubject.create<Boolean>()
     val checkoutErrorObservable = PublishSubject.create<ApiError>()
     val showNoInternetRetryDialog = PublishSubject.create<Unit>()
-    val retryObservable = PublishSubject.create<Unit>()
 
     private var currentTicketDeliveryToken: String = ""
-    private var isRetry = false
 
     init {
         Ui.getApplication(context).railComponent().inject(this)
 
         checkoutParams.subscribe { params ->
             showCheckoutDialogObservable.onNext(true)
-            isRetry = false
             railServices.railCheckoutTrip(params, makeCheckoutResponseObserver())
-        }
-
-        retryObservable.subscribe {
-            isRetry = true
-            showCheckoutDialogObservable.onNext(true)
-            railServices.railCheckoutTrip(checkoutParams.value, makeCheckoutResponseObserver())
         }
 
         cardFeeTripResponseSubject.subscribe(tripResponseObservable)
@@ -254,8 +245,8 @@ class RailCheckoutViewModel(val context: Context) {
                 } else if (response.createTripResponse != null) {
                     handleNewCreateTripReturned(response.createTripResponse)
                 } else {
-                    RailTracking().trackCheckoutUnknownError()
                     checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                    RailTracking().trackCheckoutUnknownError()
                 }
             }
 
@@ -283,7 +274,8 @@ class RailCheckoutViewModel(val context: Context) {
                     RailTracking().trackCheckoutInvalidInputError()
                 }
                 else -> {
-                    handleError()
+                    checkoutErrorObservable.onNext(ApiError(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR))
+                    RailTracking().trackCheckoutUnknownError()
                 }
             }
         } else {
@@ -300,19 +292,15 @@ class RailCheckoutViewModel(val context: Context) {
                     createTripObserver.onNext(response)
                     updatePricingSubject.onNext(response)
                 }
+                ApiError.Code.INVALID_INPUT -> {
+                    checkoutErrorObservable.onNext(ApiError(ApiError.Code.INVALID_INPUT))
+                    RailTracking().trackCheckoutInvalidInputError()
+                }
                 else -> {
-                    handleError()
+                    checkoutErrorObservable.onNext(ApiError(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR))
+                    RailTracking().trackCheckoutUnknownError()
                 }
             }
         }
-    }
-
-    private fun handleError() {
-        if (isRetry) {
-            checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
-        } else {
-            checkoutErrorObservable.onNext(ApiError(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR))
-        }
-        RailTracking().trackCheckoutUnknownError()
     }
 }

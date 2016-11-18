@@ -108,9 +108,9 @@ class RailErrorViewModelTest {
         subjectUnderTest.checkoutApiErrorObserver.onNext(ApiError(ApiError.Code.INVALID_INPUT))
         testErrorImageSubscriber.assertValueCount(1)
         testErrorMessageSubscriber.assertValueCount(1)
-        assertEquals(context.getString(R.string.rail_cko_invalid_input_error_message), testErrorMessageSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.rail_cko_retry_error_message), testErrorMessageSubscriber.onNextEvents[0])
         testButtonTextSubscriber .assertValueCount(1)
-        assertEquals(context.getString(R.string.edit_payment), testButtonTextSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.edit_button), testButtonTextSubscriber.onNextEvents[0])
     }
 
     @Test
@@ -125,9 +125,9 @@ class RailErrorViewModelTest {
         subjectUnderTest.checkoutApiErrorObserver.onNext(ApiError(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR))
         testErrorImageSubscriber.assertValueCount(1)
         testErrorMessageSubscriber.assertValueCount(1)
-        assertEquals(context.getString(R.string.error_try_again_warning), testErrorMessageSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.rail_cko_retry_error_message), testErrorMessageSubscriber.onNextEvents[0])
         testButtonTextSubscriber .assertValueCount(1)
-        assertEquals(context.getString(R.string.retry), testButtonTextSubscriber.onNextEvents[0])
+        assertEquals(context.getString(R.string.edit_button), testButtonTextSubscriber.onNextEvents[0])
     }
 
     @Test
