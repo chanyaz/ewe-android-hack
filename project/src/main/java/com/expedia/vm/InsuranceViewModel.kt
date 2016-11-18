@@ -39,6 +39,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     val titleObservable = PublishSubject.create<SpannableStringBuilder>()
     val updatedTripObservable = PublishSubject.create<FlightCreateTripResponse>()
     val widgetVisibilityObservable = PublishSubject.create<Boolean>()
+    val toggleSwitchEnabledObservable = PublishSubject.create<Boolean>()
 
     private var canWidgetBeDisplayed: Boolean = true
     private val haveProduct: Boolean get() = product != null
@@ -79,6 +80,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         }
 
         userInitiatedToggleObservable.subscribe { isSelected ->
+            toggleSwitchEnabledObservable.onNext(false)
             if (isSelected) {
                 lastAction = InsuranceAction.ADD
                 updatingTripDialog.setMessage(context.resources.getString(R.string.insurance_adding))
@@ -115,10 +117,12 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         }
 
         override fun onCompleted() {
+            toggleSwitchEnabledObservable.onNext(true)
             updatingTripDialog.hide()
         }
 
         override fun onError(e: Throwable) {
+            toggleSwitchEnabledObservable.onNext(true)
             updateToggleSwitch()
             updatingTripDialog.hide()
             handleError(e.toString())
