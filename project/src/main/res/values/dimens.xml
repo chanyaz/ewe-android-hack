@@ -63,6 +63,8 @@
     <dimen name="itin_card_corner_radius">2dp</dimen>
     <dimen name="itin_map_marker_bottom_padding">12dp</dimen>
     <dimen name="itin_map_bounds_padding">24dp</dimen>
+    <dimen name="itin_hotel_vip_label_left_padding">20dp</dimen>
+    <dimen name="itin_hotel_vip_label_top_padding">15dp</dimen>
 
     <!-- The visible area of the parallaxed map on the Itin details view -->
     <dimen name="itin_map_visible_size">160dp</dimen>

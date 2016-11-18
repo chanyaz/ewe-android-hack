@@ -31,7 +31,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
+import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.model.CameraPosition;
 

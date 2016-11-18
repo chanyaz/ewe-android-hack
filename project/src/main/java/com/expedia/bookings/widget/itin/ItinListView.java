@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.widget.itin;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -34,9 +34,8 @@ import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.ItinCard.OnItinCardClickListener;
-import com.expedia.bookings.widget.itin.ItinAirAttachCard;
-import com.expedia.bookings.widget.itin.ItinButtonCard;
+import com.expedia.bookings.widget.FrameLayout;
+import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
 import com.mobiata.android.Log;
 import java.util.LinkedList;
 import java.util.Queue;

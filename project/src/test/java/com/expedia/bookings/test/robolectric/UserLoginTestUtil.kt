@@ -27,12 +27,15 @@ class UserLoginTestUtil {
 
             User.signIn(activity, null)
         }
-        fun mockUser(): User {
+        fun mockUser(membershipTier: LoyaltyMembershipTier): User {
             val user = User()
             val traveler = Traveler()
-            traveler.loyaltyMembershipTier = LoyaltyMembershipTier.TOP
+            traveler.loyaltyMembershipTier = membershipTier
             user.primaryTraveler = traveler
             return user
+        }
+        fun mockUser(): User {
+            return this.mockUser(LoyaltyMembershipTier.TOP)
         }
     }
 }
