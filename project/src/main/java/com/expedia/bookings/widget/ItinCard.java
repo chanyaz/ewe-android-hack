@@ -336,10 +336,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 				+ itinCardData.getTripComponentType());
 		}
 
-		mItinContentGenerator = ItinContentGenerator.createGenerator(getContext(), itinCardData);
+		mItinContentGenerator = ItinContentGenerator.createGenerator(getContext(), itinCardData, this);
 		mHeaderGallery.setDataSource(mItinContentGenerator.getHeaderBitmapDrawable());
-
-		mItinContentGenerator.setCallback(this);
 
 		// Title
 		boolean wasNull = mHeaderView == null;
@@ -766,18 +764,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			if (animate) {
 				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mMiniCardHeaderImageHeight));
 				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderGallery, mMiniCardHeaderImageHeight));
-				if (mHeaderGallery.getSelectedItemView() != null) {
-					animators.add(ResizeAnimator
-						.buildResizeAnimator(mHeaderGallery.getSelectedItemView(), mMiniCardHeaderImageHeight));
-				}
 				animators.add(ResizeAnimator.buildResizeAnimator(mActionButtonLayout, 0).setDuration(300));
 			}
 			else {
 				ResizeAnimator.setHeight(mHeaderLayout, mMiniCardHeaderImageHeight);
 				ResizeAnimator.setHeight(mHeaderGallery, mMiniCardHeaderImageHeight);
-				if (mHeaderGallery.getSelectedItemView() != null) {
-					ResizeAnimator.setHeight(mHeaderGallery.getSelectedItemView(), mMiniCardHeaderImageHeight);
-				}
 				ResizeAnimator.setHeight(mActionButtonLayout, 0);
 			}
 		}
@@ -1004,17 +995,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			if (animate) {
 				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mExpandedCardHeaderImageHeight));
 				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderGallery, mExpandedCardHeaderImageHeight));
-				if (mHeaderGallery.getSelectedItemView() != null) {
-					animators.add(ResizeAnimator
-						.buildResizeAnimator(mHeaderGallery.getSelectedItemView(), mExpandedCardHeaderImageHeight));
-				}
 			}
 			else {
 				ResizeAnimator.setHeight(mHeaderLayout, mExpandedCardHeaderImageHeight);
 				ResizeAnimator.setHeight(mHeaderGallery, mExpandedCardHeaderImageHeight);
-				if (mHeaderGallery.getSelectedItemView() != null) {
-					ResizeAnimator.setHeight(mHeaderGallery.getSelectedItemView(), mExpandedCardHeaderImageHeight);
-				}
 			}
 		}
 
@@ -1051,12 +1035,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		}
 		mHeaderGallery.showPhotoCount = isBucketedForGallery();
 		mHeaderGallery.canScroll = isBucketedForGallery();
-		if (mHeaderGallery.getSelectedViewHolder() != null) {
-			mHeaderGallery.getSelectedViewHolder().bind();
-		}
-		if (mHeaderGallery.getSelectedItemView() != null) {
-			mHeaderGallery.getSelectedItemView().requestLayout();
-		}
+		mHeaderGallery.requestLayout();
+		mHeaderGallery.getAdapter().notifyDataSetChanged();
+
 		// Enable the parallaxy header image
 		mHeaderImageContainer.setEnabled(mDisplayState.equals(DisplayState.EXPANDED));
 	}
@@ -1247,7 +1228,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		if (mItinContentGenerator.mItinCardData instanceof ItinCardDataHotel) {
 			HotelItinContentGenerator contentGenerator = (HotelItinContentGenerator) mItinContentGenerator;
 			Gson gson = new GsonBuilder().create();
-			String json = gson.toJson(contentGenerator.getItinCardData().mediaList);
+			String json = gson.toJson(contentGenerator.getItinCardData().getProperty().getMediaList());
 			i.putExtra("Urls", json);
 			i.putExtra("Position", mHeaderGallery.getSelectedItem());
 			i.putExtra("Name", contentGenerator.getItinCardData().getPropertyName());
