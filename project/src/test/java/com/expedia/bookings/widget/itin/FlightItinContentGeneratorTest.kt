@@ -11,7 +11,6 @@ import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.TextView
-import com.mobiata.android.util.SettingUtils
 import okio.Okio
 import org.json.JSONArray
 import org.json.JSONObject
@@ -39,7 +38,6 @@ class FlightItinContentGeneratorTest {
 
     @Test
     fun testAirlinePhoneNumberFeatureOn() {
-        givenAirlinePhoneNumberFeatureIsOn()
         createSystemUnderTest()
         givenGoodFlightItinDetailView()
 
@@ -60,10 +58,6 @@ class FlightItinContentGeneratorTest {
         val jsonObject = JSONObject(data)
         val jsonArray = jsonObject.getJSONArray("responseData")
         tripFlight = getFlightTrip(jsonArray)!!
-    }
-
-    private fun givenAirlinePhoneNumberFeatureIsOn() {
-        SettingUtils.save(getContext(), R.string.preference_flight_itin_airline_phone_number, true)
     }
 
     private fun givenGoodFlightItinDetailView() {
