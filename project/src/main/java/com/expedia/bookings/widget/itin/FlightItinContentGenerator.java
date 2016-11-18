@@ -38,8 +38,8 @@ import com.expedia.bookings.activity.TerminalMapActivity;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.DefaultMedia;
+import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.FlightConfirmation;
@@ -56,7 +56,6 @@ import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -301,11 +300,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 			//Add shared data
 			addSharedGuiElements(commonItinDataContainer);
-
-			if (FeatureToggleUtil
-				.isFeatureEnabled(getContext(), R.string.preference_flight_itin_airline_phone_number)) {
-				addAirlineSupportNumber(commonItinDataContainer);
-			}
+			addAirlineSupportNumber(commonItinDataContainer);
 		}
 
 		return view;

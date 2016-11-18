@@ -113,7 +113,6 @@
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_rail">preference_enable_rail</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
-    <string name="preference_flight_itin_airline_phone_number">preference_flight_itin_airline_phone_number</string>
     <string name="preference_enable_filter_text_search">preference_enable_filter_text_search</string>
     <string name="preference_enable_gaia_current_location_suggestion">preference_enable_gaia_current_location_suggestion</string>
     <string name="preference_enable_itin_gallery">preference_enable_itin_gallery</string>
