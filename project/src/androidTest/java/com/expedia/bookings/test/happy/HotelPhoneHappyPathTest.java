@@ -15,6 +15,7 @@ import com.mobiata.mocke3.ExpediaDispatcher;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
+import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.withHint;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
@@ -74,6 +75,27 @@ public class HotelPhoneHappyPathTest extends HotelTestCase {
 
 		onView(withId(R.id.itin_text_view)).check(matches((withText("Itinerary #184327605820"))));
 		assertViewIsDisplayed(R.id.confirmation_text);
+	}
+
+	public void testNoStoredCard() throws Throwable {
+		SearchScreen.doGenericHotelSearch();
+		HotelScreen.selectHotel("happypath");
+
+		HotelScreen.selectRoomButton().perform(click());
+		HotelScreen.clickRoom("happypath_0");
+		HotelScreen.clickAddRoom();
+
+		CheckoutViewModel.clickLogin();
+		CheckoutViewModel.enterUsername("nostoredcards@mobiata.com");
+		CheckoutViewModel.enterPassword("password");
+		CheckoutViewModel.pressDoLogin();
+		Common.delay(1);
+		CheckoutViewModel.paymentInfo().perform(scrollTo());
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.card_info_name, "Payment Method");
+		CheckoutViewModel.clickPaymentInfo();
+		Common.delay(1);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "");
+
 	}
 
 	private void assertICanSeeItinNumber() throws Throwable {
