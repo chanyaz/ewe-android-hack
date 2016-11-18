@@ -301,24 +301,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		return containsPoint;
 	}
 
-	/**
-	 * Pass touch event to our Summary Buttons
-	 *
-	 * @param event - MotionEvent designated for the ItinCard
-	 *              This motion event will already have its offsetLocation set to the top of the ItinCard.
-	 * @return true
-	 */
-	public boolean doSummaryButtonTouch(MotionEvent event) {
-		if (mActionButtonLayout != null && mActionButtonLayout.getVisibility() == View.VISIBLE && event != null) {
-			MotionEvent childEvent = MotionEvent.obtain(event);
-			childEvent.offsetLocation(0, -mActionButtonLayout.getTop());
-			mActionButtonLayout.dispatchTouchEvent(childEvent);
-			childEvent.recycle();
-			return true;
-		}
-		return false;
-	}
-
 	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
 		mOnItinCardClickListener = onItinCardClickListener;
 	}
@@ -393,7 +375,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mItinContentGenerator.getHeaderBitmapDrawable(size.x, imageHeight, mHeaderBitmapDrawable);
 
 
-		if (mDisplayState == DisplayState.EXPANDED) {
+		boolean isExpanded = isExpanded();
+		if (isExpanded) {
 			mHeaderBitmapDrawable.setOverlayDrawable(null);
 			mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
 		}
@@ -459,6 +442,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			}
 		}
 
+		if (isExpanded) { //Trips card #164, resetting visibility after re-inflate
+			mActionButtonLayout.setVisibility(VISIBLE);
+		}
+
 		// Summary text
 		wasNull = mSummaryView == null;
 		if (wasNull && mSummaryLayout.getChildCount() > 0) {
@@ -497,6 +484,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mHeaderImageView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rail_primary_color));
 			mChevronImageView.setRotation(-90f);
 		}
+	}
+
+	private boolean isExpanded() {
+		return mDisplayState == DisplayState.EXPANDED;
+	}
+
+	private boolean isCollapsed() {
+		return mDisplayState == DisplayState.COLLAPSED;
 	}
 
 	private void showCheckInWebView(T itinCardData) {
@@ -557,7 +552,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	 */
 	public void rebindExpandedCard(final T itinCardData) {
 		if (itinCardData != null) {
-			if (mDisplayState == DisplayState.EXPANDED) {
+			if (isExpanded()) {
 				bind(itinCardData);
 				inflateDetailsView();
 				updateClickable();
@@ -849,7 +844,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	}
 
 	public void updateContDesc() {
-		if (mDisplayState == DisplayState.EXPANDED) {
+		if (isExpanded()) {
 			mChevronImageView.setContentDescription(getContext().getString(R.string.trips_back_button_label_cont_desc));
 		}
 		else {
@@ -1074,7 +1069,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	// Type icon position and size
 	public void updateLayout() {
-		if (mDisplayState == DisplayState.COLLAPSED) {
+		if (isCollapsed()) {
 			mItinTypeImageView.setVisibility(View.VISIBLE);
 			float typeImageHeight = mItinTypeImageView.getHeight();
 			float typeImageHalfHeight = typeImageHeight / 2;
@@ -1142,8 +1137,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private void updateClickable() {
-		mSummarySectionLayout.setClickable(mDisplayState == DisplayState.EXPANDED);
-		mScrollView.setEnabled(mDisplayState == DisplayState.EXPANDED);
+		mSummarySectionLayout.setClickable(isExpanded());
+		mScrollView.setEnabled(isExpanded());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
