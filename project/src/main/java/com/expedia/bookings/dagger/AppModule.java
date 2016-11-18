@@ -219,9 +219,16 @@ public class AppModule {
 				}
 				request.addHeader("Accept", "application/json");
 
-				if (Strings.isNotEmpty(AdvertisingIdUtils.getIDFA())) {
-					request.addHeader("x-mobvisid", AdvertisingIdUtils.getIDFA());
+				String mobVisId = AdvertisingIdUtils.getIDFA();
+				if (Strings.isNotEmpty(mobVisId)) {
+					request.addHeader("x-mobvisid", mobVisId);
 				}
+
+				String devLocation = ServicesUtil.generateXDevLocationString(context);
+				if (Strings.isNotEmpty(devLocation)) {
+					request.addHeader("x-dev-loc", devLocation);
+				}
+
 				request.url(url.build());
 				Response response = chain.proceed(request.build());
 				return response;
