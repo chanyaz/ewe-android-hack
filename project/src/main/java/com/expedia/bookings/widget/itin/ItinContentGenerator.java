@@ -104,10 +104,14 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		this.callback = callback;
 	}
 
-	// Convenience method
 	public static ItinContentGenerator<? extends ItinCardData> createGenerator(Context context, ItinCardData itinCardData) {
+		return ItinContentGenerator.createGenerator(context, itinCardData, null);
+	}
+
+	// Convenience method
+	public static ItinContentGenerator<? extends ItinCardData> createGenerator(Context context, ItinCardData itinCardData, MediaCallback callback) {
 		if (itinCardData instanceof ItinCardDataHotel) {
-			return new HotelItinContentGenerator(context, (ItinCardDataHotel) itinCardData);
+			return new HotelItinContentGenerator(context, (ItinCardDataHotel) itinCardData, callback);
 		}
 		else if (itinCardData instanceof ItinCardDataFlight) {
 			return new FlightItinContentGenerator(context, (ItinCardDataFlight) itinCardData);

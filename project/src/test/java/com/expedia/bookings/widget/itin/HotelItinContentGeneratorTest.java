@@ -36,7 +36,7 @@ public class HotelItinContentGeneratorTest {
 		trip.setProperty(property);
 		trip.setStartDate(checkIn);
 		trip.setEndDate(checkOut);
-		return new HotelItinContentGenerator(getContext(), new ItinCardDataHotel(trip));
+		return new HotelItinContentGenerator(getContext(), new ItinCardDataHotel(trip), null);
 	}
 
 	private String getSummaryText(DateTime checkInDate, DateTime checkOutDate) {

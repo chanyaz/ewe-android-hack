@@ -62,14 +62,14 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	public HotelServices hotelServices;
 	private ItinCardDataHotel data;
 
-	public HotelItinContentGenerator(Context context, ItinCardDataHotel data) {
+	public HotelItinContentGenerator(Context context, ItinCardDataHotel data, MediaCallback callback) {
 		super(context, data);
+		this.setCallback(callback);
 		this.data = data;
 
-		if (data.mediaList.isEmpty()) {
+		if (data.getProperty().getMediaList().isEmpty()) {
 			Ui.getApplication(getContext()).defaultHotelComponents();
 			Ui.getApplication(getContext()).hotelComponent().inject(this);
-			setPlaceholderImage();
 			SuggestionV4 destination = new SuggestionV4();
 			destination.gaiaId = data.getProperty().getPropertyId();
 			HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(28, 300, true)
@@ -83,32 +83,34 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	}
 
 	private void setPlaceholderImage() {
-		data.mediaList = new ArrayList<>();
+		data.getProperty().setMediaList(new ArrayList<HotelMedia>());
 		HotelMedia placeholder = new HotelMedia();
 		placeholder.setIsPlaceholder(true);
-		data.mediaList.add(placeholder);
+		data.getProperty().addMedia(placeholder);
 	}
 
 	private Observer<HotelOffersResponse> observer = new Observer<HotelOffersResponse>() {
 
 		@Override
 		public void onCompleted() {
-
 		}
 
 		@Override
 		public void onError(Throwable e) {
 			setPlaceholderImage();
+			if (callback != null) {
+				callback.onMediaReady(data.getProperty().getMediaList());
+			}
 		}
 
 		@Override
 		public void onNext(HotelOffersResponse hotelOffersResponse) {
-			data.mediaList = Images.getHotelImages(hotelOffersResponse, getHeaderImagePlaceholderResId());
-			if (data.mediaList.isEmpty()) {
+			data.getProperty().setMediaList(Images.getHotelImages(hotelOffersResponse, getHeaderImagePlaceholderResId()));
+			if (data.getProperty().getMediaList().isEmpty()) {
 				setPlaceholderImage();
 			}
 			if (callback != null) {
-				callback.onMediaReady(data.mediaList);
+				callback.onMediaReady(data.getProperty().getMediaList());
 			}
 		}
 	};
@@ -162,7 +164,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public List<? extends IMedia> getHeaderBitmapDrawable() {
-		return data.mediaList;
+		return data.getProperty().getMediaList();
 	}
 
 	@Override
