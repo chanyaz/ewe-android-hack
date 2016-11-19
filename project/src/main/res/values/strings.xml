@@ -1739,6 +1739,8 @@
     <string name="flights_round_trip_label">ROUND TRIP</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">ONE WAY</string>
+    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
+    <string name="flights_tab_selection_accouncement_TEMPLATE">Showing {whichway} flight search screen</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Outbound</string>
     <!-- Flights Line of Business title -->
