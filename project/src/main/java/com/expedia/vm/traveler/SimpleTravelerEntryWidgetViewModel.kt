@@ -6,7 +6,7 @@ import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.utils.TravelerUtils
 
-class SimpleTravelerViewModel(context: Context, travelerIndex: Int) : BaseTravelerViewModel(context, travelerIndex) {
+class SimpleTravelerEntryWidgetViewModel(context: Context, travelerIndex: Int) : BaseTravelerEntryWidgetViewModel(context, travelerIndex) {
     init {
         updateTraveler(getTraveler())
     }

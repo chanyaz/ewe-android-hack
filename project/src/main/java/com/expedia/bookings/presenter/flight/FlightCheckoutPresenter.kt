@@ -132,7 +132,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun isPassportRequired(response: TripResponse) {
         val flightOffer = (response as FlightCreateTripResponse).details.offer
-        travelerPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
+        travelersPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
     }
 
     override fun getLineOfBusiness() : LineOfBusiness {

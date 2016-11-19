@@ -2,48 +2,40 @@ package com.expedia.bookings.widget.traveler
 
 import android.content.Context
 import android.util.AttributeSet
-import android.util.Pair
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.vm.traveler.TravelerPickerTravelerViewModel
-import rx.subjects.BehaviorSubject
-import java.util.ArrayList
+import com.expedia.vm.traveler.TravelerPickerWidgetViewModel
+import com.expedia.vm.traveler.TravelerSelectItemViewModel
 
 class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val mainTravelerMinAgeTextView: TextView by bindView(R.id.bottom_main_traveler_min_age_message)
     private val mainTravelerContainer: LinearLayout by bindView(R.id.main_traveler_container)
     private val addTravelersContainer: LinearLayout by bindView(R.id.additional_traveler_container)
 
-    val travelerIndexSelectedSubject = BehaviorSubject.create<Pair<Int, String>>()
-    val travelerViewModels = ArrayList<TravelerPickerTravelerViewModel>()
-    var passportRequired = BehaviorSubject.create<Boolean>(false)
-
     init {
         View.inflate(context, R.layout.traveler_picker_widget, this)
         orientation = VERTICAL
     }
 
+    val viewModel = TravelerPickerWidgetViewModel()
+
     fun refresh(travelerList: List<Traveler>) {
         mainTravelerContainer.removeAllViews()
         addTravelersContainer.removeAllViews()
-        travelerViewModels.clear()
         travelerList.forEachIndexed { i, traveler ->
-            val travelerViewModel = TravelerPickerTravelerViewModel(context, i, traveler.searchedAge)
-            travelerViewModel.isPassportRequired = passportRequired.value
-            travelerViewModel.updateStatus(TravelerCheckoutStatus.CLEAN)
-            travelerViewModels.add(travelerViewModel)
-
-            val travelerSelectItem = TravelerSelectItem(context, travelerViewModel)
+            val travelerSelectItemViewModel = TravelerSelectItemViewModel(context, i, traveler.searchedAge)
+            viewModel.passportRequired.subscribe(travelerSelectItemViewModel.passportRequired)
+            viewModel.refreshStatusObservable.subscribe(travelerSelectItemViewModel.refreshStatusObservable)
+            travelerSelectItemViewModel.currentStatusObservable.subscribe(viewModel.currentlySelectedTravelerStatusObservable)
+            val travelerSelectItem = TravelerSelectItem(context, travelerSelectItemViewModel)
             travelerSelectItem.setOnClickListener {
-                travelerIndexSelectedSubject.onNext(Pair(i, travelerViewModel.emptyText))
-                travelerViewModel.status = TravelerCheckoutStatus.DIRTY
+                viewModel.selectedTravelerSubject.onNext(travelerSelectItemViewModel)
             }
-            val parent = if (i==0) mainTravelerContainer else addTravelersContainer
+            val parent = if (i == 0) mainTravelerContainer else addTravelersContainer
             parent.addView(travelerSelectItem)
 
             if (i != travelerList.size - 1 && i != 0) {

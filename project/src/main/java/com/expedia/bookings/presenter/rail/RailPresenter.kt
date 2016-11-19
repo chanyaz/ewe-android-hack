@@ -383,7 +383,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         errorPresenter.getViewModel().showCheckoutForm.subscribe {
             show(railCheckoutPresenter, Presenter.FLAG_CLEAR_TOP)
             railCheckoutPresenter.slideToPurchaseWidget.reset()
-            railCheckoutPresenter.travelerCheckoutViewModel.refresh()
+            railCheckoutPresenter.travelersViewModel.refresh()
         }
     }
 

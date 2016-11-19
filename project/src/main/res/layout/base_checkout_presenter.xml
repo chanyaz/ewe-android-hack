@@ -341,7 +341,7 @@
             android:text="@string/Checkout" />
     </FrameLayout>
 
-    <com.expedia.bookings.presenter.packages.TravelerPresenter
+    <com.expedia.bookings.presenter.packages.TravelersPresenter
         android:id="@+id/traveler_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

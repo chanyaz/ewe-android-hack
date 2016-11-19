@@ -197,7 +197,7 @@ class PackageCheckoutTest {
     private fun enterValidTraveler() {
         enterTraveler(Db.getTravelers().first())
         checkout.openTravelerPresenter()
-        checkout.travelerPresenter.doneClicked.onNext(Unit)
+        checkout.travelersPresenter.doneClicked.onNext(Unit)
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
     }
 

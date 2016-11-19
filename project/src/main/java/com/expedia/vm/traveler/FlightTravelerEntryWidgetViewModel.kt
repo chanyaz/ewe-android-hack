@@ -4,17 +4,17 @@ import android.content.Context
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
+import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
 import rx.subjects.BehaviorSubject
 
-class FlightTravelerViewModel(context: Context, travelerIndex: Int, passportRequired: Boolean) : BaseTravelerViewModel(context, travelerIndex) {
+class FlightTravelerEntryWidgetViewModel(context: Context, travelerIndex: Int, val showPassportCountryObservable: BehaviorSubject<Boolean>, travelerCheckoutStatus: TravelerCheckoutStatus) : BaseTravelerEntryWidgetViewModel(context, travelerIndex) {
     var tsaViewModel = TravelerTSAViewModel(getTraveler(), context)
     var advancedOptionsViewModel = TravelerAdvancedOptionsViewModel(context)
 
     val showPhoneNumberObservable = BehaviorSubject.create<Boolean>()
     val passportCountrySubject = BehaviorSubject.create<String>()
-    val showPassportCountryObservable = BehaviorSubject.create<Boolean>(passportRequired)
     val showEmailObservable = BehaviorSubject.create<Boolean>(!User.isLoggedIn(context) && travelerIndex == 0)
     val passportValidSubject = BehaviorSubject.create<Boolean>()
     val passportCountryObserver = BehaviorSubject.create<String>()
@@ -25,6 +25,9 @@ class FlightTravelerViewModel(context: Context, travelerIndex: Int, passportRequ
             getTraveler().primaryPassportCountry = countryCode
         }
         showPhoneNumberObservable.onNext(TravelerUtils.isMainTraveler(travelerIndex))
+        if (travelerCheckoutStatus != TravelerCheckoutStatus.CLEAN) {
+            validate()
+        }
     }
 
     override fun updateTraveler(traveler: Traveler) {

@@ -30,7 +30,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.packages.TravelerPresenter
+import com.expedia.bookings.presenter.packages.TravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
@@ -53,7 +53,7 @@ import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.packages.BundleTotalPriceViewModel
-import com.expedia.vm.traveler.CheckoutTravelerViewModel
+import com.expedia.vm.traveler.TravelersViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import rx.Observable
 import rx.Subscription
@@ -142,15 +142,15 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         view
     }
-    val travelerPresenter: TravelerPresenter by lazy {
-        val presenter = findViewById(R.id.traveler_presenter) as TravelerPresenter
-        presenter.viewModel = CheckoutTravelerViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
+    val travelersPresenter: TravelersPresenter by lazy {
+        val presenter = findViewById(R.id.traveler_presenter) as TravelersPresenter
+        presenter.viewModel = TravelersViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
         presenter.travelerEntryWidget.travelerButton.setLOB(getLineOfBusiness())
         presenter.closeSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
             presenter.menuVisibility.onNext(false)
         }
-        presenter.viewModel.travelerCompletenessStatus.subscribe(travelerSummaryCard.viewModel.travelerStatusObserver)
+        presenter.viewModel.travelersCompletenessStatus.subscribe(travelerSummaryCard.viewModel.travelerStatusObserver)
         presenter.viewModel.allTravelersCompleteSubject.subscribe(getCheckoutViewModel().travelerCompleted)
         presenter.viewModel.invalidTravelersSubject.subscribe(getCheckoutViewModel().clearTravelers)
         presenter
@@ -291,7 +291,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     private fun initLoggedInState(isUserLoggedIn: Boolean) {
         loginWidget.bind(false, isUserLoggedIn, Db.getUser(), getLineOfBusiness())
         hintContainer.visibility = if (isUserLoggedIn) View.GONE else View.VISIBLE
-        travelerPresenter.onLogin(isUserLoggedIn)
+        travelersPresenter.onLogin(isUserLoggedIn)
         paymentWidget.viewmodel.userLogin.onNext(isUserLoggedIn)
         if (isUserLoggedIn) {
             val lp = loginWidget.layoutParams as LinearLayout.LayoutParams
@@ -345,7 +345,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
         })
         paymentLayoutListener = makeKeyboardListener(scrollView)
-        travelerLayoutListener = makeKeyboardListener(travelerPresenter.travelerEntryWidget, toolbarHeight * 2)
+        travelerLayoutListener = makeKeyboardListener(travelersPresenter.travelerEntryWidget, toolbarHeight * 2)
     }
 
     private fun setUpErrorMessaging() {
@@ -393,17 +393,17 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
     }
 
-    private val defaultToTraveler = object : ScaleTransition(this, mainContent, travelerPresenter, CheckoutDefault::class.java, TravelerPresenter::class.java) {
+    private val defaultToTraveler = object : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, TravelersPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             bottomContainer.visibility = if (forward) GONE else VISIBLE
             if (!forward) {
-                Ui.hideKeyboard(travelerPresenter)
-                travelerPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
-                travelerPresenter.viewModel.updateCompletionStatus()
+                Ui.hideKeyboard(travelersPresenter)
+                travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
+                travelersPresenter.viewModel.updateCompletionStatus()
                 setToolbarTitle()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
-                travelerPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
+                travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
             } else {
                 decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
             }
@@ -413,7 +413,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             super.endTransition(forward)
             if (!forward) {
                 animateInSlideToPurchase(true)
-                travelerPresenter.setFocusForView()
+                travelersPresenter.setFocusForView()
                 travelerSummaryCard.setFocusForView()
                 decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
             } else {
@@ -468,16 +468,16 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     fun openTravelerPresenter() {
-        show(travelerPresenter)
-        travelerPresenter.showSelectOrEntryState()
+        show(travelersPresenter)
+        travelersPresenter.showSelectOrEntryState()
     }
 
     open fun updateTravelerPresenter() {
-        travelerPresenter.viewModel.refresh()
+        travelersPresenter.viewModel.refresh()
     }
 
     private fun setToolbarTitle() {
-        travelerPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
+        travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
     }
 
     open fun setInsuranceWidgetVisibility(visible: Boolean) {
@@ -665,7 +665,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     fun resetTravelers() {
-        travelerPresenter.resetTravelers()
+        travelersPresenter.resetTravelers()
         if (!User.isLoggedIn(context)) {
             ckoViewModel.clearTravelers.onNext(Unit)
             updateTravelerPresenter()
@@ -716,7 +716,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     override fun addWindowSubscriptions() {
         super.addWindowSubscriptions()
-        addWindowSubscription(travelerManager.travelersUpdated.subscribe { travelerPresenter.resetTravelers() })
+        addWindowSubscription(travelerManager.travelersUpdated.subscribe { travelersPresenter.resetTravelers() })
         addWindowSubscription(paymentWidget.viewmodel.cardTypeSubject.subscribe { paymentType -> cardType = paymentType })
         addWindowSubscription(paymentWidget.viewmodel.expandObserver.subscribe { showPaymentPresenter() })
         addWindowSubscription(paymentWidget.viewmodel.billingInfoAndStatusUpdate.map { it.first }.subscribe(ckoViewModel.paymentCompleted))

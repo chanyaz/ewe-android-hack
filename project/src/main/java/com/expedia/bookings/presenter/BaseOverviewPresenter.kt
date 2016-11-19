@@ -11,7 +11,7 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
-import com.expedia.bookings.presenter.packages.TravelerPresenter
+import com.expedia.bookings.presenter.packages.TravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -67,18 +67,18 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.paymentWidget.visibleMenuWithTitleDone.subscribe(bundleOverviewHeader.toolbar.viewModel.visibleMenuWithTitleDone)
         checkoutPresenter.paymentWidget.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
 
-        checkoutPresenter.travelerPresenter.toolbarTitleSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
-        checkoutPresenter.travelerPresenter.toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
-        checkoutPresenter.travelerPresenter.travelerEntryWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
-        checkoutPresenter.travelerPresenter.travelerEntryWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.formFilledIn)
-        checkoutPresenter.travelerPresenter.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
-        checkoutPresenter.travelerPresenter.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
+        checkoutPresenter.travelersPresenter.toolbarTitleSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
+        checkoutPresenter.travelersPresenter.toolbarNavIconContDescSubject.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIconContentDesc)
+        checkoutPresenter.travelersPresenter.travelerEntryWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
+        checkoutPresenter.travelersPresenter.travelerEntryWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.formFilledIn)
+        checkoutPresenter.travelersPresenter.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
+        checkoutPresenter.travelersPresenter.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
 
         bundleOverviewHeader.toolbar.viewModel.doneClicked.subscribe {
             if (checkoutPresenter.currentState == BillingDetailsPaymentWidget::class.java.name) {
                 checkoutPresenter.paymentWidget.doneClicked.onNext(Unit)
-            } else if (checkoutPresenter.currentState == TravelerPresenter::class.java.name) {
-                checkoutPresenter.travelerPresenter.doneClicked.onNext(Unit)
+            } else if (checkoutPresenter.currentState == TravelersPresenter::class.java.name) {
+                checkoutPresenter.travelersPresenter.doneClicked.onNext(Unit)
             }
         }
 
@@ -208,7 +208,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.toolbar.subtitle = ""
             if (forward) {
                 checkoutPresenter.adjustScrollingSpace()
-                checkoutPresenter.travelerPresenter.updateAllTravelerStatuses()
+                checkoutPresenter.travelersPresenter.updateAllTravelerStatuses()
             } else {
                 checkoutPresenter.trackShowBundleOverview()
             }
