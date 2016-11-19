@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,11 +38,15 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.LoyaltyMembershipTier;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
@@ -52,8 +56,11 @@ import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ItinUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.itin.HotelItinContentGenerator;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.expedia.bookings.widget.AlphaImageView;
+import com.expedia.bookings.widget.ItinActionsSection;
+import com.expedia.bookings.widget.ParallaxContainer;
+import com.expedia.bookings.widget.RecyclerGallery;
+import com.expedia.bookings.widget.ScrollView;
 import com.expedia.ui.GalleryActivity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -139,6 +146,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private View mSelectedView;
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
+	private TextView mVIPTextView;
 
 	private ShareView mShareView;
 
@@ -186,6 +194,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mChevronImageView = Ui.findView(this, R.id.chevron_image_view);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
+		mVIPTextView = Ui.findView(this, R.id.vip_label_text_view);
 
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 		mFixedItinTypeImageView = Ui.findView(this, R.id.fixed_itin_type_image_view);
@@ -462,6 +471,17 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mActionButtonLayout.setVisibility(GONE);
 			mHeaderGallery.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rail_primary_color));
 			mChevronImageView.setRotation(-90f);
+		}
+
+		if (getType() == Type.HOTEL) {
+			boolean isVipAccess = ((TripHotel) itinCardData.getTripComponent()).getProperty().isVipAccess();
+			LoyaltyMembershipTier customerLoyaltyMembershipTier = User.getLoggedInLoyaltyMembershipTier(getContext());
+			boolean isSilverOrGoldMember = customerLoyaltyMembershipTier == LoyaltyMembershipTier.MIDDLE
+				|| customerLoyaltyMembershipTier == LoyaltyMembershipTier.TOP;
+			boolean posSupportVipAccess = PointOfSale.getPointOfSale().supportsVipAccess();
+			if (isVipAccess && isSilverOrGoldMember && posSupportVipAccess) {
+				mVIPTextView.setVisibility(VISIBLE);
+			}
 		}
 	}
 
