@@ -791,7 +791,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.stay_summary_TEMPLATE,
 		R.string.payment_and_ticket_delivery_fees_may_also_apply,
 		R.string.rail_unknown_error_message,
-		R.string.rail_cko_invalid_input_error_message,
+		R.string.rail_cko_retry_error_message,
 		R.string.rail_error_title
 	};
 }

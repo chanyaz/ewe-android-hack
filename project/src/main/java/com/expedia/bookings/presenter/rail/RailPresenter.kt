@@ -385,10 +385,6 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             railCheckoutPresenter.slideToPurchaseWidget.reset()
             railCheckoutPresenter.travelerCheckoutViewModel.refresh()
         }
-
-        errorPresenter.getViewModel().retryCheckout.subscribe {
-            railCheckoutPresenter.checkoutViewModel.retryObservable.onNext(Unit)
-        }
     }
 
     private fun addTransitions() {

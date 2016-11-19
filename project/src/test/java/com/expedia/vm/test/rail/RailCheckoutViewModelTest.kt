@@ -160,20 +160,6 @@ class RailCheckoutViewModelTest {
     }
 
     @Test
-    fun testRetryOnError() {
-        val errorTestSub = TestSubscriber<ApiError>()
-        testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
-
-        testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknownpayment"))
-        assertNotNull(errorTestSub.onNextEvents[0])
-        assertEquals(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR, errorTestSub.onNextEvents[0].errorCode)
-
-        testViewModel.retryObservable.onNext(Unit)
-        assertNotNull(errorTestSub.onNextEvents[1])
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, errorTestSub.onNextEvents[1].errorCode)
-    }
-
-    @Test
     fun testRailCheckout() {
         val checkoutTestSub = TestSubscriber<Pair<RailCheckoutResponse, String>>()
         testViewModel.bookingSuccessSubject.subscribe(checkoutTestSub)
