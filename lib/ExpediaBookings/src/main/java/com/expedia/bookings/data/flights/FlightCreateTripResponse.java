@@ -4,11 +4,11 @@ import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
+import com.expedia.bookings.data.FlightTripResponse;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.TripResponse;
 import com.google.gson.annotations.SerializedName;
 
-public class FlightCreateTripResponse extends TripResponse {
+public class FlightCreateTripResponse extends FlightTripResponse {
 
 	public String tealeafTransactionId;
 	public Money totalPrice;
@@ -36,6 +36,11 @@ public class FlightCreateTripResponse extends TripResponse {
 	@Override
 	public boolean isCardDetailsRequiredForBooking() {
 		return true;
+	}
+
+	@Override
+	public FlightTripDetails.FlightOffer getOffer() {
+		return details.offer;
 	}
 
 	public class FlightRules {
