@@ -55,6 +55,7 @@ open class PaymentViewModel(val context: Context) {
     val startCreditCardScan = PublishSubject.create<Unit>()
     val expandObserver = PublishSubject.create<Boolean>()
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>(false)
+    val selectCorrectCardObservable = PublishSubject.create<Boolean>()
 
     //ouputs
     val iconStatus = PublishSubject.create<ContactDetailsCompletenessStatus>()
