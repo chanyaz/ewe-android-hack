@@ -402,7 +402,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		if (AccessibilityUtil.isTalkBackEnabled(getContext()) && visible) {
 			//hide the slider for talkback users and show a purchase button
-			slideWidget.setText(getAccessibilityTextForPurchaseButton());
 			slideWidget.hideTouchTarget();
 			AccessibilityUtil.appendRoleContDesc(slideWidget, getAccessibilityTextForPurchaseButton(), R.string.accessibility_cont_desc_role_button);
 		}
