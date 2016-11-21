@@ -4307,11 +4307,6 @@
         <item quantity="other">Hotel in {city}, 1 room, {number} nights</item>
     </plurals>
 
-    <!-- Text indicating that the user can drag this button to view their trip -->
-    <string name="trip_overview">View Trip Details</string>
-    <!-- Content description to View Trip Details view -->
-    <string name="trip_overview_cont_desc">View Trip Details Button</string>
-
     <!-- Slide to book -->
     <string name="slide_to_book_text">Slide to book</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>

@@ -1,17 +1,13 @@
 package com.expedia.bookings.widget
 
 import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Rect
-import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
-import android.view.GestureDetector
-import android.view.MotionEvent
 import android.view.View
 import android.view.ViewStub
 import android.view.ViewTreeObserver
@@ -93,10 +89,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     private var trackShowingCkoOverviewSubscription: Subscription? = null
 
     /** views **/
-    val handle: FrameLayout by bindView(R.id.handle)
     val toolbarDropShadow: View by bindView(R.id.drop_shadow)
     val bottomContainerDropShadow: View by bindView(R.id.bottom_container_drop_shadow)
-    val chevron: View by bindView(R.id.chevron)
     val mainContent: LinearLayout by bindView(R.id.main_content)
     val scrollView: ScrollView by bindView(R.id.scrollView)
     val contentView: LinearLayout by bindView(R.id.checkout_widget_container)
@@ -348,7 +342,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     private fun setClickListeners() {
-        handle.setOnTouchListener(HandleTouchListener())
         loginWidget.setListener(this)
         slideToPurchase.addSlideToListener(this)
 
@@ -470,7 +463,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     private val defaultToPayment = object : Presenter.Transition(CheckoutDefault::class.java, BillingDetailsPaymentWidget::class.java) {
 
         override fun startTransition(forward: Boolean) {
-            handle.setInverseVisibility(forward)
             loginWidget.setInverseVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
             travelerSummaryCard.visibility = if (forward) View.GONE else View.VISIBLE
@@ -629,75 +621,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         val shouldShowSlider = currentState == CheckoutDefault::class.java.name && ckoViewModel.isValidForBooking()
         bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else sliderHeight
         checkoutButton.isEnabled = isEnabled
-    }
-
-    /** Checkout sliding gesture detectors and animations **/
-    val gestureDetector = GestureDetector(context, SingleTapUp())
-
-    private fun rotateChevron(distance: Float) {
-        val distanceGoal = height
-        mainContent.translationY = distance
-        chevron.rotation = Math.min(1f, distance / distanceGoal) * (180)
-        ckoViewModel.checkoutTranslationObserver.onNext(distance)
-    }
-
-    private fun animCheckoutToTop() {
-        val distanceGoal = height
-        val animator = ObjectAnimator.ofFloat(mainContent, "translationY", mainContent.translationY, 0f)
-        animator.duration = 400L
-        animator.addUpdateListener({ anim ->
-            chevron.rotation = Math.min(1f, mainContent.translationY / distanceGoal) * (180)
-            ckoViewModel.checkoutTranslationObserver.onNext(mainContent.translationY)
-        })
-        animator.addListener(object : AnimatorListenerAdapter() {
-            override fun onAnimationEnd(animation: Animator?) {
-                ckoViewModel.checkoutTranslationObserver.onNext(mainContent.translationY)
-                toolbarDropShadow.visibility = View.VISIBLE
-            }
-        })
-        animator.start()
-    }
-
-    private inner class SingleTapUp : GestureDetector.SimpleOnGestureListener() {
-        override fun onSingleTapUp(e: MotionEvent): Boolean {
-            return true
-        }
-
-        override fun onSingleTapConfirmed(event: MotionEvent): Boolean {
-            return true
-        }
-    }
-
-    private inner class HandleTouchListener() : View.OnTouchListener {
-        internal var originY: Float = 0.toFloat()
-        override fun onTouch(v: View, event: MotionEvent): Boolean {
-            if (gestureDetector.onTouchEvent(event)) {
-                (context as AppCompatActivity).onBackPressed()
-                return true
-            }
-            when (event.action) {
-                (MotionEvent.ACTION_DOWN) -> {
-                    originY = event.rawY
-                    toolbarDropShadow.visibility = View.GONE
-                }
-                (MotionEvent.ACTION_UP) -> {
-                    val diff = event.rawY - originY
-                    val distance = Math.max(diff, 0f)
-                    val distanceGoal = height / 3f
-                    if (distance > distanceGoal) {
-                        (context as AppCompatActivity).onBackPressed()
-                    } else {
-                        animCheckoutToTop()
-                    }
-                    originY = 0f
-                }
-                (MotionEvent.ACTION_MOVE) -> {
-                    val diff = event.rawY - originY
-                    rotateChevron(Math.max(diff, 0f))
-                }
-            }
-            return true
-        }
     }
 
     fun resetPriceChange() {

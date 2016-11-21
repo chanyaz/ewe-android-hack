@@ -80,7 +80,6 @@ public class PackagesBundleOverviewTest extends PackageTestCase {
 		checkBundleTotalWidgetContentDescription("$2,538.62", "$56.50", true);
 		onView(withId(R.id.checkout_toolbar)).check(matches(withNavigationContentDescription("Close")));
 		PackageScreen.checkout().perform(click());
-		onView(withId(R.id.view_trip_details)).check(matches(hasContentDescription()));
 		checkBundleOverviewFlightContentDescription(PackageScreen.inboundFlightInfoRowContainer(), "Jul 16 at 1:45 pm", "(SFO) San Francisco", true, false);
 
 		HotelScreen.doLogin();
