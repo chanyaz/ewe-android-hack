@@ -483,7 +483,10 @@ public class CarResultsPresenter extends Presenter {
 	Transition categoriesToFilter = new Transition(CarCategoryListWidget.class, CarFilterWidget.class, new DecelerateInterpolator(2f), 500) {
 		@Override
 		public void startTransition(boolean forward) {
-			filter.setVisibility(View.VISIBLE);
+			filter.setVisibility(VISIBLE);
+			categories.setVisibility(VISIBLE);
+			toolbar.setVisibility(VISIBLE);
+			filterToolbar.setVisibility(VISIBLE);
 			if (!forward) {
 				filterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(false /*isDetails*/));
 			}
@@ -498,8 +501,10 @@ public class CarResultsPresenter extends Presenter {
 		@Override
 		public void endTransition(boolean forward) {
 			filter.setVisibility(forward ? VISIBLE : GONE);
+			categories.setVisibility(forward ? GONE : VISIBLE);
+			toolbar.setVisibility(forward ? GONE : VISIBLE);
+			filterToolbar.setVisibility(forward ? GONE : VISIBLE);
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
-
 			if (!forward) {
 				OmnitureTracking.trackAppCarSearch(searchedParams, unfilteredSearch.categories.size());
 			}
@@ -513,7 +518,10 @@ public class CarResultsPresenter extends Presenter {
 	Transition detailsToFilter = new Transition(CarCategoryDetailsWidget.class, CarFilterWidget.class, new DecelerateInterpolator(2f), 500) {
 		@Override
 		public void startTransition(boolean forward) {
-			filter.setVisibility(View.VISIBLE);
+			filter.setVisibility(VISIBLE);
+			details.setVisibility(VISIBLE);
+			toolbar.setVisibility(VISIBLE);
+			filterToolbar.setVisibility(VISIBLE);
 			if (!forward) {
 				filterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(true /*isDetails*/));
 			}
@@ -528,6 +536,9 @@ public class CarResultsPresenter extends Presenter {
 		@Override
 		public void endTransition(boolean forward) {
 			filter.setVisibility(forward ? VISIBLE : GONE);
+			details.setVisibility(forward ? GONE : VISIBLE);
+			toolbar.setVisibility(forward ? GONE : VISIBLE);
+			filterToolbar.setVisibility(forward ? GONE : VISIBLE);
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
 			if (forward) {
 				OmnitureTracking.trackAppCarFilter();
