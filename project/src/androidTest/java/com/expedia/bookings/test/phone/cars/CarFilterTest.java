@@ -32,7 +32,7 @@ public class CarFilterTest extends CarTestCase {
 		int unifilterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 
 		screenshot("Car_Search_Results");
-		CarScreen.searchFilter().perform(click());
+		CarScreen.searchCategoryFilter().perform(click());
 		CarScreen.selectCategoryFilter(CATEGORY);
 		screenshot("Category_Filter_Select_Car_Type");
 		CarScreen.clickFilterDone();
@@ -69,7 +69,7 @@ public class CarFilterTest extends CarTestCase {
 		//Test the filters are correctly updated when user comes back to the categories screen from details screen
 		Common.pressBack();
 		screenshot("Back_to_Categories");
-		CarScreen.searchFilter().perform(click());
+		CarScreen.searchCategoryFilter().perform(click());
 		screenshot("Categories_Filters_updated");
 		onView(allOf(withId(R.id.vendor_check_box), hasSibling(withText("NoCCRequired")),
 			isDescendantOfA(withId(R.id.filter_suppliers)))).check(matches(isChecked()));
@@ -84,7 +84,7 @@ public class CarFilterTest extends CarTestCase {
 		int unifilterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 		screenshot("Car_Search_Results");
 
-		CarScreen.searchFilter().perform(click());
+		CarScreen.searchCategoryFilter().perform(click());
 		CarScreen.selectCategoryFilter(CATEGORY);
 		CarScreen.selectCategoryFilter("Economy");
 		screenshot("Category_Filter_Select_Car_Type");
@@ -103,7 +103,7 @@ public class CarFilterTest extends CarTestCase {
 
 		Common.delay(1);
 
-		CarScreen.searchFilter().perform(click());
+		CarScreen.searchCategoryFilter().perform(click());
 		CarScreen.selectSupplierFilter("NoCCRequired");
 		CarScreen.clickFilterDone();
 		screenshot("Filtered_categories");
@@ -121,7 +121,7 @@ public class CarFilterTest extends CarTestCase {
 
 		Common.delay(1);
 
-		CarScreen.searchFilter().perform(click());
+		CarScreen.searchCategoryFilter().perform(click());
 		onView(withId(R.id.ac_filter_checkbox)).perform(click());
 
 		CarScreen.clickFilterDone();
@@ -141,7 +141,7 @@ public class CarFilterTest extends CarTestCase {
 
 		Common.delay(1);
 
-		CarScreen.searchFilter().perform(click());
+		CarScreen.searchCategoryFilter().perform(click());
 		onView(withId(R.id.unlimited_mileage_filter_checkbox)).perform(click());
 
 		CarScreen.clickFilterDone();
@@ -161,7 +161,7 @@ public class CarFilterTest extends CarTestCase {
 
 		Common.delay(1);
 
-		CarScreen.searchFilter().perform(click());
+		CarScreen.searchCategoryFilter().perform(click());
 		onView(withId(R.id.transmission_filter_manual)).perform(click());
 
 		CarScreen.clickFilterDone();

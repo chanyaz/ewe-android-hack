@@ -81,6 +81,9 @@ public class CarResultsPresenter extends Presenter {
 	@InjectView(R.id.sort_toolbar)
 	FilterButtonWithCountWidget filterToolbar;
 
+	@InjectView(R.id.category_sort_toolbar)
+	FilterButtonWithCountWidget categoryFilterToolbar;
+
 	@InjectView(R.id.toolbar_dropshadow)
 	View toolbarDropshadow;
 
@@ -158,6 +161,8 @@ public class CarResultsPresenter extends Presenter {
 		toolbar.setPadding(0, statusBarHeight, 0, 0);
 		filterToolbar.setFilterText(getResources().getString(R.string.filter));
 		filterToolbar.setContentDescription(getResources().getString(R.string.cars_filter_button_cont_desc));
+		categoryFilterToolbar.setFilterText(getResources().getString(R.string.filter));
+		categoryFilterToolbar.setContentDescription(getResources().getString(R.string.cars_filter_button_cont_desc));
 		details.getSearchCarOfferPublishSubject().subscribe(carOfferObserver);
 		filterDonePublishSubject.subscribe(filterDoneObserver);
 	}
@@ -278,8 +283,8 @@ public class CarResultsPresenter extends Presenter {
 
 	private void handleCarSearchResults(CarSearch carSearch) {
 		unfilteredSearch = carSearch;
-		filterToolbar.setVisibility(View.VISIBLE);
-		filterToolbar.showNumberOfFilters(0);
+		categoryFilterToolbar.setVisibility(View.VISIBLE);
+		categoryFilterToolbar.showNumberOfFilters(0);
 		show(categories, FLAG_CLEAR_TOP);
 		bindFilter(carSearch);
 		OmnitureTracking.trackAppCarSearch(searchedParams, unfilteredSearch.categories.size());
@@ -411,8 +416,13 @@ public class CarResultsPresenter extends Presenter {
 			toolbarBackground.setAlpha(1f);
 			toolbarDropshadow.setAlpha(1f);
 
+			filterToolbar.setVisibility(VISIBLE);
 			filterToolbar.setTranslationY(0);
 			filterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(forward));
+
+			categoryFilterToolbar.setTranslationY(0);
+			categoryFilterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(forward));
+
 		}
 
 		@Override
@@ -433,7 +443,7 @@ public class CarResultsPresenter extends Presenter {
 				selectedCategorizedCarOffers = null;
 				filter.onTransitionToResults();
 			}
-
+			filterToolbar.setVisibility(forward ? VISIBLE : GONE);
 			toolbarBackground.setVisibility(VISIBLE);
 			toolbarBackground.setTranslationX(0);
 			toolbarBackground.setAlpha(forward ? 0f : 1f);
@@ -480,6 +490,11 @@ public class CarResultsPresenter extends Presenter {
 		show(filter);
 	}
 
+	@OnClick(R.id.category_sort_toolbar)
+	public void onCategoryFilterClick() {
+		show(filter);
+	}
+
 	Transition categoriesToFilter = new Transition(CarCategoryListWidget.class, CarFilterWidget.class, new DecelerateInterpolator(2f), 500) {
 		@Override
 		public void startTransition(boolean forward) {
@@ -488,7 +503,7 @@ public class CarResultsPresenter extends Presenter {
 			toolbar.setVisibility(VISIBLE);
 			filterToolbar.setVisibility(VISIBLE);
 			if (!forward) {
-				filterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(false /*isDetails*/));
+				categoryFilterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(false /*isDetails*/));
 			}
 		}
 
@@ -569,7 +584,7 @@ public class CarResultsPresenter extends Presenter {
 	@Subscribe
 	public void onShowFilteredSearchResults(Events.CarsShowFilteredSearchResults event) {
 		((Activity) getContext()).onBackPressed();
-		filterToolbar.setVisibility(View.VISIBLE);
+		categoryFilterToolbar.setVisibility(VISIBLE);
 		Events.post(new Events.CarsShowSearchResults(unfilteredSearch));
 	}
 
@@ -605,6 +620,7 @@ public class CarResultsPresenter extends Presenter {
 	@Subscribe
 	public void onShowLoadingState(Events.CarsShowLoadingAnimation event) {
 		filterToolbar.setVisibility(View.INVISIBLE);
+		categoryFilterToolbar.setVisibility(View.INVISIBLE);
 	}
 
 	@Subscribe
@@ -651,6 +667,7 @@ public class CarResultsPresenter extends Presenter {
 
 	RecyclerView.OnScrollListener recyclerScrollListener = new RecyclerView.OnScrollListener() {
 		private int scrolledDistance = 0;
+		private Boolean isTalkBackEnabled = AccessibilityUtil.isTalkBackEnabled(getContext());
 
 		@Override
 		public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -659,9 +676,11 @@ public class CarResultsPresenter extends Presenter {
 			if (newState == RecyclerView.SCROLL_STATE_IDLE) {
 				if (scrolledDistance > heightOfButton / 2) {
 					filterToolbar.animate().translationY(heightOfButton).setInterpolator(new DecelerateInterpolator()).start();
+					categoryFilterToolbar.animate().translationY(heightOfButton).setInterpolator(new DecelerateInterpolator()).start();
 				}
 				else if (scrolledDistance != 0) {
 					filterToolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
+					categoryFilterToolbar.animate().translationY(0).setInterpolator(new DecelerateInterpolator()).start();
 				}
 			}
 		}
@@ -677,12 +696,16 @@ public class CarResultsPresenter extends Presenter {
 
 			int heightOfButton = filterToolbar.getHeight();
 			if (scrolledDistance > 0) {
-				scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy);
-				filterToolbar.setTranslationY(Math.min(heightOfButton, scrolledDistance));
+				if (!isTalkBackEnabled) {
+					scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy);
+					filterToolbar.setTranslationY(Math.min(heightOfButton, scrolledDistance));
+					categoryFilterToolbar.setTranslationY(Math.min(heightOfButton, scrolledDistance));
+				}
 			}
 			else {
 				scrolledDistance = Math.max(0, scrolledDistance + dy);
 				filterToolbar.setTranslationY(Math.min(scrolledDistance, 0));
+				categoryFilterToolbar.setTranslationY(Math.min(scrolledDistance, 0));
 			}
 		}
 	};
