@@ -219,7 +219,7 @@ public class EspressoUtils {
 	}
 
 	public static void waitForViewNotYetInLayoutToDisplay(Matcher<View> matcher, long howLong, TimeUnit timeUnit) {
-		RuntimeException lastException = null;
+		Throwable lastException = null;
 
 		long finalTime = System.currentTimeMillis() + TimeUnit.MILLISECONDS.convert(howLong, timeUnit);
 
@@ -228,7 +228,7 @@ public class EspressoUtils {
 				Espresso.onView(matcher).check(ViewAssertions.matches(ViewMatchers.isDisplayed()));
 				return;
 			}
-			catch (RuntimeException e) {
+			catch (Throwable e) {
 				lastException = e;
 				try {
 					Thread.sleep(100);
@@ -240,7 +240,12 @@ public class EspressoUtils {
 		}
 
 		if (lastException != null) {
-			throw lastException;
+			if (lastException instanceof RuntimeException) {
+				throw (RuntimeException) lastException;
+			}
+			else {
+				throw new RuntimeException(lastException);
+			}
 		}
 	}
 }

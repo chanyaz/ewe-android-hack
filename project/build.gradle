@@ -114,7 +114,7 @@ dependencies {
     testCompile "org.robolectric:shadows-multidex:${roboVersion}"
     testCompile 'org.mockito:mockito-core:2.0.31-beta'
 
-    def espressoVersion = '2.2.1'
+    def espressoVersion = '2.2.2'
     androidTestCompile ("com.android.support.test.espresso:espresso-core:${espressoVersion}"){
         exclude group: 'com.android.support'
         exclude group: 'javax.inject'
@@ -124,7 +124,7 @@ dependencies {
         exclude group: 'javax.inject'
     }
 
-    androidTestCompile ('com.android.support.test:rules:0.4.1') {
+    androidTestCompile ('com.android.support.test:rules:0.5') {
         exclude group: 'com.android.support'
     }
     androidTestCompile ("com.android.support.test.espresso:espresso-intents:${espressoVersion}") {
@@ -135,6 +135,8 @@ dependencies {
             'spoon-client-1.1.3-EXP.jar',
     ])
     androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
+    androidTestCompile "tools.fastlane:screengrab:0.5.5"
+    androidTestCompile "com.android.support:support-annotations:${rootProject.ext.supportLibVersion}"
 }
 
 android {
@@ -193,6 +195,7 @@ android {
 
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
+        buildConfigField "boolean", "IS_SCREENSHOT_BUILD", project.hasProperty("SCREENSHOT_BUILD") ? "Boolean.parseBoolean(\"true\")" : "Boolean.parseBoolean(\"false\")"
 
         // Explicitly define the languages we use so GPS and other libraries doesn't include unnecessary ones
         resConfigs "da", "de", "en_CA", "en_GB", "es", "es_ES", "fi", "fr", "fr_CA", "in", "it", "ja", "ko", "nb", "nl", "pt_BR", "sv", "th", "vi", "zh", "zh_HK", "zh_TW"
