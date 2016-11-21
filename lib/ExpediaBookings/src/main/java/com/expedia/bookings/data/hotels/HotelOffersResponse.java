@@ -165,7 +165,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageSavings = packageHotelOffer.packagePricing.savings;
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageTotalPrice = packageHotelOffer.packagePricing.packageTotal;
 			packageHotelOffer.hotelOffer.hasFreeCancellation = packageHotelOffer.cancellationPolicy.hasFreeCancellation;
-			if (packageHotelOffer.loyaltyInfo != null){
+			if (packageHotelOffer.loyaltyInfo != null) {
 				packageHotelOffer.hotelOffer.packageLoyaltyInformation = packageHotelOffer.loyaltyInfo;
 			}
 
