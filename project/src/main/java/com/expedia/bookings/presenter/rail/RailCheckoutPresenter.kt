@@ -318,6 +318,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             priceChangeWidget.visibility = View.GONE
             if (checkoutViewModel.isValidForBooking()) {
                 slideToPurchaseWidget.show()
+                RailTracking().trackRailCheckoutSlideToPurchase(paymentWidget.getCardType())
             } else {
                 slideToPurchaseWidget.visibility = View.GONE
             }
@@ -422,6 +423,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
 
         if (checkoutViewModel.isValidForBooking()) {
             slideToPurchaseWidget.show()
+            RailTracking().trackRailCheckoutSlideToPurchase(paymentWidget.getCardType())
         } else {
             slideToPurchaseWidget.visibility = View.GONE
         }
@@ -432,7 +434,7 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
     }
 
     override fun onSlideStart() {
-        RailTracking().trackRailCheckoutSlideToPurchase(paymentWidget.getCardType())
+
     }
 
     override fun onSlideProgress(pixels: Float, total: Float) {
