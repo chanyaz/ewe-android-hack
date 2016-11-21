@@ -98,7 +98,7 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 	 */
 	public boolean hasValidInput(int fieldId) {
 		SectionField<?, T> field = getLastFieldWithId(fieldId);
-		boolean valid = false;
+		boolean valid = true;
 		if (field != null && field instanceof SectionFieldEditable) {
 			SectionFieldEditable<?, T> editable = (SectionFieldEditable<?, T>) field;
 			valid = editable.isValid();
