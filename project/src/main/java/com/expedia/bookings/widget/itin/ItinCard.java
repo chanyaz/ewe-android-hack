@@ -36,6 +36,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
@@ -52,7 +53,6 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ItinUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
@@ -1261,6 +1261,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	}
 
 	private boolean isBucketedForGallery() {
-		return FeatureToggleUtil.isUserBucketedAndFeatureEnabled(getContext(), AbacusUtils.EBAndroidItinHotelGallery, R.string.preference_enable_itin_gallery);
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidItinHotelGallery);
 	}
 }
