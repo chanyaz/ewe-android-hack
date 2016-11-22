@@ -309,6 +309,8 @@
     <string name="Fly_from_dot_dot_dot">Fly from…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Select dates</string>
+    <!-- Select Start date - used for the LX Calendar. -->
+    <string name="select_start_date">Select Start date</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Hotels tonight</string>
     <!-- Missing flight info message -->
@@ -4802,6 +4804,7 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Checkbox. Unchecked.</string>
     <string name="base_search_dates_cont_desc">Select dates. Button. Opens dialog</string>
+    <string name="lx_search_start_date_cont_desc">Select Start Date. Button. Opens dialog</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>
