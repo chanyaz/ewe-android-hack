@@ -541,6 +541,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 				Log.d(TAG, "Setting hotel search location: " + hotelSearchParams.getQuery());
 			}
 
+			if (queryData.contains("sortType")) {
+				hotelSearchParams.setSortType(data.getQueryParameter("sortType"));
+			}
+
 			NavUtils.goToHotels(DeepLinkRouterActivity.this, hotelSearchParams, null, NavUtils.FLAG_DEEPLINK);
 			finish();
 			return false;
