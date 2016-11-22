@@ -482,6 +482,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			if (isVipAccess && isSilverOrGoldMember && posSupportVipAccess) {
 				mVIPTextView.setVisibility(VISIBLE);
 			}
+			else {
+				mVIPTextView.setVisibility(GONE);
+			}
 		}
 	}
 
