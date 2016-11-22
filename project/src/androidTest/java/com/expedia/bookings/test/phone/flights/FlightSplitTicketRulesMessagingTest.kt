@@ -26,7 +26,7 @@ class FlightSplitTicketRulesTest : FlightTestCase() {
         val endDate = startDate.plusDays(3)
         FlightsSearchScreen.clickDate(startDate, endDate)
         FlightsSearchScreen.clickSearchButton()
-        FlightsSearchResultsScreen.clickListItem(2)
+        FlightsSearchResultsScreen.clickListItem(3)
         Common.delay(1)
         FlightLegScreen.clickSelectFlightButton()
 
