@@ -113,6 +113,7 @@ public class NewLaunchLobAdapterTest {
 		View mockItemView = Mockito.mock(View.class);
 		TextView mockTextView = Mockito.mock(TextView.class);
 		Mockito.when(mockItemView.findViewById(R.id.lob_cell_text)).thenReturn(mockTextView);
+		Mockito.when(mockTextView.getContext()).thenReturn(getContext());
 		NewLaunchLobViewModel newLaunchLobViewModel = new NewLaunchLobViewModel(getContext(),
 			BehaviorSubject.<Boolean>create(),
 			BehaviorSubject.<Unit>create());
@@ -135,6 +136,7 @@ public class NewLaunchLobAdapterTest {
 		View mockItemView = Mockito.mock(View.class);
 		TextView mockTextView = Mockito.mock(TextView.class);
 		Mockito.when(mockItemView.findViewById(R.id.lob_cell_text)).thenReturn(mockTextView);
+		Mockito.when(mockTextView.getContext()).thenReturn(getContext());
 		NewLaunchLobViewModel newLaunchLobViewModel = new NewLaunchLobViewModel(getContext(),
 			BehaviorSubject.<Boolean>create(),
 			BehaviorSubject.<Unit>create());
