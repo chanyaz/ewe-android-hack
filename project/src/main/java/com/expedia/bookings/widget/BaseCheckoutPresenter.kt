@@ -206,7 +206,25 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             }
             val height = priceChangeWidget.measuredHeight
             if (visible) {
-                AnimUtils.slideInOut(priceChangeWidget, height)
+                priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
+                AnimUtils.slideInOut(priceChangeWidget, height, object : Animator.AnimatorListener {
+                    override fun onAnimationCancel(animation: Animator) {
+
+                    }
+
+                    override fun onAnimationRepeat(animation: Animator) {
+
+                    }
+
+                    override fun onAnimationStart(animation: Animator) {
+
+                    }
+
+                    override fun onAnimationEnd(animation: Animator) {
+                        priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+                    }
+
+                })
                 AnimUtils.slideInOut(bottomContainerDropShadow, height)
             } else {
                 priceChangeWidget.translationY = height.toFloat()
