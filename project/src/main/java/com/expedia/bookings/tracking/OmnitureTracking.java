@@ -90,7 +90,6 @@ import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
 import com.expedia.bookings.data.rail.responses.RailLeg;
 import com.expedia.bookings.data.rail.responses.RailLegOption;
-import com.expedia.bookings.data.rail.responses.RailSegment;
 import com.expedia.bookings.data.rail.responses.RailTripOffer;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
@@ -116,6 +115,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
+
 import kotlin.NotImplementedError;
 
 /**
@@ -5916,7 +5916,7 @@ public class OmnitureTracking {
 
 	private static String getRailProductString(RailCheckoutResponse checkoutResponse, DateTime endDate,
 		DateTime startDate, String departureStationCode, String destinationStationCode) {
-		String carrier = checkoutResponse.railDomainProduct.railOffer.colonSeparatedMarketingCarriers();
+		String carrier = checkoutResponse.railDomainProduct.railOffer.colonSeparatedSegmentOperatingCarriers();
 
 		StringBuilder productString = new StringBuilder(";Rail:");
 		productString.append(carrier + ":");
@@ -5972,31 +5972,23 @@ public class OmnitureTracking {
 		String arrivalStation;
 		int searchWindow, searchDuration;
 
+		products += railCreateTripResponse.railDomainProduct.railOffer.colonSeparatedSegmentOperatingCarriers();
+
 		RailLegOption outboundLegOption = railCreateTripResponse.railDomainProduct.railOffer.getOutboundLegOption();
 		RailLegOption inboundLegOption = railCreateTripResponse.railDomainProduct.railOffer.getInboundLegOption();
 
-		for (RailSegment railSegment : outboundLegOption.travelSegmentList) {
-			if (Strings.isNotEmpty(railSegment.operatingCarrier)) {
-				products += railSegment.operatingCarrier;
-				products += ":";
-			}
-		}
 		departureStation = outboundLegOption.departureStation.getStationCode();
 		arrivalStation = outboundLegOption.arrivalStation.getStationCode();
 		searchWindow = JodaUtils.daysBetween(new DateTime(), outboundLegOption.getDepartureDateTime());
 
-		if (!railCreateTripResponse.railDomainProduct.railOffer.isRoundTrip() && !railCreateTripResponse.railDomainProduct.railOffer.isOpenReturn()) {
-			products += "OW;";
+		if (!railCreateTripResponse.railDomainProduct.railOffer.isRoundTrip()
+			&& !railCreateTripResponse.railDomainProduct.railOffer.isOpenReturn()) {
+			products += ":OW;";
 		}
 		else {
-			for (RailSegment railSegment : inboundLegOption.travelSegmentList) {
-				if (Strings.isNotEmpty(railSegment.operatingCarrier)) {
-					products += railSegment.operatingCarrier;
-					products += ":";
-				}
-			}
-			products += "RT;";
-			searchDuration = JodaUtils.daysBetween(outboundLegOption.getDepartureDateTime(), inboundLegOption.getDepartureDateTime());
+			products += ":RT;";
+			searchDuration = JodaUtils
+				.daysBetween(outboundLegOption.getDepartureDateTime(), inboundLegOption.getDepartureDateTime());
 			s.setEvar(6, String.valueOf(searchDuration));
 			s.setProp(6, DateUtils.localDateToyyyyMMdd(inboundLegOption.departureDateTime.toDateTime().toLocalDate()));
 		}
