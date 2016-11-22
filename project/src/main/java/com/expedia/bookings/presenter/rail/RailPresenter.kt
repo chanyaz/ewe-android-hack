@@ -115,8 +115,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         legalInfoView
     }
 
-    private val outboundToDetails = LeftToRightTransition(this, RailOutboundPresenter::class.java, RailDetailsPresenter::class.java)
-    private val outboundDetailsToOverview = object : LeftToRightTransition(this, RailDetailsPresenter::class.java, RailTripOverviewPresenter::class.java) {
+    private val outboundToDetails = ScaleTransition(this, RailOutboundPresenter::class.java, RailDetailsPresenter::class.java)
+    private val outboundDetailsToOverview = object : ScaleTransition(this, RailDetailsPresenter::class.java, RailTripOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
@@ -141,8 +141,8 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             }
         }
     }
-    private val inboundToDetails = LeftToRightTransition(this, RailInboundPresenter::class.java, RailInboundDetailsPresenter::class.java)
-    private val inboundDetailsToOverview = object : LeftToRightTransition(this, RailInboundDetailsPresenter::class.java, RailTripOverviewPresenter::class.java) {
+    private val inboundToDetails = ScaleTransition(this, RailInboundPresenter::class.java, RailInboundDetailsPresenter::class.java)
+    private val inboundDetailsToOverview = object : ScaleTransition(this, RailInboundDetailsPresenter::class.java, RailTripOverviewPresenter::class.java) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             if (forward) {
