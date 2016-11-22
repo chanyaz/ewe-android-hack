@@ -5,6 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.utils.CollectionUtils;
+import com.expedia.bookings.utils.Strings;
 
 public class RailTripOffer extends BaseRailOffer {
 	public List<RailTripProduct> railProductList;
@@ -40,14 +41,29 @@ public class RailTripOffer extends BaseRailOffer {
 		return railProductList.size() == 2;
 	}
 
-	public String colonSeparatedMarketingCarriers() {
+	public String colonSeparatedSegmentOperatingCarriers() {
+		RailLegOption outboundLegOption = getOutboundLegOption();
+		RailLegOption inboundLegOption = getInboundLegOption();
+
 		StringBuilder carrier = new StringBuilder("");
-		for (RailTripProduct railProduct: railProductList) {
-			for (RailLegOption railLegOption: railProduct.legOptionList) {
-				carrier.append(railLegOption.aggregatedMarketingCarrier + ":");
+		for (RailSegment railSegment : outboundLegOption.travelSegmentList) {
+			if (Strings.isNotEmpty(railSegment.operatingCarrier)) {
+				carrier.append(railSegment.operatingCarrier).append(":");
 			}
 		}
+
+		if (inboundLegOption != null) {
+			for (RailSegment railSegment : inboundLegOption.travelSegmentList) {
+				if (Strings.isNotEmpty(railSegment.operatingCarrier)) {
+					carrier.append(railSegment.operatingCarrier).append(":");
+				}
+			}
+		}
+
 		String carrierString = carrier.toString();
-		return carrierString.substring(0, carrierString.length() - 1);
+		if (!Strings.isEmpty(carrierString)) {
+			return carrierString.substring(0, carrierString.length() - 1);
+		}
+		return carrierString;
 	}
 }
