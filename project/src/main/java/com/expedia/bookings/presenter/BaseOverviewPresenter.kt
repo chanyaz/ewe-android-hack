@@ -88,18 +88,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         }
 
         bundleOverviewHeader.setUpCollapsingToolbar()
-        checkoutPresenter.getCheckoutViewModel().checkoutTranslationObserver.subscribe { y ->
-            val distance = -bundleOverviewHeader.appBarLayout.totalScrollRange + (y / checkoutPresenter.height * bundleOverviewHeader.appBarLayout.totalScrollRange).toInt()
-            val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
-            val behavior = params.behavior as AppBarLayout.Behavior
-            val enable = y != 0f
-            bundleOverviewHeader.nestedScrollView.visibility = if (enable) VISIBLE else GONE
-            bundleOverviewHeader.toggleCollapsingToolBar(enable)
-            behavior.topAndBottomOffset = distance
-            val range = Math.abs(distance)/bundleOverviewHeader.appBarLayout.totalScrollRange.toFloat()
-            bundleOverviewHeader.nestedScrollView.foreground.alpha = (255 * range).toInt()
-            translateBottomContainer(range, true)
-        }
 
         overviewLayoutListener = OverviewLayoutListener()
     }
@@ -203,7 +191,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE
             bundleOverviewHeader.isDisabled = forward
             bundleOverviewHeader.nestedScrollView.foreground.alpha = if (forward) 255 else 0
-            checkoutPresenter.chevron.rotation = if (forward) 0f else 180f
             bundleOverviewHeader.nestedScrollView.visibility =  if (forward) GONE else VISIBLE
             bundleOverviewHeader.toolbar.subtitle = ""
             if (forward) {
