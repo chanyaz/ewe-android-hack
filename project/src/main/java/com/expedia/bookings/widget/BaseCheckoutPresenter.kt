@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Rect
@@ -18,6 +19,7 @@ import android.view.Window
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Space
+import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
@@ -31,6 +33,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelersPresenter
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
@@ -53,8 +56,9 @@ import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.packages.BundleTotalPriceViewModel
-import com.expedia.vm.traveler.TravelersViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
+import com.expedia.vm.traveler.TravelersViewModel
+import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Subscription
 import kotlin.properties.Delegates
@@ -125,6 +129,24 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val paymentWidget: PaymentWidget by lazy {
         val presenter = paymentViewStub.inflate() as PaymentWidget
         presenter
+    }
+
+    val logoutDialog: AlertDialog by lazy {
+        val builder = AlertDialog.Builder(context)
+        var messageText = Phrase.from(context, R.string.sign_out_confirmation_TEMPLATE)
+                .put("brand", BuildConfig.brand)
+                .format().toString()
+        builder.setMessage(messageText)
+        builder.setCancelable(false)
+        builder.setPositiveButton(context.getString(R.string.sign_out), { dialog, which ->
+            logoutUser()
+            OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.SUCCESS)
+        })
+        builder.setNegativeButton(context.getString(R.string.cancel), { dialog, which ->
+            dialog.dismiss()
+            OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.CANCEL)
+        })
+        builder.create()
     }
 
     /** viewmodels **/
@@ -530,6 +552,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     override fun accountLogoutClicked() {
+        logoutDialog.show()
+    }
+
+    private fun logoutUser() {
         User.signOut(context)
         animateInSlideToPurchase(false)
         updateDbTravelers()

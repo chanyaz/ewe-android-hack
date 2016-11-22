@@ -116,7 +116,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
-
 import kotlin.NotImplementedError;
 
 /**
@@ -3466,6 +3465,9 @@ public class OmnitureTracking {
 	private static final String LAUNCH_SCREEN_EXPANDED_LOB = "App.LS.Srch.ExpandSrch";
 	private static final String LOGIN_SCREEN = "App.Account.SignIn";
 	private static final String LOGIN_SUCCESS = "App.Account.Login.Success";
+	private static final String LOGOUT_SELECT = "App.Account.Logout.Select";
+	private static final String LOGOUT_CANCEL = "App.Account.Logout.Cancel";
+	private static final String LOGOUT_SUCCESS = "App.Account.Logout";
 	private static final String LOGIN_CONTACT_ACCESS = "App.Account.Create.AccessInfo";
 	private static final String LOGIN_CONTACT_ACCESS_ALLOWED = "App.Account.Access.Yes";
 	private static final String LOGIN_CONTACT_ACCESS_NOT_ALLOWED = "App.Account.Access.NotNow";
@@ -3510,6 +3512,27 @@ public class OmnitureTracking {
 	public static void trackSmartLockPasswordSignIn() {
 		ADMS_Measurement s = createTrackLinkEvent(LOGIN_SUCCESS);
 		s.setEvents("event26,event218");
+		s.trackLink(null, "o", "Accounts", null, null);
+	}
+
+	public enum LogOut {
+		SELECT(LOGOUT_SELECT),
+		CANCEL(LOGOUT_CANCEL),
+		SUCCESS(LOGOUT_SUCCESS);
+
+		private String pageName;
+
+		LogOut(String logoutSelect) {
+			pageName = logoutSelect;
+		}
+
+		public String getPageName() {
+			return this.pageName;
+		}
+	}
+
+	public static void trackLogOutAction(LogOut type) {
+		ADMS_Measurement s = createTrackLinkEvent(type.getPageName());
 		s.trackLink(null, "o", "Accounts", null, null);
 	}
 

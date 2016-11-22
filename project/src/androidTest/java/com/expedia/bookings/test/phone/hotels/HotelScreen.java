@@ -385,6 +385,8 @@ public class HotelScreen {
 	public static void clickSignOut() {
 		onView(withId(R.id.account_logout_logout_button)).perform(waitForViewToDisplay());
 		onView(withId(R.id.account_logout_logout_button)).perform(click());
+		onView(allOf(withId(android.R.id.message), withText("Are you sure you want to sign out of your Expedia account?"))).check(matches(isDisplayed()));
+		onView(withId(android.R.id.button1)).perform(click());
 	}
 
 	public static void signIn() {

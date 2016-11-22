@@ -41,6 +41,7 @@ import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.text.HtmlCompat;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -104,6 +105,7 @@ public class AccountButton extends LinearLayout {
 						clearTabletCheckoutData();
 					}
 					mListener.accountLogoutClicked();
+					OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.SELECT);
 				}
 			}
 		};
