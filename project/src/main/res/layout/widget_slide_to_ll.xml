@@ -10,7 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:contentDescription="@string/cd_slide_to_checkout_start"
+        android:importantForAccessibility="no"
         android:scaleType="centerCrop"
         android:src="@drawable/slide_arrow_cars" />
 
