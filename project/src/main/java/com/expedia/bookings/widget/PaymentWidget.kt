@@ -327,11 +327,11 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     override fun onFocusChange(v: View, hasFocus: Boolean) {
         if (hasFocus) {
             focusedView.onNext(v)
-            sectionLocation.resetValidation(v.id, true)
-            sectionBillingInfo.resetValidation(v.id, true)
         } else {
-            sectionBillingInfo.validateField(v.id)
-            sectionLocation.validateField(v.id)
+            val isFieldValid = sectionBillingInfo.validateField(v.id)
+            if (isFieldValid) {
+                sectionLocation.validateField(v.id)
+            }
         }
     }
 

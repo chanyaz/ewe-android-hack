@@ -367,9 +367,14 @@ class BillingDetailsPaymentWidgetTest {
 		billingDetailsPaymentWidget.doneClicked.onNext(Unit)
 		assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
 
-		billingDetailsPaymentWidget.back()
+        billingDetailsPaymentWidget.creditCardNumber.setText("1234")
+        assertNull(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2])
+
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        billingDetailsPaymentWidget.back()
 
 		billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
 		assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
 	}
 

@@ -2,7 +2,6 @@ package com.expedia.bookings.section;
 
 import android.graphics.drawable.Drawable;
 import android.widget.TextView;
-
 import com.expedia.bookings.widget.TextViewExtensionsKt;
 import com.expedia.bookings.widget.accessibility.AccessibleEditText;
 import com.expedia.bookings.widget.accessibility.AccessibleTextViewForSpinner;
@@ -17,7 +16,6 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 	SectionFieldValidIndicator<TextView, Data> {
 
 	//Was this valid last time - this is to improve performance
-	Boolean mWasValid = true;
 	Drawable mDrawableRight;
 
 	public ValidationIndicatorExclaimation(int fieldId) {
@@ -34,27 +32,18 @@ public class ValidationIndicatorExclaimation<Data extends Object> extends
 
 	@Override
 	protected void onPostValidate(TextView field, boolean isValid, boolean force) {
-		if (!isValid && (force || mWasValid)) {
-			//Not valid, but it was the last time we validated
+		if (!isValid) {
 			TextViewExtensionsKt.addErrorExclamation(field);
-			if (field instanceof AccessibleEditText) {
-				((AccessibleEditText) field).setValid(false);
-			}
-			else if (field instanceof AccessibleTextViewForSpinner) {
-				((AccessibleTextViewForSpinner) field).setValid(false);
-			}
-			mWasValid = false;
 		}
-		else if (isValid && (force || !mWasValid)) {
-			//Freshly valid
-			TextViewExtensionsKt.removeErrorExclamation(field, mDrawableRight);
-			if (field instanceof AccessibleEditText) {
-				((AccessibleEditText) field).setValid(true);
-			}
-			else if (field instanceof AccessibleTextViewForSpinner) {
-				((AccessibleTextViewForSpinner) field).setValid(true);
-			}
-			mWasValid = true;
+		else {
+			TextViewExtensionsKt.removeErrorExclamation(field, null);
+		}
+		if (field instanceof AccessibleEditText) {
+			((AccessibleEditText) field).setValid(isValid);
+		}
+		else if (field instanceof AccessibleTextViewForSpinner) {
+			((AccessibleTextViewForSpinner) field).setValid(isValid);
 		}
 	}
+
 }
