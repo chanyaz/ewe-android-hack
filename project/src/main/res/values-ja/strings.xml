@@ -4040,7 +4040,7 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">{terms_of_use}および{privacy_policy}を読み、これに同意します。</string>
     <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">無料旅行特典に向けて {brand_reward_name_link} を獲得 !{brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">無料旅行特典に向けて {brand_reward_name} を獲得 !{brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">お子様の年齢を選択する</string>

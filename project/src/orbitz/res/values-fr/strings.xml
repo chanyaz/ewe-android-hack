@@ -47,7 +47,7 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Un compte Orbitz est déjà associé à cette adresse e-mail</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Gagnez des voyages gratuits avec {brand_reward_name_link}. En rejoignant {brand_reward_name}, j’accepte l’ensemble des {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Gagnez des voyages gratuits avec {brand_reward_name}. En rejoignant {brand_reward_name}, j’accepte l’ensemble des {terms_and_conditions}.</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Payer avec des Orbucks</string>

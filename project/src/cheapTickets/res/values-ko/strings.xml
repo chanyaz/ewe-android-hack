@@ -62,7 +62,7 @@
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">로그인하고 {reward}의 CheapCash를 적립하세요.</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">{brand_reward_name_link} 회원으로 무료 여행을 위한 포인트를 적립하세요. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">{brand_reward_name} 회원으로 무료 여행을 위한 포인트를 적립하세요. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

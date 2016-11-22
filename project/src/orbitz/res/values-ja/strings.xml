@@ -47,7 +47,7 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">この電子メールアドレスが登録された Orbitz アカウントが既に存在します</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">無料旅行特典に向けて {brand_reward_name_link} を獲得 !{brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">無料旅行特典に向けて {brand_reward_name} を獲得 !{brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Orbucks でお支払い</string>

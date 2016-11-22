@@ -62,7 +62,7 @@
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Connectez-vous pour gagner {reward} en CheapCash</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Gagnez des voyages gratuits avec {brand_reward_name_link}. En rejoignant {brand_reward_name}, j’accepte l’ensemble des {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Gagnez des voyages gratuits avec {brand_reward_name}. En rejoignant {brand_reward_name}, j’accepte l’ensemble des {terms_and_conditions}.</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->
