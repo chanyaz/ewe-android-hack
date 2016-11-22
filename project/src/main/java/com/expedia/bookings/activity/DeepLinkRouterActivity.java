@@ -189,6 +189,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			handleSupportEmail();
 			finish = true;
 			break;
+		case "forcebucket":
+			handleForceBucketing(data, queryData);
+			finish = true;
+			break;
 		default:
 			Ui.showToast(this, "Cannot yet handle data: " + data);
 			finish = true;
@@ -198,6 +202,17 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		if (finish) {
 			finish();
 		}
+	}
+
+	private void handleForceBucketing(Uri data, Set<String> queryData) {
+		int key = 0, newValue = 0;
+		if (queryData.contains("key")) {
+			key = Integer.valueOf(data.getQueryParameter("key"));
+		}
+		if (queryData.contains("value")) {
+			newValue = Integer.valueOf(data.getQueryParameter("value"));
+		}
+		Db.getAbacusResponse().updateABTest(key, newValue);
 	}
 
 	/**
@@ -514,7 +529,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	 * Example:
 	 * expda://flightSearch/?origin=LAX&destination=SFO&departureDate=2015-01-01&returnDate=2015-01-02&numAdults=2
 	 *
-	 * @param data the deep link
+	 * @param data      the deep link
 	 * @param queryData a set of query parameter names included in the deep link
 	 */
 	private void handleFlightSearch(Uri data, Set<String> queryData) {
