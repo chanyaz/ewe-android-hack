@@ -60,6 +60,7 @@ class FlightApiMockResponseGenerator() {
     enum class SearchResultsResponseType(val responseName: String) {
         HAPPY_ONE_WAY("happy_one_way"),
         HAPPY_ROUND_TRIP("happy_round_trip"),
+        HAPPY_ROUND_TRIP_WITH_INSURANCE_AVAILABLE("happy_round_trip_with_insurance_available"),
         CREATE_TRIP_PRICE_CHANGE("create_trip_price_change")
     }
 
@@ -180,12 +181,11 @@ class FlightApiMockResponseGenerator() {
         fun getCreateTripResponseFilePath(params: MutableMap<String, String>): String {
             val productKey = params["productKey"]!!
             val isErrorCode = isCreateTripErrorCodeResponse(productKey)
-            val withInsurance = if (params["withInsurance"] == "true") "_with_insurance_available" else ""
 
             if (isErrorCode) {
                 return "api/flight/trip/create/custom_error_create_trip.json"
             } else {
-                return "api/flight/trip/create/$productKey$withInsurance.json"
+                return "api/flight/trip/create/$productKey.json"
             }
         }
 

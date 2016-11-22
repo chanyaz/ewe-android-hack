@@ -396,7 +396,8 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
     private fun dispatchInsurance(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)
 
-        val baseTripId = params["tripId"]!!.replace("_with_insurance", "")
+        val tripId = params["tripId"]!!
+        val baseTripId = tripId.substring(0, tripId.indexOf("_with_insurance"))
         params.put("productKey", baseTripId)
 
         val filename = if (params["insuranceProductId"].isNullOrEmpty())
