@@ -1,11 +1,11 @@
 package com.expedia.bookings.data.flights
 
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.TripResponse
 import com.google.gson.annotations.SerializedName
 import org.joda.time.DateTime
 
-class FlightCheckoutResponse() : TripResponse() {
+class FlightCheckoutResponse() : FlightTripResponse() {
     override fun getTripTotalExcludingFee(): Money {
         throw UnsupportedOperationException("TripTotalExcludingFee is not implemented for flights. totalPrice field is untouched/fee-less")
     }

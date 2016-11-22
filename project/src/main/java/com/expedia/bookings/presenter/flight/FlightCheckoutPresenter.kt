@@ -10,6 +10,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
@@ -110,7 +111,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
     }
 
-    private fun handlePriceChange(tripResponse: TripResponse) {
+    private fun handlePriceChange(tripResponse: FlightTripResponse) {
         val newPrice = tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints()
 
         val oldOffer = tripResponse.details.oldOffer

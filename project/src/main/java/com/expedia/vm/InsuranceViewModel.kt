@@ -9,7 +9,7 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.insurance.InsurancePriceType
 import com.expedia.bookings.data.insurance.InsuranceProduct
@@ -27,7 +27,7 @@ import rx.subjects.PublishSubject
 
 class InsuranceViewModel(private val context: Context, private val insuranceServices: InsuranceServices) {
     // inputs
-    val tripObservable = BehaviorSubject.create<TripResponse>()
+    val tripObservable = BehaviorSubject.create<FlightTripResponse>()
     val userInitiatedToggleObservable = PublishSubject.create<Boolean>()
     val widgetVisibilityAllowedObservable = BehaviorSubject.create<Boolean>()
 
@@ -46,7 +46,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     private var product: InsuranceProduct? = null
 
     lateinit private var lastAction: InsuranceAction
-    lateinit private var trip: TripResponse
+    lateinit private var trip: FlightTripResponse
     lateinit var tripId: String
 
     enum class InsuranceAction {
