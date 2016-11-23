@@ -93,7 +93,7 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
             if (isOneWay) {
                 selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ONE_WAY)
             } else {
-                selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ROUND_TRIP)
+                selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ROUND_TRIP_WITH_INSURANCE_AVAILABLE)
                 selectFirstInboundFlight()
             }
         }

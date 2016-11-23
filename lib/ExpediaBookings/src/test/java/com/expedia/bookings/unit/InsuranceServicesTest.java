@@ -51,7 +51,7 @@ public class InsuranceServicesTest {
 	@Test
 	public void testInsuranceIsAvailableWhenRequestedAndCanBeAddedAndRemoved() throws Throwable {
 		// verify insurance is available when requested
-		TestSubscriber<FlightCreateTripResponse> createTripObserver = createTrip(true);
+		TestSubscriber<FlightCreateTripResponse> createTripObserver = createTrip("happy_round_trip_with_insurance_available");
 		createTripObserver.awaitTerminalEvent();
 		createTripObserver.assertNoErrors();
 		FlightCreateTripResponse trip = createTripObserver.getOnNextEvents().get(0);
@@ -95,7 +95,7 @@ public class InsuranceServicesTest {
 
 	@Test
 	public void testInsuranceIsNotAvailableWhenNotRequested() throws Throwable {
-		TestSubscriber<FlightCreateTripResponse> tripObserver = createTrip(false);
+		TestSubscriber<FlightCreateTripResponse> tripObserver = createTrip("happy_round_trip");
 		tripObserver.awaitTerminalEvent();
 		tripObserver.assertNoErrors();
 		FlightCreateTripResponse flightCreateTripResponse = tripObserver.getOnNextEvents().get(0);
@@ -103,10 +103,9 @@ public class InsuranceServicesTest {
 		Assert.assertTrue(availableInsuranceProducts.isEmpty());
 	}
 
-	private TestSubscriber<FlightCreateTripResponse> createTrip(boolean withInsurance) throws Throwable {
-		String flightProductKey = getFlightOffer().productKey;
+	private TestSubscriber<FlightCreateTripResponse> createTrip(String productKey) throws Throwable {
 		TestSubscriber<FlightCreateTripResponse> tripObserver = new TestSubscriber<>();
-		flightServices.createTrip(new FlightCreateTripParams(flightProductKey, withInsurance), tripObserver);
+		flightServices.createTrip(new FlightCreateTripParams(productKey), tripObserver);
 		tripObserver.awaitTerminalEvent();
 		tripObserver.assertNoErrors();
 		return tripObserver;

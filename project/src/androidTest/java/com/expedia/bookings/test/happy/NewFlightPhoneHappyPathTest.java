@@ -81,13 +81,13 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		SearchScreen.searchButton().perform(click());
 
 		FlightTestHelpers.assertFlightOutbound();
-		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
+		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 2);
 		FlightsScreen.selectOutboundFlight().perform(click());
 
 		FlightTestHelpers.assertFlightInbound();
 		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
-		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("happy_round_trip");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("happy_round_trip_with_insurance_available");
 		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
 		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
 		FlightsScreen.selectInboundFlight().perform(click());
