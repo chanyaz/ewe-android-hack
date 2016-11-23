@@ -49,6 +49,7 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
         shopWithPointsToggleObservable.subscribe(paymentModel.swpOpted)
 
         Observable.combineLatest(shopWithPointsToggleObservable, isShopWithPointsAvailableObservable, { swpToggleState, isSWPAvailable ->
+            println("malcolm: " +  isSWPAvailable + ","  + swpToggleState)
             isSWPAvailable && swpToggleState
         }).subscribe(swpEffectiveAvailability)
 

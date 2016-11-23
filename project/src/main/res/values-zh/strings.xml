@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">重复行程</string>
     <!-- Text for error toolbar-->
-    <string name="price_changed_text">价格变更</string>
+    <string name="price_changed_text">价格有变</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">付款失败</string>
     <!-- Text for error toolbar-->
@@ -1014,7 +1014,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_create_trip">正在创建旅行计划…</string>
+    <string name="spinner_text_hotel_create_trip">正在创建旅行计划…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1591,6 +1591,8 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">已经在 %1$s退房</string>
     <string name="itin_card_activity_summary_TEMPLATE">&lt;b&gt;%1$s&lt;/b&gt; 起生效</string>
+    <!-- Summary for rail card: Departure - Sunday, Feb 22 - 9:00 am -->
+    <string name="itin_card_rail_summary_TEMPLATE">出发 - {datetime}</string>
     <!-- Message to users about when they check in of their flight-->
     <string name="itin_card_flight_checkin">立即办理登机</string>
     <!-- Title of alert dialog when user come back from check in-->
@@ -1770,7 +1772,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">错误</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="error_try_again_warning">啊！再试一次吧。</string>
+    <string name="flight_error_try_again_warning">啊！再试一次吧。</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">重试</string>
 
@@ -2382,6 +2384,8 @@
     <!-- next page buttn -->
     <string name="next">下一项</string>
     <string name="next_cont_desc">下一项按钮</string>
+    <!-- Passport country placeholder for passport country spinner -->
+    <string name="country">国家/地区</string>
     <!-- Passport country label -->
     <string name="passport_country">护照签发国家</string>
     <!-- Passport country / origin heading -->
@@ -2482,8 +2486,6 @@
     <string name="cars_in_TEMPLATE">在%s租车</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">其他选择</string>
-    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">可选择的操作</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">通过电子邮件分享</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2516,8 +2518,6 @@
     <string name="itin_departing_cont_desc">出发</string>
 
     <!-- Hotel confirmation page -->
-    <!-- Title for section helping users get flights after booking a hotel -->
-    <string name="get_there">前往那里</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="flights_to_TEMPLATE">飞往%s的航班</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
@@ -2843,8 +2843,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/晚</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt">/晚</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">没有评分</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2907,8 +2905,6 @@
     <string name="switch_off">关闭</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
-    <!-- Discount percent shown in hotel results list -->
-    <string name="minus_x_percent">-%2.0f%%</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/5 - 住客评分</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3758,12 +3754,6 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
 
-    <!-- Handling sold out hotels -->
-    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available_from_brand_TEMPLATE">{brand} 暂时没有空房</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_from_brand_dates_TEMPLATE">{brand} 在 {dates} 无空房</string>
-
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">您飞往 %1$s 的航班延迟了 %2$s 小时。</string>
@@ -4062,6 +4052,9 @@
 
     <!-- Children age label on hotel search -->
     <string name="children_age_label">（0-17 岁）</string>
+
+    <!-- Children age label content description -->
+    <string name="children_age_label_cont_desc">（0 至 17 岁）</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">附近地区</string>
@@ -4413,8 +4406,8 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">出发：{date}</string>
 
-    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
-    <string name="rail_checkout_inbound_TEMPLATE">返程：{date}</string>
+    <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">返程 - {date}</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
     <string name="rail_price_breakdown_journey">全程</string>

@@ -47,6 +47,7 @@ class PackageHotelDetailsTest {
 
         offers = HotelOffersResponse()
         offers.hotelId = "happyPath"
+        offers.hotelName = "Hotel"
         offers.hotelCity = "San Francisco"
         offers.hotelStateProvince = "CA"
         offers.hotelCountry = "US of A"

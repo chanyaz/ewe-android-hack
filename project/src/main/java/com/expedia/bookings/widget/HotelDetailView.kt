@@ -58,6 +58,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.Observable
 import rx.Observer
@@ -176,7 +177,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         resortFeeWidget.feeType.setText(vm.getFeeTypeText())
 
         detailContainer.setOnTouchListener(touchListener)
-        hotelDetailsToolbar.setHotelDetailViewModel(vm)
+        vm.hotelOffersSubject.subscribe{
+            hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
+        }
+
 
         vm.galleryColorFilter.subscribeGalleryColorFilter(gallery)
 

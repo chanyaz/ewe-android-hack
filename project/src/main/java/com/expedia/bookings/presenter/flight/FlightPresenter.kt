@@ -13,7 +13,6 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.pos.PointOfSale
@@ -267,8 +266,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     val flightOfferViewModel: FlightOffersViewModel by lazy {
         val viewModel = FlightOffersViewModel(context, flightServices)
         viewModel.flightProductId.subscribe { productKey ->
-            val requestInsurance = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
-            val createTripParams = FlightCreateTripParams(productKey, requestInsurance)
+            val createTripParams = FlightCreateTripParams(productKey)
             flightCreateTripViewModel.tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
             flightOverviewPresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)

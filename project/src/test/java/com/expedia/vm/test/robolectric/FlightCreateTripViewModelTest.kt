@@ -141,20 +141,17 @@ class FlightCreateTripViewModelTest {
 
     private fun givenCreateTripResponseError() {
         val productKey = "INVALID_INPUT"
-        val withInsurance = false
-        params = FlightCreateTripParams(productKey, withInsurance)
+        params = FlightCreateTripParams(productKey)
     }
 
     private fun givenCreateTripPriceChange() {
         val productKey = "create_trip_price_change"
-        val withInsurance = false
-        params = FlightCreateTripParams(productKey, withInsurance)
+        params = FlightCreateTripParams(productKey)
     }
 
     private fun givenGoodCreateTripParams() {
         val productKey = "happy_round_trip"
-        val withInsurance = false
-        params = FlightCreateTripParams(productKey, withInsurance)
+        params = FlightCreateTripParams(productKey)
     }
 
     private fun createMockFlightServices() {

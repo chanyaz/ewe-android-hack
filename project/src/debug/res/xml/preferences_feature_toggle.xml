@@ -13,17 +13,6 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="Itinerary Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_flight_itin_airline_phone_number"
-            android:layout="@layout/preference"
-            android:summary="Show airline customer support phone number"
-            android:title="Flight Itin: Airline Customer Support Phone Number" />
-
-    </PreferenceCategory>
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
@@ -54,4 +43,5 @@
             android:title="Enable GAIA Current Location Suggestion" />
 
     </PreferenceCategory>
+
 </PreferenceScreen>

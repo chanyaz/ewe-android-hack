@@ -1,4 +1,4 @@
-package com.expedia.bookings.widget;
+package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +17,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.drawable.Drawable;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -37,14 +35,20 @@ import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
+import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.LoyaltyMembershipTier;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
+import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
+import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
@@ -52,14 +56,21 @@ import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.ItinUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.itin.ItinContentGenerator;
+import com.expedia.bookings.widget.AlphaImageView;
+import com.expedia.bookings.widget.ItinActionsSection;
+import com.expedia.bookings.widget.ParallaxContainer;
+import com.expedia.bookings.widget.RecyclerGallery;
+import com.expedia.bookings.widget.ScrollView;
+import com.expedia.ui.GalleryActivity;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.mobiata.android.Log;
-import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.squareup.phrase.Phrase;
 
 public class ItinCard<T extends ItinCardData> extends RelativeLayout
-	implements PopupMenu.OnMenuItemClickListener, ShareView.OnShareTargetSelectedListener {
+	implements PopupMenu.OnMenuItemClickListener, ShareView.OnShareTargetSelectedListener,
+	ItinContentGenerator.MediaCallback, RecyclerGallery.GalleryItemListener {
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
@@ -127,7 +138,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	private ScrollView mScrollView;
 	private ParallaxContainer mHeaderImageContainer;
-	private ImageView mHeaderImageView;
+	private RecyclerGallery mHeaderGallery;
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
 	private TextView mHeaderTextDateView;
@@ -135,6 +146,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private View mSelectedView;
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
+	private TextView mVIPTextView;
 
 	private ShareView mShareView;
 
@@ -142,9 +154,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private View mHeaderView;
 	private View mSummaryView;
 	private View mDetailsView;
-
 	// Used in header image view
-	private HeaderBitmapDrawable mHeaderBitmapDrawable;
+
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// CONSTRUCTORS
@@ -183,13 +194,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mChevronImageView = Ui.findView(this, R.id.chevron_image_view);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
+		mVIPTextView = Ui.findView(this, R.id.vip_label_text_view);
 
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 		mFixedItinTypeImageView = Ui.findView(this, R.id.fixed_itin_type_image_view);
 
 		mScrollView = Ui.findView(this, R.id.scroll_view);
 		mHeaderImageContainer = Ui.findView(this, R.id.header_image_container);
-		mHeaderImageView = Ui.findView(this, R.id.header_image_view);
+		mHeaderGallery = Ui.findView(this, R.id.header_image_view);
 		mHeaderOverlayImageView = Ui.findView(this, R.id.header_overlay_image_view);
 		mHeaderTextView = Ui.findView(this, R.id.header_text_view);
 		mHeaderTextDateView = Ui.findView(this, R.id.header_text_date_view);
@@ -199,6 +211,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mShareView = Ui.findView(this, R.id.itin_share_view);
 
 		mSummarySectionLayout.setOnClickListener(mOnClickListener);
+		mHeaderGallery.setOnItemClickListener(this);
+
+		mHeaderGallery.showPhotoCount = false;
 		Ui.setOnClickListener(this, R.id.close_image_button, mOnClickListener);
 
 		// Show itin Share overflow image only if sharing is supported.
@@ -312,7 +327,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 				+ itinCardData.getTripComponentType());
 		}
 
-		mItinContentGenerator = ItinContentGenerator.createGenerator(getContext(), itinCardData);
+		mItinContentGenerator = ItinContentGenerator.createGenerator(getContext(), itinCardData, this);
+		mHeaderGallery.setDataSource(mItinContentGenerator.getHeaderBitmapDrawable());
 
 		// Title
 		boolean wasNull = mHeaderView == null;
@@ -342,48 +358,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 		// Header image parallax effect
 		mHeaderImageContainer.setEnabled(mDisplayState.equals(DisplayState.EXPANDED));
-
-		// Header Image
-		Resources res = getResources();
-
-		if (mHeaderBitmapDrawable == null) {
-			mHeaderBitmapDrawable = new HeaderBitmapDrawable();
-
-			//Setting the placeholder image
-			int placeholderResId = mItinContentGenerator.getHeaderImagePlaceholderResId();
-			Drawable placeholderDrawable = res.getDrawable(placeholderResId);
-			mHeaderBitmapDrawable.setPlaceholderDrawable(placeholderDrawable);
-
-			mHeaderBitmapDrawable.setCornerRadius(res.getDimensionPixelSize(R.dimen.itin_card_corner_radius));
-
-			if (getType() == Type.FLIGHT) {
-				mHeaderBitmapDrawable.setMatrixTranslation(0,
-					res.getDimensionPixelSize(R.dimen.itin_card_flight_vertical_offset));
-			}
-			else {
-				mHeaderBitmapDrawable.setMatrixTranslation(0, 0);
-			}
-
-			mHeaderImageView.setImageDrawable(mHeaderBitmapDrawable);
-		}
-
-		// We currently use the size of the screen, as that is what is required by us of the Expedia image API
-		Point size = AndroidUtils.getScreenSize(getContext());
-		int expandedImageHeight = getResources().getDimensionPixelSize(R.dimen.itin_card_expanded_image_height);
-		int parallaxSlop = getResources().getDimensionPixelSize(R.dimen.itin_card_expanded_parallax_slop);
-		int imageHeight = expandedImageHeight - parallaxSlop;
-		mItinContentGenerator.getHeaderBitmapDrawable(size.x, imageHeight, mHeaderBitmapDrawable);
-
-
-		boolean isExpanded = isExpanded();
-		if (isExpanded) {
-			mHeaderBitmapDrawable.setOverlayDrawable(null);
-			mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
-		}
-		else {
-			mHeaderBitmapDrawable.setOverlayDrawable(res.getDrawable(R.drawable.card_top_lighting));
-			mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
-		}
 
 		// Header text
 		mHeaderTextView.setText(mItinContentGenerator.getHeaderText());
@@ -442,10 +416,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			}
 		}
 
-		if (isExpanded) { //Trips card #164, resetting visibility after re-inflate
-			mActionButtonLayout.setVisibility(VISIBLE);
-		}
-
 		// Summary text
 		wasNull = mSummaryView == null;
 		if (wasNull && mSummaryLayout.getChildCount() > 0) {
@@ -481,8 +451,22 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		updateContDesc();
 		if (getType() == Type.RAILS) {
 			mActionButtonLayout.setVisibility(GONE);
-			mHeaderImageView.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rail_primary_color));
+			mHeaderGallery.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rail_primary_color));
 			mChevronImageView.setRotation(-90f);
+		}
+
+		if (getType() == Type.HOTEL) {
+			boolean isVipAccess = ((TripHotel) itinCardData.getTripComponent()).getProperty().isVipAccess();
+			LoyaltyMembershipTier customerLoyaltyMembershipTier = User.getLoggedInLoyaltyMembershipTier(getContext());
+			boolean isSilverOrGoldMember = customerLoyaltyMembershipTier == LoyaltyMembershipTier.MIDDLE
+				|| customerLoyaltyMembershipTier == LoyaltyMembershipTier.TOP;
+			boolean posSupportVipAccess = PointOfSale.getPointOfSale().supportsVipAccess();
+			if (isVipAccess && isSilverOrGoldMember && posSupportVipAccess) {
+				mVIPTextView.setVisibility(VISIBLE);
+			}
+			else {
+				mVIPTextView.setVisibility(GONE);
+			}
 		}
 	}
 
@@ -602,7 +586,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		int offsetBottom = metrics.heightPixels - (int) (82 * metrics.density);
 		mHeaderImageContainer.setOffsetBottom(offsetBottom);
 
-		ResizeAnimator.setHeight(mHeaderImageView, height);
+		ResizeAnimator.setHeight(mHeaderGallery, height);
 	}
 
 	public void setShowExtraTopPadding(boolean show) {
@@ -792,12 +776,12 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		if (!mShowSummary) {
 			if (animate) {
 				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mMiniCardHeaderImageHeight));
-				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mMiniCardHeaderImageHeight));
+				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderGallery, mMiniCardHeaderImageHeight));
 				animators.add(ResizeAnimator.buildResizeAnimator(mActionButtonLayout, 0).setDuration(300));
 			}
 			else {
 				ResizeAnimator.setHeight(mHeaderLayout, mMiniCardHeaderImageHeight);
-				ResizeAnimator.setHeight(mHeaderImageView, mMiniCardHeaderImageHeight);
+				ResizeAnimator.setHeight(mHeaderGallery, mMiniCardHeaderImageHeight);
 				ResizeAnimator.setHeight(mActionButtonLayout, 0);
 			}
 		}
@@ -830,8 +814,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	private void finishCollapse() {
 		mHeaderImageContainer.setEnabled(false);
-
-		mHeaderBitmapDrawable.setCornerMode(mShowSummary ? CornerMode.TOP : CornerMode.ALL);
+		mHeaderGallery.showPhotoCount = false;
+		if (mHeaderGallery.getSelectedViewHolder() != null) {
+			mHeaderGallery.getSelectedViewHolder().bind();
+		}
 
 		updateSummaryVisibility();
 
@@ -864,8 +850,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		updateClickable();
 
 		mCardLayout.setTranslationY(0);
-
-		mHeaderBitmapDrawable.setCornerMode(CornerMode.NONE);
 
 		mSummaryDividerView.setVisibility(VISIBLE);
 		mDetailsLayout.setVisibility(VISIBLE);
@@ -1023,11 +1007,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		if (!mShowSummary) {
 			if (animate) {
 				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderLayout, mExpandedCardHeaderImageHeight));
-				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderImageView, mExpandedCardHeaderImageHeight));
+				animators.add(ResizeAnimator.buildResizeAnimator(mHeaderGallery, mExpandedCardHeaderImageHeight));
 			}
 			else {
 				ResizeAnimator.setHeight(mHeaderLayout, mExpandedCardHeaderImageHeight);
-				ResizeAnimator.setHeight(mHeaderImageView, mExpandedCardHeaderImageHeight);
+				ResizeAnimator.setHeight(mHeaderGallery, mExpandedCardHeaderImageHeight);
 			}
 		}
 
@@ -1062,6 +1046,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		if (mScrollView != null) {
 			mScrollView.requestLayout();
 		}
+		mHeaderGallery.showPhotoCount = isBucketedForGallery();
+		mHeaderGallery.canScroll = isBucketedForGallery();
+		mHeaderGallery.requestLayout();
+		mHeaderGallery.getAdapter().notifyDataSetChanged();
 
 		// Enable the parallaxy header image
 		mHeaderImageContainer.setEnabled(mDisplayState.equals(DisplayState.EXPANDED));
@@ -1073,7 +1061,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mItinTypeImageView.setVisibility(View.VISIBLE);
 			float typeImageHeight = mItinTypeImageView.getHeight();
 			float typeImageHalfHeight = typeImageHeight / 2;
-			float headerImageHeight = mHeaderImageView.getHeight();
+			float headerImageHeight = mHeaderGallery.getHeight();
 
 			float typeImageY = (headerImageHeight - mHeaderTextLayout.getHeight()) / 2;
 			if (mShowSummary) {
@@ -1237,5 +1225,32 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	@Override
 	public void onShareTargetSelected(ShareView view, Intent intent) {
 		OmnitureTracking.trackItinShareNew(mItinContentGenerator.getType(), intent);
+	}
+
+	@Override
+	public void onMediaReady(List<? extends IMedia> media) {
+		mHeaderGallery.setDataSource(mItinContentGenerator.getHeaderBitmapDrawable());
+	}
+
+	@Override
+	public void onGalleryItemClicked(Object item) {
+		if (!isBucketedForGallery()) {
+			return;
+		}
+		Intent i = new Intent(getContext(), GalleryActivity.class);
+		if (mItinContentGenerator.mItinCardData instanceof ItinCardDataHotel) {
+			HotelItinContentGenerator contentGenerator = (HotelItinContentGenerator) mItinContentGenerator;
+			Gson gson = new GsonBuilder().create();
+			String json = gson.toJson(contentGenerator.getItinCardData().getProperty().getMediaList());
+			i.putExtra("Urls", json);
+			i.putExtra("Position", mHeaderGallery.getSelectedItem());
+			i.putExtra("Name", contentGenerator.getItinCardData().getPropertyName());
+			i.putExtra("Rating", contentGenerator.getItinCardData().getPropertyRating());
+			getContext().startActivity(i);
+		}
+	}
+
+	private boolean isBucketedForGallery() {
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidItinHotelGallery);
 	}
 }
