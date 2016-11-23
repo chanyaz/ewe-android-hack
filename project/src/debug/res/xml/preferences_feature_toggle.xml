@@ -44,4 +44,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="CheckOut Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_checkout_traveler_number"
+            android:layout="@layout/preference"
+            android:summary="Checkout Traveler Known number"
+            android:title="Enable Checkout Traveler Known number" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

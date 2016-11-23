@@ -577,6 +577,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.new_launch_packages_lob_color,
 		R.color.new_launch_lob_divider_color,
 		R.color.new_launch_lob_disabled_color,
+		R.string.known_traveler_msg,
+		R.string.redress_number_msg,
 		R.dimen.new_launch_lob_divider_stroke_width,
 		R.drawable.ic_lob_cars,
 		R.string.car_search_date_range_cont_desc_TEMPLATE,
