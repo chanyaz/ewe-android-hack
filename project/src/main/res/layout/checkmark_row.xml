@@ -1,0 +1,6 @@
+<com.expedia.bookings.widget.TextView
+    style="@style/HotelCheckoutSummaryCommon.Common"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawableLeft="@drawable/ic_hotel_check"
+    android:drawablePadding="8dp"
+    android:paddingBottom="3dp" />

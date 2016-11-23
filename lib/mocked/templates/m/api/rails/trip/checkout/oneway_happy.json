@@ -1,0 +1,328 @@
+{
+  "railDomainProduct": {
+    "railOffer": {
+      "totalPrice": {
+        "amount": "185.237499952316284",
+        "currencyCode": "GBP",
+        "mainCurrency": 185,
+        "fractionalCurrency": 1145749372,
+        "currencySymbol": "£",
+        "formattedPrice": "£185.24",
+        "formattedWholePrice": "£185.00"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "0",
+          "currencyCode": "GBP",
+          "mainCurrency": 0,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£0.00",
+          "formattedWholePrice": "£0",
+          "priceCategory": "Expedia Booking Fee",
+          "priceCategoryCode": "EXPEDIA_SERVICE_FEE"
+        },
+        {
+          "amount": "182.50",
+          "currencyCode": "GBP",
+          "mainCurrency": 182,
+          "fractionalCurrency": 50,
+          "currencySymbol": "£",
+          "formattedPrice": "£182.50",
+          "formattedWholePrice": "£183",
+          "priceCategory": "Ticket Price",
+          "priceCategoryCode": "TICKET"
+        },
+        {
+          "amount": "0.00",
+          "currencyCode": "GBP",
+          "mainCurrency": 0,
+          "fractionalCurrency": 0,
+          "formattedPrice": "£0.00",
+          "formattedWholePrice": "£0.00",
+          "priceCategory": "Ticket Delivery Charges",
+          "priceCategoryCode": "TICKET_DELIVERY"
+        },
+        {
+          "amount": "2.7375",
+          "currencyCode": "GBP",
+          "mainCurrency": 2,
+          "fractionalCurrency": -1766981764,
+          "formattedPrice": "£2.74",
+          "formattedWholePrice": "£3.00",
+          "priceCategory": "Credit Card fee",
+          "priceCategoryCode": "CREDIT_CARD_FEE"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Single",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Travel is allowed via any permitted route."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 8 Jan, 2017 08:30",
+            "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."
+          ],
+          "legOptionList": [
+            {
+              "legOptionIndex": 4,
+              "departureStation": {
+                "stationCode": "GB@LO",
+                "stationDisplayName": "London (All Stations)"
+              },
+              "arrivalStation": {
+                "stationCode": "GB@GL",
+                "stationDisplayName": "Glasgow (All Stations)"
+              },
+              "departureDateTime": {
+                "raw": "2016-12-10T08:30:00",
+                "epochSeconds": 1481358600,
+                "localized": "10 Dec, 2016 08:30",
+                "localizedShortDate": "Sat, 10 Dec"
+              },
+              "arrivalDateTime": {
+                "raw": "2016-12-10T13:01:00",
+                "epochSeconds": 1481374860,
+                "localized": "10 Dec, 2016 13:01",
+                "localizedShortDate": "Sat, 10 Dec"
+              },
+              "duration": "PT4H31M",
+              "aggregatedMarketingCarrier": "Virgin Trains",
+              "aggregatedOperatingCarrier": "Virgin Trains",
+              "travelSegmentList": [
+                {
+                  "travelSegmentIndex": 4,
+                  "travelMode": "Train",
+                  "departureStation": {
+                    "stationCode": "GBQQU",
+                    "stationDisplayName": "London Euston"
+                  },
+                  "arrivalStation": {
+                    "stationCode": "GBGLC",
+                    "stationDisplayName": "Glasgow Central"
+                  },
+                  "departureDateTime": {
+                    "raw": "2016-12-10T08:30:00",
+                    "epochSeconds": 1481358600,
+                    "localized": "10 Dec, 2016 08:30",
+                    "localizedShortDate": "Sat, 10 Dec"
+                  },
+                  "arrivalDateTime": {
+                    "raw": "2016-12-10T13:01:00",
+                    "epochSeconds": 1481374860,
+                    "localized": "10 Dec, 2016 13:01",
+                    "localizedShortDate": "Sat, 10 Dec"
+                  },
+                  "marketingCarrier": "Virgin Trains",
+                  "operatingCarrier": "Virgin Trains",
+                  "travelMedium": {
+                    "travelMediumName": "Inter-City",
+                    "travelMediumCode": "ICY",
+                    "supplierTravelMediumId": "VT6047"
+                  },
+                  "duration": "PT4H31M",
+                  "fareDetail": {
+                    "travelSegmentIndex": 4,
+                    "carrierServiceClassDisplayName": "Standard",
+                    "carrierFareClassDisplayName": "Anytime Single",
+                    "carrierFareClassCategoryName": "Anytime",
+                    "fareDescription": "Travel anytime of day",
+                    "amenityList": [
+                      {
+                        "displayName": "Buffet Service"
+                      },
+                      {
+                        "displayName": "WiFi Access (Additional Cost)"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "noOfChanges": 0,
+              "legBoundOrder": 1,
+              "showTrainIcon": false,
+              "overtakenJourney": false
+            }
+          ],
+          "fareBreakdownList": [
+            {
+              "farePrice": {
+                "amount": "182.50",
+                "currencyCode": "GBP",
+                "mainCurrency": 182,
+                "fractionalCurrency": 50,
+                "currencySymbol": "£",
+                "formattedPrice": "£182.50",
+                "formattedWholePrice": "£183"
+              },
+              "passengerFareList": [
+                {
+                  "passengerIndex": 1,
+                  "passengerSegmentFareList": [
+                    {
+                      "travelSegmentIndex": 4,
+                      "carrierServiceClassDisplayName": "Standard",
+                      "carrierFareClassDisplayName": "Anytime Single",
+                      "carrierFareClassCategoryName": "Anytime",
+                      "fareDescription": "Travel anytime of day",
+                      "amenityList": [
+                        {
+                          "displayName": "Buffet Service"
+                        },
+                        {
+                          "displayName": "WiFi Access (Additional Cost)"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "segmentFareDetailList": [
+            {
+              "travelSegmentIndex": 4,
+              "carrierServiceClassDisplayName": "Standard",
+              "carrierFareClassDisplayName": "Anytime Single",
+              "carrierFareClassCategoryName": "Anytime",
+              "fareDescription": "Travel anytime of day",
+              "amenityList": [
+                {
+                  "displayName": "Buffet Service"
+                },
+                {
+                  "displayName": "WiFi Access (Additional Cost)"
+                }
+              ]
+            }
+          ],
+          "openReturn": false
+        }
+      ],
+      "railOfferToken": "eNrjYBYy4NLg6JonJ8Ag8YJdoY1HS4rj2YSeZcwCzy7snMoEFWMLCzEzMDEXYuFgFGCWsAYAg-4NjQ==",
+      "passengerList": [
+        {
+          "passengerIndex": 1,
+          "age": 30,
+          "primaryTraveler": true,
+          "passengerAgeGroup": "ADULT",
+          "price": {
+            "amount": "182.50",
+            "currencyCode": "GBP",
+            "mainCurrency": 182,
+            "fractionalCurrency": 50,
+            "currencySymbol": "£",
+            "formattedPrice": "£182.50",
+            "formattedWholePrice": "£183"
+          }
+        }
+      ],
+      "ticketDeliveryOptionList": [
+        {
+          "ticketDeliveryOptionToken": "SEND_BY_POST_UK",
+          "ticketDeliveryOptionCategoryCode": "SEND_BY_POST",
+          "ticketDeliveryDescription": "£1.00 - Royal Mail First Class Post Domestic UK",
+          "ticketDeliveryFee": {
+            "amount": "1.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 1,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£1.00",
+            "formattedWholePrice": "£1"
+          },
+          "ticketDeliveryCountryCodeList": [
+            "GB"
+          ],
+          "departureStation": false
+        },
+        {
+          "ticketDeliveryOptionToken": "SEND_BY_OVERNIGHT_POST_UK",
+          "ticketDeliveryOptionCategoryCode": "SEND_BY_OVERNIGHT_POST",
+          "ticketDeliveryDescription": "£7.00 - Royal Mail Special Delivery Guaranteed™ by 1pm with £500 Insurance Domestic UK",
+          "ticketDeliveryFee": {
+            "amount": "7.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 7,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£7.00",
+            "formattedWholePrice": "£7"
+          },
+          "ticketDeliveryCountryCodeList": [
+            "GB"
+          ],
+          "departureStation": false
+        },
+        {
+          "ticketDeliveryOptionToken": "PICK_UP_AT_TICKETING_OFFICE_NONE",
+          "ticketDeliveryOptionCategoryCode": "PICK_UP_AT_TICKETING_OFFICE",
+          "ticketDeliveryDescription": "Collect at Ticket Office",
+          "ticketDeliveryFee": {
+            "amount": "0.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 0,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£0.00",
+            "formattedWholePrice": "£0"
+          },
+          "departureStation": true
+        },
+        {
+          "ticketDeliveryOptionToken": "KIOSK_NONE",
+          "ticketDeliveryOptionCategoryCode": "KIOSK",
+          "ticketDeliveryDescription": "Collect at Ticket Vending Machine",
+          "ticketDeliveryFee": {
+            "amount": "0.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 0,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£0.00",
+            "formattedWholePrice": "£0"
+          },
+          "departureStation": true
+        }
+      ],
+      "bookingInstructions": {
+        "selectedTicketDeliveryOption": {
+          "ticketDeliveryOptionToken": "PICK_UP_AT_TICKETING_OFFICE_NONE",
+          "ticketDeliveryOptionCategoryCode": "PICK_UP_AT_TICKETING_OFFICE",
+          "ticketDeliveryDescription": "Collect at Ticket Office",
+          "ticketDeliveryFee": {
+            "amount": "0.00",
+            "currencyCode": "GBP",
+            "mainCurrency": 0,
+            "fractionalCurrency": 0,
+            "currencySymbol": "£",
+            "formattedPrice": "£0.00",
+            "formattedWholePrice": "£0"
+          },
+          "departureStation": true
+        }
+      }
+    }
+  },
+  "newTrip": {
+    "itineraryNumber": "7938604594",
+    "tripId": "618b6ac0-959a-46e3-9c15-03c9ad627048"
+  },
+  "orderId": "8009690310416",
+  "currencyCode": "GBP",
+  "totalCharges": "185.24",
+  "totalChargesPrice": {
+    "amount": "185.24",
+    "formattedPrice": "£185.24",
+    "formattedWholePrice": "£185",
+    "currencyCode": "GBP"
+  },
+  "activityId": "08c80281-1ca0-4af3-baee-cc47fde45eb3"
+}

@@ -10,7 +10,6 @@ import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.interfaces.IResultsFlightLegSelected;
 import com.expedia.bookings.section.FlightLegSummarySectionTablet;
 import com.expedia.bookings.section.FlightSegmentSection;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.ScreenPositionUtils;
 import com.expedia.bookings.utils.StrUtils;
@@ -241,7 +241,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 				ViewGroup layoverC = Ui.inflate(R.layout.snippet_tablet_flight_layover, mFlightLegsC, false);
 				TextView tv = Ui.findView(layoverC, R.id.flight_details_layover_text_view);
 				String layoverStr = res.getString(R.string.layover_duration_location_TEMPLATE, duration, waypoint);
-				tv.setText(Html.fromHtml(layoverStr).toString());
+				tv.setText(HtmlCompat.stripHtml(layoverStr));
 				mFlightLegsC.addView(layoverC);
 			}
 
@@ -335,7 +335,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 				+ mRowHeight);
 			LayoutParams params = (LayoutParams) mAnimationFlightRow.getLayoutParams();
 			if (params == null) {
-				params = new LayoutParams(mRowHeight, mRowWidth);
+				params = new LayoutParams(mRowWidth, mRowHeight);
 			}
 			else {
 				params.height = mRowHeight;
@@ -351,7 +351,7 @@ public class ResultsFlightDetailsFragment extends Fragment implements FlightUtil
 				+ mRowPositionTop);
 			LayoutParams params = (LayoutParams) mAnimationFlightRow.getLayoutParams();
 			if (params == null) {
-				params = new LayoutParams(mRowHeight, mRowWidth);
+				params = new LayoutParams(mRowWidth, mRowHeight);
 			}
 			params.leftMargin = mRowPositionLeft;
 			params.topMargin = mRowPositionTop;

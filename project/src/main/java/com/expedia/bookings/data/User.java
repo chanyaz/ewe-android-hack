@@ -1,6 +1,5 @@
 package com.expedia.bookings.data;
 
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,7 +12,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
-
 import com.expedia.account.AccountService;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="brand_phone_checkout_login_logo_drawable" type="drawable">@drawable/brand_logo_white</item>
-    <item name="brand_tablet_checkout_login_logo_drawable" type="drawable">@drawable/ic_tablet_checkout_logo</item>
     <item name="search_progress_static_flight_wotif" type="drawable">@drawable/search_progress_static_img_wotif</item>
     <item name="ic_log_in_wotif" type="drawable">@drawable/ic_wotif_logo</item>
     <item name="app_copyright_logo" type="drawable">@drawable/ic_launcher</item>

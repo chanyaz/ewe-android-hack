@@ -33,6 +33,7 @@ import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.fragment.NewPhoneLaunchFragment
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.tracking.AdTracker
+import com.expedia.bookings.tracking.FacebookEvents
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
@@ -40,14 +41,14 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
-import com.expedia.bookings.widget.ItinListView
+import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.bookings.widget.NewPhoneLaunchToolbar
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.fragment.CopyrightFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 
-class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
+class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaunchFragment.LaunchFragmentListener, ItinListView.OnListModeChangedListener, AccountSettingsFragment.AccountFragmentListener,
         ItinItemListFragment.ItinItemListFragmentListener, LoginConfirmLogoutDialogFragment.DoLogoutListener, AboutSectionFragment.AboutSectionFragmentListener
         , AboutUtils.CountrySelectDialogListener, ClearPrivateDataDialog.ClearPrivateDataDialogListener, CopyrightFragment.CopyrightFragmentListener {
 
@@ -306,11 +307,11 @@ class NewPhoneLaunchActivity : AbstractAppCompatActivity(), NewPhoneLaunchFragme
 
     override fun onResume() {
         super.onResume()
+        FacebookEvents.activateAppIfEnabledInConfig(this)
         when(viewPager.currentItem) {
             PAGER_POS_LAUNCH -> OmnitureTracking.trackPageLoadLaunchScreen()
             PAGER_POS_ACCOUNT -> OmnitureTracking.trackAccountPageLoad()
         }
-
     }
 
     inner class PagerAdapter(fm: FragmentManager) : FragmentPagerAdapter(fm) {

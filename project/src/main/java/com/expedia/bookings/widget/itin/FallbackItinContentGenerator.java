@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -9,12 +10,21 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.trips.ItinCardDataFallback;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.utils.Ui;
 
 public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardDataFallback> {
+	@Override
+	public List<? extends IMedia> getHeaderBitmapDrawable() {
+		ArrayList<DefaultMedia> mediaList = new ArrayList<>();
+		DefaultMedia placeholder = new DefaultMedia(Collections.<String>emptyList(), "", getHeaderImagePlaceholderResId());
+		placeholder.setIsPlaceholder(true);
+		mediaList.add(placeholder);
+		return mediaList;
+	}
 
 	public FallbackItinContentGenerator(Context context, ItinCardDataFallback data) {
 		super(context, data);
@@ -80,10 +90,6 @@ public class FallbackItinContentGenerator extends ItinContentGenerator<ItinCardD
 		default:
 			return Ui.obtainThemeResID(getContext(), R.attr.skin_itinDefaultPlaceholderDrawable);
 		}
-	}
-
-	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
 	}
 
 	@Override

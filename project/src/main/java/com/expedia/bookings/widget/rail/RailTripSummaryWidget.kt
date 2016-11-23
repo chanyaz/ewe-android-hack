@@ -9,7 +9,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.rail.RailLegSummaryViewModel
 import com.expedia.vm.rail.RailTripSummaryViewModel
 
@@ -18,6 +17,7 @@ class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayou
     val outboundLegSummary: RailLegSummaryWidget by bindView(R.id.rail_outbound_leg_widget)
 
     val inboundDateView: TextView by bindView(R.id.inbound_dates_view)
+    val openReturnMessaging: TextView by bindView(R.id.open_return_messaging)
     val inboundLegSummary: RailLegSummaryWidget by bindView(R.id.rail_inbound_leg_widget)
 
     private val outboundSummaryViewModel = RailLegSummaryViewModel(context)
@@ -33,14 +33,20 @@ class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayou
     var viewModel: RailTripSummaryViewModel by notNullAndObservable { vm ->
         vm.railOfferObserver.subscribe { offer ->
             outboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[0])
-            if (offer.railProductList.size == 2) {
+            if (offer.isRoundTrip) {
                 inboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[1])
                 inboundLegSummary.visibility = View.VISIBLE
+                inboundDateView.visibility = View.VISIBLE
+            } else if (offer.isOpenReturn) {
+                inboundSummaryViewModel.railProductObserver.onNext(offer.railProductList[0])
+                inboundLegSummary.visibility = View.VISIBLE
+                inboundDateView.visibility = View.VISIBLE
+                openReturnMessaging.visibility = View.VISIBLE
             }
         }
 
         vm.formattedOutboundDateObservable.subscribeText(outboundDateView)
-        vm.formattedInboundDateObservable.subscribeTextAndVisibility(inboundDateView)
+        vm.formattedInboundDateObservable.subscribeText(inboundDateView)
 
         vm.railOutboundLegObserver.subscribe(outboundSummaryViewModel.railLegOptionObserver)
         vm.railInboundLegObserver.subscribe(inboundSummaryViewModel.railLegOptionObserver)
@@ -51,6 +57,7 @@ class RailTripSummaryWidget(context: Context, attrs: AttributeSet) : LinearLayou
 
     fun reset() {
         inboundDateView.visibility = View.GONE
+        openReturnMessaging.visibility = View.GONE
         inboundLegSummary.visibility = View.GONE
         outboundLegSummary.reset()
         inboundLegSummary.reset()

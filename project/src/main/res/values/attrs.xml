@@ -314,6 +314,7 @@
 
     <declare-styleable name="ConfirmationRow">
         <attr name="row_title" format="string" />
+        <attr name="row_title_max_lines" format="integer"/>
         <attr name="row_icon" format="reference" />
         <attr name="row_icon_tint_color" format="color" />
         <attr name="row_subTitle" format="string" />

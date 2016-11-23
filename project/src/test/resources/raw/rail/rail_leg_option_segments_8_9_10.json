@@ -1,0 +1,133 @@
+{
+  "legOptionIndex": 4,
+  "departureStation": {
+    "stationCode": "GBQQM",
+    "stationDisplayName": "Manchester Piccadilly"
+  },
+  "arrivalStation": {
+    "stationCode": "GBRDG",
+    "stationDisplayName": "Reading"
+  },
+  "departureDateTime": {
+    "raw": "2016-11-10T12:35:00",
+    "epochSeconds": 1478781300,
+    "localized": "10 Nov, 2016 12:35",
+    "localizedShortDate": "Thu, 10 Nov"
+  },
+  "arrivalDateTime": {
+    "raw": "2016-11-10T15:55:00",
+    "epochSeconds": 1478793300,
+    "localized": "10 Nov, 2016 15:55",
+    "localizedShortDate": "Thu, 10 Nov"
+  },
+  "duration": "PT3H20M",
+  "aggregatedMarketingCarrier": "Multiple train operators",
+  "aggregatedOperatingCarrier": "Multiple train operators",
+  "travelSegmentList": [
+    {
+      "travelSegmentIndex": 8,
+      "travelMode": "Train",
+      "departureStation": {
+        "stationCode": "GBQQM",
+        "stationDisplayName": "Manchester Piccadilly"
+      },
+      "arrivalStation": {
+        "stationCode": "GBQQU",
+        "stationDisplayName": "London Euston"
+      },
+      "departureDateTime": {
+        "raw": "2016-11-10T12:35:00",
+        "epochSeconds": 1478781300,
+        "localized": "10 Nov, 2016 12:35",
+        "localizedShortDate": "Thu, 10 Nov"
+      },
+      "arrivalDateTime": {
+        "raw": "2016-11-10T14:43:00",
+        "epochSeconds": 1478788980,
+        "localized": "10 Nov, 2016 14:43",
+        "localizedShortDate": "Thu, 10 Nov"
+      },
+      "marketingCarrier": "Virgin Trains",
+      "operatingCarrier": "Virgin Trains",
+      "travelMedium": {
+        "travelMediumName": "Inter-City",
+        "travelMediumCode": "ICY",
+        "supplierTravelMediumId": "VT7615"
+      },
+      "duration": "PT2H8M"
+    },
+    {
+      "travelSegmentIndex": 9,
+      "travelMode": "Transfer",
+      "departureStation": {
+        "stationCode": "GBQQU",
+        "stationDisplayName": "London Euston"
+      },
+      "arrivalStation": {
+        "stationCode": "GBQQP",
+        "stationDisplayName": "London Paddington"
+      },
+      "departureDateTime": {
+        "raw": "2016-11-10T14:43:00",
+        "epochSeconds": 1478788980,
+        "localized": "10 Nov, 2016 14:43",
+        "localizedShortDate": "Thu, 10 Nov"
+      },
+      "arrivalDateTime": {
+        "raw": "2016-11-10T15:26:00",
+        "epochSeconds": 1478791560,
+        "localized": "10 Nov, 2016 15:26",
+        "localizedShortDate": "Thu, 10 Nov"
+      },
+      "marketingCarrier": "London Underground",
+      "operatingCarrier": "London Underground",
+      "travelMedium": {
+        "travelMediumName": "Metro/City-Transit",
+        "travelMediumCode": "MCT"
+      },
+      "duration": "PT43M"
+    },
+    {
+      "travelSegmentIndex": 10,
+      "travelMode": "Train",
+      "departureStation": {
+        "stationCode": "GBQQP",
+        "stationDisplayName": "London Paddington"
+      },
+      "arrivalStation": {
+        "stationCode": "GBRDG",
+        "stationDisplayName": "Reading"
+      },
+      "departureDateTime": {
+        "raw": "2016-11-10T15:30:00",
+        "epochSeconds": 1478791800,
+        "localized": "10 Nov, 2016 15:30",
+        "localizedShortDate": "Thu, 10 Nov"
+      },
+      "arrivalDateTime": {
+        "raw": "2016-11-10T15:55:00",
+        "epochSeconds": 1478793300,
+        "localized": "10 Nov, 2016 15:55",
+        "localizedShortDate": "Thu, 10 Nov"
+      },
+      "marketingCarrier": "First Great Western",
+      "operatingCarrier": "First Great Western",
+      "travelMedium": {
+        "travelMediumName": "Inter-City",
+        "travelMediumCode": "ICY",
+        "supplierTravelMediumId": "GW4115"
+      },
+      "duration": "PT25M"
+    }
+  ],
+  "noOfChanges": 2,
+  "bestPrice": {
+    "amount": "87.90",
+    "currencyCode": "GBP",
+    "formattedPrice": "£87.90",
+    "formattedWholePrice": "£88"
+  },
+  "legBoundOrder": 1,
+  "showTrainIcon": false,
+  "overtakenJourney": false
+}

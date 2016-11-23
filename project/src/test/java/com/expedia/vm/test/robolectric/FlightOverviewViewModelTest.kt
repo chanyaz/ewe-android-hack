@@ -77,6 +77,7 @@ class FlightOverviewViewModelTest {
 
         sut.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals("Total Duration: 3h 50m", sut.totalDurationSubject.value)
+        assertEquals("Total Duration: 3 hour 50 minutes", sut.totalDurationContDescSubject.value)
     }
 
     @Test

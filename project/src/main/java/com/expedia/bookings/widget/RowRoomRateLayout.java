@@ -14,7 +14,7 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.text.Html;
+import android.support.v4.content.ContextCompat;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -33,6 +33,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.Rate.UserPriceType;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.SpannableBuilder;
@@ -145,7 +146,7 @@ public class RowRoomRateLayout extends FrameLayout {
 					 OnClickListener selectRateClickListener, OnClickListener addRoomClickListener) {
 		Resources res = getResources();
 
-		setBackgroundColor(res.getColor(R.color.bg_row_state_pressed));
+		setBackgroundColor(ContextCompat.getColor(getContext(), R.color.bg_row_state_pressed));
 		getBackground().setAlpha(0);
 
 		setRate(rate);
@@ -176,7 +177,7 @@ public class RowRoomRateLayout extends FrameLayout {
 			}
 
 		if (price != null) {
-			price.setText(getStyledPrice(res, rate));
+			price.setText(getStyledPrice(getContext(), rate));
 		}
 
 		// Show renovation fees notice
@@ -208,7 +209,7 @@ public class RowRoomRateLayout extends FrameLayout {
 			final String resortFeesMoreInfoText = property.getMandatoryFeesText().getContent();
 
 			TextView resortFeesNoticeText = Ui.findView(this, R.id.room_rate_resort_fees_text);
-			resortFeesNoticeText.setText(Html.fromHtml(resortFeesTemplate));
+			resortFeesNoticeText.setText(HtmlCompat.fromHtml(resortFeesTemplate));
 			resortFeesContainer.setVisibility(View.VISIBLE);
 			Ui.findView(this, R.id.room_rate_resort_fees_more_info).setOnClickListener(new OnClickListener() {
 				@Override
@@ -230,7 +231,7 @@ public class RowRoomRateLayout extends FrameLayout {
 		}
 
 		if (unique.size() > 0) {
-			urgencyMessagingView.setText(Html.fromHtml(res.getString(R.string.value_add_template,
+			urgencyMessagingView.setText(HtmlCompat.fromHtml(res.getString(R.string.value_add_template,
 				FormatUtils.series(getContext(), unique, ",", null).toLowerCase(Locale.getDefault()))));
 			urgencyMessagingView.setVisibility(View.VISIBLE);
 		}
@@ -438,13 +439,13 @@ public class RowRoomRateLayout extends FrameLayout {
 		context.startActivity(intent);
 	}
 
-	public static CharSequence getStyledPrice(Resources res, Rate rate) {
+	public static CharSequence getStyledPrice(Context context, Rate rate) {
 		final String formattedRoomRate = rate.getDisplayPrice().getFormattedMoney(Money.F_NO_DECIMAL);
 		TypefaceSpan typefaceSpan = new TypefaceSpan(FontCache.getTypeface(FontCache.Font.ROBOTO_BOLD));
-		ForegroundColorSpan colorSpan = new ForegroundColorSpan(res.getColor(R.color.hotel_room_rate_select_room_button));
+		ForegroundColorSpan colorSpan = new ForegroundColorSpan(ContextCompat.getColor(context, R.color.hotel_room_rate_select_room_button));
 
 		if (rate.getUserPriceType() == UserPriceType.PER_NIGHT_RATE_NO_TAXES) {
-			String built = res.getString(R.string.room_rate_per_night_template, formattedRoomRate);
+			String built = context.getString(R.string.room_rate_per_night_template, formattedRoomRate);
 			int rateOffset = built.indexOf(formattedRoomRate);
 			int rateLength = formattedRoomRate.length();
 			SpannableStringBuilder builder = new SpannableStringBuilder(built);

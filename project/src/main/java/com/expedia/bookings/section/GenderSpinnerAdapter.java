@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.text.TextUtils.TruncateAt;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler.Gender;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Ui;
 
 public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
@@ -63,7 +63,7 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 
 	private void populateGenders(Context context) {
 		Resources res = context.getResources();
-		mGenders = new ArrayList<GenderSpinnerHelper>();
+		mGenders = new ArrayList<>();
 		mGenders.add(new GenderSpinnerHelper(Gender.GENDER, res.getString(R.string.gender)));
 		mGenders.add(new GenderSpinnerHelper(Gender.MALE, res.getString(R.string.male)));
 		mGenders.add(new GenderSpinnerHelper(Gender.FEMALE, res.getString(R.string.female)));
@@ -92,7 +92,7 @@ public class GenderSpinnerAdapter extends ArrayAdapter<CharSequence> {
 		View retView = super.getView(position, convertView, parent);
 		TextView tv = Ui.findView(retView, android.R.id.text1);
 		tv.setEllipsize(TruncateAt.START); //If we have a long name, we want to make sure atleast the Gender is displayed
-		tv.setText(Html.fromHtml(String.format(mFormatString, getItem(position))));
+		tv.setText(HtmlCompat.fromHtml(String.format(mFormatString, getItem(position))));
 		if (position == 0) {
 			tv.setTextColor(ContextCompat.getColor(getContext(), R.color.data_review_gray));
 		}

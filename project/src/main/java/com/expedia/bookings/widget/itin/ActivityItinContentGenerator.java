@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.joda.time.DateTimeZone;
@@ -17,7 +18,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.text.Html;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -25,13 +26,15 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.trips.ItinCardDataActivity;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.ImageType;
 import com.expedia.bookings.notification.Notification.NotificationType;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.FontCache.Font;
@@ -41,6 +44,15 @@ import com.expedia.bookings.widget.InfoTripletView;
 import com.mobiata.android.SocialUtils;
 
 public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardDataActivity> {
+
+	@Override
+	public List<? extends IMedia> getHeaderBitmapDrawable() {
+		ArrayList<DefaultMedia> mediaList = new ArrayList<>();
+		DefaultMedia placeholder = new DefaultMedia(Collections.<String>emptyList(), "", getHeaderImagePlaceholderResId());
+		placeholder.setIsPlaceholder(true);
+		mediaList.add(placeholder);
+		return mediaList;
+	}
 
 	private static final int[] GUEST_ICONS = new int[] {
 		R.drawable.bg_activities_guest_cirlce_blue,
@@ -93,10 +105,6 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	}
 
 	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
-	}
-
-	@Override
 	public String getHeaderText() {
 		return getItinCardData().getTitle();
 	}
@@ -127,7 +135,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 				.inflate(R.layout.include_itin_card_summary_activity, container, false);
 		}
 
-		view.setText(Html.fromHtml(getContext().getString(R.string.itin_card_activity_summary_TEMPLATE,
+		view.setText(HtmlCompat.fromHtml(getContext().getString(R.string.itin_card_activity_summary_TEMPLATE,
 			getItinCardData().getLongFormattedValidDate(getContext()))));
 
 		return view;
@@ -247,7 +255,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 		final int height = bitmap.getHeight();
 
 		final Paint paint = new Paint();
-		paint.setColor(res.getColor(R.color.itin_white_text));
+		paint.setColor(ContextCompat.getColor(getContext(), R.color.itin_white_text));
 		paint.setTextSize(height * 0.8f);
 		paint.setTypeface(FontCache.getTypeface(Font.ROBOTO_BOLD));
 		paint.setAntiAlias(true);
@@ -269,7 +277,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public List<Intent> getAddToCalendarIntents() {
-		return new ArrayList<Intent>();
+		return new ArrayList<>();
 	}
 
 	// Facebook
@@ -285,7 +293,7 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	@Override
 	public List<Notification> generateNotifications() {
-		ArrayList<Notification> notifications = new ArrayList<Notification>(2);
+		ArrayList<Notification> notifications = new ArrayList<>(2);
 		notifications.add(generateActivityStartNotification());
 		return notifications;
 	}

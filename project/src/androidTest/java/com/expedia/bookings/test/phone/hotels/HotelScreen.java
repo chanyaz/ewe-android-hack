@@ -1,5 +1,10 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import java.util.concurrent.TimeUnit;
+
+import org.hamcrest.Matcher;
+import org.joda.time.LocalDate;
+
 import android.support.test.espresso.ViewInteraction;
 import android.support.test.espresso.contrib.RecyclerViewActions;
 import android.support.test.espresso.matcher.ViewMatchers;
@@ -8,17 +13,11 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.RecyclerViewAssertions;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-
-import org.hamcrest.Matcher;
-import org.joda.time.LocalDate;
-
-import java.util.concurrent.TimeUnit;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -125,19 +124,6 @@ public class HotelScreen {
 		onView(withId(R.id.renovation_container)).perform(scrollTo(), click());
 	}
 
-	public static void selectLocation(String hotel) throws Throwable {
-		hotelSuggestionList().perform(waitForViewToDisplay());
-		final Matcher<View> viewMatcher = hasDescendant(withText(hotel));
-
-		hotelSuggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS));
-		hotelSuggestionList().perform(RecyclerViewActions.actionOnItem(viewMatcher, click()));
-	}
-
-	public static ViewInteraction suggestionMatches(Matcher<View> matcher, int position) throws Throwable {
-		return hotelSuggestionList()
-			.check(RecyclerViewAssertions.assertionOnItemAtPosition(position, hasDescendant(matcher)));
-	}
-
 	public static ViewInteraction hotelResultsList() {
 		return onView(withId(R.id.list_view));
 	}
@@ -164,10 +150,6 @@ public class HotelScreen {
 
 	public static ViewInteraction hotelCarousel() {
 		return onView(withId(R.id.hotel_carousel));
-	}
-
-	public static ViewInteraction hotelSuggestionList() {
-		return onView(withId(R.id.drop_down_list));
 	}
 
 	public static void clickSortFilter() {
@@ -397,7 +379,7 @@ public class HotelScreen {
 	}
 
 	public static void clickSignIn() {
-		onView(withId(R.id.login_text_view)).perform(click());
+		onView(withId(R.id.login_text_view)).perform(scrollTo(), click());
 	}
 
 	public static void clickSignOut() {

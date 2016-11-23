@@ -1,8 +1,8 @@
 package com.expedia.vm.packages
 
-import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.SuggestionStrUtils
 import rx.subjects.BehaviorSubject
@@ -25,11 +25,11 @@ class SuggestionViewModel(isCustomerSelectingOrigin: Boolean) {
 
             if (isCustomerSelectingOrigin) {
                 titleObservable.onNext(
-                        Html.fromHtml(SuggestionStrUtils.formatAirportName(suggestion.regionNames.displayName)).toString())
+                        HtmlCompat.stripHtml(SuggestionStrUtils.formatAirportName(suggestion.regionNames.displayName)))
                 subtitleObservable.onNext(
-                        StrUtils.formatCityStateName(Html.fromHtml(suggestion.regionNames.displayName).toString()))
+                        StrUtils.formatCityStateName(HtmlCompat.stripHtml(suggestion.regionNames.displayName)))
             } else {
-                titleObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
+                titleObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
                 subtitleObservable.onNext("")
             }
 

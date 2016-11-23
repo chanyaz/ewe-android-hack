@@ -23,10 +23,10 @@ class AirportSuggestionViewModel(context: Context, suggestionsService: Suggestio
     }
 
     override fun getNearbyRegionType(): Int {
-        return SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
+        return SuggestionResultType.AIRPORT
     }
 
     override fun getNearbySortType(): String {
-        return "distance"
+        return "popularity"
     }
 }

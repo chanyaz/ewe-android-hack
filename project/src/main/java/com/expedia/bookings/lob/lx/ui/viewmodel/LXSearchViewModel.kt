@@ -1,10 +1,10 @@
 package com.expedia.bookings.lob.lx.ui.viewmodel
 
 import android.content.Context
-import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.lx.LxSearchParams
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
@@ -26,7 +26,7 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().destination(suggestion)
-        locationTextObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        locationTextObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
         requiredSearchParamsObserver.onNext(Unit)
     }
 
@@ -99,15 +99,15 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
-            return context.getString(R.string.select_lx_search_dates);
+            return context.getString(R.string.select_lx_search_dates)
         }
         return DateUtils.localDateToMMMd(start)
     }
 
     override fun computeDateRangeText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): String? {
         if (start == null && end == null) {
-            var stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_dates
-            return context.resources.getString(stringID)
+            val stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_dates
+            return context.getString(stringID)
         } else {
             return DateUtils.localDateToMMMMd(start)
         }

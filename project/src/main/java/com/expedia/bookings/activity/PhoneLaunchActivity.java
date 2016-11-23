@@ -42,7 +42,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
-import com.expedia.bookings.widget.ItinListView;
+import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
 import com.squareup.phrase.Phrase;
 
@@ -181,12 +181,6 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		AdTracker.trackViewHomepage();
 
 		TuneUtils.startTune(this);
-	}
-
-	@Override
-	protected void onPause() {
-		super.onPause();
-		FacebookEvents.Companion.deactivateAppIfEnabledInConfig(this);
 	}
 
 	@Override

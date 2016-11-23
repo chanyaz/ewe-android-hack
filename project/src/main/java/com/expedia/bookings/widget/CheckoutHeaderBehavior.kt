@@ -28,7 +28,8 @@ class CheckoutHeaderBehavior(val context: Context, attrs: AttributeSet) : Coordi
 
             child.checkInOutDates.alpha = 1 - (percentage * 2)
             child.travelers.alpha = 1 - (percentage * 2)
-            if (percentage == 0f || textViewLeftX == 0 || textViewWidth == 0 || toolBarRightX == 0) {
+            if (percentage == 0f && (textViewLeftX <= 0 || toolBarRightX <= 0
+                    || (textViewWidth == 0 && child.destinationText.width != 0))) {
                 setupValues(child, dependency)
             }
 

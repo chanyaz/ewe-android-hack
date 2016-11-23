@@ -10,6 +10,7 @@ import android.widget.ImageButton
 import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
@@ -90,6 +91,7 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrave
             spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                     vm.childAgeSelectedObserver.onNext(Pair(i, position))
+                    spinner.setAccessibilityHoverFocus()
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -133,6 +135,7 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrave
                     spinner.contentDescription = Phrase.from(context, R.string.search_child_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).format().toString()
                 }
             }
+            adultMinus.setAccessibilityHoverFocus()
         }
     }
 

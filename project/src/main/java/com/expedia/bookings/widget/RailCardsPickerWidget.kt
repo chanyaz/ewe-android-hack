@@ -10,12 +10,12 @@ import com.expedia.bookings.R
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.shared.SearchInputTextView
+import com.expedia.util.subscribeText
 import com.expedia.vm.RailCardPickerViewModel
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class RailCardsPickerWidget(context: Context, attrs: AttributeSet?) : SearchInputTextView(context, attrs) {
-
 
     lateinit var railServices: RailServices
         @Inject set
@@ -35,6 +35,7 @@ class RailCardsPickerWidget(context: Context, attrs: AttributeSet?) : SearchInpu
             cardsPickerDialog.dismiss()
         }
 
+        railCardPickerViewModel.cardsSelectedTextObservable.subscribeText(this)
     }
 
     val cardPickerDialogView: RailCardPickerView by lazy {

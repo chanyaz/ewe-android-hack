@@ -2,11 +2,11 @@ package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.HotelRulesActivity;
@@ -16,6 +16,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Rate;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.util.HtmlUtils;
@@ -62,7 +63,7 @@ public class HotelRulesFragment extends Fragment {
 
 		if (Strings.isNotEmpty(cancellationPolicy)) {
 			TextView cancellationPolicyTextView = Ui.findView(view, R.id.cancellation_policy_text_view);
-			cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy));
+			cancellationPolicyTextView.setText(HtmlCompat.fromHtml(cancellationPolicy));
 		}
 
 	return view;

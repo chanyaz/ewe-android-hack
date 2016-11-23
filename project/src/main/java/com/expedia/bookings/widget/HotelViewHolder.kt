@@ -5,7 +5,6 @@ import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
-import android.text.Html
 import android.util.TypedValue
 import android.view.View
 import android.widget.ImageView
@@ -16,6 +15,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.StrUtils
@@ -96,7 +96,7 @@ class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickL
         if (fullWidth) {
             if (HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
                 fullTileStrikethroughPrice.visibility = View.VISIBLE
-                fullTileStrikethroughPrice.text = Html.fromHtml(context.getString(R.string.strike_template,
+                fullTileStrikethroughPrice.text = HtmlCompat.fromHtml(context.getString(R.string.strike_template,
                         StrUtils.formatHotelPrice(Money(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers).toString(), hotel.lowRateInfo.currencyCode))),
                         null,
                         StrikethroughTagHandler())
@@ -114,7 +114,7 @@ class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickL
         } else {
             if (PointOfSale.getPointOfSale().supportsStrikethroughPrice() && HotelUtils.isDiscountTenPercentOrBetter(hotel.lowRateInfo)) {
                 halfTileStrikethroughPrice.visibility = View.VISIBLE
-                halfTileStrikethroughPrice.text = Html.fromHtml(context.getString(R.string.strike_template,
+                halfTileStrikethroughPrice.text = HtmlCompat.fromHtml(context.getString(R.string.strike_template,
                         StrUtils.formatHotelPrice(Money(Math.round(hotel.lowRateInfo.strikethroughPriceToShowUsers).toString(), hotel.rateCurrencyCode))),
                         null,
                         StrikethroughTagHandler())

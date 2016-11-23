@@ -5,7 +5,6 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.EnumMap;
-import java.util.HashMap;
 
 import android.content.Context;
 
@@ -13,7 +12,6 @@ import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
 import com.google.gson.Gson;
 import com.mobiata.android.util.SettingUtils;
@@ -116,17 +114,23 @@ public class EndpointProvider {
 		}
 	}
 
-	public HashMap<String, String> getRailEndpointUrls() {
-		HashMap<String, String> urlMap = new HashMap<>();
-		EndPoint endPoint = getEndPoint();
-		if (endPoint == EndPoint.MOCK_MODE) {
-			urlMap.put(Constants.MOCK_MODE, getCustomServerAddress());
+	public String getRailEndpointUrl() {
+		String endpoint;
+		switch (getEndPoint()) {
+		case MOCK_MODE:
+			endpoint = getCustomServerAddress();
+			break;
+		case INTEGRATION:
+			endpoint = "https://apim.int.expedia.com/rails/";
+			break;
+		case PRODUCTION:
+			endpoint = "https://apim.expedia.com/rails/";
+			break;
+		default:
+			endpoint = "https://apim.int.expedia.com/rails/test/";
+
 		}
-		else {
-			urlMap.put(Constants.DOMAIN, "http://rails-domain-service.us-west-2.int.expedia.com");
-			urlMap.put(Constants.MOBILE, "https://wwwexpediacouk.integration.sb.karmalab.net");
-		}
-		return urlMap;
+		return endpoint;
 	}
 
 	/**
@@ -142,6 +146,20 @@ public class EndpointProvider {
 		}
 
 		return ESS_PRODUCTION_ENDPOINT;
+	}
+
+	/**
+	 * Returns the base suggestion server url for GAIA, based on dev settings
+	 */
+	private final static String GAIA_TEST_ENDPOINT = "http://mobile-geo-aggregation-web.us-west-2.prod.expedia.com";
+
+	public String getGaiaEndpointUrl() {
+		EndPoint endPoint = getEndPoint();
+
+		if (endPoint == EndPoint.CUSTOM_SERVER || endPoint == EndPoint.MOCK_MODE) {
+			return getCustomServerAddress();
+		}
+		return GAIA_TEST_ENDPOINT;
 	}
 
 	private static final String TEST_REVIEWS_BASE_URL = "https://reviewsvc.ewetest.expedia.com/";

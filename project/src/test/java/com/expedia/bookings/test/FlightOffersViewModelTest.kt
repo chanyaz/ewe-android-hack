@@ -14,6 +14,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.vm.flights.FlightOffersViewModel
 import com.mobiata.mocke3.ExpediaDispatcher
 import com.mobiata.mocke3.FileSystemOpener
+import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -202,7 +203,7 @@ class FlightOffersViewModelTest {
 
         flightProductIdSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         flightProductIdSubscriber.assertValueCount(1)
-        flightProductIdSubscriber.assertValue("happy_roundtrip_0")
+        flightProductIdSubscriber.assertValue(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ROUND_TRIP.responseName)
     }
 
     @Test
@@ -225,7 +226,7 @@ class FlightOffersViewModelTest {
 
         flightProductIdSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
         flightProductIdSubscriber.assertValueCount(1)
-        flightProductIdSubscriber.assertValue("happy_oneway_0")
+        flightProductIdSubscriber.assertValue(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ONE_WAY.responseName)
     }
 
     @Test

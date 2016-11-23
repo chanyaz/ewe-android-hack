@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailProduct
-import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.rail.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
@@ -26,7 +25,7 @@ class RailLegSummaryViewModel(context: Context) {
 
     val fareDescriptionObservable = railProductObserver.map { railProduct -> railProduct.aggregatedFareDescription }
     val railCardNameObservable = railProductObserver.map { railProduct ->
-        if (railProduct.hasRailCardApplied()) railProduct.fareQualifierList.first().name else ""
+        getAppliedRailcardNames(railProduct)
     }
 
     init {
@@ -43,4 +42,12 @@ class RailLegSummaryViewModel(context: Context) {
             overtakenSubject.onNext(legOption.overtakenJourney)
         }
     }
+
+    private fun getAppliedRailcardNames(railProduct: RailProduct): String {
+        if (railProduct.hasRailCardApplied()) {
+            return railProduct.fareQualifierList.map { railCard -> railCard.name }.joinToString()
+        }
+        return ""
+    }
+
 }

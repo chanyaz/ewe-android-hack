@@ -12,7 +12,7 @@ class RailTravelMedium(val travelMediumCode: String,
         val HOVERCRAFT = "HOV"
         val HIGH_SPEED = "HSP"
         val INTER_CITY = "ICY"
-        val METRO_CITY_TRANSIT = "MCT"
+        const val METRO_CITY_TRANSIT = "MCT"
         val NAMED_TRAIN = "NAT"
         val NIGHT_TRAIN = "NIT"
         val PEDESTRIAN = "PED"

@@ -16,43 +16,13 @@ public class RailCreateTripResponse extends BaseApiResponse {
 	public RailDomainProduct railDomainProduct;
 	public List<RailValidFormOfPayment> validFormsOfPayment;
 	public String tripId;
+	public RailResponseStatus responseStatus;
 
 	// Set through code
 	@Nullable
 	public Money totalPriceIncludingFees;
 	public Money selectedCardFees;
 	public Money ticketDeliveryFees;
-
-	public static class RailDomainProduct {
-		public RailTripOffer railOffer;
-	}
-
-	public static class RailTripOffer extends BaseRailOffer {
-		public List<RailTripProduct> railProductList;
-		public List<RailTicketDeliveryOption> ticketDeliveryOptionList;
-
-		@Override
-		public List<? extends RailProduct> getRailProductList() {
-			return railProductList;
-		}
-	}
-
-	public static class RailTripProduct extends RailProduct {
-		public List<RailLegOption> legOptionList;
-
-		public RailLegOption getLegOption() {
-			return legOptionList.get(0);
-		}
-	}
-
-	public static class RailTicketDeliveryOption {
-		public RailTicketDeliveryOptionToken ticketDeliveryOptionToken;
-		public String ticketDeliveryOptionCategoryCode;
-		public String ticketDeliveryDescription;
-		public Money ticketDeliveryFee;
-		public List<String> ticketDeliveryCountryCodeList;
-		public boolean departureStation;
-	}
 
 	public static class RailValidFormOfPayment extends ValidFormOfPayment {
 		public Map<RailTicketDeliveryOptionToken, Fee> fees;
@@ -97,5 +67,10 @@ public class RailCreateTripResponse extends BaseApiResponse {
 		RailTripOffer offer = railDomainProduct.railOffer;
 		offer.addPriceBreakdownForCode(ticketDeliveryFees, BaseRailOffer.PriceCategoryCode.TICKET_DELIVERY);
 		offer.addPriceBreakdownForCode(selectedCardFees, BaseRailOffer.PriceCategoryCode.CREDIT_CARD_FEE);
+	}
+
+	public boolean isErrorResponse() {
+		return (hasErrors() || (responseStatus != null &&
+			!responseStatus.status.equals(RailsApiStatusCodes.STATUS_SUCCESS)));
 	}
 }

@@ -3,7 +3,6 @@ package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import com.expedia.bookings.enums.ResultsFlightsState;
 import com.expedia.bookings.enums.ResultsHotelsState;
 import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.CalendarUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
@@ -110,7 +110,7 @@ public class ResultsListSearchErrorFragment extends Fragment {
 			break;
 		case NO_FLIGHTS_DROPDOWN_POS:
 			String posURL = PointOfSale.getPointOfSale().getWebsiteUrl();
-			setErrorText(Html.fromHtml(getString(R.string.tablet_drop_down_flight_pos_unavailable_TEMPLATE, posURL)), posURL);
+			setErrorText(HtmlCompat.fromHtml(getString(R.string.tablet_drop_down_flight_pos_unavailable_TEMPLATE, posURL)), posURL);
 			break;
 		case MISSING_STARTDATE:
 			setErrorText(getString(R.string.missing_flight_trip_date_message));

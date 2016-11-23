@@ -4,7 +4,6 @@ import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.widget.LinearLayout;
@@ -13,6 +12,7 @@ import android.widget.TextView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.FlightSegmentAttributes;
+import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.util.Ui;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.utils.DateTimeUtils;
@@ -45,11 +45,11 @@ public class FlightSegmentSection extends LinearLayout {
 
 		CharSequence text;
 		if (TextUtils.isEmpty(flight.mAircraftType)) {
-			text = Html.fromHtml(r.getString(R.string.flight_details_no_plane_info_TEMPLATE,
+			text = HtmlCompat.fromHtml(r.getString(R.string.flight_details_no_plane_info_TEMPLATE,
 					duration, cabin, attrs.getBookingCode()));
 		}
 		else {
-			text = Html.fromHtml(r.getString(R.string.flight_details_TEMPLATE, duration, cabin,
+			text = HtmlCompat.fromHtml(r.getString(R.string.flight_details_TEMPLATE, duration, cabin,
 					attrs.getBookingCode(), flight.mAircraftType));
 		}
 

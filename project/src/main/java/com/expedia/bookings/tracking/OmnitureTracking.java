@@ -1,19 +1,5 @@
 package com.expedia.bookings.tracking;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
-
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -21,6 +7,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
+
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -30,10 +17,8 @@ import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.text.TextUtils;
 import android.util.Pair;
-
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -86,6 +71,12 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.packages.PackageSearchResponse;
 import com.expedia.bookings.data.payment.PaymentSplitsType;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.rail.requests.RailSearchRequest;
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
+import com.expedia.bookings.data.rail.responses.RailLeg;
+import com.expedia.bookings.data.rail.responses.RailTripOffer;
+import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
+import com.expedia.bookings.data.rail.responses.RailLegOption;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -95,8 +86,10 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.HotelCheckoutResponse;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
+import com.expedia.bookings.utils.DateUtils;
 import com.expedia.bookings.utils.FlightV2Utils;
 import com.expedia.bookings.utils.HotelUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -108,6 +101,20 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import kotlin.NotImplementedError;
 
 /**
  * The basic premise behind this class is to encapsulate the tracking logic as much possible such that tracking events
@@ -354,7 +361,6 @@ public class OmnitureTracking {
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest);
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsMemberDealTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFilterProminence);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
@@ -843,7 +849,6 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + HOTELSV2_CHECKOUT_TRAVELER_INFO + "\" pageLoad...");
 		ADMS_Measurement s = getFreshTrackingObject();
 		s.setAppState(HOTELSV2_CHECKOUT_TRAVELER_INFO);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelTravelerTest);
 		s.track();
 
 	}
@@ -1205,9 +1210,6 @@ public class OmnitureTracking {
 		else {
 			addProducts(s, property);
 		}
-
-		// 4761 - AB Test: Collapse Amenities, Policies, and fees on Infosite
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelCollapseAmenities);
 
 		// Send the tracking data
 		s.track();
@@ -2437,7 +2439,7 @@ public class OmnitureTracking {
 		addOriginAndDestinationVars(s, params.getOrigin(), params.getDestination());
 		s.setEvents("event2");
 		s.setEvar(47, getDSREvar47String(params));
-		s.setEvar(48, Html.fromHtml(params.getDestination().getDisplayName()).toString());
+		s.setEvar(48, HtmlCompat.stripHtml(params.getDestination().getDisplayName()));
 
 		s.track();
 	}
@@ -3166,7 +3168,9 @@ public class OmnitureTracking {
 	}
 
 	public static void trackItinHotelInfo() {
-		internalTrackLink(ITIN_HOTEL_INFO);
+		ADMS_Measurement s = createTrackLinkEvent(ITIN_HOTEL_INFO);
+		trackAbacusTest(s, AbacusUtils.EBAndroidItinHotelGallery);
+		internalTrackLink(s);
 	}
 
 	public static void trackItinInfoClicked(Type type) {
@@ -3185,6 +3189,9 @@ public class OmnitureTracking {
 			break;
 		case CRUISE:
 			//TODO:track cruise info
+			break;
+		case RAILS:
+			//TODO:track rails info
 			break;
 		default:
 			break;
@@ -3741,6 +3748,8 @@ public class OmnitureTracking {
 
 	private static final String HOTEL_LOB_NAVIGATION = "Hotel";
 	private static final String FLIGHT_LOB_NAVIGATION = "Flight";
+	private static final String PACKAGE_LOB_NAVIGATION = "Package";
+	private static final String RAIL_LOB_NAVIGATION = "Rail";
 	private static final String CAR_LOB_NAVIGATION = "Car";
 	private static final String LX_LOB_NAVIGATION = "LX";
 	private static final String TRANSPORT_LOB_NAVIGATION = "Transport";
@@ -3755,6 +3764,12 @@ public class OmnitureTracking {
 		case FLIGHTS:
 			lobString = FLIGHT_LOB_NAVIGATION;
 			break;
+		case PACKAGES:
+			lobString = PACKAGE_LOB_NAVIGATION;
+			break;
+		case RAILS:
+			lobString = RAIL_LOB_NAVIGATION;
+			break;
 		case CARS:
 			lobString = CAR_LOB_NAVIGATION;
 			break;
@@ -3764,6 +3779,8 @@ public class OmnitureTracking {
 		case TRANSPORT:
 			lobString = TRANSPORT_LOB_NAVIGATION;
 			break;
+		default:
+			throw new NotImplementedError("This LOB Navigation is not tracked in Omniture");
 		}
 		String link = LAUNCH_SCREEN_LOB_NAVIGATION + "." + lobString;
 
@@ -5206,7 +5223,6 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_SELECT_CARD = "App.Flight.CKO.Payment.Select.Existing";
 	private static final String FLIGHTS_V2_ENTER_CARD = "App.Flight.CKO.Payment.EnterManually";
 	private static final String FLIGHTS_V2_CHECKOUT_PAYMENT_SELECT = "App.Flight.CKO.Payment.Select";
-	private static final String FLIGHTS_V2_SLIDE_TO_PURCHASE = "App.Flight.Checkout.Payment.SlideToPurchase";
 	private static final String FLIGHTS_V2_PAYMENT_CID = "App.Flight.Checkout.Payment.CID";
 	private static final String FLIGHTS_V2_ERROR = "App.Flight.Error";
 	private static final String FLIGHTS_V2_CHECKOUT_ERROR = "App.Flight.CKO.Error";
@@ -5227,19 +5243,34 @@ public class OmnitureTracking {
 			(legs.second != null) ? legs.second.segments.get(legs.second.segments.size() - 1) : null);
 	}
 
-	public static String getFlightInsuranceProductString() {
+	public static String getFlightInsuranceProductStringOnCheckout() {
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
 		List<InsuranceProduct> insuranceProducts = trip.getAvailableInsuranceProducts();
-
 		if (!insuranceProducts.isEmpty()) {
 			InsuranceProduct insuranceProduct = insuranceProducts.get(0);
-			boolean isCheckoutConfirmation = (Db.getTripBucket().getFlightV2().flightCheckoutResponse != null);
-			return String.format(Locale.ENGLISH, ";Insurance:%s;%s;%.2f%s",
-				insuranceProduct.typeId, trip.getDetails().offer.numberOfTickets, insuranceProduct.totalPrice.amount,
-				!isCheckoutConfirmation ? ";;eVar63=Merchant:SA" : "");
+			return String.format(Locale.ENGLISH, ",;Insurance:%s;%s;%.2f%s",
+				insuranceProduct.typeId, trip.getDetails().offer.numberOfTickets,
+				insuranceProduct.totalPrice.amount, ";;eVar63=Merchant:SA");
 		}
-		return "";
+		else {
+			return "";
+		}
 	}
+
+	public static String getFlightInsuranceProductStringOnConfirmation() {
+		com.expedia.bookings.data.flights.FlightCheckoutResponse trip = Db.getTripBucket()
+			.getFlightV2().flightCheckoutResponse;
+		InsuranceProduct selectedInsuranceProduct = trip.getSelectedInsuranceProduct();
+		if (selectedInsuranceProduct != null) {
+			return String.format(Locale.ENGLISH, ",;Insurance:%s;%s;%.2f",
+				selectedInsuranceProduct.typeId, trip.getDetails().offer.numberOfTickets,
+				selectedInsuranceProduct.totalPrice.amount);
+		}
+		else {
+			return "";
+		}
+	}
+
 
 	public static String getFlightInventoryTypeString() {
 		FlightCreateTripResponse trip = Db.getTripBucket().getFlightV2().flightCreateTripResponse;
@@ -5380,21 +5411,20 @@ public class OmnitureTracking {
 		String products;
 		if (!isSplitTicket) {
 			if (takeoffDateStrings.second != null) {
-				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s,%s", getFlightProductString(true),
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s-%s%s", getFlightProductString(true),
 					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
-					takeoffDateStrings.second, getFlightInsuranceProductString());
+					takeoffDateStrings.second, getFlightInsuranceProductStringOnConfirmation());
 			}
 			else {
-				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s,%s", getFlightProductString(true),
+				products = String.format(Locale.ENGLISH, "%s:%s-%s:%s%s", getFlightProductString(true),
 					airportCodes.first, airportCodes.second, takeoffDateStrings.first,
-					getFlightInsuranceProductString());
+					getFlightInsuranceProductStringOnConfirmation());
 			}
 		}
 		else {
-			products = getFlightProductString(true) + getFlightInsuranceProductString();
+			products = getFlightProductString(true) + getFlightInsuranceProductStringOnConfirmation();
 		}
 		s.setProducts(products);
-
 		// miscellaneous variables
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
@@ -5412,7 +5442,7 @@ public class OmnitureTracking {
 		com.expedia.bookings.data.flights.FlightCheckoutResponse checkoutResponse = Db.getTripBucket().getFlightV2()
 			.flightCheckoutResponse;
 		s.setCurrencyCode(checkoutResponse.getCurrencyCode());
-		s.setProp(71, checkoutResponse.newTrip.getTravelRecordLocator());
+		s.setProp(71, checkoutResponse.getNewTrip().getTravelRecordLocator());
 		s.setProp(72, checkoutResponse.getOrderId());
 		s.setPurchaseID("onum" + checkoutResponse.getOrderId());
 
@@ -5429,7 +5459,7 @@ public class OmnitureTracking {
 		s.setEvents("event36, event71" /* checkout start, flight checkout start */ +
 			(tripResponse.getAvailableInsuranceProducts().isEmpty() ? "" : ", event122" /* insurance present */));
 
-		String products = getFlightProductString(false) + getFlightInsuranceProductString();
+		String products = getFlightProductString(false) + getFlightInsuranceProductStringOnCheckout();
 
 		// products
 		s.setProducts(products);
@@ -5633,7 +5663,7 @@ public class OmnitureTracking {
 	}
 
 	public static void trackSlideToPurchase(String cardType) {
-		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHTS_V2_SLIDE_TO_PURCHASE);
+		ADMS_Measurement s = createTrackPageLoadEventBase(FLIGHT_CHECKOUT_SLIDE_TO_PURCHASE);
 		s.setEvar(37, cardType);
 		s.track();
 	}
@@ -5700,8 +5730,21 @@ public class OmnitureTracking {
 	private static final String RAIL_SEARCH_BOX = "App.Rail.Dest-Search";
 	private static final String RAIL_SEARCH_TRAVELER_PICKER_CLICK_TEMPLATE = "App.Rail.DS.Traveler.";
 	private static final String RAIL_CARD_PICKER_PICKER_CLICK_TEMPLATE = "App.Rail.DS.Card.";
+	private static final String RAIL_ROUND_TRIP_OUT_DETAILS = "App.Rail.Search.Roundtrip.Out.Details";
+	private static final String RAIL_ROUND_TRIP_IN_DETAILS = "App.Rail.Search.Roundtrip.In.Details";
+	private static final String RAIL_ONE_WAY_TRIP_DETAILS = "App.Rail.Search.Oneway.Details";
+	private static final String RAIL_AMENITIES = "App.Rail.Amenities";
+	private static final String RAIL_FARES = "App.Rail.FareRules";
+	private static final String RAIL_SEARCH_ONE_WAY = "App.Rail.Search.Oneway";
+	private static final String RAIL_SEARCH_ROUND_TRIP_OUT = "App.Rail.Search.Roundtrip.Out";
+	private static final String RAIL_SEARCH_ROUND_TRIP_IN = "App.Rail.Search.Roundtrip.In";
+	private static final String RAIL_CHECKOUT_CONFIRMATION = "App.Rail.Checkout.Confirmation";
+	private static final String RAIL_RATE_DETAILS = "App.Rail.RateDetails";
+	private static final String RAIL_RATE_DETAILS_TOTAL_COST = "App.Rail.RD.TotalCost";
+	private static final String RAIL_RATE_DETAILS_VIEW_DETAILS = "App.Rail.RD.ViewDetails";
 
 	private static ADMS_Measurement createTrackRailPageLoadEventBase(String pageName) {
+		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, RAIL_LOB);
@@ -5713,7 +5756,6 @@ public class OmnitureTracking {
 	}
 
 	private static void trackRailPageLoadEventStandard(String pageName) {
-		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 		createTrackRailPageLoadEventBase(pageName).track();
 	}
 
@@ -5723,5 +5765,204 @@ public class OmnitureTracking {
 
 	public static void trackRailCardPicker(String text) {
 		createAndtrackLinkEvent(RAIL_CARD_PICKER_PICKER_CLICK_TEMPLATE + text, "Search Results Update");
+	}
+
+	public static void trackRailRoundTripJourneyDetailsAndFareOptions() {
+		String pageName = RAIL_ROUND_TRIP_OUT_DETAILS;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailRoundTripInDetails() {
+		String pageName = RAIL_ROUND_TRIP_IN_DETAILS;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailOneWayTripDetails() {
+		String pageName = RAIL_ONE_WAY_TRIP_DETAILS;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailAmenities() {
+		String pageName = RAIL_AMENITIES;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailFares() {
+		String pageName = RAIL_FARES;
+		createTrackRailPageLoadEventBase(pageName).track();
+	}
+
+	public static void trackRailOneWaySearch(RailLeg outboundLeg, RailSearchRequest railSearchRequest) {
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(RAIL_SEARCH_ONE_WAY);
+		Log.d(TAG, "Tracking \"" + RAIL_SEARCH_ONE_WAY + "\"");
+		s.setAppState(RAIL_SEARCH_ONE_WAY);
+		setOutboundTrackingDetails(s, outboundLeg, railSearchRequest);
+		s.track();
+	}
+
+	public static void trackRailRoundTripOutbound(RailLeg outboundLeg, RailSearchRequest railSearchRequest) {
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(RAIL_SEARCH_ROUND_TRIP_OUT);
+		Log.d(TAG, "Tracking \"" + RAIL_SEARCH_ROUND_TRIP_OUT + "\"");
+		s.setAppState(RAIL_SEARCH_ROUND_TRIP_OUT);
+		setOutboundTrackingDetails(s, outboundLeg, railSearchRequest);
+		s.track();
+	}
+
+	private static void setOutboundTrackingDetails(ADMS_Measurement s, RailLeg outboundLeg, RailSearchRequest railSearchRequest) {
+		s.setEvents("event12,event124");
+		s.setProp(1, String.valueOf(outboundLeg.legOptionList.size()));
+
+		s.setProp(3, railSearchRequest.getOrigin().hierarchyInfo.rails.stationCode);
+		s.setEvar(3, "D=c3");
+		s.setProp(4,  railSearchRequest.getDestination().hierarchyInfo.rails.stationCode);
+		s.setEvar(4, "D=c4");
+		setDateValues(s, railSearchRequest.getStartDate(), railSearchRequest.getEndDate());
+
+		StringBuilder evar47String = new StringBuilder("RL|");
+		if (railSearchRequest.isRoundTripSearch()) {
+			evar47String.append("RT|");
+		}
+		else {
+			evar47String.append("OW|");
+		}
+		evar47String.append("A" + railSearchRequest.getAdults() + "|");
+		evar47String.append("S" + railSearchRequest.getSeniors().size() + "|");
+		evar47String.append("C" + railSearchRequest.getChildren().size() + "|");
+		evar47String.append("Y" + railSearchRequest.getYouths().size());
+
+		s.setEvar(47, evar47String.toString());
+
+		// Freeform location
+		if (!TextUtils.isEmpty(railSearchRequest.getDestination().regionNames.fullName)) {
+			s.setEvar(48, railSearchRequest.getDestination().regionNames.fullName);
+		}
+	}
+
+	public static void trackRailRoundTripInbound() {
+		createTrackRailPageLoadEventBase(RAIL_SEARCH_ROUND_TRIP_IN).track();
+	}
+
+	public static void trackAppRailsCheckoutConfirmation(RailCheckoutResponse checkoutResponse) {
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(RAIL_CHECKOUT_CONFIRMATION);
+		String orderId = checkoutResponse.orderId;
+		String currencyCode = checkoutResponse.currencyCode;
+		String travelRecordLocator = checkoutResponse.newTrip.travelRecordLocator;
+		s.setEvents("purchase");
+		s.setPurchaseID("onum" + orderId);
+		s.setProp(72, orderId);
+		s.setProp(71, travelRecordLocator);
+		s.setCurrencyCode(currencyCode);
+		RailTripOffer railOffer = checkoutResponse.railDomainProduct.railOffer;
+		DateTime endDate;
+		String destinationStationCode;
+		String departureStationCode = railOffer.getOutboundLegOption().departureStation.getStationCode();
+
+		if (railOffer.isRoundTrip()) {
+			endDate = railOffer.getInboundLegOption().arrivalDateTime.toDateTime();
+			destinationStationCode = railOffer.getInboundLegOption().arrivalStation.getStationCode();
+		}
+		else {
+			endDate = railOffer.getOutboundLegOption().arrivalDateTime.toDateTime();
+			destinationStationCode = railOffer.getOutboundLegOption().arrivalStation.getStationCode();
+		}
+		DateTime startDate = railOffer.getOutboundLegOption().departureDateTime.toDateTime();
+
+		s.setProducts(getRailProductString(checkoutResponse, endDate, startDate, departureStationCode, destinationStationCode));
+		s.setProp(3, departureStationCode);
+		s.setEvar(3, "D=c3");
+
+		s.setProp(4, destinationStationCode);
+		s.setEvar(4, "D=c4");
+		setDateValues(s, startDate.toLocalDate(), endDate.toLocalDate());
+		s.track();
+	}
+
+	private static String getRailProductString(RailCheckoutResponse checkoutResponse, DateTime endDate,
+		DateTime startDate, String departureStationCode, String destinationStationCode) {
+		String carrier = checkoutResponse.railDomainProduct.railOffer.colonSeparatedMarketingCarriers();
+
+		StringBuilder productString = new StringBuilder(";Rail:");
+		productString.append(carrier + ":");
+
+		RailTripOffer railOffer = checkoutResponse.railDomainProduct.railOffer;
+		if (checkoutResponse.railDomainProduct.railOffer.isRoundTrip()) {
+			productString.append("RT;");
+		}
+		else {
+			productString.append("OW;");
+		}
+		productString.append(railOffer.passengerList.size() + ";");
+		productString.append(checkoutResponse.totalCharges + ";;");
+		productString.append("evar30=Agency:Rail:");
+		productString.append(departureStationCode + "-" + destinationStationCode + ":");
+
+		productString.append(startDate.toString(EVAR30_DATE_FORMAT) + "-" + endDate.toString(EVAR30_DATE_FORMAT));
+
+		return productString.toString();
+	}
+
+	public static void trackRailDetails(RailCreateTripResponse railCreateTripResponse) {
+		String pageName = RAIL_RATE_DETAILS;
+		ADMS_Measurement s = createTrackRailPageLoadEventBase(pageName);
+		s.setEvents("event4");
+		s = processRailCreateTripResponse(s, railCreateTripResponse);
+		s.track();
+	}
+
+	private static ADMS_Measurement processRailCreateTripResponse(ADMS_Measurement s, RailCreateTripResponse railCreateTripResponse) {
+		String products = ";Rail:";
+		String departureStation;
+		String arrivalStation;
+		int searchWindow, searchDuration;
+
+		RailLegOption outboundLegOption = railCreateTripResponse.railDomainProduct.railOffer.getOutboundLegOption();
+		RailLegOption inboundLegOption = railCreateTripResponse.railDomainProduct.railOffer.getInboundLegOption();
+
+		products += outboundLegOption.aggregatedOperatingCarrier;
+		departureStation = outboundLegOption.departureStation.getStationCode();
+		arrivalStation = outboundLegOption.arrivalStation.getStationCode();
+		searchWindow = JodaUtils.daysBetween(new DateTime(), outboundLegOption.getDepartureDateTime());
+
+		if (!railCreateTripResponse.railDomainProduct.railOffer.isRoundTrip()) {
+			products += ":OW;;";
+		}
+		else {
+			products += ":";
+			products += inboundLegOption.aggregatedMarketingCarrier;
+			products += ":RT;;";
+			searchDuration = JodaUtils.daysBetween(outboundLegOption.getDepartureDateTime(), inboundLegOption.getDepartureDateTime());
+			s.setEvar(6, String.valueOf(searchDuration));
+			s.setProp(6, DateUtils.localDateToyyyyMMdd(inboundLegOption.departureDateTime.toDateTime().toLocalDate()));
+		}
+
+		s.setProducts(products);
+		s.setEvar(3, "D=c3");
+		s.setProp(3, departureStation);
+		s.setEvar(4, "D=c4");
+		s.setProp(4, arrivalStation);
+		s.setEvar(5, String.valueOf(searchWindow));
+		s.setProp(5, DateUtils.localDateToyyyyMMdd(outboundLegOption.departureDateTime.toDateTime().toLocalDate()));
+
+		return s;
+	}
+
+	public static void trackRailDetailsTotalCostToolTip() {
+		Log.d(TAG, "Tracking \"" + RAIL_RATE_DETAILS_TOTAL_COST + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(7, "1");
+		s.setEvar(28, RAIL_RATE_DETAILS_TOTAL_COST);
+		s.setProp(16, RAIL_RATE_DETAILS_TOTAL_COST);
+		s.setEvar(61, "1");
+		s.trackLink(null, "o", "Rate Details", null, null);
+	}
+
+	public static void trackRailTripOverviewDetailsExpand() {
+		Log.d(TAG, "Tracking \"" + RAIL_RATE_DETAILS_VIEW_DETAILS + "\" click...");
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setProp(7, "1");
+		s.setEvar(28, RAIL_RATE_DETAILS_VIEW_DETAILS);
+		s.setProp(16, RAIL_RATE_DETAILS_VIEW_DETAILS);
+		s.setEvar(61, "1");
+		s.trackLink(null, "o", "Rate Details View", null, null);
 	}
 }

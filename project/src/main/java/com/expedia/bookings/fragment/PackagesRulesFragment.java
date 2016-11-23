@@ -1,7 +1,6 @@
 package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,7 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.packages.PackageCreateTripResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 
@@ -74,7 +74,7 @@ public class PackagesRulesFragment extends BaseRulesFragment {
 		if (Strings.isNotEmpty(cancellationPolicy)) {
 			cancellationPolicyContainer.setVisibility(View.VISIBLE);
 			TextView cancellationPolicyTextView = Ui.findView(v, R.id.cancellation_policy_text_view);
-			cancellationPolicyTextView.setText(Html.fromHtml(cancellationPolicy));
+			cancellationPolicyTextView.setText(HtmlCompat.fromHtml(cancellationPolicy));
 		}
 
 		String insuranceStatement = PointOfSale.getPointOfSale().getInsuranceStatement();
@@ -122,7 +122,7 @@ public class PackagesRulesFragment extends BaseRulesFragment {
 				flightCreateTripResponse.flightRules.rulesToText.get(RulesKeys.LCC_CHECKIN_TEXT.getKey()));
 			appendStringWithBreak(builder,
 				flightCreateTripResponse.flightRules.rulesToText.get(RulesKeys.LCC_LITE_TEXT.getKey()));
-			mLccTextView.setText(Html.fromHtml(builder.toString()));
+			mLccTextView.setText(HtmlCompat.fromHtml(builder.toString()));
 			mLccTextView.setVisibility(View.VISIBLE);
 		}
 	}

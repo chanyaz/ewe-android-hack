@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
@@ -63,7 +62,7 @@ import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.Log;
 import com.squareup.otto.Subscribe;
 
-public class FlightTripOverviewActivity extends FragmentActivity implements AccountLibActivity.LogInListener,
+public class FlightTripOverviewActivity extends TrackingFragmentActivity implements AccountLibActivity.LogInListener,
 	CheckoutInformationListener, ISlideToListener, DoLogoutListener {
 
 	public static final String TAG_OVERVIEW_FRAG = "TAG_OVERVIEW_FRAG";

@@ -10,6 +10,7 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.DateUtils
 import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
@@ -24,6 +25,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertNull
 import kotlin.test.assertTrue
+import org.joda.time.LocalDate
+import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
 class HotelCheckoutSummaryViewModelTest {
@@ -48,6 +51,9 @@ class HotelCheckoutSummaryViewModelTest {
     fun happy() {
         givenHappyHotelProductResponse()
         setup()
+        
+        val testTextSubscriber = TestSubscriber<String>()
+        sut.freeCancellationText.subscribe(testTextSubscriber)
 
         paymentModel.createTripSubject.onNext(createTripResponse)
         val hotelRoomResponse = hotelProductResponse.hotelRoomResponse
@@ -81,7 +87,24 @@ class HotelCheckoutSummaryViewModelTest {
         assertEquals(Money(BigDecimal(rate.totalMandatoryFees.toString()), rate.currencyCode).formattedMoney, sut.feesPaidAtHotel.value)
         assertTrue(sut.isBestPriceGuarantee.value)
         assertEquals(sut, sut.newDataObservable.value)
+        assertEquals("Free Cancellation", testTextSubscriber.onNextEvents[0])
         assertNull(sut.burnAmountShownOnHotelCostBreakdown.value)
+        assertEquals(hotelRoomResponse.valueAdds, sut.valueAddsListObservable.value)
+    }
+
+    @Test
+    fun freeCancellationWindowIsProvided() {
+        givenHappyHotelProductResponse()
+        setup()
+
+        val testTextSubscriber = TestSubscriber<String>()
+        val checkInDate = LocalDate.now().plusDays(10)
+        createTripResponse.newHotelProductResponse.hotelRoomResponse.freeCancellationWindowDate = checkInDate.toString() + " 23:59"
+        sut.freeCancellationText.subscribe(testTextSubscriber)
+        paymentModel.createTripSubject.onNext(createTripResponse)
+
+        val formattedCheckInDate = DateUtils.localDateToEEEMMMd(checkInDate)
+        assertEquals("Free cancellation before ${formattedCheckInDate}", testTextSubscriber.onNextEvents[0])
     }
 
     @Test
@@ -176,7 +199,7 @@ class HotelCheckoutSummaryViewModelTest {
         assertFalse(sut.isShoppingWithPoints.value)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testBestPriceGuaranteeMessagingNotShown() {
         givenHappyHotelProductResponse()
         setup()

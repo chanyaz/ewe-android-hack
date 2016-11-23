@@ -19,6 +19,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.CustomMatchers.withContentDescription;
 import static org.hamcrest.CoreMatchers.allOf;
 
 public class PackageFlightsOverviewTest extends PackageTestCase {
@@ -58,6 +59,7 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		onView(allOf(withId(R.id.departure_arrival_time), withText("9:50 am - 2:27 pm"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.airline_airplane_type), withText("Hawaiian Airlines 497 • Boeing 737-900"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.departure_arrival_airport), withText("(SFO) San Francisco - (SAN) San Diego"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.departure_arrival_airport), withContentDescription("(SFO) San Francisco to (SAN) San Diego"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.flight_duration), withText("4h 37m"))).check(matches(isDisplayed()));
 
 		// Layover
@@ -68,6 +70,7 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		onView(allOf(withId(R.id.departure_arrival_time), withText("3:15 pm - 4:09 pm"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.airline_airplane_type), withText("Hawaiian Airlines 5496 • Boeing 717"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.departure_arrival_airport), withText("(SAN) San Diego - (LAX) Los Angeles"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.departure_arrival_airport), withContentDescription("(SAN) San Diego to (LAX) Los Angeles"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.flight_duration), withText("54m"))).check(matches(isDisplayed()));
 
 		// Layover
@@ -79,6 +82,7 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		onView(allOf(withId(R.id.departure_arrival_time), withText("5:10 pm - 9:50 pm"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.airline_airplane_type), withText("Hawaiian Airlines 1182 • Boeing 757"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.departure_arrival_airport), withText("(LAX) Los Angeles - (OGG) Kahului"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.departure_arrival_airport), withContentDescription("(LAX) Los Angeles to (OGG) Kahului"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.flight_duration), withText("5h 40m"))).check(matches(isDisplayed()));
 
 		// Layover
@@ -89,6 +93,7 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 		onView(allOf(withId(R.id.departure_arrival_time), withText("11:00 pm - 11:40 pm"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.airline_airplane_type), withText("Hawaiian Airlines 293 • Boeing 717"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.departure_arrival_airport), withText("(OGG) Kahului - (HNL) Honolulu"))).check(matches(isDisplayed()));
+		onView(allOf(withId(R.id.departure_arrival_airport), withContentDescription("(OGG) Kahului to (HNL) Honolulu"))).check(matches(isDisplayed()));
 		onView(allOf(withId(R.id.flight_duration), withText("40m"))).check(matches(isDisplayed()));
 
 

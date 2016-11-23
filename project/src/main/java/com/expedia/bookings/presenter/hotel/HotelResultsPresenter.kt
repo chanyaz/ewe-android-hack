@@ -14,7 +14,6 @@ import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -22,8 +21,8 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.FilterButtonWithCountWidget
 import com.expedia.bookings.widget.MapLoadingOverlayWidget
 import com.expedia.bookings.widget.hotel.HotelListAdapter
-import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
+import com.expedia.vm.AbstractHotelFilterViewModel
 import com.expedia.vm.HotelFilterViewModel
 import com.expedia.vm.ShopWithPointsViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
@@ -46,7 +45,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
         showSearchMenu.subscribe { searchMenu.isVisible = it }
     }
 
-    var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
+    override var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         mapViewModel.mapInitializedObservable.subscribe{
             setMapToInitialState(viewmodel.paramsSubject.value?.suggestion)
         }
@@ -97,7 +96,7 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             filterView.viewmodel.clearObservable.onNext(Unit)
         }
 
-        vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterViewModel.isCurrentLocationSearch)
+        vm.paramsSubject.map { it.isCurrentLocationSearch() }.subscribe(filterView.viewmodel.isCurrentLocationSearch)
     }
 
     override fun onFinishInflate() {
@@ -218,5 +217,9 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.HOTELS
+    }
+
+    override fun createFilterViewModel(): AbstractHotelFilterViewModel {
+        return HotelFilterViewModel(context)
     }
 }

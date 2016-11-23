@@ -2,15 +2,15 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/rail_outbound_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
             android:background="@color/rail_primary_color"
             android:minHeight="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
@@ -20,16 +20,51 @@
         <com.expedia.bookings.widget.TextView
             android:id="@+id/child_warning"
             style="@style/RailWarningBar.Small"
+            android:layout_below="@id/rail_outbound_toolbar"
             android:text="@string/rail_children_warning"
-            android:visibility="gone"/>
+            android:visibility="gone" />
 
-        <com.expedia.bookings.widget.rail.RailResultsRecyclerView
-            android:id="@+id/rail_outbound_list"
+        <FrameLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginLeft="@dimen/rail_screen_content_padding"
-            android:layout_marginRight="@dimen/rail_screen_content_padding"
-            android:overScrollMode="never"
-            android:paddingTop="4dp" />
-    </LinearLayout>
+            android:layout_below="@+id/child_warning"
+            android:layout_above="@+id/outbound_legal_banner">
+
+            <com.expedia.bookings.widget.rail.RailResultsRecyclerView
+                android:id="@+id/rail_outbound_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/rail_screen_content_padding"
+                android:layout_marginRight="@dimen/rail_screen_content_padding"
+                android:overScrollMode="never"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="top"
+                android:background="@drawable/tb_shadow" />
+
+            <View
+                android:id="@+id/rail_legal_banner_shadow"
+                android:layout_width="match_parent"
+                android:layout_height="4dp"
+                android:layout_gravity="bottom"
+                android:background="@drawable/drop_shadow" />
+        </FrameLayout>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/outbound_legal_banner"
+            style="@style/Core.Text.Small.LightColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:background="@color/white"
+            android:drawableRight="@drawable/info"
+            android:drawablePadding="8dp"
+            android:paddingBottom="8dp"
+            android:paddingLeft="@dimen/rail_results_header_left_right_pad"
+            android:paddingRight="@dimen/rail_results_header_left_right_pad"
+            android:paddingTop="8dp"
+            android:text="@string/rail_search_legal_banner_round_trip" />
+    </RelativeLayout>
 </merge>

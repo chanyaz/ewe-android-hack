@@ -1,9 +1,13 @@
 package com.expedia.vm.hotel
 
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelFavoriteHelper
+import com.expedia.bookings.data.abacus.AbacusResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.tracking.HotelTracking
 import org.junit.Assert.assertEquals
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
@@ -20,6 +24,13 @@ class FavoriteButtonViewModelTest {
     lateinit var vm: FavoriteButtonViewModel
     val testSubscriber = TestSubscriber.create<Pair<String, Boolean>>()
 
+    @Before
+    fun setUp() {
+        val abacusResponse = AbacusResponse()
+        abacusResponse.updateABTestForDebug(AbacusUtils.EBAndroidAppHotelFavoriteTest,
+                AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+        Db.setAbacusResponse(abacusResponse)
+    }
 
     @Test
     fun testUnfavoriteHotelIsFavorite() {

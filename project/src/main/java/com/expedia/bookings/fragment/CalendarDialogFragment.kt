@@ -41,7 +41,7 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
     val calendar: CalendarPicker by lazy {
         val calendarPickerView = calendarDialogView.findViewById(R.id.calendar) as CalendarPicker
         val maxDate = LocalDate.now().plusDays(baseSearchViewModel.getMaxDateRange())
-        calendarPickerView.setSelectableDateRange(LocalDate.now(), maxDate)
+        calendarPickerView.setSelectableDateRange(baseSearchViewModel.getStartDate(), maxDate)
         calendarPickerView.setMaxSelectableDateRange(baseSearchViewModel.getMaxSearchDurationDays())
 
         val monthView = calendarPickerView.findViewById(R.id.month) as MonthView

@@ -13,7 +13,7 @@ public class FlightTotalPriceTest extends FlightTestCase {
 
 	public void testTotalPriceMessaging() throws Exception {
 		FlightsSearchScreen.clickDepartureAirportField();
-		FlightsSearchScreen.enterDepartureAirport("SFO");
+		FlightsSearchScreen.enterDepartureAirport("happy");
 		FlightsSearchScreen.clickArrivalAirportField();
 		FlightsSearchScreen.enterArrivalAirport("LAS");
 		FlightsSearchScreen.clickSelectDepartureButton();
@@ -22,6 +22,6 @@ public class FlightTotalPriceTest extends FlightTestCase {
 		FlightsSearchScreen.clickSearchButton();
 		FlightsSearchResultsScreen.clickListItem(1);
 		FlightLegScreen.clickSelectFlightButton();
-		EspressoUtils.assertViewWithTextIsDisplayed(R.id.trip_total, "$446.20");
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.trip_total, "$696.00");
 	}
 }

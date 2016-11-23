@@ -1,6 +1,6 @@
 package com.expedia.bookings.test
 
-import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.rail.RailTicketDeliveryEntryViewModel
 import org.junit.Test
@@ -18,18 +18,18 @@ class RailTicketDeliveryEntryViewModelTest {
     @Test
     fun testDeliveryOptions() {
         val viewModel = RailTicketDeliveryEntryViewModel(RuntimeEnvironment.application)
-        val testSubscriberTicketDeliveryByPostOptions = TestSubscriber.create<List<RailCreateTripResponse.RailTicketDeliveryOption>>()
+        val testSubscriberTicketDeliveryByPostOptions = TestSubscriber.create<List<RailTicketDeliveryOption>>()
         val testSubscriberDeliveryByMailSupported = TestSubscriber.create<Boolean>()
         viewModel.ticketDeliveryByPostOptions.subscribe(testSubscriberTicketDeliveryByPostOptions)
         viewModel.deliveryByMailSupported.subscribe(testSubscriberDeliveryByMailSupported)
 
-        var ticketDeliveryOptionsAll = ArrayList<RailCreateTripResponse.RailTicketDeliveryOption>()
+        var ticketDeliveryOptionsAll = ArrayList<RailTicketDeliveryOption>()
 
-        val option1 = RailCreateTripResponse.RailTicketDeliveryOption()
+        val option1 = RailTicketDeliveryOption()
         option1.ticketDeliveryCountryCodeList = listOf("GB")
         ticketDeliveryOptionsAll.add(option1)
 
-        val option2 = RailCreateTripResponse.RailTicketDeliveryOption()
+        val option2 = RailTicketDeliveryOption()
         option2.ticketDeliveryCountryCodeList = listOf("IN")
         ticketDeliveryOptionsAll.add(option2)
 

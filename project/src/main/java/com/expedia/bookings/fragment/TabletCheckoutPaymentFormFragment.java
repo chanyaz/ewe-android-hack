@@ -6,7 +6,6 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -18,18 +17,19 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
-import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
+import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
-import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.fragment.base.TabletCheckoutDataFormFragment;
 import com.expedia.bookings.interfaces.ICheckoutDataListener;
 import com.expedia.bookings.section.ISectionEditable;
 import com.expedia.bookings.section.SectionBillingInfo;
 import com.expedia.bookings.section.SectionLocation;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.mobiata.android.util.Ui;
@@ -272,15 +272,13 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 	public void updateCardMessageText(String message) {
 		if (message != null) {
-			mCreditCardMessageTv.setText(Html.fromHtml(message));
+			mCreditCardMessageTv.setText(HtmlCompat.fromHtml(message));
 		}
 	}
 
 	/**
 	 * Hide the card message OR display a default message.
 	 * Some POSes have messages like "Dont use debit cards" that need to display all the time.
-	 *
-	 * @param animate
 	 */
 	public void hideCardMessageOrDisplayDefault(LineOfBusiness lob, boolean animate) {
 		if (lob == LineOfBusiness.FLIGHTS && PointOfSale.getPointOfSale().doesNotAcceptDebitCardsForFlights()) {
@@ -295,9 +293,6 @@ public class TabletCheckoutPaymentFormFragment extends TabletCheckoutDataFormFra
 
 	/**
 	 * Toggle the message that displays above the virtual keyboard.
-	 *
-	 * @param show
-	 * @param animate
 	 */
 	public void toggleCardMessage(final boolean show, final boolean animate) {
 		if (!animate) {

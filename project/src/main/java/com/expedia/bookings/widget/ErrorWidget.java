@@ -137,7 +137,7 @@ public class ErrorWidget extends FrameLayout {
 		case PRICE_CHANGE:
 			bindText(R.drawable.error_price,
 				getResources().getString(R.string.reservation_price_change),
-				R.string.cars_price_change_text,
+				R.string.price_changed_text,
 				R.string.view_price_change);
 			errorButton.setOnClickListener(new OnClickListener() {
 				@Override

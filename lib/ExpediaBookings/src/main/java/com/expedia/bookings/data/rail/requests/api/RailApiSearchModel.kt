@@ -1,27 +1,28 @@
 package com.expedia.bookings.data.rail.requests.api
 
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.rail.requests.PointOfSaleKey
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailCard
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DateUtils
 import org.joda.time.LocalDate
-import java.util.*
+import java.util.ArrayList
 
 /* note: the variable names in this model have to match 1:1 to the format the api expects. this whole
             model is getting serialized to json and sent to the search endpoint
  */
 class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, departDate: LocalDate, returnDate: LocalDate?,
-                         departTimeMillis: Int, returnTimeMillis: Int?, isSearchRoundTrip: Boolean, val adults: Int, val children: List<Int>, val youths: List<Int>, val seniors: List<Int>, val fareQualifierList: List<RailCard>) {
-    private val DEFAULT_ADULT_AGE = 30
-    private val DEFAULT_CHILDREN_PRIMARY_TRAVELER_STATUS = false
-    var pos = PointOfSaleKey()
-    var clientCode = "1001" //TODO - what is this?
-    var searchCriteriaList: MutableList<OriginDestinationPair> = ArrayList()
+                         departTimeMillis: Int, returnTimeMillis: Int?, val isSearchRoundTrip: Boolean,
+                         adults: Int, children: List<Int>, youths: List<Int>, seniors: List<Int>, val fareQualifierList: List<RailCard>) {
 
+    var pos = PointOfSaleKey()
+    var clientCode = Constants.RAIL_CLIENT_CODE
+    var searchCriteriaList: MutableList<OriginDestinationPair> = ArrayList()
     var passengerList: MutableList<RailPassenger> = ArrayList()
 
     init {
-        buildPassengerList()
+        buildPassengerList(adults, children, youths, seniors)
         this.searchCriteriaList.add(OriginDestinationPair(origin, destination, departDate, departTimeMillis))
         if (isSearchRoundTrip && returnDate != null && returnTimeMillis != null) {
             // isRoundTrip search switch origin-destination
@@ -29,23 +30,25 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
         }
     }
 
-    private fun buildPassengerList() {
+    private fun buildPassengerList(adults: Int, children: List<Int>, youths: List<Int>, seniors: List<Int>) {
         var passengerIndex = 1
-        var primaryTravelerStatus = true //first non-adult is primary traveler
+        var adultTravelerIndex = 1
+        val DEFAULT_ADULT_AGE = 30
+        val DEFAULT_CHILDREN_PRIMARY_TRAVELER_STATUS = false
 
         for (listIndex in 0..adults - 1) {
-            passengerList.add(RailPassenger(passengerIndex++, DEFAULT_ADULT_AGE, primaryTravelerStatus))
-            primaryTravelerStatus = false
+            passengerList.add(RailPassenger(passengerIndex++, DEFAULT_ADULT_AGE, isPrimaryTraveler(adultTravelerIndex)))
+            adultTravelerIndex ++
         }
 
         for (listIndex in 0..youths.size - 1) {
-            passengerList.add(RailPassenger(passengerIndex++, youths[listIndex], primaryTravelerStatus))
-            primaryTravelerStatus = false
+            passengerList.add(RailPassenger(passengerIndex++, youths[listIndex], isPrimaryTraveler(adultTravelerIndex)))
+            adultTravelerIndex ++
         }
 
         for (listIndex in 0..seniors.size - 1) {
-            passengerList.add(RailPassenger(passengerIndex++, seniors[listIndex], primaryTravelerStatus))
-            primaryTravelerStatus = false
+            passengerList.add(RailPassenger(passengerIndex++, seniors[listIndex], isPrimaryTraveler(adultTravelerIndex)))
+            adultTravelerIndex ++
         }
 
         for (listIndex in 0..children.size - 1) {
@@ -53,17 +56,9 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
         }
     }
 
-    class PointOfSaleKey {
-        internal var jurisdictionCountryCode: String
-        internal var companyCode: String
-        internal var managementUnitCode: String
-
-        init {
-            //TODO real constructor
-            jurisdictionCountryCode = "GBR"
-            companyCode = "10111"
-            managementUnitCode = "1050"
-        }
+    // have to do this because of #9417 bug on note 3
+    private fun isPrimaryTraveler(adultTravelerIndex: Int): Boolean {
+        return adultTravelerIndex == 1
     }
 
     class OriginDestinationPair(origin: SuggestionV4, destination: SuggestionV4, departDate: LocalDate, departTimeMillis: Int) {
@@ -84,6 +79,14 @@ class RailApiSearchModel(origin: SuggestionV4, destination: SuggestionV4, depart
             this.passengerIndex = passengerIndex
             this.age = age
             this.primaryTraveler = primaryTraveler
+        }
+
+        fun getPrimaryTraveler() : Boolean {
+            return primaryTraveler
+        }
+
+        fun getAge(): Int {
+            return age
         }
     }
 

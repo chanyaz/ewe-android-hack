@@ -84,4 +84,24 @@ class HotelCheckoutTest: HotelTestCase() {
         //On paymentInfo page resortFeeDisclaimerText's Visibility is Gone
         CheckoutViewModel.resortFeeDisclaimerText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
     }
+    fun testFreeCancellationNotAvailableAndHiddenFromSummary() {
+        SearchScreen.doGenericHotelSearch()
+        HotelScreen.selectHotel("happypath")
+
+        HotelScreen.clickSelectRoom()
+
+        HotelScreen.selectRoom()
+        CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.GONE)))
+    }
+
+    fun testFreeCancellationAvailableAndShownInSummary() {
+        SearchScreen.doGenericHotelSearch()
+        // Check to make sure non merchant shows up in result list
+        HotelScreen.selectHotel("Non Merchant Hotel")
+
+        HotelScreen.clickSelectRoom()
+
+        HotelScreen.selectRoom()
+        CheckoutViewModel.freeCancellationText().check(matches(withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
+    }
 }

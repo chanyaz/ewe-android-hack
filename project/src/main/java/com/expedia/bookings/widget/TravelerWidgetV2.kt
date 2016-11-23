@@ -47,7 +47,6 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
         builder.setPositiveButton(context.getString(R.string.DONE), { dialog, which ->
             oldTravelerData = null
             dialog.dismiss()
-            this.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
         })
         val dialog: AlertDialog = builder.create()
         dialog.setOnShowListener {

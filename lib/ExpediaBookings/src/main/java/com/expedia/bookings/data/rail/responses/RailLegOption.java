@@ -8,7 +8,7 @@ import org.joda.time.DateTime;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.utils.DateUtils;
 
-public class RailLegOption {
+public class RailLegOption implements Comparable<RailLegOption> {
 	public Integer legOptionIndex;
 	public RailStation departureStation;
 	public RailStation arrivalStation;
@@ -36,5 +36,10 @@ public class RailLegOption {
 	@NotNull
 	public DateTime getArrivalDateTime() {
 		return arrivalDateTime.toDateTime();
+	}
+
+	@Override
+	public int compareTo(RailLegOption another) {
+		return this.departureDateTime.compareTo(another.departureDateTime);
 	}
 }

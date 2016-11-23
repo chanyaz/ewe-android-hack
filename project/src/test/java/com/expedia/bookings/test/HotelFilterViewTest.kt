@@ -3,7 +3,6 @@ package com.expedia.bookings.test
 import android.app.Activity
 import android.widget.ArrayAdapter
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
@@ -12,8 +11,8 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelFilterView
 import com.expedia.model.UserLoginStateChangedModel
+import com.expedia.vm.AbstractHotelFilterViewModel.Sort
 import com.expedia.vm.HotelFilterViewModel
-import com.expedia.vm.HotelFilterViewModel.Sort
 import com.expedia.vm.ShopWithPointsViewModel
 import org.junit.Before
 import org.junit.Rule
@@ -42,7 +41,7 @@ class HotelFilterViewTest {
         activity.setTheme(R.style.V2_Theme_Hotels)
         Ui.getApplication(activity).defaultHotelComponents()
         hotelFilterView = android.view.LayoutInflater.from(activity).inflate(R.layout.hotel_filter_view_test, null) as HotelFilterView
-        hotelFilterView.viewmodel = HotelFilterViewModel(activity, LineOfBusiness.HOTELS)
+        hotelFilterView.viewmodel = HotelFilterViewModel(activity)
         hotelFilterView.sortByButtonGroup.onItemSelectedListener = null
         hotelFilterView.sortByButtonGroup.setOnTouchListener { view, motionEvent -> false }
         hotelFilterView.shopWithPointsViewModel = shopWithPointsViewModel

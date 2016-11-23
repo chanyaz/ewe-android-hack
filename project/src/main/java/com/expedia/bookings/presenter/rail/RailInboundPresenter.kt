@@ -6,13 +6,17 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.rail.RailOutboundHeaderView
 import com.expedia.bookings.widget.rail.RailResultsAdapter
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeVisibility
 import com.expedia.vm.rail.RailInboundResultsViewModel
 import com.expedia.vm.rail.RailOutboundHeaderViewModel
 import rx.subjects.PublishSubject
@@ -21,20 +25,27 @@ import kotlin.properties.Delegates
 class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.rail_inbound_toolbar)
     val outboundHeaderView: RailOutboundHeaderView by bindView(R.id.outbound_header_view)
+    val openReturnHeaderView: LinearLayout by bindView(R.id.open_return_selected_header)
     val recyclerView: RecyclerView by bindView(R.id.rail_inbound_list)
+    val legalBanner: TextView by bindView(R.id.inbound_legal_banner)
     var adapter: RailResultsAdapter by Delegates.notNull()
     val legSelectedSubject = PublishSubject.create<RailLegOption>()
+    val legalBannerClicked = PublishSubject.create<Unit>()
 
     var viewmodel: RailInboundResultsViewModel by notNullAndObservable { vm ->
         val outboundHeaderViewModel = RailOutboundHeaderViewModel(context)
-        vm.legSubject.subscribe { leg ->
-            adapter.legSubject.onNext(leg)
-            outboundHeaderViewModel.cheapestLegPriceObservable.onNext(leg.cheapestPrice)
+        vm.outboundOfferSubject.subscribe(adapter.outboundOfferSubject)
+
+        vm.legOptionsAndCheapestPriceSubject.subscribe { pair ->
+            adapter.legOptionsAndCompareToPriceSubject.onNext(pair)
+            outboundHeaderViewModel.cheapestLegPriceObservable.onNext(pair.second)
         }
 
         vm.outboundLegOptionSubject.subscribe(outboundHeaderViewModel.legOptionObservable)
         vm.outboundOfferSubject.subscribe(outboundHeaderViewModel.offerSubject)
         outboundHeaderView.setViewModel(outboundHeaderViewModel)
+
+        vm.openReturnSubject.subscribeVisibility(openReturnHeaderView)
 
         vm.titleSubject.subscribe {
             toolbar.title = it
@@ -56,8 +67,9 @@ class RailInboundPresenter(context: Context, attrs: AttributeSet) : Presenter(co
             activity.onBackPressed()
         }
 
-        adapter = RailResultsAdapter(context, legSelectedSubject)
+        adapter = RailResultsAdapter(context, legSelectedSubject, true)
         recyclerView.adapter = adapter
+        legalBanner.subscribeOnClick(legalBannerClicked)
     }
 
 }

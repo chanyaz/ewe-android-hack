@@ -1,0 +1,350 @@
+{
+  "passengerList": [],
+  "legList": [],
+  "offerList": [
+    {
+      "totalPrice": {
+        "amount": "48.60",
+        "currencyCode": "GBP",
+        "formattedPrice": "£48.60",
+        "formattedWholePrice": "£49"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "48.60",
+          "currencyCode": "GBP",
+          "mainCurrency": 48,
+          "fractionalCurrency": 60,
+          "currencySymbol": "£",
+          "formattedPrice": "£48.60",
+          "formattedWholePrice": "£49",
+          "priceCategory": "Ticket Price",
+          "priceCategoryCode": "TICKET"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Day Single",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid for travel via the Hovertravel service."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 23 Dec, 2016 05:35",
+            "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."
+          ],
+          "legOptionIndexList": [
+            8
+          ],
+          "fareBreakdownList": [],
+          "segmentFareDetailList": [],
+          "openReturn": false
+        }
+      ],
+      "railOfferToken": "eNrjYBYq4sriWPVVRoBBootV4Q-7lgjHswk9y5gFgOQ2ZpDYLVYtBi0pDjBf4NmH01OZJW6xKuxi12ILDrcwNrAE6QCJCjy78GcNs8QpdoVb7EAdQFEQH6hj7jwmiRfsILMZhFg4mASYJawBlbwoqw==",
+      "passengerList": []
+    },
+    {
+      "totalPrice": {
+        "amount": "73.30",
+        "currencyCode": "GBP",
+        "formattedPrice": "£73.30",
+        "formattedWholePrice": "£73"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "73.30",
+          "currencyCode": "GBP",
+          "mainCurrency": 73,
+          "fractionalCurrency": 30,
+          "currencySymbol": "£",
+          "formattedPrice": "£73.30",
+          "formattedWholePrice": "£73",
+          "priceCategory": "Ticket Price",
+          "priceCategoryCode": "TICKET"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Day Single (1st Class)",
+          "aggregatedFareDescription": "Travel anytime of day",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid for travel via the Hovertravel service."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 23 Dec, 2016 05:35",
+            "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."
+          ],
+          "legOptionIndexList": [
+            8
+          ],
+          "fareBreakdownList": [],
+          "segmentFareDetailList": [],
+          "openReturn": false
+        }
+      ],
+      "railOfferToken": "eNrjYBYq4sriWPVVRoBBootV4Q-7lgjHswk9y5gFgOQ2ZpDYLVYtBi0pDjBf4NmH01OZJW6xKuxi12ILDrcwNrAE6QCJCjy78GcNs8QpdoVb7EAdQFEQH6hj7jwmiRfsILMZhFg4mAQYJawBlbYoqQ==",
+      "passengerList": []
+    },
+    {
+      "totalPrice": {
+        "amount": "146.60",
+        "currencyCode": "GBP",
+        "formattedPrice": "£146.60",
+        "formattedWholePrice": "£147"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "0",
+          "currencyCode": "GBP",
+          "mainCurrency": 0,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£0.00",
+          "formattedWholePrice": "£0",
+          "priceCategory": "Expedia Booking Fee",
+          "priceCategoryCode": "EXPEDIA_SERVICE_FEE"
+        },
+        {
+          "amount": "146.60",
+          "currencyCode": "GBP",
+          "mainCurrency": 146,
+          "fractionalCurrency": 60,
+          "currencySymbol": "£",
+          "formattedPrice": "£146.60",
+          "formattedWholePrice": "£147",
+          "priceCategory": "Ticket Price",
+          "priceCategoryCode": "TICKET"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Return (1st Class)",
+          "aggregatedFareDescription": "Travel anytime of day; Return within 1 month",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid for travel via the Hovertravel service."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 25 Dec, 2016 06:15",
+            "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."
+          ],
+          "legOptionIndexList": [
+            1,
+            8
+          ],
+          "fareBreakdownList": [],
+          "segmentFareDetailList": [],
+          "openReturn": true
+        }
+      ],
+      "railOfferToken": "eNrjYBa6x8iVxfHqnowAg8QtVoVNHFoiHM8-zJ3HJPDswp81zCCxd6xaDCBREF_g2YfTU5klfrAqTGADikpxgPkCzyb0bGOWmMWm8IZdiy043MLA0AKkAyQKklvGLPGGHWQ2A9CuVV9BdnWxKvxhh6hZBtMPFLvFCjEVohNsF9AFuyCmGhtYgl0HthHsulPsCrfYUVwHdLnEC3aQ2QxCLBysAowS1gDjplDO",
+      "passengerList": []
+    },
+    {
+      "totalPrice": {
+        "amount": "97.20",
+        "currencyCode": "GBP",
+        "formattedPrice": "£97.20",
+        "formattedWholePrice": "£97"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "0",
+          "currencyCode": "GBP",
+          "mainCurrency": 0,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£0.00",
+          "formattedWholePrice": "£0",
+          "priceCategory": "Expedia Booking Fee",
+          "priceCategoryCode": "EXPEDIA_SERVICE_FEE"
+        },
+        {
+          "amount": "97.20",
+          "currencyCode": "GBP",
+          "mainCurrency": 97,
+          "fractionalCurrency": 20,
+          "currencySymbol": "£",
+          "formattedPrice": "£97.20",
+          "formattedWholePrice": "£97",
+          "priceCategory": "Ticket Price",
+          "priceCategoryCode": "TICKET"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Return",
+          "aggregatedFareDescription": "Travel anytime of day; Return within 1 month",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid for travel via the Hovertravel service."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 25 Dec, 2016 06:15",
+            "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."
+          ],
+          "legOptionIndexList": [
+            1,
+            8
+          ],
+          "fareBreakdownList": [],
+          "segmentFareDetailList": [],
+          "openReturn": true
+        }
+      ],
+      "railOfferToken": "eNrjYBa6x8iVxfHqnowAg8QtVoVNHFoiHM8-zJ3HJPDswp81zCCxd6xaDCBREF_g2YfTU5klfrAqTGADikpxgPkCzyb0bGOWmMWm8IZdiy043MLA0AKkAyQKklvGLPGGHWQ2A9CuVV9BdnWxKvxhh6hZBtMPFLvFCjEVohNsF9AFuyCmGhtYgl0HthHsulPsCrfYUVwHdLnEC3aQ2QxCLBysAswS1gDjrFDQ",
+      "passengerList": []
+    },
+    {
+      "totalPrice": {
+        "amount": "97.20",
+        "currencyCode": "GBP",
+        "formattedPrice": "£97.20",
+        "formattedWholePrice": "£97"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "0",
+          "currencyCode": "GBP",
+          "mainCurrency": 0,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£0.00",
+          "formattedWholePrice": "£0",
+          "priceCategory": "Expedia Booking Fee",
+          "priceCategoryCode": "EXPEDIA_SERVICE_FEE"
+        },
+        {
+          "amount": "97.20",
+          "currencyCode": "GBP",
+          "mainCurrency": 97,
+          "fractionalCurrency": 20,
+          "currencySymbol": "£",
+          "formattedPrice": "£97.20",
+          "formattedWholePrice": "£97",
+          "priceCategory": "Ticket Price",
+          "priceCategoryCode": "TICKET"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "Standard",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Return",
+          "aggregatedFareDescription": "Travel anytime of day; Return within 1 month",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid for travel via the Hovertravel service."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 25 Dec, 2016 06:45",
+            "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."
+          ],
+          "legOptionIndexList": [
+            2,
+            8
+          ],
+          "fareBreakdownList": [],
+          "segmentFareDetailList": [],
+          "openReturn": true
+        }
+      ],
+      "railOfferToken": "eNrjYBa6x8iVxfHqnowAg8Q0NoUHHFoiHM8-zJ3HJPDswp81zCCxVWxaDCBREF_g2YfTU5kltrApnAGJSnGA-QLPJvRsY5a4waYwi0OLLTjcwtDIAKQDJAqSW8YsMYsDZDYD0K5VX0F2dbEq_GGHqFkG0w8Uu8UKMRWiE2zXLVaFXexgU40NLMGuA9sIdt0pdoVb7CiuA7pc4gU7yGwGIRYOVgFmCWsAR-VP8g==",
+      "passengerList": []
+    },
+    {
+      "totalPrice": {
+        "amount": "146.60",
+        "currencyCode": "GBP",
+        "formattedPrice": "£146.60",
+        "formattedWholePrice": "£147"
+      },
+      "priceBreakdown": [
+        {
+          "amount": "0",
+          "currencyCode": "GBP",
+          "mainCurrency": 0,
+          "fractionalCurrency": 0,
+          "currencySymbol": "£",
+          "formattedPrice": "£0.00",
+          "formattedWholePrice": "£0",
+          "priceCategory": "Expedia Booking Fee",
+          "priceCategoryCode": "EXPEDIA_SERVICE_FEE"
+        },
+        {
+          "amount": "146.60",
+          "currencyCode": "GBP",
+          "mainCurrency": 146,
+          "fractionalCurrency": 60,
+          "currencySymbol": "£",
+          "formattedPrice": "£146.60",
+          "formattedWholePrice": "£147",
+          "priceCategory": "Ticket Price",
+          "priceCategoryCode": "TICKET"
+        }
+      ],
+      "railProductList": [
+        {
+          "aggregatedCarrierServiceClassDisplayName": "First",
+          "aggregatedCarrierFareClassDisplayName": "Anytime Return (1st Class)",
+          "aggregatedFareDescription": "Travel anytime of day; Return within 1 month",
+          "aggregatedCarrierFareClassCategoryName": "Anytime",
+          "fareNotes": [
+            "Additional information about this fare can be found at http://www.nationalrail.co.uk/times_fares/ticket_types.aspx",
+            "Valid for travel via the Hovertravel service."
+          ],
+          "refundable": "REFUNDABLE",
+          "refundableRules": [
+            "Your ticket is refundable before 25 Dec, 2016 06:45",
+            "If you cancel before your ticket is printed, an admin fee of 10.00 GBP will be deducted from your refund.",
+            "If you cancel after your ticket is printed, an admin fee of up to 10.00 GBP per ticket per passenger will be deducted from your refund. If the ticket is less than 10.00 GBP, the maximum admin fee is the ticket price."
+          ],
+          "legOptionIndexList": [
+            2,
+            8
+          ],
+          "fareBreakdownList": [],
+          "segmentFareDetailList": [],
+          "openReturn": true
+        }
+      ],
+      "railOfferToken": "eNrjYBa6x8iVxfHqnowAg8Q0NoUHHFoiHM8-zJ3HJPDswp81zCCxVWxaDCBREF_g2YfTU5kltrApnAGJSnGA-QLPJvRsY5a4waYwi0OLLTjcwtDIAKQDJAqSW8YsMYsDZDYD0K5VX0F2dbEq_GGHqFkG0w8Uu8UKMRWiE2zXLVaFXexgU40NLMGuA9sIdt0pdoVb7CiuA7pc4gU7yGwGIRYOVgFGCWsAR99P8A==",
+      "passengerList": []
+    }
+  ],
+  "expediaServiceFee": {
+    "amount": "0",
+    "currencyCode": "GBP",
+    "mainCurrency": 0,
+    "fractionalCurrency": 0,
+    "currencySymbol": "£",
+    "formattedPrice": "£0.00",
+    "formattedWholePrice": "£0",
+    "priceCategory": "Expedia Booking Fee",
+    "priceCategoryCode": "EXPEDIA_SERVICE_FEE"
+  },
+  "responseStatus": {
+    "status": "SUCCESS"
+  }
+}

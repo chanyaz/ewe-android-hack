@@ -1,23 +1,44 @@
 package com.expedia.bookings.test.phone.newflights
 
+import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions
-import com.expedia.bookings.data.ApiError
+import android.support.test.espresso.assertion.ViewAssertions.matches
+import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
+import android.support.test.espresso.matcher.ViewMatchers.hasSibling
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withText
+import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
+import org.hamcrest.CoreMatchers.not
+import org.hamcrest.CoreMatchers.allOf
+import com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay
+import com.expedia.bookings.test.espresso.EspressoUtils.assertViewWithTextIsDisplayed
+import com.expedia.bookings.test.espresso.CustomMatchers.withImageDrawable
+
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.phone.pagemodels.common.PaymentOptionsScreen
+import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.junit.Test
+import java.util.concurrent.TimeUnit
 
-class FlightCheckoutErrorTest: FlightErrorTestCase() {
+class FlightCheckoutErrorTest : FlightErrorTestCase() {
+
+    fun getToCheckoutWithFilledInTravelerDetails() {
+        goToCheckout()
+        PackageScreen.enterTravelerInfo()
+    }
+
+    private fun goToCheckout() {
+        searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH)
+        selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.HAPPY_ONE_WAY)
+        PackageScreen.checkout().perform(ViewActions.click())
+    }
 
     @Test
     fun testCheckoutUnknownError() {
-        searchForFlights(ApiError.Code.UNKNOWN_ERROR, FlightErrorTestCase.TestType.CHECKOUT)
-        selectFirstOutboundFlight()
-        selectFirstInboundFlight()
-        PackageScreen.checkout().perform(ViewActions.click())
-
-        PackageScreen.enterTravelerInfo()
-        PackageScreen.enterPaymentInfo()
+        getToCheckoutWithFilledInTravelerDetails()
+        PackageScreen.enterPaymentInfo("unknownerror lastname")
 
         CheckoutViewModel.performSlideToPurchase()
 
@@ -31,14 +52,9 @@ class FlightCheckoutErrorTest: FlightErrorTestCase() {
     }
 
     @Test
-    fun testCheckoutPaymentFailedError() {
-        searchForFlights(ApiError.Code.PAYMENT_FAILED, FlightErrorTestCase.TestType.CHECKOUT)
-        selectFirstOutboundFlight()
-        selectFirstInboundFlight()
-        PackageScreen.checkout().perform(ViewActions.click())
-
-        PackageScreen.enterTravelerInfo()
-        PackageScreen.enterPaymentInfo()
+    fun testGuestCheckoutPaymentFailedError() {
+        getToCheckoutWithFilledInTravelerDetails()
+        PackageScreen.enterPaymentInfo("paymentfailederror lastname")
 
         CheckoutViewModel.performSlideToPurchase()
 
@@ -49,17 +65,36 @@ class FlightCheckoutErrorTest: FlightErrorTestCase() {
 
         clickActionButton()
         assertPaymentFormIsDisplayed()
+        assertViewWithTextIsDisplayed(R.id.edit_creditcard_number, "")
+        assertViewWithTextIsDisplayed(R.id.edit_creditcard_cvv, "")
+    }
+
+    @Test
+    fun testSignedInCheckoutPaymentFailedError() {
+        goToCheckout()
+        CheckoutViewModel.signInOnCheckout()
+        waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS)
+
+        CheckoutViewModel.clickPaymentInfo()
+        CheckoutViewModel.selectStoredCard("Saved Expired Credit Card")
+        PaymentOptionsScreen.assertCardSelectionMatches("Saved Expired Credit Card", 1)
+        Common.pressBack()
+        CheckoutViewModel.performSlideToPurchase(true)
+
+        assertFlightErrorPresenterDisplayed()
+        assertButtonDisplayedWithText("Edit Payment")
+        assertErrorTextDisplayed("We\'re sorry, but we were unable to process your payment. Please verify that you entered your information correctly.")
+        assertToolbarTitle("Payment Failed")
+
+        clickActionButton()
+        onView(withId(R.id.stored_card_list)).check(matches(isDisplayed()))
+        onView(allOf(withId(R.id.card_info_status_icon), hasSibling(withText("Saved Expired Credit Card")))).check(matches(not(withImageDrawable(R.drawable.validated))))
     }
 
     @Test
     fun testCheckoutSessionTimeout() {
-        searchForFlights(ApiError.Code.SESSION_TIMEOUT, FlightErrorTestCase.TestType.CHECKOUT)
-        selectFirstOutboundFlight()
-        selectFirstInboundFlight()
-        PackageScreen.checkout().perform(ViewActions.click())
-
-        PackageScreen.enterTravelerInfo()
-        PackageScreen.enterPaymentInfo()
+        getToCheckoutWithFilledInTravelerDetails()
+        PackageScreen.enterPaymentInfo("sessiontimeout lastname")
 
         CheckoutViewModel.performSlideToPurchase()
 
@@ -74,13 +109,8 @@ class FlightCheckoutErrorTest: FlightErrorTestCase() {
 
     @Test
     fun testCheckoutTripAlreadyBooked() {
-        searchForFlights(ApiError.Code.TRIP_ALREADY_BOOKED, FlightErrorTestCase.TestType.CHECKOUT)
-        selectFirstOutboundFlight()
-        selectFirstInboundFlight()
-        PackageScreen.checkout().perform(ViewActions.click())
-
-        PackageScreen.enterTravelerInfo()
-        PackageScreen.enterPaymentInfo()
+        getToCheckoutWithFilledInTravelerDetails()
+        PackageScreen.enterPaymentInfo("tripalreadybooked lastname")
 
         CheckoutViewModel.performSlideToPurchase()
 

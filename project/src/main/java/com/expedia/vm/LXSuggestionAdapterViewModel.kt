@@ -29,4 +29,12 @@ class LXSuggestionAdapterViewModel(context: Context, suggestionsService: Suggest
     override fun getNearbySortType(): String {
         return "d"
     }
+
+    override fun getLineOfBusinessForGaia(): String {
+        return "lx"
+    }
+
+    override fun getNearbySortTypeForGaia(): String {
+        return "distance"
+    }
 }

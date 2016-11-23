@@ -28,6 +28,17 @@ object FlightV2Utils {
         return getDurationString(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
     }
 
+    @JvmStatic fun getFlightLegDurationContentDescription(context: Context, flightLeg: FlightLeg): String {
+        val flightDuration = getDurationContentDesc(context, flightLeg.durationHour, flightLeg.durationMinute)
+        return getTotalDurationString(context, flightDuration)
+    }
+
+    private fun getTotalDurationString(context: Context, flightDuration: String): String {
+        return Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
+                .put("duration", flightDuration)
+                .format().toString()
+    }
+
     @JvmStatic fun getFlightSegmentLayoverDurationContentDescription(context: Context, segment: FlightLeg.FlightSegment): String {
         return getDurationContentDesc(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
     }
@@ -38,9 +49,7 @@ object FlightV2Utils {
 
     @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int): CharSequence {
         val flightDuration = FlightV2Utils.getFlightDurationString(context, flight)
-        var totalDuration = Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
-                .put("duration", flightDuration)
-                .format().toString()
+        var totalDuration = getTotalDurationString(context, flightDuration)
 
         val start = totalDuration.indexOf(flightDuration)
         val end = start + flightDuration.length
@@ -109,7 +118,7 @@ object FlightV2Utils {
             if (elapsedDays < 0) {
                 displayStringTemplate = R.string.flight_departure_arrival_time_negative_days_TEMPLATE
             } else {
-                displayStringTemplate = R.string.flight_departure_arrival_time_multi_day_TEMPLATE
+                displayStringTemplate = R.string.departure_arrival_time_multi_day_TEMPLATE
             }
             return Phrase.from(context, displayStringTemplate)
                     .put("departuretime", formatTimeShort(context, departureTime))
@@ -146,7 +155,15 @@ object FlightV2Utils {
     }
 
     @JvmStatic fun getFlightDepartureArrivalCityAirport(context: Context, flightSegment: FlightLeg.FlightSegment): String {
-        return Phrase.from(context.resources.getString(R.string.package_flight_overview_departure_arrival_TEMPLATE))
+        return getFlightDepartureArrivalCityAirportString(context, flightSegment, R.string.package_flight_overview_departure_arrival_TEMPLATE)
+    }
+
+    @JvmStatic fun getFlightDepartureArrivalCityAirportContDesc(context: Context, flightSegment: FlightLeg.FlightSegment): String {
+        return getFlightDepartureArrivalCityAirportString(context, flightSegment, R.string.package_flight_overview_departure_arrival_cont_desc_TEMPLATE)
+    }
+
+    @JvmStatic fun getFlightDepartureArrivalCityAirportString(context: Context, flightSegment: FlightLeg.FlightSegment, stringResID: Int): String {
+        return Phrase.from(context.resources.getString(stringResID))
                 .put("departurecity", flightSegment.departureCity)
                 .put("departureairportcode", flightSegment.departureAirportCode)
                 .put("arrivalcity", flightSegment.arrivalCity)

@@ -6,7 +6,7 @@ import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.text.Html;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +18,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.SuggestionV2;
 import com.expedia.bookings.otto.Events;
+import com.expedia.bookings.text.HtmlCompat;
 
 public class SuggestionsAdapter extends ArrayAdapter<SuggestionV2> implements Filterable {
 
@@ -48,8 +49,9 @@ public class SuggestionsAdapter extends ArrayAdapter<SuggestionV2> implements Fi
 		return data.get(position);
 	}
 
+	@NonNull
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+	public View getView(int position, View convertView, @NonNull ViewGroup parent) {
 		SuggestionV2 suggestionV2 = data.get(position);
 		ViewHolder viewHolder;
 
@@ -64,7 +66,7 @@ public class SuggestionsAdapter extends ArrayAdapter<SuggestionV2> implements Fi
 		}
 
 		viewHolder.txtView.setCompoundDrawablesWithIntrinsicBounds(suggestionV2.getIcon(), 0 ,0 ,0);
-		viewHolder.txtView.setText(Html.fromHtml(suggestionV2.getDisplayName()).toString());
+		viewHolder.txtView.setText(HtmlCompat.stripHtml(suggestionV2.getDisplayName()));
 
 		return convertView;
 	}
@@ -73,6 +75,8 @@ public class SuggestionsAdapter extends ArrayAdapter<SuggestionV2> implements Fi
 		TextView txtView;
 	}
 
+	@NonNull
+	@Override
 	public Filter getFilter() {
 		return mFilter;
 	}

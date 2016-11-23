@@ -25,11 +25,9 @@ import android.widget.Spinner
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelFavoriteHelper
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.shouldShowCircleForRatings
 import com.expedia.bookings.tracking.HotelTracking
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
@@ -42,8 +40,8 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.HotelFilterViewModel
-import com.expedia.vm.HotelFilterViewModel.Sort
+import com.expedia.vm.AbstractHotelFilterViewModel
+import com.expedia.vm.AbstractHotelFilterViewModel.Sort
 import com.expedia.vm.ShopWithPointsViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
@@ -126,8 +124,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     val sortByObserver: Observer<Boolean> = endlessObserver { isCurrentLocationSearch ->
         sortByAdapter.clear()
         val sortList = Sort.values().toMutableList()
-
-        if (viewmodel.lob == LineOfBusiness.PACKAGES) sortList.remove(Sort.DEALS) else sortList.remove(Sort.PACKAGE_DISCOUNT)
+        sortList.remove(viewmodel.sortItemToRemove())
         sortByAdapter.addAll(sortList)
 
         if (!isCurrentLocationSearch) {
@@ -143,7 +140,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         sortByButtonGroup.setSelection(0, false)
     }
 
-    var viewmodel: HotelFilterViewModel by notNullAndObservable { vm ->
+    var viewmodel: AbstractHotelFilterViewModel by notNullAndObservable { vm ->
 
        doneButton.subscribeOnClick(vm.doneObservable)
         vm.priceRangeContainerVisibility.subscribeVisibility(priceRangeContainer)
@@ -154,7 +151,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             vm.vipFilteredObserver.onNext(filterHotelVip.isChecked)
         }
 
-        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.lob == LineOfBusiness.HOTELS)) {
+        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
             filterFavoriteContainer.setOnClickListener {
                 clearHotelNameFocus()
                 updateFavoriteFilter()
@@ -171,11 +168,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         dynamicFeedbackClearButton.setOnClickListener {
             dynamicFeedbackClearButton.announceForAccessibility(context.getString(R.string.filters_cleared))
             vm.clearObservable.onNext(Unit)
-            if (vm.lob == LineOfBusiness.PACKAGES) {
-                PackagesTracking().trackHotelClearFilter()
-            } else if (vm.lob == LineOfBusiness.HOTELS) {
-                HotelTracking().trackLinkHotelClearFilter()
-            }
+            vm.trackClearFilter()
         }
 
         vm.finishClear.subscribe {
@@ -184,7 +177,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             resetStars()
 
             filterHotelVip.isChecked = false
-            if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.lob == LineOfBusiness.HOTELS)) {
+            if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
                 filterHotelFavorite.isChecked = false
             }
 
@@ -291,11 +284,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             }
 
             if (it <= 5) {
-                if (vm.lob == LineOfBusiness.PACKAGES) {
-                    PackagesTracking().trackHotelRefineRating(it.toString())
-                } else if (vm.lob == LineOfBusiness.HOTELS) {
-                    HotelTracking().trackLinkHotelRefineRating(it.toString())
-                }
+                vm.trackHotelRefineRating(it.toString())
             }
         }
 
@@ -536,11 +525,11 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
     }
 
     fun refreshFavoriteCheckbox() {
-        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.lob == LineOfBusiness.HOTELS)) {
-            optionLabel.visibility = View.VISIBLE
+        if (HotelFavoriteHelper.showHotelFavoriteTest(viewmodel.showHotelFavorite())) {
             if (HotelFavoriteHelper.getLocalFavorites().isNotEmpty()) {
                 filterFavoriteContainer.visibility = View.VISIBLE
                 optionLabel.text = context.resources.getString(R.string.filter_options)
+                viewmodel.favoriteFilteredObserver.onNext(filterHotelFavorite.isChecked)
             } else {
                 if (viewmodel.userFilterChoices.favorites) updateFavoriteFilter()
                 filterFavoriteContainer.visibility = View.GONE

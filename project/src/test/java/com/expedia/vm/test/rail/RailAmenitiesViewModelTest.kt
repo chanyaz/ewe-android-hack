@@ -4,7 +4,7 @@ import com.expedia.bookings.data.rail.responses.PassengerSegmentFare
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
-import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSegment
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
@@ -57,13 +57,13 @@ class RailAmenitiesViewModelTest {
     }
 
     private fun generateRailProduct(): RailProduct {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_product_segments_8_9_10.json")
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_product_segments_8_9_10.json")
         val railProduct = resourceReader.constructUsingGson(RailProduct::class.java)
         return railProduct
     }
 
     private fun generateLegOption(): RailLegOption {
-        val resourceReader = JSONResourceReader("src/test/resources/raw/rail_leg_option_segments_8_9_10.json")
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_leg_option_segments_8_9_10.json")
         val legOption = resourceReader.constructUsingGson(RailLegOption::class.java)
         return legOption
 

@@ -78,4 +78,72 @@ class RailErrorViewModelTest {
         testButtonTextSubscriber .assertValueCount(1)
         assertEquals(context.getString(R.string.retry), testButtonTextSubscriber.onNextEvents[0])
     }
+
+    @Test
+    fun testCreateTripErrors() {
+        val testErrorImageSubscriber = TestSubscriber<Int>()
+        val testErrorMessageSubscriber = TestSubscriber<String>()
+        val testButtonTextSubscriber = TestSubscriber<String>()
+        subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
+        subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
+        subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
+
+        subjectUnderTest.createTripErrorObserverable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+        testErrorImageSubscriber.assertValueCount(1)
+        testErrorMessageSubscriber.assertValueCount(1)
+        assertEquals(context.getString(R.string.rail_unknown_error_message), testErrorMessageSubscriber.onNextEvents[0])
+        testButtonTextSubscriber .assertValueCount(1)
+        assertEquals(context.getString(R.string.retry), testButtonTextSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testCheckoutInvalidInputError() {
+        val testErrorImageSubscriber = TestSubscriber<Int>()
+        val testErrorMessageSubscriber = TestSubscriber<String>()
+        val testButtonTextSubscriber = TestSubscriber<String>()
+        subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
+        subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
+        subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
+
+        subjectUnderTest.checkoutApiErrorObserver.onNext(ApiError(ApiError.Code.INVALID_INPUT))
+        testErrorImageSubscriber.assertValueCount(1)
+        testErrorMessageSubscriber.assertValueCount(1)
+        assertEquals(context.getString(R.string.rail_cko_invalid_input_error_message), testErrorMessageSubscriber.onNextEvents[0])
+        testButtonTextSubscriber .assertValueCount(1)
+        assertEquals(context.getString(R.string.edit_payment), testButtonTextSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testCheckoutUnknownApiError() {
+        val testErrorImageSubscriber = TestSubscriber<Int>()
+        val testErrorMessageSubscriber = TestSubscriber<String>()
+        val testButtonTextSubscriber = TestSubscriber<String>()
+        subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
+        subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
+        subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
+
+        subjectUnderTest.checkoutApiErrorObserver.onNext(ApiError(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR))
+        testErrorImageSubscriber.assertValueCount(1)
+        testErrorMessageSubscriber.assertValueCount(1)
+        assertEquals(context.getString(R.string.error_try_again_warning), testErrorMessageSubscriber.onNextEvents[0])
+        testButtonTextSubscriber .assertValueCount(1)
+        assertEquals(context.getString(R.string.retry), testButtonTextSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testCheckoutUnknownError() {
+        val testErrorImageSubscriber = TestSubscriber<Int>()
+        val testErrorMessageSubscriber = TestSubscriber<String>()
+        val testButtonTextSubscriber = TestSubscriber<String>()
+        subjectUnderTest.imageObservable.subscribe(testErrorImageSubscriber)
+        subjectUnderTest.errorMessageObservable.subscribe(testErrorMessageSubscriber)
+        subjectUnderTest.buttonOneTextObservable.subscribe(testButtonTextSubscriber)
+
+        subjectUnderTest.checkoutApiErrorObserver.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+        testErrorImageSubscriber.assertValueCount(1)
+        testErrorMessageSubscriber.assertValueCount(1)
+        assertEquals(context.getString(R.string.rail_unknown_error_message), testErrorMessageSubscriber.onNextEvents[0])
+        testButtonTextSubscriber .assertValueCount(1)
+        assertEquals(context.getString(R.string.edit_button), testButtonTextSubscriber.onNextEvents[0])
+    }
 }

@@ -12,7 +12,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 
@@ -34,6 +33,7 @@ import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.widget.itin.ItinContentGenerator;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
@@ -799,7 +799,7 @@ public class ShareUtils {
 				Layover layover = new Layover(flightLeg.getSegment(a - 1), flight);
 				String duration = DateTimeUtils.formatDuration(res, layover.mDuration);
 				String waypoint = StrUtils.formatWaypoint(flight.getOriginWaypoint());
-				sb.append(Html.fromHtml(mContext.getString(R.string.layover_duration_location_TEMPLATE, duration,
+				sb.append(HtmlCompat.fromHtml(mContext.getString(R.string.layover_duration_location_TEMPLATE, duration,
 						waypoint)));
 
 				sb.append("\n\n");
@@ -842,7 +842,7 @@ public class ShareUtils {
 	}
 
 	public Intent[] getShareIntents(ItinContentGenerator<? extends ItinCardData> generator) {
-		ArrayList<Intent> intents = new ArrayList<Intent>();
+		ArrayList<Intent> intents = new ArrayList<>();
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isFacebookShareIntegrationEnabled() && AndroidUtils
 			.isPackageInstalled(mContext, "com.facebook.katana")) {

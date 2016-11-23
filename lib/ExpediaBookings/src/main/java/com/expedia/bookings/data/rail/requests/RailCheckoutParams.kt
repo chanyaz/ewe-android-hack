@@ -98,10 +98,18 @@ class RailCheckoutParams(val travelers: List<Traveler>,
             val address1: String? = null,
             val address2: String? = null,
             val city: String? = null,
-            val state: String? = null,
             val postalCode: String? = null,
             val currencyCode: String? = null,
-            val country:String? = null)
+            val country:String? = null) {
+        var state: String? = null
+            set(value) {
+                if (value.isNullOrBlank()) {
+                    null
+                } else {
+                    field = value
+                }
+        }
+    }
 
     data class TicketDeliveryOption(
             val deliveryOptionToken: String,

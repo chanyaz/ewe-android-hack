@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.flight
 import android.content.Context
 import android.graphics.Color
 import android.graphics.PorterDuff
+import android.support.annotation.CallSuper
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -47,6 +48,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     } // not used for flights LOB
     val menuSearch: MenuItem by lazy {
         val menuSearch = toolbar.menu.findItem(R.id.menu_search)
+        AccessibilityUtil.setMenuItemContentDescription(toolbar, context.getString(R.string.search_button_cont_desc))
         menuSearch
     }
 
@@ -162,23 +164,24 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         }
     }
 
-    private val overviewTransition = object : ScaleTransition(this, FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
-        override fun startTransition(forward: Boolean) {
+    open class OverviewTransition(override val presenter: BaseFlightPresenter) : ScaleTransition(presenter, FlightResultsListViewPresenter::class.java, FlightOverviewPresenter::class.java) {
+        @CallSuper override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            disableSlidingWidget(forward)
-            toolbarViewModel.menuVisibilitySubject.onNext(false)
+            presenter.toolbarViewModel.menuVisibilitySubject.onNext(false)
         }
 
-        override fun endTransition(forward: Boolean) {
+        @CallSuper override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
-            toolbarViewModel.refreshToolBar.onNext(!forward)
-            viewBundleSetVisibility(!forward)
+            presenter.toolbarViewModel.refreshToolBar.onNext(!forward)
+            presenter.viewBundleSetVisibility(!forward)
             if (!forward) {
-                trackFlightResultsLoad()
+                presenter.trackFlightResultsLoad()
             }
-            postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar) }, 50L)
+            presenter.postDelayed({ AccessibilityUtil.setFocusToToolbarNavigationIcon(presenter.toolbar) }, 50L)
         }
     }
+
+    open val overviewTransition = object : OverviewTransition(this) {}
 
     private val baggageFeeTransition = object : Transition(FlightOverviewPresenter::class.java, BaggageFeeInfoWidget::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
         override fun endTransition(forward: Boolean) {
@@ -207,6 +210,10 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             filter.visibility = View.VISIBLE
+            if (!forward) {
+                resultsPresenter.visibility = VISIBLE
+                toolbar.visibility = VISIBLE
+            }
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
@@ -222,6 +229,8 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
                 filter.visibility = View.VISIBLE
                 filter.translationY = 0f
                 trackFlightSortFilterLoad()
+                resultsPresenter.visibility = GONE
+                toolbar.visibility = GONE
             } else {
                 filter.visibility = View.GONE
                 filter.translationY = (filter.height).toFloat()

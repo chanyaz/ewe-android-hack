@@ -13,7 +13,7 @@ import rx.Observable
 import rx.subjects.BehaviorSubject
 import java.math.BigDecimal
 
-class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
+open class PriceChangeViewModel(context: Context, lob: LineOfBusiness) {
     val originalPrice = BehaviorSubject.create<Money>()
     val newPrice = BehaviorSubject.create<Money>()
 

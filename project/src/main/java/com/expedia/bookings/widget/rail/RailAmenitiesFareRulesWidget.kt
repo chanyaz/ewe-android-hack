@@ -12,6 +12,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.adapter.RailAmenitiesAndRulesAdapter
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailProduct
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.vm.rail.RailAmenitiesViewModel
 import com.expedia.vm.rail.RailFareRulesViewModel
@@ -87,8 +88,10 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
     private fun updateToolbar(tab: Int) {
         if (tab == RailAmenitiesAndRulesAdapter.Tab.AMENITIES.ordinal) {
             toolbar.title = context.getString(R.string.amenities)
+            RailTracking().trackRailAmenities()
         } else {
             toolbar.title = context.getString(R.string.fare_rules)
+            RailTracking().trackRailFares()
         }
     }
 

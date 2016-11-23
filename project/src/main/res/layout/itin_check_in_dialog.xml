@@ -53,32 +53,16 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/itin_checkin_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
+                style="@style/ItinCheckInYesNoButtons"
                 android:text="@string/no"
-                android:textAllCaps="true"
-                android:background="@drawable/dialog_button"
-                android:textSize="13sp"
+                android:textColor="@color/itin_no_button"
                 app:textStyle="medium" />
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/itin_checkin_yes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingBottom="10dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="20dp"
-                android:paddingTop="10dp"
+                style="@style/ItinCheckInYesNoButtons"
                 android:text="@string/yes"
-                android:textAllCaps="true"
-                android:background="@drawable/dialog_button"
-                android:textSize="13sp"
+                android:textColor="@color/itin_yes_ok_button"
                 app:textStyle="medium" />
         </LinearLayout>
 

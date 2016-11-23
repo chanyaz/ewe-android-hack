@@ -136,11 +136,12 @@ public class Images {
 		return getMediaHost() + offer.largeThumbnailUrl;
 	}
 
-	public static List<HotelMedia> getHotelImages(HotelOffersResponse offer) {
+	public static List<HotelMedia> getHotelImages(HotelOffersResponse offer, int placeholder) {
 		List<HotelMedia> urlList = new ArrayList<>();
 		if (offer != null && offer.photos != null) {
-			for (int index = 0; index < offer.photos.size() - 1; index++) {
-				HotelMedia hotelMedia = new HotelMedia(getMediaHost() + offer.photos.get(index).url);
+			for (int index = 0; index < offer.photos.size(); index++) {
+				HotelOffersResponse.Photos photo = offer.photos.get(index);
+				HotelMedia hotelMedia = new HotelMedia(getMediaHost() + photo.url, photo.displayText);
 				urlList.add(hotelMedia);
 			}
 		}

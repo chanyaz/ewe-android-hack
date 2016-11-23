@@ -25,7 +25,7 @@ public class RailSegment {
 	}
 
 	public boolean isTransfer() {
-		return TRANSFER.equals(travelMode);
+		return TRANSFER.equals(travelMode) && !RailTravelMedium.METRO_CITY_TRANSIT.equals(travelMedium.getTravelMediumCode());
 	}
 
 	@NotNull

@@ -5,7 +5,6 @@ import java.util.Collection;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -23,6 +22,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.interfaces.LoginExtenderListener;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FocusViewRunnable;
 import com.expedia.bookings.utils.FontCache;
@@ -273,7 +273,7 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 			@Override
 			public void run() {
 				if (mStatusMessageTv != null) {
-					mStatusMessageTv.setText(Html.fromHtml(text));
+					mStatusMessageTv.setText(HtmlCompat.fromHtml(text));
 				}
 			}
 		};

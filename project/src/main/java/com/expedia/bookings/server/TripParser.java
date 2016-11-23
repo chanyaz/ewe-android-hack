@@ -37,6 +37,7 @@ import com.expedia.bookings.data.trips.TripCruise;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.data.trips.TripPackage;
+import com.expedia.bookings.data.trips.TripRails;
 import com.mobiata.android.Log;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
@@ -55,7 +56,7 @@ public class TripParser {
 	public Trip parseTrip(JSONObject tripJson) {
 		Trip trip = new Trip();
 		String levelOfDetail = tripJson.optString("levelOfDetail", null);
-		if ("FULL".equals(levelOfDetail)) {
+		if ("FULL".equals(levelOfDetail) || tripJson.optJSONArray("rails") != null) {
 			trip.setLevelOfDetail(LevelOfDetail.FULL);
 		}
 		else if ("SUMMARY_FALLBACK".equals(levelOfDetail)) {
@@ -112,6 +113,7 @@ public class TripParser {
 		tripComponents.addAll(parseType(obj, "flights", TripComponent.Type.FLIGHT));
 		tripComponents.addAll(parseType(obj, "hotels", TripComponent.Type.HOTEL));
 		tripComponents.addAll(parseType(obj, "packages", TripComponent.Type.PACKAGE));
+		tripComponents.addAll(parseType(obj, "rails", TripComponent.Type.RAILS));
 
 		return tripComponents;
 	}
@@ -143,6 +145,9 @@ public class TripParser {
 					break;
 				case PACKAGE:
 					component = parseTripPackage(componentJson);
+					break;
+				case RAILS:
+					component = parseTripRails(componentJson);
 					break;
 				default:
 					component = null;
@@ -234,6 +239,9 @@ public class TripParser {
 			double starRating = propertyJson.optDouble("starRating", 0);
 			property.setHotelRating(starRating / 10);
 
+			boolean isVipHotel = propertyJson.optBoolean("isVipAccess", false);
+			property.setIsVipAccess(isVipHotel);
+
 			hotel.setProperty(property);
 		}
 
@@ -277,8 +285,11 @@ public class TripParser {
 					}
 				}
 			}
-			JSONObject firstRoom = roomsJson.optJSONObject(0);
-			property.setRoomCancelLink(firstRoom.optString("roomCancelLink"));
+
+			if (!roomsJson.isNull(0)) {
+				JSONObject firstRoom = roomsJson.optJSONObject(0);
+				property.setRoomCancelLink(firstRoom.optString("roomCancelLink"));
+			}
 		}
 
 		hotel.setGuests(guests);
@@ -505,6 +516,20 @@ public class TripParser {
 		tripPackage.addTripComponents(parseTripComponents(obj));
 
 		return tripPackage;
+	}
+
+	private TripRails parseTripRails(JSONObject obj) {
+		TripRails tripRails = new TripRails();
+
+		parseTripCommon(obj, tripRails);
+		tripRails.setStartDate(DateTimeParser.parseDateTime(obj.optJSONObject("startTime")));
+		tripRails.setEndDate(DateTimeParser.parseDateTime(obj.optJSONObject("endTime")));
+		/**
+		 * Currently, api only returns SUMMARY details for RAILS trip.
+		 * One we get FULL details, we need to parse rail products and show actual details
+		 * https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/9374
+		 */
+		return tripRails;
 	}
 
 	private Insurance parseTripInsurance(JSONObject obj) {

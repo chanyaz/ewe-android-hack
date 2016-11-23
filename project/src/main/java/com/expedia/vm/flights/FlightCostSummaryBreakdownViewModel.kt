@@ -3,7 +3,6 @@ package com.expedia.vm.flights
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.flights.AbstractFlightOfferResponse
 import com.expedia.bookings.data.flights.FlightTripDetails.PassengerCategory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.Ui
@@ -16,7 +15,7 @@ class FlightCostSummaryBreakdownViewModel(context: Context) : BaseCostSummaryBre
     val flightCostSummaryObservable = PublishSubject.create<TripResponse>()
 
     init {
-        flightCostSummaryObservable.subscribe { tripResponse -> tripResponse as AbstractFlightOfferResponse
+        flightCostSummaryObservable.subscribe { tripResponse ->
             val breakdowns = arrayListOf<CostSummaryBreakdownRow>()
             val flightDetails = tripResponse.details
             val flightOffer = flightDetails.offer

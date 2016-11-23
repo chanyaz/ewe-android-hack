@@ -15,17 +15,20 @@
         android:layout_height="match_parent"
         android:background="@color/gray1" />
 
-    <com.expedia.bookings.presenter.packages.PackageConfirmationPresenter
-        android:id="@+id/widget_package_confirmation"
+    <ViewStub
+        android:id="@+id/widget_package_confirmation_view_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/packages_primary_color"
-        android:visibility="gone" />
+        android:inflatedId="@+id/widget_package_confirmation"
+        android:layout="@layout/package_confirmation_stub" />
 
-    <com.expedia.bookings.presenter.packages.PackageErrorPresenter
-        android:id="@+id/widget_package_hotel_errors"
+    <ViewStub
+        android:id="@+id/widget_package_error_view_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/gray1"
-        android:visibility="gone"/>
+        android:inflatedId="@+id/widget_package_hotel_errors"
+        android:layout="@layout/package_error_stub" />
+
 </merge>

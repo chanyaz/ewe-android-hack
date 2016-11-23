@@ -12,14 +12,15 @@ import com.expedia.bookings.widget.BaseHotelListAdapter
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.packages.PackageHotelListAdapter
 import com.expedia.util.notNullAndObservable
-import com.expedia.vm.HotelFilterViewModel
+import com.expedia.vm.AbstractHotelFilterViewModel
+import com.expedia.vm.PackageFilterViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 
 class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelResultsPresenter(context, attrs) {
     override val filterHeight by lazy { resources.getDimension(R.dimen.footer_button_height) }
     override val heightOfButton = 0
 
-    var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
+    override var viewmodel: HotelResultsViewModel by notNullAndObservable { vm ->
         vm.hotelResultsObservable.subscribe(listResultsObserver)
         vm.hotelResultsObservable.subscribe(mapViewModel.hotelResultsSubject)
 
@@ -99,5 +100,9 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     override fun getLineOfBusiness(): LineOfBusiness {
         return LineOfBusiness.PACKAGES
+    }
+
+    override fun createFilterViewModel(): AbstractHotelFilterViewModel {
+        return PackageFilterViewModel(context)
     }
 }

@@ -8,7 +8,6 @@ import org.joda.time.DateTime;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.text.Html;
 import android.text.Spanned;
 import android.text.format.DateUtils;
 
@@ -25,6 +24,7 @@ import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
+import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.util.AndroidUtils;
 import com.squareup.phrase.Phrase;
 
@@ -87,9 +87,6 @@ public class HotelUtils {
 	/**
 	 * Returns a string meant to be displayed along with a room description, describing the terms on
 	 * which the room can be cancelled.
-	 * @param context
-	 * @param rate
-	 * @return
 	 */
 	public static CharSequence getRoomCancellationText(Context context, final Rate rate) {
 		DateTime window = rate.getFreeCancellationWindowDate();
@@ -97,7 +94,7 @@ public class HotelUtils {
 			CharSequence formattedDate = JodaUtils.formatDateTime(context, window, DateUtils.FORMAT_SHOW_TIME
 				| DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_ABBREV_MONTH);
 			String formattedString = context.getString(R.string.free_cancellation_date_TEMPLATE, formattedDate);
-			return Html.fromHtml(formattedString);
+			return HtmlCompat.fromHtml(formattedString);
 		}
 		else {
 			return context.getString(R.string.free_cancellation);
@@ -108,11 +105,6 @@ public class HotelUtils {
 	 * Returns the string meant to be displayed below the slide-to-purchase view; i.e. the final
 	 * prompt displayed before the card is actually charged. We want this message to be consistent
 	 * between phone and tablet.
-	 * @param context
-	 * @param property
-	 * @param rate
-	 * @param isTablet
-	 * @return
 	 */
 	public static String getSlideToPurchaseString(Context context, Property property, Rate rate, boolean isTablet) {
 		int chargeTypeMessageId = 0;
@@ -163,7 +155,7 @@ public class HotelUtils {
 	public static Spanned getDepositPolicyText(Context context, String[] depositPolicy) {
 		String depositStatement = depositPolicy[0];
 		String depositAmount = depositPolicy[1].trim();
-		return Html.fromHtml(context.getString(R.string.pay_later_deposit_policy, depositStatement, depositAmount));
+		return HtmlCompat.fromHtml(context.getString(R.string.pay_later_deposit_policy, depositStatement, depositAmount));
 	}
 
 	// Convenience method for getting resort fee text that goes at the bottom of checkout,
@@ -183,7 +175,7 @@ public class HotelUtils {
 		else {
 			templateId = R.string.resort_fee_disclaimer_TEMPLATE;
 		}
-		return Html.fromHtml(context.getString(templateId, fees, tripTotal));
+		return HtmlCompat.fromHtml(context.getString(templateId, fees, tripTotal));
 	}
 
 	/*
@@ -260,5 +252,19 @@ public class HotelUtils {
 			}
 		}
 		return initialRefreshIndex;
+	}
+
+	public static String getFreeCancellationText(Context context, String cancellationWindow) {
+		if (cancellationWindow != null) {
+			String cancellationDate = com.expedia.bookings.utils.DateUtils
+				.localDateToEEEMMMd(com.expedia.bookings.utils.DateUtils.yyyyMMddHHmmToDateTime(cancellationWindow).toLocalDate());
+			return Phrase.from(context, R.string.hotel_free_cancellation_before_TEMPLATE)
+				.put("date", cancellationDate)
+				.format()
+				.toString();
+		}
+		else {
+			return context.getString(R.string.free_cancellation);
+		}
 	}
 }

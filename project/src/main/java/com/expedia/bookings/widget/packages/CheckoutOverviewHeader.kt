@@ -44,6 +44,14 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
                     .setTarget(picassoTarget)
                     .build()
                     .load(urls)
+
+        }
+        vm.placeHolderDrawable.subscribe { drawableID ->
+            val drawable = HeaderBitmapDrawable()
+            val bitmap = (ContextCompat.getDrawable(context, drawableID) as BitmapDrawable).bitmap
+            drawable.setBitmap(bitmap)
+            applyGradient(drawable)
+            checkoutHeaderImage?.setImageDrawable(drawable)
         }
     }
 

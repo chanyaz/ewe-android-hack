@@ -15,6 +15,7 @@ import com.expedia.bookings.widget.FlightSegmentBreakdownView
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeVisibility
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.util.subscribeOnClick
@@ -58,6 +59,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceTextView)
         vm.urgencyMessagingSubject.subscribeTextAndVisibilityInvisible(urgencyMessagingText)
         vm.totalDurationSubject.subscribeText(totalDurationText)
+        vm.totalDurationContDescSubject.subscribeContentDescription(totalDurationText)
         vm.selectedFlightLegSubject.subscribe { selectedFlight ->
             val segmentbreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {

@@ -7,7 +7,6 @@ import android.content.res.TypedArray;
 import android.support.annotation.ColorRes;
 import android.support.annotation.StringRes;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.View;
@@ -41,6 +40,7 @@ import com.expedia.bookings.data.trips.TripBucketItemLX;
 import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.trips.TripBucketItemTransport;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
@@ -387,7 +387,7 @@ public class AccountButton extends LinearLayout {
 		else {
 			switch (lob) {
 			case FLIGHTS:
-				youllEarnRewardsPointsText = Html.fromHtml(
+				youllEarnRewardsPointsText = HtmlCompat.fromHtml(
 					Phrase.from(this, R.string.x_rewards_currency_for_this_trip_TEMPLATE)
 						.put("reward_currency", rewardPoints).format()
 						.toString());
@@ -396,7 +396,7 @@ public class AccountButton extends LinearLayout {
 			case HOTELS:
 			case PACKAGES:
 			case LX:
-				youllEarnRewardsPointsText = Html.fromHtml(
+				youllEarnRewardsPointsText = HtmlCompat.fromHtml(
 					Phrase.from(this, R.string.youll_earn_points_TEMPLATE).put("reward_currency", rewardPoints).format()
 						.toString());
 				break;

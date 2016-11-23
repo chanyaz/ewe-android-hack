@@ -13,7 +13,7 @@ class RailTotalPriceViewModel(context: Context) : BaseTotalPriceWidgetViewModel(
 
     init {
         bundleTextLabelObservable.onNext(context.getString(R.string.total))
-        bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))
+        bundleTotalIncludesObservable.onNext(context.getString(R.string.payment_and_ticket_delivery_fees_may_also_apply))
     }
 
     fun updatePricing(response: RailCreateTripResponse) {

@@ -3,6 +3,7 @@ package com.expedia.vm.rail
 import android.content.Context
 import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.widget.rail.TicketDeliveryMethod
 import rx.subjects.BehaviorSubject
@@ -10,7 +11,7 @@ import rx.subjects.PublishSubject
 
 class RailTicketDeliveryEntryViewModel(val context: Context) {
     //inputs
-    val ticketDeliveryOptions = PublishSubject.create<List<RailCreateTripResponse.RailTicketDeliveryOption>>()
+    val ticketDeliveryOptions = PublishSubject.create<List<RailTicketDeliveryOption>>()
 
     //ouputs
     val ticketDeliveryByPostOptions = ticketDeliveryOptions.map { options ->

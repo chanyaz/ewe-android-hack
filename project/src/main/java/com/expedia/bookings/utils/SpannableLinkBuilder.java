@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils;
 
 import android.graphics.Typeface;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -10,6 +9,8 @@ import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
 import android.text.style.UnderlineSpan;
 import android.view.View;
+
+import com.expedia.bookings.text.HtmlCompat;
 
 public class SpannableLinkBuilder {
 	protected boolean bolded;
@@ -20,7 +21,7 @@ public class SpannableLinkBuilder {
 	protected boolean underlined;
 
 	public SpannableStringBuilder build() {
-		Spanned spannedContent = Html.fromHtml(content);
+		Spanned spannedContent = HtmlCompat.fromHtml(content);
 		SpannableStringBuilder builder = new SpannableStringBuilder(spannedContent);
 
 		URLSpan[] urlSpans = builder.getSpans(0, spannedContent.length(), URLSpan.class);

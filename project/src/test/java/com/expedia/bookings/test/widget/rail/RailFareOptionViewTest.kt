@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailCard
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
@@ -17,6 +18,7 @@ import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 class RailFareOptionViewTest {
+    val expectedFareTitle = "Standard Fare class"
 
     fun getContext(): Context {
         return RuntimeEnvironment.application
@@ -33,7 +35,7 @@ class RailFareOptionViewTest {
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(null)
 
         assertEquals("$10", railFareOptionView.priceView.text)
-        assertEquals("Fare class", railFareOptionView.fareTitle.text)
+        assertEquals(expectedFareTitle, railFareOptionView.fareTitle.text)
         assertEquals("Fare Description", railFareOptionView.fareDescription.text)
         assertEquals(View.VISIBLE, railFareOptionView.railCardImage.visibility)
     }
@@ -49,7 +51,7 @@ class RailFareOptionViewTest {
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("15", "USD"))
 
         assertEquals("$25", railFareOptionView.priceView.text)
-        assertEquals("Fare class", railFareOptionView.fareTitle.text)
+        assertEquals(expectedFareTitle, railFareOptionView.fareTitle.text)
         assertEquals("Fare Description", railFareOptionView.fareDescription.text)
     }
 
@@ -64,7 +66,7 @@ class RailFareOptionViewTest {
         railFareOptionViewModel.inboundLegCheapestPriceSubject.onNext(Money("5", "USD"))
 
         assertEquals("+$5", railFareOptionView.priceView.text)
-        assertEquals("Fare class", railFareOptionView.fareTitle.text)
+        assertEquals(expectedFareTitle, railFareOptionView.fareTitle.text)
         assertEquals("Fare Description", railFareOptionView.fareDescription.text)
     }
 
@@ -92,11 +94,12 @@ class RailFareOptionViewTest {
         testShowFareClickedSubscriber.assertValueCount(1)
     }
 
-    private fun getRailOffer(): RailSearchResponse.RailOffer {
-        val railOffer = RailSearchResponse.RailOffer()
+    private fun getRailOffer(): RailOffer {
+        val railOffer = RailOffer()
         railOffer.totalPrice = Money(10, "USD")
         railOffer.totalPrice.formattedPrice = "$10"
         val railProduct = RailProduct()
+        railProduct.aggregatedCarrierServiceClassDisplayName = "Standard"
         railProduct.aggregatedCarrierFareClassDisplayName = "Fare class"
         railProduct.aggregatedFareDescription = "Fare Description"
         val fareQualifierList = listOf(RailCard("", "", ""))

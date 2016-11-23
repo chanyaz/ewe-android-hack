@@ -324,34 +324,9 @@
         <item name="android:textSize">@dimen/hotel_reviews_summary_text_size</item>
     </style>
 
-    <style name="widgetHotelNameText">
-        <item name="android:textColor">@color/widget_text_color</item>
-        <item name="android:textSize">14sp</item>
-        <item name="android:shadowColor">@android:color/white</item>
-        <item name="android:shadowRadius">.1</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">1</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="widgetHotelLocationText" parent="widgetHotelNameText">
-        <item name="android:textColor">#7b7b7b</item>
-        <item name="android:textSize">12sp</item>
-        <item name="android:textStyle">normal</item>
-    </style>
-
     <style name="Animation.Popup" parent="android:Animation">
         <item name="android:windowEnterAnimation">@anim/sort_popup_fade_in</item>
         <item name="android:windowExitAnimation">@anim/fade_out</item>
-    </style>
-
-    <style name="InstructionText">
-        <item name="android:layout_weight">1</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">0dp</item>
-        <item name="android:paddingLeft">5dp</item>
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:textSize">19dp</item>
     </style>
 
     <style name="ExpediaLoginDialog" parent="@android:style/Theme.Dialog">
@@ -417,20 +392,6 @@
     </style>
 
     <!-- Expedia Flights styles -->
-
-    <style name="ExpediaLaunchList">
-        <item name="android:cacheColorHint">@android:color/transparent</item>
-        <item name="android:divider">@android:color/black</item>
-        <item name="android:dividerHeight">2dp</item>
-        <item name="android:footerDividersEnabled">false</item>
-        <item name="android:fadingEdge">none</item>
-        <item name="android:overScrollFooter">@null</item>
-        <item name="android:overScrollHeader">@null</item>
-        <item name="android:overScrollMode">never</item>
-        <item name="android:scrollbars">none</item>
-        <item name="android:listSelector">@android:color/transparent</item>
-        <item name="android:drawSelectorOnTop">true</item>
-    </style>
 
     <style name="FlightAirportAutocomplete">
         <item name="android:drawablePadding">8dp</item>
@@ -687,12 +648,6 @@
         <item name="android:background">?attr/skin_confirmationHeaderFlightDividerLineColor</item>
     </style>
 
-    <style name="FauxActionBarTitleText">
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">16dp</item>
-        <item name="android:textColor">#f3f3f3</item>
-    </style>
-
     <style name="LightDialog" parent="Theme.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:buttonBarButtonStyle">@style/customButtonStyle</item>
@@ -748,6 +703,19 @@
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
         <item name="android:background">@drawable/btn_find</item>
+    </style>
+    
+    <style name="ItinCheckInYesNoButtons">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center_vertical</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:background">@drawable/dialog_button</item>
+        <item name="android:textSize">13sp</item>
     </style>
 
     <!-- DIALOGS -->
@@ -965,16 +933,6 @@
 
     <style name="V2.Dialog.Coupon.Phone" />
 
-    <!-- Tablet Sold out screen, buttons style -->
-    <style name="BannerTextView">
-        <item name="android:layout_gravity">center_vertical</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingLeft">10dp</item>
-        <item name="android:paddingRight">20dp</item>
-        <item name="android:textColor">@color/price_promo_banner_text_color</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
     <style name="Widget.SlidingRadioButton" />
 
     <style name="Widget.SlidingRadioButton.Filter">
@@ -1093,7 +1051,7 @@
 
     <!-- Borderless button for "Enter Itinerary Number" in login screen -->
     <style name="Widget.BorderlessButton" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:background">@drawable/bg_btn_borderless_kitkat</item>
+        <item name="android:background">@drawable/bg_btn_borderless</item>
     </style>
 
     <style name="Widget.InfoIconButton" parent="Widget.AppCompat.Button.Borderless">
@@ -1129,7 +1087,19 @@
         <item name="android:textColor">@color/light_text_color</item>
     </style>
 
+    <style name="Core.Text.Default.WhiteColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
     <style name="Core.Text.Default.Medium.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="Core.Text.Small">
+        <item name="android:textSize">@dimen/small_text_size</item>
+    </style>
+
+    <style name="Core.Text.Small.LightColor">
         <item name="android:textColor">@color/light_text_color</item>
     </style>
 
@@ -1138,6 +1108,22 @@
     </style>
 
     <style name="Core.Text.Large.Medium">
+        <item name="textStyle">medium</item>
+    </style>
+
+    <style name="Core.Text.Large.Medium.WhiteColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="Core.Text.Large.Medium.LightColor">
+        <item name="android:textColor">@color/light_text_color</item>
+    </style>
+
+    <style name="Core.Text.XLarge">
+        <item name="android:textSize">@dimen/xlarge_text_size</item>
+    </style>
+
+    <style name="Core.Text.XLarge.Medium">
         <item name="textStyle">medium</item>
     </style>
 

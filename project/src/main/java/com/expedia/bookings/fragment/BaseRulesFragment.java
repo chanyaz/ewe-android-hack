@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
@@ -10,11 +9,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.Rule;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.util.HtmlUtils;
 import com.mobiata.android.util.Ui;
@@ -176,7 +177,7 @@ public abstract class BaseRulesFragment extends Fragment {
 		TextView tv = Ui.findView(v, R.id.flight_rules_text_view);
 		String body = constructHtmlBodySectionOne();
 
-		tv.setText(Html.fromHtml(body));
+		tv.setText(HtmlCompat.fromHtml(body));
 		tv.setMovementMethod(LinkMovementMethod.getInstance());
 	}
 
@@ -251,7 +252,7 @@ public abstract class BaseRulesFragment extends Fragment {
 		builder.append(text);
 		builder.append("</a>");
 
-		return Html.fromHtml(builder.toString());
+		return HtmlCompat.fromHtml(builder.toString());
 	}
 
 }

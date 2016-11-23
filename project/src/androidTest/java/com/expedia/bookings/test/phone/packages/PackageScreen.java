@@ -3,6 +3,7 @@ package com.expedia.bookings.test.phone.packages;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.Matcher;
 import org.hamcrest.core.AllOf;
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.LocalDate;
 
 import android.support.test.espresso.Espresso;
@@ -392,12 +393,16 @@ public class PackageScreen {
 	}
 
 	public static void completePaymentForm() {
+		completeCardInfo("Mobiata Auto");
+	}
+
+	private static void completeCardInfo(String nameOnCard) {
 		CardInfoScreen.clickOnExpirationDateButton();
 		CardInfoScreen.clickMonthUpButton();
 		CardInfoScreen.clickYearUpButton();
 		CardInfoScreen.clickSetButton();
 		CardInfoScreen.typeTextCvv("666");
-		CardInfoScreen.typeTextNameOnCardEditText("Mobiata Auto");
+		CardInfoScreen.typeTextNameOnCardEditText(nameOnCard);
 
 		int addressSectionParentId = R.id.section_location_address;
 		BillingAddressScreen.typeTextAddressLineOne("123 California Street", addressSectionParentId);
@@ -468,5 +473,12 @@ public class PackageScreen {
 
 	public static ViewInteraction toggleInsurance() {
 		return onView(withId(R.id.insurance_switch)).perform(click());
+	}
+
+	public static void enterPaymentInfo(@NotNull String nameOnCard) {
+		clickPaymentInfo();
+		enterCreditCard();
+		completeCardInfo(nameOnCard);
+		clickPaymentDone();
 	}
 }

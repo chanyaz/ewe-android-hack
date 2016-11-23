@@ -7,9 +7,9 @@ import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailCardSelected
 import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.services.RailServices
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.RailTracking
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.widget.RailCardPickerRowView
-import com.mobiata.android.util.SettingUtils
 import rx.Observer
 import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.PublishSubject
@@ -28,6 +28,8 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
     val cardsAndQuantitySelectionDetails = HashMap<Int, RailCardSelected>()
     val cardsListForSearchParams: PublishSubject<List<RailCard>> = PublishSubject.create()
 
+    val cardsSelectedTextObservable = PublishSubject.create<String>()
+
     val railCardTypes = PublishSubject.create<List<RailCard>>()
     val addClickSubject = PublishSubject.create<Unit>()
     val removeClickSubject = PublishSubject.create<Unit>()
@@ -40,7 +42,7 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
     var rowId = 0
     val MAX_ROWS = 8
 
-    val doneClickedWithNumberOfTravelers = doneClickedSubject.withLatestFrom(numberOfTravelers, {clicked, numberOfTravelers-> numberOfTravelers})
+    val doneClickedWithNumberOfTravelers = doneClickedSubject.withLatestFrom(numberOfTravelers, { clicked, numberOfTravelers -> numberOfTravelers })
 
     init {
         railCardsSelectionChangedObservable.subscribe { railCardSelected ->
@@ -65,22 +67,23 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
                     }
             // On validation success, set search params and close dialog
             cardsListForSearchParams.onNext(selectedRailCards)
+            cardsSelectedTextObservable.onNext(getRailcardsString(selectedRailCards.size))
+
             validationSuccess.onNext(Unit)
         }
 
-        addClickSubject.withLatestFrom(railCardTypes, {clicked, railCard -> railCard}).subscribe { railCard ->
+        addClickSubject.withLatestFrom(railCardTypes, { clicked, railCard -> railCard }).subscribe { railCard ->
             addRow(railCard)
-            OmnitureTracking.trackRailCardPicker("Add")
+            RailTracking().trackRailCardPicker("Add")
         }
 
         removeClickSubject.subscribe {
-            OmnitureTracking.trackRailCardPicker("Remove")
+            RailTracking().trackRailCardPicker("Remove")
             cardsAndQuantitySelectionDetails.remove(rowId - 1)
             if (rowId == 1) {
                 resetClicked.onNext(Unit)
                 removeButtonEnableState.onNext(false)
-            }
-            else {
+            } else {
                 rowId--
                 removeRow.onNext(Unit)
                 setRemoveButtonState()
@@ -89,17 +92,23 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
         fetchRailCards()
     }
 
+    private fun getRailcardsString(total: Int): String {
+        if (total == 0) {
+            return context.getString(R.string.add_rail_card)
+        }
+        return StrUtils.formatRailcardString(context, total)
+    }
+
     private fun setRemoveButtonState() {
         if (rowId == 1 && isFirstRowInResetState()) {
             removeButtonEnableState.onNext(false)
-        }
-        else {
+        } else {
             removeButtonEnableState.onNext(true)
         }
     }
 
     private fun fetchRailCards() {
-        railServices.railGetCards(PointOfSale.getPointOfSale().localeIdentifier, object: Observer<RailCardsResponse> {
+        railServices.railGetCards(PointOfSale.getPointOfSale().localeIdentifier, object : Observer<RailCardsResponse> {
             override fun onError(e: Throwable?) {
                 throw OnErrorNotImplementedException(e)
             }
@@ -144,7 +153,7 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
         }
 
         // If partially filled rows, show error.
-        else if (cardsAndQuantitySelectionDetails.filter { railCardHashMap -> railCardHashMap.value.isSelectionPartial() }.size > 0){
+        else if (cardsAndQuantitySelectionDetails.filter { railCardHashMap -> railCardHashMap.value.isSelectionPartial() }.size > 0) {
             validationError.onNext(context.resources.getString(R.string.error_select_rail_card_details))
             return false
         }

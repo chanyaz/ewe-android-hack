@@ -21,15 +21,13 @@
             android:id="@+id/first_row"
             style="@style/BundleOverviewWidgets.PrimaryText"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:maxLines="1" />
+            android:layout_height="match_parent" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/second_row"
             style="@style/BundleOverviewWidgets.SecondaryText"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:maxLines="1" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </merge>
 

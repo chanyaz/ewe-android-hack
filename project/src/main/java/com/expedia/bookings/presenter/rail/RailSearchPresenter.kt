@@ -82,7 +82,7 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
         searchViewModel.resetDatesAndTimes()
         travelerWidgetV2.travelersSubject.subscribe(vm.travelersObservable)
         travelerWidgetV2.traveler.getViewModel().travelerParamsObservable.subscribe { travelers ->
-            val noOfTravelers = travelers.numberOfAdults + travelers.childrenAges.size + travelers.youthAges.size + travelers.seniorAges.size
+            val noOfTravelers = travelers.getTravelerCount()
             travelerWidgetV2.contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_travelers_cont_desc_TEMPLATE, noOfTravelers)).
                     put("travelers", noOfTravelers).format().toString()
         }
@@ -108,10 +108,6 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
                 .subscribe { message ->
                     showErrorDialog(message)
                 }
-    }
-
-    init {
-        Ui.getApplication(context).railComponent().inject(this)
     }
 
     override fun inflate() {

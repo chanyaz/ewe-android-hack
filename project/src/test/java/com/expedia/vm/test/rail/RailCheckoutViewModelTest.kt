@@ -1,23 +1,26 @@
 package com.expedia.vm.test.rail
 
 import android.app.Activity
-import com.expedia.bookings.data.BillingInfo
-import com.expedia.bookings.data.Location
-import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.*
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.data.TicketDeliveryOption
+import com.expedia.bookings.data.rail.requests.RailCheckoutParams
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponse
+import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.rail.RailCheckoutViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
 import org.robolectric.Robolectric
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
+import kotlin.test.assertNotNull
 import kotlin.test.assertNull
 
 @RunWith(RobolectricRunner::class)
@@ -26,11 +29,20 @@ class RailCheckoutViewModelTest {
     val testPrice = Money(20, "USD")
     val expectedSlideToPurchaseText = "Your card will be charged $20"
 
+    val expectedPriceChangeTripId = "2584783d-7b84-406e-9fef-3e8e847d4d87"
+    val expectedCheckoutItinNumber = "7938604594"
+
+    var railServicesRule = ServicesRule(RailServices::class.java)
+        @Rule get
+
+
     @Before
     fun setUp() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         Ui.getApplication(activity).defaultRailComponents()
+
         testViewModel = RailCheckoutViewModel(activity)
+        testViewModel.railServices = railServicesRule.services!!
     }
 
     @Test
@@ -95,6 +107,85 @@ class RailCheckoutViewModelTest {
         assertNull(mockTDO.deliveryAddress)
     }
 
+    @Test
+    fun testPriceChange() {
+        val priceChangeTestSub = TestSubscriber<Unit>()
+        val pricingSubjectTestSub = TestSubscriber<RailCreateTripResponse>()
+
+        testViewModel.priceChangeObservable.subscribe(priceChangeTestSub)
+        testViewModel.updatePricingSubject.subscribe(pricingSubjectTestSub)
+
+        testViewModel.checkoutParams.onNext(buildMockCheckoutParams("pricechange"))
+
+        assertNotNull(priceChangeTestSub.onNextEvents[0])
+        assertEquals(expectedPriceChangeTripId, pricingSubjectTestSub.onNextEvents[0].tripId)
+        assertEquals(expectedPriceChangeTripId, testViewModel.createTripId)
+    }
+
+    @Test
+    fun testInvalidInputError() {
+        val errorTestSub = TestSubscriber<ApiError>()
+        testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
+
+        testViewModel.checkoutParams.onNext(buildMockCheckoutParams("invalidinput"))
+
+        assertNotNull(errorTestSub.onNextEvents[0])
+        assertEquals(ApiError.Code.INVALID_INPUT, errorTestSub.onNextEvents[0].errorCode)
+    }
+
+    @Test
+    fun testUnknownApiError() {
+        val errorTestSub = TestSubscriber<ApiError>()
+        testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
+
+        testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknownpayment"))
+
+        assertNotNull(errorTestSub.onNextEvents[0])
+        assertEquals(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR, errorTestSub.onNextEvents[0].errorCode)
+    }
+
+    @Test
+    fun testOtherUnknownErrors() {
+        val errorTestSub = TestSubscriber<ApiError>()
+        testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
+
+        testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknown"))
+
+        assertNotNull(errorTestSub.onNextEvents[0])
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, errorTestSub.onNextEvents[0].errorCode)
+    }
+
+    @Test
+    fun testRetryOnError() {
+        val errorTestSub = TestSubscriber<ApiError>()
+        testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
+
+        testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknownpayment"))
+        assertNotNull(errorTestSub.onNextEvents[0])
+        assertEquals(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR, errorTestSub.onNextEvents[0].errorCode)
+
+        testViewModel.retryObservable.onNext(Unit)
+        assertNotNull(errorTestSub.onNextEvents[1])
+        assertEquals(ApiError.Code.UNKNOWN_ERROR, errorTestSub.onNextEvents[1].errorCode)
+    }
+
+    @Test
+    fun testRailCheckout() {
+        val checkoutTestSub = TestSubscriber<Pair<RailCheckoutResponse, String>>()
+        testViewModel.bookingSuccessSubject.subscribe(checkoutTestSub)
+        testViewModel.travelerCompleteObserver.onNext(buildMockTraveler())
+
+        testViewModel.checkoutParams.onNext(getCheckoutRequest())
+
+        assertEquals(expectedCheckoutItinNumber, checkoutTestSub.onNextEvents[0].first.newTrip.itineraryNumber)
+    }
+
+    private fun getCheckoutRequest() : RailCheckoutParams {
+        val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_cko_request.json")
+        val checkoutParams = resourceReader.constructUsingGson(RailCheckoutParams::class.java)
+        return checkoutParams
+    }
+
     private fun buildMockBillingInfo(): BillingInfo {
         val mockBilling = Mockito.mock(BillingInfo::class.java)
         Mockito.`when`(mockBilling.number).thenReturn("")
@@ -142,5 +233,19 @@ class RailCheckoutViewModelTest {
         Mockito.`when`(mockTDO.deliveryOptionToken).thenReturn(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE)
         Mockito.`when`(mockTDO.deliveryAddress).thenReturn(null)
         return mockTDO
+    }
+
+    private fun buildMockCheckoutParams(key: String): RailCheckoutParams {
+        val travelers = listOf(RailCheckoutParams.Traveler(key, "Travler", "+1", "111111", "mock@mobiata.com"))
+        val tdo = RailCheckoutParams.TicketDeliveryOption("PICK_UP_AT_TICKETING_OFFICE_NONE")
+        val cardDetails = RailCheckoutParams.CardDetails(creditCardNumber = "444444444444444",
+                expirationDateYear = "12", expirationDateMonth = "5", cvv = "123", nameOnCard = "Test Card",
+                address1 = "123 Seasme St", city = "New York", postalCode = "60567",
+                currencyCode = "USD", country = "USA")
+        cardDetails.state = "IL"
+        val paymentInfo = RailCheckoutParams.PaymentInfo(listOf(cardDetails))
+        val tripDetails = RailCheckoutParams.TripDetails("Happy_Man", "12123.33", "USD", true)
+
+        return RailCheckoutParams(travelers, tripDetails, paymentInfo, tdo)
     }
 }

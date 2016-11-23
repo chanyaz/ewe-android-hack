@@ -24,6 +24,7 @@ import com.expedia.vm.hotel.HotelResultsPricingStructureHeaderViewModel
 import com.expedia.vm.hotel.HotelViewModel
 import com.mobiata.android.util.AndroidUtils
 import org.joda.time.DateTime
+import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -67,10 +68,10 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     init {
         addResultsSubject.subscribe { response ->
             val nonDuplicateHotels = response.hotelList.filter { responseHotel -> hotels.filter { responseHotel.hotelId.contains(it.hotelId) }.isEmpty() }
-            val initialSize = hotels.size
+            val initialSize = itemCount
             hotels.addAll(nonDuplicateHotels)
             val newHotels = HotelServices.putSponsoredItemsInCorrectPlaces(hotels)
-            val initialRefreshIndex = HotelUtils.getFirstUncommonHotelIndex(hotels, newHotels)
+            val initialRefreshIndex = HotelUtils.getFirstUncommonHotelIndex(hotels, newHotels) + numHeaderItemsInHotelsList()
             hotels = newHotels as ArrayList<Hotel>
             notifyItemRangeChanged(initialRefreshIndex, initialSize)
             notifyItemRangeInserted(initialSize, hotels.size)

@@ -46,6 +46,8 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     val subtitleSubject = PublishSubject.create<CharSequence>()
     val showHotelSearchViewObservable = PublishSubject.create<Unit>()
 
+    var isFavoritingSupported: Boolean = lob == LineOfBusiness.HOTELS
+
     init {
         paramsSubject.subscribe(endlessObserver { params ->
             doSearch(params)

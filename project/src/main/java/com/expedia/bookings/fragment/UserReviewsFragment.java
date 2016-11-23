@@ -8,7 +8,6 @@ import java.util.Set;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +25,7 @@ import com.expedia.bookings.data.Review;
 import com.expedia.bookings.data.ReviewSort;
 import com.expedia.bookings.data.ReviewsResponse;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
 import com.expedia.bookings.utils.UserReviewsUtils;
@@ -272,7 +272,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 
 				ArrayList<ReviewWrapper> newlyLoadedReviews = reviewWrapperListInit(response.getReviews());
 				if (mUserReviews == null) {
-					mUserReviews = new ArrayList<ReviewWrapper>();
+					mUserReviews = new ArrayList<>();
 				}
 
 				if (newlyLoadedReviews.size() == 0) {
@@ -308,13 +308,12 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 			addLoadingFooter();
 		}
 
-		Set<String> viewedReviews = new HashSet<String>();
+		Set<String> viewedReviews = new HashSet<>();
 		int count = mUserReviewsAdapter.getCount();
 		for (int a = 0; a < visibleItemCount && firstVisibleItem + a < count; a++) {
-			Object item = mUserReviewsAdapter.getItem(firstVisibleItem + a);
-			if (item instanceof ReviewWrapper && !((ReviewWrapper) item).mIsDivider
-				&& !((ReviewWrapper) item).mIsLoadingFooter) {
-				viewedReviews.add(((ReviewWrapper) item).mReview.getReviewId());
+			ReviewWrapper item = mUserReviewsAdapter.getItem(firstVisibleItem + a);
+			if (item != null && !item.mIsDivider && !item.mIsLoadingFooter) {
+				viewedReviews.add(item.mReview.getReviewId());
 			}
 		}
 		mUserReviewsFragmentListener.addMoreReviewsSeen(viewedReviews);
@@ -343,7 +342,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 		int numTotal = mProperty.getTotalReviews();
 		float percentRecommend = mProperty.getPercentRecommended();
 		String text = getString(R.string.user_review_recommendation_tag_text, numRec, numTotal);
-		CharSequence styledText = Html.fromHtml(text);
+		CharSequence styledText = HtmlCompat.fromHtml(text);
 
 		if (numTotal > 0) {
 			int drawableResId = percentRecommend >= 50.0f ? R.drawable.ic_good_rating : R.drawable.ic_bad_rating;
@@ -431,7 +430,7 @@ public class UserReviewsFragment extends ListFragment implements OnScrollListene
 	}
 
 	private ArrayList<ReviewWrapper> reviewWrapperListInit(List<Review> reviews) {
-		ArrayList<ReviewWrapper> loadedReviews = new ArrayList<ReviewWrapper>();
+		ArrayList<ReviewWrapper> loadedReviews = new ArrayList<>();
 		if (reviews == null) {
 			return null;
 		}

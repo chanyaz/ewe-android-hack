@@ -78,7 +78,9 @@ public class ApiError extends RuntimeException {
 		//Rail errors
 		RAIL_PRODUCT_LOOKUP_ERROR,
 		// This is not returned by the rails domain API but set manually.
-		RAIL_SEARCH_NO_RESULTS
+		RAIL_SEARCH_NO_RESULTS,
+		// Any other error other than INVALID_INPUT is handled as unknown.
+		RAIL_UNKNOWN_CKO_ERROR
 	}
 
 	public enum DetailCode {

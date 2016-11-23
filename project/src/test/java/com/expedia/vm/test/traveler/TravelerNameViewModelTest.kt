@@ -12,7 +12,6 @@ import kotlin.test.assertEquals
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.TextView
-import com.jakewharton.rxbinding.widget.TextViewAfterTextChangeEvent
 import org.junit.Before
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment

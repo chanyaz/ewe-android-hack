@@ -1,11 +1,11 @@
 package com.expedia.bookings.widget.rail
 
 import android.content.Context
-import android.text.Html
 import android.view.View
 import android.widget.FrameLayout
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
@@ -25,7 +25,7 @@ class RailSegmentAmenitiesView(context: Context) : FrameLayout(context) {
         vm.noAmenitiesObservable.subscribeVisibility(noAmenities)
         vm.noAmenitiesObservable.subscribeInverseVisibility(amenitiesText)
         vm.formattedAmenitiesObservable.subscribe { formattedAmenitiesString ->
-            amenitiesText.text = Html.fromHtml(formattedAmenitiesString)
+            amenitiesText.text = HtmlCompat.fromHtml(formattedAmenitiesString)
         }
     }
     init {

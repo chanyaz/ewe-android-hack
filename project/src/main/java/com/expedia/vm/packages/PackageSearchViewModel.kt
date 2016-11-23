@@ -1,11 +1,11 @@
 package com.expedia.vm.packages
 
 import android.content.Context
-import android.text.Html
 import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
@@ -52,7 +52,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().destination(suggestion)
-        formattedDestinationObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
+        formattedDestinationObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
         requiredSearchParamsObserver.onNext(Unit)
     }
 

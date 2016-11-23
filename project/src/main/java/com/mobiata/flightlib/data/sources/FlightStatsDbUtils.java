@@ -46,6 +46,7 @@ public class FlightStatsDbUtils {
 
 	private static final int AIRLINE_NAME_INDEX = 0;
 	private static final int AIRLINE_CODE_INDEX = 1;
+	private static final int AIRLINE_PHONE_INDEX = 3;
 
 	private static final int AIRPORT_CODE_INDEX = 0;
 	private static final int AIRPORT_NAME_INDEX = 1;
@@ -218,6 +219,7 @@ public class FlightStatsDbUtils {
 	private static void fillAirlineFromCursor(Airline airline, Cursor c) {
 		airline.mAirlineName = c.getString(AIRLINE_NAME_INDEX);
 		airline.mAirlineCode = c.getString(AIRLINE_CODE_INDEX);
+		airline.mAirlinePhone = c.getString(AIRLINE_PHONE_INDEX);
 	}
 
 	private static void fillAirportDataFromDb(Airport airport) {

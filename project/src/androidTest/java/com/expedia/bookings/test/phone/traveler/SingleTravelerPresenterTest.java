@@ -29,14 +29,29 @@ import static junit.framework.Assert.assertEquals;
 public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper {
 
 	@Test
-	public void testTransitions() {
+	public void testTransitions() throws Throwable {
 		addTravelerToDb(new Traveler());
-
-		mockViewModel = getMockViewModelEmptyTravelers(1);
-		testTravelerPresenter.setViewModel(mockViewModel);
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(1);
+				testTravelerPresenter.setViewModel(mockViewModel);
+			}
+		});
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_entry_widget);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.traveler_picker_widget);
+
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				testTravelerPresenter.back();
+			}
+		});
+
+		EspressoUtils.assertViewIsDisplayed(R.id.traveler_default_state);
+		EspressoUtils.assertViewIsNotDisplayed(R.id.traveler_picker_widget);
 	}
 
 	@Test

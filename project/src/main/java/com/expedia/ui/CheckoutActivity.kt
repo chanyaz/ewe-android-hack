@@ -1,5 +1,5 @@
 package com.expedia.ui
 
-class CheckoutActivity : AbstractAppCompatActivity() {
+class CheckoutActivity : TrackingAbstractAppCompatActivity() {
     
 }

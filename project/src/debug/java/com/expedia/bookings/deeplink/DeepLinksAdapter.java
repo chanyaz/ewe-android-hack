@@ -86,6 +86,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Unsupported URL Scheme", "george://noworky"),
 		new DeepLink("Request Push Permissions", "expda://requestNotificationPermission"),
 		new DeepLink("Destination (Muzei Plugin)", "expda://destination/?displayName=Orlando,+FL&searchType=CITY&hotelId=178294&airportCode=ORL&regionId=178294&latitude=28.541290&longitude=-81.379040&imageCode=fun-orlando"),
+		new DeepLink("Support Email", "expda://supportEmail"),
 		new DeepLinkWithPackage("Empty Data", ""),
 		new DeepLinkCustom(),
 	};
@@ -272,6 +273,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 			super("Go!", "expda://");
 		}
 	}
+
 	static class DeepLinkSection extends DeepLink {
 		@ColorRes int colorResId;
 

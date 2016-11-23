@@ -4,78 +4,6 @@
         android:layout="@layout/preference_category_title"
         android:title="Hotel Tests">
         <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7373"
-            android:layout="@layout/preference"
-            android:title="Hotel Result Rating Test - 7373" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7532"
-            android:layout="@layout/preference"
-            android:title="Hotels ETP book now/pay later search results - 7532" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7535"
-            android:layout="@layout/preference"
-            android:title="Hotel Search Sale Pin Green - 7535" />
-
-        <ListPreference
-            android:entries="@array/abacus_hsr_map_choices"
-            android:entryValues="@array/abacus_hsr_map_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7772"
-            android:layout="@layout/preference"
-            android:title="Hotel HSR Map Icon - 7772" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7777"
-            android:layout="@layout/preference"
-            android:title="Hotel Coupon ETP Test - 7777" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="8126"
-            android:layout="@layout/preference"
-            android:title="Hotel collapse amenities, policies, fees - 8126" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
-            android:key="9044"
-            android:layout="@layout/preference"
-            android:title="Hotels Member Deal AB Test - 9044" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="9478"
-            android:summary="%s"
-            android:layout="@layout/preference"
-            android:title="Hotels Traveler AB Test - 9478" />
-
-        <ListPreference
             android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
@@ -237,36 +165,9 @@
             android:entryValues="@array/abacus_default_choice_values"
             android:defaultValue="@string/preference_abacus_default"
             android:summary="%s"
-            android:key="7775"
-            android:layout="@layout/preference"
-            android:title="Hotel Checkout Traveler to Payment - 7775" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
             android:key="10799"
             android:title="Hotel Checkout Scan for Card.io - 10799"
             android:layout="@layout/preference"  />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="8127"
-            android:layout="@layout/preference"
-            android:title="Hotel CKO MER Email Guest opt/in/out - 8127" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="8129"
-            android:layout="@layout/preference"
-            android:title="Show hotel address and map in receipt - 8129" />
 
     </PreferenceCategory>
 
@@ -291,6 +192,15 @@
             android:key="8687"
             android:layout="@layout/preference"
             android:title="Launch on signIn view (first app launch) - 8687" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="12113"
+            android:layout="@layout/preference"
+            android:title="Rail LOB on Launch (UK POS only) - 12113" />
     </PreferenceCategory>
 
 
@@ -315,6 +225,15 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Smart Lock Sign In Test - 11269" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="12465"
+            android:layout="@layout/preference"
+            android:title="Itin Hotel Gallery" />
 
     </PreferenceCategory>
 </PreferenceScreen>
