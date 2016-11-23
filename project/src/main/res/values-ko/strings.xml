@@ -4040,7 +4040,7 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">{terms_of_use} 및 {privacy_policy} 내용을 읽었고 이에 동의합니다.</string>
     <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">{brand_reward_name_link} 회원으로 무료 여행을 위한 포인트를 적립하세요. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">{brand_reward_name} 회원으로 무료 여행을 위한 포인트를 적립하세요. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">각 아동의 나이 선택</string>

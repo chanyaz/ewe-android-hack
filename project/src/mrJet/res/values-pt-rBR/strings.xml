@@ -46,7 +46,7 @@
     <!-- Account creation legal template excluding MrJet Rewards -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with MrJet Rewards. By joining, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Quero ganhar recompensas instantâneas com o {brand_reward_name_link}. Ao me inscrever, eu aceito todos os {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Quero ganhar recompensas instantâneas com o {brand_reward_name}. Ao me inscrever, eu aceito todos os {terms_and_conditions}.</string>
 
     <!-- MrJet Rewards -->
     <string name="paying_with_rewards">Pagamento com MrJet Rewards</string>

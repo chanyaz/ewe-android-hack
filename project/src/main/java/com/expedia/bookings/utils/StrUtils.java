@@ -594,15 +594,11 @@ public class StrUtils {
 		String spannedTermsAndConditions = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 				PointOfSale.getPointOfSale().getLoyaltyTermsAndConditionsUrl(),
 				context.getResources().getString(R.string.info_label_terms_conditions));
-		String spannedBrandRewards = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
-				PointOfSale.getPointOfSale().getRewardsInfoURL(),
-				context.getResources().getString(R.string.brand_reward_name));
 		String spannedBrandRewardsCurrency = context.getResources().getString(R.string.textview_spannable_hyperlink_TEMPLATE,
 				PointOfSale.getPointOfSale().getRewardsInfoURL(),
 				context.getResources().getString(R.string.brand_reward_currency));
 
 		legalTextSpan.append(HtmlCompat.fromHtml(Phrase.from(context.getResources(), R.string.account_creation_legal_rewards_TEMPLATE)
-				.putOptional("brand_reward_name_link", spannedBrandRewards)
 				.putOptional("brand_reward_currency", spannedBrandRewardsCurrency)
 				.putOptional("brand_reward_name", context.getString(R.string.brand_reward_name))
 				.put("terms_and_conditions", spannedTermsAndConditions)

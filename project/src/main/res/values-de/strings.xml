@@ -4041,7 +4041,7 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Ich habe die {terms_of_use} und die {privacy_policy} gelesen und akzeptiert.</string>
     <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Sichern Sie sich mit {brand_reward_name_link} Reiseprämien. Indem Sie sich für {brand_reward_name} anmelden, akzeptieren Sie die {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Sichern Sie sich mit {brand_reward_name} Reiseprämien. Indem Sie sich für {brand_reward_name} anmelden, akzeptieren Sie die {terms_and_conditions}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Geben Sie das Alter jedes Kindes an</string>

@@ -4040,7 +4040,7 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Jeg har læst og accepterer {terms_of_use} samt virksomhedens {privacy_policy}.</string>
     <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Optjen rejsefordele med {brand_reward_name_link}. Ved at tilmelde mig {brand_reward_name} accepterer jeg alle {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Optjen rejsefordele med {brand_reward_name}. Ved at tilmelde mig {brand_reward_name} accepterer jeg alle {terms_and_conditions}</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Vælg hvert barns alder</string>

@@ -126,17 +126,12 @@ public class StrUtilsTest {
 		String termsText = getContext().getString(R.string.terms_and_conditions);
 
 		String loyaltyLegalText = getLoyaltyLegalText();
-		// brandname span is located in second occurrence of brandRewardNameLink
-		int brandNameStart = loyaltyLegalText.indexOf(brandRewardNameLink, loyaltyLegalText.indexOf(brandRewardNameLink) + 1);
 		int termStart = loyaltyLegalText.indexOf(termsText);
-		int brandNameEnd = brandNameStart + brandRewardNameLink.length();
 		int termEnd = termStart + termsText.length();
 
-		Object[] brandNameSpans = loyaltyLegalSpanBuilder.getSpans(brandNameStart, brandNameEnd, Object.class);
 		Object[] termsSpans = loyaltyLegalSpanBuilder.getSpans(termStart, termEnd, Object.class);
 
 		List<Object[]> spansList = new ArrayList<>();
-		spansList.add(brandNameSpans);
 		spansList.add(termsSpans);
 
 		for (Object[] spans : spansList) {
@@ -150,7 +145,6 @@ public class StrUtilsTest {
 		String termsText = getContext().getString(R.string.terms_and_conditions);
 
 		String loyaltyLegalText = Phrase.from(getContext().getResources(), R.string.account_creation_legal_rewards_TEMPLATE)
-				.putOptional("brand_reward_name_link", brandRewardName)
 				.putOptional("brand_reward_name", brandRewardName)
 				.put("terms_and_conditions", termsText)
 				.format().toString();

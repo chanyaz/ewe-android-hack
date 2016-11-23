@@ -62,7 +62,7 @@
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">登录帐户，以累积 {reward} CheapCash</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">加入 {brand_reward_name_link}，攒积分，换免费旅行。加入 {brand_reward_name} 即表示，我接受全部{terms_and_conditions}。</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">加入 {brand_reward_name}，攒积分，换免费旅行。加入 {brand_reward_name} 即表示，我接受全部{terms_and_conditions}。</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->

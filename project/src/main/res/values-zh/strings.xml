@@ -4040,7 +4040,7 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">我已查阅并同意{terms_of_use}和{privacy_policy}。</string>
     <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">加入 {brand_reward_name_link}，攒积分，换免费旅行。加入 {brand_reward_name} 即表示，我接受全部{terms_and_conditions}。</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">加入 {brand_reward_name}，攒积分，换免费旅行。加入 {brand_reward_name} 即表示，我接受全部{terms_and_conditions}。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">选择每个儿童的年龄</string>
