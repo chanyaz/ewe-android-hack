@@ -1,11 +1,11 @@
 package com.expedia.bookings.widget.rail
 
 import android.content.Context
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.RailTracking
@@ -15,10 +15,11 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.vm.rail.RailLegSummaryViewModel
 import rx.subjects.PublishSubject
 
-class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
+class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
     val travelTimes: TextView by bindView(R.id.times_view)
     val trainOperator: TextView by bindView(R.id.train_operator)
@@ -39,14 +40,13 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(co
 
     fun reset() {
         railCardName.visibility = View.GONE
-        fareDescription.visibility = View.GONE
     }
 
     fun bindViewModel(vm: RailLegSummaryViewModel) {
         vm.operatorObservable.subscribeText(trainOperator)
         vm.formattedStopsAndDurationObservable.subscribeText(duration)
         vm.formattedTimesObservable.subscribeText(travelTimes)
-        vm.fareDescriptionObservable.subscribeTextAndVisibility(fareDescription)
+        vm.fareDescriptionObservable.subscribeTextAndVisibilityInvisible(fareDescription)
         vm.legOptionObservable.subscribe { railLegOption ->
             timeline.updateLeg(railLegOption)
         }
