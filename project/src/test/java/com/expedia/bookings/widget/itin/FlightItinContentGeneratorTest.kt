@@ -56,7 +56,7 @@ class FlightItinContentGeneratorTest {
     }
 
     private fun createSystemUnderTest() {
-        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/trips_summary_with_insurance.json"))).readUtf8()
+        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/flight_trips_summary_with_insurance.json"))).readUtf8()
         val jsonObject = JSONObject(data)
         val jsonArray = jsonObject.getJSONArray("responseData")
         tripFlight = getFlightTrip(jsonArray)!!
