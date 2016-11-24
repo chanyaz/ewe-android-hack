@@ -3,16 +3,15 @@ package com.expedia.vm.hotel
 import android.content.Context
 import android.content.res.Resources
 import android.support.v4.content.ContextCompat
-import android.text.Html
 import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.Images
@@ -97,13 +96,13 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
         if (!url.isNullOrBlank()) hotelLargeThumbnailUrlObservable.onNext(url)
 
         val isVipAvailable = hotel.isVipAccess && PointOfSale.getPointOfSale().supportsVipAccess() && User.isLoggedIn(context)
-        val isMidOrTopTier = Db.getUser() != null && Db.getUser().primaryTraveler.loyaltyMembershipTier.isMidOrTopTier
+        val isMidOrTopTier = Db.getUser()?.primaryTraveler?.loyaltyMembershipTier?.isMidOrTopTier ?: false
         vipMessageVisibilityObservable.onNext(isVipAvailable && isMidOrTopTier)
         val isVipLoyaltyApplied = isVipAvailable && isMidOrTopTier && loyaltyAvailabilityObservable.value
         vipLoyaltyMessageVisibilityObservable.onNext(isVipLoyaltyApplied)
 
         val mapLoyaltyMessageString = if (isVipLoyaltyApplied) resources.getString(R.string.vip_loyalty_applied_map_message) else resources.getString(R.string.regular_loyalty_applied_message)
-        mapLoyaltyMessageTextObservable.onNext(Html.fromHtml(mapLoyaltyMessageString))
+        mapLoyaltyMessageTextObservable.onNext(HtmlCompat.fromHtml(mapLoyaltyMessageString))
 
         if (hasMemberDeal()) {
             memberDealUrgency.onNext(UrgencyMessage(R.drawable.ic_hotel_banner_expedia, R.color.hotel_member_pricing_color,
@@ -147,19 +146,34 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
     }
 
     open fun hasMemberDeal(): Boolean {
-        val isUserBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelsMemberDealTest)
-        return hotel.isMemberDeal && isUserBucketedForTest && User.isLoggedIn(context)
+        return hotel.isMemberDeal && User.isLoggedIn(context)
+    }
+
+    fun getRatingContentDesc(): String {
+        var phrase: Phrase
+        if (hotel.hotelStarRating.toInt() <= 0 && hotel.hotelGuestRating <= 0f) {
+            phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE)
+                    .put("hotel", hotel.localizedName)
+        } else if (hotel.hotelStarRating.toInt() <= 0) {
+            phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_starrating_TEMPLATE)
+                    .put("hotel", hotel.localizedName)
+                    .put("guestrating", hotelGuestRatingObservable.value.toString())
+        } else if (hotel.hotelGuestRating <= 0f) {
+            phrase = Phrase.from(context, R.string.hotel_details_cont_desc_zero_guestrating_TEMPLATE)
+                    .put("hotel", hotel.localizedName)
+                    .put("starrating", hotelStarRatingContentDescriptionObservable.value)
+        } else {
+            phrase = Phrase.from(context, R.string.hotel_details_cont_desc_TEMPLATE)
+                    .put("hotel", hotel.localizedName)
+                    .put("starrating", hotelStarRatingContentDescriptionObservable.value)
+                    .put("guestrating", hotelGuestRatingObservable.value.toString())
+        }
+        return phrase.format().toString()
     }
 
     open fun getHotelContentDesc(): CharSequence {
         var result = SpannableBuilder()
-
-        result.append(Phrase.from(context, R.string.hotel_details_cont_desc_TEMPLATE)
-                .put("hotel", hotel.localizedName)
-                .put("starrating", hotelStarRatingContentDescriptionObservable.value)
-                .put("guestrating", hotelGuestRatingObservable.value.toString())
-                .format()
-                .toString())
+        result.append(getRatingContentDesc())
 
         if (urgencyMessageVisibilityObservable.value) {
             result.append(urgencyMessageBoxObservable.value + " ")

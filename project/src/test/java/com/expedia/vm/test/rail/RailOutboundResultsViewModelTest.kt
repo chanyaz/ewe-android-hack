@@ -117,7 +117,7 @@ class RailOutboundResultsViewModelTest {
     @Test
     fun testChildrenWarning() {
         val searchResponse = RailSearchResponse()
-        val responseStatus =  RailResponseStatus()
+        val responseStatus = RailResponseStatus()
         val warning = RailResponseStatus.Warning()
         warning.warningCode = "WARN0001"
         responseStatus.warningList = listOf(warning)
@@ -128,6 +128,30 @@ class RailOutboundResultsViewModelTest {
         testViewModel.railResultsObservable.onNext(searchResponse)
 
         assertTrue(testSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testLegalMessageOneWay() {
+        val builder = defaultBuilder()
+        val params = builder.endDate(RailSearchRequestMock.returnDate()).build() as RailSearchRequest
+
+        val testSubscriber = TestSubscriber<String>()
+        testViewModel.legalBannerMessageObservable.subscribe(testSubscriber)
+        testViewModel.paramsSubject.onNext(params)
+
+        assertEquals(context.getString(R.string.rail_search_legal_banner_one_way), testSubscriber.onNextEvents[0])
+    }
+
+    @Test
+    fun testLegalMessageRoundTrip() {
+        val builder = defaultBuilder()
+        val params = builder.searchType(true).returnDateTimeMillis(RailSearchRequestMock.departTime()).endDate(RailSearchRequestMock.returnDate()).build() as RailSearchRequest
+
+        val testSubscriber = TestSubscriber<String>()
+        testViewModel.legalBannerMessageObservable.subscribe(testSubscriber)
+        testViewModel.paramsSubject.onNext(params)
+
+        assertEquals(context.getString(R.string.rail_search_legal_banner_round_trip), testSubscriber.onNextEvents[0])
     }
 
     private fun defaultBuilder() : RailSearchRequest.Builder {

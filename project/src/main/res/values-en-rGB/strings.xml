@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Duplicate Trip</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">Price Changed</string>
+    <string name="price_changed_text">Price Changed</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">Payment Failed</string>
     <!-- Text for error toolbar-->
@@ -101,10 +101,6 @@
     <string name="enter_driver_details_cont_desc">Enter driver details button</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">Select saved contacts</string>
-    <!-- Text for enter payment details-->
-    <string name="enter_payment_details">Enter payment details</string>
-    <!-- Template for selected credit card-->
-    <string name="selected_card_template">Expires %s</string>
     <!-- Car doors text-->
     <string name="car_doors_text">Doors</string>
     <!-- Car bags text-->
@@ -232,8 +228,6 @@
     <string name="successful_checkout_email_label">Itinerary sent to</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">Directions to %1$s</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">Credit Card/Debit Card</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">Enter new Debit/Credit Card</string>
     <!-- Text for enter guest details line 1 -->
@@ -246,8 +240,6 @@
     <string name="checkout_enter_payment_details">Payment Method</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">Enter credit card</string>
-    <!-- Label to indicate that the user has selected a stored credit card -->
-    <string name="checkout_payment_line2_storedcc">Stored Credit Card</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">Paying with Points</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1065,7 +1057,7 @@
     <!-- Packages -->
     <string name="nav_packages">Bundle Deals</string>
     <!-- Rail -->
-    <string name="nav_rail">Rail</string>
+    <string name="nav_rail">Trains</string>
     <string name="add_rail_card">Add railcard</string>
     <string name="select_rail_card_hint">Select a railcard</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
@@ -1599,6 +1591,8 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Checked out %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Valid starting &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Summary for rail card: Departure - Sunday, Feb 22 - 9:00 am -->
+    <string name="itin_card_rail_summary_TEMPLATE">Departure - {datetime}</string>
     <!-- Message to users about when they check in of their flight-->
     <string name="itin_card_flight_checkin">Check In Now</string>
     <!-- Title of alert dialog when user come back from check in-->
@@ -1914,7 +1908,6 @@
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
-    <string name="room_with_guests_TEMPLATE">1 Room, {guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">Free Cancellation by {date}</string>
 
     <!-- Flight details fragment -->
@@ -2145,8 +2138,6 @@
     <string name="please_enter_a_valid_email_address">Please enter a valid email address</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">Fees paid at hotel</string>
-    <!-- Row label for when we show resort fees as its own line item -->
-    <string name="fees_due_at_hotel">Fees due at hotel</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">Due to {brand}</string>
     <!-- Due to expedia today - today -->
@@ -2215,16 +2206,12 @@
     <!-- Edit button for traveler/payment -->
     <string name="edit_button">Edit</string>
 
-    <!-- Title in toolbar on checkout telling user to select travelers he wants for booking-->
-    <string name="select_travelers">Select travellers</string>
     <!-- Select traveler/contact from checkout saved travelers list -->
     <string name="select_traveler">Select Contact</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">Add New Traveller</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">Guest details</string>
-    <!-- Guest all fields are required -->
-    <string name="guest_field_required">All fields are required.</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">Adult %1$s details</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
@@ -2331,6 +2318,10 @@
     <string name="address_zip_code_hint">Postcode</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">Zip</string>
+    <!--Address Province hint-->
+    <string name="address_province_hint">Province</string>
+    <!--Address Country/State/Province hint-->
+    <string name="address_county_hint">County/State/Province</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2393,6 +2384,8 @@
     <!-- next page buttn -->
     <string name="next">Next</string>
     <string name="next_cont_desc">Next button</string>
+    <!-- Passport country placeholder for passport country spinner -->
+    <string name="country">Country</string>
     <!-- Passport country label -->
     <string name="passport_country">Passport Country</string>
     <!-- Passport country / origin heading -->
@@ -2489,14 +2482,10 @@
     <string name="add_to_your_trip">Add to your trip</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">Hotels in %s</string>
-    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
-    <string name="hotels_guest_TEMPLATE">1 Room, %s guests</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">Cars in %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">More Actions</string>
-    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">Actions</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Share via Email</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2529,8 +2518,6 @@
     <string name="itin_departing_cont_desc">Departing</string>
 
     <!-- Hotel confirmation page -->
-    <!-- Title for section helping users get flights after booking a hotel -->
-    <string name="get_there">Get There</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="flights_to_TEMPLATE">Flights to %s</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
@@ -2856,8 +2843,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/night</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt">/nt</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">Not Rated</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2905,11 +2890,7 @@
     <string name="vip_access">+VIP Access</string>
     <!--Options title for favorite and VIP checkboxes for Hotel Results -->
     <string name="filter_options">Options</string>
-    <!-- Title for Favorites message for Hotel Results -->
-    <string name="favorites">Favorites</string>
-    <!-- Filter for showing only favorited hotels -->
-    <string name="favorites_only">Favorites Only</string>
-    <!-- Filter for showing only VIP access hotels -->
+    <!-- Filter for showing favorited hotels -->
     <string name="filter_favorites">Favorited Hotels</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">At +VIP Access hotels, +silver and +gold members receive free room upgrades and other perks on availability at check-in.</string>
@@ -2924,8 +2905,6 @@
     <string name="switch_off">OFF</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
-    <!-- Discount percent shown in hotel results list -->
-    <string name="minus_x_percent">-%2.0f%%</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">of 5 - guest rating</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3775,12 +3754,6 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
 
-    <!-- Handling sold out hotels -->
-    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available_from_brand_TEMPLATE">Not currently available from {brand}</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_from_brand_dates_TEMPLATE">Not available from {brand} {dates}</string>
-
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Your flight to %1$s is delayed %2$s hour.</string>
@@ -4080,6 +4053,9 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(1-17 years old)</string>
 
+    <!-- Children age label content description -->
+    <string name="children_age_label_cont_desc">(1 to 17 years old)</string>
+
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Areas</string>
     <string name="amenities">Amenities</string>
@@ -4111,8 +4087,8 @@
     <string name="show_more">SHOW MORE</string>
     <string name="show_less">SHOW LESS</string>
     <string name="price_range">Price Range</string>
-    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
-    <string name="filter_sort_by_content_description_TEMPLATE">Sort by. {sort}.</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
+    <string name="filter_sort_by_content_description_TEMPLATE">Sort by {sort}</string>
     <!-- Hotel Price Range start filter label for accessibility -->
     <string name="hotel_price_range_start">Price Range Start</string>
     <!-- Hotel Price Range end filter label for accessibility -->
@@ -4190,8 +4166,6 @@
         <item quantity="one">{night} free night when you book with a flight.</item>
         <item quantity="other">{night} free nights when you book with a flight.</item>
     </plurals>
-    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
-    <string name="flight_time_traveler_TEMPLATE">%1$s, %2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s at %2$s, %3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -4262,7 +4236,7 @@
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}d</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
-    <string name="flight_departure_arrival_time_multi_day_TEMPLATE">{departuretime} - {arrivaltime} +{elapseddays}d</string>
+    <string name="departure_arrival_time_multi_day_TEMPLATE">{departuretime} - {arrivaltime} +{elapseddays}d</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm minus 1d -->
     <string name="flight_departure_arrival_time_negative_days_cont_desc_TEMPLATE">{departuretime} to {arrivaltime} minus {elapseddays}d</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
@@ -4370,6 +4344,8 @@
     <string name="package_flight_overview_bundle_total_label">Bundle Total</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/person</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <!-- Flight segment departure to arrival, content description. Example: (SFO) San Francisco to (DEN) Denver -->
+    <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">({departureairportcode}) {departurecity} to ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">Stopover in ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Total Duration: {duration}</string>
@@ -4386,9 +4362,6 @@
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">Return</string>
 
-    <!--used on the rail search screen - this is equivalent to a round trip air ticket with a return trip any time within a 30 day window (typically)-->
-    <string name="rail_open_return">Open Return</string>
-
     <!--used on the rail results/details screen to signify that a trip doesn't have any stops -->
     <string name="rail_direct">Direct</string>
 
@@ -4397,6 +4370,15 @@
 
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}, {formattedchangecount}</string>
+
+    <!-- Heading for web view which shows payment and ticket delivery fees legal details -->
+    <string name="rail_search_legal_web_view_heading">Payment &amp; Ticket Delivery Fees</string>
+
+    <!-- Legal message shown on search result screen for one way search -->
+    <string name="rail_search_legal_banner_one_way">Prices are one way for all passengers. Payment and ticket delivery fees may also apply.</string>
+
+    <!-- Legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip">Prices are return for all passengers. Payment and ticket delivery fees may also apply.</string>
 
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
@@ -4424,8 +4406,17 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Outbound - {date}</string>
 
-    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
-    <string name="rail_checkout_inbound_TEMPLATE">Return - {date}</string>
+    <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
+    <string name="rail_checkout_inbound_TEMPLATE">Inbound - {date}</string>
+
+    <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
+    <string name="rail_price_breakdown_journey">Journey</string>
+
+    <!-- rail checkout card fee error message title -->
+    <string name="rail_cardfee_error_title">Card Fee Error</string>
+
+    <!-- rail checkout card fee error message -->
+    <string name="rail_cardfee_error_message">We are unable to calculate the exact credit card fee at this time. Additional fees may apply for this booking.</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">Total</string>
@@ -4457,18 +4448,6 @@
     <string name="rail_location_hint">City or station</string>
     <string name="error_same_station_departure_arrival">Departure and arrival stations must be different.</string>
 
-    <!-- Label for adult passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Adult") -->
-    <string name="rail_adult_number_TEMPLATE">Traveller {number}: Adult</string>
-
-    <!-- Label for child passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Child") -->
-    <string name="rail_child_number_TEMPLATE">Traveller {number}: Child</string>
-
-    <!-- Label for youth passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Youth") -->
-    <string name="rail_youth_number_TEMPLATE">Traveller {number}: Youth</string>
-
-    <!-- Label for senior passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Senior")-->
-    <string name="rail_senior_number_TEMPLATE">Traveller {number}: Senior</string>
-
     <!-- Label for ticket delivery fee on the Rail cost breakdown screen -->
     <string name="rail_ticket_delivery_fee">Ticket Delivery Fee</string>
 
@@ -4496,7 +4475,7 @@
     <string name="shipping_address">Shipping Address</string>
 
     <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
-    <string name="rails_legal_TEMPLATE">By selecting to complete this booking I acknowledge that I have read and accept the &lt;a href=\"{rules_and_restrictions_url}\"&gt;rules and restrictions&lt;/a&gt;, the &lt;a href=\"{conditions_of_travel_url}\"&gt;conditions of travel&lt;/a&gt;, the &lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;supplier terms and conditions&lt;/a&gt;, the &lt;a href=\"{terms_of_use_url}\"&gt;terms of use&lt;/a&gt;, the &lt;a href=\"{privacy_policy_url}\"&gt;privacy policy&lt;/a&gt;, and the &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;payment and ticket delivery fees&lt;/a&gt;.</string>
+    <string name="rails_legal_TEMPLATE">By selecting to complete this booking I acknowledge that I have read and accept the &lt;a href=\"{rules_and_restrictions_url}\"&gt;rules and restrictions&lt;/a&gt;, the &lt;a href=\"{conditions_of_travel_url}\"&gt;conditions of travel&lt;/a&gt;, the &lt;a href=\"{supplier_terms_and_conditions_url}\"&gt;supplier terms and conditions&lt;/a&gt;, the &lt;a href=\"{terms_of_use_url}\"&gt;terms of use&lt;/a&gt;, the &lt;a href=\"{privacy_policy_url}\"&gt;privacy policy&lt;/a&gt;, and the &lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;payment and ticket delivery fees&lt;/a&gt;.</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">Bring your ticket reference number and the credit card to purchase.</string>
@@ -4523,8 +4502,6 @@
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">Flight Protection</string>
-    <!-- Cost summary breakdown line item for flights -->
-    <string name="cost_summary_breakdown_flight_summary">Flights</string>
     <!-- Cost summary breakdown line item for a hotel + flight package -->
     <string name="cost_summary_breakdown_hotel_flight_summary">Hotel + Flights</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
@@ -4607,10 +4584,16 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">Flight time is {time} with price difference of {pricedifference}. Flying with {airline}. The flight duration is {hours} {minutes} with {stops} stops\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} with {starrating} of 5 rating. {guestrating} of 5 guest rating. Price {price}. Includes hotel and flights\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel} with {starrating} of 5 rating. {guestrating} of 5 guest rating.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
+    <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel} with {guestrating} of 5 guest rating.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} with {starrating} of 5 rating.\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
+    <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}.\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Old price {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
@@ -4690,10 +4673,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Bundle price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Showing bundle details. Button to close.</string>
-    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
-    <string name="select_hotel_selected_expand_cont_desc">expand</string>
-    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
-    <string name="select_hotel_selected_collapse_cont_desc">collapse</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->

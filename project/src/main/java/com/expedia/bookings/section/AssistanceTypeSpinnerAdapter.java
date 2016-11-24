@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -13,13 +12,13 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Traveler.AssistanceType;
+import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.util.Ui;
 
 public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 
 	private final int mTextViewId;
 	private final int mDropdownResourceId;
-	private Context mContext;
 	private int selectedIndex;
 
 	public void setSelectedIndex(int position) {
@@ -64,7 +63,6 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 	}
 
 	public AssistanceTypeSpinnerAdapter(Context context, int textViewId, int dropDownResource) {
-		mContext = context;
 		mTextViewId = textViewId;
 		mDropdownResourceId = dropDownResource;
 		fillAssistanceTypes(context);
@@ -99,7 +97,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 		}
 
 		TextView tv = Ui.findView(retView, android.R.id.text1);
-		tv.setText(Html.fromHtml(String.format(mFormatString, getItem(position))));
+		tv.setText(HtmlCompat.fromHtml(String.format(mFormatString, getItem(position))));
 		return retView;
 	}
 
@@ -171,7 +169,7 @@ public class AssistanceTypeSpinnerAdapter extends BaseAdapter {
 
 	private void fillAssistanceTypes(Context context) {
 		final Resources res = context.getResources();
-		mAssistanceTypes = new ArrayList<AssistanceSpinnerHelper>();
+		mAssistanceTypes = new ArrayList<>();
 		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.NONE, res.getString(R.string.no_assistance)));
 		mAssistanceTypes.add(new AssistanceSpinnerHelper(AssistanceType.WHEELCHAIR_IMMOBILE, res
 			.getString(R.string.wheelchair_immobile)));

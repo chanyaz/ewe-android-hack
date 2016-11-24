@@ -24,7 +24,7 @@ class SpinnerAdapterWithHintTest {
         val options = listOf(1, 2, 3, 4, 5)
         val hint = "Hint"
 
-        val adapter = SpinnerAdapterWithHint(context, hint, R.layout.snippet_rail_card_text_view)
+        val adapter = SpinnerAdapterWithHint(context, hint, R.layout.rail_card_dropdown_item)
         adapter.dataSetChanged(options.map { SpinnerAdapterWithHint.SpinnerItem(it.toString(), it) })
         assertEquals(options.size, adapter.count)
         val hintView = adapter.getView(5, null, LinearLayout(context)) as TextView
@@ -36,7 +36,8 @@ class SpinnerAdapterWithHintTest {
 
         val testSpinner = Spinner(context)
         testSpinner.adapter = adapter
-        assertTrue(Strings.isEmpty((testSpinner.adapter.getDropDownView(5, null, LinearLayout(context)) as TextView).text))
+        val text = (testSpinner.adapter.getView(5, null, LinearLayout(context)) as TextView).text
+        assertTrue(Strings.isEmpty(text))
         var expectedSelectionType: Any = Integer(1).javaClass
         var expectedSelectionValue: Any = 2
         testSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {

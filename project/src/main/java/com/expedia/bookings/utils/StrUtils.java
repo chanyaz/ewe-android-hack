@@ -20,7 +20,6 @@ import android.graphics.Typeface;
 import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -43,6 +42,7 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.LocationServices;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Waypoint;
@@ -118,7 +118,7 @@ public class StrUtils {
 	 * information you want to display (if it is available)
 	 */
 	public static String formatAddress(Location location, int flags) {
-		List<Object> tokens = new ArrayList<Object>();
+		List<Object> tokens = new ArrayList<>();
 
 		if ((flags & F_STREET_ADDRESS) != 0) {
 			List<String> streetAddress = location.getStreetAddress();
@@ -368,7 +368,7 @@ public class StrUtils {
 			}
 
 			String name = query.substring(start, separator);
-			names.add(uri.decode(name));
+			names.add(Uri.decode(name));
 
 			// Move start to end of name.
 			start = end + 1;
@@ -379,7 +379,7 @@ public class StrUtils {
 	}
 
 	public static String formatCity(SuggestionV4 suggestion) {
-		return SuggestionStrUtils.formatCityName(Html.fromHtml(suggestion.regionNames.displayName).toString());
+		return SuggestionStrUtils.formatCityName(HtmlCompat.stripHtml(suggestion.regionNames.displayName));
 	}
 
 	public static String formatCity(SuggestionV2 suggestion) {
@@ -388,7 +388,7 @@ public class StrUtils {
 			city = suggestion.getLocation().getCity();
 		}
 		if (TextUtils.isEmpty(city)) {
-			city = Html.fromHtml(suggestion.getDisplayName()).toString();
+			city = HtmlCompat.stripHtml(suggestion.getDisplayName());
 		}
 		return SuggestionStrUtils.formatCityName(city);
 	}
@@ -427,7 +427,7 @@ public class StrUtils {
 	}
 
 	public static String formatCityName(SuggestionV4 suggestion) {
-		String city = Html.fromHtml(suggestion.regionNames.displayName).toString();
+		String city = HtmlCompat.stripHtml(suggestion.regionNames.displayName);
 		Matcher cityMatcher = CITY_PATTERN.matcher(city);
 		if (cityMatcher.find()) {
 			city = cityMatcher.group(1);
@@ -510,7 +510,7 @@ public class StrUtils {
 		String statement = Phrase.from(context, R.string.rails_legal_TEMPLATE)
 			.put("rules_and_restrictions_url", rulesAndRestrictionsURL)
 			.put("conditions_of_travel_url", pos.getRailsNationalRailConditionsOfTravelUrl())
-			.put("supplier_terms_and_cnditions_url", pos.getRailsSupplierTermsAndConditionsUrl())
+			.put("supplier_terms_and_conditions_url", pos.getRailsSupplierTermsAndConditionsUrl())
 			.put("terms_of_use_url", pos.getRailsTermOfUseUrl())
 			.put("privacy_policy_url", pos.getRailsPrivacyPolicyUrl())
 			.put("payment_and_ticket_delivery_fees_url", pos.getRailsPaymentAndTicketDeliveryFeesUrl())
@@ -524,9 +524,9 @@ public class StrUtils {
 
 	public static SpannableStringBuilder getSpannableTextByColor(String statement, int color, boolean makeClickable) {
 		SpannableStringBuilder legalTextSpan = new SpannableStringBuilder();
-		legalTextSpan.append(Html.fromHtml(statement));
+		legalTextSpan.append(HtmlCompat.fromHtml(statement));
 
-		URLSpan[] spans = legalTextSpan.getSpans(0, Html.fromHtml(statement).length(), URLSpan.class);
+		URLSpan[] spans = legalTextSpan.getSpans(0, HtmlCompat.fromHtml(statement).length(), URLSpan.class);
 		for (final URLSpan span : spans) {
 			int start = legalTextSpan.getSpanStart(span);
 			int end = legalTextSpan.getSpanEnd(span);
@@ -560,10 +560,10 @@ public class StrUtils {
 			PointOfSale.getPointOfSale().getAccountCreationTermsAndConditionsURL(),
 			context.getResources().getString(R.string.info_label_terms_conditions));
 
-		int statementResId = PointOfSale.getPointOfSale().shouldShowRewards() ? R.string.account_creation_legal_TEMPLATE
+		int statementResId = PointOfSale.getPointOfSale().shouldShowRewards() ? R.string.account_creation_legal_excluding_rewards_TEMPLATE
 			: R.string.account_creation_legal_excluding_rewards_TEMPLATE;
 
-		legalTextSpan.append(Html.fromHtml(Phrase.from(context.getResources(), statementResId)
+		legalTextSpan.append(HtmlCompat.fromHtml(Phrase.from(context.getResources(), statementResId)
 			.put("privacy_policy", spannedPrivacy)
 			.put("terms_of_use", spannedTerms)
 			.putOptional("terms_and_conditions", spannedTermsAndConditions)
@@ -571,10 +571,10 @@ public class StrUtils {
 			.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
 
-		return formatLegalTextSpan(legalTextSpan, spans);
+		return formatLegalTextSpan(context, legalTextSpan, spans);
 	}
 
-	private static SpannableStringBuilder formatLegalTextSpan(SpannableStringBuilder legalTextSpan, URLSpan[] spans) {
+	private static SpannableStringBuilder formatLegalTextSpan(Context context, SpannableStringBuilder legalTextSpan, URLSpan[] spans) {
 		for (final URLSpan span : spans) {
 			int start = legalTextSpan.getSpanStart(span);
 			int end = legalTextSpan.getSpanEnd(span);
@@ -583,9 +583,6 @@ public class StrUtils {
 			legalTextSpan.setSpan(new LegalClickableSpan(span.getURL(), legalTextSpan.subSequence(start, end).toString(), false), start,
 					end, 0);
 			legalTextSpan.setSpan(new StyleSpan(Typeface.BOLD), start, end, 0);
-			legalTextSpan.setSpan(new ForegroundColorSpan(Color.WHITE), start,
-					end,
-					Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		}
 
 		return legalTextSpan;
@@ -604,7 +601,7 @@ public class StrUtils {
 				PointOfSale.getPointOfSale().getRewardsInfoURL(),
 				context.getResources().getString(R.string.brand_reward_currency));
 
-		legalTextSpan.append(Html.fromHtml(Phrase.from(context.getResources(), R.string.account_creation_legal_rewards_TEMPLATE)
+		legalTextSpan.append(HtmlCompat.fromHtml(Phrase.from(context.getResources(), R.string.account_creation_legal_rewards_TEMPLATE)
 				.putOptional("brand_reward_name_link", spannedBrandRewards)
 				.putOptional("brand_reward_currency", spannedBrandRewardsCurrency)
 				.putOptional("brand_reward_name", context.getString(R.string.brand_reward_name))
@@ -612,7 +609,7 @@ public class StrUtils {
 				.format().toString()));
 		URLSpan[] spans = legalTextSpan.getSpans(0, legalTextSpan.length(), URLSpan.class);
 
-		return formatLegalTextSpan(legalTextSpan, spans);
+		return formatLegalTextSpan(context, legalTextSpan, spans);
 	}
 
 	public static SpannableStringBuilder generateBulletedList(List<String> contentList) {
@@ -632,7 +629,7 @@ public class StrUtils {
 	}
 
 	public static String stripHTMLTags(String htmlContent) {
-		return Html.fromHtml(htmlContent.replaceAll(HTML_TAGS_REGEX, "")).toString();
+		return HtmlCompat.stripHtml(htmlContent.replaceAll(HTML_TAGS_REGEX, ""));
 	}
 
 	/**
@@ -647,7 +644,7 @@ public class StrUtils {
 		else {
 			str = res.getQuantityString(R.plurals.child_age, age, age);
 		}
-		return Html.fromHtml(str).toString();
+		return HtmlCompat.stripHtml(str);
 	}
 
 	public static String getYouthTravelerAgeText(Resources res, int age) {
@@ -656,7 +653,7 @@ public class StrUtils {
 		}
 
 		String str = res.getQuantityString(R.plurals.child_age, age, age);
-		return Html.fromHtml(str).toString();
+		return HtmlCompat.stripHtml(str);
 	}
 
 	public static String getSeniorTravelerAgeText(Resources res, int age) {
@@ -670,7 +667,7 @@ public class StrUtils {
 		else {
 			str = res.getQuantityString(R.plurals.child_age, age, age);
 		}
-		return Html.fromHtml(str).toString();
+		return HtmlCompat.stripHtml(str);
 	}
 
 	public static String roundOff(float number, int decimalPlaces) {
@@ -765,6 +762,11 @@ public class StrUtils {
 			guests);
 	}
 
+	public static String formatRailcardString(Context context, int cards) {
+		return context.getResources().getQuantityString(R.plurals.number_of_railcards, cards,
+			cards);
+	}
+
 	public static String formatTravelerString(Context context, int numOfTravelers) {
 		return context.getResources().getQuantityString(R.plurals.number_of_travelers_TEMPLATE, numOfTravelers,
 			numOfTravelers);
@@ -815,5 +817,17 @@ public class StrUtils {
 			redemptionLocationList.add(sb.toString());
 		}
 		return redemptionLocationList;
+	}
+
+	public static String getDisplayNameForGaiaNearby(String friendlyName, String airportName) {
+		if (Strings.isEmpty(airportName)) {
+			return friendlyName;
+		}
+		else {
+			StringBuilder sb = new StringBuilder();
+			sb.append(friendlyName).append(" (").append(airportName).append(")");
+			return sb.toString();
+		}
+
 	}
 }

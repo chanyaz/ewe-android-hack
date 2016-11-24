@@ -84,7 +84,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getViewModel().showPaymentForm.subscribe {
             show(flightOverviewPresenter, Presenter.FLAG_CLEAR_TOP)
             flightOverviewPresenter.showCheckout()
-            flightOverviewPresenter.getCheckoutPresenter().paymentWidget.showPaymentForm()
+            flightOverviewPresenter.getCheckoutPresenter().paymentWidget.showPaymentForm(fromPaymentError = true)
         }
         presenter.getViewModel().showConfirmation.subscribe {
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
@@ -121,7 +121,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.date.onNext(params.departureDate)
         }
         presenter.menuSearch.setOnMenuItemClickListener ({
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(searchPresenter)
             true
         })
         presenter.setupComplete()
@@ -140,7 +140,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             }
         }
         presenter.menuSearch.setOnMenuItemClickListener ({
-            show(searchPresenter, Presenter.FLAG_CLEAR_TOP)
+            show(searchPresenter)
             true
         })
         presenter.setupComplete()
@@ -228,7 +228,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             FlightsV2Tracking.trackCheckoutConfirmationPageLoad(flightCheckoutResponse)
         }
         val createTripViewModel = presenter.getCheckoutPresenter().getCreateTripViewModel()
-        createTripViewModel.tripResponseObservable.safeSubscribe { trip -> trip!!
+        createTripViewModel.createTripResponseObservable.safeSubscribe { trip -> trip!!
             val expediaRewards = trip.rewards?.totalPointsToEarn?.toString()
             confirmationPresenter.viewModel.setRewardsPoints.onNext(expediaRewards)
         }
@@ -275,9 +275,15 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         }
         viewModel.outboundResultsObservable.subscribe {
             outBoundPresenter.trackFlightResultsLoad()
+            announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_outbound_flights_TEMPLATE)
+                    .put("city", viewModel.searchParamsObservable.value.arrivalAirport?.regionNames?.shortName)
+                    .format().toString())
         }
         viewModel.inboundResultsObservable.subscribe {
             inboundPresenter.trackFlightResultsLoad()
+            announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_inbound_flights_TEMPLATE)
+                    .put("city", viewModel.searchParamsObservable.value.departureAirport?.regionNames?.shortName)
+                    .format().toString())
             show(inboundPresenter)
         }
         viewModel.errorObservable.subscribe {
@@ -293,12 +299,13 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     var searchViewModel: FlightSearchViewModel by notNullAndObservable { vm ->
         searchPresenter.searchViewModel = vm
         vm.searchParamsObservable.subscribe { params ->
+            announceForAccessibility(context.getString(R.string.accessibility_announcement_searching_flights))
             flightOfferViewModel.searchParamsObservable.onNext(params)
             errorPresenter.getViewModel().paramsSubject.onNext(params)
             travelerManager.updateDbTravelers(params, context)
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
-            show(outBoundPresenter)
+            show(outBoundPresenter, Presenter.FLAG_CLEAR_TOP)
         }
     }
 

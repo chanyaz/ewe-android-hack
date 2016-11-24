@@ -29,9 +29,11 @@ import static android.support.test.espresso.action.ViewActions.clearText;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.contrib.PickerActions.setDate;
 import static android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
 import static com.expedia.bookings.test.espresso.ViewActions.waitFor;
@@ -46,16 +48,14 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 
 	HotelsUserData user = new HotelsUserData();
 
-	private void goToCheckoutTwoAdults() {
-		FlightsSearchScreen.enterDepartureAirport("SFO");
+	private void goToCheckout() {
+		FlightsSearchScreen.enterDepartureAirport("happy");
 		FlightsSearchScreen.enterArrivalAirport("LAS");
 		FlightsSearchScreen.clickSelectDepartureButton();
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		FlightsSearchScreen.clickDate(startDate);
-		FlightsSearchScreen.clickPassengerSelectionButton();
-		FlightsSearchScreen.incrementAdultsButton();
 		FlightsSearchScreen.clickSearchButton();
-		FlightsSearchResultsScreen.clickListItem(2);
+		FlightsSearchResultsScreen.clickListItem(10);
 		FlightLegScreen.clickSelectFlightButton();
 		clickCheckoutButton();
 	}
@@ -66,10 +66,10 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 	public void testPassportNeededFromApiResponse() {
 		// Above departure/arrival triggers isPassportNeeded=true search response
 		// (see: FlightApiRequestDispatcher)
-		String departureAirport = "PEN";
-		String arrivalAirport = "KUL";
+		String departureAirport = "passport_needed";
+		String arrivalAirport = "SFO";
 
-		navigateToCheckoutScreen(departureAirport, arrivalAirport, 8);
+		navigateToCheckoutScreen(departureAirport, arrivalAirport, 1);
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
 		populatedTravelerDetails();
 		verifyPassportRequired();
@@ -117,7 +117,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 	}
 
 	public void testVerifyNameMustMatchIdWarning() {
-		goToCheckoutTwoAdults();
+		goToCheckout();
 
 		// Warning should appear on opening traveler details
 		// and close when the user taps the screen.
@@ -140,7 +140,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 	}
 
 	public void testVerifyNameMustMatchIdWarningSecondTraveler() {
-		goToCheckoutTwoAdults();
+		goToCheckout();
 
 		// Warning behavior should persist upon entry of additional travelers' info.
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(2);
@@ -160,16 +160,12 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		FlightsTravelerInfoScreen.enterLastName("Bookings");
 		Common.closeSoftKeyboard(FlightsTravelerInfoScreen.lastNameEditText());
 		FlightsTravelerInfoScreen.clickBirthDateButton();
-		try {
-			FlightsTravelerInfoScreen.done().perform(waitForViewToDisplay());
-			FlightsTravelerInfoScreen.clickDoneString();
-		}
-		catch (Exception e) {
-			FlightsTravelerInfoScreen.clickSetButton();
-		}
+		onView(withParent(withId(android.R.id.custom))).perform(setDate(2010, 10, 11));
+		FlightsTravelerInfoScreen.clickSetButton();
 		FlightsTravelerInfoScreen.nameMustMatchTextView().check(matches(not(isCompletelyDisplayed())));
 		FlightsTravelerInfoScreen.clickNextButton();
 		FlightsTravelerInfoScreen.selectGender("Male");
+		FlightsTravelerInfoScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
 
 		// Warning should appear when populated second traveler details are clicked.
@@ -184,7 +180,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 	}
 
 	public void testVerifyRulesAndRestrictionsButton() {
-		goToCheckoutTwoAdults();
+		goToCheckout();
 
 		CommonCheckoutScreen.flightsLegalTextView().perform(waitFor(isDisplayed(), 2, TimeUnit.SECONDS), click());
 
@@ -195,7 +191,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 	}
 
 	public void testVerifyMissingTravelerInformationAlerts() {
-		goToCheckoutTwoAdults();
+		goToCheckout();
 
 		// Starting testing of traveler info screen response when fields are left empty
 		FlightsTravelerInfoScreen.clickEmptyTravelerDetails(0);
@@ -276,6 +272,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 		// Verify that the redress EditText allows a max of 7 chars, numbers only
 		FlightsTravelerInfoScreen.typeRedressText("12345678");
 		FlightsTravelerInfoScreen.redressEditText().check(matches(withText("1234567")));
+		FlightsTravelerInfoScreen.clickNextButton();
 		FlightsTravelerInfoScreen.clickDoneButton();
 		logInButton().perform(ViewActions.waitForViewToDisplay());
 
@@ -294,7 +291,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 	}
 
 	public void testVerifyMissingCardInfoAlerts() {
-		goToCheckoutTwoAdults();
+		goToCheckout();
 
 		onView(withText("Payment Method")).perform(click());
 		CardInfoScreen.clickNextButton();
@@ -450,7 +447,7 @@ public class FlightCheckoutUserInfoTest extends FlightTestCase {
 	}
 
 	public void testVerifyLoginButtonNotAppearing() throws Exception {
-		goToCheckoutTwoAdults();
+		goToCheckout();
 
 		Common.pressBack();
 		clickCheckoutButton();

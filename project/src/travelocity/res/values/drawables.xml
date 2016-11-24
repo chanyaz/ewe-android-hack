@@ -2,7 +2,6 @@
 <resources>
     <item name="brand_phone_checkout_login_logo_drawable" type="drawable">@drawable/ic_tvly_logo_white</item>
     <item name="brand_phone_checkout_logo_drawable" type="drawable">@drawable/tvly</item>
-    <item name="brand_tablet_checkout_login_logo_drawable" type="drawable">@drawable/ic_tablet_checkout_logo</item>
     <item name="ic_action_bar_logo_dark" type="drawable">@drawable/ic_action_bar_logo_dark_icon</item>
     <item name="app_copyright_logo" type="drawable">@drawable/ic_launcher</item>
     <item name="ic_action_bar_brand_logo_title" type="drawable">@drawable/ic_action_bar_brand_logo</item>

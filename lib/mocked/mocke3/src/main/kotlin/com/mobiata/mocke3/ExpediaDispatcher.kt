@@ -40,7 +40,8 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
 
         // Rails API
-        if (request.path.startsWith("/rails/domain/") || request.path.startsWith("/m/api/rails")) {
+        if (request.path.startsWith("/rails") || request.path.startsWith("/shop") || request.path.startsWith("/trip") ||
+                request.path.startsWith("/domain/trip") || request.path.startsWith("/domain/static")) {
             return railApiRequestDispatcher.dispatch(request)
         }
 
@@ -92,6 +93,11 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         // Expedia Suggest
         if (request.path.startsWith("/hint/es") || request.path.startsWith("/api/v4") ) {
             return dispatchSuggest(request)
+        }
+
+        //GAIA Suggest
+        if (request.path.contains("/features")) {
+            return dispatchGaiaSuggest(request)
         }
 
         // User API
@@ -246,6 +252,13 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         params.put("pckgHotelCheckOutEpochSeconds", "" + pckgHotelCheckOut.millis / 1000)
         params.put("pckgHotelCheckOutTzOffset", "" + pacificTimeZone.getOffset(pckgHotelCheckOut.millis) / 1000)
 
+        // Inject rails DateTimes
+        val railStart = startOfTodayPacific.plusDays(44).withHourOfDay(4)
+        val railEnd = startOfTodayPacific.plusDays(48).withHourOfDay(12)
+        params.put("railStartEpochSeconds", "" + railStart.millis / 1000)
+        params.put("railStartTzOffset", "" + pacificTimeZone.getOffset(railStart.millis) / 1000)
+        params.put("railEndEpochSeconds", "" + railEnd.millis / 1000)
+        params.put("railEndTzOffset", "" + pacificTimeZone.getOffset(railEnd.millis) / 1000)
 
         return makeResponse("/api/trips/happy.json", params)
     }
@@ -288,13 +301,17 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
                 return makeResponse("/hint/es/v1/nearby/en_US/suggestion.json")
             }// City
         } else if (request.path.startsWith("/api/v4/typeahead/")) {
-            val requestPath = request.path
-            val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?')).toLowerCase()
-            if ("Flights".equals(lob, false)) {
-                return makeResponse("/api/v4/suggestion_" + unUrlEscape(filename) + ".json")
-            }
-            else {
-                return makeResponse("/api/v4/suggestion.json")
+            if ("FLIGHTS".equals(lob)) {
+                //Material Flights
+                return makeResponse("/api/v4/suggestion_flights.json")
+            } else {
+                val requestPath = request.path
+                val filename = requestPath.substring(requestPath.lastIndexOf('/') + 1, requestPath.indexOf('?')).toLowerCase()
+                if ("Flights".equals(lob, false)) {
+                    return makeResponse("/api/v4/suggestion_" + unUrlEscape(filename) + ".json")
+                } else {
+                    return makeResponse("/api/v4/suggestion.json")
+                }
             }
         } else if (request.path.startsWith("/api/v4/nearby/")) {
             if (latlong == "31.32|75.57") {
@@ -305,6 +322,28 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
                 return makeResponse("/api/v4/suggestion_with_airports_cities.json")
             }
             return makeResponse("/api/v4/suggestion_nearby.json")
+        }
+        return make404()
+    }
+
+    private fun dispatchGaiaSuggest(request: RecordedRequest): MockResponse {
+        val params = parseHttpRequest(request)
+        var latitude: String? = ""
+        var longitude: String? = ""
+        if (params.containsKey("lat")) {
+            latitude = params["lat"]
+        }
+        if (params.containsKey("lng")) {
+            longitude = params["lng"]
+        }
+        if ((latitude == "3.0") && (longitude == "3.0")) {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion.json");
+        }
+        if ((latitude == "1.0") && (longitude == "1.0")) {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result.json");
+        }
+        if ((latitude == "0.0") && (longitude == "0.0")) {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_zero_results.json");
         }
         return make404()
     }

@@ -8,7 +8,6 @@ import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,14 +22,15 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
-import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.section.ISectionEditable.SectionChangeListener;
 import com.expedia.bookings.section.InvalidCharacterHelper;
 import com.expedia.bookings.section.InvalidCharacterHelper.InvalidCharacterListener;
 import com.expedia.bookings.section.InvalidCharacterHelper.Mode;
 import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.FocusViewRunnable;
@@ -173,20 +173,14 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 
 	/**
 	 * Set the message that displays above the virtual keyboard.
-	 *
-	 * @param message
-	 * @param backgroundColor
 	 */
 	private void updateCardMessage(String message, int backgroundColor) {
 		mCreditCardMessageTv.setBackgroundColor(backgroundColor);
-		mCreditCardMessageTv.setText(Html.fromHtml(message));
+		mCreditCardMessageTv.setText(HtmlCompat.fromHtml(message));
 	}
 
 	/**
 	 * Toggle the message that displays above the virtual keyboard.
-	 *
-	 * @param show
-	 * @param animate
 	 */
 	private void toggleCardMessage(final boolean show, final boolean animate) {
 		if (!animate) {
@@ -251,8 +245,6 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 	/**
 	 * Hide the card message OR display a default message.
 	 * Some POSes have messages like "Dont use debit cards" that need to display all the time.
-	 *
-	 * @param animate
 	 */
 	private void hideCardMessageOrDisplayDefault(boolean animate) {
 		if (PointOfSale.getPointOfSale().doesNotAcceptDebitCardsForFlights()) {

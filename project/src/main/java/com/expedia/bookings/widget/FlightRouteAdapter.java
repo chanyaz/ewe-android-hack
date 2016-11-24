@@ -7,7 +7,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.support.annotation.LayoutRes;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,8 +17,8 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightRoutes;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RecentList;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Ui;
-import com.mobiata.android.util.ViewUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 
@@ -32,7 +31,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 
 	private FlightRoutes mRoutes;
 
-	private List<Row> mRows = new ArrayList<FlightRouteAdapter.Row>();
+	private List<Row> mRows = new ArrayList<>();
 
 	private boolean mIsOrigin;
 
@@ -168,7 +167,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 		mRows.clear();
 
 		// Get our airports
-		List<Airport> airports = new ArrayList<Airport>();
+		List<Airport> airports = new ArrayList<>();
 
 		if (mIsOrigin) {
 			airports.addAll(mRoutes.getOrigins());
@@ -348,7 +347,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 				textView = (TextView) convertView;
 			}
 
-			textView.setText(Html.fromHtml(mContext.getString(R.string.dropdown_airport_selection,
+			textView.setText(HtmlCompat.fromHtml(mContext.getString(R.string.dropdown_airport_selection,
 				mAirport.mAirportCode, mAirport.mName)));
 
 			return textView;
@@ -399,7 +398,7 @@ public class FlightRouteAdapter extends BaseAdapter {
 			holder.mAirportDetailsTextView = Ui.findView(convertView, R.id.airport_details_text_view);
 			holder.mHeaderTextView = Ui.findView(convertView, R.id.header_text_view);
 
-			ViewUtils.setAllCaps(holder.mHeaderTextView);
+			holder.mHeaderTextView.setAllCaps(true);
 
 			convertView.setTag(holder);
 		}

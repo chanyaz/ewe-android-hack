@@ -144,6 +144,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         searchButton.setTextColor(ContextCompat.getColor(context, R.color.white_disabled))
         destinationCardView.setOnClickListener(locationClickListener(isCustomerSelectingOrigin = false))
         searchLocationEditText?.setOnQueryTextListener(listener)
+        AccessibilityUtil.delayFocusToToolbarNavigationIcon(toolbar, 300)
     }
 
     protected  fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {

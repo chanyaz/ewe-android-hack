@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.NavUtils;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -32,14 +31,14 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.Ui;
-import com.expedia.bookings.widget.ItinListView.OnListModeChangedListener;
+import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
 import com.google.android.gms.maps.model.CameraPosition;
 
 /**
  * Full-screen Itinerary activity.  Used in tablets.
  */
-public class ItineraryActivity extends FragmentActivity implements ItinItemListFragmentListener,
+public class ItineraryActivity extends TrackingFragmentActivity implements ItinItemListFragmentListener,
 		OnCameraChangeListener, SupportMapFragmentListener, DoLogoutListener, ItineraryMapFragmentListener,
 		ItinerarySyncListener, OnListModeChangedListener {
 

@@ -56,6 +56,7 @@ class HotelDetailsTest {
         hotelDetailView.viewmodel = vm
 
         offers = HotelOffersResponse()
+        offers.hotelName = "Hotel"
         offers.hotelId = "happyPath"
         offers.hotelCity = "San Francisco"
         offers.hotelStateProvince = "CA"
@@ -542,7 +543,7 @@ class HotelDetailsTest {
         rateInfo.chargeableRateInfo = lowRateInfo
         hotel.rateInfo = rateInfo
 
-        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>();
+        val rooms = ArrayList<HotelOffersResponse.HotelRoomResponse>()
         rooms.add(hotel)
 
         offers.hotelRoomResponse = rooms
@@ -553,6 +554,7 @@ class HotelDetailsTest {
         vm.addViewsAfterTransition()
 
         vm.hotelSoldOut.onNext(true)
+        hotelDetailView.hotelDetailsToolbar.viewmodel.hotelSoldOut.onNext(true)
 
         Assert.assertEquals(View.VISIBLE, hotelDetailView.changeDatesButton.visibility)
         Assert.assertEquals(View.VISIBLE, hotelDetailView.detailsSoldOut.visibility)

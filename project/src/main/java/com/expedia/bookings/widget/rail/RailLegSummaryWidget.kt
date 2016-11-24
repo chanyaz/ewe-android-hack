@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -71,6 +72,7 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : CardView(co
         overtakenMessage.visibility = if (overtaken) View.VISIBLE else View.GONE
         overtakenDivider.visibility = if (overtaken) View.VISIBLE else View.GONE
         AnimUtils.rotate(legDetailsIcon)
+        RailTracking().trackRailTripOverviewDetailsExpand()
     }
 
     private fun collapseLegDetails() {

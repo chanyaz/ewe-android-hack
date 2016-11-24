@@ -1,0 +1,1313 @@
+{
+  "legs": [
+    {
+      "legId": "leg0",
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "segments": [
+        {
+          "airlineCode": "happy_one_way",
+          "airlineName": "happy_one_way",
+          "arrivalAirportCode": "${arrivalAirport}",
+          "arrivalAirportLocation": "${arrivalAirport}",
+          "arrivalTime": "June 28, 2014 7:49:00 AM",
+          "arrivalTimeEpochSeconds": 1403966940,
+          "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
+          "arrivalTimeZoneOffsetSeconds": -25200,
+          "departureAirportCode": "${departureAirport}",
+          "departureAirportLocation": "${departureAirport}",
+          "departureTime": "June 28, 2014 6:40:00 AM",
+          "departureTimeEpochSeconds": 1403962800,
+          "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
+          "departureTimeZoneOffsetSeconds": -25200,
+          "distance": 2572,
+          "distanceUnits": "miles",
+          "duration": "PT1H9M",
+          "equipmentCode": "752",
+          "equipmentDescription": "Boeing 757-200",
+          "flightNumber": "2340",
+          "meal": "Food For Purchase",
+          "onTimePercentage": "100",
+          "providerCode": "Amadeus",
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
+        }
+      ]
+    },
+    {
+      "legId": "leg1",
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "segments": [
+        {
+          "airlineCode": "create_trip_price_change",
+          "airlineName": "create_trip_price_change",
+          "arrivalAirportCode": "${arrivalAirport}",
+          "arrivalAirportLocation": "${arrivalAirport}",
+          "arrivalTime": "June 28, 2014 7:49:00 AM",
+          "arrivalTimeEpochSeconds": 1403966940,
+          "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
+          "arrivalTimeZoneOffsetSeconds": -25200,
+          "departureAirportCode": "${departureAirport}",
+          "departureAirportLocation": "${departureAirport}",
+          "departureTime": "June 28, 2014 6:40:00 AM",
+          "departureTimeEpochSeconds": 1403962800,
+          "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
+          "departureTimeZoneOffsetSeconds": -25200,
+          "distance": 2572,
+          "distanceUnits": "miles",
+          "duration": "PT1H9M",
+          "equipmentCode": "752",
+          "equipmentDescription": "Boeing 757-200",
+          "flightNumber": "2340",
+          "meal": "Food For Purchase",
+          "onTimePercentage": "100",
+          "providerCode": "Amadeus",
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
+        }
+      ]
+    },
+    {
+      "legId": "leg2",
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "segments": [
+        {
+          "airlineCode": "UNKNOWN_ERROR",
+          "airlineName": "UNKNOWN_ERROR",
+          "arrivalAirportCode": "${arrivalAirport}",
+          "arrivalAirportLocation": "${arrivalAirport}",
+          "arrivalTime": "June 28, 2014 7:49:00 AM",
+          "arrivalTimeEpochSeconds": 1403966940,
+          "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
+          "arrivalTimeZoneOffsetSeconds": -25200,
+          "departureAirportCode": "${departureAirport}",
+          "departureAirportLocation": "${departureAirport}",
+          "departureTime": "June 28, 2014 6:40:00 AM",
+          "departureTimeEpochSeconds": 1403962800,
+          "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
+          "departureTimeZoneOffsetSeconds": -25200,
+          "distance": 2572,
+          "distanceUnits": "miles",
+          "duration": "PT1H9M",
+          "equipmentCode": "752",
+          "equipmentDescription": "Boeing 757-200",
+          "flightNumber": "2340",
+          "meal": "Food For Purchase",
+          "onTimePercentage": "100",
+          "providerCode": "Amadeus",
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
+        }
+      ]
+    },
+    {
+      "legId": "leg3",
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "segments": [
+        {
+          "airlineCode": "FLIGHT_SOLD_OUT",
+          "airlineName": "FLIGHT_SOLD_OUT",
+          "arrivalAirportCode": "${arrivalAirport}",
+          "arrivalAirportLocation": "${arrivalAirport}",
+          "arrivalTime": "June 28, 2014 7:49:00 AM",
+          "arrivalTimeEpochSeconds": 1403966940,
+          "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
+          "arrivalTimeZoneOffsetSeconds": -25200,
+          "departureAirportCode": "${departureAirport}",
+          "departureAirportLocation": "${departureAirport}",
+          "departureTime": "June 28, 2014 6:40:00 AM",
+          "departureTimeEpochSeconds": 1403962800,
+          "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
+          "departureTimeZoneOffsetSeconds": -25200,
+          "distance": 2572,
+          "distanceUnits": "miles",
+          "duration": "PT1H9M",
+          "equipmentCode": "752",
+          "equipmentDescription": "Boeing 757-200",
+          "flightNumber": "2340",
+          "meal": "Food For Purchase",
+          "onTimePercentage": "100",
+          "providerCode": "Amadeus",
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
+        }
+      ]
+    },
+    {
+      "legId": "leg4",
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "segments": [
+        {
+          "airlineCode": "FLIGHT_PRODUCT_NOT_FOUND",
+          "airlineName": "FLIGHT_PRODUCT_NOT_FOUND",
+          "arrivalAirportCode": "${arrivalAirport}",
+          "arrivalAirportLocation": "${arrivalAirport}",
+          "arrivalTime": "June 28, 2014 7:49:00 AM",
+          "arrivalTimeEpochSeconds": 1403966940,
+          "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
+          "arrivalTimeZoneOffsetSeconds": -25200,
+          "departureAirportCode": "${departureAirport}",
+          "departureAirportLocation": "${departureAirport}",
+          "departureTime": "June 28, 2014 6:40:00 AM",
+          "departureTimeEpochSeconds": 1403962800,
+          "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
+          "departureTimeZoneOffsetSeconds": -25200,
+          "distance": 2572,
+          "distanceUnits": "miles",
+          "duration": "PT1H9M",
+          "equipmentCode": "752",
+          "equipmentDescription": "Boeing 757-200",
+          "flightNumber": "2340",
+          "meal": "Food For Purchase",
+          "onTimePercentage": "100",
+          "providerCode": "Amadeus",
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
+        }
+      ]
+    },
+    {
+      "legId": "leg5",
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "segments": [
+        {
+          "airlineCode": "SESSION_TIMEOUT",
+          "airlineName": "SESSION_TIMEOUT",
+          "arrivalAirportCode": "${arrivalAirport}",
+          "arrivalAirportLocation": "${arrivalAirport}",
+          "arrivalTime": "June 28, 2014 7:49:00 AM",
+          "arrivalTimeEpochSeconds": 1403966940,
+          "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
+          "arrivalTimeZoneOffsetSeconds": -25200,
+          "departureAirportCode": "${departureAirport}",
+          "departureAirportLocation": "${departureAirport}",
+          "departureTime": "June 28, 2014 6:40:00 AM",
+          "departureTimeEpochSeconds": 1403962800,
+          "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
+          "departureTimeZoneOffsetSeconds": -25200,
+          "distance": 2572,
+          "distanceUnits": "miles",
+          "duration": "PT1H9M",
+          "equipmentCode": "752",
+          "equipmentDescription": "Boeing 757-200",
+          "flightNumber": "2340",
+          "meal": "Food For Purchase",
+          "onTimePercentage": "100",
+          "providerCode": "Amadeus",
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
+        }
+      ]
+    },
+    {
+      "legId": "leg6",
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "segments": [
+        {
+          "airlineCode": "oneway_child_infant_in_seat",
+          "airlineName": "oneway_child_infant_in_seat",
+          "arrivalAirportCode": "${arrivalAirport}",
+          "arrivalAirportLocation": "${arrivalAirport}",
+          "arrivalTime": "June 28, 2014 7:49:00 AM",
+          "arrivalTimeEpochSeconds": 1403966940,
+          "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
+          "arrivalTimeZoneOffsetSeconds": -25200,
+          "departureAirportCode": "${departureAirport}",
+          "departureAirportLocation": "${departureAirport}",
+          "departureTime": "June 28, 2014 6:40:00 AM",
+          "departureTimeEpochSeconds": 1403962800,
+          "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
+          "departureTimeZoneOffsetSeconds": -25200,
+          "distance": 2572,
+          "distanceUnits": "miles",
+          "duration": "PT1H9M",
+          "equipmentCode": "752",
+          "equipmentDescription": "Boeing 757-200",
+          "flightNumber": "2340",
+          "meal": "Food For Purchase",
+          "onTimePercentage": "100",
+          "providerCode": "Amadeus",
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
+        }
+      ]
+    },
+    {
+      "legId": "leg7",
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "segments": [
+        {
+          "airlineCode": "oneway_infant_in_seat",
+          "airlineName": "oneway_infant_in_seat",
+          "arrivalAirportCode": "${arrivalAirport}",
+          "arrivalAirportLocation": "${arrivalAirport}",
+          "arrivalTime": "June 28, 2014 7:49:00 AM",
+          "arrivalTimeEpochSeconds": 1403966940,
+          "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
+          "arrivalTimeZoneOffsetSeconds": -25200,
+          "departureAirportCode": "${departureAirport}",
+          "departureAirportLocation": "${departureAirport}",
+          "departureTime": "June 28, 2014 6:40:00 AM",
+          "departureTimeEpochSeconds": 1403962800,
+          "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
+          "departureTimeZoneOffsetSeconds": -25200,
+          "distance": 2572,
+          "distanceUnits": "miles",
+          "duration": "PT1H9M",
+          "equipmentCode": "752",
+          "equipmentDescription": "Boeing 757-200",
+          "flightNumber": "2340",
+          "meal": "Food For Purchase",
+          "onTimePercentage": "100",
+          "providerCode": "Amadeus",
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
+        }
+      ]
+    },
+    {
+      "legId": "leg8",
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "segments": [
+        {
+          "airlineCode": "oneway_infant_in_lap",
+          "airlineName": "oneway_infant_in_lap",
+          "arrivalAirportCode": "${arrivalAirport}",
+          "arrivalAirportLocation": "${arrivalAirport}",
+          "arrivalTime": "June 28, 2014 7:49:00 AM",
+          "arrivalTimeEpochSeconds": 1403966940,
+          "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
+          "arrivalTimeZoneOffsetSeconds": -25200,
+          "departureAirportCode": "${departureAirport}",
+          "departureAirportLocation": "${departureAirport}",
+          "departureTime": "June 28, 2014 6:40:00 AM",
+          "departureTimeEpochSeconds": 1403962800,
+          "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
+          "departureTimeZoneOffsetSeconds": -25200,
+          "distance": 2572,
+          "distanceUnits": "miles",
+          "duration": "PT1H9M",
+          "equipmentCode": "752",
+          "equipmentDescription": "Boeing 757-200",
+          "flightNumber": "2340",
+          "meal": "Food For Purchase",
+          "onTimePercentage": "100",
+          "providerCode": "Amadeus",
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
+        }
+      ]
+    },
+    {
+      "legId": "leg9",
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "segments": [
+        {
+          "airlineCode": "oneway_child",
+          "airlineName": "oneway_child",
+          "arrivalAirportCode": "${arrivalAirport}",
+          "arrivalAirportLocation": "${arrivalAirport}",
+          "arrivalTime": "June 28, 2014 7:49:00 AM",
+          "arrivalTimeEpochSeconds": 1403966940,
+          "arrivalTimeRaw": "2014-06-28T07:49:00.000-07:00",
+          "arrivalTimeZoneOffsetSeconds": -25200,
+          "departureAirportCode": "${departureAirport}",
+          "departureAirportLocation": "${departureAirport}",
+          "departureTime": "June 28, 2014 6:40:00 AM",
+          "departureTimeEpochSeconds": 1403962800,
+          "departureTimeRaw": "2014-06-28T06:40:00.000-07:00",
+          "departureTimeZoneOffsetSeconds": -25200,
+          "distance": 2572,
+          "distanceUnits": "miles",
+          "duration": "PT1H9M",
+          "equipmentCode": "752",
+          "equipmentDescription": "Boeing 757-200",
+          "flightNumber": "2340",
+          "meal": "Food For Purchase",
+          "onTimePercentage": "100",
+          "providerCode": "Amadeus",
+          "stops": 0,
+          "arrivalAirportAddress": {
+            "city": "San Francisco",
+            "country": "USA",
+            "state": "California"
+          },
+          "departureAirportAddress": {
+            "city": "Detroit",
+            "country": "USA",
+            "state": "MI"
+          }
+        }
+      ]
+    }
+  ],
+  "obFeesDetails": "http://www.expedia.com/api/flight/obFeeCostSummary?langid=1033",
+  "offers": [
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg0"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "happy_one_way",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg1"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "create_trip_price_change",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg2"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "UNKNOWN_ERROR",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg3"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "FLIGHT_SOLD_OUT",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg4"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "FLIGHT_PRODUCT_NOT_FOUND",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg5"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "SESSION_TIMEOUT",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg6"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "oneway_child_infant_in_lap",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg7"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "oneway_infant_in_lap",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg8"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "oneway_infant_in_seat",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    },
+    {
+      "averageTotalPricePerTicket": {
+        "amount": "696.00",
+        "formattedPrice": "$696.00",
+        "currencyCode": "USD",
+        "formattedWholePrice": "$696"
+      },
+      "baggageFeesUrl": "http://www.expedia.com/Flights-BagFees?originapt=${departureAirport}&destinationapt=${arrivalAirport}&cabinclass=3&mktgcarrier=DL&opcarrier=&farebasis=KA03A0NP&bookingclass=K&travelDate=05/01/2014&langid=1033",
+      "baseFare": "620.46",
+      "baseFarePrice": {
+        "amount": "620.46",
+        "currencyCode": "USD",
+        "formattedPrice": "$620.46",
+        "formattedWholePrice": "$620"
+      },
+      "currency": "USD",
+      "fareType": "PUBLISHED",
+      "fees": "7.00",
+      "feesPrice": {
+        "amount": "7.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$7.00",
+        "formattedWholePrice": "$7"
+      },
+      "hasBagFee": false,
+      "hasNoBagFee": false,
+      "isInternational": false,
+      "legIds": [
+        "leg9"
+      ],
+      "mayChargeOBFees": false,
+      "numberOfTickets": 1,
+      "pricePerPassengerCategory": [
+        {
+          "basePrice": {
+            "amount": "620.46",
+            "currencyCode": "USD",
+            "formattedPrice": "$620.46",
+            "formattedWholePrice": "$620"
+          },
+          "passengerCategory": "ADULT",
+          "taxesPrice": {
+            "amount": "68.54",
+            "currencyCode": "USD",
+            "formattedPrice": "$68.54",
+            "formattedWholePrice": "$69"
+          },
+          "totalPrice": {
+            "amount": "689.00",
+            "currencyCode": "USD",
+            "formattedPrice": "$689.00",
+            "formattedWholePrice": "$689"
+          }
+        }
+      ],
+      "productKey": "oneway_child",
+      "seatsRemaining": 1,
+      "segmentAttributes": [
+        [
+          {
+            "bookingCode": "K",
+            "cabinCode": "coach"
+          }
+        ],
+        [
+          {
+            "bookingCode": "V",
+            "cabinCode": "coach"
+          }
+        ]
+      ],
+      "showFees": true,
+      "taxes": "68.54",
+      "taxesPrice": {
+        "amount": "68.54",
+        "currencyCode": "USD",
+        "formattedPrice": "$68.54",
+        "formattedWholePrice": "$69"
+      },
+      "totalFare": "696.00",
+      "totalPrice": {
+        "amount": "696.00",
+        "currencyCode": "USD",
+        "formattedPrice": "$696.00",
+        "formattedWholePrice": "$696"
+      }
+    }
+  ],
+  "searchCities": [
+    {
+      "city": "${departureAirport}",
+      "code": "${departureAirport}",
+      "country": "United States",
+      "province": "CA",
+      "searchType": "AIRPORT"
+    },
+    {
+      "city": "${arrivalAirport}",
+      "code": "${arrivalAirport}",
+      "country": "United States",
+      "province": "NY",
+      "searchType": "AIRPORT"
+    }
+  ]
+}

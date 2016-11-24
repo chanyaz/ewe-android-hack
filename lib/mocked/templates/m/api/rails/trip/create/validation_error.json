@@ -1,0 +1,15 @@
+{
+  "responseStatus": {
+    "status": "VALIDATION_ERROR",
+    "errorList": [
+      {
+        "errorCode": "SHOP0200",
+        "errorDescription": "Invalid offer token: eNrjYBYy4NLgOHVGWoBBootdYRmPlhTHswk9y5gFnl3YOZUJKsYWFmJsYGQgxMLBKMAsISKhIGEtUQEA2agOZA=="
+      },
+      {
+        "errorCode": "INV0070",
+        "errorDescription": "POS info is null or invalid. POS doesn't match for input offers."
+      }
+    ]
+  }
+}

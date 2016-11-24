@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.DateTime;
@@ -21,14 +21,14 @@ import com.expedia.bookings.data.rail.requests.RailCheckoutParams;
 import com.expedia.bookings.data.rail.requests.api.RailApiSearchModel;
 import com.expedia.bookings.data.rail.responses.RailCard;
 import com.expedia.bookings.data.rail.responses.RailCardsResponse;
-import com.expedia.bookings.data.rail.responses.RailCheckoutResponse;
+import com.expedia.bookings.data.rail.responses.RailCheckoutResponseWrapper;
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse;
+import com.expedia.bookings.data.rail.responses.RailOffer;
 import com.expedia.bookings.data.rail.responses.RailProduct;
 import com.expedia.bookings.data.rail.responses.RailSearchResponse;
 import com.expedia.bookings.data.rail.responses.RailsApiStatusCodes;
 import com.expedia.bookings.interceptors.MockInterceptor;
 import com.expedia.bookings.services.RailServices;
-import com.expedia.bookings.utils.Constants;
 import com.mobiata.mocke3.ExpediaDispatcher;
 import com.mobiata.mocke3.FileSystemOpener;
 
@@ -53,7 +53,7 @@ public class RailServicesTest {
 	private RailApiSearchModel railSearchRequest;
 	private TestSubscriber<RailSearchResponse> searchResponseObserver;
 	private TestSubscriber<RailCreateTripResponse> createTripResponseObserver;
-	private TestSubscriber<RailCheckoutResponse> checkoutTripResponseObserver;
+	private TestSubscriber<RailCheckoutResponseWrapper> checkoutTripResponseObserver;
 	private TestSubscriber<CardFeeResponse> cardFeeResponseObserver;
 
 	@Before
@@ -61,10 +61,8 @@ public class RailServicesTest {
 		HttpLoggingInterceptor logger = new HttpLoggingInterceptor();
 		logger.setLevel(HttpLoggingInterceptor.Level.BODY);
 		Interceptor interceptor = new MockInterceptor();
-		HashMap<String, String> urlMap = new HashMap<>();
-		urlMap.put(Constants.MOCK_MODE, "http://localhost:" + server.getPort());
-		service = new RailServices(urlMap, new OkHttpClient.Builder().addInterceptor(logger).build(),
-			interceptor, Schedulers.immediate(), Schedulers.immediate());
+		service = new RailServices("http://localhost:" + server.getPort(), new OkHttpClient.Builder().addInterceptor(logger).build(),
+			interceptor, interceptor, Schedulers.immediate(), Schedulers.immediate());
 
 		String root = new File("../mocked/templates").getCanonicalPath();
 		FileSystemOpener opener = new FileSystemOpener(root);
@@ -97,15 +95,17 @@ public class RailServicesTest {
 		assertEquals(60, passengers.get(3).age);
 		assertEquals(false, passengers.get(3).primaryTraveler);
 		assertTrue(railSearchResponse.offerList.size() > 0);
-		List<RailSearchResponse.RailOffer> railOffers = railSearchResponse.offerList;
+		List<RailOffer> railOffers = railSearchResponse.offerList;
 		assertTrue(railOffers.get(0).railProductList.size() > 0);
 		RailProduct railProduct = railOffers.get(0).railProductList.get(0);
 		assertEquals(3, railProduct.segmentFareDetailList.size());
 		assertEquals(3, railProduct.getSegmentToFareMapping().size());
 		assertEquals(1, railProduct.fareQualifierList.size());
-		assertTrue(railSearchResponse.legList.get(0).legOptionList.get(0).doesAnyOfferHasFareQualifier);
-		assertTrue(railSearchResponse.legList.get(0).legOptionList.get(1).doesAnyOfferHasFareQualifier);
-		assertFalse(railSearchResponse.legList.get(0).legOptionList.get(2).doesAnyOfferHasFareQualifier);
+		assertFalse(railSearchResponse.legList.get(0).legOptionList.get(0).doesAnyOfferHasFareQualifier);
+		assertFalse(railSearchResponse.legList.get(0).legOptionList.get(1).doesAnyOfferHasFareQualifier);
+		assertTrue(railSearchResponse.legList.get(0).legOptionList.get(2).doesAnyOfferHasFareQualifier);
+		assertTrue(railSearchResponse.legList.get(0).legOptionList.get(3).doesAnyOfferHasFareQualifier);
+		assertFalse(railSearchResponse.legList.get(0).legOptionList.get(4).doesAnyOfferHasFareQualifier);
 		assertEquals(RailsApiStatusCodes.STATUS_SUCCESS, railSearchResponse.responseStatus.status);
 	}
 
@@ -178,6 +178,48 @@ public class RailServicesTest {
 	}
 
 	@Test
+	public void createTripPriceChangeError() {
+		List<String> offerTokens = new ArrayList<>();
+		offerTokens.add("price_change");
+
+		service.railCreateTrip(offerTokens, createTripResponseObserver);
+		createTripResponseObserver.awaitTerminalEvent();
+
+		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertValueCount(1);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+		assertTrue(createTripResponse.hasPriceChange());
+	}
+
+	@Test
+	public void createTripValidationErrors() {
+		List<String> offerTokens = new ArrayList<>();
+		offerTokens.add("validation_errors");
+
+		service.railCreateTrip(offerTokens, createTripResponseObserver);
+		createTripResponseObserver.awaitTerminalEvent();
+
+		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertValueCount(1);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+		assertTrue(createTripResponse.isErrorResponse());
+	}
+
+	@Test
+	public void otherCreateTripErrors() {
+		List<String> offerTokens = new ArrayList<>();
+		offerTokens.add("other_errors");
+
+		service.railCreateTrip(offerTokens, createTripResponseObserver);
+		createTripResponseObserver.awaitTerminalEvent();
+
+		createTripResponseObserver.assertCompleted();
+		createTripResponseObserver.assertValueCount(1);
+		RailCreateTripResponse createTripResponse = createTripResponseObserver.getOnNextEvents().get(0);
+		assertTrue(createTripResponse.isErrorResponse());
+	}
+
+	@Test
 	public void happyMockCheckout() {
 		RailCheckoutParams params = new RailCheckoutParams(RailCheckoutParamsMock.travelers(),
 			RailCheckoutParamsMock.tripDetails(), RailCheckoutParamsMock.paymentInfo(),
@@ -188,9 +230,9 @@ public class RailServicesTest {
 
 		checkoutTripResponseObserver.assertCompleted();
 		checkoutTripResponseObserver.assertValueCount(1);
-		RailCheckoutResponse checkoutResponse = checkoutTripResponseObserver.getOnNextEvents().get(0);
+		RailCheckoutResponseWrapper checkoutResponseWrapper = checkoutTripResponseObserver.getOnNextEvents().get(0);
 
-		assertEquals("8009690310416", checkoutResponse.orderId);
+		assertEquals("8009690310416", checkoutResponseWrapper.checkoutResponse.orderId);
 	}
 
 	@Test
@@ -213,6 +255,44 @@ public class RailServicesTest {
 
 		CardFeeResponse cardFeeResponse = cardFeeResponseObserver.getOnNextEvents().get(0);
 		assertEquals("£2.90", cardFeeResponse.feePrice.formattedPrice);
+	}
+
+	@Test
+	public void unHappyGetRailCreditCardFees() {
+		service.railGetCardFees(RailCheckoutParamsMock.tripDetails().getTripId(), "000000",
+			RailCheckoutParamsMock.railTicketDeliveryStationInfo().getDeliveryOptionToken(), cardFeeResponseObserver);
+		cardFeeResponseObserver.awaitTerminalEvent();
+		cardFeeResponseObserver.assertCompleted();
+		cardFeeResponseObserver.assertValueCount(1);
+
+		CardFeeResponse cardFeeResponse = cardFeeResponseObserver.getOnNextEvents().get(0);
+		assertTrue(cardFeeResponse.hasErrors());
+	}
+
+	@Test
+	public void testRailSearchTravelerParams() {
+		SuggestionV4 origin = new SuggestionV4();
+		SuggestionV4 destination = new SuggestionV4();
+		DateTime startDateTime = DateTime.now().plusDays(1);
+		LocalDate startDate = startDateTime.toLocalDate();
+		Integer startTime = startDateTime.toLocalTime().getMillisOfDay();
+		int adults = 1;
+		List<Integer> children = Arrays.asList(10, 12);
+		List<Integer> senior = Arrays.asList(60, 61);
+		List<Integer> youth = Arrays.asList(16, 18);
+
+		railSearchRequest = new RailApiSearchModel(origin, destination, startDate, null, startTime, null, false, adults, children, youth, senior, Collections.<RailCard>emptyList());
+		List<RailApiSearchModel.RailPassenger> passengerList = railSearchRequest.getPassengerList();
+		int cnt = 0;
+		for (RailApiSearchModel.RailPassenger passenger : passengerList) {
+			if (passenger.getAge() > 15 && passenger.getPrimaryTraveler()) {
+				cnt ++;
+			}
+		}
+
+		assertEquals(passengerList.size(), 7);
+		// assert exactly one non child traveler set as primary traveler
+		assertEquals(cnt, 1);
 	}
 
 	private void givenSearchRequest(String clientCode) {

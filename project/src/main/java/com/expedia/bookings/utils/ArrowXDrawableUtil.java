@@ -5,9 +5,6 @@ import android.graphics.Color;
 
 import com.expedia.account.graphics.ArrowXDrawable;
 
-/**
- * Created by pulkitk on 7/24/2015.
- */
 public class ArrowXDrawableUtil {
 
 	public static ArrowXDrawable getNavigationIconDrawable(Context context, ArrowDrawableType arrowDrawableType) {

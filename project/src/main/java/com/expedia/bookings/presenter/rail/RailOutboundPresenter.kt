@@ -9,12 +9,12 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.presenter.Presenter
-import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
-import com.expedia.bookings.utils.rail.RailConstants
 import com.expedia.bookings.widget.rail.RailResultsAdapter
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeOnClick
+import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.rail.RailOutboundResultsViewModel
 import rx.subjects.PublishSubject
@@ -25,14 +25,14 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
     val childWarning: TextView by bindView(R.id.child_warning)
     val recyclerView: RecyclerView by bindView(R.id.rail_outbound_list)
     var adapter: RailResultsAdapter by Delegates.notNull()
+    val legalBanner: TextView by bindView(R.id.outbound_legal_banner)
 
     val legSelectedSubject = PublishSubject.create<RailLegOption>()
+    val legalBannerClicked = PublishSubject.create<Unit>()
 
     var viewmodel: RailOutboundResultsViewModel by notNullAndObservable { vm ->
-        vm.railResultsObservable.subscribe { response ->
-            adapter.legSubject.onNext(response.findLegWithBoundOrder(RailConstants.OUTBOUND_BOUND_ORDER))
-        }
-
+        adapter.outboundOfferSubject.onNext(null)
+        vm.legOptionsAndCheapestPriceSubject.subscribe(adapter.legOptionsAndCompareToPriceSubject)
         vm.showChildrenWarningObservable.subscribeVisibility(childWarning)
 
         vm.titleSubject.subscribe {
@@ -49,19 +49,20 @@ class RailOutboundPresenter(context: Context, attrs: AttributeSet) : Presenter(c
 
         vm.directionHeaderSubject.subscribe(adapter.directionHeaderSubject)
         vm.priceHeaderSubject.subscribe(adapter.priceHeaderSubject)
+        vm.legalBannerMessageObservable.subscribeText(legalBanner)
     }
 
     init {
-        Ui.getApplication(context).railComponent().inject(this)
         View.inflate(context, R.layout.widget_rail_outbound_results, this)
         toolbar.setNavigationOnClickListener {
             val activity = context as AppCompatActivity
             activity.onBackPressed()
         }
 
-        adapter = RailResultsAdapter(context, legSelectedSubject)
+        adapter = RailResultsAdapter(context, legSelectedSubject, false)
         recyclerView.adapter = adapter
         adapter.showLoading()
+        legalBanner.subscribeOnClick(legalBannerClicked)
     }
 }
 

@@ -26,7 +26,7 @@ abstract class AbstractMaterialFlightResultsPresenter(context: Context, attrs: A
             if (travelerParams != null) {
                 overviewPresenter.vm.numberOfTravelers.onNext(travelerParams.guests)
             }
-            show(resultsPresenter)
+            show(resultsPresenter, FLAG_CLEAR_BACKSTACK)
         }
         val flightListAdapter = FlightListAdapter(context, resultsPresenter.flightSelectedSubject, flightOfferViewModel.isRoundTripSearchSubject)
         resultsPresenter.setAdapter(flightListAdapter)

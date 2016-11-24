@@ -3,11 +3,11 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.text.Html
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
 import com.expedia.bookings.R
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -33,6 +33,6 @@ class SpecialNoticeWidget(context: Context, attrs: AttributeSet) : FrameLayout(c
 
     fun setText(text: Pair<String, String>) {
         toolbar.title = text.first
-        description.text = Html.fromHtml(StrUtils.getFormattedContent(context, text.second))
+        description.text = HtmlCompat.fromHtml(StrUtils.getFormattedContent(context, text.second))
     }
 }

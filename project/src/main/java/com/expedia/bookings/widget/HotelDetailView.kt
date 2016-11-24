@@ -8,7 +8,6 @@ import android.graphics.ColorMatrixColorFilter
 import android.graphics.PorterDuff
 import android.os.Handler
 import android.support.v4.content.ContextCompat
-import android.text.Html
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -32,6 +31,7 @@ import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Amenity
@@ -58,6 +58,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelRoomRateViewModel
+import com.expedia.vm.hotel.HotelDetailViewModel
 import com.mobiata.android.util.AndroidUtils
 import rx.Observable
 import rx.Observer
@@ -176,7 +177,10 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         resortFeeWidget.feeType.setText(vm.getFeeTypeText())
 
         detailContainer.setOnTouchListener(touchListener)
-        hotelDetailsToolbar.setHotelDetailViewModel(vm)
+        vm.hotelOffersSubject.subscribe{
+            hotelDetailsToolbar.setHotelDetailViewModel(HotelDetailViewModel.convertToToolbarViewModel(vm))
+        }
+
 
         vm.galleryColorFilter.subscribeGalleryColorFilter(gallery)
 
@@ -222,7 +226,7 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         vm.commonAmenityTextObservable.subscribe { text ->
             displayRoomRateHeader()
             commonAmenityText.visibility = View.VISIBLE
-            commonAmenityText.text = Html.fromHtml(text)
+            commonAmenityText.text = HtmlCompat.fromHtml(text)
         }
 
         vm.hasVipAccessLoyaltyObservable.filter { it }.subscribe {

@@ -1,0 +1,228 @@
+{
+  "q": "${query}",
+  "rid": "e0b921ca-86fd-474d-a4e4-13253a4092ab",
+  "rc": "OK",
+  "sr": [
+    {
+      "@type": "gaiaRegionResult",
+      "index": "0",
+      "gaiaId": "happy",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "San Francisco, CA, United States (SFO-San Francisco Intl.)",
+        "shortName": "San Francisco, CA (SFO-San Francisco Intl.)",
+        "displayName": "San Francisco, CA (<B>SFO</B>-San Francisco Intl.)",
+        "lastSearchName": "San Francisco, CA, United States (SFO-San Francisco Intl.)"
+      },
+      "coordinates": {
+        "lat": "37.615940",
+        "long": "-122.387996"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SFO",
+          "metrocode": "QSF",
+          "multicity": "happy"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "392"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
+      "@type": "passport_needed",
+      "index": "1",
+      "gaiaId": "happy",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "passport_needed",
+        "shortName": "passport_needed",
+        "displayName": "passport_needed",
+        "lastSearchName": "passport_needed"
+      },
+      "coordinates": {
+        "lat": "37.615940",
+        "long": "-122.387996"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "passport_needed",
+          "metrocode": "passport_needed",
+          "multicity": "passport_needed"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "392"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "2",
+      "gaiaId": "happy",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "happy",
+        "shortName": "happy",
+        "displayName": "happy",
+        "lastSearchName": "happy"
+      },
+      "coordinates": {
+        "lat": "27.699137",
+        "long": "85.356699"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "happy",
+          "multicity": "happy"
+        },
+        "country": {
+          "name": "Nepal",
+          "isoCode2": "NP",
+          "isoCode3": "NPL"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "266"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "3",
+      "gaiaId": "may_charge_ob_fees",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "may_charge_ob_fees",
+        "shortName": "may_charge_ob_fees",
+        "displayName": "may_charge_ob_fees",
+        "lastSearchName": "may_charge_ob_fees"
+      },
+      "coordinates": {
+        "lat": "42.221613",
+        "long": "-83.348916"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "may_charge_ob_fees",
+          "metrocode": "may_charge_ob_fees",
+          "multicity": "may_charge_ob_fees"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "333"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "4",
+      "gaiaId": "search_error",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "search_error",
+        "shortName": "search_error",
+        "displayName": "search_error",
+        "lastSearchName": "search_error"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "48.208460",
+        "long": "-106.626110"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "search_error",
+          "multicity": "search_error"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "1"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "5",
+      "gaiaId": "earn",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "earn",
+        "shortName": "earn",
+        "displayName": "earn",
+        "lastSearchName": "earn"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6028000"
+      },
+      "coordinates": {
+        "lat": "48.208460",
+        "long": "-106.626110"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "earn",
+          "multicity": "earn"
+        },
+        "country": {
+          "name": "United States of America",
+          "isoCode2": "US",
+          "isoCode3": "USA"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "1"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    }
+  ]
+}

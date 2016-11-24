@@ -4,7 +4,6 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
-import com.expedia.bookings.data.rail.responses.RailSearchResponse.RailOffer
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -28,6 +27,8 @@ class RailFareRulesViewModel(val context: Context) {
 
     private fun getFareRulesList(product: RailProduct?): List<String> {
         val fareRules = ArrayList<String>()
+        val description = product?.aggregatedFareDescription
+        if (description != null) fareRules.add(description)
         fareRules.addAll(product?.fareNotes.orEmpty())
         fareRules.addAll(product?.refundableRules.orEmpty())
 

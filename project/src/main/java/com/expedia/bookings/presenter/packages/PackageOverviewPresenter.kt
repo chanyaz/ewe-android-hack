@@ -47,7 +47,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     override fun onFinishInflate() {
         super.onFinishInflate()
         removeView(bundleWidget)
-        getCheckoutPresenter().getCreateTripViewModel().tripResponseObservable.safeSubscribe { trip ->
+        getCheckoutPresenter().getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
             trip as PackageCreateTripResponse
             bundleWidget.outboundFlightWidget.toggleFlightWidget(1f, true)
             bundleWidget.inboundFlightWidget.toggleFlightWidget(1f, true)

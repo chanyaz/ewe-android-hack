@@ -2,16 +2,15 @@ package com.expedia.bookings.activity;
 
 import android.app.ActionBar;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
-import android.text.Html;
 import android.view.MenuItem;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.fragment.FlightSearchLoadingFragment;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.Ui;
 
-public class FlightUnsupportedPOSActivity extends FragmentActivity {
+public class FlightUnsupportedPOSActivity extends TrackingFragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +31,7 @@ public class FlightUnsupportedPOSActivity extends FragmentActivity {
 					.commit();
 		}
 
-		fragment.showGrounded(Html.fromHtml(getString(R.string.invalid_flights_pos)));
+		fragment.showGrounded(HtmlCompat.fromHtml(getString(R.string.invalid_flights_pos)));
 	}
 
 	@Override

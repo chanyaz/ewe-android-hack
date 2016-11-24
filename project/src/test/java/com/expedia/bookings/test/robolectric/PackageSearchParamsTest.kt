@@ -106,6 +106,11 @@ class PackageSearchParamsTest {
     }
 
     @Test
+    fun testStartDate() {
+        assertEquals(LocalDate.now(), vm.getStartDate(), "Start Date is Today")
+    }
+
+    @Test
     fun testDateAndOriginValidation() {
         val searchParamsSubscriber = TestSubscriber<PackageSearchParams>()
         val noOriginSubscriber = TestSubscriber<Unit>()

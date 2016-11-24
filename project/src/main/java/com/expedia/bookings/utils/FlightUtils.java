@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.text.Html;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
@@ -25,6 +24,7 @@ import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.fragment.FlightAdditionalFeesDialogFragment;
+import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
@@ -95,7 +95,7 @@ public class FlightUtils {
 		Spanned cardFeeHtml ;
 
 		int resId = PointOfSale.getPointOfSale().airlineMayChargePaymentMethodFee() ? R.string.airline_notice_fee_maybe_added_tablet : R.string.airline_notice_fee_added_tablet;
-		cardFeeHtml = Html.fromHtml(context.getString(resId));
+		cardFeeHtml = HtmlCompat.fromHtml(context.getString(resId));
 
 		SpannableStringBuilder cardFeeSb = new SpannableStringBuilder(cardFeeHtml);
 

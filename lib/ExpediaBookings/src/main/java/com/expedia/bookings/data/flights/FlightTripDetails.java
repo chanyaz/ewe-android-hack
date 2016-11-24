@@ -1,5 +1,6 @@
 package com.expedia.bookings.data.flights;
 
+import java.util.Collections;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
@@ -42,7 +43,7 @@ public class FlightTripDetails {
 		public int seatsRemaining;
 		public List<SplitFarePrice> splitFarePrice;
 
-		public List<InsuranceProduct> availableInsuranceProducts;
+		public List<InsuranceProduct> availableInsuranceProducts = Collections.emptyList();
 		public InsuranceProduct selectedInsuranceProduct;
 
 		public Money getBookingFee() {

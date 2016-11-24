@@ -1,9 +1,9 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.Spanned
+import android.text.SpannedString
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
@@ -12,6 +12,7 @@ import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.payment.PointsAndCurrency
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.StrUtils
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -53,8 +54,8 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
                 tripTotal = it.roomResponse.rateInfo.chargeableRateInfo.displayTotalPrice.formattedMoney
             }
 
-            disclaimerText.onNext(Html.fromHtml(""))
-            depositPolicyText.onNext(Html.fromHtml(""))
+            disclaimerText.onNext(SpannedString(""))
+            depositPolicyText.onNext(SpannedString(""))
 
             if (it.roomResponse.isPayLater) {
                 slideToText.onNext(context.getString(R.string.hotelsv2_slide_reserve))
@@ -65,15 +66,15 @@ class HotelCheckoutOverviewViewModel(val context: Context, val paymentModel: Pay
             val currencyCode = it.roomResponse.rateInfo.chargeableRateInfo.currencyCode
             if (it.roomResponse.rateInfo.chargeableRateInfo.showResortFeeMessage) {
                 val resortFees = Money(BigDecimal(it.roomResponse.rateInfo.chargeableRateInfo.totalMandatoryFees.toDouble()), currencyCode).formattedMoney
-                val text = Html.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
+                val text = HtmlCompat.fromHtml(context.getString(R.string.resort_fee_disclaimer_TEMPLATE, resortFees, tripTotal));
                 disclaimerText.onNext(text)
             } else if (it.roomResponse.isPayLater) {
-                val text = Html.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
+                val text = HtmlCompat.fromHtml(context.getString(R.string.pay_later_disclaimer_TEMPLATE, tripTotal))
                 disclaimerText.onNext(text)
             }
 
             if (it.roomResponse.isPayLater && it.roomResponse.rateInfo.chargeableRateInfo.depositAmount != null) {
-                val depositText = Html.fromHtml(it.roomResponse.depositPolicyAtIndex(0) + " " + it.roomResponse.depositPolicyAtIndex(1))
+                val depositText = HtmlCompat.fromHtml(it.roomResponse.depositPolicyAtIndex(0) + " " + it.roomResponse.depositPolicyAtIndex(1))
                 depositPolicyText.onNext(depositText)
             }
 

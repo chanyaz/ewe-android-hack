@@ -15,7 +15,6 @@ import android.graphics.BitmapFactory;
 import android.support.annotation.StringRes;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.text.Html;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.LayoutInflater;
@@ -33,6 +32,7 @@ import android.widget.Toast;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
+import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -48,14 +48,15 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItinCardDataHotelAttach;
 import com.expedia.bookings.data.trips.ItinCardDataLXAttach;
+import com.expedia.bookings.data.trips.ItinCardDataRails;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.fragment.ItinConfirmRemoveDialogFragment;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ClipboardUtils;
@@ -70,12 +71,13 @@ import com.squareup.phrase.Phrase;
 public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	private Context mContext;
-	private T mItinCardData;
+	public T mItinCardData;
 
 	private boolean mDetailsSummaryHideTypeIcon = true;
 	private boolean mDetailsSummaryHideTitle = true;
 
 	private String mSharableImageURL;
+	protected MediaCallback callback;
 
 	public ItinContentGenerator(Context context, T itinCardData) {
 		mContext = context;
@@ -98,10 +100,18 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return LayoutInflater.from(mContext);
 	}
 
-	// Convenience method
+	public void setCallback(MediaCallback callback) {
+		this.callback = callback;
+	}
+
 	public static ItinContentGenerator<? extends ItinCardData> createGenerator(Context context, ItinCardData itinCardData) {
+		return ItinContentGenerator.createGenerator(context, itinCardData, null);
+	}
+
+	// Convenience method
+	public static ItinContentGenerator<? extends ItinCardData> createGenerator(Context context, ItinCardData itinCardData, MediaCallback callback) {
 		if (itinCardData instanceof ItinCardDataHotel) {
-			return new HotelItinContentGenerator(context, (ItinCardDataHotel) itinCardData);
+			return new HotelItinContentGenerator(context, (ItinCardDataHotel) itinCardData, callback);
 		}
 		else if (itinCardData instanceof ItinCardDataFlight) {
 			return new FlightItinContentGenerator(context, (ItinCardDataFlight) itinCardData);
@@ -127,6 +137,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		else if (itinCardData instanceof ItinCardDataLXAttach) {
 			return new LXAttachItinContentGenerator(context, (ItinCardDataLXAttach) itinCardData);
 		}
+		else if (itinCardData != null && itinCardData.getTripComponentType() == Type.RAILS) {
+			return new RailsItinContentGenerator(context, (ItinCardDataRails) itinCardData);
+		}
 		return null;
 	}
 
@@ -151,10 +164,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public abstract int getHeaderImagePlaceholderResId();
 
-	/**
-	 * @return a UrlBitmapDrawable to display, or null if we want to use the placeholder
-	 */
-	public abstract void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target);
+	public abstract List<? extends IMedia> getHeaderBitmapDrawable();
 
 	public abstract String getHeaderText();
 
@@ -315,8 +325,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Extend this method to return any local notifications related to this trip component.
-	 *
-	 * @return
 	 */
 	public List<Notification> generateNotifications() {
 		return null;
@@ -343,21 +351,19 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * <p/>
 	 * Currently supported shared elemenets (in this order)
 	 * - Confirmation Code (selectable)
+	 * - Insurance
 	 * - Itinerary number
 	 * - Special Expedia+ Rewards support phone numbers
 	 * - Booking Info (additional information link)
-	 * - Insurance
 	 * <p/>
 	 * These get added to the viewgroup only if they exist (or have fallback behavior defined)
-	 *
-	 * @param container
 	 */
 	protected void addSharedGuiElements(ViewGroup container) {
 		boolean addedConfNumber = addConfirmationNumber(container);
+		boolean addedInsurance = addInsurance(container);
 		boolean addedItinNumber = addItineraryNumber(container);
 		boolean addedSupportNumber = addGoldOrSilverSupportNumber(container);
 		boolean addedBookingInfo = addBookingInfo(container);
-		boolean addedInsurance = addInsurance(container);
 		boolean addedSharedoptions = addSharedOptions(container);
 		Log.d("ITIN: ItinCard.addSharedGuiElements - addedConfNumber:" + addedConfNumber + " addedItinNumber:"
 			+ addedItinNumber + " addedGoldOrSilverNumber:" + addedSupportNumber + " addedBookingInfo:"
@@ -600,8 +606,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Add this trip's insurance to the passed in container
-	 *
-	 * @param container
 	 */
 	protected boolean addInsurance(ViewGroup container) {
 		if (!ProductFlavorFeatureConfiguration.getInstance().shouldDisplayInsuranceDetailsIfAvailableOnItinCard() ||
@@ -625,7 +629,7 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 				}
 				View insuranceRow = getLayoutInflater().inflate(R.layout.snippet_itin_insurance_row, null);
 				TextView insuranceName = Ui.findView(insuranceRow, R.id.insurance_name);
-				insuranceName.setText(Html.fromHtml(insurance.getPolicyName()).toString());
+				insuranceName.setText(HtmlCompat.stripHtml(insurance.getPolicyName()));
 				AccessibilityUtil.appendRoleContDesc(insuranceName, insuranceName.getText().toString(), R.string.accessibility_cont_desc_role_button);
 
 				insuranceRow.setOnClickListener(ProductFlavorFeatureConfiguration.getInstance().getInsuranceLinkViewClickListener(mContext, insurance.getTermsUrl()));
@@ -640,8 +644,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Does this particular card have displayable insurance info
-	 *
-	 * @return
 	 */
 	protected boolean hasInsurance() {
 		boolean hasInsurance = false;
@@ -683,8 +685,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	/**
 	 * Get a horizontal divider view with the itin divider color
-	 *
-	 * @return
 	 */
 	protected View getHorizontalDividerView(int margin) {
 		View v = new View(this.getContext());
@@ -703,9 +703,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * Returns a descriptive CharSequence of the start date relative to today.
 	 * (Examples: "Today" or "May 15" or "10/25/2022")
 	 * Rules defined here: https://mingle.karmalab.net/projects/eb_ad_app/cards/234
-	 *
-	 * @param context
-	 * @return
 	 * @see #getItinRelativeTimeSpan(Context context, DateTime time, DateTime now) for relative time span
 	 */
 	public CharSequence getItinRelativeStartDate() {
@@ -784,10 +781,6 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 	 * 2. If between 1 and 24 hours, "in 2 hours and 27 minutes" or "in 5 hours"
 	 * 3. Otherwise, we'll use JodaUtils.getRelativeTimeSpanString, "in 5 days" or "in 35 minutes"
 	 *
-	 * @param context
-	 * @param time
-	 * @param now
-	 * @return
 	 * @see #getItinRelativeStartDate() for relative date
 	 */
 	public CharSequence getItinRelativeTimeSpan(Context context, DateTime time, DateTime now) {
@@ -829,5 +822,9 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 
 	public String getFacebookShareName() {
 		return getHeaderText();
+	}
+
+	public interface MediaCallback {
+		void onMediaReady(List<? extends IMedia> media);
 	}
 }

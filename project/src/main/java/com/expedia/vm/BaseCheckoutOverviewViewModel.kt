@@ -20,6 +20,7 @@ open class BaseCheckoutOverviewViewModel(context: Context) {
     val datesTitle = BehaviorSubject.create<String>()
     val travelersTitle = BehaviorSubject.create<String>()
     val url = BehaviorSubject.create<List<String>>()
+    val placeHolderDrawable = BehaviorSubject.create<Int>()
 
     init {
         Observable.zip(city, country, { city, country ->

@@ -380,8 +380,9 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnText(expectedFilledTravelerOneText);
 		Espresso.closeSoftKeyboard();
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
-		EspressoUtils.assertViewWithTextIsDisplayed("Passport: ");
+		EspressoUtils.assertViewWithTextIsDisplayed(testEmptyPassport);
 		EspressoUser.clickOnView(R.id.passport_country_spinner);
+		onData(allOf(is(instanceOf(String.class)), is(pointOfSaleCountry))).atPosition(1).check(matches(isDisplayed()));
 		onData(allOf(is(instanceOf(String.class)), is("Afghanistan"))).perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed("Passport: Afghanistan");
 		travelerPresenterBack();
@@ -389,7 +390,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUser.clickOnText(expectedFilledTravelerTwoText);
 		Espresso.closeSoftKeyboard();
 		EspressoUser.scrollToView(R.id.passport_country_spinner);
-		EspressoUtils.assertViewWithTextIsDisplayed("Passport: ");
+		EspressoUtils.assertViewWithTextIsDisplayed(testEmptyPassport);
 		onView(withText("Passport: Afghanistan")).check(doesNotExist());
 		travelerPresenterBack();
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.id.traveler_default_state, R.drawable.invalid);

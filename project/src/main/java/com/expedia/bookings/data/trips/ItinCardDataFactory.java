@@ -45,6 +45,9 @@ public class ItinCardDataFactory {
 			case PACKAGE: {
 				return generatePackageCardData((TripPackage) tc);
 			}
+			case RAILS: {
+				return generateRailsCardData((TripRails) tc);
+			}
 			default: {
 				return generateGenericCardData(tc);
 			}
@@ -88,6 +91,10 @@ public class ItinCardDataFactory {
 			}
 		}
 		return data;
+	}
+
+	private static List<ItinCardData> generateRailsCardData(TripRails tc) {
+		return Arrays.asList((ItinCardData) new ItinCardDataRails(tc));
 	}
 
 	private static List<ItinCardData> generateGenericCardData(TripComponent tc) {

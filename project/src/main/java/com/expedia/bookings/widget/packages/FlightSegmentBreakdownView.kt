@@ -44,6 +44,7 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
                 breakdown.segment.departureDateTimeISO, breakdown.segment.arrivalDateTimeISO, breakdown.segment.elapsedDays)
         airlineAirplaneType.text = FlightV2Utils.getFlightAirlineAndAirplaneType(context, breakdown.segment)
         departureArrivalAirports.text = FlightV2Utils.getFlightDepartureArrivalCityAirport(context, breakdown.segment)
+        departureArrivalAirports.contentDescription = FlightV2Utils.getFlightDepartureArrivalCityAirportContDesc(context, breakdown.segment)
         val operatedByString = FlightV2Utils.getOperatingAirlineNameString(context, breakdown.segment)
         if (Strings.isEmpty(operatedByString)) operatedBy.visibility = View.GONE else operatedBy.text = operatedByString
         segmentDuration.text = FlightV2Utils.getFlightSegmentDurationString(context, breakdown.segment)

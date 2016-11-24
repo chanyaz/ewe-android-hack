@@ -21,10 +21,8 @@ abstract class AbstractWebViewWidget(context: Context, attrs: AttributeSet) : Li
     init {
         View.inflate(getContext(), R.layout.widget_web_view, this)
         this.orientation = LinearLayout.VERTICAL
-        if (statusBarHeight > 0) {
-            toolbar.setPadding(0, statusBarHeight, 0, 0)
-            toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
-        }
+        toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
+        setToolbarPadding()
     }
 
     var viewModel: WebViewViewModel by notNullAndObservable { vm ->
@@ -44,5 +42,11 @@ abstract class AbstractWebViewWidget(context: Context, attrs: AttributeSet) : Li
 
     fun setExitButtonOnClickListener(listener: OnClickListener) {
         toolbar.setNavigationOnClickListener(listener)
+    }
+
+    open fun setToolbarPadding() {
+        if (statusBarHeight > 0) {
+            toolbar.setPadding(0, statusBarHeight, 0, 0)
+        }
     }
 }

@@ -3,29 +3,31 @@ package com.expedia.bookings.widget.rail
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.RailLocation
 import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
-import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.ScrollView
 import com.expedia.bookings.widget.SpinnerAdapterWithHint
 import com.expedia.bookings.widget.TicketDeliverySelectionStatus
+import com.expedia.bookings.widget.shared.EntryFormToolbar
 import com.expedia.util.notNullAndObservable
+import com.expedia.vm.EntryFormToolbarViewModel
 import com.expedia.vm.rail.RailTicketDeliveryEntryViewModel
 import com.expedia.vm.rail.RailTicketDeliveryOptionViewModel
 import rx.subjects.PublishSubject
 
-class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : ScrollView(context, attrs) {
+class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
 
+    val toolbar: EntryFormToolbar by bindView(R.id.rail_ticket_delivery_toolbar)
     val stationContainer: RailTicketDeliveryOptionWidget by bindView(R.id.station_container)
     val mailDeliveryContainer: RailTicketDeliveryOptionWidget by bindView(R.id.mail_delivery_container)
     val mailShippingAddressContainer: View by bindView(R.id.mail_shipping_address_container)
-    val mailDeliveryAddress: SectionLocation by bindView(R.id.mail_delivery_address)
-    val doneClicked = PublishSubject.create<Unit>()
+    val deliveryAddressEntry: RailDeliveryAddressEntry by bindView(R.id.rail_delivery_address_entry)
     val closeSubject = PublishSubject.create<Unit>()
+
+    val toolbarViewModel = EntryFormToolbarViewModel()
 
     var viewModel: RailTicketDeliveryEntryViewModel by notNullAndObservable { vm ->
         vm.deliveryByMailSupported.subscribe { supported ->
@@ -46,6 +48,7 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Scr
                 mailDeliveryContainer.viewModel.statusChanged.onNext(TicketDeliverySelectionStatus.UNSELECTED)
                 mailShippingAddressContainer.visibility = View.GONE
             }
+            toolbarViewModel.formFilledIn.onNext(areEntryFormsFilled())
         }
 
         vm.ticketDeliveryByPostOptions.subscribe { options ->
@@ -55,15 +58,14 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Scr
             // Also remove filtering from RailTicketDeliveryEntryViewModel.ticketDeliveryByPostOptions
             location.ticketDeliveryCountryCodes = listOf("GB")
             location.tickerDeliveryOptions = options.map { SpinnerAdapterWithHint.SpinnerItem(it.ticketDeliveryDescription, it) }
-            mailDeliveryAddress.bind(location)
-            mailDeliveryAddress.setLineOfBusiness(LineOfBusiness.RAILS)
+            deliveryAddressEntry.mailDeliverySectionLocation.bind(location)
         }
 
         vm.ticketDeliveryMethodSelected.subscribe { selected ->
             if (selected == TicketDeliveryMethod.PICKUP_AT_STATION) {
                 vm.ticketDeliveryOption = TicketDeliveryOption(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE)
             } else {
-                val railLocation = mailDeliveryAddress.location as RailLocation
+                val railLocation = deliveryAddressEntry.getLocation()
                 val ticketDeliveryOptionToken = railLocation.ticketDeliveryOptionSelected!!.ticketDeliveryOptionToken
                 vm.ticketDeliveryOption = TicketDeliveryOption(ticketDeliveryOptionToken, railLocation)
             }
@@ -73,6 +75,7 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Scr
 
     init {
         View.inflate(context, R.layout.ticket_delivery_entry_widget, this)
+        toolbar.viewModel = toolbarViewModel
         stationContainer.viewModel = RailTicketDeliveryOptionViewModel(context)
         mailDeliveryContainer.viewModel = RailTicketDeliveryOptionViewModel(context)
 
@@ -84,25 +87,18 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Scr
             viewModel.ticketDeliveryObservable.onNext(TicketDeliveryMethod.DELIVER_BY_MAIL)
         }
 
-        doneClicked.subscribe {
+        toolbarViewModel.doneClicked.subscribe {
             if (isValid()) {
                 updateCompletionStatus()
                 closeSubject.onNext(Unit)
             }
         }
-    }
 
-    private fun toggleMailDelivery(alpha: Float, isEnabled: Boolean) {
-        mailDeliveryContainer.alpha = alpha
-        mailDeliveryContainer.isEnabled = isEnabled
-    }
-
-    fun isValid(): Boolean {
-        var valid = true
-        if (viewModel.ticketDeliveryObservable.value == TicketDeliveryMethod.DELIVER_BY_MAIL) {
-            valid =  mailDeliveryAddress.performValidation()
+        toolbarViewModel.nextClicked.subscribe {
+            deliveryAddressEntry.focusNext()
         }
-        return valid
+
+        deliveryAddressEntry.formsFilledInSubject.subscribe(toolbarViewModel.formFilledIn)
     }
 
     fun updateCompletionStatus() {
@@ -113,16 +109,31 @@ class RailTicketDeliveryEntryWidget(context: Context, attrs: AttributeSet) : Scr
         viewModel.ticketDeliveryObservable.onNext(status)
     }
 
-    fun isComplete(): Boolean {
-        // TODO form validation for delivery by mail
-        return true
-    }
-
     fun getTicketDeliveryOption(): TicketDeliveryOption {
         if (viewModel.ticketDeliveryOption == null) {
             return TicketDeliveryOption(RailCreateTripResponse.RailTicketDeliveryOptionToken.PICK_UP_AT_TICKETING_OFFICE_NONE)
         } else {
             return viewModel.ticketDeliveryOption!!
         }
+    }
+
+    private fun toggleMailDelivery(alpha: Float, isEnabled: Boolean) {
+        mailDeliveryContainer.alpha = alpha
+        mailDeliveryContainer.isEnabled = isEnabled
+    }
+
+    private fun isValid(): Boolean {
+        var valid = true
+        if (viewModel.ticketDeliveryObservable.value == TicketDeliveryMethod.DELIVER_BY_MAIL) {
+            valid =  deliveryAddressEntry.isValid()
+        }
+        return valid
+    }
+
+    private fun areEntryFormsFilled() : Boolean {
+        if (viewModel.ticketDeliveryObservable.value == TicketDeliveryMethod.DELIVER_BY_MAIL) {
+            return deliveryAddressEntry.areFormsFilledIn()
+        }
+        return true
     }
 }

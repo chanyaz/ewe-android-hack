@@ -7,36 +7,35 @@
     android:orientation="horizontal"
     tools:background="@color/white">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="75dp"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_departure_time"
-            style="@style/Core.Text.Large.Medium"
-            android:layout_gravity="center"
-            android:gravity="top"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
             tools:text="09:10" />
 
         <ImageView
             android:id="@+id/rail_timeline_icon"
-            android:layout_weight="3"
-            android:layout_gravity="center"
-            android:layout_width="20dp"
-            android:layout_height="20dp" />
-
-        <com.expedia.bookings.widget.TextView
-            android:layout_gravity="center"
-            android:id="@+id/rail_timeline_arrival_time"
-            style="@style/Core.Text.Large.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="bottom"/>
-    </LinearLayout>
+            android:layout_centerInParent="true"
+            tools:src="@drawable/rails_walk_icon" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/rail_timeline_arrival_time"
+            style="@style/Core.Text.XLarge.Medium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            tools:text="10:00" />
+    </RelativeLayout>
 
     <View
         android:layout_width="10dp"
@@ -52,7 +51,7 @@
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_departure_station"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="London Euston" />
@@ -60,24 +59,24 @@
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_operator"
             style="@style/Core.Text.Default"
-            android:gravity="bottom"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="bottom"
             tools:text="Virgin Trains" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_duration"
             style="@style/Core.Text.Default.LightColor"
-            android:gravity="top"
             android:layout_width="wrap_content"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:gravity="top"
             tools:text="2h 32m" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/rail_timeline_arrival_station"
-            style="@style/Core.Text.Large.Medium"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="Crewe" />

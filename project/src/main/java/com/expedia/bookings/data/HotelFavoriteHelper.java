@@ -1,16 +1,14 @@
 package com.expedia.bookings.data;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
-
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.preference.PreferenceManager;
-
 import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.hotels.Hotel;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 public class HotelFavoriteHelper {
 
@@ -27,9 +25,12 @@ public class HotelFavoriteHelper {
 		return favoritesList;
 	}
 
+	public static boolean isHotelFavorite(Context context, String hotelId, boolean isOkayToShowFavorites) {
+		return showHotelFavoriteTest(isOkayToShowFavorites) && getHotelFavorites(context).contains(hotelId);
+	}
+
 	public static boolean isHotelFavorite(Context context, String hotelId) {
-		Set<String> favs = getHotelFavorites(context);
-		return favs.contains(hotelId);
+		return isHotelFavorite(context, hotelId, true);
 	}
 
 	public static void toggleHotelFavoriteState(Context context, String hotelId) {
@@ -42,7 +43,8 @@ public class HotelFavoriteHelper {
 	}
 
 	public static boolean showHotelFavoriteTest(boolean isOkayToShowFavorites) {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelFavoriteTest) && isOkayToShowFavorites;
+		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelFavoriteTest)
+			&& isOkayToShowFavorites;
 	}
 
 	private static void saveHotelFavorites(SharedPreferences prefs, Set<String> set) {
@@ -81,7 +83,7 @@ public class HotelFavoriteHelper {
 	public static void setLocalFavorites(ArrayList<Hotel> list, Context context) {
 		Set<String> currentFavorites = getHotelFavorites(context);
 		localFavorites.clear();
-		for (Hotel hotel: list) {
+		for (Hotel hotel : list) {
 			if (currentFavorites.contains(hotel.hotelId)) {
 				localFavorites.add(hotel.hotelId);
 			}

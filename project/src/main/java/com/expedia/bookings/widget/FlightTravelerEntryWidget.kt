@@ -96,6 +96,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         Observable.combineLatest(vm.showEmailObservable, vm.showPhoneNumberObservable, { showEmail, showPhoneNumber ->
                     if (showEmail && showPhoneNumber) {
                         nameEntryView.lastName.nextFocusForwardId = R.id.edit_email_address
+                        emailEntryView.emailAddress.nextFocusForwardId = R.id.edit_phone_number
                     } else if (showEmail && !showPhoneNumber) {
                         nameEntryView.lastName.nextFocusForwardId = R.id.edit_email_address
                     } else if (!showEmail && showPhoneNumber) {

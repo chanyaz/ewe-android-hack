@@ -48,7 +48,6 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.HotelMapClusterAlgorithm
 import com.expedia.bookings.utils.HotelMapClusterRenderer
 import com.expedia.bookings.utils.MapItem
@@ -70,8 +69,9 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.HotelFilterViewModel
+import com.expedia.vm.AbstractHotelFilterViewModel
 import com.expedia.vm.hotel.HotelResultsMapViewModel
+import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
@@ -93,8 +93,7 @@ import kotlin.properties.Delegates
 abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), OnMapReadyCallback {
 
     //Views
-    val shouldShowHotelFilterProminenceTest = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-            AbacusUtils.EBAndroidAppHotelFilterProminence, R.string.preference_enable_hotel_filter_prominence)
+    val shouldShowHotelFilterProminenceTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelFilterProminence)
     var filterButtonText: TextView by Delegates.notNull()
 
     val recyclerView: HotelListRecyclerView by bindView(R.id.list_view)
@@ -113,9 +112,9 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     open val searchThisArea: Button? = null
     var isMapReady = false
 
-    var filterViewModel: HotelFilterViewModel
-
     var clusterManager: ClusterManager<MapItem> by Delegates.notNull()
+
+    abstract var viewmodel: HotelResultsViewModel
 
     private val PICASSO_TAG = "HOTEL_RESULTS_LIST"
     val DEFAULT_UI_ELEMENT_APPEAR_ANIM_DURATION = 200L
@@ -364,8 +363,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         adapter.hotelFavoriteChange.subscribe(hotelFavoriteChangeObserver)
 
         recyclerView.adapter = adapter
-        filterViewModel = HotelFilterViewModel(context, getLineOfBusiness())
-        filterView.viewmodel = filterViewModel
+        filterView.viewmodel = createFilterViewModel()
         filterView.viewmodel.filterObservable.subscribe(filterObserver)
         navIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN)
         toolbar.navigationIcon = navIcon
@@ -409,7 +407,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
         //createHotelMarkerIcon should run in a separate thread since its heavy and hangs on the UI thread
         hotels.forEach {
             hotel ->
-            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory)
+            val mapItem = MapItem(context, LatLng(hotel.latitude, hotel.longitude), hotel, hotelIconFactory, viewmodel.isFavoritingSupported)
             mapItems.add(mapItem)
             clusterManager.addItem(mapItem)
         }
@@ -1295,6 +1293,7 @@ abstract class BaseHotelResultsPresenter(context: Context, attrs: AttributeSet) 
     abstract fun doAreaSearch()
     abstract fun hideSearchThisArea()
     abstract fun showSearchThisArea()
+    abstract fun createFilterViewModel(): AbstractHotelFilterViewModel
     abstract fun trackSearchMap()
     abstract fun trackMapToList()
     abstract fun trackCarouselScroll()

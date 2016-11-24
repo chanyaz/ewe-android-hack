@@ -6,7 +6,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.HotelTracking
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.StrUtils
 import rx.subjects.BehaviorSubject
@@ -69,7 +69,7 @@ abstract class BaseTravelerPickerViewModel(var context: Context) {
             }
 
             LineOfBusiness.RAILS -> {
-                OmnitureTracking.trackRailSearchTravelerPickerChooser(actionLabel)
+                RailTracking().trackRailSearchTravelerPickerChooser(actionLabel)
             }
 
             else -> { // required to satisfy kotlin codestyle check

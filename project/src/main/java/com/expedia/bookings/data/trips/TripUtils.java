@@ -45,6 +45,9 @@ public class TripUtils {
 				case PACKAGE:
 					clz = TripPackage.class;
 					break;
+				case RAILS:
+					clz = TripRails.class;
+					break;
 				default:
 					clz = TripComponent.class;
 					break;

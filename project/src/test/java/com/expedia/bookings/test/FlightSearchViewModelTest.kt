@@ -216,6 +216,15 @@ class FlightSearchViewModelTest {
     }
 
     @Test
+    fun testStartDate() {
+        givenMockServer()
+        givenDefaultTravelerComponent()
+        createSystemUnderTest()
+
+        assertEquals(LocalDate.now() ,sut.getStartDate(), "Start Date is Today")
+    }
+
+    @Test
     fun testClearDestinationLocation() {
         givenMockServer()
         givenDefaultTravelerComponent()

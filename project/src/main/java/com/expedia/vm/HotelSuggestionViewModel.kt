@@ -1,8 +1,8 @@
 package com.expedia.vm
 
-import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.text.HtmlCompat
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -20,7 +20,7 @@ class HotelSuggestionViewModel() {
     init {
         suggestionObserver.subscribe { suggestion ->
 
-            titleObservable.onNext(Html.fromHtml(suggestion.regionNames.displayName).toString())
+            titleObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
 
             isChildObservable.onNext(suggestion.hierarchyInfo?.isChild ?: false)
 

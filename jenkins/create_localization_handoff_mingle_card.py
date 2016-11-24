@@ -16,6 +16,7 @@ branchName = sys.argv[2]
 fileLocation = sys.argv[3]
 hipchatAccessToken = sys.argv[4]
 assignTo = sys.argv[5]
+tpmComments = sys.argv[6]
 
 if brandName == 'expedia':
     mingleProject = 'eb_ad_app'
@@ -28,8 +29,8 @@ else:
     cardProperties = {'Sprint Tree - Sprint':'(Current Sprint)', 'Theme':'Localizations', 'Status':'In analysis', 'Assigned':assignTo, 'OS':'Android', 'LOB':'MB'}
 
 cardName = 'LOC DROP - {handoff_date}'.format(handoff_date=handoffDate)
-cardDescription = 'Loc handoff<br><br>Brand : {brand_name}<br>Branch : {branch_name}<br>Date : {date}' \
-                  .format(brand_name=brandName, branch_name=branchName, date=handoffDate)
+cardDescription = 'Loc handoff<br><br>Brand : {brand_name}<br>Branch : {branch_name}<br>Date : {date}<br>Comments : {tpm_comments}' \
+                  .format(brand_name=brandName, branch_name=branchName, date=handoffDate, tpm_comments=tpmComments)
 
 cardType = 'Story'
 

@@ -19,6 +19,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:gravity="center"
         android:orientation="horizontal">
 
@@ -31,12 +33,12 @@
             android:src="@drawable/minus_button_selector" />
 
         <TextView
+            style="@style/Core.Text.XLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="@string/add_rail_card"
-            android:textColor="@color/search_screen_icon_color_v2" />
+            android:text="@string/add_rail_card"/>
 
         <ImageButton
             android:id="@+id/add_card"

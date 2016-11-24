@@ -46,14 +46,14 @@
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/times_view"
-                    style="@style/BundleOverviewWidgets.PrimaryText"
+                    style="@style/Core.Text.Large.Medium"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     tools:text="9:07 - 11:21" />
 
                 <com.expedia.bookings.widget.TextView
                     android:id="@+id/train_operator"
-                    style="@style/BundleOverviewWidgets.SecondaryText"
+                    style="@style/Core.Text.Default.LightColor"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp"
@@ -109,18 +109,18 @@
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/rail_card_name"
-                style="@style/BundleOverviewWidgets.SecondaryText"
+                style="@style/Core.Text.Default.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableLeft="@drawable/rail_card_icon"
                 android:drawablePadding="6dp"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:paddingTop="12dp"
                 android:visibility="gone"/>
 
             <com.expedia.bookings.widget.TextView
                 android:id="@+id/fare_description"
-                style="@style/BundleOverviewWidgets.SecondaryText"
+                style="@style/Core.Text.Default.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="12dp"

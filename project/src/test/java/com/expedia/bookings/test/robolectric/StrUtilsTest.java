@@ -18,6 +18,7 @@ import android.text.style.UnderlineSpan;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.FlightTrip;
+import com.expedia.bookings.data.GaiaSuggestion.LocalizedName;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
@@ -125,8 +126,8 @@ public class StrUtilsTest {
 		String termsText = getContext().getString(R.string.terms_and_conditions);
 
 		String loyaltyLegalText = getLoyaltyLegalText();
-
-		int brandNameStart = loyaltyLegalText.indexOf(brandRewardNameLink);
+		// brandname span is located in second occurrence of brandRewardNameLink
+		int brandNameStart = loyaltyLegalText.indexOf(brandRewardNameLink, loyaltyLegalText.indexOf(brandRewardNameLink) + 1);
 		int termStart = loyaltyLegalText.indexOf(termsText);
 		int brandNameEnd = brandNameStart + brandRewardNameLink.length();
 		int termEnd = termStart + termsText.length();
@@ -141,7 +142,6 @@ public class StrUtilsTest {
 		for (Object[] spans : spansList) {
 			assertEquals(spans[0].getClass(), LegalClickableSpan.class);
 			assertEquals(spans[1].getClass(), StyleSpan.class);
-			assertEquals(spans[2].getClass(), ForegroundColorSpan.class);
 		}
 	}
 
@@ -386,5 +386,21 @@ public class StrUtilsTest {
 
 		obtainedRedemptionLocations = StrUtils.getRedemptionLocationList(redemptionLocations);
 		assertEquals(obtainedRedemptionLocations, expectedRedemptionLocations);
+	}
+
+	@Test
+	public void getDisplayNameForGaiaNearbyTest() {
+		String expectedDisplayName;
+		//When airport name is null for eg: HOTELS LOB
+		LocalizedName suggestionName = new LocalizedName(1043, "San Francisco, CA (SFO-San Francisco Intl.)",
+			"San Francisco, CA, United States (SFO-San Francisco Intl.)", "San Francisco, CA", null);
+		assertEquals("San Francisco, CA",
+			StrUtils.getDisplayNameForGaiaNearby(suggestionName.getFriendlyName(), suggestionName.getAirportName()));
+
+		//When airport name is not null for eg: FLIGHTS LOB
+		suggestionName = new LocalizedName(1043, "Madrid",
+			"Madrid (XTI-Chamartin Train Station)", "Madrid, Spain", "XTI-Chamartin Train Station");
+		assertEquals("Madrid, Spain (XTI-Chamartin Train Station)",
+			StrUtils.getDisplayNameForGaiaNearby(suggestionName.getFriendlyName(), suggestionName.getAirportName()));
 	}
 }

@@ -1,0 +1,13 @@
+{
+  "errors": [
+    {
+      "errorCode": "UNKNOWN_ERROR",
+      "errorInfo": {
+        "summary": "An unknown or unexpected error occurred."
+      },
+      "diagnosticId": 0,
+      "diagnosticFullText": ""
+    }
+  ],
+  "activityId": "198d2c54-80b8-4fff-9515-9cbf665c1f22"
+}

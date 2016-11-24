@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,8 +18,8 @@ import android.widget.TextView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
-import com.expedia.bookings.activity.FlightPaymentOptionsActivity;
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity;
+import com.expedia.bookings.activity.FlightPaymentOptionsActivity;
 import com.expedia.bookings.activity.FlightTravelerInfoOptionsActivity;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.data.BillingInfo;
@@ -43,6 +42,7 @@ import com.expedia.bookings.section.SectionLocation;
 import com.expedia.bookings.section.SectionStoredCreditCard;
 import com.expedia.bookings.section.SectionTravelerInfo;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
@@ -528,7 +528,7 @@ public class FlightCheckoutFragment extends Fragment implements AccountButtonCli
 		if (hasValidCard && cardFee != null && !cardFee.isZero()) {
 			setPaymentContainerBg(R.drawable.bg_lcc_checkout_information_bottom_tab, false);
 
-			mCardFeeTextView.setText(Html.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
+			mCardFeeTextView.setText(HtmlCompat.fromHtml(getString(R.string.airline_card_fee_TEMPLATE,
 				cardFee.getFormattedMoney())));
 			mCardFeeTextView.setVisibility(View.VISIBLE);
 			mLccTriangle.setVisibility(View.VISIBLE);

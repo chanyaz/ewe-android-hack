@@ -7,6 +7,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -51,8 +52,8 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
             lobs.add(LobInfo.TRANSPORT)
         }
 
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_rail)) {
-            // if we have odd lob then we should add Packages in the end other 3 index
+        if (pos.supports(LineOfBusiness.RAILS) && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+                AbacusUtils.EBAndroidAppRailLineOfBusinessEnabledTest, R.string.preference_enable_rail)) {
             lobs.add(LobInfo.RAILS)
         }
 

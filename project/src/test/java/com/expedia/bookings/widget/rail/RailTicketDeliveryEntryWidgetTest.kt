@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
+import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption
 import com.expedia.bookings.section.RailDeliverySpinnerWithValidationIndicator
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TicketDeliverySelectionStatus
@@ -19,7 +20,6 @@ import rx.observers.TestSubscriber
 import java.util.ArrayList
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 
 @RunWith(RobolectricRunner::class)
 class RailTicketDeliveryEntryWidgetTest {
@@ -54,7 +54,7 @@ class RailTicketDeliveryEntryWidgetTest {
         assertEquals(TicketDeliverySelectionStatus.UNSELECTED, testMailDeliveryContainerSelectionSubscriber.onNextEvents[0])
         assertEquals(View.GONE, widget.mailShippingAddressContainer.visibility)
 
-        widget.doneClicked.onNext(Unit)
+        widget.toolbarViewModel.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(1)
     }
 
@@ -78,8 +78,8 @@ class RailTicketDeliveryEntryWidgetTest {
         testMailDeliveryContainerSelectionSubscriber.assertValueCount(2)
         assertEquals(TicketDeliverySelectionStatus.SELECTED, testMailDeliveryContainerSelectionSubscriber.onNextEvents[1])
 
-        var ticketDeliveryOptionsAll = ArrayList<RailCreateTripResponse.RailTicketDeliveryOption>()
-        val option1 = RailCreateTripResponse.RailTicketDeliveryOption()
+        var ticketDeliveryOptionsAll = ArrayList<RailTicketDeliveryOption>()
+        val option1 = RailTicketDeliveryOption()
         option1.ticketDeliveryCountryCodeList = listOf("GB")
         option1.ticketDeliveryDescription = "Delivery by post"
         option1.ticketDeliveryOptionToken = RailCreateTripResponse.RailTicketDeliveryOptionToken.SEND_BY_EXPRESS_POST_UK
@@ -87,36 +87,36 @@ class RailTicketDeliveryEntryWidgetTest {
 
         viewModel.ticketDeliveryOptions.onNext(ticketDeliveryOptionsAll)
 
-        widget.doneClicked.onNext(Unit)
+        widget.toolbarViewModel.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(0)
 
-        val deliveryOptionView = widget.mailDeliveryAddress.findViewById(R.id.edit_delivery_option_spinner) as RailDeliverySpinnerWithValidationIndicator
-        val addressLineOne = widget.mailDeliveryAddress.findViewById(R.id.edit_address_line_one) as TextView
-        val city = widget.mailDeliveryAddress.findViewById(R.id.edit_address_city) as TextView
-        val postalCode = widget.mailDeliveryAddress.findViewById(R.id.edit_address_postal_code) as TextView
+        val deliveryOptionView = widget.deliveryAddressEntry.findViewById(R.id.edit_delivery_option_spinner) as RailDeliverySpinnerWithValidationIndicator
+        val addressLineOne = widget.deliveryAddressEntry.findViewById(R.id.edit_address_line_one) as TextView
+        val city = widget.deliveryAddressEntry.findViewById(R.id.edit_address_city) as TextView
+        val postalCode = widget.deliveryAddressEntry.findViewById(R.id.edit_address_postal_code) as TextView
 
         // Required field in mailing address not filled
-        widget.doneClicked.onNext(Unit)
+        widget.toolbarViewModel.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(0)
 
         // Only delivery option selected
         deliveryOptionView.spinner.setSelection(0)
-        widget.doneClicked.onNext(Unit)
+        widget.toolbarViewModel.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(0)
 
         // Address line one filled.
         addressLineOne.text = "Address One"
-        widget.doneClicked.onNext(Unit)
+        widget.toolbarViewModel.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(0)
 
         // City filled
         city.text = "City"
-        widget.doneClicked.onNext(Unit)
+        widget.toolbarViewModel.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(0)
 
         // All required fields are filled
         postalCode.text = "Postal Code"
-        widget.doneClicked.onNext(Unit)
+        widget.toolbarViewModel.doneClicked.onNext(Unit)
         testCloseSubscriber.assertValueCount(1)
     }
 }

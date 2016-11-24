@@ -12,7 +12,6 @@ import org.robolectric.annotation.Config;
 
 import android.app.Application;
 import android.content.Context;
-import android.text.Html;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
@@ -33,6 +32,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.testrule.ServicesRule;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.vm.hotel.HotelViewModel;
@@ -79,7 +79,7 @@ public class HotelViewModelTest {
 
 		assertTrue(vm.getHotelStrikeThroughPriceVisibility().getValue());
 		assertEquals("$12", vm.getHotelStrikeThroughPriceFormatted().getValue().toString());
-		assertEquals("Test Hotel with 2 stars of 5 rating. 0.0 of 5 guest rating.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
+		assertEquals("Test Hotel with 2 stars of 5 rating.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
 	}
 
 	@Test
@@ -95,6 +95,38 @@ public class HotelViewModelTest {
 
 		assertTrue(vm.getShowDiscountObservable().getValue());
 		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020Original price discounted 10%.\\u0020Regularly $12, now $10.\\u0020Button", vm.getHotelContentDesc().toString());
+	}
+
+	@Test
+	public void contentDescriptionWithZeroStarRating() {
+		hotel.hotelStarRating = 0;
+		hotel.hotelGuestRating = 3;
+		setupSystemUnderTest();
+		assertEquals("Test Hotel with 3.0 of 5 guest rating.\\u0020", vm.getRatingContentDesc());
+	}
+
+	@Test
+	public void contentDescriptionWithZeroGuestRating() {
+		hotel.hotelStarRating = 4;
+		hotel.hotelGuestRating = 0;
+		setupSystemUnderTest();
+		assertEquals("Test Hotel with 4 stars of 5 rating.\\u0020", vm.getRatingContentDesc());
+	}
+
+	@Test
+	public void contentDescriptionWithZeroStarRatingAndZeroGuestRating() {
+		hotel.hotelStarRating = 0;
+		hotel.hotelGuestRating = 0;
+		setupSystemUnderTest();
+		assertEquals("Test Hotel.\\u0020", vm.getRatingContentDesc());
+	}
+
+	@Test
+	public void contentDescriptionWithNonZeroRatings() {
+		hotel.hotelStarRating = 4;
+		hotel.hotelGuestRating = 3;
+		setupSystemUnderTest();
+		assertEquals("Test Hotel with 4 stars of 5 rating. 3.0 of 5 guest rating.\\u0020", vm.getRatingContentDesc());
 	}
 
 	@Test
@@ -294,7 +326,7 @@ public class HotelViewModelTest {
 		setupSystemUnderTest();
 
 		assertTrue(vm.getLoyaltyAvailabilityObservable().getValue());
-		assertEquals(Html.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)),
+		assertEquals(HtmlCompat.fromHtml(RuntimeEnvironment.application.getString(R.string.vip_loyalty_applied_map_message)),
 			vm.getMapLoyaltyMessageTextObservable().getValue());
 	}
 

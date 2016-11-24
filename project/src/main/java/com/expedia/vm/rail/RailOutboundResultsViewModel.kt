@@ -9,11 +9,9 @@ import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailsApiStatusCodes
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.RailServices
-import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.RetrofitUtils
-import com.expedia.util.endlessObserver
 import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -22,9 +20,11 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
     val errorObservable = PublishSubject.create<ApiError>()
     val retryObservable = PublishSubject.create<Unit>()
 
-    val showChildrenWarningObservable = railResultsObservable.map {response ->
+    val showChildrenWarningObservable = railResultsObservable.map { response ->
         response.hasChildrenAreFreeWarning()
     }
+
+    val legalBannerMessageObservable = paramsSubject.map { params -> getLegalBannerMessage(params.isRoundTripSearch()) }
 
     init {
         directionHeaderSubject.onNext(context.getString(R.string.select_outbound))
@@ -34,6 +34,22 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
         retryObservable.withLatestFrom(paramsSubject, { retry, params ->
             doSearch(params)
         }).subscribe()
+
+        railResultsObservable.map { response ->
+            val leg = response.outboundLeg!!
+            Pair(leg.legOptionList, leg.cheapestInboundPrice)
+        }.subscribe(legOptionsAndCheapestPriceSubject)
+
+        railResultsObservable.withLatestFrom(paramsSubject, { railSearchResponse, searchRequest ->
+            val outboundLeg = railSearchResponse.outboundLeg
+            if (outboundLeg!!.legOptionList.size > 0) {
+                if (searchRequest.isRoundTripSearch()) {
+                    RailTracking().trackRailRoundTripOutbound(outboundLeg, searchRequest)
+                } else {
+                    RailTracking().trackRailOneWaySearch(outboundLeg, searchRequest)
+                }
+            }
+        }).subscribe()
     }
 
     private fun doSearch(params: RailSearchRequest) {
@@ -42,12 +58,12 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
                 if (response.hasError()) {
                     if (response.responseStatus.statusCategory == RailsApiStatusCodes.STATUS_CATEGORY_NO_PRODUCT) {
                         errorObservable.onNext(ApiError(ApiError.Code.RAIL_SEARCH_NO_RESULTS))
-                    }
-                    else {
+                    } else {
                         errorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                     }
+                } else {
+                    railResultsObservable.onNext(response)
                 }
-                railResultsObservable.onNext(response)
             }
 
             override fun onCompleted() {
@@ -66,5 +82,9 @@ class RailOutboundResultsViewModel(val context: Context, val railServices: RailS
                 }
             }
         })
+    }
+
+    private fun getLegalBannerMessage(isRoundTrip: Boolean): String {
+        return if (isRoundTrip) context.getString(R.string.rail_search_legal_banner_round_trip) else context.getString(R.string.rail_search_legal_banner_one_way)
     }
 }

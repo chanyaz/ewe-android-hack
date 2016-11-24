@@ -46,9 +46,9 @@
             "hasNoBagFee": false,
             "isInternational": false,
             "legIds": [
-                "leg8"
+                "leg6"
             ],
-            "numberOfTickets": 2,
+            "numberOfTickets": 1,
             "pricePerPassengerCategory": [
                 {
                     "basePrice": {
@@ -69,25 +69,25 @@
                     }
                 },
                 {
-                    "basePrice": {
-                        "amount": "520.46",
-                        "formattedPrice": "$520.46",
-                        "formattedWholePrice": "$520"
-                    },
-                    "passengerCategory": "INFANT_IN_SEAT",
-                    "taxesPrice": {
-                        "amount": "68.54",
-                        "formattedPrice": "$68.54",
-                        "formattedWholePrice": "$69"
-                    },
+                    "passengerCategory": "INFANT_IN_LAP",
                     "totalPrice": {
-                        "amount": "589.00",
-                        "formattedPrice": "$589.00",
-                        "formattedWholePrice": "$589"
+                        "amount": "0.00",
+                        "formattedPrice": "$0.00",
+                        "formattedWholePrice": "$0"
+                    },
+                    "basePrice": {
+                        "amount": "0.00",
+                        "formattedPrice": "$0.00",
+                        "formattedWholePrice": "$0"
+                    },
+                      "taxesPrice": {
+                        "amount": "0.00",
+                        "formattedPrice": "$0.00",
+                        "formattedWholePrice": "$0"
                     }
                 }
             ],
-            "productKey": "oneway_infant_in_seat",
+            "productKey": "oneway_infant_in_lap",
             "seatsRemaining": 1,
             "segmentAttributes": [
                 [
@@ -117,17 +117,17 @@
                 "formattedWholePrice": "$596"
             }
         },
-        "productKey": "oneway_infant_in_seat"
+        "productKey": "oneway_infant_in_lap"
     },
     "isCustomerTitleRequired": false,
     "newTrip": {
-        "itineraryNumber": "oneway_infant_in_seat",
+        "itineraryNumber": "itin_oneway_infant_in_lap",
         "travelRecordLocator": "742449564",
-        "tripId": "oneway_infant_in_seat"
+        "tripId": "oneway_infant_in_lap"
     },
     "passengerCategories": [
         "ADULT",
-        "INFANT_IN_SEAT"
+        "INFANT_IN_LAP"
     ],
     "rewardsPoints": "",
     "rules": {

@@ -69,4 +69,11 @@
         android:background="@color/rail_background_color"
         android:visibility="gone"/>
 
+    <ViewStub
+        android:id="@+id/search_legal_info_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/rail_search_legal_info"
+        android:layout="@layout/rail_search_legal_info_stub" />
+
 </merge>

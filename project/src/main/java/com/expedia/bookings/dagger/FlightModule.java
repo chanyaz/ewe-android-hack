@@ -29,9 +29,12 @@ public final class FlightModule {
 
 	@Provides
 	@FlightScope
-	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
-		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionV4Services(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
+	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
+		Interceptor interceptor) {
+		final String essEndpoint = endpointProvider.getEssEndpointUrl();
+		final String gaiaEndpoint = endpointProvider.getGaiaEndpointUrl();
+		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client, interceptor, AndroidSchedulers.mainThread(),
+			Schedulers.io());
 	}
 
 	@Provides

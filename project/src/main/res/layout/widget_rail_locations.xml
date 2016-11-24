@@ -24,6 +24,12 @@
             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
             app:input_text="@string/from_hint" />
 
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="40dp"
+            android:background="@color/rail_divider_bar_color" />
+
         <com.expedia.bookings.widget.shared.SearchInputTextView
             android:id="@+id/destination_card"
             style="@style/MaterialCardTextView"
@@ -37,12 +43,11 @@
 
     <ImageView
         android:id="@+id/swapLocationsButton"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="12dp"
         android:background="?attr/selectableItemBackground"
         android:padding="13dp"
-        android:src="@drawable/ic_swap"
-        android:tint="@color/gray7" />
+        android:src="@drawable/ic_search_swap"/>
 </LinearLayout>

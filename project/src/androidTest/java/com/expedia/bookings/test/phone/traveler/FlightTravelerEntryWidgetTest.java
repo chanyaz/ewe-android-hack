@@ -5,6 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
@@ -12,6 +13,7 @@ import android.support.test.runner.AndroidJUnit4;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
+import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
@@ -19,21 +21,29 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTravelerEntryWidget;
 import com.expedia.vm.traveler.FlightTravelerViewModel;
 
+import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.doesNotExist;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
+import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withSpinnerText;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.CustomMatchers.withCompoundDrawable;
+import static org.hamcrest.CoreMatchers.anything;
+import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.core.AllOf.allOf;
+import static org.hamcrest.core.Is.is;
 
 @RunWith(AndroidJUnit4.class)
 public class FlightTravelerEntryWidgetTest {
 	private FlightTravelerEntryWidget entryWidget;
 	private FlightTravelerViewModel testVM;
 
-	protected final String testEmptyPassport = "Passport:";
+	protected final String testEmptyPassport = "Passport: Country";
+	private Context context = InstrumentationRegistry.getTargetContext();
 
 	@Rule
 	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
@@ -45,13 +55,13 @@ public class FlightTravelerEntryWidgetTest {
 	@Before
 	public void setUp() {
 		entryWidget = (FlightTravelerEntryWidget) activityTestRule.getRoot();
-		Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent();
+		Ui.getApplication(context).defaultTravelerComponent();
 	}
 
 	@Test
 	public void testPassportCountryIsShowing() throws Throwable {
 		Db.getTravelers().add(new Traveler());
-		testVM = new FlightTravelerViewModel(InstrumentationRegistry.getTargetContext(), 0, true);
+		testVM = new FlightTravelerViewModel(context, 0, true);
 		setViewModel(testVM);
 
 		PackageScreen.clickTravelerAdvanced();
@@ -64,7 +74,7 @@ public class FlightTravelerEntryWidgetTest {
 	@Test
 	public void testFocusValidation() throws Throwable {
 		Db.getTravelers().add(new Traveler());
-		testVM = new FlightTravelerViewModel(InstrumentationRegistry.getTargetContext(), 0, true);
+		testVM = new FlightTravelerViewModel(context, 0, true);
 		setViewModel(testVM);
 
 		onView(withId(R.id.first_name_input)).perform(click());
@@ -81,12 +91,28 @@ public class FlightTravelerEntryWidgetTest {
 	@Test
 	public void testPassportCountryIsNotShowing() throws Throwable {
 		Db.getTravelers().add(new Traveler());
-		testVM = new FlightTravelerViewModel(InstrumentationRegistry.getTargetContext(), 0, false);
+		testVM = new FlightTravelerViewModel(context, 0, false);
 		setViewModel(testVM);
 
 		PackageScreen.clickTravelerAdvanced();
 		EspressoUtils.assertViewIsDisplayed(R.id.redress_number);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.passport_country_spinner);
+	}
+
+	@Test
+	public void testPointOfSaleCountryAtTopOfPassportListBelowPlaceholder() throws Throwable {
+		String pointOfSaleCountry = context.getString(PointOfSale.getPointOfSale().getCountryNameResId());
+		String testPointOfSalePassport = "Passport: " + pointOfSaleCountry;
+
+		Db.getTravelers().add(new Traveler());
+		testVM = new FlightTravelerViewModel(context, 0, true);
+		setViewModel(testVM);
+
+		onView(withId(R.id.passport_country_spinner)).check(matches(allOf(hasDescendant(withText(testEmptyPassport)), isDisplayed())));
+		onView(withId(R.id.passport_country_spinner)).perform(click());
+		onData(allOf(is(instanceOf(String.class)), is(pointOfSaleCountry))).atPosition(1).check(matches(isDisplayed()));
+		onData(anything()).atPosition(1).perform(click());
+		onView(withId(R.id.passport_country_spinner)).check(matches(hasDescendant(withText(testPointOfSalePassport))));
 	}
 
 	private void setViewModel(final FlightTravelerViewModel viewModel) throws Throwable {

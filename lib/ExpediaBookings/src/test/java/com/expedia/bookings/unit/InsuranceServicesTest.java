@@ -76,7 +76,7 @@ public class InsuranceServicesTest {
 
 		// add insurance to the trip and verify it comes back selected
 		TestSubscriber<FlightCreateTripResponse> addInsuranceObserver = new TestSubscriber<>();
-		insuranceServices.addInsuranceToTrip(new InsuranceTripParams(trip.newTrip.getTripId(), product.productId))
+		insuranceServices.addInsuranceToTrip(new InsuranceTripParams(trip.getNewTrip().getTripId(), product.productId))
 			.subscribe(addInsuranceObserver);
 		addInsuranceObserver.awaitTerminalEvent();
 		addInsuranceObserver.assertNoErrors();
@@ -85,7 +85,7 @@ public class InsuranceServicesTest {
 
 		// remove insurance from the trip and verify it comes back blank
 		TestSubscriber<FlightCreateTripResponse> removeInsuranceObserver = new TestSubscriber<>();
-		insuranceServices.removeInsuranceFromTrip(new InsuranceTripParams(trip.newTrip.getTripId())).subscribe(
+		insuranceServices.removeInsuranceFromTrip(new InsuranceTripParams(trip.getNewTrip().getTripId())).subscribe(
 			removeInsuranceObserver);
 		removeInsuranceObserver.awaitTerminalEvent();
 		removeInsuranceObserver.assertNoErrors();

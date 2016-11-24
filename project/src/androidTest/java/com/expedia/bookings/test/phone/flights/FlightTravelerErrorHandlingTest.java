@@ -11,8 +11,9 @@ import com.expedia.bookings.test.phone.pagemodels.common.CVVEntryScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CardInfoScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonCheckoutScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CommonTravelerInformationScreen;
-import com.expedia.bookings.test.phone.pagemodels.common.ConfirmationScreen;
+
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightLegScreen;
+
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchResultsScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen;
 import com.expedia.bookings.test.phone.pagemodels.flights.FlightsTravelerInfoScreen;
@@ -38,7 +39,7 @@ public class FlightTravelerErrorHandlingTest extends FlightTestCase {
 		FlightsSearchScreen.clickPassengerSelectionButton();
 		FlightsSearchScreen.incrementChildrenButton();
 		FlightsSearchScreen.clickSearchButton();
-		FlightsSearchResultsScreen.clickListItem(3);
+		FlightsSearchResultsScreen.clickListItem(10);
 		FlightLegScreen.clickSelectFlightButton();
 		CommonCheckoutScreen.clickCheckoutButton();
 
@@ -112,7 +113,7 @@ public class FlightTravelerErrorHandlingTest extends FlightTestCase {
 		FlightsTravelerPicker.selectChildAge(getActivity(), 1, 0);
 
 		FlightsSearchScreen.clickSearchButton();
-		FlightsSearchResultsScreen.clickListItem(4);
+		FlightsSearchResultsScreen.clickListItem(8);
 		FlightLegScreen.clickSelectFlightButton();
 		CommonCheckoutScreen.clickCheckoutButton();
 
@@ -213,8 +214,6 @@ public class FlightTravelerErrorHandlingTest extends FlightTestCase {
 
 		CommonCheckoutScreen.slideToCheckout();
 		CVVEntryScreen.enterCVV("111");
-		CVVEntryScreen.clickBookButton();
-		ConfirmationScreen.clickDoneButton();
 	}
 
 	private void closeDialog() {

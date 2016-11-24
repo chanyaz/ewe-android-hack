@@ -7,8 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
@@ -17,24 +18,25 @@ import com.expedia.bookings.widget.TextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.mobiata.flightlib.utils.DateTimeUtils
+import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
-import kotlin.properties.Delegates
 
-class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSubject<RailLegOption>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSubject<RailLegOption>, val inbound: Boolean) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
-    val legSubject = BehaviorSubject.create<RailSearchResponse.RailLeg>()
+    val legOptionsAndCompareToPriceSubject = BehaviorSubject.create<Pair<List<RailLegOption>, Money?>>()
+    val outboundOfferSubject = BehaviorSubject.create<RailOffer?>()
+
     val directionHeaderSubject = BehaviorSubject.create<CharSequence>()
     val priceHeaderSubject = BehaviorSubject.create<CharSequence>()
     private val numHeaderItemsInRailsList = 1
     private val NUMBER_LOADING_TILES = 5
-
-    private lateinit var railLeg: RailSearchResponse.RailLeg
-    private var legs: List<RailLegOption> = emptyList()
+    private var legOptions: List<RailLegOption> = emptyList()
+    private var cheapestCompareToPrice: Money? = null
+    private var selectedOutboundOffer: RailOffer? = null
 
     enum class ViewTypes {
         RESULTS_HEADER_VIEW,
@@ -43,12 +45,14 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
     }
 
     init {
-        legSubject.subscribe { leg ->
+        Observable.combineLatest(legOptionsAndCompareToPriceSubject, outboundOfferSubject, { pair, offer ->
             loading = false
-            railLeg = leg
-            legs = railLeg.legOptionList
+            legOptions = pair.first
+            cheapestCompareToPrice = pair.second
+            selectedOutboundOffer = offer
             notifyDataSetChanged()
-        }
+        }).subscribe()
+
         loadingSubject.subscribe {
             loading = true
         }
@@ -65,16 +69,16 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
         for (tileCount in 0..NUMBER_LOADING_TILES) {
             mockLegOptions.add(RailLegOption())
         }
-        this.legs = mockLegOptions
+        this.legOptions = mockLegOptions
     }
 
     override fun getItemCount(): Int {
-        return legs.size + numHeaderItemsInRailsList
+        return legOptions.size + numHeaderItemsInRailsList
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is RailViewHolder -> holder.bind(legs[position - numHeaderItemsInRailsList])
+            is RailViewHolder -> holder.bind(legOptions[position - numHeaderItemsInRailsList])
             is LoadingViewHolder -> holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, position % 2 == 0))
         }
     }
@@ -140,16 +144,17 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
 
         init {
             itemView.setOnClickListener(this)
-            viewModel = RailLegOptionViewModel(root.context)
+            viewModel = RailLegOptionViewModel(root.context, inbound)
         }
 
-        fun bind(leg: RailLegOption) {
-            viewModel.legOptionObservable.onNext(leg)
-            viewModel.legObservable.onNext(railLeg)
+        fun bind(legOption: RailLegOption) {
+            viewModel.legOptionObservable.onNext(legOption)
+            viewModel.cheapestLegPriceObservable.onNext(cheapestCompareToPrice)
+            viewModel.offerSubject.onNext(selectedOutboundOffer)
         }
 
         override fun onClick(v: View?) {
-            legSelectedSubject.onNext(legs[adapterPosition - numHeaderItemsInRailsList])
+            legSelectedSubject.onNext(legOptions[adapterPosition - numHeaderItemsInRailsList])
         }
     }
 }

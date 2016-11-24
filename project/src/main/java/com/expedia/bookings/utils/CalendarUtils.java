@@ -4,11 +4,11 @@ import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
 import android.content.Context;
-import android.text.Html;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.text.format.Time;
 import com.mobiata.android.widget.CalendarDatePicker;
 
@@ -28,9 +28,6 @@ public class CalendarUtils {
 	/**
 	 * Configures the calendar date picker for the specified
 	 * line of business and mode
-	 *
-	 * @param calendarDatePicker
-	 * @param mode
 	 */
 	public static void configureCalendarDatePicker(CalendarDatePicker calendarDatePicker,
 		CalendarDatePicker.SelectionMode mode, LineOfBusiness business) {
@@ -100,7 +97,7 @@ public class CalendarUtils {
 		}
 
 		if (picker.getStartTime() == null) {
-			searchParams.setCheckInDate((LocalDate) null);
+			searchParams.setCheckInDate(null);
 		}
 		else {
 			LocalDate startDate = new LocalDate(picker.getStartYear(), picker.getStartMonth() + 1,
@@ -108,7 +105,7 @@ public class CalendarUtils {
 			searchParams.setCheckInDate(startDate);
 		}
 		if (picker.getEndTime() == null) {
-			searchParams.setCheckOutDate((LocalDate) null);
+			searchParams.setCheckOutDate(null);
 		}
 		else {
 			LocalDate endDate = new LocalDate(picker.getEndYear(), picker.getEndMonth() + 1, picker.getEndDayOfMonth());
@@ -134,7 +131,7 @@ public class CalendarUtils {
 			return context.getResources().getString(R.string.calendar_instructions_hotels_no_dates_selected);
 		}
 		else if (nights <= 1) {
-			return Html.fromHtml(context.getString(R.string.drag_to_extend_your_stay));
+			return HtmlCompat.fromHtml(context.getString(R.string.drag_to_extend_your_stay));
 		}
 		else {
 			return context.getResources().getQuantityString(R.plurals.length_of_stay, nights, nights);

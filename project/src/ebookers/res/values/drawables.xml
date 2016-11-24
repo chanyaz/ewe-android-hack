@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <item name="border_horizontal_striped_drawable" type="drawable">@drawable/bg_breakdown_candycane</item>
-    <item name="brand_tablet_checkout_login_logo_drawable" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
     <item name="brand_phone_checkout_logo_drawable" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
     <item name="ic_traveller_logo" type="drawable">@drawable/brand_phone_cko_logo_drawable</item>
     <item name="ic_logo" type="drawable">@drawable/ic_logo_small</item>

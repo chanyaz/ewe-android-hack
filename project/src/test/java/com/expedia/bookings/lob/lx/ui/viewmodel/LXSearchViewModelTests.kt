@@ -102,6 +102,11 @@ class LXSearchViewModelTests {
         assertEquals(DateUtils.localDateToMMMd(startDate),vm.computeDateInstructionText(startDate, null))
     }
 
+    @Test
+    fun testStartDate() {
+        assertEquals(LocalDate.now(), vm.getStartDate(), "Start Date is Today")
+    }
+
     private fun getDummySuggestion(): SuggestionV4 {
         val suggestion = SuggestionV4()
         suggestion.gaiaId = ""

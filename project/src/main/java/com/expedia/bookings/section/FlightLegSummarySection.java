@@ -336,8 +336,10 @@ public class FlightLegSummarySection extends RelativeLayout {
 		Flight firstFlight = leg.getSegment(0);
 
 		int belowTarget;
+		FlightCode primaryFlightCode = firstFlight.getPrimaryFlightCode();
 		FlightCode opFlightCode = firstFlight.getOperatingFlightCode();
-		if (isIndividualFlight && !firstFlight.getPrimaryFlightCode().equals(opFlightCode)) {
+		boolean hasDifferentOperatingCarrierCode = (primaryFlightCode != null) && !primaryFlightCode.equals(opFlightCode);
+		if (isIndividualFlight && hasDifferentOperatingCarrierCode) {
 			String operatedBy;
 			if (!TextUtils.isEmpty(opFlightCode.mAirlineCode)) {
 				Airline airline = Db.getAirline(opFlightCode.mAirlineCode);

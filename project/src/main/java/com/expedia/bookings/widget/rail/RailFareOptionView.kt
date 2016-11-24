@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
@@ -35,5 +36,6 @@ class RailFareOptionView(context: Context) : LinearLayout(context) {
 
     init {
         View.inflate(context, R.layout.widget_rail_details_fare_option, this)
+        orientation = VERTICAL
     }
 }

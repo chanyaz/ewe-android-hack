@@ -184,7 +184,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             if (show) {
                 checkoutDialog.show()
             } else {
-                checkoutDialog.hide()
+                checkoutDialog.dismiss()
             }
         }
         vm.priceChangeObservable.subscribe {
@@ -235,10 +235,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             if (show) {
                 createTripDialog.show()
                 createTripDialog.setContentView(R.layout.process_dialog_layout)
-                AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.create_trip_dialog), 0)
-                createTripDialog.findViewById(R.id.create_trip_dialog).contentDescription = context.getString(R.string.spinner_text_hotel_create_trip)
+                AccessibilityUtil.delayedFocusToView(createTripDialog.findViewById(R.id.progress_dialog_container), 0)
+                createTripDialog.findViewById(R.id.progress_dialog_container).contentDescription = context.getString(R.string.spinner_text_create_trip)
+                announceForAccessibility(context.getString(R.string.spinner_text_create_trip))
             } else {
-                createTripDialog.hide()
+                createTripDialog.dismiss()
             }
         }
         setupCreateTripViewModel(vm)
@@ -266,12 +267,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     fun trackShowBundleOverview() {
         trackShowingCkoOverviewSubscription?.unsubscribe()
-        val createTripResponse = getCreateTripViewModel().tripResponseObservable.value
+        val createTripResponse = getCreateTripViewModel().createTripResponseObservable.value
         if (createTripResponse != null) {
             fireCheckoutOverviewTracking(createTripResponse)
         }
         else {
-            trackShowingCkoOverviewSubscription = getCreateTripViewModel().tripResponseObservable.safeSubscribe { tripResponse ->
+            trackShowingCkoOverviewSubscription = getCreateTripViewModel().createTripResponseObservable.safeSubscribe { tripResponse ->
                 // Un-subscribe:- as we only want to track the initial load of cko overview
                 trackShowingCkoOverviewSubscription?.unsubscribe()
                 fireCheckoutOverviewTracking(tripResponse!!)
@@ -285,8 +286,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         bundleTotalPriceViewModel = BundleTotalPriceViewModel(context)
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
-        getCreateTripViewModel().tripResponseObservable.safeSubscribe(getCheckoutViewModel().tripResponseObservable)
-        getCheckoutViewModel().cardFeeTripResponse.subscribe(getCreateTripViewModel().tripResponseObservable)
+        getCreateTripViewModel().createTripResponseObservable.safeSubscribe(getCheckoutViewModel().createTripResponseObservable)
+        getCheckoutViewModel().cardFeeTripResponse.safeSubscribe(getCreateTripViewModel().createTripResponseObservable)
     }
 
     private fun initLoggedInState(isUserLoggedIn: Boolean) {
@@ -520,10 +521,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     fun onLoginSuccess() {
-        animateInSlideToPurchase(true)
         updateDbTravelers()
         initLoggedInState(true)
         tripViewModel.performCreateTrip.onNext(Unit)
+        animateInSlideToPurchase(true)
     }
 
     fun animateInSlideToPurchase(visible: Boolean) {

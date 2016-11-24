@@ -1,20 +1,28 @@
 package com.expedia.bookings.test.utils.validation
 
+import android.content.Context
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.TravelerName
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.validation.TravelerValidator
 import org.joda.time.LocalDate
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.mockito.Mockito
+import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowUserManager::class, ShadowAccountManagerEB::class))
 class TravelerValidatorTest {
     val mainTravelerIndex = 0
     val addTravelerIndex = 1
@@ -27,6 +35,10 @@ class TravelerValidatorTest {
     val TOMORROW = LocalDate.now().plusDays(1)
 
     val travelerValidator = TravelerValidator()
+
+    private fun getContext(): Context {
+        return RuntimeEnvironment.application
+    }
 
     @Test
     fun testInvalidChar() {
@@ -201,7 +213,7 @@ class TravelerValidatorTest {
         Mockito.`when`(mockTraveler.name).thenReturn(TravelerName())
 
         travelerValidator.updateForNewSearch(packageSearchParams)
-        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false, User.isLoggedIn(getContext())))
     }
 
     @Test
@@ -213,7 +225,7 @@ class TravelerValidatorTest {
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
         travelerValidator.updateForNewSearch(packageSearchParams)
-        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false, User.isLoggedIn(getContext())))
     }
 
     @Test
@@ -225,7 +237,7 @@ class TravelerValidatorTest {
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
-        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false, User.isLoggedIn(getContext())))
     }
 
     @Test
@@ -234,7 +246,7 @@ class TravelerValidatorTest {
         travelerValidator.updateForNewSearch(packageSearchParams)
 
         val mockTraveler = givenTravelerOnlyMissingPassport()
-        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, true))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, true, User.isLoggedIn(getContext())))
     }
 
     @Test
@@ -245,7 +257,7 @@ class TravelerValidatorTest {
         val mockTraveler = givenTravelerOnlyMissingPassport()
         Mockito.`when`(mockTraveler.primaryPassportCountry).thenReturn("Mexico")
         
-        assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, true))
+        assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, true, User.isLoggedIn(getContext())))
     }
 
     @Test
@@ -256,13 +268,13 @@ class TravelerValidatorTest {
         val adultBirthDate = TOMORROW.minusYears(24)
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
-        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false, User.isLoggedIn(getContext())))
 
         Mockito.`when`(mockTraveler.email).thenReturn(TEST_EMAIL)
-        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
+        assertFalse(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false, User.isLoggedIn(getContext())))
 
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
-        assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false))
+        assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, mainTravelerIndex, false, User.isLoggedIn(getContext())))
     }
 
     @Test
@@ -274,7 +286,7 @@ class TravelerValidatorTest {
         val mockTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
         Mockito.`when`(mockTraveler.name).thenReturn(getValidName())
 
-        assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, addTravelerIndex, false))
+        assertTrue(travelerValidator.isValidForFlightBooking(mockTraveler, addTravelerIndex, false, User.isLoggedIn(getContext())))
     }
 
     @Test
@@ -321,6 +333,42 @@ class TravelerValidatorTest {
 
         Mockito.`when`(mockTraveler.phoneNumber).thenReturn(TEST_NUMBER)
         assertTrue(travelerValidator.isValidForRailBooking(mockTraveler))
+    }
+
+    @Test
+    fun testUserLoggedInMainTravelerValidation() {
+        val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
+        travelerValidator.updateForNewSearch(packageSearchParams)
+
+        val user = UserLoginTestUtil.mockUser()
+        val traveler = givenTravelerOnlyMissingPassport()
+        user.primaryTraveler = traveler
+        user.primaryTraveler.passengerCategory = PassengerCategory.ADULT
+
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
+        assertTrue(User.isLoggedIn(getContext()))
+
+        assertTrue(travelerValidator.isValidForFlightBooking(traveler, mainTravelerIndex, false, User.isLoggedIn(getContext())))
+    }
+
+    @Test
+    fun testUserLoggedInGuestValidation() {
+        val packageSearchParams = getInstanceOfPackageSearchParams(LocalDate.now(), TOMORROW)
+        travelerValidator.updateForNewSearch(packageSearchParams)
+
+        val adultBirthDate = TOMORROW.minusYears(24)
+        val guestTraveler = getMockAdultTravelerWithBirthDate(adultBirthDate)
+        Mockito.`when`(guestTraveler.name).thenReturn(getValidName())
+
+        val user = UserLoginTestUtil.mockUser()
+        val traveler = givenTravelerOnlyMissingPassport()
+        user.primaryTraveler = traveler
+        user.primaryTraveler.passengerCategory = PassengerCategory.ADULT
+
+        UserLoginTestUtil.Companion.setupUserAndMockLogin(user)
+        assertTrue(User.isLoggedIn(getContext()))
+
+        assertTrue(travelerValidator.isValidForFlightBooking(guestTraveler, addTravelerIndex, false, User.isLoggedIn(getContext())))
     }
 
     private fun getValidName(): TravelerName {

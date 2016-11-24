@@ -2,26 +2,20 @@ package com.expedia.vm.rail
 
 import android.content.Context
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.rail.responses.RailSearchResponse
+import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.utils.rail.RailUtils
 import com.expedia.bookings.widget.RailLegOptionViewModel
 import rx.Observable
-import rx.subjects.PublishSubject
 
-class RailOutboundHeaderViewModel(context: Context) : RailLegOptionViewModel(context) {
-    //input
-    val offerSubject = PublishSubject.create<RailSearchResponse.RailOffer>()
-    val cheapestLegPriceObservable = PublishSubject.create<Money?>()
-
+class RailOutboundHeaderViewModel(context: Context) : RailLegOptionViewModel(context, false) {
     //output
     val offerPriceObservable = Observable.combineLatest(offerSubject, cheapestLegPriceObservable,
-            {offer, cheapestPrice -> calculatePrice(offer, cheapestPrice) })
+            { offer, cheapestPrice -> calculatePrice(offer, cheapestPrice) })
 
-    private fun calculatePrice(offer: RailSearchResponse.RailOffer, cheapestPrice: Money?): String {
-        if (cheapestPrice != null) {
-            return RailUtils.addAndFormatMoney(offer.totalPrice, cheapestPrice)
-        } else {
+    private fun calculatePrice(offer: RailOffer, cheapestPrice: Money?): String {
+        if (cheapestPrice == null || offer.isOpenReturn) {
             return offer.totalPrice.formattedPrice
         }
+        return RailUtils.addAndFormatMoney(offer.totalPrice, cheapestPrice)
     }
 }

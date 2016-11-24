@@ -2,7 +2,7 @@
   "newTrip": {
     "itineraryNumber": "7195073302566",
     "travelRecordLocator": "1398292801",
-    "tripId": "${productKey}"
+    "tripId": "happy_one_way"
   },
   "passengerCategories": [
     "ADULT"
@@ -590,6 +590,6 @@
     "rewardsMembershipTierName": "Gold"
   },
   "activityId": "60c03816-6298-4e47-b08b-85ff8dad00b8",
-  "tealeafTransactionId": "tealeafFlight:${productKey}",
+  "tealeafTransactionId": "tealeafFlight:happy_one_way",
   "isSplitTicket": false
 }

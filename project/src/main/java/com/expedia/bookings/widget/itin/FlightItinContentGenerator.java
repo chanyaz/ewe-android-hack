@@ -15,10 +15,11 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.text.Html;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.view.View;
@@ -34,8 +35,10 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivity;
-import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -44,10 +47,10 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.section.FlightLegSummarySection;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
@@ -64,6 +67,8 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightMapImageView;
 import com.mobiata.android.Log;
+import com.mobiata.android.SocialUtils;
+import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
@@ -132,19 +137,18 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
-		final String code = getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode;
+	public List<? extends IMedia> getHeaderBitmapDrawable() {
+		List<String> urls = new ArrayList<>();
+		List<IMedia> mediaList =  new ArrayList<>();
 
-		final String url = new Akeakamai(Images.getFlightDestination(code))
-			.resizeExactly(width, height)
-			.build();
+		String code = getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode;
+		String url = new Akeakamai(Images.getFlightDestination(code)).build();
 
-		new PicassoHelper.Builder(getContext())
-			.setPlaceholder(getHeaderImagePlaceholderResId())
-			.setTarget(target.getCallBack())
-			.build()
-			.load(url);
+		urls.add(url);
+		mediaList.add(new DefaultMedia(urls, "", getHeaderImagePlaceholderResId()));
+
 		setSharableImageURL(url);
+		return mediaList;
 	}
 
 	@Override
@@ -296,9 +300,32 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 			//Add shared data
 			addSharedGuiElements(commonItinDataContainer);
+			addAirlineSupportNumber(commonItinDataContainer);
 		}
 
 		return view;
+	}
+
+	private boolean addAirlineSupportNumber(ViewGroup container) {
+		String airlineCode = getItinCardData().getFlightLeg().getSegment(0).getPrimaryFlightCode().mAirlineCode;
+		Airline airline = Db.getAirline(airlineCode);
+
+		boolean haveAirlinePhoneNumber = airline != null && airline.mAirlinePhone != null;
+		if (haveAirlinePhoneNumber) {
+			final String mAirlinePhone = airline.mAirlinePhone;
+			int labelResId = R.string.flight_itin_airline_support_number_label;
+			View view = getItinDetailItem(labelResId, mAirlinePhone, false,
+				new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						SocialUtils.call(getContext(), mAirlinePhone);
+					}
+				});
+			container.addView(view, 1);
+			return true;
+		}
+
+		return false;
 	}
 
 	private static class SummaryViewHolder {
@@ -434,7 +461,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 						| DateUtils.FORMAT_SHOW_YEAR);
 				vh.mTopLine.setText(res.getString(R.string.flight_departs_on_TEMPLATE, dateStr));
 				vh.mBulb.setImageResource(R.drawable.ic_flight_status_on_time);
-				vh.mBottomLine.setText(Html.fromHtml(res.getString(R.string.from_airport_time_TEMPLATE,
+				vh.mBottomLine.setText(HtmlCompat.fromHtml(res.getString(R.string.from_airport_time_TEMPLATE,
 						flight.getOriginWaypoint().mAirportCode,
 						formatTime(flight.getOriginWaypoint().getMostRelevantDateTime()))));
 			}
@@ -476,7 +503,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 					String terminalGate = FlightUtils.getTerminalGateString(getContext(), summaryWaypoint);
 					bottomLineHtml = res.getString(bottomLineTextId, summaryWaypoint.mAirportCode, terminalGate);
 				}
-				vh.mBottomLine.setText(Html.fromHtml(bottomLineHtml));
+				vh.mBottomLine.setText(HtmlCompat.fromHtml(bottomLineHtml));
 			}
 		}
 
@@ -533,7 +560,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 		FlightLeg leg = itinCardData.getFlightLeg();
 
-		List<Intent> intents = new ArrayList<Intent>();
+		List<Intent> intents = new ArrayList<>();
 		intents.add(AddToCalendarUtils.generateFlightAddToCalendarIntent(context, pointOfSale, itinNumber, leg));
 
 		return intents;
@@ -584,12 +611,12 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		}
 		ArrayList<Notification> notifications = null;
 		if (ProductFlavorFeatureConfiguration.getInstance().isLeanPlumEnabled() && LeanPlumFlags.mShowShareFlightNotification) {
-			notifications = new ArrayList<Notification>(2);
+			notifications = new ArrayList<>(2);
 			notifications.add(generateCheckinNotification(leg));
 			notifications.add(generateShareNotification(leg));
 		}
 		else {
-			notifications = new ArrayList<Notification>(1);
+			notifications = new ArrayList<>(1);
 			notifications.add(generateCheckinNotification(leg));
 		}
 		return notifications;
@@ -841,7 +868,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			else {
 				tv.setText(R.string.flight_cancelled);
 			}
-			tv.setTextColor(res.getColor(R.color.itin_flight_canceled_color));
+			tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_canceled_color));
 			tv.setVisibility(View.VISIBLE);
 		}
 		else if (flight.mFlightHistoryId != -1) {
@@ -849,34 +876,34 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			if (now.isBefore(flight.getOriginWaypoint().getMostRelevantDateTime())) {
 				int delay = getDelayForWaypoint(flight.getOriginWaypoint());
 				if (delay > 0) {
-					tv.setTextColor(res.getColor(R.color.itin_flight_delayed_color));
+					tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_delayed_color));
 					tv.setText(res.getString(R.string.flight_departs_x_late_TEMPLATE,
 							DateTimeUtils.formatDuration(res, delay)));
 				}
 				else if (delay < 0) {
-					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_on_time_color));
 					tv.setText(res.getString(R.string.flight_departs_x_early_TEMPLATE,
 							DateTimeUtils.formatDuration(res, delay)));
 				}
 				else {
-					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_on_time_color));
 					tv.setText(R.string.flight_departs_on_time);
 				}
 			}
 			else if (now.isBefore(flight.getArrivalWaypoint().getMostRelevantDateTime())) {
 				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
 				if (delay > 0) {
-					tv.setTextColor(res.getColor(R.color.itin_flight_delayed_color));
+					tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_delayed_color));
 					tv.setText(res.getString(R.string.flight_arrives_x_late_TEMPLATE,
 							DateTimeUtils.formatDuration(res, delay)));
 				}
 				else if (delay < 0) {
-					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_on_time_color));
 					tv.setText(res.getString(R.string.flight_arrives_x_early_TEMPLATE,
 							DateTimeUtils.formatDuration(res, delay)));
 				}
 				else {
-					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_on_time_color));
 					tv.setText(R.string.flight_arrives_on_time);
 				}
 			}
@@ -884,17 +911,17 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 				// flight has arrived
 				int delay = getDelayForWaypoint(flight.getArrivalWaypoint());
 				if (delay > 0) {
-					tv.setTextColor(res.getColor(R.color.itin_flight_delayed_color));
+					tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_delayed_color));
 					tv.setText(res.getString(R.string.flight_arrived_x_late_TEMPLATE,
 							DateTimeUtils.formatDuration(res, delay)));
 				}
 				else if (delay < 0) {
-					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_on_time_color));
 					tv.setText(res.getString(R.string.flight_arrived_x_early_TEMPLATE,
 							DateTimeUtils.formatDuration(res, delay)));
 				}
 				else {
-					tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+					tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_on_time_color));
 					tv.setText(R.string.flight_arrived_on_time);
 				}
 			}
@@ -902,7 +929,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		}
 		else if (now.isAfter(flight.getArrivalWaypoint().getMostRelevantDateTime())) {
 			// last chance: we don't have FS data, but it seems like this flight should have landed already
-			tv.setTextColor(res.getColor(R.color.itin_flight_on_time_color));
+			tv.setTextColor(ContextCompat.getColor(getContext(), R.color.itin_flight_on_time_color));
 			tv.setText(R.string.flight_arrived);
 			tv.setVisibility(View.VISIBLE);
 		}
@@ -968,12 +995,13 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 			mAirport = airport;
 		}
 
+		@NonNull
 		@Override
 		public Dialog onCreateDialog(Bundle savedInstanceState) {
 			final CharSequence directions = getString(R.string.directions);
 			final CharSequence terminalMaps = getString(R.string.terminal_maps);
 
-			ArrayList<CharSequence> optionsList = new ArrayList<CharSequence>();
+			ArrayList<CharSequence> optionsList = new ArrayList<>();
 			optionsList.add(directions);
 			if (mAirport.hasAirportMaps()) {
 				optionsList.add(terminalMaps);

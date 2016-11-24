@@ -179,7 +179,7 @@ public class FlightSearchTest extends FlightTestCase {
 
 	public void testSWPEarnMessaging() throws Exception {
 		FlightsSearchScreen.clickDepartureAirportField();
-		FlightsSearchScreen.enterDepartureAirport("EARN");
+		FlightsSearchScreen.enterDepartureAirport("earn");
 		FlightsSearchScreen.clickArrivalAirportField();
 		FlightsSearchScreen.enterArrivalAirport("SFO");
 		FlightsSearchScreen.clickSelectDepartureButton();

@@ -2,7 +2,6 @@ package com.expedia.bookings.fragment;
 
 import java.util.Locale;
 
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -21,6 +20,7 @@ import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.fragment.base.TripBucketItemFragment;
 import com.expedia.bookings.graphics.HeaderBitmapColorAveragedDrawable;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.Images;
@@ -32,8 +32,6 @@ import com.mobiata.android.Log;
  * ResultsTripBucketYourTripToFragment: A simple fragment for displaying destination information, in the trip overview column - Tablet 2013
  */
 public class TripBucketFlightFragment extends TripBucketItemFragment {
-
-	private static final String DESTINATION_IMAGE_INFO_DOWNLOAD_KEY = "DESTINATION_IMAGE_INFO_DOWNLOAD_KEY";
 
 	//UI
 	private ViewGroup mExpandedView;
@@ -50,8 +48,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 	private String mPreviousDestination;
 
 	public static TripBucketFlightFragment newInstance() {
-		TripBucketFlightFragment frag = new TripBucketFlightFragment();
-		return frag;
+		return new TripBucketFlightFragment();
 	}
 
 	@Override
@@ -207,7 +204,7 @@ public class TripBucketFlightFragment extends TripBucketItemFragment {
 			if (mNowBookingTv != null) {
 				String cityName = StrUtils.getWaypointCityOrCode(mFlightTrip.getLeg(0).getLastWaypoint());
 				String flightTo = getString(R.string.flights_to_TEMPLATE, cityName);
-				mNowBookingTv.setText(Html.fromHtml(getString(R.string.now_booking_TEMPLATE, flightTo).toUpperCase(Locale.getDefault())));
+				mNowBookingTv.setText(HtmlCompat.fromHtml(getString(R.string.now_booking_TEMPLATE, flightTo).toUpperCase(Locale.getDefault())));
 			}
 		}
 

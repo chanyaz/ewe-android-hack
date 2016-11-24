@@ -68,14 +68,14 @@
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flight_time_detail_text_view"
-                        style="@style/Core.Text.Large.Medium"
+                        style="@style/Core.Text.XLarge.Medium"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"/>
 
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/price_text_view"
-                        style="@style/Core.Text.Large.Medium"
+                        style="@style/Core.Text.XLarge.Medium"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"/>

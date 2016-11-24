@@ -5,17 +5,17 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Typeface
 import android.support.v4.content.ContextCompat
-import android.text.Html
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.insurance.InsurancePriceType
 import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.insurance.InsuranceTripParams
 import com.expedia.bookings.services.InsuranceServices
+import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SpannableLinkBuilder
@@ -27,7 +27,7 @@ import rx.subjects.PublishSubject
 
 class InsuranceViewModel(private val context: Context, private val insuranceServices: InsuranceServices) {
     // inputs
-    val tripObservable = BehaviorSubject.create<FlightCreateTripResponse>()
+    val tripObservable = BehaviorSubject.create<TripResponse>()
     val userInitiatedToggleObservable = PublishSubject.create<Boolean>()
     val widgetVisibilityAllowedObservable = BehaviorSubject.create<Boolean>()
 
@@ -45,7 +45,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     private var product: InsuranceProduct? = null
 
     lateinit private var lastAction: InsuranceAction
-    lateinit private var trip: FlightCreateTripResponse
+    lateinit private var trip: TripResponse
     lateinit var tripId: String
 
     enum class InsuranceAction {
@@ -65,8 +65,8 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
 
     init {
         tripObservable.subscribe { tripResponse ->
-            product = tripResponse.selectedInsuranceProduct ?: tripResponse.availableInsuranceProducts.firstOrNull()
             trip = tripResponse
+            product = tripResponse.getSelectedInsuranceProduct() ?: tripResponse.getAvailableInsuranceProducts().firstOrNull()
             trip.newTrip?.tripId?.let { tripId = it }
 
             if (haveProduct) {
@@ -144,12 +144,12 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
 
     fun updateBenefits() {
         val benefitsId: Int
-        if (trip.details.offer.isInternational) {
+        if (trip.getOffer().isInternational) {
             benefitsId = R.string.insurance_benefits_international
         } else {
             benefitsId = R.string.insurance_benefits_domestic
         }
-        benefitsObservable.onNext(Html.fromHtml(context.resources.getString(benefitsId)))
+        benefitsObservable.onNext(HtmlCompat.fromHtml(context.resources.getString(benefitsId)))
     }
 
     fun updateTerms() {
@@ -161,7 +161,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
 
     fun updateTitle() {
         val titleId: Int
-        if (trip.selectedInsuranceProduct != null) {
+        if (trip.getOffer().selectedInsuranceProduct != null) {
             titleColorObservable.onNext(Ui.obtainThemeColor(context, R.attr.primary_color))
             titleId = R.string.insurance_title_protected_TEMPLATE
         } else {
@@ -180,7 +180,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         }
 
         // use a lightweight base font, and convert any bold spans to medium
-        val spannedTitleBuilder = SpannableStringBuilder(Html.fromHtml(title.toString()))
+        val spannedTitleBuilder = SpannableStringBuilder(HtmlCompat.fromHtml(title.toString()))
         spannedTitleBuilder.setSpan(FontCache.getSpan(FontCache.Font.ROBOTO_LIGHT), 0, spannedTitleBuilder.length, 0)
         spannedTitleBuilder.getSpans(0, spannedTitleBuilder.length, StyleSpan::class.java).forEach { span ->
             if (span.style == Typeface.BOLD) {
@@ -195,7 +195,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     }
 
     fun updateToggleSwitch() {
-        programmaticToggleObservable.onNext(trip.selectedInsuranceProduct != null)
+        programmaticToggleObservable.onNext(trip.getSelectedInsuranceProduct() != null)
     }
 
     fun updateVisibility() {

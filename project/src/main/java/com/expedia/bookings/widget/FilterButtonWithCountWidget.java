@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.AccessibilityUtil;
+import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -47,6 +49,18 @@ public class FilterButtonWithCountWidget extends LinearLayout {
 		boolean hasCheckedFilters = number > 0;
 		filterNumber.setVisibility(hasCheckedFilters ? VISIBLE : GONE);
 		filterIcon.setVisibility(hasCheckedFilters ? GONE : VISIBLE);
+
+		StringBuilder contDescBuilder = new StringBuilder();
+		if (hasCheckedFilters) {
+			String announcementString = Phrase
+				.from(getContext().getResources().getQuantityString(R.plurals.number_results_announcement_text_TEMPLATE, number))
+				.put("number", number)
+				.format().toString();
+			contDescBuilder.append(announcementString);
+			contDescBuilder.append(". ");
+		}
+		contDescBuilder.append(filterText.getText());
+		AccessibilityUtil.appendRoleContDesc(buttonContainer, contDescBuilder.toString(), R.string.accessibility_cont_desc_role_button);
 	}
 
 	public void setFilterText(String text) {

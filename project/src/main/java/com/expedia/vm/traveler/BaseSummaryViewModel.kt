@@ -29,9 +29,8 @@ abstract class BaseSummaryViewModel(val context: Context) {
         travelerStatusObserver.subscribe { status ->
             val subTitle = resources.getString(R.string.enter_missing_traveler_details)
             if (status == TravelerCheckoutStatus.CLEAN) {
-                if (isTravelerOneEmpty()) {
-                    val title = resources.getString(R.string.checkout_enter_traveler_details)
-                    setTravelerSummaryInfo(title, getSubtitle(), ContactDetailsCompletenessStatus.DEFAULT)
+                if (Db.getTravelers().size > 1 || isTravelerOneEmpty()) {
+                    setTravelerSummaryInfo(getTitle(), getSubtitle(), ContactDetailsCompletenessStatus.DEFAULT)
                 } else {
                     setTravelerSummaryInfo(getTitle(), subTitle, ContactDetailsCompletenessStatus.INCOMPLETE)
                 }

@@ -191,7 +191,7 @@ public class ResultsHotelReviewsFragment extends Fragment implements UserReviews
 				bedType.setVisibility(View.GONE);
 			}
 
-			pricePerNight.setText(RowRoomRateLayout.getStyledPrice(getResources(), rate));
+			pricePerNight.setText(RowRoomRateLayout.getStyledPrice(getContext(), rate));
 
 			View row = Ui.findView(mRootC, R.id.room_rate_add_select_container);
 			final ColorDrawable colorDrawable = new ColorDrawable(

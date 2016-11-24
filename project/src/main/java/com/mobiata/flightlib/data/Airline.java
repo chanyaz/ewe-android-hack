@@ -13,7 +13,7 @@ public class Airline implements JSONable {
 	// Airline data
 	public String mAirlineCode;
 	public String mAirlineName;
-
+	public String mAirlinePhone;
 	//////////////////////////////////////////////////////////////////////////
 	// JSONable
 
@@ -24,6 +24,7 @@ public class Airline implements JSONable {
 			obj.put("version", VERSION);
 			obj.putOpt("airlineCode", mAirlineCode);
 			obj.putOpt("airlineName", mAirlineName);
+			obj.putOpt("airlinePhone", mAirlinePhone);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -35,6 +36,7 @@ public class Airline implements JSONable {
 	public boolean fromJson(JSONObject obj) {
 		mAirlineCode = obj.optString("airlineCode", null);
 		mAirlineName = obj.optString("airlineName", null);
+		mAirlinePhone = obj.optString("airlinePhone", null);
 		return true;
 	}
 }

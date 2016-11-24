@@ -13,7 +13,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.text.Html;
+import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,8 +39,8 @@ import com.expedia.bookings.data.HotelSearchParams.SearchType;
 import com.expedia.bookings.data.HotelTextSection;
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.dialog.VipBadgeClickListener;
 import com.expedia.bookings.interfaces.IAddToBucketListener;
 import com.expedia.bookings.interfaces.IBackManageable;
@@ -50,6 +50,7 @@ import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.MeasurementHelper;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.server.CrossContextHelper;
+import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.ExpediaNetUtils;
 import com.expedia.bookings.utils.GridManager;
 import com.expedia.bookings.utils.LayoutUtils;
@@ -71,8 +72,7 @@ import com.squareup.phrase.Phrase;
 public class ResultsHotelDetailsFragment extends Fragment implements IBackManageable {
 
 	public static ResultsHotelDetailsFragment newInstance() {
-		ResultsHotelDetailsFragment frag = new ResultsHotelDetailsFragment();
-		return frag;
+		return new ResultsHotelDetailsFragment();
 	}
 
 	private ViewGroup mRootC;
@@ -406,7 +406,7 @@ public class ResultsHotelDetailsFragment extends Fragment implements IBackManage
 		else if (property.isFromSearchByHotel()) {
 			mMobileExclusiveContainer.setVisibility(View.GONE);
 			mRoomsLeftContainer.setVisibility(View.VISIBLE);
-			int color = res.getColor(R.color.details_ring_blue);
+			int color = ContextCompat.getColor(view.getContext(), R.color.details_ring_blue);
 			roomsLeftRing.setVisibility(View.VISIBLE);
 			roomsLeftText.setVisibility(View.VISIBLE);
 			roomsLeftRing.setPrimaryColor(color);
@@ -418,7 +418,7 @@ public class ResultsHotelDetailsFragment extends Fragment implements IBackManage
 		else if (roomsLeft <= 5 && roomsLeft >= 0) {
 			mMobileExclusiveContainer.setVisibility(View.GONE);
 			mRoomsLeftContainer.setVisibility(View.VISIBLE);
-			int color = res.getColor(R.color.details_ring_red);
+			int color = ContextCompat.getColor(view.getContext(), R.color.details_ring_red);
 			roomsLeftRing.setVisibility(View.VISIBLE);
 			roomsLeftText.setVisibility(View.VISIBLE);
 			roomsLeftRing.setPrimaryColor(color);
@@ -432,7 +432,7 @@ public class ResultsHotelDetailsFragment extends Fragment implements IBackManage
 			mRoomsLeftContainer.setVisibility(View.VISIBLE);
 			roomsLeftRing.setVisibility(View.VISIBLE);
 			roomsLeftText.setVisibility(View.VISIBLE);
-			roomsLeftRing.setPrimaryColor(res.getColor(R.color.details_ring_blue));
+			roomsLeftRing.setPrimaryColor(ContextCompat.getColor(view.getContext(), R.color.details_ring_blue));
 			roomsLeftRing.setPercent(property.getPercentRecommended() / 100f);
 			roomsLeftRing.setCountText("");
 			int percent = Math.round(property.getPercentRecommended());
@@ -643,8 +643,6 @@ public class ResultsHotelDetailsFragment extends Fragment implements IBackManage
 	/**
 	 * Called in response to a user click on a different room rate. Makes sure the
 	 * checkmark and relative prices are all in sync.
-	 *
-	 * @param selectedRate
 	 */
 	private void setSelectedRate(final Rate selectedRate) {
 		Db.getHotelSearch().setSelectedRate(selectedRate);
@@ -800,7 +798,7 @@ public class ResultsHotelDetailsFragment extends Fragment implements IBackManage
 					titleText.setVisibility(View.VISIBLE);
 					titleText.setText(section.getNameWithoutHtml());
 				}
-				bodyText.setText(Html.fromHtml(section.getContentFormatted(getActivity())));
+				bodyText.setText(HtmlCompat.fromHtml(section.getContentFormatted(getActivity())));
 				container.addView(sectionContainer);
 			}
 		}

@@ -60,7 +60,7 @@ class FlightCreateTripViewModelTest {
 
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
-        sut.tripResponseObservable.subscribe(tripResponseSubscriber)
+        sut.createTripResponseObservable.subscribe(tripResponseSubscriber)
         sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
 
         sut.tripParams.onNext(params)
@@ -79,7 +79,7 @@ class FlightCreateTripViewModelTest {
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
         val priceChangeSubscriber = TestSubscriber<TripResponse>()
-        sut.tripResponseObservable.subscribe(tripResponseSubscriber)
+        sut.createTripResponseObservable.subscribe(tripResponseSubscriber)
         sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
         sut.priceChangeObservable.subscribe(priceChangeSubscriber)
 
@@ -99,7 +99,7 @@ class FlightCreateTripViewModelTest {
         val tripResponseSubscriber = TestSubscriber<TripResponse>()
         val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
         val errorSubscriber = TestSubscriber<ApiError>()
-        sut.tripResponseObservable.subscribe(tripResponseSubscriber)
+        sut.createTripResponseObservable.subscribe(tripResponseSubscriber)
         sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
         sut.createTripErrorObservable.subscribe(errorSubscriber)
 
@@ -152,7 +152,7 @@ class FlightCreateTripViewModelTest {
     }
 
     private fun givenGoodCreateTripParams() {
-        val productKey = "happy_roundtrip_0"
+        val productKey = "happy_round_trip"
         val withInsurance = false
         params = FlightCreateTripParams(productKey, withInsurance)
     }

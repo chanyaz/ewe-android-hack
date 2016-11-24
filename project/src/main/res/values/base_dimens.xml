@@ -8,12 +8,9 @@
             prepended with "temporary" are almost definitely going to change when we finalize the
             style guide, so we want to avoid naming them fully for now, while still having this
             paradigm in place. -->
-    <dimen name="temporary_font_size_large">16sp</dimen>
     <dimen name="temporary_font_size_medium">14sp</dimen>
     <dimen name="temporary_font_size_small">12sp</dimen>
 
-    <dimen name="temporary_tiny_padding">2dp</dimen>
-    <dimen name="temporary_default_padding">4dp</dimen>
     <dimen name="temporary_small_padding">8dp</dimen>
     <dimen name="temporary_medium_padding">12dp</dimen>
     <dimen name="temporary_large_padding">16dp</dimen>

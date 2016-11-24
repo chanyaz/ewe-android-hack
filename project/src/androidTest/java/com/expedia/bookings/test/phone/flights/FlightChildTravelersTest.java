@@ -214,13 +214,13 @@ public class FlightChildTravelersTest {
 		FlightsTravelerPicker.selectChildAge(mRule.getActivity(), childCount, 0);
 		FlightsTravelerPicker.isInfantInLapChecked(true);
 
-		FlightsSearchScreen.enterDepartureAirport("LAX");
+		FlightsSearchScreen.enterDepartureAirport("happy");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
 		FlightsSearchScreen.clickSelectDepartureButton();
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.clickSearchButton();
-		FlightsSearchResultsScreen.clickListItem(4);
+		FlightsSearchResultsScreen.clickListItem(9);
 		FlightLegScreen.clickSelectFlightButton();
 
 		FlightLegScreen.clickCostBreakdownButtonView();
@@ -240,13 +240,13 @@ public class FlightChildTravelersTest {
 		FlightsTravelerPicker.selectChildAge(mRule.getActivity(), childCount, 0);
 		FlightsTravelerPicker.isInfantInLapChecked(true);
 
-		FlightsSearchScreen.enterDepartureAirport("LAX");
+		FlightsSearchScreen.enterDepartureAirport("happy");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
 		FlightsSearchScreen.clickSelectDepartureButton();
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.clickSearchButton();
-		FlightsSearchResultsScreen.clickListItem(6);
+		FlightsSearchResultsScreen.clickListItem(8);
 		FlightLegScreen.clickSelectFlightButton();
 
 		FlightLegScreen.clickCostBreakdownButtonView();
@@ -267,13 +267,13 @@ public class FlightChildTravelersTest {
 		FlightsTravelerPicker.selectChildAge(mRule.getActivity(), childCount, 0);
 		FlightsTravelerPicker.isInfantInLapChecked(true);
 
-		FlightsSearchScreen.enterDepartureAirport("LAX");
+		FlightsSearchScreen.enterDepartureAirport("happy");
 		FlightsSearchScreen.enterArrivalAirport("SFO");
 		FlightsSearchScreen.clickSelectDepartureButton();
 		LocalDate startDate = LocalDate.now().plusDays(35);
 		FlightsSearchScreen.clickDate(startDate);
 		FlightsSearchScreen.clickSearchButton();
-		FlightsSearchResultsScreen.clickListItem(5);
+		FlightsSearchResultsScreen.clickListItem(7);
 		FlightLegScreen.clickSelectFlightButton();
 
 		FlightLegScreen.clickCostBreakdownButtonView();

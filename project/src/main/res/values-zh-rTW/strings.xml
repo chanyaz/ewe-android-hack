@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">行程重複</string>
     <!-- Text for error toolbar-->
-    <string name="cars_price_change_text">價格已變更</string>
+    <string name="price_changed_text">價格已變更</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">付款失敗</string>
     <!-- Text for error toolbar-->
@@ -101,10 +101,6 @@
     <string name="enter_driver_details_cont_desc">輸入駕駛者資訊按鈕</string>
     <!-- Text for select saved contacts-->
     <string name="traveler_saved_contacts_text">選擇已儲存的聯絡人</string>
-    <!-- Text for enter payment details-->
-    <string name="enter_payment_details">輸入付款資訊</string>
-    <!-- Template for selected credit card-->
-    <string name="selected_card_template">到期日 %s</string>
     <!-- Car doors text-->
     <string name="car_doors_text">門</string>
     <!-- Car bags text-->
@@ -232,8 +228,6 @@
     <string name="successful_checkout_email_label">行程已傳送到</string>
     <!-- Car confirmation directions text -->
     <string name="car_confirmation_directions">前往 %1$s 的路線</string>
-    <!-- Hotel Checkout Credit/Debit Card Payment Option Label -->
-    <string name="checkout_payment_option_credit_debit_label">信用卡/金融卡</string>
     <!-- Label for a button that will take the user to a screen to enter details for a debit or credit card -->
     <string name="shortened_checkout_payment_option_credit_debit_label">輸入新的金融卡/信用卡號碼</string>
     <!-- Text for enter guest details line 1 -->
@@ -246,8 +240,6 @@
     <string name="checkout_enter_payment_details">付款方式</string>
     <!-- Text for enter payment details line 2 -->
     <string name="checkout_hotelsv2_enter_payment_details_line2">輸入信用卡號碼</string>
-    <!-- Label to indicate that the user has selected a stored credit card -->
-    <string name="checkout_payment_line2_storedcc">已儲存的信用卡</string>
     <!-- Text for enter payment details line 1 when paying with pwp only -->
     <string name="checkout_paying_with_points_only_line1">以點數支付</string>
     <!-- Text for enter payment details line 1 when paying with pwp and Card -->
@@ -1599,6 +1591,8 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">%1$s退房</string>
     <string name="itin_card_activity_summary_TEMPLATE">生效日：&lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Summary for rail card: Departure - Sunday, Feb 22 - 9:00 am -->
+    <string name="itin_card_rail_summary_TEMPLATE">出發 - {datetime}</string>
     <!-- Message to users about when they check in of their flight-->
     <string name="itin_card_flight_checkin">立即預辦登機</string>
     <!-- Title of alert dialog when user come back from check in-->
@@ -1914,7 +1908,6 @@
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}，{guests}</string>
 
-    <string name="room_with_guests_TEMPLATE">1 間客房，{guests}</string>
     <string name="hotel_free_cancellation_TEMPLATE">{date} 前免費取消</string>
 
     <!-- Flight details fragment -->
@@ -2145,8 +2138,6 @@
     <string name="please_enter_a_valid_email_address">請輸入有效的電子郵件地址。</string>
     <!-- Row header for when we show resort fees as its own line item -->
     <string name="fees_paid_at_hotel">在飯店支付的費用</string>
-    <!-- Row label for when we show resort fees as its own line item -->
-    <string name="fees_due_at_hotel">在飯店應付的費用</string>
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe at the time of reservation-->
     <string name="due_to_brand_today_TEMPLATE">應付給 {brand}</string>
     <!-- Due to expedia today - today -->
@@ -2215,16 +2206,12 @@
     <!-- Edit button for traveler/payment -->
     <string name="edit_button">修改</string>
 
-    <!-- Title in toolbar on checkout telling user to select travelers he wants for booking-->
-    <string name="select_travelers">選擇旅客</string>
     <!-- Select traveler/contact from checkout saved travelers list -->
     <string name="select_traveler">選擇已儲存的旅客</string>
     <!-- Add new traveler, checkout saved travelers list -->
     <string name="add_new_traveler">新增旅客</string>
     <!-- Add Guest for hotels -->
     <string name="guest_details">旅客資訊</string>
-    <!-- Guest all fields are required -->
-    <string name="guest_field_required">所有欄位為必填。</string>
     <!-- Add adult traveler number template -->
     <string name="add_adult_number_TEMPLATE">成人 %1$s 資訊</string>
     <!-- AB test variate 2 - Add adult traveler number template -->
@@ -2331,6 +2318,10 @@
     <string name="address_zip_code_hint">郵遞區號</string>
     <!-- Postal Code hint for the US. Most countries use "Postal Code", but in the US we just want "Zip" -->
     <string name="address_postal_code_hint_US">郵遞區號</string>
+    <!--Address Province hint-->
+    <string name="address_province_hint">省</string>
+    <!--Address Country/State/Province hint-->
+    <string name="address_county_hint">縣/州/省</string>
 
     <!-- Save payment info dialog -->
     <!-- save billing info -->
@@ -2393,6 +2384,8 @@
     <!-- next page buttn -->
     <string name="next">下一頁</string>
     <string name="next_cont_desc">下一頁按鈕</string>
+    <!-- Passport country placeholder for passport country spinner -->
+    <string name="country">國家</string>
     <!-- Passport country label -->
     <string name="passport_country">護照國家/地區</string>
     <!-- Passport country / origin heading -->
@@ -2489,14 +2482,10 @@
     <string name="add_to_your_trip">新增至行程</string>
     <!-- Button label for getting hotels at a particular location.  %s is a location, e.g. "Hotels in San Francisco" -->
     <string name="hotels_in_TEMPLATE">%s飯店</string>
-    <!-- Selected Hotel info.  %s is a number of guests, e.g. "1 Room, 2 Guests" -->
-    <string name="hotels_guest_TEMPLATE">1 間客房，%s 位旅客</string>
     <!-- Button label for getting cars at a particular location.  %s is a location, e.g. "Cars in San Francisco" -->
     <string name="cars_in_TEMPLATE">%s租車</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">更多選項</string>
-    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">選項</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">透過電子郵件分享</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2529,8 +2518,6 @@
     <string name="itin_departing_cont_desc">出發</string>
 
     <!-- Hotel confirmation page -->
-    <!-- Title for section helping users get flights after booking a hotel -->
-    <string name="get_there">前往目的地</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="flights_to_TEMPLATE">前往%s的班機</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
@@ -2856,12 +2843,10 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/晚</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt">/晚</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">沒有評等</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
-    <string name="percent_off_template">%2.0f %% 折扣</string>
+    <string name="percent_off_template">%2.0f%% 折扣</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
     <string name="percent_minus_template">-%2.0f%%</string>
 
@@ -2905,11 +2890,7 @@
     <string name="vip_access">+VIP Access</string>
     <!--Options title for favorite and VIP checkboxes for Hotel Results -->
     <string name="filter_options">選項</string>
-    <!-- Title for Favorites message for Hotel Results -->
-    <string name="favorites">我的最愛</string>
-    <!-- Filter for showing only favorited hotels -->
-    <string name="favorites_only">只顯示我的最愛</string>
-    <!-- Filter for showing only VIP access hotels -->
+    <!-- Filter for showing favorited hotels -->
     <string name="filter_favorites">「我的最愛」飯店</string>
     <!-- Message that explains the meaning of VIP Access -->
     <string name="vip_access_message">入住 VIP 飯店時，+silver 和 +gold 會員會獲得免費客房升級和其他禮遇 (視實際情況而定)。</string>
@@ -2924,8 +2905,6 @@
     <string name="switch_off">關</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
-    <!-- Discount percent shown in hotel results list -->
-    <string name="minus_x_percent">-%2.0f%%</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">/ 5 - 旅客評分</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3775,12 +3754,6 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si 卡</string>
 
-    <!-- Handling sold out hotels -->
-    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available_from_brand_TEMPLATE">目前在 {brand} 上已搶訂一空</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_from_brand_dates_TEMPLATE">{brand} 在 {dates}沒有空房</string>
-
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">前往%1$s的班機將延遲 %2$s 小時起飛。</string>
@@ -4080,6 +4053,9 @@
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(0-17 歲)</string>
 
+    <!-- Children age label content description -->
+    <string name="children_age_label_cont_desc">(0 至 17 歲)</string>
+
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">鄰近地區</string>
     <string name="amenities">設施服務</string>
@@ -4111,8 +4087,8 @@
     <string name="show_more">顯示更多</string>
     <string name="show_less">隱藏部分內容</string>
     <string name="price_range">價格範圍</string>
-    <!-- Sort By on Filters Screen Content Description: Sort by. Duration. Drop Down List. -->
-    <string name="filter_sort_by_content_description_TEMPLATE">根據{sort}排序。</string>
+    <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
+    <string name="filter_sort_by_content_description_TEMPLATE">根據{sort}排序</string>
     <!-- Hotel Price Range start filter label for accessibility -->
     <string name="hotel_price_range_start">價格範圍下限</string>
     <!-- Hotel Price Range end filter label for accessibility -->
@@ -4190,8 +4166,6 @@
         <item quantity="one">同時預訂機票，可獲得 {night} 晚免費住宿。</item>
         <item quantity="other">同時預訂機票，可獲得 {night} 晚免費住宿。</item>
     </plurals>
-    <!-- Flight time and number of travelers template. e.g. "Sep 24, 2 Travelers" -->
-    <string name="flight_time_traveler_TEMPLATE">%1$s，%2$s</string>
     <!-- Title for travel info in flight card. e.g. "Sep 24 at 6:30am, 2 Travelers" -->
     <string name="package_overview_flight_travel_info_TEMPLATE">%1$s %2$s，%3$s</string>
     <!-- Template for package bundle total savings amount -->
@@ -4262,7 +4236,7 @@
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}天</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
-    <string name="flight_departure_arrival_time_multi_day_TEMPLATE">{departuretime} - {arrivaltime} +{elapseddays}天</string>
+    <string name="departure_arrival_time_multi_day_TEMPLATE">{departuretime} - {arrivaltime} +{elapseddays}天</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm minus 1d -->
     <string name="flight_departure_arrival_time_negative_days_cont_desc_TEMPLATE">{departuretime} 至 {arrivaltime} 減 {elapseddays} 天</string>
     <!-- Accessible text for Flight departure arrival time same day e.g. 5:15 pm to 7:48 pm plus 1d -->
@@ -4370,6 +4344,8 @@
     <string name="package_flight_overview_bundle_total_label">套裝行程總價</string>
     <string name="package_flight_overview_per_person_TEMPLATE">{money}/人</string>
     <string name="package_flight_overview_departure_arrival_TEMPLATE">({departureairportcode}) {departurecity} - ({arrivalairportcode}) {arrivalcity}</string>
+    <!-- Flight segment departure to arrival, content description. Example: (SFO) San Francisco to (DEN) Denver -->
+    <string name="package_flight_overview_departure_arrival_cont_desc_TEMPLATE">({departureairportcode}) {departurecity}到 ({arrivalairportcode}) {arrivalcity}</string>
     <string name="package_flight_overview_layover_in_TEMPLATE">中途停留：({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">轉機等待時間：{duration}</string>
@@ -4386,9 +4362,6 @@
     <!--used on the rail search screen - this is equivalent to a round trip air ticket -->
     <string name="rail_return">來回</string>
 
-    <!--used on the rail search screen - this is equivalent to a round trip air ticket with a return trip any time within a 30 day window (typically)-->
-    <string name="rail_open_return">開放日期來回票</string>
-
     <!--used on the rail results/details screen to signify that a trip doesn't have any stops -->
     <string name="rail_direct">直達</string>
 
@@ -4397,6 +4370,15 @@
 
     <!--Rail details - will be in the format of "3 hours, 42 minutes, 4 stops" -->
     <string name="rail_time_and_stops_line_TEMPLATE">{formattedduration}，{formattedchangecount}</string>
+
+    <!-- Heading for web view which shows payment and ticket delivery fees legal details -->
+    <string name="rail_search_legal_web_view_heading">付款手續費及車票寄送費</string>
+
+    <!-- Legal message shown on search result screen for one way search -->
+    <string name="rail_search_legal_banner_one_way">以上價格為所有乘客的單程價格。同時可能有付款手續費及車票寄送費。</string>
+
+    <!-- Legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip">以上價格為所有乘客的來回價格。同時可能有付款手續費及車票寄送費。</string>
 
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
@@ -4424,8 +4406,17 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">去程：{date}</string>
 
-    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">回程 - {date}</string>
+
+    <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
+    <string name="rail_price_breakdown_journey">行程</string>
+
+    <!-- rail checkout card fee error message title -->
+    <string name="rail_cardfee_error_title">信用卡手續費錯誤</string>
+
+    <!-- rail checkout card fee error message -->
+    <string name="rail_cardfee_error_message">我們目前無法精確計算信用卡手續費。此預訂可能會有額外費用。</string>
 
     <!-- Label for rail trip price on overview screen -->
     <string name="total">總計</string>
@@ -4457,18 +4448,6 @@
     <string name="rail_location_hint">城市或車站</string>
     <string name="error_same_station_departure_arrival">出發車站不得與抵達車站相同。</string>
 
-    <!-- Label for adult passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Adult") -->
-    <string name="rail_adult_number_TEMPLATE">旅客 {number}：成人</string>
-
-    <!-- Label for child passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Child") -->
-    <string name="rail_child_number_TEMPLATE">旅客 {number}：兒童</string>
-
-    <!-- Label for youth passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Youth") -->
-    <string name="rail_youth_number_TEMPLATE">旅客 {number}：青年</string>
-
-    <!-- Label for senior passenger number on the Rail cost breakdown screen (e.g. "Traveler 1: Senior")-->
-    <string name="rail_senior_number_TEMPLATE">旅客 {number}：銀髮族</string>
-
     <!-- Label for ticket delivery fee on the Rail cost breakdown screen -->
     <string name="rail_ticket_delivery_fee">票券運費</string>
 
@@ -4496,7 +4475,7 @@
     <string name="shipping_address">郵寄地址</string>
 
     <!-- Rails legal text eg: By selecting to complete this booking I acknowledge that I have read and accept the Rules and Restrictions, the National Rail Conditions of Travel, the Supplier Terms and Conditions, the Terms of Use, the Privacy Policy, and the payment and ticket delivery fees.-->
-    <string name="rails_legal_TEMPLATE">選擇完成此預訂，即表示我確認已閱讀並接受&lt;a href=\"{rules_and_restrictions_url}\"&gt;規則和限制&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;行程條件&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_cnditions_url}\"&gt;供應商條款和條件&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;使用條款&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;隱私權政策&lt;/a&gt;以及&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;付款和車票寄送費用&lt;/a&gt;。</string>
+    <string name="rails_legal_TEMPLATE">選擇完成此預訂，即表示我確認已閱讀並接受&lt;a href=\"{rules_and_restrictions_url}\"&gt;規則和限制&lt;/a&gt;、&lt;a href=\"{conditions_of_travel_url}\"&gt;行程條件&lt;/a&gt;、&lt;a href=\"{supplier_terms_and_conditions_url}\"&gt;供應商條款和條件&lt;/a&gt;、&lt;a href=\"{terms_of_use_url}\"&gt;使用條款&lt;/a&gt;、&lt;a href=\"{privacy_policy_url}\"&gt;隱私權政策&lt;/a&gt;以及&lt;a href=\"{payment_and_ticket_delivery_fees_url}\"&gt;付款和車票寄送費用&lt;/a&gt;。</string>
 
     <!-- Ticket delivery details -->
     <string name="pickup_station_details">請攜帶您的票券參考編號和信用卡前往購買。</string>
@@ -4523,8 +4502,6 @@
 
     <!-- Cost summary breakdown line item for flight insurance -->
     <string name="cost_summary_breakdown_flight_insurance">飛行保險</string>
-    <!-- Cost summary breakdown line item for flights -->
-    <string name="cost_summary_breakdown_flight_summary">機票</string>
     <!-- Cost summary breakdown line item for a hotel + flight package -->
     <string name="cost_summary_breakdown_hotel_flight_summary">機 + 酒</string>
     <!-- Cost summary breakdown line item for taxes and fees that are charged separately -->
@@ -4607,10 +4584,16 @@
     <!--Packages search accessibility -->
     <!-- Flight Detail card view content description for accessibility. Eg. Flight time is 9:00 am - 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops. -->
     <string name="flight_detail_card_cont_desc_TEMPLATE">班機時間：{time}，價差：{pricedifference}。航空公司：{airline}。飛行時間 {hours} {minutes}，轉機 {stops} 次\u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel}，5 星評等中的 {starrating} 星級飯店。滿分為 5 分的旅客評分為 {guestrating} 分。價格為 {price}。包含機票和飯店 \u0020</string>
-    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 rating. 4 of 5 guest rating. -->
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
     <string name="hotel_details_cont_desc_TEMPLATE">{hotel}，5 星評等中的 {starrating} 星級飯店。滿分為 5 分的旅客評分為 {guestrating} 分。\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
+    <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel}，5 星評等中的 {guestrating} 星級飯店。\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel}，5 星評等中的 {starrating} 星級飯店。\u0020</string>
+    <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
+    <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}。\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">原價 {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
@@ -4685,15 +4668,11 @@
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget">套裝行程總價：{totalprice}。此價格包含機票與飯店的稅金和費用。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套裝行程總價：{totalprice}。此價格包含機票與飯店的稅金和費用。{savings}. 費用明細對話方塊。按鈕。</string>
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套裝行程總價：{totalprice}。此價格包含機票與飯店的稅金和費用。{savings}。費用明細對話方塊。按鈕。</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">套裝價格為每人 {price_per_person}。此價格包含機票與飯店的稅金和費用。查看套裝按鈕。</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">顯示套裝詳情。關閉按鈕。</string>
-    <!--Packages bundle overview hotel drop down (expand) content description for accessibility-->
-    <string name="select_hotel_selected_expand_cont_desc">展開</string>
-    <!--Packages bundle overview hotel drop down (collapse) content description for accessibility-->
-    <string name="select_hotel_selected_collapse_cont_desc">摺疊</string>
     <!-- Package filter checkbox.
         Example #1: 3 available NonStop flights.
         Example #2: 2 available Hawaiian Airlines flights. -->

@@ -44,7 +44,6 @@ open class RailDetailsPresenter(context: Context, attrs: AttributeSet) : Present
     }
 
     init {
-        Ui.getApplication(context).railComponent().inject(this)
         View.inflate(context, R.layout.rail_details_presenter, this)
 
         toolbar.setNavigationOnClickListener {

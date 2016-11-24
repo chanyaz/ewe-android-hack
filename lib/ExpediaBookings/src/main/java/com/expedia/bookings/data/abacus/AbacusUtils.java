@@ -13,22 +13,11 @@ public class AbacusUtils {
 	 * participating in the AB Test.
 	 */
 
-	public static final int EBAndroidAppSRPercentRecommend = 7373;
-	public static final int EBAndroidAppHotelHSRSalePinTest = 7535;
-	public static final int EBAndroidAppHotelETPSearchResults = 7532;
-	public static final int EBAndroidAppHSRMapIconTest = 7772;
 	public static final int EBAndroidAppCarInsuranceIncludedCKO = 7774;
-	public static final int EBAndroidAppHotelHCKOTraveler = 7775;
-	public static final int EBAndroidAppHotelPayLaterCouponMessaging = 7777;
-	public static final int EBAndroidAppHotelCollapseAmenities = 8126;
-	public static final int EBAndroidAppHotelShowAddressMapInReceipt = 8129;
-	public static final int EBAndroidHotelCKOMerEmailGuestOpt = 8127;
 	public static final int ExpediaAndroidAppAATestSep2015 = 11455;
 	public static final int EBAndroidAppHotelsV2SuperlativeReviewsABTest = 8688;
 	public static final int EBAndroidAppLXCategoryABTest = 9165;
 	public static final int EBAndroidAppLXFirstActivityListingExpanded = 9467;
-	public static final int EBAndroidAppHotelTravelerTest = 9478;
-	public static final int EBAndroidAppHotelsMemberDealTest = 9044;
 	public static final int EBAndroidAppFlightsRoundtripMessageTest = 9636;
 	public static final int EBAndroidAppFlightsNumberOfTicketsUrgencyTest = 9897;
 	public static final int EBAndroidAppHotelSecureCheckoutMessaging = 9898;
@@ -43,7 +32,9 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelFavoriteTest = 10989;
 	public static final int EBAndroidAppSmartLockTest = 11269;
 	public static final int EBAndroidAppHotelResultsPerceivedInstantTest = 10555;
+	public static final int EBAndroidAppRailLineOfBusinessEnabledTest = 12113;
 	public static final int EBAndroidAppHotelFilterProminence = 11790;
+	public static final int EBAndroidItinHotelGallery = 12465;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
@@ -67,22 +58,11 @@ public class AbacusUtils {
 	// Test ID's that we are bucketing the user for.
 	public static List<Integer> getActiveTests() {
 		List<Integer> testIDs = new ArrayList<>();
-		testIDs.add(EBAndroidAppSRPercentRecommend);
-		testIDs.add(EBAndroidAppHotelHSRSalePinTest);
-		testIDs.add(EBAndroidAppHotelETPSearchResults);
-		testIDs.add(EBAndroidAppHSRMapIconTest);
 		testIDs.add(EBAndroidAppCarInsuranceIncludedCKO);
-		testIDs.add(EBAndroidAppHotelHCKOTraveler);
-		testIDs.add(EBAndroidAppHotelPayLaterCouponMessaging);
-		testIDs.add(EBAndroidAppHotelCollapseAmenities);
-		testIDs.add(EBAndroidAppHotelShowAddressMapInReceipt);
-		testIDs.add(EBAndroidHotelCKOMerEmailGuestOpt);
 		testIDs.add(ExpediaAndroidAppAATestSep2015);
 		testIDs.add(EBAndroidAppHotelsV2SuperlativeReviewsABTest);
 		testIDs.add(EBAndroidAppLXCategoryABTest);
 		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded);
-		testIDs.add(EBAndroidAppHotelTravelerTest);
-		testIDs.add(EBAndroidAppHotelsMemberDealTest);
 		testIDs.add(EBAndroidAppFlightsRoundtripMessageTest);
 		testIDs.add(EBAndroidAppFlightsNumberOfTicketsUrgencyTest);
 		testIDs.add(EBAndroidAppHotelSecureCheckoutMessaging);
@@ -97,7 +77,9 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelHCKOCardIOTest);
 		testIDs.add(EBAndroidAppSmartLockTest);
 		testIDs.add(EBAndroidAppHotelFavoriteTest);
+		testIDs.add(EBAndroidAppRailLineOfBusinessEnabledTest);
 		testIDs.add(EBAndroidAppHotelFilterProminence);
+		testIDs.add(EBAndroidItinHotelGallery);
 		return testIDs;
 	}
 

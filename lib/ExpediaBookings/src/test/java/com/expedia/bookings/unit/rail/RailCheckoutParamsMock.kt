@@ -27,9 +27,11 @@ object RailCheckoutParamsMock {
     }
 
     @JvmStatic fun railCardDetails(cvv: String?): RailCheckoutParams.CardDetails {
-        return RailCheckoutParams.CardDetails(creditCardNumber = "444444444444444",
+        val params = RailCheckoutParams.CardDetails(creditCardNumber = "444444444444444",
                 expirationDateYear = "12", expirationDateMonth = "5", cvv = cvv, nameOnCard = "Test Card",
-                address1 = "123 Seasme St", city = "New York", state = "IL", postalCode = "60567",
+                address1 = "123 Seasme St", city = "New York", postalCode = "60567",
                 currencyCode = "USD", country = "USA")
+        params.state = "IL"
+        return params
     }
 }

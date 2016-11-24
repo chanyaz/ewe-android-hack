@@ -104,4 +104,20 @@ public class DateUtilsTests {
 		assertEquals(dateTimeObtained, dateTimeExpected);
 	}
 
+	@Test
+	public void testDateTimeToEEEMMMdhmma() {
+		DateTime dateTimeExpected = DateTime.now()
+			.withYear(2015)
+			.withMonthOfYear(1)
+			.withDayOfMonth(31)
+			.withHourOfDay(10)
+			.withMinuteOfHour(0)
+			.withSecondOfMinute(0)
+			.withMillisOfSecond(0);
+
+		String obtained = DateUtils.dateTimeToEEEMMMdhmma(dateTimeExpected);
+
+		assertEquals("Sat, Jan 31 - 10:00 AM", obtained);
+	}
+
 }

@@ -1,0 +1,32 @@
+{
+  "paymentInfo": {
+    "cards": [{
+      "address1": "500 W Madison",
+      "city": "Woburn",
+      "country": "USA",
+      "creditCardNumber": "4111111111111111",
+      "cvv": "123",
+      "expirationDateMonth": "10",
+      "expirationDateYear": "2018",
+      "nameOnCard": "Oscar Grouch",
+      "postalCode": "02452",
+      "state": "MA"
+    }]
+  },
+  "ticketDeliveryOption": {
+    "deliveryOptionToken": "PICK_UP_AT_TICKETING_OFFICE_NONE"
+  },
+  "travelers": [{
+    "email": "oscargrouch@gmail.com",
+    "firstName": "Oscar",
+    "lastName": "Grouch",
+    "phone": "7732025862",
+    "phoneCountryCode": "44"
+  }],
+  "tripDetails": {
+    "expectedFareCurrencyCode": "GBP",
+    "expectedTotalFare": "5.90",
+    "sendConfirmationEmail": true,
+    "tripId": "5afb1e9d-e68e-4b9a-8fad-5782323b2230"
+  }
+}
