@@ -150,6 +150,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         val chargeableRateInfo = rateInfo.chargeableRateInfo
         val discountPercent = HotelUtils.getDiscountPercent(chargeableRateInfo)
         val isBurnApplied = chargeableRateInfo.loyaltyInfo?.isBurnApplied ?: false
+        val packageLoyaltyInfo = hotelRoomResponse.packageLoyaltyInformation
 
         //resetting the text for views
         strikeThroughPriceObservable.onNext("")
@@ -207,7 +208,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
             collapsedUrgencyObservable.onNext(expandedPair.first)
         }
 
-        val earnMessage = chargeableRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
+        val earnMessage = if (hotelRoomResponse.isPackage && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages) packageLoyaltyInfo?.earn?.getEarnMessage(context) ?:"" else chargeableRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
         val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
 
         collapsedEarnMessageVisibilityObservable.onNext(earnMessageVisibility)

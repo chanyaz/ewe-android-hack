@@ -5,6 +5,7 @@ import java.util.List;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.payment.LoyaltyInformation;
 
 public class PackageOffersResponse extends BaseApiResponse {
 	public List<PackageHotelOffer> packageHotelOffers;
@@ -16,6 +17,7 @@ public class PackageOffersResponse extends BaseApiResponse {
 		public Money pricePerPerson;
 		public Money priceDifferencePerNight;
 		public PackagePricing packagePricing;
+		public LoyaltyInformation loyaltyInfo;
 	}
 
 	public static class PackagePricing {
