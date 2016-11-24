@@ -72,6 +72,7 @@ class HotelRoomRateView(context: Context, rowIndex: Int) : LinearLayout(context)
     val roomInfoDivider: View by bindView(R.id.room_info_divider)
     private val roomDivider: View by bindView(R.id.row_divider)
     val spaceAboveRoomInfo: View by bindView(R.id.space_above_room_info)
+    val spaceBelowRoomButton: View by bindView(R.id.space_below_room_button)
     private val collapsedContainer: RelativeLayout by bindView(R.id.collapsed_container)
     private val depositTermsButton: TextView by bindView(R.id.deposit_terms_buttons)
     private val collapsedEarnMessaging: TextView by bindView(R.id.collapsed_earn_message_text_view)
@@ -97,7 +98,7 @@ class HotelRoomRateView(context: Context, rowIndex: Int) : LinearLayout(context)
         }
 
         vm.collapsedEarnMessageVisibilityObservable.subscribe {
-            viewsToHideInExpandedState = arrayOf(collapsedBedType, if (it) collapsedEarnMessaging else collapsedUrgency)
+            viewsToHideInExpandedState = arrayOf(collapsedBedType, collapsedUrgency, spaceBelowRoomButton)
             viewsToShowInExpandedState = arrayOf(expandedBedType, expandedAmenity, freeCancellation, strikeThroughPrice)
         }
         vm.collapsedUrgencyVisibilityObservable.subscribeVisibility(collapsedUrgency)
@@ -233,6 +234,7 @@ class HotelRoomRateView(context: Context, rowIndex: Int) : LinearLayout(context)
                 override fun onAnimationEnd(animation: Animation?) {
                     if (view.id == R.id.strike_through_price) view.visibility = View.GONE
                     if (view.id == R.id.expanded_free_cancellation_text_view) view.visibility = View.GONE
+                    if (view.id == R.id.space_below_room_button) view.visibility = View.GONE
                 }
 
                 override fun onAnimationRepeat(animation: Animation?) {

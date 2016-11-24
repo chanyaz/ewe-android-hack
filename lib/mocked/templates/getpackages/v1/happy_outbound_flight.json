@@ -1496,6 +1496,31 @@
         },
         "urgencyMessage": null,
         "promoCampaignLogoURI": "",
+        "loyaltyInfo": {
+          "earn": {
+            "price": {
+              "base": {
+                "amount": "38.63",
+                "formattedAmount": "$38.63",
+                "formattedWholeAmount": "$38",
+                "currencyCode": "USD"
+              },
+              "bonus": {
+                "amount": "0.0",
+                "formattedAmount": "$0.00",
+                "formattedWholeAmount": "$0",
+                "currencyCode": "USD"
+              },
+              "total": {
+                "amount": "38.63",
+                "formattedAmount": "$38.63",
+                "formattedWholeAmount": "$38",
+                "currencyCode": "USD"
+              }
+            }
+          },
+          "isBurnApplied": true
+        },
         "dxPopUpModel": {
           "includeDxUrl": "/pub/agent.dll?qscr=pkgl&piid=6ba595aa-f375-4d95-8495-b4d8affcee57-141&tpsr=4211.90&dest=6000288&ftla=SFO&ttla=HNL&cmbt=2&part=0&btsr=sourceType%3Dmobileapp%26packageType%3Dfh%26originId%3D6000581%26ftla%3DSFO%26origin%3DSan%2BFrancisco%252C%2BCA%2B%2528SFO-San%2BFrancisco%2BIntl.%2529%26ttla%3DHNL%26toDate%3D2016-07-16%26destination%3DHonolulu%252C%2BHI%2B%2528HNL-Honolulu%2BIntl.%2529%26clientid%3Dexpedia.app.android.phone%253A6.7.0%26fromDate%3D2016-07-10%26destinationId%3D6000288%26returnToRD%3D1",
           "noDxUrl": "/packagesearch?action=details&sourceType=mobileapp&packagePIID=6ba595aa-f375-4d95-8495-b4d8affcee57-141&packageType=fh&originId=6000581&pqtp=4211.9&ftla=SFO&origin=San+Francisco%2C+CA+%28SFO-San+Francisco+Intl.%29&curc=USD&ttla=HNL&toDate=2016-07-16&destination=Honolulu%2C+HI+%28HNL-Honolulu+Intl.%29&hlrId=0&clientid=expedia.app.android.phone%3A6.7.0&dest=6000288&fromDate=2016-07-10&defaultFlights=45ab706fc63017ca8f544220cbb412d9%2C6de6bec9123908dcf671ad5f87409665&returnToRD=1&destinationId=6000288&part=0&currentFlights=45ab706fc63017ca8f544220cbb412d9%2C6de6bec9123908dcf671ad5f87409665",

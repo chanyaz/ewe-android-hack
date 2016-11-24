@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
@@ -175,6 +176,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         val flightLayoverWidget: FlightLayoverWidget by root.bindView(R.id.custom_flight_layover_widget)
         val flightAirlineWidget: FlightAirlineWidget by root.bindView(R.id.flight_airline_widget)
         val bestFlightView: ViewGroup by root.bindView(R.id.package_best_flight)
+        val flightEarnMessage: TextView by root.bindView(R.id.flight_earn_message_text_view)
 
         init {
             itemView.setOnClickListener(this)
@@ -194,6 +196,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
             flightAirlineWidget.update(viewModel.airline)
             cardView.contentDescription = viewModel.contentDescription
+            flightEarnMessage.text = viewModel.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context) ?:""
         }
     }
 

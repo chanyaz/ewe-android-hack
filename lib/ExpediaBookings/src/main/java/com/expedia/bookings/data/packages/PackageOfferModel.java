@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.packages;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.payment.LoyaltyInformation;
 
 public class PackageOfferModel {
 	public String piid;
@@ -10,6 +11,7 @@ public class PackageOfferModel {
 	public UrgencyMessage urgencyMessage;
 	public BrandedDealData brandedDealData;
 	public boolean featuredDeal;
+	public LoyaltyInformation loyaltyInfo;
 
 	public static class PackagePrice {
 		public Money averageTotalPricePerTicket;

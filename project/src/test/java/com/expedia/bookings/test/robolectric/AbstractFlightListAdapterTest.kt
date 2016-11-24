@@ -1,6 +1,7 @@
 package com.expedia.bookings.test.robolectric
 
 import android.content.Context
+import android.view.View
 import android.widget.FrameLayout
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.Airline
@@ -14,12 +15,15 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowResourcesEB
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
+@Config(shadows = arrayOf(ShadowResourcesEB::class))
 class AbstractFlightListAdapterTest {
 
     val context = RuntimeEnvironment.application
@@ -51,6 +55,13 @@ class AbstractFlightListAdapterTest {
 
         val airlineView = flightViewHolder.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
         assertEquals(airlineView.airlineName.text, "Multiple Carriers")
+    }
+
+    @Test
+    fun testFlightEarnMessageVisiblity() {
+        createTestFlightListAdapter()
+        val flightViewHolder = createFlightViewHolder()
+        assertEquals(flightViewHolder.flightEarnMessage.text, "")
     }
 
     @Test
