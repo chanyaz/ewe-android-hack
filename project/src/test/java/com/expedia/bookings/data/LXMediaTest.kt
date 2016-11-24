@@ -18,7 +18,7 @@ class LXMediaTest {
 
     @Test
     fun loadImageTest() {
-        val lxMedia = LXMedia(ArrayList<String>(), "ImageCaption")
+        val lxMedia = DefaultMedia(ArrayList<String>(), "ImageCaption")
         val imageView = ImageView(getContext(), null)
         lxMedia.loadImage(imageView, null, 0)
         assertEquals("ImageCaption", imageView.contentDescription)
@@ -26,7 +26,7 @@ class LXMediaTest {
 
     @Test
     fun loadImageWhenNullCaptionTest() {
-        val lxMedia = LXMedia(ArrayList<String>(), null)
+        val lxMedia = DefaultMedia(ArrayList<String>(), null)
         val imageView = ImageView(getContext(), null)
         lxMedia.loadImage(imageView, null, 0)
         assertNull(imageView.contentDescription)
@@ -34,7 +34,7 @@ class LXMediaTest {
 
     @Test
     fun loadErrorImageTest() {
-        val lxMedia = LXMedia(ArrayList<String>(), "ImageCaption")
+        val lxMedia = DefaultMedia(ArrayList<String>(), "ImageCaption")
         val imageView = ImageView(getContext(), null)
         lxMedia.loadErrorImage(imageView, null, 0)
         assertEquals("ImageCaption", imageView.contentDescription)

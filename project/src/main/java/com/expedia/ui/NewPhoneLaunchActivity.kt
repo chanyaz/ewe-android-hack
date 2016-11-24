@@ -41,7 +41,7 @@ import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
-import com.expedia.bookings.widget.ItinListView
+import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.bookings.widget.NewPhoneLaunchToolbar
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.util.SettingUtils

@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.SwitchCompat
-import android.text.Html
 import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.View

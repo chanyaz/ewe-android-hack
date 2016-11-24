@@ -35,9 +35,10 @@ import android.widget.Toast;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.TerminalMapActivity;
-import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.AirlineCheckInIntervals;
 import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.DefaultMedia;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -46,7 +47,6 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.section.FlightLegSummarySection;
@@ -56,7 +56,6 @@ import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.DateFormatUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.FlightUtils;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.Images;
@@ -138,19 +137,18 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
-		final String code = getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode;
+	public List<? extends IMedia> getHeaderBitmapDrawable() {
+		List<String> urls = new ArrayList<>();
+		List<IMedia> mediaList =  new ArrayList<>();
 
-		final String url = new Akeakamai(Images.getFlightDestination(code))
-			.resizeExactly(width, height)
-			.build();
+		String code = getItinCardData().getFlightLeg().getLastWaypoint().mAirportCode;
+		String url = new Akeakamai(Images.getFlightDestination(code)).build();
 
-		new PicassoHelper.Builder(getContext())
-			.setPlaceholder(getHeaderImagePlaceholderResId())
-			.setTarget(target.getCallBack())
-			.build()
-			.load(url);
+		urls.add(url);
+		mediaList.add(new DefaultMedia(urls, "", getHeaderImagePlaceholderResId()));
+
 		setSharableImageURL(url);
+		return mediaList;
 	}
 
 	@Override
@@ -302,11 +300,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 			//Add shared data
 			addSharedGuiElements(commonItinDataContainer);
-
-			if (FeatureToggleUtil
-				.isFeatureEnabled(getContext(), R.string.preference_flight_itin_airline_phone_number)) {
-				addAirlineSupportNumber(commonItinDataContainer);
-			}
+			addAirlineSupportNumber(commonItinDataContainer);
 		}
 
 		return view;

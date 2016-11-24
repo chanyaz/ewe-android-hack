@@ -792,6 +792,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.payment_and_ticket_delivery_fees_may_also_apply,
 		R.string.rail_unknown_error_message,
 		R.string.rail_cko_retry_error_message,
-		R.string.rail_error_title
+		R.string.rail_error_title,
+		R.layout.itin_gallery
 	};
 }

@@ -21,7 +21,7 @@ public interface FlightApi {
 			@FieldMap Map<String, Object> queryParams, @Query("childTravelerAge") List<Integer> childAges);
 
 	@FormUrlEncoded
-	@POST("/api/flight/trip/create")
+	@POST("/api/flight/trip/create?withInsurance=true")
 	Observable<FlightCreateTripResponse> createTrip(
 		@FieldMap Map<String, Object> queryParams);
 

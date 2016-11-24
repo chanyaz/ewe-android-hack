@@ -3,6 +3,8 @@ package com.expedia.bookings.widget.itin;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.LocalDate;
@@ -23,20 +25,25 @@ import android.widget.Toast;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.FailedUrlCache;
-import com.expedia.bookings.bitmaps.PicassoHelper;
+import com.expedia.bookings.bitmaps.IMedia;
+import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.cars.LatLong;
+import com.expedia.bookings.data.hotels.HotelOffersResponse;
+import com.expedia.bookings.data.hotels.HotelSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripHotel;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
+import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Constants;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.ShareUtils;
@@ -47,17 +54,66 @@ import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
 import com.squareup.phrase.Phrase;
 
-import static com.expedia.bookings.utils.TuneUtils.context;
+import rx.Observer;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
 
-	////////////////////////////////////////////////////////////////////////////////////
-	// CONSTRUCTORS
-	//////////////////////////////////////////////////////////////////////////////////////
+	@Inject
+	public HotelServices hotelServices;
+	private ItinCardDataHotel data;
 
-	public HotelItinContentGenerator(Context context, ItinCardDataHotel data) {
+	public HotelItinContentGenerator(Context context, ItinCardDataHotel data, MediaCallback callback) {
 		super(context, data);
+		this.setCallback(callback);
+		this.data = data;
+
+		if (data.getProperty().getMediaList().isEmpty()) {
+			Ui.getApplication(getContext()).defaultHotelComponents();
+			Ui.getApplication(getContext()).hotelComponent().inject(this);
+			SuggestionV4 destination = new SuggestionV4();
+			destination.gaiaId = data.getProperty().getPropertyId();
+			HotelSearchParams params = (HotelSearchParams) new HotelSearchParams.Builder(28, 300, true)
+				.startDate(data.getStartDate().toLocalDate())
+				.endDate(data.getEndDate() != null ? data.getEndDate().toLocalDate()
+					: data.getStartDate().plusDays(1).toLocalDate())
+				.destination(destination)
+				.build();
+			hotelServices.info(params, data.getProperty().getPropertyId(), observer);
+		}
 	}
+
+	private void setPlaceholderImage() {
+		data.getProperty().setMediaList(new ArrayList<HotelMedia>());
+		HotelMedia placeholder = new HotelMedia();
+		placeholder.setIsPlaceholder(true);
+		data.getProperty().addMedia(placeholder);
+	}
+
+	private Observer<HotelOffersResponse> observer = new Observer<HotelOffersResponse>() {
+
+		@Override
+		public void onCompleted() {
+		}
+
+		@Override
+		public void onError(Throwable e) {
+			setPlaceholderImage();
+			if (callback != null) {
+				callback.onMediaReady(data.getProperty().getMediaList());
+			}
+		}
+
+		@Override
+		public void onNext(HotelOffersResponse hotelOffersResponse) {
+			data.getProperty().setMediaList(Images.getHotelImages(hotelOffersResponse, getHeaderImagePlaceholderResId()));
+			if (data.getProperty().getMediaList().isEmpty()) {
+				setPlaceholderImage();
+			}
+			if (callback != null) {
+				callback.onMediaReady(data.getProperty().getMediaList());
+			}
+		}
+	};
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// ABSTRACT IMPLEMENTATIONS
@@ -103,22 +159,12 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	public int getHeaderImagePlaceholderResId() {
-		return Ui.obtainThemeResID(getContext(), R.attr.skin_itinHotelPlaceholderDrawable);
+		return R.drawable.room_fallback;
 	}
 
 	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
-		List<String> urls = getItinCardData().getHeaderImageUrls();
-
-		if (urls != null && urls.size() > 0) {
-			setSharableImageURL(urls.get(0));
-			new PicassoHelper.Builder(getContext()).setPlaceholder(getHeaderImagePlaceholderResId()).setTarget(
-				target.getCallBack()).build().load(urls);
-		}
-		else {
-			new PicassoHelper.Builder(getContext()).setTarget(
-				target.getCallBack()).build().load(getHeaderImagePlaceholderResId());
-		}
+	public List<? extends IMedia> getHeaderBitmapDrawable() {
+		return data.getProperty().getMediaList();
 	}
 
 	@Override
@@ -130,7 +176,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 				name = getResources().getString(R.string.sharedItin_card_fallback_name_hotel);
 			}
 			return getContext().getString(R.string.SharedItin_Title_Hotel_TEMPLATE,
-					name, getItinCardData().getPropertyName());
+				name, getItinCardData().getPropertyName());
 		}
 		else {
 			return getItinCardData().getPropertyName();
@@ -158,12 +204,13 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		TitleViewHolder vh;
 		if (convertView == null) {
 			convertView = (ViewGroup) getLayoutInflater().inflate(R.layout.include_itin_card_title_hotel, container,
-					false);
+				false);
 
 			vh = new TitleViewHolder();
 			vh.mHotelNameTextView = Ui.findView(convertView, R.id.hotel_name_text_view);
 			boolean shouldShowCircleForRatings = PointOfSale.getPointOfSale().shouldShowCircleForRatings();
-			vh.mHotelRatingBar = Ui.findView(convertView, shouldShowCircleForRatings ? R.id.hotel_rating_bar_circles :  R.id.hotel_rating_bar);
+			vh.mHotelRatingBar = Ui.findView(convertView,
+				shouldShowCircleForRatings ? R.id.hotel_rating_bar_circles : R.id.hotel_rating_bar);
 
 			vh.mHotelRatingBar.setVisibility(View.VISIBLE);
 			convertView.setTag(vh);
@@ -175,8 +222,9 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		final ItinCardDataHotel itinCardData = getItinCardData();
 		vh.mHotelNameTextView.setText(itinCardData.getPropertyName());
 		float propertyRating = itinCardData.getPropertyRating();
-		String hotelRatingContentDescription = Phrase.from(getContext().getResources().getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, (int)propertyRating))
-			.put("rating", (int)propertyRating)
+		String hotelRatingContentDescription = Phrase.from(getContext().getResources()
+			.getQuantityString(R.plurals.hotel_star_rating_cont_desc_TEMPLATE, (int) propertyRating))
+			.put("rating", (int) propertyRating)
 			.format()
 			.toString();
 		vh.mHotelRatingBar.setContentDescription(hotelRatingContentDescription);
@@ -289,16 +337,17 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		// Bind
 		Resources res = getResources();
 		infoTriplet.setValues(
-				itinCardData.getFormattedDetailsCheckInDate(getContext()),
-				itinCardData.getFormattedDetailsCheckOutDate(getContext()),
-				itinCardData.getFormattedGuests());
+			itinCardData.getFormattedDetailsCheckInDate(getContext()),
+			itinCardData.getFormattedDetailsCheckOutDate(getContext()),
+			itinCardData.getFormattedGuests());
 		infoTriplet.setLabels(
-				res.getString(R.string.itin_card_details_check_in),
-				res.getString(R.string.itin_card_details_check_out),
-				res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
+			res.getString(R.string.itin_card_details_check_in),
+			res.getString(R.string.itin_card_details_check_out),
+			res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
 
 		if (itinCardData.getPropertyLocation() != null) {
-			staticMapImageView.setLocation(new LatLong(itinCardData.getPropertyLocation().getLatitude(), itinCardData.getPropertyLocation().getLongitude()));
+			staticMapImageView.setLocation(new LatLong(itinCardData.getPropertyLocation().getLatitude(),
+				itinCardData.getPropertyLocation().getLongitude()));
 		}
 
 		addressTextView.setText(itinCardData.getAddressString());
@@ -372,7 +421,6 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		View lineDivider = Ui.findView(container, R.id.divider_cancel_hotel_room);
 
 
-
 		String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
 		boolean showCancelHotelRoomBtn = !getItinCardData().isPastCheckInDate() && Strings.isNotEmpty(roomCancelLink);
 		if (showCancelHotelRoomBtn) {
@@ -380,10 +428,12 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			lineDivider.setVisibility(View.VISIBLE);
 			cancelHotelHotelRoomTv.setOnClickListener(new OnClickListener() {
 				String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
+
 				@Override
 				public void onClick(View v) {
 					WebViewActivity.IntentBuilder intentBuilder =
-						buildWebViewIntent(R.string.itin_card_details_cancel_hotel_room, roomCancelLink).setRoomCancelType();
+						buildWebViewIntent(R.string.itin_card_details_cancel_hotel_room, roomCancelLink)
+							.setRoomCancelType();
 					Intent intent = intentBuilder.getIntent();
 					intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
 					((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
@@ -398,16 +448,16 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	@Override
 	public SummaryButton getSummaryLeftButton() {
 		return new SummaryButton(R.drawable.ic_direction, getContext().getString(R.string.itin_action_directions),
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						final Intent intent = getItinCardData().getDirectionsIntent();
-						if (intent != null) {
-							NavUtils.startActivitySafe(getContext(), intent);
-							OmnitureTracking.trackItinHotelDirections();
-						}
+			new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					final Intent intent = getItinCardData().getDirectionsIntent();
+					if (intent != null) {
+						NavUtils.startActivitySafe(getContext(), intent);
+						OmnitureTracking.trackItinHotelDirections();
 					}
-				});
+				}
+			});
 	}
 
 	@Override
@@ -469,7 +519,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		List<Intent> intents = new ArrayList<Intent>();
-		intents.add(AddToCalendarUtils.generateHotelAddToCalendarIntent(context, property, out, false, confNum, itinId));
+		intents
+			.add(AddToCalendarUtils.generateHotelAddToCalendarIntent(context, property, out, false, confNum, itinId));
 		intents.add(AddToCalendarUtils.generateHotelAddToCalendarIntent(context, property, in, true, confNum, itinId));
 
 		return intents;
@@ -480,7 +531,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	@Override
 	public String getFacebookShareName() {
 		return getContext().getString(R.string.share_facebook_template_title_hotel,
-				getItinCardData().getPropertyName());
+			getItinCardData().getPropertyName());
 	}
 
 	//////////////////////////////////////////////////////////////////////////
@@ -521,7 +572,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
 		String title = getContext().getString(R.string.itin_card_hotel_summary_check_in_TEMPLATE,
-				data.getFallbackCheckInTime(getContext()));
+			data.getFallbackCheckInTime(getContext()));
 
 		notification.setTicker(title);
 		notification.setTitle(title);
@@ -561,7 +612,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		notification.setIconResId(R.drawable.ic_stat_hotel);
 
 		String title = getContext().getString(R.string.itin_card_hotel_summary_check_out_TEMPLATE,
-				data.getFallbackCheckOutTime(getContext()));
+			data.getFallbackCheckOutTime(getContext()));
 
 		notification.setTicker(title);
 		notification.setTitle(title);

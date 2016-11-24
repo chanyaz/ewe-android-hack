@@ -10,7 +10,6 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.widget.ItinCard
 import okio.Okio
 import org.joda.time.DateTime
 import org.json.JSONArray

@@ -80,9 +80,9 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Viaje duplicado</string>
     <!-- Text for error toolbar-->
-    <string name="price_changed_text">El precio ha cambiado</string>
+    <string name="price_changed_text">El precio cambió</string>
     <!-- Text for error toolbar-->
-    <string name="cars_payment_failed_text">El pago ha fallado</string>
+    <string name="cars_payment_failed_text">El pago falló</string>
     <!-- Text for error toolbar-->
     <string name="cars_invalid_input_text">Información no válida</string>
     <!-- Text for generic error toolbar-->
@@ -379,7 +379,7 @@
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Precio total</string>
     <!-- Text for error toolbar-->
-    <string name="lx_price_change_text">El precio ha cambiado</string>
+    <string name="lx_price_change_text">El precio cambió</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">Pasajero</string>
     <string name="ticket_type_adult">Adulto</string>
@@ -1014,7 +1014,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_create_trip">Creando el viaje…</string>
+    <string name="spinner_text_hotel_create_trip">Creando el viaje…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1057,7 +1057,7 @@
     <!-- Packages -->
     <string name="nav_packages">Ofertas de paquete</string>
     <!-- Rail -->
-    <string name="nav_rail">Tren</string>
+    <string name="nav_rail">Trenes</string>
     <string name="add_rail_card">Agregar tarjeta de descuento</string>
     <string name="select_rail_card_hint">Seleccionar una tarjeta de descuento</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
@@ -1591,6 +1591,8 @@
     <!-- Message to users about when they checked out of their hotel.  %1$s is a date (e.g., "Checked out Jul 11") -->
     <string name="itin_card_hotel_summary_checked_out_day_TEMPLATE">Se hizo el check-out: %1$s</string>
     <string name="itin_card_activity_summary_TEMPLATE">Válido a partir del &lt;b&gt;%1$s&lt;/b&gt;</string>
+    <!-- Summary for rail card: Departure - Sunday, Feb 22 - 9:00 am -->
+    <string name="itin_card_rail_summary_TEMPLATE">Salida: {datetime}</string>
     <!-- Message to users about when they check in of their flight-->
     <string name="itin_card_flight_checkin">Haz el check-in ahora</string>
     <!-- Title of alert dialog when user come back from check in-->
@@ -1770,7 +1772,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">Error</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="error_try_again_warning">Volvamos a intentarlo.</string>
+    <string name="flight_error_try_again_warning">Volvamos a intentarlo.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Intentarlo de nuevo</string>
 
@@ -2382,6 +2384,8 @@
     <!-- next page buttn -->
     <string name="next">Siguiente</string>
     <string name="next_cont_desc">Botón para ir a la opción siguiente</string>
+    <!-- Passport country placeholder for passport country spinner -->
+    <string name="country">País</string>
     <!-- Passport country label -->
     <string name="passport_country">País del pasaporte</string>
     <!-- Passport country / origin heading -->
@@ -2482,8 +2486,6 @@
     <string name="cars_in_TEMPLATE">Autos en %s</string>
     <!-- Title for section helping users in other various ways -->
     <string name="more_actions">Más acciones</string>
-    <!-- Title for section helping users in various ways after booking (implying these are all the actions that can be taken) -->
-    <string name="actions">Acciones</string>
     <!-- Button label for sharing your recently booked trip -->
     <string name="share_trip">Enviar por correo electrónico</string>
     <!-- Button label for adding a recently booked flight to the calendar -->
@@ -2516,8 +2518,6 @@
     <string name="itin_departing_cont_desc">Aeropuerto de salida</string>
 
     <!-- Hotel confirmation page -->
-    <!-- Title for section helping users get flights after booking a hotel -->
-    <string name="get_there">Llega a tu destino</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="flights_to_TEMPLATE">Vuelos a %s</string>
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
@@ -2843,8 +2843,6 @@
     <!-- Search list adapter -->
     <!-- The label for price per night - "from $120/night", for example -->
     <string name="per_night">/noche</string>
-    <!-- The label for abbreviated price per night - "$120/nt", for example -->
-    <string name="per_nt">/noche</string>
     <!-- Label shown when a hotel has no user ratings -->
     <string name="not_rated">No ha sido evaluado</string>
     <!-- Label indicating the percent savings for booking this hotel.  %2.0f is the savings amount. -->
@@ -2907,8 +2905,6 @@
     <string name="switch_off">APAGADO</string>
 
     <!-- HotelDetailsFragmentActivity and friends -->
-    <!-- Discount percent shown in hotel results list -->
-    <string name="minus_x_percent">-%2.0f%%</string>
     <!-- new material Hotel results cell guest recommend-->
     <string name="hotel_guest_recommend">de 5 - evaluación de los clientes</string>
     <!-- Hotels V2 AB test: hotel reviews superlative suffixes -->
@@ -3758,12 +3754,6 @@
     <!-- Carta Si -->
     <string name="cc_carta_si">Carta Si</string>
 
-    <!-- Handling sold out hotels -->
-    <!-- Shown when a hotel is sold out for tonight (and they are just booking for tonight) -->
-    <string name="not_currently_available_from_brand_TEMPLATE">Sin disponibilidad en {brand} en este momento</string>
-    <!-- Shown when a hotel is sold out for a generic set of dates.  %s is the set of dates, e.g. "Not available from Expedia Nov. 3-4" -->
-    <string name="not_currently_available_from_brand_dates_TEMPLATE">No disponible en {brand} {dates}</string>
-
     <!-- Push Notification Loc Strings - So these are named according to their loc keys that are provided from the push api -->
     <!-- Your flight to _ delayed _ hour TEMPLATE -->
     <string name="S_Push_flight_CITY_delayed_HOUR">Tu vuelo a %1$s tiene un retraso de %2$s hora.</string>
@@ -4062,6 +4052,9 @@
 
     <!-- Children age label on hotel search -->
     <string name="children_age_label">(De 0 a 17 años)</string>
+
+    <!-- Children age label content description -->
+    <string name="children_age_label_cont_desc">(De 0 a 17 años)</string>
 
     <!-- Hotel Filters Strings -->
     <string name="neighborhoods">Áreas</string>
@@ -4413,7 +4406,7 @@
     <!-- rail checkout overview label for outbound  e.g. "Outbound - Thu Jun 23"-->
     <string name="rail_checkout_outbound_TEMPLATE">Ida: {date}</string>
 
-    <!-- rail checkout overview label for inbound  e.g. "Return - Thu Jun 23"-->
+    <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">Vuelta: {date}</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
@@ -4675,9 +4668,9 @@
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget">El total del paquete es {totalprice}. El precio incluye impuestos, cargos de ambos vuelos y hotel. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">El total del paquete es {totalprice}. El precio incluye impuestos, cargos de ambos vuelos y hotel. {savings}. Cuadro de diálogo del desglose de gastos. Botón.</string>
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">El total del paquete es {totalprice}. El precio incluye impuestos y cargos aplicables a los vuelos y al hotel. {savings}. Cuadro de diálogo del desglose de gastos. Botón.</string>
     <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
-    <string name="bundle_overview_price_widget_button_open_TEMPLATE">El precio del paquete es {price_per_person} por persona. El precio incluye impuestos, cargos de ambos vuelos y hotel. Botón para ver el paquete.</string>
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">El precio del paquete es {price_per_person} por persona. El precio incluye impuestos y cargos aplicables a los vuelos y al hotel. Botón para ver el paquete.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Se muestran los detalles del paquete. Botón para cerrar.</string>
     <!-- Package filter checkbox.

@@ -42,7 +42,7 @@ import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
-import com.expedia.bookings.widget.ItinListView;
+import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.PhoneLaunchToolbar;
 import com.squareup.phrase.Phrase;
 

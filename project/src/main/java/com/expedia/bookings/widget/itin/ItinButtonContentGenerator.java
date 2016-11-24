@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.itin;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import android.content.Context;
@@ -8,8 +9,8 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 
 public abstract class ItinButtonContentGenerator<T extends ItinCardData> extends ItinContentGenerator<T> {
 	public ItinButtonContentGenerator(Context context, T itinCardData) {
@@ -52,7 +53,8 @@ public abstract class ItinButtonContentGenerator<T extends ItinCardData> extends
 	}
 
 	@Override
-	public void getHeaderBitmapDrawable(int width, int height, HeaderBitmapDrawable target) {
+	public List<? extends IMedia> getHeaderBitmapDrawable() {
+		return Collections.EMPTY_LIST;
 	}
 
 	@Override

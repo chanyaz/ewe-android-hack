@@ -78,7 +78,7 @@ public class Property implements JSONable {
 	private String mPropertyId;
 	private Location mLocation;
 	private HotelMedia mThumbnail;
-	private List<HotelMedia> mHotelMedia;
+	private List<HotelMedia> mHotelMedia = new ArrayList();
 	private String mLocalPhone;
 	private String mTollFreePhone;
 
@@ -298,6 +298,9 @@ public class Property implements JSONable {
 	}
 
 	public List<HotelMedia> getMediaList() {
+		if (mHotelMedia == null) {
+			mHotelMedia = new ArrayList<HotelMedia>();
+		}
 		return mHotelMedia;
 	}
 

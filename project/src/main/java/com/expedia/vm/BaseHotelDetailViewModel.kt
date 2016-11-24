@@ -178,12 +178,13 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     private val offersObserver = endlessObserver<HotelOffersResponse> { response ->
         hotelOffersResponse = response
 
-        var galleryUrls = ArrayList<HotelMedia>()
+        val galleryUrls = ArrayList<HotelMedia>()
 
-        if (Images.getHotelImages(hotelOffersResponse).isNotEmpty()) {
-            galleryUrls.addAll(Images.getHotelImages(hotelOffersResponse).toMutableList())
+        val images = Images.getHotelImages(hotelOffersResponse, R.drawable.room_fallback)
+        if (images.isNotEmpty()) {
+            galleryUrls.addAll(images.toMutableList())
         } else {
-            var placeHolder = HotelMedia()
+            val placeHolder = HotelMedia()
             placeHolder.setIsPlaceholder(true)
             galleryUrls.add(placeHolder)
         }

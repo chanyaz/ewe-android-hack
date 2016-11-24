@@ -6,15 +6,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.bitmaps.IMedia
 import com.expedia.bookings.data.trips.ItinCardDataRails
 import com.expedia.bookings.data.trips.TripComponent
-import com.expedia.bookings.graphics.HeaderBitmapDrawable
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.Ui
 import com.squareup.phrase.Phrase
 import java.util.ArrayList
+import java.util.Collections
 
 class RailsItinContentGenerator(context: Context, val railItinCardData: ItinCardDataRails): ItinContentGenerator<ItinCardDataRails>(context, railItinCardData) {
+
     override fun hasDetails(): Boolean {
         return false
     }
@@ -43,7 +44,8 @@ class RailsItinContentGenerator(context: Context, val railItinCardData: ItinCard
         return R.drawable.confirmation_background
     }
 
-    override fun getHeaderBitmapDrawable(width: Int, height: Int, target: HeaderBitmapDrawable) {
+    override fun getHeaderBitmapDrawable(): List<IMedia> {
+        return Collections.emptyList()
     }
 
     override fun getReloadText(): String? {

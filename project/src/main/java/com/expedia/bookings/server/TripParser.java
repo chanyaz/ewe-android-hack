@@ -239,6 +239,9 @@ public class TripParser {
 			double starRating = propertyJson.optDouble("starRating", 0);
 			property.setHotelRating(starRating / 10);
 
+			boolean isVipHotel = propertyJson.optBoolean("isVipAccess", false);
+			property.setIsVipAccess(isVipHotel);
+
 			hotel.setProperty(property);
 		}
 
@@ -282,8 +285,11 @@ public class TripParser {
 					}
 				}
 			}
-			JSONObject firstRoom = roomsJson.optJSONObject(0);
-			property.setRoomCancelLink(firstRoom.optString("roomCancelLink"));
+
+			if (!roomsJson.isNull(0)) {
+				JSONObject firstRoom = roomsJson.optJSONObject(0);
+				property.setRoomCancelLink(firstRoom.optString("roomCancelLink"));
+			}
 		}
 
 		hotel.setGuests(guests);

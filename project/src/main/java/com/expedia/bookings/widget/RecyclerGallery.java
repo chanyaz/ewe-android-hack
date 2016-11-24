@@ -48,6 +48,8 @@ public class RecyclerGallery extends RecyclerView {
 	private SpaceDecoration mDecoration;
 	private A11yLinearLayoutManager mLayoutManager;
 	private GalleryItemScrollListener mScrollListener;
+	public boolean showPhotoCount = true;
+	public boolean canScroll = true;
 
 	public class A11yLinearLayoutManager extends LinearLayoutManager {
 
@@ -67,7 +69,7 @@ public class RecyclerGallery extends RecyclerView {
 				return canA11yScroll;
 			}
 			else {
-				return super.canScrollHorizontally();
+				return canScroll && super.canScrollHorizontally();
 			}
 		}
 	}
@@ -224,19 +226,25 @@ public class RecyclerGallery extends RecyclerView {
 			}
 
 			public void bind() {
-				photoCountTextView.setText(Phrase.from(getContext(), R.string.gallery_photo_count_TEMPLATE)
-					.put("index", String.valueOf(getAdapterPosition() + 1))
-					.put("count", String.valueOf(getItemCount()))
-					.format().toString());
-				photoCountTextView.setContentDescription(Phrase.from(getContext(), R.string.gallery_photo_count_content_description_TEMPLATE)
-					.put("index", String.valueOf(getAdapterPosition() + 1))
-					.put("count", String.valueOf(getItemCount()))
-					.format().toString());
+				if (!showPhotoCount) {
+					photoCountTextView.setVisibility(View.GONE);
+				}
+				else {
+					photoCountTextView.setVisibility(View.VISIBLE);
+					photoCountTextView.setText(Phrase.from(getContext(), R.string.gallery_photo_count_TEMPLATE)
+						.put("index", String.valueOf(getAdapterPosition() + 1))
+						.put("count", String.valueOf(getItemCount()))
+						.format().toString());
+					photoCountTextView.setContentDescription(
+						Phrase.from(getContext(), R.string.gallery_photo_count_content_description_TEMPLATE)
+							.put("index", String.valueOf(getAdapterPosition() + 1))
+							.put("count", String.valueOf(getItemCount()))
+							.format().toString());
+				}
 			}
 
 			@Override
 			public void onClick(View v) {
-
 				if (mListener != null) {
 					mListener.onGalleryItemClicked(mMedia.get(getAdapterPosition()));
 				}
@@ -246,6 +254,10 @@ public class RecyclerGallery extends RecyclerView {
 				@Override
 				public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 					super.onBitmapLoaded(bitmap, from);
+					if (imageViewBitmapLoadedListener != null) {
+						imageViewBitmapLoadedListener.onImageViewBitmapLoaded(getAdapterPosition());
+					}
+
 					if (mMode == MODE_FILL) {
 						mImageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					}
@@ -290,18 +302,13 @@ public class RecyclerGallery extends RecyclerView {
 
 		@Override
 		public void onBindViewHolder(final ViewHolder holder, int position) {
-			if (imageViewBitmapLoadedListener != null) {
-				imageViewBitmapLoadedListener.onImageViewBitmapLoaded(position);
-			}
-
 			IMedia media = mMedia.get(position);
-			if (media.isPlaceHolder()) {
-				media.loadErrorImage(holder.mImageView, holder.callback, R.drawable.room_fallback);
+			if (media.getIsPlaceHolder()) {
+				media.loadErrorImage(holder.mImageView, holder.callback, media.getPlaceHolderId());
 			}
 			else {
 				media.loadImage(holder.mImageView, holder.callback,
-					mMode == MODE_CENTER ? Ui.obtainThemeResID(getContext(),
-						R.attr.skin_HotelRowThumbPlaceHolderDrawable) : 0);
+					mMode == MODE_CENTER ? media.getPlaceHolderId() : 0);
 			}
 			if (enableProgressBarOnImageViews) {
 				holder.progressBar.setVisibility(View.VISIBLE);
@@ -320,6 +327,22 @@ public class RecyclerGallery extends RecyclerView {
 			notifyDataSetChanged();
 		}
 
+	}
+
+	public RecyclerAdapter.ViewHolder getSelectedViewHolder() {
+		ViewHolder vh = findViewHolderForAdapterPosition(getSelectedItem());
+		if (vh != null) {
+			return (RecyclerAdapter.ViewHolder) vh;
+		}
+		return null;
+	}
+
+	public View getSelectedItemView() {
+		ViewHolder vh = findViewHolderForAdapterPosition(getSelectedItem());
+		if (vh != null) {
+			return vh.itemView;
+		}
+		return null;
 	}
 
 	public int getSelectedItem() {

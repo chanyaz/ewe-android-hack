@@ -18,7 +18,7 @@ import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeStarColor
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.BaseHotelDetailViewModel
+import com.expedia.vm.HotelDetailToolbarViewModel
 import kotlin.properties.Delegates
 
 class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
@@ -30,9 +30,10 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
     val toolBarBackground: View by bindView(R.id.toolbar_background)
     val toolBarGradient: View by bindView(R.id.hotel_details_gradient)
     val heartViewContainer: android.widget.FrameLayout by bindView(R.id.hotel_detail_toolbar_heart_container)
-    var viewModel: BaseHotelDetailViewModel by Delegates.notNull()
     var navIcon: ArrowXDrawable by Delegates.notNull()
     val heartIcon: FavoriteButton by bindView(R.id.heart_image_view)
+
+    var viewmodel: HotelDetailToolbarViewModel by Delegates.notNull()
 
     init {
         View.inflate(getContext(), R.layout.hotel_details_toolbar, this)
@@ -64,9 +65,9 @@ class HotelDetailsToolbar(context: Context, attrs: AttributeSet?) : FrameLayout(
         toolBarGradient.visibility = View.GONE
     }
 
-    fun setHotelDetailViewModel(vm: BaseHotelDetailViewModel) {
-        viewModel = vm
-        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(viewModel.showHotelFavorite())
+    fun setHotelDetailViewModel(vm: HotelDetailToolbarViewModel) {
+        viewmodel = vm
+        val bucketed = HotelFavoriteHelper.showHotelFavoriteTest(vm.showHotelFavorite)
         heartViewContainer.visibility = if (bucketed) View.VISIBLE else View.GONE
         heartIcon.isInDetailView = bucketed
 
