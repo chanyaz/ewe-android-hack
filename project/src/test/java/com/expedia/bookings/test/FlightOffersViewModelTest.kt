@@ -253,7 +253,7 @@ class FlightOffersViewModelTest {
         testSubscriber.awaitTerminalEvent(10, TimeUnit.SECONDS)
 
         val legs = testSubscriber.onNextEvents[0]
-        assertEquals(2, legs.size)
+        assertEquals(3, legs.size)
         assertEquals("leg1", legs[0].legId)
         assertEquals("34fa89938312d0fd8322ee27cb89f8a1", legs[1].legId)
         assertEquals(1, legs[0].packageOfferModel.urgencyMessage.ticketsLeft)

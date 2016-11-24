@@ -87,8 +87,8 @@ public class FlightServicesTest {
 		observer.assertCompleted();
 		observer.assertValueCount(1);
 		FlightSearchResponse response = observer.getOnNextEvents().get(0);
-		Assert.assertEquals(4, response.getLegs().size());
-		Assert.assertEquals(2, response.getOffers().size());
+		Assert.assertEquals(5, response.getLegs().size());
+		Assert.assertEquals(3, response.getOffers().size());
 		Assert.assertEquals(Constants.AIRLINE_SQUARE_LOGO_BASE_URL.replace("**", "AA"), response.getLegs().get(0).segments.get(0).airlineLogoURL);
 	}
 
