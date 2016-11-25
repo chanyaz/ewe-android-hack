@@ -330,19 +330,40 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         val params = parseHttpRequest(request)
         var latitude: String? = ""
         var longitude: String? = ""
+        var lob: String? = ""
+        var locale: String? = ""
+
         if (params.containsKey("lat")) {
             latitude = params["lat"]
         }
         if (params.containsKey("lng")) {
             longitude = params["lng"]
         }
-        if ((latitude == "3.0") && (longitude == "3.0")) {
+        if (params.containsKey("lob")) {
+            lob = params["lob"]
+        }
+        if (params.containsKey("locale")) {
+            locale = params["locale"]
+        }
+        if ((latitude == "3.0") && (longitude == "3.0") && (lob == "hotels")) {
             return makeResponse("/api/gaia/nearby_gaia_suggestion.json");
         }
-        if ((latitude == "1.0") && (longitude == "1.0")) {
+        if ((latitude == "1.0") && (longitude == "1.0") && lob == "hotels") {
             return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result.json");
         }
-        if ((latitude == "0.0") && (longitude == "0.0")) {
+        if ((latitude == "0.0") && (longitude == "0.0") && lob == "hotels") {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_zero_results.json");
+        }
+        if ((latitude == "3.0") && (longitude == "3.0") && lob == "lx") {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_lx.json");
+        }
+        if ((latitude == "1.0") && (longitude == "1.0") && lob == "lx" && locale == "fr_FR") {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result_lx_french.json");
+        }
+        if ((latitude == "1.0") && (longitude == "1.0") && lob == "lx" && locale == "en_US") {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_single_result_lx_english.json");
+        }
+        if ((latitude == "0.0") && (longitude == "0.0") && lob == "lx") {
             return makeResponse("/api/gaia/nearby_gaia_suggestion_with_zero_results.json");
         }
         return make404()
