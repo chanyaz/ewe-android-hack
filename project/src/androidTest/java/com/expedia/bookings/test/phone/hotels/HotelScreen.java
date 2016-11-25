@@ -109,15 +109,15 @@ public class HotelScreen {
 	public static ViewInteraction expandedFreeCancellation() {
 		return onView(
 			allOf(withId(R.id.expanded_free_cancellation_text_view),
-					withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
-					hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+				hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
 	}
 
 	public static ViewInteraction expandedBedType() {
 		return onView(
 			allOf(withId(R.id.expanded_bed_type_text_view),
-					withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
-					hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
+				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE),
+				hasSibling(allOf(withId(R.id.view_room_button), allOf(withText("Book"))))));
 	}
 
 	public static void clickRenoInfo() {
@@ -155,9 +155,15 @@ public class HotelScreen {
 	public static void clickSortFilter() {
 		onView(withId(R.id.sort_filter_button_container)).perform(click());
 	}
+
+	public static void clickTopCornerSortFilter() {
+		onView(withId(R.id.filter_placeholder_icon)).perform(click());
+	}
+
 	public static ViewInteraction propertyInfoContainer() {
 		return onView(withId(R.id.property_info_container));
 	}
+
 	public static ViewInteraction filterVip() {
 		return onView(withId(R.id.filter_hotel_vip));
 	}
@@ -165,7 +171,7 @@ public class HotelScreen {
 	public static ViewInteraction clearFilter() {
 		return onView(
 			allOf(withId(R.id.dynamic_feedback_clear_button),
-					isDescendantOfA(withId(R.id.dynamic_feedback_container))));
+				isDescendantOfA(withId(R.id.dynamic_feedback_container))));
 	}
 
 	public static ViewInteraction filterResultsSnackBar() {
@@ -174,7 +180,7 @@ public class HotelScreen {
 
 	public static ViewInteraction filterResultsSnackBarCounter() {
 		return onView(allOf(withId(R.id.dynamic_feedback_counter),
-				isDescendantOfA(withId(R.id.dynamic_feedback_container))));
+			isDescendantOfA(withId(R.id.dynamic_feedback_container))));
 	}
 
 	public static ViewInteraction addRoom() {
@@ -191,7 +197,7 @@ public class HotelScreen {
 			allOf(
 				withId(R.id.view_room_button), allOf(withText("View Room")),
 				hasSibling(allOf(withId(R.id.parent_room_type_and_price_container),
-						withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
+					withChild(allOf(withId(R.id.room_type_text_view), withText(roomName))))),
 				withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE))
 		);
 	}
@@ -224,7 +230,8 @@ public class HotelScreen {
 
 	public static void waitForResultsLoaded() {
 		Matcher<View> resultListMatcher = hasDescendant(withId(R.id.list_view));
-		onView(anyOf(withId(R.id.hotel_presenter), withId(R.id.package_hotel_presenter))).perform(ViewActions.waitFor(resultListMatcher, 10, TimeUnit.SECONDS));
+		onView(anyOf(withId(R.id.hotel_presenter), withId(R.id.package_hotel_presenter)))
+			.perform(ViewActions.waitFor(resultListMatcher, 10, TimeUnit.SECONDS));
 
 		hotelResultsList().perform(waitForViewToDisplay());
 
@@ -423,7 +430,8 @@ public class HotelScreen {
 	}
 
 	public static ViewInteraction mockHeartButtonInDetailView() {
-		return onView(allOf(withId(R.id.hotel_detail_toolbar_heart_mock_button), isDescendantOfA(withId(R.id.hotel_details_toolbar))));
+		return onView(allOf(withId(R.id.hotel_detail_toolbar_heart_mock_button),
+			isDescendantOfA(withId(R.id.hotel_details_toolbar))));
 	}
 
 }
