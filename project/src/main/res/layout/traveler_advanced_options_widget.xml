@@ -5,13 +5,23 @@
     android:layout_height="wrap_content">
 
     <com.expedia.bookings.widget.traveler.TravelerEditText
+        android:id="@+id/traveler_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/known_traveler_number"
+        android:inputType="number"
+        android:maxLength="13"
+        android:maxLines="1"
+        android:textSize="@dimen/traveler_input_text_size"
+        android:visibility="gone" />
+
+    <com.expedia.bookings.widget.traveler.TravelerEditText
         android:id="@+id/redress_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/only_if_applicable"
         android:inputType="number"
         android:maxLength="7"
-        android:nextFocusForward="@id/first_name_input"
         android:maxLines="1"
         android:textSize="@dimen/traveler_input_text_size" />
 
