@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Build;
 import android.support.annotation.StringRes;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.AttributeSet;
@@ -181,6 +182,14 @@ public class LXResultsPresenter extends Presenter {
 			sortFilterWidget.setVisibility(forward ? VISIBLE : GONE);
 			if (forward) {
 				sortFilterWidget.setFocusToToolbarForAccessibility();
+				ViewCompat.setImportantForAccessibility(toolbar, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+				ViewCompat.setImportantForAccessibility(searchResultsWidget, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+				ViewCompat.setImportantForAccessibility(transparentView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_NO);
+			}
+			else {
+				ViewCompat.setImportantForAccessibility(toolbar, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
+				ViewCompat.setImportantForAccessibility(searchResultsWidget, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
+				ViewCompat.setImportantForAccessibility(transparentView, ViewCompat.IMPORTANT_FOR_ACCESSIBILITY_YES);
 			}
 		}
 	};
