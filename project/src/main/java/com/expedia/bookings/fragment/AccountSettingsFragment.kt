@@ -500,7 +500,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
 
                 val numberFormatter = NumberFormat.getInstance()
-                availablePointsTextView.text = numberFormatter.format(member.loyaltyPointsAvailable)
+                if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) {
+                    availablePointsTextView.text = numberFormatter.format(member.loyaltyPointsAvailable)
+                } else {
+                    availablePointsTextView.text = userLoyaltyInfo?.loyaltyMonetaryValue?.formattedMoneyFromAmountAndCurrencyCode
+                }
                 if (member.loyaltyPointsPending > 0) {
                     pendingPointsTextView.visibility = View.VISIBLE
                     pendingPointsTextView.text = getString(R.string.loyalty_points_pending,
