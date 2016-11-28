@@ -101,6 +101,8 @@ public class PackageFlightsOverviewTest extends PackageTestCase {
 			withId(R.id.flight_total_duration))).perform(scrollTo());
 		onView(allOf(isDescendantOfA(withId(R.id.widget_flight_overview)),
 			withId(R.id.flight_total_duration), withText("Total Duration: 16h 50m"))).check(matches(isDisplayed()));
+		onView(allOf(isDescendantOfA(withId(R.id.widget_flight_overview)),
+			withId(R.id.flight_total_duration), withContentDescription("Total Duration: 16 hour 50 minutes"))).check(matches(isDisplayed()));
 	}
 
 	private void assertBundlePriceInFlight(String price) {
