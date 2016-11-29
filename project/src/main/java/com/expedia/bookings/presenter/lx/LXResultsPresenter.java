@@ -218,11 +218,6 @@ public class LXResultsPresenter extends Presenter {
 			.isFeatureEnabled(getContext(), R.string.preference_enable_filter_text_search);
 
 		setupToolbar();
-		int toolbarSize = Ui.getStatusBarHeight(getContext());
-		if (toolbarSize > 0) {
-			searchResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
-			themeResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
-		}
 
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
