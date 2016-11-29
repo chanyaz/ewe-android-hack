@@ -89,7 +89,6 @@
     <!-- Account / Login button -->
     <dimen name="account_button_text_padding">16dp</dimen>
     <dimen name="account_button_height">40dp</dimen>
-    <dimen name="account_button_padding">0dp</dimen>
 
     <!-- Account support dimensions -->
     <dimen name="account_button_points_text_size">11.5sp</dimen>

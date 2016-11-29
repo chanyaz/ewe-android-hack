@@ -31,7 +31,6 @@
     <dimen name="launch_your_search_subtitle_size">14sp</dimen>
 
     <!-- Account / Login button -->
-    <dimen name="account_button_padding">10dp</dimen>
     <dimen name="login_button_text_size">18sp</dimen>
     <dimen name="card_icon_padding">12dp</dimen>
 
