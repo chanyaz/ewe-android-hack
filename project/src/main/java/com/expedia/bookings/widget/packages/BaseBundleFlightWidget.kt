@@ -24,8 +24,9 @@ import com.expedia.util.subscribeEnabled
 import com.expedia.util.subscribeInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
-import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeTextColor
+import com.expedia.util.subscribeContentDescription
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import com.expedia.vm.packages.BundleFlightViewModel
@@ -64,6 +65,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
         vm.showLoadingStateObservable.subscribeInverseVisibility(travelInfoText)
         vm.flightInfoContainerObservable.subscribeEnabled(flightInfoContainer)
         vm.totalDurationObserver.subscribeText(totalDurationText)
+        vm.totalDurationContDescObserver.subscribeContentDescription(totalDurationText)
         vm.flightIconImageObservable.subscribe { pair: Pair<Int, Int> ->
             flightIcon.setImageResource(pair.first)
             flightIcon.setColorFilter(pair.second)
