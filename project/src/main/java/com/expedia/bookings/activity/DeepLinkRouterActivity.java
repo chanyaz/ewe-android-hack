@@ -40,6 +40,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -205,14 +206,35 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	private void handleForceBucketing(Uri data, Set<String> queryData) {
-		int key = 0, newValue = 0;
-		if (queryData.contains("key")) {
-			key = Integer.valueOf(data.getQueryParameter("key"));
+		if (isInteger(data.getQueryParameter("value"))) {
+			int key = 0, newValue = 0;
+			if (queryData.contains("key")) {
+				key = Integer.valueOf(data.getQueryParameter("key"));
+			}
+			if (queryData.contains("value")) {
+				newValue = Integer.valueOf(data.getQueryParameter("value"));
+			}
+			//reset and revert back to default abacus test map
+			if (key == 0) {
+				AbacusHelperUtils.downloadBucket(this);
+			}
+			else {
+				Db.getAbacusResponse().updateABTest(key, newValue);
+			}
 		}
-		if (queryData.contains("value")) {
-			newValue = Integer.valueOf(data.getQueryParameter("value"));
+	}
+
+	private boolean isInteger(String value) {
+		if (value != null && !value.isEmpty()) {
+			try {
+				Integer.parseInt(value);
+			}
+			catch (NumberFormatException ex) {
+				return false;
+			}
+			return true;
 		}
-		Db.getAbacusResponse().updateABTest(key, newValue);
+		return false;
 	}
 
 	/**

@@ -16,7 +16,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -228,7 +227,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		}
 	}
 
-	public static class DeepLinkWithABTestsViewHolder extends DeepLinkViewHolder implements View.OnClickListener {
+	public static class DeepLinkWithABTestsViewHolder extends DeepLinkViewHolder {
 
 		@InjectView(R.id.app_ab_tests_spinner)
 		Spinner abTestsSpinner;
@@ -239,19 +238,14 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		public DeepLinkWithABTestsViewHolder(View itemView) {
 			super(itemView);
 			List<Integer> testIDList = AbacusUtils.getActiveTests();
+
+			//add 0 to reset the test map
+			testIDList.add(0);
+
 			Collections.sort(testIDList);
 			ArrayAdapter<Integer> spinnerArrayAdapter = new ArrayAdapter<Integer>(itemView.getContext(), android.R.layout.simple_spinner_item, testIDList); //selected item will look like a spinner set from XML
 			spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 			abTestsSpinner.setAdapter(spinnerArrayAdapter);
-			abTestsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-				@Override
-				public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-				}
-
-				@Override
-				public void onNothingSelected(AdapterView<?> adapterView) {
-				}
-			});
 		}
 
 		@Override
@@ -260,9 +254,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 			String link = "expda://forceBucket?key=" + abTestsSpinner.getSelectedItem() + "&value=" + testVariantEditText.getText();
 
 			Toast.makeText(view.getContext(), link, Toast.LENGTH_SHORT).show();
-			if (link.length() > 0) {
-				intent.setData(Uri.parse(link));
-			}
+			intent.setData(Uri.parse(link));
 			safeStartActivity(view.getContext(), intent);
 		}
 	}

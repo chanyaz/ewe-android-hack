@@ -112,4 +112,28 @@ public class AbacusServicesTest {
 		AbacusLogQuery query = new AbacusLogQuery("TEST-TEST-TEST-TEST", 1, 0);
 		service.logExperiment(query);
 	}
+
+	@Test
+	public void testForceUpdateTestMap() throws Throwable {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
+		service.downloadBucket(query, observer);
+		observer.awaitTerminalEvent();
+
+		observer.assertValueCount(1);
+		observer.assertNoErrors();
+		observer.assertCompleted();
+
+		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
+		assertEquals(5, responseV2.numberOfTests());
+		assertEquals(1, responseV2.variateForTest(3243));
+
+		//force update the test map
+		responseV2.updateABTest(3243, 0);
+		assertEquals(0, responseV2.variateForTest(3243));
+	}
 }
