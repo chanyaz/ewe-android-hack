@@ -31,10 +31,11 @@ class FlightItinCardTest {
     lateinit private var itinCardData: ItinCardDataFlight
 
     @Test
-    fun actionButtonVisibleForExpandedCard() {
+    fun actionButtonVisibleForExpandedCardAfterReload() {
         createSystemUnderTest()
         sut.expand(false)
-        sut.bind(itinCardData)
+        sut.setShowSummary(true)
+        sut.rebindExpandedCard(itinCardData) // called on receipt of reload response
         assertEquals(View.VISIBLE, getActionButtonLayout().visibility)
     }
 

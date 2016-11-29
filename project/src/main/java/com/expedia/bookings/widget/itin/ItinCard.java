@@ -371,6 +371,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mHeaderItinCardContentDescription
 			.setVisibility(AccessibilityUtil.isTalkBackEnabled(getContext()) ? VISIBLE : GONE);
 
+
 		boolean shouldShowCheckInLink = shouldShowCheckInLink(itinCardData);
 		if (shouldShowCheckInLink) {
 			final int flightLegNumber = ((ItinCardDataFlight) itinCardData).getLegNumber();
@@ -1052,6 +1053,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 		// Enable the parallaxy header image
 		mHeaderImageContainer.setEnabled(mDisplayState.equals(DisplayState.EXPANDED));
+
+		// Trips card #164, should always be visible when card expanded
+		if (getType() != Type.RAILS) {
+			mActionButtonLayout.setVisibility(VISIBLE);
+		}
 	}
 
 	// Type icon position and size
