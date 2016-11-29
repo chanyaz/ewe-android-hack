@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.payment
 
 import com.expedia.bookings.data.Money
+import java.math.BigDecimal
 
 enum class LoyaltyEarnInfoType {
         NONE,
@@ -26,10 +27,15 @@ data class LoyaltyEarnInfo(val points: PointsEarnInfo?, val price: PriceEarnInfo
                 }
         }
 
-        fun getEarnMessagePointsOrPrice(): String {
+
+        fun getEarnMessagePointsOrPriceWithNonZeroValue(): String {
                 when (loyaltyEarnInfoType()) {
-                        LoyaltyEarnInfoType.POINTS -> return points?.total.toString()
-                        LoyaltyEarnInfoType.MONEY -> return price?.total?.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)!!
+                        LoyaltyEarnInfoType.POINTS -> {
+                                if (points?.total!! > 0) return points?.total.toString() else return ""
+                        }
+                        LoyaltyEarnInfoType.MONEY -> {
+                                if (price?.total?.getAmount()!! > BigDecimal.ZERO) return price?.total?.getFormattedMoneyFromAmountAndCurrencyCode(Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL)!! else return ""
+                        }
                         LoyaltyEarnInfoType.NONE -> return ""
                 }
         }
