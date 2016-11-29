@@ -62,6 +62,10 @@ public final class CarScreen {
 		return onView(withId(R.id.sort_toolbar));
 	}
 
+	public static ViewInteraction searchCategoryFilter() {
+		return onView(withId(R.id.category_sort_toolbar));
+	}
+
 	public static void clickFilterDone() {
 		onView(allOf(withId(R.id.search_btn), withText(R.string.done))).perform(click());
 	}
@@ -140,6 +144,10 @@ public final class CarScreen {
 
 	public static void clickFilterButton() {
 		searchFilter().perform(click());
+	}
+
+	public static void clickCategoryFilterButton() {
+		searchCategoryFilter().perform(click());
 	}
 
 	public static void selectCategoryForFilter(String categoryName) {

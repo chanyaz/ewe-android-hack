@@ -64,8 +64,8 @@ public class CarDetailsTest extends CarTestCase {
 		SearchScreen.doGenericCarSearch();
 
 		Common.delay(2);
-		CarScreen.searchFilter().perform(waitForViewToDisplay());
-		CarScreen.clickFilterButton();
+		CarScreen.searchCategoryFilter().perform(waitForViewToDisplay());
+		CarScreen.clickCategoryFilterButton();
 
 		CarScreen.selectCategoryForFilter("Economy");
 		CarScreen.clickFilterDone();
