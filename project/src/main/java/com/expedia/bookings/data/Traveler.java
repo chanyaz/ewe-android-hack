@@ -50,6 +50,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 	private Gender mGender = Gender.GENDER;
 	private LocalDate mBirthDate;
 	private String mRedressNumber;
+	private String mKnownTravelerNumber;
 	private List<String> mPassportCountries;
 	private SeatPreference mSeatPreference = SeatPreference.WINDOW;
 	private AssistanceType mAssistance = AssistanceType.NONE;
@@ -211,6 +212,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 
 	public String getRedressNumber() {
 		return mRedressNumber;
+	}
+
+	public String getKnownTravelerNumber() {
+		return mKnownTravelerNumber;
 	}
 
 	public boolean hasPassportCountry() {
@@ -461,6 +466,10 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mRedressNumber = redressNumber;
 	}
 
+	public void setKnownTravelerNumber(String knownTravelerNumber) {
+		mKnownTravelerNumber = knownTravelerNumber;
+	}
+
 	public void setPrimaryPassportCountry(String passportCountry) {
 		mChangedPrimaryPassportCountry = true;
 		if (mPassportCountries != null && mPassportCountries.size() > 0) {
@@ -597,6 +606,7 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 			JSONUtils.putEnum(obj, "gender", mGender);
 			JodaUtils.putLocalDateInJson(obj, "birthLocalDate", mBirthDate);
 			obj.putOpt("redressNumber", mRedressNumber);
+			obj.putOpt("knownTravelerNumber", mKnownTravelerNumber);
 			JSONUtils.putStringList(obj, "passportCountries", mPassportCountries);
 			JSONUtils.putEnum(obj, "seatPreference", mSeatPreference);
 			JSONUtils.putEnum(obj, "assistance", mAssistance);
@@ -644,6 +654,8 @@ public class Traveler implements JSONable, Comparable<Traveler> {
 		mGender = JSONUtils.getEnum(obj, "gender", Gender.class);
 		mBirthDate = JodaUtils.getLocalDateFromJson(obj, "birthLocalDate");
 		mRedressNumber = obj.optString("redressNumber");
+		mKnownTravelerNumber = obj.optString("knownTravelerNumber");
+
 		mPassportCountries = JSONUtils.getStringList(obj, "passportCountries");
 		setSeatPreference(JSONUtils.getEnum(obj, "seatPreference", SeatPreference.class));
 		mAssistance = JSONUtils.getEnum(obj, "assistance", AssistanceType.class);

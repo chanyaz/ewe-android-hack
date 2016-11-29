@@ -8,7 +8,7 @@ class TravelerNumberViewModel(context: Context) : BaseTravelerValidatorViewModel
     var traveler: Traveler by Delegates.notNull()
 
     init {
-        textSubject.subscribe { traveler.redressNumber = it }
+        textSubject.subscribe { traveler.knownTravelerNumber = it }
     }
 
     override fun isValid(): Boolean {

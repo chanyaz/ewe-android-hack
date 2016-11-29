@@ -25,6 +25,7 @@ import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -141,6 +142,7 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	}
 
 	public void testNewFlightHappyPathSignedIn() throws Throwable {
+		SettingUtils.save(getActivity(), R.string.preference_enable_checkout_traveler_number, true);
 		selectOriginDestinationAndDates();
 
 		SearchScreen.searchButton().perform(click());
@@ -154,6 +156,13 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		CheckoutViewModel.signInOnCheckout();
 		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS);
+
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+		Espresso.closeSoftKeyboard();
+		PackageScreen.clickTravelerAdvanced();
+		onView(withId(R.id.traveler_number)).check(matches(withText("TN123456789")));
+		onView(withId(R.id.redress_number)).check(matches(withText("1234567")));
+		PackageScreen.clickTravelerDone();
 
 		CheckoutViewModel.clickPaymentInfo();
 		CheckoutViewModel.selectStoredCard("Saved AmexTesting");

@@ -407,4 +407,7 @@
     <string name="acct__google_account_change_string">@string/google_account_change_string</string>
     <string name="acct__google_account_change_message_TEMPLATE">@string/google_account_change_message_TEMPLATE</string>
     <string name="etp_pay_now_earn_text"></string>
+
+    <!-- EdiText allowed alpha numeric -->
+    <string name="alpha_numeric_digits">ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789</string>
 </resources>

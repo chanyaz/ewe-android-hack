@@ -17,6 +17,8 @@ class TravelerAdvancedOptionsViewModel(context: Context) {
         TravelerNumberViewModel(context)
     }
 
+    val redressNumberSubject = BehaviorSubject.create<String>()
+    val travelerNumberSubject = BehaviorSubject.create<String>()
     val seatPreferenceSubject = BehaviorSubject.create<Traveler.SeatPreference>()
     val assistancePreferenceSubject = BehaviorSubject.create<Traveler.AssistanceType>()
 
@@ -32,6 +34,12 @@ class TravelerAdvancedOptionsViewModel(context: Context) {
         this.traveler = traveler
         redressViewModel.traveler = traveler
         travelerNumberViewModel.traveler = traveler
+        if (traveler.redressNumber?.isNotEmpty() ?: false) {
+            redressNumberSubject.onNext(traveler.redressNumber)
+        }
+        if (traveler.knownTravelerNumber?.isNotEmpty() ?: false) {
+            travelerNumberSubject.onNext(traveler.knownTravelerNumber)
+        }
         seatPreferenceSubject.onNext(traveler.seatPreference)
         assistancePreferenceSubject.onNext(traveler.assistance)
     }
