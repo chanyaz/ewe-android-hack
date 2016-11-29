@@ -127,6 +127,10 @@ public class SectionLocation extends LinearLayout
 		return mFields.hasValidInput();
 	}
 
+	public int getNumberOfInvalidFields() {
+		return mFields.getNumberOfInvalidFields();
+	}
+
 	public boolean validateField(int fieldId) {
 		return mFields.hasValidInput(fieldId);
 	}

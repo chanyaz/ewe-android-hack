@@ -142,8 +142,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.getToolbarTitle().subscribe(toolbar.getViewModel().getToolbarTitle());
 		paymentInfoCardView.getToolbarNavIcon().subscribe(toolbar.getViewModel().getToolbarNavIcon());
 		paymentInfoCardView.getFocusedView().subscribe(toolbar.getViewModel().getCurrentFocus());
-		paymentInfoCardView.getMenuVisibility().subscribe(toolbar.getViewModel().getMenuVisibility());
-		paymentInfoCardView.getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
+		paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(toolbar.getViewModel().getMenuVisibility());
+		paymentInfoCardView.getViewmodel().getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
 		paymentInfoCardView.getVisibleMenuWithTitleDone().subscribe(toolbar.getViewModel().getVisibleMenuWithTitleDone());
 		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getFormFilledIn());
 		toolbar.getViewModel().getDoneClicked().subscribe(new Observer<Unit>() {

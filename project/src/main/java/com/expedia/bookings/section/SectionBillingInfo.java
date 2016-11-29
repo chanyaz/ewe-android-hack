@@ -178,6 +178,10 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		return mFields.firstInvalidInputField();
 	}
 
+	public int getNumberOfInvalidFields() {
+		return mFields.getNumberOfInvalidFields();
+	}
+
 	public boolean validateField(int fieldId) {
 		return mFields.hasValidInput(fieldId);
 	}

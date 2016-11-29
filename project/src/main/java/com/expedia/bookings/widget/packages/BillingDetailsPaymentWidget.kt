@@ -71,12 +71,14 @@ class BillingDetailsPaymentWidget(context: Context, attr: AttributeSet) : Paymen
 
     override fun addVisibilitySubscriptions() {
         super.addVisibilitySubscriptions()
-        addVisibilitySubscription(creditCardCvv.subscribeTextChange(formFilledSubscriber))
-        addVisibilitySubscription(addressLineOne.subscribeTextChange(formFilledSubscriber))
-        addVisibilitySubscription(addressCity.subscribeTextChange(formFilledSubscriber))
-        addVisibilitySubscription(addressState.subscribeTextChange(formFilledSubscriber))
-        addVisibilitySubscription(sectionLocation.countrySubject.subscribe(formFilledSubscriber))
-        sectionLocation.countrySubject.subscribe { sectionLocation.resetValidation(R.id.edit_address_state, true) }
+        if (!viewmodel.newCheckoutIsEnabled.value) {
+            addVisibilitySubscription(creditCardCvv.subscribeTextChange(formFilledSubscriber))
+            addVisibilitySubscription(addressLineOne.subscribeTextChange(formFilledSubscriber))
+            addVisibilitySubscription(addressCity.subscribeTextChange(formFilledSubscriber))
+            addVisibilitySubscription(addressState.subscribeTextChange(formFilledSubscriber))
+            addVisibilitySubscription(sectionLocation.countrySubject.subscribe(formFilledSubscriber))
+            sectionLocation.countrySubject.subscribe { sectionLocation.resetValidation(R.id.edit_address_state, true) }
+        }
     }
 
     override fun isAtLeastPartiallyFilled(): Boolean {

@@ -61,9 +61,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
 
         checkoutPresenter.paymentWidget.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
         checkoutPresenter.paymentWidget.focusedView.subscribe(bundleOverviewHeader.toolbar.viewModel.currentFocus)
-        checkoutPresenter.paymentWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.formFilledIn)
-        checkoutPresenter.paymentWidget.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
-        checkoutPresenter.paymentWidget.enableMenuItem.subscribe(bundleOverviewHeader.toolbar.viewModel.enableMenuItem)
+        if (!checkoutPresenter.paymentWidget.viewmodel.newCheckoutIsEnabled.value) checkoutPresenter.paymentWidget.filledIn.subscribe(bundleOverviewHeader.toolbar.viewModel.formFilledIn)
+        checkoutPresenter.paymentWidget.viewmodel.menuVisibility.subscribe(bundleOverviewHeader.toolbar.viewModel.menuVisibility)
+        checkoutPresenter.paymentWidget.viewmodel.enableMenuItem.subscribe(bundleOverviewHeader.toolbar.viewModel.enableMenuItem)
         checkoutPresenter.paymentWidget.visibleMenuWithTitleDone.subscribe(bundleOverviewHeader.toolbar.viewModel.visibleMenuWithTitleDone)
         checkoutPresenter.paymentWidget.toolbarNavIcon.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarNavIcon)
 

@@ -54,5 +54,11 @@
             android:summary="Checkout Traveler Known number"
             android:title="Enable Checkout Traveler Known number" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_enable_new_checkout"
+            android:layout="@layout/preference"
+            android:summary="New checkout form behavior in Universal Checkout"
+            android:title="Enable new Checkout Behavior" />
+
     </PreferenceCategory>
 </PreferenceScreen>

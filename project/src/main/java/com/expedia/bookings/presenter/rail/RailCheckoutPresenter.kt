@@ -252,8 +252,8 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         paymentWidget.toolbarTitle.subscribe(toolbarViewModel.toolbarTitle)
         paymentWidget.focusedView.subscribe(toolbarViewModel.currentFocus)
         paymentWidget.filledIn.subscribe(toolbarViewModel.formFilledIn)
-        paymentWidget.menuVisibility.subscribe(toolbarViewModel.menuVisibility)
-        paymentWidget.enableMenuItem.subscribe(toolbarViewModel.enableMenuItem)
+        paymentWidget.viewmodel.menuVisibility.subscribe(toolbarViewModel.menuVisibility)
+        paymentWidget.viewmodel.enableMenuItem.subscribe(toolbarViewModel.enableMenuItem)
         paymentWidget.visibleMenuWithTitleDone.subscribe(toolbarViewModel.visibleMenuWithTitleDone)
         paymentWidget.toolbarNavIcon.subscribe(toolbarViewModel.toolbarNavIcon)
     }

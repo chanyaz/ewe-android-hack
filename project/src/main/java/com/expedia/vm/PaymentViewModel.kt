@@ -14,12 +14,14 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
+import com.expedia.bookings.data.extensions.isUniversalCheckout
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.TripBucketItemCar
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.bookings.widget.PaymentWidgetV2
 import com.squareup.phrase.Phrase
@@ -42,6 +44,9 @@ open class PaymentViewModel(val context: Context) {
     val emptyBillingInfo = PublishSubject.create<Unit>()
     val storedCardRemoved = PublishSubject.create<StoredCreditCard?>()
     val showingPaymentForm = PublishSubject.create<Boolean>()
+    val newCheckoutIsEnabled = BehaviorSubject.create<Boolean>(false)
+    val enableMenuItem = PublishSubject.create<Boolean>()
+    val menuVisibility = PublishSubject.create<Boolean>()
 
     val cardTypeSubject = PublishSubject.create<PaymentType?>()
     val cardBIN = BehaviorSubject.create<String>("")
@@ -208,6 +213,7 @@ open class PaymentViewModel(val context: Context) {
             }
             isZipValidationRequired.onNext(isPostalCodeRequired)
             ccFeeDisclaimer.onNext(getCCFeeDisclaimerText(lob))
+            newCheckoutIsEnabled.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_checkout) && lob.isUniversalCheckout())
         }
 
         cardIoScanResult.subscribe { card ->
@@ -227,6 +233,11 @@ open class PaymentViewModel(val context: Context) {
         }
 
         resetCardFees.subscribe { cardBIN.onNext("") }
+
+        onStoredCardChosen.map { !newCheckoutIsEnabled.value }.subscribe { isEnabled ->
+            enableMenuItem.onNext(isEnabled)
+            menuVisibility.onNext(isEnabled)
+        }
     }
 
     @VisibleForTesting
