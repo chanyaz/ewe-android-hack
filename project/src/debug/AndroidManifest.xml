@@ -28,18 +28,6 @@
             android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"
             android:theme="@style/V2.Theme.Cars" />
 
-        <activity
-            android:name="com.expedia.ui.RailActivity"
-            android:exported="true"
-            android:label="Rail"
-            android:screenOrientation="portrait"
-            android:taskAffinity="com.expedia.ui.RailActivity"
-            android:theme="@style/Theme.Rail">
-            <meta-data
-                android:name="debug"
-                android:value="true" />
-        </activity>
-
         <activity android:name="com.expedia.bookings.activity.DebugTextStylesActivity"
             android:label="Core Text Styles"
             android:theme="@style/Theme.AppCompat.Light"
