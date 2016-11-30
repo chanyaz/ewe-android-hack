@@ -72,7 +72,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
         // AbacusV2 API
         if (request.path.contains("/api/bucketing/v1/evaluateExperiments")) {
-            return makeResponse("/api/bucketing/happy.json")
+            val params = parseHttpRequest(request)
+            val tpid = params["tpid"] ?: return make404()
+
+            return makeResponse("/api/bucketing/happy$tpid.json")
         }
 
         // AbacusV2 API

@@ -1,6 +1,7 @@
 package com.expedia.bookings.unit;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -56,6 +57,7 @@ public class AbacusServicesTest {
 		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
 		service.downloadBucket(query, observer);
 		observer.awaitTerminalEvent();
+		observer.awaitTerminalEvent();
 
 		observer.assertNoValues();
 		observer.assertError(JsonSyntaxException.class);
@@ -79,14 +81,7 @@ public class AbacusServicesTest {
 
 	@Test
 	public void testMockDownloadWorks() throws Throwable {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
-
-		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
-		service.downloadBucket(query, observer);
-		observer.awaitTerminalEvent();
+		TestSubscriber<AbacusResponse> observer = getAbacusResponseTestSubscriber();
 
 		observer.assertValueCount(1);
 		observer.assertNoErrors();
@@ -115,14 +110,7 @@ public class AbacusServicesTest {
 
 	@Test
 	public void testForceUpdateTestMap() throws Throwable {
-		String root = new File("../mocked/templates").getCanonicalPath();
-		FileSystemOpener opener = new FileSystemOpener(root);
-		server.setDispatcher(new ExpediaDispatcher(opener));
-
-		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
-		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
-		service.downloadBucket(query, observer);
-		observer.awaitTerminalEvent();
+		TestSubscriber<AbacusResponse> observer = getAbacusResponseTestSubscriber();
 
 		observer.assertValueCount(1);
 		observer.assertNoErrors();
@@ -135,5 +123,51 @@ public class AbacusServicesTest {
 		//force update the test map
 		responseV2.updateABTest(3243, 0);
 		assertEquals(0, responseV2.variateForTest(3243));
+	}
+
+	@Test
+	public void testUpdateABTestForDebug() throws Throwable {
+		TestSubscriber<AbacusResponse> observer = getAbacusResponseTestSubscriber();
+
+		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
+		assertEquals(5, responseV2.numberOfTestsDebugMap());
+		assertEquals(1, responseV2.variateForTest(3243));
+
+		responseV2.updateABTestForDebug(3243, 0);
+		assertEquals(0, responseV2.variateForTest(3243));
+
+		//for a test key not present in the map
+		responseV2.updateABTestForDebug(5555, 1);
+		assertEquals(1, responseV2.variateForTest(5555));
+	}
+
+	private TestSubscriber<AbacusResponse> getAbacusResponseTestSubscriber() throws IOException {
+		String root = new File("../mocked/templates").getCanonicalPath();
+		FileSystemOpener opener = new FileSystemOpener(root);
+		server.setDispatcher(new ExpediaDispatcher(opener));
+
+		TestSubscriber<AbacusResponse> observer = new TestSubscriber<>();
+		AbacusEvaluateQuery query = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 1, 0);
+		service.downloadBucket(query, observer);
+		observer.awaitTerminalEvent();
+		return observer;
+	}
+
+	@Test
+	public void testUpdateFromAbacusResponse() throws Throwable {
+		TestSubscriber<AbacusResponse> observer = getAbacusResponseTestSubscriber();
+
+		AbacusResponse responseV2 = observer.getOnNextEvents().get(0);
+		assertEquals(5, responseV2.numberOfTestsDebugMap());
+
+		TestSubscriber<AbacusResponse> newObserver = new TestSubscriber<>();
+		AbacusEvaluateQuery newQuery = new AbacusEvaluateQuery("TEST-TEST-TEST-TEST", 2, 0);
+		service.downloadBucket(newQuery, newObserver);
+		newObserver.awaitTerminalEvent();
+		newObserver.assertCompleted();
+
+		AbacusResponse newResponseV2 = newObserver.getOnNextEvents().get(0);
+		responseV2.updateFrom(newResponseV2);
+		assertEquals(3, newResponseV2.numberOfTestsDebugMap());
 	}
 }

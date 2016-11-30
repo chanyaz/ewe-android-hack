@@ -79,6 +79,10 @@ public class AbacusResponse {
 		return abacusTestMap.size();
 	}
 
+	public int numberOfTestsDebugMap() {
+		return abacusTestDebugMap.size();
+	}
+
 	public void updateFrom(AbacusResponse otherResponse) {
 		abacusTestMap.clear();
 		abacusTestDebugMap.clear();
