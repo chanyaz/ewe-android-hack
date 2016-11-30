@@ -28,6 +28,4 @@
         <item name="android:background">@drawable/bg_action_bar</item>
     </style>
 
-    <style name="SplashTheme" parent="@android:style/Theme.NoDisplay"/>
-
 </resources>
