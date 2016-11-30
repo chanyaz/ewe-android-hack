@@ -15,7 +15,6 @@ import android.view.View;
 import android.widget.ImageButton;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
@@ -241,11 +240,13 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction outboundFlightBundleContainer() {
-		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)), withId(R.id.row_container)));
+		return onView(
+			allOf(isDescendantOfA(withId(R.id.package_bundle_outbound_flight_widget)), withId(R.id.row_container)));
 	}
 
 	public static ViewInteraction inboundFlightBundleContainer() {
-		return onView(allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withId(R.id.row_container)));
+		return onView(
+			allOf(isDescendantOfA(withId(R.id.package_bundle_inbound_flight_widget)), withId(R.id.row_container)));
 	}
 
 	public static ViewInteraction bundleTotalFooterWidget() {
@@ -262,11 +263,13 @@ public class PackageScreen {
 	}
 
 	public static ViewInteraction checkBoxWithTitle(String title) {
-		return onView(CoreMatchers.allOf(withId(R.id.check_box), hasSibling(CoreMatchers.allOf(withId(R.id.label), withText(title)))));
+		return onView(CoreMatchers
+			.allOf(withId(R.id.check_box), hasSibling(CoreMatchers.allOf(withId(R.id.label), withText(title)))));
 	}
 
 	public static ViewInteraction checkBoxContainerWithTitle(String title) {
-		return onView(CoreMatchers.allOf(withId(R.id.filter_categories_widget), hasDescendant(CoreMatchers.allOf(withId(R.id.label), withText(title)))));
+		return onView(CoreMatchers.allOf(withId(R.id.filter_categories_widget),
+			hasDescendant(CoreMatchers.allOf(withId(R.id.label), withText(title)))));
 	}
 
 	public static ViewInteraction addRoom() {
@@ -284,13 +287,12 @@ public class PackageScreen {
 	}
 
 	public static void clickAddRoom() {
-		waitForDetailsLoaded();
 		addRoom().perform(scrollTo(), click());
 	}
 
 	public static void selectRoom() throws Throwable {
+		//Common.delay(1);
 		clickAddRoom();
-		Common.delay(2);
 	}
 
 	public static void waitForDetailsLoaded() {
@@ -337,7 +339,7 @@ public class PackageScreen {
 
 	public static void selectGender(String genderType) {
 		onView(withId(R.id.edit_gender_spinner)).perform(click());
-		onData(allOf(is(instanceOf(String.class)),is(genderType))).perform(click());
+		onData(allOf(is(instanceOf(String.class)), is(genderType))).perform(click());
 	}
 
 	public static void selectBirthDate(int year, int month, int day) {
@@ -480,5 +482,9 @@ public class PackageScreen {
 		enterCreditCard();
 		completeCardInfo(nameOnCard);
 		clickPaymentDone();
+	}
+
+	public static ViewInteraction stopsContainer() {
+		return onView(withId(R.id.stops_container));
 	}
 }
