@@ -155,8 +155,8 @@
         "earn": {
           "price": {
             "base": {
-              "amount": "8.52",
-              "formattedPrice": "$8.52",
+              "amount": "0.00",
+              "formattedPrice": "$0.00",
               "formattedWholePrice": "$9",
               "currencyCode": "USD"
             },
@@ -167,9 +167,9 @@
               "currencyCode": "USD"
             },
             "total": {
-              "amount": "8.52",
-              "formattedPrice": "$8.52",
-              "formattedWholePrice": "$9",
+              "amount": "0.00",
+              "formattedPrice": "$0.00",
+              "formattedWholePrice": "$0",
               "currencyCode": "USD"
             }
           }
