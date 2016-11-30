@@ -314,6 +314,52 @@ class BillingDetailsPaymentWidgetTest {
         assertTrue(billingDetailsPaymentWidget.isCompletelyFilled())
     }
 
+    @Test
+    fun testCreditCardExclamationMark() {
+        val incompleteCCNumberInfo = BillingInfo(getIncompleteCCBillingInfo())
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(incompleteCCNumberInfo)
+
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        assertNull(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2])
+
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
+
+        billingDetailsPaymentWidget.creditCardNumber.setText("1234")
+        assertNull(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2])
+
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+        billingDetailsPaymentWidget.back()
+
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
+    }
+
+    @Test
+    fun testNumberOfErrorsCorrect() {
+        val incompleteBillingInfo = BillingInfo(getIncompleteCCBillingInfo())
+        incompleteBillingInfo.location.stateCode = ""
+        incompleteBillingInfo.location.city = ""
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(incompleteBillingInfo)
+        billingDetailsPaymentWidget.sectionLocation.bind(incompleteBillingInfo.location)
+
+        billingDetailsPaymentWidget.cardInfoContainer.performClick()
+        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
+
+        val numSectionLocationErrors = billingDetailsPaymentWidget.sectionLocation.numberOfInvalidFields
+        val numSectionBillingErrors = billingDetailsPaymentWidget.sectionBillingInfo.numberOfInvalidFields
+        val totalNumberOfErrors = numSectionBillingErrors.plus(numSectionLocationErrors)
+
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.addressState.compoundDrawables[2]).createdFromResId)
+        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.addressCity.compoundDrawables[2]).createdFromResId)
+
+        assertEquals(numSectionBillingErrors, 1)
+        assertEquals(numSectionLocationErrors, 2)
+        assertEquals(totalNumberOfErrors, 3)
+    }
+
     private fun getUserWithStoredCard() : User {
         val user = User()
         user.addStoredCreditCard(getNewCard())
@@ -355,28 +401,6 @@ class BillingDetailsPaymentWidgetTest {
         Db.getTripBucket().clear(LineOfBusiness.PACKAGES)
         Db.getTripBucket().add(trip)
     }
-
-	@Test
-	fun testCreditCardExclamationMark() {
-		val incompleteCCNumberInfo = BillingInfo(getIncompleteCCBillingInfo())
-		billingDetailsPaymentWidget.sectionBillingInfo.bind(incompleteCCNumberInfo)
-
-		billingDetailsPaymentWidget.cardInfoContainer.performClick()
-		assertNull(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2])
-
-		billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-		assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
-
-        billingDetailsPaymentWidget.creditCardNumber.setText("1234")
-        assertNull(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2])
-
-        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
-        billingDetailsPaymentWidget.back()
-
-		billingDetailsPaymentWidget.cardInfoContainer.performClick()
-
-		assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
-	}
 
 	private fun getIncompleteCCBillingInfo(): BillingInfo {
 		val location = getLocation()
