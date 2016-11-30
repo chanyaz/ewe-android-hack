@@ -116,4 +116,6 @@
     <color name="flight_overview_color_filter">@color/lob_primary_color</color>
     <color name="flights_details_layover_color">@color/lob_primary_color</color>
 
+    <!-- Splash screen -->
+    <color name="splash_screen_bg">@color/bg_blue_color_travelocity</color>
 </resources>
