@@ -87,6 +87,7 @@ public class TripParser {
 		trip.setCustomerSupport(parseCustomerSupport(tripJson.optJSONObject("customerSupport")));
 
 		trip.addTripComponents(parseTripComponents(tripJson));
+		trip.setIsTripUpgradable(tripJson.optBoolean("isTripUpgradable"));
 
 		// Parse insurance
 		JSONArray insurance = tripJson.optJSONArray("insurance");
