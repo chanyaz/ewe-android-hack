@@ -309,6 +309,8 @@
     <string name="Fly_from_dot_dot_dot">Bay từ…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Chọn ngày</string>
+    <!-- Select Start date - used for the LX Calendar. -->
+    <string name="select_start_date">Chọn ngày bắt đầu</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Khách sạn tối nay</string>
     <!-- Missing flight info message -->
@@ -1014,7 +1016,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">Đang tạo chuyến đi…</string>
+    <string name="spinner_text_create_trip">Đang tạo chuyến đi…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1066,6 +1068,8 @@
     <string name="error_select_rail_card_details">Vui lòng chọn chi tiết railcard.</string>
     <!-- Error message when rail cards selected is greater than no. of travelers -->
     <string name="error_rail_cards_greater_than_number_travelers">Số lượng railcard không thể nhiều hơn số người.</string>
+    <!-- Error message indicating we were unable to fetch rail cards at this time -->
+    <string name="no_rail_cards_error_message">Hiện không tải được railcard. Vui lòng thử lại sau.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Đi từ</string>
@@ -1253,6 +1257,8 @@
     <string name="arrive_tz_TEMPLATE">Đến (%1$s)</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">Xác nhận của hãng hàng không</string>
+    <!-- Flight Itinerary airline support number -->
+    <string name="flight_itin_airline_support_number_label">Hỗ trợ khách hàng của Hãng hàng không</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">Xác nhận của %1$s</string>
     <!-- Car rental agency name and location in car itin detail -->
@@ -1735,6 +1741,8 @@
     <string name="flights_round_trip_label">KHỨ HỒI</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">MỘT CHIỀU</string>
+    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
+    <string name="flights_tab_selection_accouncement_TEMPLATE">Hiển thị màn hình tìm chuyến bay {whichway}</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Đi</string>
     <!-- Flights Line of Business title -->
@@ -1772,7 +1780,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">Lỗi</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">Ồ. Hãy thử lại.</string>
+    <string name="error_try_again_warning">Ồ. Hãy thử lại.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Thử lại</string>
 
@@ -1806,9 +1814,9 @@
     <!-- "Select" button label, for selecting a particular leg of a flight -->
     <string name="select">Chọn</string>
     <!-- Template for outbound flight selection.  %s is the name of a city (e.g., "Outbound to San Francisco") -->
-    <string name="outbound_TEMPLATE">Chuyến bay quốc tế đến %s</string>
+    <string name="outbound_TEMPLATE">Chuyến bay đi đến %s</string>
     <!-- Template for inbound flight selection.  %s is the name of a city (e.g., "Inbound to San Francisco") -->
-    <string name="inbound_TEMPLATE">Chuyến bay vào nội địa đến %s</string>
+    <string name="inbound_TEMPLATE">Chuyến bay về %s</string>
     <!-- Template string for error when we simple can't connect to E3 servers-->
     <string name="error_server_TEMPLATE">Rất tiếc, chúng tôi không thể kết nối với máy chủ của {brand}. Vui lòng thử lại sau.</string>
     <!-- Sort by departure timelabel -->
@@ -1895,6 +1903,8 @@
     <string name="calendar_tooltip_bottom_drag_to_modify">Kéo ngày kết thúc để điều chỉnh</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
+    <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} đến {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (1 chiều)</string>
     <!-- Calendar instructions rail start date selected -->
@@ -1909,6 +1919,8 @@
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
     <string name="hotel_free_cancellation_TEMPLATE">Hủy miễn phí đến {date}</string>
+    <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
+    <string name="hotel_free_cancellation_before_TEMPLATE">Hủy miễn phí trước {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2043,6 +2055,8 @@
     <string name="your_trip_to_TEMPLATE">Chuyến đi đến %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">bao gồm thuế và phí</string>
+    <!-- Payment and ticket delivery fees may also apply -->
+    <string name="payment_and_ticket_delivery_fees_may_also_apply">Có thể áp dụng phí thanh toán và giao vé</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">Bao gồm chuyến bay + khách sạn</string>
     <!-- Includes taxes (but not necessarily fees) -->
@@ -2392,6 +2406,12 @@
     <string name="passport_country_origin">Quốc gia cấp hộ chiếu / Gốc</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Số redress (nếu có)</string>
+    <!-- traveler number hint -->
+    <string name="known_traveler_number">Số Known Traveler</string>
+    <!-- traveler number info msg -->
+    <string name="known_traveler_msg">Đây là số do chính phủ cấp, dùng cho chương trình TSA PreCheck</string>
+    <!-- redress number info msg -->
+    <string name="redress_number_msg">Số redress là số duy nhất do TSA cấp cho cá nhân, giúp TSA xác nhận danh tính và loại trừ trường hợp nhận dạng nhầm trong danh sách cần theo dõi.</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Đang lưu thông tin khách vào tài khoản quý vị…</string>
     <!-- Seating Preference -->
@@ -3411,6 +3431,15 @@
         <item quantity="other">Ngày</item>
     </plurals>
 
+    <!-- A number of railcards. Capitalized -->
+    <plurals name="number_of_railcards">
+        <item quantity="zero">%d railcard</item>
+        <item quantity="one">%d railcard</item>
+        <item quantity="two">%d railcard</item>
+        <item quantity="many">%d railcard</item>
+        <item quantity="other">%d railcard</item>
+    </plurals>
+
     <!-- Distance strings -->
     <!-- Abbreviated miles (used in distance_template) -->
     <string name="unit_miles">dặm</string>
@@ -4025,12 +4054,10 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">Bằng việc hoàn tất quy trình đặt, tôi đồng ý mình đã đọc và chấp thuận %1$s, %2$s và %3$s.</string>
-    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">Tôi đã đọc và đồng ý với {terms_of_use} và {privacy_policy}. Bằng việc tham gia {brand_reward_name}, tôi đồng ý mọi {terms_and_conditions}.</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">Tôi đã đọc và đồng ý {terms_of_use} và {privacy_policy}.</string>
-    <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Nhận thưởng sản phẩm du lịch miễn phí với {brand_reward_name}. Bằng việc tham gia {brand_reward_name}, tôi đồng ý mọi {terms_and_conditions}</string>
+    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Tham gia {brand_reward_name} ngay hôm nay. Bằng việc tham gia {brand_reward_name}, tôi đồng ý mọi {terms_and_conditions}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Chọn tuổi từng trẻ</string>
@@ -4250,6 +4277,12 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Điều hành bởi {operatingairlinename}</string>
 
+    <!-- Accessibility announcement when showing searching/loading screen -->
+    <string name="accessibility_announcement_searching_flights">Đang tìm chuyến bay. Vui lòng chờ.</string>
+    <!-- Accessibility announcement when search has completed and we're showing inbound flights results. Example: Showing inbound flights to San Francisco, CA -->
+    <string name="accessibility_announcement_showing_inbound_flights_TEMPLATE">Hiển thị chuyến bay về đến {city}</string>
+    <!-- Accessibility announcement when search has completed and we're showing outbound flights results. Example: Showing outbound flights to Denver, CO -->
+    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Hiển thị chuyến bay đi đến {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Chọn chuyến bay đến %1$s</string>
     <!-- Flight to template -->
@@ -4281,11 +4314,6 @@
         <item quantity="one">Khách sạn tại {city}, 1 phòng, {number} đêm</item>
         <item quantity="other">Khách sạn tại {city}, 1 phòng, {number} đêm</item>
     </plurals>
-
-    <!-- Text indicating that the user can drag this button to view their trip -->
-    <string name="trip_overview">Xem thông tin chuyến đi</string>
-    <!-- Content description to View Trip Details view -->
-    <string name="trip_overview_cont_desc">Nút hiển thị chi tiết chuyến đi</string>
 
     <!-- Slide to book -->
     <string name="slide_to_book_text">Trượt để đặt</string>
@@ -4384,12 +4412,18 @@
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
-    <string name="rail_journey_details_and_fare_options">Chi tiết chuyến đi + Tùy chọn giá vé</string>
+    <string name="rail_journey_details_and_fare_options">Chi tiết &amp; Giá</string>
 
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">Quý vị có {formatted_duration} để di chuyên từ {origin_station_name} đến {destination_station_name}</string>
 
     <string name="rail_overtaken_message">Tàu bị vượt: Tàu này chậm hơn những tàu khác.</string>
+
+    <!-- Messaging indicating to the user of their previously selected choice. -->
+    <string name="rail_open_return_selected">Quý vị đã chọn chuyến về mở</string>
+
+    <!-- When the user selects an open return they can choose any inbound train journey -->
+    <string name="rail_open_return_description">Quý vị không nhất định phải sử dụng chuyến tàu đã chọn, nhưng hãy cho chúng tôi biết lựa chọn hiện tại</string>
 
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Đi {travel_mode} từ {origin_station_name} đến {destination_station_name}</string>
@@ -4408,6 +4442,9 @@
 
     <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">Trở về - {date}</string>
+
+    <!-- rail checkout overview label indicating the user selected an open return journey.-->
+    <string name="rail_open_return_messaging">Đi trên mọi chuyến tàu hợp lệ trong vòng 1 tháng từ ngày khởi hành</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
     <string name="rail_price_breakdown_journey">Chuyến đi</string>
@@ -4455,7 +4492,7 @@
     <string name="rail_credit_card_fee">Phí thẻ</string>
 
     <!-- Credit card fee disclaimer on payment screen -->
-    <string name="rail_card_fee_disclaimer">Công ty tàu hỏa thu phụ phí không hoàn trả khi thanh toán bằng một số loại thẻ. Có thể sử dụng thẻ ghi nợ để tránh loại phí này</string>
+    <string name="rail_card_fee_disclaimer">Nhà cung cấp dịch vụ đặt tàu hỏa của chúng tôi thu phụ phí không hoàn tiền nếu thanh toán bằng một số loại thẻ tín dụng. Có thể sử dụng thẻ ghi nợ để tránh loại phí này.</string>
 
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">Phí theo loại thẻ</string>
@@ -4482,6 +4519,10 @@
 
     <string name="mail_delivery_details">Vé được giao đến địa chỉ quý vị cung cấp.</string>
     <string name="tdo_fees_non_refundable">Phí giao vé là phí không hoàn tiền.</string>
+
+    <string name="rail_error_title">Có lỗi phát sinh</string>
+    <string name="rail_unknown_error_message">Vui lòng điều chỉnh tiêu chí tìm kiếm và thử lại.</string>
+    <string name="rail_cko_retry_error_message">Vui lòng kiểm tra thông tin thanh toán và thử lại hoặc thay đổi yêu cầu tìm kiếm.</string>
 
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
@@ -4769,6 +4810,7 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Ô chọn. Bỏ chọn.</string>
     <string name="base_search_dates_cont_desc">Chọn ngày. Nút. Mở hộp thoại</string>
+    <string name="lx_search_start_date_cont_desc">Chọn ngày bắt đầu. Nút. Mở hộp thoại</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>
