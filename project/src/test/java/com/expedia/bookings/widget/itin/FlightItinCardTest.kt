@@ -34,8 +34,9 @@ class FlightItinCardTest {
     fun actionButtonVisibleForExpandedCardAfterReload() {
         createSystemUnderTest()
         sut.expand(false)
-        sut.setShowSummary(true)
         sut.rebindExpandedCard(itinCardData) // called on receipt of reload response
+        sut.setShowSummary(true)
+        sut.bind(itinCardData)
         assertEquals(View.VISIBLE, getActionButtonLayout().visibility)
     }
 
