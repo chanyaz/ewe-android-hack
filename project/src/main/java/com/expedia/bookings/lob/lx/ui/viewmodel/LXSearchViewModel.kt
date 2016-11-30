@@ -106,7 +106,7 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     override fun computeDateRangeText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): String? {
         if (start == null && end == null) {
-            val stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_dates
+            val stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_start_date
             return context.getString(stringID)
         } else {
             return DateUtils.localDateToMMMMd(start)
