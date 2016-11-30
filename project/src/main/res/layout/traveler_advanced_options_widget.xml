@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="@string/known_traveler_number"
-        android:inputType="number"
+        android:digits="@string/alpha_numeric_digits"
         android:maxLength="13"
         android:maxLines="1"
         android:textSize="@dimen/traveler_input_text_size"

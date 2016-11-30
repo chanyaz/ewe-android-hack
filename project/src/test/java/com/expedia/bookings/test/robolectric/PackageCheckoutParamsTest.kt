@@ -29,6 +29,7 @@ class PackageCheckoutParamsTest {
 
     val expectedSeatPreferenceKey = "flight.mainFlightPassenger.seatPreference"
     val expectedRedressKey = "flight.mainFlightPassenger.TSARedressNumber"
+    val expectedTravelerNumberKey = "flight.mainFlightPassenger.knownTravelerNumber"
 
     @Before
     fun before() {
@@ -73,6 +74,7 @@ class PackageCheckoutParamsTest {
 
         assertEquals("WINDOW", params.toQueryMap()[expectedSeatPreferenceKey])
         assertEquals("123456", params.toQueryMap()[expectedRedressKey])
+        assertEquals("TN123456", params.toQueryMap()[expectedTravelerNumberKey])
     }
 
     @Test
@@ -126,6 +128,7 @@ class PackageCheckoutParamsTest {
         traveler.birthDate = LocalDate.now().minusYears(18)
         traveler.seatPreference = Traveler.SeatPreference.WINDOW
         traveler.redressNumber = "123456"
+        traveler.knownTravelerNumber = "TN123456"
         return traveler
     }
 
