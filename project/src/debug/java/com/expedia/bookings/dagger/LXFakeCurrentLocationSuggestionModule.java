@@ -7,7 +7,7 @@ import com.expedia.bookings.dagger.tags.LXScope;
 import com.expedia.bookings.data.ApiError;
 import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.location.CurrentLocationSuggestionProvider;
-import com.expedia.bookings.services.SuggestionServices;
+import com.expedia.bookings.services.SuggestionV4Services;
 
 import dagger.Module;
 import dagger.Provides;
@@ -29,7 +29,7 @@ public class LXFakeCurrentLocationSuggestionModule {
 
 	@Provides
 	@LXScope
-	Observable<SuggestionV4> provideMockedCurrentLocationSuggestionObservable(SuggestionServices service, Context context) {
+	Observable<SuggestionV4> provideMockedCurrentLocationSuggestionObservable(SuggestionV4Services service, Context context) {
 		if (error != null) {
 			return Observable.just(new SuggestionV4()).doOnNext(new Action1<SuggestionV4>() {
 				@Override
