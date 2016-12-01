@@ -10,11 +10,13 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 import com.expedia.vm.traveler.TravelerPickerWidgetViewModel
 import com.expedia.vm.traveler.TravelerSelectItemViewModel
+import rx.subscriptions.CompositeSubscription
 
 class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val mainTravelerMinAgeTextView: TextView by bindView(R.id.bottom_main_traveler_min_age_message)
     private val mainTravelerContainer: LinearLayout by bindView(R.id.main_traveler_container)
     private val addTravelersContainer: LinearLayout by bindView(R.id.additional_traveler_container)
+    private var travelerSelectItemRefreshSubscription = CompositeSubscription()
 
     init {
         View.inflate(context, R.layout.traveler_picker_widget, this)
@@ -24,12 +26,14 @@ class TravelerPickerWidget(context: Context, attrs: AttributeSet?) : LinearLayou
     val viewModel = TravelerPickerWidgetViewModel()
 
     fun refresh(travelerList: List<Traveler>) {
+        travelerSelectItemRefreshSubscription.unsubscribe()
         mainTravelerContainer.removeAllViews()
         addTravelersContainer.removeAllViews()
         travelerList.forEachIndexed { i, traveler ->
             val travelerSelectItemViewModel = TravelerSelectItemViewModel(context, i, traveler.searchedAge)
             viewModel.passportRequired.subscribe(travelerSelectItemViewModel.passportRequired)
-            viewModel.refreshStatusObservable.subscribe(travelerSelectItemViewModel.refreshStatusObservable)
+            val subscription = viewModel.refreshStatusObservable.subscribe(travelerSelectItemViewModel.refreshStatusObservable)
+            travelerSelectItemRefreshSubscription.add(subscription)
             travelerSelectItemViewModel.currentStatusObservable.subscribe(viewModel.currentlySelectedTravelerStatusObservable)
             val travelerSelectItem = TravelerSelectItem(context, travelerSelectItemViewModel)
             travelerSelectItem.setOnClickListener {
