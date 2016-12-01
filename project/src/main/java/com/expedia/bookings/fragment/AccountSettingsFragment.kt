@@ -43,6 +43,7 @@ import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.ClearPrivateDataUtil
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
+import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
@@ -138,7 +139,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     }
 
     val debugMenu: DebugMenu by lazy {
-        DebugMenu(activity, ExpediaBookingPreferenceActivity::class.java)
+        DebugMenuFactory.newInstance(activity, ExpediaBookingPreferenceActivity::class.java)
     }
 
     val debugAlertDialog: AlertDialog by lazy {
@@ -148,13 +149,12 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         alertDialog.setIcon(R.drawable.ic_launcher)
         alertDialog.setTitle(R.string.debug_screens_sub_menu)
         val activityList = convertView.findViewById(R.id.listView) as ListView
-        val names = debugMenu.debugActivities.map { array ->
-            array[0]
-        }
-        val adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, names.toList());
-        activityList.adapter = adapter;
+        val activityInfoList = debugMenu.debugActivityInfoList
+        val names = activityInfoList.map(DebugMenu.DebugActivityInfo::displayName)
+        val adapter = ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, names)
+        activityList.adapter = adapter
         activityList.setOnItemClickListener({ adapterView, view, position, id ->
-            debugMenu.startTestActivity(debugMenu.debugActivities[position][1])
+            debugMenu.startTestActivity(activityInfoList[position].className)
         })
         alertDialog.setPositiveButton(R.string.ok, { dialog, which -> dialog.dismiss() })
         alertDialog.create()
@@ -170,8 +170,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        var view = inflater.inflate(R.layout.fragment_account_settings, null)
-        return view
+        return inflater.inflate(R.layout.fragment_account_settings, null)
     }
 
     override fun onDetach() {
@@ -408,7 +407,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         AdTracker.updatePOS()
 
         activity.setResult(Constants.RESULT_CHANGED_PREFS)
-        Events.post(Events.PhoneLaunchOnPOSChange());
+        Events.post(Events.PhoneLaunchOnPOSChange())
 
         adjustLoggedInViews()
         appSettingsFragment?.notifyOnRowDataChanged(ROW_COUNTRY)

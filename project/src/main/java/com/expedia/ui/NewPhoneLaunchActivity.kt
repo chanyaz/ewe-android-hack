@@ -39,10 +39,11 @@ import com.expedia.bookings.utils.AbacusHelperUtils
 import com.expedia.bookings.utils.AboutUtils
 import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.DebugMenu
+import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
-import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.bookings.widget.NewPhoneLaunchToolbar
+import com.expedia.bookings.widget.itin.ItinListView
 import com.mobiata.android.fragment.AboutSectionFragment
 import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
@@ -67,7 +68,7 @@ class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaun
     private var newPhoneLaunchFragment: NewPhoneLaunchFragment? = null
 
     private val debugMenu: DebugMenu by lazy {
-        DebugMenu(this, ExpediaBookingPreferenceActivity::class.java)
+        DebugMenuFactory.newInstance(this, ExpediaBookingPreferenceActivity::class.java)
     }
     private var hasMenu = false
 
