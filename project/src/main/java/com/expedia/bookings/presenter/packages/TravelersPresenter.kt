@@ -21,6 +21,7 @@ import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.TravelersViewModel
+import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
@@ -55,9 +56,9 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
         View.inflate(context, R.layout.traveler_presenter, this)
 
         travelerPickerWidget.viewModel.selectedTravelerSubject.subscribe { travelerSelectItemViewModel ->
+            travelerEntryWidget.viewModel = FlightTravelerEntryWidgetViewModel(context, travelerSelectItemViewModel.index, travelerSelectItemViewModel.passportRequired, travelerSelectItemViewModel.currentStatusObservable.value)
             show(travelerEntryWidget)
             toolbarTitleSubject.onNext(travelerSelectItemViewModel.emptyText)
-            travelerEntryWidget.viewModel = FlightTravelerEntryWidgetViewModel(context, travelerSelectItemViewModel.index, travelerSelectItemViewModel.passportRequired, travelerSelectItemViewModel.currentStatusObservable.value)
             travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)
         }
 
@@ -65,11 +66,23 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
 
         doneClicked.subscribe {
             travelerPickerWidget.viewModel.selectedTravelerSubject.value?.refreshStatusObservable?.onNext(Unit)
-            if (travelerEntryWidget.isValid()) {
+            val numberOfInvalidFields = travelerEntryWidget.getNumberOfInvalidFields()
+            if (numberOfInvalidFields == 0) {
                 viewModel.updateCompletionStatus()
                 if (viewModel.allTravelersValid()) {
                     closeSubject.onNext(Unit)
                 }
+            } else {
+                Ui.hideKeyboard(this@TravelersPresenter)
+                travelerEntryWidget.requestFocus()
+                val announcementString = StringBuilder()
+                announcementString.append(Phrase.from(context.resources.getQuantityString(R.plurals.number_of_errors_TEMPLATE, numberOfInvalidFields))
+                        .put("number", numberOfInvalidFields)
+                        .format()
+                        .toString())
+                        .append(" ")
+                        .append(context.getString(R.string.accessibility_announcement_please_review_and_resubmit))
+                announceForAccessibility(announcementString)
             }
         }
     }
@@ -138,9 +151,9 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
 
     private fun showEntryWidget() {
         if (currentState == null) show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
+        travelerEntryWidget.viewModel = FlightTravelerEntryWidgetViewModel(context, 0, viewModel.passportRequired, TravelerCheckoutStatus.CLEAN)
         show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
 
-        travelerEntryWidget.viewModel = FlightTravelerEntryWidgetViewModel(context, 0, viewModel.passportRequired, TravelerCheckoutStatus.CLEAN)
         toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
         if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
             travelerEntryWidget.viewModel.validate()

@@ -26,6 +26,7 @@ import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.traveler.TravelersViewModel;
 
+import kotlin.Unit;
 import rx.observers.TestSubscriber;
 
 import static android.support.test.espresso.Espresso.onData;
@@ -58,7 +59,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			testTravelersPresenter.getTravelerPickerWidget().getMainTravelerMinAgeTextView();
 		assertEquals(View.VISIBLE, mainTravelerMinAgeTextView.getVisibility());
 	}
-	
+
 	@Test
 	public void testTravelerPickerIOB() throws Throwable {
 		uiThreadTestRule.runOnUiThread(new Runnable() {
@@ -166,6 +167,45 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 			))).check(matches(withImageDrawable(drawableId)));
 	}
 
+	@Test
+	public void testNumberOfErrorsCorrect() throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(2);
+				testTravelersPresenter.setViewModel(mockViewModel);
+			}
+		});
+
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		EspressoUser.clickOnText(expectedTravelerOneText);
+
+		assertEquals(true,
+			testTravelersPresenter.getTravelerEntryWidget().getNameEntryView().getFirstName().hasFocus());
+		PackageScreen.enterFirstName(testFirstName);
+
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				testTravelersPresenter.getDoneClicked().onNext(Unit.INSTANCE);
+			}
+		});
+		assertEquals(4, testTravelersPresenter.getTravelerEntryWidget().getNumberOfInvalidFields());
+		assertEquals(false, testTravelersPresenter.getTravelerEntryWidget().getNameEntryView().getFirstName().hasFocus());
+
+		PackageScreen.enterLastName(testLastName);
+		PackageScreen.enterEmail(testEmail);
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				testTravelersPresenter.getDoneClicked().onNext(Unit.INSTANCE);
+			}
+		});
+		assertEquals(2, testTravelersPresenter.getTravelerEntryWidget().getNumberOfInvalidFields());
+	}
+
+
+	//to be removed for new checkout
 	@Test
 	public void testToolbarNextFlow() throws Throwable {
 		uiThreadTestRule.runOnUiThread(new Runnable() {

@@ -1,10 +1,13 @@
 package com.expedia.vm.traveler
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
 import com.expedia.bookings.enums.TravelerCheckoutStatus
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.TravelerUtils
 import rx.subjects.BehaviorSubject
@@ -18,6 +21,8 @@ class FlightTravelerEntryWidgetViewModel(context: Context, travelerIndex: Int, v
     val showEmailObservable = BehaviorSubject.create<Boolean>(!User.isLoggedIn(context) && travelerIndex == 0)
     val passportValidSubject = BehaviorSubject.create<Boolean>()
     val passportCountryObserver = BehaviorSubject.create<String>()
+    var numberOfInvalidFields = BehaviorSubject.create<Int>()
+    val newCheckoutIsEnabled = BehaviorSubject.create<Boolean>(false)
 
     init {
         updateTraveler(getTraveler())
@@ -28,6 +33,8 @@ class FlightTravelerEntryWidgetViewModel(context: Context, travelerIndex: Int, v
         if (travelerCheckoutStatus != TravelerCheckoutStatus.CLEAN) {
             validate()
         }
+
+        newCheckoutIsEnabled.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_checkout))
     }
 
     override fun updateTraveler(traveler: Traveler) {
@@ -53,6 +60,7 @@ class FlightTravelerEntryWidgetViewModel(context: Context, travelerIndex: Int, v
         val requiresEmail = showEmailObservable.value ?: false
         val emailValid = !requiresEmail || (requiresEmail && emailViewModel.validate())
         val valid = nameValid && emailValid && phoneValid && tsaValid && passportValid
+        numberOfInvalidFields.onNext(nameViewModel.numberOfInvalidFields.value + AccessibilityUtil.getNumberOfInvalidFields(phoneValid, emailValid, tsaValid, passportValid))
         return valid
     }
 }

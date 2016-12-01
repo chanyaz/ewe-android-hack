@@ -61,6 +61,14 @@ object AccessibilityUtil {
     @JvmStatic fun appendRoleContDesc(view: View, string: String, roleResId: Int) {
         view.contentDescription = StringBuilder(string).append(" ").append(view.context.getString(roleResId))
     }
+
+    @JvmStatic fun getNumberOfInvalidFields(vararg isValid : Boolean) : Int {
+        var sum = 0
+        for (item in isValid) {
+            sum += if (item) 0 else 1
+        }
+        return sum
+    }
 }
 
 fun View.setFocusForView() {
