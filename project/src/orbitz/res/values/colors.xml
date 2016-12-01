@@ -42,7 +42,7 @@
     <color name="credit_card_form_additional_fees_tablet_bg">@color/checkout_additional_fees_tablet_bg</color>
     <color name="preferences_text">#495863</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
-
+    <color name="hotel_member_pricing_color">#00253c</color>
     <color name="loyalty_earn_color">#8E0099</color>
 
     <!-- Popular Hotels Tonight Discount strips-->

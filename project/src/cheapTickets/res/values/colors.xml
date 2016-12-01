@@ -50,6 +50,7 @@
     <color name="cvv_book_button_text_color">@android:color/white</color>
     <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
     <color name="actionbar_button_text_color">@color/action_bar_text_blue</color>
+    <color name="hotel_member_pricing_color">#0f6093</color>
 
     <!--Air attach banner color-->
     <color name="bg_air_attach_banner_default">#116FAA</color>
