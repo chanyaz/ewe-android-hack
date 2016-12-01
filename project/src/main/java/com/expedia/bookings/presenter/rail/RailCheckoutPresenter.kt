@@ -16,17 +16,17 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.tracking.RailTracking
+import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.ArrowXDrawableUtil
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
-import com.expedia.bookings.utils.AnimUtils
-import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.CheckoutToolbar
 import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.PriceChangeWidget
 import com.expedia.bookings.widget.SlideToWidgetLL
+import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.rail.AccessibleProgressDialog
@@ -48,8 +48,8 @@ import com.expedia.vm.rail.RailPriceChangeViewModel
 import com.expedia.vm.rail.RailTicketDeliveryEntryViewModel
 import com.expedia.vm.rail.RailTicketDeliveryOverviewViewModel
 import com.expedia.vm.rail.RailTotalPriceViewModel
-import com.expedia.vm.traveler.RailTravelersViewModel
 import com.expedia.vm.traveler.RailTravelerSummaryViewModel
+import com.expedia.vm.traveler.RailTravelersViewModel
 import com.expedia.vm.traveler.SimpleTravelerEntryWidgetViewModel
 import java.util.concurrent.TimeUnit
 
