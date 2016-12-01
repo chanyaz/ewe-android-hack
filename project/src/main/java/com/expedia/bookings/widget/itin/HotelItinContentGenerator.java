@@ -40,9 +40,11 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Constants;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -333,6 +335,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		TextView bedTypeHeaderTextView = Ui.findView(view, R.id.bed_type_header_text_view);
 		TextView bedTypeTextView = Ui.findView(view, R.id.bed_type_text_view);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
+		TextView hotelUpgradeText = Ui.findView(view, R.id.upgrade_string);
 
 		// Bind
 		Resources res = getResources();
@@ -343,11 +346,37 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		infoTriplet.setLabels(
 			res.getString(R.string.itin_card_details_check_in),
 			res.getString(R.string.itin_card_details_check_out),
-			res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
+			res.getQuantityString(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
 
 		if (itinCardData.getPropertyLocation() != null) {
 			staticMapImageView.setLocation(new LatLong(itinCardData.getPropertyLocation().getLatitude(),
 				itinCardData.getPropertyLocation().getLongitude()));
+		}
+
+		//Upgrade hotel booking
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_upgrade)) {
+			//hasUpgradeAvailable set to true until API is ready
+			boolean hasUpgradeAvailable = true;
+			hotelUpgradeText.setVisibility(hasUpgradeAvailable ? View.VISIBLE : View.GONE);
+			AccessibilityUtil.appendRoleContDesc(hotelUpgradeText, hotelUpgradeText.getText().toString(), R.string.accessibility_cont_desc_role_button);
+
+			if (hasUpgradeAvailable) {
+				//add null check if necessary!
+				//roomUpgradeLink stubbed until API is ready
+				final String roomUpgradeLink = "http://www.expedia.com";
+				hotelUpgradeText.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						WebViewActivity.IntentBuilder intentBuilder =
+							buildWebViewIntent(R.string.trips_upgrade_hotel_button_label_cont_desc, roomUpgradeLink);
+
+						Intent intent = intentBuilder.getIntent();
+						//Stubbed using cancel room data until API is ready
+						intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
+						((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
+					}
+				});
+			}
 		}
 
 		addressTextView.setText(itinCardData.getAddressString());

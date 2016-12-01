@@ -434,4 +434,10 @@
     <dimen name="rail_card_content_padding">12dp</dimen>
     <!--rail_screen_content_padding + rail_card_content_padding. #ImpossibleDesignStandards-->
     <dimen name="rail_results_header_left_right_pad">21dp</dimen>
+
+    <!-- Itin Hotel Upgrade Textview -->
+    <dimen name="itin_hotel_upgrade_paddingRight">18dp</dimen>
+    <dimen name="itin_hotel_upgrade_drawable_padding">55dp</dimen>
+    <dimen name="itin_hotel_upgrade_paddingLeft">20dp</dimen>
+
 </resources>

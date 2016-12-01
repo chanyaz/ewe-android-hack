@@ -28,6 +28,7 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_gaia_current_location_suggestion);
 		initializeFeatureCheck(R.string.preference_enable_checkout_traveler_number);
 		initializeFeatureCheck(R.string.preference_enable_new_checkout);
+		initializeFeatureCheck(R.string.preference_itin_hotel_upgrade);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {
