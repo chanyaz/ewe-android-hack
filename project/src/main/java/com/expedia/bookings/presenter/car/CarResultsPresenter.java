@@ -501,7 +501,7 @@ public class CarResultsPresenter extends Presenter {
 			filter.setVisibility(VISIBLE);
 			categories.setVisibility(VISIBLE);
 			toolbar.setVisibility(VISIBLE);
-			filterToolbar.setVisibility(VISIBLE);
+			categoryFilterToolbar.setVisibility(VISIBLE);
 			if (!forward) {
 				categoryFilterToolbar.showNumberOfFilters(filter.getNumCheckedFilters(false /*isDetails*/));
 			}
@@ -518,7 +518,7 @@ public class CarResultsPresenter extends Presenter {
 			filter.setVisibility(forward ? VISIBLE : GONE);
 			categories.setVisibility(forward ? GONE : VISIBLE);
 			toolbar.setVisibility(forward ? GONE : VISIBLE);
-			filterToolbar.setVisibility(forward ? GONE : VISIBLE);
+			categoryFilterToolbar.setVisibility(forward ? GONE : VISIBLE);
 			filter.setTranslationY(forward ? 0 : filter.getHeight());
 			if (!forward) {
 				OmnitureTracking.trackAppCarSearch(searchedParams, unfilteredSearch.categories.size());
@@ -693,19 +693,19 @@ public class CarResultsPresenter extends Presenter {
 				toolbarBackground.setAlpha(ratio);
 				toolbarDropshadow.setAlpha(ratio);
 			}
+			if (!isTalkBackEnabled) {
+				int heightOfButton = filterToolbar.getHeight();
+				if (scrolledDistance > 0) {
 
-			int heightOfButton = filterToolbar.getHeight();
-			if (scrolledDistance > 0) {
-				if (!isTalkBackEnabled) {
 					scrolledDistance = Math.min(heightOfButton, scrolledDistance + dy);
 					filterToolbar.setTranslationY(Math.min(heightOfButton, scrolledDistance));
 					categoryFilterToolbar.setTranslationY(Math.min(heightOfButton, scrolledDistance));
 				}
-			}
-			else {
-				scrolledDistance = Math.max(0, scrolledDistance + dy);
-				filterToolbar.setTranslationY(Math.min(scrolledDistance, 0));
-				categoryFilterToolbar.setTranslationY(Math.min(scrolledDistance, 0));
+				else {
+					scrolledDistance = Math.max(0, scrolledDistance + dy);
+					filterToolbar.setTranslationY(Math.min(scrolledDistance, 0));
+					categoryFilterToolbar.setTranslationY(Math.min(scrolledDistance, 0));
+				}
 			}
 		}
 	};

@@ -169,7 +169,7 @@ public class CarFilterTest extends CarTestCase {
 		int filterdCategoryNumber = EspressoUtils.getListCount(CarScreen.carCategoryList());
 		assertNotSame(filterdCategoryNumber, unifilterdCategoryNumber);
 
-		CarScreen.searchFilter().perform(click());
+		CarScreen.searchCategoryFilter().perform(click());
 		onView(withId(R.id.transmission_filter_automatic)).perform(click());
 
 		CarScreen.clickFilterDone();
