@@ -236,7 +236,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.base_flight_presenter,
 		R.layout.widget_flight_results_package,
 		R.dimen.card_view_container_margin,
-		R.drawable.ic_hotel_banner_expedia,
+		R.drawable.ic_hotel_banner,
 		R.color.hotel_member_pricing_color,
 		R.string.member_pricing,
 		R.string.you_are_using_expedia_points_TEMPLATE,

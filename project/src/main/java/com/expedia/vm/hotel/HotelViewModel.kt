@@ -105,7 +105,7 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
         mapLoyaltyMessageTextObservable.onNext(HtmlCompat.fromHtml(mapLoyaltyMessageString))
 
         if (hasMemberDeal()) {
-            memberDealUrgency.onNext(UrgencyMessage(R.drawable.ic_hotel_banner_expedia, R.color.hotel_member_pricing_color,
+            memberDealUrgency.onNext(UrgencyMessage(R.drawable.ic_hotel_banner, R.color.hotel_member_pricing_color,
                     resources.getString(R.string.member_pricing)))
         }
         if (hotel.roomsLeftAtThisRate > 0 && hotel.roomsLeftAtThisRate <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {
