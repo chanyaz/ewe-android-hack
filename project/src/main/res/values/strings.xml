@@ -317,7 +317,7 @@
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Select dates</string>
     <!-- Select Start date - used for the LX Calendar. -->
-    <string name="select_start_date">Select Start date</string>
+    <string name="select_start_date">Select Start Date</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Hotels tonight</string>
     <!-- Missing flight info message -->
