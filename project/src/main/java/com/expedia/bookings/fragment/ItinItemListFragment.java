@@ -34,7 +34,6 @@ import com.expedia.bookings.data.trips.ItineraryManager.ItinerarySyncListener;
 import com.expedia.bookings.data.trips.ItineraryManager.SyncError;
 import com.expedia.bookings.data.trips.Trip;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
@@ -52,7 +51,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public static final String ARG_JUMP_TO_UNIQUE_ID = "JUMP_TO_UNIQUE_ID";
 
-	private static final String STATE_ERROR_MESSAGE = "STATE_ERROR_MESSAGE";
+	private static final String STATE_CURRENT_STATE = "STATE_CURRENT_STATE";
 	private static final String STATE_ALLOW_LOAD_ITINS = "STATE_ALLOW_LOAD_ITINS";
 	private static final String STATE_ITIN_LIST_TRACKED = "STATE_ITIN_LIST_TRACKED";
 	private static final String STATE_JUMP_TO_UNIQUE_ID = "STATE_JUMP_TO_UNIQUE_ID";
@@ -68,16 +67,11 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private ItineraryManager mItinManager;
 	private ViewGroup mEmptyListLoadingContainer;
 	private ViewGroup mEmptyListContent;
-	private Button mLoginButton;
-	private Button mNoTripsRefreshButton;
-	private Button mNoTripsTryAgainButton;
-	private ViewGroup mErrorContainer;
-	private TextView mErrorTv;
-	private View mErrorMask;
+	private Button mStatusRefreshButton;
+	private TextView mStatusText;
+	private ImageView mStatusImage;
 	private Button mFindItineraryButton;
 
-	private String mErrorMessage;
-	private boolean mShowError = false;
 	private boolean mAllowLoadItins = false;
 
 	private boolean mCurrentSyncHasErrors = false;
@@ -88,6 +82,16 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private boolean mItinListTracked = false;
 	// should be removed when we remove launch screen AB test
 	private static boolean fromNewLaunchScreen = false;
+
+	private MessageState mCurrentState = MessageState.NONE;
+
+	private enum MessageState {
+		NOT_LOGGED_IN,
+		NO_UPCOMING_TRIPS,
+		TRIPS_ERROR,
+		FAILURE,
+		NONE
+	}
 
 	private FragmentModificationSafeLock mFragmentModLock = new FragmentModificationSafeLock();
 
@@ -137,13 +141,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mOrEnterNumberTv = Ui.findView(view, R.id.or_enter_itin_number_tv);
 		mEmptyListLoadingContainer = Ui.findView(view, R.id.empty_list_loading_container);
 		mEmptyListContent = Ui.findView(view, R.id.empty_list_content);
-		mLoginButton = Ui.findView(view, R.id.login_button);
-		mLoginButton.setText(HtmlCompat.fromHtml(getString(R.string.sign_in_for_your_trips)));
-		mNoTripsRefreshButton = Ui.findView(view, R.id.no_trips_refresh_button);
-		mNoTripsTryAgainButton = Ui.findView(view, R.id.no_trips_try_again_button);
-		mErrorTv = Ui.findView(view, R.id.no_trips_error_message);
-		mErrorMask = Ui.findView(view, R.id.empty_list_error_mask);
-		mErrorContainer = Ui.findView(view, R.id.error_container);
+		mStatusRefreshButton = Ui.findView(view, R.id.status_refresh_button);
+		mStatusText = Ui.findView(view, R.id.no_upcoming_trips);
+		mStatusImage = Ui.findView(view, R.id.no_trips_image);
 		mFindItineraryButton = Ui.findView(view, R.id.find_itinerary_button);
 
 		mItinListView.setEmptyView(mEmptyView);
@@ -160,16 +160,8 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			}
 		});
 
-		mLoginButton.setOnClickListener(new OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				startLoginActivity();
-			}
-		});
-
 		if (fromNewLaunchScreen) {
-			mLoginButton.setBackgroundResource(R.drawable.new_launch_screen_itin_login_ripple);
-			mNoTripsRefreshButton.setBackgroundResource(R.drawable.new_launch_screen_itin_login_ripple);
+			mStatusRefreshButton.setBackgroundResource(R.drawable.new_launch_screen_itin_login_ripple);
 		}
 
 		mOrEnterNumberTv.setOnClickListener(new OnClickListener() {
@@ -188,17 +180,19 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		OnClickListener syncManagerClickListener = new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
-				syncItinManager(true, true);
+				if (mCurrentState == MessageState.NOT_LOGGED_IN) {
+					startLoginActivity();
+				}
+				else {
+					syncItinManager(true, true);
+				}
 			}
 		};
 
-		mNoTripsRefreshButton.setOnClickListener(syncManagerClickListener);
-		mNoTripsTryAgainButton.setOnClickListener(syncManagerClickListener);
+		mStatusRefreshButton.setOnClickListener(syncManagerClickListener);
 
 		if (savedInstanceState != null) {
-			if (savedInstanceState.containsKey(STATE_ERROR_MESSAGE)) {
-				setErrorMessage(savedInstanceState.getString(STATE_ERROR_MESSAGE), true);
-			}
+			setState(MessageState.valueOf(savedInstanceState.getString(STATE_CURRENT_STATE)));
 			mAllowLoadItins = savedInstanceState.getBoolean(STATE_ALLOW_LOAD_ITINS);
 			mItinListTracked = savedInstanceState.getBoolean(STATE_ITIN_LIST_TRACKED, false);
 			mJumpToItinId = savedInstanceState.getString(STATE_JUMP_TO_UNIQUE_ID);
@@ -208,7 +202,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		}
 
 		boolean isSignInEnabled = ProductFlavorFeatureConfiguration.getInstance().isSigninEnabled();
-		mLoginButton.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
 		mOrEnterNumberTv.setVisibility(isSignInEnabled ? View.VISIBLE : View.GONE);
 		mFindItineraryButton.setVisibility(isSignInEnabled ? View.GONE : View.VISIBLE);
 
@@ -218,8 +211,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void onResume() {
 		super.onResume();
-
-		updateLoginState();
 
 		syncItinManager(true, false);
 
@@ -234,10 +225,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public void onSaveInstanceState(Bundle outState) {
 		mFragmentModLock.setSafe(false);
 		super.onSaveInstanceState(outState);
-
-		if (mShowError && mErrorMessage != null) {
-			outState.putString(STATE_ERROR_MESSAGE, mErrorMessage);
-		}
+		outState.putString(STATE_CURRENT_STATE, mCurrentState.name());
 		outState.putBoolean(STATE_ALLOW_LOAD_ITINS, mAllowLoadItins);
 		outState.putBoolean(STATE_ITIN_LIST_TRACKED, mItinListTracked);
 		outState.putString(STATE_JUMP_TO_UNIQUE_ID, mJumpToItinId);
@@ -306,6 +294,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			else {
 				invalidateOptionsMenu();
 				trackItins(true);
+				updateLoginState();
 			}
 		}
 	}
@@ -364,12 +353,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private void updateLoginState() {
 		if (User.isLoggedIn(getActivity()) && Db.getUser() != null) {
-			mLoginButton.setVisibility(View.GONE);
-			mNoTripsRefreshButton.setVisibility(mShowError ? View.GONE : View.VISIBLE);
+			setState(MessageState.NO_UPCOMING_TRIPS);
 		}
 		else {
-			mLoginButton.setVisibility(mShowError ? View.GONE : View.VISIBLE);
-			mNoTripsRefreshButton.setVisibility(View.GONE);
+			setState(MessageState.NOT_LOGGED_IN);
 		}
 	}
 
@@ -387,24 +374,43 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		df.show(getFragmentManager(), LoginConfirmLogoutDialogFragment.TAG);
 	}
 
-	public void setErrorMessage(int messageId, boolean showError) {
-		setErrorMessage(getString(messageId), showError);
+	private void setState(MessageState state) {
+		mCurrentState = state;
+		switch (state) {
+		case NOT_LOGGED_IN:
+			updateMessageAndButton(R.string.no_upcoming_trips, R.string.sign_in_for_your_trips, R.drawable.ic_empty_itin_suitcase);
+			break;
+		case NO_UPCOMING_TRIPS:
+			updateMessageAndButton(R.string.no_upcoming_trips, R.string.refresh_trips, R.drawable.ic_empty_itin_suitcase);
+			break;
+		case FAILURE:
+			updateMessageAndButton(R.string.fetching_trips_error_connection, R.string.refresh_trips, R.drawable.ic_itin_connection_error);
+			break;
+		case TRIPS_ERROR:
+			updateMessageAndButton(R.string.fetching_trips_error, R.string.refresh_trips, R.drawable.ic_itin_connection_error);
+			break;
+		case NONE:
+			mStatusRefreshButton.setVisibility(View.GONE);
+			mStatusText.setVisibility(View.GONE);
+			break;
+		}
 	}
 
-	public void setErrorMessage(String message, boolean showError) {
-		mShowError = showError;
-		mErrorMessage = message;
+	private void updateMessageAndButton(int messageId, int buttonTextId, int imageResId) {
+		updateMessageAndButton(getString(messageId), getString(buttonTextId), imageResId);
+	}
 
-		mErrorTv.setText(mErrorMessage != null ? mErrorMessage : "");
-		mErrorContainer.setVisibility(mShowError ? View.VISIBLE : View.GONE);
-		mErrorMask.setVisibility(mShowError ? View.VISIBLE : View.GONE);
-
-		updateLoginState();
+	private void updateMessageAndButton(String messageText, String buttonText, int imageResId) {
+		mStatusRefreshButton.setVisibility(View.VISIBLE);
+		mStatusRefreshButton.setText(buttonText);
+		mStatusText.setVisibility(View.VISIBLE);
+		mStatusText.setText(messageText);
+		mStatusImage.setImageResource(imageResId);
 	}
 
 	@Override
 	public void doLogout() {
-		setErrorMessage(null, false);
+		setState(MessageState.NOT_LOGGED_IN);
 
 		// Note: On 2.x, the user can logout from the expanded details view, be sure to collapse the view so when we
 		// re-populate the ListView with data, it does not think there is something expanded.
@@ -596,12 +602,20 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	public void onSyncFinished(Collection<Trip> trips) {
 		mItinListView.syncWithManager();
 		setIsLoading(false);
-		if (mCurrentSyncHasErrors && (trips == null || trips.size() == 0)) {
-			setErrorMessage(R.string.itinerary_fetch_error, true);
+		if (mCurrentSyncHasErrors) {
+			if (trips == null) {
+				setState(MessageState.TRIPS_ERROR);
+			}
+			else {
+				setState(MessageState.FAILURE);
+			}
 		}
 		else {
-			setErrorMessage(null, false);
+			if (trips.size() == 0) {
+				setState(MessageState.NO_UPCOMING_TRIPS);
+			}
 			trackItins(false);
+			updateLoginState();
 
 			if (mJumpToItinId != null) {
 				showItinCard(mJumpToItinId, true);
