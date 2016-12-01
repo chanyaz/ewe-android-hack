@@ -38,6 +38,7 @@
     <color name="preferences_text">#495863</color>
     <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</color>
     <color name="traveler_drop_down_checked_color">@color/bg_blue_color_travelocity</color>
+    <color name="hotel_member_pricing_color">#00335f</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>

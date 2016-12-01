@@ -12,6 +12,7 @@
     <color name="lx_lob_btn">@color/lob_btn_color</color>
     <color name="transport_lob_btn">@color/lob_btn_color</color>
     <color name="earn_message_text_color">#FF960D</color>
+    <color name="hotel_member_pricing_color">#003366</color>
 
     <!-- Launch colors -->
     <color name="launch_tab_indicator">#003366</color>
