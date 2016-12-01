@@ -1075,6 +1075,12 @@
     <!-- Rail to hint -->
     <string name="to_hint">Going to</string>
 
+    <!-- Accessibility String Informs the user of selected departure time. Ex. "Departure Time: Feb 4 12:00 -->
+    <string name="rail_depart_time_cont_desc_TEMPLATE">Departure time {time}</string>
+
+    <!-- Accessibility string informs the user of selected return time. Ex. "Return Time: Feb 8 15:00-->
+    <string name="rail_return_time_cont_desc_TEMPLATE">Return time {time}</string>
+
     <!-- New launch screen -->
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Recommended Tonight</string>

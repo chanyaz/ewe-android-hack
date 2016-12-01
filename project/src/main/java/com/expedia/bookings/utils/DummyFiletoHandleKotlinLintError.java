@@ -267,6 +267,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_return,
 		R.string.rail_checkout_inbound_TEMPLATE,
 		R.string.no_rail_cards_error_message,
+		R.string.rail_depart_time_cont_desc_TEMPLATE,
+		R.string.rail_return_time_cont_desc_TEMPLATE,
 		R.layout.accept_terms_layout,
 		R.layout.widget_rail_details_fare_option,
 		R.layout.widget_rail_calendar,
