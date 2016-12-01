@@ -7,11 +7,10 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.FlightTripResponse
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
@@ -37,6 +36,7 @@ import rx.subjects.Subject
 import javax.inject.Inject
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
+
     lateinit var insuranceServices: InsuranceServices
         @Inject set
 
@@ -97,6 +97,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         vm as FlightCreateTripViewModel
 
         insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
+        setInsuranceWidgetVisibility(true)
         insuranceWidget.viewModel.updatedTripObservable.subscribe(vm.createTripResponseObservable)
 
         vm.tripParams.subscribe {
@@ -197,7 +198,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     }
 
     override fun setInsuranceWidgetVisibility(visible: Boolean){
-        insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(visible && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance))
+        insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(visible)
     }
 
 }
