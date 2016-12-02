@@ -88,6 +88,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val ROW_SETTINGS = 13
     private val ROW_TEST_SCREEN = 14
     private val INSTALL_SHORTCUTS = 15
+    private val ROW_REWARDS_VISA_CARD = 16
 
     private val aboutUtils: AboutUtils by lazy {
         AboutUtils(activity)
@@ -221,6 +222,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT)
             builder.addRow(R.string.app_support, ROW_APP_SUPPORT)
 
+            if (ProductFlavorFeatureConfiguration.getInstance().isRewardsCardEnabled) {
+                builder.addRow(Phrase.from(context, R.string.rewards_visa_card_TEMPLATE).put("brand_reward_name",
+                        getString(R.string.brand_reward_name)).format()
+                        .toString(), ROW_REWARDS_VISA_CARD)
+            }
             supportFragment = builder.build()
             ft.add(R.id.section_contact_us, supportFragment, TAG_SUPPORT)
         }
@@ -587,6 +593,10 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             }
             ROW_EXPEDIA_WEBSITE -> {
                 aboutUtils.openExpediaWebsite()
+                return true
+            }
+            ROW_REWARDS_VISA_CARD -> {
+                aboutUtils.openRewardsCard()
                 return true
             }
             ROW_APP_SUPPORT -> {
