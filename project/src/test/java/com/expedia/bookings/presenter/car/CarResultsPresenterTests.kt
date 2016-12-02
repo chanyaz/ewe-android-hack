@@ -23,10 +23,12 @@ class CarResultsPresenterTests {
         val toolBarMock = Mockito.mock(Toolbar::class.java);
         val filterButtonWithCountWidgetMock = Mockito.mock(FilterButtonWithCountWidget::class.java);
         val carCategoryListWidgetMock = Mockito.mock(CarCategoryListWidget::class.java);
+        val categoryFilterButtonWithCountWidgetMock = Mockito.mock(FilterButtonWithCountWidget::class.java);
         carResultsPresenter.filter = carFilterWidgetMock
         carResultsPresenter.toolbar = toolBarMock
         carResultsPresenter.details = carCategoryDetailsWidgetMock
         carResultsPresenter.filterToolbar = filterButtonWithCountWidgetMock
+        carResultsPresenter.categoryFilterToolbar = categoryFilterButtonWithCountWidgetMock
         carResultsPresenter.categories = carCategoryListWidgetMock
         carResultsPresenter.detailsToFilter.endTransition(false);
         Mockito.verify(carFilterWidgetMock, Mockito.times(0)).setFocusToToolbarForAccessibility()
