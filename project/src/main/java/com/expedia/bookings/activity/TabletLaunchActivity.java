@@ -33,6 +33,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.DebugMenuFactory;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.Ui;
 import com.squareup.phrase.Phrase;
@@ -61,7 +62,7 @@ public class TabletLaunchActivity extends TrackingFragmentActivity implements Me
 
 		setContentView(R.layout.activity_tablet_launch);
 		AdTracker.trackLaunch();
-		debugMenu = new DebugMenu(this, TabletPreferenceActivity.class);
+		debugMenu = DebugMenuFactory.newInstance(this, TabletPreferenceActivity.class);
 
 		mRootC = Ui.findView(this, R.id.root_layout);
 
