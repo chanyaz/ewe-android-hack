@@ -48,7 +48,7 @@ class FlightSearchViewModelTest {
         val expectedStartDate = DateUtils.localDateToMMMd(startDate)
         val expectedEndDate = DateUtils.localDateToMMMd(endDate)
 
-        sut.datesObserver.onNext(Pair(startDate, endDate))
+        sut.datesUpdated(startDate, endDate)
         assertEquals(null, sut.cachedEndDateObservable.value)
         assertEquals("$expectedStartDate - $expectedEndDate", sut.dateTextObservable.value)
 
@@ -59,12 +59,12 @@ class FlightSearchViewModelTest {
         val newStartDate = LocalDate.now().plusDays(20)
         val expectedNewStartDate = DateUtils.localDateToMMMd(newStartDate)
 
-        sut.datesObserver.onNext(Pair(newStartDate, null))
+        sut.datesUpdated(newStartDate, null)
         sut.isRoundTripSearchObservable.onNext(true)
         assertEquals(null, sut.cachedEndDateObservable.value)
         assertEquals("$expectedNewStartDate – Select return date", sut.dateTextObservable.value)
 
-        sut.datesObserver.onNext(Pair(null, null))
+        sut.datesUpdated(null, null)
         assertEquals("Select Dates", sut.dateTextObservable.value)
 
         sut.isRoundTripSearchObservable.onNext(false)
@@ -221,7 +221,7 @@ class FlightSearchViewModelTest {
         givenDefaultTravelerComponent()
         createSystemUnderTest()
 
-        assertEquals(LocalDate.now() ,sut.getStartDate(), "Start Date is Today")
+        assertEquals(LocalDate.now() ,sut.getFirstAvailableDate(), "Start Date is Today")
     }
 
     @Test

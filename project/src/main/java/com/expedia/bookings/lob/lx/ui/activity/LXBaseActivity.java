@@ -29,8 +29,6 @@ import com.squareup.otto.Subscribe;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import kotlin.Pair;
-import kotlin.Unit;
 import rx.Observable;
 import rx.Subscription;
 
@@ -149,13 +147,11 @@ public class LXBaseActivity extends TrackingAbstractAppCompatActivity {
 	}
 
 	public void updateSearchViewModel(Events.LXNewSearch event) {
-		lxPresenter.searchParamsWidget.getSearchViewModel().getEnableDateObserver().onNext(Unit.INSTANCE);
 		if (Strings.isNotEmpty(event.locationName)) {
 			lxPresenter.searchParamsWidget.getSearchViewModel().getDestinationLocationObserver()
 				.onNext(getSuggestionFromLocation(event.locationName));
 		}
-		Pair<LocalDate, LocalDate> dates = new Pair(event.startDate, null);
-		lxPresenter.searchParamsWidget.getSearchViewModel().getDatesObserver().onNext(dates);
+		lxPresenter.searchParamsWidget.getSearchViewModel().datesUpdated(event.startDate, null);
 		lxPresenter.searchParamsWidget.selectDates(event.startDate, null);
 		lxPresenter.searchParamsWidget.getSearchViewModel().getSearchButtonObservable().onNext(true);
 	}

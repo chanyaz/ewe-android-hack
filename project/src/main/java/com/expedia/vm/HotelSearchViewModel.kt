@@ -39,13 +39,8 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    override fun sameStartAndEndDateAllowed(): Boolean {
-        return false
-    }
-
-    val suggestionTextChangedObserver = endlessObserver<Unit> {
-        getParamsBuilder().destination(null)
-        requiredSearchParamsObserver.onNext(Unit)
+    init {
+        Ui.getApplication(context).hotelComponent().inject(this)
     }
 
     val searchObserver = endlessObserver<Unit> {
@@ -67,6 +62,10 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
     }
 
+    override fun sameStartAndEndDateAllowed(): Boolean {
+        return false
+    }
+
     override fun getParamsBuilder(): HotelSearchParams.Builder {
         return hotelParamsBuilder
     }
@@ -84,31 +83,20 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
-        val start = dates.first
-        var end = dates.second
-        getParamsBuilder().startDate(start)
-        if (start != null && end == null) {
-            getParamsBuilder().endDate(start.plusDays(1))
-        } else if (start != null && start.equals(end)) {
-            getParamsBuilder().endDate(start.plusDays(1))
-            end = start.plusDays(1)
-        } else {
-            getParamsBuilder().endDate(end)
-        }
-        dateTextObservable.onNext(computeDateText(start, end))
-        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
+        var (start, end) = dates
 
+        dateTextObservable.onNext(computeDateText(start, end))
+        dateAccessibilityObservable.onNext(computeDateText(start, end, true))
+        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
         calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
 
-        requiredSearchParamsObserver.onNext(Unit)
-        datesObservable.onNext(dates)
+        if (start != null && (end == null || start.equals(end))) {
+            end = start.plusDays(1)
+        }
+        super.onDatesChanged(Pair(start, end))
     }
 
     private fun isFilterUnavailableEnabled(): Boolean {
         return !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest)
-    }
-
-    init {
-        Ui.getApplication(context).hotelComponent().inject(this)
     }
 }

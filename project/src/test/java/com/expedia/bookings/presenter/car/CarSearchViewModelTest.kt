@@ -42,7 +42,7 @@ class CarSearchViewModelTest {
         vm.originLocationObserver.onNext(suggestion)
 
         // Select both start date and end date and search
-        vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
+        vm.datesUpdated(LocalDate.now(), LocalDate.now().plusDays(3))
         vm.searchObserver.onNext(Unit)
 
         expected.add(CarSearchParam.Builder()
@@ -92,12 +92,15 @@ class CarSearchViewModelTest {
 
         //when start date is not null
         val dates = Pair(dateNow,  dateNow.plusDays(3))
-        vm.datesObserver.onNext(dates)
+        vm.datesUpdated(dates.first, dates.second)
         vm.onTimesChanged(Pair(36000, 4800000))
+
         var expectedDateText = dateFormatter(dateNow, dateNow.plusDays(3), Pair(36000, 4800000), false )
-        assertEquals(dateTextTestSubscriber.onNextEvents[1].toString(), expectedDateText );
+        assertEquals(expectedDateText, dateTextTestSubscriber.onNextEvents[1].toString());
+
         var expectedDateTextAccessbility = dateFormatter(dateNow, dateNow.plusDays(3), Pair(36000, 4800000), true )
-        assertEquals(dateAccessibilityTestSubscriber.onNextEvents[1].toString(), "Car dates. Button. Opens dialog. " + expectedDateTextAccessbility )
+        assertEquals("Car dates. Button. Opens dialog. " + expectedDateTextAccessbility,
+                dateAccessibilityTestSubscriber.onNextEvents[1].toString())
 
     }
     @Test
@@ -108,20 +111,20 @@ class CarSearchViewModelTest {
         vm.calendarTooltipTextObservable.subscribe(calendarTooltipTextTestSubscriber)
 
         //When start date and end date are null
-        vm.datesObserver.onNext(Pair(null, null))
+        vm.datesUpdated(null, null)
         assertEquals(dateInstructionTestSubscriber.onNextEvents[0].toString(), "Select pick-up date")
         assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[0].first, "Select dates")
         assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[0].second, "Next: Select drop-off date")
 
         //when start date is not null and end date is null
-        vm.datesObserver.onNext(Pair(dateNow.plusDays(3), null))
+        vm.datesUpdated(dateNow.plusDays(3), null)
         assertEquals(dateInstructionTestSubscriber.onNextEvents[1].toString(), DateUtils.localDateToMMMd(dateNow.plusDays(3))
                 + " - Select drop-off date")
         assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[1].first, DateUtils.localDateToMMMd(dateNow.plusDays(3)))
         assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[1].second, "Next: Select drop-off date")
 
         //when start date and end date are not null
-        vm.datesObserver.onNext(Pair(dateNow, dateNow.plusDays(3)))
+        vm.datesUpdated(dateNow, dateNow.plusDays(3))
         assertEquals(dateInstructionTestSubscriber.onNextEvents[2].toString(), DateUtils.localDateToMMMd(dateNow)
                 + " - " + DateUtils.localDateToMMMd(dateNow.plusDays(3)))
         assertEquals(calendarTooltipTextTestSubscriber.onNextEvents[2].first, DateUtils.localDateToMMMd(dateNow)
@@ -132,7 +135,7 @@ class CarSearchViewModelTest {
 
     @Test
     fun testStartDate() {
-        assertEquals(LocalDate.now(), vm.getStartDate(), "Start Date is Today")
+        assertEquals(LocalDate.now(), vm.getFirstAvailableDate(), "Start Date is Today")
     }
 
     private fun dateFormatter(startDateTime: LocalDate, endDateTime: LocalDate, times: Pair<Int, Int>, isContentDescription: Boolean): String{

@@ -47,20 +47,18 @@ class FlightDeeplinkTest {
     fun testIncompleteParams() {
         val testTransitionSubscriber = TestSubscriber<FlightActivity.Screen>()
         flightSearchViewModel.deeplinkDefaultTransitionObservable.subscribe(testTransitionSubscriber)
-        flightSearchViewModel.deeplinkFlightSearchParamsObserver.onNext(makeDummyFlightSearchParams(false, false, 1))
+        flightSearchViewModel.performDeepLinkFlightSearch(makeDummyFlightSearchParams(false, false, 1))
         testTransitionSubscriber.assertReceivedOnNext(listOf(FlightActivity.Screen.SEARCH))
     }
 
     @Test
     fun testCompleteParams() {
         val testTransitionSubscriber = TestSubscriber<FlightActivity.Screen>()
-        val testDateSubscriber = TestSubscriber<Pair<LocalDate?, LocalDate?>>()
         val testOriginSubscriber = TestSubscriber<String>()
         val testDestinationSubscriber = TestSubscriber<String>()
         val testTravelersSubscriber = TestSubscriber<TravelerParams>()
         val roundTripTestSubscriber = TestSubscriber<Boolean>()
 
-        flightSearchViewModel.datesObservable.subscribe(testDateSubscriber)
         flightSearchViewModel.formattedOriginObservable.subscribe(testOriginSubscriber)
         flightSearchViewModel.formattedDestinationObservable.subscribe(testDestinationSubscriber)
         flightSearchViewModel.deeplinkDefaultTransitionObservable.subscribe(testTransitionSubscriber)
@@ -68,12 +66,13 @@ class FlightDeeplinkTest {
         flightSearchViewModel.isRoundTripSearchObservable.subscribe(roundTripTestSubscriber)
 
         val flightSearchParams = makeDummyFlightSearchParams(complete = true, roundTrip = true, numAdults = 1)
-        flightSearchViewModel.deeplinkFlightSearchParamsObserver.onNext(flightSearchParams)
+        flightSearchViewModel.performDeepLinkFlightSearch(flightSearchParams)
 
         testTransitionSubscriber.assertReceivedOnNext(listOf(FlightActivity.Screen.RESULTS))
         assertTrue(flightSearchViewModel.getParamsBuilder().areRequiredParamsFilled())
 
-        testDateSubscriber.assertValue(Pair(flightSearchParams.departureDate, flightSearchParams.returnDate))
+        assertEquals(Pair(flightSearchParams.departureDate, flightSearchParams.returnDate),
+                Pair(flightSearchViewModel.startDate(), flightSearchViewModel.endDate()))
         testOriginSubscriber.assertValue(HtmlCompat.stripHtml(flightSearchParams.departureLocation.destinationId))
         testDestinationSubscriber.assertValue(HtmlCompat.stripHtml(flightSearchParams.arrivalLocation.destinationId))
         val travelerParams = testTravelersSubscriber.onNextEvents[0]
@@ -90,7 +89,7 @@ class FlightDeeplinkTest {
         val flightSearchParams = makeDummyFlightSearchParams(complete = true, roundTrip = false, numAdults = 1)
 
         flightSearchViewModel.isRoundTripSearchObservable.subscribe(roundTripTestSubscriber)
-        flightSearchViewModel.deeplinkFlightSearchParamsObserver.onNext(flightSearchParams)
+        flightSearchViewModel.performDeepLinkFlightSearch(flightSearchParams)
 
         assertTrue(flightSearchViewModel.getParamsBuilder().areRequiredParamsFilled())
         roundTripTestSubscriber.assertValues(true, false)
@@ -102,7 +101,7 @@ class FlightDeeplinkTest {
         val flightSearchParams = makeDummyFlightSearchParams(complete = true, roundTrip = true, numAdults = 1)
 
         flightSearchViewModel.isRoundTripSearchObservable.subscribe(roundTripTestSubscriber)
-        flightSearchViewModel.deeplinkFlightSearchParamsObserver.onNext(flightSearchParams)
+        flightSearchViewModel.performDeepLinkFlightSearch(flightSearchParams)
 
         assertTrue(flightSearchViewModel.getParamsBuilder().areRequiredParamsFilled())
         roundTripTestSubscriber.assertValues(true, true)
@@ -113,7 +112,7 @@ class FlightDeeplinkTest {
         val numAdults = 3
         val flightSearchParams = makeDummyFlightSearchParams(complete = true, roundTrip = true, numAdults = numAdults)
 
-        flightSearchViewModel.deeplinkFlightSearchParamsObserver.onNext(flightSearchParams)
+        flightSearchViewModel.performDeepLinkFlightSearch(flightSearchParams)
         val searchParams = flightSearchViewModel.getParamsBuilder().build()
 
         assertTrue(flightSearchViewModel.getParamsBuilder().areRequiredParamsFilled())

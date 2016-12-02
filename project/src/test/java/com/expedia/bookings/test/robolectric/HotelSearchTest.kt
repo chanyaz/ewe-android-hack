@@ -64,7 +64,7 @@ class HotelSearchTest {
         vm.destinationLocationObserver.onNext(suggestion)
 
         // Selecting only start date should search with end date as the next day
-        vm.datesObserver.onNext(Pair(LocalDate.now(), null))
+        vm.datesUpdated(LocalDate.now(), null)
         vm.searchObserver.onNext(Unit)
         expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
@@ -73,7 +73,7 @@ class HotelSearchTest {
                 .endDate(LocalDate.now().plusDays(1)).build() as HotelSearchParams)
 
         // Select both start date and end date and search
-        vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
+        vm.datesUpdated(LocalDate.now(), LocalDate.now().plusDays(3))
         vm.searchObserver.onNext(Unit)
         expected.add(HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
@@ -82,14 +82,14 @@ class HotelSearchTest {
                 .endDate(LocalDate.now().plusDays(3)).build() as HotelSearchParams)
 
         // When neither start date nor end date are selected, search should not fire anything
-        vm.datesObserver.onNext(Pair(null, null))
+        vm.datesUpdated(null, null)
         vm.searchObserver.onNext(Unit)
         vm.searchObserver.onNext(Unit)
         vm.searchObserver.onNext(Unit)
 
         //When last selectable date is selected error should be fired
         val lastSelectableDate =  LocalDate.now().plusDays(activity.resources.getInteger(R.integer.calendar_max_selectable_date_range))
-        vm.datesObserver.onNext(Pair(lastSelectableDate, lastSelectableDate))
+        vm.datesUpdated(lastSelectableDate, lastSelectableDate)
         vm.searchObserver.onNext(Unit)
 
         testSubscriber.requestMore(LOTS_MORE)
@@ -97,7 +97,7 @@ class HotelSearchTest {
         assertEquals(testSubscriber.onNextEvents[0].checkOut, expected[0].checkOut)
         assertEquals(testSubscriber.onNextEvents[1].checkOut, expected[1].checkOut)
         errorSubscriber.assertValue(activity.resources.getString(R.string.error_date_too_far))
-        assertEquals(LocalDate.now(), vm.getStartDate(), "Start Date is Today")
+        assertEquals(LocalDate.now(), vm.getFirstAvailableDate(), "Start Date is Today")
     }
 
     @Test
@@ -112,7 +112,7 @@ class HotelSearchTest {
 
         vm.shopWithPointsViewModel = ShopWithPointsViewModel(activity, paymentModel, UserLoginStateChangedModel())
         vm.destinationLocationObserver.onNext(suggestion)
-        vm.datesObserver.onNext(Pair(LocalDate.now(), null))
+        vm.datesUpdated(LocalDate.now(), null)
         vm.searchObserver.onNext(Unit)
 
         val builder = HotelSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),

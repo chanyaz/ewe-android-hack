@@ -25,7 +25,7 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
         val startDate = baseSearchViewModel.startDate()
         if (baseSearchViewModel.accessibleStartDateSetObservable.value && startDate != null) {
             validateDates(startDate, startDate.plusDays(1))
-            baseSearchViewModel.datesObserver.onNext(Pair(startDate, startDate.plusDays(1)))
+            baseSearchViewModel.datesUpdated(startDate, startDate.plusDays(1))
             baseSearchViewModel.accessibleStartDateSetObservable.onNext(false)
         }
     }
@@ -75,11 +75,11 @@ open class AccessibleDatePickerFragment(val baseSearchViewModel: BaseSearchViewM
 
             if (baseSearchViewModel.accessibleStartDateSetObservable.value) {
                 validateDates(startDate, date)
-                baseSearchViewModel.datesObserver.onNext(Pair(startDate, date))
+                baseSearchViewModel.datesUpdated(startDate, date)
                 baseSearchViewModel.accessibleStartDateSetObservable.onNext(false)
             } else {
                 validateDates(date, null)
-                baseSearchViewModel.datesObserver.onNext(Pair(date, null))
+                baseSearchViewModel.datesUpdated(date, null)
                 if (baseSearchViewModel.getMaxSearchDurationDays() > 0) {
                     baseSearchViewModel.accessibleStartDateSetObservable.onNext(true)
                 }

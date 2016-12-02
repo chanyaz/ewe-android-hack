@@ -107,7 +107,7 @@ class PackageSearchParamsTest {
 
     @Test
     fun testStartDate() {
-        assertEquals(LocalDate.now(), vm.getStartDate(), "Start Date is Today")
+        assertEquals(LocalDate.now(), vm.getFirstAvailableDate(), "Start Date is Today")
     }
 
     @Test
@@ -134,12 +134,12 @@ class PackageSearchParamsTest {
         vm.destinationLocationObserver.onNext(destination)
 
         // When neither start date nor end date are selected, search should fire a no notes error
-        vm.datesObserver.onNext(Pair(null, null))
+        vm.datesUpdated(null, null)
         vm.searchObserver.onNext(Unit)
         expectedDates.add(Unit)
 
         // Selecting only start date should search with end date as the next day
-        vm.datesObserver.onNext(Pair(LocalDate.now(), null))
+        vm.datesUpdated(LocalDate.now(), null)
         vm.searchObserver.onNext(Unit)
         expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
@@ -150,15 +150,15 @@ class PackageSearchParamsTest {
 
 
         // Select days beyond 329
-        vm.datesObserver.onNext(Pair(LocalDate.now().plusDays(329), LocalDate.now().plusDays(330)))
+        vm.datesUpdated(LocalDate.now().plusDays(329), LocalDate.now().plusDays(330))
         vm.searchObserver.onNext(Unit)
 
         // Select days beyond 329 but same day
-        vm.datesObserver.onNext(Pair(LocalDate.now().plusDays(329), LocalDate.now().plusDays(329)))
+        vm.datesUpdated(LocalDate.now().plusDays(329), LocalDate.now().plusDays(329))
         vm.searchObserver.onNext(Unit)
 
         // Select both start date and end date and search
-        vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
+        vm.datesUpdated(LocalDate.now(), LocalDate.now().plusDays(3))
         vm.searchObserver.onNext(Unit)
         expectedSearchParams.add(PackageSearchParams.Builder(activity.resources.getInteger(R.integer.calendar_max_days_hotel_stay),
                 activity.resources.getInteger(R.integer.max_calendar_selectable_date_range))
@@ -166,15 +166,6 @@ class PackageSearchParamsTest {
                 .destination(destination)
                 .startDate(LocalDate.now())
                 .endDate(LocalDate.now().plusDays(3)).build() as PackageSearchParams)
-
-        // When no origin or destination, search should fire no origin error
-        vm.suggestionTextChangedObserver.onNext(true)
-        expectedOrigins.add(Unit)
-        vm.searchObserver.onNext(Unit)
-        vm.originLocationObserver.onNext(origin)
-        vm.suggestionTextChangedObserver.onNext(false)
-        expectedOrigins.add(Unit)
-        vm.searchObserver.onNext(Unit)
 
         searchParamsSubscriber.requestMore(LOTS_MORE)
         assertEquals(expectedSearchParams[0].endDate, searchParamsSubscriber.onNextEvents[0].endDate)
