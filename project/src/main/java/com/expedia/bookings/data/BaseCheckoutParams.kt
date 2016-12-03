@@ -89,7 +89,7 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
         params.put("tripId", tripId)
         params.put("expectedTotalFare", expectedTotalFare)
         params.put("expectedFareCurrencyCode", expectedFareCurrencyCode)
-        params.put("suppressFinalBooking", suppressFinalBooking)
+        params.put("suppressFinalBooking", true)
 
         //BILLING
         val hasStoredCard = billingInfo.hasStoredCard()

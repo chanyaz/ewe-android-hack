@@ -565,7 +565,7 @@ public class NavUtils {
 	}
 
 	public static boolean isUserBucketedForFlightTest() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightTest);
+		return true;
 	}
 
 	public static Intent getLaunchIntent(Context context) {

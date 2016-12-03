@@ -70,7 +70,7 @@ public class RouterActivity extends Activity implements UserAccountRefresher.IUs
 			0);
 
 		if (ProductFlavorFeatureConfiguration.getInstance().isAbacusTestEnabled()) {
-			query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
+//			query.addExperiment(AbacusUtils.EBAndroidAppFlightTest);
 
 			if (loadSignInViewAbTest) {
 				query.addExperiment(AbacusUtils.EBAndroidAppShowSignInOnLaunch);

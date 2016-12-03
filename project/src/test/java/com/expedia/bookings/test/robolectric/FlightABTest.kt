@@ -24,7 +24,7 @@ class FlightABTest {
 
     @Test
     fun oldFlightPath() {
-        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightTest)
+//        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightTest)
         NavUtils.goToFlights(activity, true)
         val intent = Shadows.shadowOf(activity).peekNextStartedActivity()
         assertEquals(FlightSearchActivity::class.java.name, intent.component.className);
@@ -32,7 +32,7 @@ class FlightABTest {
 
     @Test
     fun newFlightPath() {
-        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightTest)
+//        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightTest)
 
         NavUtils.goToFlights(activity, true)
         val intent = Shadows.shadowOf(activity).peekNextStartedActivity()

@@ -1891,7 +1891,7 @@ public class OmnitureTracking {
 
 		s.setAppState(FLIGHT_SEARCH);
 		s.setEvar(18, FLIGHT_SEARCH);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
+//		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
 		s.track();
 	}
 
@@ -5552,7 +5552,7 @@ public class OmnitureTracking {
 		s.setAppState(FLIGHT_SEARCH_V2);
 		s.setEvar(18, FLIGHT_SEARCH_V2);
 		s.setEvar(2, "D=c2");
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
+//		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightTest);
 		s.track();
 	}
 
