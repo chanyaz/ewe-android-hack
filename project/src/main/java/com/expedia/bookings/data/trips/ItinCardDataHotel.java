@@ -199,6 +199,13 @@ public class ItinCardDataHotel extends ItinCardData implements ConfirmationNumbe
 		return null;
 	}
 
+	public boolean isVip() {
+		if (hasProperty()) {
+			return mProperty.isVipAccess();
+		}
+		return false;
+	}
+
 	public Intent getDirectionsIntent() {
 		final String address = mProperty.getLocation().toLongFormattedString();
 		if (TextUtils.isEmpty(address)) {

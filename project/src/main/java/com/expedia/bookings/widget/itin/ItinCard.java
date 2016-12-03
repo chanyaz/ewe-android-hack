@@ -38,16 +38,15 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
-import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
@@ -458,8 +457,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mChevronImageView.setRotation(-90f);
 		}
 
-		if (getType() == Type.HOTEL) {
-			boolean isVipAccess = ((TripHotel) itinCardData.getTripComponent()).getProperty().isVipAccess();
+		if (itinCardData instanceof ItinCardDataHotel) {
+			boolean isVipAccess = ((ItinCardDataHotel) itinCardData).isVip();
 			LoyaltyMembershipTier customerLoyaltyMembershipTier = User.getLoggedInLoyaltyMembershipTier(getContext());
 			boolean isSilverOrGoldMember = customerLoyaltyMembershipTier == LoyaltyMembershipTier.MIDDLE
 				|| customerLoyaltyMembershipTier == LoyaltyMembershipTier.TOP;
