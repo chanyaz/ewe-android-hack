@@ -61,9 +61,16 @@ public class AbacusResponse {
 	 * when we test the release builds.
 	 */
 	public void updateABTest(int key, int value) {
-		if (abacusTestMap.containsKey(key)) {
-			abacusTestMap.get(key).value = value;
+		AbacusTest test = abacusTestMap.get(key);
+		if (test == null) {
+			test = new AbacusTest();
+			test.id = key;
+			test.value = 0;
+			test.instanceId = 0;
+			abacusTestMap.put(key, test);
 		}
+
+		test.value = value;
 	}
 
 	public AbacusTest testForKey(int key) {

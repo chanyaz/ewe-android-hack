@@ -50,11 +50,11 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.util.ForceBucketPref;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.Ui;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -195,7 +195,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			finish = true;
 			break;
 		default:
-			Ui.showToast(this, "Cannot yet handle data: " + data);
+			com.mobiata.android.util.Ui.showToast(this, "Cannot yet handle data: " + data);
 			finish = true;
 		}
 
@@ -206,7 +206,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	}
 
 	private void handleForceBucketing(Uri data, Set<String> queryData) {
-		if (isInteger(data.getQueryParameter("value"))) {
+		if (isInteger(data.getQueryParameter("value")) && isInteger(data.getQueryParameter("key"))) {
 			int key = 0, newValue = 0;
 			if (queryData.contains("key")) {
 				key = Integer.valueOf(data.getQueryParameter("key"));
@@ -216,9 +216,12 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			}
 			//reset and revert back to default abacus test map
 			if (key == 0) {
+				ForceBucketPref.setUserForceBucketed(this, false);
 				AbacusHelperUtils.downloadBucket(this);
 			}
 			else {
+				ForceBucketPref.setUserForceBucketed(this, true);
+				ForceBucketPref.saveForceBucketedTestKeyValue(this, key, newValue);
 				Db.getAbacusResponse().updateABTest(key, newValue);
 			}
 		}
