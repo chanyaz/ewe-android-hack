@@ -22,7 +22,7 @@ class RailTicketDeliveryEntryViewModel(val context: Context) {
 
     val deliveryByMailSupported = ticketDeliveryByPostOptions.map { CollectionUtils.isNotEmpty(it) }
     val ticketDeliveryObservable = BehaviorSubject.create<TicketDeliveryMethod>(TicketDeliveryMethod.PICKUP_AT_STATION)
-    val ticketDeliveryMethodSelected = BehaviorSubject.create<TicketDeliveryMethod>()
+    val ticketDeliveryMethodSelected = PublishSubject.create<TicketDeliveryMethod>()
     var ticketDeliveryOption: TicketDeliveryOption? = null
     val ticketDeliveryOptionSubject = BehaviorSubject.create<TicketDeliveryOption>()
 
