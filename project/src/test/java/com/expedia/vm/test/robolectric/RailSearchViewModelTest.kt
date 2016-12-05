@@ -43,7 +43,7 @@ class RailSearchViewModelTest {
 
         searchVM.railOriginObservable.onNext(origin)
         searchVM.railDestinationObservable.onNext(destination)
-        searchVM.datesObserver.onNext(Pair(departDate, null))
+        searchVM.datesUpdated(departDate, null)
         searchVM.departTimeSubject.onNext(departTime)
         searchVM.returnTimeSubject.onNext(null)
         searchVM.isRoundTripSearchObservable.onNext(false)
@@ -61,7 +61,7 @@ class RailSearchViewModelTest {
 
         searchVM.railOriginObservable.onNext(origin)
         searchVM.railDestinationObservable.onNext(destination)
-        searchVM.datesObserver.onNext(Pair(departDate, returnDate))
+        searchVM.datesUpdated(departDate, returnDate)
         searchVM.departTimeSubject.onNext(departTime)
         searchVM.returnTimeSubject.onNext(returnTime)
         searchVM.isRoundTripSearchObservable.onNext(true)
@@ -86,7 +86,6 @@ class RailSearchViewModelTest {
         searchVM.searchObserver.onNext(Unit)
         assertNotNull(searchParamsSubscriber.onNextEvents[0].origin)
         assertNotNull(searchParamsSubscriber.onNextEvents[0].destination)
-        assertEquals(searchVM.datesObservable.value.first.toString(), searchParamsSubscriber.onNextEvents[0].departDate.toString())
         assertNull(searchParamsSubscriber.onNextEvents[0].returnDate)
         assertEquals(searchVM.departTimeSubject.value.toString(), searchParamsSubscriber.onNextEvents[0].departDateTimeMillis.toString())
         assertNull(searchParamsSubscriber.onNextEvents[0].returnDateTimeMillis)
@@ -107,7 +106,7 @@ class RailSearchViewModelTest {
         searchVM.errorMaxRangeObservable.subscribe(errorMaxRangeSubscriber)
 
         val departDate = LocalDate().plusDays(activity.resources.getInteger(R.integer.calendar_max_days_rail_search)).plusDays(1)
-        searchVM.datesObserver.onNext(Pair(departDate, null))
+        searchVM.datesUpdated(departDate, null)
         searchVM.searchObserver.onNext(Unit)
         assertFalse(searchVM.isRoundTripSearchObservable.value)
         assertEquals("This date is too far out, please choose a closer date.", errorMaxRangeSubscriber.onNextEvents[0].toString())
@@ -128,13 +127,13 @@ class RailSearchViewModelTest {
 
         var departDate = LocalDate().plusDays(1)
         var returnDate = departDate.plusDays(31)
-        searchVM.datesObserver.onNext(Pair(departDate, returnDate))
+        searchVM.datesUpdated(departDate, returnDate)
         searchVM.searchObserver.onNext(Unit)
         assertEquals("We're sorry, but we are unable to search for round trip trains more than 30 days apart.", errorMaxDurationSubscriber.onNextEvents[0].toString())
 
         departDate = LocalDate().plusDays(activity.resources.getInteger(R.integer.calendar_max_days_rail_search))
         returnDate = departDate.plusDays(1)
-        searchVM.datesObserver.onNext(Pair(departDate, returnDate))
+        searchVM.datesUpdated(departDate, returnDate)
         searchVM.searchObserver.onNext(Unit)
         assertTrue(searchVM.isRoundTripSearchObservable.value)
         assertEquals("This date is too far out, please choose a closer date.", errorMaxRangeSubscriber.onNextEvents[0].toString())
@@ -154,7 +153,7 @@ class RailSearchViewModelTest {
 
     @Test
     fun testStartDate() {
-        assertEquals(LocalDate.now().plusDays(1), searchVM.getStartDate(), "Start Date is Tomorrow")
+        assertEquals(LocalDate.now().plusDays(1), searchVM.getFirstAvailableDate(), "Start Date is Tomorrow")
     }
 
     @Test

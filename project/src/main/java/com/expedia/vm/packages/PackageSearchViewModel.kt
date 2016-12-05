@@ -22,38 +22,17 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
-    val packageParamsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
-
-    // Outputs
-    val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
-
-    init {
-        Ui.getApplication(context).travelerComponent().inject(this)
-    }
-
-    override fun getMaxSearchDurationDays(): Int {
-        return context.resources.getInteger(R.integer.calendar_max_days_package_stay);
-    }
-
-    override fun getMaxDateRange(): Int {
-        return context.resources.getInteger(R.integer.max_calendar_selectable_date_range)
-    }
-
     // Inputs
-
     val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
         getParamsBuilder().infantSeatingInLap(isInfantInLap)
     }
+    // Outputs
+    val searchParamsObservable = PublishSubject.create<PackageSearchParams>()
 
-    val suggestionTextChangedObserver = endlessObserver<Boolean> {
-        if (it) getParamsBuilder().origin(null) else getParamsBuilder().destination(null)
-        requiredSearchParamsObserver.onNext(Unit)
-    }
+    val packageParamsBuilder = PackageSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
-    override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
-        getParamsBuilder().destination(suggestion)
-        formattedDestinationObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
-        requiredSearchParamsObserver.onNext(Unit)
+    init {
+        Ui.getApplication(context).travelerComponent().inject(this)
     }
 
     val searchObserver = endlessObserver<Unit> {
@@ -63,7 +42,7 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             } else if (!getParamsBuilder().hasValidDateDuration()) {
                 errorMaxDurationObservable.onNext(context.getString(R.string.hotel_search_range_error_TEMPLATE, getMaxSearchDurationDays()))
             } else if (!getParamsBuilder().isWithinDateRange()) {
-               errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
+                errorMaxRangeObservable.onNext(context.getString(R.string.error_date_too_far, getMaxSearchDurationDays()))
             } else {
                 val packageSearchParams = getParamsBuilder().build()
                 travelerValidator.updateForNewSearch(packageSearchParams)
@@ -78,28 +57,43 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
     }
 
+    override fun getMaxSearchDurationDays(): Int {
+        return context.resources.getInteger(R.integer.calendar_max_days_package_stay);
+    }
+
+    override fun getMaxDateRange(): Int {
+        return context.resources.getInteger(R.integer.max_calendar_selectable_date_range)
+    }
+
+    override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
+        getParamsBuilder().destination(suggestion)
+        formattedDestinationObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
     override fun getParamsBuilder(): PackageSearchParams.Builder {
         return packageParamsBuilder
     }
-
 
     override fun isStartDateOnlyAllowed(): Boolean {
         return false
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
-        var startEndDates = dates
-        val (start, end) = startEndDates
+        var (start, end) = dates
         //dates cant be the same, shift end by 1 day
-        if (!isStartDateOnlyAllowed()) {
-            if (start != null && (end == null || end.isEqual(start))) {
-                startEndDates = Pair(start, start.plusDays(1))
-            }
+        if (start != null && (end == null || end.isEqual(start))) {
+            end = start.plusDays(1)
         }
-        super.onDatesChanged(startEndDates)
+
+        dateTextObservable.onNext(computeDateText(start, end))
+        dateAccessibilityObservable.onNext(computeDateText(start, end, true))
+        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
+        calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
+
+        super.onDatesChanged(Pair(start, end))
     }
 
-    // Helpers
     override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
             return context.getString(R.string.select_departure_date);

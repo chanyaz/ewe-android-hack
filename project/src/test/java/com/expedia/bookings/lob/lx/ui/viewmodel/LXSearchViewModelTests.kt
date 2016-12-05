@@ -47,7 +47,7 @@ class LXSearchViewModelTests {
         vm.destinationLocationObserver.onNext(suggestion)
 
         // Selecting only start date should search with end date as the next day
-        vm.datesObserver.onNext(Pair(LocalDate.now(), null))
+        vm.datesUpdated(LocalDate.now(), null)
         vm.searchObserver.onNext(Unit)
         expected.add(LxSearchParams.Builder()
                 .destination(suggestion)
@@ -55,7 +55,7 @@ class LXSearchViewModelTests {
                 .endDate(LocalDate.now().plusDays(14)).build() as LxSearchParams)
 
         // Select both start date and end date and search
-        vm.datesObserver.onNext(Pair(LocalDate.now(), LocalDate.now().plusDays(3)))
+        vm.datesUpdated(LocalDate.now(), LocalDate.now().plusDays(3))
         vm.searchObserver.onNext(Unit)
         expected.add(LxSearchParams.Builder()
                 .destination(suggestion)
@@ -104,7 +104,7 @@ class LXSearchViewModelTests {
 
     @Test
     fun testStartDate() {
-        assertEquals(LocalDate.now(), vm.getStartDate(), "Start Date is Today")
+        assertEquals(LocalDate.now(), vm.getFirstAvailableDate(), "Start Date is Today")
     }
 
     private fun getDummySuggestion(): SuggestionV4 {

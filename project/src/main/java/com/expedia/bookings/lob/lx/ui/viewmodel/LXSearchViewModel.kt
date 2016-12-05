@@ -65,21 +65,17 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     }
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
-        val (start, end) = dates
-
-        getParamsBuilder().startDate(start)
-        if (start != null && end == null) {
-            getParamsBuilder().endDate(start.plusDays(context.resources.getInteger(R.integer.lx_default_search_range)))
-        } else {
-            getParamsBuilder().endDate(end)
-        }
+        var (start, end) = dates
 
         dateTextObservable.onNext(computeDateText(start, end))
         dateAccessibilityObservable.onNext(computeDateText(start, end, true))
         dateInstructionObservable.onNext(computeDateInstructionText(start, end))
 
-        requiredSearchParamsObserver.onNext(Unit)
-        datesObservable.onNext(dates)
+        if (start != null && end == null) {
+            end = start.plusDays(context.resources.getInteger(R.integer.lx_default_search_range))
+        }
+
+        super.onDatesChanged(Pair(start, end))
     }
 
     override fun computeDateText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): CharSequence {
