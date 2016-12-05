@@ -371,6 +371,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mHeaderItinCardContentDescription
 			.setVisibility(AccessibilityUtil.isTalkBackEnabled(getContext()) ? VISIBLE : GONE);
 
+
 		boolean shouldShowCheckInLink = shouldShowCheckInLink(itinCardData);
 		if (shouldShowCheckInLink) {
 			final int flightLegNumber = ((ItinCardDataFlight) itinCardData).getLegNumber();
@@ -411,7 +412,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		else {
 			if (getType() == Type.FLIGHT) {
 				mCheckInLayout.setVisibility(GONE);
-				setShowSummary(false);
+				if (isCollapsed()) {
+					setShowSummary(false);
+				}
 			}
 		}
 
@@ -569,9 +572,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	public void updateSummaryVisibility() {
 		mSummarySectionLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
-		mActionButtonLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
 		// Let's not show the date text in summaryCard as per design
 		mHeaderTextDateView.setVisibility(mShowSummary ? GONE : VISIBLE);
+		mActionButtonLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
 	}
 
 	public void updateHeaderImageHeight() {

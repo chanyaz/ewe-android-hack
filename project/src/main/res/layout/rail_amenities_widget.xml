@@ -4,19 +4,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/amenities_container"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
         android:layout_marginTop="@dimen/card_view_container_margin"
-        android:orientation="vertical"
-        android:paddingTop="@dimen/card_view_container_margin" />
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:paddingTop="@dimen/card_view_container_margin">
 
+        <LinearLayout
+            android:id="@+id/amenities_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical" />
+    </ScrollView>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="bottom|center"
         android:padding="10dp"
-        android:text="@string/rail_amenities_disclaimer"/>
+        style="@style/Core.Text.Default.Medium.LightColor"
+        android:text="@string/rail_amenities_disclaimer" />
 </LinearLayout>
