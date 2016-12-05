@@ -13,6 +13,7 @@ import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.pos.PointOfSale
@@ -335,6 +336,10 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
         flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
         flightOverviewPresenter.getCheckoutPresenter().updateDbTravelers()
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)) {
+            flightOverviewPresenter.flightSummary.outboundFlightWidget.expandFlightDetails()
+            flightOverviewPresenter.flightSummary.inboundFlightWidget.expandFlightDetails()
+        }
     }
 
     val searchArgbEvaluator = ArgbEvaluator()

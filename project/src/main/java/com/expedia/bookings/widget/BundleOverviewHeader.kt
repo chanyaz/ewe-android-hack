@@ -69,6 +69,10 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         checkoutOverviewHeaderToolbar.destinationText.scaleY = .75f
     }
 
+    fun translateDatesTitleForHeaderToolbar() {
+        checkoutOverviewHeaderToolbar.checkInOutDates.translationY = - checkoutOverviewHeaderToolbar.destinationText.height * .25f
+    }
+
     fun toggleOverviewHeader(show: Boolean) {
         toolbar.setBackgroundColor(ContextCompat.getColor(context, if (show) android.R.color.transparent else primaryColorId))
         appBarLayout.setExpanded(show)

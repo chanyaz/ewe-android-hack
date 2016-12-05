@@ -145,7 +145,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     val checkoutTransition = object : Transition(BundleDefault::class.java, checkoutPresenter.javaClass, AccelerateDecelerateInterpolator(), ANIMATION_DURATION) {
         var translationDistance = 0f
         var range = 0f
-        var userStoppedScrollingAt = 0
         override fun startTransition(forward: Boolean) {
             if (!forward) {
                 checkoutPresenter.toolbarDropShadow.visibility = View.GONE
@@ -170,7 +169,6 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
                     return currentState == BundleDefault::class.java.name
                 }
             });
-            userStoppedScrollingAt = behavior.topAndBottomOffset
             AccessibilityUtil.setFocusToToolbarNavigationIcon(bundleOverviewHeader.toolbar)
         }
 
@@ -203,19 +201,20 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             }
         }
 
-        private fun translateHeader(f: Float, forward: Boolean) {
-            val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
-            val behavior = params.behavior as AppBarLayout.Behavior
-            val scrollY = if (forward) Math.min(userStoppedScrollingAt.toFloat(), (f * -bundleOverviewHeader.appBarLayout.totalScrollRange)) else (f - 1) * (bundleOverviewHeader.appBarLayout.totalScrollRange)
-            behavior.topAndBottomOffset = scrollY.toInt()
-        }
-
         private fun translateCheckout(f: Float, forward: Boolean) {
             val distance = height - translationDistance - Ui.getStatusBarHeight(context)
             checkoutPresenter.mainContent.translationY = if (forward) translationDistance + ((1 - f) * distance) else translationDistance + (f * distance)
             bundleOverviewHeader.nestedScrollView.foreground.alpha = (255 * if (forward) f else (1 - f)).toInt()
         }
 
+    }
+
+    open protected fun translateHeader(f: Float, forward: Boolean) {
+        val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = params.behavior as AppBarLayout.Behavior
+        val userStoppedScrollingAt = behavior.topAndBottomOffset
+        val scrollY = if (forward) Math.min(userStoppedScrollingAt.toFloat(), (f * -bundleOverviewHeader.appBarLayout.totalScrollRange)) else (f - 1) * (bundleOverviewHeader.appBarLayout.totalScrollRange)
+        behavior.topAndBottomOffset = scrollY.toInt()
     }
 
     private fun translateBottomContainer(f: Float, forward: Boolean) {
@@ -236,7 +235,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         checkoutPresenter.checkoutButtonContainer.translationY = if (forward) f * checkoutPresenter.checkoutButtonHeight else (1 - f) * checkoutPresenter.checkoutButtonHeight
     }
 
-    private fun resetCheckoutState() {
+    open protected fun resetCheckoutState() {
         checkoutPresenter.slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(true)
