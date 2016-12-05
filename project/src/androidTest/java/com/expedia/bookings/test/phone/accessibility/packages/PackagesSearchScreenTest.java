@@ -43,7 +43,7 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 
 		Common.pressBack();
 		checkToolbarNavContentDescription(false);
-		SearchScreen.calendarCard().check(matches(withContentDescription("Select travel dates. Button. Opens dialog")));
+		SearchScreen.calendarCard().check(matches(withContentDescription("Select Dates Button. Opens dialog. ")));
 		SearchScreen.calendarCard().perform(click());
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);
@@ -71,7 +71,7 @@ public class PackagesSearchScreenTest extends PackageTestCase {
 		SearchScreen.destination().check(matches(withContentDescription("Flying to. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)")));
 		String expectedStartDate = DateUtils.localDateToMMMd(startDate);
 		String expectedEndDate = DateUtils.localDateToMMMd(endDate);
-		SearchScreen.calendarCard().check(matches(withContentDescription("Trip dates. Button. Opens dialog. " + expectedStartDate + " to " + expectedEndDate + ". (5 nights)")));
+		SearchScreen.calendarCard().check(matches(withContentDescription("Trip dates Button. Opens dialog. " + expectedStartDate + " to " + expectedEndDate + " (5 nights)")));
 		checkToolbarNavContentDescription(false);
 
 		Common.delay(1);

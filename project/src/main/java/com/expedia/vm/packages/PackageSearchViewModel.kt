@@ -19,6 +19,7 @@ import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
+
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
@@ -86,62 +87,65 @@ class PackageSearchViewModel(context: Context) : BaseSearchViewModel(context) {
             end = start.plusDays(1)
         }
 
-        dateTextObservable.onNext(computeDateText(start, end))
-        dateAccessibilityObservable.onNext(computeDateText(start, end, true))
-        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
-        calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
+        dateTextObservable.onNext(getCalendarCardDateText(start, end, false))
+        dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
+        dateInstructionObservable.onNext(getDateInstructionText(start, end))
+        calendarTooltipTextObservable.onNext(getToolTipText(start, end))
 
         super.onDatesChanged(Pair(start, end))
     }
 
-    override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
+    override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
             return context.getString(R.string.select_departure_date);
-        }
-
-        val dateRangeText = computeDateRangeText(start, end)
-        val sb = SpannableBuilder()
-        sb.append(dateRangeText)
-
-        if (start != null && end != null) {
-            val nightCount = JodaUtils.daysBetween(start, end)
-            val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-            sb.append(" ");
-            sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString))
-        }
-        return sb.build()
-    }
-
-    override fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
-        if (start == null && end == null) {
-            return context.resources.getString(R.string.select_dates)
         } else if (end == null) {
-            return Phrase.from(context.resources, R.string.select_return_date_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).format().toString()
+            return getNoEndDateText(start, false)
+        }
+        return getCompleteDateText(start!!, end, false)
+    }
+
+    override fun getEmptyDateText(forContentDescription: Boolean): String {
+        val selectDatesText = context.getString(R.string.select_dates)
+        if (forContentDescription) {
+            return getDateAccessibilityText(selectDatesText, "")
+        }
+        return selectDatesText
+    }
+
+    override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
+        val selectReturnDate = Phrase.from(context, R.string.select_return_date_TEMPLATE)
+                .put("startdate", DateUtils.localDateToMMMd(start))
+                .format().toString()
+        if (forContentDescription) {
+            return getDateAccessibilityText(selectReturnDate, "")
+        }
+        return selectReturnDate
+    }
+
+    override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
+        val dateNightBuilder = SpannableBuilder()
+        val nightCount = JodaUtils.daysBetween(start, end)
+
+        val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
+        val dateRangeText = if (forContentDescription) {
+            getStartToEndDateString(start, end)
         } else {
-            return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
+            getStartDashEndDateString(start, end)
         }
+
+        dateNightBuilder.append(dateRangeText)
+        dateNightBuilder.append(" ")
+        dateNightBuilder.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
+
+        if (forContentDescription) {
+            return getDateAccessibilityText(context.getString(R.string.trip_dates_cont_desc), dateNightBuilder.build().toString())
+        }
+
+        return dateNightBuilder.build().toString()
     }
 
-    override fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
-        val dateRangeText = computeDateRangeText(start, end)
-        val sb = SpannableBuilder()
-        sb.append(dateRangeText)
-
-        if (start != null && end != null) {
-            val nightCount = JodaUtils.daysBetween(start, end)
-            val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-            sb.append(" ");
-            sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
-        }
-        return sb.build()
-    }
-
-    override fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
-        val resource =
-                if (end == null) R.string.cars_calendar_start_date_label
-                else R.string.calendar_drag_to_modify
-        val instructions = context.resources.getString(resource)
-        return Pair(computeTopTextForToolTip(start, end), instructions)
+    override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
+        return context.getString(R.string.calendar_drag_to_modify)
     }
 
     override fun sameStartAndEndDateAllowed(): Boolean {

@@ -6,10 +6,8 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.lx.LxSearchParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.util.endlessObserver
 import com.expedia.vm.BaseSearchViewModel
-import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
 
@@ -27,11 +25,6 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override val destinationLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().destination(suggestion)
         locationTextObservable.onNext(HtmlCompat.stripHtml(suggestion.regionNames.displayName))
-        requiredSearchParamsObserver.onNext(Unit)
-    }
-
-    val suggestionTextChangedObserver = endlessObserver<Unit> {
-        getParamsBuilder().destination(null)
         requiredSearchParamsObserver.onNext(Unit)
     }
 
@@ -67,9 +60,9 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         var (start, end) = dates
 
-        dateTextObservable.onNext(computeDateText(start, end))
-        dateAccessibilityObservable.onNext(computeDateText(start, end, true))
-        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
+        dateTextObservable.onNext(getCalendarCardDateText(start, end, false))
+        dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
+        dateInstructionObservable.onNext(getDateInstructionText(start, end))
 
         if (start != null && end == null) {
             end = start.plusDays(context.resources.getInteger(R.integer.lx_default_search_range))
@@ -78,39 +71,42 @@ class LXSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         super.onDatesChanged(Pair(start, end))
     }
 
-    override fun computeDateText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): CharSequence {
-        val dateRangeText = if (isContentDescription) computeDateRangeText(start, end, true) else computeDateRangeText(start, end)
-        val sb = SpannableBuilder()
-
-        if (start != null && isContentDescription) {
-            sb.append(Phrase.from(context, R.string.lx_search_date_range_cont_desc_TEMPLATE)
-                    .put("date_range", dateRangeText)
-                    .format().toString())
-
-        } else {
-            sb.append(dateRangeText)
-        }
-        return sb.build()
-    }
-
-    override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
+    override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
             return context.getString(R.string.select_lx_search_dates)
         }
         return DateUtils.localDateToMMMd(start)
     }
 
-    override fun computeDateRangeText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): String? {
-        if (start == null && end == null) {
-            val stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_start_date
-            return context.getString(stringID)
+    override fun sameStartAndEndDateAllowed(): Boolean {
+        return false
+    }
+
+    override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
+        return context.getString(R.string.calendar_drag_to_modify)
+    }
+
+    override fun getEmptyDateText(forContentDescription: Boolean): String {
+        if (forContentDescription) {
+           return getDateAccessibilityText(context.getString(R.string.select_start_date), "")
+        } else {
+            return context.getString(R.string.select_start_date)
+        }
+    }
+
+    override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
+        if (forContentDescription) {
+            return getDateAccessibilityText(context.getString(R.string.select_start_date), DateUtils.localDateToMMMMd(start))
         } else {
             return DateUtils.localDateToMMMMd(start)
         }
     }
 
-    override fun sameStartAndEndDateAllowed(): Boolean {
-        return false
+    override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
+        if (forContentDescription) {
+            return getDateAccessibilityText(context.getString(R.string.select_start_date), DateUtils.localDateToMMMMd(start))
+        } else {
+            return DateUtils.localDateToMMMMd(start)
+        }
     }
-
 }

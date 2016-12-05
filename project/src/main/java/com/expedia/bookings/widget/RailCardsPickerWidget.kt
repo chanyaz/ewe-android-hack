@@ -12,6 +12,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.subscribeText
 import com.expedia.vm.RailCardPickerViewModel
+import com.squareup.phrase.Phrase
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -26,6 +27,10 @@ class RailCardsPickerWidget(context: Context, attrs: AttributeSet?) : SearchInpu
         Ui.getApplication(context).railComponent().inject(this)
         railCardPickerViewModel = RailCardPickerViewModel(railServices, context)
 
+        contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_rail_card_cont_desc_TEMPLATE, 0))
+                .put("count", 0)
+                .format().toString()
+
         setOnClickListener {
             cardsPickerDialog.show()
         }
@@ -33,6 +38,13 @@ class RailCardsPickerWidget(context: Context, attrs: AttributeSet?) : SearchInpu
         railCardPickerViewModel.validationSuccess.subscribe {
             cardsPickerDialog.setCancelable(true)
             cardsPickerDialog.dismiss()
+        }
+
+        railCardPickerViewModel.cardsListForSearchParams.subscribe { cardList ->
+            val count = cardList.size
+            contentDescription = Phrase.from(context.resources.getQuantityString(R.plurals.search_rail_card_cont_desc_TEMPLATE, count))
+                    .put("count", count)
+                    .format().toString()
         }
 
         railCardPickerViewModel.cardsSelectedTextObservable.subscribeText(this)
