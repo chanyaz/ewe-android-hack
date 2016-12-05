@@ -223,6 +223,10 @@ public class HotelScreen {
 	}
 
 	public static void waitForResultsLoaded() {
+		waitForResultsLoaded(10);
+	}
+
+	public static void waitForResultsLoaded(int seconds) {
 		Matcher<View> resultListMatcher = hasDescendant(withId(R.id.list_view));
 		onView(anyOf(withId(R.id.hotel_presenter), withId(R.id.package_hotel_presenter))).perform(ViewActions.waitFor(resultListMatcher, 10, TimeUnit.SECONDS));
 
@@ -231,7 +235,7 @@ public class HotelScreen {
 		Matcher<View> pshMatcher = hasDescendant(
 			allOf(withId(R.id.pricing_structure_header), not(withText(R.string.progress_searching_hotels_hundreds)),
 				isDisplayed()));
-		hotelResultsList().perform(ViewActions.waitFor(pshMatcher, 10, TimeUnit.SECONDS));
+		hotelResultsList().perform(ViewActions.waitFor(pshMatcher, seconds, TimeUnit.SECONDS));
 	}
 
 	public static void waitForMapDisplayed() {

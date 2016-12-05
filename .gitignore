@@ -46,3 +46,7 @@ project/okhttp
 
 # Python Compiled Bytecode
 *.pyc
+
+# Fastlane generated files
+fastlane/metadata
+fastlane/report.xml
