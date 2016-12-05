@@ -5653,6 +5653,7 @@ public class OmnitureTracking {
 		setDateValues(s, departureDate, returnDate);
 
 		s.setProducts(getFlightProductString(false));
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightRateDetailExpansion);
 		s.track();
 	}
 
