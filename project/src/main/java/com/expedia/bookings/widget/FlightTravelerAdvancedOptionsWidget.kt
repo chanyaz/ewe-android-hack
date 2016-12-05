@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.section.AssistanceTypeSpinnerAdapter
 import com.expedia.bookings.section.SeatPreferenceSpinnerAdapter
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -47,7 +48,8 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
     }
 
     var viewModel: TravelerAdvancedOptionsViewModel by notNullAndObservable { vm ->
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_checkout_traveler_number)) {
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_checkout_traveler_number)
+                && PointOfSale.getPointOfSale().shouldShowKnownTravelerNumber()) {
             travelerNumber.viewModel = vm.travelerNumberViewModel
             vm.travelerNumberSubject.subscribeEditText(travelerNumber)
 
@@ -70,7 +72,8 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         View.inflate(context, R.layout.traveler_advanced_options_widget, this)
         orientation = VERTICAL
 
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_checkout_traveler_number)) {
+        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_checkout_traveler_number)
+                && PointOfSale.getPointOfSale().shouldShowKnownTravelerNumber()) {
             // make visible and drawable in xml when removing feature toggle
             travelerNumber.visibility = View.VISIBLE
             val drawables = travelerNumber.compoundDrawables
