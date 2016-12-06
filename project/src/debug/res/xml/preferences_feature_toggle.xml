@@ -55,10 +55,16 @@
             android:title="Enable Checkout Traveler Known number" />
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_new_checkout"
+            android:key="@string/preference_enable_new_checkout_forms_behavior"
             android:layout="@layout/preference"
             android:summary="New checkout form behavior in Universal Checkout"
             android:title="Enable new Checkout Behavior" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_universal_checkout_on_lx"
+            android:layout="@layout/preference"
+            android:summary="Bring universal checkout to LX"
+            android:title="Enable Universal Checkout on LX" />
 
     </PreferenceCategory>
 
