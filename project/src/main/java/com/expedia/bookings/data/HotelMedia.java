@@ -17,6 +17,7 @@ import com.expedia.bookings.bitmaps.PaletteCallback;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
+import com.expedia.bookings.utils.Strings;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
 
@@ -52,7 +53,7 @@ public class HotelMedia implements JSONable, IMedia {
 	 * 1000X1000v  _z    1000   1000    Variable
 	 */
 
-	public static enum Size {
+	public enum Size {
 		THUMB("t", 70, 70),
 		N("n", 90, 90),
 		G("g", 140, 140),
@@ -67,7 +68,7 @@ public class HotelMedia implements JSONable, IMedia {
 		public int width;
 		public int height;
 
-		private Size(String c, int w, int h) {
+		Size(String c, int w, int h) {
 			code = c;
 			width = w;
 			height = h;
@@ -95,7 +96,6 @@ public class HotelMedia implements JSONable, IMedia {
 	public String mDescription = "";
 	private Size mOriginalType;
 	private boolean mIsPlaceholder = false;
-	private int placeholderId = R.drawable.room_fallback;
 
 	public HotelMedia() {
 		// Default constructor
@@ -121,40 +121,19 @@ public class HotelMedia implements JSONable, IMedia {
 	}
 
 	public String getOriginalUrl() {
+		if (mOriginalType == null) { // null when default constructor HotelMedia() used (e.g. for placeholder image)
+			return "";
+		}
 		return getUrl(mOriginalType);
 	}
 
-
 	/**
 	 * Returns the url for a specific resolution of this Media.
-	 * @param type
-	 * @return
+	 * @param type Size
+	 * @return url
 	 */
 	public String getUrl(Size type) {
 		return mBaseUrl + type.code + ".jpg";
-	}
-
-	/**
-	 * Returns the url for the "best" sized resolution of this Media, where
-	 * "best" is the smallest size that is equal to or greater than the passed width.
-	 * If width is larger than the largest available, will return the largest
-	 * available.
-	 *
-	 * NOTE: This is depricated. Let's just always use the {@link getBestUrls(int, int)} instead.
-	 *
-	 * @param width
-	 * @return
-	 */
-	private String getUrl(int width) {
-		String url = null;
-		// TODO: width == 0 if a View hasn't finished measuring/loading yet
-		if (width == 0) {
-			return getOriginalUrl();
-		}
-		else {
-			url = getUrl(sMediaTypes[getBestIndex(width)]);
-		}
-		return url;
 	}
 
 	// Returns the index of the media whose size best matches the given width.
@@ -196,7 +175,7 @@ public class HotelMedia implements JSONable, IMedia {
 	}
 
 	private List<String> getUrls(int count, int... indices) {
-		ArrayList<String> urls = new ArrayList<String>(count);
+		ArrayList<String> urls = new ArrayList<>(count);
 		for (int i : indices) {
 			if (urls.size() >= count) {
 				return urls;
@@ -253,6 +232,7 @@ public class HotelMedia implements JSONable, IMedia {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.putOpt("url", getOriginalUrl());
+			obj.put("isPlaceholder", getIsPlaceHolder());
 			return obj;
 		}
 		catch (JSONException e) {
@@ -262,20 +242,45 @@ public class HotelMedia implements JSONable, IMedia {
 	}
 
 	public boolean fromJson(JSONObject obj) {
-		setUrl(obj.optString("url"));
+		String url = obj.optString("url");
+		if (Strings.isNotEmpty(url)) {
+			setUrl(url);
+		}
+		setIsPlaceholder(obj.optBoolean("isPlaceholder"));
 		return true;
 	}
 
 	@Override
 	public boolean equals(Object o) {
-		if (!(o instanceof HotelMedia)) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
 			return false;
 		}
 
-		// Equals compares the base URL, not the full URL (which could vary but ultimately means the same image)
+		HotelMedia that = (HotelMedia) o;
 
-		HotelMedia other = (HotelMedia) o;
-		return mBaseUrl.equals(other.mBaseUrl);
+		if (mIsPlaceholder != that.mIsPlaceholder) {
+			return false;
+		}
+		if (mBaseUrl != null ? !mBaseUrl.equals(that.mBaseUrl) : that.mBaseUrl != null) {
+			return false;
+		}
+		if (mDescription != null ? !mDescription.equals(that.mDescription) : that.mDescription != null) {
+			return false;
+		}
+		return mOriginalType == that.mOriginalType;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = mBaseUrl != null ? mBaseUrl.hashCode() : 0;
+		result = 31 * result + (mDescription != null ? mDescription.hashCode() : 0);
+		result = 31 * result + (mOriginalType != null ? mOriginalType.hashCode() : 0);
+		result = 31 * result + (mIsPlaceholder ? 1 : 0);
+		return result;
 	}
 
 	@Override
@@ -293,19 +298,9 @@ public class HotelMedia implements JSONable, IMedia {
 	 * Determines the best-sized Media to fit in the passed ImageView, creates a
 	 * UrlBitmapDrawable with that sized Media (falling back to lower resolutions
 	 * if necessary), and stuffs it into that ImageView. The Media will be
-	 * downloaded in the background.
-	 */
-	public void fillImageView(final ImageView view, final int placeholderResId) {
-		fillImageView(view, placeholderResId, null);
-	}
-
-	/**
-	 * Determines the best-sized Media to fit in the passed ImageView, creates a
-	 * UrlBitmapDrawable with that sized Media (falling back to lower resolutions
-	 * if necessary), and stuffs it into that ImageView. The Media will be
 	 * downloaded in the background. This variation allows the caller to hook a callback.
 	 */
-	public void fillImageView(final ImageView view, final int placeholderResId,
+	private void fillImageView(final ImageView view, final int placeholderResId,
 		final PicassoTarget target) {
 
 		// Do this OnPreDraw so that we are sure we have the imageView's width
@@ -343,13 +338,13 @@ public class HotelMedia implements JSONable, IMedia {
 			.load(getBestUrls(width));
 	}
 
-	public void fillImageView(final ImageView view, final int width, final int placeholderResId,
+	private void fillImageView(final ImageView view, final int width, final int placeholderResId,
 		final PicassoTarget target) {
 		new PicassoHelper.Builder(view.getContext()).setCacheEnabled(false).setPlaceholder(placeholderResId).setTarget(target).build()
 			.load(getBestUrls(width));
 	}
 
-	public void fillImageView(final ImageView view, final int width, final int placeholderResId,
+	private void fillImageView(final ImageView view, final int width, final int placeholderResId,
 		final PaletteCallback callback, final String tag) {
 		new PicassoHelper.Builder(view).setPlaceholder(placeholderResId).applyPaletteTransformation(
 			callback).setTag(tag).build().load(getBestUrls(width));
@@ -379,6 +374,6 @@ public class HotelMedia implements JSONable, IMedia {
 
 	@Override
 	public int getPlaceHolderId() {
-		return placeholderId;
+		return R.drawable.room_fallback;
 	}
 }
