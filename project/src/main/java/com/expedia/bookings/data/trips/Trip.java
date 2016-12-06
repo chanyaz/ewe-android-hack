@@ -67,6 +67,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
 	// To identify if it's a shared itin
 	private boolean mIsShared;
+	private boolean mIsTripUpgradable;
 
 	public Trip() {
 		// Default constructor
@@ -197,6 +198,14 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 
 	public void setIsShared(boolean isShared) {
 		this.mIsShared = isShared;
+	}
+
+	public boolean isTripUpgradable() {
+		return mIsTripUpgradable;
+	}
+
+	public void setIsTripUpgradable(boolean mIsTripUpgradable) {
+		this.mIsTripUpgradable = mIsTripUpgradable;
 	}
 
 	public String getItineraryKey() {
@@ -355,7 +364,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 			obj.putOpt("lastFullUpdate", mLastFullUpdate);
 
 			obj.putOpt("isShared", mIsShared);
-
+			obj.putOpt("isTripUpgradable", mIsTripUpgradable);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -398,7 +407,7 @@ public class Trip implements JSONable, Comparable<Trip>, ItinSharable {
 		mLastFullUpdate = obj.optLong("lastFullUpdate");
 
 		mIsShared = obj.optBoolean("isShared");
-
+		mIsTripUpgradable = obj.optBoolean("isTripUpgradable");
 		return true;
 	}
 

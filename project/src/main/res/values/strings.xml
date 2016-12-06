@@ -4869,5 +4869,7 @@
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">Multiple Carriers</string>
+    <!-- Room Upgrade Available messaging on Itin Screen -->
+    <string name="room_upgrade_available">Upgrade Available</string>
 
 </resources>

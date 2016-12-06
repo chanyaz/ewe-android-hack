@@ -216,7 +216,8 @@
           ],
           "isFreeCancellationAvailable": true
         }
-      ]
+      ],
+      "isTripUpgradable": true
     },
     {
       "levelOfDetail": "FULL",

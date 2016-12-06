@@ -130,6 +130,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private ViewGroup mSummaryLayout;
 	private ImageView mChevronImageView;
 	private ViewGroup mDetailsLayout;
+	private TextView mRoomUpgradeLayout;
 	private ItinActionsSection mActionButtonLayout;
 
 	private AlphaImageView mItinTypeImageView;
@@ -194,7 +195,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
 		mVIPTextView = Ui.findView(this, R.id.vip_label_text_view);
-
+		mRoomUpgradeLayout = Ui.findView(this, R.id.room_upgrade_message);
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 		mFixedItinTypeImageView = Ui.findView(this, R.id.fixed_itin_type_image_view);
 
@@ -468,6 +469,14 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			}
 			else {
 				mVIPTextView.setVisibility(GONE);
+			}
+
+			boolean isRoomUpgradable = itinCardData.getTripComponent().getParentTrip().isTripUpgradable();
+			if (isRoomUpgradable) {
+				mRoomUpgradeLayout.setVisibility(VISIBLE);
+			}
+			else {
+				mRoomUpgradeLayout.setVisibility(GONE);
 			}
 		}
 	}
