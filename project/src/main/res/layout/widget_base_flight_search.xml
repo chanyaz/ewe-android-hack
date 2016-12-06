@@ -72,6 +72,7 @@
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/search_form_margin"
             android:layout_marginRight="@dimen/search_form_margin"
+            android:importantForAccessibility="no"
             android:scrollbars="none">
 
             <FrameLayout
