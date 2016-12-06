@@ -1278,6 +1278,8 @@
     <string name="trips_back_button_label_cont_desc">Back to trips screen button</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Button to expand trip</string>
+    <!-- Content Description for upgrade image to upgrade hotel room -->
+    <string name="trips_upgrade_hotel_button_label_cont_desc">Upgrade hotel room</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Hotel Confirmation Code</string>
     <!-- Passengers Label -->
@@ -1536,6 +1538,8 @@
     <string name="itin_card_details_details">Additional Information</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Cancel Hotel Room</string>
+    <!-- Label for button to upgrade Hotel room -->
+    <string name="itin_card_details_upgrade_hotel_button">Limited Time: Upgrade Available!</string>
     <string name="itin_card_flight_checkin_title">Flight Check In</string>
 
     <string name="itin_card_flight_checkin_details">Visit %s\'s site</string>
