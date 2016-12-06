@@ -54,9 +54,6 @@ public class CheckoutViewModel {
 	public static ViewInteraction purchaseTextAboveSlider() {
 		return onView(withId(R.id.purchase_total_text_view));
 	}
-	public static ViewInteraction accountEarnPointSection() {
-		return onView(withId(R.id.account_rewards_container));
-	}
 	public static ViewInteraction accountEarnPointText() {
 		return onView(withId(R.id.account_rewards_textview));
 	}
@@ -345,17 +342,11 @@ public class CheckoutViewModel {
 		return onView(withId(R.id.checkout_scroll));
 	}
 
-	public static void scrollToPriceChangeMessage() {
-		onView(withId(R.id.price_change_container)).perform(scrollTo());
-	}
 	public static  void assertPurchaseTotalText(String purchaseText) {
 		purchaseTextAboveSlider().check(matches(withText(purchaseText)));
 	}
 	public static  void assertCardInfoText(String cardTest) {
 		cardInfoName().check(matches(withText(cardTest)));
-	}
-	public static  void assertRewardPointsSectionDisplayed() {
-		accountEarnPointSection().check(matches(isDisplayed()));
 	}
 	public static  void assertEarnPointsText(String earnPoints) {
 		accountEarnPointText().check(matches(isDisplayed())).check(matches(withText(containsString(earnPoints))));

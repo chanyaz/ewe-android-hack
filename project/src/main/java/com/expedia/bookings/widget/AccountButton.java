@@ -56,8 +56,6 @@ public class AccountButton extends LinearLayout {
 	private View mLoginContainer;
 	private TextView mLoginTextView;
 	private View mLogoutContainer;
-	private View mErrorContainer;
-	private View mRewardsContainer;
 	private TextView mRewardsTextView;
 	private View mLogoutButton;
 	private View mLoadingLogoutButton;
@@ -78,9 +76,7 @@ public class AccountButton extends LinearLayout {
 		mLoginContainer = findViewById(R.id.account_login_container);
 		mLoginTextView = Ui.findView(mLoginContainer, R.id.login_text_view);
 		mLogoutContainer = findViewById(R.id.account_logout_container);
-		mErrorContainer = findViewById(R.id.error_container);
-		mRewardsContainer = findViewById(R.id.account_rewards_container);
-		mRewardsTextView = Ui.findView(mRewardsContainer, R.id.account_rewards_textview);
+		mRewardsTextView = (TextView) findViewById(R.id.account_rewards_textview);
 		mExpediaLogo = Ui.findView(this, R.id.card_icon);
 		mLoadingTextView = Ui.findView(this, R.id.loading_textview);
 		mExpediaLogo.setContentDescription(Phrase.from(getContext(), R.string.brand_account_cont_desc_TEMPLATE)
@@ -138,11 +134,6 @@ public class AccountButton extends LinearLayout {
 			traveler = u.getPrimaryTraveler();
 		}
 
-		// Errors container
-		if (mErrorContainer != null) {
-			mErrorContainer.setVisibility(View.GONE);
-		}
-
 		// Loading container
 		mAccountLoadingContainer.setVisibility(isLoading ? View.VISIBLE : View.GONE);
 
@@ -150,14 +141,14 @@ public class AccountButton extends LinearLayout {
 		if (isLoggedIn) {
 			mLoginContainer.setVisibility(View.GONE);
 			mLogoutContainer.setVisibility(View.VISIBLE);
-			mRewardsContainer.setVisibility(View.VISIBLE);
+			mRewardsTextView.setVisibility(View.VISIBLE);
 			bindLogoutContainer(traveler, lob);
 		}
 		// If not logged in, show the login container
 		else {
 			mLoginContainer.setVisibility(View.VISIBLE);
 			mLogoutContainer.setVisibility(View.GONE);
-			mRewardsContainer.setVisibility(View.GONE);
+			mRewardsTextView.setVisibility(View.GONE);
 			bindLoginContainer(lob);
 		}
 	}
@@ -179,11 +170,11 @@ public class AccountButton extends LinearLayout {
 		else {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 			lp.height = LayoutParams.WRAP_CONTENT;
-			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
+			FrameLayout.LayoutParams lpt = (FrameLayout.LayoutParams) mLoginTextView.getLayoutParams();
+
 			if (LobExtensionsKt.isMaterialLineOfBusiness(lob)) {
 				lpt.width = LayoutParams.WRAP_CONTENT;
 				lpt.gravity = Gravity.CENTER;
-				mLoginContainer.setBackgroundResource(R.drawable.material_account_sign_in_button_ripple);
 				mLoginTextView.setTextColor(
 					ContextCompat.getColor(getContext(), R.color.material_checkout_account_button_text_color));
 				int[] attrs = {R.attr.skin_material_checkout_account_logo};
@@ -285,9 +276,9 @@ public class AccountButton extends LinearLayout {
 				rewardsCategoryTextView.setVisibility(View.GONE);
 			}
 			//Show Reward Points Container
-			mRewardsContainer.setVisibility(View.VISIBLE);
+			mRewardsTextView.setVisibility(View.VISIBLE);
 			FontCache.setTypeface(rewardsCategoryTextView, FontCache.Font.EXPEDIASANS_REGULAR);
-			setRewardsContainerBackground(mRewardsContainer, traveler.getLoyaltyMembershipTier());
+			setRewardsContainerBackgroundColor(mRewardsTextView, traveler.getLoyaltyMembershipTier());
 
 			//Show/Update Reward Points Text
 			String rewardPointsText = getRewardPointsText(lob);
@@ -297,12 +288,10 @@ public class AccountButton extends LinearLayout {
 			}
 
 			//Update Logout Container
-			mLogoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_top_tab);
 		}
 		else {
 			rewardsCategoryTextView.setVisibility(View.GONE);
-			mRewardsContainer.setVisibility(View.GONE);
-			setLogoutContainerBackground(mLogoutContainer);
+			mRewardsTextView.setVisibility(View.GONE);
 		}
 
 		// Logo
@@ -457,25 +446,21 @@ public class AccountButton extends LinearLayout {
 		return null;
 	}
 
-	protected void setLogoutContainerBackground(View logoutContainer) {
-		logoutContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
-	}
-
-	protected void setRewardsContainerBackground(View rewardsContainer, LoyaltyMembershipTier membershipTier) {
-		int rewardsBgResId = 0;
+	protected void setRewardsContainerBackgroundColor(View rewardsContainer, LoyaltyMembershipTier membershipTier) {
+		int rewardsBgColor = 0;
 		switch (membershipTier) {
 		case BASE:
-			rewardsBgResId = R.drawable.bg_checkout_info_bottom_base_tier;
+			rewardsBgColor = R.color.sign_in_user_base_tier;
 			break;
 		case MIDDLE:
-			rewardsBgResId = R.drawable.bg_checkout_info_bottom_middle_tier;
+			rewardsBgColor = R.color.sign_in_user_middle_tier;
 			break;
 		case TOP:
-			rewardsBgResId = R.drawable.bg_checkout_info_bottom_top_tier;
+			rewardsBgColor = R.color.sign_in_user_top_tier;
 			break;
 		}
 
-		rewardsContainer.setBackgroundResource(rewardsBgResId);
+		rewardsContainer.setBackgroundColor(ContextCompat.getColor(getContext(), rewardsBgColor));
 	}
 
 	private void clearTabletCheckoutData() {
@@ -495,15 +480,6 @@ public class AccountButton extends LinearLayout {
 		if (flight != null) {
 			flight.clearCheckoutData();
 		}
-	}
-
-	public void error() {
-		mAccountLoadingContainer.setVisibility(View.GONE);
-		mLogoutContainer.setVisibility(View.GONE);
-
-		// Show error and let user re-login easily
-		mErrorContainer.setVisibility(View.VISIBLE);
-		mLoginContainer.setVisibility(View.VISIBLE);
 	}
 
 	public interface AccountButtonClickListener {

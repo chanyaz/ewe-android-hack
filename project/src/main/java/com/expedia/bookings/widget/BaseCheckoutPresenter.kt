@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Rect
+import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -119,6 +120,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     var paymentLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var travelerLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
+    val travelerSummaryCardView: CardView by bindView(R.id.traveler_default_state_card_view)
 
     val paymentWidget: PaymentWidget by lazy {
         val presenter = paymentViewStub.inflate() as PaymentWidget
@@ -158,6 +160,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         view
     }
+
     val travelersPresenter: TravelersPresenter by lazy {
         val presenter = findViewById(R.id.traveler_presenter) as TravelersPresenter
         presenter.viewModel = TravelersViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
@@ -465,7 +468,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         override fun startTransition(forward: Boolean) {
             loginWidget.setInverseVisibility(forward)
             hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
-            travelerSummaryCard.visibility = if (forward) View.GONE else View.VISIBLE
+            travelerSummaryCardView.visibility = if (forward) View.GONE else View.VISIBLE
             legalInformationText.setInverseVisibility(forward)
             depositPolicyText.setInverseVisibility(forward)
             bottomContainer.setInverseVisibility(forward)

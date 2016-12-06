@@ -4,60 +4,68 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:orientation="horizontal"
-        android:paddingBottom="12dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="10dp"
-        android:paddingTop="11dp">
-
-        <LinearLayout
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:layout_width="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/insurance_title"
-                android:layout_marginBottom="6dp"
-                android:layout_height="wrap_content"
-                android:layout_width="wrap_content"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/insurance_description"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="-2dp"
-                android:layout_width="wrap_content"
-                android:text="@string/insurance_description"
-                android:textSize="12sp" />
-        </LinearLayout>
-
-        <android.support.v7.widget.SwitchCompat
-            android:id="@+id/insurance_switch"
-            android:layout_height="wrap_content"
-            android:layout_width="wrap_content" />
-    </LinearLayout>
-
-    <LinearLayout
         android:layout_height="wrap_content"
-        android:layout_width="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:orientation="vertical">
 
-        <View
-            android:background="@color/gray1"
-            android:layout_height="1dp"
-            android:layout_width="match_parent" />
-
-        <TextView
-            android:id="@+id/insurance_terms"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginTop="6dp"
-            android:layout_width="wrap_content"
-            android:text="@string/insurance_terms"
-            android:textSize="12sp" />
+            android:orientation="horizontal"
+            android:paddingBottom="12dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="10dp"
+            android:paddingTop="11dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/insurance_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/insurance_description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="-2dp"
+                    android:text="@string/insurance_description"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/insurance_switch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/gray1" />
+
+            <TextView
+                android:id="@+id/insurance_terms"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="14dp"
+                android:layout_marginTop="6dp"
+                android:text="@string/insurance_terms"
+                android:textSize="12sp" />
+        </LinearLayout>
     </LinearLayout>
 </merge>
