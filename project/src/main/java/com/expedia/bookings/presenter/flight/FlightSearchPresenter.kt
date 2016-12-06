@@ -104,9 +104,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val isRoundTripSearch = tab.position == 0
                 searchViewModel.isRoundTripSearchObservable.onNext(isRoundTripSearch)
-                announceForAccessibility(Phrase.from(context, R.string.flights_tab_selection_accouncement_TEMPLATE)
-                        .put("whichway", pagerAdapter.getPageTitle(tab.position).toString().toLowerCase())
-                        .format().toString())
+                announceForAccessibility(if (isRoundTripSearch)
+                    context.getString(R.string.flights_tab_selection_accouncement_roundtrip)
+                else
+                    context.getString(R.string.flights_tab_selection_accouncement_oneway))
             }
         })
     }
