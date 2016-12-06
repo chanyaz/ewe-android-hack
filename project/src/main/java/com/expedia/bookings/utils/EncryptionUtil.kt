@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import android.os.Build
 import android.security.KeyPairGeneratorSpec
 import android.support.annotation.VisibleForTesting
 import android.util.Base64
@@ -25,10 +26,10 @@ import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import javax.security.auth.x500.X500Principal
 
-open class EncryptionUtil(val context: Context, val secretKeyFile: File, val alias: String) {
-    private val TRANSFORMATION_RSA = "RSA/ECB/PKCS1Padding"
+open class EncryptionUtil(val context: Context, val secretKeyFileOld: File, val secretKeyFile: File, val alias: String) {
+
     protected val TRANSFORMATION_AES = "AES/GCM/NoPadding"
-    private val RSA_ALGORITHM = "RSA"
+    protected val RSA_ALGORITHM = "RSA"
     private val AES_ALGORITHM = "AES"
     private val KEYSTORE_NAME = "AndroidKeyStore"
     private val CIPHER_PROVIDER = "SC"
@@ -38,25 +39,48 @@ open class EncryptionUtil(val context: Context, val secretKeyFile: File, val ali
     private val GCM_TAG_LENGTH = 16 // in bytes
     private val DELIMITER = "]"
     private val random = SecureRandom()
+    open val protParam: KeyStore.ProtectionParameter? = null
 
-    private val keyStore: KeyStore by lazy {
+    open val keyStore: KeyStore by lazy {
         val keystore = KeyStore.getInstance(KEYSTORE_NAME)
         keystore.load(null)
         keystore
     }
 
-    open val AES_KEY: ByteArray by lazy {
-        val key: ByteArray
-        if (!keyStore.containsAlias(alias) || !secretKeyFile.exists()) {
-            key = generateAESKey(AES_KEY_LENGTH).encoded
-            encryptBytesIntoFileRSA(key, secretKeyFile, RSA_KEY.public)
+    private fun getTransformationRSA(isAPI23Higher: Boolean): String
+    {
+        if (isAPI23Higher) {
+            return "RSA/ECB/OAEPWithSHA-512AndMGF1Padding"
         } else {
-            key = decryptFileIntoBytesRSA(secretKeyFile, RSA_KEY.private)
+            return "RSA/ECB/PKCS1Padding"
+        }
+    }
+
+    protected fun getKeyFile(): File
+    {
+        if (secretKeyFileOld.exists() || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+            return secretKeyFileOld
+        } else {
+            return secretKeyFile
+        }
+    }
+
+    private val AES_KEY: ByteArray by lazy {
+        val key: ByteArray
+        if (!keyStore.containsAlias(alias) || !getKeyFile().exists()) {
+            key = generateAESKey(AES_KEY_LENGTH).encoded
+            val algorithm = getTransformationRSA(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+            encryptBytesIntoFileRSA(key, getKeyFile(), algorithm, RSA_KEY.public)
+        } else {
+            val useAPI23Algorithm = getKeyFile() == secretKeyFile
+            val algorithm = getTransformationRSA(useAPI23Algorithm)
+            key = decryptFileIntoBytesRSA(getKeyFile(), algorithm, RSA_KEY.private)
+            performRSAAlgorithmUpgrade(useAPI23Algorithm)
         }
         key
     }
 
-    private val RSA_KEY: KeyPair by lazy {
+    open val RSA_KEY: KeyPair by lazy {
         val key = if (!keyStore.containsAlias(alias)) {
             generateRSAKey()
         } else {
@@ -108,10 +132,10 @@ open class EncryptionUtil(val context: Context, val secretKeyFile: File, val ali
     }
 
     @Throws(Exception::class)
-    private fun encryptBytesIntoFileRSA(data: ByteArray, file: File, publicKey: PublicKey) {
+    private fun encryptBytesIntoFileRSA(data: ByteArray, file: File, algorithm: String, publicKey: PublicKey) {
         file.parentFile.mkdirs()
         file.createNewFile()
-        val input = Cipher.getInstance(TRANSFORMATION_RSA)
+        val input = Cipher.getInstance(algorithm)
         input.init(Cipher.ENCRYPT_MODE, publicKey)
 
         val outputStream = FileOutputStream(file)
@@ -122,8 +146,8 @@ open class EncryptionUtil(val context: Context, val secretKeyFile: File, val ali
     }
 
     @Throws(Exception::class)
-    private fun decryptFileIntoBytesRSA(secretKeyFile: File, privateKey: PrivateKey): ByteArray {
-        val cipher = Cipher.getInstance(TRANSFORMATION_RSA)
+    private fun decryptFileIntoBytesRSA(secretKeyFile: File, algorithm: String, privateKey: PrivateKey): ByteArray {
+        val cipher = Cipher.getInstance(algorithm)
 
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
 
@@ -145,7 +169,7 @@ open class EncryptionUtil(val context: Context, val secretKeyFile: File, val ali
         return keyGenerator.generateKey()
     }
 
-    private fun generateRSAKey(): KeyPair {
+    open fun generateRSAKey(): KeyPair {
         val start = Calendar.getInstance()
         val end = Calendar.getInstance()
         end.add(Calendar.YEAR, 25)
@@ -163,12 +187,12 @@ open class EncryptionUtil(val context: Context, val secretKeyFile: File, val ali
         return generator.generateKeyPair()
     }
 
-    private fun getPublicRSAKey(alias: String) : PublicKey {
+    open fun getPublicRSAKey(alias: String) : PublicKey {
         val privateKeyEntry = keyStore.getEntry(alias, null) as KeyStore.PrivateKeyEntry
         return privateKeyEntry.certificate.publicKey
     }
 
-    private fun getPrivateRSAKey(alias: String) : PrivateKey {
+    open fun getPrivateRSAKey(alias: String) : PrivateKey {
         val privateKeyEntry = keyStore.getEntry(alias, null) as KeyStore.PrivateKeyEntry
         return privateKeyEntry.privateKey
     }
@@ -183,8 +207,16 @@ open class EncryptionUtil(val context: Context, val secretKeyFile: File, val ali
         return Cipher.getInstance(TRANSFORMATION_AES, CIPHER_PROVIDER)
     }
 
-    open fun clear() {
-        secretKeyFile.delete()
+    fun clear() {
+        getKeyFile().delete()
         keyStore.deleteEntry(alias)
+    }
+
+    private fun performRSAAlgorithmUpgrade(useAPI23Algorithm: Boolean) {
+        if (!useAPI23Algorithm && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            clear()
+            val algorithm = getTransformationRSA(true)
+            encryptBytesIntoFileRSA(AES_KEY, getKeyFile(), algorithm, RSA_KEY.public)
+        }
     }
 }

@@ -25,10 +25,12 @@ public class InstrumentationTestRunner extends AndroidJUnitRunner {
 			ExpediaBookingApp.setIsInstrumentation(true);
 		}
 		Application app = (Application) getTargetContext().getApplicationContext();
-		File cookies = app.getFileStreamPath("secure_key_file.dat");
-		File secretKeystore = app.getFileStreamPath("cookies-6-encrypted.dat");
+		File secretOld = app.getFileStreamPath("secure_key_file_old.dat");
+		File secret = app.getFileStreamPath("secure_key_file.dat");
+		File cookies = app.getFileStreamPath("cookies-6-encrypted.dat");
+		secretOld.delete();
+		secret.delete();
 		cookies.delete();
-		secretKeystore.delete();
 		super.onCreate(args);
 	}
 

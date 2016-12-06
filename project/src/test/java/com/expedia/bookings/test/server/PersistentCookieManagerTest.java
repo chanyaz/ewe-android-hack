@@ -86,6 +86,7 @@ public class PersistentCookieManagerTest {
 
 	private File storage;
 	private File oldCookieStorage;
+	private File keystoreOld;
 	private File keystore;
 	private PersistentCookieManager manager;
 
@@ -102,10 +103,13 @@ public class PersistentCookieManagerTest {
 		oldCookieStorage = folder.newFile();
 		oldCookieStorage.delete();
 
+		keystoreOld = folder.newFile();
+		keystoreOld.delete();
+
 		keystore = folder.newFile();
 		keystore.delete();
 
-		testEncryptionUtil = new TestEncryptionUtil(getContext(), keystore, KEYSTORE_ALIAS);
+		testEncryptionUtil = new TestEncryptionUtil(getContext(), keystoreOld, keystore, KEYSTORE_ALIAS);
 		manager = new PersistentCookieManager(getContext(), storage, oldCookieStorage, testEncryptionUtil);
 	}
 
