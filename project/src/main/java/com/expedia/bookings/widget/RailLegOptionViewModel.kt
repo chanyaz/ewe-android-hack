@@ -25,13 +25,37 @@ open class RailLegOptionViewModel(val context: Context, val inbound: Boolean) {
                 .put("formattedchangecount", RailUtils.formatRailChangesText(context, legOption.noOfChanges)).format().toString()
     }
     val formattedTimeSubject = legOptionObservable.map { legOption ->
-        RailUtils.formatTimeInterval(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime())
+        RailUtils.formatTimeIntervalToDeviceFormat(context, legOption.getDepartureDateTime(), legOption.getArrivalDateTime())
     }
     val aggregatedOperatingCarrierSubject = legOptionObservable.map { legOption -> legOption.aggregatedOperatingCarrier }
     val railCardAppliedObservable = legOptionObservable.map { legOption -> legOption.doesAnyOfferHasFareQualifier }
     val priceObservable = Observable.combineLatest(legOptionObservable, cheapestLegPriceObservable, offerSubject, { legOption, cheapestPrice, offer ->
         calculatePrice(legOption, cheapestPrice, offer)
     })
+
+    val contentDescriptionObservable = Observable.combineLatest(legOptionObservable, priceObservable, formattedStopsAndDurationObservable, { legOption, price, stopsAndDuration ->
+        getContentDescription(legOption, price, stopsAndDuration)
+    })
+
+    open fun getContentDescription(legOption: RailLegOption, price: String, stopsAndDuration: String): String {
+        val result = StringBuffer()
+        result.append(Phrase.from(context, R.string.rail_result_card_cont_desc_TEMPLATE)
+                .put("departuretime", RailUtils.formatTimeToDeviceFormat(context, legOption.getDepartureDateTime()))
+                .put("arrivaltime", RailUtils.formatTimeToDeviceFormat(context, legOption.getArrivalDateTime()))
+                .put("trainoperator", legOption.aggregatedOperatingCarrier)
+                .put("tripdurationandchanges", stopsAndDuration)
+                .format()
+                .toString())
+
+        if (legOption.doesAnyOfferHasFareQualifier) {
+            result.append(" ").append(context.getString(R.string.rail_result_card_railcard_applied_cont_desc))
+        }
+
+        result.append(" ").append(Phrase.from(context, R.string.rail_result_card_price_from_cont_desc_TEMPLATE)
+                .put("price", price).format().toString())
+
+        return result.toString()
+    }
 
     private fun calculatePrice(legOption: RailLegOption, cheapestPrice: Money?, offer: RailOffer?): String {
         if (cheapestPrice == null) {
