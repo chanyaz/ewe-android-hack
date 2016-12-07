@@ -114,7 +114,6 @@
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
     <string name="preference_enable_filter_text_search">preference_enable_filter_text_search</string>
     <string name="preference_enable_gaia_current_location_suggestion">preference_enable_gaia_current_location_suggestion</string>
-    <string name="preference_enable_checkout_traveler_number">preference_enable_checkout_traveler_number</string>
     <string name="preference_enable_new_checkout">preference_enable_new_checkout</string>
 
     <!-- Default values for preference keys -->
