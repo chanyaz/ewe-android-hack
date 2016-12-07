@@ -14,8 +14,7 @@ import kotlin.test.assertTrue
 @RunWith(RobolectricRunner::class)
 class ItinUtilsTest {
 
-    private val context: Context
-        get() = RuntimeEnvironment.application
+    private val context: Context = RuntimeEnvironment.application
 
     @Test
     fun testShouldShowCheckin() {

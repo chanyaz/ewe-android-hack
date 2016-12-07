@@ -11,7 +11,6 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.trips.ItinCardData
 import com.expedia.bookings.data.trips.ItinCardDataHotel
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RecyclerGallery

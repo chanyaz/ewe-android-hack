@@ -17,6 +17,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.widget.itin.FlightItinCard;
 import com.expedia.bookings.widget.itin.HotelItinCard;
 import com.expedia.bookings.widget.itin.ItinCard;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
@@ -145,6 +146,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				}
 				else {
 					card = new HotelItinCard(mContext, null);
+					card.setOnItinCardClickListener(this);
+				}
+			}
+			else if (data instanceof ItinCardDataFlight) {
+				if (convertView instanceof FlightItinCard) {
+					card = (FlightItinCard) convertView;
+				}
+				else {
+					card = new FlightItinCard(mContext, null);
 					card.setOnItinCardClickListener(this);
 				}
 			}
