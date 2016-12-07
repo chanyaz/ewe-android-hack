@@ -391,8 +391,8 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         } else if (isCreditCardRequired() && (hasStoredCard())) {
             viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
         } else if (isCreditCardRequired() && (isAtLeastPartiallyFilled())) {
-            val isBillingInfoFilled = sectionBillingInfo.performValidation()
             val isLocationFilled = sectionLocation.performValidation()
+            val isBillingInfoFilled = sectionBillingInfo.performValidation()
             if (isBillingInfoFilled && isLocationFilled) {
                 viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
             } else {
