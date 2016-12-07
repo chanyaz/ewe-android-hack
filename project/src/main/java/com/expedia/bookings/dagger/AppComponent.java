@@ -1,5 +1,6 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import android.content.Context;
@@ -26,6 +27,8 @@ public interface AppComponent {
 	EndpointProvider endpointProvider();
 	OkHttpClient okHttpClient();
 	Interceptor requestInterceptor();
+	@Named("GaiaInterceptor")
+	Interceptor gaiaRequestInterceptor();
 	AbacusServices abacus();
 	ClientLogServices clientLog();
 	UserLoginStateChangedModel userLoginStateChangedModel();

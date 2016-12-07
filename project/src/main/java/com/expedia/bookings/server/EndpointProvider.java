@@ -151,18 +151,13 @@ public class EndpointProvider {
 	/**
 	 * Returns the base suggestion server url for GAIA, based on dev settings
 	 */
-	private final static String GAIA_TEST_ENDPOINT = "https://mobile-geo-aggregation-web.us-west-2.int.expedia.com";
-	private final static String GAIA_PROD_ENDPOINT = "https://mobile-geo-aggregation-web.us-west-2.prod.expedia.com";
+	private final static String GAIA_PROD_ENDPOINT = "https://apim.prod.expedia.com/m/geo/";
 
 	public String getGaiaEndpointUrl() {
 		EndPoint endPoint = getEndPoint();
 		switch (endPoint) {
 		case MOCK_MODE:
 			return getCustomServerAddress();
-		case TRUNK:
-			return GAIA_TEST_ENDPOINT;
-		case INTEGRATION:
-			return GAIA_TEST_ENDPOINT;
 		default:
 			return GAIA_PROD_ENDPOINT;
 		}

@@ -419,6 +419,7 @@ public class ExpediaServices implements DownloadListener {
 		Log.d(TAG_REQUEST, "Suggestion request: " + url + "?" + NetUtils.getParamsForLogging(params));
 
 		if (isGaiaNearby) {
+			get.addHeader("key", ServicesUtil.getGaiaApiKey(mContext));
 			return doRequest(get, new GaiaSuggestionResponseHandler(), 0);
 		}
 		else {

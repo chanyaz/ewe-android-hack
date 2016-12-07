@@ -33,7 +33,7 @@ class SuggestionV4ServicesTest {
         service = SuggestionV4Services("http://localhost:" + server.port,
                 "http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, interceptor, Schedulers.immediate(), Schedulers.immediate())
 
         givenExpediaDispatcherPrepared()
     }

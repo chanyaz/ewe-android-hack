@@ -1,5 +1,6 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
 import com.expedia.bookings.dagger.tags.LXScope;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.server.EndpointProvider;
@@ -26,10 +27,11 @@ public class LXModule {
 	@Provides
 	@LXScope
 	SuggestionV4Services provideLXSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor) {
+		Interceptor interceptor, @Named("GaiaInterceptor") Interceptor gaiaRequestInterceptor) {
 		final String essEndpoint = endpointProvider.getEssEndpointUrl();
 		final String gaiaEndpoint = endpointProvider.getGaiaEndpointUrl();
-		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client, interceptor, AndroidSchedulers.mainThread(),
+		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client, interceptor, gaiaRequestInterceptor,
+			AndroidSchedulers.mainThread(),
 			Schedulers.io());
 	}
 

@@ -1,5 +1,6 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
 import android.content.Context;
 
 import com.expedia.bookings.dagger.tags.HotelScope;
@@ -38,10 +39,11 @@ public final class HotelModule {
 	@Provides
 	@HotelScope
 	SuggestionV4Services provideHotelSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor) {
+		Interceptor interceptor, @Named("GaiaInterceptor") Interceptor gaiaRequestInterceptor) {
 		final String essEndpoint = endpointProvider.getEssEndpointUrl();
 		final String gaiaEndpoint = endpointProvider.getGaiaEndpointUrl();
-		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client, interceptor, AndroidSchedulers.mainThread(),
+		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client, interceptor, gaiaRequestInterceptor,
+			AndroidSchedulers.mainThread(),
 			Schedulers.io());
 	}
 
