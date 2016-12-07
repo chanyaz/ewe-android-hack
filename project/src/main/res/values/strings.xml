@@ -256,12 +256,6 @@
     <string name="stored_card_TEMPLATE">Saved {cardtype}</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Saved cards</string>
-    <!-- text that goes underneath the camera button for card_io -->
-    <string name="card_io_btn_text">SCAN</string>
-    <!-- Card.io scan text -->
-    <string name="scan_card_text">Scan Card</string>
-    <!-- Card.io instruction text -->
-    <string name="scan_card_instruction_text">Hold card here. It will scan automatically.</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
     <string name="accessibility_cost_summary_cont_desc_role_button">Cost summary information Button</string>
     <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->

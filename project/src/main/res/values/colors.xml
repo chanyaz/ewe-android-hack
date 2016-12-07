@@ -322,7 +322,6 @@
     <color name="material_checkout_account_button_background_color">#384768</color>
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
     <color name="old_checkout_account_button_text_color">#676767</color>
-    <color name="card_io_scan_text">#0B8B7B</color>
 
     <color name="bg_checkout_saved_traveler_cc_row">#f0f0f0</color>
     <color name="bg_checkout_saved_traveler_cc_row_pressed">#dcdcdc</color>

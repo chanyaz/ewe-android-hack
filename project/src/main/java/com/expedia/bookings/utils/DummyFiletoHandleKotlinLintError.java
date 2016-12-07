@@ -226,7 +226,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.dimen.lx_category_image_width,
 		R.string.no_charge_text_TEMPLATE,
 		R.layout.widget_deposit_terms_info,
-		R.string.scan_card_instruction_text,
 		R.layout.package_activity,
 		R.layout.package_presenter,
 		R.layout.widget_package_hotel_results,

@@ -133,10 +133,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             }
         }
 
-        vm.cardIOBillingInfo.subscribe { info ->
-            sectionBillingInfo.bind(info)
-            sectionLocation.bind(info.location)
-        }
         doneClicked.subscribe {
             if (currentState == PaymentDetails::class.java.name) {
                 Ui.hideKeyboard(this@PaymentWidget)

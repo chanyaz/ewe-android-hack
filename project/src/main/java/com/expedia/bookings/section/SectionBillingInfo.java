@@ -1,5 +1,7 @@
 package com.expedia.bookings.section;
 
+import java.util.ArrayList;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -22,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
@@ -48,7 +51,6 @@ import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
-import java.util.ArrayList;
 
 public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable,
 	InvalidCharacterListener {
@@ -516,10 +518,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				public void afterTextChanged(Editable s) {
 					boolean isCreditField = field.getId() == R.id.edit_creditcard_number;
 					if (hasBoundData()) {
-						if (getData().getNumber() == null || !s.toString().equalsIgnoreCase(getData().getNumber()) || getData().getIsCardIO()) {
-							if (!getData().getIsCardIO()) {
-								getData().setIsCardIO(false);
-							}
+						if (getData().getNumber() == null || !s.toString().equalsIgnoreCase(getData().getNumber())) {
 							getData().setNumber(s.toString());
 
 							//this will ensure that the credit card text is not grayed out when the credit card field is empty
