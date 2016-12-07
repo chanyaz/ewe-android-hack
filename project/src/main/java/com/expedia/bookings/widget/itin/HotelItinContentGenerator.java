@@ -445,33 +445,81 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 	protected boolean addBookingInfo(ViewGroup container) {
 		boolean result = super.addBookingInfo(container);
 
-		// Cancel booking button
-		TextView cancelHotelHotelRoomTv = Ui.findView(container, R.id.cancel_hotel_room);
-		View lineDivider = Ui.findView(container, R.id.divider_cancel_hotel_room);
-
-
 		String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
 		boolean showCancelHotelRoomBtn = !getItinCardData().isPastCheckInDate() && Strings.isNotEmpty(roomCancelLink);
 		if (showCancelHotelRoomBtn) {
-			cancelHotelHotelRoomTv.setVisibility(View.VISIBLE);
-			lineDivider.setVisibility(View.VISIBLE);
-			cancelHotelHotelRoomTv.setOnClickListener(new OnClickListener() {
-				String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
-
-				@Override
-				public void onClick(View v) {
-					WebViewActivity.IntentBuilder intentBuilder =
-						buildWebViewIntent(R.string.itin_card_details_cancel_hotel_room, roomCancelLink)
-							.setRoomCancelType();
-					Intent intent = intentBuilder.getIntent();
-					intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
-					((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
-					OmnitureTracking.trackHotelItinCancelRoomClick();
-				}
-			});
+			// Cancel booking button
+			cancelHotelRoomButton(container);
 		}
 
+		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_hotel_itin_soft_change_button)) {
+
+			//Setting hasEditRoomOption to true till API is ready
+			boolean hasEditRoomOption = true;
+
+			if (hasEditRoomOption) {
+				setUpEditHotelRoomInfoButton(container);
+			}
+		}
 		return result;
+	}
+
+	private void cancelHotelRoomButton(ViewGroup container) {
+		TextView cancelHotelHotelRoomTv = Ui.findView(container, R.id.cancel_hotel_room);
+		View cancelHotelLineDividerView = Ui.findView(container, R.id.cancel_hotel_divider);
+
+		cancelHotelHotelRoomTv.setVisibility(View.VISIBLE);
+		cancelHotelLineDividerView.setVisibility(View.VISIBLE);
+		cancelHotelHotelRoomTv.setOnClickListener(new OnClickListener() {
+			final String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
+
+			@Override
+			public void onClick(View v) {
+				startWebActivityForCancelHotelRoom(roomCancelLink);
+			}
+		});
+	}
+
+	private void startWebActivityForCancelHotelRoom(String roomCancelLink) {
+		WebViewActivity.IntentBuilder intentBuilder =
+			buildWebViewIntent(R.string.itin_card_details_cancel_hotel_room, roomCancelLink)
+				.setRoomCancelType();
+		Intent intent = intentBuilder.getIntent();
+		intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
+		((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
+		OmnitureTracking.trackHotelItinCancelRoomClick();
+	}
+
+	private void setUpEditHotelRoomInfoButton(ViewGroup container) {
+		TextView editHotelRoomInfo = Ui.findView(container, R.id.edit_hotel_room_info);
+		View editHotelRoomLineDividerView = Ui.findView(container, R.id.divider_edit_hotel_room_info);
+
+		AccessibilityUtil.appendRoleContDesc(editHotelRoomInfo,
+			getContext().getResources().getString(R.string.itin_card_change_hotel_options),
+			R.string.accessibility_cont_desc_role_button);
+
+		editHotelRoomInfo.setVisibility(View.VISIBLE);
+		editHotelRoomLineDividerView.setVisibility(View.VISIBLE);
+
+		//Launch mWeb until api is ready
+
+		editHotelRoomInfo.setOnClickListener(new OnClickListener() {
+			final String editHotelRoomInfoLink = "http://www.expedia.com";
+
+			public void onClick(View v) {
+				startWebActivityForEditHotelRoomInfo(editHotelRoomInfoLink);
+			}
+		});
+	}
+
+	private void startWebActivityForEditHotelRoomInfo(String editHotelRoomInfoLink) {
+		WebViewActivity.IntentBuilder intentBuilder = buildWebViewIntent(
+			R.string.itin_card_edit_hotel_room_info, editHotelRoomInfoLink);
+
+		Intent intent = intentBuilder.getIntent();
+		intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
+		((Activity) getContext())
+			.startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
 	}
 
 	@Override

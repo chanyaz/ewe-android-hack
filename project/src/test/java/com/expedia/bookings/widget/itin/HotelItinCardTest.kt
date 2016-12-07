@@ -45,7 +45,7 @@ class HotelItinCardTest {
     fun vipLabelTextVisible() {
         createSystemUnderTest()
         givenGoldMember()
-        givenHotel(vipHotel = true)
+        itinCardData = givenHotel(vipHotel = true)
         sut.bind(itinCardData)
         assertEquals(View.VISIBLE, getVipLabelTextView().visibility)
     }
@@ -54,7 +54,7 @@ class HotelItinCardTest {
     fun dontShowVipLabelPosVipSupportDisabled() {
         createSystemUnderTest()
         givenGoldMember()
-        givenHotel(vipHotel = true)
+        itinCardData = givenHotel(vipHotel = true)
         givenPointOfSaleVipSupportDisabled()
         sut.bind(itinCardData)
         assertEquals(View.GONE, getVipLabelTextView().visibility)
@@ -64,7 +64,7 @@ class HotelItinCardTest {
     fun dontShowVipLabelToBlueMember() {
         createSystemUnderTest()
         givenBlueMember()
-        givenHotel(vipHotel = true)
+        itinCardData = givenHotel(vipHotel = true)
         sut.bind(itinCardData)
         assertEquals(View.GONE, getVipLabelTextView().visibility)
     }
@@ -73,28 +73,37 @@ class HotelItinCardTest {
     fun dontShowVipLabelForNonVipAccessHotel() {
         createSystemUnderTest()
         givenGoldMember()
-        givenHotel(vipHotel = false)
+        itinCardData = givenHotel(vipHotel = false)
         sut.bind(itinCardData)
         assertEquals(View.GONE, getVipLabelTextView().visibility)
     }
 
     @Test
-    fun roomUpgradeAvailable(){
+    fun roomUpgradeAvailable() {
         SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
         createSystemUnderTest()
-        givenExpandedHotel()
+        itinCardData = givenExpandedHotel()
         sut.bind(itinCardData)
         sut.expand(false)
         assertEquals(View.VISIBLE, getUpgradeTextView().visibility)
     }
 
     @Test
-    fun upgradeBannerAvailable(){
+    fun upgradeBannerAvailable() {
         createSystemUnderTest()
-        givenExpandedHotel()
+        itinCardData = givenExpandedHotel()
         sut.bind(itinCardData)
         sut.expand(false)
         assertEquals(View.VISIBLE, getUpgradeBannerTextView().visibility)
+    }
+
+    fun hotelSoftChangeButtonAvailable() {
+        SettingUtils.save(activity, R.string.preference_hotel_itin_soft_change_button, true)
+        createSystemUnderTest()
+        itinCardData = givenExpandedHotel()
+        sut.bind(itinCardData)
+        sut.expand(false)
+        assertEquals(View.VISIBLE, getHotelSoftChangeButtonTextView().visibility)
     }
 
     private fun givenPointOfSaleVipSupportDisabled() {
@@ -116,6 +125,11 @@ class HotelItinCardTest {
         return upgradeBanner
     }
 
+    private fun getHotelSoftChangeButtonTextView(): TextView {
+        val hotelSoftChangeText = sut.findViewById(R.id.edit_hotel_room_info) as TextView
+        return hotelSoftChangeText
+    }
+
     private fun createSystemUnderTest() {
         activity.setTheme(R.style.NewLaunchTheme)
         val itinCard = HotelItinCard(activity, null)
@@ -123,23 +137,23 @@ class HotelItinCardTest {
         sut = itinCard
     }
 
-    private fun givenHotel(vipHotel : Boolean) {
-        val fileName = if(vipHotel) "hotel_trip_vip_booking" else "hotel_trip_non_vip_booking"
+    private fun givenHotel(vipHotel: Boolean): ItinCardDataHotel {
+        val fileName = if (vipHotel) "hotel_trip_vip_booking" else "hotel_trip_non_vip_booking"
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/$fileName.json"))).readUtf8()
         val jsonObject = JSONObject(data)
         val jsonArray = jsonObject.getJSONArray("responseData")
         val tripHotel = getHotelTrip(jsonArray)!!
 
-        itinCardData = ItinCardDataHotel(tripHotel)
+        return ItinCardDataHotel(tripHotel)
     }
 
-    private fun givenExpandedHotel() {
+    private fun givenExpandedHotel(): ItinCardDataHotel {
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/hotel_trip_details.json"))).readUtf8()
         val jsonObject = JSONObject(data)
         val jsonArray = jsonObject.getJSONArray("responseData")
         val tripHotel = getHotelTrip(jsonArray)!!
 
-        itinCardData = ItinCardDataHotel(tripHotel)
+        return ItinCardDataHotel(tripHotel)
     }
 
     private fun givenBlueMember() {
