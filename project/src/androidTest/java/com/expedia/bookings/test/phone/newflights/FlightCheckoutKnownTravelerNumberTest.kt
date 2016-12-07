@@ -65,6 +65,7 @@ class FlightCheckoutKnownTravelerNumberTest : NewFlightTestCase() {
     private fun goToTravelerAndClickAdvanced() {
         EspressoUtils.waitForViewNotYetInLayoutToDisplay((ViewMatchers.withId(R.id.traveler_default_state)), 10, TimeUnit.SECONDS)
         PackageScreen.travelerInfo().perform(ViewActions.click())
+        Espresso.closeSoftKeyboard()
         PackageScreen.clickTravelerAdvanced()
     }
 }
