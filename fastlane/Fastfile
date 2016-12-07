@@ -40,6 +40,37 @@ platform :android do
     demo_mode(enable: false)
   end
 
+  desc "Create a new release branch and bump the version on the base branch"
+  lane :branch_and_bump do |options|
+    base_branch = options.fetch(:base, "develop")
+    release_branch = "r/#{options[:flavor]}-#{options[:version]}"
+    pr_branch = "i/version-bump-#{options[:flavor]}-#{options[:version]}"
+
+    # Check out latest code on base branch
+    ensure_git_status_clean
+    ensure_git_branch(branch: base_branch)
+    sh "git pull --rebase origin #{base_branch}"
+    ensure_git_status_clean
+
+    # Create and push branch
+    sh "git checkout -b " + release_branch
+    push_to_git_remote(local_branch: release_branch)
+
+    # Create branch for version bump
+    sh "git checkout #{base_branch}"
+    sh "git checkout -b #{pr_branch}"
+
+    # Bump version
+    sh "cd .. && perl tools/change_version.pl project/build.gradle #{options[:flavor]} #{options[:version]}"
+
+    # Create pull request
+    git_commit(path: "project/build.gradle", message: "version bump")
+    push_to_git_remote(local_branch: pr_branch)
+    create_pull_request(api_token: ENV["GITHUB_TOKEN"], repo: "ExpediaInc/ewe-android-eb", title: "version bump #{options[:version]}", base: base_branch)
+
+    sh "git checkout #{base_branch}"
+  end
+
   # You can define as many lanes as you want
 
   after_all do |lane|
