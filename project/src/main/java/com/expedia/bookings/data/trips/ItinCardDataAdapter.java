@@ -17,6 +17,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.utils.JodaUtils;
+import com.expedia.bookings.widget.itin.HotelItinCard;
 import com.expedia.bookings.widget.itin.ItinCard;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
 import com.expedia.bookings.widget.itin.ItinAirAttachCard;
@@ -138,12 +139,23 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 		else {
 			ItinCard card;
-			if (convertView instanceof ItinCard) {
-				card = (ItinCard) convertView;
+			if (data instanceof ItinCardDataHotel) {
+				if (convertView instanceof HotelItinCard) {
+					card = (HotelItinCard) convertView;
+				}
+				else {
+					card = new HotelItinCard(mContext, null);
+					card.setOnItinCardClickListener(this);
+				}
 			}
 			else {
-				card = new ItinCard(mContext);
-				card.setOnItinCardClickListener(this);
+				if (convertView instanceof ItinCard) {
+					card = (ItinCard) convertView;
+				}
+				else {
+					card = new ItinCard(mContext);
+					card.setOnItinCardClickListener(this);
+				}
 			}
 
 			State state = getItemViewCardState(position);
@@ -245,7 +257,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	/**
 	 * Empty the Adapter and fire notifyDataSetChanged(). This does not remove any underlying data from ItineraryManager.
-	 * 
+	 * <p>
 	 * This method allows the adapter to be emptied without waiting for an ItineraryManager.sync operation to complete.
 	 * It is useful for logging out a user, where we want the UI to reflect the user being logged out, but maybe itins have
 	 * not all been cleared yet.
@@ -267,6 +279,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	/**
 	 * The first (and usually only) summary view card position
+	 *
 	 * @return
 	 */
 	public synchronized int getMostRelevantCardPosition() {
@@ -390,7 +403,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				setAsSummaryCard = true;
 			}
 			else if (data instanceof ItinCardDataHotel
-					&& startDate.getDayOfYear() == today) {
+				&& startDate.getDayOfYear() == today) {
 				if (summaryCardData instanceof ItinCardDataCar) {
 					if (summaryCardData.getStartDate().isBefore(now)) {
 						setAsSummaryCard = true;
@@ -424,7 +437,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			// Use the first in-progress card as summary instead
 			DateTime startDate = summaryCardData.getStartDate();
 			if (firstInProgressCard.getEndDate().isBefore(startDate)
-					&& nowMillis < startDate.getMillis() - threeHours) {
+				&& nowMillis < startDate.getMillis() - threeHours) {
 				summaryCardPosition = firstInProgressCardPos;
 				summaryCardData = firstInProgressCard;
 			}
@@ -582,15 +595,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				if (isUserAirAttachQualified) {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataAirAttach(tripFlight, itinFlightLeg, nextFlightLeg));
-					len ++;
-					i ++;
+					len++;
+					i++;
 				}
 				// Show default hotel cross-sell button
 				else {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataHotelAttach(tripFlight, itinFlightLeg, nextFlightLeg));
-					len ++;
-					i ++;
+					len++;
+					i++;
 				}
 			}
 		}
