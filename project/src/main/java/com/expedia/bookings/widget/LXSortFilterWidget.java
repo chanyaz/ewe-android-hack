@@ -23,13 +23,14 @@ import android.widget.Space;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.Db;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LXCategoryMetadata;
 import com.expedia.bookings.data.lx.LXSortFilterMetadata;
 import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.CollectionUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.util.RxKt;
@@ -126,7 +127,7 @@ public class LXSortFilterWidget extends LinearLayout {
 			}
 		});
 
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_filter_text_search)) {
+		if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXFilterSearch)) {
 			activityNameFilterContainer.setVisibility(VISIBLE);
 			filterDivider.setVisibility(VISIBLE);
 		}
@@ -295,6 +296,9 @@ public class LXSortFilterWidget extends LinearLayout {
 				}
 				else {
 					Events.post(new Events.LXFilterDoneClicked());
+					if (isActivityFilterApplied()) {
+						OmnitureTracking.trackLinkLXTextSearch();
+					}
 				}
 				Ui.hideKeyboard(doneButton);
 			}

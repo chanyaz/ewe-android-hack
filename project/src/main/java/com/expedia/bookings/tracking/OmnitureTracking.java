@@ -2039,7 +2039,8 @@ public class OmnitureTracking {
 	private static final String LX_SORT_PRICE = "Price";
 	private static final String LX_SORT_POPULARITY = "Popularity";
 	private static final String LX_SORT = ".Sort.";
-	private static final String LX_FILTER = ".Filter.";
+	private static final String LX_FILTER = ".Filter";
+	private static final String LX_TEXT_SEARCH = ".Keyword";
 
 	public static void trackFirstActivityListingExpanded() {
 		Log.d(TAG, "Tracking \"" + LX_LOB + "\" pageLoad...");
@@ -2155,6 +2156,7 @@ public class OmnitureTracking {
 		Log.d(TAG, "Tracking \"" + LX_SEARCH_FILTER + "\" pageLoad...");
 
 		ADMS_Measurement s = internalTrackAppLX(LX_SEARCH_FILTER);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppLXFilterSearch);
 
 		// Send the tracking data
 		s.track();
@@ -2173,7 +2175,7 @@ public class OmnitureTracking {
 		StringBuilder sb = new StringBuilder();
 		sb.append(LX_SEARCH);
 		sb.append(LX_FILTER);
-		sb.append(categoryKey);
+		sb.append("." + categoryKey);
 		trackLinkLXSearch(sb.toString());
 	}
 
@@ -2181,9 +2183,17 @@ public class OmnitureTracking {
 		trackLinkLXSearch(LX_SEARCH_FILTER_CLEAR);
 	}
 
+	public static void trackLinkLXTextSearch() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(LX_SEARCH);
+		sb.append(LX_FILTER);
+		sb.append(LX_TEXT_SEARCH);
+		trackLinkLXSearch(sb.toString());
+	}
+
 	private static void trackLinkLXSearch(String rffr) {
 		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		ADMS_Measurement s = getFreshTrackingObject();
+		ADMS_Measurement s = internalTrackAppLX(LX_SEARCH + LX_FILTER);
 		s.setProp(7, tpid);
 		s.setEvar(28, rffr);
 		s.setProp(16, rffr);

@@ -30,12 +30,6 @@
             android:summary="Activity Infosite Map."
             android:title="Enable Activity Infosite Map" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_enable_filter_text_search"
-            android:layout="@layout/preference"
-            android:summary="Activity Filter Text Search."
-            android:title="Enable Activity Filter Text Search" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
