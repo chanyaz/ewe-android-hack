@@ -109,7 +109,7 @@ public class PersistentCookieManagerTest {
 		keystore = folder.newFile();
 		keystore.delete();
 
-		testEncryptionUtil = new TestEncryptionUtil(getContext(), keystoreOld, keystore, KEYSTORE_ALIAS);
+		testEncryptionUtil = new TestEncryptionUtil(getContext(), keystoreOld, keystore, KEYSTORE_ALIAS, true);
 		manager = new PersistentCookieManager(getContext(), storage, oldCookieStorage, testEncryptionUtil);
 	}
 

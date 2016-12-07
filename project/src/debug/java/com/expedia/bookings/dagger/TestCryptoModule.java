@@ -28,7 +28,7 @@ public final class TestCryptoModule {
 		encryptedOld.delete();
 		encrypted.delete();
 		cookies.delete();
-		return new TestEncryptionUtil(context, encryptedOld, encrypted, KEYSTORE_ALIAS);
+		return new TestEncryptionUtil(context, encryptedOld, encrypted, KEYSTORE_ALIAS, false);
 	}
 
 }

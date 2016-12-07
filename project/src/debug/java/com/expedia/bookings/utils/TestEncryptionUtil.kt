@@ -1,9 +1,11 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import okio.Okio
 import org.bouncycastle.jce.X509Principal
 import org.bouncycastle.x509.X509V3CertificateGenerator
 import org.joda.time.LocalDate
+import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
 import java.io.FileOutputStream
@@ -18,7 +20,7 @@ import java.security.spec.RSAKeyGenParameterSpec
 import javax.crypto.Cipher
 
 
-class TestEncryptionUtil(context: Context, secretKeyFileOld: File, secretKeyFile: File, alias: String) : EncryptionUtil(context, secretKeyFileOld, secretKeyFile, alias) {
+class TestEncryptionUtil(context: Context, secretKeyFileOld: File, secretKeyFile: File, alias: String, useRSA: Boolean) : EncryptionUtil(context, secretKeyFileOld, secretKeyFile, alias) {
     private val password = "password".toCharArray()
     private val filename = "keyStoreName"
 
@@ -37,6 +39,21 @@ class TestEncryptionUtil(context: Context, secretKeyFileOld: File, secretKeyFile
             fis?.close()
         }
         keystore
+    }
+
+    override val AES_KEY: ByteArray by lazy {
+        val key: ByteArray
+        if (useRSA) {
+            key = super.AES_KEY
+        } else {
+            if (!getKeyFile().exists()) {
+                key = generateAESKey(AES_KEY_LENGTH).encoded
+                writeBytes(key, getKeyFile())
+            } else {
+                key = readBytes(getKeyFile())
+            }
+        }
+        key
     }
 
     override val RSA_KEY: KeyPair by lazy {
@@ -60,7 +77,7 @@ class TestEncryptionUtil(context: Context, secretKeyFileOld: File, secretKeyFile
         key
     }
 
-    private fun generateCertificate(keyPair: KeyPair) : X509Certificate {
+    private fun generateCertificate(keyPair: KeyPair): X509Certificate {
         val cert = X509V3CertificateGenerator()
         cert.setSerialNumber(BigInteger.valueOf(1))
         cert.setSubjectDN(X509Principal("CN=localhost"))
@@ -72,13 +89,13 @@ class TestEncryptionUtil(context: Context, secretKeyFileOld: File, secretKeyFile
         return cert.generate(keyPair.private)
     }
 
-    override fun getPublicRSAKey(alias: String) : PublicKey {
+    override fun getPublicRSAKey(alias: String): PublicKey {
         val cert = keyStore.getCertificate(alias)
         val publicKey = cert.publicKey
         return publicKey
     }
 
-    override fun getPrivateRSAKey(alias: String) : PrivateKey {
+    override fun getPrivateRSAKey(alias: String): PrivateKey {
         val privateKeyEntry = keyStore.getKey(alias, password) as PrivateKey
         return privateKeyEntry
     }
@@ -90,7 +107,25 @@ class TestEncryptionUtil(context: Context, secretKeyFileOld: File, secretKeyFile
         return generator.generateKeyPair()
     }
 
-    override fun getAESCipher() : Cipher {
+    override fun getAESCipher(): Cipher {
         return Cipher.getInstance(TRANSFORMATION_AES)
     }
+
+    private fun writeBytes(byteArray: ByteArray, file: File) {
+        file.parentFile.mkdirs()
+        file.createNewFile()
+        val inputStream = ByteArrayInputStream(byteArray)
+        val from = Okio.source(inputStream)
+        val to = Okio.buffer(Okio.sink(file))
+        to.writeAll(from)
+        to.close()
+    }
+
+    private fun readBytes(file: File): ByteArray {
+        val source = Okio.buffer(Okio.source(file))
+        val byteArray = source.readByteArray()
+        source.close()
+        return byteArray
+    }
+
 }

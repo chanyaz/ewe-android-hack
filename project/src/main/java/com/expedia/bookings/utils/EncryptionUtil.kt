@@ -39,9 +39,8 @@ open class EncryptionUtil(val context: Context, val secretKeyFileOld: File, val 
     private val GCM_TAG_LENGTH = 16 // in bytes
     private val DELIMITER = "]"
     private val random = SecureRandom()
-    open val protParam: KeyStore.ProtectionParameter? = null
 
-    open val keyStore: KeyStore by lazy {
+    protected open val keyStore: KeyStore by lazy {
         val keystore = KeyStore.getInstance(KEYSTORE_NAME)
         keystore.load(null)
         keystore
@@ -65,7 +64,7 @@ open class EncryptionUtil(val context: Context, val secretKeyFileOld: File, val 
         }
     }
 
-    private val AES_KEY: ByteArray by lazy {
+    protected open val AES_KEY: ByteArray by lazy {
         val key: ByteArray
         if (!keyStore.containsAlias(alias) || !getKeyFile().exists()) {
             key = generateAESKey(AES_KEY_LENGTH).encoded
@@ -80,7 +79,7 @@ open class EncryptionUtil(val context: Context, val secretKeyFileOld: File, val 
         key
     }
 
-    open val RSA_KEY: KeyPair by lazy {
+    protected open val RSA_KEY: KeyPair by lazy {
         val key = if (!keyStore.containsAlias(alias)) {
             generateRSAKey()
         } else {
@@ -169,7 +168,7 @@ open class EncryptionUtil(val context: Context, val secretKeyFileOld: File, val 
         return keyGenerator.generateKey()
     }
 
-    open fun generateRSAKey(): KeyPair {
+    protected open fun generateRSAKey(): KeyPair {
         val start = Calendar.getInstance()
         val end = Calendar.getInstance()
         end.add(Calendar.YEAR, 25)
@@ -187,23 +186,24 @@ open class EncryptionUtil(val context: Context, val secretKeyFileOld: File, val 
         return generator.generateKeyPair()
     }
 
-    open fun getPublicRSAKey(alias: String) : PublicKey {
+    protected open fun getPublicRSAKey(alias: String) : PublicKey {
         val privateKeyEntry = keyStore.getEntry(alias, null) as KeyStore.PrivateKeyEntry
         return privateKeyEntry.certificate.publicKey
     }
 
-    open fun getPrivateRSAKey(alias: String) : PrivateKey {
+    protected open fun getPrivateRSAKey(alias: String) : PrivateKey {
         val privateKeyEntry = keyStore.getEntry(alias, null) as KeyStore.PrivateKeyEntry
         return privateKeyEntry.privateKey
     }
 
+    @VisibleForTesting
     fun generateIv(length: Int): ByteArray {
         val b = ByteArray(length)
         random.nextBytes(b)
         return b
     }
 
-    open fun getAESCipher() : Cipher {
+    protected open fun getAESCipher() : Cipher {
         return Cipher.getInstance(TRANSFORMATION_AES, CIPHER_PROVIDER)
     }
 
