@@ -130,6 +130,9 @@ class PaymentWidgetV2Test {
         assertEquals(1, listView.adapter.count)
         val tv = listView.adapter.getView(0, null, sut).findViewById(R.id.text1) as TextView
         assertCardImageEquals(R.drawable.unsupported_card, tv)
+        val errorMessage = "Hotel does not accept American Express"
+        assertEquals(errorMessage, tv.text)
+        assertEquals(errorMessage + ", disabled Button", tv.contentDescription.toString())
     }
 
     @Test
