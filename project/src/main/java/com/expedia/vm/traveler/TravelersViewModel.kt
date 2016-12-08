@@ -4,10 +4,12 @@ import android.content.Context
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import rx.subjects.BehaviorSubject
+import rx.subjects.PublishSubject
 import javax.inject.Inject
 
 open class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
@@ -19,10 +21,12 @@ open class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
     val emptyTravelersSubject = BehaviorSubject.create<Unit>()
     val passportRequired = BehaviorSubject.create<Boolean>(false)
     val showMainTravelerMinAgeMessaging = BehaviorSubject.create<Boolean>(false)
+    val flightOfferObservable = PublishSubject.create<FlightTripDetails.FlightOffer>()
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
         this.showMainTravelerMinAgeMessaging.onNext(showMainTravelerMinAgeMessaging)
+        flightOfferObservable.map { it.isPassportNeeded || it.isInternational }.subscribe(passportRequired)
     }
 
     override fun isValidForBooking(traveler: Traveler, index: Int): Boolean {

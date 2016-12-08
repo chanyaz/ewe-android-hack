@@ -76,7 +76,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
-    abstract fun isPassportRequired(response: TripResponse)
     abstract fun showMainTravelerMinimumAgeMessaging(): Boolean
 
     /** contants **/
@@ -101,7 +100,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val invalidPaymentTypeWarningTextView: TextView by bindView(R.id.invalid_payment_type_warning)
     val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
-    val insuranceWidget: InsuranceWidget by bindView(R.id.insurance_widget)
     val space: Space by bindView(R.id.scrollview_space)
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
@@ -463,41 +461,51 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
     }
 
-    private val defaultToPayment = object : Presenter.Transition(CheckoutDefault::class.java, BillingDetailsPaymentWidget::class.java) {
+    open class DefaultToPayment(val presenter: BaseCheckoutPresenter) : Presenter.Transition(CheckoutDefault::class.java, BillingDetailsPaymentWidget::class.java) {
 
         override fun startTransition(forward: Boolean) {
-            loginWidget.setInverseVisibility(forward)
-            hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
-            travelerSummaryCardView.visibility = if (forward) View.GONE else View.VISIBLE
-            legalInformationText.setInverseVisibility(forward)
-            depositPolicyText.setInverseVisibility(forward)
-            bottomContainer.setInverseVisibility(forward)
-            if (!forward) {
-                Ui.hideKeyboard(paymentWidget)
-                invalidPaymentTypeWarningTextView.visibility = View.GONE
-                cardProcessingFeeTextView.visibility  = View.GONE
-                debitCardsNotAcceptedTextView.visibility = View.GONE
-                paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
-                scrollView.layoutParams.height = height
-                paymentWidget.viewmodel.showingPaymentForm.onNext(false)
-            } else {
-                decorView.viewTreeObserver.addOnGlobalLayoutListener(paymentLayoutListener)
-            }
-            setInsuranceWidgetVisibility(!forward)
+            presenter.startDefaultToPaymentTransition(forward)
         }
 
         override fun endTransition(forward: Boolean) {
-            if (!forward) {
-                animateInSlideToPurchase(true)
-                paymentWidget.setFocusForView()
-                decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
-            } else {
-                val lp = space.layoutParams
-                lp.height = 0
-                space.layoutParams = lp
-            }
-            ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
+            presenter.endDefaultToPaymentTransition(forward)
         }
+    }
+
+    private fun endDefaultToPaymentTransition(forward: Boolean) {
+        if (!forward) {
+            animateInSlideToPurchase(true)
+            paymentWidget.setFocusForView()
+            decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
+        } else {
+            val lp = space.layoutParams
+            lp.height = 0
+            space.layoutParams = lp
+        }
+        ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
+    }
+
+    private fun startDefaultToPaymentTransition(forward: Boolean) {
+        loginWidget.setInverseVisibility(forward)
+        hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
+        travelerSummaryCardView.visibility = if (forward) View.GONE else View.VISIBLE
+        legalInformationText.setInverseVisibility(forward)
+        depositPolicyText.setInverseVisibility(forward)
+        bottomContainer.setInverseVisibility(forward)
+        if (!forward) {
+            Ui.hideKeyboard(paymentWidget)
+            invalidPaymentTypeWarningTextView.visibility = View.GONE
+            cardProcessingFeeTextView.visibility = View.GONE
+            debitCardsNotAcceptedTextView.visibility = View.GONE
+            paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+            scrollView.layoutParams.height = height
+            paymentWidget.viewmodel.showingPaymentForm.onNext(false)
+        } else {
+            decorView.viewTreeObserver.addOnGlobalLayoutListener(paymentLayoutListener)
+        }
+    }
+
+    open val defaultToPayment = object : DefaultToPayment(this){
     }
 
     fun showPaymentPresenter() {
@@ -515,10 +523,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private fun setToolbarTitle() {
         travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
-    }
-
-    open fun setInsuranceWidgetVisibility(visible: Boolean) {
-        insuranceWidget.visibility = View.GONE
     }
 
     /** Slide to book **/

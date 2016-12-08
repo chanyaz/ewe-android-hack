@@ -288,7 +288,7 @@ class PaymentViewModelTest {
 
     @Test
     fun testNewCheckoutBehavior() {
-        SettingUtils.save(getContext(), R.string.preference_enable_new_checkout, true)
+        SettingUtils.save(getContext(), R.string.preference_enable_new_checkout_forms_behavior, true)
         val testNewCheckoutSubscriber = TestSubscriber.create<Boolean>()
         viewModel.newCheckoutIsEnabled.subscribe(testNewCheckoutSubscriber)
 
@@ -305,7 +305,7 @@ class PaymentViewModelTest {
 
     @Test
     fun testMenuButtonBehaviorOnCardSelection() {
-        SettingUtils.save(getContext(), R.string.preference_enable_new_checkout, true)
+        SettingUtils.save(getContext(), R.string.preference_enable_new_checkout_forms_behavior, true)
         val testMenuVisibilitySubscriber = TestSubscriber.create<Boolean>()
         val testEnableMenuSubscriber = TestSubscriber.create<Boolean>()
         viewModel.menuVisibility.subscribe(testMenuVisibilitySubscriber)

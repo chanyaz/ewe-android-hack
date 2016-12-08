@@ -34,7 +34,7 @@ class FlightTravelerEntryWidgetViewModel(context: Context, travelerIndex: Int, v
             validate()
         }
 
-        newCheckoutIsEnabled.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_checkout))
+        newCheckoutIsEnabled.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_checkout_forms_behavior))
     }
 
     override fun updateTraveler(traveler: Traveler) {

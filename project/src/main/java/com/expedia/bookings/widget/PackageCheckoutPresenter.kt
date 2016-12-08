@@ -55,18 +55,13 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
                         R.string.bundle_total_text
             totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
             totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-            isPassportRequired(response)
+            travelersPresenter.viewModel.flightOfferObservable.onNext(response.packageDetails.flight.details.offer)
         }
         getCheckoutViewModel().priceChangeObservable.subscribe(getCreateTripViewModel().createTripResponseObservable)
     }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
-    }
-
-    override fun isPassportRequired(response: TripResponse) {
-        val flightOffer = (response as PackageCreateTripResponse).packageDetails.flight.details.offer
-        travelersPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {

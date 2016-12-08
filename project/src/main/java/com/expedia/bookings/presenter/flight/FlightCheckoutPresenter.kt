@@ -7,10 +7,10 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
@@ -20,6 +20,7 @@ import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
+import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.util.safeSubscribe
 import com.expedia.vm.BaseCreateTripViewModel
@@ -85,6 +86,13 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
     }
 
+    val insuranceWidget: InsuranceWidget by lazy {
+        val widget = findViewById(R.id.insurance_widget) as InsuranceWidget
+        widget.viewModel = InsuranceViewModel(context, insuranceServices)
+        widget.viewModel.updatedTripObservable.subscribe(tripViewModel.createTripResponseObservable)
+        widget
+    }
+
     override fun injectComponents() {
         Ui.getApplication(context).flightComponent().inject(this)
     }
@@ -96,10 +104,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {
         vm as FlightCreateTripViewModel
 
-        insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
-        setInsuranceWidgetVisibility(true)
-        insuranceWidget.viewModel.updatedTripObservable.subscribe(vm.createTripResponseObservable)
-
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
@@ -109,7 +113,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             insuranceWidget.viewModel.tripObservable.onNext(response)
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
-            isPassportRequired(response)
+            travelersPresenter.viewModel.flightOfferObservable.onNext(response.details.offer)
         }
     }
 
@@ -131,11 +135,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     @Subscribe fun onUserLoggedIn( @Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
-    }
-
-    override fun isPassportRequired(response: TripResponse) {
-        val flightOffer = (response as FlightCreateTripResponse).details.offer
-        travelersPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
     }
 
     override fun getLineOfBusiness() : LineOfBusiness {
@@ -197,8 +196,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
                 }).subscribe()
     }
 
-    override fun setInsuranceWidgetVisibility(visible: Boolean){
-        insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(visible)
+    override val defaultToPayment = object : DefaultToPayment(this) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            insuranceWidget.viewModel.widgetVisibilityAllowedObservable.onNext(!forward)
+        }
     }
 
 }
