@@ -30,7 +30,8 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:gravity="center"
-            android:src="@drawable/minus_button_selector" />
+            android:src="@drawable/minus_button_selector"
+            android:contentDescription="@string/rail_remove_railcard_cont_desc"/>
 
         <TextView
             style="@style/Core.Text.XLarge"
@@ -46,7 +47,8 @@
             android:layout_height="40dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:gravity="center"
-            android:src="@drawable/plus_button_selector" />
+            android:src="@drawable/plus_button_selector"
+            android:contentDescription="@string/rail_add_railcard_cont_desc"/>
 
     </LinearLayout>
 </merge>
