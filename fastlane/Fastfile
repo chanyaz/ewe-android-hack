@@ -40,7 +40,7 @@ platform :android do
     demo_mode(enable: false)
   end
 
-  desc "Create a new release branch and bump the version on the base branch"
+  desc "Create a new release branch and bump the version on the base branch. Optionally protects the newly created release branch."
   lane :branch_and_bump do |options|
     base_branch = options.fetch(:base, "develop")
     release_branch = "r/#{options[:flavor]}-#{options[:version]}"
@@ -52,9 +52,12 @@ platform :android do
     sh "git pull --rebase origin #{base_branch}"
     ensure_git_status_clean
 
-    # Create and push branch
+    # Create, push and (optionally) protect branch
     sh "git checkout -b " + release_branch
     push_to_git_remote(local_branch: release_branch)
+    if options[:protect_with_checks]
+      protect_branch(api_token: ENV["GITHUB_TOKEN"], repo: "ExpediaInc/ewe-android-eb", branch: release_branch, required_checks: options[:protect_with_checks])
+    end
 
     # Create branch for version bump
     sh "git checkout #{base_branch}"
