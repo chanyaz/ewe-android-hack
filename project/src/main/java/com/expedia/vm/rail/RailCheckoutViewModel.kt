@@ -17,6 +17,7 @@ import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.server.RailCardFeeServiceProvider
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
@@ -54,27 +55,19 @@ class RailCheckoutViewModel(val context: Context) {
     val updatePricingSubject = PublishSubject.create<RailCreateTripResponse>()
     val cardFeeErrorObservable = PublishSubject.create<Unit>()
 
-    val priceChangeObservable = PublishSubject.create<Unit>()
+    val priceChangeObservable = PublishSubject.create<Pair<Money, Money>>()
     val showCheckoutDialogObservable = PublishSubject.create<Boolean>()
     val checkoutErrorObservable = PublishSubject.create<ApiError>()
     val showNoInternetRetryDialog = PublishSubject.create<Unit>()
-    val retryObservable = PublishSubject.create<Unit>()
 
     private var currentTicketDeliveryToken: String = ""
-    private var isRetry = false
 
     init {
         Ui.getApplication(context).railComponent().inject(this)
 
         checkoutParams.subscribe { params ->
             showCheckoutDialogObservable.onNext(true)
-            isRetry = false
             railServices.railCheckoutTrip(params, makeCheckoutResponseObserver())
-        }
-
-        retryObservable.subscribe {
-            isRetry = true
-            railServices.railCheckoutTrip(checkoutParams.value, makeCheckoutResponseObserver())
         }
 
         cardFeeTripResponseSubject.subscribe(tripResponseObservable)
@@ -82,7 +75,6 @@ class RailCheckoutViewModel(val context: Context) {
     }
 
     val createTripObserver = endlessObserver<RailCreateTripResponse> { createTripResponse ->
-        //TODO update this on price change on checkout #7854
         val tripDetails = RailCheckoutParams.TripDetails(createTripResponse.tripId,
                 createTripResponse.totalPrice.amount.toString(),
                 createTripResponse.totalPrice.currencyCode,
@@ -146,6 +138,15 @@ class RailCheckoutViewModel(val context: Context) {
         return builder.isValid()
     }
 
+    fun trackPriceChange(newTotalPrice: Money, oldTotalPrice: Money) {
+        var diffPercentage: Int = 0
+        val priceDiff = newTotalPrice.amount.toInt() - oldTotalPrice.amount.toInt()
+        if (priceDiff.toInt() != 0) {
+            diffPercentage = (priceDiff * 100) / oldTotalPrice.amount.toInt()
+        }
+        RailTracking().trackPriceChange(diffPercentage)
+    }
+
     private fun getTripId(): String {
         return if (createTripId != null) createTripId!! else ""
     }
@@ -204,6 +205,7 @@ class RailCheckoutViewModel(val context: Context) {
                     updateCostBreakdownWithFees(it.feePrice, it.tripTotalPrice)
                 } else {
                     cardFeeErrorObservable.onNext(Unit)
+                    RailTracking().trackCardFeeUnknownError()
                 }
             }
 
@@ -212,6 +214,7 @@ class RailCheckoutViewModel(val context: Context) {
 
             override fun onError(e: Throwable?) {
                 cardFeeErrorObservable.onNext(Unit)
+                RailTracking().trackCardFeeApiNoResponseError()
             }
         }
     }
@@ -243,15 +246,18 @@ class RailCheckoutViewModel(val context: Context) {
                     handleNewCreateTripReturned(response.createTripResponse)
                 } else {
                     checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
+                    RailTracking().trackCheckoutUnknownError()
                 }
             }
 
             override fun onError(e: Throwable) {
+                showCheckoutDialogObservable.onNext(false)
                 if (RetrofitUtils.isNetworkError(e)) {
                     showNoInternetRetryDialog.onNext(Unit)
                 } else {
                     checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                 }
+                RailTracking().trackCheckoutApiNoResponseError()
             }
 
             override fun onCompleted() {
@@ -263,9 +269,13 @@ class RailCheckoutViewModel(val context: Context) {
     private fun handleCheckoutReturned(response: RailCheckoutResponse) {
         if (response.hasErrors()) {
             when (response.firstError.errorCode) {
-                ApiError.Code.INVALID_INPUT -> checkoutErrorObservable.onNext(ApiError(ApiError.Code.INVALID_INPUT))
+                ApiError.Code.INVALID_INPUT -> {
+                    checkoutErrorObservable.onNext(ApiError(ApiError.Code.INVALID_INPUT))
+                    RailTracking().trackCheckoutInvalidInputError()
+                }
                 else -> {
-                    handleError()
+                    checkoutErrorObservable.onNext(ApiError(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR))
+                    RailTracking().trackCheckoutUnknownError()
                 }
             }
         } else {
@@ -277,22 +287,20 @@ class RailCheckoutViewModel(val context: Context) {
         if (response.hasErrors()) {
             when (response.firstError.errorCode) {
                 ApiError.Code.PRICE_CHANGE -> {
-                    priceChangeObservable.onNext(Unit)
+                    val oldTotalPrice = tripResponseObservable.value.totalPrice
+                    priceChangeObservable.onNext(Pair(response.totalPrice, oldTotalPrice))
                     createTripObserver.onNext(response)
                     updatePricingSubject.onNext(response)
                 }
+                ApiError.Code.INVALID_INPUT -> {
+                    checkoutErrorObservable.onNext(ApiError(ApiError.Code.INVALID_INPUT))
+                    RailTracking().trackCheckoutInvalidInputError()
+                }
                 else -> {
-                    handleError()
+                    checkoutErrorObservable.onNext(ApiError(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR))
+                    RailTracking().trackCheckoutUnknownError()
                 }
             }
-        }
-    }
-
-    private fun handleError() {
-        if (isRetry) {
-            checkoutErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
-        } else {
-            checkoutErrorObservable.onNext(ApiError(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR))
         }
     }
 }

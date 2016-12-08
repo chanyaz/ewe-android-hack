@@ -309,6 +309,8 @@
     <string name="Fly_from_dot_dot_dot">出発地…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">日付を選択</string>
+    <!-- Select Start date - used for the LX Calendar. -->
+    <string name="select_start_date">出発日を選択</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">今晩のホテル</string>
     <!-- Missing flight info message -->
@@ -830,7 +832,7 @@
     </plurals>
 
     <!-- Label indicating the direction of the rails is outbond-->
-    <string name="select_outbound">往路 (行き) 便を選択する</string>
+    <string name="select_outbound">往路 (行き) を選択する</string>
     <!-- Label indicating the direction of the rails is inbond-->
     <string name="select_return">復路 (帰り) 便を選択する</string>
     <!-- Label indicating the one way trip for rails-->
@@ -1014,7 +1016,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">旅行を作成中…</string>
+    <string name="spinner_text_create_trip">旅行を作成中…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1066,6 +1068,8 @@
     <string name="error_select_rail_card_details">レイルカードの詳細を選択してください。</string>
     <!-- Error message when rail cards selected is greater than no. of travelers -->
     <string name="error_rail_cards_greater_than_number_travelers">旅行者の人数を超えるレイルカード数は指定できません。</string>
+    <!-- Error message indicating we were unable to fetch rail cards at this time -->
+    <string name="no_rail_cards_error_message">レイルカードを取り込むことができませんでした。後ほどお試しください。</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">出発地</string>
@@ -1253,6 +1257,8 @@
     <string name="arrive_tz_TEMPLATE">到着日 (%1$s)</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">航空会社の確認</string>
+    <!-- Flight Itinerary airline support number -->
+    <string name="flight_itin_airline_support_number_label">航空会社のカスタマー サポート</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$sの確認</string>
     <!-- Car rental agency name and location in car itin detail -->
@@ -1493,9 +1499,9 @@
     <string name="car_category_result_oversize">大型</string>
 
     <!-- Car types -->
-    <string name="car_type_two_door">2 ドア自動車</string>
-    <string name="car_type_three_door">3 ドア自動車</string>
-    <string name="car_type_four_door">4 ドア自動車</string>
+    <string name="car_type_two_door">2 ドア 自動車</string>
+    <string name="car_type_three_door">3 ドア 自動車</string>
+    <string name="car_type_four_door">4 ドア 自動車</string>
     <string name="car_type_van">バン</string>
     <string name="car_type_wagon">ワゴン</string>
     <string name="car_type_limousine">リムジン</string>
@@ -1636,7 +1642,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">電話\n%s</string>
     <!-- App download link -->
-    <string name="share_long_ad_TEMPLATE">ホテルとフライトを予約して、旅程を表示 &amp; シェアできます。無料の{brand}モバイル アプリを今すぐダウンロードしてください。\n{appinfourl}</string>
+    <string name="share_long_ad_TEMPLATE">ホテルと航空券を予約して、旅程を表示 &amp; シェアできます。無料の{brand}モバイル アプリを今すぐダウンロードしてください。\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">%2$sに%1$sへ行きます</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -1735,6 +1741,8 @@
     <string name="flights_round_trip_label">往復</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">片道</string>
+    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
+    <string name="flights_tab_selection_accouncement_TEMPLATE">{whichway}フライトの検索スクリーンを表示中</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">往路 (行き)</string>
     <!-- Flights Line of Business title -->
@@ -1772,13 +1780,13 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">エラー</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">エラーが発生しました。もう一度お試しください。</string>
+    <string name="error_try_again_warning">エラーが発生しました。もう一度お試しください。</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">再試行</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
-    <string name="Flights_TEMPLATE">{brand} 件のフライト</string>
+    <string name="Flights_TEMPLATE">{brand} 便のフライト</string>
     <!-- Label for flight search part of app -->
     <string name="search_flights">フライト検索</string>
     <!-- Hint in edit text that indicates one should enter a departure airport -->
@@ -1837,7 +1845,7 @@
     <!-- Title for screen when in an invalid POS we can't search for yet -->
     <string name="taking_off_soon">近日リリース予定…</string>
     <!-- Text for screen when in an invalid POS we can't search for yet -->
-    <string name="invalid_flights_pos">モバイルフライト予約は、お客様のロケーションではまだご利用いただけません。</string>
+    <string name="invalid_flights_pos">モバイル航空券予約は、お客様のロケーションではまだご利用いただけません。</string>
     <!-- (Tablet) Text for screen when in a POS which only supports dropdown flight suggestions -->
     <string name="tablet_drop_down_flight_pos_unavailable_TEMPLATE">お客様の地域では、まだ航空券予約がサポートされていません。&lt;a href=\"%1$s\"&gt;エクスペディアの Web サイト&lt;/a&gt;ではご利用いただけます。</string>
     <!-- Error message when the user picks the same airport for both the departure and arrival airports -->
@@ -1895,6 +1903,8 @@
     <string name="calendar_tooltip_bottom_drag_to_modify">復路 (帰り) 出発日を変更するには日付をドラッグ</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} ～ {enddate}</string>
+    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
+    <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} から {enddate} まで</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (片道)</string>
     <!-- Calendar instructions rail start date selected -->
@@ -1909,6 +1919,8 @@
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
     <string name="hotel_free_cancellation_TEMPLATE">無料キャンセル期限 : {date}</string>
+    <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
+    <string name="hotel_free_cancellation_before_TEMPLATE">無料キャンセル期限 : {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2043,6 +2055,8 @@
     <string name="your_trip_to_TEMPLATE">目的地 : %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">(税金とサービス料込み)</string>
+    <!-- Payment and ticket delivery fees may also apply -->
+    <string name="payment_and_ticket_delivery_fees_may_also_apply">支払い手数料およびチケット配送料が加算される場合があります</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">航空券 + ホテルを含む</string>
     <!-- Includes taxes (but not necessarily fees) -->
@@ -2340,7 +2354,7 @@
         <item quantity="one">その他 {travelercount} 名の旅行者</item>
         <item quantity="other">その他 {travelercount} 名の旅行者</item>
     </plurals>
-    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する({passengerage})</string>
+    <string name="checkout_edit_traveler_TEMPLATE">旅行者 {travelernumber} の情報を変更する ({passengerage})</string>
     <string name="traveler_child_age_TEMPLATE">{age} 歳</string>
     <!-- Save traveler dialog -->
     <!-- save traveler -->
@@ -2392,6 +2406,12 @@
     <string name="passport_country_origin">パスポートの発行国 / 出身国</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">リドレスナンバー (該当する場合)</string>
+    <!-- traveler number hint -->
+    <string name="known_traveler_number">Known traveler Number (登録済旅行者番号)</string>
+    <!-- traveler number info msg -->
+    <string name="known_traveler_msg">これは運輸保安局 (TSA) の事前チェックに必要な、政府発行の番号です</string>
+    <!-- redress number info msg -->
+    <string name="redress_number_msg">リドレスナンバーとは、監視対象者リストに登録されている人物と同姓同名の方が誤って識別されてしまうことを防止するために、運輸保安局 (TSA) が発行する番号です。</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">お客様のアカウントに旅行者情報を保存中…</string>
     <!-- Seating Preference -->
@@ -3411,9 +3431,18 @@
         <item quantity="other">日</item>
     </plurals>
 
+    <!-- A number of railcards. Capitalized -->
+    <plurals name="number_of_railcards">
+        <item quantity="zero">レイルカード %d 枚</item>
+        <item quantity="one">レイルカード %d 枚</item>
+        <item quantity="two">レイルカード %d 枚</item>
+        <item quantity="many">レイルカード %d 枚</item>
+        <item quantity="other">レイルカード %d 枚</item>
+    </plurals>
+
     <!-- Distance strings -->
     <!-- Abbreviated miles (used in distance_template) -->
-    <string name="unit_miles">マイル</string>
+    <string name="unit_miles">mi</string>
     <!-- Abbreviated kilometers (used in distance_template) -->
     <string name="unit_kilometers">km</string>
     <!-- Miles (used in distance_template) -->
@@ -3975,7 +4004,7 @@
     <!-- Header text to indicating booking confirmed for hotel -->
     <string name="tablet_confirmation_hotel_booked">ホテルのご予約が完了しました !</string>
     <!-- Header text to indicating booking confirmed for flight -->
-    <string name="tablet_confirmation_flight_booked">フライトのご予約が完了しました !</string>
+    <string name="tablet_confirmation_flight_booked">航空券のご予約が完了しました !</string>
     <!-- Summary text for booked hotel %1$s is hotel name, %2$s is start-end date-->
     <string name="tablet_confirmation_summary">%1$s\n%2$s</string>
     <!-- Itinerary summary text %1$s is ItineraryNumber, %2$s is user email -->
@@ -4025,12 +4054,10 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">この予約を完了をもって、%1$s、%2$s、%3$sを読み、理解したものと見なされます。</string>
-    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">{terms_of_use}および{privacy_policy}を読み、これに同意します。{brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます。</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">{terms_of_use}および{privacy_policy}を読み、これに同意します。</string>
-    <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">無料旅行特典に向けて {brand_reward_name_link} を獲得 !{brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます</string>
+    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">今すぐ {brand_reward_name} にご入会ください。{brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">お子様の年齢を選択する</string>
@@ -4250,6 +4277,12 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">運航会社 : {operatingairlinename}</string>
 
+    <!-- Accessibility announcement when showing searching/loading screen -->
+    <string name="accessibility_announcement_searching_flights">フライトを検索中です。お待ちください。</string>
+    <!-- Accessibility announcement when search has completed and we're showing inbound flights results. Example: Showing inbound flights to San Francisco, CA -->
+    <string name="accessibility_announcement_showing_inbound_flights_TEMPLATE">{city}への復路便を表示中</string>
+    <!-- Accessibility announcement when search has completed and we're showing outbound flights results. Example: Showing outbound flights to Denver, CO -->
+    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">{city}への往路便を表示中</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$sへのフライトを選択</string>
     <!-- Flight to template -->
@@ -4281,11 +4314,6 @@
         <item quantity="one">{city}のホテル、1 室、{number} 泊</item>
         <item quantity="other">{city}のホテル、1 室、{number} 泊</item>
     </plurals>
-
-    <!-- Text indicating that the user can drag this button to view their trip -->
-    <string name="trip_overview">旅行の詳細を表示する</string>
-    <!-- Content description to View Trip Details view -->
-    <string name="trip_overview_cont_desc">旅行の詳細を表示するボタン</string>
 
     <!-- Slide to book -->
     <string name="slide_to_book_text">スライドして予約</string>
@@ -4384,12 +4412,18 @@
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
-    <string name="rail_journey_details_and_fare_options">経路の詳細 + 運賃オプション</string>
+    <string name="rail_journey_details_and_fare_options">詳細 &amp; 運賃</string>
 
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">{origin_station_name}から{destination_station_name}までの所要時間は {formatted_duration} です</string>
 
     <string name="rail_overtaken_message">注意 : 選択されたものより早く到着する列車があります。</string>
+
+    <!-- Messaging indicating to the user of their previously selected choice. -->
+    <string name="rail_open_return_selected">往復 (オープン チケット) が選択されています</string>
+
+    <!-- When the user selects an open return they can choose any inbound train journey -->
+    <string name="rail_open_return_description">ご選択の列車に必ず乗車する必要はありません。現段階でのご希望をご指定ください</string>
 
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">{origin_station_name}から{destination_station_name}まで{travel_mode}を利用する</string>
@@ -4408,6 +4442,9 @@
 
     <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">復路 (帰り) - {date}</string>
+
+    <!-- rail checkout overview label indicating the user selected an open return journey.-->
+    <string name="rail_open_return_messaging">出発日から 1 か月以内の有効な列車をご利用ください</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
     <string name="rail_price_breakdown_journey">旅程</string>
@@ -4455,7 +4492,7 @@
     <string name="rail_credit_card_fee">カード手数料</string>
 
     <!-- Credit card fee disclaimer on payment screen -->
-    <string name="rail_card_fee_disclaimer">この鉄道会社では、ご利用のカードの種類によっては追加の手数料 (返金不可) が課金されます。デビットカードを使用することで、この手数料が不要になります。</string>
+    <string name="rail_card_fee_disclaimer">ご利用のカードの種類によっては、鉄道予約サービス サプライヤーから追加の手数料 (返金不可) が課金されます。デビットカードを使用することで、この手数料が不要になります。.</string>
 
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">カードの種類別の手数料</string>
@@ -4482,6 +4519,10 @@
 
     <string name="mail_delivery_details">ご入力いただいた住所にチケットが郵送されます。</string>
     <string name="tdo_fees_non_refundable">チケットの送料は返金不可です。</string>
+
+    <string name="rail_error_title">問題が発生しました</string>
+    <string name="rail_unknown_error_message">検索条件を変更して、もう一度お試しください。</string>
+    <string name="rail_cko_retry_error_message">お支払い情報を確認してもう一度試すか、検索条件を変更してください。</string>
 
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
@@ -4769,6 +4810,7 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">チェックボックス。チェックされていません。</string>
     <string name="base_search_dates_cont_desc">日付を選択。ボタン。ダイアログを開きます</string>
+    <string name="lx_search_start_date_cont_desc">出発日を選択してください。ボタン。ダイアログを開きます</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">- {amount}</string>

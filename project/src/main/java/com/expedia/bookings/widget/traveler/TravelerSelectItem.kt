@@ -5,18 +5,18 @@ import com.expedia.util.subscribeFont
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextColor
-import com.expedia.vm.traveler.TravelerPickerTravelerViewModel
+import com.expedia.vm.traveler.TravelerSelectItemViewModel
 
-class TravelerSelectItem(context: Context, travelerViewModel: TravelerPickerTravelerViewModel) : TravelerDetailsCard(context) {
+class TravelerSelectItem(context: Context, travelerSelectItemViewModel: TravelerSelectItemViewModel) : TravelerDetailsCard(context) {
 
     init {
-        travelerViewModel.titleObservable.subscribeText(detailsText)
-        travelerViewModel.subtitleObservable.subscribeTextAndVisibility(secondaryText)
-        travelerViewModel.titleFontObservable.subscribeFont(detailsText)
-        travelerViewModel.iconStatusObservable.subscribe {
+        travelerSelectItemViewModel.titleObservable.subscribeText(detailsText)
+        travelerSelectItemViewModel.subtitleObservable.subscribeTextAndVisibility(secondaryText)
+        travelerSelectItemViewModel.titleFontObservable.subscribeFont(detailsText)
+        travelerSelectItemViewModel.iconStatusObservable.subscribe {
             travelerStatusIcon.status = it
         }
 
-        travelerViewModel.subtitleTextColorObservable.subscribeTextColor(secondaryText)
+        travelerSelectItemViewModel.subtitleTextColorObservable.subscribeTextColor(secondaryText)
     }
 }

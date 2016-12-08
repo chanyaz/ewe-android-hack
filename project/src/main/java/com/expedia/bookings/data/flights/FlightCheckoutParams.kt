@@ -67,6 +67,9 @@ class FlightCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Travel
             if (traveler.redressNumber?.isNotEmpty() ?: false) {
                 params.put(prefix + "TSARedressNumber", traveler.redressNumber)
             }
+            if (traveler.knownTravelerNumber?.isNotEmpty() ?: false) {
+                params.put(prefix + "knownTravelerNumber", traveler.knownTravelerNumber)
+            }
             if (traveler.hasTuid()) {
                 params.put(prefix + "tuid", traveler.tuid.toString())
             }

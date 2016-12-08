@@ -475,10 +475,6 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
     }
 
     fun animationFinalize(forward: Boolean) {
-        if (forward) {
-            getSearchViewModel().enableTravelerObservable.onNext(true)
-            getSearchViewModel().enableDateObservable.onNext(true)
-        }
         navIcon.parameter = ArrowXDrawableUtil.ArrowDrawableType.CLOSE.type.toFloat()
     }
 

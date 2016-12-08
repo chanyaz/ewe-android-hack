@@ -3,7 +3,6 @@ package com.expedia.bookings.widget.accessibility
 import android.content.Context
 import android.util.AttributeSet
 import android.view.accessibility.AccessibilityNodeInfo
-import android.widget.EditText
 import android.widget.Spinner
 import com.expedia.bookings.R
 import kotlin.properties.Delegates

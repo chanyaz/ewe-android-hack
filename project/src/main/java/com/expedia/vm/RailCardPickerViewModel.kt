@@ -11,7 +11,7 @@ import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.widget.RailCardPickerRowView
 import rx.Observer
-import rx.exceptions.OnErrorNotImplementedException
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import java.util.HashMap
@@ -31,6 +31,7 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
     val cardsSelectedTextObservable = PublishSubject.create<String>()
 
     val railCardTypes = PublishSubject.create<List<RailCard>>()
+    val railCardError = BehaviorSubject.create<String>()
     val addClickSubject = PublishSubject.create<Unit>()
     val removeClickSubject = PublishSubject.create<Unit>()
 
@@ -38,6 +39,7 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
     val resetClicked = PublishSubject.create<Unit>()
 
     val addView = PublishSubject.create<RailCardPickerRowView>()
+    val addButtonEnableState = PublishSubject.create<Boolean>()
     val removeButtonEnableState = PublishSubject.create<Boolean>()
     var rowId = 0
     val MAX_ROWS = 8
@@ -79,6 +81,7 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
 
         removeClickSubject.subscribe {
             RailTracking().trackRailCardPicker("Remove")
+            addButtonEnableState.onNext(true)
             cardsAndQuantitySelectionDetails.remove(rowId - 1)
             if (rowId == 1) {
                 resetClicked.onNext(Unit)
@@ -110,7 +113,8 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
     private fun fetchRailCards() {
         railServices.railGetCards(PointOfSale.getPointOfSale().localeIdentifier, object : Observer<RailCardsResponse> {
             override fun onError(e: Throwable?) {
-                throw OnErrorNotImplementedException(e)
+                railCardError.onNext(context.getString(R.string.no_rail_cards_error_message))
+                RailTracking().trackRailCardsApiNoResponseError()
             }
 
             override fun onNext(response: RailCardsResponse) {
@@ -125,19 +129,24 @@ class RailCardPickerViewModel(val railServices: RailServices, val context: Conte
     }
 
     fun addRow(railCards: List<RailCard>) {
-        val railCardPickerViewModel = RailCardPickerRowViewModel(rowId)
-        railCardPickerViewModel.cardTypeQuantityChanged.subscribe(railCardsSelectionChangedObservable)
+        if (rowId < MAX_ROWS) {
+            val railCardPickerViewModel = RailCardPickerRowViewModel(rowId)
+            railCardPickerViewModel.cardTypeQuantityChanged.subscribe(railCardsSelectionChangedObservable)
 
-        val row = RailCardPickerRowView(context)
-        row.viewModel = railCardPickerViewModel
+            val row = RailCardPickerRowView(context)
+            row.viewModel = railCardPickerViewModel
 
-        railCardPickerViewModel.cardTypesList.onNext(railCards)
+            railCardPickerViewModel.cardTypesList.onNext(railCards)
 
-        resetClicked.subscribe(railCardPickerViewModel.resetRow)
+            resetClicked.subscribe(railCardPickerViewModel.resetRow)
 
-        addView.onNext(row)
-        rowId++
-        removeButtonEnableState.onNext(rowId != 1)
+            addView.onNext(row)
+            rowId++
+            removeButtonEnableState.onNext(rowId != 1)
+            if (rowId == MAX_ROWS) {
+                addButtonEnableState.onNext(false)
+            }
+        }
     }
 
     private fun validate(numberOfTravelers: Int): Boolean {

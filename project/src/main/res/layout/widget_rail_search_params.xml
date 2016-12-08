@@ -95,6 +95,7 @@
                     android:background="@color/rail_primary_color"
                     android:padding="18dp"
                     android:text="@string/search"
+                    android:textAllCaps="false"
                     android:textColor="@color/white_disabled"
                     android:textSize="18sp" />
             </RelativeLayout>

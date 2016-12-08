@@ -7,8 +7,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.LinearLayout;
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+
 import com.expedia.account.AccountView;
 import com.expedia.account.AnalyticsListener;
 import com.expedia.account.Config;
@@ -31,6 +30,9 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.bookings.widget.TextView;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 public class AccountLibActivity extends TrackingAppCompatActivity
 	implements UserAccountRefresher.IUserAccountRefreshListener, LoginExtenderListener {
@@ -187,7 +189,7 @@ public class AccountLibActivity extends TrackingAppCompatActivity
 				Db.setSignInType(Db.SignInTypeEnum.FACEBOOK_SIGN_IN);
 			}
 			else {
-				Db.setSignInType(Db.SignInTypeEnum.EXPEDIA_SIGN_IN);
+				Db.setSignInType(Db.SignInTypeEnum.BRAND_SIGN_IN);
 			}
 			AdTracker.trackLogin();
 			if (loginExtender != null) {

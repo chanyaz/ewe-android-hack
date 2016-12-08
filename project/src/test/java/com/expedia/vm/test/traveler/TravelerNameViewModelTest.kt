@@ -17,6 +17,7 @@ import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 import kotlin.properties.Delegates
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 class TravelerNameViewModelTest {
@@ -106,6 +107,7 @@ class TravelerNameViewModelTest {
 
         val valid = nameVM.validate()
         assertFalse(valid)
+        assertTrue(nameVM.numberOfInvalidFields.value == 3)
         // All 3 must trigger for proper error states
         testSubscriber.assertValueCount(expectedErrorCount)
     }

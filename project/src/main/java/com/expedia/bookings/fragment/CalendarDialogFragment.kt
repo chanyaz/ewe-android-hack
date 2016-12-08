@@ -41,7 +41,7 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
     val calendar: CalendarPicker by lazy {
         val calendarPickerView = calendarDialogView.findViewById(R.id.calendar) as CalendarPicker
         val maxDate = LocalDate.now().plusDays(baseSearchViewModel.getMaxDateRange())
-        calendarPickerView.setSelectableDateRange(baseSearchViewModel.getStartDate(), maxDate)
+        calendarPickerView.setSelectableDateRange(baseSearchViewModel.getFirstAvailableDate(), maxDate)
         calendarPickerView.setMaxSelectableDateRange(baseSearchViewModel.getMaxSearchDurationDays())
 
         val monthView = calendarPickerView.findViewById(R.id.month) as MonthView
@@ -61,12 +61,12 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
                     }
 
                 } else {
-                    baseSearchViewModel.datesObserver.onNext(Pair(start, end))
+                    baseSearchViewModel.datesUpdated(start, end)
                 }
                 updateDoneVisibilityForDate(start)
 
             } else {
-                baseSearchViewModel.datesObserver.onNext(Pair(start, end))
+                baseSearchViewModel.datesUpdated(start, end)
             }
         }
         calendarPickerView.setYearMonthDisplayedChangedListener {
@@ -96,7 +96,7 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
         super.onDismiss(dialog)
         if (!userTappedDone) {
             calendar.visibility = CardView.GONE // ensures tooltip does not reopen
-            baseSearchViewModel.datesObserver.onNext(oldCalendarSelection)
+            baseSearchViewModel.datesUpdated(oldCalendarSelection?.first, oldCalendarSelection?.second)
             calendar.setSelectedDates(oldCalendarSelection?.first, oldCalendarSelection?.second)
             oldCalendarSelection = null
         }

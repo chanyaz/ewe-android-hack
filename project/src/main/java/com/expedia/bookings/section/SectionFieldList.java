@@ -91,6 +91,19 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 		return null;
 	}
 
+	public int getNumberOfInvalidFields() {
+		SectionFieldEditable<?, T> editable;
+		int numOfinvalidFields = 0;
+		for (SectionField<?, T> field : mFields) {
+			if (field instanceof SectionFieldEditable) {
+				editable = (SectionFieldEditable<?, T>) field;
+				if (!editable.isValid()) {
+					numOfinvalidFields += 1;
+				}
+			}
+		}
+		return numOfinvalidFields;
+	}
 	/**
 	 * call isValid() on a single SectionFieldEditable
 	 *
@@ -98,7 +111,7 @@ public class SectionFieldList<T> extends AbstractList<SectionField<?, T>> {
 	 */
 	public boolean hasValidInput(int fieldId) {
 		SectionField<?, T> field = getLastFieldWithId(fieldId);
-		boolean valid = false;
+		boolean valid = true;
 		if (field != null && field instanceof SectionFieldEditable) {
 			SectionFieldEditable<?, T> editable = (SectionFieldEditable<?, T>) field;
 			valid = editable.isValid();

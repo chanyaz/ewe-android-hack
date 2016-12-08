@@ -14,6 +14,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.presenter.rail.RailCheckoutPresenter
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.tracking.RailTracking
@@ -77,13 +78,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
             // We want to show cost breakdown ONLY in checkout screen. We set the rightDrawable only when createTrip returns. So let's check
             if (bundleTotalText.compoundDrawables[2] != null) {
                 dialog.show()
-                if (breakdown.viewmodel is FlightCostSummaryBreakdownViewModel) {
-                    FlightsV2Tracking.trackFlightCostBreakdownClick()
-                } else if (breakdown.viewmodel is PackageCostSummaryBreakdownViewModel) {
-                    PackagesTracking().trackBundleOverviewCostBreakdownClick()
-                } else if (breakdown.viewmodel is RailCostSummaryBreakdownViewModel) {
-                    RailTracking().trackRailDetailsTotalCostToolTip()
-                }
+                breakdown.viewmodel.trackBreakDownClicked()
             }
         }
     }

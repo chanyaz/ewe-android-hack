@@ -148,14 +148,13 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
     }
 
     fun updateSearchViewModel(carSearchParams: CarSearchParam) {
-        searchViewModel.enableDateObserver.onNext(Unit)
         searchViewModel.originLocationObserver.onNext(CarDataUtils.getSuggestionFromLocation(carSearchParams.originLocation,
                 carSearchParams.pickupLocationLatLng, carSearchParams.originDescription))
         val times = Pair(carSearchParams.startDateTime.millisOfDay,
                 carSearchParams.endDateTime.millisOfDay)
         val dates = Pair(carSearchParams.startDateTime.toLocalDate(),
                 carSearchParams.endDateTime.toLocalDate())
-        searchViewModel.datesObserver.onNext(dates)
+        searchViewModel.datesUpdated(dates.first, dates.second)
         searchViewModel.departTimeSubject.onNext(times.first)
         searchViewModel.returnTimeSubject.onNext(times.second)
         searchViewModel.setUpTimeSliderSubject.onNext(dates)

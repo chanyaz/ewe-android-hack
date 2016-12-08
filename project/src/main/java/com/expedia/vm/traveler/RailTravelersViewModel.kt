@@ -7,7 +7,7 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import javax.inject.Inject
 
-class RailCheckoutTravelerViewModel(context: Context) : BaseCheckoutTravelerViewModel() {
+class RailTravelersViewModel(context: Context) : AbstractTravelersViewModel() {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
@@ -17,7 +17,7 @@ class RailCheckoutTravelerViewModel(context: Context) : BaseCheckoutTravelerView
 
     fun refresh() {
         if (isTravelerEmpty(getTraveler(0))) {
-            travelerCompletenessStatus.onNext(TravelerCheckoutStatus.CLEAN)
+            travelersCompletenessStatus.onNext(TravelerCheckoutStatus.CLEAN)
         } else {
             updateCompletionStatus()
         }

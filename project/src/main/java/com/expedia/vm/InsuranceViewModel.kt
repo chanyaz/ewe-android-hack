@@ -9,7 +9,9 @@ import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.FlightTripResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.insurance.InsurancePriceType
 import com.expedia.bookings.data.insurance.InsuranceProduct
@@ -27,9 +29,10 @@ import rx.subjects.PublishSubject
 
 class InsuranceViewModel(private val context: Context, private val insuranceServices: InsuranceServices) {
     // inputs
-    val tripObservable = BehaviorSubject.create<TripResponse>()
+    val tripObservable = BehaviorSubject.create<FlightTripResponse>()
     val userInitiatedToggleObservable = PublishSubject.create<Boolean>()
     val widgetVisibilityAllowedObservable = BehaviorSubject.create<Boolean>()
+    val userBucketedForInsuranceTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightInsurance)
 
     // outputs
     val benefitsObservable = BehaviorSubject.create<Spanned>()
@@ -39,13 +42,14 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     val titleObservable = PublishSubject.create<SpannableStringBuilder>()
     val updatedTripObservable = PublishSubject.create<FlightCreateTripResponse>()
     val widgetVisibilityObservable = PublishSubject.create<Boolean>()
+    val toggleSwitchEnabledObservable = PublishSubject.create<Boolean>()
 
     private var canWidgetBeDisplayed: Boolean = true
     private val haveProduct: Boolean get() = product != null
     private var product: InsuranceProduct? = null
 
     lateinit private var lastAction: InsuranceAction
-    lateinit private var trip: TripResponse
+    lateinit private var trip: FlightTripResponse
     lateinit var tripId: String
 
     enum class InsuranceAction {
@@ -79,6 +83,7 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         }
 
         userInitiatedToggleObservable.subscribe { isSelected ->
+            toggleSwitchEnabledObservable.onNext(false)
             if (isSelected) {
                 lastAction = InsuranceAction.ADD
                 updatingTripDialog.setMessage(context.resources.getString(R.string.insurance_adding))
@@ -115,10 +120,12 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
         }
 
         override fun onCompleted() {
+            toggleSwitchEnabledObservable.onNext(true)
             updatingTripDialog.hide()
         }
 
         override fun onError(e: Throwable) {
+            toggleSwitchEnabledObservable.onNext(true)
             updateToggleSwitch()
             updatingTripDialog.hide()
             handleError(e.toString())
@@ -199,6 +206,6 @@ class InsuranceViewModel(private val context: Context, private val insuranceServ
     }
 
     fun updateVisibility() {
-        widgetVisibilityObservable.onNext(canWidgetBeDisplayed && haveProduct)
+        widgetVisibilityObservable.onNext(userBucketedForInsuranceTest && canWidgetBeDisplayed && haveProduct)
     }
 }

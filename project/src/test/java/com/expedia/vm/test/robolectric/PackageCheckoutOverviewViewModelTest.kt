@@ -43,6 +43,7 @@ class PackageCheckoutOverviewViewModelTest {
 
         viewmodel.cityTitle.subscribe(cityTestSubscriber)
         viewmodel.datesTitle.subscribe(datesTestSubscriber)
+        viewmodel.datesTitleContDesc.subscribe(datesTestSubscriber)
         viewmodel.travelersTitle.subscribe(travelerTestSubscriber)
         viewmodel.url.subscribe(urlTestSubscriber)
 
@@ -50,6 +51,7 @@ class PackageCheckoutOverviewViewModelTest {
 
         assertEquals("New York, NY", cityTestSubscriber.onNextEvents[0])
         assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", datesTestSubscriber.onNextEvents[0])
+        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", datesTestSubscriber.onNextEvents[1])
         assertEquals("1 Traveler", travelerTestSubscriber.onNextEvents[0])
         assertEquals("https://media.expedia.com/tes.jpg", urlTestSubscriber.onNextEvents[0][0])
         urlTestSubscriber.assertValueCount(1)

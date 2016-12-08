@@ -84,6 +84,33 @@ class SuggestionV4ServicesTest {
         assertEquals(0, suggestions.size)
     }
 
+    @Test
+    fun testGaiaNearbySuggestionsLXEnglish() {
+        val suggestions = getGaiaNearbySuggestionLXEnglish(3.0);
+        assertEquals(2, suggestions.size)
+        assertSuggestionsEqual(getLXGaiaSuggestionEnglish(), suggestions.first())
+    }
+
+    @Test
+    fun testGaiaNearbySuggestionsForLessThanThreeResultsLXFrench() {
+        val suggestions = getGaiaNearbySuggestionLXFrench(1.0);
+        assertEquals(1, suggestions.size)
+        assertSuggestionsEqual(getLXGaiaSuggestionFrench(), suggestions.first())
+    }
+
+    @Test
+    fun testGaiaNearbySuggestionsForLessThanThreeResultsLXEnglish() {
+        val suggestions = getGaiaNearbySuggestionLXEnglish(1.0);
+        assertEquals(1, suggestions.size)
+        assertSuggestionsEqual(getLXGaiaSuggestionEnglish(), suggestions.first())
+    }
+
+    @Test
+    fun testGaiaNearbySuggestionsForZeroResultsLX() {
+        val suggestions = getGaiaNearbySuggestionLXEnglish(0.0);
+        assertEquals(0, suggestions.size)
+    }
+
     private fun getGaiaSuggestion(): GaiaSuggestion {
         val suggestion = GaiaSuggestion()
         suggestion.gaiaID = "180000"
@@ -95,6 +122,31 @@ class SuggestionV4ServicesTest {
         suggestion.name = "Delhi (and vicinity), India"
         suggestion.country = country
         suggestion.position = position
+        suggestion.localizedNames = localizedNames
+
+        return suggestion
+    }
+
+    private fun getLXGaiaSuggestionEnglish(): GaiaSuggestion {
+        val suggestion = GaiaSuggestion()
+        suggestion.gaiaID = "553248623251959093"
+        suggestion.type = "city"
+        val position = GaiaSuggestion.Position("Point", arrayOf(77.08858686, 28.48940909))
+        val localizedNames = arrayOf(GaiaSuggestion.LocalizedName(1033, "DLF Phase II",
+                "DLF Phase II, Gurgaon, India", "DLF Phase II, Gurgaon"))
+        val country = GaiaSuggestion.Country("India", null)
+        suggestion.name = "DLF Phase II"
+        suggestion.country = country
+        suggestion.position = position
+        suggestion.localizedNames = localizedNames
+
+        return suggestion
+    }
+
+    private fun getLXGaiaSuggestionFrench(): GaiaSuggestion {
+        val suggestion = getLXGaiaSuggestionEnglish()
+        val localizedNames = arrayOf(GaiaSuggestion.LocalizedName(1036, "DLF Phase II",
+                "DLF Phase II, Gurgaon, Inde", "DLF Phase II, Gurgaon"))
         suggestion.localizedNames = localizedNames
 
         return suggestion
@@ -113,6 +165,22 @@ class SuggestionV4ServicesTest {
     private fun getGaiaNearbySuggestion(location: Double): List<GaiaSuggestion> {
         val test = TestSubscriber<List<GaiaSuggestion>>()
         val observer = service?.suggestNearbyGaia(location, location, "distance", "hotels", "en_US", 1)
+        observer?.subscribe(test)
+
+        return test.onNextEvents[0]
+    }
+
+    private fun getGaiaNearbySuggestionLXEnglish(location: Double): List<GaiaSuggestion> {
+        val test = TestSubscriber<List<GaiaSuggestion>>()
+        val observer = service?.suggestNearbyGaia(location, location, "distance", "lx", "en_US", 1)
+        observer?.subscribe(test)
+
+        return test.onNextEvents[0]
+    }
+
+    private fun getGaiaNearbySuggestionLXFrench(location: Double): List<GaiaSuggestion> {
+        val test = TestSubscriber<List<GaiaSuggestion>>()
+        val observer = service?.suggestNearbyGaia(location, location, "distance", "lx", "fr_FR", 1)
         observer?.subscribe(test)
 
         return test.onNextEvents[0]

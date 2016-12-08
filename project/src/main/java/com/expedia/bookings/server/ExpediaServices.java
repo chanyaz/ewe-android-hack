@@ -1472,9 +1472,17 @@ public class ExpediaServices implements DownloadListener {
 		mClient = mCachedClient;
 		request.addHeader("User-Agent", userAgent);
 		request.addHeader("Accept-Encoding", "gzip");
-		if (Strings.isNotEmpty(AdvertisingIdUtils.getIDFA())) {
-			request.addHeader("x-mobvisid", AdvertisingIdUtils.getIDFA());
+
+		String mobvisid = AdvertisingIdUtils.getIDFA();
+		if (Strings.isNotEmpty(mobvisid)) {
+			request.addHeader("x-mobvisid", mobvisid);
 		}
+
+		String devLocation = ServicesUtil.generateXDevLocationString(mContext);
+		if (Strings.isNotEmpty(devLocation)) {
+			request.addHeader("x-dev-loc", devLocation);
+		}
+
 		final boolean ignoreCookies = (flags & F_IGNORE_COOKIES) != 0;
 		if (ignoreCookies) {
 			// We don't want cookies so we cannot use the cached client

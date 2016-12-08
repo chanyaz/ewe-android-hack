@@ -40,6 +40,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
     val flightInfoContainerObservable = BehaviorSubject.create<Boolean>()
     val selectedFlightLegObservable = BehaviorSubject.create<FlightLeg>()
     val totalDurationObserver = BehaviorSubject.create<CharSequence>()
+    val totalDurationContDescObserver = BehaviorSubject.create<String>()
     val searchParams = BehaviorSubject.create<BaseSearchParams>()
 
     init {
@@ -98,6 +99,7 @@ class BundleFlightViewModel(val context: Context, val lob: LineOfBusiness) {
                 flightTextObservable.onNext(context.getString(R.string.flight_to, StrUtils.formatAirportCodeCityName(flight)))
                 flightIconImageObservable.onNext(Pair(R.drawable.packages_flight2_checkmark_icon, 0))
             }
+            totalDurationContDescObserver.onNext(FlightV2Utils.getFlightLegDurationContentDescription(context, flight))
             totalDurationObserver.onNext(FlightV2Utils.getStylizedFlightDurationString(context, flight, R.color.packages_total_duration_text))
             selectedFlightLegObservable.onNext(flight)
         }).subscribe()

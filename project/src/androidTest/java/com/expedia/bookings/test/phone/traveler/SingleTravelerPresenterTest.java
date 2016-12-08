@@ -35,7 +35,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelers(1);
-				testTravelerPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.setViewModel(mockViewModel);
 			}
 		});
 
@@ -46,7 +46,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.back();
+				testTravelersPresenter.back();
 			}
 		});
 
@@ -59,7 +59,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		addTravelerToDb(new Traveler());
 
 		mockViewModel = getMockViewModelEmptyTravelers(1);
-		testTravelerPresenter.setViewModel(mockViewModel);
+		testTravelersPresenter.setViewModel(mockViewModel);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		PackageScreen.enterFirstName(testFirstName);
 		PackageScreen.enterLastName(testLastName);
@@ -72,7 +72,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.getDoneClicked().onNext(Unit.INSTANCE);
+				testTravelersPresenter.getDoneClicked().onNext(Unit.INSTANCE);
 			}
 		});
 
@@ -82,7 +82,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 	@Test
 	public void testTravelerEntryPersists() {
 		mockViewModel = getMockViewModelEmptyTravelers(1);
-		testTravelerPresenter.setViewModel(mockViewModel);
+		testTravelersPresenter.setViewModel(mockViewModel);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_entry_widget);
@@ -98,7 +98,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 	@Test
 	public void testTravelerReentryPersists() {
 		mockViewModel = getMockViewModelEmptyTravelers(1);
-		testTravelerPresenter.setViewModel(mockViewModel);
+		testTravelersPresenter.setViewModel(mockViewModel);
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		enterValidTraveler(true);
@@ -120,7 +120,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 	@Test
 	public void testTravelerValidEntry() {
 		mockViewModel = getMockViewModelValidTravelers(1);
-		testTravelerPresenter.setViewModel(mockViewModel);
+		testTravelersPresenter.setViewModel(mockViewModel);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		Espresso.closeSoftKeyboard();
 		EspressoUser.clickOnView(R.id.edit_phone_number);
@@ -131,36 +131,40 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 
 	@Test
 	public void testIncompleteTraveler() throws Throwable {
-		mockViewModel = getMockViewModelIncompleteTravelers(1);
-		testTravelerPresenter.setViewModel(mockViewModel);
-		EspressoUser.clickOnView(R.id.traveler_default_state);
 
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.getViewModel().updateCompletionStatus();
+				mockViewModel = getMockViewModelIncompleteTravelers(1);
+				testTravelersPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.getViewModel().updateCompletionStatus();
 			}
 		});
 		Common.delay(1);
+		EspressoUser.clickOnView(R.id.traveler_default_state);
 		assertEquals(testTravelerDefault.getContentDescription(),"Oscar Error: Enter missing traveler details. Button.");
 		EspressoUtils.assertContainsImageDrawable(R.id.traveler_status_icon, R.id.traveler_default_state, R.drawable.invalid);
 	}
 
 	@Test
 	public void testEntryDirtyState() throws Throwable {
-		mockViewModel = getMockViewModelEmptyTravelers(1);
-		testTravelerPresenter.setViewModel(mockViewModel);
-		EspressoUser.clickOnView(R.id.traveler_default_state);
-		PackageScreen.enterLastName(testLastName);
-
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.getViewModel().updateCompletionStatus();
+				mockViewModel = getMockViewModelEmptyTravelers(1);
+				testTravelersPresenter.setViewModel(mockViewModel);
 			}
 		});
 
 		Common.delay(1);
+		EspressoUser.clickOnView(R.id.traveler_default_state);
+		PackageScreen.enterLastName(testLastName);
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				testTravelersPresenter.getViewModel().updateCompletionStatus();
+			}
+		});
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewHasCompoundDrawable(R.id.first_name_input, R.drawable.invalid);
 	}
@@ -171,7 +175,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelers(1);
-				testTravelerPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.setViewModel(mockViewModel);
 			}
 		});
 
@@ -180,8 +184,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.getTravelerEntryWidget().getViewModel().getShowPassportCountryObservable().onNext(true);
-				testTravelerPresenter.getTravelerEntryWidget().onTravelerChosen(makeStoredTraveler("VNM"));
+				testTravelersPresenter.getTravelerEntryWidget().getViewModel().getShowPassportCountryObservable().onNext(true);
+				testTravelersPresenter.getTravelerEntryWidget().onTravelerChosen(makeStoredTraveler("VNM"));
 			}
 		});
 
@@ -200,7 +204,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 			@Override
 			public void run() {
 				mockViewModel = getMockViewModelEmptyTravelers(1);
-				testTravelerPresenter.setViewModel(mockViewModel);
+				testTravelersPresenter.setViewModel(mockViewModel);
 			}
 		});
 
@@ -210,8 +214,8 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter.getTravelerEntryWidget().getViewModel().getShowPassportCountryObservable().onNext(true);
-				testTravelerPresenter.getTravelerEntryWidget().onTravelerChosen(makeStoredTraveler(null));
+				testTravelersPresenter.getTravelerEntryWidget().getViewModel().getShowPassportCountryObservable().onNext(true);
+				testTravelersPresenter.getTravelerEntryWidget().onTravelerChosen(makeStoredTraveler(null));
 			}
 		});
 
@@ -223,7 +227,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 	@Test
 	public void testBoardingWarningVisible() {
 		mockViewModel = getMockViewModelValidTravelers(1);
-		testTravelerPresenter.setViewModel(mockViewModel);
+		testTravelersPresenter.setViewModel(mockViewModel);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
 	}
@@ -231,7 +235,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 	@Test
 	public void testBoardingWarningCleared() {
 		mockViewModel = getMockViewModelValidTravelers(1);
-		testTravelerPresenter.setViewModel(mockViewModel);
+		testTravelersPresenter.setViewModel(mockViewModel);
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
 

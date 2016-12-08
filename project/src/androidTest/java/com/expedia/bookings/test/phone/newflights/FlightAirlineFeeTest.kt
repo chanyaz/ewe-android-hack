@@ -33,8 +33,9 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         assertCheckoutOverviewMayChargeCardFeeTextShown()
 
         signIn()
+        assertCheckoutOverviewCardFeeWarningShown()
         CheckoutViewModel.clickPaymentInfo()
-        assertCheckoutOverviewMayChargeCardFeeTextShown()
+        assertCheckoutOverviewCardFeeWarningShown()
         CheckoutViewModel.selectStoredCard("Saved Visa 1111")
         assertCheckoutOverviewCardFeeWarningShown()
         CheckoutViewModel.clickDone()

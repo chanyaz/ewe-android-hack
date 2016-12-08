@@ -1,8 +1,11 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Used by tests only. Do not include in production apps unless necessary! -->
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.DUMP" tools:ignore="ProtectedPermissions" />
     <uses-permission android:name="com.android.launcher.permission.INSTALL_SHORTCUT" />
     <uses-permission-sdk-23 android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission-sdk-23 android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -27,18 +30,6 @@
             android:label="Playground"
             android:taskAffinity="com.expedia.bookings.activity.PlaygroundActivity"
             android:theme="@style/V2.Theme.Cars" />
-
-        <activity
-            android:name="com.expedia.ui.RailActivity"
-            android:exported="true"
-            android:label="Rail"
-            android:screenOrientation="portrait"
-            android:taskAffinity="com.expedia.ui.RailActivity"
-            android:theme="@style/Theme.Rail">
-            <meta-data
-                android:name="debug"
-                android:value="true" />
-        </activity>
 
         <activity android:name="com.expedia.bookings.activity.DebugTextStylesActivity"
             android:label="Core Text Styles"

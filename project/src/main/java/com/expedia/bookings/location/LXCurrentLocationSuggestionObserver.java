@@ -46,10 +46,9 @@ public class LXCurrentLocationSuggestionObserver implements Observer<SuggestionV
 	@Override
 	public void onNext(SuggestionV4 suggestion) {
 		if (currentLocationSearchParams != null) {
-			Events.post(new Events.LXNewSearchParamsAvailable(suggestion.regionNames.fullName, suggestion.hierarchyInfo.airport.airportCode,
+			Events.post(new Events.LXNewSearchParamsAvailable(suggestion.regionNames.fullName,
 				currentLocationSearchParams.getActivityStartDate(),
-				currentLocationSearchParams.getActivityEndDate(),
-				currentLocationSearchParams.getSearchType()));
+				currentLocationSearchParams.getActivityEndDate()));
 			currentLocationSearchParams = null;
 		}
 	}

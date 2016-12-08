@@ -37,6 +37,7 @@ import static android.support.test.espresso.intent.Intents.intending;
 import static android.support.test.espresso.intent.matcher.IntentMatchers.hasComponent;
 import static android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static android.support.test.espresso.matcher.ViewMatchers.isEnabled;
 import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -105,8 +106,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 		assertInsuranceTerms();
 		PackageScreen.toggleInsurance();
 		assertInsuranceIsAdded();
+		assertInsuranceToggleIsEnabled();
 		PackageScreen.toggleInsurance();
 		assertInsuranceIsRemoved();
+		assertInsuranceToggleIsEnabled();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		PackageScreen.enterFirstName("Eidur");
@@ -151,6 +154,13 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 		CheckoutViewModel.signInOnCheckout();
 		EspressoUtils.waitForViewNotYetInLayoutToDisplay(withId(R.id.login_widget), 10, TimeUnit.SECONDS);
+
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+		Espresso.closeSoftKeyboard();
+		PackageScreen.clickTravelerAdvanced();
+		onView(withId(R.id.traveler_number)).check(matches(withText("TN123456789")));
+		onView(withId(R.id.redress_number)).check(matches(withText("1234567")));
+		PackageScreen.clickTravelerDone();
 
 		CheckoutViewModel.clickPaymentInfo();
 		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
@@ -367,6 +377,10 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	private void assertInsuranceIsVisible() {
 		onView(withId(R.id.insurance_widget)).check(matches(isDisplayed()));
+	}
+
+	private void assertInsuranceToggleIsEnabled() {
+		onView(withId(R.id.insurance_switch)).check(matches(isEnabled()));
 	}
 
 	private void assertInsuranceIsRemoved() {

@@ -14,12 +14,14 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.enums.TravelerCheckoutStatus;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FlightTravelerEntryWidget;
-import com.expedia.vm.traveler.FlightTravelerViewModel;
+import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel;
+import rx.subjects.BehaviorSubject;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -40,7 +42,7 @@ import static org.hamcrest.core.Is.is;
 @RunWith(AndroidJUnit4.class)
 public class FlightTravelerEntryWidgetTest {
 	private FlightTravelerEntryWidget entryWidget;
-	private FlightTravelerViewModel testVM;
+	private FlightTravelerEntryWidgetViewModel testVM;
 
 	protected final String testEmptyPassport = "Passport: Country";
 	private Context context = InstrumentationRegistry.getTargetContext();
@@ -61,7 +63,11 @@ public class FlightTravelerEntryWidgetTest {
 	@Test
 	public void testPassportCountryIsShowing() throws Throwable {
 		Db.getTravelers().add(new Traveler());
-		testVM = new FlightTravelerViewModel(context, 0, true);
+		BehaviorSubject<Boolean> showPassportCountryObservable = BehaviorSubject.create();
+		showPassportCountryObservable.onNext(true);
+
+		testVM = new FlightTravelerEntryWidgetViewModel(context, 0, showPassportCountryObservable,
+			TravelerCheckoutStatus.CLEAN);
 		setViewModel(testVM);
 
 		PackageScreen.clickTravelerAdvanced();
@@ -74,7 +80,11 @@ public class FlightTravelerEntryWidgetTest {
 	@Test
 	public void testFocusValidation() throws Throwable {
 		Db.getTravelers().add(new Traveler());
-		testVM = new FlightTravelerViewModel(context, 0, true);
+		BehaviorSubject<Boolean> showPassportCountryObservable = BehaviorSubject.create();
+		showPassportCountryObservable.onNext(true);
+
+		testVM = new FlightTravelerEntryWidgetViewModel(context, 0, showPassportCountryObservable,
+			TravelerCheckoutStatus.CLEAN);
 		setViewModel(testVM);
 
 		onView(withId(R.id.first_name_input)).perform(click());
@@ -91,7 +101,12 @@ public class FlightTravelerEntryWidgetTest {
 	@Test
 	public void testPassportCountryIsNotShowing() throws Throwable {
 		Db.getTravelers().add(new Traveler());
-		testVM = new FlightTravelerViewModel(context, 0, false);
+		BehaviorSubject<Boolean> showPassportCountryObservable = BehaviorSubject.create();
+		showPassportCountryObservable.onNext(false);
+
+		testVM = new FlightTravelerEntryWidgetViewModel(context, 0, showPassportCountryObservable,
+			TravelerCheckoutStatus.CLEAN);
+
 		setViewModel(testVM);
 
 		PackageScreen.clickTravelerAdvanced();
@@ -105,7 +120,12 @@ public class FlightTravelerEntryWidgetTest {
 		String testPointOfSalePassport = "Passport: " + pointOfSaleCountry;
 
 		Db.getTravelers().add(new Traveler());
-		testVM = new FlightTravelerViewModel(context, 0, true);
+		BehaviorSubject<Boolean> showPassportCountryObservable = BehaviorSubject.create();
+		showPassportCountryObservable.onNext(true);
+
+		testVM = new FlightTravelerEntryWidgetViewModel(context, 0, showPassportCountryObservable,
+			TravelerCheckoutStatus.CLEAN);
+
 		setViewModel(testVM);
 
 		onView(withId(R.id.passport_country_spinner)).check(matches(allOf(hasDescendant(withText(testEmptyPassport)), isDisplayed())));
@@ -115,7 +135,7 @@ public class FlightTravelerEntryWidgetTest {
 		onView(withId(R.id.passport_country_spinner)).check(matches(hasDescendant(withText(testPointOfSalePassport))));
 	}
 
-	private void setViewModel(final FlightTravelerViewModel viewModel) throws Throwable {
+	private void setViewModel(final FlightTravelerEntryWidgetViewModel viewModel) throws Throwable {
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {

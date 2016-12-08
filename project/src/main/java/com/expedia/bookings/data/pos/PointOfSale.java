@@ -190,6 +190,8 @@ public class PointOfSale {
 
 	private static boolean sIsTablet;
 
+	private boolean mShouldShowKnownTravelerNumber;
+
 	private boolean mRequiresHotelPostalCode;
 
 	private boolean isPwPEnabledForHotels;
@@ -789,7 +791,7 @@ public class PointOfSale {
 	}
 
 	public boolean shouldShowMarketingOptIn() {
-		return mMarketingOptIn != MarketingOptIn.DO_NOT_SHOW && mMarketingOptIn != MarketingOptIn.DO_NOT_SHOW_AUTO_ENROLL;
+		return true;
 	}
 
 	public boolean shouldEnableMarketingOptIn() {
@@ -854,6 +856,10 @@ public class PointOfSale {
 
 	public boolean shouldShowBundleTotalWhenResortFees() {
 		return showBundleTotalWhenResortFees;
+	}
+
+	public Boolean shouldShowKnownTravelerNumber() {
+		return mShouldShowKnownTravelerNumber;
 	}
 
 	/**
@@ -1279,6 +1285,7 @@ public class PointOfSale {
 		pos.showPackageFreeUnrealDeal = data.optBoolean("showPackageFreeUnrealDeal", true);
 		pos.showResortFeesInHotelLocalCurrency = data.optBoolean("showResortFeesInHotelLocalCurrency", false);
 		pos.showBundleTotalWhenResortFees = data.optBoolean("showBundleTotalWhenResortFees", false);
+		pos.mShouldShowKnownTravelerNumber = data.optBoolean("shouldShowKnownTravelerNumber", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");

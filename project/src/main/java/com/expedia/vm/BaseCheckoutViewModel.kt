@@ -59,7 +59,6 @@ abstract class BaseCheckoutViewModel(val context: Context) {
     val bookingSuccessResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
 
     var slideAllTheWayObservable = PublishSubject.create<Unit>()
-    var checkoutTranslationObserver = PublishSubject.create<Float>()
     val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
     
     // Outputs

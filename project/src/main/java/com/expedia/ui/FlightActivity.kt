@@ -42,7 +42,7 @@ class FlightActivity : TrackingAbstractAppCompatActivity() {
     private fun handleDeeplink() {
         val searchParams = FlightsV2DataUtil.getFlightSearchParamsFromJSON(intent.getStringExtra(Codes.SEARCH_PARAMS))
         if (searchParams != null) {
-            flightsPresenter.searchViewModel.deeplinkFlightSearchParamsObserver.onNext(searchParams)
+            flightsPresenter.searchViewModel.performDeepLinkFlightSearch(searchParams)
         } else {
             flightsPresenter.setDefaultTransition(Screen.SEARCH)
         }

@@ -10,8 +10,8 @@ import com.expedia.bookings.utils.validation.TravelerValidator
 import rx.subjects.BehaviorSubject
 import javax.inject.Inject
 
-open class CheckoutTravelerViewModel(val context: Context, val lob: LineOfBusiness,
-                                     showMainTravelerMinAgeMessaging: Boolean) : BaseCheckoutTravelerViewModel() {
+open class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
+                              showMainTravelerMinAgeMessaging: Boolean) : AbstractTravelersViewModel() {
 
     lateinit var travelerValidator: TravelerValidator
         @Inject set
@@ -36,7 +36,7 @@ open class CheckoutTravelerViewModel(val context: Context, val lob: LineOfBusine
     fun refresh() {
         if (areTravelersEmpty()) {
             emptyTravelersSubject.onNext(Unit)
-            travelerCompletenessStatus.onNext(TravelerCheckoutStatus.CLEAN)
+            travelersCompletenessStatus.onNext(TravelerCheckoutStatus.CLEAN)
         } else {
             updateCompletionStatus()
         }

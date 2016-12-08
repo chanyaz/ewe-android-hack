@@ -309,6 +309,8 @@
     <string name="Fly_from_dot_dot_dot">出發地…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">選擇日期</string>
+    <!-- Select Start date - used for the LX Calendar. -->
+    <string name="select_start_date">選擇開始日期</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">今晚的飯店</string>
     <!-- Missing flight info message -->
@@ -1014,7 +1016,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">正在建立行程…</string>
+    <string name="spinner_text_create_trip">正在建立行程…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1066,6 +1068,8 @@
     <string name="error_select_rail_card_details">請選擇火車卡詳細資料。</string>
     <!-- Error message when rail cards selected is greater than no. of travelers -->
     <string name="error_rail_cards_greater_than_number_travelers">火車卡數目不得超過旅客人數。</string>
+    <!-- Error message indicating we were unable to fetch rail cards at this time -->
+    <string name="no_rail_cards_error_message">我們目前無法載入火車卡。請稍後再試一次。</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">出發地</string>
@@ -1253,6 +1257,8 @@
     <string name="arrive_tz_TEMPLATE">抵達 (%1$s)</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">班機確認編號</string>
+    <!-- Flight Itinerary airline support number -->
+    <string name="flight_itin_airline_support_number_label">航空公司客戶支援</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s確認編號</string>
     <!-- Car rental agency name and location in car itin detail -->
@@ -1732,9 +1738,11 @@
 
     <!-- Flights v2 -->
     <!-- Flights Search view button label for round-trip searches -->
-    <string name="flights_round_trip_label">來回行程</string>
+    <string name="flights_round_trip_label">來回</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">單程</string>
+    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
+    <string name="flights_tab_selection_accouncement_TEMPLATE">正在顯示{whichway}班機搜尋畫面</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">去程</string>
     <!-- Flights Line of Business title -->
@@ -1772,7 +1780,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">錯誤</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">很抱歉！請再試一次！</string>
+    <string name="error_try_again_warning">很抱歉！請再試一次！</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">重試</string>
 
@@ -1895,6 +1903,8 @@
     <string name="calendar_tooltip_bottom_drag_to_modify">拖曳以修改結束日期</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
+    <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate}至 {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (單程)</string>
     <!-- Calendar instructions rail start date selected -->
@@ -1909,6 +1919,8 @@
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}，{guests}</string>
 
     <string name="hotel_free_cancellation_TEMPLATE">{date} 前免費取消</string>
+    <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
+    <string name="hotel_free_cancellation_before_TEMPLATE">{date} 前可免費取消</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2043,6 +2055,8 @@
     <string name="your_trip_to_TEMPLATE">前往 %1$s 的行程</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">含稅金和其他費用</string>
+    <!-- Payment and ticket delivery fees may also apply -->
+    <string name="payment_and_ticket_delivery_fees_may_also_apply">同時可能有付款手續費及車票寄送費</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">含機 + 酒</string>
     <!-- Includes taxes (but not necessarily fees) -->
@@ -2392,6 +2406,12 @@
     <string name="passport_country_origin">護照發行國家/地區</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">申訴號碼 (若有的話)</string>
+    <!-- traveler number hint -->
+    <string name="known_traveler_number">已知旅客編號</string>
+    <!-- traveler number info msg -->
+    <string name="known_traveler_msg">這是政府發出的編號，用於 TSA PreCheck</string>
+    <!-- redress number info msg -->
+    <string name="redress_number_msg">申訴編號是 TSA 發出的特別編號，它有助於 TSA 避免誤認旅客為被監控人士，並且可以確認您的身分。</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">正在將旅客資訊儲存到您的帳戶中…</string>
     <!-- Seating Preference -->
@@ -3411,6 +3431,15 @@
         <item quantity="other">天</item>
     </plurals>
 
+    <!-- A number of railcards. Capitalized -->
+    <plurals name="number_of_railcards">
+        <item quantity="zero">%d 張火車卡</item>
+        <item quantity="one">%d 張火車卡</item>
+        <item quantity="two">%d 張火車卡</item>
+        <item quantity="many">%d 張火車卡</item>
+        <item quantity="other">%d 張火車卡</item>
+    </plurals>
+
     <!-- Distance strings -->
     <!-- Abbreviated miles (used in distance_template) -->
     <string name="unit_miles">英哩</string>
@@ -4025,12 +4054,10 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">完成此預訂即表示我同意並接受%1$s、%2$s和%3$s。</string>
-    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">我已經閱讀並同意{terms_of_use}和{privacy_policy}。加入 {brand_reward_name}，即表示我接受所有{terms_and_conditions}。</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">我已經閱讀並同意{terms_of_use}和{privacy_policy}。</string>
-    <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">加入 {brand_reward_name_link}，賺取免費旅遊獎勵。加入 {brand_reward_name}，即表示我接受所有{terms_and_conditions}。</string>
+    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">立即加入 {brand_reward_name}。加入 {brand_reward_name}，即表示我接受所有{terms_and_conditions}。</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">請選擇每位兒童的年齡</string>
@@ -4250,6 +4277,12 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">營運公司：{operatingairlinename}</string>
 
+    <!-- Accessibility announcement when showing searching/loading screen -->
+    <string name="accessibility_announcement_searching_flights">正在搜尋班機。請稍候。</string>
+    <!-- Accessibility announcement when search has completed and we're showing inbound flights results. Example: Showing inbound flights to San Francisco, CA -->
+    <string name="accessibility_announcement_showing_inbound_flights_TEMPLATE">正在顯示回到{city}的班機</string>
+    <!-- Accessibility announcement when search has completed and we're showing outbound flights results. Example: Showing outbound flights to Denver, CO -->
+    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">正在顯示前往{city}的班機</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">選擇前往%1$s的班機</string>
     <!-- Flight to template -->
@@ -4279,13 +4312,8 @@
     <!-- Accessibility Label for hotel on checkout overview of Packages -->
     <plurals name="hotel_checkout_overview_TEMPLATE_cont_desc">
         <item quantity="one">{city}飯店 - 1 間客房，{number} 晚</item>
-        <item quantity="other">{city}飯店 - 1 間客房，{number} 晚</item>
+        <item quantity="other">{city}飯店，1 間客房，{number} 晚</item>
     </plurals>
-
-    <!-- Text indicating that the user can drag this button to view their trip -->
-    <string name="trip_overview">查看詳細行程</string>
-    <!-- Content description to View Trip Details view -->
-    <string name="trip_overview_cont_desc">查看行程資料按鈕</string>
 
     <!-- Slide to book -->
     <string name="slide_to_book_text">滑動以預訂</string>
@@ -4384,12 +4412,18 @@
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
-    <string name="rail_journey_details_and_fare_options">行程詳細資訊 + 票價選項</string>
+    <string name="rail_journey_details_and_fare_options">詳情及票價</string>
 
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">您有 {formatted_duration} 可以從{origin_station_name}前往{destination_station_name}</string>
 
     <string name="rail_overtaken_message">會被超越的火車：此班車比其他火車慢。</string>
+
+    <!-- Messaging indicating to the user of their previously selected choice. -->
+    <string name="rail_open_return_selected">您選擇了開放日期回程票</string>
+
+    <!-- When the user selects an open return they can choose any inbound train journey -->
+    <string name="rail_open_return_description">您不一定要搭乘所選的列車，但請選擇您的偏好的列車</string>
 
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">從{origin_station_name}搭乘{travel_mode}前往{destination_station_name}</string>
@@ -4408,6 +4442,9 @@
 
     <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">回程 - {date}</string>
+
+    <!-- rail checkout overview label indicating the user selected an open return journey.-->
+    <string name="rail_open_return_messaging">可在出發後 1 個月內搭乘任何適用的列車</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
     <string name="rail_price_breakdown_journey">行程</string>
@@ -4455,7 +4492,7 @@
     <string name="rail_credit_card_fee">信用卡手續費</string>
 
     <!-- Credit card fee disclaimer on payment screen -->
-    <string name="rail_card_fee_disclaimer">使用某些信用卡付款時，火車公司會額外收取不得退款的手續費。為避免此費用，您可以使用金融卡。</string>
+    <string name="rail_card_fee_disclaimer">以特定信用卡類型付款時，我們的火車票預訂服務供應商會收取不得退款的手續費。為避免此費用，您可以使用金融卡。.</string>
 
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">各種信用卡類型的手續費</string>
@@ -4482,6 +4519,10 @@
 
     <string name="mail_delivery_details">將車票郵寄到您所提供的地址。</string>
     <string name="tdo_fees_non_refundable">車票運費不得退款。</string>
+
+    <string name="rail_error_title">出現錯誤</string>
+    <string name="rail_unknown_error_message">請變更搜尋條件然後再試一次。</string>
+    <string name="rail_cko_retry_error_message">請檢查您的帳單資訊並再試一次，或者變更您的搜尋。</string>
 
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
@@ -4769,6 +4810,7 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">核取方塊。未勾選。</string>
     <string name="base_search_dates_cont_desc">選擇日期。按鈕。開啟對話方塊。</string>
+    <string name="lx_search_start_date_cont_desc">選擇開始日期。按鈕。開啟對話方塊。</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>

@@ -29,6 +29,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.activity_hotel,
 		R.layout.widget_hotel_detail,
 		R.string.hotel_results_map_view_cont_desc,
+		R.string.flights_tab_selection_accouncement_TEMPLATE,
 		R.string.hotel_price_cont_desc_TEMPLATE,
 		R.string.hotel_price_strike_through_cont_desc_TEMPLATE,
 		R.string.hotel_price_discount_percent_cont_desc_TEMPLATE,
@@ -154,6 +155,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.filter_amenity_row,
 		R.string.show_less,
 		R.string.show_more,
+		R.string.accessibility_announcement_please_review_and_resubmit,
+		R.plurals.number_of_errors_TEMPLATE,
 		R.string.hotelsv2_slide_reserve,
 		R.string.hotelsv2_slide_purchase,
 		R.layout.slide_to_purchase_widget,
@@ -263,6 +266,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_one_way,
 		R.string.rail_return,
 		R.string.rail_checkout_inbound_TEMPLATE,
+		R.string.no_rail_cards_error_message,
 		R.layout.accept_terms_layout,
 		R.layout.widget_rail_details_fare_option,
 		R.layout.widget_rail_calendar,
@@ -575,6 +579,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.color.new_launch_packages_lob_color,
 		R.color.new_launch_lob_divider_color,
 		R.color.new_launch_lob_disabled_color,
+		R.string.known_traveler_msg,
+		R.string.redress_number_msg,
 		R.dimen.new_launch_lob_divider_stroke_width,
 		R.drawable.ic_lob_cars,
 		R.string.car_search_date_range_cont_desc_TEMPLATE,
@@ -789,8 +795,10 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.stay_summary_TEMPLATE,
 		R.string.payment_and_ticket_delivery_fees_may_also_apply,
 		R.string.rail_unknown_error_message,
-		R.string.rail_cko_invalid_input_error_message,
+		R.string.rail_cko_retry_error_message,
 		R.string.rail_error_title,
-		R.layout.itin_gallery
+		R.layout.itin_gallery,
+		R.string.select_start_date,
+		R.string.lx_search_start_date_cont_desc
 	};
 }

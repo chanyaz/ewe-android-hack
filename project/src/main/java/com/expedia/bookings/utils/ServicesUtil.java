@@ -2,8 +2,11 @@ package com.expedia.bookings.utils;
 
 import java.util.Locale;
 
+import android.Manifest;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.v4.content.ContextCompat;
 
 import com.expedia.account.AccountService;
 import com.expedia.bookings.BuildConfig;
@@ -11,6 +14,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.mobiata.android.LocationServices;
 import com.mobiata.android.util.SettingUtils;
 
 public class ServicesUtil {
@@ -123,6 +127,27 @@ public class ServicesUtil {
 			PointOfSale.getPointOfSale().getDualLanguageId(),
 			ServicesUtil.generateClientId(context),
 			generateUserAgentString(context));
+	}
+
+	public static String generateXDevLocationString(Context context) {
+		int permissionCheck = ContextCompat.checkSelfPermission(context,
+			Manifest.permission.ACCESS_FINE_LOCATION);
+
+		if (permissionCheck == PackageManager.PERMISSION_GRANTED) {
+			// User location
+			android.location.Location bestLastLocation = LocationServices.getLastBestLocation(context, 0);
+			if (bestLastLocation != null) {
+				return distortCoordinates(bestLastLocation.getLatitude()) + "," + distortCoordinates(bestLastLocation.getLongitude());
+			}
+		}
+		return null;
+	}
+
+	//rounds the coordinates to a certain number of decimal places(0.1)-
+	//  37.2994921 -> 37.3
+	// -122.4995990 -> -122.5
+	public static double distortCoordinates(double coordinates) {
+		return Math.floor(coordinates * 10 + 0.5) / 10;
 	}
 
 	public static String getRailApiKey(Context context) {

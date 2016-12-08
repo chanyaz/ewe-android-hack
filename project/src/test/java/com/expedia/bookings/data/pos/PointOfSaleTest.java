@@ -79,4 +79,22 @@ public class PointOfSaleTest {
 		pos = PointOfSale.getPointOfSale();
 		assertEquals("1-877-222-6503", pos.getSupportPhoneNumberBestForUser(mockUser));
 	}
+
+	@Test
+	public void checkSupportPhoneNumbersBlue() {
+		Mockito.when(mockTraveler.getIsLoyaltyMembershipActive()).thenReturn(true);
+		Mockito.when(mockTraveler.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.BASE);
+
+		// Phone
+		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json", false);
+		PointOfSale pos = PointOfSale.getPointOfSale();
+		assertEquals("1-877-222-6503", pos.getDefaultSupportPhoneNumber());
+		assertEquals("1-877-222-6503", pos.getSupportPhoneNumberBestForUser(mockUser));
+
+		// Tablet
+		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_test_config.json", true);
+		pos = PointOfSale.getPointOfSale();
+		assertEquals("1-877-222-6503", pos.getDefaultSupportPhoneNumber());
+		assertEquals("1-877-222-6503", pos.getSupportPhoneNumberBestForUser(mockUser));
+	}
 }

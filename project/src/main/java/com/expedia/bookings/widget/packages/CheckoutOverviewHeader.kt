@@ -18,6 +18,7 @@ import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeText
 import com.expedia.vm.BaseCheckoutOverviewViewModel
 import com.squareup.picasso.Picasso
@@ -36,6 +37,7 @@ class CheckoutOverviewHeader(context: Context, attrs: AttributeSet?) : LinearLay
     var viewmodel: BaseCheckoutOverviewViewModel by notNullAndObservable { vm ->
         vm.cityTitle.subscribeText(destinationText)
         vm.datesTitle.subscribeText(checkInOutDates)
+        vm.datesTitleContDesc.subscribeContentDescription(checkInOutDates)
         vm.travelersTitle.subscribeText(travelers)
         vm.url.subscribe { urls ->
             PicassoHelper.Builder(context)

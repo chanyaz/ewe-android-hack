@@ -69,10 +69,12 @@
     ],
    "loyaltyMembershipNumber":"308127915",
    "isSmokingPreferred":false,
-   "tsaDetails":{
-      "gender":"Male",
-      "dateOfBirth":"1985-11-01"
-   },
+  "tsaDetails": {
+    "gender": "Male",
+    "dateOfBirth": "1985-11-01",
+    "knownTravelerNumber": "TN123456789",
+    "redressNumber": "1234567"
+  },
    "seatPreference":"ANY",
    "specialAssistance":"NONE",
    "associatedTravelers":[

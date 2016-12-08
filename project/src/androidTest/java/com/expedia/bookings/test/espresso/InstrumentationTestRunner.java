@@ -7,6 +7,7 @@ import android.os.PowerManager;
 import android.support.test.runner.AndroidJUnitRunner;
 
 import com.expedia.bookings.activity.ExpediaBookingApp;
+import com.expedia.bookings.test.BuildConfig;
 
 import static android.content.Context.KEYGUARD_SERVICE;
 import static android.content.Context.POWER_SERVICE;
@@ -18,7 +19,9 @@ public class InstrumentationTestRunner extends AndroidJUnitRunner {
 
 	@Override
 	public void onCreate(Bundle args) {
-		ExpediaBookingApp.setIsInstrumentation(true);
+		if (!BuildConfig.IS_SCREENSHOT_BUILD) {
+			ExpediaBookingApp.setIsInstrumentation(true);
+		}
 		super.onCreate(args);
 	}
 

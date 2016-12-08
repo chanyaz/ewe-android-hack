@@ -45,7 +45,7 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
 
         PackageScreen.clickPaymentInfo()
         waitForPaymentInfoCardView()
-        assertToolbarMenuButtonSaysNext()
+        assertToolbarMenuButtonSaysDone()
 
         Espresso.closeSoftKeyboard()
         Common.pressBack()
@@ -68,7 +68,7 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
         PackageScreen.clickPaymentInfo()
         waitForPaymentInfoCardView()
 
-        assertToolbarMenuButtonSaysNext()
+        assertToolbarMenuButtonSaysDone()
         enterPaymentInfo()
 
         assertToolbarMenuButtonSaysDone()
@@ -103,7 +103,7 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
 
         PackageScreen.clickPaymentInfo()
         waitForPaymentInfoCardView()
-        assertToolbarMenuButtonSaysNext()
+        assertToolbarMenuButtonSaysDone()
 
         enterPaymentInfo()
         assertToolbarMenuButtonSaysDone()
@@ -141,7 +141,7 @@ class FlightCheckoutToolbarTest : NewFlightTestCase() {
 
         PackageScreen.clickPaymentInfo()
         waitForPaymentInfoCardView()
-        assertToolbarMenuButtonSaysNext()
+        assertToolbarMenuButtonSaysDone()
 
         enterPaymentInfo()
         assertToolbarMenuButtonSaysDone()

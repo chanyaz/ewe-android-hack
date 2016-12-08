@@ -313,7 +313,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	private static final String[] rewardTierAPINames = new String[] { "BLUE", "SILVER", "GOLD" };
 	private static final String[] rewardTierSupportPhoneNumberConfigNames = new String[] {
-			null, "supportPhoneNumberSilver", "supportPhoneNumberGold"
+		"supportPhoneNumber", "supportPhoneNumberSilver", "supportPhoneNumberGold"
 	};
 	private static final String[] rewardTierSupportEmailConfigNames = new String[] {
 			null, "supportEmailSilver", "supportEmailGold"
@@ -426,7 +426,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean showUserRewardsEnrollmentCheck() {
-		return true;
+		return PointOfSale.getPointOfSale().shouldShowRewards();
 	}
 
 	@Override

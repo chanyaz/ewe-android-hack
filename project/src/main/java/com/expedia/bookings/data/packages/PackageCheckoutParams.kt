@@ -68,6 +68,9 @@ class PackageCheckoutParams(billingInfo: BillingInfo, travelers: ArrayList<Trave
             if (traveler.redressNumber?.isNotEmpty() ?: false) {
                 params.put(key + "TSARedressNumber", traveler.redressNumber)
             }
+            if (traveler.knownTravelerNumber?.isNotEmpty() ?: false) {
+                params.put(key + "knownTravelerNumber", traveler.knownTravelerNumber)
+            }
         }
 
         //TRIP
