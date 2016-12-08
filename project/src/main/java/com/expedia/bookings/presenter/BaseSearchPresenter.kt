@@ -370,9 +370,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 tabs.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 0f)
             }
 
-            if (firstLaunch) {
-                endTransition(forward)
-            }
+            endTransition(forward)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {
