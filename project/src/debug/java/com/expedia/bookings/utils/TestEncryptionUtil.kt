@@ -20,7 +20,7 @@ import java.security.spec.RSAKeyGenParameterSpec
 import javax.crypto.Cipher
 
 
-class TestEncryptionUtil(context: Context, secretKeyFileOld: File, secretKeyFile: File, alias: String, useRSA: Boolean) : EncryptionUtil(context, secretKeyFileOld, secretKeyFile, alias) {
+class TestEncryptionUtil(context: Context, secretKeyFile: File, alias: String, useRSA: Boolean) : EncryptionUtil(context, secretKeyFile, alias) {
     private val password = "password".toCharArray()
     private val filename = "keyStoreName"
 
@@ -46,11 +46,11 @@ class TestEncryptionUtil(context: Context, secretKeyFileOld: File, secretKeyFile
         if (useRSA) {
             key = super.AES_KEY
         } else {
-            if (!getKeyFile().exists()) {
+            if (!secretKeyFile.exists()) {
                 key = generateAESKey(AES_KEY_LENGTH).encoded
-                writeBytes(key, getKeyFile())
+                writeBytes(key, secretKeyFile)
             } else {
-                key = readBytes(getKeyFile())
+                key = readBytes(secretKeyFile)
             }
         }
         key

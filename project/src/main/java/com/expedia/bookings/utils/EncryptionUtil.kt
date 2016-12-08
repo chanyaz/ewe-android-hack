@@ -5,10 +5,9 @@ import android.os.Build
 import android.security.KeyPairGeneratorSpec
 import android.support.annotation.VisibleForTesting
 import android.util.Base64
-import java.io.ByteArrayOutputStream
+import okio.Okio
+import java.io.ByteArrayInputStream
 import java.io.File
-import java.io.FileInputStream
-import java.io.FileOutputStream
 import java.math.BigInteger
 import java.security.KeyPair
 import java.security.KeyPairGenerator
@@ -18,15 +17,13 @@ import java.security.PublicKey
 import java.security.SecureRandom
 import java.util.Calendar
 import javax.crypto.Cipher
-import javax.crypto.CipherInputStream
-import javax.crypto.CipherOutputStream
 import javax.crypto.KeyGenerator
 import javax.crypto.SecretKey
 import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import javax.security.auth.x500.X500Principal
 
-open class EncryptionUtil(private val context: Context, private val secretKeyFileOld: File, private val secretKeyFile: File, private val alias: String) {
+open class EncryptionUtil(private val context: Context, private val secretKeyFile: File, private val alias: String) {
 
     protected val TRANSFORMATION_AES = "AES/GCM/NoPadding"
     protected val RSA_ALGORITHM = "RSA"
@@ -46,35 +43,34 @@ open class EncryptionUtil(private val context: Context, private val secretKeyFil
         keystore
     }
 
-    private fun getTransformationRSA(isAPI23Higher: Boolean): String
+    private fun getTransformationRSA(apiLevel: Int): String
     {
-        if (isAPI23Higher) {
-            return "RSA/ECB/OAEPWithSHA-512AndMGF1Padding"
-        } else {
-            return "RSA/ECB/PKCS1Padding"
-        }
-    }
-
-    protected fun getKeyFile(): File
-    {
-        if (secretKeyFileOld.exists() || Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
-            return secretKeyFileOld
-        } else {
-            return secretKeyFile
+        when (apiLevel) {
+            in Build.VERSION_CODES.BASE..Build.VERSION_CODES.LOLLIPOP_MR1 -> return "RSA/ECB/PKCS1Padding"
+            else -> return "RSA/ECB/OAEPWithSHA-512AndMGF1Padding"
         }
     }
 
     protected open val AES_KEY: ByteArray by lazy {
         val key: ByteArray
-        if (!keyStore.containsAlias(alias) || !getKeyFile().exists()) {
+        if (!keyStore.containsAlias(alias) || !secretKeyFile.exists()) {
             key = generateAESKey(AES_KEY_LENGTH).encoded
-            val algorithm = getTransformationRSA(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
-            encryptBytesIntoFileRSA(key, getKeyFile(), algorithm, RSA_KEY.public)
+            val algorithm = getTransformationRSA(Build.VERSION.SDK_INT)
+            encryptBytesIntoFileRSA(key, secretKeyFile, algorithm, RSA_KEY.public)
         } else {
-            val useAPI23Algorithm = getKeyFile() == secretKeyFile
-            val algorithm = getTransformationRSA(useAPI23Algorithm)
-            key = decryptFileIntoBytesRSA(getKeyFile(), algorithm, RSA_KEY.private)
-            performRSAAlgorithmUpgrade(useAPI23Algorithm)
+            val source = Okio.buffer(Okio.source(secretKeyFile))
+            val encryptedText = source.readUtf8()
+            val fields = encryptedText.split(DELIMITER)
+
+            if (fields.size != 2) {
+                throw RuntimeException("RSA Format Incorrect")
+            }
+
+            val binary = Base64.decode(fields[0], Base64.DEFAULT)
+            val algorithm = String(Base64.decode(fields[1], Base64.DEFAULT))
+            key = decryptFileIntoBytesRSA(binary, algorithm, RSA_KEY.private)
+
+            performRSAAlgorithmUpgrade(algorithm)
         }
         key
     }
@@ -134,31 +130,28 @@ open class EncryptionUtil(private val context: Context, private val secretKeyFil
     private fun encryptBytesIntoFileRSA(data: ByteArray, file: File, algorithm: String, publicKey: PublicKey) {
         file.parentFile.mkdirs()
         file.createNewFile()
-        val input = Cipher.getInstance(algorithm)
-        input.init(Cipher.ENCRYPT_MODE, publicKey)
+        val cipher = Cipher.getInstance(algorithm)
+        cipher.init(Cipher.ENCRYPT_MODE, publicKey)
 
-        val outputStream = FileOutputStream(file)
-        val cipherOutputStream = CipherOutputStream(outputStream, input)
-        cipherOutputStream.write(data)
-        cipherOutputStream.close()
-        outputStream.close()
+        val plainText = cipher.doFinal(data)
+        val base64Text = Base64.encodeToString(plainText, Base64.DEFAULT)
+        val base64algorithm = Base64.encodeToString(algorithm.toByteArray(), Base64.DEFAULT)
+        val finalString = "$base64Text$DELIMITER$base64algorithm"
+
+        val inputStream = ByteArrayInputStream(finalString.toByteArray())
+        val from = Okio.source(inputStream)
+        val to = Okio.buffer(Okio.sink(file))
+        to.writeAll(from)
+        to.close()
     }
 
     @Throws(Exception::class)
-    private fun decryptFileIntoBytesRSA(secretKeyFile: File, algorithm: String, privateKey: PrivateKey): ByteArray {
+    private fun decryptFileIntoBytesRSA(byteArray: ByteArray, algorithm: String, privateKey: PrivateKey): ByteArray {
         val cipher = Cipher.getInstance(algorithm)
-
         cipher.init(Cipher.DECRYPT_MODE, privateKey)
+        val decrypted = cipher.doFinal(byteArray)
 
-        val os = ByteArrayOutputStream()
-        val inputStream = FileInputStream(secretKeyFile)
-        val cipherInputStream = CipherInputStream(inputStream, cipher)
-
-        var byte: Int = 0
-        while ({ byte = cipherInputStream.read(); byte }() >= 0) {
-            os.write(byte)
-        }
-        return os.toByteArray()
+        return decrypted
     }
 
     @VisibleForTesting
@@ -208,15 +201,15 @@ open class EncryptionUtil(private val context: Context, private val secretKeyFil
     }
 
     fun clear() {
-        getKeyFile().delete()
+        secretKeyFile.delete()
         keyStore.deleteEntry(alias)
     }
 
-    private fun performRSAAlgorithmUpgrade(useAPI23Algorithm: Boolean) {
-        if (!useAPI23Algorithm && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+    private fun performRSAAlgorithmUpgrade(algorithm: String) {
+        if (algorithm != getTransformationRSA(Build.VERSION.SDK_INT)) {
             clear()
-            val algorithm = getTransformationRSA(true)
-            encryptBytesIntoFileRSA(AES_KEY, getKeyFile(), algorithm, RSA_KEY.public)
+            val algorithm = getTransformationRSA(Build.VERSION.SDK_INT)
+            encryptBytesIntoFileRSA(AES_KEY, secretKeyFile, algorithm, RSA_KEY.public)
         }
     }
 }
