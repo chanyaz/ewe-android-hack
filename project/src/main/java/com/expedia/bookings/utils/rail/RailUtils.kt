@@ -53,7 +53,7 @@ object RailUtils {
     }
 
     @JvmStatic
-    fun formatTimeInterval(@NonNull context: Context, @NonNull start: DateTime, @NonNull end: DateTime): String {
+    fun formatTimeIntervalToDeviceFormat(@NonNull context: Context, @NonNull start: DateTime, @NonNull end: DateTime): String {
         val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
         val formattedStart = JodaUtils.format(start, dateFormat)
         val formattedEnd = JodaUtils.format(end, dateFormat)
@@ -63,9 +63,14 @@ object RailUtils {
                     .put("departuretime", formattedStart)
                     .put("arrivaltime", formattedEnd)
                     .put("elapseddays", elapsedDays).format().toString()
-        }
-        else {
+        } else {
             return context.getString(R.string.date_time_range_TEMPLATE, formattedStart, formattedEnd);
         }
+    }
+
+    @JvmStatic
+    fun formatTimeToDeviceFormat(@NonNull context: Context, @NonNull time: DateTime): String {
+        val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
+        return JodaUtils.format(time, dateFormat)
     }
 }

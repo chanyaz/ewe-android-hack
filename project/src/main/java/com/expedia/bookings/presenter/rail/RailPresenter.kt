@@ -250,7 +250,6 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     private fun initOutboundPresenter() {
         outboundPresenter.viewmodel = outboundResultsViewModel
-        outboundPresenter.setOnClickListener { transitionToDetails() }
         outboundPresenter.viewmodel.railResultsObservable.subscribe {
             outboundDetailsViewModel.railResultsObservable.onNext(it)
             inboundDetailsViewModel.railResultsObservable.onNext(it)

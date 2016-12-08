@@ -4075,7 +4075,6 @@
 
     <string name="lob_not_supported_error_message">Sorry, but {lob} booking is not yet available in your location.</string>
 
-
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(26-59 years old)</string>
 
@@ -4419,6 +4418,9 @@
     <!-- Legal message shown on search result screen for round trip search -->
     <string name="rail_search_legal_banner_round_trip">Prices are round trip for all passengers. Payment and ticket delivery fees may also apply.</string>
 
+    <!-- Accessible legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip_cont_desc">Prices are round trip for all passengers. Payment and ticket delivery fees may also apply. Button</string>
+
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
@@ -4541,11 +4543,20 @@
     <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
     <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
-    <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
-    <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
-    <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
+    <!--Rails content description for results card, e.g. Departs at 10:06am Arrives at 11:11am London Midlan Trip Duration 5h 43min, 2 changes -->
+    <string name="rail_result_card_cont_desc_TEMPLATE">Departs at {departuretime} Arrives at {arrivaltime} {trainoperator} Trip Duration {tripdurationandchanges}</string>
+    <!--Rails content description for results card Railcard applied portion -->
+    <string name="rail_result_card_railcard_applied_cont_desc">Railcard Applied</string>
+    <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
+   <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Fares from {price}</string>
+   <!-- Rail selected outbound content description on the outbound results -->
+   <string name="rail_selected_outbound_cont_desc">Selected outbound:</string>
 
-    <!-- New Hotel Search screen -->
+   <string name="pwp_points_conversion_unauthenticated_access">We\'re sorry but we experienced a server problem. Please try again.</string>
+   <string name="pwp_trip_service_error">We\'re sorry but we experienced a server problem. Please try again.</string>
+   <string name="pwp_unknown_error">An unknown error occurred. Please try again.</string>
+
+   <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Enter Destination</string>
     <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
     <string name="enter_destination_cont_desc">Enter Destination. Button</string>

@@ -28,6 +28,10 @@ class RailOutboundHeaderView(context: Context, attrs: AttributeSet?) : LinearLay
         vm.formattedStopsAndDurationObservable.subscribeText(durationTextView)
         vm.aggregatedOperatingCarrierSubject.subscribeText(operatorTextView)
 
+        vm.contentDescriptionObservable.subscribe { contentDescription ->
+            this.contentDescription = contentDescription
+        }
+
         this.viewModel = vm
     }
 }
