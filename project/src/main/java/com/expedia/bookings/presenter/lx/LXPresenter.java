@@ -1,7 +1,5 @@
 package com.expedia.bookings.presenter.lx;
 
-import javax.inject.Inject;
-
 import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,8 +8,9 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.animation.DecelerateInterpolator;
-
+import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.TransitionElement;
 import com.expedia.bookings.data.LXState;
@@ -23,6 +22,7 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.LXConfirmationWidget;
@@ -30,8 +30,7 @@ import com.expedia.bookings.widget.LoadingOverlayWidget;
 import com.expedia.vm.LXMapViewModel;
 import com.google.android.gms.maps.MapView;
 import com.squareup.otto.Subscribe;
-
-import butterknife.InjectView;
+import javax.inject.Inject;
 import rx.Observer;
 
 public class LXPresenter extends Presenter {
@@ -61,12 +60,24 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.confirmation)
 	LXConfirmationWidget confirmationWidget;
 
+
+	LXCheckoutPresenter checkoutPresenter;
+
+	LXOverviewPresenter overviewPresenter;
+
+	public boolean isUniversalCheckout() {
+		return FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_universal_checkout_on_lx);
+	}
+
 	private static class LXParamsOverlay {
 		// ignore
 	}
 
-	@InjectView(R.id.lx_checkout_presenter)
-	LXCheckoutPresenter checkoutPresenter;
+	@InjectView(R.id.overview_presenter)
+	ViewStub overviewPresenterViewStub;
+
+	@InjectView(R.id.lx_checkout_presenter_stub)
+	ViewStub checkoutPresenterViewStub;
 
 	@Inject
 	LXState lxState;
@@ -74,6 +85,12 @@ public class LXPresenter extends Presenter {
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
+		if (isUniversalCheckout()) {
+			overviewPresenter = (LXOverviewPresenter) overviewPresenterViewStub.inflate();
+		}
+		else {
+			checkoutPresenter = (LXCheckoutPresenter) checkoutPresenterViewStub.inflate();
+		}
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		searchParamsWidget.setSearchViewModel(new LXSearchViewModel(getContext()));
@@ -342,7 +359,12 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onOfferBooked(Events.LXOfferBooked event) {
-		show(checkoutPresenter);
+		if (isUniversalCheckout()) {
+			show(overviewPresenter);
+		}
+		else {
+			show(checkoutPresenter);
+		}
 	}
 
 	@Subscribe
@@ -354,13 +376,18 @@ public class LXPresenter extends Presenter {
 		this.isGroundTransport = isGroundTransport;
 		resultsPresenter.setIsFromGroundTransport(isGroundTransport);
 		detailsPresenter.details.setIsFromGroundTransport(isGroundTransport);
-		checkoutPresenter.setIsFromGroundTransport(isGroundTransport);
-		checkoutPresenter.checkout.setIsFromGroundTransport(isGroundTransport);
-		confirmationWidget.setIsFromGroundTransport(isGroundTransport);
-		checkoutPresenter.checkout.paymentInfoCardView.getViewmodel().getLineOfBusiness()
-			.onNext(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
-		checkoutPresenter.checkout.mainContactInfoCardView
-			.setLineOfBusiness(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
+		if (isUniversalCheckout()) {
+			overviewPresenter.setIsGroundTransport(isGroundTransport);
+		}
+		else {
+			checkoutPresenter.setIsFromGroundTransport(isGroundTransport);
+			checkoutPresenter.checkout.setIsFromGroundTransport(isGroundTransport);
+			confirmationWidget.setIsFromGroundTransport(isGroundTransport);
+			checkoutPresenter.checkout.paymentInfoCardView.getViewmodel().getLineOfBusiness()
+				.onNext(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
+			checkoutPresenter.checkout.mainContactInfoCardView
+				.setLineOfBusiness(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
+		}
 	}
 
 	public void setUserBucketedForCategoriesTest(boolean isUserBucketedForTest) {

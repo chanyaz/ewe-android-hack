@@ -794,6 +794,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_result_card_railcard_applied_cont_desc,
 		R.string.rail_result_card_price_from_cont_desc_TEMPLATE,
 		R.string.rail_selected_outbound_cont_desc,
+		R.layout.lx_overview,
 		R.layout.checkmark_row,
 		R.string.itin_card_rail_summary_TEMPLATE,
 		R.string.stay_summary_TEMPLATE,

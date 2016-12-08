@@ -40,12 +40,20 @@
         android:clickable="true"
         android:visibility="invisible" />
 
-    <com.expedia.bookings.presenter.lx.LXCheckoutPresenter
-        android:id="@+id/lx_checkout_presenter"
+    <ViewStub
+        android:id="@+id/lx_checkout_presenter_stub"
+        android:layout="@layout/lx_checkout_presenter_stub"
+        android:inflatedId="@+id/lx_checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/gray1"
         android:visibility="gone" />
+
+    <ViewStub
+        android:id="@+id/overview_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:inflatedId="@+id/widget_bundle_overview"
+        android:layout="@layout/flight_overview_stub" />
 
     <com.expedia.bookings.widget.LXConfirmationWidget
         android:id="@+id/confirmation"

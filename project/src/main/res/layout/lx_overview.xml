@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <com.expedia.bookings.presenter.lx.LxCheckoutPresenterV2
+        android:id="@+id/checkout_presenter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="?attr/actionBarSize"
+        android:fitsSystemWindows="true" />
+
+    <com.expedia.bookings.widget.CVVEntryWidget
+        android:id="@+id/cvv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#3A424C"
+        android:visibility="gone" />
+
+</merge>
