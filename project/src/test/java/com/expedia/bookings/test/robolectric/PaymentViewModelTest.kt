@@ -287,22 +287,6 @@ class PaymentViewModelTest {
     }
 
     @Test
-    fun testCreditCardSentToBillingInfo() {
-        val cardIOTestSubscriber = TestSubscriber.create<String>()
-        viewModel.cardIO.subscribe(cardIOTestSubscriber)
-        val info = getBillingInfoFromCard()
-        viewModel.cardIO.onNext(info.number)
-        viewModel.cardIO.onNext(info.securityCode)
-        viewModel.cardIO.onNext(info.nameOnCard)
-        viewModel.cardIO.onNext(info.location.postalCode)
-        viewModel.cardIO.onNext(info.expirationDate.monthOfYear.toString())
-        viewModel.cardIO.onNext(info.expirationDate.year.toString())
-        viewModel.cardIO.onNext(info.isCardIO.toString())
-
-        cardIOTestSubscriber.assertValues("4111111111111111", "111", "Joe Smith", "99999", 12.toString(), 2017.toString(), "true")
-    }
-
-    @Test
     fun testNewCheckoutBehavior() {
         SettingUtils.save(getContext(), R.string.preference_enable_new_checkout, true)
         val testNewCheckoutSubscriber = TestSubscriber.create<Boolean>()
@@ -371,21 +355,6 @@ class PaymentViewModelTest {
         carTripResponse.carProduct.vendor.name = expectedCarVendorName
         val tripBucketItemCar = TripBucketItemCar(carTripResponse)
         Db.getTripBucket().add(tripBucketItemCar)
-    }
-
-    private fun getBillingInfoFromCard() : BillingInfo {
-        val info = BillingInfo()
-        info.number = "4111111111111111"
-        info.securityCode = "111"
-        info.nameOnCard = "Joe Smith"
-        val localDateForExp = LocalDate.now().withYear(2017).withMonthOfYear(12)
-        info.expirationDate = localDateForExp
-        info.isCardIO = true;
-        val location = Location()
-        location.postalCode = "99999"
-        info.location = location
-        viewModel.cardIOBillingInfo.onNext(info)
-        return info
     }
 
     private fun getBillingInfo(hasStoredCard: Boolean): BillingInfo {

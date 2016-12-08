@@ -20,12 +20,6 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
 
-    <!-- We want to be more strict with how we add the camera permission -->
-    <uses-permission
-        android:name="android.permission.CAMERA"
-        tools:node="remove" />
-    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
-
     <!-- For Google Wallet and GCM -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 

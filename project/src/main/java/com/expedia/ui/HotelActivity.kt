@@ -1,7 +1,6 @@
 package com.expedia.ui
 
 import android.content.Intent
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.os.PersistableBundle
 import com.expedia.bookings.R
@@ -16,13 +15,10 @@ import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
 import com.expedia.bookings.utils.ServicesUtil
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.PaymentWidgetV2
 import com.expedia.util.endlessObserver
 import com.expedia.vm.HotelDeepLinkHandler
 import com.expedia.vm.HotelSearchViewModel
 import com.google.android.gms.maps.MapView
-import io.card.payment.CardIOActivity
-import io.card.payment.CreditCard
 import rx.Observer
 
 class HotelActivity : TrackingAbstractAppCompatActivity() {
@@ -111,23 +107,7 @@ class HotelActivity : TrackingAbstractAppCompatActivity() {
                 // show add to calendar for checkOut date
                 hotelPresenter.confirmationPresenter.hotelConfirmationViewModel.showAddToCalendarIntent(false, this)
             }
-            PaymentWidgetV2.CARD_IO_REQUEST_CODE -> {
-                if (data != null && data.hasExtra(CardIOActivity.EXTRA_SCAN_RESULT)) {
-                    val scanResult: CreditCard = data.getParcelableExtra(CardIOActivity.EXTRA_SCAN_RESULT)
-                    hotelPresenter.checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.viewmodel.cardIoScanResult.onNext(scanResult)
-                }
-            }
         }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        if (requestCode == PaymentWidgetV2.REQUEST_CAMERA) {
-            if (grantResults.size == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                hotelPresenter.checkoutPresenter.hotelCheckoutWidget.paymentInfoCardView.viewmodel.startCreditCardScan.onNext(Unit)
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
     }
 
     override fun onDestroy() {
