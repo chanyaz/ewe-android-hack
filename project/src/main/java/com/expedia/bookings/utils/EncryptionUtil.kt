@@ -26,7 +26,7 @@ import javax.crypto.spec.GCMParameterSpec
 import javax.crypto.spec.SecretKeySpec
 import javax.security.auth.x500.X500Principal
 
-open class EncryptionUtil(val context: Context, val secretKeyFileOld: File, val secretKeyFile: File, val alias: String) {
+open class EncryptionUtil(private val context: Context, private val secretKeyFileOld: File, private val secretKeyFile: File, private val alias: String) {
 
     protected val TRANSFORMATION_AES = "AES/GCM/NoPadding"
     protected val RSA_ALGORITHM = "RSA"
@@ -162,7 +162,7 @@ open class EncryptionUtil(val context: Context, val secretKeyFileOld: File, val 
     }
 
     @VisibleForTesting
-    fun generateAESKey(outputKeyLength: Int): SecretKey {
+    protected fun generateAESKey(outputKeyLength: Int): SecretKey {
         val keyGenerator = KeyGenerator.getInstance(AES_ALGORITHM)
         keyGenerator.init(outputKeyLength)
         return keyGenerator.generateKey()
@@ -197,7 +197,7 @@ open class EncryptionUtil(val context: Context, val secretKeyFileOld: File, val 
     }
 
     @VisibleForTesting
-    fun generateIv(length: Int): ByteArray {
+    protected fun generateIv(length: Int): ByteArray {
         val b = ByteArray(length)
         random.nextBytes(b)
         return b

@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.server;
+package com.expedia.bookings.utils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -19,7 +19,6 @@ import android.os.Build;
 import android.util.Base64;
 
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
-import com.expedia.bookings.utils.TestEncryptionUtil;
 
 import okio.BufferedSource;
 import okio.Okio;

@@ -1,4 +1,4 @@
-package com.expedia.bookings.test.server;
+package com.expedia.bookings.utils;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -23,8 +23,6 @@ import android.content.res.AssetManager;
 
 import com.expedia.bookings.server.PersistentCookieManager;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
-import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.TestEncryptionUtil;
 
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
