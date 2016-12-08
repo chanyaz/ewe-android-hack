@@ -18,7 +18,6 @@ import com.expedia.bookings.test.phone.newflights.FlightsResultsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
-import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -38,7 +37,6 @@ import static org.hamcrest.CoreMatchers.not;
 public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 	public void testPackagePhoneHappyPath() throws Throwable {
-		SettingUtils.save(getActivity(), R.string.preference_enable_checkout_traveler_number, true);
 		SearchScreen.selectPackageOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
 		LocalDate endDate = LocalDate.now().plusDays(8);

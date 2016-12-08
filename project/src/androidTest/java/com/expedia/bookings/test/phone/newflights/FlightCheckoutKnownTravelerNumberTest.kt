@@ -1,6 +1,5 @@
 package com.expedia.bookings.test.phone.newflights
 
-import android.support.test.InstrumentationRegistry
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.action.ViewActions
 import android.support.test.espresso.assertion.ViewAssertions
@@ -10,10 +9,8 @@ import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.EspressoUtils
 import com.expedia.bookings.test.espresso.NewFlightTestCase
-import com.expedia.bookings.test.phone.newflights.FlightsScreen
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
-import com.mobiata.android.util.SettingUtils
 import org.hamcrest.CoreMatchers
 import org.joda.time.LocalDate
 import org.junit.Test
@@ -23,7 +20,7 @@ class FlightCheckoutKnownTravelerNumberTest : NewFlightTestCase() {
 
     @Test
     fun testKnownTravelerNumberHiddenOutsideUsPos() {
-        setPosAndFeatureToggle(PointOfSaleId.MEXICO, true)
+        setPos(PointOfSaleId.MEXICO)
 
         searchFlightsAndProceedToCheckout()
         goToTravelerAndClickAdvanced()
@@ -34,7 +31,7 @@ class FlightCheckoutKnownTravelerNumberTest : NewFlightTestCase() {
 
     @Test
     fun testKnownTravelerNumberShownForUsPOS() {
-        setPosAndFeatureToggle(PointOfSaleId.UNITED_STATES, true)
+        setPos(PointOfSaleId.UNITED_STATES)
 
         searchFlightsAndProceedToCheckout()
         goToTravelerAndClickAdvanced()
@@ -57,9 +54,8 @@ class FlightCheckoutKnownTravelerNumberTest : NewFlightTestCase() {
         PackageScreen.checkout().perform(ViewActions.click())
     }
 
-    private fun setPosAndFeatureToggle(pointOfSaleId: PointOfSaleId, toggleIsActive: Boolean) {
+    private fun setPos(pointOfSaleId: PointOfSaleId) {
         Common.setPOS(pointOfSaleId)
-        SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_enable_checkout_traveler_number, toggleIsActive)
     }
 
     private fun goToTravelerAndClickAdvanced() {
@@ -68,4 +64,5 @@ class FlightCheckoutKnownTravelerNumberTest : NewFlightTestCase() {
         Espresso.closeSoftKeyboard()
         PackageScreen.clickTravelerAdvanced()
     }
+    
 }
