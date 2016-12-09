@@ -437,7 +437,7 @@
 
     <!-- Itin Hotel Upgrade Textview -->
     <dimen name="itin_hotel_upgrade_paddingRight">18dp</dimen>
-    <dimen name="itin_hotel_upgrade_drawable_padding">55dp</dimen>
+    <dimen name="itin_hotel_upgrade_drawable_padding">53dp</dimen>
     <dimen name="itin_hotel_upgrade_paddingLeft">20dp</dimen>
 
 </resources>
