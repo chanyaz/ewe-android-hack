@@ -13,8 +13,10 @@ import android.view.animation.DecelerateInterpolator;
 import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.TransitionElement;
+import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.otto.Events;
@@ -66,7 +68,8 @@ public class LXPresenter extends Presenter {
 	LXOverviewPresenter overviewPresenter;
 
 	public boolean isUniversalCheckout() {
-		return FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_universal_checkout_on_lx);
+		return FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_universal_checkout_on_lx) &&
+			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppBringUniversalCheckoutToLX);
 	}
 
 	private static class LXParamsOverlay {

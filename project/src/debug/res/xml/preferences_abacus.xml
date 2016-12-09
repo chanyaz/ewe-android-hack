@@ -50,15 +50,6 @@
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
-            android:key="9898"
-            android:layout="@layout/preference"
-            android:title="Secure Checkout: toolbar title - 9898" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:summary="%s"
             android:key="10989"
             android:layout="@layout/preference"
             android:title="Hotel Favorite Test - 10989" />
@@ -104,19 +95,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Car tests">
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:summary="%s"
-            android:key="7774"
-            android:layout="@layout/preference"
-            android:title="Car Insurance Included CKO - 7774" />
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Flights tests">
 
         <ListPreference
@@ -145,15 +123,6 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flight AB test - 12182" />
-
-        <ListPreference
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:defaultValue="@string/preference_abacus_default"
-            android:key="10212"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Insurance - 10212" />
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -196,6 +165,48 @@
             android:key="12113"
             android:layout="@layout/preference"
             android:title="Rail LOB on Launch (UK POS only) - 12113" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Checkout tests">
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="12630"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="LX Universal Checkout" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="9898"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Secure Checkout: toolbar title - 9898" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="7774"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Car Insurance Included CKO - 7774" />
+
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="10212"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Material Flights Insurance - 10212" />
+
     </PreferenceCategory>
 
 

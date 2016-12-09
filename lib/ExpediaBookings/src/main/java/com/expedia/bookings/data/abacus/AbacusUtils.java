@@ -35,6 +35,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelFilterProminence = 11790;
 	public static final int EBAndroidItinHotelGallery = 12465;
 	public static final int EBAndroidAppFlightRateDetailExpansion = 12637;
+	public static final int EBAndroidAppBringUniversalCheckoutToLX = 12630;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
