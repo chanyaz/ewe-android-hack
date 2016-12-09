@@ -806,6 +806,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_error_title,
 		R.layout.itin_gallery,
 		R.string.select_start_date,
-		R.string.lx_search_start_date_cont_desc
+		R.string.lx_search_start_date_cont_desc,
+		R.string.rail_journey_details_cont_desc_TEMPLATE
 	};
 }
