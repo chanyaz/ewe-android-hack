@@ -14,8 +14,6 @@ import java.util.Map;
 
 import org.jetbrains.annotations.NotNull;
 
-import android.content.Context;
-
 import com.expedia.bookings.utils.EncryptionUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -36,7 +34,7 @@ public class PersistentCookieManager implements CookieJar {
 	private Gson gson;
 	private EncryptionUtil encryptionUtil;
 
-	public PersistentCookieManager(Context context, @NotNull File storage, @NotNull File oldStorage, @NotNull EncryptionUtil encryptionUtil) {
+	public PersistentCookieManager(@NotNull File storage, @NotNull File oldStorage, @NotNull EncryptionUtil encryptionUtil) {
 		this.storage = storage;
 		this.encryptionUtil = encryptionUtil;
 		//Gson doesn't use class constructors by default so it may not call vital init code.

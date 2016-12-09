@@ -152,7 +152,7 @@ public class AppModule {
 	PersistentCookieManager provideCookieManager(Context context, EncryptionUtil encryptionUtil) {
 		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
 		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		PersistentCookieManager manager = new PersistentCookieManager(context, storage, oldStorage, encryptionUtil);
+		PersistentCookieManager manager = new PersistentCookieManager(storage, oldStorage, encryptionUtil);
 		return manager;
 	}
 

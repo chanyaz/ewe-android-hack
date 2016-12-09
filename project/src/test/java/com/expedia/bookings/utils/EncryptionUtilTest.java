@@ -173,5 +173,17 @@ public class EncryptionUtilTest {
 		assertEquals(text, decrypted);
 		assertEquals("RSA/ECB/OAEPWithSHA-512AndMGF1Padding", algorithm);
 
+		ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", 23);
+		encryptionUtil = new TestEncryptionUtil(getContext(), keystore, "testAlias", true);
+		decrypted = encryptionUtil.decryptStringFromBase64CipherText(encrypted);
+
+		source = Okio.buffer(Okio.source(keystore));
+		encryptedText = source.readUtf8();
+		fields = encryptedText.split(delimiter);
+		algorithm =  new String(Base64.decode(fields[1], Base64.DEFAULT));
+
+		assertEquals(text, decrypted);
+		assertEquals("RSA/ECB/OAEPWithSHA-512AndMGF1Padding", algorithm);
+
 	}
 }

@@ -43,8 +43,7 @@ open class EncryptionUtil(private val context: Context, private val secretKeyFil
         keystore
     }
 
-    private fun getTransformationRSA(apiLevel: Int): String
-    {
+    private fun getTransformationRSA(apiLevel: Int): String {
         when (apiLevel) {
             in Build.VERSION_CODES.BASE..Build.VERSION_CODES.LOLLIPOP_MR1 -> return "RSA/ECB/PKCS1Padding"
             else -> return "RSA/ECB/OAEPWithSHA-512AndMGF1Padding"
@@ -70,7 +69,7 @@ open class EncryptionUtil(private val context: Context, private val secretKeyFil
             val algorithm = String(Base64.decode(fields[1], Base64.DEFAULT))
             key = decryptFileIntoBytesRSA(binary, algorithm, RSA_KEY.private)
 
-            performRSAAlgorithmUpgrade(algorithm)
+            performRSAAlgorithmUpgrade(key, algorithm)
         }
         key
     }
@@ -205,11 +204,10 @@ open class EncryptionUtil(private val context: Context, private val secretKeyFil
         keyStore.deleteEntry(alias)
     }
 
-    private fun performRSAAlgorithmUpgrade(algorithm: String) {
+    private fun performRSAAlgorithmUpgrade(aesKey: ByteArray, algorithm: String) {
         if (algorithm != getTransformationRSA(Build.VERSION.SDK_INT)) {
-            clear()
             val algorithm = getTransformationRSA(Build.VERSION.SDK_INT)
-            encryptBytesIntoFileRSA(AES_KEY, secretKeyFile, algorithm, RSA_KEY.public)
+            encryptBytesIntoFileRSA(aesKey, secretKeyFile, algorithm, RSA_KEY.public)
         }
     }
 }

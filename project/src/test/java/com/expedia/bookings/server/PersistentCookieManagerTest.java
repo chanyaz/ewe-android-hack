@@ -104,7 +104,7 @@ public class PersistentCookieManagerTest {
 		keystore.delete();
 
 		testEncryptionUtil = new TestEncryptionUtil(getContext(), keystore, KEYSTORE_ALIAS, true);
-		manager = new PersistentCookieManager(getContext(), storage, oldCookieStorage, testEncryptionUtil);
+		manager = new PersistentCookieManager(storage, oldCookieStorage, testEncryptionUtil);
 	}
 
 	@Test
@@ -183,7 +183,7 @@ public class PersistentCookieManagerTest {
 		saveExpediaCookies();
 		expectExists(storage);
 
-		manager = new PersistentCookieManager(getContext(), storage, oldCookieStorage, testEncryptionUtil);
+		manager = new PersistentCookieManager(storage, oldCookieStorage, testEncryptionUtil);
 		expectCookies(12);
 		expectCookie(expedia, "MC1", "GUID=4a7e5c02232b479aa4807d32c6b7129c");
 		expectExists(storage);
@@ -220,7 +220,7 @@ public class PersistentCookieManagerTest {
 		writer.write(emptyData);
 		writer.close();
 
-		manager = new PersistentCookieManager(getContext(), storage, oldCookieStorage, testEncryptionUtil);
+		manager = new PersistentCookieManager(storage, oldCookieStorage, testEncryptionUtil);
 		expectCookies(0);
 	}
 
@@ -230,7 +230,7 @@ public class PersistentCookieManagerTest {
 		writer.write(emptyData);
 		writer.close();
 
-		manager = new PersistentCookieManager(getContext(), storage, oldCookieStorage, testEncryptionUtil);
+		manager = new PersistentCookieManager(storage, oldCookieStorage, testEncryptionUtil);
 		expectCookies(0);
 	}
 
@@ -309,7 +309,7 @@ public class PersistentCookieManagerTest {
 		BufferedSink to = Okio.buffer(Okio.sink(oldCookieStorage));
 		to.writeAll(from);
 		to.close();
-		manager = new PersistentCookieManager(getContext(), storage, oldCookieStorage, testEncryptionUtil);
+		manager = new PersistentCookieManager(storage, oldCookieStorage, testEncryptionUtil);
 
 		expectCookies(12);
 		expectCookie(expedia, "minfo",
