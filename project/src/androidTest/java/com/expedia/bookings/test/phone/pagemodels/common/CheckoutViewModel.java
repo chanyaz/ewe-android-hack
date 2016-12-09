@@ -156,6 +156,8 @@ public class CheckoutViewModel {
 	public static void selectStoredCard(String cardname) throws Throwable {
 		Espresso.closeSoftKeyboard();
 		onView(Matchers.allOf(withId(R.id.text1), withText(cardname),
+			isDescendantOfA(withId(R.id.stored_card_list)))).perform(scrollTo());
+		onView(Matchers.allOf(withId(R.id.text1), withText(cardname),
 			isDescendantOfA(withId(R.id.stored_card_list)))).perform(click());
 	}
 
