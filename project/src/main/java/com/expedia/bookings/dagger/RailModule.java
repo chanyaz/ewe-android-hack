@@ -37,10 +37,11 @@ public final class RailModule {
 	@Provides
 	@RailScope
 	SuggestionV4Services provideSuggestionV4Services(EndpointProvider endpointProvider, OkHttpClient client,
-		Interceptor interceptor) {
+		Interceptor interceptor, @Named("GaiaInterceptor") Interceptor gaiaRequestInterceptor) {
 		final String essEndpoint = endpointProvider.getEssEndpointUrl();
 		final String gaiaEndpoint = endpointProvider.getGaiaEndpointUrl();
-		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client, interceptor, AndroidSchedulers.mainThread(),
+		return new SuggestionV4Services(essEndpoint, gaiaEndpoint, client, interceptor, gaiaRequestInterceptor,
+			AndroidSchedulers.mainThread(),
 			Schedulers.io());
 	}
 

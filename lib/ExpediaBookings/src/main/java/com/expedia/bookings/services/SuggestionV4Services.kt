@@ -18,7 +18,7 @@ import rx.Subscription
 import java.util.Comparator
 import java.util.Collections
 
-class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, gaiaInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val suggestApi: SuggestApi by lazy {
         val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
@@ -39,7 +39,8 @@ class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClie
                 .baseUrl(gaiaEndPoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .client(okHttpClient.newBuilder().addInterceptor(gaiaInterceptor)
+                        .addInterceptor(interceptor).build())
                 .build()
 
         adapter.create<GaiaSuggestApi>(GaiaSuggestApi::class.java)

@@ -29,6 +29,7 @@ import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
+import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -269,5 +270,19 @@ public class AppModule {
 	@Singleton
 	UserLoginStateChangedModel provideUserLoginStateChangedModel() {
 		return new UserLoginStateChangedModel();
+	}
+
+	@Provides
+	@Named("GaiaInterceptor")
+	Interceptor provideGaiaRequestInterceptor(final Context context) {
+		return new Interceptor() {
+			@Override
+			public Response intercept(Interceptor.Chain chain) throws IOException {
+				Request.Builder request = chain.request().newBuilder();
+				request.addHeader("key", ServicesUtil.getGaiaApiKey(context));
+				Response response = chain.proceed(request.build());
+				return response;
+			}
+		};
 	}
 }

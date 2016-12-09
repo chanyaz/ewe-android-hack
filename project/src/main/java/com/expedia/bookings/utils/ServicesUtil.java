@@ -153,4 +153,8 @@ public class ServicesUtil {
 	public static String getRailApiKey(Context context) {
 			return context.getResources().getString(R.string.rails_prod_api_key);
 	}
+
+	public static String getGaiaApiKey(Context context) {
+		return context.getResources().getString(R.string.gaia_prod_api_key);
+	}
 }
