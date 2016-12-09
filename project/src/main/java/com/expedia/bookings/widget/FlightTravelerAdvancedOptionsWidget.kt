@@ -2,7 +2,6 @@ package com.expedia.bookings.widget
 
 import android.app.AlertDialog
 import android.content.Context
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.MotionEvent
 import android.view.View
@@ -10,9 +9,9 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.section.AssistanceTypeSpinnerAdapter
 import com.expedia.bookings.section.SeatPreferenceSpinnerAdapter
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.util.notNullAndObservable
@@ -47,10 +46,10 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
     }
 
     var viewModel: TravelerAdvancedOptionsViewModel by notNullAndObservable { vm ->
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_checkout_traveler_number)) {
+
+        if (PointOfSale.getPointOfSale().shouldShowKnownTravelerNumber()) {
             travelerNumber.viewModel = vm.travelerNumberViewModel
             vm.travelerNumberSubject.subscribeEditText(travelerNumber)
-
         }
         redressNumber.viewModel = vm.redressViewModel
         vm.redressNumberSubject.subscribeEditText(redressNumber)
@@ -70,14 +69,8 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
         View.inflate(context, R.layout.traveler_advanced_options_widget, this)
         orientation = VERTICAL
 
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_checkout_traveler_number)) {
-            // make visible and drawable in xml when removing feature toggle
+        if (PointOfSale.getPointOfSale().shouldShowKnownTravelerNumber()) {
             travelerNumber.visibility = View.VISIBLE
-            val drawables = travelerNumber.compoundDrawables
-            travelerNumber.setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1],
-                    ContextCompat.getDrawable(context, R.drawable.ic_checkout_info), drawables[2])
-            redressNumber.setCompoundDrawablesWithIntrinsicBounds(drawables[0], drawables[1],
-                    ContextCompat.getDrawable(context, R.drawable.ic_checkout_info), drawables[2])
             travelerNumber.setOnTouchListener { view, motionEvent ->
                 if (motionEvent.action == MotionEvent.ACTION_UP) {
                     if (motionEvent.rawX >= travelerNumber.right - travelerNumber.totalPaddingRight) {
@@ -87,17 +80,16 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
                 }
                 false
             }
+        }
 
-            redressNumber.setOnTouchListener { view, motionEvent ->
-                if (motionEvent.action == MotionEvent.ACTION_UP) {
-                    if (motionEvent.rawX >= redressNumber.right - redressNumber.totalPaddingRight) {
-                        redressInfoDialog.show()
-                        true
-                    }
+        redressNumber.setOnTouchListener { view, motionEvent ->
+            if (motionEvent.action == MotionEvent.ACTION_UP) {
+                if (motionEvent.rawX >= redressNumber.right - redressNumber.totalPaddingRight) {
+                    redressInfoDialog.show()
+                    true
                 }
-                false
             }
-
+            false
         }
 
         val seatPreferenceAdapter = SeatPreferenceSpinnerAdapter(context, R.layout.material_spinner_item, R.layout.spinner_dropdown_item)

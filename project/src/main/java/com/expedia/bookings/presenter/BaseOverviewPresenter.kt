@@ -166,7 +166,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             bundleOverviewHeader.nestedScrollView.foreground = ContextCompat.getDrawable(context, R.drawable.dim_background)
             behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
                 override fun canDrag(appBarLayout: AppBarLayout): Boolean {
-                    return currentState == BundleDefault::class.java.name
+                    return bundleOverviewHeader.isExpandable && currentState == BundleDefault::class.java.name
                 }
             });
             AccessibilityUtil.setFocusToToolbarNavigationIcon(bundleOverviewHeader.toolbar)

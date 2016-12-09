@@ -36,9 +36,13 @@ class TravelerAdvancedOptionsViewModel(context: Context) {
         travelerNumberViewModel.traveler = traveler
         if (traveler.redressNumber?.isNotEmpty() ?: false) {
             redressNumberSubject.onNext(traveler.redressNumber)
+        } else {
+            redressNumberSubject.onNext("")
         }
         if (traveler.knownTravelerNumber?.isNotEmpty() ?: false) {
             travelerNumberSubject.onNext(traveler.knownTravelerNumber)
+        } else {
+            travelerNumberSubject.onNext("")
         }
         seatPreferenceSubject.onNext(traveler.seatPreference)
         assistancePreferenceSubject.onNext(traveler.assistance)

@@ -190,6 +190,8 @@ public class PointOfSale {
 
 	private static boolean sIsTablet;
 
+	private boolean mShouldShowKnownTravelerNumber;
+
 	private boolean mRequiresHotelPostalCode;
 
 	private boolean isPwPEnabledForHotels;
@@ -851,6 +853,10 @@ public class PointOfSale {
 		return showBundleTotalWhenResortFees;
 	}
 
+	public Boolean shouldShowKnownTravelerNumber() {
+		return mShouldShowKnownTravelerNumber;
+	}
+
 	/**
 	 * This is equivalent to calling getStylizedHotelBookingStatement(false)
 	 *
@@ -1273,6 +1279,7 @@ public class PointOfSale {
 		pos.showPackageFreeUnrealDeal = data.optBoolean("showPackageFreeUnrealDeal", true);
 		pos.showResortFeesInHotelLocalCurrency = data.optBoolean("showResortFeesInHotelLocalCurrency", false);
 		pos.showBundleTotalWhenResortFees = data.optBoolean("showBundleTotalWhenResortFees", false);
+		pos.mShouldShowKnownTravelerNumber = data.optBoolean("shouldShowKnownTravelerNumber", false);
 
 		// Parse POS locales
 		JSONArray supportedLocales = data.optJSONArray("supportedLocales");
