@@ -224,7 +224,7 @@ android {
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 6
-            def minor = 1
+            def minor = 2
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -252,7 +252,7 @@ android {
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 9
-            def minor = 1
+            def minor = 2
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -266,7 +266,7 @@ android {
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 4
-            def minor = 0
+            def minor = 1
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -280,7 +280,7 @@ android {
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 4
-            def minor = 0
+            def minor = 1
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -294,7 +294,7 @@ android {
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 4
-            def minor = 0
+            def minor = 1
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -322,7 +322,7 @@ android {
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 8
-            def minor = 1
+            def minor = 2
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -336,7 +336,7 @@ android {
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 6
-            def minor = 1
+            def minor = 2
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -350,7 +350,7 @@ android {
             testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 6
-            def minor = 0
+            def minor = 1
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
