@@ -1,4 +1,4 @@
-package com.expedia.bookings.utils;
+package com.expedia.bookings.server;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -21,8 +21,9 @@ import org.robolectric.RuntimeEnvironment;
 import android.content.Context;
 import android.content.res.AssetManager;
 
-import com.expedia.bookings.server.PersistentCookieManager;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
+import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.TestEncryptionUtil;
 
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
@@ -84,8 +85,6 @@ public class PersistentCookieManagerTest {
 
 	private File storage;
 	private File oldCookieStorage;
-	private File keystoreOld;
-	private File keystore;
 	private PersistentCookieManager manager;
 
 	private Context getContext() {
@@ -101,7 +100,7 @@ public class PersistentCookieManagerTest {
 		oldCookieStorage = folder.newFile();
 		oldCookieStorage.delete();
 
-		keystore = folder.newFile();
+		File keystore = folder.newFile();
 		keystore.delete();
 
 		testEncryptionUtil = new TestEncryptionUtil(getContext(), keystore, KEYSTORE_ALIAS, true);
