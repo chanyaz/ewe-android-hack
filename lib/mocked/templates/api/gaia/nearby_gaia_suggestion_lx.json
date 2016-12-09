@@ -1,0 +1,65 @@
+[
+  {
+    "id": "553248623251959093",
+    "name": "DLF Phase II",
+    "type": "city",
+    "position": {
+      "type": "Point",
+      "coordinates": [
+        77.08858686,
+        28.48940909
+      ]
+    },
+    "categories": [
+      "meta:pointOfInterest",
+      "tourism:areaOfInterest"
+    ],
+    "localizedNames": [
+      {
+        "lcid": 1033,
+        "value": "DLF Phase II",
+        "extendedValue": "DLF Phase II, Gurgaon, India",
+        "friendlyName": "DLF Phase II, Gurgaon"
+      }
+    ],
+    "country": {
+      "name": "India"
+    },
+    "distance": {
+      "value": 0.4047402953180806,
+      "unit": "km"
+    }
+  },
+  {
+    "id": "6126980",
+    "name": "DLF City, Gurgaon, India (type 1)",
+    "type": "neighborhood",
+    "position": {
+      "type": "Point",
+      "coordinates": [
+        77.0961218,
+        28.48418667
+      ]
+    },
+    "categories": [
+      "meta:destination",
+      "tourism:neighborhood"
+    ],
+    "localizedNames": [
+      {
+        "lcid": 1033,
+        "value": "DLF City",
+        "extendedValue": "DLF City, Gurgaon, India",
+        "friendlyName": "DLF City, Gurgaon, India"
+      }
+    ],
+    "country": {
+      "name": "India",
+      "code": "IND"
+    },
+    "distance": {
+      "value": 0.5657267999258174,
+      "unit": "km"
+    }
+  }
+]

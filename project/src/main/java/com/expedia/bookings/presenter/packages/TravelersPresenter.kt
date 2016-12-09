@@ -19,11 +19,12 @@ import com.expedia.bookings.widget.traveler.TravelerPickerWidget
 import com.expedia.util.getMainTravelerToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.traveler.CheckoutTravelerViewModel
-import com.expedia.vm.traveler.FlightTravelerViewModel
+import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
+import com.expedia.vm.traveler.TravelersViewModel
+import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
-class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val travelerPickerWidget: TravelerPickerWidget by bindView(R.id.traveler_picker_widget)
     val travelerEntryWidget: FlightTravelerEntryWidget by bindView(R.id.traveler_entry_widget)
     val boardingWarning: TextView by bindView(R.id.boarding_warning)
@@ -36,7 +37,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
 
-    var viewModel: CheckoutTravelerViewModel by notNullAndObservable { vm ->
+    var viewModel: TravelersViewModel by notNullAndObservable { vm ->
         vm.invalidTravelersSubject.subscribe {
             show(travelerPickerWidget, Presenter.FLAG_CLEAR_TOP)
         }
@@ -44,43 +45,44 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             show(travelerPickerWidget, Presenter.FLAG_CLEAR_TOP)
         }
         vm.showMainTravelerMinAgeMessaging.subscribeVisibility(travelerPickerWidget.mainTravelerMinAgeTextView)
-        vm.singleTravelerCompletenessStatus.subscribe {
-            val selectedTraveler = travelerPickerWidget.travelerIndexSelectedSubject.value
-            if (selectedTraveler != null) {
-                val selectedTravelerPickerTravelerViewModel = travelerPickerWidget.travelerViewModels[selectedTraveler.first]
-                selectedTravelerPickerTravelerViewModel.updateStatus(it)
-            }
+        vm.refreshSelectedTravelerStatus.subscribe {
+            travelerPickerWidget.viewModel.selectedTravelerSubject.value?.refreshStatusObservable?.onNext(Unit)
         }
-        vm.passportRequired.subscribe(travelerPickerWidget.passportRequired)
-        vm.passportRequired.subscribe { isPassportRequired ->
-            travelerPickerWidget.travelerViewModels.forEach { vm ->
-                vm.isPassportRequired = isPassportRequired
-            }
-        }
+        vm.passportRequired.subscribe(travelerPickerWidget.viewModel.passportRequired)
+        travelerPickerWidget.viewModel.currentlySelectedTravelerStatusObservable.subscribe { if (it == TravelerCheckoutStatus.DIRTY) vm.isDirtyObservable.onNext(true) }
     }
 
     init {
         View.inflate(context, R.layout.traveler_presenter, this)
 
-        travelerPickerWidget.travelerIndexSelectedSubject.subscribe { selectedTraveler ->
+        travelerPickerWidget.viewModel.selectedTravelerSubject.subscribe { travelerSelectItemViewModel ->
+            travelerEntryWidget.viewModel = FlightTravelerEntryWidgetViewModel(context, travelerSelectItemViewModel.index, travelerSelectItemViewModel.passportRequired, travelerSelectItemViewModel.currentStatusObservable.value)
             show(travelerEntryWidget)
-            toolbarTitleSubject.onNext(selectedTraveler.second)
-            travelerEntryWidget.viewModel = FlightTravelerViewModel(context, selectedTraveler.first, viewModel.passportRequired.value)
-            travelerEntryWidget.viewModel.showPassportCountryObservable.subscribe(travelerPickerWidget.passportRequired)
-            val selectedTravelerPickerTravelerViewModel = travelerPickerWidget.travelerViewModels[selectedTraveler.first]
-            if (selectedTravelerPickerTravelerViewModel.status == TravelerCheckoutStatus.DIRTY) {
-                travelerEntryWidget.viewModel.validate()
-            }
+            toolbarTitleSubject.onNext(travelerSelectItemViewModel.emptyText)
+            travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)
         }
 
         travelerEntryWidget.nameEntryViewFocused.subscribeVisibility(boardingWarning)
 
         doneClicked.subscribe {
-            if (travelerEntryWidget.isValid()) {
+            travelerPickerWidget.viewModel.selectedTravelerSubject.value?.refreshStatusObservable?.onNext(Unit)
+            val numberOfInvalidFields = travelerEntryWidget.getNumberOfInvalidFields()
+            if (numberOfInvalidFields == 0) {
                 viewModel.updateCompletionStatus()
                 if (viewModel.allTravelersValid()) {
                     closeSubject.onNext(Unit)
                 }
+            } else {
+                Ui.hideKeyboard(this@TravelersPresenter)
+                travelerEntryWidget.requestFocus()
+                val announcementString = StringBuilder()
+                announcementString.append(Phrase.from(context.resources.getQuantityString(R.plurals.number_of_errors_TEMPLATE, numberOfInvalidFields))
+                        .put("number", numberOfInvalidFields)
+                        .format()
+                        .toString())
+                        .append(" ")
+                        .append(context.getString(R.string.accessibility_announcement_please_review_and_resubmit))
+                announceForAccessibility(announcementString)
             }
         }
     }
@@ -117,7 +119,7 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
             if (!forward) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
                 travelerEntryWidget.travelerButton.dismissPopup()
-                Ui.hideKeyboard(this@TravelerPresenter)
+                Ui.hideKeyboard(this@TravelersPresenter)
             }
         }
 
@@ -133,45 +135,45 @@ class TravelerPresenter(context: Context, attrs: AttributeSet) : Presenter(conte
                     FlightsV2Tracking.trackCheckoutEditTraveler()
                 }
             } else {
-                viewModel.updateCompletionStatusForTraveler(travelerEntryWidget.viewModel.travelerIndex)
+                travelerPickerWidget.viewModel.selectedTravelerSubject.value?.refreshStatusObservable?.onNext(Unit)
                 viewModel.refresh()
             }
         }
     }
 
     fun showSelectOrEntryState() {
-        if (viewModel.getTravelers().size > 1) {
-            toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
-            updateAllTravelerStatuses()
-            show(travelerPickerWidget, FLAG_CLEAR_TOP)
+        if (isMultiTraveler()) {
+            showPickerWidget()
         } else {
-            if (currentState == null) show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
-            show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
-
-            val travelerViewModel = FlightTravelerViewModel(context, 0, viewModel.passportRequired.value)
-            travelerEntryWidget.viewModel = travelerViewModel
-            toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
-            if (viewModel.travelerCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
-                travelerEntryWidget.viewModel.validate()
-            }
+            showEntryWidget()
         }
     }
 
+    private fun showEntryWidget() {
+        if (currentState == null) show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
+        travelerEntryWidget.viewModel = FlightTravelerEntryWidgetViewModel(context, 0, viewModel.passportRequired, TravelerCheckoutStatus.CLEAN)
+        show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
+
+        toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
+        if (viewModel.travelersCompletenessStatus.value == TravelerCheckoutStatus.DIRTY) {
+            travelerEntryWidget.viewModel.validate()
+        }
+    }
+
+    private fun showPickerWidget() {
+        toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
+        show(travelerPickerWidget, FLAG_CLEAR_TOP)
+    }
+
+    private fun isMultiTraveler() = viewModel.getTravelers().size > 1
+
     fun resetTravelers() {
+        viewModel.isDirtyObservable.onNext(false)
         travelerPickerWidget.refresh(viewModel.getTravelers())
-        viewModel.resetCompleteness()
     }
 
     fun updateAllTravelerStatuses() {
-        viewModel.getTravelers().forEachIndexed { i, traveler ->
-            if (viewModel.isValidForBooking(traveler, i)) {
-                travelerPickerWidget.travelerViewModels[i].updateStatus(TravelerCheckoutStatus.COMPLETE)
-            } else if (viewModel.isTravelerEmpty(traveler)) {
-                travelerPickerWidget.travelerViewModels[i].updateStatus(TravelerCheckoutStatus.CLEAN)
-            } else {
-                travelerPickerWidget.travelerViewModels[i].updateStatus(TravelerCheckoutStatus.DIRTY)
-            }
-        }
+        travelerPickerWidget.viewModel.refreshStatusObservable.onNext(Unit)
     }
 
     fun onLogin(isLoggedIn: Boolean) {

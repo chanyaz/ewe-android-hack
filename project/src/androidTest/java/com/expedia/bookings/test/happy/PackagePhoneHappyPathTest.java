@@ -82,8 +82,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.checkout().perform(click());
 
 		HotelScreen.doLogin();
-		selectStoredCard();
-		PackageScreen.clickPaymentDone();
+		onView(allOf(withId(R.id.card_info_name), withText("AmexTesting"))).check(matches(isDisplayed()));
+		assertCheckout();
 		HotelScreen.clickSignOut();
 
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
@@ -101,6 +101,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 
 		PackageScreen.clickTravelerAdvanced();
 		PackageScreen.enterRedressNumber("1234567");
+		PackageScreen.enterKnownTravelerNumber("TN12345");
+
 		Common.closeSoftKeyboard(onView(withId(R.id.first_name_input)));
 		PackageScreen.clickSpecialAssistance();
 		Common.delay(1);
@@ -146,8 +148,8 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		PackageScreen.selectThisFlight().perform(click());
 		PackageScreen.checkout().perform(click());
 		HotelScreen.doLogin();
-		selectStoredCard();
-		PackageScreen.clickPaymentDone();
+		onView(allOf(withId(R.id.card_info_name), withText("AmexTesting"))).check(matches(isDisplayed()));
+		assertCheckout();
 		PackageScreen.travelerInfo().perform(scrollTo(), click());
 		onView(withId(R.id.select_traveler_button)).perform(click());
 		Common.delay(1);
@@ -158,11 +160,13 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		Espresso.closeSoftKeyboard();
 		PackageScreen.enterPhoneNumber("7732025862");
 		Espresso.closeSoftKeyboard();
+
 		PackageScreen.selectBirthDate(1989, 6, 9);
 		Espresso.closeSoftKeyboard();
 		PackageScreen.selectGender("Male");
 		Espresso.closeSoftKeyboard();
 		PackageScreen.clickTravelerDone();
+
 		CheckoutViewModel.performSlideToPurchase(true);
 		onView(allOf(withId(R.id.destination), withText("Detroit"))).check(matches(isDisplayed()));
 	}
@@ -239,10 +243,5 @@ public class PackagePhoneHappyPathTest extends PackageTestCase {
 		onView(withText(R.string.user_review_sort_button_favorable)).perform(click());
 		onView(withText(R.string.user_review_sort_button_recent)).perform(click());
 		Espresso.pressBack();
-	}
-
-	private void selectStoredCard() throws Throwable {
-		CheckoutViewModel.clickPaymentInfo();
-		CheckoutViewModel.selectStoredCard("Saved AmexTesting");
 	}
 }

@@ -56,6 +56,7 @@ import com.expedia.bookings.interfaces.helpers.StateManager;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.DebugMenuFactory;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils;
 import com.expedia.bookings.utils.FragmentAvailabilityUtils.IFragmentAvailabilityProvider;
 import com.expedia.bookings.utils.GridManager;
@@ -96,7 +97,6 @@ public class TabletResultsActivity extends TrackingFragmentActivity implements I
 
 	//Containers..
 	private ViewGroup mRootC;
-	private TouchableFrameLayout mBgDestImageC;
 	private TouchableFrameLayout mTripBucketC;
 	private TouchableFrameLayout mFlightsC;
 	private TouchableFrameLayout mHotelC;
@@ -114,7 +114,7 @@ public class TabletResultsActivity extends TrackingFragmentActivity implements I
 
 	//Other
 	private GridManager mGrid = new GridManager();
-	private StateManager<ResultsState> mStateManager = new StateManager<ResultsState>(ResultsState.OVERVIEW, this);
+	private StateManager<ResultsState> mStateManager = new StateManager<>(ResultsState.OVERVIEW, this);
 	private Interpolator mCenterColumnUpDownInterpolator = new AccelerateInterpolator(1.2f);
 	private boolean mDoingFlightsAddToBucket = false;
 	private boolean mDoingHotelsAddToBucket = false;
@@ -133,6 +133,8 @@ public class TabletResultsActivity extends TrackingFragmentActivity implements I
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		debugMenu = DebugMenuFactory.newInstance(this, null);
+
 		if (Sp.isEmpty()) {
 			Log.d("TabletResultsActivity - Not enough info, bailing");
 			finish();
@@ -147,17 +149,15 @@ public class TabletResultsActivity extends TrackingFragmentActivity implements I
 
 		setContentView(R.layout.activity_tablet_results);
 
-		debugMenu = new DebugMenu(this, null);
-
 		//Containers
 		mRootC = Ui.findView(this, R.id.root_layout);
-		mBgDestImageC = Ui.findView(this, R.id.bg_dest_image_overlay);
-		mBgDestImageC.setBlockNewEventsEnabled(true);
-		mBgDestImageC.setVisibility(View.VISIBLE);
 		mTripBucketC = Ui.findView(this, R.id.trip_bucket_container);
 		mFlightsC = Ui.findView(this, R.id.full_width_flights_controller_container);
 		mHotelC = Ui.findView(this, R.id.full_width_hotels_controller_container);
 		mSearchC = Ui.findView(this, R.id.full_width_search_controller_container);
+		TouchableFrameLayout bgDestImageContainer = Ui.findView(this, R.id.bg_dest_image_overlay);
+		bgDestImageContainer.setBlockNewEventsEnabled(true);
+		bgDestImageContainer.setVisibility(View.VISIBLE);
 
 		mShadeView = Ui.findView(this, R.id.overview_shade);
 		mBottomGradient = Ui.findView(this, R.id.search_bottom_gradient);
@@ -601,7 +601,7 @@ public class TabletResultsActivity extends TrackingFragmentActivity implements I
 	 * STATE PROVIDER
 	 */
 
-	private StateListenerCollection<ResultsState> mResultsStateListeners = new StateListenerCollection<ResultsState>();
+	private StateListenerCollection<ResultsState> mResultsStateListeners = new StateListenerCollection<>();
 
 	@Override
 	public void startStateTransition(ResultsState stateOne, ResultsState stateTwo) {
@@ -662,7 +662,7 @@ public class TabletResultsActivity extends TrackingFragmentActivity implements I
 
 	private int mLastReportedWidth = -1;
 	private int mLastReportedHeight = -1;
-	private ArrayList<IMeasurementListener> mMeasurementListeners = new ArrayList<IMeasurementListener>();
+	private ArrayList<IMeasurementListener> mMeasurementListeners = new ArrayList<>();
 
 	@Override
 	public void updateContentSize(int totalWidth, int totalHeight) {

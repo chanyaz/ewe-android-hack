@@ -23,10 +23,10 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		// Login Features
 		initializeFeatureCheck(R.string.preference_enable_smart_lock);
-		initializeFeatureCheck(R.string.preference_enable_rail);
 		initializeFeatureCheck(R.string.preference_enable_activity_map);
 		initializeFeatureCheck(R.string.preference_enable_filter_text_search);
 		initializeFeatureCheck(R.string.preference_enable_gaia_current_location_suggestion);
+		initializeFeatureCheck(R.string.preference_enable_new_checkout);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

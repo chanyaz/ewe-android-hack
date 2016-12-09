@@ -31,6 +31,7 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     var isHideToolbarView = false
     var isDisabled = false
     var isFullyExpanded = true
+    var isExpandable = true
     @ColorRes val primaryColorId = Ui.obtainThemeResID(context, R.attr.primary_color)
 
     init {
@@ -69,6 +70,10 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
         checkoutOverviewHeaderToolbar.destinationText.scaleY = .75f
     }
 
+    fun translateDatesTitleForHeaderToolbar() {
+        checkoutOverviewHeaderToolbar.checkInOutDates.translationY = - checkoutOverviewHeaderToolbar.destinationText.height * .25f
+    }
+
     fun toggleOverviewHeader(show: Boolean) {
         toolbar.setBackgroundColor(ContextCompat.getColor(context, if (show) android.R.color.transparent else primaryColorId))
         appBarLayout.setExpanded(show)
@@ -76,12 +81,15 @@ class BundleOverviewHeader(context : Context, attrs : AttributeSet) : Coordinato
     }
 
     fun toggleCollapsingToolBar(enable: Boolean) {
-        checkoutOverviewFloatingToolbar.visibility = if (enable) View.VISIBLE else View.GONE
+        checkoutOverviewFloatingToolbar.visibility = if (enable && isExpandable) View.VISIBLE else View.GONE
         appBarLayout.isActivated = enable
         nestedScrollView.isNestedScrollingEnabled = enable
         collapsingToolbarLayout.isTitleEnabled = enable
     }
 
+    override fun onStartNestedScroll(child: View?, target: View?, nestedScrollAxes: Int): Boolean {
+        return isExpandable && super.onStartNestedScroll(child, target, nestedScrollAxes)
+    }
 
     override fun onOffsetChanged(appBarLayout: AppBarLayout, offset: Int) {
         var maxScroll = appBarLayout.totalScrollRange

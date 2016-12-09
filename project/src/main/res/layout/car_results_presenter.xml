@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/gray1">
 
-<com.expedia.bookings.widget.CarCategoryDetailsWidget
+    <com.expedia.bookings.widget.CarCategoryDetailsWidget
         android:id="@+id/details"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -48,6 +48,15 @@
             android:id="@+id/category_list"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
+
+        <com.expedia.bookings.widget.FilterButtonWithCountWidget
+            android:id="@+id/category_sort_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:orientation="vertical"
+            android:visibility="gone" />
 
     </com.expedia.bookings.widget.CarCategoryListWidget>
 

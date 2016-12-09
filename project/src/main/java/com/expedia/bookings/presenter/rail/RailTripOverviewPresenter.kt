@@ -31,7 +31,7 @@ class RailTripOverviewPresenter(context: Context, attrs: AttributeSet) : Present
 
     val tripSummaryViewModel = RailTripSummaryViewModel(context)
     val railPriceViewModel = RailTotalPriceViewModel(context)
-    val railCostBreakDownViewModel = RailCostSummaryBreakdownViewModel(context)
+    val railCostBreakDownViewModel = RailCostSummaryBreakdownViewModel(context, false)
     private val priceChangeViewModel = RailPriceChangeViewModel(context)
 
     val showCheckoutSubject = PublishSubject.create<Unit>()

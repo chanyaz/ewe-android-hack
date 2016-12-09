@@ -23,7 +23,7 @@ import com.expedia.bookings.data.TravelerName;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.expedia.bookings.presenter.packages.TravelerPresenter;
+import com.expedia.bookings.presenter.packages.TravelersPresenter;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
@@ -33,7 +33,7 @@ import com.expedia.bookings.utils.validation.TravelerValidator;
 import com.expedia.bookings.widget.CheckoutToolbar;
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard;
 import com.expedia.vm.CheckoutToolbarViewModel;
-import com.expedia.vm.traveler.CheckoutTravelerViewModel;
+import com.expedia.vm.traveler.TravelersViewModel;
 import com.expedia.vm.traveler.TravelerSummaryViewModel;
 import com.squareup.phrase.Phrase;
 import kotlin.Unit;
@@ -44,10 +44,10 @@ public class BaseTravelerPresenterTestHelper {
 	@Rule
 	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
-	protected TravelerPresenter testTravelerPresenter;
+	protected TravelersPresenter testTravelersPresenter;
 	protected TravelerSummaryCard testTravelerDefault;
 	private CheckoutToolbar testToolbar;
-	protected CheckoutTravelerViewModel mockViewModel;
+	protected TravelersViewModel mockViewModel;
 
 	protected TravelerName testName = new TravelerName();
 	protected final String testChildFullName = "Oscar Grouch Jr.";
@@ -102,33 +102,33 @@ public class BaseTravelerPresenterTestHelper {
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelerPresenter = (TravelerPresenter) viewStub.inflate();
+				testTravelersPresenter = (TravelersPresenter) viewStub.inflate();
 				testTravelerDefault.setViewModel(new TravelerSummaryViewModel(activityTestRule.getActivity()));
 			}
 		});
 
 		testToolbar = (CheckoutToolbar) activityTestRule.getRoot().findViewById(R.id.checkout_toolbar);
 		testToolbar.setViewModel(new CheckoutToolbarViewModel(activityTestRule.getActivity()));
-		testTravelerPresenter.getToolbarTitleSubject().subscribe(testToolbar.getViewModel().getToolbarTitle());
-		testTravelerPresenter.getTravelerEntryWidget().getFocusedView()
+		testTravelersPresenter.getToolbarTitleSubject().subscribe(testToolbar.getViewModel().getToolbarTitle());
+		testTravelersPresenter.getTravelerEntryWidget().getFocusedView()
 			.subscribe(testToolbar.getViewModel().getCurrentFocus());
-		testTravelerPresenter.getTravelerEntryWidget().getFilledIn()
+		testTravelersPresenter.getTravelerEntryWidget().getFilledIn()
 			.subscribe(testToolbar.getViewModel().getFormFilledIn());
-		testTravelerPresenter.getMenuVisibility().subscribe(testToolbar.getViewModel().getMenuVisibility());
-		testToolbar.getViewModel().getDoneClicked().subscribe(testTravelerPresenter.getDoneClicked());
+		testTravelersPresenter.getMenuVisibility().subscribe(testToolbar.getViewModel().getMenuVisibility());
+		testToolbar.getViewModel().getDoneClicked().subscribe(testTravelersPresenter.getDoneClicked());
 		testName.setFirstName(testFirstName);
 		testName.setLastName(testLastName);
 
 		testTravelerDefault.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				testTravelerPresenter.setVisibility(View.VISIBLE);
-				testTravelerPresenter.resetTravelers();
-				testTravelerPresenter.showSelectOrEntryState();
+				testTravelersPresenter.setVisibility(View.VISIBLE);
+				testTravelersPresenter.resetTravelers();
+				testTravelersPresenter.showSelectOrEntryState();
 			}
 		});
 
-		testTravelerPresenter.getCloseSubject().subscribe(new Observer<Unit>() {
+		testTravelersPresenter.getCloseSubject().subscribe(new Observer<Unit>() {
 			@Override
 			public void onCompleted() {
 
@@ -141,7 +141,7 @@ public class BaseTravelerPresenterTestHelper {
 
 			@Override
 			public void onNext(Unit unit) {
-				testTravelerPresenter.setVisibility(View.GONE);
+				testTravelersPresenter.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -232,23 +232,23 @@ public class BaseTravelerPresenterTestHelper {
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.edit_phone_number, testPhone);
 	}
 
-	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelersWithInfant(int adultCount, List<Integer> children,
+	protected TravelersViewModel getMockViewModelEmptyTravelersWithInfant(int adultCount, List<Integer> children,
 		boolean infantsInLap) {
-		CheckoutTravelerViewModel mockViewModel = getMockviewModel();
+		TravelersViewModel mockViewModel = getMockviewModel();
 		setPackageParams(adultCount, children, infantsInLap);
 		setDbTravelers(adultCount, children, infantsInLap);
 		return mockViewModel;
 	}
 
-	protected CheckoutTravelerViewModel getMockViewModelEmptyTravelers(int travelerCount) {
-		CheckoutTravelerViewModel mockViewModel = getMockviewModel();
+	protected TravelersViewModel getMockViewModelEmptyTravelers(int travelerCount) {
+		TravelersViewModel mockViewModel = getMockviewModel();
 		setPackageParams(travelerCount);
 		setDbTravelers(travelerCount, null, false);
 		return mockViewModel;
 	}
 
-	protected CheckoutTravelerViewModel getMockViewModelIncompleteTravelers(int travelerCount) {
-		CheckoutTravelerViewModel mockViewModel = getMockviewModel();
+	protected TravelersViewModel getMockViewModelIncompleteTravelers(int travelerCount) {
+		TravelersViewModel mockViewModel = getMockviewModel();
 		setPackageParams(travelerCount);
 		setDbTravelers(travelerCount, null, false);
 		for (int i = 0; i < travelerCount; i++) {
@@ -258,8 +258,8 @@ public class BaseTravelerPresenterTestHelper {
 		return mockViewModel;
 	}
 
-	protected CheckoutTravelerViewModel getMockViewModelValidTravelers(int travelerCount) {
-		CheckoutTravelerViewModel mockViewModel = getMockviewModel();
+	protected TravelersViewModel getMockViewModelValidTravelers(int travelerCount) {
+		TravelersViewModel mockViewModel = getMockviewModel();
 		setPackageParams(travelerCount);
 		setDbTravelers(travelerCount, null, false);
 		for (int i = 0; i < travelerCount; i++) {
@@ -269,15 +269,15 @@ public class BaseTravelerPresenterTestHelper {
 		return mockViewModel;
 	}
 
-	protected CheckoutTravelerViewModel getMockviewModel(boolean showMainTravelerMinAge) {
-		CheckoutTravelerViewModel mockViewModel = new CheckoutTravelerViewModel(context, LineOfBusiness.PACKAGES,
+	protected TravelersViewModel getMockviewModel(boolean showMainTravelerMinAge) {
+		TravelersViewModel mockViewModel = new TravelersViewModel(context, LineOfBusiness.PACKAGES,
 			showMainTravelerMinAge);
-		mockViewModel.getTravelerCompletenessStatus()
+		mockViewModel.getTravelersCompletenessStatus()
 			.subscribe(testTravelerDefault.getViewModel().getTravelerStatusObserver());
 		return mockViewModel;
 	}
 
-	protected CheckoutTravelerViewModel getMockviewModel() {
+	protected TravelersViewModel getMockviewModel() {
 		return getMockviewModel(false);
 	}
 

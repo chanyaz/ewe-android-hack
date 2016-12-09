@@ -65,7 +65,7 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
 
         enableToolbarMenuButton.subscribe{ enable ->
             if (paymentOptionsContainer.visibility == View.VISIBLE) {
-                enableMenuItem.onNext(enable && isComplete())
+                viewmodel.enableMenuItem.onNext(enable && isComplete())
             }
         }
 
@@ -111,21 +111,21 @@ class PaymentWidgetV2(context: Context, attr: AttributeSet) : PaymentWidget(cont
         return isFullPayableWithPoints || super.isComplete()
     }
 
-    override fun updateToolbarMenu(forward: Boolean) {
-        super.updateToolbarMenu(forward)
+    override fun updateLegacyToolbarMenu(forward: Boolean) {
+        super.updateLegacyToolbarMenu(forward)
         if (forward) {
             payWithPointsViewModel.hasPwpEditBoxFocus.onNext(false)
-            enableMenuItem.onNext(isComplete())
+            viewmodel.enableMenuItem.onNext(isComplete())
         } else {
             paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
-            enableMenuItem.onNext(true)
+            viewmodel.enableMenuItem.onNext(true)
         }
     }
 
     override fun back(): Boolean {
         if (currentState == PaymentOption::class.java.name) {
             paymentWidgetViewModel.navigatingOutOfPaymentOptions.onNext(Unit)
-            enableMenuItem.onNext(true)
+            viewmodel.enableMenuItem.onNext(true)
         }
         return super.back()
     }

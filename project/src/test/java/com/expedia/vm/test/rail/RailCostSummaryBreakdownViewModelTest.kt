@@ -31,7 +31,7 @@ class RailCostSummaryBreakdownViewModelTest {
 
     @Test
     fun passengerFareBreakdownIncluded() {
-        costBreakdownVM = RailCostSummaryBreakdownViewModel(activity)
+        costBreakdownVM = RailCostSummaryBreakdownViewModel(activity, false)
 
         val breakdownsSubscriber = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         costBreakdownVM.addRows.subscribe(breakdownsSubscriber)
@@ -47,7 +47,7 @@ class RailCostSummaryBreakdownViewModelTest {
 
     @Test
     fun priceBreakdownFeesIncluded() {
-        costBreakdownVM = RailCostSummaryBreakdownViewModel(activity)
+        costBreakdownVM = RailCostSummaryBreakdownViewModel(activity, false)
 
         val breakdownsSubscriber = TestSubscriber<List<BaseCostSummaryBreakdownViewModel.CostSummaryBreakdownRow>>()
         costBreakdownVM.addRows.subscribe(breakdownsSubscriber)

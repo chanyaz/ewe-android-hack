@@ -2,17 +2,13 @@ package com.expedia.bookings.widget
 
 import android.content.Context
 import android.view.View
-import com.expedia.bookings.BuildConfig
-import com.expedia.bookings.R
-import com.expedia.bookings.activity.ExpediaBookingApp
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.tracking.OmnitureTracking
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.util.endlessObserver
-import com.mobiata.android.util.SettingUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
@@ -52,8 +48,8 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
             lobs.add(LobInfo.TRANSPORT)
         }
 
-        if (pos.supports(LineOfBusiness.RAILS) && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
-                AbacusUtils.EBAndroidAppRailLineOfBusinessEnabledTest, R.string.preference_enable_rail)) {
+        if (pos.supports(LineOfBusiness.RAILS) && Db.getAbacusResponse()
+                .isUserBucketedForTest(AbacusUtils.EBAndroidAppRailLineOfBusinessEnabledTest)) {
             lobs.add(LobInfo.RAILS)
         }
 

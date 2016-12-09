@@ -38,16 +38,15 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
-import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
@@ -131,6 +130,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private ViewGroup mSummaryLayout;
 	private ImageView mChevronImageView;
 	private ViewGroup mDetailsLayout;
+	private TextView mRoomUpgradeLayout;
 	private ItinActionsSection mActionButtonLayout;
 
 	private AlphaImageView mItinTypeImageView;
@@ -195,7 +195,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
 		mVIPTextView = Ui.findView(this, R.id.vip_label_text_view);
-
+		mRoomUpgradeLayout = Ui.findView(this, R.id.room_upgrade_message);
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 		mFixedItinTypeImageView = Ui.findView(this, R.id.fixed_itin_type_image_view);
 
@@ -316,24 +316,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		return containsPoint;
 	}
 
-	/**
-	 * Pass touch event to our Summary Buttons
-	 *
-	 * @param event - MotionEvent designated for the ItinCard
-	 *              This motion event will already have its offsetLocation set to the top of the ItinCard.
-	 * @return true
-	 */
-	public boolean doSummaryButtonTouch(MotionEvent event) {
-		if (mActionButtonLayout != null && mActionButtonLayout.getVisibility() == View.VISIBLE && event != null) {
-			MotionEvent childEvent = MotionEvent.obtain(event);
-			childEvent.offsetLocation(0, -mActionButtonLayout.getTop());
-			mActionButtonLayout.dispatchTouchEvent(childEvent);
-			childEvent.recycle();
-			return true;
-		}
-		return false;
-	}
-
 	public void setOnItinCardClickListener(OnItinCardClickListener onItinCardClickListener) {
 		mOnItinCardClickListener = onItinCardClickListener;
 	}
@@ -390,6 +372,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mHeaderItinCardContentDescription
 			.setVisibility(AccessibilityUtil.isTalkBackEnabled(getContext()) ? VISIBLE : GONE);
 
+
 		boolean shouldShowCheckInLink = shouldShowCheckInLink(itinCardData);
 		if (shouldShowCheckInLink) {
 			final int flightLegNumber = ((ItinCardDataFlight) itinCardData).getLegNumber();
@@ -430,7 +413,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		else {
 			if (getType() == Type.FLIGHT) {
 				mCheckInLayout.setVisibility(GONE);
-				setShowSummary(false);
+				if (isCollapsed()) {
+					setShowSummary(false);
+				}
 			}
 		}
 
@@ -473,8 +458,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mChevronImageView.setRotation(-90f);
 		}
 
-		if (getType() == Type.HOTEL) {
-			boolean isVipAccess = ((TripHotel) itinCardData.getTripComponent()).getProperty().isVipAccess();
+		if (itinCardData instanceof ItinCardDataHotel) {
+			boolean isVipAccess = ((ItinCardDataHotel) itinCardData).isVip();
 			LoyaltyMembershipTier customerLoyaltyMembershipTier = User.getLoggedInLoyaltyMembershipTier(getContext());
 			boolean isSilverOrGoldMember = customerLoyaltyMembershipTier == LoyaltyMembershipTier.MIDDLE
 				|| customerLoyaltyMembershipTier == LoyaltyMembershipTier.TOP;
@@ -485,7 +470,23 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			else {
 				mVIPTextView.setVisibility(GONE);
 			}
+
+			boolean isRoomUpgradable = itinCardData.getTripComponent().getParentTrip().isTripUpgradable();
+			if (isRoomUpgradable) {
+				mRoomUpgradeLayout.setVisibility(VISIBLE);
+			}
+			else {
+				mRoomUpgradeLayout.setVisibility(GONE);
+			}
 		}
+	}
+
+	private boolean isExpanded() {
+		return mDisplayState == DisplayState.EXPANDED;
+	}
+
+	private boolean isCollapsed() {
+		return mDisplayState == DisplayState.COLLAPSED;
 	}
 
 	private void showCheckInWebView(T itinCardData) {
@@ -546,7 +547,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	 */
 	public void rebindExpandedCard(final T itinCardData) {
 		if (itinCardData != null) {
-			if (mDisplayState == DisplayState.EXPANDED) {
+			if (isExpanded()) {
 				bind(itinCardData);
 				inflateDetailsView();
 				updateClickable();
@@ -580,9 +581,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	public void updateSummaryVisibility() {
 		mSummarySectionLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
-		mActionButtonLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
 		// Let's not show the date text in summaryCard as per design
 		mHeaderTextDateView.setVisibility(mShowSummary ? GONE : VISIBLE);
+		mActionButtonLayout.setVisibility(mShowSummary ? VISIBLE : GONE);
 	}
 
 	public void updateHeaderImageHeight() {
@@ -840,7 +841,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	}
 
 	public void updateContDesc() {
-		if (mDisplayState == DisplayState.EXPANDED) {
+		if (isExpanded()) {
 			mChevronImageView.setContentDescription(getContext().getString(R.string.trips_back_button_label_cont_desc));
 		}
 		else {
@@ -1067,7 +1068,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	// Type icon position and size
 	public void updateLayout() {
-		if (mDisplayState == DisplayState.COLLAPSED) {
+		if (isCollapsed()) {
 			mItinTypeImageView.setVisibility(View.VISIBLE);
 			float typeImageHeight = mItinTypeImageView.getHeight();
 			float typeImageHalfHeight = typeImageHeight / 2;
@@ -1135,8 +1136,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	//////////////////////////////////////////////////////////////////////////////////////
 
 	private void updateClickable() {
-		mSummarySectionLayout.setClickable(mDisplayState == DisplayState.EXPANDED);
-		mScrollView.setEnabled(mDisplayState == DisplayState.EXPANDED);
+		mSummarySectionLayout.setClickable(isExpanded());
+		mScrollView.setEnabled(isExpanded());
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////

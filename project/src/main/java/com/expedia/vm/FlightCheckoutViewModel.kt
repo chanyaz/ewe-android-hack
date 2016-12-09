@@ -51,7 +51,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
             sliderPurchaseTotalText.onNext(totalPrice)
         }
 
-        priceChangeObservable.subscribe { checkoutResponse ->
+        priceChangeObservable.subscribe { checkoutResponse -> checkoutResponse as FlightCheckoutResponse
             val flightTripDetails = checkoutResponse.details
             builder.expectedTotalFare(flightTripDetails.offer.totalPrice.amount.toString())
         }
@@ -77,7 +77,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         // add card fee to trip response
         val response =  createTripResponseObservable.value
         if (response != null) {
-            val newTripResponse = response
+            val newTripResponse = response as FlightCreateTripResponse
             newTripResponse.selectedCardFees = cardFee
             newTripResponse.totalPriceIncludingFees = totalPriceInclFees
             cardFeeTripResponse.onNext(newTripResponse)
@@ -88,7 +88,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     override fun resetCardFees() {
         val response =  createTripResponseObservable.value
         if (response != null) {
-            val newTripResponse = response
+            val newTripResponse = response as FlightCreateTripResponse
             newTripResponse.selectedCardFees = null
             newTripResponse.totalPriceIncludingFees = null
             cardFeeTripResponse.onNext(newTripResponse)

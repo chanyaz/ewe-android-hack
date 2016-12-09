@@ -309,6 +309,8 @@
     <string name="Fly_from_dot_dot_dot">출발지…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">날짜 선택</string>
+    <!-- Select Start date - used for the LX Calendar. -->
+    <string name="select_start_date">시작 날짜 선택</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">오늘 밤 추천 호텔</string>
     <!-- Missing flight info message -->
@@ -1014,7 +1016,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">여행 만드는 중…</string>
+    <string name="spinner_text_create_trip">여행 만드는 중…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1058,14 +1060,16 @@
     <string name="nav_packages">패키지 특가 상품</string>
     <!-- Rail -->
     <string name="nav_rail">기차</string>
-    <string name="add_rail_card">레일 카드 추가</string>
-    <string name="select_rail_card_hint">레일 카드 선택</string>
+    <string name="add_rail_card">레일카드 추가</string>
+    <string name="select_rail_card_hint">레일카드 선택</string>
     <!-- Rail card type quantity dropdown hint. Using short form as space is limited -->
     <string name="select_rail_card_quantity_hint">수</string>
     <!-- Error message when rail card details not selected on add rail cards dialog -->
-    <string name="error_select_rail_card_details">레일 카드 세부 정보를 선택해 주세요.</string>
+    <string name="error_select_rail_card_details">레일카드 세부 정보를 선택해 주세요.</string>
     <!-- Error message when rail cards selected is greater than no. of travelers -->
-    <string name="error_rail_cards_greater_than_number_travelers">레일 카드 개수는 여행객 인원을 초과할 수 없습니다.</string>
+    <string name="error_rail_cards_greater_than_number_travelers">레일카드 개수는 여행객 인원을 초과할 수 없습니다.</string>
+    <!-- Error message indicating we were unable to fetch rail cards at this time -->
+    <string name="no_rail_cards_error_message">지금 레일카드를 검색할 수 없습니다. 나중에 다시 시도해 주세요.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">출발역</string>
@@ -1253,6 +1257,8 @@
     <string name="arrive_tz_TEMPLATE">도착 (%1$s)</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">항공사 확인</string>
+    <!-- Flight Itinerary airline support number -->
+    <string name="flight_itin_airline_support_number_label">항공사 고객 지원</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">%1$s 확인</string>
     <!-- Car rental agency name and location in car itin detail -->
@@ -1735,6 +1741,8 @@
     <string name="flights_round_trip_label">왕복</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">편도</string>
+    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
+    <string name="flights_tab_selection_accouncement_TEMPLATE">{whichway} 항공편 검색 화면 표시</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">가는편:</string>
     <!-- Flights Line of Business title -->
@@ -1772,7 +1780,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">오류</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">잠시만요. 다시 시도해 주세요.</string>
+    <string name="error_try_again_warning">잠시만요. 다시 시도해 주세요.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">다시 시도</string>
 
@@ -1895,6 +1903,8 @@
     <string name="calendar_tooltip_bottom_drag_to_modify">종료 날짜를 드래그하여 수정</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
+    <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} - {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate}(편도)</string>
     <!-- Calendar instructions rail start date selected -->
@@ -1909,6 +1919,8 @@
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
     <string name="hotel_free_cancellation_TEMPLATE">무료 취소: {date}까지</string>
+    <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
+    <string name="hotel_free_cancellation_before_TEMPLATE">무료 취소: {date} 전까지</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2043,6 +2055,8 @@
     <string name="your_trip_to_TEMPLATE">여행지: %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">세금 및 수수료 포함</string>
+    <!-- Payment and ticket delivery fees may also apply -->
+    <string name="payment_and_ticket_delivery_fees_may_also_apply">결제 및 티켓 배송 수수료도 적용될 수 있습니다.</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">항공+호텔 포함</string>
     <!-- Includes taxes (but not necessarily fees) -->
@@ -2392,6 +2406,12 @@
     <string name="passport_country_origin">여권 국가/출생지</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">리드레스 번호(해당하는 경우)</string>
+    <!-- traveler number hint -->
+    <string name="known_traveler_number">알려진 여행객 번호</string>
+    <!-- traveler number info msg -->
+    <string name="known_traveler_msg">이는 TSA 프리체크에 사용되는 정부 발행 번호입니다.</string>
+    <!-- redress number info msg -->
+    <string name="redress_number_msg">리드레스 번호는 고유한 TSA 발행 번호로, TSA가 감시 목록 오식별을 없애고 고객님의 신원을 확인하는 데 도움이 됩니다.</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">고객님 계정에 여행객 정보 저장 중…</string>
     <!-- Seating Preference -->
@@ -3411,6 +3431,15 @@
         <item quantity="other">기간(일)</item>
     </plurals>
 
+    <!-- A number of railcards. Capitalized -->
+    <plurals name="number_of_railcards">
+        <item quantity="zero">레일카드 %d개</item>
+        <item quantity="one">레일카드 %d개</item>
+        <item quantity="two">레일카드 %d개</item>
+        <item quantity="many">레일카드 %d개</item>
+        <item quantity="other">레일카드 %d개</item>
+    </plurals>
+
     <!-- Distance strings -->
     <!-- Abbreviated miles (used in distance_template) -->
     <string name="unit_miles">마일</string>
@@ -4025,12 +4054,10 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">이 예약을 완료함으로써 본인은 %1$s, %2$s 및 %3$s을 읽었으며 이를 수락하는 데 동의합니다.</string>
-    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">{terms_of_use} 및 {privacy_policy} 내용을 읽었고 이에 동의합니다. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">{terms_of_use} 및 {privacy_policy} 내용을 읽었고 이에 동의합니다.</string>
-    <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">{brand_reward_name_link} 회원으로 무료 여행을 위한 포인트를 적립하세요. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
+    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">오늘 바로 {brand_reward_name}에 가입하세요. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">각 아동의 나이 선택</string>
@@ -4250,6 +4277,12 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">{operatingairlinename}에서 운항</string>
 
+    <!-- Accessibility announcement when showing searching/loading screen -->
+    <string name="accessibility_announcement_searching_flights">항공편을 검색하는 중입니다. 잠시 기다려 주세요.</string>
+    <!-- Accessibility announcement when search has completed and we're showing inbound flights results. Example: Showing inbound flights to San Francisco, CA -->
+    <string name="accessibility_announcement_showing_inbound_flights_TEMPLATE">{city}행 오는 항공편을 표시 중입니다.</string>
+    <!-- Accessibility announcement when search has completed and we're showing outbound flights results. Example: Showing outbound flights to Denver, CO -->
+    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">{city}행 가는 항공편 표시 중입니다.</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">%1$s행 항공편 선택</string>
     <!-- Flight to template -->
@@ -4281,11 +4314,6 @@
         <item quantity="one">{city} 호텔, 객실 1개, {number}박</item>
         <item quantity="other">{city} 호텔, 객실 1개, {number}박</item>
     </plurals>
-
-    <!-- Text indicating that the user can drag this button to view their trip -->
-    <string name="trip_overview">여행 세부 정보 보기</string>
-    <!-- Content description to View Trip Details view -->
-    <string name="trip_overview_cont_desc">여행 세부 정보 보기 버튼</string>
 
     <!-- Slide to book -->
     <string name="slide_to_book_text">밀어서 예약하기</string>
@@ -4384,12 +4412,18 @@
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
-    <string name="rail_journey_details_and_fare_options">여행 정보 + 요금 옵션</string>
+    <string name="rail_journey_details_and_fare_options">세부 정보 및 요금</string>
 
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">{origin_station_name}에서 {destination_station_name} 이동까지 {formatted_duration}의 시간이 있습니다.</string>
 
     <string name="rail_overtaken_message">추월된 기차: 이 서비스는 다른 기차보다 느립니다.</string>
+
+    <!-- Messaging indicating to the user of their previously selected choice. -->
+    <string name="rail_open_return_selected">돌아오는 편을 오픈 티켓으로 선택하셨습니다.</string>
+
+    <!-- When the user selects an open return they can choose any inbound train journey -->
+    <string name="rail_open_return_description">선택하는 기차를 이용하실 필요는 없지만 선호 사항을 알려주세요.</string>
 
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">{origin_station_name}에서 {destination_station_name}까지 {travel_mode} 이용</string>
@@ -4408,6 +4442,9 @@
 
     <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">오는날: {date}</string>
+
+    <!-- rail checkout overview label indicating the user selected an open return journey.-->
+    <string name="rail_open_return_messaging">출발일로부터 1달 이내에 유효한 기차 이용</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
     <string name="rail_price_breakdown_journey">구간</string>
@@ -4455,7 +4492,7 @@
     <string name="rail_credit_card_fee">카드 결제 수수료</string>
 
     <!-- Credit card fee disclaimer on payment screen -->
-    <string name="rail_card_fee_disclaimer">특정 카드 종류로 결제하는 경우 기차 제공업체에서 환불되지 않는 추가 수수료를 청구합니다. 직불카드를 사용하시면 이 수수료를 절약하실 수 있습니다.</string>
+    <string name="rail_card_fee_disclaimer">저희 기차 예약 서비스 제공업체는 특정 신용카드로 결제할 경우 환불되지 않는 추가 수수료를 부과합니다. 직불카드를 사용하시면 이 수수료를 내지 않으셔도 됩니다.</string>
 
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">카드 종류별 수수료</string>
@@ -4482,6 +4519,10 @@
 
     <string name="mail_delivery_details">제공하시는 주소로 티켓이 배송됩니다.</string>
     <string name="tdo_fees_non_refundable">티켓 배송 수수료는 환불되지 않습니다.</string>
+
+    <string name="rail_error_title">오류가 있는 것 같습니다.</string>
+    <string name="rail_unknown_error_message">검색 조건을 변경하고 다시 검색해 주세요.</string>
+    <string name="rail_cko_retry_error_message">청구 정보를 확인하고 다시 해보거나 검색을 변경해 보세요.</string>
 
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
@@ -4769,6 +4810,7 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">확인란. 체크 안 됨.</string>
     <string name="base_search_dates_cont_desc">날짜 선택. 버튼. 대화상자 열림</string>
+    <string name="lx_search_start_date_cont_desc">시작 날짜 선택. 버튼. 대화상자 열림</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>

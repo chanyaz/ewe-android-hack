@@ -16,19 +16,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Rail Features">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_rail"
-            android:layout="@layout/preference"
-            android:summary="Book Rail"
-            android:title="Enable Rail LOB" />
-
-    </PreferenceCategory>
-
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="Activity Features">
 
         <CheckBoxPreference
@@ -57,4 +44,15 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="CheckOut Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_new_checkout"
+            android:layout="@layout/preference"
+            android:summary="New checkout form behavior in Universal Checkout"
+            android:title="Enable new Checkout Behavior" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

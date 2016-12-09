@@ -27,6 +27,7 @@ import com.expedia.bookings.interfaces.helpers.BackManager;
 import com.expedia.bookings.interfaces.helpers.StateListenerHelper;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.DebugMenuFactory;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.Log;
@@ -65,6 +66,8 @@ public class TabletCheckoutActivity extends TrackingFragmentActivity implements 
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		debugMenu = DebugMenuFactory.newInstance(this, null);
+
 		if (Sp.isEmpty()) {
 			finish();
 			mIsBailing = true;
@@ -77,8 +80,6 @@ public class TabletCheckoutActivity extends TrackingFragmentActivity implements 
 		}
 
 		setContentView(R.layout.activity_tablet_checkout);
-
-		debugMenu = new DebugMenu(this, null);
 
 		// Args
 		if (savedInstanceState == null) {

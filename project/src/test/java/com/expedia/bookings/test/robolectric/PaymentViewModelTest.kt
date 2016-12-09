@@ -8,7 +8,6 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Location
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemFlightV2
@@ -32,6 +31,7 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PaymentViewModel
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
@@ -300,6 +300,41 @@ class PaymentViewModelTest {
         viewModel.cardIO.onNext(info.isCardIO.toString())
 
         cardIOTestSubscriber.assertValues("4111111111111111", "111", "Joe Smith", "99999", 12.toString(), 2017.toString(), "true")
+    }
+
+    @Test
+    fun testNewCheckoutBehavior() {
+        SettingUtils.save(getContext(), R.string.preference_enable_new_checkout, true)
+        val testNewCheckoutSubscriber = TestSubscriber.create<Boolean>()
+        viewModel.newCheckoutIsEnabled.subscribe(testNewCheckoutSubscriber)
+
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.RAILS)
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.CARS)
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.LX)
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS)
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.NONE)
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+
+        testNewCheckoutSubscriber.assertValues(false, false, false, true, false, false, false, true)
+    }
+
+    @Test
+    fun testMenuButtonBehaviorOnCardSelection() {
+        SettingUtils.save(getContext(), R.string.preference_enable_new_checkout, true)
+        val testMenuVisibilitySubscriber = TestSubscriber.create<Boolean>()
+        val testEnableMenuSubscriber = TestSubscriber.create<Boolean>()
+        viewModel.menuVisibility.subscribe(testMenuVisibilitySubscriber)
+        viewModel.enableMenuItem.subscribe(testEnableMenuSubscriber)
+
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.HOTELS)
+        viewModel.onStoredCardChosen.onNext(Unit)
+
+        viewModel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
+        viewModel.onStoredCardChosen.onNext(Unit)
+
+        testEnableMenuSubscriber.assertValues(true, false)
+        testMenuVisibilitySubscriber.assertValues(true, false)
     }
 
     private fun givenTransportTrip() {

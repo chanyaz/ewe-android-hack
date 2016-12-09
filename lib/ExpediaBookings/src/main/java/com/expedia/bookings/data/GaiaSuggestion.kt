@@ -45,7 +45,7 @@ class GaiaSuggestion() {
 
     data class Country(
             val name: String,
-            val code: String
+            var code: String? = null
     )
 
     data class RegionId(

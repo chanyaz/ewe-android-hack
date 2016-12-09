@@ -309,6 +309,8 @@
     <string name="Fly_from_dot_dot_dot">Vol en partance de…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Sélectionner les dates</string>
+    <!-- Select Start date - used for the LX Calendar. -->
+    <string name="select_start_date">Sélectionner la date de début</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Hôtels pour ce soir</string>
     <!-- Missing flight info message -->
@@ -1014,7 +1016,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">Création du voyage…</string>
+    <string name="spinner_text_create_trip">Création du voyage…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1066,6 +1068,8 @@
     <string name="error_select_rail_card_details">Veuillez choisir les détails des cartes de train.</string>
     <!-- Error message when rail cards selected is greater than no. of travelers -->
     <string name="error_rail_cards_greater_than_number_travelers">Le nombre de cartes de train ne peut pas dépasser le nombre de voyageurs.</string>
+    <!-- Error message indicating we were unable to fetch rail cards at this time -->
+    <string name="no_rail_cards_error_message">Nous ne sommes actuellement pas en mesure de récupérer les cartes de train. Veuillez réessayer plus tard.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Origine</string>
@@ -1253,6 +1257,8 @@
     <string name="arrive_tz_TEMPLATE">Arrivée (%1$s)</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">Confirmation de la compagnie aérienne</string>
+    <!-- Flight Itinerary airline support number -->
+    <string name="flight_itin_airline_support_number_label">Soutien à la clientèle de la compagnie aérienne</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">Confirmation %1$s</string>
     <!-- Car rental agency name and location in car itin detail -->
@@ -1735,6 +1741,8 @@
     <string name="flights_round_trip_label">ALLER-RETOUR</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">ALLER SIMPLE</string>
+    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
+    <string name="flights_tab_selection_accouncement_TEMPLATE">Affichage de l\&apos;écran de recherche de vols {whichway}</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Sortant</string>
     <!-- Flights Line of Business title -->
@@ -1772,7 +1780,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">Erreur</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">Oups! Veuillez réessayer.</string>
+    <string name="error_try_again_warning">Oups! Veuillez réessayer.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Réessayer</string>
 
@@ -1895,6 +1903,8 @@
     <string name="calendar_tooltip_bottom_drag_to_modify">Glisser les dates de fin à modifier</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
+    <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">du {startdate} au {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (aller simple)</string>
     <!-- Calendar instructions rail start date selected -->
@@ -1909,6 +1919,8 @@
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
     <string name="hotel_free_cancellation_TEMPLATE">Annulation sans frais avant le {date}</string>
+    <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
+    <string name="hotel_free_cancellation_before_TEMPLATE">Annulation sans frais avant le {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2043,6 +2055,8 @@
     <string name="your_trip_to_TEMPLATE">Voyage à %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">Comprend les taxes et les frais</string>
+    <!-- Payment and ticket delivery fees may also apply -->
+    <string name="payment_and_ticket_delivery_fees_may_also_apply">Des frais de paiement et de livraison du billet peuvent s\&apos;appliquer</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">Comprend le vol et l\&apos;hôtel</string>
     <!-- Includes taxes (but not necessarily fees) -->
@@ -2392,6 +2406,12 @@
     <string name="passport_country_origin">Pays du passeport/Origine</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Nº de recours (le cas échéant)</string>
+    <!-- traveler number hint -->
+    <string name="known_traveler_number">Numéro de voyageur connu</string>
+    <!-- traveler number info msg -->
+    <string name="known_traveler_msg">Il s\&apos;agit du numéro émis par le gouvernement pour le programme TSA PreCheck</string>
+    <!-- redress number info msg -->
+    <string name="redress_number_msg">Un numéro de recours est un numéro unique émis par la TSA afin d\&apos;aider l\&apos;organisation à vérifier votre identité, de façon à éviter de vous confondre avec une personne inscrite sur une liste de surveillance.</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Enregistrement de l\&apos;information voyageur dans votre compte…</string>
     <!-- Seating Preference -->
@@ -3411,6 +3431,15 @@
         <item quantity="other">Jours</item>
     </plurals>
 
+    <!-- A number of railcards. Capitalized -->
+    <plurals name="number_of_railcards">
+        <item quantity="zero">%d carte de train</item>
+        <item quantity="one">%d carte de train</item>
+        <item quantity="two">%d cartes de train</item>
+        <item quantity="many">%d cartes de train</item>
+        <item quantity="other">%d cartes de train</item>
+    </plurals>
+
     <!-- Distance strings -->
     <!-- Abbreviated miles (used in distance_template) -->
     <string name="unit_miles">mi</string>
@@ -4025,12 +4054,10 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">En choisissant d\&apos;effectuer cette réservation, je reconnais que j\&apos;ai lu et que j\&apos;accepte les %1$s, les %2$s et la %3$s.</string>
-    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">J\&apos;ai lu et j\&apos;accepte les {terms_of_use} et la {privacy_policy}. En m\&apos;inscrivant à {brand_reward_name}, j\&apos;accepte toutes les {terms_and_conditions}.</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">J\&apos;ai lu et j\&apos;accepte les {terms_of_use} et la {privacy_policy}.</string>
-    <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Obtenez gratuitement des récompenses de voyage avec {brand_reward_name_link}. En m\&apos;inscrivant à {brand_reward_name}, j\&apos;accepte toutes les {terms_and_conditions}.</string>
+    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">Inscrivez-vous à {brand_reward_name} dès aujourd\&apos;hui. En m\&apos;inscrivant à {brand_reward_name}, j\&apos;accepte toutes les {terms_and_conditions}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Sélectionnez l\&apos;âge de chaque enfant</string>
@@ -4250,6 +4277,12 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">Exploité par {operatingairlinename}</string>
 
+    <!-- Accessibility announcement when showing searching/loading screen -->
+    <string name="accessibility_announcement_searching_flights">Recherche de vols en cours. Veuillez patienter.</string>
+    <!-- Accessibility announcement when search has completed and we're showing inbound flights results. Example: Showing inbound flights to San Francisco, CA -->
+    <string name="accessibility_announcement_showing_inbound_flights_TEMPLATE">Affichage des vols entrant à {city}</string>
+    <!-- Accessibility announcement when search has completed and we're showing outbound flights results. Example: Showing outbound flights to Denver, CO -->
+    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">Affichage des vols sortant de {city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">Sélectionnez un vol vers %1$s</string>
     <!-- Flight to template -->
@@ -4281,11 +4314,6 @@
         <item quantity="one">Hôtel à {city}, 1 chambre, {number} nuit</item>
         <item quantity="other">Hôtel à {city}, 1 chambre, {number} nuits</item>
     </plurals>
-
-    <!-- Text indicating that the user can drag this button to view their trip -->
-    <string name="trip_overview">Afficher les détails du voyage</string>
-    <!-- Content description to View Trip Details view -->
-    <string name="trip_overview_cont_desc">Bouton Afficher les détails du voyage</string>
 
     <!-- Slide to book -->
     <string name="slide_to_book_text">Glisser pour réserver</string>
@@ -4384,12 +4412,18 @@
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
-    <string name="rail_journey_details_and_fare_options">Détails du voyage et options de tarifs</string>
+    <string name="rail_journey_details_and_fare_options">Détails et tarifs</string>
 
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">Vous disposez de {formatted_duration} pour vous rendre de {origin_station_name} à {destination_station_name}</string>
 
     <string name="rail_overtaken_message">Train dépassé : ce service est plus lent que d\&apos;autres trains.</string>
+
+    <!-- Messaging indicating to the user of their previously selected choice. -->
+    <string name="rail_open_return_selected">Vous avez sélectionné un retour ouvert</string>
+
+    <!-- When the user selects an open return they can choose any inbound train journey -->
+    <string name="rail_open_return_description">Vous n\&apos;êtes pas tenu de voyager à bord du train sélectionné, mais veuillez nous indiquer votre préférence</string>
 
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">Allez de {origin_station_name} à {destination_station_name} en {travel_mode}</string>
@@ -4408,6 +4442,9 @@
 
     <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">Retour : {date}</string>
+
+    <!-- rail checkout overview label indicating the user selected an open return journey.-->
+    <string name="rail_open_return_messaging">Voyagez à bord de n\&apos;importe quel train valide dans un délai d\&apos;un mois suivant la date de départ</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
     <string name="rail_price_breakdown_journey">Voyage</string>
@@ -4455,7 +4492,7 @@
     <string name="rail_credit_card_fee">Frais de carte</string>
 
     <!-- Credit card fee disclaimer on payment screen -->
-    <string name="rail_card_fee_disclaimer">Le fournisseur de transport ferroviaire exige des frais supplémentaires non remboursables pour les paiements avec certaines cartes de crédit. Vous pouvez éviter ces frais en utilisant une carte de débit.</string>
+    <string name="rail_card_fee_disclaimer">Notre fournisseur de service de réservation de train exige un supplément non remboursable associé aux paiements avec certaines cartes de crédit. Vous pouvez éviter ces frais en utilisant une carte de débit.</string>
 
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">Frais selon le type de carte</string>
@@ -4482,6 +4519,10 @@
 
     <string name="mail_delivery_details">Faites expédier votre billet à l\&apos;adresse que vous indiquez.</string>
     <string name="tdo_fees_non_refundable">Les frais de livraison de billet sont non remboursables.</string>
+
+    <string name="rail_error_title">Une erreur s\&apos;est produite</string>
+    <string name="rail_unknown_error_message">Veuillez modifier vos critères de recherche et essayer de nouveau.</string>
+    <string name="rail_cko_retry_error_message">Vérifiez vos informations de facturation et réessayez, ou modifiez votre recherche.</string>
 
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
@@ -4769,6 +4810,7 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Case à cocher. Décochée.</string>
     <string name="base_search_dates_cont_desc">Sélectionner les dates. Bouton. Ouvre une fenêtre contextuelle</string>
+    <string name="lx_search_start_date_cont_desc">Sélectionner la date de début. Bouton. Ouvre une fenêtre contextuelle</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>

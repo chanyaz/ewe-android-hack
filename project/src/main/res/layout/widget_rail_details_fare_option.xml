@@ -14,51 +14,50 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp">
 
-        <LinearLayout
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/rail_fare_title"
+            style="@style/Core.Text.XLarge.Medium"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:drawableRight="@drawable/ic_checkout_info"
+            android:drawablePadding="6dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center_vertical"
+            tools:text="Standard Anytime Single, Any Off Peak Train" />
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/fare_description"
+            style="@style/Core.Text.Default.LightColor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/rail_fare_title"
             android:layout_alignParentLeft="true"
             android:layout_toLeftOf="@+id/right_container"
-            android:orientation="vertical">
+            android:layout_marginRight="16dp"
+            android:paddingBottom="2dp"
+            android:paddingTop="2dp"
+            tools:text="travel any time of day." />
 
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/rail_fare_title"
-                style="@style/Core.Text.XLarge.Medium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:drawablePadding="6dp"
-                android:drawableRight="@drawable/ic_checkout_info"
-                android:gravity="center_vertical"
-                android:paddingTop="5dp"
-                tools:text="Standard Anytime Single, Any Off Peak Train" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/fare_description"
-                style="@style/Core.Text.Default.LightColor"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="2dp"
-                android:paddingTop="2dp"
-                tools:text="travel any time of day" />
-
-            <com.expedia.bookings.widget.TextView
-                android:id="@+id/amenities_link"
-                style="@style/Rail.Text.Link"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="2dp"
-                android:paddingBottom="5dp"
-                android:textAllCaps="true"
-                android:text="@string/amenities" />
-
-        </LinearLayout>
-
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/amenities_link"
+            style="@style/Rail.Text.Link"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fare_description"
+            android:layout_alignParentLeft="true"
+            android:paddingRight="8dp"
+            android:paddingTop="2dp"
+            android:paddingBottom="5dp"
+            android:textAllCaps="true"
+            android:text="@string/amenities" />
 
         <LinearLayout
             android:id="@+id/right_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/rail_fare_title"
             android:layout_alignParentRight="true"
+            android:layout_marginTop="8dp"
             android:gravity="right"
             android:orientation="vertical">
 

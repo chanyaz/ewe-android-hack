@@ -23,7 +23,6 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     lateinit var travelerValidator: TravelerValidator
         @Inject set
 
-
     // Outputs
     val searchParamsObservable = BehaviorSubject.create<FlightSearchParams>()
     val cachedEndDateObservable = BehaviorSubject.create<LocalDate?>()
@@ -32,19 +31,23 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     private val flightParamsBuilder = FlightSearchParams.Builder(getMaxSearchDurationDays(), getMaxDateRange())
 
+    val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
+        getParamsBuilder().infantSeatingInLap(isInfantInLap)
+    }
+
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
 
         isRoundTripSearchObservable.subscribe { isRoundTripSearch ->
             getParamsBuilder().roundTrip(isRoundTripSearch)
             getParamsBuilder().maxStay = getMaxSearchDurationDays()
-            if (datesObservable.value != null && datesObservable.value.first != null) {
+            if (selectedDates.first != null) {
                 val cachedEndDate = cachedEndDateObservable.value
                 if (isRoundTripSearch && cachedEndDate != null && startDate()?.isBefore(cachedEndDate) ?: false) {
-                    datesObserver.onNext(Pair(startDate(), cachedEndDate))
+                    datesUpdated(startDate(), cachedEndDate)
                 } else {
                     cachedEndDateObservable.onNext(endDate())
-                    datesObserver.onNext(Pair(startDate(), null))
+                    datesUpdated(startDate(), null)
                 }
             } else {
                 dateTextObservable.onNext(context.resources.getString(if (isRoundTripSearch) R.string.select_dates else R.string.select_departure_date))
@@ -74,8 +77,48 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         }
     }
 
-    val isInfantInLapObserver = endlessObserver<Boolean> { isInfantInLap ->
-        getParamsBuilder().infantSeatingInLap(isInfantInLap)
+    fun performDeepLinkFlightSearch(searchParams: com.expedia.bookings.data.FlightSearchParams) {
+        //Setup the viewmodel according to the provided params
+        isRoundTripSearchObservable.onNext(searchParams.isRoundTrip)
+        datesUpdated(searchParams.departureDate, searchParams.returnDate)
+        val departureSuggestion = FlightsV2DataUtil.getSuggestionFromDeeplinkLocation(searchParams.departureLocation?.destinationId)
+        if (departureSuggestion != null) {
+            originLocationObserver.onNext(departureSuggestion)
+        }
+        val arrivalSuggestion = FlightsV2DataUtil.getSuggestionFromDeeplinkLocation(searchParams.arrivalLocation?.destinationId)
+        if (arrivalSuggestion != null) {
+            destinationLocationObserver.onNext(arrivalSuggestion)
+        }
+        travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
+
+        if (flightParamsBuilder.areRequiredParamsFilled()) {
+            deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.RESULTS)
+        } else {
+            deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.SEARCH)
+        }
+        performSearchObserver.onNext(Unit)
+    }
+
+    fun clearDestinationLocation() {
+        getParamsBuilder().destination(null)
+        formattedDestinationObservable.onNext("")
+        requiredSearchParamsObserver.onNext(Unit)
+    }
+
+    override  fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
+        var (start, end) = dates
+
+        dateTextObservable.onNext(computeDateText(start, end))
+        dateAccessibilityObservable.onNext(computeDateText(start, end, true))
+        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
+        calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
+
+        if (!isStartDateOnlyAllowed()) {
+            if (start != null && end == null) {
+                end = start.plusDays(1)
+            }
+        }
+        super.onDatesChanged(Pair(start, end))
     }
 
     override fun sameStartAndEndDateAllowed(): Boolean {
@@ -147,33 +190,5 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
                     ""
                 }
         return Pair(computeTopTextForToolTip(start, end), instructions)
-    }
-
-    fun clearDestinationLocation() {
-        getParamsBuilder().destination(null)
-        formattedDestinationObservable.onNext("")
-        requiredSearchParamsObserver.onNext(Unit)
-    }
-
-    val deeplinkFlightSearchParamsObserver = endlessObserver<com.expedia.bookings.data.FlightSearchParams> { searchParams ->
-        //Setup the viewmodel according to the provided params
-        isRoundTripSearchObservable.onNext(searchParams.isRoundTrip)
-        datesObserver.onNext(Pair(searchParams.departureDate, searchParams.returnDate))
-        val departureSuggestion = FlightsV2DataUtil.getSuggestionFromDeeplinkLocation(searchParams.departureLocation?.destinationId)
-        if (departureSuggestion != null) {
-            originLocationObserver.onNext(departureSuggestion)
-        }
-        val arrivalSuggestion = FlightsV2DataUtil.getSuggestionFromDeeplinkLocation(searchParams.arrivalLocation?.destinationId)
-        if (arrivalSuggestion != null) {
-            destinationLocationObserver.onNext(arrivalSuggestion)
-        }
-        travelersObservable.onNext(TravelerParams(searchParams.numAdults, emptyList(), emptyList(), emptyList()))
-
-        if (flightParamsBuilder.areRequiredParamsFilled()) {
-            deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.RESULTS)
-        } else {
-            deeplinkDefaultTransitionObservable.onNext(FlightActivity.Screen.SEARCH)
-        }
-        performSearchObserver.onNext(Unit)
     }
 }

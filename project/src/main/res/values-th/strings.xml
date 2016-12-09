@@ -309,6 +309,8 @@
     <string name="Fly_from_dot_dot_dot">บินจาก…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">เลือกวันที่</string>
+    <!-- Select Start date - used for the LX Calendar. -->
+    <string name="select_start_date">เลือกวันออกเดินทาง</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">โรงแรมสำหรับคืนนี้</string>
     <!-- Missing flight info message -->
@@ -1014,7 +1016,7 @@
 
     <!-- Tablet hotel trip bucket -->
     <!-- Progress dialog text while creating a trip -->
-    <string name="spinner_text_hotel_create_trip">กำลังสร้างการเดินทาง…</string>
+    <string name="spinner_text_create_trip">กำลังสร้างการเดินทาง…</string>
 
     <!-- Tablet Checkout -->
     <!-- Actionbar Title - "Checkout" -->
@@ -1066,6 +1068,8 @@
     <string name="error_select_rail_card_details">โปรดเลือกรายละเอียดบัตรรถไฟ</string>
     <!-- Error message when rail cards selected is greater than no. of travelers -->
     <string name="error_rail_cards_greater_than_number_travelers">จำนวนบัตรรถไฟต้องไม่เกินจำนวนผู้เดินทาง</string>
+    <!-- Error message indicating we were unable to fetch rail cards at this time -->
+    <string name="no_rail_cards_error_message">เราไม่สามารถดึงข้อมูลบัตรรถไฟได้ในตอนนี้ โปรดลองอีกครั้งภายหลัง</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">เดินทางจาก</string>
@@ -1253,6 +1257,8 @@
     <string name="arrive_tz_TEMPLATE">เดินทางถึง (%1$s)</string>
     <!-- Flight Confirmation code label -->
     <string name="flight_confirmation_code_label">รหัสยืนยันเที่ยวบิน</string>
+    <!-- Flight Itinerary airline support number -->
+    <string name="flight_itin_airline_support_number_label">ฝ่ายบริการลูกค้าของสายการบิน</string>
     <!-- Flight Carrier confirmation code label template -->
     <string name="flight_carrier_confirmation_code_label_TEMPLATE">ยืนยัน %1$s</string>
     <!-- Car rental agency name and location in car itin detail -->
@@ -1735,6 +1741,8 @@
     <string name="flights_round_trip_label">ไป-กลับ</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">เที่ยวเดียว</string>
+    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
+    <string name="flights_tab_selection_accouncement_TEMPLATE">แสดงหน้าจอค้นหาเที่ยวบิน{whichway}</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">ขาออก</string>
     <!-- Flights Line of Business title -->
@@ -1772,7 +1780,7 @@
     <!-- Flights unknown error screen:- title -->
     <string name="flight_generic_error_title">เกิดข้อผิดพลาด</string>
     <!-- Flights unknown error screen:- warning -->
-    <string name="flight_error_try_again_warning">อุ๊ย โปรดลองอีกครั้ง</string>
+    <string name="error_try_again_warning">อุ๊ย โปรดลองอีกครั้ง</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">ลองใหม่</string>
 
@@ -1895,6 +1903,8 @@
     <string name="calendar_tooltip_bottom_drag_to_modify">ลากเพื่อเปลี่ยนวัน</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
+    <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} ถึง {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (เที่ยวเดียว)</string>
     <!-- Calendar instructions rail start date selected -->
@@ -1908,7 +1918,9 @@
     <!-- Calendar instruction text flight date template. E.g. May 12, 2 guests -->
     <string name="flight_calendar_instructions_date_with_guests_TEMPLATE">{startdate}, {guests}</string>
 
-    <string name="hotel_free_cancellation_TEMPLATE">ยกเลิกฟรี ภายใน {date}</string>
+    <string name="hotel_free_cancellation_TEMPLATE">ยกเลิกฟรีภายใน {date}</string>
+    <!--Hotel checkout summary free cancellation before date template. E.g. "Free cancellation before Sun, May 21" -->
+    <string name="hotel_free_cancellation_before_TEMPLATE">ยกเลิกฟรีก่อน {date}</string>
 
     <!-- Flight details fragment -->
     <!-- Book now info label.  %s is the price.  E.g., "One way for $994" -->
@@ -2043,6 +2055,8 @@
     <string name="your_trip_to_TEMPLATE">การเดินทางไปยัง %1$s</string>
     <!-- Includes taxes and fees -->
     <string name="includes_taxes_and_fees">รวมภาษีและค่าธรรมเนียม</string>
+    <!-- Payment and ticket delivery fees may also apply -->
+    <string name="payment_and_ticket_delivery_fees_may_also_apply">อาจมีค่าธรรมเนียมการชำระเงินและการจัดส่งตั๋ว</string>
     <!-- Includes flights+hotels -->
     <string name="includes_flights_hotel">รวมเที่ยวบิน + โรงแรม</string>
     <!-- Includes taxes (but not necessarily fees) -->
@@ -2392,6 +2406,12 @@
     <string name="passport_country_origin">ต้นทาง/ประเทศที่ทำหนังสือเดินทาง</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">หมายเลข Redress (หากมี)</string>
+    <!-- traveler number hint -->
+    <string name="known_traveler_number">หมายเลขผู้เดินทางที่ทราบ</string>
+    <!-- traveler number info msg -->
+    <string name="known_traveler_msg">นี่เป็นหมายเลขที่ออกโดยรัฐบาลเพื่อใช้สำหรับ TSA PreCheck</string>
+    <!-- redress number info msg -->
+    <string name="redress_number_msg">หมายเลข Redress เป็นหมายเลขเฉพาะที่ออกโดย TSA ซึ่งช่วยให้ TSA ลดการระบุตัวตามรายชื่อเฝ้าระวังผิดพลาดและยืนยันตัวตนของคุณได้ถูกต้อง</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">กำลังบันทึกข้อมูลของผู้เดินทางไว้ในบัญชีของคุณ…</string>
     <!-- Seating Preference -->
@@ -3411,6 +3431,15 @@
         <item quantity="other">วัน</item>
     </plurals>
 
+    <!-- A number of railcards. Capitalized -->
+    <plurals name="number_of_railcards">
+        <item quantity="zero">%dบัตรรถไฟ</item>
+        <item quantity="one">%dบัตรรถไฟ</item>
+        <item quantity="two">%dบัตรรถไฟ</item>
+        <item quantity="many">%dบัตรรถไฟ</item>
+        <item quantity="other">%dบัตรรถไฟ</item>
+    </plurals>
+
     <!-- Distance strings -->
     <!-- Abbreviated miles (used in distance_template) -->
     <string name="unit_miles">ไมล์</string>
@@ -4025,12 +4054,10 @@
     <string name="textview_spannable_hyperlink_TEMPLATE">&lt;a href=\"%1$s\"&gt;%2$s&lt;/a&gt;</string>
     <!-- Car and LX checkout legal text eg: I have read and accept the Rules and Restrictions, the Terms & Conditions and Privacy Policy-->
     <string name="legal_TEMPLATE">ในการดำเนินการจองนี้ให้เสร็จสมบูรณ์ ฉันได้อ่านและยอมรับ %1$s, %2$s และ %3$s แล้ว</string>
-    <!-- Account creation legal template text eg: I have read and agree to the Terms of Use and the Privacy Policy. By joining Expedia+, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_TEMPLATE">ฉันได้อ่านและยอมรับใน{terms_of_use}และ{privacy_policy} โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">ฉันได้อ่านและยอมรับ{terms_of_use}และ{privacy_policy}</string>
-    <!-- Account creation legal template for reward points -->
-    <string name="account_creation_legal_rewards_TEMPLATE">รับการเดินทางฟรีไปกับ {brand_reward_name_link} โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
+    <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
+    <string name="account_creation_legal_rewards_TEMPLATE">สมัคร {brand_reward_name} วันนี้ โดยการเข้าร่วม {brand_reward_name} ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">โปรดระบุอายุเด็ก</string>
@@ -4250,6 +4277,12 @@
     <!-- Carrier name when flight operated by different carrier.g Operated by Alaska Airlines -->
     <string name="flight_operated_by_carrier_name_only_TEMPLATE">ดำเนินการโดย {operatingairlinename}</string>
 
+    <!-- Accessibility announcement when showing searching/loading screen -->
+    <string name="accessibility_announcement_searching_flights">กำลังค้นหาเที่ยวบิน… โปรดรอสักครู่</string>
+    <!-- Accessibility announcement when search has completed and we're showing inbound flights results. Example: Showing inbound flights to San Francisco, CA -->
+    <string name="accessibility_announcement_showing_inbound_flights_TEMPLATE">แสดงเที่ยวบินขาเข้าไปยัง{city}</string>
+    <!-- Accessibility announcement when search has completed and we're showing outbound flights results. Example: Showing outbound flights to Denver, CO -->
+    <string name="accessibility_announcement_showing_outbound_flights_TEMPLATE">แสดงเที่ยวบินขาออกไปยัง{city}</string>
     <!-- Select flight to template -->
     <string name="select_flight_to">เลือกเที่ยวบินไปยัง%1$s</string>
     <!-- Flight to template -->
@@ -4281,11 +4314,6 @@
         <item quantity="one">โรงแรมใน{city}, 1 ห้อง, {number} คืน</item>
         <item quantity="other">โรงแรมใน{city}, 1 ห้อง, {number} คืน</item>
     </plurals>
-
-    <!-- Text indicating that the user can drag this button to view their trip -->
-    <string name="trip_overview">ดูรายละเอียดการเดินทาง</string>
-    <!-- Content description to View Trip Details view -->
-    <string name="trip_overview_cont_desc">ปุ่มดูรายละเอียดการเดินทาง</string>
 
     <!-- Slide to book -->
     <string name="slide_to_book_text">เลื่อนเพื่อจอง</string>
@@ -4384,12 +4412,18 @@
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
     <!--Heading on the rail details screen (which shows a journey summary and a list of ticket classes for that set of legs) -->
-    <string name="rail_journey_details_and_fare_options">รายละเอียดการเดินทาง + ตัวเลือกค่าโดยสาร</string>
+    <string name="rail_journey_details_and_fare_options">รายละเอียดและค่าโดยสาร</string>
 
     <!-- Used on timeline on rail details when a customer transfer from one sation to another. Example: You have 20m to get from Kings Cross Station to Angel Station -->
     <string name="rail_transfer_from_a_to_b_TEMPLATE">คุณมีเวลา {formatted_duration} เพื่อเดินทางจาก{origin_station_name}ไป{destination_station_name}</string>
 
     <string name="rail_overtaken_message">ขบวนถูกแซง: รถไฟขบวนนี้ถึงที่หมายช้ากว่าขบวนอื่น</string>
+
+    <!-- Messaging indicating to the user of their previously selected choice. -->
+    <string name="rail_open_return_selected">คุณได้เลือกตั๋วขากลับแบบไม่ระบุเวลา</string>
+
+    <!-- When the user selects an open return they can choose any inbound train journey -->
+    <string name="rail_open_return_description">โปรดบอกเราตัวเลือกที่ต้องการ ทั้งนี้คุณไม่จำเป็นต้องเดินทางรถไฟเที่ยวที่คุณเลือก</string>
 
     <!-- Used on timeline on rail details when a customer has to travel via a non-rail segment, like a shuttle bus or a ferry. Example: Take the Shuttle Bus from Kings Cross Station to Angel Station -->
     <string name="rail_travel_from_a_to_b_TEMPLATE">นั่ง{travel_mode}จาก{origin_station_name}ไป{destination_station_name}</string>
@@ -4408,6 +4442,9 @@
 
     <!-- rail checkout overview label for inbound  e.g. "Inbound - Thu Jun 23"-->
     <string name="rail_checkout_inbound_TEMPLATE">ขากลับ - {date}</string>
+
+    <!-- rail checkout overview label indicating the user selected an open return journey.-->
+    <string name="rail_open_return_messaging">สามารถโดยสารรถไฟที่สามารถใช้บริการได้ภายในหนึ่งเดือนนับจากวันเดินทาง</string>
 
     <!--Label for Journey total tickets price on the Rail cost breakdown screen (e.g. "Journey:") -->
     <string name="rail_price_breakdown_journey">การเดินทาง</string>
@@ -4455,7 +4492,7 @@
     <string name="rail_credit_card_fee">ค่าธรรมเนียมบัตร</string>
 
     <!-- Credit card fee disclaimer on payment screen -->
-    <string name="rail_card_fee_disclaimer">บริษัทรถไฟนี้เก็บค่าธรรมเนียมเพิ่มเติมสำหรับการชำระเงินด้วยบัตรบางประเภท คุณสามารถเลี่ยงค่าธรรมเนียมนี้ได้โดยใช้บัตรเดบิต</string>
+    <string name="rail_card_fee_disclaimer">ผู้ให้บริการการจองรถไฟนี้เก็บค่าธรรมเนียมเพิ่มเติมสำหรับการชำระเงินด้วยบัตรบางประเภท คุณสามารถเลี่ยงค่าธรรมเนียมนี้ได้โดยใช้บัตรเดบิต</string>
 
     <!-- Credit card fees dialog title -->
     <string name="fees_by_card_type">ค่าธรรมเนียมตามประเภทบัตร</string>
@@ -4482,6 +4519,10 @@
 
     <string name="mail_delivery_details">ส่งตั๋วไปตามที่อยู่ที่คุณให้ไว้</string>
     <string name="tdo_fees_non_refundable">ค่าจัดส่งตั๋วไม่สามารถขอรับเงินคืนได้</string>
+
+    <string name="rail_error_title">เกิดข้อผิดพลาด</string>
+    <string name="rail_unknown_error_message">โปรดปรับเกณฑ์การค้นหาและลองอีกครั้ง</string>
+    <string name="rail_cko_retry_error_message">โปรดตรวจสอบข้อมูลบัตรเครดิตและลองอีกครั้งหรือเปลี่ยนการค้นหา</string>
 
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
@@ -4769,6 +4810,7 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">ช่องทำเครื่องหมาย ยังไม่ได้ทำเครื่องหมาย</string>
     <string name="base_search_dates_cont_desc">เลือกวันที่ ปุ่ม เปิดกล่องโต้ตอบ</string>
+    <string name="lx_search_start_date_cont_desc">เลือกวันออกเดินทาง ปุ่ม เปิดกล่องโต้ตอบ</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>

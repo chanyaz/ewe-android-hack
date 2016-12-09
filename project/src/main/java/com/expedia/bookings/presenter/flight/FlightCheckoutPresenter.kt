@@ -7,6 +7,7 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
@@ -37,6 +38,7 @@ import rx.subjects.Subject
 import javax.inject.Inject
 
 class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
+
     lateinit var insuranceServices: InsuranceServices
         @Inject set
 
@@ -98,6 +100,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         vm as FlightCreateTripViewModel
 
         insuranceWidget.viewModel = InsuranceViewModel(context, insuranceServices)
+        setInsuranceWidgetVisibility(true)
         insuranceWidget.viewModel.updatedTripObservable.subscribe(vm.createTripResponseObservable)
 
         vm.tripParams.subscribe {
@@ -113,7 +116,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
     }
 
-    private fun handlePriceChange(tripResponse: TripResponse) {
+    private fun handlePriceChange(tripResponse: FlightTripResponse) {
         val newPrice = tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints()
 
         val oldOffer = tripResponse.details.oldOffer
@@ -135,7 +138,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun isPassportRequired(response: TripResponse) {
         val flightOffer = (response as FlightCreateTripResponse).details.offer
-        travelerPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
+        travelersPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
     }
 
     override fun getLineOfBusiness() : LineOfBusiness {

@@ -41,7 +41,6 @@ public class ExpediaBookingPreferenceActivity extends TrackingAppCompatActivity 
 		getFragmentManager()
 			.beginTransaction()
 			.replace(R.id.fragment_container, new EBPreferencesFragment())
-			.addToBackStack(EBPreferencesFragment.class.getName())
 			.commit();
 	}
 

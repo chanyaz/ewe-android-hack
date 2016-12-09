@@ -176,10 +176,8 @@ class HotelActivity : TrackingAbstractAppCompatActivity() {
     }
 
     private fun setupDeepLinkSearch(hotelSearchParams: HotelSearchParams?, shouldExecuteSearch: Boolean) {
-        getSearchViewModel().enableDateObserver.onNext(Unit)
         hotelPresenter.searchPresenter.selectTravelers(TravelerParams(hotelSearchParams?.adults ?: 1, hotelSearchParams?.children ?: emptyList(), emptyList(), emptyList()))
-        val dates = Pair (hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
-        getSearchViewModel().datesObserver.onNext(dates)
+        getSearchViewModel().datesUpdated(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         hotelPresenter.searchPresenter.selectDates(hotelSearchParams?.checkIn, hotelSearchParams?.checkOut)
         if (shouldExecuteSearch) {
             hotelPresenter.searchObserver.onNext(hotelSearchParams)

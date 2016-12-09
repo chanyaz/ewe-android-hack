@@ -112,6 +112,7 @@ public class SignInResponseHandler extends JsonResponseHandler<SignInResponse> {
 					}
 
 					traveler.setRedressNumber(tsaDetails.optString("redressNumber", null));
+					traveler.setKnownTravelerNumber(tsaDetails.optString("knownTravelerNumber", null));
 				}
 
 				traveler.setSeatPreference(JSONUtils.getEnum(response, "seatPreference", SeatPreference.class));

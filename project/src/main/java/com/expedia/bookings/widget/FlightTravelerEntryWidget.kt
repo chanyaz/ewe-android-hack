@@ -26,7 +26,7 @@ import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextChange
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.traveler.FlightTravelerViewModel
+import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import rx.Observable
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
@@ -80,7 +80,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         resizeAnimator
     }
 
-    var viewModel: FlightTravelerViewModel by notNullAndObservable { vm ->
+    var viewModel: FlightTravelerEntryWidgetViewModel by notNullAndObservable { vm ->
         nameEntryView.viewModel = vm.nameViewModel
         emailEntryView.viewModel = vm.emailViewModel
         phoneEntryView.viewModel = vm.phoneViewModel
@@ -114,16 +114,20 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
             tsaEntryView.genderSpinner.nextFocusForwardId = if (show) R.id.passport_country_spinner else R.id.first_name_input
         }
 
-        vm.tsaViewModel.dateOfBirthViewModel.textSubject.subscribe {
-            filledIn.onNext(isCompletelyFilled())
-        }
+        vm.newCheckoutIsEnabled.subscribe { enabled ->
+            if (!enabled) {
+                vm.tsaViewModel.dateOfBirthViewModel.textSubject.subscribe {
+                    filledIn.onNext(isCompletelyFilled())
+                }
 
-        vm.tsaViewModel.genderViewModel.genderSubject.subscribe {
-            filledIn.onNext(isCompletelyFilled())
-        }
+                vm.tsaViewModel.genderViewModel.genderSubject.subscribe {
+                    filledIn.onNext(isCompletelyFilled())
+                }
 
-        vm.passportCountryObserver.subscribe {
-            filledIn.onNext(isCompletelyFilled())
+                vm.passportCountryObserver.subscribe {
+                    filledIn.onNext(isCompletelyFilled())
+                }
+            }
         }
 
         vm.passportValidSubject.subscribe { isValid ->
@@ -160,27 +164,27 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         phoneEntryView.phoneSpinner.isFocusable = true
         phoneEntryView.phoneSpinner.isFocusableInTouchMode = true
         phoneEntryView.phoneSpinner.setOnFocusChangeListener { view, hasFocus ->
-            onFocusChange(view, hasFocus)
             if(hasFocus){
                 Ui.hideKeyboard(this)
                 phoneEntryView.phoneSpinner.performClick()
             }
+            onFocusChange(view, hasFocus)
         }
         phoneEntryView.phoneNumber.addOnFocusChangeListener(this)
         tsaEntryView.dateOfBirth.addOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
-            onFocusChange(view, hasFocus)
             if (hasFocus) {
                 Ui.hideKeyboard(this)
                 tsaEntryView.dateOfBirth.performClick()
             }
+            onFocusChange(view, hasFocus)
         })
         tsaEntryView.genderSpinner.addOnFocusChangeListener(this)
         passportCountrySpinner.setOnFocusChangeListener { view, hasFocus ->
-            onFocusChange(view, hasFocus)
             if (hasFocus) {
                 Ui.hideKeyboard(this)
                 passportCountrySpinner.performClick()
             }
+            onFocusChange(view, hasFocus)
         }
         advancedOptionsWidget.redressNumber.addOnFocusChangeListener(this)
     }
@@ -226,8 +230,9 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         }
     }
 
-    fun isValid(): Boolean {
-        return viewModel.validate()
+    fun getNumberOfInvalidFields(): Int {
+        viewModel.validate()
+        return viewModel.numberOfInvalidFields.value
     }
 
     private fun showAdvancedOptions() {
@@ -261,6 +266,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
         }
     }
 
+    //to be removed for new checkout
     fun isCompletelyFilled(): Boolean {
         return nameEntryView.firstName.text.isNotEmpty() &&
                 nameEntryView.lastName.text.isNotEmpty() &&

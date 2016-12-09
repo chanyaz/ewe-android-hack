@@ -5,6 +5,7 @@
     <style name="Base.Rail" parent="AppTheme.Base">
         <item name="android:colorButtonNormal">@color/rail_primary_color</item>
         <item name="android:colorEdgeEffect">@color/rail_primary_color</item>
+        <item name="android:windowBackground">@color/rail_background_color</item>
 
         <item name="colorPrimaryDark">@color/rail_status_bar_color</item>
         <item name="primary_color">@color/rail_primary_color</item>

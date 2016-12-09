@@ -29,12 +29,13 @@ class FlightCheckoutOverviewViewModelTest {
                 .adults(1).build() as FlightSearchParams
 
 
-        val titleTestSubscriber = TestSubscriber<String>(3)
+        val titleTestSubscriber = TestSubscriber<String>(4)
         val checkInOutTestSubscriber = TestSubscriber<String>(2)
         val urlTestSubscriber = TestSubscriber<List<String>>(1)
 
         viewmodel.cityTitle.subscribe(titleTestSubscriber)
         viewmodel.datesTitle.subscribe(titleTestSubscriber)
+        viewmodel.datesTitleContDesc.subscribe(titleTestSubscriber)
         viewmodel.travelersTitle.subscribe(titleTestSubscriber)
 
         viewmodel.checkIn.subscribe(checkInOutTestSubscriber)
@@ -46,11 +47,12 @@ class FlightCheckoutOverviewViewModelTest {
 
         assertEquals("San Francisco, CA", titleTestSubscriber.onNextEvents[0])
         assertEquals("Wed Sep 06, 1989 - Mon Sep 06, 2021", titleTestSubscriber.onNextEvents[1])
-        assertEquals("1 Traveler", titleTestSubscriber.onNextEvents[2])
+        assertEquals("Wed Sep 06, 1989 to Mon Sep 06, 2021", titleTestSubscriber.onNextEvents[2])
+        assertEquals("1 Traveler", titleTestSubscriber.onNextEvents[3])
         assertEquals("1989-09-06", checkInOutTestSubscriber.onNextEvents[0])
         assertEquals("2021-09-06", checkInOutTestSubscriber.onNextEvents[1])
         assertEquals("https://media.expedia.com/mobiata/mobile/apps/ExpediaBooking/FlightDestinations/images/SEA.jpg?downsize=480px:*&crop=w:165/480xw;center,top&output-quality=60&output-format=jpeg&", urlTestSubscriber.onNextEvents[0][0].toString())
-        titleTestSubscriber.assertValueCount(3)
+        titleTestSubscriber.assertValueCount(4)
         checkInOutTestSubscriber.assertValueCount(2)
         urlTestSubscriber.assertValueCount(1)
     }

@@ -39,6 +39,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.DebugMenuFactory;
 import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
@@ -124,7 +125,7 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		ButterKnife.inject(this);
 		getWindow().setBackgroundDrawable(null);
 
-		debugMenu = new DebugMenu(this, ExpediaBookingPreferenceActivity.class);
+		debugMenu = DebugMenuFactory.newInstance(this, ExpediaBookingPreferenceActivity.class);
 
 		// View Pager
 		mPagerAdapter = new PagerAdapter(getSupportFragmentManager());

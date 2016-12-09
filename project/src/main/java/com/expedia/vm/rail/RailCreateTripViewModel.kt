@@ -5,6 +5,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemRails
 import com.expedia.bookings.services.RailServices
+import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
 import rx.subjects.BehaviorSubject
@@ -38,6 +39,7 @@ class RailCreateTripViewModel(val railServices: RailServices) {
         return object : Observer<RailCreateTripResponse> {
             override fun onNext(response: RailCreateTripResponse) {
                 if (response.isErrorResponse && !response.hasPriceChange()) {
+                    RailTracking().trackCreateTripUnknownError()
                     createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                 } else {
                     if (response.hasPriceChange()) {
@@ -56,6 +58,7 @@ class RailCreateTripViewModel(val railServices: RailServices) {
                 } else {
                     createTripErrorObservable.onNext(ApiError(ApiError.Code.UNKNOWN_ERROR))
                 }
+                RailTracking().trackCreateTripApiNoResponseError()
             }
 
             override fun onCompleted() {

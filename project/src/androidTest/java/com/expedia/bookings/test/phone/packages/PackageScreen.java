@@ -43,7 +43,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.withEffectiveVi
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
-import static com.expedia.bookings.test.espresso.ViewActions.swipeUp;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.CoreMatchers.instanceOf;
 import static org.hamcrest.Matchers.allOf;
@@ -219,6 +218,10 @@ public class PackageScreen {
 		return onView(withId(R.id.traveler_default_state));
 	}
 
+	public static ViewInteraction travelerAdvance() {
+		return onView(withId(R.id.traveler_advanced_options_button));
+	}
+
 	public static ViewInteraction bundlePriceWidget() {
 		return onView(withId(R.id.bundle_price_widget));
 	}
@@ -329,6 +332,10 @@ public class PackageScreen {
 		onView(withId(R.id.redress_number)).perform(typeText(redressNumber));
 	}
 
+	public static void enterKnownTravelerNumber(String knownTravelerNumber) {
+		onView(withId(R.id.traveler_number)).perform(typeText(knownTravelerNumber));
+	}
+
 	public static void enterPhoneNumber(String phoneNumber) {
 		onView(withId(R.id.edit_phone_number)).perform(typeText(phoneNumber));
 	}
@@ -357,7 +364,6 @@ public class PackageScreen {
 
 	public static void clickTravelerAdvanced() {
 		onView(withId(R.id.traveler_advanced_options_button)).perform(click());
-
 	}
 
 	public static void closeDateErrorDialog() {
@@ -368,7 +374,6 @@ public class PackageScreen {
 	public static void clickLegalInformation() {
 		onView(withId(R.id.bottom_container)).perform(waitForViewToDisplay());
 		onView(withId(R.id.legal_information_text_view)).perform(scrollTo());
-		onView(withId(R.id.legal_information_text_view)).perform(swipeUp());
 		onView(withId(R.id.legal_information_text_view)).perform(waitForViewToDisplay(), click());
 	}
 

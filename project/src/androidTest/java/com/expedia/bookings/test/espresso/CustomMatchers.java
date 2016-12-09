@@ -1,8 +1,10 @@
 package com.expedia.bookings.test.espresso;
 
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 import java.util.regex.Pattern;
 
+import org.hamcrest.BaseMatcher;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -34,6 +36,7 @@ import android.widget.TextView;
 
 import com.expedia.bookings.data.Property;
 import com.expedia.bookings.widget.flights.FlightListAdapter;
+import com.mobiata.flightlib.data.Airport;
 
 import static android.support.test.espresso.core.deps.guava.base.Preconditions.checkNotNull;
 import static org.hamcrest.Matchers.equalTo;
@@ -388,6 +391,28 @@ public class CustomMatchers {
 				}
 				return itemMatcher.matches(viewHolder.getCardView());
 			}
+		};
+	}
+
+	public static <T> Matcher<T> airportDropDownEntryWithAirportCode(final String airportCode) {
+		return new BaseMatcher<T>() {
+			@Override
+			public boolean matches(Object item) {
+				try {
+					Method getAirportMethod = item.getClass().getMethod("getAirport");
+					getAirportMethod.setAccessible(true);
+					Airport airport = (Airport) getAirportMethod.invoke(item);
+					return airportCode.equals(airport.mAirportCode);
+				}
+				catch (Exception e) {
+					return false;
+				}
+			}
+
+			@Override
+			public void describeTo(Description description) {
+			}
+
 		};
 	}
 }

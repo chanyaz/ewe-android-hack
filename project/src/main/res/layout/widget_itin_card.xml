@@ -227,7 +227,28 @@
                             android:textColor="#FFFFFF"
                             android:text="@string/vip"
                             android:textSize="15sp"
-                            app:textStyle="medium"/>
+                            app:textStyle="medium" />
+
+                        <com.expedia.bookings.widget.TextView
+                            android:id="@+id/room_upgrade_message"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_gravity="center_vertical"
+                            android:layout_marginRight="12dp"
+                            android:background="#4A90E2"
+                            android:drawableLeft="@drawable/tonight_only"
+                            android:drawablePadding="3dp"
+                            android:paddingBottom="6dp"
+                            android:paddingLeft="9dp"
+                            android:paddingRight="9dp"
+                            android:paddingTop="6dp"
+                            android:text="@string/room_upgrade_available"
+                            android:textColor="#ffffff"
+                            android:textSize="9sp"
+                            android:visibility="gone" />
+
                     </RelativeLayout>
 
                     <!-- ###################################################################### -->

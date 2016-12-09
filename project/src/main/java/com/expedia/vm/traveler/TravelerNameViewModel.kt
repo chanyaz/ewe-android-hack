@@ -3,6 +3,7 @@ package com.expedia.vm.traveler
 import android.content.Context
 import com.expedia.bookings.data.TravelerName
 import com.expedia.bookings.section.InvalidCharacterHelper
+import com.expedia.bookings.utils.AccessibilityUtil
 import rx.subjects.BehaviorSubject
 import kotlin.properties.Delegates
 
@@ -13,6 +14,7 @@ open class TravelerNameViewModel(context: Context): InvalidCharacterHelper.Inval
     val lastNameViewModel = LastNameViewModel(context)
 
     val fullNameSubject = BehaviorSubject.create<String>()
+    var numberOfInvalidFields = BehaviorSubject.create<Int>()
 
     init {
         firstNameViewModel.textSubject.subscribe {
@@ -48,6 +50,7 @@ open class TravelerNameViewModel(context: Context): InvalidCharacterHelper.Inval
         val middleNameValid = middleNameViewModel.validate()
         val lastNameValid = lastNameViewModel.validate()
 
+        numberOfInvalidFields.onNext(AccessibilityUtil.getNumberOfInvalidFields(firstNameValid, middleNameValid,lastNameValid))
         return firstNameValid && middleNameValid && lastNameValid
     }
 

@@ -3,49 +3,42 @@
     <com.expedia.bookings.presenter.rail.RailSearchPresenter
         android:id="@+id/rail_search_presenter"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/rail_background_color" />
+        android:layout_height="match_parent" />
 
     <com.expedia.bookings.presenter.rail.RailOutboundPresenter
         android:id="@+id/rail_outbound_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rail_background_color"
         android:visibility="gone" />
 
     <com.expedia.bookings.presenter.rail.RailDetailsPresenter
         android:id="@+id/rail_outbound_details_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rail_background_color"
         android:visibility="gone" />
 
     <com.expedia.bookings.presenter.rail.RailInboundPresenter
         android:id="@+id/rail_inbound_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rail_background_color"
         android:visibility="gone" />
 
     <com.expedia.bookings.presenter.rail.RailInboundDetailsPresenter
         android:id="@+id/rail_inbound_details_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rail_background_color"
         android:visibility="gone"/>
 
     <com.expedia.bookings.presenter.rail.RailTripOverviewPresenter
         android:id="@+id/rail_trip_overview_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rail_background_color"
         android:visibility="gone" />
 
     <com.expedia.bookings.presenter.rail.RailCheckoutPresenter
         android:id="@+id/rail_checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rail_background_color"
         android:visibility="gone" />
 
     <com.expedia.bookings.presenter.rail.RailConfirmationPresenter
@@ -66,7 +59,6 @@
         android:id="@+id/widget_rail_errors"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/rail_background_color"
         android:visibility="gone"/>
 
     <ViewStub

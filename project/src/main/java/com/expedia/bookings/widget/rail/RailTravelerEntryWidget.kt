@@ -13,8 +13,9 @@ import com.expedia.bookings.widget.traveler.PhoneEntryView
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeTextChange
+import com.expedia.vm.CheckoutToolbarViewModel
+import com.expedia.vm.traveler.SimpleTravelerEntryWidgetViewModel
 import com.expedia.vm.EntryFormToolbarViewModel
-import com.expedia.vm.traveler.SimpleTravelerViewModel
 import rx.subjects.PublishSubject
 import rx.subscriptions.CompositeSubscription
 
@@ -32,7 +33,7 @@ class RailTravelerEntryWidget(context: Context, attrs: AttributeSet?) : LinearLa
 
     val toolbarViewModel = EntryFormToolbarViewModel()
 
-    var viewModel: SimpleTravelerViewModel by notNullAndObservable { vm ->
+    var viewModel: SimpleTravelerEntryWidgetViewModel by notNullAndObservable { vm ->
         nameEntryView.viewModel = vm.nameViewModel
         emailEntryView.viewModel = vm.emailViewModel
         phoneEntryView.viewModel = vm.phoneViewModel

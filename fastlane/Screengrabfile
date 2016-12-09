@@ -1,0 +1,17 @@
+# remove the leading '#' to uncomment lines
+
+app_package_name 'com.expedia.bookings.debug'
+tests_package_name 'com.expedia.bookings.test'
+use_tests_in_packages ['com.expedia.bookings.screengrab']
+test_instrumentation_runner 'com.expedia.bookings.test.espresso.InstrumentationTestRunner'
+
+app_apk_path 'project/build/outputs/apk/project-expedia-debug.apk'
+tests_apk_path 'project/build/outputs/apk/project-expedia-debug-androidTest.apk'
+
+locales ['en-US', 'es-AR', 'pt-BR', 'fr-CA', 'de-DE', 'da-DK', 'es-ES', 'fr-FR', 'id-ID', 'it-IT', 'ja-JP', 'ko-KR', 'nl-NL', 'nb-NO', 'sv-SE', 'th-TH', 'zh-CN', 'zh-TW', 'en-GB']
+
+# clear all previously generated screenshots in your local output directory before creating new ones
+clear_previous_screenshots true
+
+# For more information about all available options run
+#   screengrab --help

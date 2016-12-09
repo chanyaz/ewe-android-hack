@@ -109,8 +109,12 @@ class RailCheckoutViewModelTest {
 
     @Test
     fun testPriceChange() {
-        val priceChangeTestSub = TestSubscriber<Unit>()
+        val priceChangeTestSub = TestSubscriber<Pair<Money, Money>>()
         val pricingSubjectTestSub = TestSubscriber<RailCreateTripResponse>()
+
+        val oldMockResponse = RailCreateTripResponse()
+        oldMockResponse.totalPrice = Money("12120", "USD")
+        testViewModel.tripResponseObservable.onNext(oldMockResponse)
 
         testViewModel.priceChangeObservable.subscribe(priceChangeTestSub)
         testViewModel.updatePricingSubject.subscribe(pricingSubjectTestSub)
@@ -153,20 +157,6 @@ class RailCheckoutViewModelTest {
 
         assertNotNull(errorTestSub.onNextEvents[0])
         assertEquals(ApiError.Code.UNKNOWN_ERROR, errorTestSub.onNextEvents[0].errorCode)
-    }
-
-    @Test
-    fun testRetryOnError() {
-        val errorTestSub = TestSubscriber<ApiError>()
-        testViewModel.checkoutErrorObservable.subscribe(errorTestSub)
-
-        testViewModel.checkoutParams.onNext(buildMockCheckoutParams("unknownpayment"))
-        assertNotNull(errorTestSub.onNextEvents[0])
-        assertEquals(ApiError.Code.RAIL_UNKNOWN_CKO_ERROR, errorTestSub.onNextEvents[0].errorCode)
-
-        testViewModel.retryObservable.onNext(Unit)
-        assertNotNull(errorTestSub.onNextEvents[1])
-        assertEquals(ApiError.Code.UNKNOWN_ERROR, errorTestSub.onNextEvents[1].errorCode)
     }
 
     @Test

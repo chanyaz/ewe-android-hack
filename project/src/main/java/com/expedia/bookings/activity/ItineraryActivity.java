@@ -30,6 +30,7 @@ import com.expedia.bookings.fragment.SupportMapFragment.SupportMapFragmentListen
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
+import com.expedia.bookings.utils.DebugMenuFactory;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -103,7 +104,7 @@ public class ItineraryActivity extends TrackingFragmentActivity implements ItinI
 
 		setContentView(R.layout.activity_itinerary);
 
-		debugMenu = new DebugMenu(this, null);
+		debugMenu = DebugMenuFactory.newInstance(this, null);
 
 		getWindow().setBackgroundDrawable(null);
 

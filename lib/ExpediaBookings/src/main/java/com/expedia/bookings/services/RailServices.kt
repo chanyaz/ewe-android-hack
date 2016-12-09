@@ -22,7 +22,7 @@ import rx.Scheduler
 import rx.Subscription
 import java.util.Collections
 
-class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+open class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, railRequestInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     var subscription: Subscription? = null
 
@@ -98,7 +98,7 @@ class RailServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: In
         return subscription
     }
 
-    fun railGetCards(locale: String, observer: Observer<RailCardsResponse>): Subscription {
+    open fun railGetCards(locale: String, observer: Observer<RailCardsResponse>): Subscription {
         cancel()
         val subscription = railApi.railCards(locale)
                 .subscribeOn(subscribeOn)

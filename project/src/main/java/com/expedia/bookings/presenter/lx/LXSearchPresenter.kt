@@ -90,6 +90,8 @@ class LXSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPrese
         if (AccessibilityUtil.isTalkBackEnabled(context)) {
             searchButton.isEnabled = false
         }
+        calendarWidgetV2.text = context.resources.getString(R.string.select_start_date)
+        calendarWidgetV2.contentDescription = context.resources.getString(R.string.lx_search_start_date_cont_desc)
     }
 
     override fun getSearchViewModel(): BaseSearchViewModel {

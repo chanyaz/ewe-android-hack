@@ -15,7 +15,9 @@ public class PackageCreateTripResponse extends TripResponse {
 	public Money changedPrice;
 	public String newTotalPrice;
 	public String packageRulesAndRestrictions;
-	
+	public Money selectedCardFees;
+	public Money totalPriceIncludingFees;
+
 	public static class PackageDetails {
 		public String tealeafTransactionId;
 		public String tripId;
@@ -64,8 +66,8 @@ public class PackageCreateTripResponse extends TripResponse {
 
 	@Override
 	public Money tripTotalPayableIncludingFeeIfZeroPayableByPoints() {
-		if (getTotalPriceIncludingFees() != null) {
-			return getTotalPriceIncludingFees();
+		if (totalPriceIncludingFees != null) {
+			return totalPriceIncludingFees;
 		}
 		return packageDetails.pricing.packageTotal;
 	}

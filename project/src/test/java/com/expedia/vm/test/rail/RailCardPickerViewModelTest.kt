@@ -4,6 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailCardSelected
+import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
@@ -12,7 +13,10 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.mockito.Mockito
 import org.robolectric.RuntimeEnvironment
+import rx.Observer
+import rx.Subscription
 import rx.observers.TestSubscriber
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
@@ -86,7 +90,6 @@ class RailCardPickerViewModelTest {
         viewModel.removeClickSubject.onNext(Unit)
         assertEquals(1, viewModel.cardsAndQuantitySelectionDetails.size)
         assertNull(viewModel.cardsAndQuantitySelectionDetails[1])
-
     }
 
     @Test
@@ -161,6 +164,26 @@ class RailCardPickerViewModelTest {
         viewModel.removeClickSubject.onNext(Unit)
         testResetSubscriber.assertValueCount(1)
         testRemoveRowSubscriber.assertValueCount(1)
+    }
+
+    @Test
+    fun test404Error() {
+        val mockServices = Mockito.mock(RailServices::class.java)
+        Mockito.`when`(mockServices.railGetCards(Mockito.anyString(), anyObject())).thenAnswer { invocation ->
+            val args = invocation.arguments
+            val cardsObserver = args[1] as Observer<RailCardsResponse>
+            cardsObserver.onError(Throwable("404"))
+            Mockito.mock(Subscription::class.java)
+        }
+
+        val errorViewModel = RailCardPickerViewModel(mockServices, context)
+        val testSub = TestSubscriber<String>()
+        errorViewModel.railCardError.subscribe(testSub)
+        assertEquals(context.getString(R.string.no_rail_cards_error_message), testSub.onNextEvents[0])
+    }
+
+    private fun <T> anyObject(): T {
+        return Mockito.anyObject<T>()
     }
 
     private fun mockRailCardTypeOne() = RailCard("categoryOne", "programOne", "One")

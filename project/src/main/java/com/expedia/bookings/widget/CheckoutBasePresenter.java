@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.text.method.LinkMovementMethod;
@@ -20,6 +22,9 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.Space;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.AccountLibActivity;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -37,9 +42,7 @@ import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.vm.CheckoutToolbarViewModel;
 import com.expedia.vm.PaymentViewModel;
 import com.mobiata.android.Log;
-
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+import com.squareup.phrase.Phrase;
 import kotlin.Unit;
 import rx.Observer;
 
@@ -139,8 +142,8 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		paymentInfoCardView.getToolbarTitle().subscribe(toolbar.getViewModel().getToolbarTitle());
 		paymentInfoCardView.getToolbarNavIcon().subscribe(toolbar.getViewModel().getToolbarNavIcon());
 		paymentInfoCardView.getFocusedView().subscribe(toolbar.getViewModel().getCurrentFocus());
-		paymentInfoCardView.getMenuVisibility().subscribe(toolbar.getViewModel().getMenuVisibility());
-		paymentInfoCardView.getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
+		paymentInfoCardView.getViewmodel().getMenuVisibility().subscribe(toolbar.getViewModel().getMenuVisibility());
+		paymentInfoCardView.getViewmodel().getEnableMenuItem().subscribe(toolbar.getViewModel().getEnableMenuItem());
 		paymentInfoCardView.getVisibleMenuWithTitleDone().subscribe(toolbar.getViewModel().getVisibleMenuWithTitleDone());
 		mainContactInfoCardView.filledIn.subscribe(toolbar.getViewModel().getFormFilledIn());
 		toolbar.getViewModel().getDoneClicked().subscribe(new Observer<Unit>() {
@@ -399,7 +402,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 		if (AccessibilityUtil.isTalkBackEnabled(getContext()) && visible) {
 			//hide the slider for talkback users and show a purchase button
-			slideWidget.setText(getAccessibilityTextForPurchaseButton());
 			slideWidget.hideTouchTarget();
 			AccessibilityUtil.appendRoleContDesc(slideWidget, getAccessibilityTextForPurchaseButton(), R.string.accessibility_cont_desc_role_button);
 		}
@@ -786,6 +788,42 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 		doCreateTripAndScrollToCheckout();
 	}
 
+	public AlertDialog createLogOutAlertDialog() {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+		String msg = Phrase.from(getContext(), R.string.sign_out_confirmation_TEMPLATE)
+				.put("brand", BuildConfig.brand)
+				.format().toString();
+		builder.setMessage(msg);
+		builder.setCancelable(false);
+		builder.setPositiveButton(R.string.sign_out, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				logoutUser();
+				OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.SUCCESS);
+			}
+		});
+
+		builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				dialog.dismiss();
+				OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.CANCEL);
+			}
+		});
+
+		return builder.create();
+	}
+
+	private void logoutUser() {
+		User.signOut(getContext());
+		showProgress(true);
+		mainContactInfoCardView.onLogout();
+		paymentInfoCardView.getViewmodel().getUserLogin().onNext(false);
+		hintContainer.setVisibility(VISIBLE);
+		acceptTermsWidget.setVisibility(INVISIBLE);
+		showCheckout();
+	}
+
 	@Override
 	public void accountLoginClicked() {
 		Bundle args = AccountLibActivity.createArgumentsBundle(getLineOfBusiness(), new CheckoutLoginExtender());
@@ -794,13 +832,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 
 	@Override
 	public void accountLogoutClicked() {
-		User.signOut(getContext());
-		showProgress(true);
-		mainContactInfoCardView.onLogout();
-		paymentInfoCardView.getViewmodel().getUserLogin().onNext(false);
-		hintContainer.setVisibility(VISIBLE);
-		acceptTermsWidget.setVisibility(INVISIBLE);
-		showCheckout();
+		createLogOutAlertDialog().show();
 	}
 
 	@Override
@@ -847,7 +879,6 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 			if (paymentInfoCardView.getSectionBillingInfo().getBillingInfo() != null && !paymentInfoCardView
 				.getSectionBillingInfo().getBillingInfo().isCreditCardDataEnteredManually()
 				&& Db.getUser().getStoredCreditCards().size() == 1 && Db.getTemporarilySavedCard() == null) {
-				paymentInfoCardView.getSectionBillingInfo().bind(Db.getBillingInfo());
 				paymentInfoCardView.selectFirstAvailableCard();
 			}
 			else if (Db.getUser().getStoredCreditCards().size() == 0 && Db.getTemporarilySavedCard() != null) {

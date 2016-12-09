@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
+            android:background="@color/white"
             android:padding="12dp">
 
             <LinearLayout
@@ -91,19 +92,21 @@
             android:id="@+id/rail_leg_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:padding="12dp"
             android:visibility="gone" />
 
-        <View
+        <com.expedia.bookings.widget.rail.TicketStubTearView
             android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="@color/divider_gray" />
+            android:layout_height="20dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:clickable="true"
             android:orientation="vertical"
+            android:paddingTop="8dp"
             android:paddingLeft="12dp"
             android:paddingRight="12dp">
 
@@ -112,10 +115,10 @@
                 style="@style/Core.Text.Default.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableLeft="@drawable/rail_card_icon"
+                android:layout_marginBottom="8dp"
+                android:drawableLeft="@drawable/ic_rail_card"
                 android:drawablePadding="6dp"
                 android:gravity="center_vertical"
-                android:paddingTop="12dp"
                 android:visibility="gone"/>
 
             <com.expedia.bookings.widget.TextView
@@ -124,10 +127,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingBottom="12dp"
-                android:paddingTop="12dp"
                 android:drawableRight="@drawable/ic_checkout_info"
                 android:drawablePadding="2dp"
-                android:visibility="gone"
+                android:visibility="invisible"
                 tools:text="Fare Description Here" />
         </LinearLayout>
     </LinearLayout>

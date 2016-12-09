@@ -264,6 +264,13 @@
     <string name="scan_card_instruction_text">Hold card here. It will scan automatically.</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
     <string name="accessibility_cost_summary_cont_desc_role_button">Cost summary information Button</string>
+    <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
+    <plurals name="number_of_errors_TEMPLATE">
+        <item quantity="one">You have {number} error on the form.</item>
+        <item quantity="other">You have {number} errors on the form.</item>
+    </plurals>
+    <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
+    <string name="accessibility_announcement_please_review_and_resubmit">Please review and resubmit.</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -309,6 +316,8 @@
     <string name="Fly_from_dot_dot_dot">Fly from…</string>
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Select dates</string>
+    <!-- Select Start date - used for the LX Calendar. -->
+    <string name="select_start_date">Select Start Date</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Hotels tonight</string>
     <!-- Missing flight info message -->
@@ -1068,6 +1077,8 @@
     <string name="error_select_rail_card_details">Please select rail cards details.</string>
     <!-- Error message when rail cards selected is greater than no. of travelers -->
     <string name="error_rail_cards_greater_than_number_travelers">The number of railcards cannot exceed the number of travelers.</string>
+    <!-- Error message indicating we were unable to fetch rail cards at this time -->
+    <string name="no_rail_cards_error_message">We were unable to retrieve railcards at this time. Please try again later.</string>
 
     <!-- Rail from hint -->
     <string name="from_hint">Going from</string>
@@ -1739,6 +1750,8 @@
     <string name="flights_round_trip_label">ROUND TRIP</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">ONE WAY</string>
+    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
+    <string name="flights_tab_selection_accouncement_TEMPLATE">Showing {whichway} flight search screen</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Outbound</string>
     <!-- Flights Line of Business title -->
@@ -1899,6 +1912,8 @@
     <string name="calendar_tooltip_bottom_drag_to_modify">Drag End Dates to Modify</string>
     <!-- Calendar instruction text hotels date range template. {startdate} = Formatted start date, {enddate} = formatted end date. E.g. May 12 - May 15 -->
     <string name="calendar_instructions_date_range_TEMPLATE">{startdate} - {enddate}</string>
+    <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
+    <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} to {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
     <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (One Way)</string>
     <!-- Calendar instructions rail start date selected -->
@@ -2400,6 +2415,12 @@
     <string name="passport_country_origin">Passport Country / Origin</string>
     <!-- Redress number hint -->
     <string name="only_if_applicable">Redress # (if applicable)</string>
+    <!-- traveler number hint -->
+    <string name="known_traveler_number">Known traveler number</string>
+    <!-- traveler number info msg -->
+    <string name="known_traveler_msg">This is the government-issued number used for TSA PreCheck</string>
+    <!-- redress number info msg -->
+    <string name="redress_number_msg">A redress number is a unique TSA-issued number that helps the TSA eliminate watch list misidentification and verify your identity.</string>
     <!-- Saving traveler info spinner dialog -->
     <string name="saving_traveler">Saving traveler information to your account…</string>
     <!-- Seating Preference -->
@@ -4045,7 +4066,7 @@
     <!-- Account creation legal template text excluding reward points eg: I have read and agree to the Terms of Use and the Privacy Policy. -->
     <string name="account_creation_legal_excluding_rewards_TEMPLATE">I have read and agree to the {terms_of_use} and the {privacy_policy}.</string>
     <!-- Account creation legal template for reward points eg: Join Expedia+ today. By joining Expedia+, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Join {brand_reward_name} today. By joining {brand_reward_name_link}, I accept all {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Join {brand_reward_name} today. By joining {brand_reward_name}, I accept all {terms_and_conditions}.</string>
 
     <!-- Used in hotel search for specifying traveler -->
     <string name="child_age_label">Select each child\'s age</string>
@@ -4303,11 +4324,6 @@
         <item quantity="other">Hotel in {city}, 1 room, {number} nights</item>
     </plurals>
 
-    <!-- Text indicating that the user can drag this button to view their trip -->
-    <string name="trip_overview">View Trip Details</string>
-    <!-- Content description to View Trip Details view -->
-    <string name="trip_overview_cont_desc">View Trip Details Button</string>
-
     <!-- Slide to book -->
     <string name="slide_to_book_text">Slide to book</string>
     <string name="hotel_city_country_TEMPLATE">{city}, {country}</string>
@@ -4515,7 +4531,7 @@
 
     <string name="rail_error_title">Something went wrong</string>
     <string name="rail_unknown_error_message">Please edit your search criteria and try again.</string>
-    <string name="rail_cko_invalid_input_error_message">Please check your billing information and try again.</string>
+    <string name="rail_cko_retry_error_message">Please check your billing information and try again or edit your search.</string>
 
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
@@ -4803,6 +4819,7 @@
     <!-- Content description for Checkbox types, state Unchecked -->
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Checkbox. Unchecked.</string>
     <string name="base_search_dates_cont_desc">Select dates. Button. Opens dialog</string>
+    <string name="lx_search_start_date_cont_desc">Select Start Date. Button. Opens dialog</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>
@@ -4854,5 +4871,7 @@
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">Multiple Carriers</string>
+    <!-- Room Upgrade Available messaging on Itin Screen -->
+    <string name="room_upgrade_available">Upgrade Available</string>
 
 </resources>

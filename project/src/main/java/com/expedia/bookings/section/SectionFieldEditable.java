@@ -1,11 +1,11 @@
 package com.expedia.bookings.section;
 
-import java.util.ArrayList;
-
 import android.view.View;
-
+import android.widget.TextView;
+import com.expedia.bookings.widget.TextViewExtensionsKt;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
+import java.util.ArrayList;
 
 public abstract class SectionFieldEditable<FieldType extends View, Data extends Object> extends
 		SectionField<FieldType, Data> {
@@ -58,6 +58,10 @@ public abstract class SectionFieldEditable<FieldType extends View, Data extends 
 	 * @param parent - SectionFieldEditable instances should always be part of ISectionEditable classes, which also wish to be notified of changes. We call parent.onChange from this onChange method
 	 */
 	public void onChange(ISectionEditable parent) {
+		FieldType field = getField();
+		if (field instanceof TextView) {
+			TextViewExtensionsKt.removeErrorExclamation((TextView) field, null);
+		}
 		if (parent != null) {
 			parent.onChange();
 		}
