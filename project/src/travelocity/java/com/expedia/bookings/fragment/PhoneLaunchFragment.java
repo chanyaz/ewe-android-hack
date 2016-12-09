@@ -31,21 +31,7 @@ public class PhoneLaunchFragment extends Fragment implements IPhoneLaunchActivit
 	private int mCurrentImageIndex = 0;
 
 	private static final int[] BACKGROUND_RES_IDS = new int[] {
-		R.drawable.bg_launch_tvly_sf,
-		R.drawable.bg_launch_tvly_las_vegas,
-		R.drawable.bg_launch_tvly_london,
-		R.drawable.bg_launch_tvly_paris,
-		R.drawable.bg_launch_tvly_swiss,
-		R.drawable.bg_launch_tvly_japan,
-		R.drawable.bg_launch_tvly_rome,
-		R.drawable.bg_launch_tvly_venice,
-		R.drawable.bg_launch_tvly_seattle,
-		R.drawable.bg_launch_tvly_ny,
-		R.drawable.bg_launch_tvly_chicago,
-		R.drawable.bg_launch_tvly_china,
-		R.drawable.bg_launch_tvly_dallas,
-		R.drawable.bg_launch_tvly_arizona,
-		R.drawable.bg_launch_tvly_maldives,
+		R.drawable.bg_launch_tvly_maldives
 	};
 
 	@Override
