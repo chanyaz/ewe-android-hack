@@ -27,6 +27,7 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelersPresenter
@@ -47,7 +48,7 @@ import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.unsubscribeOnClick
-import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.PaymentViewModel
@@ -55,24 +56,28 @@ import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
+import com.squareup.otto.Subscribe
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Subscription
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
+    lateinit var paymentViewModel: PaymentViewModel
+        @Inject set
+
     /** abstract methods **/
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
-    abstract fun getPaymentWidgetViewModel(): PaymentViewModel
     abstract fun injectComponents()
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateDbTravelers()
     abstract fun trackShowSlideToPurchase()
-    abstract fun makeCheckoutViewModel(): BaseCheckoutViewModel
+    abstract fun makeCheckoutViewModel(): AbstractCheckoutViewModel
     abstract fun makeCreateTripViewModel(): BaseCreateTripViewModel
-    abstract fun getCheckoutViewModel(): BaseCheckoutViewModel
+    abstract fun getCheckoutViewModel(): AbstractCheckoutViewModel
     abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
@@ -188,7 +193,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     var travelerManager: TravelerManager by Delegates.notNull()
 
-    protected var ckoViewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
+    protected var ckoViewModel: AbstractCheckoutViewModel by notNullAndObservable { vm ->
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.viewmodel.isCreditCardRequired.onNext(required)
         }
@@ -701,4 +706,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         super.unsubscribeWindowAtTeardown()
         getCheckoutViewModel().unsubscribeAll()
     }
+
+    fun getPaymentWidgetViewModel(): PaymentViewModel{
+        return paymentViewModel
+    }
+
 }

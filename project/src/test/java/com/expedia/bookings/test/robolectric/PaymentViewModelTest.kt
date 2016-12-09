@@ -32,7 +32,6 @@ import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PaymentViewModel
 import com.mobiata.android.util.SettingUtils
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

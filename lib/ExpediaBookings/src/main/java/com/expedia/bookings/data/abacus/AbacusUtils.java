@@ -81,6 +81,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelFilterProminence);
 		testIDs.add(EBAndroidItinHotelGallery);
 		testIDs.add(EBAndroidAppFlightRateDetailExpansion);
+		testIDs.add(EBAndroidAppBringUniversalCheckoutToLX);
 		return testIDs;
 	}
 

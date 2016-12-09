@@ -1,5 +1,6 @@
 package com.expedia.bookings.services;
 
+import com.expedia.bookings.data.lx.LXCreateTripResponseV2;
 import java.util.Map;
 
 import com.expedia.bookings.data.lx.ActivityDetailsResponse;
@@ -44,6 +45,12 @@ public interface LXApi {
 	@Headers("Content-Type: application/json")
 	@POST("/m/api/lx/trip/create")
 	Observable<LXCreateTripResponse> createTrip(
+		@Body LXCreateTripParams createTripParams
+	);
+
+	@Headers("Content-Type: application/json")
+	@POST("/m/api/lx/trip/create")
+	Observable<LXCreateTripResponseV2> createTripV2(
 		@Body LXCreateTripParams createTripParams
 	);
 

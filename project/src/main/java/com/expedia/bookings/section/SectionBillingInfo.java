@@ -702,7 +702,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
-				if (isPostalCodeRequired() && !LineOfBusinessExtensions.Companion.isUniversalCheckout(mLineOfBusiness)) {
+				if (isPostalCodeRequired() && !LineOfBusinessExtensions.Companion.isUniversalCheckout(mLineOfBusiness, getContext())) {
 					if (obj == null) {
 						return ValidationError.ERROR_DATA_MISSING;
 					}
