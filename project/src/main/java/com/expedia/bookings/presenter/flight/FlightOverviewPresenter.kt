@@ -1,6 +1,9 @@
 package com.expedia.bookings.presenter.flight
 
 import android.content.Context
+import android.support.design.widget.AppBarLayout
+import android.support.design.widget.CoordinatorLayout
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
@@ -28,6 +31,14 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverv
         getCheckoutPresenter().getCheckoutViewModel().showDebitCardsNotAcceptedSubject.subscribe(getCheckoutPresenter().paymentWidget.viewmodel.showDebitCardsNotAcceptedSubject)
         scrollSpaceView = flightSummary.scrollSpaceView
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.visibility = View.INVISIBLE
+        bundleOverviewHeader.isExpandable = !isBucketedForExpandedRateDetailsTest
+        val params = bundleOverviewHeader.appBarLayout.layoutParams as CoordinatorLayout.LayoutParams
+        val behavior = params.behavior as AppBarLayout.Behavior
+        behavior.setDragCallback(object: AppBarLayout.Behavior.DragCallback() {
+            override fun canDrag(appBarLayout: AppBarLayout): Boolean {
+                return bundleOverviewHeader.isExpandable && currentState == BundleDefault::class.java.name
+            }
+        });
     }
 
     override fun inflate() {

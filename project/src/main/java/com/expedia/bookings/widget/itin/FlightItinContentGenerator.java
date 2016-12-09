@@ -72,6 +72,7 @@ import com.mobiata.flightlib.data.Airline;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.Delay;
 import com.mobiata.flightlib.data.Flight;
+import com.mobiata.flightlib.data.FlightCode;
 import com.mobiata.flightlib.data.Waypoint;
 import com.mobiata.flightlib.utils.DateTimeUtils;
 import com.mobiata.flightlib.utils.FormatUtils;
@@ -307,24 +308,27 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 	}
 
 	private boolean addAirlineSupportNumber(ViewGroup container) {
-		String airlineCode = getItinCardData().getFlightLeg().getSegment(0).getPrimaryFlightCode().mAirlineCode;
-		Airline airline = Db.getAirline(airlineCode);
+		FlightCode primaryFlightCode = getItinCardData().getFlightLeg().getSegment(0).getPrimaryFlightCode();
 
-		boolean haveAirlinePhoneNumber = airline != null && airline.mAirlinePhone != null;
-		if (haveAirlinePhoneNumber) {
-			final String mAirlinePhone = airline.mAirlinePhone;
-			int labelResId = R.string.flight_itin_airline_support_number_label;
-			View view = getItinDetailItem(labelResId, mAirlinePhone, false,
-				new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						SocialUtils.call(getContext(), mAirlinePhone);
-					}
-				});
-			container.addView(view, 1);
-			return true;
+		if (primaryFlightCode != null) {
+			String airlineCode = primaryFlightCode.mAirlineCode;
+			Airline airline = Db.getAirline(airlineCode);
+
+			boolean haveAirlinePhoneNumber = airline != null && airline.mAirlinePhone != null;
+			if (haveAirlinePhoneNumber) {
+				final String mAirlinePhone = airline.mAirlinePhone;
+				int labelResId = R.string.flight_itin_airline_support_number_label;
+				View view = getItinDetailItem(labelResId, mAirlinePhone, false,
+					new OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							SocialUtils.call(getContext(), mAirlinePhone);
+						}
+					});
+				container.addView(view, 1);
+				return true;
+			}
 		}
-
 		return false;
 	}
 
