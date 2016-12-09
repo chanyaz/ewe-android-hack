@@ -1,6 +1,8 @@
 package com.expedia.bookings.deeplink;
 
 import java.net.URISyntaxException;
+import java.util.Collections;
+import java.util.List;
 
 import org.joda.time.LocalDate;
 
@@ -14,10 +16,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.expedia.bookings.data.abacus.AbacusUtils;
 
 import com.expedia.bookings.R;
 
@@ -30,6 +36,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 	private static final int TYPE_LINK = 1;
 	private static final int TYPE_LINK_WITH_PACKAGE = 2;
 	private static final int TYPE_LINK_CUSTOM = 3;
+	private static final int TYPE_LINK_WITH_AB_TESTS = 4;
 
 	private static final DeepLink[] DEEP_LINKS = new DeepLink[] {
 		new DeepLinkSection("Hotels", R.color.hotels_primary_color),
@@ -87,6 +94,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Request Push Permissions", "expda://requestNotificationPermission"),
 		new DeepLink("Destination (Muzei Plugin)", "expda://destination/?displayName=Orlando,+FL&searchType=CITY&hotelId=178294&airportCode=ORL&regionId=178294&latitude=28.541290&longitude=-81.379040&imageCode=fun-orlando"),
 		new DeepLink("Support Email", "expda://supportEmail"),
+		new DeepLinkWithABTests("Force Bucket", "expda://forceBucket?key={}&value={}"),
 		new DeepLinkWithPackage("Empty Data", ""),
 		new DeepLinkCustom(),
 	};
@@ -98,6 +106,9 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		}
 		else if (DEEP_LINKS[position] instanceof DeepLinkWithPackage) {
 			return TYPE_LINK_WITH_PACKAGE;
+		}
+		else if (DEEP_LINKS[position] instanceof DeepLinkWithABTests) {
+			return TYPE_LINK_WITH_AB_TESTS;
 		}
 		else if (DEEP_LINKS[position] instanceof DeepLinkCustom) {
 			return TYPE_LINK_CUSTOM;
@@ -117,6 +128,9 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		}
 		else if (viewType == TYPE_LINK_CUSTOM) {
 			return new DeepLinkCustomViewHolder(inflate(R.layout.row_deep_link_test_custom, parent));
+		}
+		else if (viewType == TYPE_LINK_WITH_AB_TESTS) {
+			return new DeepLinkWithABTestsViewHolder(inflate(R.layout.row_deep_link_test_with_ab_tests, parent));
 		}
 		else {
 			return new DeepLinkViewHolder(inflate(R.layout.row_deep_link_test, parent));
@@ -213,6 +227,38 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		}
 	}
 
+	public static class DeepLinkWithABTestsViewHolder extends DeepLinkViewHolder {
+
+		@InjectView(R.id.app_ab_tests_spinner)
+		Spinner abTestsSpinner;
+
+		@InjectView(R.id.test_variant_edit_text)
+		EditText testVariantEditText;
+
+		public DeepLinkWithABTestsViewHolder(View itemView) {
+			super(itemView);
+			List<Integer> testIDList = AbacusUtils.getActiveTests();
+
+			//add 0 to reset the test map
+			testIDList.add(0);
+
+			Collections.sort(testIDList);
+			ArrayAdapter<Integer> spinnerArrayAdapter = new ArrayAdapter<Integer>(itemView.getContext(), android.R.layout.simple_spinner_item, testIDList); //selected item will look like a spinner set from XML
+			spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			abTestsSpinner.setAdapter(spinnerArrayAdapter);
+		}
+
+		@Override
+		public void onClick(View view) {
+			Intent intent = new Intent();
+			String link = "expda://forceBucket?key=" + abTestsSpinner.getSelectedItem() + "&value=" + testVariantEditText.getText();
+
+			Toast.makeText(view.getContext(), link, Toast.LENGTH_SHORT).show();
+			intent.setData(Uri.parse(link));
+			safeStartActivity(view.getContext(), intent);
+		}
+	}
+
 	public static class DeepLinkCustomViewHolder extends DeepLinkViewHolder implements View.OnClickListener {
 		public DeepLinkCustomViewHolder(View itemView) {
 			super(itemView);
@@ -264,6 +310,12 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 	static class DeepLinkWithPackage extends DeepLink {
 		DeepLinkWithPackage(String label, String link) {
+			super(label, link);
+		}
+	}
+
+	static class DeepLinkWithABTests extends DeepLink {
+		DeepLinkWithABTests(String label, String link) {
 			super(label, link);
 		}
 	}

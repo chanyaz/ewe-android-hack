@@ -40,6 +40,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.CarDataUtils;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
@@ -49,11 +50,11 @@ import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
+import com.expedia.util.ForceBucketPref;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
-import com.mobiata.android.util.Ui;
 
 /**
  * This class acts as a router for incoming deep links.  It seems a lot
@@ -189,8 +190,12 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			handleSupportEmail();
 			finish = true;
 			break;
+		case "forcebucket":
+			handleForceBucketing(data, queryData);
+			finish = true;
+			break;
 		default:
-			Ui.showToast(this, "Cannot yet handle data: " + data);
+			com.mobiata.android.util.Ui.showToast(this, "Cannot yet handle data: " + data);
 			finish = true;
 		}
 
@@ -198,6 +203,41 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		if (finish) {
 			finish();
 		}
+	}
+
+	private void handleForceBucketing(Uri data, Set<String> queryData) {
+		if (isInteger(data.getQueryParameter("value")) && isInteger(data.getQueryParameter("key"))) {
+			int key = 0, newValue = 0;
+			if (queryData.contains("key")) {
+				key = Integer.valueOf(data.getQueryParameter("key"));
+			}
+			if (queryData.contains("value")) {
+				newValue = Integer.valueOf(data.getQueryParameter("value"));
+			}
+			//reset and revert back to default abacus test map
+			if (key == 0) {
+				ForceBucketPref.setUserForceBucketed(this, false);
+				AbacusHelperUtils.downloadBucket(this);
+			}
+			else {
+				ForceBucketPref.setUserForceBucketed(this, true);
+				ForceBucketPref.saveForceBucketedTestKeyValue(this, key, newValue);
+				Db.getAbacusResponse().updateABTest(key, newValue);
+			}
+		}
+	}
+
+	private boolean isInteger(String value) {
+		if (value != null && !value.isEmpty()) {
+			try {
+				Integer.parseInt(value);
+			}
+			catch (NumberFormatException ex) {
+				return false;
+			}
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -514,7 +554,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	 * Example:
 	 * expda://flightSearch/?origin=LAX&destination=SFO&departureDate=2015-01-01&returnDate=2015-01-02&numAdults=2
 	 *
-	 * @param data the deep link
+	 * @param data      the deep link
 	 * @param queryData a set of query parameter names included in the deep link
 	 */
 	private void handleFlightSearch(Uri data, Set<String> queryData) {

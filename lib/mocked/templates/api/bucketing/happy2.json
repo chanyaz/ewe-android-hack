@@ -1,0 +1,23 @@
+{
+  "guid": "17f495A7448E43a3adff46B05a530687",
+  "tpid": 1,
+  "eapid": 1,
+  "evaluatedExperiments": [
+    {
+      "id": 1111,
+      "value": 1,
+      "instanceId": 1111
+    },
+    {
+      "id": 2222,
+      "value": 1,
+      "instanceId": 2222
+    },
+    {
+      "id": 3333,
+      "value": 1,
+      "instanceId": 3333
+    }
+  ],
+  "successGettingPreserveData": true
+}
