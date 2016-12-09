@@ -82,6 +82,7 @@ public class ServerError implements JSONable {
 		COUPON_DOES_NOT_EXIST,
 		COUPON_CAMPAIGN_NOT_CONFIGURED,
 		COUPON_PACKAGE_MISSING,
+		NOT_AUTHENTICATED
 	}
 
 	public static final String FLAG_ITINERARY_BOOKED = "itineraryBooked";

@@ -3,6 +3,7 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.PaymentType
+import com.expedia.bookings.data.ServerError
 import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.utils.MockModeShim
 import com.mobiata.android.util.SettingUtils
@@ -79,6 +80,13 @@ class UserSignInTest {
         assertNotNull(signInResponse.user.getStoredPointsCard(PaymentType.POINTS_REWARDS))
     }
 
+
+    @Test
+    fun testSign() {
+        val signInResponse = expediaServices.signInWithEmailForAutomationTests(ExpediaServices.F_HOTELS, "singlePointscard@mobiata.com")
+        assertNotNull(signInResponse.user.getStoredPointsCard(PaymentType.POINTS_REWARDS))
+    }
+
     @Test
     fun testGetStoredPointsCardWithNoPointsCard() {
         val signInResponse = expediaServices.signInWithEmailForAutomationTests(ExpediaServices.F_HOTELS, "singlecard@mobiata.com")
@@ -96,6 +104,13 @@ class UserSignInTest {
         val signInResponse = expediaServices.signInWithEmailForAutomationTests(ExpediaServices.F_HOTELS, "nostoredcards@mobiata.com")
         val user = signInResponse.user
         assertNull(user.loyaltyMembershipInformation)
+    }
+
+    @Test
+    fun testSignInFailed() {
+        val signInResponse = expediaServices.signInWithEmailForAutomationTests(ExpediaServices.F_HOTELS, "authentication_failed@mobiata.com")
+        val error = signInResponse.errors.first()
+        assertEquals(ServerError.ErrorCode.NOT_AUTHENTICATED, error.errorCode)
     }
 
     @Test

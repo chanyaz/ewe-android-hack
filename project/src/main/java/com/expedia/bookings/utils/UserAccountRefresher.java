@@ -9,6 +9,7 @@ import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.otto.Events;
@@ -33,7 +34,6 @@ public class UserAccountRefresher {
 	private String keyRefreshUser;
 	//When we last refreshed user data.
 	private long mLastRefreshedUserTimeMillis = 0L;
-
 	private Context context;
 
 	@Inject
@@ -69,7 +69,7 @@ public class UserAccountRefresher {
 					if (isUserFacebookSessionActive()) {
 						forceAccountRefresh();
 					}
-					else {
+					else if (results.getErrors().get(0).getErrorCode() == ServerError.ErrorCode.NOT_AUTHENTICATED) {
 						doLogout();
 					}
 				}
@@ -153,6 +153,9 @@ public class UserAccountRefresher {
 						success();
 					}
 					else {
+						if (User.isLoggedIn(context)) {
+							doLogout();
+						}
 						failure();
 					}
 				}
@@ -167,9 +170,6 @@ public class UserAccountRefresher {
 
 				private void failure() {
 					Log.d("FB: Autologin failed");
-					if (User.isLoggedIn(context)) {
-						doLogout();
-					}
 					if (userAccountRefreshListener != null) {
 						userAccountRefreshListener.onUserAccountRefreshed();
 					}

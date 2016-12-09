@@ -91,11 +91,11 @@ public class ParserUtils {
 			// We don't get a MobileError returned to us, we get these fields
 			String status = response.optString("detailedStatus", null);
 			if (!status.equals("Success")) {
-				ServerError fakeError = new ServerError(apiMethod);
-				fakeError.setCode("SIMULATED");
-				fakeError.setMessage(response.optString("detailedStatusMsg", null));
+				ServerError error = new ServerError(apiMethod);
+				error.setCode("NOT_AUTHENTICATED");
+				error.setMessage(response.optString("detailedStatusMsg", null));
 
-				errors.add(fakeError);
+				errors.add(error);
 			}
 
 			return errors;
