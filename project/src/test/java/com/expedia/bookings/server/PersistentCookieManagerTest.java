@@ -19,7 +19,6 @@ import org.junit.runner.RunWith;
 import org.robolectric.RuntimeEnvironment;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.Strings;
@@ -301,9 +300,8 @@ public class PersistentCookieManagerTest {
 
 	@Test
 	public void encryptOldCookies() throws Throwable {
-		Context context = RuntimeEnvironment.application;
-		AssetManager assetManager = context.getAssets();
-		InputStream inputStream = assetManager.open("cookies-5.dat");
+		File file = new File("src/androidTest/assets/cookies-5.dat");
+		InputStream inputStream  = Okio.buffer(Okio.source(file)).inputStream();
 
 		Source from = Okio.source(inputStream);
 		BufferedSink to = Okio.buffer(Okio.sink(oldCookieStorage));

@@ -2,6 +2,7 @@ package com.expedia.bookings.utils
 
 import android.content.Context
 import android.os.Build
+import android.provider.Settings
 import android.security.KeyPairGeneratorSpec
 import android.support.annotation.VisibleForTesting
 import android.util.Base64
@@ -30,10 +31,10 @@ open class EncryptionUtil(private val context: Context, private val secretKeyFil
     private val AES_ALGORITHM = "AES"
     private val KEYSTORE_NAME = "AndroidKeyStore"
     private val CIPHER_PROVIDER = "SC"
-    private val AAD_TAG = "AAD_EXPEDIA".toByteArray()
+    protected open val AAD_TAG = Settings.Secure.getString(context.contentResolver, Settings.Secure.ANDROID_ID)?.toByteArray()
     protected val AES_KEY_LENGTH: Int = 128
-    private val GCM_NONCE_LENGTH = 12 // in bytes
-    private val GCM_TAG_LENGTH = 16 // in bytes
+    private val GCM_NONCE_LENGTH_BYTES = 12
+    private val GCM_TAG_LENGTH_BITS = 128
     private val DELIMITER = "]"
     private val random = SecureRandom()
 
@@ -88,8 +89,8 @@ open class EncryptionUtil(private val context: Context, private val secretKeyFil
         val keySpec = SecretKeySpec(AES_KEY, AES_ALGORITHM)
 
         val cipher = getAESCipher()
-        val iv = generateIv(GCM_NONCE_LENGTH)
-        val ivParams = GCMParameterSpec(GCM_TAG_LENGTH * 8, iv)
+        val iv = generateIv(GCM_NONCE_LENGTH_BYTES)
+        val ivParams = GCMParameterSpec(GCM_TAG_LENGTH_BITS, iv)
 
         cipher.init(Cipher.ENCRYPT_MODE, keySpec, ivParams)
         cipher.updateAAD(AAD_TAG)
@@ -117,7 +118,7 @@ open class EncryptionUtil(private val context: Context, private val secretKeyFil
 
         val keySpec = SecretKeySpec(AES_KEY, AES_ALGORITHM)
         val cipher = getAESCipher()
-        val ivParams = GCMParameterSpec(GCM_TAG_LENGTH * 8, iv)
+        val ivParams = GCMParameterSpec(GCM_TAG_LENGTH_BITS, iv)
         cipher.init(Cipher.DECRYPT_MODE, keySpec, ivParams)
         cipher.updateAAD(AAD_TAG)
 

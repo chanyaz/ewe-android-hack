@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import android.provider.Settings
 import okio.Okio
 import org.bouncycastle.jce.X509Principal
 import org.bouncycastle.x509.X509V3CertificateGenerator
@@ -23,6 +24,7 @@ import javax.crypto.Cipher
 class TestEncryptionUtil(context: Context, secretKeyFile: File, alias: String, useRSA: Boolean) : EncryptionUtil(context, secretKeyFile, alias) {
     private val password = "password".toCharArray()
     private val filename = "keyStoreName"
+    override val AAD_TAG = "Android".toByteArray()
 
     override val keyStore: KeyStore by lazy {
         val keystore = KeyStore.getInstance("PKCS12", "SunJSSE")

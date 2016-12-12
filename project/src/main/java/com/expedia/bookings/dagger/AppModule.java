@@ -9,6 +9,7 @@ import java.security.cert.X509Certificate;
 import java.util.Collections;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManager;
@@ -39,18 +40,6 @@ import com.mobiata.android.util.SettingUtils;
 
 import dagger.Module;
 import dagger.Provides;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-import javax.inject.Named;
-import javax.inject.Singleton;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.HttpUrl;
