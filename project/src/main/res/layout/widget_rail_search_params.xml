@@ -80,7 +80,8 @@
                     android:layout_height="match_parent"
                     android:layout_above="@id/search_btn"
                     android:layout_below="@id/tabs"
-                    android:background="@color/transparent" />
+                    android:background="@color/transparent"
+                    android:importantForAccessibility="no"/>
 
                 <com.expedia.bookings.presenter.rail.RailSearchWidget
                     android:id="@+id/rail_search_widget"
