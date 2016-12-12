@@ -157,6 +157,13 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 		offset = Ui.toolbarSizeWithStatusBar(getContext());
 		offers.getOfferPublishSubject().subscribe(lxOfferObserever);
 		defaultScroll();
+		galleryContainer.getViewTreeObserver().addOnScrollChangedListener(
+				new ViewTreeObserver.OnScrollChangedListener() {
+						@Override
+						public void onScrollChanged() {
+							setA11yScrolling();
+						}
+				});
 	}
 
 	public void defaultScroll() {
@@ -173,6 +180,16 @@ public class LXActivityDetailsWidget extends LXDetailsScrollView implements Recy
 	protected void onDetachedFromWindow() {
 		Events.unregister(this);
 		super.onDetachedFromWindow();
+	}
+	
+	private void setA11yScrolling() {
+		if (getScrollY() == getHeight() - mGalleryHeight) {
+			((RecyclerGallery.A11yLinearLayoutManager) activityGallery.getLayoutManager()).setCanA11yScroll(false);
+		}
+
+		if (getScrollY() == 0) {
+			((RecyclerGallery.A11yLinearLayoutManager) activityGallery.getLayoutManager()).setCanA11yScroll(true);
+		}
 	}
 
 	@OnClick(R.id.transparent_view_over_mini_map)
