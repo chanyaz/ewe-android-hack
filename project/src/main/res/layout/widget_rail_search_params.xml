@@ -57,7 +57,8 @@
             android:id="@+id/scrollView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:fillViewport="true">
+            android:fillViewport="true"
+            android:importantForAccessibility="no">
 
             <RelativeLayout
                 android:id="@+id/search_container"

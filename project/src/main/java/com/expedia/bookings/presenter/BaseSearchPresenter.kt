@@ -147,7 +147,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         AccessibilityUtil.delayFocusToToolbarNavigationIcon(toolbar, 300)
     }
 
-    protected  fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {
+    protected fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {
         return {
            performLocationClick(isCustomerSelectingOrigin)
         }
