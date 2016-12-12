@@ -39,10 +39,6 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
         adapter.fareRulesWidget.viewModel = fareRulesViewModel
     }
 
-    override fun onFinishInflate() {
-        super.onFinishInflate()
-    }
-
     fun showAmenitiesForOffer(legOption : RailLegOption, railProduct: RailProduct) {
         updateAmenitiesData(legOption, railProduct)
         updateFareRulesData(railProduct)
