@@ -36,15 +36,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.LoyaltyMembershipTier;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -60,16 +54,13 @@ import com.expedia.bookings.widget.ItinActionsSection;
 import com.expedia.bookings.widget.ParallaxContainer;
 import com.expedia.bookings.widget.RecyclerGallery;
 import com.expedia.bookings.widget.ScrollView;
-import com.expedia.ui.GalleryActivity;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.squareup.phrase.Phrase;
 
 public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	implements PopupMenu.OnMenuItemClickListener, ShareView.OnShareTargetSelectedListener,
-	ItinContentGenerator.MediaCallback, RecyclerGallery.GalleryItemListener {
+	ItinContentGenerator.MediaCallback {
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
@@ -96,7 +87,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	private OnItinCardClickListener mOnItinCardClickListener;
 
-	private ItinContentGenerator<? extends ItinCardData> mItinContentGenerator;
+	protected ItinContentGenerator<? extends ItinCardData> mItinContentGenerator;
 
 	private DisplayState mDisplayState = DisplayState.COLLAPSED;
 	private int mCollapsedTop;
@@ -130,7 +121,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private ViewGroup mSummaryLayout;
 	private ImageView mChevronImageView;
 	private ViewGroup mDetailsLayout;
-	private TextView mRoomUpgradeLayout;
 	private ItinActionsSection mActionButtonLayout;
 
 	private AlphaImageView mItinTypeImageView;
@@ -138,7 +128,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	private ScrollView mScrollView;
 	private ParallaxContainer mHeaderImageContainer;
-	private RecyclerGallery mHeaderGallery;
+	protected RecyclerGallery mHeaderGallery;
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
 	private TextView mHeaderTextDateView;
@@ -146,7 +136,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private View mSelectedView;
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
-	private TextView mVIPTextView;
 
 	private ShareView mShareView;
 
@@ -194,8 +183,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mChevronImageView = Ui.findView(this, R.id.chevron_image_view);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
-		mVIPTextView = Ui.findView(this, R.id.vip_label_text_view);
-		mRoomUpgradeLayout = Ui.findView(this, R.id.room_upgrade_message);
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 		mFixedItinTypeImageView = Ui.findView(this, R.id.fixed_itin_type_image_view);
 
@@ -211,7 +198,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mShareView = Ui.findView(this, R.id.itin_share_view);
 
 		mSummarySectionLayout.setOnClickListener(mOnClickListener);
-		mHeaderGallery.setOnItemClickListener(this);
 
 		mHeaderGallery.showPhotoCount = false;
 		Ui.setOnClickListener(this, R.id.close_image_button, mOnClickListener);
@@ -456,28 +442,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mActionButtonLayout.setVisibility(GONE);
 			mHeaderGallery.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rail_primary_color));
 			mChevronImageView.setRotation(-90f);
-		}
-
-		if (itinCardData instanceof ItinCardDataHotel) {
-			boolean isVipAccess = ((ItinCardDataHotel) itinCardData).isVip();
-			LoyaltyMembershipTier customerLoyaltyMembershipTier = User.getLoggedInLoyaltyMembershipTier(getContext());
-			boolean isSilverOrGoldMember = customerLoyaltyMembershipTier == LoyaltyMembershipTier.MIDDLE
-				|| customerLoyaltyMembershipTier == LoyaltyMembershipTier.TOP;
-			boolean posSupportVipAccess = PointOfSale.getPointOfSale().supportsVipAccess();
-			if (isVipAccess && isSilverOrGoldMember && posSupportVipAccess) {
-				mVIPTextView.setVisibility(VISIBLE);
-			}
-			else {
-				mVIPTextView.setVisibility(GONE);
-			}
-
-			boolean isRoomUpgradable = itinCardData.getTripComponent().getParentTrip().isTripUpgradable();
-			if (isRoomUpgradable) {
-				mRoomUpgradeLayout.setVisibility(VISIBLE);
-			}
-			else {
-				mRoomUpgradeLayout.setVisibility(GONE);
-			}
 		}
 	}
 
@@ -1052,13 +1016,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		}
 	}
 
-	private void finishExpand() {
+	protected void finishExpand() {
 		// Sometimes the scroll view doesnt work correctly after expansion so we try a requestlayout
 		if (mScrollView != null) {
 			mScrollView.requestLayout();
 		}
-		mHeaderGallery.showPhotoCount = isBucketedForGallery();
-		mHeaderGallery.canScroll = isBucketedForGallery();
 		mHeaderGallery.requestLayout();
 		mHeaderGallery.getAdapter().notifyDataSetChanged();
 
@@ -1241,27 +1203,5 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	@Override
 	public void onMediaReady(List<? extends IMedia> media) {
 		mHeaderGallery.setDataSource(mItinContentGenerator.getHeaderBitmapDrawable());
-	}
-
-	@Override
-	public void onGalleryItemClicked(Object item) {
-		if (!isBucketedForGallery()) {
-			return;
-		}
-		Intent i = new Intent(getContext(), GalleryActivity.class);
-		if (mItinContentGenerator.mItinCardData instanceof ItinCardDataHotel) {
-			HotelItinContentGenerator contentGenerator = (HotelItinContentGenerator) mItinContentGenerator;
-			Gson gson = new GsonBuilder().create();
-			String json = gson.toJson(contentGenerator.getItinCardData().getProperty().getMediaList());
-			i.putExtra("Urls", json);
-			i.putExtra("Position", mHeaderGallery.getSelectedItem());
-			i.putExtra("Name", contentGenerator.getItinCardData().getPropertyName());
-			i.putExtra("Rating", contentGenerator.getItinCardData().getPropertyRating());
-			getContext().startActivity(i);
-		}
-	}
-
-	private boolean isBucketedForGallery() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidItinHotelGallery);
 	}
 }

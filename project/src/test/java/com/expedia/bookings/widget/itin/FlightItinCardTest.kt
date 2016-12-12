@@ -10,6 +10,7 @@ import com.expedia.bookings.data.trips.ItinCardDataFlight
 import com.expedia.bookings.data.trips.TripFlight
 import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.widget.TextView
 import okio.Okio
 import org.joda.time.DateTime
 import org.json.JSONArray
@@ -36,7 +37,6 @@ class FlightItinCardTest {
         sut.expand(false)
         sut.rebindExpandedCard(itinCardData) // called on receipt of reload response
         sut.setShowSummary(true)
-        sut.bind(itinCardData)
         assertEquals(View.VISIBLE, getActionButtonLayout().visibility)
     }
 
@@ -53,8 +53,14 @@ class FlightItinCardTest {
         val localTimePlusTwoHours = DateTime.now().plusHours(2)
         itinCardData.tripComponent.startDate = localTimePlusTwoHours
         sut.expand(false)
-        sut.bind(itinCardData)
         assertEquals(View.VISIBLE, getActionButtonLayout().visibility)
+    }
+
+    @Test
+    fun hotelUpgradeBannerDoesNotShowOnFlights(){
+        createSystemUnderTest()
+        sut.expand(false)
+        assertEquals(View.GONE, getUpgradeTextView().visibility)
     }
 
     private fun getActionButtonLayout(): LinearLayout {
@@ -82,5 +88,10 @@ class FlightItinCardTest {
         val tripJsonObj = jsonArray.get(0) as JSONObject
         val flightTrip = tripParser.parseTrip(tripJsonObj)
         return flightTrip.tripComponents[0] as TripFlight
+    }
+
+    private fun getUpgradeTextView(): TextView {
+        val upgradeText = sut.findViewById(R.id.room_upgrade_message) as TextView
+        return upgradeText
     }
 }

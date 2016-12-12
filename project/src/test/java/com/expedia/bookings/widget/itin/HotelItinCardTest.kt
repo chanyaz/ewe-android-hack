@@ -1,10 +1,8 @@
 package com.expedia.bookings.widget.itin;
 
 import android.app.Activity
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
-import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.trips.ItinCardDataHotel
@@ -23,7 +21,6 @@ import org.json.JSONObject
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
-import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
 import java.io.File
@@ -35,7 +32,7 @@ class HotelItinCardTest {
 
     val activity = Robolectric.buildActivity(Activity::class.java).create().get()
 
-    lateinit private var sut: ItinCard<ItinCardDataHotel>
+    lateinit private var sut: HotelItinCard
     lateinit private var itinCardData: ItinCardDataHotel
 
     @Test
@@ -91,6 +88,15 @@ class HotelItinCardTest {
         assertEquals(View.VISIBLE, getUpgradeTextView().visibility)
     }
 
+    @Test
+    fun upgradeBannerAvailable(){
+        createSystemUnderTest()
+        givenExpandedHotel()
+        sut.bind(itinCardData)
+        sut.expand(false)
+        assertEquals(View.VISIBLE, getUpgradeBannerTextView().visibility)
+    }
+
     private fun givenPointOfSaleVipSupportDisabled() {
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_vipaccess_disabled.json")
     }
@@ -105,9 +111,14 @@ class HotelItinCardTest {
         return upgradeText
     }
 
+    private fun getUpgradeBannerTextView(): TextView {
+        val upgradeBanner = sut.findViewById(R.id.room_upgrade_message) as TextView
+        return upgradeBanner
+    }
+
     private fun createSystemUnderTest() {
         activity.setTheme(R.style.NewLaunchTheme)
-        val itinCard = ItinCard<ItinCardDataHotel>(activity)
+        val itinCard = HotelItinCard(activity, null)
         LayoutInflater.from(activity).inflate(R.layout.widget_itin_card, itinCard)
         sut = itinCard
     }
