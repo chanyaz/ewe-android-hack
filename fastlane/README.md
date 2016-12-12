@@ -15,7 +15,7 @@ Run a marketing screenshot sweep
 ```
 fastlane android branch_and_bump
 ```
-Create a new release branch and bump the version on the base branch
+Create a new release branch and bump the version on the base branch. Optionally protects the newly created release branch.
 
 ----
 
