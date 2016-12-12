@@ -110,6 +110,7 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
     private val selectToEntry = object : Presenter.Transition(TravelerPickerWidget::class.java,
             FlightTravelerEntryWidget::class.java) {
         override fun startTransition(forward: Boolean) {
+            travelerEntryWidget.rootContainer.requestFocus()
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
             travelerEntryWidget.travelerButton.visibility = if (User.isLoggedIn(context) && forward) View.VISIBLE else View.GONE
             if (!forward) travelerPickerWidget.show() else travelerPickerWidget.visibility = View.GONE
