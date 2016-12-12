@@ -35,7 +35,8 @@ def nudgeAuthorsTowardsWritingUnitTests(pr):
 		pr.issue().add_labels('question')
 
 def processPR(mingleProject, mingleAccessId, mingleAccessSecret, hipchatAccessToken, pr):
-	transitionMingleCards(mingleProject, mingleAccessId, mingleAccessSecret, hipchatAccessToken, pr)
+    # Moving mingle card has been disabled until some one finds a solution or workaround that can support multiple mingle projects.
+	#transitionMingleCards(mingleProject, mingleAccessId, mingleAccessSecret, hipchatAccessToken, pr)
 	nudgeAuthorsTowardsWritingUnitTests(pr)
 
 def main():
