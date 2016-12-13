@@ -4885,8 +4885,8 @@
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">Copy to clipboard. Button.</string>
 
-    <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
-    <string name="lx_carousal_cont_desc_TEMPLATE">Activity Selected, {caption}</string>
+    <!-- LX Carousal images content description : Activity, 3 of 5 photos. -->
+    <string name="lx_carousal_cont_desc_TEMPLATE">Activity, {caption}</string>
 
     <!-- Gallery Image count e.g. "1/14" -->
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
