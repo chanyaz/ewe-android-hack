@@ -110,8 +110,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         val viewStub = findViewById(R.id.search_legal_info_stub) as ViewStub
         val legalInfoView = viewStub.inflate() as RailSearchLegalInfoWebView
         legalInfoView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
-        legalInfoView.viewModel = WebViewViewModel()
-        legalInfoView.viewModel.webViewURLObservable.onNext(PointOfSale.getPointOfSale().railsPaymentAndTicketDeliveryFeesUrl)
+        legalInfoView.loadUrl()
         legalInfoView
     }
 
@@ -264,7 +263,10 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             show(searchPresenter, FLAG_CLEAR_BACKSTACK)
         }
 
-        outboundPresenter.legalBannerClicked.subscribe { show(legalInfoWebView) }
+        outboundPresenter.legalBannerClicked.subscribe {
+            legalInfoWebView.loadUrl()
+            show(legalInfoWebView)
+        }
     }
 
     private fun initOutboundDetailsPresenter() {
@@ -293,7 +295,10 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         inboundPresenter.viewmodel = inboundResultsViewModel
         outboundPresenter.legSelectedSubject.subscribe(inboundResultsViewModel.outboundLegOptionSubject)
         inboundPresenter.legSelectedSubject.subscribe(inboundLegSelectedObserver)
-        inboundPresenter.legalBannerClicked.subscribe { show(legalInfoWebView) }
+        inboundPresenter.legalBannerClicked.subscribe {
+            legalInfoWebView.loadUrl()
+            show(legalInfoWebView)
+        }
     }
 
     private fun initInboundDetailsPresenter() {
