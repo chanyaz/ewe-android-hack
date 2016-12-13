@@ -7,15 +7,18 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.shadows.ShadowAlertDialog
 import rx.subjects.BehaviorSubject
 import java.util.HashMap
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 
@@ -28,19 +31,38 @@ class NewLaunchLobWidgetTest {
         return RuntimeEnvironment.application
     }
 
-    @Before fun setUp() {
+    fun setUp() {
         newLaunchLobWidget = LayoutInflater.from(getContext()).inflate(R.layout.widget_new_launch_lob, null, false) as NewLaunchLobWidget
         newLaunchLobWidget.viewModel = NewLaunchLobViewModel(getContext(), BehaviorSubject.create<Boolean>(), BehaviorSubject.create<Unit>())
     }
 
     @Test
     fun pointOfSaleDeterminesLobsAvailable() {
+        setUp()
         checkLOBsAvailable()
         for (pos in PointOfSale.getAllPointsOfSale(getContext())) {
             SettingUtils.save(getContext(), R.string.PointOfSaleKey, pos.pointOfSaleId.id.toString())
             newLaunchLobWidget.viewModel.posChangeSubject.onNext(Unit)
             checkLOBsAvailable()
         }
+    }
+
+    @Test
+    fun testFlightNotAvailableIndiaPOS() {
+        setPOS(PointOfSaleId.INDIA)
+        validateFlightNotAvialable()
+    }
+
+    @Test
+    fun testFlightNotAvailableArgentinaPOS() {
+        setPOS(PointOfSaleId.ARGENTINA)
+        validateFlightNotAvialable()
+    }
+
+    @Test
+    fun testFlightNotAvailableVietnamPOS() {
+        setPOS(PointOfSaleId.VIETNAM)
+        validateFlightNotAvialable()
     }
 
     private fun checkLOBsAvailable() {
@@ -77,6 +99,23 @@ class NewLaunchLobWidgetTest {
             lobLabelInfoMap.put(getContext().getString(lobInfo.labelRes), lobInfo)
         }
         return lobLabelInfoMap
+    }
+
+    private fun validateFlightNotAvialable() {
+        setUp()
+        var allLobsRecycler = newLaunchLobWidget.findViewById(R.id.lob_grid_recycler) as android.support.v7.widget.RecyclerView
+        // workaround robolectric recyclerView issue
+        allLobsRecycler.measure(0,0)
+        allLobsRecycler.layout(0,0,100,1000)
+        allLobsRecycler.findViewHolderForAdapterPosition(1).itemView.performClick()
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val errorMessage = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        assertEquals("Sorry, but mobile flight booking is not yet available in your location.", errorMessage.text.toString())
+    }
+
+    private fun setPOS(pos: PointOfSaleId) {
+        SettingUtils.save(getContext(), R.string.PointOfSaleKey, pos.id.toString())
+        PointOfSale.onPointOfSaleChanged(getContext())
     }
 }
 
