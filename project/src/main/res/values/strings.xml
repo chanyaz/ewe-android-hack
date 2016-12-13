@@ -1535,6 +1535,10 @@
     <!-- Label for button to upgrade Hotel room -->
     <string name="itin_card_details_upgrade_hotel_button">Limited Time: Upgrade Available!</string>
     <string name="itin_card_flight_checkin_title">Flight Check In</string>
+    <!-- Label for button to edit Hotel booking -->
+    <string name="itin_card_edit_hotel_room_info">Edit Room Info</string>
+    <!-- Accessibility announcement for button to edit Hotel booking -->
+    <string name="itin_card_change_hotel_options">Change Hotel Options</string>
 
     <string name="itin_card_flight_checkin_details">Visit %s\'s site</string>
     <string name="itin_card_details_pick_up">Pick Up</string>
