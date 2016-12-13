@@ -94,5 +94,4 @@ class RailAmenitiesFareRulesWidget(context: Context, attrs: AttributeSet) : Fram
             RailTracking().trackRailFares()
         }
     }
-
 }
