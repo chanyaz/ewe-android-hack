@@ -154,7 +154,7 @@ class PaymentViewModelTest {
         viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("$expectedCarVendorName does not accept American Express")
+        testSubscriber.assertValue("Rental company does not accept American Express")
     }
 
     @Test
@@ -182,7 +182,7 @@ class PaymentViewModelTest {
         viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("American Express is not accepted for this trip")
+        testSubscriber.assertValue("Trip does not accept American Express")
     }
 
     @Test
@@ -210,7 +210,7 @@ class PaymentViewModelTest {
         viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("American Express not accepted")
+        testSubscriber.assertValue("Activity does not accept American Express")
     }
 
     @Test
@@ -224,7 +224,7 @@ class PaymentViewModelTest {
         viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("American Express not accepted")
+        testSubscriber.assertValue("Activity does not accept American Express")
     }
 
     @Test

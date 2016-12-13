@@ -741,8 +741,6 @@
     <string name="lx_voucherless_offer">Electronic voucher</string>
     <!-- Message for voucherless offers  -->
     <string name="lx_print_voucher_offer">Printed voucher required</string>
-    <!-- Card brand not supported (e.g. "Visa not accepted") -->
-    <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s not accepted</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">We\&apos;re sorry, but this activity\&apos;s price changed. Please try booking again.</string>
     <!-- LX Error Limited Inventory -->
@@ -2045,13 +2043,15 @@
     <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
     <string name="airline_processing_fee_TEMPLATE">Airline processing fee for this card: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
-    <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline does not accept %1$s</string>
+    <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline does not accept {card_type}</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
-    <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotel does not accept %1$s</string>
-    <!-- Package trip does not accept <Credit Card Brand> (Example: Visa is not accepted for this trip) -->
-    <string name="package_does_not_accept_cardtype_TEMPLATE">{card_type} is not accepted for this trip</string>
-    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
-    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s does not accept %2$s</string>
+    <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotel does not accept {card_type}</string>
+    <!-- Package trip does not accept <Credit Card Brand> (Example: Trip does not accept Visa) -->
+    <string name="package_does_not_accept_cardtype_TEMPLATE">Trip does not accept {card_type}</string>
+    <!-- Rental company does not accept <Credit Card Brand> (e.g. "Rental company does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">Rental company does not accept {card_type}</string>
+    <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">Activity does not accept {card_type}</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">No debit cards are accepted.</string>
 
@@ -4828,6 +4828,8 @@
     <string name="hotel_room_expand_cont_desc">Expand to view room info and select room</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
     <string name="hotel_expanded_room_select_cont_desc">Select room</string>
+    <!-- Content Description for payment options list when card is not accepted -->
+    <string name="accessibility_cont_desc_card_is_disabled">disabled</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">Price is {activity_price}</string>

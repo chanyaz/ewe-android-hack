@@ -14,7 +14,7 @@ import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.extensions.isUniversalCheckout
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.trips.TripBucketItemCar
+import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
@@ -134,37 +134,8 @@ open class PaymentViewModel(val context: Context) {
                     val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
                     val showingPaymentFeeWarning = tripItem?.hasPaymentFee(cardType) ?: false
                     var invalidPaymentWarningMsg = ""
-
-                    if (tripItem != null &&
-                            cardType != null &&
-                            !tripItem.isPaymentTypeSupported(cardType)) {
-                        val cardName = CreditCardUtils.getHumanReadableName(context, cardType)
-                        invalidPaymentWarningMsg = when (lineOfBusiness.value) {
-                            LineOfBusiness.CARS -> {
-                                resources.getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
-                                        (tripItem as TripBucketItemCar).mCarTripResponse.carProduct.vendor.name, cardName)
-                            }
-
-                            LineOfBusiness.LX, LineOfBusiness.TRANSPORT -> {
-                                resources.getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName)
-                            }
-
-                            LineOfBusiness.HOTELS -> {
-                                resources.getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName)
-                            }
-
-                            LineOfBusiness.FLIGHTS_V2 -> {
-                                resources.getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName)
-                            }
-
-                            LineOfBusiness.PACKAGES -> {
-                                Phrase.from(resources, R.string.package_does_not_accept_cardtype_TEMPLATE)
-                                        .put("card_type", cardName)
-                                        .format().toString()
-                            }
-
-                            else -> ""
-                        }
+                    if (tripItem != null && cardType != null && !tripItem.isPaymentTypeSupported(cardType)) {
+                        invalidPaymentWarningMsg = ValidFormOfPaymentUtils.getInvalidFormOfPaymentMessage(context, cardType, lineOfBusiness.value)
                     }
                     val showLabel = !paymentTypeWarningHandledByCkoView.value || !showingPaymentFeeWarning && invalidPaymentWarningMsg.isBlank()
                     invalidPaymentTypeWarning.onNext(invalidPaymentWarningMsg)
