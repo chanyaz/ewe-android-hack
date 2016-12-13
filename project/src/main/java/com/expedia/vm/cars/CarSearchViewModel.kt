@@ -171,6 +171,14 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
         }
     }
 
+    override fun getStartTimeContDesc(time: String): String {
+        return Phrase.from(context, R.string.pick_up_slider_cont_desc_TEMPLATE).put("time", time).format().toString()
+    }
+
+    override fun getEndTimeContDesc(time: String): String {
+        return Phrase.from(context, R.string.drop_off_slider_cont_desc_TEMPLATE).put("time", time).format().toString()
+    }
+
     override fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
         val resource =
                 if (end == null) R.string.cars_calendar_start_date_label

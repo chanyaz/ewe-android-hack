@@ -20,7 +20,6 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalendar(context) {
-
     val searchParamsObservable = PublishSubject.create<RailSearchRequest>()
     val railOriginObservable = BehaviorSubject.create<SuggestionV4>()
     val railDestinationObservable = BehaviorSubject.create<SuggestionV4>()
@@ -245,5 +244,13 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
 
     private fun resetDates() {
         onDatesChanged(Pair(null, null))
+    }
+
+    override fun getStartTimeContDesc(time: String): String {
+        return Phrase.from(context, R.string.rail_depart_time_cont_desc_TEMPLATE).put("time", time).format().toString()
+    }
+
+    override fun getEndTimeContDesc(time: String): String {
+        return Phrase.from(context, R.string.rail_return_time_cont_desc_TEMPLATE).put("time", time).format().toString()
     }
 }
