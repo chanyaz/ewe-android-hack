@@ -34,25 +34,25 @@ class FlightsAirAttachTest : NewFlightTestCase() {
         assertValidToolbarInfoForSingleTraveler(startDate, endDate)
     }
 
-//    @Test
-//    fun testAirAttachRedirectsWithChildren() {
-//        val startDate = LocalDate.now().plusDays(10)
-//        val endDate = LocalDate.now().plusDays(15)
-//        selectFlightsProceedToCheckoutWithChildren(startDate, endDate)
-//
-//        PackageScreen.travelerInfo().perform(ViewActions.click())
-//        Espresso.onView(ViewMatchers.withId(R.id.main_traveler_container)).perform(ViewActions.click())
-//        enterPrimaryTravelerInfo()
-//        enterNonPrimaryTravelerInfo()
-//        enterPaymentInfo()
-//        CheckoutViewModel.performSlideToPurchase()
-//
-//        assertAirAttachIsShown()
-//
-//        Espresso.onView(ViewMatchers.withId(R.id.hotel_cross_sell_body)).perform(ViewActions.click())
-//        assertRedirectToHotelActivity()
-//        assertValidToolbarInfoForTravelerWithChildren(startDate, endDate)
-//    }
+    @Test
+    fun testAirAttachRedirectsWithChildren() {
+        val startDate = LocalDate.now().plusDays(10)
+        val endDate = LocalDate.now().plusDays(15)
+        selectFlightsProceedToCheckoutWithChildren(startDate, endDate)
+
+        PackageScreen.travelerInfo().perform(ViewActions.click())
+        Espresso.onView(ViewMatchers.withId(R.id.main_traveler_container)).perform(ViewActions.click())
+        enterPrimaryTravelerInfo()
+        enterNonPrimaryTravelerInfo()
+        enterPaymentInfo()
+        CheckoutViewModel.performSlideToPurchase()
+
+        assertAirAttachIsShown()
+
+        Espresso.onView(ViewMatchers.withId(R.id.hotel_cross_sell_body)).perform(ViewActions.click())
+        assertRedirectToHotelActivity()
+        assertValidToolbarInfoForTravelerWithChildren(startDate, endDate)
+    }
 
     private fun assertRedirectToHotelActivity() {
 

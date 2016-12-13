@@ -4,6 +4,7 @@ import android.animation.Animator
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
+import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -37,6 +38,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
     val ANIMATION_DURATION = 500L
     val DEFAULT_EMPTY_PASSPORT = 0
 
+    val rootContainer: ViewGroup by bindView(R.id.root_container)
     val travelerButton: TravelerButton by bindView(R.id.traveler_button)
     val nameEntryView: NameEntryView by bindView(R.id.name_entry_widget)
     val emailEntryView: EmailEntryView by bindView(R.id.email_entry_widget)
