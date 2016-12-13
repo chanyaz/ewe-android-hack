@@ -9,7 +9,6 @@ import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewGroup
@@ -352,6 +351,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
                     Db.getWorkingBillingInfoManager().commitWorkingBillingInfoToDB()
                     sectionBillingInfo.billingInfo.storedCard = card
                     temporarilySavedCardIsSelected(false, sectionBillingInfo.billingInfo)
+                    viewmodel.cardTypeSubject.onNext(card.type)
                     viewmodel.billingInfoAndStatusUpdate.onNext(Pair(sectionBillingInfo.billingInfo, ContactDetailsCompletenessStatus.COMPLETE))
                     viewmodel.cardBIN.onNext(card.id)
                     break

@@ -196,6 +196,9 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
             if (forward) {
                 checkoutPresenter.adjustScrollingSpace()
                 checkoutPresenter.travelersPresenter.updateAllTravelerStatuses()
+                if (checkoutPresenter.getCheckoutViewModel().isValidForBooking()) {
+                    checkoutPresenter.trackShowSlideToPurchase()
+                }
             } else {
                 checkoutPresenter.trackShowBundleOverview()
             }
