@@ -12,11 +12,12 @@ import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.model.UserLoginStateChangedModel;
+
 import dagger.Component;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
-@Component(modules = {AppModule.class})
+@Component(modules = {AppModule.class, CryptoModule.class})
 @Singleton
 public interface AppComponent {
 	void inject(ExpediaServices services);

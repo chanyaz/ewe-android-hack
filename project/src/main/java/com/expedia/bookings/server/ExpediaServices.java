@@ -63,7 +63,6 @@ import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
-import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;

@@ -1,8 +1,9 @@
-package com.expedia.bookings.unit;
+package com.expedia.bookings.server;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -14,9 +15,14 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
+import org.junit.runner.RunWith;
+import org.robolectric.RuntimeEnvironment;
 
-import com.expedia.bookings.services.PersistentCookieManager;
+import android.content.Context;
+
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.Strings;
+import com.expedia.bookings.utils.TestEncryptionUtil;
 
 import okhttp3.Cookie;
 import okhttp3.HttpUrl;
@@ -24,6 +30,7 @@ import okio.BufferedSink;
 import okio.Okio;
 import okio.Source;
 
+@RunWith(RobolectricRunner.class)
 public class PersistentCookieManagerTest {
 	@Rule
 	public TemporaryFolder folder = new TemporaryFolder();
@@ -35,6 +42,8 @@ public class PersistentCookieManagerTest {
 	private static final List<Cookie> LINFO_COOKIE = new ArrayList<>();
 	private static final HttpUrl expedia = HttpUrl.parse("https://www.expedia.com");
 	private static final HttpUrl reviews = HttpUrl.parse("https://reviewsvc.expedia.com");
+	private static final String KEYSTORE_ALIAS = "COOKIE_KEYSTORE";
+	private TestEncryptionUtil testEncryptionUtil;
 
 	static {
 		ArrayList<String> list = new ArrayList<>();
@@ -77,6 +86,10 @@ public class PersistentCookieManagerTest {
 	private File oldCookieStorage;
 	private PersistentCookieManager manager;
 
+	private Context getContext() {
+		return RuntimeEnvironment.application;
+	}
+
 	@SuppressWarnings("ResultOfMethodCallIgnored")
 	@Before
 	public void before() throws Throwable {
@@ -85,7 +98,12 @@ public class PersistentCookieManagerTest {
 
 		oldCookieStorage = folder.newFile();
 		oldCookieStorage.delete();
-		manager = new PersistentCookieManager(storage);
+
+		File keystore = folder.newFile();
+		keystore.delete();
+
+		testEncryptionUtil = new TestEncryptionUtil(getContext(), keystore, KEYSTORE_ALIAS, true);
+		manager = new PersistentCookieManager(storage, oldCookieStorage, testEncryptionUtil);
 	}
 
 	@Test
@@ -164,7 +182,7 @@ public class PersistentCookieManagerTest {
 		saveExpediaCookies();
 		expectExists(storage);
 
-		manager = new PersistentCookieManager(storage);
+		manager = new PersistentCookieManager(storage, oldCookieStorage, testEncryptionUtil);
 		expectCookies(12);
 		expectCookie(expedia, "MC1", "GUID=4a7e5c02232b479aa4807d32c6b7129c");
 		expectExists(storage);
@@ -201,18 +219,17 @@ public class PersistentCookieManagerTest {
 		writer.write(emptyData);
 		writer.close();
 
-		manager = new PersistentCookieManager(storage);
+		manager = new PersistentCookieManager(storage, oldCookieStorage, testEncryptionUtil);
 		expectCookies(0);
 	}
 
-	@Test(expected = RuntimeException.class)
 	public void parseBadData() throws Throwable {
 		final String emptyData = "[";
 		BufferedWriter writer = new BufferedWriter(new FileWriter(storage));
 		writer.write(emptyData);
 		writer.close();
 
-		manager = new PersistentCookieManager(storage);
+		manager = new PersistentCookieManager(storage, oldCookieStorage, testEncryptionUtil);
 		expectCookies(0);
 	}
 
@@ -282,17 +299,19 @@ public class PersistentCookieManagerTest {
 	}
 
 	@Test
-	public void loadSampleDataFromDisk() throws Throwable {
-		File file = new File("src/test/resources/cookies-4.dat");
-		Source from = Okio.source(file);
+	public void encryptOldCookies() throws Throwable {
+		File file = new File("src/androidTest/assets/cookies-5.dat");
+		InputStream inputStream  = Okio.buffer(Okio.source(file)).inputStream();
+
+		Source from = Okio.source(inputStream);
 		BufferedSink to = Okio.buffer(Okio.sink(oldCookieStorage));
 		to.writeAll(from);
 		to.close();
-		manager = new PersistentCookieManager(storage, oldCookieStorage);
+		manager = new PersistentCookieManager(storage, oldCookieStorage, testEncryptionUtil);
 
-		expectCookies(35);
+		expectCookies(12);
 		expectCookie(expedia, "minfo",
-			"v.5,EX01734B8FD0$21$A6$DE$34$0B$C7$F1$0F$7C$A8$DF$EA$A6$F6$2C$9E$FE$D4$CC$15$B6yY$FAxO$D8U$B7RJ$39$CA$0D$E4$EB$EAh$89$0E$97$C0$0E4$B1$9A$AA$95$97$C3$AA$E0$F2$A4$36$C6$31$E8$BBX!2$DFD$B8$F3$AF$81$9C");
+			"v.5,EX0103F1A705$CEt$D5$31$A1d$9C4$2D$D6$3B$DEv$A1$5Dd$1C$60$10a$26$ADIn$FC1$38$8F$D9Q$7DGg$DC5$3C$F1$32$7Fd$DD$E92D$EE$11$D4fnep$35VQ$DB$86$FE$39$F6601M$F4Lj$FA$23e$12$E4$32$0EK$9C$CA$2D$D0$7Fj$EE$32$5E$3F7$BC$BE$7B$23P$3E$7E$5B$3C$3E$8CL$0EO$1C$38$F9$5EW$8CPK$3D0$D0$83$115fV");
 		manager.saveFromResponse(reviews, REVIEWS_EXPEDIA_COOKIES);
 		expectCookie(reviews, "minfo",
 			"v.5,EX016141700E$B3$98$D7$34$37$A0J$C2$E9$2Ae$A0$B98$AA$B9$99$93f$E9l$D1$2D$EB$E3$BD$D6L$DB$9A$B33$89w$81$92$FB0$9F$C7D$B1G$CF$83$B5$CE3$B2gu$A7v$B6$9B$89$87$E5$3F$89$DD$89$F5$E8$BBtd$94");
