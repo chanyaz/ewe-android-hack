@@ -30,6 +30,6 @@ class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: Su
     }
 
     override fun getNearbySortType(): String {
-        return "distance"
+        return "popularity"
     }
 }
