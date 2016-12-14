@@ -1,0 +1,9 @@
+{
+  "US": {
+    "swpEnabled:hotels": true,
+    "pointOfSaleId": 29,
+
+    "supportedLocales": [{}],
+    "automaticallyMappedLocales": []
+  }
+}

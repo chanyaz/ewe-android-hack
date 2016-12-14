@@ -214,7 +214,7 @@ public class NavUtils {
 		Class<HotelActivity> routingTarget = HotelActivity.class;
 		if (params != null) {
 			com.expedia.bookings.data.hotels.HotelSearchParams v2params = HotelsV2DataUtil.Companion
-				.getHotelV2SearchParams(params);
+				.getHotelV2SearchParams(context, params);
 			Gson gson = HotelsV2DataUtil.Companion.generateGson();
 			intent.putExtra(HotelActivity.EXTRA_HOTEL_SEARCH_PARAMS, gson.toJson(v2params));
 			intent.putExtra(Codes.TAG_EXTERNAL_SEARCH_PARAMS, true);
