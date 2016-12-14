@@ -2,13 +2,11 @@ package com.expedia.vm.cars
 
 import android.content.Context
 import android.support.v4.content.ContextCompat
-import android.text.Html
 import com.expedia.bookings.R
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.cars.CarSearchParam
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.endlessObserver
@@ -17,10 +15,8 @@ import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
 import rx.subjects.PublishSubject
-import java.util.concurrent.TimeUnit
 
 class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalendar(context) {
-
     val carParamsBuilder = CarSearchParam.Builder()
     val searchParamsObservable = PublishSubject.create<CarSearchParam>()
     val defaultTimeTooltipColor = ContextCompat.getColor(context, R.color.cars_primary_color)
@@ -74,30 +70,6 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
         }
     }
 
-    fun computeCalendarCardViewText(startMillis: Int, endMillis: Int, isContentDescription: Boolean): CharSequence {
-        val dateTimeRangeText = computeDateTimeRangeText(startMillis, endMillis, isContentDescription)
-        val sb = SpannableBuilder()
-
-        if (startDate() != null && isContentDescription) {
-            sb.append(Phrase.from(context, R.string.car_search_date_range_cont_desc_TEMPLATE)
-                    .put("date_time_range", dateTimeRangeText)
-                    .format().toString())
-        } else {
-            sb.append(dateTimeRangeText)
-        }
-        return sb.build()
-    }
-
-    fun computeDateTimeRangeText(startMillis: Int, endMillis: Int, isContentDescription: Boolean): String? {
-        if (startDate() == null) {
-            var stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_pickup_and_dropoff_dates
-            return context.resources.getString(stringID)
-        } else {
-            return DateFormatUtils.formatStartEndDateTimeRange(context, DateUtils.localDateAndMillisToDateTime(startDate(), startMillis),
-                    DateUtils.localDateAndMillisToDateTime(endDate(), endMillis), isContentDescription);
-        }
-    }
-
     override fun getMaxSearchDurationDays(): Int {
         return context.resources.getInteger(R.integer.calendar_max_days_car_search);
     }
@@ -116,8 +88,8 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         super.onDatesChanged(dates)
-        dateInstructionObservable.onNext(computeDateInstructionText(dates.first, dates.second))
-        calendarTooltipTextObservable.onNext(computeTooltipText(dates.first, dates.second))
+        dateInstructionObservable.onNext(getDateInstructionText(dates.first, dates.second))
+        calendarTooltipTextObservable.onNext(getToolTipText(dates.first, dates.second))
 
         setUpTimeSliderSubject.onNext(dates)
     }
@@ -150,25 +122,13 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
         return TimeSlider.convertMillisToProgress(now.millisOfDay) + R.integer.calendar_min_search_time_car
     }
 
-    override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
+    override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
             return context.getString(R.string.select_pickup_date);
-        }
-
-        val dateRangeText = computeDateRangeText(start, end)
-        val sb = SpannableBuilder()
-        sb.append(dateRangeText)
-        return sb.build()
-    }
-
-    override fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
-        if (start == null && end == null) {
-            return context.resources.getString(R.string.select_pickup_and_dropoff_dates)
         } else if (end == null) {
             return context.resources.getString(R.string.select_drop_off_date_TEMPLATE, DateUtils.localDateToMMMd(start))
-        } else {
-            return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
         }
+        return getStartDashEndDateString(start!!, end)
     }
 
     override fun getStartTimeContDesc(time: String): String {
@@ -179,12 +139,11 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
         return Phrase.from(context, R.string.drop_off_slider_cont_desc_TEMPLATE).put("time", time).format().toString()
     }
 
-    override fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
-        val resource =
-                if (end == null) R.string.cars_calendar_start_date_label
-                else R.string.calendar_drag_to_modify
-        val instructions = context.resources.getString(resource)
-        return Pair(computeTopTextForToolTip(start, end), instructions)
+    override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
+        if (end == null) {
+            return context.getString(R.string.cars_calendar_start_date_label)
+        }
+        return context.getString(R.string.calendar_drag_to_modify)
     }
 
     override fun sameStartAndEndDateAllowed(): Boolean {
@@ -197,5 +156,35 @@ class CarSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalend
 
     override fun getCalendarSliderTooltipEndTimeLabel(): String{
         return context.resources.getString(R.string.drop_off_time_label)
+    }
+
+    override fun getEmptyDateText(forContentDescription: Boolean): String {
+        if (forContentDescription) {
+            return context.getString(R.string.select_travel_dates_cont_desc)
+        }
+        return context.getString(R.string.select_pickup_and_dropoff_dates)
+    }
+
+    override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
+        return "" //no op, car doesn't update until time is selected.
+    }
+
+    override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
+        return "" //no op, car doesn't update until time is selected.
+    }
+
+    private fun computeCalendarCardViewText(startMillis: Int, endMillis: Int, isContentDescription: Boolean): CharSequence {
+        if (startDate() == null) {
+            return getEmptyDateText(isContentDescription)
+        }
+
+        val startDateTimeString = DateUtils.localDateAndMillisToDateTime(startDate(), startMillis)
+        val endDateTimeString = DateUtils.localDateAndMillisToDateTime(endDate(), endMillis)
+        val dateTimeRangeString = DateFormatUtils.formatStartEndDateTimeRange(context, startDateTimeString,
+                endDateTimeString, isContentDescription)
+        if (isContentDescription) {
+            return getDateAccessibilityText(context.getString(R.string.select_pickup_and_dropoff_dates), dateTimeRangeString)
+        }
+        return dateTimeRangeString
     }
 }

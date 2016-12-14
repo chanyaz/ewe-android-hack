@@ -126,7 +126,7 @@ open class CalendarDialogFragment(val baseSearchViewModel: BaseSearchViewModel) 
             calendar.visibility = CardView.VISIBLE
             dialog.getButton(AlertDialog.BUTTON_POSITIVE).isEnabled = calendar.startDate != null
             oldCalendarSelection = Pair(calendar.startDate, calendar.endDate)
-            calendar.setInstructionText(baseSearchViewModel.computeDateInstructionText(calendar.startDate, calendar.endDate))
+            calendar.setInstructionText(baseSearchViewModel.getDateInstructionText(calendar.startDate, calendar.endDate))
 
             dialog.window?.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT)
         }

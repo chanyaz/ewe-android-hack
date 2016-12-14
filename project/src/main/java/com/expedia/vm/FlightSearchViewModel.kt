@@ -7,7 +7,6 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.FlightsV2DataUtil
-import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.ui.FlightActivity
@@ -108,10 +107,10 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override  fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         var (start, end) = dates
 
-        dateTextObservable.onNext(computeDateText(start, end))
-        dateAccessibilityObservable.onNext(computeDateText(start, end, true))
-        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
-        calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
+        dateTextObservable.onNext(getCalendarCardDateText(start, end, false))
+        dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
+        dateInstructionObservable.onNext(getDateInstructionText(start, end))
+        calendarTooltipTextObservable.onNext(getToolTipText(start, end))
 
         if (!isStartDateOnlyAllowed()) {
             if (start != null && end == null) {
@@ -142,53 +141,53 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         return context.resources.getInteger(R.integer.calendar_max_days_flight_search)
     }
 
-    override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
+    override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
             return context.getString(R.string.select_departure_date);
+        } else if (end == null) {
+            return getNoEndDateText(start, false)
         }
-
-        val dateRangeText = computeDateRangeText(start, end)
-        val sb = SpannableBuilder()
-        sb.append(dateRangeText)
-
-        return sb.build()
+        return getCompleteDateText(start!!, end, false)
     }
 
-    override fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
-        if (start == null && end == null) {
-            return context.resources.getString(R.string.select_dates)
-        } else if (end == null) {
-            val stringResId =
-                    if (isRoundTripSearchObservable.value)
-                        R.string.select_return_date_TEMPLATE
-                    else
-                        R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE
+    override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
+        if (isRoundTripSearchObservable.value && end == null) {
+            return context.getString(R.string.calendar_instructions_date_range_flight_select_return_date)
+        }
+        return context.getString(R.string.calendar_drag_to_modify)
+    }
 
-            return Phrase.from(context.resources, stringResId)
+    override fun getEmptyDateText(forContentDescription: Boolean): String {
+        if (forContentDescription) {
+            return context.getString(R.string.select_travel_dates_cont_desc)
+        }
+        return context.getString(R.string.select_dates)
+    }
+
+    override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
+        if (isRoundTripSearchObservable.value) {
+            val dateString = Phrase.from(context.resources, R.string.select_return_date_TEMPLATE)
                     .put("startdate", DateUtils.localDateToMMMd(start))
                     .format().toString()
+            if (forContentDescription) {
+                return getDateAccessibilityText(context.getString(R.string.select_dates), dateString)
+            }
+            return dateString
         } else {
-            return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
+            val dateString = Phrase.from(context.resources, R.string.calendar_instructions_date_range_flight_one_way_TEMPLATE)
+                    .put("startdate", DateUtils.localDateToMMMd(start))
+                    .format().toString()
+            if (forContentDescription) {
+                return getDateAccessibilityText(context.getString(R.string.select_dates), dateString)
+            }
+            return dateString
         }
     }
 
-    override fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
-        return computeDateRangeText(start, end).toString()
-    }
-
-    override fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
-        val instructions =
-                if (isRoundTripSearchObservable.value) {
-                    val instructionStringResId =
-                            if (end == null)
-                                R.string.calendar_instructions_date_range_flight_select_return_date
-                            else
-                                R.string.calendar_drag_to_modify
-                    context.resources.getString(instructionStringResId)
-                }
-                else {
-                    ""
-                }
-        return Pair(computeTopTextForToolTip(start, end), instructions)
+    override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
+        if (forContentDescription) {
+            return getDateAccessibilityText(context.getString(R.string.select_dates), getStartToEndDateString(start, end))
+        }
+        return getStartDashEndDateString(start, end)
     }
 }

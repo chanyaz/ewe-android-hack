@@ -62,6 +62,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             showErrorDialog(message)
         }
 
+        vm.dateAccessibilityObservable.subscribe { text ->
+            calendarWidgetV2.contentDescription = text
+        }
+
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)

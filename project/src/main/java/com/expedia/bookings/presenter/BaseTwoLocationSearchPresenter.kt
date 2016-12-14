@@ -6,17 +6,13 @@ import android.view.View
 import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.CalendarWidgetWithTimeSlider
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.SuggestionAdapterViewModel
-import org.joda.time.LocalDate
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 
 abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
-
-    val calendarWidget by bindView<CalendarWidgetWithTimeSlider>(R.id.car_calendar_card)
     open val originCardView by bindView<SearchInputTextView>(R.id.origin_card)
 
     protected open var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
@@ -47,9 +43,5 @@ abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: Attribute
     override fun requestA11yFocus(isOrigin: Boolean) {
         var a11yFocusView: View = if(isOrigin) originCardView else destinationCardView
         a11yFocusView.sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_HOVER_ENTER)
-    }
-
-    override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
-        calendarWidget.dismissDialog()
     }
 }

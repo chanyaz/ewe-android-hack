@@ -95,11 +95,11 @@ class LXSearchViewModelTests {
     @Test
     fun testComputeDateInstructionText(){
         //When user has not selected the start date
-        assertEquals("Select date",vm.computeDateInstructionText(null, null))
+        assertEquals("Select date",vm.getDateInstructionText(null, null))
 
         //When user has selected the start date
         val startDate = LocalDate.now();
-        assertEquals(DateUtils.localDateToMMMd(startDate),vm.computeDateInstructionText(startDate, null))
+        assertEquals(DateUtils.localDateToMMMd(startDate),vm.getDateInstructionText(startDate, null))
     }
 
     @Test

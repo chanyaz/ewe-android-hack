@@ -144,6 +144,11 @@ class RailSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocati
                 val isRoundTripSearch = tab.position == 1
                 searchViewModel.isRoundTripSearchObservable.onNext(isRoundTripSearch)
                 searchViewModel.resetDatesAndTimes()
+                if (isRoundTripSearch) {
+                    announceForAccessibility(context.getString(R.string.rail_tab_roundtrip_selected_announcement))
+                } else {
+                    announceForAccessibility(context.getString(R.string.rail_tab_oneway_selected_announcement))
+                }
             }
         })
     }

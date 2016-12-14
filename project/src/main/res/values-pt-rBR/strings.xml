@@ -4658,7 +4658,7 @@
     <!--Flying from card content description before a location is selected-->
     <string name="packages_search_flying_from_cont_desc">Voando de. Botão</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_cont_desc">Selecionar as datas de viagem. Botão. Abertura da caixa de diálogo</string>
+    <string name="select_travel_dates_cont_desc">Selecionar as datas de viagem. Botão. Abertura da caixa de diálogo</string>
     <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
     <string name="packages_search_date_range_cont_desc_TEMPLATE">Entre {startdate} e {enddate}</string>
     <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->

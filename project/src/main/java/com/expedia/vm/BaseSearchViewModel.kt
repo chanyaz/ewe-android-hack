@@ -2,7 +2,6 @@ package com.expedia.vm
 
 import android.content.Context
 import android.support.annotation.CallSuper
-import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BaseSearchParams
 import com.expedia.bookings.data.SuggestionV4
@@ -10,10 +9,8 @@ import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.SuggestionStrUtils
 import com.expedia.util.endlessObserver
-import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.LocalDate
 import rx.subjects.BehaviorSubject
@@ -54,6 +51,13 @@ abstract class BaseSearchViewModel(val context: Context) {
     abstract fun getMaxDateRange(): Int
     abstract fun sameStartAndEndDateAllowed(): Boolean
     abstract fun isStartDateOnlyAllowed(): Boolean
+    abstract fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence
+
+    protected abstract fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?) : String
+    protected abstract fun getEmptyDateText(forContentDescription: Boolean) : String
+    protected abstract fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean) : String
+    protected abstract fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean) : String
+
 
     open val originLocationObserver = endlessObserver<SuggestionV4> { suggestion ->
         getParamsBuilder().origin(suggestion)
@@ -89,24 +93,6 @@ abstract class BaseSearchViewModel(val context: Context) {
         return AccessibilityUtil.isTalkBackEnabled(context)
     }
 
-    open fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
-        if (start == null && end == null) {
-            return context.getString(R.string.select_checkin_date)
-        }
-
-        val dateRangeText = computeDateRangeText(start, end)
-        val sb = SpannableBuilder()
-        sb.append(dateRangeText)
-
-        if (start != null && end != null) {
-            val nightCount = JodaUtils.daysBetween(start, end)
-            val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-            sb.append(" ")
-            sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString))
-        }
-        return sb.build()
-    }
-
     open protected var requiredSearchParamsObserver = endlessObserver<Unit> { // open so HotelSearchViewModel can override it
         searchButtonObservable.onNext(getParamsBuilder().areRequiredParamsFilled())
         destinationValidObservable.onNext(getParamsBuilder().hasDestinationLocation())
@@ -130,69 +116,46 @@ abstract class BaseSearchViewModel(val context: Context) {
         requiredSearchParamsObserver.onNext(Unit)
     }
 
-    protected fun computeTopTextForToolTip(start: LocalDate?, end: LocalDate?): String {
+    protected fun getToolTipText(start: LocalDate?, end: LocalDate?) : Pair<String, String> {
+        val instructionsText = getCalendarToolTipInstructions(start, end)
         if (start == null && end == null) {
-            return context.resources.getString(R.string.select_dates_proper_case)
+            return Pair(context.resources.getString(R.string.select_dates_proper_case), instructionsText)
         } else if (end == null) {
-            return DateUtils.localDateToMMMd(start)
+            return Pair(DateUtils.localDateToMMMd(start), instructionsText)
         } else {
-            return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).put("enddate", DateUtils.localDateToMMMd(end)).format().toString()
+            val dateText = getStartDashEndDateString(start!!, end)
+            return Pair(dateText, instructionsText)
         }
     }
 
-    open protected fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
-        return computeDateText(start, end, false)
-    }
-
-    open protected fun computeDateText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): CharSequence {
-        val dateRangeText = if (isContentDescription) computeDateRangeText(start, end, true) else computeDateRangeText(start, end)
-        val sb = SpannableBuilder()
-
-        if (start != null && end != null) {
-            val nightCount = JodaUtils.daysBetween(start, end)
-            val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-
-            if (isContentDescription) {
-                sb.append(Phrase.from(context, R.string.trip_search_date_range_cont_desc_TEMPLATE)
-                        .put("date_range", dateRangeText)
-                        .put("nights", context.resources.getString(R.string.nights_count_TEMPLATE, nightsString))
-                        .format().toString())
-            } else {
-                sb.append(dateRangeText)
-                sb.append(" ")
-                sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
-            }
-        } else {
-            sb.append(dateRangeText)
-        }
-        return sb.build()
-    }
-
-    open protected fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
-        return computeDateRangeText(start, end, false)
-    }
-
-    open protected fun computeDateRangeText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean): String? {
+    protected fun getCalendarCardDateText(start: LocalDate?, end: LocalDate?, isContentDescription: Boolean) : String {
         if (start == null && end == null) {
-            val stringID = if (isContentDescription) R.string.packages_search_dates_cont_desc else R.string.select_dates
-            return context.resources.getString(stringID)
+            return getEmptyDateText(isContentDescription)
         } else if (end == null) {
-            return context.resources.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+            return getNoEndDateText(start, isContentDescription)
         } else {
-            val stringID = if (isContentDescription) R.string.packages_search_date_range_cont_desc_TEMPLATE else R.string.calendar_instructions_date_range_TEMPLATE
-            return Phrase.from(context, stringID)
+            return getCompleteDateText(start!!, end, isContentDescription)
+        }
+    }
+
+    protected fun getDateAccessibilityText(datesLabel: String, durationDescription: String) : String {
+        return Phrase.from(context, R.string.search_dates_cont_desc_TEMPLATE)
+                .put("dates_label", datesLabel)
+                .put("duration_description", durationDescription).format().toString()
+    }
+
+    protected fun getStartDashEndDateString(start: LocalDate, end: LocalDate) : String {
+        return Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
                 .put("startdate", DateUtils.localDateToMMMd(start))
                 .put("enddate", DateUtils.localDateToMMMd(end))
-                .format()
-                .toString()
-        }
+                .format().toString()
     }
 
-    open protected fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
-        val resource =
-                if (end == null) R.string.hotel_calendar_tooltip_bottom
-                else R.string.calendar_drag_to_modify
-        val instructions = context.resources.getString(resource)
-        return Pair(computeTopTextForToolTip(start, end), instructions)
+    protected fun getStartToEndDateString(start: LocalDate, end: LocalDate) : String {
+        // need to explicitly use "to" for screen readers
+        return Phrase.from(context, R.string.search_date_range_cont_desc_TEMPLATE)
+                .put("startdate", DateUtils.localDateToMMMd(start))
+                .put("enddate", DateUtils.localDateToMMMd(end))
+                .format().toString()
     }
 }

@@ -148,7 +148,7 @@
                             style="@style/MaterialCardTextView"
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/default_search_card_height"
-                            android:contentDescription="@string/packages_search_dates_cont_desc"
+                            android:contentDescription="@string/select_travel_dates_cont_desc"
                             app:input_icon="@drawable/search_form_icon_calendar"
                             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
                             app:input_text="@string/select_dates" />

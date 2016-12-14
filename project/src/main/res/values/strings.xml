@@ -125,8 +125,6 @@
     <string name="calendar_desc_itinerary_TEMPLATE">{brand} Itinerary #: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_desc_support_TEMPLATE">{brand} Customer Support: {localphone} and {phone}</string>
-    <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
-    <string name="car_search_date_range_cont_desc_TEMPLATE">Car dates. Button. Opens dialog. {date_time_range}</string>
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">Activity location Google Map View</string>
 
@@ -1081,6 +1079,31 @@
     <!-- Accessibility string informs the user of selected return time. Ex. "Return Time: Feb 8 15:00-->
     <string name="rail_return_time_cont_desc_TEMPLATE">Return time {time}</string>
 
+    <!-- Accessibility string to tell the user this text is also a button -->
+    <string name="rail_from_hint_cont_desc">Going from Button</string>
+    <!-- Accessibility string to tell the user this text is also a button -->
+    <string name="rail_to_hint_cont_desc">Going to Button</string>
+
+    <!-- Accessibility string to tell the user the departing station they selected Ex. Going from London Euston. Button -->
+    <string name="rail_going_from_location_cont_desc_TEMPLATE">Going from {location}. Button</string>
+    <!-- Accessibility string to tell the user the destination station they selected Ex. Going to Sugar loaf. Button -->
+    <string name="rail_going_to_location_cont_desc_TEMPLATE">Going to {location}. Button</string>
+
+    <!-- Accessibility description, infroms the user of the rail card button, and describes currently selected number of railcards-->
+    <plurals name="search_rail_card_cont_desc_TEMPLATE">
+        <item quantity="one">Number of railcards. Button. Opens dialog. {count} railcard</item>
+        <item quantity="other">Number of railcards. Button. Opens dialog. {count} railcards</item>
+    </plurals>
+
+
+    <!-- Accessibility string telling the user the swap button will change the departure and destination selections -->
+    <string name="rail_swap_locations_cont_desc">Swap the destination location for the departure location.</string>
+
+    <!-- Accessibility announcement when one way search screen is selected. -->
+    <string name="rail_tab_oneway_selected_announcement">Showing one way rail search screen</string>
+    <!-- Accessibility announcement when Return search screen is selected. -->
+    <string name="rail_tab_roundtrip_selected_announcement">Showing return rail search screen</string>
+
     <!-- New launch screen -->
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Recommended Tonight</string>
@@ -1879,6 +1902,8 @@
     <string name="edit_search">Edit Search</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Select Dates</string>
+    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <string name="trip_dates_cont_desc">Trip dates</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Search Destination</string>
     <!-- Number of adults template -->
@@ -4691,11 +4716,7 @@
     <!--Flying from card content description before a location is selected-->
     <string name="packages_search_flying_from_cont_desc">Flying from. Button</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_cont_desc">Select travel dates. Button. Opens dialog</string>
-    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} to {enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
-    <string name="trip_search_date_range_cont_desc_TEMPLATE">Trip dates. Button. Opens dialog. {date_range}. {nights}</string>
+    <string name="select_travel_dates_cont_desc">Select travel dates. Button. Opens dialog</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
     <string name="hotel_card_view_price_cont_desc_TEMPLATE">Price {price}.\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
@@ -4703,6 +4724,9 @@
         <item quantity="one">Number of travelers. Button. Opens dialog. {travelers} traveler</item>
         <item quantity="other">Number of travelers. Button. Opens dialog. {travelers} travelers</item>
     </plurals>
+
+    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="search_date_range_cont_desc_TEMPLATE">{startdate} to {enddate}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">Add one adult traveler</string>
     <!--Traveler widget adults minus button content description-->
@@ -4797,8 +4821,6 @@
     <string name="lx_ticket_added_announce_accessibility_TEMPLATE">One {traveler} Added</string>
     <!-- Announcement on LX remove button click e.g One adult Removed -->
     <string name="lx_ticket_removed_announce_accessibility_TEMPLATE">One {traveler} Removed</string>
-    <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
-    <string name="lx_search_date_range_cont_desc_TEMPLATE">Activity dates. Button. Opens dialog. {date_range}</string>
 
     <!-- Content description for action: $44. Cost summary information button. -->
     <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Cost summary information button.</string>
@@ -4850,6 +4872,11 @@
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Checkbox. Unchecked.</string>
     <string name="base_search_dates_cont_desc">Select dates. Button. Opens dialog</string>
     <string name="lx_search_start_date_cont_desc">Select Start Date. Button. Opens dialog</string>
+
+    <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
+    <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
+    <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
+    <string name="search_dates_cont_desc_TEMPLATE">{dates_label} Button. Opens dialog. {duration_description}</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>

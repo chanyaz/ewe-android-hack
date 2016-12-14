@@ -99,7 +99,7 @@ class CarSearchViewModelTest {
         assertEquals(expectedDateText, dateTextTestSubscriber.onNextEvents[1].toString());
 
         var expectedDateTextAccessbility = dateFormatter(dateNow, dateNow.plusDays(3), Pair(36000, 4800000), true )
-        assertEquals("Car dates. Button. Opens dialog. " + expectedDateTextAccessbility,
+        assertEquals("Select pick-up and drop-off dates Button. Opens dialog. " + expectedDateTextAccessbility,
                 dateAccessibilityTestSubscriber.onNextEvents[1].toString())
 
     }
