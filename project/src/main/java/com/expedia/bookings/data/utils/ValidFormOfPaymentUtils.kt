@@ -77,7 +77,7 @@ object ValidFormOfPaymentUtils {
                         .format().toString()
             }
 
-            LineOfBusiness.FLIGHTS_V2 -> {
+            LineOfBusiness.FLIGHTS_V2, LineOfBusiness.FLIGHTS -> {
                 Phrase.from(context, R.string.airline_does_not_accept_cardtype_TEMPLATE)
                         .put("card_type", cardName)
                         .format().toString();
