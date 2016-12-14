@@ -102,8 +102,6 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
 
     override var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver)
-        val delayBeforeShowingDestinationSuggestions = 325L
-        val waitForOtherSuggestionListeners = 350L
 
         vm.suggestionSelectedSubject
                 .doOnNext(suggestionSelectedObserver)
