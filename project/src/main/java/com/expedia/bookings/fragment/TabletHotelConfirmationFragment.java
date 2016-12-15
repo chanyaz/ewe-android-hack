@@ -32,6 +32,7 @@ import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.TextView;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.SettingUtils;
 
 public class TabletHotelConfirmationFragment extends TabletConfirmationFragment {
 
@@ -82,6 +83,7 @@ public class TabletHotelConfirmationFragment extends TabletConfirmationFragment 
 		CreateTripResponse tripResponse = Db.getTripBucket().getHotel().getCreateTripResponse();
 		if (tripResponse != null) {
 			AdImpressionTracking.trackAdConversion(getActivity(), tripResponse.getTripId());
+			SettingUtils.save(getActivity(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		}
 
 		return v;

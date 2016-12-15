@@ -9,6 +9,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.utils.RewardsUtil
 import com.expedia.bookings.utils.Strings
+import com.mobiata.android.util.SettingUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
@@ -38,6 +39,7 @@ class FlightConfirmationViewModel(val context: Context) {
                 ItineraryManager.getInstance().addGuestTrip(email, itinNumber)
             }
             crossSellWidgetVisibility.onNext(isQualified)
+            SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
         }
 
         setRewardsPoints.subscribe { points ->
