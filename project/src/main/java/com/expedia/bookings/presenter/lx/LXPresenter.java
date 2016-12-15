@@ -13,10 +13,9 @@ import android.view.animation.DecelerateInterpolator;
 import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.TransitionElement;
-import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
-import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.otto.Events;
@@ -24,7 +23,6 @@ import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.presenter.VisibilityTransition;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.LXConfirmationWidget;
@@ -67,11 +65,6 @@ public class LXPresenter extends Presenter {
 
 	LXOverviewPresenter overviewPresenter;
 
-	public boolean isUniversalCheckout() {
-		return FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_enable_universal_checkout_on_lx) &&
-			Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppBringUniversalCheckoutToLX);
-	}
-
 	private static class LXParamsOverlay {
 		// ignore
 	}
@@ -102,11 +95,16 @@ public class LXPresenter extends Presenter {
 		addTransition(resultsToDetails);
 		addTransition(searchOverlayOnResults);
 		addTransition(searchOverlayOnDetails);
-		addTransition(detailsToCheckout);
 		addTransition(detailsToSearch);
 
-		addTransition(checkoutToConfirmation);
-		addTransition(checkoutToResults);
+		if (isUniversalCheckout()) {
+			addTransition(detailsToCheckoutV2);
+		}
+		else {
+			addTransition(detailsToCheckout);
+			addTransition(checkoutToConfirmation);
+			addTransition(checkoutToResults);
+		}
 		show(resultsPresenter);
 		resultsPresenter.setVisibility(VISIBLE);
 
@@ -178,6 +176,19 @@ public class LXPresenter extends Presenter {
 			super.endTransition(forward);
 			if (!forward) {
 				AccessibilityUtil.setFocusToToolbarNavigationIcon(detailsPresenter.toolbar);
+			}
+		}
+	};
+
+	private Transition detailsToCheckoutV2 = new VisibilityTransition(this, LXDetailsPresenter.class, LXOverviewPresenter.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			if (!forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(detailsPresenter.toolbar);
+			}
+			else {
+				overviewPresenter.makeNewCreateTripCall();
 			}
 		}
 	};
@@ -379,10 +390,7 @@ public class LXPresenter extends Presenter {
 		this.isGroundTransport = isGroundTransport;
 		resultsPresenter.setIsFromGroundTransport(isGroundTransport);
 		detailsPresenter.details.setIsFromGroundTransport(isGroundTransport);
-		if (isUniversalCheckout()) {
-			overviewPresenter.setIsGroundTransport(isGroundTransport);
-		}
-		else {
+		if (!isUniversalCheckout()) {
 			checkoutPresenter.setIsFromGroundTransport(isGroundTransport);
 			checkoutPresenter.checkout.setIsFromGroundTransport(isGroundTransport);
 			confirmationWidget.setIsFromGroundTransport(isGroundTransport);
@@ -391,6 +399,10 @@ public class LXPresenter extends Presenter {
 			checkoutPresenter.checkout.mainContactInfoCardView
 				.setLineOfBusiness(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
 		}
+	}
+
+	private boolean isUniversalCheckout() {
+		return LineOfBusinessExtensions.Companion.isUniversalCheckout(LineOfBusiness.LX, getContext());
 	}
 
 	public void setUserBucketedForCategoriesTest(boolean isUserBucketedForTest) {

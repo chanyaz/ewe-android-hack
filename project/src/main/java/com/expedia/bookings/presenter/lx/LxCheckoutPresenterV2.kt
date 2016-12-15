@@ -4,64 +4,77 @@ import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.otto.Events
+import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
-import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.BaseCreateTripViewModel
-import com.expedia.vm.PaymentViewModel
+import com.expedia.vm.lx.LXCheckoutViewModel
+import com.expedia.vm.lx.LXCostSummaryViewModel
+import com.expedia.vm.lx.LXCreateTripViewModel
+import com.squareup.otto.Subscribe
+import javax.inject.Inject
 
 class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
 
+    lateinit var lxCheckoutViewModel: LXCheckoutViewModel
+        @Inject set
+
+    lateinit var lxCreateTripViewModel: LXCreateTripViewModel
+        @Inject set
+
     override fun injectComponents() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        Ui.getApplication(context).lxComponent().inject(this)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return LineOfBusiness.LX
     }
 
     override fun updateDbTravelers() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO
     }
 
     override fun trackShowSlideToPurchase() {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO
     }
 
-    override fun makeCheckoutViewModel(): BaseCheckoutViewModel {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun makeCheckoutViewModel(): AbstractCheckoutViewModel {
+        return lxCheckoutViewModel
     }
 
     override fun makeCreateTripViewModel(): BaseCreateTripViewModel {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return lxCreateTripViewModel
     }
 
-    override fun getCheckoutViewModel(): BaseCheckoutViewModel {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getCheckoutViewModel(): LXCheckoutViewModel {
+        return ckoViewModel as LXCheckoutViewModel
     }
 
-    override fun getCreateTripViewModel(): BaseCreateTripViewModel {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+    override fun getCreateTripViewModel(): LXCreateTripViewModel {
+        return tripViewModel as LXCreateTripViewModel
     }
 
     override fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO
+        return LXCostSummaryViewModel(context)
     }
 
     override fun setupCreateTripViewModel(vm: BaseCreateTripViewModel) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO
     }
 
     override fun showMainTravelerMinimumAgeMessaging(): Boolean {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun getPaymentWidgetViewModel(): PaymentViewModel {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        return false
     }
 
     override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
-        throw UnsupportedOperationException("not implemented") //To change body of created functions use File | Settings | File Templates.
+        //TODO
     }
 
+    @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
+        onLoginSuccess()
+    }
+    
 }

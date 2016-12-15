@@ -3,17 +3,10 @@ package com.expedia.vm
 import android.content.Context
 import android.support.v4.content.ContextCompat
 import android.text.SpannableStringBuilder
-import android.text.Spanned
 import android.text.SpannedString
 import com.expedia.bookings.R
-import com.expedia.bookings.data.ApiError
-import com.expedia.bookings.data.BaseApiResponse
-import com.expedia.bookings.data.BaseCheckoutParams
-import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.Money
-import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.text.HtmlCompat
@@ -22,112 +15,39 @@ import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Observer
-import rx.Scheduler
-import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
-import rx.subjects.PublishSubject
-import rx.subscriptions.CompositeSubscription
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
-import kotlin.properties.Delegates
 
-abstract class BaseCheckoutViewModel(val context: Context) {
-    //nullable for hotels/cars/lx which wont implement card fees
+abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : AbstractCheckoutViewModel(context) {
+
     var cardFeeService: CardFeeService? = null
         @Inject set
 
-    lateinit var paymentViewModel: PaymentViewModel
-        @Inject set
-
-    open val builder = BaseCheckoutParams.Builder()
-    val selectedCardFeeObservable = BehaviorSubject.create<Money>()
-    val paymentTypeSelectedHasCardFee = PublishSubject.create<Boolean>()
-    val cardFeeTextSubject = PublishSubject.create<Spanned>()
-    val cardFeeWarningTextSubject = PublishSubject.create<Spanned>()
-    val selectedFlightChargesFees = BehaviorSubject.create<String>("")
-    val obFeeDetailsUrlSubject = BehaviorSubject.create<String>("")
-    val showCheckoutDialogObservable = PublishSubject.create<Boolean>()
-
-    // Inputs
-    val creditCardRequired = PublishSubject.create<Boolean>()
-    val travelerCompleted = BehaviorSubject.create<List<Traveler>>()
-    val clearTravelers = BehaviorSubject.create<Unit>()
-    val paymentCompleted = BehaviorSubject.create<BillingInfo?>()
-    val cvvCompleted = BehaviorSubject.create<String>()
-    val createTripResponseObservable = BehaviorSubject.create<TripResponse?>()
-    val checkoutParams = BehaviorSubject.create<BaseCheckoutParams>()
-    val bookingSuccessResponse = PublishSubject.create<Pair<BaseApiResponse, String>>()
-
-    var slideAllTheWayObservable = PublishSubject.create<Unit>()
-    val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
-    
-    // Outputs
-    val priceChangeObservable = PublishSubject.create<TripResponse>()
-    val noNetworkObservable = PublishSubject.create<Unit>()
-    val depositPolicyText = PublishSubject.create<Spanned>()
-    val legalText = BehaviorSubject.create<SpannableStringBuilder>()
-    val sliderPurchaseTotalText = PublishSubject.create<CharSequence>()
-    val accessiblePurchaseButtonContentDescription = PublishSubject.create<CharSequence>()
-    val checkoutErrorObservable = PublishSubject.create<ApiError>()
-    var email: String by Delegates.notNull()
-    val slideToBookA11yActivateObservable = PublishSubject.create<Unit>()
-    val cardFeeTripResponse  = PublishSubject.create<TripResponse>()
-
-    private var lastFetchedCardFeeKeyPair: Pair<String, String>? = null
-    private var compositeSubscription: CompositeSubscription? = null
-
-    init {
-        injectComponents()
-        compositeSubscription = CompositeSubscription()
-        clearTravelers.subscribe {
-            builder.clearTravelers()
-        }
-
-        travelerCompleted.subscribe {
-            builder.travelers(it)
-        }
-
-        paymentCompleted.subscribe { billingInfo ->
-            builder.billingInfo(billingInfo)
-            builder.cvv(billingInfo?.securityCode)
-        }
-
-        cvvCompleted.subscribe {
-            builder.cvv(it)
-            if (builder.hasValidParams()) {
-                checkoutParams.onNext(builder.build())
-            }
-        }
-
-        if (useCardFeeService()) {
-            compositeSubscription?.add(paymentViewModel.resetCardFees.subscribe {
-                lastFetchedCardFeeKeyPair = null
-                resetCardFees()
-            })
-
-            compositeSubscription?.add(paymentViewModel.cardBIN
-                    .debounce(1, TimeUnit.SECONDS, getScheduler())
-                    .subscribe { fetchCardFees(cardId = it, tripId = getTripId()) })
-            compositeSubscription?.add(createTripResponseObservable
-                    .subscribe {
-                        val cardId = paymentViewModel.cardBIN.value
-                        fetchCardFees(cardId, getTripId())
-                    })
-
-            setupCardFeeSubjects()
-        }
-    }
-
-    abstract fun useCardFeeService(): Boolean
-    abstract fun injectComponents()
-    abstract fun getTripId() : String
     abstract fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?)
     abstract fun resetCardFees()
 
-    open protected fun getScheduler(): Scheduler = AndroidSchedulers.mainThread()
+    val selectedCardFeeObservable = BehaviorSubject.create<Money>()
+    val selectedFlightChargesFees = BehaviorSubject.create<String>("")
+    val obFeeDetailsUrlSubject = BehaviorSubject.create<String>("")
+    private var lastFetchedCardFeeKeyPair: Pair<String, String>? = null
 
-    fun isValidForBooking() : Boolean {
-        return builder.hasValidTravelerAndBillingInfo()
+    init {
+        compositeSubscription?.add(paymentViewModel.resetCardFees.subscribe {
+            lastFetchedCardFeeKeyPair = null
+            resetCardFees()
+        })
+
+        compositeSubscription?.add(paymentViewModel.cardBIN
+                .debounce(1, TimeUnit.SECONDS, getScheduler())
+                .subscribe { fetchCardFees(cardId = it, tripId = getTripId()) })
+        compositeSubscription?.add(createTripResponseObservable
+                .subscribe {
+                    val cardId = paymentViewModel.cardBIN.value
+                    fetchCardFees(cardId, getTripId())
+                })
+
+        setupCardFeeSubjects()
     }
 
     private fun fetchCardFees(cardId: String, tripId: String) {
@@ -143,15 +63,18 @@ abstract class BaseCheckoutViewModel(val context: Context) {
     }
 
     private fun getCardFeesCallback(): Observer<CardFeeResponse> {
-        return object: Observer<CardFeeResponse> {
+        return object : Observer<CardFeeResponse> {
             override fun onNext(it: CardFeeResponse) {
                 if (!it.hasErrors()) {
                     selectedPaymentHasCardFee(it.feePrice, it.tripTotalPrice)
                 }
             }
 
-            override fun onCompleted() {}
-            override fun onError(e: Throwable?) {}
+            override fun onCompleted() {
+            }
+
+            override fun onError(e: Throwable?) {
+            }
         }
     }
 
@@ -206,7 +129,4 @@ abstract class BaseCheckoutViewModel(val context: Context) {
         return SpannableStringBuilder()
     }
 
-    fun unsubscribeAll() {
-        compositeSubscription?.unsubscribe()
-    }
 }

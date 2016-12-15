@@ -9,7 +9,7 @@ import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.presenter.BaseOverviewPresenter
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.subscribeText
@@ -17,7 +17,7 @@ import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
 
-class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
+class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightCheckoutSummaryViewModel()
     val isBucketedForExpandedRateDetailsTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)

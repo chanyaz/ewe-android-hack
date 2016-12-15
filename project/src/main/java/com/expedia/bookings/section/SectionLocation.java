@@ -598,7 +598,7 @@ public class SectionLocation extends LinearLayout
 	 */
 	private boolean requiresPostalCode() {
 		// #1056. Postal code check depends on the country, of billing, selected.
-		if (mLineOfBusiness == LineOfBusiness.FLIGHTS || LineOfBusinessExtensions.Companion.isUniversalCheckout(mLineOfBusiness)) {
+		if (mLineOfBusiness == LineOfBusiness.FLIGHTS || LineOfBusinessExtensions.Companion.isUniversalCheckout(mLineOfBusiness, getContext())) {
 			CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
 			String selectedCountry = countryAdapter.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(),
 				CountryDisplayType.THREE_LETTER);

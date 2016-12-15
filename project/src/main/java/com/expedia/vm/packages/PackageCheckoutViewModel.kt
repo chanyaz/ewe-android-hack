@@ -19,11 +19,11 @@ import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.safeSubscribe
-import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.squareup.phrase.Phrase
 import rx.Observer
 
-class PackageCheckoutViewModel(context: Context, var packageServices: PackageServices) : BaseCheckoutViewModel(context) {
+class PackageCheckoutViewModel(context: Context, var packageServices: PackageServices) : AbstractCardFeeEnabledCheckoutViewModel(context) {
     override val builder = PackageCheckoutParams.Builder()
     val e3Endpoint = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
 
@@ -64,15 +64,12 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
         }
         legalText.onNext(SpannableStringBuilder(PointOfSale.getPointOfSale().getColorizedPackagesBookingStatement(ContextCompat.getColor(context, R.color.packages_primary_color))))
 
-        checkoutParams.subscribe { params -> params as PackageCheckoutParams
+        checkoutParams.subscribe { params ->
+            params as PackageCheckoutParams
             showCheckoutDialogObservable.onNext(true)
             packageServices.checkout(params.toQueryMap()).subscribe(makeCheckoutResponseObserver())
             email = params.travelers.first().email
         }
-    }
-
-    override fun useCardFeeService(): Boolean {
-        return true
     }
 
     override fun getTripId(): String {
@@ -152,7 +149,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
 
     override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
         // add card fee to trip response
-        val response =  createTripResponseObservable.value
+        val response = createTripResponseObservable.value
         if (response != null) {
             val newTripResponse = response as PackageCreateTripResponse
             newTripResponse.selectedCardFees = cardFee
@@ -163,7 +160,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
     }
 
     override fun resetCardFees() {
-        val response =  createTripResponseObservable.value
+        val response = createTripResponseObservable.value
         if (response != null) {
             val newTripResponse = response as PackageCreateTripResponse
             newTripResponse.selectedCardFees = null

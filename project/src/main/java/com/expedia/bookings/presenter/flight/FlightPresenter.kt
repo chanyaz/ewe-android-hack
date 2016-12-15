@@ -17,7 +17,7 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripParams
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.presenter.BaseOverviewPresenter
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -65,7 +65,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         presenter.getViewModel().fireRetryCreateTrip.subscribe {
             flightOverviewPresenter.getCheckoutPresenter().getCreateTripViewModel().performCreateTrip.onNext(Unit)
             show(presenter)
-            presenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+            presenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
         presenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
             flightOverviewPresenter.showCheckout()
@@ -270,7 +270,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             val createTripParams = FlightCreateTripParams(productKey)
             flightCreateTripViewModel.tripParams.onNext(createTripParams)
             show(flightOverviewPresenter)
-            flightOverviewPresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+            flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
         viewModel.outboundResultsObservable.subscribe {
             outBoundPresenter.trackFlightResultsLoad()

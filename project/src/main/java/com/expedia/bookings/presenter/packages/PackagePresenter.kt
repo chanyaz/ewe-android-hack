@@ -18,7 +18,7 @@ import com.expedia.bookings.data.BaseApiResponse
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.packages.PackageCheckoutResponse
-import com.expedia.bookings.presenter.BaseOverviewPresenter
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.IntentPresenter
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -302,7 +302,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
 
     fun showBundleOverView() {
         show(bundlePresenter)
-        bundlePresenter.show(BaseOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
+        bundlePresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         bundlePresenter.getCheckoutPresenter().trackShowBundleOverview()
     }
 

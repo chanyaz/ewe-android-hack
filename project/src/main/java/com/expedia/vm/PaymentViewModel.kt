@@ -156,7 +156,7 @@ open class PaymentViewModel(val context: Context) {
             }
             isZipValidationRequired.onNext(isPostalCodeRequired)
             ccFeeDisclaimer.onNext(getCCFeeDisclaimerText(lob))
-            newCheckoutIsEnabled.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_checkout_forms_behavior) && lob.isUniversalCheckout())
+            newCheckoutIsEnabled.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_checkout_forms_behavior) && lob.isUniversalCheckout(context))
         }
 
         resetCardFees.subscribe { cardBIN.onNext("") }
@@ -177,7 +177,7 @@ open class PaymentViewModel(val context: Context) {
     private fun lobRequiresCreditCard(lob: LineOfBusiness): Boolean {
         return lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELS
                 || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2
-                || lob == LineOfBusiness.RAILS
+                || lob == LineOfBusiness.RAILS || lob == LineOfBusiness.LX
     }
 
     private fun setPaymentTileInfo(type: PaymentType?, title: String, subTitle: String, splitsType: PaymentSplitsType, completeStatus: ContactDetailsCompletenessStatus) {

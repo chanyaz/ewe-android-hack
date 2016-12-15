@@ -10,6 +10,7 @@ import com.expedia.bookings.data.lx.LXCheckoutParams
 import com.expedia.bookings.data.lx.LXCheckoutResponse
 import com.expedia.bookings.data.lx.LXCreateTripParams
 import com.expedia.bookings.data.lx.LXCreateTripResponse
+import com.expedia.bookings.data.lx.LXCreateTripResponseV2
 import com.expedia.bookings.data.lx.LXSearchResponse
 import com.expedia.bookings.data.lx.LXSortFilterMetadata
 import com.expedia.bookings.data.lx.LXSortType
@@ -250,6 +251,21 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 .subscribeOn(this.subscribeOn)
                 .subscribe(observer)
     }
+
+    fun createTripV2(createTripParams: LXCreateTripParams, originalPrice: Money, observer: Observer<LXCreateTripResponseV2>): Subscription {
+        return lxApi.createTripV2(createTripParams)
+                .doOnNext(HANDLE_ERRORS)
+                .doOnNext {
+                    response: LXCreateTripResponseV2 ->
+                    if (response.hasPriceChange()) {
+                        response.originalPrice = originalPrice
+                    }
+                }
+                .observeOn(this.observeOn)
+                .subscribeOn(this.subscribeOn)
+                .subscribe(observer)
+    }
+
 
     fun lxCheckout(checkoutParams: LXCheckoutParams, observer: Observer<LXCheckoutResponse>): Subscription {
         val originalPrice = Money(checkoutParams.expectedTotalFare, checkoutParams.expectedFareCurrencyCode)

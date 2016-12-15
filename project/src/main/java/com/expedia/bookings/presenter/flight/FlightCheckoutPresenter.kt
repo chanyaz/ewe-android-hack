@@ -26,7 +26,6 @@ import com.expedia.util.safeSubscribe
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.InsuranceViewModel
-import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.squareup.otto.Subscribe
@@ -45,9 +44,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         @Inject set
 
     lateinit var flightCreateTripViewModel: FlightCreateTripViewModel
-        @Inject set
-
-    lateinit var paymentViewModel: PaymentViewModel
         @Inject set
 
     init {
@@ -95,10 +91,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun injectComponents() {
         Ui.getApplication(context).flightComponent().inject(this)
-    }
-
-    override fun getPaymentWidgetViewModel(): PaymentViewModel {
-        return paymentViewModel
     }
 
     override fun setupCreateTripViewModel(vm : BaseCreateTripViewModel) {

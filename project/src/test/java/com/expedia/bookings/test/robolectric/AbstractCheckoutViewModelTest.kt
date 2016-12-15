@@ -6,7 +6,7 @@ import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.Traveler
-import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.PaymentViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -18,24 +18,15 @@ import kotlin.properties.Delegates
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
-class BaseCheckoutViewModelTest {
-    var testViewModel: BaseCheckoutViewModel by Delegates.notNull()
+class AbstractCheckoutViewModelTest {
+    var testViewModel: AbstractCheckoutViewModel by Delegates.notNull()
     var activity : Activity by Delegates.notNull()
     private var LOTS_MORE: Long = 100
 
     @Before
     fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        testViewModel = object : BaseCheckoutViewModel(activity) {
-            override fun resetCardFees() {
-                // do nothing
-            }
-
-            override fun useCardFeeService(): Boolean {
-                return false
-            }
-
-            override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) { }
+        testViewModel = object : AbstractCheckoutViewModel(activity) {
             override fun injectComponents() {
                 paymentViewModel = PaymentViewModel(activity)
             }

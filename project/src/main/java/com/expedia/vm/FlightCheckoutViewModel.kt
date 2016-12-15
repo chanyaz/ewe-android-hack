@@ -23,7 +23,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(context) {
+open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledCheckoutViewModel(context) {
 
     lateinit var flightServices: FlightServices
         @Inject set
@@ -38,7 +38,8 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
 
         legalText.onNext(SpannableStringBuilder(pointOfSale.getColorizedFlightBookingStatement(ContextCompat.getColor(context, R.color.flight_primary_color))))
 
-        createTripResponseObservable.safeSubscribe { createTripResponse -> createTripResponse as FlightCreateTripResponse
+        createTripResponseObservable.safeSubscribe { createTripResponse ->
+            createTripResponse as FlightCreateTripResponse
             builder.tripId(createTripResponse.newTrip!!.tripId)
             builder.expectedTotalFare(createTripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints().amount.toString())
             builder.expectedFareCurrencyCode(createTripResponse.details.offer.totalPrice.currency)
@@ -51,12 +52,14 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
             sliderPurchaseTotalText.onNext(totalPrice)
         }
 
-        priceChangeObservable.subscribe { checkoutResponse -> checkoutResponse as FlightCheckoutResponse
+        priceChangeObservable.subscribe { checkoutResponse ->
+            checkoutResponse as FlightCheckoutResponse
             val flightTripDetails = checkoutResponse.details
             builder.expectedTotalFare(flightTripDetails.offer.totalPrice.amount.toString())
         }
 
-        checkoutParams.subscribe { params -> params as FlightCheckoutParams
+        checkoutParams.subscribe { params ->
+            params as FlightCheckoutParams
             showCheckoutDialogObservable.onNext(true)
             flightServices.checkout(params.toQueryMap(), makeCheckoutResponseObserver())
             email = params.travelers.first().email
@@ -69,13 +72,9 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
         Ui.getApplication(context).flightComponent().inject(this)
     }
 
-    override fun useCardFeeService(): Boolean {
-        return true
-    }
-
     override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
         // add card fee to trip response
-        val response =  createTripResponseObservable.value
+        val response = createTripResponseObservable.value
         if (response != null) {
             val newTripResponse = response as FlightCreateTripResponse
             newTripResponse.selectedCardFees = cardFee
@@ -86,7 +85,7 @@ open class FlightCheckoutViewModel(context: Context) : BaseCheckoutViewModel(con
     }
 
     override fun resetCardFees() {
-        val response =  createTripResponseObservable.value
+        val response = createTripResponseObservable.value
         if (response != null) {
             val newTripResponse = response as FlightCreateTripResponse
             newTripResponse.selectedCardFees = null
