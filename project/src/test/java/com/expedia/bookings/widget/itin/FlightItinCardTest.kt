@@ -23,13 +23,24 @@ import org.robolectric.shadows.ShadowResourcesEB
 import java.io.File
 import kotlin.test.assertEquals
 
-
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class))
 class FlightItinCardTest {
 
-    lateinit private var sut: ItinCard<ItinCardDataFlight>
+    lateinit private var sut: FlightItinCard
     lateinit private var itinCardData: ItinCardDataFlight
+
+    @Test
+    fun flightCheckInLink(){
+        createSystemUnderTest()
+        val localTimePlusTwoHours = DateTime.now().plusHours(2)
+        itinCardData.tripComponent.startDate = localTimePlusTwoHours
+        sut.expand(false)
+        assertEquals(View.VISIBLE, getCheckInTextView().visibility)
+
+        val trip = itinCardData.tripComponent as TripFlight
+        assertEquals("https://wwwexpediacom.trunk-stubbed.sb.karmalab.net/trips/airline/checkin?airlineCode=WW&firstName=sandi&lastName=ma&confirmation=DL5HBGT&departureAirport=BOS&flightNumber=126&email=sptest%40expedia.com&ticketNumber=&flightDay=27&flightMonth=1", trip.checkInLink)
+    }
 
     @Test
     fun actionButtonVisibleForExpandedCardAfterReload() {
@@ -41,14 +52,14 @@ class FlightItinCardTest {
     }
 
     @Test
-    fun actionButtonInvisibleForCollapsedCard(){
+    fun actionButtonInvisibleForCollapsedCard() {
         createSystemUnderTest()
         sut.collapse(false)
         assertEquals(View.GONE, getActionButtonLayout().visibility)
     }
 
     @Test
-    fun actionButtonVisibileWhenCheckInAvailable(){
+    fun actionButtonVisibileWhenCheckInAvailable() {
         createSystemUnderTest()
         val localTimePlusTwoHours = DateTime.now().plusHours(2)
         itinCardData.tripComponent.startDate = localTimePlusTwoHours
@@ -57,7 +68,7 @@ class FlightItinCardTest {
     }
 
     @Test
-    fun hotelUpgradeBannerDoesNotShowOnFlights(){
+    fun hotelUpgradeBannerDoesNotShowOnFlights() {
         createSystemUnderTest()
         sut.expand(false)
         assertEquals(View.GONE, getUpgradeTextView().visibility)
@@ -76,7 +87,7 @@ class FlightItinCardTest {
 
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         activity.setTheme(R.style.NewLaunchTheme)
-        sut = ItinCard<ItinCardDataFlight>(activity)
+        sut = FlightItinCard(activity, null)
         LayoutInflater.from(activity).inflate(R.layout.widget_itin_card, sut)
 
         itinCardData = ItinCardDataFlight(tripFlight, 0)
@@ -94,4 +105,10 @@ class FlightItinCardTest {
         val upgradeText = sut.findViewById(R.id.room_upgrade_message) as TextView
         return upgradeText
     }
+
+    private fun getCheckInTextView(): TextView {
+        val checkInTextView = sut.findViewById(R.id.checkin_text_view) as TextView
+        return checkInTextView
+    }
+
 }
