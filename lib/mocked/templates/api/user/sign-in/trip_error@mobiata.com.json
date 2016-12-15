@@ -1,0 +1,95 @@
+{
+   "tuid":0,
+   "expUserId":1058296,
+   "email":"${email}",
+   "firstName":"Mock",
+   "middleName":"Web",
+   "lastName":"Server",
+   "success":true,
+   "detailedStatus":"Success",
+   "detailedStatusMsg":"Already logged in",
+   "phoneNumbers":[
+      {
+         "number":"4567",
+         "areaCode":"456",
+         "category":"PRIMARY",
+         "countryCode":"1",
+         "extensionNumber":""
+      }
+   ],
+   "storedCreditCards": [
+      {
+        "description": "AmexTesting",
+        "paymentsInstrumentsId": "EB5BBFFF-A91F-4B79-8685-6A5A4C1D4059",
+        "creditCardType": "AmericanExpress",
+        "nameOnCard": "Amex Card Yo",
+        "expired": "false",
+        "expirationDate": "2016-03"
+      },
+      {
+        "description": "Expired Credit Card",
+        "paymentsInstrumentsId": "500C0690-D5C7-4208-8BB0-2A3760C21B4F",
+        "creditCardType": "Visa",
+        "nameOnCard": "paymentfailederror lastname",
+        "expired": "true",
+        "expirationDate": "2013-07"
+      },
+      {
+        "description": "Please do NOT use this one",
+        "paymentsInstrumentsId": "DD6B063B-EF2A-4A56-86D4-BF41BE428AA0",
+        "creditCardType": "Visa",
+        "nameOnCard": "Lucienne Roe",
+        "expired": "false",
+        "expirationDate": "2015-04"
+      },
+      {
+        "description": "Visa 1111",
+        "paymentsInstrumentsId": "CA415180-FFC8-447C-AC32-CDF51A5CAF4F",
+        "creditCardType": "Visa",
+        "nameOnCard": "Jexper MobiataTestaverde",
+        "expired": "false",
+        "expirationDate": "2018-08"
+      },
+      {
+        "description": "Visa 6134",
+        "paymentsInstrumentsId": "E192CA40-E78C-42B3-B17B-D9E301004F8E",
+        "creditCardType": "Visa",
+        "nameOnCard": "Quite Test",
+        "expired": "false",
+        "expirationDate": "2015-04"
+      },
+     {
+       "description": "checkoutpricechange",
+       "paymentsInstrumentsId": "EB5BBFFF-A91F-4B79-8685-6A5A4C1D4059",
+       "creditCardType": "AmericanExpress",
+       "nameOnCard": "checkoutpricechange lastname",
+       "expired": "false",
+       "expirationDate": "2016-03"
+     }
+    ],
+   "loyaltyMembershipNumber":"308127915",
+   "isSmokingPreferred":false,
+  "tsaDetails": {
+    "gender": "Male",
+    "dateOfBirth": "1985-11-01",
+    "knownTravelerNumber": "TN123456789",
+    "redressNumber": "1234567"
+  },
+   "seatPreference":"ANY",
+   "specialAssistance":"NONE",
+   "associatedTravelers":[
+      {
+         "tuid":1,
+         "firstName":"Expedia",
+         "middleName":"Automation",
+         "lastName":"First"
+      },
+      {
+         "tuid":2,
+         "firstName":"Expedia",
+         "middleName":"Automation",
+         "lastName":"Second"
+      }
+   ],
+   "activityId":"ef1370e2-d7a9-40c7-895b-068b3d92e447"
+}

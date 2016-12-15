@@ -24,6 +24,10 @@ public class TripsScreen {
 		return onView(allOf(withId(LOG_IN_BUTTON_ID), withText("Sign in for your trips")));
 	}
 
+	public static ViewInteraction refreshTripsButton() {
+		return onView(allOf(withId(LOG_IN_BUTTON_ID), withText("Refresh Trips")));
+	}
+
 	public static void clickOnLogInButton() {
 		logInButton().perform(click());
 	}
