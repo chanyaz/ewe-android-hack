@@ -10,6 +10,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.model.UserLoginStateChangedModel
+import com.expedia.util.LoyaltyUtil
 import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Subscription
@@ -20,8 +21,10 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
 
     lateinit var subscription: Subscription
     val isShopWithPointsAvailableObservable = BehaviorSubject.create<Boolean>()
-    val isShopWithPointsAvailableObservableIntermediateStream = Observable.concat(Observable.just(User.isLoggedIn(context)),userLoginChangedModel.userLoginStateChanged)
-            .map { isShopWithPointsAvailable(it) }
+    val isShopWithPointsAvailableObservableIntermediateStream =
+            Observable.concat(
+                    Observable.just(User.isLoggedIn(context)),
+                    userLoginChangedModel.userLoginStateChanged).map { LoyaltyUtil.isShopWithPointsAvailable(context) }
 
     val shopWithPointsToggleObservable = BehaviorSubject.create<Boolean>(true)
 
@@ -41,9 +44,6 @@ class ShopWithPointsViewModel(val context: Context, val paymentModel: PaymentMod
         }
         if (value != null) Phrase.from(context.resources, R.string.swp_widget_points_value_TEMPLATE).put("points_or_amount", value).format().toString() else ""
     }
-
-    private fun isShopWithPointsAvailable(isUserLoggedIn: Boolean): Boolean = isUserLoggedIn && PointOfSale.getPointOfSale().isSWPEnabledForHotels
-            && Db.getUser()?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false
 
     init {
         shopWithPointsToggleObservable.subscribe(paymentModel.swpOpted)
