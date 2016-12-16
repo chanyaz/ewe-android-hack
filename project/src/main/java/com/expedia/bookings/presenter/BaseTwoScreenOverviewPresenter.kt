@@ -11,7 +11,8 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import com.expedia.bookings.R
-import com.expedia.bookings.presenter.packages.TravelersPresenter
+import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
+import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -79,7 +80,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         bundleOverviewHeader.toolbar.viewModel.doneClicked.subscribe {
             if (checkoutPresenter.currentState == BillingDetailsPaymentWidget::class.java.name) {
                 checkoutPresenter.paymentWidget.doneClicked.onNext(Unit)
-            } else if (checkoutPresenter.currentState == TravelersPresenter::class.java.name) {
+            } else if (checkoutPresenter.currentState == checkoutPresenter.travelersPresenter.javaClass.name) {
                 checkoutPresenter.travelersPresenter.doneClicked.onNext(Unit)
             }
         }

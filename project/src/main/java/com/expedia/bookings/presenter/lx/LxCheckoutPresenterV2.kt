@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.presenter.packages.LXTravelersPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.vm.AbstractCheckoutViewModel
@@ -13,6 +14,8 @@ import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.lx.LXCheckoutViewModel
 import com.expedia.vm.lx.LXCostSummaryViewModel
 import com.expedia.vm.lx.LXCreateTripViewModel
+import com.expedia.vm.traveler.LXTravelersViewModel
+import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.otto.Subscribe
 import javax.inject.Inject
 
@@ -75,6 +78,14 @@ class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckou
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
+    }
+
+    override fun createTravelersViewModel(): TravelersViewModel {
+        return LXTravelersViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
+    }
+
+    override fun getDefaultToTravelerTransition(): DefaultToTraveler {
+        return DefaultToTraveler(LXTravelersPresenter::class.java)
     }
     
 }

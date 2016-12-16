@@ -26,6 +26,7 @@
         <item name="skin_rippleDrawable">@drawable/exp_blue_button_ripple</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="paymentWidgetLayout">@layout/billing_details_payment_widget</item>
+        <item name="traveler_presenter">@layout/flight_travelers_presenter_view_stub</item>
         <item name="sliderText">@string/slide_to_book_text</item>
         <item name="hotel_promo_background_colors">@color/packages_secondary_color</item>
         <item name="hotel_toggle_text_drawable">@drawable/hotel_package_toggle_text</item>

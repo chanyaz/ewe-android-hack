@@ -6,9 +6,10 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
-import com.expedia.bookings.presenter.packages.TravelersPresenter
+import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
+import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import org.junit.Before
 import org.junit.Test
@@ -19,7 +20,7 @@ import java.util.ArrayList
 @RunWith(RobolectricRunner::class)
 class TravelersPresenterTest {
 
-    lateinit var travelersPresenter: TravelersPresenter
+    lateinit var travelersPresenter: AbstractTravelersPresenter
 
     @Before
     fun setUp() {
@@ -28,8 +29,8 @@ class TravelersPresenterTest {
         Ui.getApplication(activity).defaultTravelerComponent()
 
         Db.setTravelers(getMockTravelers(5))
-        travelersPresenter = LayoutInflater.from(activity).inflate(R.layout.test_traveler_presenter_stub, null) as TravelersPresenter
-        travelersPresenter.viewModel = TravelersViewModel(activity, LineOfBusiness.FLIGHTS, false)
+        travelersPresenter = LayoutInflater.from(activity).inflate(R.layout.flight_travelers_presenter_view_stub, null) as AbstractTravelersPresenter
+        travelersPresenter.viewModel = FlightTravelersViewModel(activity, LineOfBusiness.FLIGHTS, false)
         travelersPresenter.resetTravelers()
         travelersPresenter.updateAllTravelerStatuses()
     }

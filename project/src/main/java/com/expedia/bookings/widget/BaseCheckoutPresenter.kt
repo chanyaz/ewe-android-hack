@@ -30,7 +30,7 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.packages.TravelersPresenter
+import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
@@ -69,6 +69,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     /** abstract methods **/
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
 
+    abstract fun getDefaultToTravelerTransition(): DefaultToTraveler
     abstract fun injectComponents()
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateDbTravelers()
@@ -103,6 +104,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val invalidPaymentTypeWarningTextView: TextView by bindView(R.id.invalid_payment_type_warning)
     val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
+    val travelersPresenterStub: ViewStub by bindView(R.id.traveler_presenter_stub)
     val space: Space by bindView(R.id.scrollview_space)
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
@@ -151,9 +153,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         view
     }
 
-    val travelersPresenter: TravelersPresenter by lazy {
-        val presenter = findViewById(R.id.traveler_presenter) as TravelersPresenter
-        presenter.viewModel = TravelersViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
+    abstract fun createTravelersViewModel(): TravelersViewModel
+
+    val travelersPresenter: AbstractTravelersPresenter by lazy {
+        val presenter = travelersPresenterStub.inflate() as AbstractTravelersPresenter
+        presenter.viewModel = createTravelersViewModel()
         presenter.travelerEntryWidget.travelerButton.setLOB(getLineOfBusiness())
         presenter.closeSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
@@ -284,7 +288,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     override fun onFinishInflate() {
         super.onFinishInflate()
         addDefaultTransition(defaultTransition)
-        addTransition(defaultToTraveler)
+        addTransition(getDefaultToTravelerTransition())
         addTransition(defaultToPayment)
         setUpLayoutListeners()
         setUpErrorMessaging()
@@ -421,37 +425,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
     }
 
-    private val defaultToTraveler = object : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, TravelersPresenter::class.java) {
-        override fun startTransition(forward: Boolean) {
-            super.startTransition(forward)
-            bottomContainer.visibility = if (forward) GONE else VISIBLE
-            if (!forward) {
-                Ui.hideKeyboard(travelersPresenter)
-                travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
-                travelersPresenter.viewModel.updateCompletionStatus()
-                setToolbarTitle()
-                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
-                travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
-            } else {
-                decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
-            }
-        }
-
-        override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
-            if (!forward) {
-                animateInSlideToPurchase(true)
-                travelersPresenter.setFocusForView()
-                travelerSummaryCard.setFocusForView()
-                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
-            } else {
-                val lp = space.layoutParams
-                lp.height = 0
-                space.layoutParams = lp
-            }
-
-        }
-    }
 
     open class DefaultToPayment(val presenter: BaseCheckoutPresenter) : Presenter.Transition(CheckoutDefault::class.java, BillingDetailsPaymentWidget::class.java) {
 
@@ -699,6 +672,39 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     fun getPaymentWidgetViewModel(): PaymentViewModel {
         return paymentViewModel
+    }
+
+
+    inner class DefaultToTraveler(className: Class<*>) : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, className) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            bottomContainer.visibility = if (forward) GONE else VISIBLE
+            if (!forward) {
+                Ui.hideKeyboard(travelersPresenter)
+                travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
+                travelersPresenter.viewModel.updateCompletionStatus()
+                setToolbarTitle()
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
+                travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
+            } else {
+                decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                animateInSlideToPurchase(true)
+                travelersPresenter.setFocusForView()
+                travelerSummaryCard.setFocusForView()
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
+            } else {
+                val lp = space.layoutParams
+                lp.height = 0
+                space.layoutParams = lp
+            }
+
+        }
     }
 
 }

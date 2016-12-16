@@ -13,21 +13,18 @@ import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.widget.FlightTravelerEntryWidget
-import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.AbstractTravelerEntryWidget
 import com.expedia.bookings.widget.traveler.TravelerPickerWidget
 import com.expedia.util.getMainTravelerToolbarTitle
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeVisibility
-import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
-class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
+abstract class  AbstractTravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs) {
     val travelerPickerWidget: TravelerPickerWidget by bindView(R.id.traveler_picker_widget)
-    val travelerEntryWidget: FlightTravelerEntryWidget by bindView(R.id.traveler_entry_widget)
-    val boardingWarning: TextView by bindView(R.id.boarding_warning)
+    val travelerEntryWidget: AbstractTravelerEntryWidget by bindView(R.id.traveler_entry_widget)
     val dropShadow: View by bindView(R.id.drop_shadow)
 
     val toolbarTitleSubject = PublishSubject.create<String>()
@@ -36,6 +33,10 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
     val closeSubject = PublishSubject.create<Unit>()
     val toolbarNavIcon = PublishSubject.create<ArrowXDrawableUtil.ArrowDrawableType>()
     val toolbarNavIconContDescSubject = PublishSubject.create<String>()
+
+    abstract fun setUpTravelersViewModel(vm: TravelersViewModel)
+
+    abstract fun inflateTravelersView()
 
     var viewModel: TravelersViewModel by notNullAndObservable { vm ->
         vm.invalidTravelersSubject.subscribe {
@@ -48,21 +49,18 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
         vm.refreshSelectedTravelerStatus.subscribe {
             travelerPickerWidget.viewModel.selectedTravelerSubject.value?.refreshStatusObservable?.onNext(Unit)
         }
-        vm.passportRequired.subscribe(travelerPickerWidget.viewModel.passportRequired)
         travelerPickerWidget.viewModel.currentlySelectedTravelerStatusObservable.subscribe { if (it == TravelerCheckoutStatus.DIRTY) vm.isDirtyObservable.onNext(true) }
+        setUpTravelersViewModel(vm)
     }
 
     init {
-        View.inflate(context, R.layout.traveler_presenter, this)
-
+        inflateTravelersView()
         travelerPickerWidget.viewModel.selectedTravelerSubject.subscribe { travelerSelectItemViewModel ->
-            travelerEntryWidget.viewModel = FlightTravelerEntryWidgetViewModel(context, travelerSelectItemViewModel.index, travelerSelectItemViewModel.passportRequired, travelerSelectItemViewModel.currentStatusObservable.value)
+            travelerEntryWidget.viewModel = viewModel.createNewTravelerEntryWidgetModel(context, travelerSelectItemViewModel.index, travelerSelectItemViewModel.passportRequired, travelerSelectItemViewModel.currentStatusObservable.value)
             show(travelerEntryWidget)
             toolbarTitleSubject.onNext(travelerSelectItemViewModel.emptyText)
             travelerSelectItemViewModel.currentStatusObservable.onNext(TravelerCheckoutStatus.DIRTY)
         }
-
-        travelerEntryWidget.nameEntryViewFocused.subscribeVisibility(boardingWarning)
 
         doneClicked.subscribe {
             travelerPickerWidget.viewModel.selectedTravelerSubject.value?.refreshStatusObservable?.onNext(Unit)
@@ -73,7 +71,7 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
                     closeSubject.onNext(Unit)
                 }
             } else {
-                Ui.hideKeyboard(this@TravelersPresenter)
+                Ui.hideKeyboard(this@AbstractTravelersPresenter)
                 travelerEntryWidget.requestFocus()
                 val announcementString = StringBuilder()
                 announcementString.append(Phrase.from(context.resources.getQuantityString(R.plurals.number_of_errors_TEMPLATE, numberOfInvalidFields))
@@ -90,7 +88,6 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
     override fun onFinishInflate() {
         super.onFinishInflate()
         addDefaultTransition(defaultTransition)
-        addTransition(selectToEntry)
         show(travelerPickerWidget, Presenter.FLAG_CLEAR_BACKSTACK)
     }
 
@@ -99,7 +96,6 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
             menuVisibility.onNext(false)
             travelerPickerWidget.show()
             travelerEntryWidget.visibility = View.GONE
-            boardingWarning.visibility = View.GONE
             dropShadow.visibility = View.VISIBLE
             if (currentState != null) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
@@ -107,8 +103,7 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
         }
     }
 
-    private val selectToEntry = object : Presenter.Transition(TravelerPickerWidget::class.java,
-            FlightTravelerEntryWidget::class.java) {
+    open inner class SelectToEntryTransition(className: Class<*>) : Presenter.Transition(TravelerPickerWidget::class.java, className) {
         override fun startTransition(forward: Boolean) {
             travelerEntryWidget.rootContainer.requestFocus()
             travelerEntryWidget.visibility = if (forward) View.VISIBLE else View.GONE
@@ -116,11 +111,10 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
             if (!forward) travelerPickerWidget.show() else travelerPickerWidget.visibility = View.GONE
             menuVisibility.onNext(forward)
             dropShadow.visibility = View.VISIBLE
-            boardingWarning.visibility =  if (forward) View.VISIBLE else View.GONE
             if (!forward) {
                 toolbarTitleSubject.onNext(resources.getString(R.string.traveler_details_text))
                 travelerEntryWidget.travelerButton.dismissPopup()
-                Ui.hideKeyboard(this@TravelersPresenter)
+                Ui.hideKeyboard(this@AbstractTravelersPresenter)
             }
         }
 
@@ -143,7 +137,7 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
     }
 
     fun showSelectOrEntryState() {
-        if (isMultiTraveler()) {
+        if (viewModel.requiresMultipleTravelers()) {
             showPickerWidget()
         } else {
             showEntryWidget()
@@ -152,7 +146,7 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
 
     private fun showEntryWidget() {
         if (currentState == null) show(travelerPickerWidget, FLAG_CLEAR_BACKSTACK)
-        travelerEntryWidget.viewModel = FlightTravelerEntryWidgetViewModel(context, 0, viewModel.passportRequired, TravelerCheckoutStatus.CLEAN)
+        travelerEntryWidget.viewModel = viewModel.createNewTravelerEntryWidgetModel(context, 0, viewModel.passportRequired, TravelerCheckoutStatus.CLEAN)
         show(travelerEntryWidget, FLAG_CLEAR_BACKSTACK)
 
         toolbarTitleSubject.onNext(getMainTravelerToolbarTitle(resources))
@@ -166,11 +160,11 @@ class TravelersPresenter(context: Context, attrs: AttributeSet) : Presenter(cont
         show(travelerPickerWidget, FLAG_CLEAR_TOP)
     }
 
-    private fun isMultiTraveler() = viewModel.getTravelers().size > 1
-
     fun resetTravelers() {
         viewModel.isDirtyObservable.onNext(false)
-        travelerPickerWidget.refresh(viewModel.getTravelers())
+        if (viewModel.requiresMultipleTravelers()) {
+            travelerPickerWidget.refresh(viewModel.getTravelers())
+        }
     }
 
     fun updateAllTravelerStatuses() {
