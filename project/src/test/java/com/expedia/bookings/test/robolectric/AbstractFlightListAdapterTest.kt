@@ -3,7 +3,9 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
@@ -11,6 +13,7 @@ import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.AbstractFlightViewModel
 import com.expedia.vm.flights.FlightViewModel
+import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -84,6 +87,45 @@ class AbstractFlightListAdapterTest {
         assertEquals(airlineView3.airlineName.text, "Korean Air")
     }
 
+    @Test
+    fun testSeatsLeftUrgencyMessageWhenBucketedForABTest() {
+        SettingUtils.save(context, R.string.preference_enable_urgency_messaging_on_flights, true)
+
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightUrgencyMessage)
+        createTestFlightListAdapter()
+
+        //When seatsLeft are less than 6
+        createFlightLegWithUrgencyMessage(4)
+        var flightViewHolder = bindFlightViewHolderAndModel()
+
+        assertEquals(flightViewHolder.urgencyMessageContainer.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.urgencyMessageTextView.text, "4 left at this price")
+
+        //When seatsLeft are more than 6
+        createFlightLegWithUrgencyMessage(8)
+        flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.urgencyMessageContainer.visibility, View.GONE)
+    }
+
+    @Test
+    fun testUrgencyMessageVisibilityWhenNotBucketedForABTest() {
+        SettingUtils.save(context, R.string.preference_enable_urgency_messaging_on_flights, true)
+
+        createTestFlightListAdapter()
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightUrgencyMessage)
+        createFlightLegWithUrgencyMessage(4)
+        val flightViewHolder = bindFlightViewHolderAndModel()
+
+        assertEquals(flightViewHolder.urgencyMessageContainer.visibility, View.GONE)
+    }
+
+    private fun bindFlightViewHolderAndModel(): AbstractFlightListAdapter.FlightViewHolder {
+        val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
+        val flightViewHolder = createFlightViewHolder()
+        flightViewHolder.bind(flightViewModel)
+        return flightViewHolder
+    }
+
     private fun createFlightLeg() {
         flightLeg = FlightLeg()
         flightLeg.elapsedDays = 1
@@ -102,6 +144,13 @@ class AbstractFlightListAdapterTest {
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "200.0"
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
+    }
+
+    private fun createFlightLegWithUrgencyMessage(seatsLeft: Int) {
+        createFlightLegWithThreeAirlines()
+        val urgencyMessage = PackageOfferModel.UrgencyMessage()
+        urgencyMessage.ticketsLeft = seatsLeft
+        flightLeg.packageOfferModel.urgencyMessage = urgencyMessage
     }
 
     private fun createFlightLegWithFourAirlines() {

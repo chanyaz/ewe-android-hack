@@ -4308,6 +4308,8 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minutes</string>
 
+    <!-- Flight seats left urgency message. Example: 4 left at this price -->
+    <string name="flight_seats_left_urgency_message_TEMPLATE">{seats} left at this price</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}d</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->

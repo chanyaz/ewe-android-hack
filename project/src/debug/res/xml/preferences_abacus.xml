@@ -150,6 +150,15 @@
             android:summary="%s"
             android:title="Flight Seat Class And Booking Code View" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="12768"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Flight Seats Left Urgency Message" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

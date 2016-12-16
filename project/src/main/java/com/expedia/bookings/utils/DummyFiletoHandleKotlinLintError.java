@@ -815,6 +815,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_error_title,
 		R.string.flight_seatclass_booking_code_TEMPLATE,
 		R.layout.itin_gallery,
+		R.string.flight_seats_left_urgency_message_TEMPLATE,
 		R.string.select_start_date,
 		R.string.lx_search_start_date_cont_desc,
 		R.string.rail_journey_details_cont_desc_TEMPLATE,
