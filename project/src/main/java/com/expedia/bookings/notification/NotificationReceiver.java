@@ -1,8 +1,5 @@
 package com.expedia.bookings.notification;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,12 +13,13 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.app.NotificationCompat;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.activity.ItineraryActivity;
-import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.activity.StandaloneShareActivity;
 import com.expedia.bookings.bitmaps.PicassoHelper;
 import com.expedia.bookings.bitmaps.PicassoTarget;
@@ -31,7 +29,11 @@ import com.expedia.bookings.data.trips.ItinCardDataCar;
 import com.expedia.bookings.data.trips.ItinCardDataFlight;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.ItineraryManager;
+import com.expedia.bookings.data.trips.Trip;
+import com.expedia.bookings.data.trips.TripComponent;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
+import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
+import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.utils.Akeakamai;
@@ -39,21 +41,24 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LeanPlumFlags;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.widget.itin.FlightItinContentGenerator;
-import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.mobiata.android.Log;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.flightlib.data.Airport;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 public class NotificationReceiver extends BroadcastReceiver {
 
 	private static final String TAG = NotificationReceiver.class.getSimpleName();
 
-	private static final String EXTRA_ACTION = "EXTRA_ACTION";
-	private static final String EXTRA_NOTIFICATION = "EXTRA_NOTIFICATION";
+	static final String EXTRA_ACTION = "EXTRA_ACTION";
+	static final String EXTRA_NOTIFICATION = "EXTRA_NOTIFICATION";
 
-	private static final int ACTION_SCHEDULE = 0;
+	static final int ACTION_SCHEDULE = 0;
 	private static final int ACTION_DISMISS = 1;
 
 	//////////////////////////////////////////////////////////////////////////
@@ -81,13 +86,13 @@ public class NotificationReceiver extends BroadcastReceiver {
 	// Broadcast Receiver lifecycle events
 
 	@Override
-	public void onReceive(Context context, Intent intent) {
+	public void onReceive(final Context context, Intent intent) {
 		Notification notification = null;
 		try {
-			Notification deserialized = new Notification();
+			Notification deserialized = makeNotification();
 			String jsonString = intent.getStringExtra(EXTRA_NOTIFICATION);
 			deserialized.fromJson(new JSONObject(jsonString));
-			notification = Notification.findExisting(deserialized);
+			notification = findExistingNotification(deserialized);
 		}
 		catch (JSONException e) {
 			Log.w("JSONException, unable to create notification. Ignoring", e);
@@ -127,11 +132,75 @@ public class NotificationReceiver extends BroadcastReceiver {
 			break;
 		case ACTION_SCHEDULE:
 		default:
-			notification.setStatus(StatusType.NOTIFIED);
-			notification.save();
-			new Notifier(context, notification).start();
+			checkTripValidAndShowNotification(context, notification);
 			break;
 		}
+	}
+
+	@NonNull
+	protected Notification makeNotification() {
+		return new Notification();
+	}
+
+	protected Notification findExistingNotification(Notification deserialized) {
+		return Notification.findExisting(deserialized);
+	}
+
+	private void checkTripValidAndShowNotification(final Context context, final Notification finalNotification) {
+		getItineraryManagerInstance()
+			.addSyncListener(makeValidTripSyncListener(context, finalNotification, getItineraryManagerInstance()));
+		getItineraryManagerInstance().startSync(false);
+	}
+
+	@VisibleForTesting
+	public ItineraryManager.ItinerarySyncAdapter makeValidTripSyncListener(final Context context,
+		final Notification finalNotification, final ItineraryManager itineraryManager) {
+
+		return new ItineraryManager.ItinerarySyncAdapter() {
+
+			@Override
+			public void onSyncFailure(ItineraryManager.SyncError error) {
+				// Couldn't fetch trips. Show notification anyway
+
+				itineraryManager.removeSyncListener(this);
+				showNotification(finalNotification, context);
+			}
+
+			@Override
+			public void onSyncFinished(Collection<Trip> trips) {
+				// Show notification only if trip exists
+
+				itineraryManager.removeSyncListener(this);
+				boolean validTripForScheduledNotification = isValidTripForScheduledNotification(trips);
+				if (!validTripForScheduledNotification) {
+					finalNotification.cancelNotification(context);
+				}
+				else {
+					showNotification(finalNotification, context);
+				}
+			}
+
+			private boolean isValidTripForScheduledNotification(Collection<Trip> trips) {
+				for (Trip trip : trips) {
+					for (TripComponent tripComponent : trip.getTripComponents()) {
+						boolean isValidTripForNotification = finalNotification.getUniqueId().contains(tripComponent.getUniqueId());
+						if (isValidTripForNotification) {
+							return true;
+						}
+					}
+				}
+				return false;
+			}
+		};
+	}
+
+	protected ItineraryManager getItineraryManagerInstance() {
+		return ItineraryManager.getInstance();
+	}
+
+	private void showNotification(Notification finalNotification, Context context) {
+		finalNotification.didNotify();
+		new Notifier(context, finalNotification).start();
 	}
 
 	private static class Notifier {
@@ -235,7 +304,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 			@Override
 			public void onBitmapFailed(Drawable errorDrawable) {
-				super.onBitmapFailed(errorDrawable);loadNextUrl();
+				super.onBitmapFailed(errorDrawable);
+				loadNextUrl();
 			}
 
 			@Override
@@ -249,12 +319,12 @@ public class NotificationReceiver extends BroadcastReceiver {
 
 			if (mBitmap != null) {
 				style = new NotificationCompat.BigPictureStyle()
-						.bigPicture(mBitmap)
-						.setSummaryText(mNotification.getBody());
+					.bigPicture(mBitmap)
+					.setSummaryText(mNotification.getBody());
 			}
 			else {
 				style = new NotificationCompat.BigTextStyle()
-						.bigText(mNotification.getBody());
+					.bigText(mNotification.getBody());
 			}
 
 			Intent clickIntent;
@@ -272,19 +342,21 @@ public class NotificationReceiver extends BroadcastReceiver {
 			PendingIntent clickPendingIntent = PendingIntent.getActivity(mContext, 0, clickIntent, 0);
 
 			NotificationCompat.Builder builder = new NotificationCompat.Builder(mContext)
-					.setStyle(style)
-					.setTicker(mNotification.getTitle())
-					.setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), mNotification.getIconResId()))
-					.setContentTitle(mNotification.getTitle())
-					.setContentText(mNotification.getBody())
-					.setAutoCancel(true)
-					.setDeleteIntent(generateDismissPendingIntent(mContext, mNotification))
-					.setContentIntent(clickPendingIntent);
+				.setStyle(style)
+				.setTicker(mNotification.getTitle())
+				.setLargeIcon(BitmapFactory.decodeResource(mContext.getResources(), mNotification.getIconResId()))
+				.setContentTitle(mNotification.getTitle())
+				.setContentText(mNotification.getBody())
+				.setAutoCancel(true)
+				.setDeleteIntent(generateDismissPendingIntent(mContext, mNotification))
+				.setContentIntent(clickPendingIntent);
 
-			int notificationIconResourceId = ProductFlavorFeatureConfiguration.getInstance().getNotificationIconResourceId();
+			int notificationIconResourceId = ProductFlavorFeatureConfiguration.getInstance()
+				.getNotificationIconResourceId();
 			builder.setSmallIcon(notificationIconResourceId);
 
-			int notificationIndicatorLEDColor = ProductFlavorFeatureConfiguration.getInstance().getNotificationIndicatorLEDColor();
+			int notificationIndicatorLEDColor = ProductFlavorFeatureConfiguration.getInstance()
+				.getNotificationIndicatorLEDColor();
 			builder.setLights(notificationIndicatorLEDColor, 200, 8000);
 
 			long flags = mNotification.getFlags();
@@ -301,8 +373,8 @@ public class NotificationReceiver extends BroadcastReceiver {
 				}
 				else if (data instanceof ItinCardDataCar) {
 					intent = mNotification.getNotificationType() == NotificationType.CAR_DROP_OFF
-							? ((ItinCardDataCar) data).getDropOffDirectionsIntent()
-							: ((ItinCardDataCar) data).getPickupDirectionsIntent();
+						? ((ItinCardDataCar) data).getDropOffDirectionsIntent()
+						: ((ItinCardDataCar) data).getPickupDirectionsIntent();
 				}
 
 				// #1689: Ensure we have an activity that can handle the intent

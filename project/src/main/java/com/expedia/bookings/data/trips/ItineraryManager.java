@@ -837,9 +837,14 @@ public class ItineraryManager implements JSONable {
 		GENERATE_ITIN_CARDS,
 		// Generates itin card data for use
 
+		DELETE_ALL_SCHEDULED_NOTIFICATIONS,
+		// Clear all local notifications
+
 		SCHEDULE_NOTIFICATIONS,
 		// Schedule local notifications
-		REGISTER_FOR_PUSH_NOTIFICATIONS, //Tell the push server which flights to notify us about
+
+		REGISTER_FOR_PUSH_NOTIFICATIONS,
+		//Tell the push server which flights to notify us about
 	}
 
 	private class Task implements Comparable<Task> {
@@ -971,6 +976,7 @@ public class ItineraryManager implements JSONable {
 				mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 				mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 				mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+				mSyncOpQueue.add(new Task(Operation.DELETE_ALL_SCHEDULED_NOTIFICATIONS));
 				mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
 				mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 			}
@@ -1016,6 +1022,7 @@ public class ItineraryManager implements JSONable {
 		mSyncOpQueue.add(new Task(Operation.SHORTEN_SHARE_URLS));
 		mSyncOpQueue.add(new Task(Operation.SAVE_TO_DISK));
 		mSyncOpQueue.add(new Task(Operation.GENERATE_ITIN_CARDS));
+		mSyncOpQueue.add(new Task(Operation.DELETE_ALL_SCHEDULED_NOTIFICATIONS));
 		mSyncOpQueue.add(new Task(Operation.SCHEDULE_NOTIFICATIONS));
 		mSyncOpQueue.add(new Task(Operation.REGISTER_FOR_PUSH_NOTIFICATIONS));
 
@@ -1176,6 +1183,9 @@ public class ItineraryManager implements JSONable {
 					break;
 				case GENERATE_ITIN_CARDS:
 					generateItinCardData();
+					break;
+				case DELETE_ALL_SCHEDULED_NOTIFICATIONS:
+					deleteScheduledNotifications();
 					break;
 				case SCHEDULE_NOTIFICATIONS:
 					scheduleLocalNotifications();
@@ -1491,8 +1501,8 @@ public class ItineraryManager implements JSONable {
 							+ updatedTrip.getItineraryKey() + " status=" + bookingStatus);
 
 						gatherAncillaryData = false;
-
 						Trip removeTrip = mTrips.remove(updatedTrip.getItineraryKey());
+						deletePendingNotification(removeTrip);
 						publishProgress(new ProgressUpdate(ProgressUpdate.Type.REMOVED, removeTrip));
 
 						mTripsRemoved++;
@@ -1914,6 +1924,10 @@ public class ItineraryManager implements JSONable {
 
 	//////////////////////////////////////////////////////////////////////////
 	// Local Notifications
+
+	private void deleteScheduledNotifications() {
+		Notification.deleteAll(mContext);
+	}
 
 	private void scheduleLocalNotifications() {
 		synchronized (mItinCardDatas) {

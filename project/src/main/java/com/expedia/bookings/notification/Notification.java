@@ -1,8 +1,5 @@
 package com.expedia.bookings.notification;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,6 +21,9 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Table(name = "Notifications")
 public class Notification extends Model implements JSONable {
@@ -93,7 +93,7 @@ public class Notification extends Model implements JSONable {
 	/**
 	 * An array of valid resId's that can be used both for
 	 * get/setImageResId and get/setIconResId.
-	 *
+	 * <p>
 	 * Be careful when modifying this: only append to it and don't
 	 * reorder anything. We'll store the INDEX of the resid from this array
 	 * into the database. We won't store the resId's themselves because
@@ -321,6 +321,11 @@ public class Notification extends Model implements JSONable {
 		return urls;
 	}
 
+	public void didNotify() {
+		this.setStatus(StatusType.NOTIFIED);
+		this.save();
+	}
+
 	private void setImage(ImageType type, int resId, String value) {
 		setImageType(type);
 		setImageResId(resId);
@@ -454,8 +459,8 @@ public class Notification extends Model implements JSONable {
 	 */
 	public static Notification findExisting(Notification notification) {
 		List<Notification> notifications = new Select().from(Notification.class)
-				.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
-				.limit("1").execute();
+			.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
+			.limit("1").execute();
 		if (notifications == null || notifications.size() == 0) {
 			return null;
 		}
@@ -474,8 +479,8 @@ public class Notification extends Model implements JSONable {
 	*/
 	public static void dismissExisting(Notification notification) {
 		List<Notification> notifications = new Select().from(Notification.class)
-				.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
-				.execute();
+			.where("UniqueId=? AND NotificationType=?", notification.mUniqueId, notification.mNotificationType)
+			.execute();
 		for (Notification n : notifications) {
 			n.setStatus(StatusType.DISMISSED);
 			n.save();
@@ -493,11 +498,11 @@ public class Notification extends Model implements JSONable {
 	 */
 	public static void scheduleAll(Context context) {
 		List<Notification> notifications = new Select()
-				.from(Notification.class)
-				.where("Status IN (?,?)",
-						StatusType.NEW.name(),
-						StatusType.NOTIFIED.name())
-				.orderBy("TriggerTimeMillis").execute();
+			.from(Notification.class)
+			.where("Status IN (?,?)",
+				StatusType.NEW.name(),
+				StatusType.NOTIFIED.name())
+			.orderBy("TriggerTimeMillis").execute();
 
 		for (Notification notification : notifications) {
 			notification.scheduleNotification(context);
@@ -511,12 +516,12 @@ public class Notification extends Model implements JSONable {
 	 */
 	public static void cancelAllExpired(Context context) {
 		List<Notification> notifications = new Select()
-				.from(Notification.class)
-				.where("Status IN (?,?) AND ExpirationTimeMillis<?",
-						StatusType.NEW.name(),
-						StatusType.NOTIFIED.name(),
-						System.currentTimeMillis())
-				.execute();
+			.from(Notification.class)
+			.where("Status IN (?,?) AND ExpirationTimeMillis<?",
+				StatusType.NEW.name(),
+				StatusType.NOTIFIED.name(),
+				System.currentTimeMillis())
+			.execute();
 
 		// Set all to expired at once
 		ActiveAndroid.beginTransaction();
