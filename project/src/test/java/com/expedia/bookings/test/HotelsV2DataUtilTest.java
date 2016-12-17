@@ -6,16 +6,33 @@ import java.util.List;
 import org.joda.time.LocalDate;
 import org.junit.Assert;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.robolectric.RuntimeEnvironment;
+import org.robolectric.annotation.Config;
+
+import android.content.Context;
 
 import com.expedia.bookings.data.ChildTraveler;
 import com.expedia.bookings.data.SuggestionV4;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.flights.FlightLeg;
 import com.expedia.bookings.data.flights.FlightSearchParams;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.HotelsV2DataUtil;
 import com.google.gson.Gson;
 
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.test.robolectric.UserLoginTestUtil;
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
+
+@RunWith(RobolectricRunner.class)
+@Config(shadows = {ShadowGCM.class,ShadowUserManager.class,ShadowAccountManagerEB.class})
 public class HotelsV2DataUtilTest {
+	private Context context = RuntimeEnvironment.application;
 
 	@Test
 	public void v2SearchParamsFromJson() {
@@ -67,7 +84,7 @@ public class HotelsV2DataUtilTest {
 		v1Params.setChildren(childList);
 		v1Params.setNumAdults(2);
 
-		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(v1Params);
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params);
 
 		Assert.assertEquals(v1Params.getCheckInDate(), v2params.getCheckIn());
 		Assert.assertEquals(v1Params.getCheckOutDate(), v2params.getCheckOut());
@@ -99,7 +116,7 @@ public class HotelsV2DataUtilTest {
 		v1Params.setChildren(childList);
 		v1Params.setNumAdults(2);
 
-		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(v1Params);
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params);
 
 		Assert.assertEquals(LocalDate.now(), v2params.getCheckIn());
 		Assert.assertEquals(LocalDate.now().plusDays(1), v2params.getCheckOut());
@@ -188,6 +205,31 @@ public class HotelsV2DataUtilTest {
 		Assert.assertEquals("2,10,7", params.getGuestString());
 	}
 
+	@Test
+	public void testSWPDisabledPOS() {
+		signInUserWithPoints();
+		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_swp_disabled_config.json");
+		Assert.assertFalse(PointOfSale.getPointOfSale().isSWPEnabledForHotels());
+
+		com.expedia.bookings.data.HotelSearchParams v1Params = getBasicV1Params();
+
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params);
+		Assert.assertFalse("SWP expected to be disabled", v2params.getShopWithPoints());
+	}
+
+	@Test
+	public void testSWPEnabledPOS() {
+		signInUserWithPoints();
+		PointOfSaleTestConfiguration.configurePointOfSale(context, "MockSharedData/pos_swp_enabled_config.json");
+		Assert.assertTrue(PointOfSale.getPointOfSale().isSWPEnabledForHotels());
+
+		com.expedia.bookings.data.HotelSearchParams v1Params = getBasicV1Params();
+
+		HotelSearchParams v2params = HotelsV2DataUtil.Companion.getHotelV2SearchParams(context, v1Params);
+
+		Assert.assertTrue("SWP expected to be enabled", v2params.getShopWithPoints());
+	}
+
 	private FlightSearchParams setupFlightSearchParams() {
 		SuggestionV4 departureSuggestion = new SuggestionV4();
 		departureSuggestion.gaiaId = "1234";
@@ -233,5 +275,31 @@ public class HotelsV2DataUtilTest {
 		flightLeg.segments = inboundSegmentList;
 
 		return flightLeg;
+	}
+
+	private void signInUserWithPoints() {
+		UserLoyaltyMembershipInformation loyaltyInfo = new UserLoyaltyMembershipInformation();
+		loyaltyInfo.setAllowedToShopWithPoints(true);
+		User user = UserLoginTestUtil.Companion.mockUser();
+		user.setLoyaltyMembershipInformation(loyaltyInfo);
+		UserLoginTestUtil.Companion.setupUserAndMockLogin(user);
+		Assert.assertTrue(User.isLoggedIn(context));
+	}
+
+	private com.expedia.bookings.data.HotelSearchParams getBasicV1Params() {
+		com.expedia.bookings.data.HotelSearchParams v1Params = new com.expedia.bookings.data.HotelSearchParams();
+		v1Params.setRegionId("1234");
+		v1Params.setQuery("San Francisco");
+		LocalDate checkIn = new LocalDate("2017-09-27");
+		LocalDate checkOut = new LocalDate("2017-09-29");
+		v1Params.setCheckInDate(checkIn);
+		v1Params.setCheckOutDate(checkOut);
+
+		List<ChildTraveler> childList = new ArrayList<ChildTraveler>();
+		childList.add(new ChildTraveler(2, true));
+		childList.add(new ChildTraveler(4, true));
+		v1Params.setChildren(childList);
+		v1Params.setNumAdults(2);
+		return v1Params;
 	}
 }
