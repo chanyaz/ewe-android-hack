@@ -518,7 +518,7 @@
             "mixedCarrierFlight": false,
             "originCity": "San Francisco, CA",
             "destinationCity": "Detroit",
-            "totalTravelDistance": "2,397",
+            "totalTravelDistance": 2397,
             "totalTravelDistanceUnits": "miles",
             "outbound": true,
             "seatMapUrlList": [
@@ -551,7 +551,7 @@
                 "arrivalAirport": "Honolulu (HNL)",
                 "departureDateTimeISO": "2016-07-10T08:20:00.000-07:00",
                 "arrivalDateTimeISO": "2016-07-10T11:00:00.000-10:00",
-                "totalTravelDistance": "2,397",
+                "totalTravelDistance": 2397,
                 "totalTravelDistanceUnits": "miles",
                 "trainSegment": false
               }
@@ -598,7 +598,7 @@
             "mixedCarrierFlight": false,
             "originCity": "Honolulu, HI",
             "destinationCity": "San Francisco",
-            "totalTravelDistance": "2,397",
+            "totalTravelDistance": 2397,
             "totalTravelDistanceUnits": "miles",
             "outbound": false,
             "seatMapUrlList": [
@@ -631,7 +631,7 @@
                 "arrivalAirport": "San Francisco (SFO)",
                 "departureDateTimeISO": "2016-07-16T13:45:00.000-10:00",
                 "arrivalDateTimeISO": "2016-07-16T22:00:00.000-07:00",
-                "totalTravelDistance": "2,397",
+                "totalTravelDistance": 2397,
                 "totalTravelDistanceUnits": "miles",
                 "trainSegment": false
               }
@@ -700,7 +700,7 @@
             "mixedCarrierFlight": false,
             "originCity": "San Francisco, CA",
             "destinationCity": "Detroit",
-            "totalTravelDistance": "2,397",
+            "totalTravelDistance": 2397,
             "totalTravelDistanceUnits": "miles",
             "outbound": true,
             "seatMapUrlList": [
@@ -733,7 +733,7 @@
                 "arrivalAirport": "Honolulu (HNL)",
                 "departureDateTimeISO": "2016-07-10T09:00:00.000-07:00",
                 "arrivalDateTimeISO": "2016-07-10T11:12:00.000-10:00",
-                "totalTravelDistance": "2,397",
+                "totalTravelDistance": 2397,
                 "totalTravelDistanceUnits": "miles",
                 "trainSegment": false
               }
@@ -780,7 +780,7 @@
             "mixedCarrierFlight": false,
             "originCity": "Honolulu, HI",
             "destinationCity": "San Francisco",
-            "totalTravelDistance": "2,397",
+            "totalTravelDistance": 2397,
             "totalTravelDistanceUnits": "miles",
             "outbound": false,
             "seatMapUrlList": [
@@ -813,7 +813,7 @@
                 "arrivalAirport": "San Francisco (SFO)",
                 "departureDateTimeISO": "2016-07-16T11:45:00.000-10:00",
                 "arrivalDateTimeISO": "2016-07-16T19:47:00.000-07:00",
-                "totalTravelDistance": "2,397",
+                "totalTravelDistance": 2397,
                 "totalTravelDistanceUnits": "miles",
                 "trainSegment": false
               }
@@ -882,7 +882,7 @@
             "mixedCarrierFlight": false,
             "originCity": "San Francisco, CA",
             "destinationCity": "Detroit",
-            "totalTravelDistance": "2,397",
+            "totalTravelDistance": 2397,
             "totalTravelDistanceUnits": "miles",
             "outbound": true,
             "seatMapUrlList": [
@@ -915,7 +915,7 @@
                 "arrivalAirport": "Honolulu (HNL)",
                 "departureDateTimeISO": "2016-07-10T09:00:00.000-07:00",
                 "arrivalDateTimeISO": "2016-07-10T11:12:00.000-10:00",
-                "totalTravelDistance": "2,397",
+                "totalTravelDistance": 2397,
                 "totalTravelDistanceUnits": "miles",
                 "trainSegment": false
               }
@@ -962,7 +962,7 @@
             "mixedCarrierFlight": false,
             "originCity": "Honolulu, HI",
             "destinationCity": "San Francisco",
-            "totalTravelDistance": "2,397",
+            "totalTravelDistance": 2397,
             "totalTravelDistanceUnits": "miles",
             "outbound": false,
             "seatMapUrlList": [
@@ -995,7 +995,7 @@
                 "arrivalAirport": "San Francisco (SFO)",
                 "departureDateTimeISO": "2016-07-16T11:45:00.000-10:00",
                 "arrivalDateTimeISO": "2016-07-16T19:47:00.000-07:00",
-                "totalTravelDistance": "2,397",
+                "totalTravelDistance": 2397,
                 "totalTravelDistanceUnits": "miles",
                 "trainSegment": false
               }
@@ -1064,7 +1064,7 @@
             "mixedCarrierFlight": false,
             "originCity": "San Francisco, CA",
             "destinationCity": "Detroit",
-            "totalTravelDistance": "2,438",
+            "totalTravelDistance": 2438,
             "totalTravelDistanceUnits": "miles",
             "outbound": true,
             "seatMapUrlList": [
@@ -1173,7 +1173,7 @@
             "mixedCarrierFlight": false,
             "originCity": "Honolulu, HI",
             "destinationCity": "San Francisco",
-            "totalTravelDistance": "2,397",
+            "totalTravelDistance": 2397,
             "totalTravelDistanceUnits": "miles",
             "outbound": false,
             "seatMapUrlList": [
@@ -1206,7 +1206,7 @@
                 "arrivalAirport": "San Francisco (SFO)",
                 "departureDateTimeISO": "2016-07-16T11:45:00.000-10:00",
                 "arrivalDateTimeISO": "2016-07-16T19:47:00.000-07:00",
-                "totalTravelDistance": "2,397",
+                "totalTravelDistance": 2397,
                 "totalTravelDistanceUnits": "miles",
                 "trainSegment": false
               }
