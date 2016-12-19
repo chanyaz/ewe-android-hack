@@ -351,6 +351,9 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         if (params.containsKey("locale")) {
             locale = params["locale"]
         }
+        if ((latitude == "31.32") && (longitude == "75.57")) {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_no_lx_activities.json")
+        }
         if ((latitude == "3.0") && (longitude == "3.0") && (lob == "hotels")) {
             return makeResponse("/api/gaia/nearby_gaia_suggestion.json");
         }

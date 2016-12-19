@@ -4,7 +4,6 @@ import javax.inject.Named;
 import com.expedia.bookings.dagger.tags.CarScope;
 import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.services.CarServices;
-import com.expedia.bookings.services.SuggestionServices;
 import com.expedia.bookings.services.SuggestionV4Services;
 
 import dagger.Module;
@@ -21,13 +20,6 @@ public final class CarModule {
 	CarServices provideCarServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new CarServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
-	}
-
-	@Provides
-	@CarScope
-	SuggestionServices provideCarSuggestionServices(EndpointProvider endpointProvider, OkHttpClient client, Interceptor interceptor) {
-		final String endpoint = endpointProvider.getEssEndpointUrl();
-		return new SuggestionServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
 
 	@Provides

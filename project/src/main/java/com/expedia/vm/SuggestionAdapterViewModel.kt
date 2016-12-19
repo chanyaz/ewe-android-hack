@@ -54,30 +54,6 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
 
     open fun shouldShowOnlyAirportNearbySuggestions(): Boolean = false
 
-    private fun getNearbySuggestions(location: Location) {
-        val latlong = "" + location.latitude + "|" + location.longitude;
-        suggestionsService
-                .suggestNearbyV4(PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().siteId, ServicesUtil.generateClient(context),
-                        getNearbyRegionType(), getNearbySortType(), getLineOfBusiness())
-                .doOnNext { nearbySuggestions ->
-                    if (nearbySuggestions.size < 1) {
-                        throw ApiError(ApiError.Code.SUGGESTIONS_NO_RESULTS)
-                    }
-                    if (shouldShowCurrentLocation) {
-                        var suggestion = modifySuggestionToCurrentLocation(location, nearbySuggestions.first())
-                        nearbySuggestions.add(0, suggestion)
-                    }
-                }
-                .doOnNext {
-                    nearby.addAll(it)
-                    nearby.forEach { it.iconType = SuggestionV4.IconType.CURRENT_LOCATION_ICON }
-                }
-                .doOnNext { nearbySuggestions ->
-                    nearbySuggestions.addAll(loadRecentSuggestions())
-                }
-                .subscribe(generateSuggestionServiceCallback())
-    }
-
     private fun getGaiaNearbySuggestions(location: Location) {
         suggestionsService
                 .suggestNearbyGaia(location.latitude, location.longitude, getNearbySortTypeForGaia(),
@@ -119,12 +95,7 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
     private fun generateLocationServiceCallback(): Observer<Location> {
         return object : Observer<Location> {
             override fun onNext(location: Location) {
-                if (FeatureToggleUtil.isFeatureEnabled(context,
-                        R.string.preference_enable_gaia_current_location_suggestion)) {
-                    getGaiaNearbySuggestions(location)
-                } else {
-                    getNearbySuggestions(location)
-                }
+                getGaiaNearbySuggestions(location)
             }
 
             override fun onCompleted() {
@@ -176,19 +147,9 @@ abstract class SuggestionAdapterViewModel(val context: Context, val suggestionsS
 
     abstract fun getSuggestionHistoryFile(): String
 
-    abstract fun getLineOfBusiness(): String
+    abstract fun getLineOfBusinessForGaia(): String
 
-    abstract fun getNearbyRegionType(): Int
-
-    abstract fun getNearbySortType(): String
-
-    open fun getLineOfBusinessForGaia(): String {
-        return getLineOfBusiness().toLowerCase()
-    }
-
-    open fun getNearbySortTypeForGaia(): String {
-        return getNearbySortType()
-    }
+    abstract  fun getNearbySortTypeForGaia(): String
 
     fun setCustomerSelectingOrigin(isOrigin: Boolean) {
         isCustomerSelectingOrigin = isOrigin

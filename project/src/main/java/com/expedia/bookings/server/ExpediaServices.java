@@ -1,5 +1,26 @@
 package com.expedia.bookings.server;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.TimeUnit;
+import java.util.zip.GZIPInputStream;
+
+import javax.inject.Inject;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.X509TrustManager;
+
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
@@ -13,6 +34,7 @@ import android.annotation.SuppressLint;
 import android.app.ActivityManager;
 import android.content.Context;
 import android.text.TextUtils;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -64,7 +86,6 @@ import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
@@ -80,25 +101,7 @@ import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Flight;
 import com.mobiata.flightlib.data.FlightCode;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.CookieManager;
-import java.net.CookiePolicy;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.TimeUnit;
-import java.util.zip.GZIPInputStream;
-import javax.inject.Inject;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.X509TrustManager;
+
 import okhttp3.Call;
 import okhttp3.ConnectionSpec;
 import okhttp3.Cookie;
@@ -340,23 +343,11 @@ public class ExpediaServices implements DownloadListener {
 	}
 
 	public SuggestionResponse suggestionsAirportsNearby(double latitude, double longitude, SuggestionSort sort) {
-		// 1 == airports
-		if (FeatureToggleUtil.isFeatureEnabled(mContext, R.string.preference_enable_gaia_current_location_suggestion)) {
-			return suggestionsGaiaNearby(latitude, longitude, sort, "flights");
-		}
-		else {
-			return suggestionsNearby(latitude, longitude, sort, SuggestionResultType.AIRPORT);
-		}
+		return suggestionsGaiaNearby(latitude, longitude, sort, "flights");
 	}
 
 	public SuggestionResponse suggestionsCityNearby(double latitude, double longitude) {
-		// 2 == city
-		if (FeatureToggleUtil.isFeatureEnabled(mContext, R.string.preference_enable_gaia_current_location_suggestion)) {
-			return suggestionsGaiaNearby(latitude, longitude, SuggestionSort.DISTANCE, "hotels");
-		}
-		else {
-			return suggestionsNearby(latitude, longitude, SuggestionSort.DISTANCE, SuggestionResultType.CITY);
-		}
+		return suggestionsGaiaNearby(latitude, longitude, SuggestionSort.DISTANCE, "hotels");
 	}
 
 	private SuggestionResponse suggestionsNearby(double latitude, double longitude, SuggestionSort sort,
