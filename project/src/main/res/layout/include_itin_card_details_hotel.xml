@@ -7,7 +7,7 @@
     android:orientation="vertical" >
 
     <com.expedia.bookings.widget.TextView
-        android:id="@+id/upgrade_string"
+        android:id="@+id/room_upgrade_button"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/itin_summary_section_height"
         android:gravity="left|center_vertical"

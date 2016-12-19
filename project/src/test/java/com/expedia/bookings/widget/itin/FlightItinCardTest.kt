@@ -102,7 +102,7 @@ class FlightItinCardTest {
     }
 
     private fun getUpgradeTextView(): TextView {
-        val upgradeText = sut.findViewById(R.id.room_upgrade_message) as TextView
+        val upgradeText = sut.findViewById(R.id.room_upgrade_available_banner) as TextView
         return upgradeText
     }
 

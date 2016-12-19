@@ -247,12 +247,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_hotel, container, false);
 		}
 
-		ItinCardDataHotel data = getItinCardData();
-		view.setText(getSummaryText(data));
+		view.setText(getSummaryText());
 		return view;
 	}
 
-	public String getSummaryText(ItinCardDataHotel data) {
+	public String getSummaryText() {
 		DateTime startDate = data.getStartDate();
 		DateTime endDate = data.getEndDate();
 		DateTime now = DateTime.now(startDate.getZone());
@@ -335,7 +334,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		TextView bedTypeHeaderTextView = Ui.findView(view, R.id.bed_type_header_text_view);
 		TextView bedTypeTextView = Ui.findView(view, R.id.bed_type_text_view);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
-		TextView hotelUpgradeText = Ui.findView(view, R.id.upgrade_string);
+		TextView hotelUpgradeText = Ui.findView(view, R.id.room_upgrade_button);
 
 		// Bind
 		Resources res = getResources();
@@ -354,7 +353,9 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		//Upgrade hotel booking
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_upgrade)) {
+		boolean showRoomUpgradeButton =
+			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_upgrade) && !isSharedItin();
+		if (showRoomUpgradeButton) {
 			//hasUpgradeAvailable set to true until API is ready
 			boolean hasUpgradeAvailable = true;
 			hotelUpgradeText.setVisibility(hasUpgradeAvailable ? View.VISIBLE : View.GONE);
@@ -443,7 +444,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	protected boolean addBookingInfo(ViewGroup container) {
-		boolean result = super.addBookingInfo(container);
+		boolean success = super.addBookingInfo(container);
+
+		if (!success) {
+			return false;
+		}
 
 		String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
 		boolean showCancelHotelRoomBtn = !getItinCardData().isPastCheckInDate() && Strings.isNotEmpty(roomCancelLink);
@@ -452,7 +457,10 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			cancelHotelRoomButton(container);
 		}
 
-		if (FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_hotel_itin_soft_change_button)) {
+		boolean showEditRoomOption =
+			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_hotel_itin_soft_change_button)
+				&& !isSharedItin();
+		if (showEditRoomOption) {
 
 			//Setting hasEditRoomOption to true till API is ready
 			boolean hasEditRoomOption = true;
@@ -461,7 +469,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 				setUpEditHotelRoomInfoButton(container);
 			}
 		}
-		return result;
+
+		return true;
 	}
 
 	private void cancelHotelRoomButton(ViewGroup container) {

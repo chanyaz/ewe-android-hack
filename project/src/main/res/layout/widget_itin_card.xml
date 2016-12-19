@@ -230,7 +230,7 @@
                             app:textStyle="medium" />
 
                         <com.expedia.bookings.widget.TextView
-                            android:id="@+id/room_upgrade_message"
+                            android:id="@+id/room_upgrade_available_banner"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"

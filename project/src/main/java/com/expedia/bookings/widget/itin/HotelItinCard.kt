@@ -12,6 +12,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.ui.GalleryActivity
@@ -21,7 +22,7 @@ import com.google.gson.GsonBuilder
 class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<ItinCardDataHotel>(context, attributeSet), RecyclerGallery.GalleryItemListener {
 
     val mVIPTextView: TextView by bindView(R.id.vip_label_text_view)
-    val mRoomUpgradeLayout: TextView by bindView(R.id.room_upgrade_message)
+    val mRoomUpgradeAvailableBanner: TextView by bindView(R.id.room_upgrade_available_banner)
 
     init {
         mHeaderGallery.setOnItemClickListener(this)
@@ -29,8 +30,8 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
 
     override fun bind(itinCardData: ItinCardDataHotel) {
         super.bind(itinCardData)
-        hotelVipMessaging(itinCardData)
-        hotelRoomUpgrade(itinCardData)
+        setupIsVipHotelTextView(itinCardData)
+        setupRoomUpgradeBanner(itinCardData)
     }
 
     override fun finishExpand() {
@@ -54,12 +55,14 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
         context.startActivity(i)
     }
 
-    private fun hotelRoomUpgrade(itinCardData: ItinCardDataHotel) {
-        val isRoomUpgradable = itinCardData.tripComponent.parentTrip.isTripUpgradable
-        mRoomUpgradeLayout.visibility = if (isRoomUpgradable) View.VISIBLE else View.GONE
+    private fun setupRoomUpgradeBanner(itinCardData: ItinCardDataHotel) {
+        val isFeatureOn = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_upgrade)
+        val isTripUpgradeable = itinCardData.tripComponent.parentTrip.isTripUpgradable
+        val isRoomUpgradable = isFeatureOn && isTripUpgradeable && !itinCardData.isSharedItin
+        mRoomUpgradeAvailableBanner.visibility = if (isRoomUpgradable) View.VISIBLE else View.GONE
     }
 
-    private fun hotelVipMessaging(itinCardData: ItinCardDataHotel) {
+    private fun setupIsVipHotelTextView(itinCardData: ItinCardDataHotel) {
         val isVipAccess = itinCardData.isVip
         val customerLoyaltyMembershipTier = User.getLoggedInLoyaltyMembershipTier(context)
         val isSilverOrGoldMember = customerLoyaltyMembershipTier == LoyaltyMembershipTier.MIDDLE || customerLoyaltyMembershipTier == LoyaltyMembershipTier.TOP
