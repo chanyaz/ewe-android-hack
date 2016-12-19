@@ -11,7 +11,6 @@ import org.junit.runner.RunWith;
 import android.support.annotation.DrawableRes;
 import android.support.annotation.IdRes;
 import android.support.test.espresso.Espresso;
-import android.support.test.espresso.contrib.PickerActions;
 import android.support.test.runner.AndroidJUnit4;
 import android.view.View;
 
@@ -21,13 +20,10 @@ import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
-import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.traveler.TravelersViewModel;
-
 import kotlin.Unit;
-import rx.observers.TestSubscriber;
 
 import static android.support.test.espresso.Espresso.onData;
 import static android.support.test.espresso.Espresso.onView;
@@ -113,9 +109,14 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	}
 
 	@Test
-	public void testMultipleTravelerEntryPersists() {
-		mockViewModel = getMockViewModelEmptyTravelers(2);
-		testTravelersPresenter.setViewModel(mockViewModel);
+	public void testMultipleTravelerEntryPersists() throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(2);
+				testTravelersPresenter.setViewModel(mockViewModel);
+			}
+		});
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
@@ -129,9 +130,14 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 	}
 
 	@Test
-	public void testAllTravelersValidEntryToDefault() {
-		mockViewModel = getMockViewModelEmptyTravelers(2);
-		testTravelersPresenter.setViewModel(mockViewModel);
+	public void testAllTravelersValidEntryToDefault() throws Throwable {
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				mockViewModel = getMockViewModelEmptyTravelers(2);
+				testTravelersPresenter.setViewModel(mockViewModel);
+			}
+		});
 
 		EspressoUser.clickOnView(R.id.traveler_default_state);
 
@@ -203,70 +209,6 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		});
 		assertEquals(2, testTravelersPresenter.getTravelerEntryWidget().getNumberOfInvalidFields());
 	}
-
-
-	//to be removed for new checkout
-	@Test
-	public void testToolbarNextFlow() throws Throwable {
-		uiThreadTestRule.runOnUiThread(new Runnable() {
-			@Override
-			public void run() {
-				mockViewModel = getMockViewModelEmptyTravelers(2);
-				testTravelersPresenter.setViewModel(mockViewModel);
-			}
-		});
-
-		TestSubscriber testSubscriber = new TestSubscriber();
-		testTravelersPresenter.getToolbarTitleSubject().subscribe(testSubscriber);
-
-		EspressoUser.clickOnView(R.id.traveler_default_state);
-		EspressoUser.clickOnText(expectedTravelerOneText);
-
-		assertEquals(true, testTravelersPresenter.getTravelerEntryWidget().getNameEntryView().getFirstName().hasFocus());
-		PackageScreen.enterFirstName(testFirstName);
-		PackageScreen.clickTravelerDone();
-
-		assertEquals(false, testTravelersPresenter.getTravelerEntryWidget().getNameEntryView().getMiddleName().hasFocus());
-
-		assertEquals(true, testTravelersPresenter.getTravelerEntryWidget().getNameEntryView().getLastName().hasFocus());
-		PackageScreen.enterLastName(testLastName);
-		PackageScreen.clickTravelerDone();
-
-		assertEquals(true, testTravelersPresenter.getTravelerEntryWidget().getEmailEntryView().getEmailAddress().hasFocus());
-		PackageScreen.enterEmail(testEmail);
-		PackageScreen.clickTravelerDone();
-
-		assertEquals(true, testTravelersPresenter.getTravelerEntryWidget().getPhoneEntryView().getPhoneNumber().hasFocus());
-		PackageScreen.clickTravelerDone();
-
-		//skip phone number, assert that focus went back to first name
-		onView(withId(R.id.datePicker)).perform(ViewActions.waitForViewToDisplay());
-		onView(withId(R.id.datePicker)).perform(PickerActions.setDate(1989, 9, 6));
-		onView(withId(R.id.datePickerDoneButton)).perform(click());
-		PackageScreen.clickTravelerDone();
-
-		onData(allOf(is(instanceOf(String.class)),is("Male"))).perform(click());
-		PackageScreen.clickTravelerDone();
-
-		assertEquals(true, testTravelersPresenter.getTravelerEntryWidget().getNameEntryView().getFirstName().hasFocus());
-		PackageScreen.clickTravelerDone();
-		assertEquals(true, testTravelersPresenter.getTravelerEntryWidget().getNameEntryView().getLastName().hasFocus());
-		PackageScreen.clickTravelerDone();
-		assertEquals(true, testTravelersPresenter.getTravelerEntryWidget().getEmailEntryView().getEmailAddress().hasFocus());
-		PackageScreen.clickTravelerDone();
-		assertEquals(true, testTravelersPresenter.getTravelerEntryWidget().getPhoneEntryView().getPhoneNumber().hasFocus());
-		PackageScreen.enterPhoneNumber(testPhone);
-		PackageScreen.clickTravelerDone();
-
-		assertEquals("Traveler details", testSubscriber.getOnNextEvents().get(0));
-		assertEquals("Edit Traveler 1 (Adult)", testSubscriber.getOnNextEvents().get(1));
-		assertEquals("Traveler details", testSubscriber.getOnNextEvents().get(2));
-
-		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
-		onView(allOf(withText(testFirstName + " " + testLastName), isDescendantOfA(withId(R.id.traveler_picker_widget)))).check(matches(isDisplayed()));
-		EspressoUtils.assertViewWithTextIsDisplayed(expectedTravelerTwoText);
-	}
-
 
 	@Test
 	public void testEmptyChildInfantTraveler() throws Throwable {

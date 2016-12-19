@@ -116,22 +116,6 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Scroll
             tsaEntryView.genderSpinner.nextFocusForwardId = if (show) R.id.passport_country_spinner else R.id.first_name_input
         }
 
-        vm.newCheckoutIsEnabled.subscribe { enabled ->
-            if (!enabled) {
-                vm.tsaViewModel.dateOfBirthViewModel.textSubject.subscribe {
-                    filledIn.onNext(isCompletelyFilled())
-                }
-
-                vm.tsaViewModel.genderViewModel.genderSubject.subscribe {
-                    filledIn.onNext(isCompletelyFilled())
-                }
-
-                vm.passportCountryObserver.subscribe {
-                    filledIn.onNext(isCompletelyFilled())
-                }
-            }
-        }
-
         vm.passportValidSubject.subscribe { isValid ->
             val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
             adapter.setErrorVisible(!isValid)

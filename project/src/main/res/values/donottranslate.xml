@@ -119,7 +119,6 @@
     <string name="preference_enable_filter_text_search">preference_enable_filter_text_search</string>
     <string name="preference_enable_gaia_current_location_suggestion">preference_enable_gaia_current_location_suggestion</string>
     <string name="preference_itin_hotel_upgrade">preference_itin_hotel_upgrade</string>
-    <string name="preference_enable_new_checkout_forms_behavior">preference_enable_new_checkout_forms_behavior</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_enable_rail_checkout_login">preference_enable_rail_checkout_login</string>
 

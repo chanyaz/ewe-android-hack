@@ -112,8 +112,6 @@ public class BaseTravelerPresenterTestHelper {
 		testTravelersPresenter.getToolbarTitleSubject().subscribe(testToolbar.getViewModel().getToolbarTitle());
 		testTravelersPresenter.getTravelerEntryWidget().getFocusedView()
 			.subscribe(testToolbar.getViewModel().getCurrentFocus());
-		testTravelersPresenter.getTravelerEntryWidget().getFilledIn()
-			.subscribe(testToolbar.getViewModel().getFormFilledIn());
 		testTravelersPresenter.getMenuVisibility().subscribe(testToolbar.getViewModel().getMenuVisibility());
 		testToolbar.getViewModel().getDoneClicked().subscribe(testTravelersPresenter.getDoneClicked());
 		testName.setFirstName(testFirstName);

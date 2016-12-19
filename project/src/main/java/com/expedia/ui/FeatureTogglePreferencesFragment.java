@@ -29,7 +29,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_enable_rail_checkout_login);
 		initializeFeatureCheck(R.string.preference_enable_gaia_current_location_suggestion);
 		initializeFeatureCheck(R.string.preference_itin_hotel_upgrade);
-		initializeFeatureCheck(R.string.preference_enable_new_checkout_forms_behavior);
 		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
 	}
 
