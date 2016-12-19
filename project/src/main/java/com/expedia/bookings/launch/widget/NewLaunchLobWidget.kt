@@ -13,13 +13,14 @@ import android.widget.FrameLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.NavigationHelper
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.GridLinesItemDecoration
+import com.expedia.vm.NewLaunchLobViewModel
 import com.expedia.util.notNullAndObservable
-import kotlin.properties.Delegates
+import rx.subscriptions.CompositeSubscription
 
 class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(context, attrs) {
 
@@ -33,19 +34,21 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
         builder.create()
     }
 
+    private var compositeSubscriptions = CompositeSubscription()
 
-    var adapter: NewLaunchLobAdapter by Delegates.notNull()
+    var adapter = NewLaunchLobAdapter()
     val nav = NavigationHelper(context)
+
     var viewModel: NewLaunchLobViewModel by notNullAndObservable {
-        adapter = NewLaunchLobAdapter(viewModel)
-        gridRecycler.adapter = adapter
-        viewModel.lobsSubject.subscribe {
-            adapter.setLobs(it)
-        }
-        viewModel.navigationSubject.subscribe {
-            when (it.first) {
+        compositeSubscriptions.unsubscribe()
+        compositeSubscriptions = CompositeSubscription()
+        compositeSubscriptions.add(adapter.navigationSubject.subscribe { pair ->
+            val (lob, view) = pair
+            OmnitureTracking.trackNewLaunchScreenLobNavigation(lob)
+
+            when (lob) {
                 LineOfBusiness.HOTELS -> {
-                    val animOptions = AnimUtils.createActivityScaleBundle(it.second);
+                    val animOptions = AnimUtils.createActivityScaleBundle(view);
                     nav.goToHotels(animOptions)
                 }
                 LineOfBusiness.FLIGHTS -> {
@@ -66,10 +69,14 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
                     //Add other lobs navigation in future
                 }
             }
-        }
-        viewModel.hasInternetConnectionChangeSubject.subscribe {
+        })
+        compositeSubscriptions.add(viewModel.lobsSubject.subscribe {
+            adapter.setLobs(it)
+        })
+        compositeSubscriptions.add(viewModel.hasInternetConnectionChangeSubject.subscribe {
             adapter.enableLobs(it)
-        }
+        })
+
         viewModel.refreshLobsObserver.onNext(Unit)
     }
 
@@ -79,14 +86,16 @@ class NewLaunchLobWidget(context: Context, attrs: AttributeSet) : FrameLayout(co
         val itemDecoration = GridLinesItemDecoration(
                 ContextCompat.getColor(context, R.color.new_launch_lob_divider_color),
                 context.resources.getDimension(R.dimen.new_launch_lob_divider_stroke_width));
-        gridRecycler.addItemDecoration(itemDecoration);
 
+        gridRecycler.addItemDecoration(itemDecoration);
         gridRecycler.layoutManager = layoutManager;
         layoutManager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return adapter.getSpanSize(position);
             }
         };
+
+        gridRecycler.adapter = adapter
 
         adjustBackgroundView()
     }

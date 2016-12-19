@@ -11,14 +11,15 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LobInfo;
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.launch.widget.NewLaunchLobAdapter;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
+import com.expedia.bookings.launch.widget.LobViewHolder;
+
 import java.util.ArrayList;
+
 import kotlin.Pair;
-import kotlin.Unit;
 import rx.observers.TestSubscriber;
-import rx.subjects.BehaviorSubject;
+import rx.subjects.PublishSubject;
 
 import static org.junit.Assert.assertEquals;
 
@@ -31,8 +32,7 @@ public class NewLaunchLobAdapterTest {
 
 	@Test
 	public void spansAreCorrect() {
-		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(
-			new NewLaunchLobViewModel(getContext(), BehaviorSubject.<Boolean>create(), BehaviorSubject.<Unit>create()));
+		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter();
 
 		ArrayList<LobInfo> lobs = new ArrayList<>();
 		lobs.add(LobInfo.HOTELS);
@@ -81,11 +81,7 @@ public class NewLaunchLobAdapterTest {
 		Mockito.when(mockItemView.findViewById(R.id.lob_cell_text)).thenReturn(mockTextView);
 		Mockito.when(mockTextView.getContext()).thenReturn(getContext());
 
-		NewLaunchLobViewModel newLaunchLobViewModel = new NewLaunchLobViewModel(getContext(),
-			BehaviorSubject.<Boolean>create(),
-			BehaviorSubject.<Unit>create());
-		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter(
-			newLaunchLobViewModel);
+		NewLaunchLobAdapter adapter = new NewLaunchLobAdapter();
 		ArrayList<LobInfo> lobs = new ArrayList<>();
 		lobs.add(LobInfo.HOTELS);
 		lobs.add(LobInfo.FLIGHTS);
@@ -93,8 +89,7 @@ public class NewLaunchLobAdapterTest {
 		lobs.add(LobInfo.ACTIVITIES);
 		adapter.setLobs(lobs);
 
-		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView,
-			newLaunchLobViewModel);
+		LobViewHolder vh = new LobViewHolder(mockItemView, adapter.getNavigationSubject());
 		adapter.onBindViewHolder(vh, 0);
 		Mockito.verify(mockTextView).setText(LobInfo.HOTELS.getLabelRes());
 		Mockito.verify(mockTextView)
@@ -116,17 +111,13 @@ public class NewLaunchLobAdapterTest {
 		TextView mockTextView = Mockito.mock(TextView.class);
 		Mockito.when(mockItemView.findViewById(R.id.lob_cell_text)).thenReturn(mockTextView);
 		Mockito.when(mockTextView.getContext()).thenReturn(getContext());
-		NewLaunchLobViewModel newLaunchLobViewModel = new NewLaunchLobViewModel(getContext(),
-			BehaviorSubject.<Boolean>create(),
-			BehaviorSubject.<Unit>create());
 
-		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView,
-			newLaunchLobViewModel);
+		LobViewHolder vh = new LobViewHolder(mockItemView, PublishSubject.<Pair<LineOfBusiness,View>>create());
 
 		for (LobInfo lobInfo : LobInfo.values()) {
 			TestSubscriber<Pair<LineOfBusiness, View>> testSubscriber = new TestSubscriber<>();
-			vh.getViewModel().getNavigationSubject().take(1).subscribe(testSubscriber);
-			vh.bind(lobInfo, false, getContext(), true);
+			vh.getNavItemSelectedSubject().take(1).subscribe(testSubscriber);
+			vh.bindInfo(lobInfo, true);
 			vh.onClick(mockItemView);
 			testSubscriber.awaitTerminalEvent();
 			assertEquals(lobInfo.getLineOfBusiness(), testSubscriber.getOnNextEvents().get(0).getFirst());
@@ -139,15 +130,13 @@ public class NewLaunchLobAdapterTest {
 		TextView mockTextView = Mockito.mock(TextView.class);
 		Mockito.when(mockItemView.findViewById(R.id.lob_cell_text)).thenReturn(mockTextView);
 		Mockito.when(mockTextView.getContext()).thenReturn(getContext());
-		NewLaunchLobViewModel newLaunchLobViewModel = new NewLaunchLobViewModel(getContext(),
-			BehaviorSubject.<Boolean>create(),
-			BehaviorSubject.<Unit>create());
-		NewLaunchLobAdapter.LobViewHolder vh = new NewLaunchLobAdapter.LobViewHolder(mockItemView,
-			newLaunchLobViewModel);
+
+		LobViewHolder vh = new LobViewHolder(mockItemView, PublishSubject.<Pair<LineOfBusiness,View>>create());
+
 		for (LobInfo lobInfo : LobInfo.values()) {
 			TestSubscriber<Pair<LineOfBusiness, View>> testSubscriber = new TestSubscriber<>();
-			vh.getViewModel().getNavigationSubject().take(1).subscribe(testSubscriber);
-			vh.bind(lobInfo, false, getContext(), false);
+			vh.getNavItemSelectedSubject().take(1).subscribe(testSubscriber);
+			vh.bindInfo(lobInfo, false);
 			vh.onClick(mockItemView);
 			assertEquals(0, testSubscriber.getOnNextEvents().size());
 		}
