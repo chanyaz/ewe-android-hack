@@ -5,7 +5,6 @@ import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
 import com.expedia.bookings.R
-import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailLegOption
@@ -23,7 +22,6 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RailSearchLegalInfoWebView
 import com.expedia.bookings.widget.rail.RailAmenitiesFareRulesWidget
 import com.expedia.util.endlessObserver
-import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
 import com.expedia.vm.rail.RailConfirmationViewModel
 import com.expedia.vm.rail.RailCreateTripViewModel
@@ -122,20 +120,18 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
                 val overviewHeader = tripOverviewPresenter.bundleOverviewHeader
                 overviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                 overviewHeader.toggleOverviewHeader(true)
-            }
-            else {
+            } else {
                 RailTracking().trackRailOneWayTripDetails()
             }
         }
     }
 
-    private val detailsToInbound = object: LeftToRightTransition(this, RailDetailsPresenter::class.java, RailInboundPresenter::class.java) {
+    private val detailsToInbound = object : LeftToRightTransition(this, RailDetailsPresenter::class.java, RailInboundPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (forward) {
                 RailTracking().trackRailRoundTripInbound()
-            }
-            else {
+            } else {
                 RailTracking().trackRailRoundTripJourneyDetailsAndFareOptions()
             }
         }
@@ -148,8 +144,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
                 val overviewHeader = tripOverviewPresenter.bundleOverviewHeader
                 overviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
                 overviewHeader.toggleOverviewHeader(true)
-            }
-            else {
+            } else {
                 RailTracking().trackRailRoundTripInDetails()
             }
         }
@@ -160,8 +155,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             super.startTransition(forward)
             if (!forward) {
                 RailTracking().trackRailDetails(tripOverviewPresenter.createTripViewModel.tripResponseObservable.value)
-            }
-            else {
+            } else {
                 RailTracking().trackRailCheckoutInfo(tripOverviewPresenter.createTripViewModel.tripResponseObservable.value)
             }
         }
@@ -169,7 +163,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
 
     private val checkoutToConfirmation = LeftToRightTransition(this, RailCheckoutPresenter::class.java, RailConfirmationPresenter::class.java)
 
-    private val outboundDetailsToAmenities = object: ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java) {
+    private val outboundDetailsToAmenities = object : ScaleTransition(this, RailDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
@@ -181,7 +175,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             }
         }
     }
-    private val inboundDetailsToAmenities = object: ScaleTransition(this, RailInboundDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java) {
+    private val inboundDetailsToAmenities = object : ScaleTransition(this, RailInboundDetailsPresenter::class.java, RailAmenitiesFareRulesWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
@@ -189,7 +183,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
             }
         }
     }
-    private val overviewToAmenities = object: ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java) {
+    private val overviewToAmenities = object : ScaleTransition(this, RailTripOverviewPresenter::class.java, RailAmenitiesFareRulesWidget::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
@@ -201,7 +195,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     private val outboundToError = ScaleTransition(this, RailOutboundPresenter::class.java, RailErrorPresenter::class.java)
     private val createTripToError = ScaleTransition(this, RailTripOverviewPresenter::class.java, RailErrorPresenter::class.java)
     private val checkoutToError = ScaleTransition(this, RailCheckoutPresenter::class.java, RailErrorPresenter::class.java)
-    private val errorToSearch = object: ScaleTransition(this, RailErrorPresenter::class.java, RailSearchPresenter::class.java) {
+    private val errorToSearch = object : ScaleTransition(this, RailErrorPresenter::class.java, RailSearchPresenter::class.java) {
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (forward) {
@@ -288,7 +282,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         outboundDetailsViewModel.showAmenitiesObservable.withLatestFrom(outboundDetailsViewModel.railLegOptionSubject,
                 { offer, legOption -> showAmenities(offer, legOption) }).subscribe()
         outboundDetailsViewModel.showFareRulesObservable.withLatestFrom(outboundDetailsViewModel.railLegOptionSubject,
-                { offer, legOption -> showFareRules(offer.railProductList[0], legOption)}).subscribe()
+                { offer, legOption -> showFareRules(offer.railProductList[0], legOption) }).subscribe()
     }
 
     private fun initInboundPresenter() {
@@ -305,7 +299,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         inboundDetailsPresenter.viewModel = inboundDetailsViewModel
         inboundResultsViewModel.outboundOfferSubject.subscribe(inboundDetailsViewModel.selectedOutboundOfferSubject)
 
-        inboundDetailsViewModel.offerSelectedObservable.subscribe  { offer ->
+        inboundDetailsViewModel.offerSelectedObservable.subscribe { offer ->
             transitionToTripSummary()
             createTripViewModel.offerTokensSelected.onNext(getRoundTripOfferTokens(offer))
         }
@@ -313,7 +307,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
                 { offer, legOption -> showAmenities(offer, legOption) }).subscribe()
 
         inboundDetailsViewModel.showFareRulesObservable.withLatestFrom(inboundDetailsViewModel.railLegOptionSubject,
-                { offer, legOption -> showFareRules(offer.railProductList[0], legOption)}).subscribe()
+                { offer, legOption -> showFareRules(offer.railProductList[0], legOption) }).subscribe()
     }
 
     private fun initOverviewPresenter() {
@@ -444,7 +438,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
         amenitiesFareRulesWidget.showFareRulesForOffer(legOption, railProduct)
     }
 
-    private fun getRoundTripOfferTokens(offer: RailOffer) : List<String> {
+    private fun getRoundTripOfferTokens(offer: RailOffer): List<String> {
         if (offer.isOpenReturn) {
             return listOf(offer.railOfferToken)
         }

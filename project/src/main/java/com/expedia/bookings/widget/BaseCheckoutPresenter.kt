@@ -16,7 +16,6 @@ import android.view.Window
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Space
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
@@ -27,11 +26,10 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.otto.Events
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.packages.TravelersPresenter
-import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
@@ -56,8 +54,6 @@ import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
-import com.squareup.otto.Subscribe
-import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Subscription
 import javax.inject.Inject
@@ -71,6 +67,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     /** abstract methods **/
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
+
     abstract fun injectComponents()
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateDbTravelers()
@@ -131,21 +128,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     val logoutDialog: AlertDialog by lazy {
-        val builder = AlertDialog.Builder(context)
-        var messageText = Phrase.from(context, R.string.sign_out_confirmation_TEMPLATE)
-                .put("brand", BuildConfig.brand)
-                .format().toString()
-        builder.setMessage(messageText)
-        builder.setCancelable(false)
-        builder.setPositiveButton(context.getString(R.string.sign_out), { dialog, which ->
+        val logoutFunc = fun() {
             logoutUser()
-            OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.SUCCESS)
-        })
-        builder.setNegativeButton(context.getString(R.string.cancel), { dialog, which ->
-            dialog.dismiss()
-            OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.CANCEL)
-        })
-        builder.create()
+        }
+        DialogFactory.createLogoutDialog(context, logoutFunc)
     }
 
     /** viewmodels **/
@@ -308,8 +294,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         val createTripResponse = getCreateTripViewModel().createTripResponseObservable.value
         if (createTripResponse != null) {
             fireCheckoutOverviewTracking(createTripResponse)
-        }
-        else {
+        } else {
             trackShowingCkoOverviewSubscription = getCreateTripViewModel().createTripResponseObservable.safeSubscribe { tripResponse ->
                 // Un-subscribe:- as we only want to track the initial load of cko overview
                 trackShowingCkoOverviewSubscription?.unsubscribe()
@@ -320,7 +305,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private fun setUpViewModels() {
         priceChangeViewModel = PriceChangeViewModel(context, getLineOfBusiness())
-        baseCostSummaryBreakdownViewModel =  getCostSummaryBreakdownViewModel()
+        baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
         bundleTotalPriceViewModel = BundleTotalPriceViewModel(context)
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
@@ -404,7 +389,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                     }
                 }).subscribe()
 
-        Observable.combineLatest( getCheckoutViewModel().paymentTypeSelectedHasCardFee,
+        Observable.combineLatest(getCheckoutViewModel().paymentTypeSelectedHasCardFee,
                 paymentWidget.viewmodel.showingPaymentForm,
                 { haveCardFee, showingGuestPaymentForm ->
                     val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
@@ -510,7 +495,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
     }
 
-    open val defaultToPayment = object : DefaultToPayment(this){
+    open val defaultToPayment = object : DefaultToPayment(this) {
     }
 
     fun showPaymentPresenter() {
@@ -531,8 +516,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     /** Slide to book **/
-    override fun onSlideStart() { }
-    override fun onSlideProgress(pixels: Float, total: Float) { }
+    override fun onSlideStart() {
+    }
+
+    override fun onSlideProgress(pixels: Float, total: Float) {
+    }
+
     override fun onSlideAllTheWay() {
         if (ckoViewModel.builder.hasValidParams()) {
             ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
@@ -582,8 +571,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             accessiblePurchaseButton.visibility = View.VISIBLE
             accessiblePurchaseButton.hideTouchTarget()
             slideToPurchase.visibility = View.GONE
-        }
-        else {
+        } else {
             slideToPurchase.visibility = View.VISIBLE
             accessiblePurchaseButton.visibility = View.GONE
         }
@@ -707,7 +695,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         getCheckoutViewModel().unsubscribeAll()
     }
 
-    fun getPaymentWidgetViewModel(): PaymentViewModel{
+    fun getPaymentWidgetViewModel(): PaymentViewModel {
         return paymentViewModel
     }
 

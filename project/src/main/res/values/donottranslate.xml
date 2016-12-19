@@ -121,6 +121,7 @@
     <string name="preference_itin_hotel_upgrade">preference_itin_hotel_upgrade</string>
     <string name="preference_enable_new_checkout_forms_behavior">preference_enable_new_checkout_forms_behavior</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
+    <string name="preference_enable_rail_checkout_login">preference_enable_rail_checkout_login</string>
 
 
     <!-- Default values for preference keys -->
