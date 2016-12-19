@@ -1,7 +1,6 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
-import android.provider.Settings
 import okio.Okio
 import org.bouncycastle.jce.X509Principal
 import org.bouncycastle.x509.X509V3CertificateGenerator
