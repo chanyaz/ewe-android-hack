@@ -23,6 +23,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.BaggageFeeInfoWidget
 import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
@@ -231,6 +232,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
                 trackFlightSortFilterLoad()
                 resultsPresenter.visibility = GONE
                 toolbar.visibility = GONE
+                postDelayed({ filter.toolbar.setFocusForView() }, 50L)
             } else {
                 filter.visibility = View.GONE
                 filter.translationY = (filter.height).toFloat()
