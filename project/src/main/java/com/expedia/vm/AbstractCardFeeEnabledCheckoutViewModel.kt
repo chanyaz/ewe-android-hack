@@ -24,8 +24,8 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
     var cardFeeService: CardFeeService? = null
         @Inject set
 
-    abstract fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?)
     abstract fun resetCardFees()
+    abstract fun getCardFeesCallback(): Observer<CardFeeResponse>
 
     val selectedCardFeeObservable = BehaviorSubject.create<Money>()
     val selectedFlightChargesFees = BehaviorSubject.create<String>("")
@@ -58,22 +58,6 @@ abstract class AbstractCardFeeEnabledCheckoutViewModel(context: Context) : Abstr
             if (fetchFreshCardFee) {
                 lastFetchedCardFeeKeyPair = Pair(tripId, cardId)
                 cardFeeService?.getCardFees(tripId, cardId, getCardFeesCallback())
-            }
-        }
-    }
-
-    private fun getCardFeesCallback(): Observer<CardFeeResponse> {
-        return object : Observer<CardFeeResponse> {
-            override fun onNext(it: CardFeeResponse) {
-                if (!it.hasErrors()) {
-                    selectedPaymentHasCardFee(it.feePrice, it.tripTotalPrice)
-                }
-            }
-
-            override fun onCompleted() {
-            }
-
-            override fun onError(e: Throwable?) {
             }
         }
     }

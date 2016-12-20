@@ -34,7 +34,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
             priceChangeWidget.viewmodel.newPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+            totalPriceWidget.viewModel.total.onNext(response.bundleTotal)
             val packageTotalPrice = response.packageDetails.pricing
             totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
             val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)

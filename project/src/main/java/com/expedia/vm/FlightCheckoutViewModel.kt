@@ -5,8 +5,8 @@ import android.support.v4.content.ContextCompat
 import android.text.SpannableStringBuilder
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
+import com.expedia.bookings.data.CardFeeResponse
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightCheckoutParams
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
@@ -72,15 +72,29 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
         Ui.getApplication(context).flightComponent().inject(this)
     }
 
-    override fun selectedPaymentHasCardFee(cardFee: Money, totalPriceInclFees: Money?) {
-        // add card fee to trip response
-        val response = createTripResponseObservable.value
-        if (response != null) {
-            val newTripResponse = response as FlightCreateTripResponse
-            newTripResponse.selectedCardFees = cardFee
-            newTripResponse.totalPriceIncludingFees = totalPriceInclFees
-            cardFeeTripResponse.onNext(newTripResponse)
-            selectedCardFeeObservable.onNext(cardFee)
+    override fun getCardFeesCallback(): Observer<CardFeeResponse> {
+        return object : Observer<CardFeeResponse> {
+            override fun onNext(cardFeeResponse: CardFeeResponse) {
+                if (!cardFeeResponse.hasErrors()) {
+                    // add card fee to trip response
+                    val cardFee = cardFeeResponse.feePrice
+                    val totalPriceInclFees = cardFeeResponse.tripTotalPrice
+                    val response = createTripResponseObservable.value
+                    if (response != null) {
+                        val newTripResponse = response as FlightCreateTripResponse
+                        newTripResponse.selectedCardFees = cardFee
+                        newTripResponse.totalPriceIncludingFees = totalPriceInclFees
+                        cardFeeTripResponse.onNext(newTripResponse)
+                        selectedCardFeeObservable.onNext(cardFee)
+                    }
+                }
+            }
+
+            override fun onCompleted() {
+            }
+
+            override fun onError(e: Throwable?) {
+            }
         }
     }
 
