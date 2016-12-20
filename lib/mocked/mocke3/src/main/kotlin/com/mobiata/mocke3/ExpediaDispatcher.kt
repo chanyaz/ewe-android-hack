@@ -167,6 +167,9 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
     private fun dispatchTrip(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)
+        if (lastSignInEmail.isNotEmpty() && lastSignInEmail == "trip_error@mobiata.com") {
+            return makeResponse("/api/trips/error_trip_response.json", params)
+        }
 
         // Common to all trips
         // NOTE: using static hour offset so that daylight savings doesn't muck with the data

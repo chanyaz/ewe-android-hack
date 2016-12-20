@@ -1224,6 +1224,12 @@
     <string name="itinerary_fetch_error">Error fetching itineraries</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Sign in for your trips</string>
+    <!-- Button text to refresh your trips -->
+    <string name="refresh_trips">Refresh Trips</string>
+    <!-- Itinerary screen when we can't fetch any trips -->
+    <string name="fetching_trips_error">We were unable to fetch your itineraries at this time. Please try again.</string>
+    <!-- Itinerary screen when we connection fails while fetching trips -->
+    <string name="fetching_trips_error_connection">Unable to connect at this time.</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Tomorrow</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1417,8 +1423,6 @@
     <string name="flight_arrived">Arrived</string>
     <!-- Refresh -->
     <string name="refresh">Refresh</string>
-    <!-- Try Again -->
-    <string name="try_again">Try Again</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPY %1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->

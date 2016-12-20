@@ -23,7 +23,7 @@ public class NewLaunchScreenTest extends PhoneTestCase {
 
 	public void testGeneralUIElements() throws Throwable {
 		NewLaunchScreen.tripsButton().perform(click());
-		EspressoUtils.assertViewIsDisplayed(R.id.login_button);
+		EspressoUtils.assertViewWithTextIsDisplayed(R.id.status_refresh_button, R.string.sign_in_for_your_trips);
 		Log.v(TAG, "Trips button on Launch screen is displayed and works");
 
 		NewLaunchScreen.shopButton().perform(click());
