@@ -103,6 +103,10 @@ class BaseFlightFilterWidget(context: Context, attrs: AttributeSet) : FrameLayou
             stopsContainer.clearChecks()
             airlinesContainer.clearChecks()
         }
+        
+        vm.clearObservable.subscribe{
+            sortByButtonGroup.setSelection(0,false)
+        }
 
         vm.newDurationRangeObservable.subscribe { durationRange ->
             durationSeekBar.a11yName = context.getString(R.string.flight_duration_label)
