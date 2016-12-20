@@ -14,7 +14,7 @@ import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
-import com.expedia.util.subscribeVisibility
+import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.vm.BaseTravelerPickerViewModel
 import com.expedia.vm.TravelerPickerViewModel
 import com.squareup.phrase.Phrase
@@ -53,7 +53,7 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrave
 
 
     var viewmodel: TravelerPickerViewModel by notNullAndObservable { vm ->
-        vm.tooManyInfants.subscribeVisibility(infantError)
+        vm.showInfantErrorMessage.subscribeTextAndVisibility(infantError)
         adultPlus.subscribeOnClick(vm.incrementAdultsObserver)
         adultMinus.subscribeOnClick(vm.decrementAdultsObserver)
 

@@ -1,11 +1,13 @@
 package com.expedia.vm
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.util.endlessObserver
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
+import rx.Observable
 
 class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(context) {
 
@@ -20,7 +22,15 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
 
     // Outputs
     val infantPreferenceSeatingObservable = BehaviorSubject.create<Boolean>(false)
-    val tooManyInfants = PublishSubject.create<Boolean>()
+    val tooManyInfantsInLap = PublishSubject.create<Boolean>()
+    val tooManyInfantsInSeat = PublishSubject.create<Boolean>()
+    val showInfantErrorMessage = Observable.zip(tooManyInfantsInLap, tooManyInfantsInSeat, { inLap, inSeat ->
+        when {
+            inLap -> context.getString(R.string.max_one_infant_per_lap)
+            inSeat -> context.getString(R.string.max_two_infants_seated_per_adult)
+            else -> ""
+        }
+    })
 
     init {
         travelerParamsObservable.subscribe { travelers ->
@@ -87,6 +97,7 @@ class TravelerPickerViewModel(context: Context) : BaseTravelerPickerViewModel(co
         val numberOfInfants = travelerParams.childrenAges.count { childAge -> childAge < 2 }
         val numChildrenOver12 = travelerParams.childrenAges.count { childAge -> childAge >= 12 }
         infantPreferenceSeatingObservable.onNext(numberOfInfants > 0)
-        tooManyInfants.onNext(isInfantInLapObservable.value && (numberOfInfants > (travelerParams.numberOfAdults + numChildrenOver12)))
+        tooManyInfantsInLap.onNext(isInfantInLapObservable.value && (numberOfInfants > (travelerParams.numberOfAdults + numChildrenOver12)))
+        tooManyInfantsInSeat.onNext(!isInfantInLapObservable.value && (numberOfInfants > 2 && travelerParams.numberOfAdults == 1))
     }
 }

@@ -921,6 +921,8 @@
     <string name="infants_under_two">Infants Under 2</string>
     <!-- Label stating that there must be as many adults as infants if the seating preference is "in lap" -->
     <string name="max_one_infant_per_lap">There aren\'t enough adults (age 12+) to have infants sit in laps. They need their own seats.</string>
+    <!-- Label stating that seats can be reserved for up to two infants per traveler aged 12+ " -->
+    <string name="max_two_infants_seated_per_adult">We are only able to book reserved seats for up to two infants per traveler aged 12+</string>
     <!-- Description for infant travelers sitting in laps -->
     <string name="in_laps">In Laps</string>
     <!-- Description for infant travelers sitting in seats -->

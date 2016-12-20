@@ -25,7 +25,8 @@ import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
 import com.expedia.vm.TravelerPickerViewModel;
 
-import static com.expedia.bookings.R.id.viewpager;
+import rx.observers.TestSubscriber;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -106,7 +107,7 @@ public class FlightSearchPresenterTest {
 	}
 
 	@Test
-	public void testTravelerDialog() {
+	public void testTravelerDialogForInfantErrorInLap() {
 		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
 		TravelerPickerViewModel vm = new TravelerPickerViewModel(activity);
 		travelerCard.performClick();
@@ -140,4 +141,46 @@ public class FlightSearchPresenterTest {
 
 	}
 
+	@Test
+	public void testTravelerDialogForInfantErrorInSeat() {
+		TestSubscriber tooManyInfantsInLapTestSubscriber = new TestSubscriber<>();
+		TestSubscriber tooManyInfantsInSeatTestSubscriber = new TestSubscriber<>();
+		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
+		TravelerPickerViewModel vm = new TravelerPickerViewModel(activity);
+		travelerCard.performClick();
+		View view = travelerCard.getTravelerDialogView();
+		HotelTravelerPickerView hotelTravelerPicker = (HotelTravelerPickerView) view
+			.findViewById(R.id.traveler_view);
+		hotelTravelerPicker.getViewmodel().getTooManyInfantsInLap().subscribe(tooManyInfantsInLapTestSubscriber);
+		hotelTravelerPicker.getViewmodel().getTooManyInfantsInSeat().subscribe(tooManyInfantsInSeatTestSubscriber);
+
+		hotelTravelerPicker.getChildPlus().performClick();
+		hotelTravelerPicker.getChildPlus().performClick();
+
+		vm.setShowSeatingPreference(true);
+		hotelTravelerPicker.getChild1().setSelection(0);
+		hotelTravelerPicker.getChild2().setSelection(0);
+		hotelTravelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
+		int noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+		assertEquals(View.GONE, hotelTravelerPicker.getInfantError().getVisibility());
+
+
+		hotelTravelerPicker.getChildPlus().performClick();
+
+		hotelTravelerPicker.getChild3().setSelection(0);
+		hotelTravelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
+		assertEquals(View.VISIBLE, hotelTravelerPicker.getInfantError().getVisibility());
+		noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), true);
+
+		hotelTravelerPicker.getChild3().setSelection(2);
+		hotelTravelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
+		assertEquals(View.GONE, hotelTravelerPicker.getInfantError().getVisibility());
+		noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
+		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+	}
 }
