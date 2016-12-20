@@ -21,7 +21,7 @@ tpmComments = sys.argv[6]
 if brandName == 'expedia':
     mingleProject = 'eb_ad_app'
     hipchatRoomName = 'Team: Android'
-    cardProperties = {'Team':'PF_US', 'Releases - Release':'(Current Release)', 'Theme':'Localizations', 'Schedule - Iteration':'(Current PF Iteration)',
+    cardProperties = {'Team':'PF_US', 'Releases - Release':'(Current Release)', 'Theme':'Localizations', 'Schedule - Iteration':'(Current Iteration)',
     'Status':'Analysis', 'Assigned':assignTo}
 else:
     mingleProject = 'india_mobile_team'
