@@ -20,7 +20,6 @@ import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
 import org.hamcrest.Matchers.allOf
-import org.hamcrest.Matchers.not
 import org.joda.time.LocalDate
 import org.junit.Test
 
@@ -38,7 +37,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         assertCheckoutOverviewCardFeeWarningShown()
         CheckoutViewModel.selectStoredCard("Saved Visa 1111")
         assertCheckoutOverviewCardFeeWarningShown()
-        CheckoutViewModel.clickDone()
+        Common.pressBack()
 
         assertCheckoutOverviewCardFeeWarningShown()
         assertCostSummaryDialogShowsFees()
@@ -56,7 +55,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         CardInfoScreen.assertPaymentFormCardFeeWarningShown("Airline processing fee for this card: $2.50")
 
         PackageScreen.completePaymentForm()
-        CheckoutViewModel.clickDone()
+        Common.pressBack()
 
         assertCheckoutOverviewCardFeeWarningShown()
         assertCostSummaryDialogShowsFees()
@@ -72,7 +71,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         CardInfoScreen.assertPaymentFormCardFeeWarningShown("Airline processing fee for this card: $2.50")
 
         PackageScreen.completePaymentForm()
-        CheckoutViewModel.clickDone()
+        Common.pressBack()
 
         assertCheckoutOverviewCardFeeWarningShown()
         assertCostSummaryDialogShowsFees()

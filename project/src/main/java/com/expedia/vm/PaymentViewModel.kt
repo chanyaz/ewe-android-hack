@@ -17,7 +17,6 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.squareup.phrase.Phrase
 import rx.Observable
@@ -156,7 +155,7 @@ open class PaymentViewModel(val context: Context) {
             }
             isZipValidationRequired.onNext(isPostalCodeRequired)
             ccFeeDisclaimer.onNext(getCCFeeDisclaimerText(lob))
-            newCheckoutIsEnabled.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_checkout_forms_behavior) && lob.isUniversalCheckout(context))
+            newCheckoutIsEnabled.onNext(lob.isUniversalCheckout(context))
         }
 
         resetCardFees.subscribe { cardBIN.onNext("") }

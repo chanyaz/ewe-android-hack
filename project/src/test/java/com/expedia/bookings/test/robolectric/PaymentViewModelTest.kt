@@ -7,7 +7,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemFlightV2
@@ -31,7 +30,6 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PaymentViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -287,7 +285,6 @@ class PaymentViewModelTest {
 
     @Test
     fun testNewCheckoutBehavior() {
-        SettingUtils.save(getContext(), R.string.preference_enable_new_checkout_forms_behavior, true)
         val testNewCheckoutSubscriber = TestSubscriber.create<Boolean>()
         viewModel.newCheckoutIsEnabled.subscribe(testNewCheckoutSubscriber)
 
@@ -304,7 +301,6 @@ class PaymentViewModelTest {
 
     @Test
     fun testMenuButtonBehaviorOnCardSelection() {
-        SettingUtils.save(getContext(), R.string.preference_enable_new_checkout_forms_behavior, true)
         val testMenuVisibilitySubscriber = TestSubscriber.create<Boolean>()
         val testEnableMenuSubscriber = TestSubscriber.create<Boolean>()
         viewModel.menuVisibility.subscribe(testMenuVisibilitySubscriber)
