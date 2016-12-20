@@ -14,6 +14,7 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.widget.TextView
+import com.mobiata.android.util.SettingUtils
 import okio.Okio
 import org.json.JSONArray
 import org.json.JSONObject
@@ -77,6 +78,24 @@ class HotelItinCardTest {
         assertEquals(View.GONE, getVipLabelTextView().visibility)
     }
 
+    @Test
+    fun roomUpgradeAvailable() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        createSystemUnderTest()
+        givenExpandedHotel()
+        sut.bind(itinCardData)
+        assertEquals(View.VISIBLE, getUpgradeTextView().visibility)
+    }
+
+    @Test
+    fun roomUpgradeFeatureOff() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, false)
+        createSystemUnderTest()
+        givenExpandedHotel()
+        sut.bind(itinCardData)
+        assertEquals(View.GONE, getUpgradeTextView().visibility)
+    }
+
     private fun givenPointOfSaleVipSupportDisabled() {
         PointOfSaleTestConfiguration.configurePointOfSale(activity, "MockSharedData/pos_with_vipaccess_disabled.json")
     }
@@ -93,13 +112,25 @@ class HotelItinCardTest {
         sut = itinCard
     }
 
+    private fun getUpgradeTextView(): TextView {
+        val upgradeText = sut.findViewById(R.id.room_upgrade_message) as TextView
+        return upgradeText
+    }
+
     private fun givenHotel(vipHotel : Boolean) {
         val fileName = if(vipHotel) "hotel_trip_vip_booking" else "hotel_trip_non_vip_booking"
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/$fileName.json"))).readUtf8()
         val jsonObject = JSONObject(data)
         val jsonArray = jsonObject.getJSONArray("responseData")
         val tripHotel = getHotelTrip(jsonArray)!!
+        itinCardData = ItinCardDataHotel(tripHotel)
+    }
 
+    private fun givenExpandedHotel() {
+        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/hotel_trip_details.json"))).readUtf8()
+        val jsonObject = JSONObject(data)
+        val jsonArray = jsonObject.getJSONArray("responseData")
+        val tripHotel = getHotelTrip(jsonArray)!!
         itinCardData = ItinCardDataHotel(tripHotel)
     }
 
