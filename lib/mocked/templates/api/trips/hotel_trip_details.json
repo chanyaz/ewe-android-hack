@@ -35,14 +35,6 @@
         {
           "uniqueID": "5D5D96B6-0BB4-4A08-B82F-C9FBADF85532_0",
           "hotelId": "564858",
-          "checkInDateTime": {
-            "epochSeconds": "${hotelCheckInEpochSeconds}",
-            "timeZoneOffsetSeconds": "${hotelCheckInTzOffset}"
-          },
-          "checkOutDateTime": {
-            "epochSeconds": "${hotelCheckOutEpochSeconds}",
-            "timeZoneOffsetSeconds": "${hotelCheckOutTzOffset}"
-          },
           "numberOfNights": 2,
           "bookingStatus": "BOOKED",
           "bookingStatusText": "Completed",
@@ -214,7 +206,9 @@
               "roomCancelLink": "https://localhost/hotel-cancel-details?tripid=5196d5cf-6274-4695-9e2d-0f5ff8c69ec1&ordernumber=8024355663759&orderlineguid=155cfc84-8fe1-4d44-ab59-d04ee4482c1d&roomNumber=0"
             }
           ],
-          "isFreeCancellationAvailable": true
+          "isFreeCancellationAvailable": true,
+          "checkInDate": "2016-12-07T15:00:00-08:00",
+          "checkOutDate": "2016-12-11T11:00:00-08:00"
         }
       ],
       "isTripUpgradable": true

@@ -18,7 +18,8 @@ public class DateTimeParser {
 	private static final DateFormat[] DATE_FORMATS = {
 		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ", Locale.US),
 		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'", Locale.US),
-		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US)
+		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ", Locale.US),
+		new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
 	};
 
 	public static DateTime parseDateTime(Object obj) {
