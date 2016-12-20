@@ -52,6 +52,7 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
 import com.expedia.bookings.utils.Constants;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.ItinUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
@@ -472,7 +473,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			}
 
 			boolean isRoomUpgradable = itinCardData.getTripComponent().getParentTrip().isTripUpgradable();
-			if (isRoomUpgradable) {
+			boolean isRoomUpgradeFeatureEnabled = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_upgrade);
+			if (isRoomUpgradable && isRoomUpgradeFeatureEnabled) {
 				mRoomUpgradeLayout.setVisibility(VISIBLE);
 			}
 			else {

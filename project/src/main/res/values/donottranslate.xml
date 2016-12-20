@@ -115,6 +115,7 @@
     <string name="preference_enable_filter_text_search">preference_enable_filter_text_search</string>
     <string name="preference_enable_gaia_current_location_suggestion">preference_enable_gaia_current_location_suggestion</string>
     <string name="preference_enable_new_checkout">preference_enable_new_checkout</string>
+    <string name="preference_itin_hotel_upgrade">preference_itin_hotel_upgrade</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
