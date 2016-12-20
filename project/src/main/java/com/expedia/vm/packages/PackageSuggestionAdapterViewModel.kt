@@ -21,15 +21,11 @@ class PackageSuggestionAdapterViewModel(context: Context, suggestionsService: Su
 
     override fun shouldShowOnlyAirportNearbySuggestions(): Boolean = true
 
-    override fun getLineOfBusiness(): String {
-        return "PACKAGES"
+    override fun getLineOfBusinessForGaia(): String {
+        return "packages"
     }
 
-    override fun getNearbyRegionType(): Int {
-        return SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
-    }
-
-    override fun getNearbySortType(): String {
+    override fun getNearbySortTypeForGaia(): String {
         return "popularity"
     }
 }

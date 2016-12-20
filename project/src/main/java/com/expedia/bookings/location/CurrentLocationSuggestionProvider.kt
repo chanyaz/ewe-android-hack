@@ -25,19 +25,11 @@ class CurrentLocationSuggestionProvider(val suggestionServices: SuggestionV4Serv
     }
 
     fun getNearBysuggestions(location: Location): Observable<MutableList<SuggestionV4>> {
-        if (FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_gaia_current_location_suggestion)) {
-            return this@CurrentLocationSuggestionProvider.suggestionServices
-                    .suggestNearbyGaia(location.latitude, location.longitude, "distance",
-                            "lx", PointOfSale.getSuggestLocaleIdentifier(), PointOfSale.getPointOfSale().siteId)
-                    .map { it ->
-                        SuggestionV4Utils.convertToSuggestionV4(it)
-                    }
-        } else {
-            val latlong = "" + location.latitude + "|" + location.longitude;
-            val type = SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD;
-            return this@CurrentLocationSuggestionProvider.suggestionServices.suggestNearbyV4(
-                    PointOfSale.getSuggestLocaleIdentifier(), latlong, PointOfSale.getPointOfSale().siteId,
-                    ServicesUtil.generateClient(context), type, "d", "ACTIVITIES")
-        }
+        return this@CurrentLocationSuggestionProvider.suggestionServices
+                .suggestNearbyGaia(location.latitude, location.longitude, "distance",
+                        "lx", PointOfSale.getSuggestLocaleIdentifier(), PointOfSale.getPointOfSale().siteId)
+                .map { it ->
+                    SuggestionV4Utils.convertToSuggestionV4(it)
+                }
     }
 }

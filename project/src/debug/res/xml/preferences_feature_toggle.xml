@@ -40,18 +40,6 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="GAIA Suggestions">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_gaia_current_location_suggestion"
-            android:layout="@layout/preference"
-            android:summary="GAIA Current Location Suggestion"
-            android:title="Enable GAIA Current Location Suggestion" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
         android:title="CheckOut Features">
 
         <CheckBoxPreference

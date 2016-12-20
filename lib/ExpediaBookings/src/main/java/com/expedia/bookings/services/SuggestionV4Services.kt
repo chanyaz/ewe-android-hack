@@ -75,13 +75,6 @@ class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClie
         return response.map { response -> response.toMutableList() }
     }
 
-    fun suggestNearbyV4(locale: String, latlng: String, siteId: Int, clientId: String, suggestType: Int, sortType: String, lob: String): Observable<MutableList<SuggestionV4>> {
-        return suggestApi.suggestNearbyV4(locale, latlng, siteId, suggestType, sortType, clientId, lob)
-                .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions.take(2).toMutableList() }
-    }
-
     fun getCarSuggestionsV4(query: String, client: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
         val type = SuggestionResultType.AIRPORT or SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or
                 SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.AIRPORT_METRO_CODE

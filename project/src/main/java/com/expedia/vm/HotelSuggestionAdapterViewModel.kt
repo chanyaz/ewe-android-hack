@@ -18,15 +18,11 @@ class HotelSuggestionAdapterViewModel(context: Context, suggestionsService: Sugg
         return SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE
     }
 
-    override fun getLineOfBusiness(): String {
-        return "HOTELS"
+    override fun getLineOfBusinessForGaia(): String {
+        return "hotels"
     }
 
-    override fun getNearbyRegionType(): Int {
-        return SuggestionResultType.MULTI_CITY
-    }
-
-    override fun getNearbySortType(): String {
+    override fun getNearbySortTypeForGaia(): String {
         return "distance"
     }
 }
