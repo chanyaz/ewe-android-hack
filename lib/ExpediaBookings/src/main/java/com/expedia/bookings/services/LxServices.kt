@@ -364,11 +364,11 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
         return theme
     }
 
-    fun lxThemeSortAndFilter(theme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>, lxFilterTextSearchToggle: Boolean): Subscription {
+    fun lxThemeSortAndFilter(theme: LXTheme, lxSortType: LXSortFilterMetadata, categorySortObserver: Observer<LXTheme>, lxFilterTextSearchEnabled: Boolean): Subscription {
 
         return Observable.combineLatest(Observable.just(theme), Observable.just(lxSortType),
                 { theme, lxSortType ->
-                    if (lxFilterTextSearchToggle) {
+                    if (lxFilterTextSearchEnabled) {
                         theme.activities = theme.unfilteredActivities.applySortFilter(lxSortType)
                         theme
                     } else {
@@ -382,7 +382,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
     }
 
     fun lxSearchSortFilter(lxSearchParams: LxSearchParams?, lxSortFilterMetadata: LXSortFilterMetadata?,
-                           searchResultFilterObserver: Observer<LXSearchResponse>, lxFilterTextSearchToggle: Boolean): Subscription {
+                           searchResultFilterObserver: Observer<LXSearchResponse>, lxFilterTextSearchEnabled: Boolean): Subscription {
 
         val lxSearchResponseObservable = if (lxSearchParams == null)
             Observable.just<LXSearchResponse>(cachedLXSearchResponse) else lxSearch(lxSearchParams)
@@ -391,7 +391,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                 if (lxSortFilterMetadata != null)
                     Observable.combineLatest(lxSearchResponseObservable, Observable.just(lxSortFilterMetadata),
                             { lxSearchResponse, lxSortFilterMetadata ->
-                                if (lxFilterTextSearchToggle) {
+                                if (lxFilterTextSearchEnabled) {
                                     lxSearchResponse.activities = lxSearchResponse.unFilteredActivities.applySortFilter(lxSortFilterMetadata)
                                     lxSearchResponse
                                 } else {
