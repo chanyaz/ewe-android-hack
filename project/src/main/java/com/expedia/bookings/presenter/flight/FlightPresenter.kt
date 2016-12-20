@@ -304,6 +304,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             travelerManager.updateDbTravelers(params, context)
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
+            outBoundPresenter.clearBackStack()
+            outBoundPresenter.showResults()
             show(outBoundPresenter, Presenter.FLAG_CLEAR_TOP)
         }
     }
