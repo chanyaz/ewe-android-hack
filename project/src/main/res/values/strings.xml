@@ -2171,8 +2171,8 @@
     <string name="to_be_collected_by_the_hotel_TEMPLATE">To be collected by hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Finish Booking</string>
-    <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">Best Price Guarantee</string>
+    <!-- Our price gaurentee string -->
+    <string name="price_guarantee">Price Guarantee</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Free Cancellation&lt;/b&gt; by &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->

@@ -95,7 +95,7 @@
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
         <item name="skin_travelerLabelOnCheckout">@string/guest_details</item>
-        <item name="skin_bestPriceGuaranteeString">@string/best_price_guarantee</item>
+        <item name="skin_bestPriceGuaranteeString">@string/price_guarantee</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
         <item name="skin_cvvEntryTitleText">@string/security_code_TEMPLATE</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
