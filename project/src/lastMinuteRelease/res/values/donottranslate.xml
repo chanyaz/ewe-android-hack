@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Production Facebook app id -->
-    <string name="facebook_app_id">677726625660925</string>
+    <string name="facebook_app_id">519989178085809</string>
 </resources>

@@ -35,6 +35,7 @@ import com.expedia.bookings.data.LoyaltyMembershipTier
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.ClearPrivateDataDialog
+import com.expedia.bookings.dialog.TextViewDialog
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.AdTracker
@@ -67,6 +68,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val TAG_COPYRIGHT = "TAG_COPYRIGHT"
     private val TAG_COMMUNICATE = "TAG_COMMUNICATE"
     private val TAG_APP_SETTINGS = "TAG_APP_SETTINGS"
+    private val GOOGLE_SIGN_IN_SUPPORT = "GOOGLE_SIGN_IN_SUPPORT"
 
     private val ROW_BOOKING_SUPPORT = 1
     private val ROW_EXPEDIA_WEBSITE = 2
@@ -87,6 +89,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     private val ROW_SETTINGS = 13
     private val ROW_TEST_SCREEN = 14
     private val INSTALL_SHORTCUTS = 15
+    private val ROW_REWARDS_VISA_CARD = 16
 
     private val aboutUtils: AboutUtils by lazy {
         AboutUtils(activity)
@@ -98,6 +101,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
     private var appSettingsFragment: AboutSectionFragment? = null
     private var supportFragment: AboutSectionFragment? = null
+    private var copyrightFragment: CopyrightFragment? = null
     private var legalFragment: AboutSectionFragment? = null
     private var debugFragment: AboutSectionFragment? = null
     private val scrollContainer: ScrollView by bindView(R.id.scroll_container)
@@ -114,6 +118,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     val signOutButton: Button by bindView(R.id.sign_out_button)
     val facebookSignInButton: Button by bindView(R.id.sign_in_with_facebook_button)
     val createAccountButton: Button by bindView(R.id.create_account_button)
+    val googleAccountChange: TextView by bindView(R.id.google_account_change)
 
     val signInSection: ViewGroup by bindView(R.id.section_sign_in)
     val loyaltySection: ViewGroup by bindView(R.id.section_loyalty_info)
@@ -184,6 +189,8 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         gestureDetector = GestureDetectorCompat(context, mOnGestureListener)
         var builder: AboutSectionFragment.Builder
         val ft = activity.supportFragmentManager.beginTransaction()
+        setGoogleAccountChangeVisiblity(googleAccountChange)
+        googleAccountChange.setOnClickListener(GoogleAccountChangeListener())
 
         // App Settings
         appSettingsFragment = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_APP_SETTINGS)
@@ -214,6 +221,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             builder.addRow(R.string.booking_support, ROW_BOOKING_SUPPORT)
             builder.addRow(R.string.app_support, ROW_APP_SUPPORT)
 
+            if (ProductFlavorFeatureConfiguration.getInstance().isRewardsCardEnabled) {
+                builder.addRow(Phrase.from(context, R.string.rewards_visa_card_TEMPLATE).put("brand_reward_name",
+                        getString(R.string.brand_reward_name)).format()
+                        .toString(), ROW_REWARDS_VISA_CARD)
+            }
             supportFragment = builder.build()
             ft.add(R.id.section_contact_us, supportFragment, TAG_SUPPORT)
         }
@@ -221,15 +233,22 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
         // Communicate
         var communicateFragment: AboutSectionFragment? = Ui.findSupportFragment<AboutSectionFragment>(this, TAG_COMMUNICATE)
         if (communicateFragment == null) {
-            builder = AboutSectionFragment.Builder(context)
+            if (ProductFlavorFeatureConfiguration.getInstance().isCommunicateSectionEnabled()) {
+                builder = AboutSectionFragment.Builder(context)
 
-            builder.setTitle(R.string.about_section_communicate)
+                builder.setTitle(R.string.about_section_communicate)
 
-            builder.addRow(R.string.rate_our_app, ROW_RATE_APP)
-            builder.addRow(R.string.WereHiring, ROW_WERE_HIRING)
+                if (ProductFlavorFeatureConfiguration.getInstance().isRateOurAppEnabled()) {
+                    builder.addRow(R.string.rate_our_app, ROW_RATE_APP)
+                }
 
-            communicateFragment = builder.build()
-            ft.add(R.id.section_communicate, communicateFragment, TAG_COMMUNICATE)
+                if (ProductFlavorFeatureConfiguration.getInstance().isWeReHiringEnabled()) {
+                    builder.addRow(R.string.WereHiring, ROW_WERE_HIRING)
+                }
+
+                communicateFragment = builder.build()
+                ft.add(R.id.section_communicate, communicateFragment, TAG_COMMUNICATE)
+            }
         }
 
         // T&C, privacy, etc
@@ -280,13 +299,12 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
 
 
         // Copyright
-        var copyrightFragment: CopyrightFragment? = Ui.findSupportFragment<CopyrightFragment>(this, TAG_COPYRIGHT)
+        copyrightFragment = Ui.findSupportFragment<CopyrightFragment>(this, TAG_COPYRIGHT)
         if (copyrightFragment == null) {
             val copyBuilder = CopyrightFragment.Builder()
             copyBuilder.setAppName(R.string.app_copyright_name)
             copyBuilder.setCopyright(getCopyrightString())
             copyBuilder.setLogo(R.drawable.app_copyright_logo)
-            copyBuilder.setLogoUrl(ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(context))
 
             copyrightFragment = copyBuilder.build()
             ft.add(R.id.section_copyright, copyrightFragment, TAG_COPYRIGHT)
@@ -460,31 +478,38 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             if (userLoyaltyInfo?.isLoyaltyMembershipActive ?: false) {
                 firstRowContainer.visibility = View.VISIBLE
                 rowDivider1.visibility = View.VISIBLE
-
-                when (userLoyaltyInfo?.loyaltyMembershipTier) {
-                    LoyaltyMembershipTier.BASE -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_base_tier_text_color))
-                        memberTierView.setText(R.string.reward_base_tier_name_short)
+                if (ProductFlavorFeatureConfiguration.getInstance().shouldShowMemberTier()) {
+                    when (userLoyaltyInfo?.loyaltyMembershipTier) {
+                        LoyaltyMembershipTier.BASE -> {
+                            memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_base_tier)
+                            memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_base_tier_text_color))
+                            memberTierView.setText(R.string.reward_base_tier_name_short)
+                        }
+                        LoyaltyMembershipTier.MIDDLE -> {
+                            memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier)
+                            memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_middle_tier_text_color))
+                            memberTierView.setText(R.string.reward_middle_tier_name_short)
+                        }
+                        LoyaltyMembershipTier.TOP -> {
+                            memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier)
+                            memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_top_tier_text_color))
+                            memberTierView.setText(R.string.reward_top_tier_name_short)
+                        }
+                        else -> {
+                            // User is not in member ship tier
+                        }
                     }
-                    LoyaltyMembershipTier.MIDDLE -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_middle_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_middle_tier_text_color))
-                        memberTierView.setText(R.string.reward_middle_tier_name_short)
-                    }
-                    LoyaltyMembershipTier.TOP -> {
-                        memberTierView.setBackgroundResource(R.drawable.bg_loyalty_badge_top_tier)
-                        memberTierView.setTextColor(ContextCompat.getColor(context, R.color.reward_top_tier_text_color))
-                        memberTierView.setText(R.string.reward_top_tier_name_short)
-                    }
-                    else -> {
-                        // User is not in member ship tier
-                    }
+                } else {
+                    memberTierView.visibility = View.GONE
                 }
 
 
                 val numberFormatter = NumberFormat.getInstance()
-                availablePointsTextView.text = numberFormatter.format(member.loyaltyPointsAvailable)
+                if (ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType) {
+                    availablePointsTextView.text = numberFormatter.format(member.loyaltyPointsAvailable)
+                } else {
+                    availablePointsTextView.text = userLoyaltyInfo?.loyaltyMonetaryValue?.formattedMoneyFromAmountAndCurrencyCode
+                }
                 if (member.loyaltyPointsPending > 0) {
                     pendingPointsTextView.visibility = View.VISIBLE
                     pendingPointsTextView.text = getString(R.string.loyalty_points_pending,
@@ -493,7 +518,7 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
                     pendingPointsTextView.visibility = View.GONE
                 }
 
-                if (userLoyaltyInfo?.isAllowedToShopWithPoints ?: false) {
+                if (userLoyaltyInfo?.isAllowedToShopWithPoints ?: false && ProductFlavorFeatureConfiguration.getInstance().isRewardProgramPointsType()) {
                     val loyaltyMonetaryValue = userLoyaltyInfo?.loyaltyMonetaryValue
                     currencyTextView.text = loyaltyMonetaryValue?.currency
                     setupCountryView(secondRowContainer.findViewById(R.id.country) as TextView)
@@ -552,9 +577,11 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     fun onAboutRowClicked(id: Int): Boolean {
         when (id) {
             ROW_COUNTRY -> {
-                OmnitureTracking.trackClickCountrySetting()
-                val selectCountryDialog = aboutUtils.createCountrySelectDialog()
-                selectCountryDialog.show(activity.supportFragmentManager, "selectCountryDialog")
+                if (PointOfSale.getAllPointsOfSale(context).size > 1) {
+                    OmnitureTracking.trackClickCountrySetting()
+                    val selectCountryDialog = aboutUtils.createCountrySelectDialog()
+                    selectCountryDialog.show(activity.supportFragmentManager, "selectCountryDialog")
+                }
                 return true
             }
             ROW_BOOKING_SUPPORT -> {
@@ -565,6 +592,10 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
             }
             ROW_EXPEDIA_WEBSITE -> {
                 aboutUtils.openExpediaWebsite()
+                return true
+            }
+            ROW_REWARDS_VISA_CARD -> {
+                aboutUtils.openRewardsCard()
                 return true
             }
             ROW_APP_SUPPORT -> {
@@ -668,4 +699,33 @@ class AccountSettingsFragment : Fragment(), UserAccountRefresher.IUserAccountRef
     fun smoothScrollToTop() {
         scrollContainer.smoothScrollTo(0, 0)
     }
+
+    fun onCopyrightLogoClick() {
+        SocialUtils.openSite(context, ProductFlavorFeatureConfiguration.getInstance().getCopyrightLogoUrl(context))
+    }
+
+    private fun setGoogleAccountChangeVisiblity(view: View) {
+        view.visibility = if (ProductFlavorFeatureConfiguration.getInstance().isGoogleAccountChangeEnabled)
+            View.VISIBLE
+        else
+            View.GONE
+    }
+
+    private inner class GoogleAccountChangeListener : View.OnClickListener {
+
+        override fun onClick(view: View) {
+            val fm = fragmentManager
+            var mDialog: TextViewDialog? = fm.findFragmentByTag(GOOGLE_SIGN_IN_SUPPORT) as? TextViewDialog
+            if (mDialog == null) {
+                //Create the dialog
+                mDialog = TextViewDialog()
+                mDialog.isCancelable = false
+                mDialog.setCanceledOnTouchOutside(false)
+                mDialog.setMessage(
+                        Phrase.from(context, R.string.google_account_change_message_TEMPLATE).put("brand", BuildConfig.brand).format())
+            }
+            mDialog.show(fm, GOOGLE_SIGN_IN_SUPPORT)
+        }
+    }
+
 }

@@ -10,7 +10,6 @@ import android.text.TextUtils;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.UserLoyaltyMembershipInformation;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -69,25 +68,19 @@ public class DebugInfoUtils {
 					.format());
 			body.append("\n");
 
-			String loyaltyTierName = "not-enrolled";
 			if (loyaltyMembershipInformation != null) {
-				LoyaltyMembershipTier loyaltyMembershipTier = loyaltyMembershipInformation.getLoyaltyMembershipTier();
-				if (loyaltyMembershipTier != LoyaltyMembershipTier.NONE) {
-					loyaltyTierName = loyaltyMembershipTier.toApiValue();
-				}
+				body.append(Phrase.from(context, R.string.user_points_level_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.put("level", loyaltyMembershipInformation.getLoyaltyMembershipTier().name())
+					.format());
+				body.append("\n");
 
 				body.append(Phrase.from(context, R.string.user_points_available_TEMPLATE)
 					.put("brand", BuildConfig.brand)
 					.put("points_amount", String.valueOf(loyaltyMembershipInformation.getLoyaltyPointsAvailable()))
-					.put("monetary_amount", loyaltyMembershipInformation.getLoyaltyMonetaryValue().getFormattedMoney())
 					.format());
 				body.append("\n");
 			}
-			body.append(Phrase.from(context, R.string.user_points_level_TEMPLATE)
-				.put("brand", BuildConfig.brand)
-				.put("level", loyaltyTierName)
-				.format());
-			body.append("\n");
 
 			if (Db.getSignInType() != null) {
 				body.append(Phrase.from(context, R.string.account_sign_in_method_TEMPLATE)

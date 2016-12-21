@@ -1,27 +1,28 @@
 package com.expedia.bookings.test.phone.newflights
 
 import android.support.test.espresso.Espresso
+import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.ViewInteraction
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.TabletViewActions
-import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
-import org.joda.time.LocalDate
-import android.support.test.espresso.Espresso.onView
-import android.support.test.espresso.matcher.ViewMatchers.withText
-import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
-import android.support.test.espresso.matcher.ViewMatchers.withId
-import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
-import org.hamcrest.Matchers.allOf
-import android.support.v7.widget.RecyclerView
 import com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay
+import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import org.hamcrest.Matchers.allOf
+import org.joda.time.LocalDate
 
 object FlightsScreen {
 
     @JvmStatic fun selectOneWay(): ViewInteraction {
         return Espresso.onView(withText("ONE WAY")).perform(click())
+    }
+
+    @JvmStatic fun clickTopCornerFilterButton(): ViewInteraction {
+        return Espresso.onView(withId(R.id.filter_placeholder_icon)).perform(click())
     }
 
     fun selectDate(start: LocalDate) {

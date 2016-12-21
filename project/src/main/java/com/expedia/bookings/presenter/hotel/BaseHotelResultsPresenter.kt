@@ -39,6 +39,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
 import com.expedia.bookings.bitmaps.PicassoScrollListener
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
@@ -85,6 +86,7 @@ import com.mobiata.android.BackgroundDownloader
 import com.mobiata.android.LocationServices
 import org.joda.time.DateTime
 import rx.Observer
+import rx.Subscription
 import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 

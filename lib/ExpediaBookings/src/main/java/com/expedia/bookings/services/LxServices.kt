@@ -470,7 +470,7 @@ class LxServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: Inte
                     if (lxCategoryMetadata.checked) {
                         if (activities.get(i).categories.contains(lxCategoryMetadataKey)) {
                             filteredSet.add(activities.get(i))
-                        }
+                }
                     }
                 }
             }

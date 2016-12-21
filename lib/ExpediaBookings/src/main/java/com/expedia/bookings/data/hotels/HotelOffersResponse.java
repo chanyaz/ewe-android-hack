@@ -9,6 +9,7 @@ import com.expedia.bookings.data.BaseApiResponse;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.packages.PackageOffersResponse;
 import com.expedia.bookings.data.packages.PackageSearchParams;
+import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.Strings;
 
@@ -91,6 +92,7 @@ public class HotelOffersResponse extends BaseApiResponse {
 		public String promoDescription;
 
 		public Money packageHotelDeltaPrice;
+		public LoyaltyInformation packageLoyaltyInformation;
 
 		public String depositPolicyAtIndex(int index) {
 			String policy = "";
@@ -163,6 +165,9 @@ public class HotelOffersResponse extends BaseApiResponse {
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageSavings = packageHotelOffer.packagePricing.savings;
 			packageHotelOffer.hotelOffer.rateInfo.chargeableRateInfo.packageTotalPrice = packageHotelOffer.packagePricing.packageTotal;
 			packageHotelOffer.hotelOffer.hasFreeCancellation = packageHotelOffer.cancellationPolicy.hasFreeCancellation;
+			if (packageHotelOffer.loyaltyInfo != null) {
+				packageHotelOffer.hotelOffer.packageLoyaltyInformation = packageHotelOffer.loyaltyInfo;
+			}
 
 			hotelOffer.hotelRoomResponse.add(packageHotelOffer.hotelOffer);
 		}

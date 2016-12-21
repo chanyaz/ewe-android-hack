@@ -54,7 +54,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         vm.savingsPriceObservable.subscribeTextAndVisibility(bundleSavings)
         vm.bundleTextLabelObservable.subscribeText(bundleTotalText)
         vm.perPersonTextLabelObservable.subscribeVisibility(perPersonText)
-        vm.bundleTotalIncludesObservable.subscribeText(bundleTotalIncludes)
+        vm.bundleTotalIncludesObservable.subscribeTextAndVisibility(bundleTotalIncludes)
         vm.contentDescriptionObservable.subscribe { description ->
             this.contentDescription = description
         }

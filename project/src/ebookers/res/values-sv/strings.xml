@@ -25,7 +25,7 @@
     <string name="not_currently_available_ebookers_TEMPLATE">Inte tillgängligt på ebookers %s</string>
 
     <!-- Missing strings for ebookers from Expedia-->
-    <string name="tell_a_friend_body_ebookers">Hej,\n\nKolla in vår hotellapp ebookers Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
+    <string name="tell_a_friend_body_ebookers">Hej,\n\nKolla in vår hotellapp ebookers Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
     <string name="cd_log_in_email_edit_text_ebookers">Ange e-postadress för ditt ebookers-konto</string>
     <string name="tell_a_friend_subject_ebookers">ebookers Hotels</string>
     <string name="cd_log_in_password_edit_text_ebookers">Ange lösenord för ebookers-kontot</string>
@@ -37,13 +37,15 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Totalbelopp att betala ebookers idag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga ebookers sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken ’Har du glömt ditt lösenord?’ nedan.</string>
+    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga ebookers sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken \&apos;Har du glömt ditt lösenord?\&apos; nedan.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Att betala ebookers idag</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Logga in för att tjäna {reward} i BONUS+</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knapp för att logga in för att tjäna {reward} i BONUS+</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
@@ -85,7 +87,7 @@
     <string name="swp_widget_points_value_TEMPLATE">Du har {points_or_amount} i BONUS+</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">Använda BONUS+</string>
-    
+
     <string name="loyalty_applied_excluding_taxes_and_fees_message">BONUS+ tillämpade! (Skatter och avgifter ingår ej)</string>
     <string name="youll_earn_points_TEMPLATE">Du tjänar {reward_currency} i BONUS+ med den här bokningen!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Du tjänar {reward_currency} i BONUS+ med den här resan!</string>
@@ -122,4 +124,21 @@
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">Flyg + Hotell</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Totalbelopp Flyg + Hotell</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Se ditt flyg + hotell</string>
+    <string name="package_flight_overview_bundle_total_label">Totalbelopp Flyg + Hotell</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Rabatt Flyg + Hotell</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Totalbeloppet för flyg + hotell är {totalprice}. I priset ingår skatter samt avgifter för både flyg och hotell. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Totalbeloppet för flyg + hotell är {totalprice}. I priset ingår skatter samt avgifter för både flyg och hotell. {savings}. Dialogruta för prisinformation. Knapp.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Priset för flyg + hotell är {price_per_person} per person. I priset ingår skatter samt avgifter för både flyg och hotell. Knapp för att se flyg + hotell.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Visar detaljer för flyg + hotell Knapp för att stänga.</string>
 </resources>

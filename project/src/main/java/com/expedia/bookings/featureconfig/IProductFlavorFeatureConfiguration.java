@@ -202,4 +202,6 @@ public interface IProductFlavorFeatureConfiguration {
 	boolean useNewLaunchScreen();
 
 	boolean sendEapidToTuneTracking();
+
+	boolean shouldShowPackageIncludesView();
 }

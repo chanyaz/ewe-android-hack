@@ -37,17 +37,19 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">ยอดที่ต้องจ่าย ebookers วันนี้:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์ ebookers ทั่วโลก&lt;br&gt;โปรดตั้งรหัสผ่านของคุณใหม่ โดยคลิกที่ลิงก์ ‘ลืมรหัสผ่าน?’ ด้านล่าง</string>
+    <string name="login_reset_password">เราต้องการให้คุณสร้างบัญชีใหม่เพื่อใช้เข้าสู่ระบบเว็บไซต์ ebookers ทั่วโลก&lt;br&gt;โปรดตั้งรหัสผ่านของคุณใหม่ โดยคลิกที่ลิงก์ ‘ลืมรหัสผ่าน?\&apos; ด้านล่าง</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">ยอดที่ต้องจ่าย ebookers วันนี้</string>
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">เข้าสู่ระบบเพื่อรับ BONUS+ มูลค่า {reward}</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">ปุ่มเข้าสู่ระบบเพื่อรับ BONUS+ มูลค่า {reward}</string>
     <!-- Account creation legal template excluding ebookers BONUS+ -->
     <string name="account_creation_legal_TEMPLATE">@string/account_creation_legal_excluding_rewards_TEMPLATE</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
-    <string name="account_creation_legal_rewards_TEMPLATE">ฉันต้องการสะสมคะแนนทันทีกับ {brand_reward_currency} โดยการเข้าร่วม  ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">ฉันต้องการสะสมคะแนนทันทีกับ {brand_reward_currency} โดยการเข้าร่วม ฉันยอมรับ{terms_and_conditions}ทั้งหมด</string>
 
     <!-- Bonus+ -->
     <string name="paying_with_rewards">จ่ายด้วย BONUS+</string>
@@ -85,7 +87,7 @@
     <string name="swp_widget_points_value_TEMPLATE">คุณมี BONUS+ มูลค่า {points_or_amount}</string>
     <!-- Label indicating BONUS+ used by the user -->
     <string name="hotel_cost_breakdown_burn_points_TEMPLATE">ใช้ BONUS+ ไป</string>
-    
+
     <string name="loyalty_applied_excluding_taxes_and_fees_message">ใช้ BONUS+ แล้ว! (ไม่รวมภาษีและค่าธรรมเนียม)</string>
     <string name="youll_earn_points_TEMPLATE">คุณจะได้รับ BONUS+ มูลค่า {reward_currency} จากการจองนี้!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">คุณจะได้รับ BONUS+ มูลค่า {reward_currency} จากทริปนี้!</string>
@@ -122,4 +124,21 @@
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">เที่ยวบิน + โรงแรม</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">ราคารวมเที่ยวบิน + โรงแรม</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">ดูเที่ยวบิน + โรงแรมของคุณ</string>
+    <string name="package_flight_overview_bundle_total_label">ราคารวมเที่ยวบิน + โรงแรม</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">ส่วนลดเที่ยวบิน + โรงแรม</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">ราคารวมเที่ยวบิน + โรงแรม: {totalprice} ราคานี้รวมภาษี ค่าธรรมเนียม ของทั้งเที่ยวบินและโรงแรม {savings}</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">ราคารวมเที่ยวบิน + โรงแรม: {totalprice} ราคานี้รวมภาษี ค่าธรรมเนียม ของทั้งเที่ยวบินและโรงแรม {savings} กล่องโต้ตอบแจกแจงราคา ปุ่ม</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">ราคาเที่ยวบิน + โรงแรม {price_per_person} ต่อคน ราคานี้รวมภาษี ค่าธรรมเนียม ของทั้งเที่ยวบินและโรงแรม ปุ่มดูเที่ยวบิน + โรงแรม</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">แสดงรายละเอียดเที่ยวบิน + โรงแรม ปุ่มปิด</string>
 </resources>

@@ -34,6 +34,12 @@
         "formattedWholePrice": "$64",
         "currencyCode": "USD"
       },
+      "totalPrice": {
+        "amount": "64.00",
+        "formattedPrice": "$64.00",
+        "formattedWholePrice": "$64",
+        "currencyCode": "USD"
+      },
       "pricePerPassengerCategory": [
         {
           "passengerCategory": "ADULT",
@@ -161,6 +167,12 @@
         "currencyCode": "USD"
       },
       "totalFare": "65.06",
+      "totalPrice": {
+        "amount": "65.06",
+        "formattedPrice": "$65.06",
+        "formattedWholePrice": "$65",
+        "currencyCode": "USD"
+      },
       "totalPrice": {
         "amount": "65.06",
         "formattedPrice": "$65.06",

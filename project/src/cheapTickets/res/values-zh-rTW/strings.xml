@@ -61,8 +61,10 @@
     <string name="acct_CheapTickets_account_already_exists">此電子郵件已經有 CheapTickets 帳戶</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">登入以獲得 {reward} CheapCash</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">登入以獲得 {reward} CheapCash 按鈕</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">加入 {brand_reward_name}，賺取免費旅遊獎勵。加入 {brand_reward_name}，即表示我接受所有{terms_and_conditions}。</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">加入 {brand_reward_name_link}，賺取免費旅遊獎勵。加入 {brand_reward_name}，即表示我接受所有{terms_and_conditions}。</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->
@@ -81,6 +83,11 @@
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">正在使用 CheapCash 和 {carddescription} 付款</string>
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">信用卡，使用 CheapCash 付款</string>
+
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
 
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
@@ -106,4 +113,21 @@
     <!-- Label above the slider when user is paying with CheapCash and Card. Eg: You are using $1000.12 in CheapCash\nYour card will be charged $100.00-->
     <string name="payment_through_card_and_bucks_TEMPLATE">您將使用 {amount} CheapCash\n您的信用卡將會被收取 {dueamount}</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">套裝行程</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">套裝行程總價</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">查看您的套裝行程</string>
+    <string name="package_flight_overview_bundle_total_label">套裝行程總價</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">套裝行程折扣</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">套裝行程總價是 {totalprice}。此價格包含機票與飯店的稅金和費用。{savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套裝行程總價是 {totalprice}。此價格包含機票與飯店的稅金和費用。{savings}. 費用明細對話方塊。按鈕。</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">套裝行程價格為每人 {price_per_person}。此價格包含機票與飯店的稅金和費用。查看套裝行程按鈕。</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">正在顯示套裝行程詳細資料。關閉按鈕。</string>
 </resources>

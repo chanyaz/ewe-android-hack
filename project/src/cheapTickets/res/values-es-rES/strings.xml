@@ -61,8 +61,10 @@
     <string name="acct_CheapTickets_account_already_exists">Ya existe una cuenta de CheapTickets con esa dirección de correo electrónico</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Inscríbete para ganar {reward} en CheapCash</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Inscríbete para ganar {reward} en el botón de CheapCash</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Consigue puntos para viajar gratis con {brand_reward_name}. Al unirme a {brand_reward_name}, acepto todos los {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Consigue puntos para viajar gratis con {brand_reward_name_link}. Al unirme a {brand_reward_name}, acepto todos los {terms_and_conditions}</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->
@@ -81,6 +83,11 @@
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Pago con CheapCash y {carddescription}</string>
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">Tarjeta de crédito, pago con CheapCash</string>
+
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
 
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
@@ -106,4 +113,21 @@
     <!-- Label above the slider when user is paying with CheapCash and Card. Eg: You are using $1000.12 in CheapCash\nYour card will be charged $100.00-->
     <string name="payment_through_card_and_bucks_TEMPLATE">Estás utilizando {amount} en CheapCash\nSe te cargarán {dueamount} en la tarjeta</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">Paquetes</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Total del paquete</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Ver el paquete</string>
+    <string name="package_flight_overview_bundle_total_label">Total del paquete</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Descuento por paquete</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">El total del paquete es {totalprice}. Este precio incluye impuestos y las tasas aplicables a los vuelos y al hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">El total del paquete es {totalprice}. Este precio incluye impuestos y las tasas aplicables a los vuelos y al hotel. {savings}. Diálogo del desglose de costes. Botón.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">El precio del paquete es {price_per_person} por persona. Este precio incluye impuestos y las tasas aplicables a los vuelos y al hotel. Botón para ver el paquete.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Se muestran los detalles del paquete. Botón para cerrar.</string>
 </resources>

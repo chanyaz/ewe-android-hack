@@ -145,6 +145,7 @@ public class StrUtilsTest {
 		String termsText = getContext().getString(R.string.terms_and_conditions);
 
 		String loyaltyLegalText = Phrase.from(getContext().getResources(), R.string.account_creation_legal_rewards_TEMPLATE)
+				.putOptional("brand_reward_name_link", brandRewardName)
 				.putOptional("brand_reward_name", brandRewardName)
 				.put("terms_and_conditions", termsText)
 				.format().toString();

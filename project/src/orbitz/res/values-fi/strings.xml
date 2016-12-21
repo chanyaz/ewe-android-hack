@@ -47,7 +47,7 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Tällä sähköpostiosoitteella on jo luotu Orbitzin tili.</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Ansaitse ilmaisia matkoja {brand_reward_name}n avulla. Liittymällä {brand_reward_name}-ohjelmaan hyväksyt {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Ansaitse ilmaisia matkoja {brand_reward_name_link}n avulla. Liittymällä {brand_reward_name}-ohjelmaan hyväksyt {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Olet maksamassa Orbucks-pisteillä</string>
@@ -87,6 +87,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} Orbucks-pisteinä</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} Orbucks-pisteinä -painike</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks-pisteet käytetty! (ei sisällä veroja ja maksuja)</string>
     <string name="youll_earn_points_TEMPLATE">Ansaitset {reward_currency} Orbucks-pisteinä tästä varauksesta!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Ansaitset {reward_currency} Orbucks-pisteinä tästä matkasta!</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">Ansaitse Orbuckseja, jotka voit lunastaa heti seuraavaa hotellia varatessasi</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Hae {brand_reward_name} Visa® -korttia</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Pakettimatkat</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Pakettimatkahinta</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Tarkastele pakettimatkaasi</string>
+    <string name="package_flight_overview_bundle_total_label">Pakettimatkan hinta</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Pakettimatka-alennus</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Pakettimatkahinta on {totalprice}. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Pakettimatkahinta on {totalprice}. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. {savings}. Hintaerittelyn dialogi. Painike.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakettimatkahinta on {price_per_person} per henkilö. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. Painike pakettimatkan tarkasteluun.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Näytetään pakettimatkan tiedot. Painike sulkemiseen.</string>
 
 </resources>

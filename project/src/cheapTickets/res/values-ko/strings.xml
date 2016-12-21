@@ -47,7 +47,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">오늘 CheapTickets에 결제할 총 금액:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">모든 CheapTickets 사이트에 사용할 새로운 글로벌 로그인 계정을 생성해 주셔야 합니다.&lt;br&gt;아래의 ’비밀번호를 잊으셨나요?’ 링크를 이용해 비밀번호를 재설정해 주세요.</string>
+    <string name="login_reset_password">모든 CheapTickets 사이트에 사용할 새로운 글로벌 로그인 계정을 생성해 주셔야 합니다.&lt;br&gt;아래의 \&apos;비밀번호를 잊으셨나요?\&apos; 링크를 이용해 비밀번호를 재설정해 주세요.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">오늘 CheapTickets에 결제할 금액</string>
@@ -61,8 +61,10 @@
     <string name="acct_CheapTickets_account_already_exists">이 이메일로 CheapTickets 계정이 이미 있습니다.</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">로그인하고 {reward}의 CheapCash를 적립하세요.</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">로그인하고 {reward}의 CheapCash를 적립하는 버튼입니다.</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">{brand_reward_name} 회원으로 무료 여행을 위한 포인트를 적립하세요. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">{brand_reward_name_link} 회원으로 무료 여행을 위한 포인트를 적립하세요. {brand_reward_name}에 가입함으로써 본인은 모든 {terms_and_conditions}에 동의합니다.</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->
@@ -81,6 +83,11 @@
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">{carddescription} 및 CheapCash로 결제</string>
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">신용카드, CheapCash로 결제</string>
+
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
 
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
@@ -106,4 +113,21 @@
     <!-- Label above the slider when user is paying with CheapCash and Card. Eg: You are using $1000.12 in CheapCash\nYour card will be charged $100.00-->
     <string name="payment_through_card_and_bucks_TEMPLATE">{amount}의 CheapCash를 사용하고 계십니다.\n고객님 카드에 {dueamount}의 금액이 청구됩니다.</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">패키지</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">패키지 총액</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">패키지 확인하기</string>
+    <string name="package_flight_overview_bundle_total_label">패키지 총액</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">패키지 할인</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">패키지 총액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">패키지 총액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}. 요금 내역 대화상자. 버튼.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">패키지 요금은 1인당 {price_per_person}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. 패키지를 보려면 버튼을 탭하세요.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">패키지 세부 내용을 표시합니다. 닫으려면 버튼을 탭하세요.</string>
 </resources>

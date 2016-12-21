@@ -44,6 +44,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ -->
     <string name="Sign_in_to_earn_TEMPLATE">Sign in to earn {reward} in BONUS+</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in BONUS+ button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Sign in to earn {reward} in BONUS+ button</string>
     <!-- Account creation legal template for reward points eg: I want to earn rewards instantly with BONUS+. By joining, I accept all Terms and Conditions. -->
     <string name="account_creation_legal_rewards_TEMPLATE">I want to earn rewards instantly with {brand_reward_currency}. By joining, I accept all {terms_and_conditions}.</string>
 
@@ -120,4 +122,21 @@
     <!-- Label for exclusive phone number for top tier rewards customers -->
     <string name="rewards_top_tier_customer_support">@string/customer_support</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">Flight + Hotel</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Flight + Hotel total</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">View your Flight + Hotel</string>
+    <string name="package_flight_overview_bundle_total_label">Flight + Hotel Total</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Flight + Hotel Discount</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Flight + Hotel total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Flight + Hotel total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Flight + Hotel total is {totalprice}. This price includes taxes, fees for both flights and hotel. {savings}. Cost Breakdown dialog. Button.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Flight + Hotel price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Flight + Hotel price is {price_per_person} per person. This price includes taxes, fees for both flights and hotel. Button to view Flight + Hotel.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Showing Flight + Hotel details. Button to close.</string>
 </resources>

@@ -1,0 +1,11 @@
+{
+  "responseStatus": {
+    "status": "VALIDATION_ERROR",
+    "errorList": [
+      {
+        "errorCode": "SHOP0030",
+        "errorDescription": "Departure date is in the past."
+      }
+    ]
+  }
+}

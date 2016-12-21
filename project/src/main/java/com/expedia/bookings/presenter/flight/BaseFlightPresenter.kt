@@ -297,6 +297,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         }
     }
 
+    open fun disableSlidingWidget(isDisabled: Boolean) {
+    }
+
     abstract fun makeFlightOverviewModel(): AbstractFlightOverviewViewModel
     abstract fun setupToolbarMenu()
     abstract fun getLineOfBusiness(): LineOfBusiness

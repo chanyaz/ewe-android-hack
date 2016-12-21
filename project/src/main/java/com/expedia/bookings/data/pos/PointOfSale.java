@@ -199,6 +199,7 @@ public class PointOfSale {
 	private boolean isSWPEnabledForHotels;
 	private boolean isEarnMessageEnabledForHotels;
 	private boolean isEarnMessageEnabledForFlights;
+	private boolean isEarnMessageEnabledForPackages;
 
 	// 7407 - Should show package deal variation otherwise different messaging
 	private boolean showPackageFreeUnrealDeal;
@@ -849,6 +850,10 @@ public class PointOfSale {
 		return isEarnMessageEnabledForFlights;
 	}
 
+	public boolean isEarnMessageEnabledForPackages() {
+		return isEarnMessageEnabledForPackages;
+	}
+
 	public boolean shouldShowBundleTotalWhenResortFees() {
 		return showBundleTotalWhenResortFees;
 	}
@@ -1275,6 +1280,7 @@ public class PointOfSale {
 		pos.isPwPEnabledForHotels = data.optBoolean("pwpEnabled:hotels", false);
 		pos.isSWPEnabledForHotels = data.optBoolean("swpEnabled:hotels", false);
 		pos.isEarnMessageEnabledForFlights = data.optBoolean("earnMessageEnabled:flights", false);
+		pos.isEarnMessageEnabledForPackages = data.optBoolean("earnMessageEnabled:packages", false);
 		pos.isEarnMessageEnabledForHotels = data.optBoolean("earnMessageEnabled:hotels", false);
 		pos.showPackageFreeUnrealDeal = data.optBoolean("showPackageFreeUnrealDeal", true);
 		pos.showResortFeesInHotelLocalCurrency = data.optBoolean("showResortFeesInHotelLocalCurrency", false);

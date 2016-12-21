@@ -24,6 +24,7 @@ import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
 import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
+import org.hamcrest.Matchers.containsString
 
 object SearchScreen {
 
@@ -42,6 +43,10 @@ object SearchScreen {
     @JvmStatic fun selectDates(start: LocalDate, end: LocalDate?) {
         calendar().perform(TabletViewActions.clickDates(start, end))
         searchAlertDialogDone().perform(click())
+    }
+
+    @JvmStatic fun selectDatesOnly(start: LocalDate, end: LocalDate?) {
+        calendar().perform(TabletViewActions.clickDates(start, end))
     }
 
     @JvmStatic fun searchAlertDialogDone(): ViewInteraction {
@@ -128,8 +133,7 @@ object SearchScreen {
     @JvmStatic fun search(adults: Int, children: Int, clickSwP: Boolean = false, hotelSearch: Boolean = false) {
         if (hotelSearch) {
             selectDestination()
-        }
-        else {
+        } else {
             selectPackageOriginAndDestination()
         }
         val startDate = LocalDate.now().plusDays(3)
@@ -274,7 +278,7 @@ object SearchScreen {
     @Throws(Throwable::class)
     @JvmStatic fun selectLocation(hotel: String) {
         suggestionList().perform(ViewActions.waitForViewToDisplay())
-        val viewMatcher = hasDescendant(withText(hotel))
+        val viewMatcher = hasDescendant(withText(containsString(hotel)))
 
         suggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS))
         suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))

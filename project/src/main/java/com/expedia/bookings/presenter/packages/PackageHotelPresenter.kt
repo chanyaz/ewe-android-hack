@@ -23,6 +23,7 @@ import com.expedia.bookings.data.hotels.convertPackageToSearchParams
 import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.presenter.hotel.BaseHotelResultsPresenter
@@ -186,13 +187,14 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         }
         val currencyCode = Db.getPackageResponse().packageResult.packageOfferModels[0].price.packageTotalPrice.currencyCode
         bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.search_bundle_total_text))
-        bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
         val zero = Money(BigDecimal(0), currencyCode)
         bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(zero)
         bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(zero)
         bundleSlidingWidget.bundlePriceFooter.viewModel.savings.onNext(zero)
-        bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-
+        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView()) {
+            bundleSlidingWidget.bundlePriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+            bundleSlidingWidget.bundlePriceFooter.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+        }
         bundleSlidingWidget.bundleOverViewWidget.bundleHotelWidget.rowContainer.setOnClickListener {
             back()
         }

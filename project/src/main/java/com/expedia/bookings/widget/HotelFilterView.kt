@@ -456,6 +456,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
 
         if (PointOfSale.getPointOfSale().supportsVipAccess()) {
             filterVipContainer.visibility = View.VISIBLE
+            optionLabel.visibility = View.VISIBLE
         }
 
         if (shouldShowCircleForRatings()) {

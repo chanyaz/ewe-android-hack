@@ -202,6 +202,7 @@ public class AccountButton extends LinearLayout {
 			RewardsInfo rewardsInfo = getRewardsForLOB(lob);
 			if (rewardsInfo != null && !rewardsInfo.getTotalAmountToEarn().isZero()) {
 				mLoginTextView.setText(getSignInWithRewardsAmountText(rewardsInfo));
+				mLoginTextView.setContentDescription(getSignInWithRewardsContentDescriptionText(rewardsInfo));
 				if (lob == LineOfBusiness.FLIGHTS) {
 					mLoginContainer.setBackgroundResource(R.drawable.flight_cko_acct_btn_rewards_bg);
 				}
@@ -211,6 +212,9 @@ public class AccountButton extends LinearLayout {
 			}
 			else {
 				mLoginTextView.setText(getSignInWithoutRewardsText());
+				mLoginTextView.setContentDescription(Phrase.from(this, R.string.Sign_in_with_cont_desc_TEMPLATE)
+					.put("brand", BuildConfig.brand)
+					.format());
 			}
 		}
 		else {
@@ -225,11 +229,11 @@ public class AccountButton extends LinearLayout {
 
 	private boolean isSignInEarnMessagingEnabled(LineOfBusiness lob) {
 		return ProductFlavorFeatureConfiguration.getInstance().isEarnMessageOnCheckoutSignInButtonEnabled() && (
-			lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS) && !AndroidUtils.isTablet(getContext());
+			lob == LineOfBusiness.HOTELS || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.PACKAGES) && !AndroidUtils.isTablet(getContext());
 	}
 
 	private void bindLogoutContainer(Traveler traveler, LineOfBusiness lob) {
-		updateBrandLogo(traveler.isLoyaltyMember());
+		updateBrandLogoVisibility();
 
 		// Traveler Email Text
 		TextView travelerEmailTextView = Ui.findView(mLogoutContainer, R.id.account_top_textview);
@@ -293,9 +297,6 @@ public class AccountButton extends LinearLayout {
 			rewardsCategoryTextView.setVisibility(View.GONE);
 			mRewardsTextView.setVisibility(View.GONE);
 		}
-
-		// Logo
-		mExpediaLogo.setImageResource(R.drawable.checkout_logout_logo);
 	}
 
 	public void updateRewardsText(LineOfBusiness lob) {
@@ -315,13 +316,10 @@ public class AccountButton extends LinearLayout {
 		return false;
 	}
 
-	private void updateBrandLogo(boolean isLoyaltyMember) {
+	private void updateBrandLogoVisibility() {
 		boolean showBrandLogo = ProductFlavorFeatureConfiguration.getInstance().shouldShowBrandLogoOnAccountButton();
 		if (!showBrandLogo) {
 			mExpediaLogo.setVisibility(View.INVISIBLE);
-		}
-		else if (!isLoyaltyMember) {
-			mExpediaLogo.setImageResource(R.drawable.checkout_logout_logo);
 		}
 	}
 
@@ -443,6 +441,13 @@ public class AccountButton extends LinearLayout {
 				return trip.getRewards();
 			}
 		}
+		else if (lob == LineOfBusiness.PACKAGES) {
+			TripBucketItemPackages packages = Db.getTripBucket().getPackage();
+			PackageCreateTripResponse trip = packages == null ? null : packages.mPackageTripResponse;
+			if (trip != null && trip.getRewards() != null && trip.getRewards().getTotalAmountToEarn() != null) {
+				return trip.getRewards();
+			}
+		}
 		return null;
 	}
 
@@ -486,5 +491,16 @@ public class AccountButton extends LinearLayout {
 		void accountLoginClicked();
 
 		void accountLogoutClicked();
+	}
+
+	public CharSequence getSignInWithRewardsContentDescriptionText(RewardsInfo rewardsInfo) {
+
+		//noinspection ConstantConditions This can never be null from api.
+		String rewardsToEarn = rewardsInfo.getTotalAmountToEarn()
+			.getFormattedMoneyFromAmountAndCurrencyCode(
+				Money.F_NO_DECIMAL_IF_INTEGER_ELSE_TWO_PLACES_AFTER_DECIMAL);
+		return Phrase.from(this, R.string.Sign_in_to_earn_cont_desc_TEMPLATE)
+			.put("reward", rewardsToEarn)
+			.format();
 	}
 }

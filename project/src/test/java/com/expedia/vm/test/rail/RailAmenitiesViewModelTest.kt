@@ -66,5 +66,6 @@ class RailAmenitiesViewModelTest {
         val resourceReader = JSONResourceReader("src/test/resources/raw/rail/rail_leg_option_segments_8_9_10.json")
         val legOption = resourceReader.constructUsingGson(RailLegOption::class.java)
         return legOption
+
     }
 }

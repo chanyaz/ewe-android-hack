@@ -58,6 +58,7 @@
     <color name="hotel_promo_background">#2d3e5e</color>
     <color name="hotel_coupon_code_error_message_color">#B80000</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
+    <color name="hotel_member_pricing_color">#1f2a40</color>
 
     <!-- CVV entry colors -->
     <color name="cvv_book_button_text_color">@android:color/white</color>
@@ -116,4 +117,15 @@
 
     <color name="error_widget_edit_button_selected_color">#162033</color>
     <color name="error_button_color">@color/cars_primary_color</color>
+
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_color">#26344F</color>
+    <color name="new_launch_lob_color">#D6682D</color>
+    <color name="new_launch_hotels_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
 </resources>

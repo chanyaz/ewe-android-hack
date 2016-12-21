@@ -8,6 +8,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
@@ -46,7 +47,8 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
                     else
                         R.string.bundle_total_text
             totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
-            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+            if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
+                totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
             travelersPresenter.viewModel.flightOfferObservable.onNext(response.packageDetails.flight.details.offer)
         }
         getCheckoutViewModel().priceChangeObservable.subscribe(getCreateTripViewModel().createTripResponseObservable)

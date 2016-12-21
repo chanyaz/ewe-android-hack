@@ -11,7 +11,7 @@
 
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/action_bar_bg_color</color>
-    <color name="launch_tab_indicator">@color/actionbar_text_color</color>
+    <color name="launch_tab_indicator">#FFFFFF</color>
 
     <color name="lob_btn_color">#116FAA</color>
     <color name="hotel_lob_btn">@color/lob_btn_color</color>
@@ -20,7 +20,7 @@
     <color name="lx_lob_btn">@color/lob_btn_color</color>
 
     <color name="action_bar_selected_tab_underline_color">@color/launch_tab_indicator</color>
-    <color name="actionbar_tab_text_selected">#D00000</color>
+    <color name="actionbar_tab_text_selected">#ffffff</color>
     <color name="actionbar_tab_text_unselected">#CACDCF</color>
     <color name="action_bar_text_blue">#D00000</color>
     <color name="bg_btn_color">#7bae00</color>
@@ -50,6 +50,7 @@
     <color name="cvv_book_button_text_color">@android:color/white</color>
     <color name="tablet_pin_detail_button_text_color">@android:color/white</color>
     <color name="actionbar_button_text_color">@color/action_bar_text_blue</color>
+    <color name="hotel_member_pricing_color">#0f6093</color>
 
     <!--Air attach banner color-->
     <color name="bg_air_attach_banner_default">#116FAA</color>
@@ -65,7 +66,7 @@
     <color name="destination_list_detail_container_background">#ff070f24</color>
 
     <!-- Hotels colors -->
-    <color name="hotels_primary_color">#116FAA</color>
+    <color name="hotels_primary_color">@color/lob_btn_color</color>
     <color name="hotel_promo_background">#D00000</color>
     <color name="hotel_review_actionbar_tab_text_selected">#FFFFFF</color>
     <color name="hotel_review_actionbar_tab_text_unselected">#8CFFFFFF</color>
@@ -73,13 +74,13 @@
     <color name="material_cko_acct_btn_rewards_bg_color">@color/material_checkout_account_button_background_color</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
-    <color name="launch_mobile_exclusive">#116FAA</color>
+    <color name="launch_mobile_exclusive">@color/lob_btn_color</color>
     <color name="launch_discount">#D00000</color>
     <color name="launch_tonight_only">#990033</color>
 
     <color name="hotel_urgency_message_color">#D00000</color>
     <color name="hotel_tonight_only_color">#990033</color>
-    <color name="hotel_mobile_exclusive_color">#116FAA</color>
+    <color name="hotel_mobile_exclusive_color">@color/lob_btn_color</color>
 
     <!-- Hotels V2 Coupon applied text color -->
     <color name="hotelsv2_coupon_applied_color">@color/hotels_primary_color</color>
@@ -89,9 +90,9 @@
     <color name="traveler_drop_down_checked_color">@color/action_bar_flight_text_color</color>
 
     <!-- Cars and LX-->
-    <color name="cars_primary_color">#116FAA</color>
+    <color name="cars_primary_color">@color/lob_btn_color</color>
     <color name="cars_unchecked_toggle_text_color">#dfe9f0</color>
-    <color name="lx_primary_color">#116FAA</color>
+    <color name="lx_primary_color">@color/lob_btn_color</color>
     <color name="lx_ripple_color">#054A75</color>
     <color name="lx_secondary_color_disabled">#0E7DC4</color>
     <color name="lx_unchecked_toggle_text_color">#dfe9f0</color>
@@ -120,8 +121,8 @@
     <color name="acct__bg_input_text_good">#EEEEEE</color>
 
     <!--Account Screen-->
-    <color name="account_toolbar_text_color">@color/actionbar_text_color</color>
-    <color name="account_toolbar_text_color_light">#99D00000</color>
+    <color name="account_toolbar_text_color">@color/white</color>
+    <color name="account_toolbar_text_color_light">#99FFFFFF</color>
     <color name="account_sign_out_button_background_color">#D00000</color>
     <color name="account_screen_back_nav_color">#D00000</color>
 
@@ -133,4 +134,29 @@
 
     <color name="error_widget_edit_button_selected_color">#075D93</color>
     <color name="error_button_color">@color/cars_primary_color</color>
+
+    <!-- Packages colors -->
+    <color name="packages_primary_color">@color/lob_btn_color</color>
+    <color name="packages_secondary_color">#0E5A8A</color>
+    <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
+
+    <!-- New Launch Screen LOB button colors -->
+    <color name="new_launch_lob_color">@color/lob_btn_color</color>
+    <color name="new_launch_screen_color">@color/lob_btn_color</color>
+
+    <color name="new_launch_hotels_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_packages_lob_color">@color/new_launch_lob_color</color>
+
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+
+    <!-- Flights V2 colors -->
+    <color name="flight_overview_color_filter">@color/lob_btn_color</color>
+    <color name="flights_details_layover_color">@color/lob_btn_color</color>
+
 </resources>

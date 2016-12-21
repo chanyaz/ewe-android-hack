@@ -2,8 +2,9 @@
 <resources>
 
     <color name="bg_blue_color_travelocity">#003e74</color>
+    <color name="lob_primary_color">#003e74</color>
     <color name="actionbar_button_background_pressed">#004888</color>
-    <color name="hotels_primary_color">#003E74</color>
+    <color name="hotels_primary_color">@color/lob_primary_color</color>
     <color name="hotel_promo_background">#57A3CC</color>
     <color name="launch_toolbar_background_color">@color/bg_blue_color_travelocity</color>
     <color name="action_bar_text_blue_travelocity">#7baed4</color>
@@ -37,6 +38,7 @@
     <color name="preferences_text">#495863</color>
     <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_travelocity</color>
     <color name="traveler_drop_down_checked_color">@color/bg_blue_color_travelocity</color>
+    <color name="hotel_member_pricing_color">#00335f</color>
 
     <!-- Calendar text colors -->
     <color name="calendar_cell_selected_date_text">#FFFFFF</color>
@@ -49,9 +51,9 @@
     <color name="hotelsv2_coupon_applied_color">#7baed4</color>
 
     <!-- Cars and LX -->
-    <color name="cars_primary_color">#003E74</color>
+    <color name="cars_primary_color">@color/lob_primary_color</color>
     <color name="cars_unchecked_toggle_text_color">#B3FFFFFF</color>
-    <color name="lx_primary_color">#003E74</color>
+    <color name="lx_primary_color">@color/lob_primary_color</color>
     <color name="lx_ripple_color">#53a0d3</color>
     <color name="lx_secondary_color_disabled">#032E4D</color>
     <color name="lx_unchecked_toggle_text_color">@android:color/white</color>
@@ -89,5 +91,32 @@
 
     <color name="error_widget_edit_button_selected_color">#033057</color>
     <color name="error_button_color">#003E74</color>
-    <color name="launch_tab_indicator">@color/action_bar_text_blue_travelocity</color>
+    <color name="launch_tab_indicator">#7BAED4</color>
+
+    <!-- Packages colors -->
+    <color name="packages_primary_color">@color/lob_primary_color</color>
+    <color name="packages_secondary_color">#19a3d1</color>
+    <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
+
+    <!-- New Launch Screen LOB button colors -->
+    <color name="new_launch_lob_color">@color/lob_primary_color</color>
+    <color name="new_launch_screen_color">@color/lob_primary_color</color>
+
+    <color name="new_launch_hotels_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_packages_lob_color">@color/new_launch_lob_color</color>
+
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+
+    <!-- Flights V2 colors -->
+    <color name="flight_overview_color_filter">@color/lob_primary_color</color>
+    <color name="flights_details_layover_color">@color/lob_primary_color</color>
+
+    <!-- Splash screen -->
+    <color name="splash_screen_bg">@color/bg_blue_color_travelocity</color>
 </resources>

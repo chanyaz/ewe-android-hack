@@ -35,10 +35,10 @@
     <string name="not_currently_available_cheapTickets_TEMPLATE">Non più disponibile su CheapTickets %s</string>
 
     <!-- Missing strings for CheapTickets from Expedia-->
-    <string name="tell_a_friend_body_cheapTickets">Ciao,\n\ndai un’occhiata a CheapTickets Hotels per iPhone e Android. L’applicazione è GRATIS e ti permette di prenotare facilmente più di 140.000 hotel in tutto il mondo. Il modo più semplice per prenotare un hotel dal tuo telefono.</string>
-    <string name="cd_log_in_email_edit_text_cheapTickets">Inserisci l’indirizzo e-mail dell’account CheapTickets</string>
+    <string name="tell_a_friend_body_cheapTickets">Ciao,\n\ndai un\&apos;occhiata a CheapTickets Hotels per iPhone e Android. L\&apos;applicazione è GRATIS e ti permette di prenotare facilmente più di 140.000 hotel in tutto il mondo. Il modo più semplice per prenotare un hotel dal tuo telefono.</string>
+    <string name="cd_log_in_email_edit_text_cheapTickets">Inserisci l\&apos;indirizzo e-mail dell\&apos;account CheapTickets</string>
     <string name="tell_a_friend_subject_cheapTickets">CheapTickets Hotels</string>
-    <string name="cd_log_in_password_edit_text_cheapTickets">Inserisci la password dell’account CheapTickets</string>
+    <string name="cd_log_in_password_edit_text_cheapTickets">Inserisci la password dell\&apos;account CheapTickets</string>
     <string name="cd_launch_open_eb_info_screen_cheapTickets">Apri la schermata delle informazioni sulle prenotazioni CheapTickets</string>
     <string name="loading_cheapTickets_account">Caricamento Account CheapTickets</string>
     <string name="cheapTickets_password_hint">Password CheapTickets</string>
@@ -60,9 +60,11 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_CheapTickets_account_already_exists">Questo indirizzo e-mail è già associato a un account CheapTickets</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
-    <string name="Sign_in_to_earn_TEMPLATE">Effettua l’accesso per guadagnare {reward} in CheapCash</string>
+    <string name="Sign_in_to_earn_TEMPLATE">Effettua l\&apos;accesso per guadagnare {reward} in CheapCash</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Pulsante Effettua l\&apos;accesso per guadagnare {reward} in CheapCash</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Guadagna punti per viaggiare gratis con {brand_reward_name}. Effettuando l’iscrizione a {brand_reward_name} accetto {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Guadagna punti per viaggiare gratis con {brand_reward_name_link}. Effettuando l\&apos;iscrizione a {brand_reward_name}, accetto {terms_and_conditions}</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->
@@ -81,6 +83,11 @@
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Pagando con CheapCash e {carddescription}</string>
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">Carta di credito, paga con CheapCash</string>
+
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
 
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
@@ -106,4 +113,21 @@
     <!-- Label above the slider when user is paying with CheapCash and Card. Eg: You are using $1000.12 in CheapCash\nYour card will be charged $100.00-->
     <string name="payment_through_card_and_bucks_TEMPLATE">Stai utilizzando {amount} in CheapCash\nSulla tua carta saranno addebitati {dueamount}</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">Pacchetti</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Totale pacchetto</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Visualizza il tuo pacchetto</string>
+    <string name="package_flight_overview_bundle_total_label">Totale pacchetto</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Sconto pacchetto</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Il totale del pacchetto è di {totalprice}. Questo prezzo include tasse e oneri per voli e hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Il totale del pacchetto è di {totalprice}. Questo prezzo include tasse e oneri per voli e hotel. {savings}. Finestra Dettaglio dei costi. Pulsante.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Il prezzo del pacchetto è di {price_per_person} a persona. Questo prezzo include tasse e oneri per voli e hotel. Pulsante per visualizzare il pacchetto.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Mostra i dettagli del pacchetto. Pulsante di chiusura.</string>
 </resources>

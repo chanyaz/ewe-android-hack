@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources>
     <string name="orbitz_best_price_guarantee">Orbitz prisgaranti</string>
-    <string name="customer_support_text">Ring til Orbitz’ kundeservice</string>
+    <string name="customer_support_text">Ring til Orbitz\&apos; kundeservice</string>
 
     <!-- Content description for action: Press to log in with your Orbitz account -->
     <string name="cd_checkout_log_in_with_orbitz">Tryk for at logge på din Orbitz-konto</string>
@@ -29,12 +29,12 @@
     <string name="cd_launch_open_eb_info_screen_orbitz">Åbn informationsoversigt for Orbitz-reservationer</string>
     <string name="loading_orbitz_account">Indlæser Orbitz-konto</string>
     <string name="orbitz_password_hint">Adgangskode til Orbitz</string>
-    <string name="dialog_message_launch_orbitz_mobile_site">Vil du åbne Orbitz’ mobilhjemmeside?</string>
+    <string name="dialog_message_launch_orbitz_mobile_site">Vil du åbne Orbitz\&apos; mobilhjemmeside?</string>
     <!-- Orbitz App download link -->
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Samlet beløb, der skal betales til Orbitz i dag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Du bedes oprette et nyt, universelt login, som du kan bruge på alle Orbitz’ hjemmesider.&lt;br&gt;Nulstil din adgangskode ved at klikke på linket ‘Har du glemt din adgangskode?’ nedenfor.</string>
+    <string name="login_reset_password">Du bedes oprette et nyt, universelt login, som du kan bruge på alle Orbitz\&apos; hjemmesider.&lt;br&gt;Nulstil din adgangskode ved at klikke på linket ‘Har du glemt din adgangskode?\&apos; nedenfor.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Beløb, der skal betales til Orbitz i dag</string>
@@ -47,7 +47,7 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Der findes allerede en Orbitz-konto med denne e-mailadresse</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Optjen rejsefordele med {brand_reward_name}. Ved at tilmelde mig {brand_reward_name} accepterer jeg alle {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Optjen rejsefordele med {brand_reward_name_link}. Ved at tilmelde mig {brand_reward_name} accepterer jeg alle {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Betaling med Orbucks</string>
@@ -87,6 +87,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Log på for at optjene {reward} i Orbucks</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knappen Log på for at optjene {reward} i Orbucks</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks indløst! (inkluderer ikke skatter og gebyrer)</string>
     <string name="youll_earn_points_TEMPLATE">Du vil optjene {reward_currency} i Orbucks for denne reservation!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Du vil optjene {reward_currency} i Orbucks for denne rejse!</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">Optjen Orbucks, som du kan indløse i forbindelse med din næste hotelreservation</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Ansøg om {brand_reward_name} Visa®-kortet</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Pakkerejser</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">I alt</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Se din pakkerejse</string>
+    <string name="package_flight_overview_bundle_total_label">I alt</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Pakkerejserabat</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Samlet pris for pakkerejse {totalprice}. Denne pris inkluderer skatter og gebyrer for både fly og hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Samlet pris for pakkerejse {totalprice}. Denne pris inkluderer skatter og gebyrer for både fly og hotel. {savings}. Dialogvindue for prisoversigt. Knap.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakkerejseprisen er {price_per_person} pr. person. Denne pris inkluderer skatter og gebyrer for både fly og hotel. Knap til at se pakkerejser.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Viser oplysninger om pakkerejse. Knap til at lukke.</string>
 
 </resources>
