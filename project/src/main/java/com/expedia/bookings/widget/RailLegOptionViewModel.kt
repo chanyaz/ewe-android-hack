@@ -48,7 +48,7 @@ open class RailLegOptionViewModel(val context: Context, val inbound: Boolean) {
                 .toString())
 
         if (legOption.doesAnyOfferHasFareQualifier) {
-            result.append(" ").append(context.getString(R.string.rail_result_card_railcard_applied_cont_desc))
+            result.append(" ").append(context.getString(R.string.rail_railcard_applied_cont_desc))
         }
 
         result.append(" ").append(Phrase.from(context, R.string.rail_result_card_price_from_cont_desc_TEMPLATE)

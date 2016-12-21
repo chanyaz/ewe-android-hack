@@ -12,15 +12,18 @@ import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
+import com.expedia.util.subscribeContentDescription
 import com.expedia.util.subscribeOnClick
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextAndVisibilityInvisible
 import com.expedia.vm.rail.RailLegSummaryViewModel
+import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
+    val legInfoContainer: LinearLayout by bindView(R.id.rail_leg_info_container)
     val travelTimes: TextView by bindView(R.id.times_view)
     val trainOperator: TextView by bindView(R.id.train_operator)
     val duration: TextView by bindView(R.id.layover_view)
@@ -46,7 +49,15 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         vm.operatorObservable.subscribeText(trainOperator)
         vm.formattedStopsAndDurationObservable.subscribeText(duration)
         vm.formattedTimesObservable.subscribeText(travelTimes)
-        vm.fareDescriptionObservable.subscribeTextAndVisibilityInvisible(fareDescription)
+        vm.fareDescriptionObservable.subscribe { text ->
+            if(!text?.toString().isNullOrBlank()) {
+                fareDescription.text = text
+                fareDescription.contentDescription = Phrase.from(context, R.string.rail_button_cont_desc_TEMPLATE)
+                        .put("description", text)
+                        .format().toString()
+            }
+            fareDescription.visibility = if(text?.toString().isNullOrBlank()) View.INVISIBLE else View.VISIBLE
+        }
         vm.legOptionObservable.subscribe { railLegOption ->
             timeline.updateLeg(railLegOption)
         }
@@ -63,7 +74,18 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayou
             }
         }).subscribe()
 
-        vm.railCardNameObservable.subscribeTextAndVisibility(railCardName)
+        vm.railCardNameObservable.subscribe { text ->
+            if(!text?.toString().isNullOrBlank()) {
+                railCardName.text = text
+                railCardName.contentDescription = Phrase.from(context, R.string.rail_railcard_applied_cont_desc_TEMPLATE)
+                        .put("railcards", text)
+                        .format().toString()
+            }
+            railCardName.visibility = if(text?.toString().isNullOrBlank()) View.GONE else View.VISIBLE
+        }
+
+        vm.railSummaryContentDescription.subscribeContentDescription(legInfoContainer)
+
         fareDescription.subscribeOnClick(vm.showLegInfoObservable)
     }
 
@@ -72,6 +94,7 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         overtakenMessage.visibility = if (overtaken) View.VISIBLE else View.GONE
         overtakenDivider.visibility = if (overtaken) View.VISIBLE else View.GONE
         AnimUtils.rotate(legDetailsIcon)
+        legDetailsIcon.contentDescription = context.getString(R.string.accessibility_cont_desc_role_button_collapse)
         RailTracking().trackRailTripOverviewDetailsExpand()
     }
 
@@ -80,6 +103,7 @@ class RailLegSummaryWidget(context: Context, attrs: AttributeSet?) : LinearLayou
         overtakenMessage.visibility = View.GONE
         overtakenDivider.visibility = View.GONE
         AnimUtils.reverseRotate(legDetailsIcon)
+        legDetailsIcon.contentDescription = context.getString(R.string.accessibility_cont_desc_role_button_expand)
         legDetailsIcon.clearAnimation()
     }
 
