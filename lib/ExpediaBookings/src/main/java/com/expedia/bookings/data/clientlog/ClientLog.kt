@@ -3,7 +3,7 @@ package com.expedia.bookings.data.clientlog
 import org.joda.time.DateTime
 import org.joda.time.format.DateTimeFormat
 
-class ClientLog(val pageName: String, val eventName: String, val deviceName: String, val requestTime: Long, val responseTime: Long, val processingTime: Long, val requestToUser: Long) {
+class ClientLog(val pageName: String, val eventName: String, val deviceName: String, val requestTime: Long, val responseTime: Long = 0L, val processingTime: Long = 0L, val requestToUser: Long = 0L) {
 
     class Builder() {
         private val dtf = DateTimeFormat.forPattern("yyyy-MM-dd'T'HH:mm:ss:SSS'Z'")
@@ -52,6 +52,10 @@ class ClientLog(val pageName: String, val eventName: String, val deviceName: Str
 
         fun build(): ClientLog {
             return ClientLog(pageName!!, eventName!!, deviceName!!, 0L, calculateTimeDiff(responseTime), calculateTimeDiff(processingTime), calculateTimeDiff(requestToUser))
+        }
+
+        fun build(responseTime: Long?): ClientLog {
+            return ClientLog(pageName!!, eventName!!, deviceName!!, 0L, responseTime!!)
         }
 
         private fun calculateTimeDiff(time: DateTime?) : Long {
