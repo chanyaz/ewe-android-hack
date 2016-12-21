@@ -304,6 +304,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             travelerManager.updateDbTravelers(params, context)
             // Starting a new search clear previous selection
             Db.clearPackageFlightSelection()
+            outBoundPresenter.clearBackStack()
+            outBoundPresenter.showResults()
             show(outBoundPresenter, Presenter.FLAG_CLEAR_TOP)
         }
     }
@@ -472,13 +474,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
     }
 
     private inner class SearchToOutboundTransition(presenter: Presenter, left: Class<*>, right: Class<*>) : ScaleTransition(presenter, left, right) {
-        override fun startTransition(forward: Boolean){
-            super.startTransition(forward)
-            if(forward){
-                outBoundPresenter.clearBackStack()
-                outBoundPresenter.showResults()
-            }
-        }
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
