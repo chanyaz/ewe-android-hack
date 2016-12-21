@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--NOTE: there is duplicate layout for testing without SVG custom view from air attach banner-->
-<com.expedia.bookings.widget.NewPhoneLaunchWidget
+<com.expedia.bookings.launch.widget.NewPhoneLaunchWidget
     android:id="@+id/new_phone_launch_widget"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -64,4 +64,4 @@
         android:alpha="0.0"
         android:background="@drawable/tb_shadow" />
 
-</com.expedia.bookings.widget.NewPhoneLaunchWidget>
+</com.expedia.bookings.launch.widget.NewPhoneLaunchWidget>

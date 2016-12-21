@@ -1,8 +1,8 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.LaunchScope;
-import com.expedia.bookings.widget.NewPhoneLaunchWidget;
-import com.expedia.bookings.widget.PhoneLaunchWidget;
+import com.expedia.bookings.launch.widget.NewPhoneLaunchWidget;
+import com.expedia.bookings.launch.widget.PhoneLaunchWidget;
 import com.expedia.bookings.widget.feeds.FeedsListWidget;
 
 import dagger.Component;

@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.PhoneLaunchToolbar
+    <com.expedia.bookings.launch.widget.PhoneLaunchToolbar
         android:id="@+id/launch_toolbar"
         style="@style/LaunchActionBar"
         android:layout_width="match_parent"

@@ -20,8 +20,8 @@ import com.expedia.bookings.data.hotels.HotelRate;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
-import com.expedia.bookings.widget.LaunchHeaderViewHolder;
-import com.expedia.bookings.widget.LaunchListWidget;
+import com.expedia.bookings.launch.widget.LaunchHeaderViewHolder;
+import com.expedia.bookings.launch.widget.LaunchListWidget;
 
 import static org.junit.Assert.assertEquals;
 

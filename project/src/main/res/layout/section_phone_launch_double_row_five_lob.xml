@@ -19,7 +19,7 @@
         android:orientation="horizontal"
         android:showDividers="middle">
 
-        <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
+        <com.expedia.bookings.launch.widget.PhoneLaunchDoubleRowButton
             android:id="@+id/hotels_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
             app:five_lob_btn="true"
             app:icon_min_scale=".70" />
 
-        <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
+        <com.expedia.bookings.launch.widget.PhoneLaunchDoubleRowButton
             android:id="@+id/flights_button"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -77,7 +77,7 @@
             android:orientation="horizontal"
             android:showDividers="middle">
 
-            <com.expedia.bookings.widget.PhoneLaunchButton
+            <com.expedia.bookings.launch.widget.PhoneLaunchButton
                 android:id="@+id/cars_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -97,7 +97,7 @@
                 app:icon_min_scale=".70"
                 app:refernce_container_height="@dimen/launch_lob_reference_container_height" />
 
-            <com.expedia.bookings.widget.PhoneLaunchButton
+            <com.expedia.bookings.launch.widget.PhoneLaunchButton
                 android:id="@+id/activities_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -116,7 +116,7 @@
                 app:icon_min_scale=".70"
                 app:refernce_container_height="@dimen/launch_lob_reference_container_height" />
 
-            <com.expedia.bookings.widget.PhoneLaunchButton
+            <com.expedia.bookings.launch.widget.PhoneLaunchButton
                 android:id="@+id/transport_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

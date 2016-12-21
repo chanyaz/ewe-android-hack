@@ -8,6 +8,8 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
+import com.expedia.bookings.launch.widget.NewLaunchLobWidget
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.mobiata.android.util.SettingUtils
 import org.junit.Before

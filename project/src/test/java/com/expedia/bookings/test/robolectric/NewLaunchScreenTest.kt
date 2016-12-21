@@ -4,7 +4,7 @@ import android.app.Activity
 import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
-import com.expedia.bookings.widget.NewPhoneLaunchWidget
+import com.expedia.bookings.launch.widget.NewPhoneLaunchWidget
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test

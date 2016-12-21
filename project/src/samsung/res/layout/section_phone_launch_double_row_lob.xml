@@ -31,7 +31,7 @@
             android:orientation="horizontal"
             android:showDividers="middle">
 
-            <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
+            <com.expedia.bookings.launch.widget.PhoneLaunchDoubleRowButton
                 android:id="@+id/hotels_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -43,7 +43,7 @@
                 app:btn_text="@string/nav_hotels"
                 app:icon_min_scale=".70" />
 
-            <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
+            <com.expedia.bookings.launch.widget.PhoneLaunchDoubleRowButton
                 android:id="@+id/flights_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -82,7 +82,7 @@
             android:orientation="horizontal"
             android:showDividers="middle">
 
-            <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
+            <com.expedia.bookings.launch.widget.PhoneLaunchDoubleRowButton
                 android:id="@+id/cars_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                 app:btn_text="@string/nav_cars"
                 app:icon_min_scale=".75" />
 
-            <com.expedia.bookings.widget.PhoneLaunchDoubleRowButton
+            <com.expedia.bookings.launch.widget.PhoneLaunchDoubleRowButton
                 android:id="@+id/activities_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"

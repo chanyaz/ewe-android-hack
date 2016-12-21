@@ -16,11 +16,11 @@ import android.view.ViewGroup;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Codes;
-import com.expedia.bookings.data.LaunchDb;
+import com.expedia.bookings.launch.data.LaunchDb;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
-import com.expedia.bookings.fragment.TabletLaunchControllerFragment;
+import com.expedia.bookings.launch.fragment.TabletLaunchControllerFragment;
 import com.expedia.bookings.fragment.base.MeasurableFragmentListener;
 import com.expedia.bookings.interfaces.IBackManageable;
 import com.expedia.bookings.interfaces.IMeasurementListener;

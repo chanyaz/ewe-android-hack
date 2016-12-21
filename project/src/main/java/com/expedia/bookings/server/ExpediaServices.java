@@ -55,7 +55,7 @@ import com.expedia.bookings.data.HotelOffersResponse;
 import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.HotelSearchResponse;
 import com.expedia.bookings.data.Itinerary;
-import com.expedia.bookings.data.LaunchDestinationCollections;
+import com.expedia.bookings.launch.data.LaunchDestinationCollections;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;

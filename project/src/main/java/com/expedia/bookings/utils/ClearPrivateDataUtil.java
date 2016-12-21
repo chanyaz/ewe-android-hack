@@ -6,7 +6,7 @@ import android.webkit.CookieSyncManager;
 
 import com.expedia.bookings.content.SuggestionProvider;
 import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.LaunchDb;
+import com.expedia.bookings.launch.data.LaunchDb;
 import com.expedia.bookings.data.Sp;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.trips.ItineraryManager;
