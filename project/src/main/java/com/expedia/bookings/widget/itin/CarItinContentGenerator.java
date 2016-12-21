@@ -1,8 +1,5 @@
 package com.expedia.bookings.widget.itin;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.MutableDateTime;
@@ -37,6 +34,9 @@ import com.expedia.bookings.widget.EventSummaryView;
 import com.expedia.bookings.widget.InfoTripletView;
 import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CarItinContentGenerator extends ItinContentGenerator<ItinCardDataCar> {
 	//////////////////////////////////////////////////////////////////////////////////////
