@@ -249,5 +249,14 @@
             android:layout="@layout/preference"
             android:title="Itin Hotel Gallery" />
 
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="12794"
+            android:layout="@layout/preference"
+            android:title="Itin User Reviews" />
+
     </PreferenceCategory>
 </PreferenceScreen>

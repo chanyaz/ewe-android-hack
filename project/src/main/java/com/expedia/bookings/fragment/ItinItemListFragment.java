@@ -38,9 +38,9 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
-import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -664,5 +664,13 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		void onItinItemListFragmentAttached(ItinItemListFragment frag);
 
 		void onItinCardClicked(ItinCardData data);
+	}
+
+	@Override
+	public void setUserVisibleHint(boolean visible) {
+		super.setUserVisibleHint(visible);
+		if (visible && isResumed()) {
+			mItinListView.getItinCardDataAdapter().showUserReview();
+		}
 	}
 }

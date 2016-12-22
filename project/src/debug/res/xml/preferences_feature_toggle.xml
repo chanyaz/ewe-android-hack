@@ -60,5 +60,11 @@
             android:summary="Hotel Itinerary Soft Change."
             android:title="Enable Hotel Itin Soft Change Button" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_itin_user_reviews"
+            android:layout="@layout/preference"
+            android:summary="Itin user review prompt"
+            android:title="Enable User Review Dialog" />
+
     </PreferenceCategory>
 </PreferenceScreen>

@@ -4943,5 +4943,15 @@
     <string name="multiple_carriers_text">Multiple Carriers</string>
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">Upgrade Available</string>
+    <!-- Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title">How was your experience?</string>
+    <!-- Message for App Rating Dialog -->
+    <string name="dialog_app_rating_message">If you love using our app, please let us know with a review in the Play Store.</string>
+    <!-- Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button">Review</string>
+    <!-- Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button">Send Feedback</string>
+    <!-- Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button">No, thanks</string>
 
 </resources>

@@ -41,6 +41,7 @@ import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.mobiata.android.SocialUtils;
 import com.mobiata.android.util.CalendarAPIUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.Ui;
 import com.mobiata.android.util.ViewUtils;
 import com.squareup.phrase.Phrase;
@@ -224,6 +225,8 @@ public class FlightConfirmationFragment extends ConfirmationFragment {
 		// We need to capitalize in code because the all_caps field isn't until a later API
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.get_a_room_text_view));
 		ViewUtils.setAllCaps((TextView) Ui.findView(v, R.id.more_actions_text_view));
+
+		SettingUtils.save(getActivity(), R.string.preference_user_has_booked_hotel_or_flight, true);
 
 		return v;
 	}
