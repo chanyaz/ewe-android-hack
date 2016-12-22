@@ -42,7 +42,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
     val bgFade = TransitionElement(Color.WHITE, ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
 
     var viewModel: BaseTotalPriceWidgetViewModel by notNullAndObservable { vm ->
-        vm.totalPriceObservable.subscribeText(bundleTotalPrice)
+        vm.totalPriceObservable.subscribeTextAndVisibility(bundleTotalPrice)
         vm.pricePerPersonObservable.subscribeText(bundleTotalPrice)
         vm.savingsPriceObservable.subscribeTextAndVisibility(bundleSavings)
         vm.bundleTextLabelObservable.subscribeText(bundleTotalText)
@@ -51,7 +51,6 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         vm.contentDescriptionObservable.subscribe { description ->
             this.contentDescription = description
         }
-        vm.showTotalBundlePrice.subscribeVisibility(bundleTotalPrice)
     }
 
     val breakdown = CostSummaryBreakDownView(context, null)

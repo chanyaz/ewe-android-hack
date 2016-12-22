@@ -105,7 +105,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             loginWidget.updateRewardsText(getLineOfBusiness())
             insuranceWidget.viewModel.tripObservable.onNext(response)
             totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            totalPriceWidget.viewModel.showTotalBundlePrice.onNext(true)
             totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
             travelersPresenter.viewModel.flightOfferObservable.onNext(response.details.offer)
         }
