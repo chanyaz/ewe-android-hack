@@ -42,11 +42,6 @@ object SearchScreen {
 
     @JvmStatic fun selectDates(start: LocalDate, end: LocalDate?) {
         calendar().perform(TabletViewActions.clickDates(start, end))
-        searchAlertDialogDone().perform(click())
-    }
-
-    @JvmStatic fun selectDatesOnly(start: LocalDate, end: LocalDate?) {
-        calendar().perform(TabletViewActions.clickDates(start, end))
     }
 
     @JvmStatic fun searchAlertDialogDone(): ViewInteraction {
