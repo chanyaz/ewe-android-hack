@@ -119,6 +119,36 @@ class AbstractFlightListAdapterTest {
         assertEquals(flightViewHolder.urgencyMessageContainer.visibility, View.GONE)
     }
 
+    @Test
+    fun testRoundTripFlightIndicationWhenBucketedForABTest() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
+        isRoundTripSubject.onNext(false)
+        createTestFlightListAdapter()
+        createFlightLegWithThreeAirlines()
+        var flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.roundTripTextView.visibility, View.GONE)
+
+        isRoundTripSubject.onNext(true)
+        createFlightLegWithThreeAirlines()
+        flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.roundTripTextView.visibility, View.VISIBLE)
+    }
+
+    @Test
+    fun testRoundTripFlightIndicationWhenNotBucketedForABTest() {
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
+
+        createTestFlightListAdapter()
+        createFlightLegWithThreeAirlines()
+        var flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.roundTripTextView.visibility, View.GONE)
+
+        isRoundTripSubject.onNext(true)
+        createFlightLegWithThreeAirlines()
+        flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.roundTripTextView.visibility, View.GONE)
+    }
+
     private fun bindFlightViewHolderAndModel(): AbstractFlightListAdapter.FlightViewHolder {
         val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
         val flightViewHolder = createFlightViewHolder()

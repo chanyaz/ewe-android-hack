@@ -9,6 +9,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
@@ -180,6 +182,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         val flightEarnMessage: TextView by root.bindView(R.id.flight_earn_message_text_view)
         val urgencyMessageTextView: TextView by root.bindView(R.id.urgency_message)
         val urgencyMessageContainer: LinearLayout by root.bindView(R.id.urgency_message_layout)
+        val roundTripTextView: TextView by root.bindView(R.id.trip_type_text_view)
 
         init {
             itemView.setOnClickListener(this)
@@ -192,12 +195,17 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         }
 
         fun bind(viewModel: AbstractFlightViewModel) {
+            if (isRoundTripSearch && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)) {
+                roundTripTextView.visibility = View.VISIBLE
+            } else {
+                roundTripTextView.visibility = View.GONE
+            }
             flightTimeTextView.text = viewModel.flightTime
             priceTextView.text = viewModel.price()
             flightDurationTextView.text = viewModel.duration
             val flight = viewModel.layover
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
-            flightAirlineWidget.update(viewModel.airline)
+            flightAirlineWidget.update(viewModel.airline, isRoundTripSearch)
             if (viewModel.urgencyMessageVisibilty) {
                 urgencyMessageContainer.visibility = View.VISIBLE
                 urgencyMessageTextView.text = viewModel.seatsLeft
