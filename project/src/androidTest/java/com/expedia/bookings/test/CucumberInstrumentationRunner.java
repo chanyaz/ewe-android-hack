@@ -11,14 +11,16 @@ public class CucumberInstrumentationRunner extends MonitoringInstrumentation {
 
 	@Override
 	public void onCreate(Bundle arguments) {
-		mInstrumentationCore.create(arguments);
 		super.onCreate(arguments);
+
+		mInstrumentationCore.create(arguments);
 		start();
 	}
 
 	@Override
 	public void onStart() {
 		super.onStart();
+
 		waitForIdleSync();
 		mInstrumentationCore.start();
 	}

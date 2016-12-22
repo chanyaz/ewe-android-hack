@@ -1,6 +1,5 @@
 Feature: Getting hotel results from the App
 
-  @HotelSearch
   Scenario Outline: Successfully searching for hotels with different combinations.
 
     Given I have the app installed and I open it.
