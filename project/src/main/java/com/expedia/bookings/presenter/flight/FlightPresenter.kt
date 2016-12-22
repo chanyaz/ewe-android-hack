@@ -335,6 +335,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     private fun flightListToOverviewTransition() {
         flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
+        flightOverviewPresenter.getCheckoutPresenter().totalPriceWidget.viewModel.showTotalBundlePrice.onNext(false)
         flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
         flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
         flightOverviewPresenter.getCheckoutPresenter().updateDbTravelers()

@@ -8,6 +8,7 @@ abstract class BaseTotalPriceWidgetViewModel(isSlidable: Boolean) {
     val total = PublishSubject.create<Money>()
     val savings = PublishSubject.create<Money>()
     val pricePerPerson = PublishSubject.create<Money>()
+    val showTotalBundlePrice = PublishSubject.create<Boolean>()
 
     val pricePerPersonObservable = BehaviorSubject.create<String>()
     val totalPriceObservable = BehaviorSubject.create<String>()

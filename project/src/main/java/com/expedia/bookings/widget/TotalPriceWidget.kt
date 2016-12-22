@@ -14,10 +14,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.animation.TransitionElement
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.presenter.rail.RailCheckoutPresenter
-import com.expedia.bookings.tracking.FlightsV2Tracking
-import com.expedia.bookings.tracking.PackagesTracking
-import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.Ui
@@ -27,9 +23,6 @@ import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.BaseTotalPriceWidgetViewModel
-import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
-import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
-import com.expedia.vm.rail.RailCostSummaryBreakdownViewModel
 import java.math.BigDecimal
 
 class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
@@ -58,6 +51,7 @@ class TotalPriceWidget(context: Context, attrs: AttributeSet?) : LinearLayout(co
         vm.contentDescriptionObservable.subscribe { description ->
             this.contentDescription = description
         }
+        vm.showTotalBundlePrice.subscribeVisibility(bundleTotalPrice)
     }
 
     val breakdown = CostSummaryBreakDownView(context, null)
