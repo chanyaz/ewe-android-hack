@@ -341,7 +341,7 @@ public class MultipleTravelerPresenterTest extends BaseTravelerPresenterTestHelp
 		EspressoUtils.assertViewIsDisplayed(R.id.traveler_picker_widget);
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
 
-		EspressoUser.clickOnText(expectedFilledTravelerOneText);
+		onView(allOf(isDescendantOfA(withId(R.id.main_traveler_container)),withText(expectedFilledTravelerOneText))).perform(click());
 		EspressoUtils.assertViewWithTextIsDisplayed(R.id.boarding_warning, R.string.name_must_match_warning_new);
 		PackageScreen.clickTravelerDone();
 		EspressoUtils.assertViewIsNotDisplayed(R.id.boarding_warning);
