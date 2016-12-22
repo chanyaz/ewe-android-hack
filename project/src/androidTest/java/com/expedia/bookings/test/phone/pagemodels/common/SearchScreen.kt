@@ -24,7 +24,6 @@ import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
 import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
-import org.hamcrest.Matchers.containsString
 
 object SearchScreen {
 
@@ -275,7 +274,7 @@ object SearchScreen {
     @Throws(Throwable::class)
     @JvmStatic fun selectLocation(hotel: String) {
         suggestionList().perform(ViewActions.waitForViewToDisplay())
-        val viewMatcher = hasDescendant(withText(containsString(hotel)))
+        val viewMatcher = hasDescendant(withText(hotel))
 
         suggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS))
         suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))
