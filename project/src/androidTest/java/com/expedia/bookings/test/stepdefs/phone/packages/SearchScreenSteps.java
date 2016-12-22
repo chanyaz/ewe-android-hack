@@ -1,13 +1,13 @@
 package com.expedia.bookings.test.stepdefs.phone.packages;
 
-import org.hamcrest.Matchers;
-import org.joda.time.LocalDate;
-
 import com.expedia.bookings.R;
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils;
 import com.expedia.bookings.test.espresso.ViewActions;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+
+import org.hamcrest.Matchers;
+import org.joda.time.LocalDate;
 
 import cucumber.api.java.en.Then;
 
@@ -36,7 +36,7 @@ public class SearchScreenSteps {
 		SearchScreen.suggestionList().perform(ViewActions.waitForViewToDisplay());
 	}
 
-	@Then("^I select source as \"(.*?)\" from the suggestions on packages search page$")
+	@Then("^I select \"(.*?)\" as source from the suggestions on packages search page$")
 	public void selectSourceSuggest(String sourceSearchSuggest) throws Throwable {
 		SearchScreen.selectLocation(sourceSearchSuggest);
 	}
@@ -47,7 +47,7 @@ public class SearchScreenSteps {
 		SearchScreen.suggestionList().perform(ViewActions.waitForViewToDisplay());
 	}
 
-	@Then("^I select destination as \"(.*?)\" from the suggestions on packages search page$")
+	@Then("^I select \"(.*?)\" as destination from the suggestions on packages search page$")
 	public void selectDestinationSearchSuggest(String destination) throws Throwable {
 		SearchScreen.selectLocation(destination);
 	}
