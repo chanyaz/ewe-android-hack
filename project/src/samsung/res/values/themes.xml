@@ -8,7 +8,7 @@
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
         
-        <item name="skin_bestPriceGuaranteeString">@string/best_price_guarantee</item>
+        <item name="skin_bestPriceGuaranteeString">@string/price_guarantee</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ab_spinner_samsung</item>
         
