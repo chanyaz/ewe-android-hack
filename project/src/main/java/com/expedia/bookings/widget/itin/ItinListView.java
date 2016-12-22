@@ -11,6 +11,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
@@ -36,8 +37,10 @@ import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
+import com.expedia.bookings.fragment.ItinCardDetailsActivity;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
@@ -866,6 +869,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
+		Boolean isItinCardDetailFeatureOn = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_card_detail);
 		if (view instanceof ItinButtonCard) {
 			// Do nothing
 		}
@@ -874,6 +878,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 		else if (data instanceof ItinCardDataRails) {
 			openItinInWebView(data.getDetailsUrl());
+		}
+		else if (data.hasDetailData() && isItinCardDetailFeatureOn) {
+			Intent i = new Intent(getContext(), ItinCardDetailsActivity.class);
+			getContext().startActivity(i);
 		}
 		else if (data.hasDetailData()) {
 			showDetails(position, true);

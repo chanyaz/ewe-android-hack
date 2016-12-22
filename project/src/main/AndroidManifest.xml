@@ -182,6 +182,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/V2.Theme.Hotels"
             tools:ignore="UnusedAttribute" />
+        <activity android:name="com.expedia.bookings.fragment.ItinCardDetailsActivity"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/V2.Theme.Packages"
+            tools:ignore="UnusedAttribute" />
 
         <!-- Hotels activities -->
         <activity

@@ -822,6 +822,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.select_start_date,
 		R.string.lx_search_start_date_cont_desc,
 		R.string.rail_journey_details_cont_desc_TEMPLATE,
+		R.layout.activity_itin_card_details,
+		R.layout.itin_card_details,
 		R.layout.widget_rating_dialog
 	};
 }
