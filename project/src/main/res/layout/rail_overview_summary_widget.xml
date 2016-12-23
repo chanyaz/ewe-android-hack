@@ -14,6 +14,7 @@
         android:layout_marginLeft="@dimen/card_view_container_margin"
         android:layout_marginRight="@dimen/card_view_container_margin"
         android:layout_marginTop="11dp"
+        android:focusable="true"
         tools:text="Mon, Feb 22" />
 
     <com.expedia.bookings.widget.rail.RailLegSummaryWidget
@@ -32,6 +33,7 @@
         android:layout_gravity="center"
         android:layout_marginLeft="@dimen/card_view_container_margin"
         android:layout_marginRight="@dimen/card_view_container_margin"
+        android:focusable="true"
         tools:text="Return - Mon, Feb 22"
         android:visibility="gone"/>
 
@@ -43,6 +45,7 @@
         android:layout_marginLeft="@dimen/card_view_container_margin"
         android:layout_marginRight="@dimen/card_view_container_margin"
         android:text="@string/rail_open_return_messaging"
+        android:focusable="true"
         android:visibility="gone"/>
 
     <com.expedia.bookings.widget.rail.RailLegSummaryWidget

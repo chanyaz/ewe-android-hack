@@ -8,6 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import android.widget.Button
 import com.expedia.bookings.R
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
@@ -62,8 +63,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
         vm.totalDurationContDescSubject.subscribeContentDescription(totalDurationText)
         vm.selectedFlightLegSubject.subscribe { selectedFlight ->
             val segmentbreakdowns = arrayListOf<FlightSegmentBreakdown>()
-            for (segment in selectedFlight.flightSegments) {
-                segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
+            val segmentSeatClassAndBookingCode = selectedFlight.packageOfferModel.segmentsSeatClassAndBookingCode
+            for ((index, segment) in selectedFlight.flightSegments.withIndex()) {
+                if (segmentSeatClassAndBookingCode != null) {
+                    segment.seatClass = segmentSeatClassAndBookingCode[index].seatClass
+                    segment.bookingCode = segmentSeatClassAndBookingCode[index].bookingCode
+                }
+                segmentbreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, vm.showSeatClassAndBookingCode.value))
             }
             showBaggageFeesButton.setOnClickListener {
                 if(selectedFlight.baggageFeesUrl.contains("http")){

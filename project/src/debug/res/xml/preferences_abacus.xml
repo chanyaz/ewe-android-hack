@@ -141,6 +141,15 @@
             android:summary="%s"
             android:title="Flight Expanded Rate Detail" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="12763"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Flight Seat Class And Booking Code View" />
+
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -248,6 +257,15 @@
             android:key="12465"
             android:layout="@layout/preference"
             android:title="Itin Hotel Gallery" />
+
+        <ListPreference
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:defaultValue="@string/preference_abacus_default"
+            android:summary="%s"
+            android:key="12794"
+            android:layout="@layout/preference"
+            android:title="Itin User Reviews" />
 
     </PreferenceCategory>
 </PreferenceScreen>

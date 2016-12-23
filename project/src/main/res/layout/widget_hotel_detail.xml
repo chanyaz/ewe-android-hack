@@ -407,7 +407,7 @@
                             style="@style/HotelDetailsInfoLeft"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:text="@string/best_price_guarantee"
+                            android:text="@string/price_guarantee"
                             android:visibility="gone" />
 
                         <com.expedia.bookings.widget.TextView

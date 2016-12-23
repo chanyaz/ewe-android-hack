@@ -27,6 +27,7 @@ public class Constants {
 	public static final String ITIN_IS_SPLIT_TICKET = "ITIN_IS_SPLIT_TICKET";
 
 	public static final String TAG_CALENDAR_DIALOG = "TAG_CALENDAR_DIALOG";
+	public static final String TAG_RATING_DIALOG = "TAG_RATING_DIALOG";
 	// constants for prefs changes
 	public static final int REQUEST_SETTINGS = 11;
 	public static final int RESULT_NO_CHANGES = 1;

@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:animateLayoutChanges="true"
+                android:focusable="true"
                 android:orientation="vertical">
 
                 <TextView
@@ -84,6 +85,8 @@
                 android:layout_gravity="top"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="9dp"
+                android:contentDescription="@string/accessibility_cont_desc_role_button_expand"
+                android:focusable="true"
                 android:src="@drawable/read_more"
                 android:tint="@color/rail_bundle_icon_color" />
         </LinearLayout>
@@ -118,6 +121,7 @@
                 android:layout_marginBottom="8dp"
                 android:drawableLeft="@drawable/ic_rail_card"
                 android:drawablePadding="6dp"
+                android:focusable="true"
                 android:gravity="center_vertical"
                 android:visibility="gone"/>
 
@@ -126,9 +130,10 @@
                 style="@style/Core.Text.Default.LightColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingBottom="12dp"
                 android:drawableRight="@drawable/ic_checkout_info"
                 android:drawablePadding="2dp"
+                android:focusable="true"
+                android:paddingBottom="12dp"
                 android:visibility="invisible"
                 tools:text="Fare Description Here" />
         </LinearLayout>

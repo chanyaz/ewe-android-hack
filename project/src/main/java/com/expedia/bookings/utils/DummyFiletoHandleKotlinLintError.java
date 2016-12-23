@@ -267,6 +267,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_return,
 		R.string.rail_going_from_location_cont_desc_TEMPLATE,
 		R.string.rail_going_to_location_cont_desc_TEMPLATE,
+		R.string.rail_railcard_applied_cont_desc_TEMPLATE,
 		R.plurals.search_rail_card_cont_desc_TEMPLATE,
 		R.string.rail_tab_oneway_selected_announcement,
 		R.string.rail_tab_roundtrip_selected_announcement,
@@ -275,6 +276,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.no_rail_cards_error_message,
 		R.string.rail_depart_time_cont_desc_TEMPLATE,
 		R.string.rail_return_time_cont_desc_TEMPLATE,
+		R.string.rail_button_cont_desc_TEMPLATE,
+		R.string.rail_cost_breakdown_button_cont_desc_TEMPLATE,
 		R.layout.accept_terms_layout,
 		R.layout.widget_rail_details_fare_option,
 		R.layout.widget_rail_calendar,
@@ -797,7 +800,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.include_itin_card_summary_rail,
 		R.drawable.rail_itin_icon,
 		R.string.rail_result_card_cont_desc_TEMPLATE,
-		R.string.rail_result_card_railcard_applied_cont_desc,
+		R.string.rail_railcard_applied_cont_desc,
 		R.string.rail_result_card_price_from_cont_desc_TEMPLATE,
 		R.string.rail_selected_outbound_cont_desc,
 		R.layout.lx_overview,
@@ -810,9 +813,11 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.rail_unknown_error_message,
 		R.string.rail_cko_retry_error_message,
 		R.string.rail_error_title,
+		R.string.flight_seatclass_booking_code_TEMPLATE,
 		R.layout.itin_gallery,
 		R.string.select_start_date,
 		R.string.lx_search_start_date_cont_desc,
-		R.string.rail_journey_details_cont_desc_TEMPLATE
+		R.string.rail_journey_details_cont_desc_TEMPLATE,
+		R.layout.widget_rating_dialog
 	};
 }

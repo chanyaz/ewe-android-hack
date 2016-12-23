@@ -8,6 +8,7 @@ import rx.subjects.BehaviorSubject
 class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewModel(context) {
 
     override val showBundlePriceSubject = BehaviorSubject.create(false)
+    override val showSeatClassAndBookingCode = BehaviorSubject.create(true)
 
     override fun pricePerPersonString(selectedFlight: FlightLeg): String {
         return selectedFlight.packageOfferModel.price.averageTotalPricePerTicket.formattedMoneyFromAmountAndCurrencyCode

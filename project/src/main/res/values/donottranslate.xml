@@ -110,6 +110,9 @@
     <string name="preference_abacus_setting_bucketed">Bucketed</string>
     <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
     <string name="preference_enable_tune">preference_enable_tune</string>
+    <string name="preference_user_has_seen_review_prompt">preference_user_has_seen_review_prompt</string>
+    <string name="preference_user_has_booked_hotel_or_flight">preference_user_has_booked_hotel_or_flight</string>
+    <string name="preference_date_last_review_prompt_shown">preference_date_last_review_prompt_shown</string>
 
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
@@ -117,9 +120,9 @@
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
     <string name="preference_itin_hotel_upgrade">preference_itin_hotel_upgrade</string>
+    <string name="preference_itin_user_reviews">preference_itin_user_reviews</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_enable_rail_checkout_login">preference_enable_rail_checkout_login</string>
-
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>
