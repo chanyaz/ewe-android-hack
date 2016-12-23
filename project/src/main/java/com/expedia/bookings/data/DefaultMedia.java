@@ -15,12 +15,12 @@ public class DefaultMedia implements IMedia {
 	private int placeholderId = 0;
 	private boolean isPlaceholder = false;
 
-	public DefaultMedia(List<String> imageURLs,  String imageCaption) {
+	public DefaultMedia(List<String> imageURLs, String imageCaption) {
 		this.imageURLs = imageURLs;
 		this.imageCaption = imageCaption;
 	}
 
-	public DefaultMedia(List<String> imageURLs,  String imageCaption, int placeholderId) {
+	public DefaultMedia(List<String> imageURLs, String imageCaption, int placeholderId) {
 		this.imageURLs = imageURLs;
 		this.imageCaption = imageCaption;
 		this.placeholderId = placeholderId;
@@ -29,7 +29,11 @@ public class DefaultMedia implements IMedia {
 	@Override
 	public void loadImage(ImageView imageView, PicassoTarget target, int defaultResId) {
 		imageView.setContentDescription(imageCaption);
-		new PicassoHelper.Builder(imageView).setPlaceholder(defaultResId).setTarget(target).build().load(imageURLs);
+		new PicassoHelper.Builder(imageView)
+			.setPlaceholder(defaultResId)
+			.setTarget(target)
+			.setError(getPlaceHolderId())
+			.build().load(imageURLs);
 	}
 
 	@Override
@@ -62,5 +66,10 @@ public class DefaultMedia implements IMedia {
 	@Override
 	public int getPlaceHolderId() {
 		return placeholderId;
+	}
+
+	@Override
+	public int getFallbackImage() {
+		return 0;
 	}
 }
