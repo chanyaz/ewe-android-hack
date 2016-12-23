@@ -1826,6 +1826,9 @@
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Retry</string>
 
+    <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
+    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">{brand} Flights</string>

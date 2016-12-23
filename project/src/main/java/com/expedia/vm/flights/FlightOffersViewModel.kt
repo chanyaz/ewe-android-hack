@@ -158,7 +158,7 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
                 // assuming all offers are sorted by price by API
                 val hasCheapestOffer = !outBoundFlights.contains(outboundLeg)
                 if (hasCheapestOffer) {
-                    outboundLeg.packageOfferModel = makeOffer(offer)
+                    outboundLeg.packageOfferModel = makeOffer(offer, true)
                 }
                 outBoundFlights.add(outboundLeg)
             }
@@ -179,14 +179,14 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
         flights.forEach { inbound ->
             val offer = getFlightOffer(outboundFlightId, inbound.legId)
             if (offer != null) {
-                val offerModel = makeOffer(offer)
+                val offerModel = makeOffer(offer, false)
                 inbound.packageOfferModel = offerModel
             }
         }
         return flights
     }
 
-    private fun makeOffer(offer: FlightTripDetails.FlightOffer): PackageOfferModel {
+    private fun makeOffer(offer: FlightTripDetails.FlightOffer, isOutbound: Boolean): PackageOfferModel {
         val offerModel = PackageOfferModel()
         val urgencyMessage = PackageOfferModel.UrgencyMessage()
         urgencyMessage.ticketsLeft = offer.seatsRemaining
@@ -198,6 +198,7 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
         price.pricePerPersonFormatted = offer.averageTotalPricePerTicket.formattedWholePrice
         offerModel.urgencyMessage = urgencyMessage
         offerModel.price = price
+        offerModel.segmentsSeatClassAndBookingCode = if (isOutbound) offer.offersSeatClassAndBookingCode.get(0) else offer.offersSeatClassAndBookingCode.get(1);
         return offerModel
     }
 

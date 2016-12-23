@@ -5597,6 +5597,9 @@ public class OmnitureTracking {
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
 		s.setEvar(2, "D=c2");
 		s.setProp(2, "Flight");
+		if (isOutboundFlight) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode);
+		}
 		s.track();
 	}
 
