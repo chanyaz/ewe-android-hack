@@ -85,7 +85,6 @@ public class PersistentCookieManager implements CookieJar {
 	public void clear() {
 		cookieStore.clear();
 		storage.delete();
-		encryptionUtil.clear();
 	}
 
 	public void removeNamedCookies(String[] names) {
@@ -141,6 +140,7 @@ public class PersistentCookieManager implements CookieJar {
 		}
 		catch (Exception e) {
 			clear();
+			encryptionUtil.clear();
 			throw new RuntimeException(e);
 		}
 	}
@@ -189,6 +189,7 @@ public class PersistentCookieManager implements CookieJar {
 		}
 		catch (Exception e) {
 			clear();
+			encryptionUtil.clear();
 			throw new RuntimeException(e);
 		}
 	}
