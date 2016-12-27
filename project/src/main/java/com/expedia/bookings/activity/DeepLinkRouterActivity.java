@@ -42,6 +42,7 @@ import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.CarDataUtils;
+import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
@@ -99,8 +100,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			finish();
 			return;
 		}
-		String host = data.getHost();
+
 		String dataString = data.toString();
+		String scheme = data.getScheme();
+		String host;
 
 		// Decoding the URL, as it is not being captured because of the encoding of the url on the test server's.
 		try {
@@ -110,75 +113,93 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			Log.w(TAG, "Could not decode deep link data" + data.toString(), e);
 		}
 
-		Log.d(TAG, "Got deeplink: " + host + "/" + dataString);
 		Set<String> queryData = StrUtils.getQueryParameterNames(data);
-
 		OmnitureTracking.parseAndTrackDeepLink(data, queryData);
 
+		if (scheme.equals("https") || scheme.equals("http")) {
+			String path = data.getPath().toLowerCase(Locale.US);
+			host = path.substring(path.indexOf(Constants.DEEPLINK_KEYWORD) + Constants.DEEPLINK_KEYWORD.length());
+		}
+		else {
+			host = data.getHost();
 		/*
 		 * Let's handle iOS implementation of sharing/importing itins, cause we can - Yeah, Android ROCKS !!!
 		 * iOS prepends the sharableLink this way "expda://addSharedItinerary?url=<actual_sharable_link_here>"
 		 * We intercept this uri too, extract the link and then send to fetch the itin.
 		 */
-		if (host.equalsIgnoreCase("addSharedItinerary") && dataString.contains("m/trips/shared")) {
-			goFetchSharedItin(data.getQueryParameter("url"));
-			finish();
-			return;
-		}
-		else if (dataString.contains("m/trips/shared")) {
-			goFetchSharedItin(dataString);
-			finish();
-			return;
-		}
-		else if (dataString.contains("signIn")) {
-			handleSignIn();
-			finish();
-			return;
-		}
-		else if (ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl().equalsIgnoreCase(host)) {
-			final String shortUrl = dataString;
-			final ExpediaServices services = new ExpediaServices(this);
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					String longUrl = services.getLongUrl(shortUrl);
-					if (null != longUrl) {
-						goFetchSharedItin(longUrl);
+			if (host.equalsIgnoreCase("addSharedItinerary") && dataString.contains("m/trips/shared")) {
+				goFetchSharedItin(data.getQueryParameter("url"));
+				finish();
+				return;
+			}
+			else if (dataString.contains("m/trips/shared")) {
+				goFetchSharedItin(dataString);
+				finish();
+				return;
+			}
+			else if (dataString.contains("signIn")) {
+				handleSignIn();
+				finish();
+				return;
+			}
+			else if (ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl().equalsIgnoreCase(host)) {
+				final String shortUrl = dataString;
+				final ExpediaServices services = new ExpediaServices(this);
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						String longUrl = services.getLongUrl(shortUrl);
+
+						if (null != longUrl) {
+							goFetchSharedItin(longUrl);
+						}
 					}
-				}
-			}).start();
-			finish();
-			return;
+				}).start();
+				finish();
+				return;
+			}
 		}
+		Log.d(TAG, "Got deeplink: " + host + "/" + dataString);
 
 		boolean finish;
 		String hostLowerCase = host
 			.toLowerCase(Locale.US); // deliberately using US here, as the host will always be formatted in US ASCII
 		switch (hostLowerCase) {
+
+		case "":
 		case "home":
 			Log.i(TAG, "Launching home screen from deep link!");
 			NavUtils.goToLaunchScreen(this, true);
 			finish = true;
 			break;
+		case "/trips":
 		case "showtrips":
 		case "trips":
 			Log.i(TAG, "Launching itineraries from deep link!");
 			NavUtils.goToItin(this);
 			finish = true;
 			break;
+		case "/hotel-search":
 		case "hotelsearch":
 			finish = handleHotelSearch(data, queryData);
 			break;
+		case "/flights-search":
 		case "flightsearch":
 			handleFlightSearch(data, queryData);
 			finish = true;
 			break;
+		case "/things-to-do/search":
 		case "activitysearch":
 			handleActivitySearch(data, queryData);
 			finish = true;
 			break;
+		case "/carsearch":
 		case "carsearch":
 			handleCarsSearch(data, queryData);
+			finish = true;
+			break;
+		case "/user/signin":
+			handleSignIn();
 			finish = true;
 			break;
 		case "destination":
@@ -198,7 +219,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			com.mobiata.android.util.Ui.showToast(this, "Cannot yet handle data: " + data);
 			finish = true;
 		}
-
 		// This Activity should never fully launch
 		if (finish) {
 			finish();

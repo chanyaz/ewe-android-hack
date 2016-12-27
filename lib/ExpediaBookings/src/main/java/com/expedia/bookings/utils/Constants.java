@@ -48,4 +48,6 @@ public class Constants {
 	public static final int PERMISSION_WRITE_EXTERNAL_STORAGE_BUGSHAKER = 11;
 
 	public static final double PRICE_CHANGE_NOTIFY_CUTOFF = .01;
+
+	public static final String DEEPLINK_KEYWORD = "deeplink";
 }
