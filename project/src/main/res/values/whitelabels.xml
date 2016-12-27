@@ -218,8 +218,6 @@
     <attr name="skin_lxOfferDateSelectorDrawable" format="reference" />
     <attr name="skin_lxSelectTicketButtonSelectorDrawable" format="reference" />
     <attr name="skin_lxShowMoreBackgroundDrawable" format="reference" />
-    <attr name="skin_lxSortButtonSelectorDrawable" format="reference" />
-    <attr name="skin_lxSortButtonTextSelectorDrawable" format="reference" />
     <attr name="skin_lxTextSelectorDrawable" format="reference" />
     <attr name="skin_lxUncheckedToggleTextColor" format="reference|color" />
     <attr name="skin_lxErrorDefaultDrawable" format="reference" />
