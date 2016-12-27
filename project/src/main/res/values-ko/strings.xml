@@ -125,8 +125,6 @@
     <string name="calendar_desc_itinerary_TEMPLATE">{brand} 일정 번호: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_desc_support_TEMPLATE">{brand} 고객 지원: {localphone} 및 {phone}</string>
-    <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
-    <string name="car_search_date_range_cont_desc_TEMPLATE">렌터카 날짜. 버튼. 대화상자 열림. {date_time_range}</string>
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">즐길거리 위치 구글 지도 보기</string>
 
@@ -256,14 +254,15 @@
     <string name="stored_card_TEMPLATE">{cardtype} 저장됨</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">저장된 카드</string>
-    <!-- text that goes underneath the camera button for card_io -->
-    <string name="card_io_btn_text">스캔</string>
-    <!-- Card.io scan text -->
-    <string name="scan_card_text">카드 스캔</string>
-    <!-- Card.io instruction text -->
-    <string name="scan_card_instruction_text">카드를 여기에 가져다 대세요. 자동으로 스캔됩니다.</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
     <string name="accessibility_cost_summary_cont_desc_role_button">비용 요약 정보 버튼</string>
+    <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
+    <plurals name="number_of_errors_TEMPLATE">
+        <item quantity="one">양식에 {number}개의 오류가 있습니다.</item>
+        <item quantity="other">양식에 {number}개의 오류가 있습니다.</item>
+    </plurals>
+    <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
+    <string name="accessibility_announcement_please_review_and_resubmit">검토하고 다시 제출해 주세요.</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -740,8 +739,6 @@
     <string name="lx_voucherless_offer">전자 형태 바우처</string>
     <!-- Message for voucherless offers  -->
     <string name="lx_print_voucher_offer">출력한 바우처 필요</string>
-    <!-- Card brand not supported (e.g. "Visa not accepted") -->
-    <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s 결제가 지원되지 않습니다.</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">죄송합니다. 이 즐길거리의 가격이 변동되었습니다. 다시 예약해 주세요.</string>
     <!-- LX Error Limited Inventory -->
@@ -1076,6 +1073,37 @@
     <!-- Rail to hint -->
     <string name="to_hint">도착역</string>
 
+    <!-- Accessibility String Informs the user of selected departure time. Ex. "Departure Time: Feb 4 12:00 -->
+    <string name="rail_depart_time_cont_desc_TEMPLATE">갈 때 시간은 {time}입니다.</string>
+
+    <!-- Accessibility string informs the user of selected return time. Ex. "Return Time: Feb 8 15:00-->
+    <string name="rail_return_time_cont_desc_TEMPLATE">올 때 시간은 {time}입니다.</string>
+
+    <!-- Accessibility string to tell the user this text is also a button -->
+    <string name="rail_from_hint_cont_desc">출발지 버튼.</string>
+    <!-- Accessibility string to tell the user this text is also a button -->
+    <string name="rail_to_hint_cont_desc">목적지 버튼.</string>
+
+    <!-- Accessibility string to tell the user the departing station they selected Ex. Going from London Euston. Button -->
+    <string name="rail_going_from_location_cont_desc_TEMPLATE">{location} 출발 버튼.</string>
+    <!-- Accessibility string to tell the user the destination station they selected Ex. Going to Sugar loaf. Button -->
+    <string name="rail_going_to_location_cont_desc_TEMPLATE">{location} 도착 버튼.</string>
+
+    <!-- Accessibility description, infroms the user of the rail card button, and describes currently selected number of railcards-->
+    <plurals name="search_rail_card_cont_desc_TEMPLATE">
+        <item quantity="one">레일카드 개수 버튼. 대화상자 열림 레일카드 {count}개입니다.</item>
+        <item quantity="other">레일카드 개수 버튼. 대화상자 열림 레일카드 {count}개입니다.</item>
+    </plurals>
+
+
+    <!-- Accessibility string telling the user the swap button will change the departure and destination selections -->
+    <string name="rail_swap_locations_cont_desc">목적지를 출발지로 바꿉니다.</string>
+
+    <!-- Accessibility announcement when one way search screen is selected. -->
+    <string name="rail_tab_oneway_selected_announcement">편도 기차 검색 화면을 보여줍니다.</string>
+    <!-- Accessibility announcement when Return search screen is selected. -->
+    <string name="rail_tab_roundtrip_selected_announcement">왕복 기차 검색 화면을 보여줍니다.</string>
+
     <!-- New launch screen -->
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">오늘 밤 추천 상품</string>
@@ -1196,6 +1224,12 @@
     <string name="itinerary_fetch_error">일정을 가져오는 도중 오류 발생</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">고객님 여행을 보시려면 로그인해 주세요.</string>
+    <!-- Button text to refresh your trips -->
+    <string name="refresh_trips">여행 새로고침</string>
+    <!-- Itinerary screen when we can't fetch any trips -->
+    <string name="fetching_trips_error">지금 고객님의 여행 일정을 가져올 수 없습니다. 다시 시도해 주세요.</string>
+    <!-- Itinerary screen when we connection fails while fetching trips -->
+    <string name="fetching_trips_error_connection">지금 연결이 되지 않습니다.</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">오늘</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1271,6 +1305,8 @@
     <string name="trips_back_button_label_cont_desc">여행 화면으로 돌아가기 버튼</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">여행을 확장하려면 버튼을 탭하세요</string>
+    <!-- Content Description for upgrade image to upgrade hotel room -->
+    <string name="trips_upgrade_hotel_button_label_cont_desc">호텔 객실 업그레이드</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">호텔 확인 코드</string>
     <!-- Passengers Label -->
@@ -1387,8 +1423,6 @@
     <string name="flight_arrived">도착 완료</string>
     <!-- Refresh -->
     <string name="refresh">새로 고침</string>
-    <!-- Try Again -->
-    <string name="try_again">다시 시도</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">%1$s 복사</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
@@ -1529,7 +1563,13 @@
     <string name="itin_card_details_details">추가 정보</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">호텔 객실 취소</string>
+    <!-- Label for button to upgrade Hotel room -->
+    <string name="itin_card_details_upgrade_hotel_button">시간 제한: 업그레이드 가능!</string>
     <string name="itin_card_flight_checkin_title">항공편 체크인</string>
+    <!-- Label for button to edit Hotel booking -->
+    <string name="itin_card_edit_hotel_room_info">객실 정보 수정</string>
+    <!-- Accessibility announcement for button to edit Hotel booking -->
+    <string name="itin_card_change_hotel_options">호텔 옵션 변경</string>
 
     <string name="itin_card_flight_checkin_details">%s 사이트 방문</string>
     <string name="itin_card_details_pick_up">차량 인수</string>
@@ -1741,8 +1781,10 @@
     <string name="flights_round_trip_label">왕복</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">편도</string>
-    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
-    <string name="flights_tab_selection_accouncement_TEMPLATE">{whichway} 항공편 검색 화면 표시</string>
+    <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
+    <string name="flights_tab_selection_accouncement_oneway">편도 항공편 검색 화면을 보여줍니다.</string>
+    <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
+    <string name="flights_tab_selection_accouncement_roundtrip">왕복 항공편 검색 화면을 보여줍니다.</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">가는편:</string>
     <!-- Flights Line of Business title -->
@@ -1864,6 +1906,8 @@
     <string name="edit_search">검색 수정</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">날짜 선택</string>
+    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <string name="trip_dates_cont_desc">여행 날짜</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">여행지 검색</string>
     <!-- Number of adults template -->
@@ -2034,13 +2078,15 @@
     <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
     <string name="airline_processing_fee_TEMPLATE">이 카드에 대한 항공사 처리 수수료: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
-    <string name="airline_does_not_accept_cardtype_TEMPLATE">항공사에서 %1$s 결제를 지원하지 않습니다.</string>
+    <string name="airline_does_not_accept_cardtype_TEMPLATE">항공사에서 {card_type} 결제를 지원하지 않습니다.</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
-    <string name="hotel_does_not_accept_cardtype_TEMPLATE">호텔에서 %1$s 결제를 지원하지 않습니다.</string>
-    <!-- Package trip does not accept <Credit Card Brand> (Example: Visa is not accepted for this trip) -->
-    <string name="package_does_not_accept_cardtype_TEMPLATE">이 여행에는 {card_type} 사용이 허용되지 않습니다.</string>
-    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
-    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s에서 %2$s 결제를 지원하지 않습니다.</string>
+    <string name="hotel_does_not_accept_cardtype_TEMPLATE">호텔에서 {card_type} 결제를 지원하지 않습니다.</string>
+    <!-- Package trip does not accept <Credit Card Brand> (Example: Trip does not accept Visa) -->
+    <string name="package_does_not_accept_cardtype_TEMPLATE">여행에서 {card_type} 결제가 지원되지 않습니다.</string>
+    <!-- Rental company does not accept <Credit Card Brand> (e.g. "Rental company does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">렌터카 회사에서 {card_type} 결제를 지원하지 않습니다.</string>
+    <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">즐길거리에서 {card_type} 결제가 지원되지 않습니다.</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">직불카드로는 결제하실 수 없습니다.</string>
 
@@ -3209,8 +3255,6 @@
     <string name="sign_in">로그인</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">로그인하는 중…</string>
-    <!-- Message that tells user they failed to sign in -->
-    <string name="sign_in_failed">다시 로그인해 주세요.</string>
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">{brand} 계정에서 로그아웃하시겠어요?</string>
     <!-- Label for loading user profile from Expedia -->
@@ -3454,7 +3498,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s%2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency} {amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">설정</string>
@@ -4064,7 +4108,6 @@
 
     <string name="lob_not_supported_error_message">죄송합니다. 고객님의 위치에서는 아직 {lob} 예약을 이용하실 수 없습니다.</string>
 
-
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(만 26~59세)</string>
 
@@ -4408,6 +4451,9 @@
     <!-- Legal message shown on search result screen for round trip search -->
     <string name="rail_search_legal_banner_round_trip">요금은 모든 승객에 대해 왕복 요금입니다. 결제 및 티켓 배송 수수료도 적용될 수 있습니다.</string>
 
+    <!-- Accessible legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip_cont_desc">요금은 모든 승객에 대해 왕복 요금입니다. 결제 및 티켓 배송 수수료도 적용될 수 있습니다. 버튼</string>
+
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
@@ -4474,7 +4520,7 @@
     <string name="rail_station_info_TEMPLATE">{departure} -&gt; {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4524,17 +4570,33 @@
     <string name="rail_unknown_error_message">검색 조건을 변경하고 다시 검색해 주세요.</string>
     <string name="rail_cko_retry_error_message">청구 정보를 확인하고 다시 해보거나 검색을 변경해 보세요.</string>
 
+    <!-- Rails content description for add railcard button on Railcards screen -->
+    <string name="rail_add_railcard_cont_desc">레일카드 추가</string>
+    <!-- Rails content description for remove railcard button on Railcards screen -->
+    <string name="rail_remove_railcard_cont_desc">레일카드 삭제</string>
+
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
     <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} -&gt; {arrivalstation}</string>
     <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
     <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
-    <string name="pwp_points_conversion_unauthenticated_access">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
-    <string name="pwp_trip_service_error">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
-    <string name="pwp_unknown_error">알 수 없는 오류가 발생했습니다. 다시 시도해 주세요.</string>
+    <!--Rails content description for results card, e.g. Departs at 10:06am Arrives at 11:11am London Midlan Trip Duration 5h 43min, 2 changes -->
+    <string name="rail_result_card_cont_desc_TEMPLATE">{departuretime} 출발, {arrivaltime} 도착, {trainoperator}, 소요 시간 {tripdurationandchanges}</string>
+    <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
+    <string name="rail_journey_details_cont_desc_TEMPLATE">{departurestation}발 {arrivalstation}행 {travelmode}, {trainoperator}, 소요 시간 {duration}, {departuretime} 출발, {arrivaltime} 도착</string>
+    <!--Rails content description for results card Railcard applied portion -->
+    <string name="rail_result_card_railcard_applied_cont_desc">레일카드 적용됨</string>
+    <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
+   <string name="rail_result_card_price_from_cont_desc_TEMPLATE">요금은 최저 {price}부터</string>
+   <!-- Rail selected outbound content description on the outbound results -->
+   <string name="rail_selected_outbound_cont_desc">선택된 가는 기차편:</string>
 
-    <!-- New Hotel Search screen -->
+   <string name="pwp_points_conversion_unauthenticated_access">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
+   <string name="pwp_trip_service_error">죄송합니다. 서버 문제가 발생했습니다. 다시 시도해 주세요.</string>
+   <string name="pwp_unknown_error">알 수 없는 오류가 발생했습니다. 다시 시도해 주세요.</string>
+
+   <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">목적지 입력</string>
     <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
     <string name="enter_destination_cont_desc">목적지 입력. 버튼</string>
@@ -4659,17 +4721,16 @@
     <string name="packages_search_flying_from_cont_desc">다음에서 오는 비행기. 버튼</string>
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">여행 날짜 선택. 버튼. 대화상자 열림</string>
-    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate}부터 {enddate}까지</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
-    <string name="trip_search_date_range_cont_desc_TEMPLATE">여행 날짜. 버튼. 대화상자 열림. {date_range}. {nights}</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
     <string name="hotel_card_view_price_cont_desc_TEMPLATE">가격 {price}.  \u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
-        <item quantity="one">여행객 수. 버튼. 대화상자 열림. 여행객 {travelers}명</item>
-        <item quantity="other">여행객 수. 버튼. 대화상자 열림. 여행객 {travelers}명</item>
+        <item quantity="one">여행객 수. 버튼. 대화상자 열림 여행객 {travelers}명</item>
+        <item quantity="other">여행객 수. 버튼. 대화상자 열림 여행객 {travelers}명</item>
     </plurals>
+
+    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="search_date_range_cont_desc_TEMPLATE">{startdate} -&gt; {enddate}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">성인 1명 추가</string>
     <!--Traveler widget adults minus button content description-->
@@ -4688,11 +4749,11 @@
     <!--Rail Traveler widget senior minus button content description-->
     <string name="rails_remove_senior_traveler_cont_desc">고령자 1명 삭제</string>
 
-    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">아동 {childnumber}의 나이를 선택하세요.</string>
-    <!--Packages search youth age drop down content description Eg. "Select age for youth 1."-->
+    <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">청소년 {youthnumber}의 나이를 선택하세요.</string>
-    <!--Packages search senior age drop down content description Eg. "Select age for senior 1."-->
+    <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
     <string name="search_senior_drop_down_cont_desc_TEMPLATE">고령자 {seniornumber}의 나이를 선택하세요.</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
@@ -4760,8 +4821,10 @@
     <string name="lx_add_ticket_button_cont_desc_TEMPLATE">{traveler} 추가</string>
     <!-- Content description for LX remove ticket button e.g. Remove child Button -->
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">{traveler} 삭제</string>
-    <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
-    <string name="lx_search_date_range_cont_desc_TEMPLATE">즐길거리 날짜. 버튼. 대화상자 열림. {date_range}</string>
+    <!-- Announcement on LX add button Click  e.g One adult Added -->
+    <string name="lx_ticket_added_announce_accessibility_TEMPLATE">{traveler} 한 명 추가됨</string>
+    <!-- Announcement on LX remove button click e.g One adult Removed -->
+    <string name="lx_ticket_removed_announce_accessibility_TEMPLATE">{traveler} 한 명 삭제됨</string>
 
     <!-- Content description for action: $44. Cost summary information button. -->
     <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. 비용 요약 정보 버튼.</string>
@@ -4799,6 +4862,8 @@
     <string name="hotel_room_expand_cont_desc">객실 정보를 보고 객실을 선택하려면 확장하세요</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
     <string name="hotel_expanded_room_select_cont_desc">객실 선택</string>
+    <!-- Content Description for payment options list when card is not accepted -->
+    <string name="accessibility_cont_desc_card_is_disabled">지원 불가</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">요금은 {activity_price}입니다.</string>
@@ -4811,6 +4876,11 @@
     <string name="accessibility_cont_desc_role_checkbox_unchecked">확인란. 체크 안 됨.</string>
     <string name="base_search_dates_cont_desc">날짜 선택. 버튼. 대화상자 열림</string>
     <string name="lx_search_start_date_cont_desc">시작 날짜 선택. 버튼. 대화상자 열림</string>
+
+    <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
+    <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
+    <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
+    <string name="search_dates_cont_desc_TEMPLATE">{dates_label} 버튼. 대화상자 열림 {duration_description}</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>
@@ -4848,8 +4918,8 @@
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">클립보드에 복사. 버튼.</string>
 
-    <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
-    <string name="lx_carousal_cont_desc_TEMPLATE">즐길거리 선택됨, {caption}</string>
+    <!-- LX Carousal images content description : Activity, 3 of 5 photos. -->
+    <string name="lx_carousal_cont_desc_TEMPLATE">즐길거리, {caption}</string>
 
     <!-- Gallery Image count e.g. "1/14" -->
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
@@ -4862,5 +4932,7 @@
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">여러 항공사</string>
+    <!-- Room Upgrade Available messaging on Itin Screen -->
+    <string name="room_upgrade_available">업그레이드 이용 가능</string>
 
 </resources>

@@ -125,8 +125,6 @@
     <string name="calendar_desc_itinerary_TEMPLATE">Số lịch trình {brand}: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_desc_support_TEMPLATE">Hỗ trợ Khách hàng {brand}: {localphone} và {phone}</string>
-    <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
-    <string name="car_search_date_range_cont_desc_TEMPLATE">Ngày thuê xe. Nút. Mở hộp thoại. {date_time_range}</string>
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">Địa điểm hoạt động trên Google Map</string>
 
@@ -256,14 +254,15 @@
     <string name="stored_card_TEMPLATE">{cardtype} đã lưu</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Thẻ đã lưu</string>
-    <!-- text that goes underneath the camera button for card_io -->
-    <string name="card_io_btn_text">QUÉT</string>
-    <!-- Card.io scan text -->
-    <string name="scan_card_text">Quét thẻ</string>
-    <!-- Card.io instruction text -->
-    <string name="scan_card_instruction_text">Giữ thẻ trong ô này. Chương trình sẽ quét tự động.</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
     <string name="accessibility_cost_summary_cont_desc_role_button">Nút tóm tắt chi phí</string>
+    <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
+    <plurals name="number_of_errors_TEMPLATE">
+        <item quantity="one">Có {number} lỗi trong mẫu yêu cầu.</item>
+        <item quantity="other">Có {number} lỗi trong mẫu yêu cầu.</item>
+    </plurals>
+    <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
+    <string name="accessibility_announcement_please_review_and_resubmit">Vui lòng kiểm tra và gửi lại.</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -740,8 +739,6 @@
     <string name="lx_voucherless_offer">Voucher điện tử</string>
     <!-- Message for voucherless offers  -->
     <string name="lx_print_voucher_offer">Cần bản in voucher</string>
-    <!-- Card brand not supported (e.g. "Visa not accepted") -->
-    <string name="lx_does_not_accept_cardtype_TEMPLATE">Không nhận thanh toán bằng %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Rất tiếc, giá vé hoạt động này đã thay đổi. Vui lòng thử đặt lại.</string>
     <!-- LX Error Limited Inventory -->
@@ -787,39 +784,39 @@
     <string name="Done">Hoàn tất</string>
     <!-- Pluralization for Number of Hotels returned from a search TEMPLATE e.g. "25 Hotels" -->
     <plurals name="x_Hotels_TEMPLATE">
-        <item quantity="zero">%s Khách\nsạn</item>
-        <item quantity="one">%s Khách\nsạn</item>
-        <item quantity="two">%s Khách\nsạn</item>
-        <item quantity="few">%s Khách\nsạn</item>
-        <item quantity="many">%s Khách\nsạn</item>
-        <item quantity="other">%s Khách\nsạn</item>
+        <item quantity="zero">%s khách\nsạn</item>
+        <item quantity="one">%s khách\nsạn</item>
+        <item quantity="two">%s khách\nsạn</item>
+        <item quantity="few">%s khách\nsạn</item>
+        <item quantity="many">%s khách\nsạn</item>
+        <item quantity="other">%s khách\nsạn</item>
     </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search TEMPLATE e.g. "15 of 25 Hotels" -->
     <plurals name="x_of_y_Hotels_TEMPLATE">
-        <item quantity="zero">%1$s/%2$s Khách\nsạn</item>
-        <item quantity="one">%1$s/%2$s Khách\nsạn</item>
-        <item quantity="two">%1$s/%2$s Khách\nsạn</item>
-        <item quantity="few">%1$s/%2$s Khách\nsạn</item>
-        <item quantity="many">%1$s/%2$s Khách\nsạn</item>
-        <item quantity="other">%1$s/%2$s Khách\nsạn</item>
+        <item quantity="zero">%1$s/%2$s khách\nsạn</item>
+        <item quantity="one">%1$s/%2$s khách\nsạn</item>
+        <item quantity="two">%1$s/%2$s khách\nsạn</item>
+        <item quantity="few">%1$s/%2$s khách\nsạn</item>
+        <item quantity="many">%1$s/%2$s khách\nsạn</item>
+        <item quantity="other">%1$s/%2$s khách\nsạn</item>
     </plurals>
     <!-- Pluralization for a filtered number of hotels returned from a search, lacking the actual filtered count e.g. "of 25 hotels" -->
     <plurals name="of_y_hotels_TEMPLATE">
-        <item quantity="zero">/%s Khách\nsạn</item>
-        <item quantity="one">/%s Khách\nsạn</item>
-        <item quantity="two">/%s Khách\nsạn</item>
-        <item quantity="few">/%s Khách\nsạn</item>
-        <item quantity="many">/%s Khách\nsạn</item>
-        <item quantity="other">/%s Khách\nsạn</item>
+        <item quantity="zero">/%s khách\nsạn</item>
+        <item quantity="one">/%s khách\nsạn</item>
+        <item quantity="two">/%s khách\nsạn</item>
+        <item quantity="few">/%s khách\nsạn</item>
+        <item quantity="many">/%s khách\nsạn</item>
+        <item quantity="other">/%s khách\nsạn</item>
     </plurals>
     <!-- Pluralization for Number of Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Flights_TEMPLATE">
-        <item quantity="zero">%s Chuyến\nbay</item>
-        <item quantity="one">%s Chuyến\nbay</item>
-        <item quantity="two">%s Chuyến\nbay</item>
-        <item quantity="few">%s Chuyến\nbay</item>
-        <item quantity="many">%s Chuyến\nbay</item>
-        <item quantity="other">%s Chuyến\nbay</item>
+        <item quantity="zero">%s chuyến\nbay</item>
+        <item quantity="one">%s chuyến\nbay</item>
+        <item quantity="two">%s chuyến\nbay</item>
+        <item quantity="few">%s chuyến\nbay</item>
+        <item quantity="many">%s chuyến\nbay</item>
+        <item quantity="other">%s chuyến\nbay</item>
     </plurals>
     <!-- Pluralization for Number of Return Flights returned from a search TEMPLATE e.g. "25 Flights" -->
     <plurals name="x_Return_Flights_TEMPLATE">
@@ -1076,6 +1073,37 @@
     <!-- Rail to hint -->
     <string name="to_hint">Đi đến</string>
 
+    <!-- Accessibility String Informs the user of selected departure time. Ex. "Departure Time: Feb 4 12:00 -->
+    <string name="rail_depart_time_cont_desc_TEMPLATE">Giờ khởi hành {time}</string>
+
+    <!-- Accessibility string informs the user of selected return time. Ex. "Return Time: Feb 8 15:00-->
+    <string name="rail_return_time_cont_desc_TEMPLATE">Giờ trở về {time}</string>
+
+    <!-- Accessibility string to tell the user this text is also a button -->
+    <string name="rail_from_hint_cont_desc">Nút Đi từ</string>
+    <!-- Accessibility string to tell the user this text is also a button -->
+    <string name="rail_to_hint_cont_desc">Nút Đi đến</string>
+
+    <!-- Accessibility string to tell the user the departing station they selected Ex. Going from London Euston. Button -->
+    <string name="rail_going_from_location_cont_desc_TEMPLATE">Đi từ {location}. Nút</string>
+    <!-- Accessibility string to tell the user the destination station they selected Ex. Going to Sugar loaf. Button -->
+    <string name="rail_going_to_location_cont_desc_TEMPLATE">Đi đến {location}. Nút</string>
+
+    <!-- Accessibility description, infroms the user of the rail card button, and describes currently selected number of railcards-->
+    <plurals name="search_rail_card_cont_desc_TEMPLATE">
+        <item quantity="one">Số lượng railcard. Nút. Mở hộp thoại. {count} railcard</item>
+        <item quantity="other">Số lượng railcard. Nút. Mở hộp thoại. {count} railcard</item>
+    </plurals>
+
+
+    <!-- Accessibility string telling the user the swap button will change the departure and destination selections -->
+    <string name="rail_swap_locations_cont_desc">Hoán đổi địa điểm điểm đến và địa điểm khởi hành.</string>
+
+    <!-- Accessibility announcement when one way search screen is selected. -->
+    <string name="rail_tab_oneway_selected_announcement">Hiển thị màn hình tìm vé tàu hỏa một chiều</string>
+    <!-- Accessibility announcement when Return search screen is selected. -->
+    <string name="rail_tab_roundtrip_selected_announcement">Hiển thị màn hình tìm vé tàu hỏa khứ hồi</string>
+
     <!-- New launch screen -->
     <!-- Top deals tonight -->
     <string name="nearby_deals_title">Nhận phòng đêm nay</string>
@@ -1196,6 +1224,12 @@
     <string name="itinerary_fetch_error">Lỗi phát sinh khi tải lịch trình</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Đăng nhập để xem chuyến đi</string>
+    <!-- Button text to refresh your trips -->
+    <string name="refresh_trips">Tải lại chuyến đi</string>
+    <!-- Itinerary screen when we can't fetch any trips -->
+    <string name="fetching_trips_error">Hiện không tải được lịch trình của quý vị. Vui lòng thử lại.</string>
+    <!-- Itinerary screen when we connection fails while fetching trips -->
+    <string name="fetching_trips_error_connection">Hiện không kết nối được.</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Ngày mai</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1271,6 +1305,8 @@
     <string name="trips_back_button_label_cont_desc">Trở lại nút màn hình chuyến đi</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Nút mở rộng trang chuyến đi</string>
+    <!-- Content Description for upgrade image to upgrade hotel room -->
+    <string name="trips_upgrade_hotel_button_label_cont_desc">Nâng hạng phòng</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Mã xác nhận của Khách sạn</string>
     <!-- Passengers Label -->
@@ -1387,8 +1423,6 @@
     <string name="flight_arrived">Đã đến</string>
     <!-- Refresh -->
     <string name="refresh">Tải lại</string>
-    <!-- Try Again -->
-    <string name="try_again">Hãy thử lại</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">SAO CHÉP %1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
@@ -1529,7 +1563,13 @@
     <string name="itin_card_details_details">Thông tin bổ sung</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Hủy đặt phòng</string>
+    <!-- Label for button to upgrade Hotel room -->
+    <string name="itin_card_details_upgrade_hotel_button">Trong thời gian giới hạn: Có thể nâng hạng!</string>
     <string name="itin_card_flight_checkin_title">Làm thủ tục chuyến bay</string>
+    <!-- Label for button to edit Hotel booking -->
+    <string name="itin_card_edit_hotel_room_info">Thay đổi thông tin phòng</string>
+    <!-- Accessibility announcement for button to edit Hotel booking -->
+    <string name="itin_card_change_hotel_options">Thay đổi tùy chọn khách sạn</string>
 
     <string name="itin_card_flight_checkin_details">Truy cập trang của %s</string>
     <string name="itin_card_details_pick_up">Nhận</string>
@@ -1741,8 +1781,10 @@
     <string name="flights_round_trip_label">KHỨ HỒI</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">MỘT CHIỀU</string>
-    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
-    <string name="flights_tab_selection_accouncement_TEMPLATE">Hiển thị màn hình tìm chuyến bay {whichway}</string>
+    <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
+    <string name="flights_tab_selection_accouncement_oneway">Hiển thị màn hình tìm chuyến bay một chiều</string>
+    <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
+    <string name="flights_tab_selection_accouncement_roundtrip">Hiển thị màn hình tìm chuyến bay khứ hồi</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Đi</string>
     <!-- Flights Line of Business title -->
@@ -1864,6 +1906,8 @@
     <string name="edit_search">Thay đổi tìm kiếm</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Chọn ngày</string>
+    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <string name="trip_dates_cont_desc">Ngày chuyến đi</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Tìm điểm đến</string>
     <!-- Number of adults template -->
@@ -2034,13 +2078,15 @@
     <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
     <string name="airline_processing_fee_TEMPLATE">Phí quy trình thanh toán thẻ này do hãng hàng không thu: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
-    <string name="airline_does_not_accept_cardtype_TEMPLATE">Hãng hàng không không chấp nhận thanh toán bằng %1$s</string>
+    <string name="airline_does_not_accept_cardtype_TEMPLATE">Hãng hàng không không chấp nhận thanh toán bằng {card_type}</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
-    <string name="hotel_does_not_accept_cardtype_TEMPLATE">Khách sạn không nhận thanh toán bằng %1$s</string>
-    <!-- Package trip does not accept <Credit Card Brand> (Example: Visa is not accepted for this trip) -->
-    <string name="package_does_not_accept_cardtype_TEMPLATE">Không chấp nhận thanh toán bằng {card_type} cho chuyến đi này</string>
-    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
-    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s không nhận thanh toán bằng %2$s</string>
+    <string name="hotel_does_not_accept_cardtype_TEMPLATE">Khách sạn không nhận thanh toán bằng {card_type}</string>
+    <!-- Package trip does not accept <Credit Card Brand> (Example: Trip does not accept Visa) -->
+    <string name="package_does_not_accept_cardtype_TEMPLATE">Chuyến đi không nhận thanh toán bằng {card_type}</string>
+    <!-- Rental company does not accept <Credit Card Brand> (e.g. "Rental company does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">Công ty cho thuê xe không nhận thanh toán bằng {card_type}</string>
+    <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">Hoạt động không nhận thanh toán bằng {card_type}</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">Không chấp nhận thẻ ghi nợ.</string>
 
@@ -3209,8 +3255,6 @@
     <string name="sign_in">Đăng nhập</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Đang đăng nhập…</string>
-    <!-- Message that tells user they failed to sign in -->
-    <string name="sign_in_failed">Vui lòng đăng nhập lại</string>
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">Quý vị có chắc chắn muốn thoát khỏi tài khoản {brand} không?</string>
     <!-- Label for loading user profile from Expedia -->
@@ -4064,7 +4108,6 @@
 
     <string name="lob_not_supported_error_message">Rất tiếc, hiện {lob} chưa hỗ trợ đặt tại địa điểm của quý vị.</string>
 
-
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(26-59 tuổi)</string>
 
@@ -4408,6 +4451,9 @@
     <!-- Legal message shown on search result screen for round trip search -->
     <string name="rail_search_legal_banner_round_trip">Giá hai chiều cho tất cả khách. Có thể áp dụng phí thanh toán và giao vé.</string>
 
+    <!-- Accessible legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip_cont_desc">Giá hai chiều cho tất cả khách. Có thể áp dụng phí thanh toán và giao vé. Nút</string>
+
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
@@ -4524,17 +4570,33 @@
     <string name="rail_unknown_error_message">Vui lòng điều chỉnh tiêu chí tìm kiếm và thử lại.</string>
     <string name="rail_cko_retry_error_message">Vui lòng kiểm tra thông tin thanh toán và thử lại hoặc thay đổi yêu cầu tìm kiếm.</string>
 
+    <!-- Rails content description for add railcard button on Railcards screen -->
+    <string name="rail_add_railcard_cont_desc">Thêm railcard</string>
+    <!-- Rails content description for remove railcard button on Railcards screen -->
+    <string name="rail_remove_railcard_cont_desc">Xóa railcard</string>
+
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
     <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} đến {arrivalstation}</string>
     <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
     <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
-    <string name="pwp_points_conversion_unauthenticated_access">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
-    <string name="pwp_trip_service_error">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
-    <string name="pwp_unknown_error">Đã xảy ra lỗi không xác định. Vui lòng thử lại.</string>
+    <!--Rails content description for results card, e.g. Departs at 10:06am Arrives at 11:11am London Midlan Trip Duration 5h 43min, 2 changes -->
+    <string name="rail_result_card_cont_desc_TEMPLATE">Khởi hành lúc {departuretime} Đến lúc {arrivaltime} {trainoperator} Thời gian chuyến đi {tripdurationandchanges}</string>
+    <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
+    <string name="rail_journey_details_cont_desc_TEMPLATE">{departurestation} đến {arrivalstation} qua {travelmode} bằng {trainoperator}, thời gian {duration}, khởi hành lúc {departuretime} đến lúc {arrivaltime}</string>
+    <!--Rails content description for results card Railcard applied portion -->
+    <string name="rail_result_card_railcard_applied_cont_desc">Áp dụng railcard</string>
+    <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
+   <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Giá từ {price}</string>
+   <!-- Rail selected outbound content description on the outbound results -->
+   <string name="rail_selected_outbound_cont_desc">Chọn chuyến đi:</string>
 
-    <!-- New Hotel Search screen -->
+   <string name="pwp_points_conversion_unauthenticated_access">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
+   <string name="pwp_trip_service_error">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
+   <string name="pwp_unknown_error">Đã xảy ra lỗi không xác định. Vui lòng thử lại.</string>
+
+   <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Nhập điểm đến</string>
     <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
     <string name="enter_destination_cont_desc">Nhập điểm đến. Nút</string>
@@ -4659,10 +4721,6 @@
     <string name="packages_search_flying_from_cont_desc">Bay từ. Nút</string>
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">Chọn ngày chuyến đi . Nút. Mở hộp thoại</string>
-    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} đến {enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
-    <string name="trip_search_date_range_cont_desc_TEMPLATE">Ngà chuyến đi. Nút. Mở hộp thoại. {date_range}. {nights}</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
     <string name="hotel_card_view_price_cont_desc_TEMPLATE">Giá {price}.\u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
@@ -4670,6 +4728,9 @@
         <item quantity="one">Số khách. Nút. Mở hộp thoại. {travelers} khách</item>
         <item quantity="other">Số khách. Nút. Mở hộp thoại. {travelers} khách</item>
     </plurals>
+
+    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="search_date_range_cont_desc_TEMPLATE">{startdate} đến {enddate}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">Thêm một khách người lớn</string>
     <!--Traveler widget adults minus button content description-->
@@ -4688,11 +4749,11 @@
     <!--Rail Traveler widget senior minus button content description-->
     <string name="rails_remove_senior_traveler_cont_desc">Xóa một người cao tuổi</string>
 
-    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Chọn tuổi trẻ {childnumber}.</string>
-    <!--Packages search youth age drop down content description Eg. "Select age for youth 1."-->
+    <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">Chọn tuổi thiếu niên {youthnumber}.</string>
-    <!--Packages search senior age drop down content description Eg. "Select age for senior 1."-->
+    <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
     <string name="search_senior_drop_down_cont_desc_TEMPLATE">Chọn tuổi người cao tuổi {seniornumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
@@ -4760,8 +4821,10 @@
     <string name="lx_add_ticket_button_cont_desc_TEMPLATE">Thêm {traveler}</string>
     <!-- Content description for LX remove ticket button e.g. Remove child Button -->
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Xóa {traveler}</string>
-    <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
-    <string name="lx_search_date_range_cont_desc_TEMPLATE">Ngày hoạt động. Nút. Mở hộp thoại. {date_range}</string>
+    <!-- Announcement on LX add button Click  e.g One adult Added -->
+    <string name="lx_ticket_added_announce_accessibility_TEMPLATE">Đã thêm một {traveler}</string>
+    <!-- Announcement on LX remove button click e.g One adult Removed -->
+    <string name="lx_ticket_removed_announce_accessibility_TEMPLATE">Đã xóa một {traveler}</string>
 
     <!-- Content description for action: $44. Cost summary information button. -->
     <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Nút tóm tắt chi phí.</string>
@@ -4799,6 +4862,8 @@
     <string name="hotel_room_expand_cont_desc">Mở rộng để xem thông tin phòng và chọn phòng</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
     <string name="hotel_expanded_room_select_cont_desc">Chọn phòng</string>
+    <!-- Content Description for payment options list when card is not accepted -->
+    <string name="accessibility_cont_desc_card_is_disabled">không hoạt động</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">Giá là {activity_price}</string>
@@ -4811,6 +4876,11 @@
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Ô chọn. Bỏ chọn.</string>
     <string name="base_search_dates_cont_desc">Chọn ngày. Nút. Mở hộp thoại</string>
     <string name="lx_search_start_date_cont_desc">Chọn ngày bắt đầu. Nút. Mở hộp thoại</string>
+
+    <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
+    <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
+    <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
+    <string name="search_dates_cont_desc_TEMPLATE">Nút {dates_label}. s Mở hộp thoại. {duration_description}</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>
@@ -4848,8 +4918,8 @@
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">Chép vào bộ nhớ tạm. Nút.</string>
 
-    <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
-    <string name="lx_carousal_cont_desc_TEMPLATE">Đã chọn hoạt động, {caption}</string>
+    <!-- LX Carousal images content description : Activity, 3 of 5 photos. -->
+    <string name="lx_carousal_cont_desc_TEMPLATE">Hoạt động, {caption}</string>
 
     <!-- Gallery Image count e.g. "1/14" -->
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
@@ -4862,5 +4932,7 @@
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">Nhiều hãng vận chuyển</string>
+    <!-- Room Upgrade Available messaging on Itin Screen -->
+    <string name="room_upgrade_available">Có nâng hạng</string>
 
 </resources>

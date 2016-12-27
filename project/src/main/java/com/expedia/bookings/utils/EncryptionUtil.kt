@@ -200,9 +200,12 @@ open class EncryptionUtil(private val context: Context, private val secretKeyFil
         return Cipher.getInstance(TRANSFORMATION_AES, CIPHER_PROVIDER)
     }
 
+    /** Only call clear if a fatal error occurs **/
     fun clear() {
         secretKeyFile.delete()
-        keyStore.deleteEntry(alias)
+        if (keyStore.containsAlias(alias)) {
+            keyStore.deleteEntry(alias)
+        }
     }
 
     private fun performRSAAlgorithmUpgrade(aesKey: ByteArray, algorithm: String) {
