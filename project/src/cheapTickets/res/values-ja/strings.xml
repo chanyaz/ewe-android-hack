@@ -61,8 +61,10 @@
     <string name="acct_CheapTickets_account_already_exists">この電子メールアドレスが登録された CheapTickets アカウントが既に存在します</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">サインインして CheapCash で {reward} 獲得</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">サインインして CheapCash で {reward} 獲得するボタン</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">無料旅行特典に向けて {brand_reward_name} を獲得 ! {brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">無料旅行特典に向けて {brand_reward_name_link} を獲得 !{brand_reward_name} への入会をもって、すべての{terms_and_conditions}に同意したものとみなされます</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->
@@ -81,6 +83,11 @@
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">CheapCash と {carddescription} でお支払い</string>
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">クレジットカード、CheapCash でお支払い</string>
+
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
 
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
@@ -106,4 +113,21 @@
     <!-- Label above the slider when user is paying with CheapCash and Card. Eg: You are using $1000.12 in CheapCash\nYour card will be charged $100.00-->
     <string name="payment_through_card_and_bucks_TEMPLATE">{amount} の CheapCash を使用します\nご利用のクレジット カードには {dueamount} が課金されます</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">ツアー</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">ツアー合計</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">ツアーを表示</string>
+    <string name="package_flight_overview_bundle_total_label">ツアー合計</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">ツアー割引</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">ツアーの合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">ツアーの合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings} 割引。料金明細のダイアログ。ボタン。</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">ツアー (航空券 + ホテル) 料金は 1 名 {price_per_person} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ツアーを表示するボタン。</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">ツアー詳細を表示中。閉じるボタン。</string>
 </resources>

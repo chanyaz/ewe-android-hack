@@ -22,7 +22,7 @@
     <string name="not_currently_available_orbitz_TEMPLATE">Inte tillgängligt på Orbitz %s</string>
 
     <!-- Missing strings for Orbitz from Expedia-->
-    <string name="tell_a_friend_body_orbitz">Hej,\n\nKolla in vår hotellapp Orbitz Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
+    <string name="tell_a_friend_body_orbitz">Hej,\n\nKolla in vår hotellapp Orbitz Hotels för iPhone och Android. Den är gratis och du kan enkelt söka och boka rum på fler än 140 000 hotell runtom i världen. Det är det enklaste sättet att boka hotell med din mobiltelefon.</string>
     <string name="cd_log_in_email_edit_text_orbitz">Ange e-postadress för ditt Orbitz-konto</string>
     <string name="tell_a_friend_subject_orbitz">Orbitz Hotels</string>
     <string name="cd_log_in_password_edit_text_orbitz">Ange lösenord för Orbitz-kontot</string>
@@ -34,7 +34,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Totalbelopp att betala Orbitz idag:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga Orbitz-sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken ’Har du glömt ditt lösenord?’ nedan.</string>
+    <string name="login_reset_password">Vi måste be dig att skapa nya inloggningsuppgifter som gäller globalt för samtliga Orbitz-sidor.&lt;br&gt;Återställ ditt lösenord genom att använda länken \&apos;Har du glömt ditt lösenord?\&apos; nedan.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Belopp att betala Orbitz idag</string>
@@ -47,7 +47,7 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Det finns redan ett Orbitz-konto med den här e-postadressen</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Tjäna gratis resebonus med {brand_reward_name}. Genom att gå med i {brand_reward_name} godkänner jag samtliga {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Tjäna gratis resebonus med {brand_reward_name_link}. Genom att gå med i {brand_reward_name} godkänner jag samtliga {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Betala med Orbucks</string>
@@ -87,6 +87,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Logga in för att tjäna {reward} i Orbucks</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knapp för att logga in för att tjäna {reward} i Orbucks</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks tillämpade! (Skatter och avgifter ingår ej)</string>
     <string name="youll_earn_points_TEMPLATE">Du tjänar {reward_currency} i Orbucks med den här bokningen!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Du tjänar {reward_currency} i Orbucks med den här resan!</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">Tjäna Orbucks att lösa in direkt på nästa hotell</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Ansök om {brand_reward_name} Visa® Card</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Paket</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Totalbelopp</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Se din paketresa</string>
+    <string name="package_flight_overview_bundle_total_label">Totalbelopp</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Paketrabatt</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Totalbeloppet för paketresan är {totalprice}. I priset ingår skatter samt avgifter för både flyg och hotell. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Totalbeloppet för paketresan är {totalprice}. I priset ingår skatter samt avgifter för både flyg och hotell. {savings}. Dialogruta för prisinformation. Knapp.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Paketpriset är {price_per_person} per person. I priset ingår skatter samt avgifter för både flyg och hotell. Knapp för att se paket.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Visar paketinformation. Knapp för att stänga.</string>
 
 </resources>

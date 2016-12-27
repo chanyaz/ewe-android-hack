@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.SpannableBuilder
 import com.squareup.phrase.Phrase
@@ -15,6 +16,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     val duration = FlightV2Utils.getFlightDurationStopString(context, flightLeg)
     val layover = flightLeg
     var flightSegments = flightLeg.flightSegments
+    var packageOfferModel = flightLeg.packageOfferModel
 
     abstract fun price(): String
 

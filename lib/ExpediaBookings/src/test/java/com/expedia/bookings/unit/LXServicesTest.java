@@ -3,7 +3,6 @@ package com.expedia.bookings.unit;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 
 import org.joda.time.LocalDate;
@@ -23,8 +22,6 @@ import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXCreateTripParams;
 import com.expedia.bookings.data.lx.LXCreateTripResponse;
 import com.expedia.bookings.data.lx.LXOfferSelected;
-import com.expedia.bookings.data.lx.LXSortFilterMetadata;
-import com.expedia.bookings.data.lx.LXSortType;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LXTheme;
@@ -93,42 +90,6 @@ public class LXServicesTest {
 		observer.assertCompleted();
 		observer.assertValueCount(1);
 		assertEquals(4, observer.getOnNextEvents().get(0).activities.size());
-	}
-
-	@Test
-	public void applySortFilter() throws Throwable {
-		serviceRule.setDefaultExpediaDispatcher();
-
-		TestSubscriber<LXSearchResponse> observer = new TestSubscriber<>();
-		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder().location("happy")
-				.startDate(LocalDate.now())
-				.endDate(LocalDate.now().plusDays(1)).build();
-		serviceRule.getServices().lxSearch(searchParams, observer);
-
-		observer.awaitTerminalEvent();
-
-		observer.assertNoErrors();
-		observer.assertCompleted();
-		observer.assertValueCount(1);
-		assertEquals(4, observer.getOnNextEvents().get(0).activities.size());
-
-		// Test text filtering
-		LXSortFilterMetadata lxSortFilterMetadata = new LXSortFilterMetadata();
-		lxSortFilterMetadata.filter = "happy";
-		lxSortFilterMetadata.lxCategoryMetadataMap = new HashMap<>();
-		List<LXActivity> activities = LxServices.applySortFilter(observer.getOnNextEvents().get(0).activities, lxSortFilterMetadata);
-		assertEquals(2, activities.size());
-
-		// Test sorting
-		LXSortFilterMetadata testSortLxSortFilterMetadata = new LXSortFilterMetadata();
-		testSortLxSortFilterMetadata.filter = "";
-		testSortLxSortFilterMetadata.lxCategoryMetadataMap = new HashMap<>();
-		testSortLxSortFilterMetadata.sort = LXSortType.PRICE;
-		activities = LxServices.applySortFilter(observer.getOnNextEvents().get(0).activities, testSortLxSortFilterMetadata);
-		assertEquals("error_create_trip", activities.get(3).title);
-		assertEquals("happy", activities.get(2).title);
-		assertEquals("price_change", activities.get(1).title);
-		assertEquals("happy_gt", activities.get(0).title);
 	}
 
 	@Test

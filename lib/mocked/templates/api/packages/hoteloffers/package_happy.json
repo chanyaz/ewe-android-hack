@@ -150,6 +150,31 @@
         "ratePlanCode": "276355",
         "isPayLater": false,
         "isMemberDeal": false
+      },
+      "loyaltyInfo": {
+        "earn": {
+          "price": {
+            "base": {
+              "amount": "0.00",
+              "formattedPrice": "$0.00",
+              "formattedWholePrice": "$9",
+              "currencyCode": "USD"
+            },
+            "bonus": {
+              "amount": "0.00",
+              "formattedPrice": "$0.00",
+              "formattedWholePrice": "$0",
+              "currencyCode": "USD"
+            },
+            "total": {
+              "amount": "0.00",
+              "formattedPrice": "$0.00",
+              "formattedWholePrice": "$0",
+              "currencyCode": "USD"
+            }
+          }
+        },
+        "isBurnApplied": false
       }
     },
     {
@@ -444,6 +469,31 @@
         "ratePlanCode": "1482397",
         "isPayLater": false,
         "isMemberDeal": false
+      },
+      "loyaltyInfo": {
+        "earn": {
+          "price": {
+            "base": {
+              "amount": "10.08",
+              "formattedPrice": "$10.08",
+              "formattedWholePrice": "$10",
+              "currencyCode": "USD"
+            },
+            "bonus": {
+              "amount": "0.00",
+              "formattedPrice": "$0.00",
+              "formattedWholePrice": "$0",
+              "currencyCode": "USD"
+            },
+            "total": {
+              "amount": "10.08",
+              "formattedPrice": "$10.08",
+              "formattedWholePrice": "$10",
+              "currencyCode": "USD"
+            }
+          }
+        },
+        "isBurnApplied": false
       }
     },
     {
@@ -591,6 +641,31 @@
         "ratePlanCode": "1482400",
         "isPayLater": false,
         "isMemberDeal": false
+      },
+      "loyaltyInfo": {
+        "earn": {
+          "price": {
+            "base": {
+              "amount": "10.26",
+              "formattedPrice": "$10.26",
+              "formattedWholePrice": "$10",
+              "currencyCode": "USD"
+            },
+            "bonus": {
+              "amount": "0.00",
+              "formattedPrice": "$0.00",
+              "formattedWholePrice": "$0",
+              "currencyCode": "USD"
+            },
+            "total": {
+              "amount": "10.26",
+              "formattedPrice": "$10.26",
+              "formattedWholePrice": "$10",
+              "currencyCode": "USD"
+            }
+          }
+        },
+        "isBurnApplied": false
       }
     },
     {

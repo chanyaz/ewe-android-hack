@@ -69,7 +69,7 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
     val mapLoyaltyMessageTextObservable = BehaviorSubject.create<Spanned>()
     val airAttachWithDiscountLabelVisibilityObservable = BehaviorSubject.create<Boolean>((hotel.lowRateInfo?.isShowAirAttached() ?: false) && !loyaltyAvailabilityObservable.value)
     val airAttachIconWithoutDiscountLabelVisibility = BehaviorSubject.create<Boolean>((hotel.lowRateInfo?.isShowAirAttached() ?: false) && loyaltyAvailabilityObservable.value)
-    val earnMessagingObservable = Observable.just(hotel.lowRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: "")
+    val earnMessagingObservable = Observable.just((if (hotel.isPackage && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages) hotel.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context) else hotel.lowRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context)) ?: "")
     val earnMessagingVisibilityObservable = earnMessagingObservable.map { !hotel.isSponsoredListing && it.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels }
 
     val topAmenityTitleObservable = BehaviorSubject.create(getTopAmenityTitle(hotel, resources))
@@ -105,7 +105,7 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
         mapLoyaltyMessageTextObservable.onNext(HtmlCompat.fromHtml(mapLoyaltyMessageString))
 
         if (hasMemberDeal()) {
-            memberDealUrgency.onNext(UrgencyMessage(R.drawable.ic_hotel_banner_expedia, R.color.hotel_member_pricing_color,
+            memberDealUrgency.onNext(UrgencyMessage(R.drawable.ic_hotel_banner, R.color.hotel_member_pricing_color,
                     resources.getString(R.string.member_pricing)))
         }
         if (hotel.roomsLeftAtThisRate > 0 && hotel.roomsLeftAtThisRate <= ROOMS_LEFT_CUTOFF_FOR_DECIDING_URGENCY) {

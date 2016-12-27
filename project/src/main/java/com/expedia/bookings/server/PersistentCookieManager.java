@@ -106,7 +106,7 @@ public class PersistentCookieManager implements CookieJar {
 	 * @param posUrl Must take the format: "expedia.com"
 	 */
 	public void setMC1Cookie(String guid, String posUrl) {
-		String urlKey = "www." + posUrl;
+		String urlKey = posUrl;
 		if (cookieStore.containsKey(urlKey)) {
 			HashMap<String, Cookie> cookies = cookieStore.get(urlKey);
 			cookies.put("MC1", generateMC1Cookie(guid, posUrl));
@@ -203,6 +203,7 @@ public class PersistentCookieManager implements CookieJar {
 
 	private Cookie generateMC1Cookie(String guid, String posUrl) {
 		Cookie.Builder cookieBuilder = new Cookie.Builder();
+		posUrl = posUrl.replace("www.","");
 		cookieBuilder.domain(posUrl);
 		cookieBuilder.expiresAt(fiveYearsFromNowInMilliseconds());
 		cookieBuilder.name("MC1");
@@ -213,7 +214,7 @@ public class PersistentCookieManager implements CookieJar {
 	private void createNewEntryWithMC1Cookie(String guid, String posUrl) {
 		HashMap<String, Cookie> cookies = new HashMap<>();
 		cookies.put("MC1", generateMC1Cookie(guid, posUrl));
-		cookieStore.put("www." + posUrl, cookies);
+		cookieStore.put(posUrl, cookies);
 		save();
 	}
 }

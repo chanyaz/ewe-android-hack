@@ -61,8 +61,10 @@
     <string name="acct_CheapTickets_account_already_exists">Tällä sähköpostiosoitteella on jo luotu CheapTicketsin tili.</string>
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash -->
     <string name="Sign_in_to_earn_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} CheapCash-pisteinä</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in CheapCash button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Kirjaudu sisään ansaitaksesi {reward} CheapCash-pisteinä -painike</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with CheapCash. By joining CheapCash, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Ansaitse ilmaisia matkoja {brand_reward_name}n avulla. Liittymällä {brand_reward_name}-ohjelmaan hyväksyt {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Ansaitse ilmaisia matkoja {brand_reward_name_link}n avulla. Liittymällä {brand_reward_name}-ohjelmaan hyväksyt {terms_and_conditions}</string>
 
     <!-- Earn Points -->
     <!-- You'll earn points in CheapCash. Eg: You'll earn $10 in CheapCash for this booking! -->
@@ -81,6 +83,11 @@
     <string name="checkout_paying_with_points_and_card_line1_TEMPLATE">Olet maksamassa CheapCash-pisteillä ja {carddescription}-kortilla</string>
     <!-- Checkout payment options available -->
     <string name="checkout_payment_options">Luottokortti, maksu CheapCash-pisteillä</string>
+
+    <!-- package hotel results Cheap n' Easy text label -->
+    <string name="unreal_deal_text">Cheap n\u0027 Easy</string>
+    <!-- Hotel Cheap n' Easy content description for accessibility. Eg. Cheap n' Easy Book this and get free hotel -->
+    <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Cheap n\u0027 Easy {unrealdeal}\u0020</string>
 
     <!-- Shop with points -->
     <!-- Loyalty applied excluding taxes and fees -->
@@ -106,4 +113,21 @@
     <!-- Label above the slider when user is paying with CheapCash and Card. Eg: You are using $1000.12 in CheapCash\nYour card will be charged $100.00-->
     <string name="payment_through_card_and_bucks_TEMPLATE">Käytät {amount} CheapCash-pisteinä\nKortiltasi veloitetaan {dueamount}</string>
 
+    <!-- Packages -->
+    <string name="nav_packages">Pakettimatkat</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Pakettimatkahinta</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Tarkastele pakettimatkaasi</string>
+    <string name="package_flight_overview_bundle_total_label">Pakettimatkan hinta</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Pakettimatka-alennus</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Pakettimatkahinta on {totalprice}. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Pakettimatkahinta on {totalprice}. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. {savings}. Hintaerittelyn dialogi. Painike.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakettimatkahinta on {price_per_person} per henkilö. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. Painike pakettimatkan tarkasteluun.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Näytetään pakettimatkan tiedot. Painike sulkemiseen.</string>
 </resources>

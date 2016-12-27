@@ -22,7 +22,7 @@
     <string name="not_currently_available_orbitz_TEMPLATE">Tidak tersedia di Orbitz %s</string>
 
     <!-- Missing strings for Orbitz from Expedia-->
-    <string name="tell_a_friend_body_orbitz">Halo,\n\nSudah coba aplikasi Hotel Orbitz untuk iPhone dan Android? Aplikasi ini GRATIS dan Anda dapat mencari sekaligus memesan kamar dengan mudah di lebih dari 140.000 hotel di seluruh dunia. Ini cara termudah untuk memesan kamar hotel dari ponsel Anda.</string>
+    <string name="tell_a_friend_body_orbitz">Halo,\n\nSudah coba aplikasi Hotel Orbitz untuk iPhone dan Android? Aplikasi ini GRATIS dan Anda dapat mencari sekaligus memesan kamar dengan mudah di lebih dari 140.000 hotel di seluruh dunia. Ini cara termudah untuk memesan hotel dari ponsel Anda.</string>
     <string name="cd_log_in_email_edit_text_orbitz">Masukkan alamat email akun Orbitz</string>
     <string name="tell_a_friend_subject_orbitz">Hotel Orbitz</string>
     <string name="cd_log_in_password_edit_text_orbitz">Masukkan kata sandi akun Orbitz</string>
@@ -34,7 +34,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Total Dibayar ke Orbitz Hari Ini:</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs Orbitz.&lt;br&gt;Harap reset kata sandi Anda menggunakan link ’Lupa kata sandi?’ di bawah ini.</string>
+    <string name="login_reset_password">Kami butuh Anda untuk membuat satu rincian login universal yang akan digunakan di semua situs Orbitz.&lt;br&gt;Harap reset kata sandi Anda menggunakan link \&apos;Lupa kata sandi?\&apos; di bawah ini.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Dibayar ke Orbitz Hari Ini</string>
@@ -47,7 +47,7 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Sudah ada akun Orbitz yang terdaftar dengan email ini</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Dapatkan bonus perjalanan gratis dengan {brand_reward_name}. Dengan bergabung di {brand_reward_name}, saya menerima semua {terms_and_conditions}</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Dapatkan bonus perjalanan gratis dengan {brand_reward_name_link}. Dengan bergabung di {brand_reward_name}, saya menerima semua {terms_and_conditions}</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Membayar dengan Orbucks</string>
@@ -87,6 +87,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Loginlah untuk mendapatkan Orbucks senilai {reward}</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Tombol login untuk mendapatkan Orbucks senilai {reward}</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks digunakan! (belum termasuk pajak dan biaya)</string>
     <string name="youll_earn_points_TEMPLATE">Anda akan memperoleh Orbucks senilai {reward_currency} dari pemesanan ini!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Anda akan memperoleh Orbucks senilai {reward_currency} dari perjalanan ini!</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">Kumpulkan Orbucks untuk langsung ditukarkan di pemesanan hotel Anda berikutnya</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Mendaftarlah untuk Kartu Visa® {brand_reward_name}</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Paket</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Total paket</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Lihat paket Anda</string>
+    <string name="package_flight_overview_bundle_total_label">Total Paket</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Diskon Paket</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Total paket {totalprice}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Total paket {totalprice}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. {savings}. Kotak Rincian Biaya. Tombol.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Harga paket {price_per_person} per orang. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. Tombol untuk melihat paket.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Menampilkan rincian paket. Tombol untuk menutup.</string>
 
 </resources>

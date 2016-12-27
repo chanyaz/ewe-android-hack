@@ -14,7 +14,7 @@
     <color name="actionbar_button_text_color">@color/action_bar_text_color</color>
     <!-- Launch colors -->
     <color name="launch_toolbar_background_color">@color/lob_btn_color</color>
-    <color name="launch_tab_indicator">@color/action_bar_text_blue_orbitz</color>
+    <color name="launch_tab_indicator">#00B1FF</color>
     <color name="tablet_pin_detail_button_text_color">@color/launch_pin_detail_button_text_orbitz</color>
 
     <color name="launch_actionbar_color_orbitz">@color/action_bar_bg_color</color>
@@ -42,7 +42,7 @@
     <color name="credit_card_form_additional_fees_tablet_bg">@color/checkout_additional_fees_tablet_bg</color>
     <color name="preferences_text">#495863</color>
     <color name="hotel_points_applied_plus_color">#03AD1D</color>
-
+    <color name="hotel_member_pricing_color">#00253c</color>
     <color name="loyalty_earn_color">#8E0099</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
@@ -131,4 +131,29 @@
 
     <color name="error_widget_edit_button_selected_color">#00B1FF</color>
     <color name="error_button_color">@color/cars_primary_color</color>
+
+    <!-- Packages colors -->
+    <color name="packages_primary_color">@color/lob_btn_color</color>
+    <color name="packages_secondary_color">#00b1ff</color>
+    <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
+
+    <!-- New Launch Screen LOB button colors -->
+    <color name="new_launch_lob_color">#004D7C</color>
+    <color name="new_launch_screen_color">#00253C</color>
+
+    <color name="new_launch_hotels_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_packages_lob_color">@color/new_launch_lob_color</color>
+
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+
+    <!-- Flights V2 colors -->
+    <color name="flight_overview_color_filter">@color/lob_btn_color</color>
+    <color name="flights_details_layover_color">@color/lob_btn_color</color>
+
 </resources>

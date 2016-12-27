@@ -11,7 +11,7 @@
         android:layout_marginLeft="21dp"
         android:layout_marginTop="24dp"
         android:src="@drawable/flights_details_icon_layover"
-        android:tint="#E0A81C" />
+        android:tint="@color/flights_details_layover_color" />
 
     <LinearLayout
         android:layout_width="match_parent"

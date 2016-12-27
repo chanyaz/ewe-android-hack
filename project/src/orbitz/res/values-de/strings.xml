@@ -47,7 +47,7 @@
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Orbitz_account_already_exists">Es gibt bereits ein Orbitz-Konto mit dieser E-Mail-Adresse</string>
     <!-- Account creation legal template for reward points eg: Earn free travel rewards with Orbitz Rewards. By joining Orbitz Rewards, I accept all Terms and Conditions -->
-    <string name="account_creation_legal_rewards_TEMPLATE">Sichern Sie sich mit {brand_reward_name} Reiseprämien. Indem Sie sich für {brand_reward_name} anmelden, akzeptieren Sie die {terms_and_conditions}.</string>
+    <string name="account_creation_legal_rewards_TEMPLATE">Sichern Sie sich mit {brand_reward_name_link} Reiseprämien. Indem Sie sich für {brand_reward_name} anmelden, akzeptieren Sie die {terms_and_conditions}.</string>
 
     <!-- Orbucks -->
     <string name="paying_with_rewards">Zahlen mit Orbucks</string>
@@ -87,6 +87,8 @@
 
     <!-- Sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks -->
     <string name="Sign_in_to_earn_TEMPLATE">Anmelden und {reward} in Orbucks sammeln</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn $123.22 in Orbucks button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Schaltfläche „Anmelden und {reward} in Orbucks sammeln“</string>
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Orbucks wurden eingelöst! (zzgl. Steuern und Gebühren)</string>
     <string name="youll_earn_points_TEMPLATE">Für diese Buchung würden Sie {reward_currency} in Orbucks erhalten!</string>
     <string name="x_rewards_currency_for_this_trip_TEMPLATE">Für diese Reise würden Sie {reward_currency} in Orbucks erhalten!</string>
@@ -124,5 +126,23 @@
     <string name="etp_pay_now_earn_text">Sammeln Sie Orbucks, die Sie sofort bei Ihrer nächsten Hotelbuchung einlösen können</string>
     <!-- Label for "Apply for the Orbitz Rewards Visa® Card" button in info page -->
     <string name="rewards_visa_card_TEMPLATE">Fordern Sie die {brand_reward_name} Visa®-Karte an</string>
+
+    <!-- Packages -->
+    <string name="nav_packages">Paketreisen</string>
+    <!-- Label for package bundle price on overview-->
+    <string name="bundle_total_text">Gesamtpreis der Paketreise</string>
+    <!-- Label for package bundle price on search-->
+    <string name="search_bundle_total_text">Paketreise ansehen</string>
+    <string name="package_flight_overview_bundle_total_label">Gesamtpreis der Paketreise</string>
+    <!-- Cost summary breakdown line item for savings -->
+    <string name="cost_summary_breakdown_total_savings">Ersparnis beim Zusammenbuchen</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
+    <string name="bundle_overview_price_widget_TEMPLATE">Der Gesamtpreis der Paketreise beträgt {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}</string>
+    <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Der Gesamtpreis der Paketreise beträgt {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}. Dialogfeld mit Kostenaufschlüsselung. Schaltfläche.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Package price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
+    <string name="bundle_overview_price_widget_button_open_TEMPLATE">Der Gesamtpreis der Paketreise beträgt {price_per_person} pro Person. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. Schaltfläche zum Anzeigen der Paketreise.</string>
+    <!--Content description for Bundle sliding widget, when it's opened.-->
+    <string name="bundle_overview_price_widget_button_close">Details der Paketreise werden angezeigt. Schaltfläche zum Schließen.</string>
 
 </resources>

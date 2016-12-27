@@ -40,7 +40,7 @@ dependencies {
     }
     compile 'com.expedia:svg-android:0.1.0'
     compile 'com.expedia:android-account-lib:1.1.14'
-    compile 'com.mobiata:android-utils:1.0.4'
+    compile 'com.mobiata:android-utils:1.1.0'
     compile 'com.dgmltn:share-everywhere:1.0.1'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
     testCompile "org.jetbrains.kotlin:kotlin-test:${kotlin_version}"
@@ -222,8 +222,8 @@ android {
             buildConfigField "String", "DEEPLINK_SCHEME", "\"bukr\""
             applicationId "com.ebookers"
 
-            def major = 5
-            def minor = 4
+            def major = 6
+            def minor = 2
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -236,8 +236,8 @@ android {
             buildConfigField "String", "DEEPLINK_SCHEME", "\"vygs\""
             applicationId "com.expedia.bookings.vsc"
 
-            def major = 3
-            def minor = 2
+            def major = 4
+            def minor = 0
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -250,8 +250,8 @@ android {
             buildConfigField "String", "DEEPLINK_SCHEME", "\"tvly\""
             applicationId "com.travelocity.android"
 
-            def major = 8
-            def minor = 6
+            def major = 9
+            def minor = 2
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -263,8 +263,9 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"aago\""
             applicationId "com.airasiago.android"
-            def major = 3
-            def minor = 2
+
+            def major = 4
+            def minor = 1
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -276,8 +277,9 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"wotf\""
             applicationId "com.wotif.android"
-            def major = 3
-            def minor = 5
+
+            def major = 4
+            def minor = 1
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -289,8 +291,9 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"ltmn\""
             applicationId "com.lastminute.android"
-            def major = 3
-            def minor = 5
+
+            def major = 4
+            def minor = 1
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -317,8 +320,8 @@ android {
             buildConfigField "String", "DEEPLINK_SCHEME", "\"obtz\""
             applicationId "com.orbitz"
 
-            def major = 7
-            def minor = 3
+            def major = 8
+            def minor = 2
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -331,8 +334,8 @@ android {
             buildConfigField "String", "DEEPLINK_SCHEME", "\"hptk\""
             applicationId "com.cheaptickets"
 
-            def major = 5
-            def minor = 3
+            def major = 6
+            def minor = 2
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)
@@ -345,8 +348,8 @@ android {
             buildConfigField "String", "DEEPLINK_SCHEME", "\"mret\""
             applicationId "se.mrjet"
 
-            def major = 5
-            def minor = 3
+            def major = 6
+            def minor = 1
             def patch = 0
             def build = 0
             versionCode GradleUtil.versionCode(major, minor, patch, build)

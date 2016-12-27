@@ -429,12 +429,17 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 
 	@Override
 	public boolean useNewLaunchScreen() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean sendEapidToTuneTracking() {
 		return false;
+	}
+
+	@Override
+	public boolean shouldShowPackageIncludesView() {
+		return true;
 	}
 
 }

@@ -62,19 +62,6 @@
                     app:textStyle="medium" />
 
                 <com.expedia.bookings.widget.TextView
-                    android:id="@+id/collapsed_earn_message_text_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/collapsed_bed_type_text_view"
-                    android:layout_marginBottom="15dp"
-                    android:layout_marginLeft="15dp"
-                    android:textColor="@color/hotel_earn_message_text_color"
-                    android:textSize="12sp"
-                    android:drawableLeft="@drawable/earn_message_icon"
-                    android:drawablePadding="@dimen/earn_message_icon_dimen"
-                    app:textStyle="normal" />
-
-                <com.expedia.bookings.widget.TextView
                     android:id="@+id/collapsed_urgency_text_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -201,9 +188,26 @@
                                 android:textColor="@color/hotel_cell_disabled_text"
                                 android:textSize="14sp"
                                 app:textStyle="normal" />
+
                         </LinearLayout>
+
                     </LinearLayout>
                 </LinearLayout>
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/collapsed_earn_message_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@+id/parent_room_type_and_price_container"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginRight="15dp"
+                    android:layout_marginTop="5dp"
+                    android:drawableLeft="@drawable/earn_message_icon"
+                    android:drawablePadding="@dimen/earn_message_icon_dimen"
+                    android:textColor="@color/hotel_earn_message_text_color"
+                    android:textSize="12sp"
+                    app:textStyle="normal" />
 
                 <ToggleButton
                     android:id="@+id/view_room_button"
@@ -211,7 +215,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="36dp"
                     android:layout_alignParentRight="true"
-                    android:layout_below="@+id/parent_room_type_and_price_container"
+                    android:layout_below="@+id/collapsed_earn_message_text_view"
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="15dp"
                     android:focusable="true"
@@ -220,6 +224,13 @@
                     android:paddingBottom="5dp"
                     android:paddingTop="5dp"
                     android:textAppearance="@style/HotelToggleButtonTextAppearance" />
+
+                <Space
+                    android:id="@+id/space_below_room_button"
+                    android:layout_below="@id/view_room_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+
             </RelativeLayout>
 
             <Space

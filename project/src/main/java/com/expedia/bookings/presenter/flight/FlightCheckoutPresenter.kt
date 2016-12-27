@@ -80,6 +80,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
             }
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
+
     }
 
     val insuranceWidget: InsuranceWidget by lazy {

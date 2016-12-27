@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.packages;
 
 import com.expedia.bookings.data.Money;
+import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.data.flights.FlightTripDetails.SeatClassAndBookingCode;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class PackageOfferModel {
 	public UrgencyMessage urgencyMessage;
 	public BrandedDealData brandedDealData;
 	public boolean featuredDeal;
+	public LoyaltyInformation loyaltyInfo;
 	public List<SeatClassAndBookingCode> segmentsSeatClassAndBookingCode;
 
 	public static class PackagePrice {

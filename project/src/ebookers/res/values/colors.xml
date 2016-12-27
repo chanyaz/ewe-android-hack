@@ -12,6 +12,7 @@
     <color name="lx_lob_btn">@color/lob_btn_color</color>
     <color name="transport_lob_btn">@color/lob_btn_color</color>
     <color name="earn_message_text_color">#FF960D</color>
+    <color name="hotel_member_pricing_color">#003366</color>
 
     <!-- Launch colors -->
     <color name="launch_tab_indicator">#003366</color>
@@ -116,4 +117,29 @@
 
     <color name="error_widget_edit_button_selected_color">#007095</color>
     <color name="error_button_color">@color/cars_primary_color</color>
+
+    <!--Packages-->
+    <color name="packages_primary_color">@color/lob_btn_color</color>
+    <color name="packages_secondary_color">#01749b</color>
+    <color name="flight_warning_bar_color">@color/packages_secondary_color</color>
+
+    <!-- New Launch Screen LOB button colors -->
+    <color name="new_launch_lob_color">@color/lob_btn_color</color>
+    <color name="new_launch_screen_color">@color/lob_btn_color</color>
+
+    <color name="new_launch_hotels_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_flights_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_cars_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_lx_lob_color">@color/new_launch_lob_color</color>
+    <color name="new_launch_packages_lob_color">@color/new_launch_lob_color</color>
+
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+
+    <!-- Flights V2 colors -->
+    <color name="flight_overview_color_filter">@color/lob_btn_color</color>
+    <color name="flights_details_layover_color">@color/lob_btn_color</color>
+
 </resources>

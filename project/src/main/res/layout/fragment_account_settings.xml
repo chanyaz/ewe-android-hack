@@ -286,6 +286,19 @@
                     android:text="@string/acct__Create_Account"
                     android:theme="@style/AccountButton.CreateAccount" />
 
+                <TextView
+                    android:id="@+id/google_account_change"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="11dp"
+                    android:layout_marginTop="@dimen/about_section_margin"
+                    android:layout_marginBottom="@dimen/about_section_margin"
+                    android:layout_marginRight="@dimen/about_section_margin"
+                    android:drawablePadding="4dp"
+                    android:drawableRight="@drawable/google_change_icon"
+                    android:text="@string/google_account_change_string"
+                    android:textSize="15sp" />
+
             </LinearLayout>
 
             <View

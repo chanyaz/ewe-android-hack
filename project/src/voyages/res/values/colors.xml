@@ -22,7 +22,7 @@
     <color name="hotels_primary_color">@color/vsc_primary_color</color>
     <color name="review_screen_tab_indicator">#ffffff</color>
     <color name="splash_screen_bg">@color/white</color>
-    <color name="launch_tab_indicator">#7abb00</color>
+    <color name="launch_tab_indicator">#70bb00</color>
     <color name="traveler_drop_down_checked_color">#112943</color>
 
     <!-- Popular Hotels Tonight Discount strips-->
@@ -36,6 +36,7 @@
     <color name="hotel_urgency_message_color">#555555</color>
     <color name="hotelsv2_discount_green">@color/hotel_price_sale_text_color_vsc</color>
     <color name="hotel_promo_background">#5b8b01</color>
+    <color name="hotel_member_pricing_color">#3c4851</color>
 
     <!-- Checkout Colors -->
     <color name="material_checkout_account_button_background_color">@color/vsc_primary_color</color>
@@ -82,4 +83,14 @@
 
     <color name="error_widget_edit_button_selected_color">#7b3761</color>
     <color name="error_button_color">@color/cars_primary_color</color>
+
+    <!-- New Launch Screen colors -->
+    <color name="new_launch_toolbar_background_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_fab_color">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_itin_ripple">@color/new_launch_screen_color</color>
+    <color name="new_launch_screen_color">#495863</color>
+    <color name="new_launch_hotels_lob_color">#70BB00</color>
+    <color name="new_launch_flights_lob_color">#0088CE</color>
+    <color name="new_launch_cars_lob_color">#663399</color>
+    <color name="new_launch_lx_lob_color">#A1006B</color>
 </resources>
