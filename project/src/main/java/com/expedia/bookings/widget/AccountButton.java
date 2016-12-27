@@ -160,7 +160,7 @@ public class AccountButton extends LinearLayout {
 		if (isTablet) {
 			LayoutParams lp = (LayoutParams) mLoginContainer.getLayoutParams();
 			lp.height = getResources().getDimensionPixelSize(R.dimen.account_button_height);
-			LayoutParams lpt = (LayoutParams) mLoginTextView.getLayoutParams();
+			FrameLayout.LayoutParams lpt = (FrameLayout.LayoutParams) mLoginTextView.getLayoutParams();
 			lpt.gravity = Gravity.CENTER_VERTICAL | Gravity.LEFT;
 			mLoginContainer.setBackgroundResource(R.drawable.bg_checkout_information_single);
 			mLoginTextView.setCompoundDrawablesWithIntrinsicBounds(R.drawable.tablet_checkout_login_logo, 0, 0, 0);
