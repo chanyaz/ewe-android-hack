@@ -59,6 +59,7 @@ public class HotelSearchParams implements JSONable {
 	private int mNumAdults;
 	private List<ChildTraveler> mChildren;
 
+	private String mSortType;
 	// These may be out of sync with freeform location; make sure to sync before
 	// using.
 	private double mSearchLatitude;
@@ -339,6 +340,10 @@ public class HotelSearchParams implements JSONable {
 		mNumAdults = numAdults;
 	}
 
+	public void setSortType(String sortType) {
+		mSortType = sortType;
+	}
+
 	public int getNumAdults() {
 		return mNumAdults;
 	}
@@ -357,6 +362,10 @@ public class HotelSearchParams implements JSONable {
 
 	public int getNumTravelers() {
 		return getNumAdults() + getNumChildren();
+	}
+
+	public String getSortType() {
+		return mSortType;
 	}
 
 	public int getNumChildren() {

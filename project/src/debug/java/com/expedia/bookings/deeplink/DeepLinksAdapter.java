@@ -50,6 +50,12 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Airport (BVA)", "expda://hotelSearch?location=Paris%2C%20France%20(BVA-Beauvais)"),
 		new DeepLink("Intent", "intent://hotelSearch?location=Orlando,%20FL/#Intent;package=com.expedia.bookings;scheme=expda;end"),
 		new DeepLink("Current Location Search", "expda://hotelSearch"),
+		new DeepLink("Sort by Recommended", "expda://hotelSearch?sortType=Recommended"),
+		new DeepLink("Sort by Discounts", "expda://hotelSearch?sortType=Discounts"),
+		new DeepLink("Sort by Price", "expda://hotelSearch?sortType=Price"),
+		new DeepLink("Sort by Rating", "expda://hotelSearch?sortType=Rating"),
+		new DeepLink("Sort with Location and Dates", "expda://hotelSearch?sortType=Rating&location=Austin,%20TX", "checkInDate", 14, "checkOutDate", 18),
+
 		new DeepLink("Hotel ID 11562190", "expda://hotelSearch?hotelId=11562190&seocid=Google"),
 		new DeepLink("Hotel ID 9046290", "expda://hotelSearch/?hotelId=9046290"),
 		new DeepLink("Hotel ID 1819759", "expda://hotelSearch/?hotelId=1819759&cid=SEO.Google"),
@@ -74,7 +80,6 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Flight Search (One Way)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&numAdults=1"),
 		new DeepLink("Flight Search (3 adults, roundTrip)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&returnDate=2017-02-03&numAdults=3"),
 		new DeepLink("Flight Travel Guide", "expda://flightSearch?destination=ATH&seocid=Google"),
-
 
 		new DeepLinkSection("Activities", R.color.lx_primary_color),
 		new DeepLink("Activity Search", "expda://activitySearch"),
