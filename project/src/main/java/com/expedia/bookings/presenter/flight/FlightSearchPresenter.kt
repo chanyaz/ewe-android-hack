@@ -74,6 +74,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     lateinit private var originSuggestionAdapter: SuggestionAdapter
     lateinit private var destinationSuggestionAdapter: SuggestionAdapter
+    override val delayBeforeShowingDestinationSuggestions = 5L
+    override val waitForOtherSuggestionListeners = 5L
 
     init {
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true

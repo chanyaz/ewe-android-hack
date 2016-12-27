@@ -14,11 +14,11 @@ import java.util.concurrent.TimeUnit
 
 abstract class BaseTwoLocationSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
     open val originCardView by bindView<SearchInputTextView>(R.id.origin_card)
+    open val delayBeforeShowingDestinationSuggestions = 325L
+    open val waitForOtherSuggestionListeners = 350L
 
     protected open var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver)
-        val delayBeforeShowingDestinationSuggestions = 325L
-        val waitForOtherSuggestionListeners = 350L
 
         vm.suggestionSelectedSubject
                 .doOnNext(suggestionSelectedObserver)
