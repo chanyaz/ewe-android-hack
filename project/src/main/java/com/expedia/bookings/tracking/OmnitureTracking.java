@@ -2987,9 +2987,18 @@ public class OmnitureTracking {
 	private static final String ITIN_ACTIVITY_SHARE_PREFIX = "App.Itinerary.Activity.Share.";
 	private static final String ITIN_RELOAD_TEMPLATE = "App.Itinerary.%s.Info.Reload";
 	private static final String ITIN_HOTEL_ROOM_CANCEL_CLICK = "App.Itinerary.Hotel.Cancel";
+	private static final String ITIN_ERROR = "App.Itinerary.Error";
 
 	public static void trackItinEmpty() {
 		internalTrackPageLoadEventStandard(ITIN_EMPTY);
+	}
+
+	public static void trackItinError() {
+		ADMS_Measurement s = getFreshTrackingObject();
+		s.setEvents("event98");
+		s.setEvar(18, ITIN_ERROR);
+		s.setProp(36, "itin:unable to retrieve trip summary");
+		s.track();
 	}
 
 	public static void trackFindItin() {
