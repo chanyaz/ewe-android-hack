@@ -127,6 +127,7 @@ public class ItinGuestAddFragment extends Fragment implements LoginExtenderListe
 			getArguments().remove(isFetchGuestItinFailed);
 			mUnableToFindItinErrorMsg.setText(getString(R.string.unable_to_find_guest_itinerary));
 			mUnableToFindItinErrorMsg.setVisibility(View.VISIBLE);
+			OmnitureTracking.trackItinError();
 		}
 
 		if (getArguments().containsKey(isFetchGuestRegisterUserItinFailed)) {
