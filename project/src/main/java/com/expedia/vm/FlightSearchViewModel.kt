@@ -78,7 +78,8 @@ class FlightSearchViewModel(context: Context) : BaseSearchViewModel(context) {
 
     fun performDeepLinkFlightSearch(searchParams: com.expedia.bookings.data.FlightSearchParams) {
         //Setup the viewmodel according to the provided params
-        isRoundTripSearchObservable.onNext(searchParams.isRoundTrip)
+        val oneWay = searchParams.departureDate != null && searchParams.returnDate == null
+        isRoundTripSearchObservable.onNext(!oneWay)
         datesUpdated(searchParams.departureDate, searchParams.returnDate)
         val departureSuggestion = FlightsV2DataUtil.getSuggestionFromDeeplinkLocation(searchParams.departureLocation?.destinationId)
         if (departureSuggestion != null) {
