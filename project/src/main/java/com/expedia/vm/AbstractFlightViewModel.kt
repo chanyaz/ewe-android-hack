@@ -2,10 +2,13 @@ package com.expedia.vm
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.extension.getEarnMessage
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.SpannableBuilder
+import com.expedia.bookings.utils.Strings
 import com.squareup.phrase.Phrase
 
 abstract class AbstractFlightViewModel(protected val context: Context, protected val flightLeg: FlightLeg) {
@@ -17,6 +20,9 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     val layover = flightLeg
     var flightSegments = flightLeg.flightSegments
     var packageOfferModel = flightLeg.packageOfferModel
+    var seatsLeft = FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
+    val urgencyMessageVisibilty = Strings.isNotEmpty(seatsLeft) && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppFlightUrgencyMessage,
+                                    R.string.preference_enable_urgency_messaging_on_flights)
 
     abstract fun price(): String
 
@@ -47,6 +53,9 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
                             put("layovermins", getMinuteTimeContDesc(segment.layoverDurationMinutes)).format().toString())
                 }
             }
+        }
+        if (urgencyMessageVisibilty) {
+            result.append(seatsLeft)
         }
         result.append(Phrase.from(context.resources.getString(R.string.accessibility_cont_desc_role_button)).format().toString())
 

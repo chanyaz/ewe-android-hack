@@ -123,6 +123,7 @@
     <string name="preference_itin_user_reviews">preference_itin_user_reviews</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_enable_rail_checkout_login">preference_enable_rail_checkout_login</string>
+    <string name="preference_enable_urgency_messaging_on_flights">preference_enable_urgency_messaging_on_flights</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

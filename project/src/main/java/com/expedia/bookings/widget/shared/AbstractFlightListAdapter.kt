@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
@@ -177,6 +178,8 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         val flightAirlineWidget: FlightAirlineWidget by root.bindView(R.id.flight_airline_widget)
         val bestFlightView: ViewGroup by root.bindView(R.id.package_best_flight)
         val flightEarnMessage: TextView by root.bindView(R.id.flight_earn_message_text_view)
+        val urgencyMessageTextView: TextView by root.bindView(R.id.urgency_message)
+        val urgencyMessageContainer: LinearLayout by root.bindView(R.id.urgency_message_layout)
 
         init {
             itemView.setOnClickListener(this)
@@ -195,6 +198,12 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
             val flight = viewModel.layover
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
             flightAirlineWidget.update(viewModel.airline)
+            if (viewModel.urgencyMessageVisibilty) {
+                urgencyMessageContainer.visibility = View.VISIBLE
+                urgencyMessageTextView.text = viewModel.seatsLeft
+            } else {
+                urgencyMessageContainer.visibility = View.GONE
+            }
             cardView.contentDescription = viewModel.contentDescription
             flightEarnMessage.text = viewModel.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context) ?:""
         }
