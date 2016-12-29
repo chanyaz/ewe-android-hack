@@ -1,18 +1,18 @@
 package com.expedia.bookings.featureconfig;
 
-import java.util.List;
+import android.content.Context;
+import android.view.View;
+
+import com.expedia.bookings.data.pos.PointOfSaleId;
+import com.expedia.bookings.server.EndPoint;
+import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.vm.AbstractHotelFilterViewModel;
+import com.mobiata.android.fragment.AboutSectionFragment;
 
 import org.apache.http.message.BasicNameValuePair;
 import org.joda.time.DateTime;
 
-import android.content.Context;
-import android.view.View;
-
-import com.expedia.bookings.data.HotelFilter;
-import com.expedia.bookings.data.pos.PointOfSaleId;
-import com.expedia.bookings.server.EndPoint;
-import com.expedia.bookings.tracking.OmnitureTracking;
-import com.mobiata.android.fragment.AboutSectionFragment;
+import java.util.List;
 
 public interface IProductFlavorFeatureConfiguration {
 	String getServerEndpointsConfigurationPath();
@@ -118,7 +118,7 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getPOSSpecificBrandName(Context context);
 
-	HotelFilter.Sort getDefaultSort();
+	AbstractHotelFilterViewModel.Sort getDefaultSort();
 
 	boolean sortByDistanceForCurrentLocation();
 
