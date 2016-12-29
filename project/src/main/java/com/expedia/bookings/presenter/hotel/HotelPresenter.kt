@@ -108,7 +108,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.mapView.getMapAsync(presenter)
         presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELS)
 
-        val hotelResultsDisplayClientLogBuilder: ClientLog.Builder = ClientLog.Builder()
+        val hotelResultsDisplayClientLogBuilder: ClientLog.HotelResultBuilder = ClientLog.HotelResultBuilder()
         presenter.viewmodel.searchingForHotelsDateTime.subscribe(){
             hotelResultsDisplayClientLogBuilder.requestTime(DateTime.now())
         }
