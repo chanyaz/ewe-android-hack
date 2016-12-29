@@ -122,6 +122,7 @@
     <string name="preference_itin_hotel_upgrade">preference_itin_hotel_upgrade</string>
     <string name="preference_itin_user_reviews">preference_itin_user_reviews</string>
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
+    <string name="preference_universal_checkout_material_forms">preference_enable_universal_checkout_material_forms</string>
     <string name="preference_enable_rail_checkout_login">preference_enable_rail_checkout_login</string>
     <string name="preference_enable_urgency_messaging_on_flights">preference_enable_urgency_messaging_on_flights</string>
 
