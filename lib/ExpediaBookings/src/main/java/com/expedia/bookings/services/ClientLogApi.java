@@ -1,13 +1,15 @@
 package com.expedia.bookings.services;
 
 import com.expedia.bookings.data.clientlog.EmptyResponse;
+import com.expedia.bookings.utils.ClientLogConstants;
+
 import retrofit2.http.GET;
 import retrofit2.http.Query;
 import rx.Observable;
 
 public interface ClientLogApi {
 
-	@GET("/cl/1x1.gif?live=true")
+	@GET(ClientLogConstants.CLIENT_LOG_URL)
 	Observable<EmptyResponse> log(
 		@Query("pageName") String pageName,
 		@Query("eventName") String eventName,

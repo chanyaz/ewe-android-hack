@@ -26,16 +26,20 @@ import com.expedia.bookings.server.EndpointProvider;
 import com.expedia.bookings.server.PersistentCookieManager;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
+import com.expedia.bookings.utils.ClientLogConstants;
+import com.expedia.bookings.data.clientlog.ClientLog;
 import com.expedia.bookings.utils.EncryptionUtil;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TLSSocketFactory;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.google.android.gms.security.ProviderInstaller;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AdvertisingIdUtils;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
 
 import dagger.Module;
@@ -164,7 +168,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	OkHttpClient provideOkHttpClient(Context context, PersistentCookieManager cookieManager, Cache cache,
-		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled) {
+									 HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled) {
 		try {
 			ProviderInstaller.installIfNeeded(context);
 		}
@@ -239,9 +243,26 @@ public class AppModule {
 
 				request.url(url.build());
 				Response response = chain.proceed(request.build());
+
+				clientLog(request, response, context);
 				return response;
 			}
 		};
+	}
+
+	private void clientLog(Request.Builder request, Response response, Context context) {
+		if (!request.build().url().toString().contains(ClientLogConstants.CLIENT_LOG_URL)) {
+			long responseTime = response.receivedResponseAtMillis() - response.sentRequestAtMillis();
+			ClientLog.Builder logBuilder = new ClientLog.Builder();
+
+			logBuilder.pageName(request.build().url().encodedPath().replaceAll("/","_"));
+			logBuilder.eventName(NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
+			logBuilder.deviceName(android.os.Build.MODEL);
+
+			ClientLogServices clientLogServices = Ui.getApplication(context).appComponent().clientLog();
+			clientLogServices.log(logBuilder.build(responseTime));
+
+		}
 	}
 
 	@Provides
@@ -268,7 +289,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider,
-		Interceptor interceptor) {
+									   Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
