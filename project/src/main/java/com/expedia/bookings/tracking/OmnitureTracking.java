@@ -1,5 +1,19 @@
 package com.expedia.bookings.tracking;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.math.BigDecimal;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -7,7 +21,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 import android.Manifest;
-
 import android.app.Activity;
 import android.app.Application;
 import android.content.Context;
@@ -19,6 +32,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Pair;
+
 import com.adobe.adms.measurement.ADMS_Measurement;
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
@@ -101,19 +115,6 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.math.BigDecimal;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.text.DecimalFormat;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 import kotlin.NotImplementedError;
 
 /**
@@ -4808,6 +4809,10 @@ public class OmnitureTracking {
 		addPackagesCommonFields(s);
 		setPackageProducts(s, packageDetails.pricing.packageTotal.amount.doubleValue(), true, hotelSupplierType);
 
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_universal_checkout_material_forms)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
+		}
+
 		s.track();
 	}
 
@@ -5522,6 +5527,10 @@ public class OmnitureTracking {
 		if (tripResponse.getSelectedInsuranceProduct() != null || !tripResponse.getAvailableInsuranceProducts()
 			.isEmpty()) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightInsurance);
+		}
+
+		if (FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_universal_checkout_material_forms)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
 		}
 
 		s.track();
