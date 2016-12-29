@@ -37,6 +37,7 @@
         <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
         <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
         <item name="paymentWidgetLayout">@layout/payment_widget_v2</item>
+        <item name="traveler_presenter">@layout/lx_traveler_presenter_view_stub</item>
         <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_hotel</item>
         <item name="sliderText">@string/hotelsv2_slide_reserve</item>
         <item name="hotel_promo_background_colors">@color/hotel_promo_background</item>

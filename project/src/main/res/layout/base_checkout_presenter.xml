@@ -285,10 +285,12 @@
             android:text="@string/Checkout" />
     </FrameLayout>
 
-    <com.expedia.bookings.presenter.packages.TravelersPresenter
-        android:id="@+id/traveler_presenter"
-        android:layout_width="match_parent"
+    <ViewStub
+        android:id="@+id/traveler_presenter_stub"
+        android:inflatedId="@+id/traveler_presenter"
+        android:layout="?attr/traveler_presenter"
         android:layout_height="match_parent"
+        android:layout_width="match_parent"
         android:background="@color/gray1"
         android:visibility="gone" />
 

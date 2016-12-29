@@ -14,6 +14,7 @@ import com.expedia.bookings.test.espresso.EspressoUser;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 
+import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel;
 import kotlin.Unit;
 
 import static android.support.test.espresso.Espresso.onView;
@@ -184,7 +185,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelersPresenter.getTravelerEntryWidget().getViewModel().getShowPassportCountryObservable().onNext(true);
+				((FlightTravelerEntryWidgetViewModel)testTravelersPresenter.getTravelerEntryWidget().getViewModel()).getShowPassportCountryObservable().onNext(true);
 				testTravelersPresenter.getTravelerEntryWidget().onTravelerChosen(makeStoredTraveler("VNM"));
 			}
 		});
@@ -214,7 +215,7 @@ public class SingleTravelerPresenterTest extends BaseTravelerPresenterTestHelper
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelersPresenter.getTravelerEntryWidget().getViewModel().getShowPassportCountryObservable().onNext(true);
+				((FlightTravelerEntryWidgetViewModel)testTravelersPresenter.getTravelerEntryWidget().getViewModel()).getShowPassportCountryObservable().onNext(true);
 				testTravelersPresenter.getTravelerEntryWidget().onTravelerChosen(makeStoredTraveler(null));
 			}
 		});

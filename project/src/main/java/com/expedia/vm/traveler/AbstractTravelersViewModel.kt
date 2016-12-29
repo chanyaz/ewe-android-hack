@@ -42,9 +42,9 @@ abstract class AbstractTravelersViewModel() {
         return true
     }
 
-    open fun getTravelers() : List<Traveler> {
-        return Db.getTravelers()
-    }
+    abstract fun getTravelers() : List<Traveler>
+
+    abstract fun requiresMultipleTravelers() : Boolean
 
     open fun getTraveler(index: Int) : Traveler {
         val travelerList = Db.getTravelers()

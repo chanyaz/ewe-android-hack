@@ -1,5 +1,6 @@
 package com.expedia.bookings.test.phone.traveler;
 
+import com.expedia.vm.traveler.FlightTravelersViewModel;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +24,7 @@ import com.expedia.bookings.data.TravelerName;
 import com.expedia.bookings.data.packages.PackageSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.enums.PassengerCategory;
-import com.expedia.bookings.presenter.packages.TravelersPresenter;
+import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter;
 import com.expedia.bookings.test.espresso.Common;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
@@ -44,7 +45,7 @@ public class BaseTravelerPresenterTestHelper {
 	@Rule
 	public UiThreadTestRule uiThreadTestRule = new UiThreadTestRule();
 
-	protected TravelersPresenter testTravelersPresenter;
+	protected AbstractTravelersPresenter testTravelersPresenter;
 	protected TravelerSummaryCard testTravelerDefault;
 	private CheckoutToolbar testToolbar;
 	protected TravelersViewModel mockViewModel;
@@ -102,7 +103,7 @@ public class BaseTravelerPresenterTestHelper {
 		uiThreadTestRule.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
-				testTravelersPresenter = (TravelersPresenter) viewStub.inflate();
+				testTravelersPresenter = (AbstractTravelersPresenter) viewStub.inflate();
 				testTravelerDefault.setViewModel(new TravelerSummaryViewModel(activityTestRule.getActivity()));
 			}
 		});
@@ -268,7 +269,7 @@ public class BaseTravelerPresenterTestHelper {
 	}
 
 	protected TravelersViewModel getMockviewModel(boolean showMainTravelerMinAge) {
-		TravelersViewModel mockViewModel = new TravelersViewModel(context, LineOfBusiness.PACKAGES,
+		TravelersViewModel mockViewModel = new FlightTravelersViewModel(context, LineOfBusiness.PACKAGES,
 			showMainTravelerMinAge);
 		mockViewModel.getTravelersCompletenessStatus()
 			.subscribe(testTravelerDefault.getViewModel().getTravelerStatusObserver());

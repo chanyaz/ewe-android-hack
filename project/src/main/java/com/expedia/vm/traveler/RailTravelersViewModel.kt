@@ -1,6 +1,7 @@
 package com.expedia.vm.traveler
 
 import android.content.Context
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.utils.Ui
@@ -30,4 +31,10 @@ class RailTravelersViewModel(context: Context) : AbstractTravelersViewModel() {
     override fun isTravelerEmpty(traveler: Traveler): Boolean {
         return travelerValidator.isTravelerEmpty(traveler)
     }
+
+    override fun getTravelers() : List<Traveler> {
+        return Db.getTravelers()
+    }
+
+    override fun requiresMultipleTravelers() = getTravelers().size > 1
 }

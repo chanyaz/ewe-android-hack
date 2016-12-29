@@ -1,6 +1,7 @@
 package com.expedia.vm.traveler
 
 import android.content.Context
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Traveler
 import com.expedia.bookings.data.User
@@ -12,7 +13,7 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import javax.inject.Inject
 
-open class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
+abstract class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
                               showMainTravelerMinAgeMessaging: Boolean) : AbstractTravelersViewModel() {
 
     lateinit var travelerValidator: TravelerValidator
@@ -21,12 +22,10 @@ open class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
     val emptyTravelersSubject = BehaviorSubject.create<Unit>()
     val passportRequired = BehaviorSubject.create<Boolean>(false)
     val showMainTravelerMinAgeMessaging = BehaviorSubject.create<Boolean>(false)
-    val flightOfferObservable = PublishSubject.create<FlightTripDetails.FlightOffer>()
 
     init {
         Ui.getApplication(context).travelerComponent().inject(this)
         this.showMainTravelerMinAgeMessaging.onNext(showMainTravelerMinAgeMessaging)
-        flightOfferObservable.map { it.isPassportNeeded || it.isInternational }.subscribe(passportRequired)
     }
 
     override fun isValidForBooking(traveler: Traveler, index: Int): Boolean {
@@ -55,4 +54,5 @@ open class TravelersViewModel(val context: Context, val lob: LineOfBusiness,
         }
         return true
     }
+    abstract fun createNewTravelerEntryWidgetModel(context: Context, index: Int, passportRequired: BehaviorSubject<Boolean>, currentStatus: TravelerCheckoutStatus): AbstractUniversalCKOTravelerEntryWidgetViewModel
 }
