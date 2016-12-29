@@ -195,9 +195,20 @@ public class LXResultsPresenter extends Presenter {
 
 	Transition themeResultsToActivityResults = new LeftToRightTransition(this, LXThemeResultsWidget.class,
 		LXSearchResultsWidget.class) {
+
+		@Override
+		public void startTransition(boolean forward) {
+			super.startTransition(forward);
+			if (!forward) {
+				searchResultsWidget.setVisibility(GONE);
+			}
+		}
+
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
+			themeResultsWidget.setVisibility(forward ? GONE : VISIBLE);
+			searchResultsWidget.setVisibility(forward ? VISIBLE : GONE);
 			AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 
 		}
@@ -216,6 +227,10 @@ public class LXResultsPresenter extends Presenter {
 		lxFilterTextSearchEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXFilterSearch);
 
 		setupToolbar();
+		int toolbarSize = Ui.getStatusBarHeight(getContext());
+		if (toolbarSize > 0) {
+				themeResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
+			}
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 	}
