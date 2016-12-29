@@ -157,10 +157,8 @@ public class LXResultsPresenter extends Presenter {
 				sortFilterWidgetAnimateView.requestLayout();
 			}
 
-			if (isUserBucketedForCategoriesTest) {
-				transparentView.setAlpha(forward ? 0 : 0.5f);
-				transparentView.setVisibility(VISIBLE);
-			}
+			transparentView.setAlpha(forward ? 0.5f : 0);
+			transparentView.setVisibility(forward ? VISIBLE : GONE);
 		}
 
 		@Override
@@ -171,11 +169,7 @@ public class LXResultsPresenter extends Presenter {
 
 		@Override
 		public void endTransition(boolean forward) {
-			if (isUserBucketedForCategoriesTest) {
-				transparentView.setAlpha(forward ? 0.5f : 0);
-				transparentView.setVisibility(forward ? VISIBLE : GONE);
-			}
-			else {
+			if (!isUserBucketedForCategoriesTest) {
 				sortFilterWidget.setTranslationY(forward ? 0 : sortFilterWidget.getHeight());
 			}
 			sortFilterWidget.setVisibility(forward ? VISIBLE : GONE);
