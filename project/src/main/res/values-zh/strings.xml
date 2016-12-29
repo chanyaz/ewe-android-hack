@@ -1032,7 +1032,9 @@
     <!-- Content description for sign in button. Eg: Sing in with Expedia button -->
     <string name="Sign_in_with_cont_desc_TEMPLATE">登录 {brand} 按钮</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
-    <string name="Sign_in_to_earn_TEMPLATE">登录以获取 {reward} 个 Expedia+ 积分</string>
+    <string name="Sign_in_to_earn_TEMPLATE">登录帐户，累积 {reward} Expedia+ 积分</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">按钮：登录，累积 {reward} Expedia+ 积分</string>
     <!-- or -->
     <string name="or">或</string>
 
@@ -1826,6 +1828,9 @@
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">重试</string>
 
+    <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
+    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">{brand} 航班</string>
@@ -2171,8 +2176,8 @@
     <string name="to_be_collected_by_the_hotel_TEMPLATE">酒店收取的费用：{dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">完成预订</string>
-    <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">安心价格保证</string>
+    <!-- Our price gaurentee string -->
+    <string name="price_guarantee">价格保证</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;%s&lt;/b&gt;前&lt;b&gt;免费取消预订&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -4586,11 +4591,20 @@
     <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
     <string name="rail_journey_details_cont_desc_TEMPLATE">通过 {trainoperator} 的{travelmode}从 {departurestation} 前往 {arrivalstation}，所需时间 {duration}，{departuretime} 出发，{arrivaltime} 到达</string>
     <!--Rails content description for results card Railcard applied portion -->
-    <string name="rail_result_card_railcard_applied_cont_desc">使用了铁路卡</string>
+    <string name="rail_railcard_applied_cont_desc">使用了铁路卡</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">票价 {price} 起</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">所选出发行程：</string>
+    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
+    <string name="rail_button_cont_desc_TEMPLATE">{description}。按钮</string>
+
+    <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
+    <string name="rail_railcard_applied_cont_desc_TEMPLATE">使用了铁路卡：{railcards}</string>
+
+    <!-- Accessibility string describing button opens cost breakdown dialog.
+        Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
+    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}。费用明细对话框。按钮。</string>
 
    <string name="pwp_points_conversion_unauthenticated_access">非常抱歉，我们的服务器遇到点问题。请再试一次。</string>
    <string name="pwp_trip_service_error">非常抱歉，我们的服务器遇到点问题。请再试一次。</string>
@@ -4768,10 +4782,10 @@
     <!--Content description for clear button in filter used for Talkback-->
     <string name="packages_flight_search_filter_clear_button_cont_desc">清除筛选条件。按钮</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget">套餐总价为 {totalprice}。此价格不含机票和酒店的税费。{savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">套餐总价为 {totalprice}。此价格不含机票和酒店的税费。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">套餐总价为 {totalprice}。此价格不含机票和酒店的税费。{savings}。费用明细对话框。按钮。</string>
-    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">套餐价格为每人 {price_per_person}。此价格不含机票和酒店的税费。查看套餐的按钮。</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">正在显示套餐详细信息。关闭按钮。</string>
@@ -4785,9 +4799,9 @@
     <!-- Error message displayed when insurance fails to be added to a trip -->
     <string name="insurance_add_error">很抱歉，我们无法添加旅行保障。请再试一次，或继续预订，而不添加旅行保障。</string>
     <!-- Benefits of purchasing insurance for domestic flights -->
-    <string name="insurance_benefits_domestic">1. 您的机票不可退款，但您由于健康原因不能旅行。&lt;br/&gt;&lt;br/&gt;2. 您受伤了，无法搭乘回家的航班。&lt;br/&gt;&lt;br/&gt;3. 您的旅行同伴出现保险范围内的医疗紧急情况，无法旅行。</string>
+    <string name="insurance_benefits_domestic">1. 您的机票不可退款，但您由于健康原因不能旅行。&lt;br/&gt;&lt;br/&gt;2.您受伤了，无法搭乘回家的航班。&lt;br/&gt;&lt;br/&gt;3.您的旅行同伴出现保险范围内的医疗紧急情况，无法旅行。</string>
     <!-- Benefits of purchasing insurance for international flights -->
-    <string name="insurance_benefits_international">1. 您的机票不可退款，但您由于健康原因不能旅行。&lt;br/&gt;&lt;br/&gt;2. 行李丢失，您需要重新准备，包括笔记本电脑、手机或照相机。&lt;br/&gt;&lt;br/&gt;3. 您的保险可能不涵盖旅行期间的医疗开支。</string>
+    <string name="insurance_benefits_international">1. 您的机票不可退款，但您由于健康原因不能旅行。&lt;br/&gt;&lt;br/&gt;2.行李丢失，您需要重新准备，包括笔记本电脑、手机或照相机。&lt;br/&gt;&lt;br/&gt;3.您的保险可能不涵盖旅行期间的医疗开支。</string>
     <!-- Insurance call to action; links to list of benefits -->
     <string name="insurance_description">您需要购买行程保险的 3 个原因</string>
     <!-- Error message displayed when insurance fails to be removed from a trip -->
@@ -4934,5 +4948,15 @@
     <string name="multiple_carriers_text">多家运营商</string>
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">可以升级房型</string>
+    <!-- Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title">您的体验怎么样？</string>
+    <!-- Message for App Rating Dialog -->
+    <string name="dialog_app_rating_message">喜欢我们的 App 的话，别忘了到 Play Store 给我们好评哦！</string>
+    <!-- Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button">评论</string>
+    <!-- Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button">反馈</string>
+    <!-- Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button">不用了，谢谢</string>
 
 </resources>

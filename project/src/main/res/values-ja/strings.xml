@@ -833,9 +833,9 @@
     <!-- Label indicating the direction of the rails is inbond-->
     <string name="select_return">復路 (帰り) 便を選択する</string>
     <!-- Label indicating the one way trip for rails-->
-    <string name="one_way_from">片道 最低料金 :</string>
+    <string name="one_way_from">片道 最低価格 :</string>
     <!-- Label indicating the round trip for rails-->
-    <string name="total_from">往復 最低料金 :</string>
+    <string name="total_from">往復 最低価格 :</string>
 
     <!-- Label indicating the price shown is the price per person rather than the total-->
     <string name="prices_roundtrip_label">1 名あたりの往復料金</string>
@@ -844,9 +844,9 @@
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">往復</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
-    <string name="prices_roundtrip_minimum_label">往復 (1 名あたり) の最低料金</string>
+    <string name="prices_roundtrip_minimum_label">往復 (1 名あたり) の最低価格</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
-    <string name="prices_oneway_minimum_label">片道 (1 名あたり) の最低料金</string>
+    <string name="prices_oneway_minimum_label">片道 (1 名あたり) の最低価格</string>
     <!-- Trip bucket, trip is empty message -->
     <string name="trip_empty">旅行のデータがありません。</string>
     <!-- Tablet Trip bucket, Book Flight button text -->
@@ -1033,6 +1033,8 @@
     <string name="Sign_in_with_cont_desc_TEMPLATE">{brand} アカウントでサインイン ボタン</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">サインインして {reward} Expedia+ ポイントを獲得</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">サインインして {reward} Expedia+ ポイントを獲得ボタン</string>
     <!-- or -->
     <string name="or">または</string>
 
@@ -1826,6 +1828,9 @@
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">再試行</string>
 
+    <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
+    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">{brand} 便のフライト</string>
@@ -2096,7 +2101,7 @@
     <!-- Trip total price label -->
     <string name="total_price_label">旅行の合計料金</string>
     <!-- Trip total price label. Variant for Australian compliance rule. (d/5810) -->
-    <string name="total_price_min_label">合計の最低料金</string>
+    <string name="total_price_min_label">合計の最低価格</string>
     <!-- Your trip to template -->
     <string name="your_trip_to_TEMPLATE">目的地 : %1$s</string>
     <!-- Includes taxes and fees -->
@@ -2171,8 +2176,8 @@
     <string name="to_be_collected_by_the_hotel_TEMPLATE">ホテルで徴収 : {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">予約を完了する</string>
-    <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">最低価格保証</string>
+    <!-- Our price gaurentee string -->
+    <string name="price_guarantee">価格保証</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;無料キャンセル期限 : &lt;/b&gt;&lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -4160,7 +4165,7 @@
     <!-- Sort By on Filters Screen Content Description: Sort by Duration Drop Down List -->
     <string name="filter_sort_by_content_description_TEMPLATE">{sort}で並べ替え</string>
     <!-- Hotel Price Range start filter label for accessibility -->
-    <string name="hotel_price_range_start">最低料金</string>
+    <string name="hotel_price_range_start">最低価格</string>
     <!-- Hotel Price Range end filter label for accessibility -->
     <string name="hotel_price_range_end">最高料金</string>
     <!--Content description for "SHOW MORE" button in filter used for Talkback-->
@@ -4586,11 +4591,20 @@
     <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
     <string name="rail_journey_details_cont_desc_TEMPLATE">{departurestation}発{arrivalstation}行き、{trainoperator}の{travelmode}利用、所要時間 {duration}、{departuretime} に出発し {arrivaltime} に到着</string>
     <!--Rails content description for results card Railcard applied portion -->
-    <string name="rail_result_card_railcard_applied_cont_desc">レイルカード適用分</string>
+    <string name="rail_railcard_applied_cont_desc">適用されたレイルカード</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">運賃 {price} ～</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">選択した往路 (行き) の鉄道 :</string>
+    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
+    <string name="rail_button_cont_desc_TEMPLATE">{description}。ボタン</string>
+
+    <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
+    <string name="rail_railcard_applied_cont_desc_TEMPLATE">適用されたレイルカード : {railcards}</string>
+
+    <!-- Accessibility string describing button opens cost breakdown dialog.
+        Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
+    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}。料金明細のダイアログ。ボタン。</string>
 
    <string name="pwp_points_conversion_unauthenticated_access">申し訳ありません。サーバーに問題が発生しました。もう一度お試しください。</string>
    <string name="pwp_trip_service_error">申し訳ありません。サーバーに問題が発生しました。もう一度お試しください。</string>
@@ -4768,10 +4782,10 @@
     <!--Content description for clear button in filter used for Talkback-->
     <string name="packages_flight_search_filter_clear_button_cont_desc">絞り込みを削除します。ボタン</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">ツアー (航空券 + ホテル) 合計料金は {totalprice} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。{savings} 割引。料金明細のダイアログ。ボタン。</string>
-    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">ツアー (航空券 + ホテル) 料金は 1 名 {price_per_person} です。料金には、航空券とホテル両方の税およびサービス料が含まれています。ツアー (航空券 + ホテル) を表示するボタン。</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">ツアー (航空券 + ホテル) 詳細を表示しています。閉じるボタン。</string>
@@ -4934,5 +4948,15 @@
     <string name="multiple_carriers_text">複数の航空会社</string>
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">アップグレード可</string>
+    <!-- Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title">ご意見をお聞かせください。</string>
+    <!-- Message for App Rating Dialog -->
+    <string name="dialog_app_rating_message">今後のサービス向上のため、Play Store でのアプリ評価にご協力ください。</string>
+    <!-- Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button">レビュー</string>
+    <!-- Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button">フィードバックを送信</string>
+    <!-- Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button">送信しない</string>
 
 </resources>
