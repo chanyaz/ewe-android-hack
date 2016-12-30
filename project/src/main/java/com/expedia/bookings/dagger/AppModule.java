@@ -253,14 +253,15 @@ public class AppModule {
 	private void clientLog(Request.Builder request, Response response, Context context) {
 		if (!request.build().url().toString().contains(ClientLogConstants.CLIENT_LOG_URL)) {
 			long responseTime = response.receivedResponseAtMillis() - response.sentRequestAtMillis();
-			ClientLog.Builder logBuilder = new ClientLog.Builder();
+			ClientLog.ResponseCLBuilder responseLogBuilder = new ClientLog.ResponseCLBuilder();
 
-			logBuilder.pageName(request.build().url().encodedPath().replaceAll("/","_"));
-			logBuilder.eventName(NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
-			logBuilder.deviceName(android.os.Build.MODEL);
+			responseLogBuilder.pageName(request.build().url().encodedPath().replaceAll("/","_"));
+			responseLogBuilder.eventName(NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
+			responseLogBuilder.deviceName(android.os.Build.MODEL);
+			responseLogBuilder.responseTime(responseTime);
 
 			ClientLogServices clientLogServices = Ui.getApplication(context).appComponent().clientLog();
-			clientLogServices.log(logBuilder.build(responseTime));
+			clientLogServices.log(responseLogBuilder.build());
 
 		}
 	}
