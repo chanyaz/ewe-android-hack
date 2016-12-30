@@ -34,7 +34,7 @@
     <!-- Row header for when the grand total of the user's hotel stay is more than what they owe Expedia at the time of reservation-->
     <string name="total_due_to_our_brand_today">Montant total dû à Orbitz aujourd\&apos;hui :</string>
     <!-- User needs to reset password -->
-    <string name="login_reset_password">Vous devez créer un nouvel identifiant international vous donnant accès à tous les sites Orbitz.&lt;br&gt;Veuillez réinitialiser votre mot de passe à l\&apos;aide du lien « Oublié votre mot de passe? » ci-dessous.</string>
+    <string name="login_reset_password">Vous devez créer un nouvel identifiant international vous donnant accès à tous les sites Orbitz.&lt;br&gt;Veuillez réinitialiser votre mot de passe à l\&apos;aide du lien « Vous avez oublié votre mot de passe? » ci-dessous.</string>
 
     <!-- Label to show user in cost breakdown for the total being charged to them right now -->
     <string name="total_due_today">Montant total dû à Orbitz aujourd\&apos;hui</string>
@@ -144,5 +144,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Le prix du forfait est de {price_per_person} par personne. Ce prix comprend les taxes et les frais pour les vols et l\&apos;hôtel. Bouton d\&apos;affichage du forfait.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Affichage des détails du forfait. Bouton de fermeture.</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>
