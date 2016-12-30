@@ -7,6 +7,8 @@ import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
+import com.expedia.bookings.featureconfig.IProductFlavorFeatureConfiguration
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.utils.FilterAmenity
 import com.expedia.bookings.utils.Strings
@@ -41,7 +43,7 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
 
-    data class UserFilterChoices(var userSort: Sort = Sort.RECOMMENDED,
+    data class UserFilterChoices(var userSort: Sort = ProductFlavorFeatureConfiguration.getInstance().getDefaultSort(),
                                  var isVipOnlyAccess: Boolean = false,
                                  var hotelStarRating: StarRatings = StarRatings(),
                                  var name: String = "",
@@ -161,7 +163,7 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
     }
 
     fun resetUserFilters() {
-        userFilterChoices.userSort = Sort.RECOMMENDED
+        userFilterChoices.userSort = ProductFlavorFeatureConfiguration.getInstance().getDefaultSort()
         userFilterChoices.isVipOnlyAccess = false
         userFilterChoices.hotelStarRating = StarRatings()
         userFilterChoices.name = ""
@@ -355,6 +357,8 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
         previousSortType = Sort.RECOMMENDED
         if (isCurrentLocationSearch.value) { // sort by distance on currentLocation search
             sortByObservable.onNext(AbstractHotelFilterViewModel.Sort.DISTANCE)
+        } else {
+            sortByObservable.onNext(ProductFlavorFeatureConfiguration.getInstance().getDefaultSort())
         }
     }
 
