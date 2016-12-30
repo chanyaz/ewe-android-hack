@@ -257,6 +257,15 @@
             android:summary="%s"
             android:title="Universal Checkout Forms test - 12721" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:key="12800"
+            android:layout="@layout/preference"
+            android:summary="%s"
+            android:title="Flight price change alert - 12800" />
+
     </PreferenceCategory>
 
 
