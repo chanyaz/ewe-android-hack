@@ -23,9 +23,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.expedia.bookings.data.abacus.AbacusUtils;
-
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -49,7 +48,8 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Attraction (Academy of Paris)", "expda://hotelSearch?location=Academy%20of%20Paris%2C%20Paris%2C%20France"),
 		new DeepLink("Airport (BVA)", "expda://hotelSearch?location=Paris%2C%20France%20(BVA-Beauvais)"),
 		new DeepLink("Intent", "intent://hotelSearch?location=Orlando,%20FL/#Intent;package=com.expedia.bookings;scheme=expda;end"),
-		new DeepLink("Current Location Search", "expda://hotelSearch"),
+		new DeepLink("Current Location Search URI", "expda://hotelSearch"),
+		new DeepLink("Current Location Search URL", "https://www.expedia.com/mobile/deeplink/Hotel-Search"),
 		new DeepLink("Sort by Recommended", "expda://hotelSearch?sortType=Recommended"),
 		new DeepLink("Sort by Discounts", "expda://hotelSearch?sortType=Discounts"),
 		new DeepLink("Sort by Price", "expda://hotelSearch?sortType=Price"),
@@ -75,28 +75,34 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Sold Out complex (maybe)", "expda://hotelSearch?hotelId=4183598&numAdults=3&childAges=3,2&cid=SEO.Google", "checkInDate", 1, "checkOutDate", 2),
 
 		new DeepLinkSection("Flights", R.color.flights_lob_btn),
-		new DeepLink("Flight Search", "expda://flightSearch"),
+		new DeepLink("Flight Search URI", "expda://flightSearch"),
+		new DeepLink("Flight Search URL", "https://www.expedia.com/mobile/deeplink/Flights-Search"),
 		new DeepLink("Flight Search (Round trip)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&returnDate=2017-02-03&numAdults=1"),
 		new DeepLink("Flight Search (One Way)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&numAdults=1"),
 		new DeepLink("Flight Search (3 adults, roundTrip)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&returnDate=2017-02-03&numAdults=3"),
 		new DeepLink("Flight Travel Guide", "expda://flightSearch?destination=ATH&seocid=Google"),
 
 		new DeepLinkSection("Activities", R.color.lx_primary_color),
-		new DeepLink("Activity Search", "expda://activitySearch"),
+		new DeepLink("Activity Search URI", "expda://activitySearch"),
+		new DeepLink("Activity Search URL", "https://www.expedia.com/mobile/deeplink/things-to-do/search"),
 		new DeepLink("San Francisco", "expda://activitySearch?location=San%20Francisco", "startDate", 3),
 
 		new DeepLinkSection("Cars", R.color.cars_primary_color),
-		new DeepLink("Car Search", "expda://carSearch"),
+		new DeepLink("Car Search URI", "expda://carSearch"),
+		new DeepLink("Car Search URL", "https://www.expedia.com/mobile/deeplink/carsearch"),
 
 		new DeepLinkSection("Deferred", R.color.launch_screen_primary),
 		new DeepLink("Parc 55 San Francisco, a Hilton Hotel",
 			"https://169006.measurementapi.com/serve?action=click&publisher_id=169006&site_id=107678&invoke_url=expda%3A%2F%2FhotelSearch%3FhotelId%3D12539"),
 
 		new DeepLinkSection("Other", R.color.gt_primary_color),
-		new DeepLink("Home", "expda://home"),
-		new DeepLink("Sign In", "expda://signIn"),
+		new DeepLink("Home URI", "expda://home"),
+		new DeepLink("Home URL", "https://www.expedia.com/mobile/deeplink"),
+		new DeepLink("Sign In URI", "expda://signIn"),
+		new DeepLink("Sign In URL", "https://www.expedia.com/mobile/deeplink/user/signin"),
+		new DeepLink("Trips URI", "expda://trips"),
+		new DeepLink("Trips URL", "https://www.expedia.com/mobile/deeplink/trips"),
 		new DeepLink("Unsupported URL Scheme", "george://noworky"),
-		new DeepLink("Request Push Permissions", "expda://requestNotificationPermission"),
 		new DeepLink("Destination (Muzei Plugin)", "expda://destination/?displayName=Orlando,+FL&searchType=CITY&hotelId=178294&airportCode=ORL&regionId=178294&latitude=28.541290&longitude=-81.379040&imageCode=fun-orlando"),
 		new DeepLink("Support Email", "expda://supportEmail"),
 		new DeepLinkWithABTests("Force Bucket", "expda://forceBucket?key={}&value={}"),
@@ -196,7 +202,6 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 			else {
 				intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
 			}
-
 			safeStartActivity(v.getContext(), intent);
 		}
 
