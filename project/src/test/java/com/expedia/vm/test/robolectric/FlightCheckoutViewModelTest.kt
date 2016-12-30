@@ -331,7 +331,7 @@ class FlightCheckoutViewModelTest {
         givenCheckoutPriceChangeParams()
 
         val testSubscriber = TestSubscriber<TripResponse>()
-        sut.priceChangeObservable.subscribe(testSubscriber)
+        sut.checkoutPriceChangeObservable.subscribe(testSubscriber)
         sut.checkoutParams.onNext(params)
 
         testSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)

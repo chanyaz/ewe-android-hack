@@ -1,6 +1,7 @@
 package com.expedia.bookings.data.packages;
 
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.TripResponse;
@@ -17,6 +18,15 @@ public class PackageCreateTripResponse extends TripResponse {
 	public String packageRulesAndRestrictions;
 	public Money selectedCardFees;
 	public Money totalPriceIncludingFees;
+
+	@Nullable
+	@Override
+	public Money getOldPrice() {
+		if (oldPackageDetails == null) {
+			return null;
+		}
+		return oldPackageDetails.pricing.packageTotal;
+	}
 
 	public static class PackageDetails {
 		public String tealeafTransactionId;

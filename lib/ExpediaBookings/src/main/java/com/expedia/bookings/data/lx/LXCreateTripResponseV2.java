@@ -35,4 +35,10 @@ public class LXCreateTripResponseV2 extends TripResponse {
 	public boolean isCardDetailsRequiredForBooking() {
 		return true;
 	}
+
+	@NotNull
+	@Override
+	public Money getOldPrice() {
+		return originalPrice;
+	}
 }

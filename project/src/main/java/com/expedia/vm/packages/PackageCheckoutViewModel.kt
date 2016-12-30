@@ -110,7 +110,7 @@ class PackageCheckoutViewModel(context: Context, var packageServices: PackageSer
                             checkoutErrorObservable.onNext(response.firstError)
                         }
                         ApiError.Code.PRICE_CHANGE -> {
-                            priceChangeObservable.onNext(response)
+                            checkoutPriceChangeObservable.onNext(response)
                         }
                         ApiError.Code.TRIP_ALREADY_BOOKED -> {
                             bookingSuccessResponse.onNext(Pair(response, email))

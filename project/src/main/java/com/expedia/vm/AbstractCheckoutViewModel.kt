@@ -52,7 +52,7 @@ abstract class AbstractCheckoutViewModel(val context: Context) {
     val showingPaymentWidgetSubject = PublishSubject.create<Boolean>()
     
     // Outputs
-    val priceChangeObservable = PublishSubject.create<TripResponse>()
+    val checkoutPriceChangeObservable = PublishSubject.create<TripResponse>()
     val noNetworkObservable = PublishSubject.create<Unit>()
     val depositPolicyText = PublishSubject.create<Spanned>()
     val legalText = BehaviorSubject.create<SpannableStringBuilder>()
