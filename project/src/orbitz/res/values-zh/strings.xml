@@ -144,5 +144,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">套餐价格为每人 {price_per_person}。此价格不含机票和酒店的税费。查看套餐的按钮。</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">显示套餐详细信息。关闭按钮。</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">内部保密价</string>
 </resources>

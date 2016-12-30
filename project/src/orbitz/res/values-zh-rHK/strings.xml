@@ -144,5 +144,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">套票行程價為 {price_per_person} 一位。此價格已包括機票和酒店的稅項及附加費。查看套票行程按鈕。</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">正在顯示套票行程資料。關閉按鈕。</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>
