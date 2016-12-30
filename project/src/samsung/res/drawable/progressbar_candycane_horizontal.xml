@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<animation-list xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/candycane_loading_6_samsung" android:duration="75" />
-    <item android:drawable="@drawable/candycane_loading_5_samsung" android:duration="75" />
-    <item android:drawable="@drawable/candycane_loading_4_samsung" android:duration="75" />
-    <item android:drawable="@drawable/candycane_loading_3_samsung" android:duration="75" />
-    <item android:drawable="@drawable/candycane_loading_2_samsung" android:duration="75" />
-    <item android:drawable="@drawable/candycane_loading_1_samsung" android:duration="75" />
-</animation-list>
