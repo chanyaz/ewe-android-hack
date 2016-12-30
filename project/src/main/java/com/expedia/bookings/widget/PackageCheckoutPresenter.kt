@@ -13,7 +13,6 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
-import com.expedia.util.safeSubscribe
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
@@ -23,6 +22,33 @@ import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.otto.Subscribe
 
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
+    override fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean {
+        return false
+    }
+
+    override fun handleCheckoutPriceChange(response: TripResponse) {
+        onCreateTripResponse(response)
+    }
+
+    override fun onCreateTripResponse(response: TripResponse?) {
+        response as PackageCreateTripResponse
+        loginWidget.updateRewardsText(getLineOfBusiness())
+        totalPriceWidget.viewModel.total.onNext(response.bundleTotal)
+        val packageTotalPrice = response.packageDetails.pricing
+        totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
+        val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
+        costSummaryViewModel.packageCostSummaryObservable.onNext(response)
+
+        val messageString =
+                if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
+                    R.string.cost_summary_breakdown_total_due_today
+                else
+                    R.string.bundle_total_text
+        totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
+        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
+            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+        (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(response.packageDetails.flight.details.offer)
+    }
 
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {
         return DefaultToTraveler(FlightTravelersPresenter::class.java)
@@ -37,28 +63,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
-        vm.createTripResponseObservable.safeSubscribe { response ->
-            response as PackageCreateTripResponse
-            loginWidget.updateRewardsText(getLineOfBusiness())
-            priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
-            priceChangeWidget.viewmodel.newPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            totalPriceWidget.viewModel.total.onNext(response.bundleTotal)
-            val packageTotalPrice = response.packageDetails.pricing
-            totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
-            val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
-            costSummaryViewModel.packageCostSummaryObservable.onNext(response)
-
-            val messageString =
-                    if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
-                        R.string.cost_summary_breakdown_total_due_today
-                    else
-                        R.string.bundle_total_text
-            totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
-            if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
-                totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-            (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(response.packageDetails.flight.details.offer)
-        }
-        getCheckoutViewModel().priceChangeObservable.subscribe(getCreateTripViewModel().createTripResponseObservable)
+        getCheckoutViewModel().checkoutPriceChangeObservable.subscribe(getCreateTripViewModel().createTripResponseObservable)
     }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {

@@ -35,6 +35,7 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
@@ -55,8 +56,10 @@ import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
+import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Subscription
+import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -199,9 +202,13 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 checkoutDialog.dismiss()
             }
         }
-        vm.priceChangeObservable.subscribe {
+        vm.checkoutPriceChangeObservable.subscribe { response ->
             slideToPurchase.resetSlider()
             animateInSlideToPurchase(true)
+            priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
+            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
+            priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
+            handleCheckoutPriceChange(response)
         }
         vm.noNetworkObservable.subscribe {
             slideToPurchase.resetSlider()
@@ -209,6 +216,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         vm.cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
         vm.cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
     }
+
+    abstract fun handleCheckoutPriceChange(response: TripResponse)
 
     protected var priceChangeViewModel: PriceChangeViewModel by notNullAndObservable { vm ->
         priceChangeWidget.viewmodel = vm
@@ -272,8 +281,40 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 createTripDialog.dismiss()
             }
         }
+        vm.createTripResponseObservable.safeSubscribe { response ->
+            priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
+            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
+            if (hasPriceChange(response)) {
+                if(shouldShowAlertForCreateTripPriceChange(response)) {
+                    showAlertDialogForPriceChange(response!!)
+                } else {
+                    priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
+                    onCreateTripResponse(response)
+                }
+            } else {
+                onCreateTripResponse(response)
+            }
+        }
         setupCreateTripViewModel(vm)
     }
+
+    abstract fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean
+
+    fun hasPriceChange(response: TripResponse?): Boolean {
+        return response?.getOldPrice() != null && showPriceChange(response!!.newPrice.amount, response!!.getOldPrice()!!.amount)
+    }
+
+    fun showPriceChange(newprice: BigDecimal, originalprice: BigDecimal): Boolean {
+        if (newprice.compareTo(originalprice) == 1) {
+            return true
+        }
+        val ratio = newprice.toDouble()/originalprice.toDouble()
+        val isChangeBigEnoughToShow = (1.0 - ratio) >= Constants.PRICE_CHANGE_NOTIFY_CUTOFF
+        return isChangeBigEnoughToShow
+    }
+
+
+    abstract fun onCreateTripResponse(response: TripResponse?)
 
     init {
         View.inflate(context, R.layout.base_checkout_presenter, this)
@@ -674,6 +715,21 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         return paymentViewModel
     }
 
+    fun showAlertDialogForPriceChange(tripResponse: TripResponse) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(context.getString(R.string.price_change_text))
+        builder.setMessage(Phrase.from(this, R.string.price_change_alert_TEMPLATE)
+                .put("oldprice", tripResponse.getOldPrice()!!.formattedMoneyFromAmountAndCurrencyCode)
+                .put("newprice", tripResponse.newPrice.formattedMoneyFromAmountAndCurrencyCode)
+                .format())
+        builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, which ->
+            onCreateTripResponse(tripResponse)
+            dialog.dismiss()
+        }
+        builder.setOnCancelListener { onCreateTripResponse(tripResponse) }
+        val dialog = builder.create()
+        dialog.show()
+    }
 
     inner class DefaultToTraveler(className: Class<*>) : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, className) {
         override fun startTransition(forward: Boolean) {
@@ -706,5 +762,4 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
         }
     }
-
 }

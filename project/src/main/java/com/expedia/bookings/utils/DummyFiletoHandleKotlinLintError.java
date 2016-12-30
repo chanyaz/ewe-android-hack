@@ -207,6 +207,8 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.hotel_guest_recommend_good_superlative,
 		R.string.hotel_guest_recommend_very_good_superlative,
 		R.string.hotel_guest_recommend_excellent_superlative,
+		R.string.price_change_text,
+		R.string.price_change_alert_TEMPLATE,
 		R.string.hotel_guest_recommend_wonderful_superlative,
 		R.string.hotel_guest_recommend_exceptional_superlative,
 		R.layout.lx_theme_loading_animation_widget,

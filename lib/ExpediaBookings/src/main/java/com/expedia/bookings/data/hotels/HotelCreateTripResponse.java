@@ -18,6 +18,13 @@ public class HotelCreateTripResponse extends TripResponse {
 	public String tealeafTransactionId;
 	public Coupon coupon;
 
+	@NotNull
+	@Override
+	public Money getOldPrice() {
+		//To-Do when we bring Hotels to universal CKO
+		return null;
+	}
+
 	public static class Coupon {
 		public String code;
 	}

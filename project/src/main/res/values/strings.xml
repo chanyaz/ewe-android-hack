@@ -79,6 +79,10 @@
     <string name="checkout_text">Checkout</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Duplicate Trip</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">Price Change</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">The price of your trip has changed from {oldprice} to {newprice}. Rates can change frequently. Book now to lock this price.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Price Changed</string>
     <!-- Text for error toolbar-->

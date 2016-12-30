@@ -37,6 +37,8 @@ abstract class TripResponse : BaseApiResponse() {
     */
     abstract fun isCardDetailsRequiredForBooking(): Boolean
 
+    abstract fun getOldPrice(): Money?
+
     var isRewardsEnabledForCurrentPOS: Boolean by Delegates.notNull()
     fun isRewardsRedeemable(): Boolean {
         if (!isRewardsEnabledForCurrentPOS) {
@@ -115,5 +117,9 @@ abstract class TripResponse : BaseApiResponse() {
         } else {
             return rewardsUserAccountDetails().tripTotalPayable!!
         }
+    }
+
+    val  newPrice: Money by lazy {
+        tripTotalPayableIncludingFeeIfZeroPayableByPoints()
     }
 }
