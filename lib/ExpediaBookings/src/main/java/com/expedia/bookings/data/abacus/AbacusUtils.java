@@ -31,6 +31,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelFavoriteTest = 10989;
 	public static final int EBAndroidAppSmartLockTest = 11269;
 	public static final int EBAndroidAppHotelResultsPerceivedInstantTest = 10555;
+	public static final int EBAndroidAppFlightsCreateTripPriceChangeAlert = 12800;
 	public static final int EBAndroidAppRailLineOfBusinessEnabledTest = 12113;
 	public static final int EBAndroidAppHotelFilterProminence = 11790;
 	public static final int EBAndroidItinHotelGallery = 12465;
@@ -85,6 +86,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelFavoriteTest);
 		testIDs.add(EBAndroidAppRailLineOfBusinessEnabledTest);
 		testIDs.add(EBAndroidAppHotelFilterProminence);
+		testIDs.add(EBAndroidAppFlightsCreateTripPriceChangeAlert);
 		testIDs.add(EBAndroidItinHotelGallery);
 		testIDs.add(EBAndroidAppFlightRateDetailExpansion);
 		testIDs.add(EBAndroidAppFlightUrgencyMessage);
