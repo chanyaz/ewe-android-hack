@@ -7,6 +7,7 @@ import cucumber.api.android.CucumberInstrumentationCore;
 
 public class CucumberInstrumentationRunner extends MonitoringInstrumentation {
 
+	//keeping a separate runner for cucumber tests for now. Forking is not compatible with cucumber yet. WIP.
 	private final CucumberInstrumentationCore mInstrumentationCore = new CucumberInstrumentationCore(this);
 
 	@Override

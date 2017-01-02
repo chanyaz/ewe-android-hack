@@ -6,7 +6,7 @@ import cucumber.api.java.en.Then;
 
 public class SearchResultsScreenSteps {
 
-	@Then("^I wait for the results to appear$")
+	@Then("^I can see hotel search results$")
 	public void waitForSearchResultsToAppear() throws Throwable {
 		HotelScreen.waitForResultsLoaded();
 	}

@@ -193,7 +193,12 @@ android {
 
         multiDexEnabled = true
         testApplicationId "com.expedia.bookings.test"
-        testInstrumentationRunner "com.expedia.bookings.test.espresso.InstrumentationTestRunner"
+
+        //Set testRunnerPackage to com.expedia.bookings.test.CucumberInstrumentationRunner to run cucumber tests
+        def testRunnerPackage = "com.expedia.bookings.test.espresso.InstrumentationTestRunner"
+
+        testInstrumentationRunner testRunnerPackage
+        manifestPlaceholders = [instrumentationRunnerPath : testRunnerPackage]
 
         buildConfigField "String", "GIT_REVISION",  "\"${gitRev}\""
         buildConfigField "String", "BUILD_NUMBER",  "\"${System.env.BUILD_NUMBER}\""
@@ -223,7 +228,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"bukr\""
             applicationId "com.ebookers"
-            testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 6
             def minor = 2
@@ -238,7 +242,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"vygs\""
             applicationId "com.expedia.bookings.vsc"
-            testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 4
             def minor = 0
@@ -253,7 +256,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://images.trvl-media.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"tvly\""
             applicationId "com.travelocity.android"
-            testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 9
             def minor = 2
@@ -268,7 +270,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"aago\""
             applicationId "com.airasiago.android"
-            testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 4
             def minor = 1
@@ -283,7 +284,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"wotf\""
             applicationId "com.wotif.android"
-            testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 4
             def minor = 1
@@ -298,7 +298,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"ltmn\""
             applicationId "com.lastminute.android"
-            testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 4
             def minor = 1
@@ -313,7 +312,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"expda\""
             applicationId "com.samsung.travel.android"
-            testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 1
             def minor = 2
@@ -328,7 +326,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"obtz\""
             applicationId "com.orbitz"
-            testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 8
             def minor = 2
@@ -343,7 +340,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"hptk\""
             applicationId "com.cheaptickets"
-            testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 6
             def minor = 2
@@ -358,7 +354,6 @@ android {
             buildConfigField "String", "MEDIA_URL", "\"https://media.expedia.com\""
             buildConfigField "String", "DEEPLINK_SCHEME", "\"mret\""
             applicationId "se.mrjet"
-            testInstrumentationRunner "com.expedia.bookings.test.CucumberInstrumentationRunner"
 
             def major = 6
             def minor = 1

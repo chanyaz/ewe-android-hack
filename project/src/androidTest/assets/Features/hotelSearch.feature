@@ -1,14 +1,16 @@
 Feature: Getting hotel results from the App
 
+  @WIP @Int @HotelSearch
   Scenario Outline: Successfully searching for hotels with different combinations.
 
-    Given I have the app installed and I open it.
-    Then I should be able to click Hotels button to launch the hotel search screen
-    Then I enter destination as "<destination>"
-    Then I select "<searchSuggest>" as search suggestion
-    Then I select <checkInDate> , <checkOutDate> as check in and checkout date
-    Then I click on Search Button
-    Then I wait for the results to appear
+    Given I launch the App
+    And I launch "Hotels" LOB
+    When I search for hotels with following criteria
+      | location   | <destination>   |
+      | suggestion | <searchSuggest> |
+    And I select <checkInDate> , <checkOutDate> as check in and checkout date
+    And I click on Search Button
+    Then I can see hotel search results
 
     Examples:
       | destination | searchSuggest                                 | checkInDate | checkOutDate |
