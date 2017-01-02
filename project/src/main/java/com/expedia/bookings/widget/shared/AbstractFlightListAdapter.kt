@@ -184,6 +184,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         val urgencyMessageTextView: TextView by root.bindView(R.id.urgency_message)
         val urgencyMessageContainer: LinearLayout by root.bindView(R.id.urgency_message_layout)
         val roundTripTextView: TextView by root.bindView(R.id.trip_type_text_view)
+        val flightEarnMessageWithoutRoundTrip: TextView by root.bindView(R.id.flight_earn_message_text_view_without_roundtrip)
 
         init {
             itemView.setOnClickListener(this)
@@ -206,15 +207,26 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
             flightDurationTextView.text = viewModel.duration
             val flight = viewModel.layover
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
-            flightAirlineWidget.update(viewModel.airline, isRoundTripSearch)
+            flightAirlineWidget.update(viewModel.airline, isRoundTripSearch, viewModel.isEarnMessageVisible(viewModel.earnMessage))
             if (viewModel.getUrgencyMessageVisibilty() && Strings.isNotEmpty(viewModel.seatsLeft)) {
                 urgencyMessageContainer.visibility = View.VISIBLE
                 urgencyMessageTextView.text = viewModel.seatsLeft
             } else {
                 urgencyMessageContainer.visibility = View.GONE
             }
+            if (viewModel.isEarnMessageVisible(viewModel.earnMessage)) {
+                if (roundTripTextView.visibility == View.VISIBLE) {
+                    flightEarnMessage.text = viewModel.earnMessage
+                    flightEarnMessage.visibility = View.VISIBLE
+                    flightEarnMessageWithoutRoundTrip.visibility = View.GONE
+                } else {
+                    flightEarnMessageWithoutRoundTrip.text = viewModel.earnMessage
+                    flightEarnMessageWithoutRoundTrip.visibility = View.VISIBLE
+                    flightEarnMessage.visibility = View.GONE
+                }
+            }
+
             cardView.contentDescription = viewModel.contentDescription
-            flightEarnMessage.text = viewModel.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context) ?:""
         }
     }
 

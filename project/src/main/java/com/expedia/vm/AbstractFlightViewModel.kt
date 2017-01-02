@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.SpannableBuilder
@@ -16,11 +17,12 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     val duration = FlightV2Utils.getFlightDurationStopString(context, flightLeg)
     val layover = flightLeg
     var flightSegments = flightLeg.flightSegments
-    var packageOfferModel = flightLeg.packageOfferModel
+    val earnMessage = flightLeg.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
     var seatsLeft = FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
 
     abstract fun price(): String
     abstract fun getUrgencyMessageVisibilty(): Boolean
+    abstract fun isEarnMessageVisible(earnMessage: String): Boolean
 
     var contentDescription = getFlightContentDesc()
 
