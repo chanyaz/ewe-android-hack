@@ -11,6 +11,7 @@ import com.expedia.bookings.data.flights.FlightSearchParams
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.LocalDateTypeAdapter
+import com.expedia.util.LoyaltyUtil
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.JsonSyntaxException
@@ -36,7 +37,7 @@ class HotelsV2DataUtil {
             return null
         }
 
-        fun getHotelV2SearchParams(params: com.expedia.bookings.data.HotelSearchParams): HotelSearchParams {
+        fun getHotelV2SearchParams(context: Context, params: com.expedia.bookings.data.HotelSearchParams): HotelSearchParams {
             val suggestionV4 = SuggestionV4()
             suggestionV4.hotelId = params.hotelId
             suggestionV4.gaiaId = params.regionId
@@ -60,7 +61,7 @@ class HotelsV2DataUtil {
             val checkInDate = if (hasValidDates) params.checkInDate else LocalDate.now()
             val checkOutDate = if (hasValidDates) params.checkOutDate else LocalDate.now().plusDays(1)
             val filterUnavailable = !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest);
-            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, Db.getUser()?.loyaltyMembershipInformation?.isAllowedToShopWithPoints ?: false, filterUnavailable)
+            val v2params = HotelSearchParams(suggestionV4, checkInDate, checkOutDate, params.numAdults, childList, LoyaltyUtil.isShopWithPointsAvailable(context), filterUnavailable)
             return v2params
         }
 

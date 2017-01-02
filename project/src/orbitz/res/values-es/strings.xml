@@ -144,5 +144,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">El precio del paquete es {price_per_person} por persona. El precio incluye impuestos y cargos aplicables a los vuelos y al hotel. Botón para ver el paquete.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Se muestran los detalles del paquete. Botón para cerrar.</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Precios exclusivos</string>
 </resources>
