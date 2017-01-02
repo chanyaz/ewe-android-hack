@@ -8,5 +8,6 @@
     <string name="acct_Welcome_to_Wotif">欢迎使用 Wotif</string>
     <!-- Title of "Account Already Exists" error dialog box -->
     <string name="acct_Wotif_account_already_exists">已有一个 Wotif 帐户使用此电子邮件地址</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">伙伴专享价</string>
 </resources>
