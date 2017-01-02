@@ -9,6 +9,11 @@ import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.data.payment.LoyaltyEarnInfo
+import com.expedia.bookings.data.payment.LoyaltyInformation
+import com.expedia.bookings.data.payment.PointsEarnInfo
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.AbstractFlightViewModel
@@ -24,6 +29,8 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.util.ArrayList
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class))
@@ -39,6 +46,7 @@ class AbstractFlightListAdapterTest {
     fun setup() {
         flightSelectedSubject = PublishSubject.create<FlightLeg>()
         isRoundTripSubject = BehaviorSubject.create()
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_disabled.json", false)
     }
 
     fun createTestFlightListAdapter() {
@@ -76,7 +84,7 @@ class AbstractFlightListAdapterTest {
         val flightViewHolder = createFlightViewHolder()
         flightViewHolder.bind(flightViewModel)
 
-        assert(flightViewHolder.flightAirlineWidget.childCount == 3)
+        assertEquals(flightViewHolder.flightAirlineWidget.childCount,3)
 
         val airlineView1 = flightViewHolder.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
         val airlineView2 = flightViewHolder.flightAirlineWidget.getChildAt(1) as FlightAirlineWidget.AirlineView
@@ -149,6 +157,53 @@ class AbstractFlightListAdapterTest {
         assertEquals(flightViewHolder.roundTripTextView.visibility, View.GONE)
     }
 
+    @Test
+    fun testEarnMessagingForDifferentPos() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
+        createTestFlightListAdapter()
+        createFlightLegWithThreeAirlines()
+
+        //If pos not supports earn messaging then earn message is not visible
+        var pos = PointOfSale.getPointOfSale()
+        assertFalse(pos.isEarnMessageEnabledForFlights)
+        var flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.flightEarnMessage.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.visibility, View.GONE)
+
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
+        pos = PointOfSale.getPointOfSale()
+        assertTrue(pos.isEarnMessageEnabledForFlights)
+
+        //If it is a round trip with pos supporting earn messaging, then earn message is visible below round trip text view
+        isRoundTripSubject.onNext(true)
+        flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.flightEarnMessage.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightEarnMessage.text, "Earn 100 points")
+
+        //If it is a one way trip with pos supporting earn messaging, then earn message is visible in place of round trip text view
+        isRoundTripSubject.onNext(false)
+        flightViewHolder = bindFlightViewHolderAndModel()
+        assertEquals(flightViewHolder.flightEarnMessage.visibility, View.GONE)
+        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.visibility, View.VISIBLE)
+        assertEquals(flightViewHolder.flightEarnMessageWithoutRoundTrip.text, "Earn 100 points")
+    }
+
+    @Test
+    fun testAirlineWidgetTextWithEarnMessagingAndRoundTripWithControlledTest(){
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
+        createTestFlightListAdapter()
+
+        PointOfSaleTestConfiguration.configurePointOfSale(RuntimeEnvironment.application, "MockSharedData/pos_with_flight_earn_messaging_enabled.json", false)
+        //If it is a round trip with pos supporting earn messaging with one airline, then airline Text View will not show Multiple Carriers for more than 2 airlines
+        isRoundTripSubject.onNext(true)
+        createFlightLegWithOneAirline()
+        val flightViewHolder = bindFlightViewHolderAndModel()
+        val airlineView = flightViewHolder.flightAirlineWidget.getChildAt(0) as FlightAirlineWidget.AirlineView
+        assert(flightViewHolder.flightAirlineWidget.childCount == 1)
+        assertEquals(airlineView.airlineName.text, "United")
+    }
+
     private fun bindFlightViewHolderAndModel(): AbstractFlightListAdapter.FlightViewHolder {
         val flightViewModel = sut.makeFlightViewModel(context, flightLeg)
         val flightViewHolder = createFlightViewHolder()
@@ -174,6 +229,9 @@ class AbstractFlightListAdapterTest {
         flightLeg.packageOfferModel.price.pricePerPersonFormatted = "200.0"
         flightLeg.packageOfferModel.price.averageTotalPricePerTicket = Money("200.0", "USD")
         flightLeg.packageOfferModel.price.pricePerPerson = Money("200.0", "USD")
+        val earnInfo = PointsEarnInfo(100, 100, 100)
+        val loyaltyInfo = LoyaltyInformation(null, LoyaltyEarnInfo(earnInfo, null), false)
+        flightLeg.packageOfferModel.loyaltyInfo = loyaltyInfo
     }
 
     private fun createFlightLegWithUrgencyMessage(seatsLeft: Int) {
@@ -233,6 +291,18 @@ class AbstractFlightListAdapterTest {
         airlines.add(airline2)
         airlines.add(airline3)
 
+        flightLeg.airlines = airlines
+        flightLeg.flightSegments = segments
+    }
+
+    private fun createFlightLegWithOneAirline() {
+        createFlightLeg()
+        val airlines = ArrayList<Airline>()
+        val airline1 = Airline("United", null)
+        val segments = ArrayList<FlightLeg.FlightSegment>()
+        val airlineSegment1 = createFlightSegment("U", "America", "America")
+        segments.add(airlineSegment1)
+        airlines.add(airline1)
         flightLeg.airlines = airlines
         flightLeg.flightSegments = segments
     }

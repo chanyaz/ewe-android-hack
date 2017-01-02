@@ -2,6 +2,8 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.utils.Strings
 import com.expedia.vm.AbstractFlightViewModel
 
 class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightViewModel(context, flightLeg) {
@@ -15,5 +17,9 @@ class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractF
 
     override fun getUrgencyMessageVisibilty(): Boolean {
         return false
+    }
+
+    override fun isEarnMessageVisible(earnMessage: String): Boolean {
+        return Strings.isNotEmpty(earnMessage) && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages
     }
 }

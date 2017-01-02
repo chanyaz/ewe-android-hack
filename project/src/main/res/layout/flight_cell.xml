@@ -94,12 +94,25 @@
                         android:layout_weight="4"/>
 
                     <com.expedia.bookings.widget.TextView
+                        android:id="@+id/flight_earn_message_text_view_without_roundtrip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:drawableLeft="@drawable/earn_message_icon"
+                        android:drawablePadding="@dimen/earn_message_icon_dimen"
+                        android:gravity="right"
+                        android:visibility="gone"
+                        android:textColor="@color/hotel_earn_message_text_color"
+                        android:textSize="12sp"
+                        app:textStyle="normal" />
+
+                    <com.expedia.bookings.widget.TextView
                         android:id="@+id/trip_type_text_view"
                         android:text="@string/Roundtrip"
                         android:visibility="gone"
                         android:gravity="right"
                         style="@style/Core.Text.Default.LightColor"
-                        android:layout_marginTop="1dp"
+                        android:layout_marginTop="2dp"
                         android:layout_width="0dp"
                         android:layout_weight="1"
                         android:layout_height="wrap_content"
@@ -125,6 +138,7 @@
                         android:drawablePadding="@dimen/earn_message_icon_dimen"
                         android:textColor="@color/hotel_earn_message_text_color"
                         android:textSize="12sp"
+                        android:visibility="gone"
                         app:textStyle="normal" />
                 </LinearLayout>
 
