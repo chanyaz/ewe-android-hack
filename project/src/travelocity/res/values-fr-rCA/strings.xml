@@ -55,7 +55,7 @@
     <string name="acct_Travelocity_account_already_exists">Il existe déjà un compte Travelocity associé à cette adresse courriel</string>
 
     <!-- Packages -->
-    <string name="nav_packages">Forfaits</string>
+    <string name="nav_packages">Forfaits vacances</string>
     <!-- Label for package bundle price on overview-->
     <string name="bundle_total_text">Total du forfait</string>
     <!-- Label for package bundle price on search-->
@@ -71,4 +71,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Le prix du forfait est de {price_per_person} par personne. Ce prix comprend les taxes et les frais pour les vols et l\&apos;hôtel. Bouton d\&apos;affichage du forfait.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Affichage des détails du forfait. Bouton de fermeture.</string>
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Réductions pour les membres</string>
 </resources>
