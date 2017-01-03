@@ -15,6 +15,7 @@ import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.TextView
@@ -206,7 +207,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
             val flight = viewModel.layover
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
             flightAirlineWidget.update(viewModel.airline, isRoundTripSearch)
-            if (viewModel.urgencyMessageVisibilty) {
+            if (viewModel.getUrgencyMessageVisibilty() && Strings.isNotEmpty(viewModel.seatsLeft)) {
                 urgencyMessageContainer.visibility = View.VISIBLE
                 urgencyMessageTextView.text = viewModel.seatsLeft
             } else {
