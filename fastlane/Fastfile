@@ -67,6 +67,7 @@ platform :android do
 
     # Create branch for version bump
     sh "git checkout #{base_branch}"
+    sh "git pull --rebase origin #{base_branch}"
     sh "git checkout -b #{pr_branch}"
 
     # Bump version
@@ -78,6 +79,7 @@ platform :android do
     create_pull_request(api_token: ENV["GITHUB_TOKEN"], repo: "ExpediaInc/ewe-android-eb", title: "version bump #{options[:new_version]}", head: pr_branch, base: base_branch)
 
     sh "git checkout #{base_branch}"
+    save_created_branch_name_to_file(release_branch)
   end
 
   # You can define as many lanes as you want
@@ -98,6 +100,18 @@ platform :android do
   end
 end
 
+def save_created_branch_name_to_file(branch_name)
+  metadata_path = File.join("metadata", "android")
+  filename = "#{metadata_path}/created_branch.properties"
+  dirname = File.dirname(filename)
+  unless File.directory?(dirname)
+    FileUtils.mkdir_p(dirname)
+  end
+
+  File.open(filename, "w") { |file|
+    file.puts("CREATED_BRANCH=#{branch_name}")
+  }
+end
 
 # More information about multiple platforms in fastlane: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Platforms.md
 # All available actions: https://github.com/fastlane/fastlane/blob/master/fastlane/docs/Actions.md
