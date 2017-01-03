@@ -11,6 +11,8 @@ import android.view.View;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.LobInfo;
+import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
+import com.expedia.bookings.launch.widget.NewLaunchLobAdapter;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import java.util.ArrayList;
 import kotlin.Pair;

@@ -15,7 +15,7 @@ import android.view.ViewPropertyAnimator;
 import android.view.animation.OvershootInterpolator;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.LaunchLocation;
+import com.expedia.bookings.launch.data.LaunchLocation;
 import com.expedia.bookings.utils.FontCache;
 import com.expedia.bookings.utils.SpannableBuilder;
 import com.expedia.bookings.utils.TypefaceSpan;

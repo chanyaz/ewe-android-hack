@@ -8,7 +8,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.PhoneTestCase;
 import com.expedia.bookings.test.phone.hotels.HotelScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.NewLaunchScreen;
-import com.expedia.ui.NewPhoneLaunchActivity;
+import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.mobiata.android.Log;
 
 import static android.support.test.espresso.action.ViewActions.click;

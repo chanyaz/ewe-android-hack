@@ -29,6 +29,7 @@ import com.expedia.bookings.enums.ResultsSearchState;
 import com.expedia.bookings.fragment.SuggestionsFragment.SuggestionsFragmentListener;
 import com.expedia.bookings.interfaces.ISingleStateListener;
 import com.expedia.bookings.interfaces.helpers.SingleStateListener;
+import com.expedia.bookings.launch.fragment.TabletLaunchControllerFragment;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.section.AfterChangeTextWatcher;
 import com.expedia.bookings.utils.ExpediaDebugUtil;

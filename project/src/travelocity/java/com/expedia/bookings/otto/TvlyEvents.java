@@ -1,6 +1,6 @@
 package com.expedia.bookings.otto;
 
-import com.expedia.bookings.data.LaunchCollection;
+import com.expedia.bookings.launch.data.LaunchCollection;
 
 public class TvlyEvents {
 
