@@ -180,7 +180,7 @@
             android:launchMode="singleTop"
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
-            android:theme="@style/V2.Theme.Hotels"
+            android:theme="@style/Theme.Hotels.Control"
             tools:ignore="UnusedAttribute" />
         <activity android:name="com.expedia.bookings.fragment.ItinCardDetailsActivity"
             android:launchMode="singleTop"
@@ -306,7 +306,7 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:taskAffinity="com.expedia.bookings.ui.HotelActivity"
-            android:theme="@style/V2.Theme.Hotels"
+            android:theme="@style/Theme.Hotels.Control"
             tools:ignore="UnusedAttribute" />
 
         <activity

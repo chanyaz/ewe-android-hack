@@ -38,7 +38,7 @@ class FlightConfirmationViewModelTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
-        activity.setTheme(R.style.V2_Theme_Hotels)
+        activity.setTheme(R.style.Theme_Hotels_Control)
         Ui.getApplication(activity).defaultHotelComponents()
         UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
         assertTrue(User.isLoggedIn(activity))

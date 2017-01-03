@@ -46,7 +46,7 @@ class PackageConfirmationViewModelTest {
     @Before
     fun before() {
         activity = Robolectric.buildActivity(AppCompatActivity::class.java).create().get()
-        activity.setTheme(R.style.V2_Theme_Hotels)
+        activity.setTheme(R.style.Theme_Hotels_Control)
         Ui.getApplication(activity).defaultHotelComponents()
         shadowApplication = ShadowApplication.getInstance()
     }

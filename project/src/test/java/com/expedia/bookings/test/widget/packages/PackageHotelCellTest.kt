@@ -41,7 +41,7 @@ class PackageHotelCellTest {
 
     @Before fun before() {
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.V2_Theme_Hotels)
+        activity.setTheme(R.style.Theme_Hotels_Control)
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.package_hotel_cell, null, false) as ViewGroup
         packageHotelHolder = PackageHotelCellViewHolder(hotelCellView, 200)
         AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppHotelFavoriteTest)

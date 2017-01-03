@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <attr name="primary_color" format="color" />
+    <attr name="primary_button_color" format="color"/>
+    <attr name="primary_button_ripple_color" format="color"/>
+
     <attr name="checkout_card_view_style" format="reference" />
     <!-- Primary color for lob -->
-    <attr name="primary_color" format="reference" />
     <attr name="spinner_text_color_drawable" format="reference" />
     <attr name="checkout_slider_text" format="reference" />
     <attr name="toolbar_title_style" format="reference" />

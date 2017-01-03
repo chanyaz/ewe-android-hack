@@ -8,6 +8,7 @@ import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.presenter.hotel.HotelPresenter
@@ -42,6 +43,11 @@ class HotelActivity : TrackingAbstractAppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Ui.getApplication(this).defaultHotelComponents()
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelColorSwitch)) {
+            setTheme(R.style.Theme_Hotels_TestVariant)
+        } else {
+            setTheme(R.style.Theme_Hotels_Control)
+        }
         setContentView(R.layout.activity_hotel)
         Ui.showTransparentStatusBar(this)
         resultsMapView.onCreate(savedInstanceState)

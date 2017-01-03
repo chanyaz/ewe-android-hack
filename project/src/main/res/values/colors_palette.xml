@@ -39,12 +39,13 @@
     <color name="gray10">#3C3C3C</color> <!-- Darkest gray -->
     <color name="black">#FF000000</color>
 
-    <!-- alpha colors -->
-    <color name="white_70">#B3FFFFFF</color>
+    <!-- alpha colors http://stackoverflow.com/questions/15852122/hex-transparency-in-colors-->
+    <color name="white_19">#30FFFFFF</color> <!-- Disabled white text -->
+    <color name="white_20">#33FFFFFF</color>
     <color name="white_25">#40FFFFFF</color>
-    <color name="white_30">#30FFFFFF</color> <!-- Disabled white text -->
-    <color name="white_33">#33FFFFFF</color>
+    <color name="white_70">#B3FFFFFF</color>
     <color name="gray6_65">#A6767676</color>
+    <color name="black_20">#33000000</color>
     <color name="black_40">#64000000</color>
     <color name="black_50">#80000000</color>
 

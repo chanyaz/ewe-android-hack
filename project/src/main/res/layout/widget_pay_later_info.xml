@@ -261,7 +261,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="top"
-            android:background="@color/hotels_primary_color"
+            android:background="?attr/primary_color"
             android:minHeight="?attr/actionBarSize"
             app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"
             app:navigationIcon="@drawable/ic_close_white_24dp"
