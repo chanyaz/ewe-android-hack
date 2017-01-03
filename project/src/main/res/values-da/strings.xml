@@ -1033,6 +1033,8 @@
     <string name="Sign_in_with_cont_desc_TEMPLATE">Knappen Log på med {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Log på for at optjene {reward} Expedia+ point</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knappen Log på for at optjene {reward} Expedia+ point</string>
     <!-- or -->
     <string name="or">eller</string>
 
@@ -1826,6 +1828,9 @@
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Prøv igen</string>
 
+    <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
+    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">{brand}s flyrejser</string>
@@ -2171,8 +2176,8 @@
     <string name="to_be_collected_by_the_hotel_TEMPLATE">Opkræves på hotellet: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Afslut reservation</string>
-    <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">Prisgaranti</string>
+    <!-- Our price gaurentee string -->
+    <string name="price_guarantee">Prisgaranti</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis afbestilling&lt;/b&gt; inden &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -4586,11 +4591,20 @@
     <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
     <string name="rail_journey_details_cont_desc_TEMPLATE">{departurestation} til {arrivalstation} via {travelmode} med {trainoperator} varighed {duration}, afgår kl. {departuretime} ankommer kl. {arrivaltime}</string>
     <!--Rails content description for results card Railcard applied portion -->
-    <string name="rail_result_card_railcard_applied_cont_desc">Togkort tilføjet</string>
+    <string name="rail_railcard_applied_cont_desc">Togkort tilføjet</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Rejser fra {price}</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">Valgte udgående:</string>
+    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
+    <string name="rail_button_cont_desc_TEMPLATE">{description}. Knap</string>
+
+    <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
+    <string name="rail_railcard_applied_cont_desc_TEMPLATE">Togkort tilføjet: {railcards}</string>
+
+    <!-- Accessibility string describing button opens cost breakdown dialog.
+        Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
+    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}. Dialogvindue for prisoversigt. Knap.</string>
 
    <string name="pwp_points_conversion_unauthenticated_access">Vi beklager, men vi oplevede et problem med serveren. Prøv venligst igen.</string>
    <string name="pwp_trip_service_error">Vi beklager, men vi oplevede et problem med serveren. Prøv venligst igen.</string>
@@ -4768,10 +4782,10 @@
     <!--Content description for clear button in filter used for Talkback-->
     <string name="packages_flight_search_filter_clear_button_cont_desc">Ryd filtre. Knap</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget">Den samlede pris for pakkerejsen er {totalprice}. Denne pris inkluderer skatter og gebyrer for både fly og hotel. {savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">Den samlede pris for pakkerejsen er {totalprice}. Denne pris inkluderer skatter og gebyrer for både fly og hotel. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Den samlede pris for pakkerejsen er {totalprice}. Denne pris inkluderer skatter og gebyrer for både fly og hotel. {savings}. Dialogvindue for prisoversigt. Knap.</string>
-    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakkerejseprisen er {price_per_person} pr. person. Denne pris inkluderer skatter og gebyrer for både fly og hotel. Knap til at se pakkerejser.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Viser oplysninger om pakkerejse. Knap til at lukke.</string>
@@ -4934,5 +4948,15 @@
     <string name="multiple_carriers_text">Flere flyselskaber</string>
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">Opgradering tilgængelig</string>
+    <!-- Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title">Hvordan var din oplevelse?</string>
+    <!-- Message for App Rating Dialog -->
+    <string name="dialog_app_rating_message">Du er mere end velkommen til at give os en anmeldelse i Play Store, hvis du kan lide vores app.</string>
+    <!-- Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button">Anmeldelse</string>
+    <!-- Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button">Send feedback</string>
+    <!-- Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button">Nej tak</string>
 
 </resources>

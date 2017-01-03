@@ -400,7 +400,7 @@
     <string name="ticket_type_executive_car">Mobil Eksekutif</string>
     <string name="ticket_type_luxury_car">Mobil Mewah</string>
     <string name="ticket_type_limousine">Limosin</string>
-    <string name="ticket_type_towncar">Towncar</string>
+    <string name="ticket_type_towncar">TownCar</string>
     <string name="ticket_type_vehicle_parking_spot">Tempat Parkir</string>
     <string name="ticket_type_book">Pesan</string>
     <string name="ticket_type_guide">Pemandu</string>
@@ -502,8 +502,8 @@
         <item quantity="other">%1$s Limosin</item>
     </plurals>
     <plurals name="ticket_type_towncar_TEMPLATE">
-        <item quantity="one">%1$s Towncar</item>
-        <item quantity="other">%1$s Towncar</item>
+        <item quantity="one">%1$s TownCar</item>
+        <item quantity="other">%1$s TownCar</item>
     </plurals>
     <plurals name="ticket_type_vehicle_parking_spot_TEMPLATE">
         <item quantity="one">%1$s Tempat Parkir</item>
@@ -637,7 +637,7 @@
     <string name="per_ticket_type_executive_car">per mobil eksekutif</string>
     <string name="per_ticket_type_luxury_car">per mobil mewah</string>
     <string name="per_ticket_type_limousine">per limosin</string>
-    <string name="per_ticket_type_towncar">per towncar</string>
+    <string name="per_ticket_type_towncar">per TownCar</string>
     <string name="per_ticket_type_vehicle_parking_spot">per tempat parkir</string>
     <string name="per_ticket_type_book">per buku</string>
     <string name="per_ticket_type_guide">per pemandu</string>
@@ -908,7 +908,7 @@
     <!-- Short label for "sort by discounts" button -->
     <string name="discounts">Diskon</string>
     <!-- Denoting the lowest hotel/flight rate, e.g. "From $200" -->
-    <string name="From_x_TEMPLATE">Mulai dari %s</string>
+    <string name="From_x_TEMPLATE">Mulai %s</string>
     <!-- Drop down item for denoting that infant travellers are in laps -->
     <string name="infants_in_laps">Di Pangkuan</string>
     <!-- Drop down item for denoting that infant travellers are in seats -->
@@ -1033,6 +1033,8 @@
     <string name="Sign_in_with_cont_desc_TEMPLATE">Tombol login dengan {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Loginlah untuk mendapatkan {reward} poin Expedia+</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Tombol login untuk mendapatkan poin {reward} Expedia+</string>
     <!-- or -->
     <string name="or">atau</string>
 
@@ -1054,7 +1056,7 @@
     <string name="nav_transport">Transportasi</string>
     <string name="nav_transport_cont_desc">Tombol transportasi</string>
     <!-- Packages -->
-    <string name="nav_packages">Promo Package</string>
+    <string name="nav_packages">Promo Paket</string>
     <!-- Rail -->
     <string name="nav_rail">Kereta</string>
     <string name="add_rail_card">Tambahkan kartu kereta</string>
@@ -1826,6 +1828,9 @@
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Coba lagi</string>
 
+    <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
+    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">Penerbangan {brand}</string>
@@ -2171,8 +2176,8 @@
     <string name="to_be_collected_by_the_hotel_TEMPLATE">Akan ditarik oleh hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Selesaikan Pemesanan</string>
-    <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">Garansi Harga Terbaik</string>
+    <!-- Our price gaurentee string -->
+    <string name="price_guarantee">Garansi Harga</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Pembatalan gratis&lt;/b&gt; sebelum &lt;b&gt;%s pukul &lt;/b&gt;</string>
     <!-- Sign out -->
@@ -2921,8 +2926,8 @@
 
     <!-- Map -->
     <!-- Price displayed on map pop-up bubbles (e.g., "From $179").  (HP, SH) -->
-    <string name="map_snippet_price_template">Mulai dari %s</string>
-    <string name="From_x_per_night_template">Mulai dari %s/malam</string>
+    <string name="map_snippet_price_template">Mulai %s</string>
+    <string name="From_x_per_night_template">Mulai %s/malam</string>
     <!-- Button text prompting the user to search this area on the map -->
     <string name="Search_this_area">Cari di kawasan ini</string>
     <!-- Map pin text for sold out hotel(s)-->
@@ -2932,7 +2937,7 @@
     <!-- Map cluster text for number of packages-->
     <string name="cluster_number_of_packages_template">%s hasil</string>
     <!-- Map cluster price from range-->
-    <string name="cluster_price_from_range_template">Mulai dari %s</string>
+    <string name="cluster_price_from_range_template">Mulai %s</string>
 
 
     <!-- Widget -->
@@ -3600,8 +3605,8 @@
     <string name="country_cv">Tanjung Verde</string>
     <string name="country_ky">Kepulauan Cayman</string>
     <string name="country_cf">Republik Afrika Tengah</string>
-    <string name="country_td">Cad</string>
-    <string name="country_cl">Cile</string>
+    <string name="country_td">Chad</string>
+    <string name="country_cl">Chile</string>
     <string name="country_cn">Tiongkok</string>
     <string name="country_cx">Pulau Christmas</string>
     <string name="country_cc">Kepulauan Cocos (Keeling)</string>
@@ -4586,11 +4591,20 @@
     <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
     <string name="rail_journey_details_cont_desc_TEMPLATE">{departurestation} ke {arrivalstation} via {travelmode} naik {trainoperator} durasi {duration}, berangkat pukul {departuretime} tiba pukul {arrivaltime}</string>
     <!--Rails content description for results card Railcard applied portion -->
-    <string name="rail_result_card_railcard_applied_cont_desc">Kartu Kereta Diterapkan</string>
+    <string name="rail_railcard_applied_cont_desc">Kartu Kereta Digunakan</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Harga mulai {price}</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">Pilihan berangkat:</string>
+    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
+    <string name="rail_button_cont_desc_TEMPLATE">{description}. Tombol</string>
+
+    <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
+    <string name="rail_railcard_applied_cont_desc_TEMPLATE">Penggunaan Kartu Kereta: {railcards}</string>
+
+    <!-- Accessibility string describing button opens cost breakdown dialog.
+        Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
+    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}. Kotak rincian biaya. Tombol.</string>
 
    <string name="pwp_points_conversion_unauthenticated_access">Maaf, kami sedang mengalami masalah server. Silakan coba lagi.</string>
    <string name="pwp_trip_service_error">Maaf, kami sedang mengalami masalah server. Silakan coba lagi.</string>
@@ -4629,7 +4643,7 @@
     <!-- Shop with points -->
     <string name="loyalty_applied_excluding_taxes_and_fees_message">Poin Expedia+ digunakan! (belum termasuk pajak dan biaya)</string>
     <string name="regular_loyalty_applied_message">Poin Expedia+ digunakan</string>
-    <string name="vip_loyalty_applied_message">2x poin diterapkan!</string>
+    <string name="vip_loyalty_applied_message">2x poin digunakan!</string>
     <!-- String to be appended with +VIP in header of room rates. -->
     <string name="vip_loyalty_applied_header_message">2x Poin Expedia+ digunakan</string>
     <!-- SwP Widget you have points template. points_or_amount = it may have money (in case of Expedia) or point value (in case of Orbucks). E.g. You have 3,000 points -->
@@ -4768,10 +4782,10 @@
     <!--Content description for clear button in filter used for Talkback-->
     <string name="packages_flight_search_filter_clear_button_cont_desc">Hapus Filter. Tombol</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget">Total package adalah {totalprice}. Harga ini mencakup pajak dan biaya untuk tiket pesawat dan hotel. {savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">Harga total paket {totalprice}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
-    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Total package adalah {totalprice}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. {savings}. Kotak Rincian Biaya. Tombol.</string>
-    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Harga total paket {totalprice}. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. {savings}. Kotak Rincian Biaya. Tombol.</string>
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Harga package adalah {price_per_person} per orang. Harga ini sudah termasuk pajak dan biaya untuk tiket pesawat dan hotel. Tombol untuk melihat package.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Menampilkan rincian package. Tombol untuk menutup.</string>
@@ -4934,5 +4948,15 @@
     <string name="multiple_carriers_text">Beberapa Maskapai</string>
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">Upgrade Tersedia</string>
+    <!-- Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title">Bagaimana kesan Anda?</string>
+    <!-- Message for App Rating Dialog -->
+    <string name="dialog_app_rating_message">Jika Anda menyukai aplikasi kami, berikan ulasan di Play Store.</string>
+    <!-- Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button">Ulasan</string>
+    <!-- Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button">Kirim Umpan Balik</string>
+    <!-- Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button">Tidak, terima kasih</string>
 
 </resources>

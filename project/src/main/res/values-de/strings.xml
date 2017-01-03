@@ -1033,6 +1033,8 @@
     <string name="Sign_in_with_cont_desc_TEMPLATE">Schaltfläche Bei {brand} anmelden</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Anmelden und {reward} Expedia+ Punkte sammeln</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Schaltfläche zum Anmelden und Sammeln von {reward} Expedia+ Punkten</string>
     <!-- or -->
     <string name="or">oder</string>
 
@@ -1826,6 +1828,9 @@
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Wiederholen</string>
 
+    <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
+    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">{brand} Flüge</string>
@@ -2171,8 +2176,8 @@
     <string name="to_be_collected_by_the_hotel_TEMPLATE">Im Hotel zu zahlen: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Buchung abschließen</string>
-    <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">Bestpreisgarantie</string>
+    <!-- Our price gaurentee string -->
+    <string name="price_guarantee">Preisgarantie</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Kostenl. stornieren &lt;/b&gt; bis &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -3300,13 +3305,13 @@
     <!-- Error when applying coupon - we're having some problems internally and can't handle the coupon -->
     <string name="coupon_error_not_redeemed">Leider liegt gerade ein Problem vor. Bitte versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the coupon has already been used by this user -->
-    <string name="coupon_error_duplicate">Dieser Gutscheincode wurde leider schon verwendet.</string>
+    <string name="coupon_error_duplicate">Dieser Gutscheincode wurde leider schon verwendet..</string>
     <!-- Error when applying coupon - generic error when the coupon doesn't work -->
     <string name="coupon_error_fallback">Leider liegt gerade ein Problem vor. Bitte versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the price changed so we need them to try applying the coupon again -->
     <string name="coupon_error_price_change">Der Buchungsbetrag hat sich geändert, daher haben wir den Gutschein nicht eingelöst. Bitte schauen Sie noch mal drüber und versuchen Sie es erneut.</string>
     <!-- Error when applying coupon - the coupon is for another region -->
-    <string name="coupon_error_invalid_region">Leider gilt dieser Gutscheincode nicht für dieses Land.</string>
+    <string name="coupon_error_invalid_region">Leider gilt dieser Gutscheincode nicht für dieses Land..</string>
     <!-- Error when applying coupon - the coupon needed a minimum # night stay to be valid -->
     <string name="coupon_error_min_stay_not_met">Leider liegen Sie unter der Mindestaufenthaltsdauer.</string>
     <!-- Error when applying coupon - the coupon only has specific dates that are elligible -->
@@ -4587,11 +4592,20 @@
     <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
     <string name="rail_journey_details_cont_desc_TEMPLATE">Von {departurestation} nach {arrivalstation} mit {travelmode} mit der Bahngesellschaft {trainoperator} Fahrzeit {duration}, Abfahrt um {departuretime} Ankunft um {arrivaltime}</string>
     <!--Rails content description for results card Railcard applied portion -->
-    <string name="rail_result_card_railcard_applied_cont_desc">Bahncard verwendet</string>
+    <string name="rail_railcard_applied_cont_desc">Bahncard verwendet</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Tickets ab {price}</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">Ausgewählte Hinfahrt:</string>
+    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
+    <string name="rail_button_cont_desc_TEMPLATE">{description}. Schaltfläche</string>
+
+    <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
+    <string name="rail_railcard_applied_cont_desc_TEMPLATE">Mit Bahncard: {railcards}</string>
+
+    <!-- Accessibility string describing button opens cost breakdown dialog.
+        Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
+    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}. Dialogfeld mit Kostenaufschlüsselung. Schaltfläche.</string>
 
    <string name="pwp_points_conversion_unauthenticated_access">Es ist ein Server-Problem aufgetreten. Wir bitten, dies zu entschuldigen. Bitte versuchen Sie es erneut.</string>
    <string name="pwp_trip_service_error">Es ist ein Server-Problem aufgetreten. Wir bitten, dies zu entschuldigen. Bitte versuchen Sie es erneut.</string>
@@ -4731,7 +4745,7 @@
     </plurals>
 
     <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="search_date_range_cont_desc_TEMPLATE">{startdate} bis {enddate}</string>
+    <string name="search_date_range_cont_desc_TEMPLATE">Von {startdate} nach {enddate}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">Einen Erwachsenen hinzufügen</string>
     <!--Traveler widget adults minus button content description-->
@@ -4769,10 +4783,10 @@
     <!--Content description for clear button in filter used for Talkback-->
     <string name="packages_flight_search_filter_clear_button_cont_desc">Filter löschen. Schaltfläche</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget">Der Gesamtpreis der Click&amp;Mix-Reise ist {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">Der Gesamtpreis der Click&amp;Mix-Reise ist {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Der Gesamtpreis der Click&amp;Mix-Reise ist {totalprice}. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. {savings}. Dialogfeld mit Kostenaufschlüsselung. Schaltfläche.</string>
-    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Der Gesamtpreis der Click&amp;Mix-Reise ist {price_per_person} pro Person. Im Preis sind Steuern und Gebühren für Flüge und Hotel enthalten. Schaltfläche zum Anzeigen der Click&amp;Mix-Reise.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Einzelheiten der Click&amp;Mix-Reise werden angezeigt. Schaltfläche zum Schließen.</string>
@@ -4935,5 +4949,15 @@
     <string name="multiple_carriers_text">Mehrere Fluglinien</string>
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">Upgrade verfügbar</string>
+    <!-- Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title">Wie war Ihr Benutzererlebnis?</string>
+    <!-- Message for App Rating Dialog -->
+    <string name="dialog_app_rating_message">Wenn Ihnen die App gefällt, lassen Sie es uns durch eine Bewertung im Play Store wissen.</string>
+    <!-- Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button">Bestätigen</string>
+    <!-- Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button">Feedback senden</string>
+    <!-- Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button">Nein danke</string>
 
 </resources>

@@ -1033,6 +1033,8 @@
     <string name="Sign_in_with_cont_desc_TEMPLATE">Nút đăng nhập {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Đăng nhập để nhận {reward} điểm Expedia+</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Nút đăng nhập để nhận {reward} điểm Expedia+</string>
     <!-- or -->
     <string name="or">hoặc</string>
 
@@ -1826,6 +1828,9 @@
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Thử lại</string>
 
+    <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
+    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
+
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
     <string name="Flights_TEMPLATE">Chuyến\nbay {brand}</string>
@@ -2171,8 +2176,8 @@
     <string name="to_be_collected_by_the_hotel_TEMPLATE">Thanh toán tại khách sạn: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Hoàn tất việc đặt</string>
-    <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">Đảm bảo Giá tốt nhất</string>
+    <!-- Our price gaurentee string -->
+    <string name="price_guarantee">Đảm bảo giá</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Hủy miễn phí&lt;/b&gt; trước &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -4586,11 +4591,20 @@
     <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
     <string name="rail_journey_details_cont_desc_TEMPLATE">{departurestation} đến {arrivalstation} qua {travelmode} bằng {trainoperator}, thời gian {duration}, khởi hành lúc {departuretime} đến lúc {arrivaltime}</string>
     <!--Rails content description for results card Railcard applied portion -->
-    <string name="rail_result_card_railcard_applied_cont_desc">Áp dụng railcard</string>
+    <string name="rail_railcard_applied_cont_desc">Áp dụng railcard</string>
     <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
    <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Giá từ {price}</string>
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">Chọn chuyến đi:</string>
+    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
+    <string name="rail_button_cont_desc_TEMPLATE">{description}. Nút</string>
+
+    <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
+    <string name="rail_railcard_applied_cont_desc_TEMPLATE">Áp dụng railcard: {railcards}</string>
+
+    <!-- Accessibility string describing button opens cost breakdown dialog.
+        Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
+    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}. Khung thông tin chi tiết giá. Nút.</string>
 
    <string name="pwp_points_conversion_unauthenticated_access">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
    <string name="pwp_trip_service_error">Rất tiếc, chúng tôi đang gặp sự cố máy chủ. Vui lòng thử lại.</string>
@@ -4768,10 +4782,10 @@
     <!--Content description for clear button in filter used for Talkback-->
     <string name="packages_flight_search_filter_clear_button_cont_desc">Xóa bộ lọc. Nút</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget">Tổng giá gói là {totalprice}. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. {savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">Tổng giá gói là {totalprice}. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Tổng giá gói là {totalprice}. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. {savings}. Hộp thoại chi tiết phí. Nút.</string>
-    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Giá gói là {price_per_person} mỗi người. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. Nút để xem gói.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Hiển thị chi tiết gói. Nút để đóng.</string>
@@ -4934,5 +4948,15 @@
     <string name="multiple_carriers_text">Nhiều hãng vận chuyển</string>
     <!-- Room Upgrade Available messaging on Itin Screen -->
     <string name="room_upgrade_available">Có nâng hạng</string>
+    <!-- Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title">Quý vị đã có trải nghiệm như thế nào?</string>
+    <!-- Message for App Rating Dialog -->
+    <string name="dialog_app_rating_message">Nhớ chia sẻ nhận xét về app cùng chúng tôi tại CH Play.</string>
+    <!-- Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button">Nhận xét</string>
+    <!-- Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button">Gửi phản hồi</string>
+    <!-- Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button">Không, cảm ơn</string>
 
 </resources>
