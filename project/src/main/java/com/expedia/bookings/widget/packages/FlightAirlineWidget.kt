@@ -8,14 +8,17 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.bitmaps.PicassoHelper
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.TextView
 
 class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
-    fun update(airlines: List<Airline>) {
-        if (airlines.size > 3) {
+    fun update(airlines: List<Airline>, isRoundTrip: Boolean) {
+        if ((airlines.size > 2 && isRoundTrip && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage))
+                || airlines.size > 3) {
             addAirlineViewWithMultipleCarriersImage()
         } else {
             removeAllViews()

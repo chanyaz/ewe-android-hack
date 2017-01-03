@@ -5612,6 +5612,9 @@ public class OmnitureTracking {
 
 		s.setEvar(47, getFlightV2Evar47String(flightSearchParams));
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightUrgencyMessage);
+		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage);
+		}
 		s.track();
 	}
 
