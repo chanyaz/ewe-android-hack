@@ -1221,7 +1221,7 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">No upcoming trips.</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">Enter Itinerary Number</string>
+    <string name="enter_itinerary_number">Enter a Guest Itinerary Button</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">Enter a Guest Itinerary</string>
     <!-- Fetching your itinerary -->
