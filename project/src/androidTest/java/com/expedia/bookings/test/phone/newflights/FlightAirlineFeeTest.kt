@@ -3,6 +3,7 @@ package com.expedia.bookings.test.phone.newflights
 import android.support.test.espresso.Espresso
 import android.support.test.espresso.Espresso.onView
 import android.support.test.espresso.action.ViewActions.click
+import android.support.test.espresso.action.ViewActions.scrollTo
 import android.support.test.espresso.assertion.ViewAssertions
 import android.support.test.espresso.matcher.ViewMatchers.isDescendantOfA
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -141,7 +142,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
 
     private fun assertCardFeeWarningShown() {
         FlightsOverviewScreen.assertCardFeeWarningShown()
-        FlightsOverviewScreen.cardFeeWarningTextView().perform(click())
+        FlightsOverviewScreen.cardFeeWarningTextView().perform(scrollTo(), click())
         val paymentFeeWebViewBundleOverview = onView(allOf(withId(R.id.web_view), isDescendantOfA(withId(R.id.widget_bundle_overview))))
         paymentFeeWebViewBundleOverview.check(ViewAssertions.matches(isDisplayed()))
 
@@ -169,7 +170,7 @@ class FlightAirlineFeeTest: NewFlightTestCase() {
         FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0)
 
         FlightsResultsScreen.assertPaymentFeesMayApplyLinkShowing(withId(R.id.widget_flight_inbound))
-        FlightsResultsScreen.paymentFeesLinkTextView(withId(R.id.widget_flight_inbound)).perform(click())
+        FlightsResultsScreen.paymentFeesLinkTextView(withId(R.id.widget_flight_inbound)).perform(scrollTo(), click())
         val paymentFeeWebViewInboundResults = onView(allOf(withId(R.id.web_view), isDescendantOfA(withId(R.id.widget_flight_inbound)), isDescendantOfA(withId(R.id.payment_fee_info))))
         paymentFeeWebViewInboundResults.check(ViewAssertions.matches(isDisplayed()))
         Espresso.pressBack()
