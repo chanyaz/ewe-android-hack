@@ -120,10 +120,6 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightInsuranceTermsClick()
     }
 
-    fun trackFlightPriceChange(pricePercentageChange: Int) {
-        OmnitureTracking.trackFlightPriceChange(pricePercentageChange)
-    }
-
     @JvmStatic fun trackCheckoutSelectTraveler() {
         OmnitureTracking.trackFlightCheckoutSelectTraveler()
     }
@@ -227,6 +223,14 @@ object FlightsV2Tracking {
 
     private fun trackFlightCheckoutError(errorType: String) {
         OmnitureTracking.trackFlightCheckoutError(errorType)
+    }
+
+    fun trackFlightCreateTripPriceChange(diffPercentage: Int) {
+        OmnitureTracking.trackFlightCreateTripPriceChange(diffPercentage)
+    }
+
+    fun trackFlightCheckoutPriceChange(diffPercentage: Int) {
+        OmnitureTracking.trackFlightCheckoutPriceChange(diffPercentage)
     }
 
 }

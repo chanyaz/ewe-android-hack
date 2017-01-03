@@ -5696,9 +5696,19 @@ public class OmnitureTracking {
 		createAndtrackLinkEvent(FLIGHTS_V2_COST_SUMMARY, "Rate Details");
 	}
 
-	public static void trackFlightPriceChange(int priceChangePercentage) {
-		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_PRICE_CHANGE + "\" click...");
+	public static void trackFlightCreateTripPriceChange(int priceChangePercentage) {
 		ADMS_Measurement s = getFreshTrackingObject();
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCreateTripPriceChangeAlert);
+		trackFlightPriceChange(s, priceChangePercentage);
+	}
+
+	public static void trackFlightCheckoutPriceChange(int priceChangePercentage) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackFlightPriceChange(s, priceChangePercentage);
+	}
+
+	private static void trackFlightPriceChange(ADMS_Measurement s, int priceChangePercentage) {
+		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_PRICE_CHANGE + "\" click...");
 		s.setEvents("event62");
 		s.setProp(9, "FLT|" + priceChangePercentage);
 		s.setEvar(28, FLIGHTS_V2_PRICE_CHANGE);
