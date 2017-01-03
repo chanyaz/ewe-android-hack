@@ -10,12 +10,16 @@ import android.view.Gravity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Traveler
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.section.GenderSpinnerAdapter
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerTSAViewModel
 import org.joda.time.LocalDate
 
@@ -27,6 +31,9 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
 
     val dateOfBirth: TravelerEditText by bindView(R.id.edit_birth_date_text_btn)
     val genderSpinner: TravelerSpinner by bindView(R.id.edit_gender_spinner)
+    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
+
 
     var viewModel: TravelerTSAViewModel by notNullAndObservable { vm ->
         dateOfBirth.viewModel = vm.dateOfBirthViewModel
@@ -43,15 +50,28 @@ class TSAEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(contex
             showBirthdateErrorDialog(text)
         }
         vm.genderViewModel.errorSubject.subscribe { hasError ->
-            (genderSpinner.adapter as GenderSpinnerAdapter).setErrorVisible(hasError)
-            genderSpinner.valid = !hasError
+            if (!materialFormTestEnabled) {
+                (genderSpinner.adapter as GenderSpinnerAdapter).setErrorVisible(hasError)
+                genderSpinner.valid = !hasError
+            } else {
+                val genderErrorMessage = findViewById(R.id.gender_error_message) as TextView
+                genderErrorMessage.visibility = if (hasError) View.VISIBLE else View.GONE
+            }
+        }
+
+        if (materialFormTestEnabled) {
+            dateOfBirth.subscribeMaterialFormsError(dateOfBirth.viewModel.errorSubject, context.getString(R.string.date_of_birth_validation_error_message))
         }
     }
 
     init {
-        View.inflate(context, R.layout.tsa_entry_view, this)
+        if (materialFormTestEnabled) {
+            View.inflate(context, R.layout.material_tsa_entry_view, this)
+        } else {
+            View.inflate(context, R.layout.tsa_entry_view, this)
+            gravity = Gravity.BOTTOM
+        }
         orientation = HORIZONTAL
-        gravity = Gravity.BOTTOM
 
         fragmentActivity = context as FragmentActivity
 

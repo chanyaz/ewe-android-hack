@@ -25,6 +25,7 @@ import com.expedia.bookings.test.phone.newflights.FlightsScreen;
 import com.expedia.bookings.test.phone.packages.PackageScreen;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.click;
@@ -49,8 +50,9 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 
 	@Override
 	public void runTest() throws Throwable {
+		SettingUtils.save(getActivity(), R.string.preference_universal_checkout_material_forms, true);
 		Method method = getClass().getMethod(getName(), (Class[]) null);
-		if (method.getName().equals("testNewFlightHappyPath")) {
+		if (method.getName().equals("testNewFlightHappyPath") || method.getName().equals("testNewFlightHappyPathWithMaterialForms")) {
 			Intents.init();
 			intending(hasComponent(WebViewActivity.class.getName()))
 				.respondWith(new Instrumentation.ActivityResult(Activity.RESULT_OK, null));
@@ -66,13 +68,82 @@ public class NewFlightPhoneHappyPathTest extends NewFlightTestCase {
 	protected void tearDown() throws Exception {
 		Method method = getClass().getMethod(getName(), (Class[]) null);
 
-		if (method.getName().equals("testNewFlightHappyPath")) {
+		if (method.getName().equals("testNewFlightHappyPath") || method.getName().equals("testNewFlightHappyPathWithMaterialForms")) {
 			Intents.release();
 		}
 		super.tearDown();
 	}
 
 	public void testNewFlightHappyPath() throws Throwable {
+		SearchScreen.origin().perform(click());
+		SearchScreen.selectFlightOriginAndDestination();
+		LocalDate startDate = LocalDate.now().plusDays(3);
+		LocalDate endDate = LocalDate.now().plusDays(8);
+		SearchScreen.selectDates(startDate, endDate);
+
+		SearchScreen.searchButton().perform(click());
+
+		FlightTestHelpers.assertFlightOutbound();
+		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 2);
+		FlightsScreen.selectOutboundFlight().perform(click());
+
+		FlightTestHelpers.assertFlightInbound();
+		FlightTestHelpers.assertDockedOutboundFlightSelectionWidget();
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("Outbound");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("happy_round_trip_with_insurance_available");
+		FlightsResultsScreen.dockedOutboundFlightSelectionWidgetContainsText("9:00 pm - 11:00 pm (2h 0m)");
+		FlightsScreen.selectFlight(FlightsScreen.inboundFlightList(), 0);
+		FlightsScreen.selectInboundFlight().perform(click());
+
+		assertCheckoutOverview();
+		assertCostSummaryView();
+
+		// move to Flight/common screen
+		PackageScreen.checkout().perform(click());
+
+		assertInsuranceIsVisible();
+		PackageScreen.showInsuranceBenefits();
+		assertInsuranceBenefits();
+		PackageScreen.showInsuranceTerms();
+		assertInsuranceTerms();
+		PackageScreen.toggleInsurance();
+		assertInsuranceIsAdded();
+		assertInsuranceToggleIsEnabled();
+		PackageScreen.toggleInsurance();
+		assertInsuranceIsRemoved();
+		assertInsuranceToggleIsEnabled();
+
+		PackageScreen.travelerInfo().perform(scrollTo(), click());
+		PackageScreen.enterFirstName("Eidur");
+		PackageScreen.enterLastName("Gudjohnsen");
+		PackageScreen.enterEmail("test@gmail.com");
+		Espresso.closeSoftKeyboard();
+		PackageScreen.enterPhoneNumber("4155554321");
+		Espresso.closeSoftKeyboard();
+		PackageScreen.selectBirthDate(1989, 6, 9);
+		PackageScreen.selectGender("Male");
+		PackageScreen.clickTravelerAdvanced();
+		PackageScreen.enterRedressNumber("1234567");
+		PackageScreen.clickTravelerDone();
+
+		PackageScreen.clickPaymentInfo();
+		PackageScreen.enterCreditCard();
+		PackageScreen.completePaymentForm();
+		assertInsuranceIsNotVisible();
+		PackageScreen.clickPaymentDone();
+		PackageScreen.clickLegalInformation();
+
+		assertLegalInformation();
+		Common.pressBack();
+
+		// TODO - assert checkout overview information
+		CheckoutViewModel.performSlideToPurchase();
+
+		assertConfirmationView();
+	}
+
+	public void testNewFlightHappyPathWithMaterialForms() throws Throwable {
+
 		SearchScreen.origin().perform(click());
 		SearchScreen.selectFlightOriginAndDestination();
 		LocalDate startDate = LocalDate.now().plusDays(3);
