@@ -1,11 +1,13 @@
 package com.expedia.bookings.server;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
@@ -484,9 +486,24 @@ public class TripParser {
 		if (obj.has("uniqueID")) {
 			Activity activity = new Activity();
 
+			int guestCount = 0;
 			activity.setId(obj.optString("uniqueID", null));
 			activity.setTitle(obj.optString("activityTitle", null));
-			activity.setGuestCount(obj.optInt("travelerCount"));
+
+			if (obj.optJSONObject("price") != null && obj.optJSONObject("price").optJSONObject("pricePerCategory") != null) {
+				JSONObject travelerCategories = obj.optJSONObject("price").optJSONObject("pricePerCategory");
+				Iterator<?> iterator = travelerCategories.keys();
+
+				while (iterator.hasNext()) {
+					try {
+						guestCount += ((JSONObject) travelerCategories.get((String)iterator.next())).optInt("numberOfPassengers");
+					}
+					catch (JSONException e) {
+						Log.e("Exception parsing traveler from travelerCategories", e);
+					}
+				}
+			}
+			activity.setGuestCount(guestCount);
 			activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
 
 			// Parse travelers
