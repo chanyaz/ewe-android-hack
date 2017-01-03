@@ -22,6 +22,15 @@ import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.otto.Subscribe
 
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
+
+    override fun trackCreateTripPriceChange(diffPercentage: Int) {
+        PackagesTracking().trackPriceChange(diffPercentage)
+    }
+
+    override fun trackCheckoutPriceChange(diffPercentage: Int) {
+        PackagesTracking().trackPriceChange(diffPercentage)
+    }
+
     override fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean {
         return false
     }

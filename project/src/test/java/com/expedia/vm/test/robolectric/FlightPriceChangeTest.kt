@@ -63,11 +63,18 @@ class FlightPriceChangeTest {
         val flightCheckoutResponse = FlightCheckoutResponse()
         val flightTripDetails = FlightTripDetails()
         val flightOffer = FlightTripDetails.FlightOffer()
+
         val money = Money(10, "USD")
         flightOffer.pricePerPassengerCategory = ArrayList<FlightTripDetails.PricePerPassengerCategory>()
         flightOffer.totalPrice = money
         flightTripDetails.offer = flightOffer
         flightCheckoutResponse.details = flightTripDetails
+
+        val oldFlightOffer = FlightTripDetails.FlightOffer()
+        val oldMoney = Money(9, "USD")
+        oldFlightOffer.totalPrice = oldMoney
+        flightTripDetails.oldOffer = oldFlightOffer
+
         return flightCheckoutResponse
     }
 

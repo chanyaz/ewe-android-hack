@@ -19,6 +19,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
@@ -204,6 +205,14 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean {
         return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsCreateTripPriceChangeAlert)
+    }
+
+    override fun trackCheckoutPriceChange(diffPercentage: Int) {
+        FlightsV2Tracking.trackFlightCheckoutPriceChange(diffPercentage)
+    }
+
+    override fun trackCreateTripPriceChange(diffPercentage: Int) {
+        FlightsV2Tracking.trackFlightCreateTripPriceChange(diffPercentage)
     }
 
 }

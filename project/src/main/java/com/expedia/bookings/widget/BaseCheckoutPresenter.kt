@@ -20,6 +20,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
@@ -84,6 +85,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
     abstract fun showMainTravelerMinimumAgeMessaging(): Boolean
+    abstract fun trackCheckoutPriceChange(priceDiff: Int)
+    abstract fun handleCheckoutPriceChange(response: TripResponse)
+    abstract fun createTravelersViewModel(): TravelersViewModel
+    abstract fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean
+    abstract fun trackCreateTripPriceChange(priceChangeDiffPercentage: Int)
 
     /** contants **/
     private val ANIMATION_DELAY = 200L
@@ -156,8 +162,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         view
     }
 
-    abstract fun createTravelersViewModel(): TravelersViewModel
-
     val travelersPresenter: AbstractTravelersPresenter by lazy {
         val presenter = travelersPresenterStub.inflate() as AbstractTravelersPresenter
         presenter.viewModel = createTravelersViewModel()
@@ -208,6 +212,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
             priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
             priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
+            trackCheckoutPriceChange(getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice))
             handleCheckoutPriceChange(response)
         }
         vm.noNetworkObservable.subscribe {
@@ -217,7 +222,14 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         vm.cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
     }
 
-    abstract fun handleCheckoutPriceChange(response: TripResponse)
+    fun getPriceChangeDiffPercentage(oldPrice: Money, newPrice: Money): Int {
+        val priceDiff = newPrice.amount.toInt() - oldPrice.amount.toInt()
+        var diffPercentage: Int = 0
+        if (priceDiff != 0) {
+            diffPercentage = (priceDiff * 100) / oldPrice.amount.toInt()
+        }
+        return diffPercentage
+    }
 
     protected var priceChangeViewModel: PriceChangeViewModel by notNullAndObservable { vm ->
         priceChangeWidget.viewmodel = vm
@@ -285,6 +297,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
             priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
             if (hasPriceChange(response)) {
+                trackCreateTripPriceChange(getPriceChangeDiffPercentage(response!!.getOldPrice()!!, response!!.newPrice))
                 if(shouldShowAlertForCreateTripPriceChange(response)) {
                     showAlertDialogForPriceChange(response!!)
                 } else {
@@ -297,8 +310,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         setupCreateTripViewModel(vm)
     }
-
-    abstract fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean
 
     fun hasPriceChange(response: TripResponse?): Boolean {
         return response?.getOldPrice() != null && showPriceChange(response!!.newPrice.amount, response!!.getOldPrice()!!.amount)
