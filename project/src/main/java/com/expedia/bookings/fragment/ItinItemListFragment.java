@@ -37,6 +37,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FragmentModificationSafeLock;
+import com.expedia.bookings.utils.GlobalSettingsUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinListView;
@@ -215,7 +216,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		syncItinManager(true, false);
 
 		if (mJumpToItinId != null) {
-			showItinCard(mJumpToItinId, true);
+			showItinCard(mJumpToItinId, GlobalSettingsUtils.getAnimatorDurationScale(getContext()) != 0.0f);
 		}
 
 		mFragmentModLock.setSafe(true);
@@ -317,7 +318,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	public void hideDetails() {
 		if (mItinListView != null) {
-			mItinListView.hideDetails(true);
+			mItinListView.hideDetails(GlobalSettingsUtils.getAnimatorDurationScale(getContext()) != 0.0f);
 		}
 	}
 
@@ -618,7 +619,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			updateLoginState();
 
 			if (mJumpToItinId != null) {
-				showItinCard(mJumpToItinId, true);
+				showItinCard(mJumpToItinId, GlobalSettingsUtils.getAnimatorDurationScale(getContext()) != 0.0f);
 			}
 		}
 		mCurrentSyncHasErrors = false;

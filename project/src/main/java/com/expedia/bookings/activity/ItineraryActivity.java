@@ -31,6 +31,7 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.DebugMenu;
 import com.expedia.bookings.utils.DebugMenuFactory;
+import com.expedia.bookings.utils.GlobalSettingsUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
 import com.google.android.gms.maps.GoogleMap.OnCameraChangeListener;
@@ -141,7 +142,7 @@ public class ItineraryActivity extends TrackingFragmentActivity implements ItinI
 		}
 
 		if (!TextUtils.isEmpty(mJumpToItinId)) {
-			mItinListFragment.showItinCard(mJumpToItinId, true);
+			mItinListFragment.showItinCard(mJumpToItinId, GlobalSettingsUtils.getAnimatorDurationScale(this) != 0.0f);
 		}
 
 		mItinListFragment.enableLoadItins();
@@ -154,7 +155,7 @@ public class ItineraryActivity extends TrackingFragmentActivity implements ItinI
 		if (intent.hasExtra(ARG_JUMP_TO_NOTIFICATION)) {
 			handleArgJumpToNotification(intent);
 			if (!TextUtils.isEmpty(mJumpToItinId)) {
-				mItinListFragment.showItinCard(mJumpToItinId, true);
+				mItinListFragment.showItinCard(mJumpToItinId, GlobalSettingsUtils.getAnimatorDurationScale(this) != 0.0f);
 				showPopupWindow(mJumpToItinId, true);
 			}
 		}
@@ -423,7 +424,7 @@ public class ItineraryActivity extends TrackingFragmentActivity implements ItinI
 
 	@Override
 	public void onItinMarkerClicked(ItinCardData data) {
-		mItinListFragment.showItinCard(data.getId(), true);
+		mItinListFragment.showItinCard(data.getId(), GlobalSettingsUtils.getAnimatorDurationScale(this) != 0.0f);
 		showPopupWindow(data, true);
 	}
 

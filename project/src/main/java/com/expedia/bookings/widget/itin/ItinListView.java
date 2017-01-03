@@ -41,6 +41,7 @@ import com.expedia.bookings.fragment.ItinCardDetailsActivity;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
+import com.expedia.bookings.utils.GlobalSettingsUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
@@ -626,7 +627,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		});
 
-		AnimatorSet collapseAnimator = mDetailsCardView.collapse(true);
+		AnimatorSet collapseAnimator = mDetailsCardView.collapse(GlobalSettingsUtils.getAnimatorDurationScale(getContext()) != 0.0f);
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(resizeAnimator, collapseAnimator);
 		return set;
@@ -796,7 +797,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 			}
 		});
 
-		AnimatorSet expandAnimator = mDetailsCardView.expand(true);
+		AnimatorSet expandAnimator = mDetailsCardView.expand(GlobalSettingsUtils.getAnimatorDurationScale(getContext()) != 0.0f);
 		AnimatorSet set = new AnimatorSet();
 		set.playTogether(resizeAnimator, expandAnimator);
 		return set;
@@ -928,7 +929,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 
 	@Override
 	public void onCloseButtonClicked() {
-		hideDetails(true);
+		hideDetails(GlobalSettingsUtils.getAnimatorDurationScale(getContext()) != 0.0f);
 	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
