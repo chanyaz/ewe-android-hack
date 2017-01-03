@@ -6,7 +6,7 @@
     android:clipToPadding="false"
     android:orientation="vertical">
 
-    <com.expedia.bookings.widget.RailTravelerPickerView
+    <com.expedia.bookings.rail.widget.RailTravelerPickerView
         android:id="@+id/rail_traveler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -65,7 +65,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
-                <com.expedia.bookings.widget.rail.PositionObservableTabLayout
+                <com.expedia.bookings.rail.widget.PositionObservableTabLayout
                     android:id="@+id/tabs"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -83,7 +83,7 @@
                     android:background="@color/transparent"
                     android:importantForAccessibility="no"/>
 
-                <com.expedia.bookings.presenter.rail.RailSearchWidget
+                <com.expedia.bookings.rail.widget.RailSearchWidget
                     android:id="@+id/rail_search_widget"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

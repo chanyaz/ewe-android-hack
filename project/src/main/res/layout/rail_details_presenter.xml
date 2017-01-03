@@ -76,7 +76,7 @@
                             android:layout_height="wrap_content"
                             tools:text="2h 32m, 1 change" />
 
-                        <com.expedia.bookings.widget.rail.RailDetailsTimeline
+                        <com.expedia.bookings.rail.widget.RailDetailsTimeline
                             android:id="@+id/details_timeline"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -87,7 +87,7 @@
                     </LinearLayout>
                 </android.support.v7.widget.CardView>
 
-                <com.expedia.bookings.widget.rail.RailDetailsFareOptionsView
+                <com.expedia.bookings.rail.widget.RailDetailsFareOptionsView
                     android:id="@+id/details_fare_options"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

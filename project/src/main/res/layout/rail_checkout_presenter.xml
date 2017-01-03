@@ -60,7 +60,7 @@
             android:layout_marginTop="@dimen/temporary_medium_padding"
             android:background="@drawable/card_background" />
 
-        <com.expedia.bookings.widget.rail.RailTicketDeliveryOverviewWidget
+        <com.expedia.bookings.rail.widget.RailTicketDeliveryOverviewWidget
             android:id="@+id/ticket_delivery_overview_widget"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -130,7 +130,7 @@
             android:textSize="10sp" />
     </RelativeLayout>
 
-    <com.expedia.bookings.widget.rail.RailTravelerEntryWidget
+    <com.expedia.bookings.rail.widget.RailTravelerEntryWidget
         android:id="@+id/rail_traveler_entry_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -138,7 +138,7 @@
         android:orientation="vertical"
         android:visibility="gone" />
 
-    <com.expedia.bookings.widget.rail.RailTicketDeliveryEntryWidget
+    <com.expedia.bookings.rail.widget.RailTicketDeliveryEntryWidget
         android:id="@+id/ticket_delivery_entry_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

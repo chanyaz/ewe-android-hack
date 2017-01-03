@@ -58,7 +58,7 @@
             android:layout_marginTop="3dp"
             tools:text="2h 30m, 1 Change" />
 
-        <com.expedia.bookings.widget.rail.RailResultsTimelineWidget
+        <com.expedia.bookings.rail.widget.RailResultsTimelineWidget
             android:id="@+id/timeline_view"
             android:layout_width="wrap_content"
             android:layout_height="12dp"

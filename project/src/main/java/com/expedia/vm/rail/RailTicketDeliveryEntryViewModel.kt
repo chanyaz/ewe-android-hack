@@ -5,7 +5,7 @@ import com.expedia.bookings.data.TicketDeliveryOption
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption
 import com.expedia.bookings.utils.CollectionUtils
-import com.expedia.bookings.widget.rail.TicketDeliveryMethod
+import com.expedia.bookings.rail.widget.TicketDeliveryMethod
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 

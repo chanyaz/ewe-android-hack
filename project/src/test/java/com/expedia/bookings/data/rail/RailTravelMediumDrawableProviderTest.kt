@@ -2,6 +2,7 @@ package com.expedia.bookings.data.rail
 
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailSegment
+import com.expedia.bookings.rail.data.RailTravelMediumDrawableProvider
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
 import org.junit.Test

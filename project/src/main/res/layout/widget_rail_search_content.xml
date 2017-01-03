@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingTop="@dimen/search_form_margin">
 
-    <com.expedia.bookings.widget.RailSearchLocationWidget
+    <com.expedia.bookings.rail.widget.RailSearchLocationWidget
         android:id="@+id/locationCard"
         android:layout_width="match_parent"
         android:layout_height="116dp"
@@ -43,7 +43,7 @@
             android:layout_height="match_parent"
             android:orientation="horizontal">
 
-            <com.expedia.bookings.widget.RailTravelerWidgetV2
+            <com.expedia.bookings.rail.widget.RailTravelerWidgetV2
                 android:id="@+id/traveler_card"
                 style="@style/MaterialCardTextView"
                 android:layout_width="0dp"
@@ -60,7 +60,7 @@
                 android:layout_marginBottom="16dp"
                 android:background="@color/rail_divider_bar_color" />
 
-            <com.expedia.bookings.widget.RailCardsPickerWidget
+            <com.expedia.bookings.rail.widget.RailCardsPickerWidget
                 android:id="@+id/cards_picker"
                 style="@style/MaterialCardTextView"
                 android:layout_width="0dp"

@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailOffer
-import com.expedia.bookings.utils.rail.RailUtils
+import com.expedia.bookings.rail.util.RailUtils
 import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 

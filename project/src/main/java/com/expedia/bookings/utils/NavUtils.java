@@ -45,7 +45,7 @@ import com.expedia.ui.FlightActivity;
 import com.expedia.ui.HotelActivity;
 import com.expedia.bookings.launch.activity.NewPhoneLaunchActivity;
 import com.expedia.ui.PackageActivity;
-import com.expedia.ui.RailActivity;
+import com.expedia.bookings.rail.activity.RailActivity;
 import com.google.gson.Gson;
 import com.mobiata.android.Log;
 

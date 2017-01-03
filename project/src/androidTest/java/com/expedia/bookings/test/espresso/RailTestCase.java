@@ -1,6 +1,6 @@
 package com.expedia.bookings.test.espresso;
 
-import com.expedia.ui.RailActivity;
+import com.expedia.bookings.rail.activity.RailActivity;
 
 public class RailTestCase extends PhoneTestCase {
 

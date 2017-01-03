@@ -7,8 +7,8 @@ import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
-import com.expedia.bookings.utils.rail.RailUtils
-import com.expedia.bookings.widget.RailLegOptionViewModel
+import com.expedia.bookings.rail.util.RailUtils
+import com.expedia.bookings.rail.widget.RailLegOptionViewModel
 import com.mobiata.flightlib.utils.DateTimeUtils
 import org.joda.time.DateTime
 import org.junit.Test

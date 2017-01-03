@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="3dp" />
 
-                <com.expedia.bookings.widget.rail.RailResultsTimelineWidget
+                <com.expedia.bookings.rail.widget.RailResultsTimelineWidget
                     android:id="@+id/timeline_view"
                     android:layout_width="wrap_content"
                     android:layout_height="12dp"
@@ -91,7 +91,7 @@
                 android:tint="@color/rail_bundle_icon_color" />
         </LinearLayout>
 
-        <com.expedia.bookings.widget.rail.RailDetailsTimeline
+        <com.expedia.bookings.rail.widget.RailDetailsTimeline
             android:id="@+id/rail_leg_details"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -99,7 +99,7 @@
             android:padding="12dp"
             android:visibility="gone" />
 
-        <com.expedia.bookings.widget.rail.TicketStubTearView
+        <com.expedia.bookings.rail.widget.TicketStubTearView
             android:layout_width="match_parent"
             android:layout_height="20dp"/>
 

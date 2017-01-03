@@ -3,7 +3,7 @@ package com.expedia.bookings.utils
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.utils.rail.RailUtils
+import com.expedia.bookings.rail.util.RailUtils
 import com.expedia.vm.test.rail.RailSearchRequestMock
 import com.squareup.phrase.Phrase
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
