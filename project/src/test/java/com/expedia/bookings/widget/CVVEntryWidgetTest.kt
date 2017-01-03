@@ -24,7 +24,7 @@ class CVVEntryWidgetTest {
 
 	@Before fun before() {
 		val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-		activity.setTheme(R.style.V2_Theme_Hotels);
+		activity.setTheme(R.style.Theme_Hotels_Control);
 		cvvEntryWidget = LayoutInflater.from(activity).inflate(R.layout.test_cvv_entry_widget, null) as CVVEntryWidget
 		val signatureName = "abc DEF"
 		cvvEntryWidget.mCreditCardSection = Ui.findView<CreditCardSection>(cvvEntryWidget, R.id.credit_card_section)

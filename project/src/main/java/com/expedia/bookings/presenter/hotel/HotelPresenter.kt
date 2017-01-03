@@ -395,7 +395,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         geoCodeSearchModel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         geoCodeSearchModel.errorObservable.subscribe { show(errorPresenter) }
 
-        loadingOverlay.setBackground(R.color.hotels_primary_color)
+        loadingOverlay.setBackgroundColor(ContextCompat.getColor(context, Ui.obtainThemeResID(context, R.attr.primary_color)))
     }
 
     private val defaultSearchTransition = object : Presenter.DefaultTransition(HotelSearchPresenter::class.java.name) {

@@ -43,6 +43,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightsSeatClassAndBookingCode = 12763;
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppMaterialFlightSearchRoundTripMessage = 12765;
+	public static final int EBAndroidAppHotelColorSwitch = 12875;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
@@ -96,6 +97,7 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppFlightsSeatClassAndBookingCode);
 		testIDs.add(EBAndroidAppUniversalCheckoutMaterialForms);
 		testIDs.add(EBAndroidAppMaterialFlightSearchRoundTripMessage);
+		testIDs.add(EBAndroidAppHotelColorSwitch);
 		return testIDs;
 	}
 

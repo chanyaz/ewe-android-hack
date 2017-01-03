@@ -266,7 +266,7 @@ public class PaymentWidgetFlowTest {
 	@Test
 	public void testStoredCardFlow() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		activity.setTheme(R.style.V2_Theme_Hotels);
+		activity.setTheme(R.style.Theme_Hotels_Control);
 		Ui.getApplication(activity).defaultHotelComponents();
 		PaymentWidgetV2 paymentWidget =  (PaymentWidgetV2) LayoutInflater.from(activity)
 			.inflate(R.layout.payment_widget_v2, null);
@@ -288,7 +288,7 @@ public class PaymentWidgetFlowTest {
 	@Test
 	public void testTempSavedCardType() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		activity.setTheme(R.style.V2_Theme_Hotels);
+		activity.setTheme(R.style.Theme_Hotels_Control);
 		Ui.getApplication(activity).defaultHotelComponents();
 		PaymentWidgetV2 paymentWidget =  (PaymentWidgetV2) LayoutInflater.from(activity)
 				.inflate(R.layout.payment_widget_v2, null);
@@ -303,7 +303,7 @@ public class PaymentWidgetFlowTest {
 	@Test
 	public void testTempNotSavedCardType() {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
-		activity.setTheme(R.style.V2_Theme_Hotels);
+		activity.setTheme(R.style.Theme_Hotels_Control);
 		Ui.getApplication(activity).defaultHotelComponents();
 		PaymentWidgetV2 paymentWidget =  (PaymentWidgetV2) LayoutInflater.from(activity)
 				.inflate(R.layout.payment_widget_v2, null);

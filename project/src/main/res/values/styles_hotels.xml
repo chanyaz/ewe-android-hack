@@ -1,75 +1,112 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="V2.Theme.Hotels" parent="Whitelabel.HotelTheme.Base" />
+    <style name="Theme.Hotels.Control" parent="Base.Hotels.Control" />
+    <style name="Theme.Hotels.TestVariant" parent="Base.Hotels.TestVariant"/>
 
-    <style name="V2.Theme.Floating" parent="Whitelabel.HotelTheme.Base">
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
-    </style>
-
-    <!--
-        Override this theme in whitelabels to provide whitelabel specific theme values.
-
-        Note: If any attr which is in AppTheme.Base.Hotels and need to be customized per whitelabel,
-        that attr should be removed from AppTheme.Base.Hotels and
-        must be added in all Whitelabel.HotelTheme.Base for all whitelabels
-    -->
-
-    <style name="Whitelabel.HotelTheme.Base" parent="AppTheme.Base.Hotels">
-
+    <style name="Base.Hotels" parent="AppTheme.Base">
+        <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowActivityTransitions">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:colorPrimaryDark">#0b514b</item>
-        <item name="android:colorButtonNormal">@color/hotels_primary_color</item>
-        <item name="colorAccent">@color/hotels_primary_color</item>
-        <item name="android:colorEdgeEffect">@color/hotels_primary_color</item>
-        <item name="primary_color">@color/hotels_primary_color</item>
-        
-        
-        
-        
-        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
-        <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
-        <item name="skin_rippleDrawable">@drawable/hotel_select_room_ripple</item>
-        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
-        <item name="paymentWidgetLayout">@layout/payment_widget_v2</item>
-        <item name="traveler_presenter">@layout/lx_traveler_presenter_view_stub</item>
-        <item name="checkout_icon_right_margin_attr">@dimen/checkout_icon_right_margin_hotel</item>
-        <item name="sliderText">@string/hotelsv2_slide_reserve</item>
-        <item name="hotel_promo_background_colors">@color/hotel_promo_background</item>
-        <item name="hotel_toggle_text_drawable">@drawable/hotel_toggle_text</item>
-        <item name="hotel_toggle_background_selector_drawable">@drawable/hotel_toggle_background_selector</item>
-        <item name="vip_info_select_ripple_drawable">@drawable/vip_info_select_ripple</item>
-        <item name="hotel_select_room_ripple_drawable">@drawable/hotel_select_room_ripple</item>
-        <item name="hotel_map_tooltip_pressed_drawable">@drawable/hotel_tooltip_blue</item>
-        <item name="hotel_map_tooltip_drawable">@drawable/hotel_tooltip</item>
-        <item name="spinner_text_color_drawable">@drawable/traveler_text_color</item>
-        <item name="map_pin_drawable">@drawable/map_marker_green</item>
-        <item name="spinner_traveler_text_color_drawable">@drawable/hotel_traveler_text_color</item>
-    </style>
 
-    <!--
-        Base app theme for Hotels, all the properties of hotels which are common for all whitelabels should be added here
-    -->
-    <style name="AppTheme.Base.Hotels" parent="Cars.Base">
-        <!--TODO:
-            It should have its own properties and should not be dependent on cars theme.
-            If something is common for all LOB's put it in  AppTheme.Base
-         -->
+        <!-- Search -->
         <item name="skin_searchToolbarText">@string/hotel_search_toolbar_title</item>
         <item name="skin_searchLocationText">@string/enter_destination_hint</item>
         <item name="skin_searchLocationContDesc">@string/enter_destination_cont_desc</item>
-        <item name="skin_searchButtonSelectorDrawable">@drawable/hotel_select_room_ripple</item>
         <item name="skin_searchButtonStyle">@style/HotelButtonStyle</item>
 
+        <!-- Results -->
+        <item name="spinner_text_color_drawable">@drawable/traveler_text_color</item>
+
+        <!-- Checkout -->
         <item name="traveler_toolbar_text">@string/traveler_information</item>
+        <item name="traveler_presenter">@layout/lx_traveler_presenter_view_stub</item>
+        <item name="checkout_card_view_style">@style/CarsCardView</item>
+        <item name="paymentWidgetLayout">@layout/payment_widget_v2</item>
+        <item name="toolbar_title_style">@style/ToolbarTitleTextAppearance</item>
+        <item name="sliderText">@string/hotelsv2_slide_reserve</item>
+        <item name="skin_errorIndicationExclaimationDrawable">@drawable/invalid</item>
+        <item name="skin_errorWidgetEditButtonStyle">@style/HotelButton</item>
+        <item name="traveler_details_text">@string/checkout_hotelsv2_enter_guest_details_line1</item>
+
+        <!-- needs to be updated for new variant -->
         <item name="traveler_checkout_circle_drawable">@drawable/hotel_traveler_checkout_circle</item>
+        <item name="skin_rippleDrawable">@drawable/old_hotel_ripple_button</item>
+    </style>
+
+    <style name="Base.Hotels.Control">
+        <item name="android:colorPrimaryDark">#0b514b</item>
+        <item name="android:colorButtonNormal">@color/hotels_primary_color</item>
+        <item name="android:colorEdgeEffect">@color/hotels_primary_color</item>
+
+        <item name="colorAccent">@color/hotels_primary_color</item>
+
+        <!-- General -->
+        <item name="primary_color">@color/hotels_primary_color</item>
+        <item name="primary_button_color">@color/hotels_primary_color</item>
+        <item name="primary_button_ripple_color">@color/hotel_button_ripple_color</item>
+
+        <!-- Search -->
+        <item name="skin_searchButtonSelectorDrawable">@drawable/old_hotel_ripple_button</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/hotel_traveler_text_color</item>
+
+        <!-- Results -->
+        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_hotels</item>
+        <item name="hotel_map_tooltip_drawable">@drawable/hotel_tooltip</item>
+        <item name="hotel_map_tooltip_pressed_drawable">@drawable/hotel_tooltip_blue</item>
+
+        <!-- InfoSite -->
+        <item name="pay_now_later_selector">@drawable/hotel_pay_now_later_button_selector</item>
+        <item name="hotel_pay_now_later_text">@color/sliding_group_text</item>
+        <item name="vip_info_select_ripple_drawable">@drawable/vip_info_select_ripple</item>
+        <item name="hotel_promo_background_colors">@color/hotel_promo_background</item>
+        <item name="map_pin_drawable">@drawable/map_marker_blue</item>
+        <item name="secondary_ripple_button_drawable">@drawable/hotel_select_room_button_selector</item>
+        <item name="hotel_select_room_ripple_drawable">@drawable/old_hotel_ripple_button</item>
+
+        <!-- Used for other styles -->
+        <item name="hotel_toggle_background_selector_drawable">@drawable/old_hotel_toggle_background_selector</item>
+        <item name="hotel_toggle_text_drawable">@drawable/hotel_toggle_text</item>
         <item name="accept_terms_text_color">@color/hotels_primary_color</item>
         <item name="accept_terms_background_color">@color/white</item>
+    </style>
+
+
+    <style name="Base.Hotels.TestVariant">
+        <item name="colorAccent">@color/app_primary</item>
+
+        <!-- General -->
+        <item name="primary_color">@color/app_primary</item>
+        <item name="primary_button_color">@color/app_primary</item>
+        <item name="primary_button_ripple_color">@color/app_primary_dark</item>
+
+        <!-- Search -->
+        <item name="skin_searchButtonSelectorDrawable">@drawable/hotel_primary_ripple_button</item>
+        <item name="spinner_traveler_text_color_drawable">@drawable/new_hotel_traveler_text_color</item>
+
+        <!-- Results -->
+        <item name="skin_filterNumberBgDrawable">@drawable/filter_number_bg_app</item>
+        <item name="hotel_map_tooltip_drawable">@drawable/packages_tooltip</item>
+        <item name="hotel_map_tooltip_pressed_drawable">@drawable/packages_tooltip_pressed</item>
+
+        <!-- InfoSite -->
+        <item name="pay_now_later_selector">@drawable/new_pay_now_later_selector</item>
+        <item name="hotel_pay_now_later_text">@color/hotel_pay_now_later_text_color</item>
+        <item name="vip_info_select_ripple_drawable">@drawable/new_vip_info_select_ripple</item>
+        <item name="hotel_promo_background_colors">@color/app_primary_dark</item>
+        <item name="map_pin_drawable">@drawable/map_marker_blue</item>
+        <item name="secondary_ripple_button_drawable">@drawable/hotel_secondary_ripple_button</item>
+        <item name="hotel_select_room_ripple_drawable">@drawable/hotel_primary_ripple_button</item>
+
+        <!-- Used for other styles -->
+        <item name="hotel_toggle_background_selector_drawable">@drawable/new_hotel_toggle_background</item>
+        <item name="hotel_toggle_text_drawable">@drawable/new_hotel_select_room_toggle_text</item>
+        <item name="accept_terms_text_color">@color/app_primary</item>
+        <item name="accept_terms_background_color">@color/white</item>
+    </style>
+
+    <style name="V2.Theme.Floating" parent="AppTheme.Base">
+        <!-- this is being deleted with https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/9709 -->
     </style>
 
     <!-- New Hotels Checkout Styling -->
@@ -168,7 +205,7 @@
         <item name="android:textColor">?attr/primary_color</item>
     </style>
 
-    <style name="HotelButton" parent="Core.Widget.Button">
+    <style name="HotelButton" parent="Core.Button.Footer">
         <item name="android:background">@drawable/hotels_button_selector</item>
     </style>
 

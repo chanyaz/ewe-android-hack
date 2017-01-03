@@ -47,7 +47,6 @@ class PackageHotelResultsPresenter(context: Context, attrs: AttributeSet) : Base
 
     override fun inflate() {
         View.inflate(context, R.layout.widget_package_hotel_results, this)
-        toolbar.setBackgroundColor(ContextCompat.getColor(context, R.color.packages_primary_color))
     }
 
     override fun onFinishInflate() {

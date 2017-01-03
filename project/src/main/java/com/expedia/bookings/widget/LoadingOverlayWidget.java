@@ -2,6 +2,7 @@ package com.expedia.bookings.widget;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.annotation.ColorInt;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -51,6 +52,10 @@ public class LoadingOverlayWidget extends LinearLayout {
 
 	public void setBackground(int id) {
 		overlayTitleContainer.setBackgroundResource(id);
+	}
+
+	public void setBackgroundColor(@ColorInt int color) {
+		overlayTitleContainer.setBackgroundColor(color);
 	}
 
 	public void setBackgroundAttr(Drawable id) {

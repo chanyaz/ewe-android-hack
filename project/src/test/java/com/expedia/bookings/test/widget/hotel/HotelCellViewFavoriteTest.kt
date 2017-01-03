@@ -53,7 +53,7 @@ class HotelCellViewFavoriteTest {
     @Before fun before() {
         AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppHotelFavoriteTest)
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.V2_Theme_Hotels)
+        activity.setTheme(R.style.Theme_Hotels_Control)
         hotelCellView = LayoutInflater.from(activity).inflate(R.layout.hotel_cell, null, false) as ViewGroup
         hotelViewHolder = HotelCellViewHolder(hotelCellView, 200, hotelFavoriteChange)
         pref = PreferenceManager.getDefaultSharedPreferences(getContext())
