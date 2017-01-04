@@ -3,7 +3,7 @@
     package="com.expedia.bookings.test"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <instrumentation android:name="com.expedia.bookings.test.espresso.InstrumentationTestRunner">
+    <instrumentation android:name="${instrumentationRunnerPath}">
         <meta-data
             android:name="listener"
             android:value="com.expedia.bookings.test.espresso.JUnitTestRunListener" />
