@@ -17,8 +17,10 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     val layover = flightLeg
     var flightSegments = flightLeg.flightSegments
     var packageOfferModel = flightLeg.packageOfferModel
+    var seatsLeft = FlightV2Utils.getSeatsLeftUrgencyMessage(context, flightLeg)
 
     abstract fun price(): String
+    abstract fun getUrgencyMessageVisibilty(): Boolean
 
     var contentDescription = getFlightContentDesc()
 
@@ -47,6 +49,10 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
                             put("layovermins", getMinuteTimeContDesc(segment.layoverDurationMinutes)).format().toString())
                 }
             }
+        }
+        if (getUrgencyMessageVisibilty()) {
+            result.append(Phrase.from(context, R.string.flight_detail_urgency_message_cont_desc_TEMPLATE).put("seatsleft",
+                    seatsLeft).format().toString())
         }
         result.append(Phrase.from(context.resources.getString(R.string.accessibility_cont_desc_role_button)).format().toString())
 

@@ -14,11 +14,11 @@ import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
-import com.expedia.bookings.tracking.HotelTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
+import com.expedia.vm.AbstractHotelFilterViewModel
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import rx.Observer
@@ -45,6 +45,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     val titleSubject = BehaviorSubject.create<String>()
     val subtitleSubject = PublishSubject.create<CharSequence>()
     val showHotelSearchViewObservable = PublishSubject.create<Unit>()
+    val sortByDeepLinkSubject = PublishSubject.create<AbstractHotelFilterViewModel.Sort>()
 
     var isFavoritingSupported: Boolean = lob == LineOfBusiness.HOTELS
 
@@ -100,8 +101,12 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 }
             }
 
-
             override fun onCompleted() {
+                if (params.sortType != null) {
+                    val sortType = getSortTypeFromString(params.sortType)
+                    sortByDeepLinkSubject.onNext(sortType)
+
+                }
             }
 
             override fun onError(e: Throwable?) {
@@ -138,6 +143,17 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 addHotelResultsObservable.onNext(hotelSearchResponse)
             }
             HotelFavoriteHelper.setLocalFavorites(hotelSearchResponse.hotelList as ArrayList<Hotel>, context)
+        }
+    }
+
+    fun getSortTypeFromString(sorttype: String?): AbstractHotelFilterViewModel.Sort {
+        when(sorttype) {
+            "Discounts" -> return AbstractHotelFilterViewModel.Sort.DEALS
+            "Price" -> return AbstractHotelFilterViewModel.Sort.PRICE
+            "Rating" -> return AbstractHotelFilterViewModel.Sort.RATING
+            else -> {
+                return AbstractHotelFilterViewModel.Sort.RECOMMENDED
+            }
         }
     }
 

@@ -10,13 +10,11 @@ import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
 import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
@@ -33,26 +31,14 @@ import android.widget.TextView;
 
 import com.dgmltn.shareeverywhere.ShareView;
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.bitmaps.IMedia;
-import com.expedia.bookings.data.Db;
-import com.expedia.bookings.data.FlightTrip;
-import com.expedia.bookings.data.LoyaltyMembershipTier;
-import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.abacus.AbacusUtils;
-import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardData;
-import com.expedia.bookings.data.trips.ItinCardDataFlight;
-import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
-import com.expedia.bookings.data.trips.TripFlight;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AnimUtils;
-import com.expedia.bookings.utils.Constants;
-import com.expedia.bookings.utils.ItinUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.AlphaImageView;
@@ -60,16 +46,13 @@ import com.expedia.bookings.widget.ItinActionsSection;
 import com.expedia.bookings.widget.ParallaxContainer;
 import com.expedia.bookings.widget.RecyclerGallery;
 import com.expedia.bookings.widget.ScrollView;
-import com.expedia.ui.GalleryActivity;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.CalendarAPIUtils;
 import com.squareup.phrase.Phrase;
 
 public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	implements PopupMenu.OnMenuItemClickListener, ShareView.OnShareTargetSelectedListener,
-	ItinContentGenerator.MediaCallback, RecyclerGallery.GalleryItemListener {
+	ItinContentGenerator.MediaCallback {
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// INTERFACES
@@ -96,7 +79,7 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	private OnItinCardClickListener mOnItinCardClickListener;
 
-	private ItinContentGenerator<? extends ItinCardData> mItinContentGenerator;
+	protected ItinContentGenerator<? extends ItinCardData> mItinContentGenerator;
 
 	private DisplayState mDisplayState = DisplayState.COLLAPSED;
 	private int mCollapsedTop;
@@ -126,11 +109,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	private ViewGroup mHeaderTextLayout;
 	private View mHeaderItinCardContentDescription;
 	private ViewGroup mSummarySectionLayout;
-	private ViewGroup mCheckInLayout;
 	private ViewGroup mSummaryLayout;
 	private ImageView mChevronImageView;
 	private ViewGroup mDetailsLayout;
-	private TextView mRoomUpgradeLayout;
 	private ItinActionsSection mActionButtonLayout;
 
 	private AlphaImageView mItinTypeImageView;
@@ -138,22 +119,19 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 
 	private ScrollView mScrollView;
 	private ParallaxContainer mHeaderImageContainer;
-	private RecyclerGallery mHeaderGallery;
+	protected RecyclerGallery mHeaderGallery;
 	private ImageView mHeaderOverlayImageView;
 	private TextView mHeaderTextView;
 	private TextView mHeaderTextDateView;
-	private TextView mCheckInTextView;
 	private View mSelectedView;
 	private View mHeaderShadeView;
 	private View mSummaryDividerView;
-	private TextView mVIPTextView;
 
 	private ShareView mShareView;
 
 	// Views generated an ItinContentGenerator (that get reused)
 	private View mHeaderView;
 	private View mSummaryView;
-	private View mDetailsView;
 	// Used in header image view
 
 
@@ -189,13 +167,9 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mHeaderItinCardContentDescription = Ui.findView(this, R.id.header_itin_card_content_description_view);
 		mSummarySectionLayout = Ui.findView(this, R.id.summary_section_layout);
 		mSummaryLayout = Ui.findView(this, R.id.summary_layout);
-		mCheckInLayout = Ui.findView(this, R.id.checkin_layout);
-		mCheckInTextView = Ui.findView(this, R.id.checkin_text_view);
 		mChevronImageView = Ui.findView(this, R.id.chevron_image_view);
 		mDetailsLayout = Ui.findView(this, R.id.details_layout);
 		mActionButtonLayout = Ui.findView(this, R.id.action_button_layout);
-		mVIPTextView = Ui.findView(this, R.id.vip_label_text_view);
-		mRoomUpgradeLayout = Ui.findView(this, R.id.room_upgrade_message);
 		mItinTypeImageView = Ui.findView(this, R.id.itin_type_image_view);
 		mFixedItinTypeImageView = Ui.findView(this, R.id.fixed_itin_type_image_view);
 
@@ -211,7 +185,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mShareView = Ui.findView(this, R.id.itin_share_view);
 
 		mSummarySectionLayout.setOnClickListener(mOnClickListener);
-		mHeaderGallery.setOnItemClickListener(this);
 
 		mHeaderGallery.showPhotoCount = false;
 		Ui.setOnClickListener(this, R.id.close_image_button, mOnClickListener);
@@ -263,10 +236,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			? R.dimen.itin_card_summary_collapsed_height
 			: R.dimen.itin_card_collapsed_height);
 
-		if (mCheckInLayout.getVisibility() == VISIBLE) {
-			height += mCheckInLayout.getHeight();
-		}
-
 		height += (mTopExtraPaddingView.getVisibility() == VISIBLE ? mItinCardExtraTopPadding : 0)
 			+ (mBottomExtraPaddingView.getVisibility() == VISIBLE ? mItinCardExtraBottomPadding : 0);
 
@@ -295,10 +264,10 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	}
 
 	public boolean isTouchOnCheckInButton(MotionEvent childEvent) {
-		return isEventOnView(childEvent, mCheckInLayout);
+		return false;
 	}
 
-	private boolean isEventOnView(MotionEvent event, ViewGroup viewGroup) {
+	protected boolean isEventOnView(MotionEvent event, ViewGroup viewGroup) {
 		boolean containsPoint = false;
 		if (viewGroup != null && viewGroup.getVisibility() == View.VISIBLE && event != null) {
 			int ex = (int) event.getX();
@@ -372,53 +341,6 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		mHeaderItinCardContentDescription
 			.setVisibility(AccessibilityUtil.isTalkBackEnabled(getContext()) ? VISIBLE : GONE);
 
-
-		boolean shouldShowCheckInLink = shouldShowCheckInLink(itinCardData);
-		if (shouldShowCheckInLink) {
-			final int flightLegNumber = ((ItinCardDataFlight) itinCardData).getLegNumber();
-			boolean userCheckedIn = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
-				.getLeg(flightLegNumber).isUserCheckedIn();
-			if (userCheckedIn) {
-				onCheckInLinkVisited(itinCardData);
-			}
-			mCheckInLayout.setVisibility(VISIBLE);
-			setShowSummary(true);
-			mCheckInLayout.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View view) {
-					boolean userCheckedIn = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
-						.getLeg(flightLegNumber).isUserCheckedIn();
-					if (userCheckedIn) {
-						OmnitureTracking.trackItinFlightVisitSite();
-					}
-					else {
-						FlightTrip flightTrip = ((TripFlight) itinCardData.getTripComponent()).getFlightTrip();
-						OmnitureTracking
-							.trackItinFlightCheckIn(getAirlineCode(itinCardData), flightTrip.isSplitTicket(),
-								flightTrip.getLegCount());
-					}
-					((TripFlight) itinCardData.getTripComponent()).getFlightTrip().getLeg(flightLegNumber)
-						.setUserCheckedIn(
-							true);
-					showCheckInWebView(itinCardData);
-					mCheckInTextView.postDelayed(new Runnable() {
-						@Override
-						public void run() {
-							onCheckInLinkVisited(itinCardData);
-						}
-					}, 5000);
-				}
-			});
-		}
-		else {
-			if (getType() == Type.FLIGHT) {
-				mCheckInLayout.setVisibility(GONE);
-				if (isCollapsed()) {
-					setShowSummary(false);
-				}
-			}
-		}
-
 		// Summary text
 		wasNull = mSummaryView == null;
 		if (wasNull && mSummaryLayout.getChildCount() > 0) {
@@ -457,86 +379,15 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mHeaderGallery.setBackgroundColor(ContextCompat.getColor(getContext(), R.color.rail_primary_color));
 			mChevronImageView.setRotation(-90f);
 		}
-
-		if (itinCardData instanceof ItinCardDataHotel) {
-			boolean isVipAccess = ((ItinCardDataHotel) itinCardData).isVip();
-			LoyaltyMembershipTier customerLoyaltyMembershipTier = User.getLoggedInLoyaltyMembershipTier(getContext());
-			boolean isSilverOrGoldMember = customerLoyaltyMembershipTier == LoyaltyMembershipTier.MIDDLE
-				|| customerLoyaltyMembershipTier == LoyaltyMembershipTier.TOP;
-			boolean posSupportVipAccess = PointOfSale.getPointOfSale().supportsVipAccess();
-			if (isVipAccess && isSilverOrGoldMember && posSupportVipAccess) {
-				mVIPTextView.setVisibility(VISIBLE);
-			}
-			else {
-				mVIPTextView.setVisibility(GONE);
-			}
-
-			boolean isRoomUpgradable = itinCardData.getTripComponent().getParentTrip().isTripUpgradable();
-			if (isRoomUpgradable) {
-				mRoomUpgradeLayout.setVisibility(VISIBLE);
-			}
-			else {
-				mRoomUpgradeLayout.setVisibility(GONE);
-			}
-		}
 	}
 
 	private boolean isExpanded() {
 		return mDisplayState == DisplayState.EXPANDED;
 	}
 
-	private boolean isCollapsed() {
+	protected boolean isCollapsed() {
 		return mDisplayState == DisplayState.COLLAPSED;
 	}
-
-	private void showCheckInWebView(T itinCardData) {
-		WebViewActivity.IntentBuilder builder = new WebViewActivity.IntentBuilder(getContext());
-		builder.setUrl(mItinContentGenerator.getCheckInLink());
-		builder.setTitle(R.string.itin_card_flight_checkin_title);
-		builder.setTheme(R.style.ItineraryTheme);
-		builder.setCheckInLink(true);
-		builder.setInjectExpediaCookies(true);
-		builder.setAllowMobileRedirects(false);
-		builder.setAttemptForceMobileSite(true);
-		TripFlight tripComponent = (TripFlight) itinCardData.getTripComponent();
-		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_AIRLINE_CODE, getAirlineCode(itinCardData));
-		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_AIRLINE_NAME, getAirlineName(itinCardData));
-		builder.getIntent().putExtra(Constants.ITIN_IS_SPLIT_TICKET, tripComponent.getFlightTrip().isSplitTicket());
-		builder.getIntent().putExtra(Constants.ITIN_FLIGHT_TRIP_LEGS, tripComponent.getFlightTrip().getLegCount());
-		builder.getIntent().putExtra(Constants.ITIN_CHECK_IN_CONFIRMATION_CODE,
-			mItinContentGenerator.getSummaryRightButton().getText());
-		((Activity) getContext())
-			.startActivityForResult(builder.getIntent(), Constants.ITIN_CHECK_IN_WEBPAGE_CODE);
-	}
-
-	private void onCheckInLinkVisited(T itinCardData) {
-		String firstAirlineName = getAirlineName(itinCardData);
-		mCheckInTextView.setBackgroundColor(Color.TRANSPARENT);
-		mCheckInTextView
-			.setText(
-				getContext().getString(R.string.itin_card_flight_checkin_details, firstAirlineName));
-	}
-
-	private String getAirlineName(T itinCardData) {
-		int flightLegNumber = ((ItinCardDataFlight) itinCardData).getLegNumber();
-		return ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
-			.getLeg(flightLegNumber)
-			.getPrimaryAirlineNamesFormatted();
-	}
-
-	private String getAirlineCode(T itinCardData) {
-		int flightLegNumber = ((ItinCardDataFlight) itinCardData).getLegNumber();
-		return ((TripFlight) itinCardData.getTripComponent()).getFlightTrip()
-			.getLeg(flightLegNumber)
-			.getFirstAirlineCode();
-	}
-
-
-	private boolean shouldShowCheckInLink(T itinCardData) {
-		return ItinUtils.shouldShowCheckInLink(getContext(), getType(), itinCardData.getStartDate(),
-			mItinContentGenerator.getCheckInLink());
-	}
-
 
 	/**
 	 * This method re-binds the ItinCard with the provided data, under the assumption that
@@ -845,7 +696,8 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 			mChevronImageView.setContentDescription(getContext().getString(R.string.trips_back_button_label_cont_desc));
 		}
 		else {
-			mChevronImageView.setContentDescription(getContext().getString(R.string.trips_expand_button_label_cont_desc));
+			mChevronImageView
+				.setContentDescription(getContext().getString(R.string.trips_expand_button_label_cont_desc));
 		}
 	}
 
@@ -1052,13 +904,11 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 		}
 	}
 
-	private void finishExpand() {
+	protected void finishExpand() {
 		// Sometimes the scroll view doesnt work correctly after expansion so we try a requestlayout
 		if (mScrollView != null) {
 			mScrollView.requestLayout();
 		}
-		mHeaderGallery.showPhotoCount = isBucketedForGallery();
-		mHeaderGallery.canScroll = isBucketedForGallery();
 		mHeaderGallery.requestLayout();
 		mHeaderGallery.getAdapter().notifyDataSetChanged();
 
@@ -1241,27 +1091,5 @@ public class ItinCard<T extends ItinCardData> extends RelativeLayout
 	@Override
 	public void onMediaReady(List<? extends IMedia> media) {
 		mHeaderGallery.setDataSource(mItinContentGenerator.getHeaderBitmapDrawable());
-	}
-
-	@Override
-	public void onGalleryItemClicked(Object item) {
-		if (!isBucketedForGallery()) {
-			return;
-		}
-		Intent i = new Intent(getContext(), GalleryActivity.class);
-		if (mItinContentGenerator.mItinCardData instanceof ItinCardDataHotel) {
-			HotelItinContentGenerator contentGenerator = (HotelItinContentGenerator) mItinContentGenerator;
-			Gson gson = new GsonBuilder().create();
-			String json = gson.toJson(contentGenerator.getItinCardData().getProperty().getMediaList());
-			i.putExtra("Urls", json);
-			i.putExtra("Position", mHeaderGallery.getSelectedItem());
-			i.putExtra("Name", contentGenerator.getItinCardData().getPropertyName());
-			i.putExtra("Rating", contentGenerator.getItinCardData().getPropertyRating());
-			getContext().startActivity(i);
-		}
-	}
-
-	private boolean isBucketedForGallery() {
-		return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidItinHotelGallery);
 	}
 }

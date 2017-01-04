@@ -17,7 +17,8 @@ import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.AbacusServices;
-import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.util.ForceBucketPref;
+import com.expedia.bookings.server.PersistentCookieManager;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 
@@ -75,6 +76,14 @@ public class AbacusHelperUtils {
 		}
 		else {
 			Db.getAbacusResponse().updateFrom(abacusResponse);
+		}
+
+		// Modify the bucket values based on forced bucket settings;
+		if (ForceBucketPref.isForceBucketed(context)) {
+			for (int key : AbacusUtils.getActiveTests()) {
+				Db.getAbacusResponse().updateABTest(key, ForceBucketPref.getForceBucketedTestValue(context, String.valueOf(key),
+					AbacusUtils.ABTEST_IGNORE_DEBUG));
+			}
 		}
 
 		// Modify the bucket values based on dev settings;

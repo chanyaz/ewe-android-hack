@@ -7,11 +7,13 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.annotation.Config;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.BillingInfo;
@@ -20,23 +22,39 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
+import com.expedia.bookings.data.TripBucketItemFlightV2;
+import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.ValidPayment;
+import com.expedia.bookings.data.cars.CarCreateTripResponse;
+import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.flights.ValidFormOfPayment;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelRate;
+import com.expedia.bookings.data.lx.LXCreateTripResponse;
+import com.expedia.bookings.data.packages.PackageCreateTripResponse;
+import com.expedia.bookings.data.trips.TripBucketItem;
+import com.expedia.bookings.data.trips.TripBucketItemCar;
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2;
+import com.expedia.bookings.data.trips.TripBucketItemLX;
+import com.expedia.bookings.data.trips.TripBucketItemPackages;
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
 import com.expedia.bookings.presenter.Presenter;
 import com.expedia.bookings.section.SectionBillingInfo;
+import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
+import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
+import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.PaymentWidget;
 import com.expedia.bookings.widget.PaymentWidgetV2;
 import com.expedia.bookings.widget.StoredCreditCardList;
+import com.expedia.bookings.widget.TextView;
 import com.expedia.vm.PaymentViewModel;
 
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricRunner.class)
+@Config(shadows = { ShadowGCM.class, ShadowUserManager.class, ShadowAccountManagerEB.class })
 public class PaymentWidgetFlowTest {
 	private BillingInfo storedCardBillingInfo;
 	private BillingInfo tempSavedCardBillingInfo;
@@ -125,6 +143,91 @@ public class PaymentWidgetFlowTest {
 		assertEquals(View.GONE, paymentOptions.getVisibility());
 	}
 
+	@Test
+	public void testInvalidCardOptionsMessageLx() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_LX);
+		Ui.getApplication(activity).defaultLXComponents();
+		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
+			.inflate(R.layout.payment_widget, null);
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.LX);
+
+		UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser());
+
+		LXCreateTripResponse response = new LXCreateTripResponse();
+		response.validFormsOfPayment = setupValidPayments();
+		TripBucketItem tripItem = new TripBucketItemLX(response);
+		Db.getTripBucket().add((TripBucketItemLX) tripItem);
+
+		assertCorrectErrorMessage("Activity does not accept Maestro", paymentWidget);
+	}
+
+	@Test
+	public void testInvalidCardOptionsMessagePackages() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_Packages);
+		Ui.getApplication(activity).defaultPackageComponents();
+		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
+			.inflate(R.layout.payment_widget, null);
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.PACKAGES);
+
+		UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser());
+
+		PackageCreateTripResponse response = new PackageCreateTripResponse();
+		response.setValidFormsOfPayment(setupValidFormsOfPayment());
+		TripBucketItem tripItem = new TripBucketItemPackages(response);
+		Db.getTripBucket().add((TripBucketItemPackages) tripItem);
+
+		assertCorrectErrorMessage("Trip does not accept Maestro", paymentWidget);
+	}
+
+	@Test
+	public void testInvalidCardOptionsMessageCars() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_Cars);
+		Ui.getApplication(activity).defaultCarComponents();
+		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
+			.inflate(R.layout.payment_widget, null);
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.CARS);
+
+		UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser());
+
+		CarCreateTripResponse response = new CarCreateTripResponse();
+		response.validFormsOfPayment = setupValidPayments();
+		TripBucketItem tripItem = new TripBucketItemCar(response);
+		Db.getTripBucket().add((TripBucketItemCar) tripItem);
+
+		assertCorrectErrorMessage("Rental company does not accept Maestro", paymentWidget);
+	}
+
+
+	@Test
+	public void testInvalidCardOptionsMessageFlights() {
+		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
+		activity.setTheme(R.style.V2_Theme_Packages);
+		Ui.getApplication(activity).defaultPackageComponents();
+		PaymentWidget paymentWidget =  (PaymentWidget) LayoutInflater.from(activity)
+			.inflate(R.layout.payment_widget, null);
+		paymentWidget.setViewmodel(new PaymentViewModel(activity));
+		paymentWidget.show(new PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK);
+		paymentWidget.getViewmodel().getLineOfBusiness().onNext(LineOfBusiness.FLIGHTS_V2);
+
+		UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser());
+
+		FlightCreateTripResponse response = new FlightCreateTripResponse();
+		response.setValidFormsOfPayment(setupValidFormsOfPayment());
+		TripBucketItemFlightV2 tripItem = new TripBucketItemFlightV2(response);
+		Db.getTripBucket().add(tripItem);
+
+		assertCorrectErrorMessage("Airline does not accept Maestro", paymentWidget);
+	}
+
 	// Enable the below test when we implemented android pay
 //	@Test
 //	public void testGoogleWallet() {
@@ -211,4 +314,54 @@ public class PaymentWidgetFlowTest {
 
 		assertEquals(PaymentType.CARD_DISCOVER, paymentWidget.getCardType());
 	}
+
+	private void setUserWithStoredCard(PaymentWidget paymentWidget) {
+		User user = new User();
+		user.addStoredCreditCard(getNewCard());
+		Db.setUser(user);
+
+		paymentWidget.getViewmodel().isCreditCardRequired().onNext(true);
+		paymentWidget.getSectionBillingInfo().bind(new BillingInfo());
+		paymentWidget.selectFirstAvailableCard();
+	}
+
+	private StoredCreditCard getNewCard() {
+		StoredCreditCard card = new StoredCreditCard();
+
+		card.setCardNumber("1234567812345678");
+		card.setId("stored-card-id");
+		card.setType(PaymentType.CARD_MAESTRO);
+		card.setDescription("shouldBeInvalid");
+		card.setIsGoogleWallet(false);
+		return card;
+	}
+
+	private ArrayList setupValidPayments() {
+		ArrayList<ValidPayment> validPayments = new ArrayList<>();
+		ValidPayment validPayment = new ValidPayment();
+		validPayment.name = "Visa";
+		validPayments.add(validPayment);
+		return validPayments;
+	}
+
+	private ArrayList setupValidFormsOfPayment() {
+		ArrayList<ValidFormOfPayment> validFormsOfPayment = new ArrayList<>();
+		ValidFormOfPayment validPayment = new ValidFormOfPayment();
+		validPayment.name = "Visa";
+		ValidFormOfPaymentUtils.addValidPayment(validFormsOfPayment, validPayment);
+		return validFormsOfPayment;
+	}
+
+	private void assertCorrectErrorMessage(String message, PaymentWidget paymentWidget) {
+		paymentWidget.getSectionBillingInfo().bind(storedCardBillingInfo);
+		setUserWithStoredCard(paymentWidget);
+		paymentWidget.getStoredCreditCardList().bind();
+
+		ListView storedList = (ListView) paymentWidget.getStoredCreditCardList().findViewById(R.id.stored_card_list);
+
+		TextView tv = (TextView) storedList.getAdapter().getView(0, null, paymentWidget).findViewById(R.id.text1) ;
+		assertEquals(message, tv.getText());
+		assertEquals(message + ", disabled Button" , tv.getContentDescription().toString());
+	}
+
 }

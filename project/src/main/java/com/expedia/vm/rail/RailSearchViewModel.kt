@@ -8,11 +8,9 @@ import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.utils.DateUtils
-import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.endlessObserver
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
-import com.mobiata.android.time.util.JodaUtils
 import com.squareup.phrase.Phrase
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
@@ -20,7 +18,6 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalendar(context) {
-
     val searchParamsObservable = PublishSubject.create<RailSearchRequest>()
     val railOriginObservable = BehaviorSubject.create<SuggestionV4>()
     val railDestinationObservable = BehaviorSubject.create<SuggestionV4>()
@@ -84,15 +81,6 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         onTimesChanged(Pair(0, 0))
     }
 
-    fun computeCalendarCardViewText(startMillis: Int, endMillis: Int): String? {
-        if (startDate() == null) {
-            val resId = if (isRoundTripSearchObservable.value) R.string.select_dates else R.string.select_departure_date
-            return context.resources.getString(resId)
-        } else {
-            return DateFormatUtils.formatRailDateTimeRange(context, startDate(), startMillis, endDate(), endMillis, isRoundTripSearchObservable.value);
-        }
-    }
-
     fun swapLocations() {
         val oldOrigin = railOriginObservable.value
         originLocationObserver.onNext(railDestinationObservable.value)
@@ -135,10 +123,8 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
 
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         val (start, end) = dates
-        dateTextObservable.onNext(computeDateText(start, end))
-        dateAccessibilityObservable.onNext(computeDateText(start, end, true))
-        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
-        calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
+        dateInstructionObservable.onNext(getDateInstructionText(start, end))
+        calendarTooltipTextObservable.onNext(getToolTipText(start, end))
         setUpTimeSliderSubject.onNext(dates)
 
         super.onDatesChanged(dates)
@@ -148,7 +134,8 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         val (startMillis, endMillis) = times
         getParamsBuilder().departDateTimeMillis(startMillis)
         getParamsBuilder().returnDateTimeMillis(endMillis)
-        dateTextObservable.onNext(computeCalendarCardViewText(startMillis, endMillis))
+        dateTextObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, false))
+        dateAccessibilityObservable.onNext(computeCalendarCardViewText(startMillis, endMillis, true))
     }
 
     // Reset times if the start is equal to today and the selected time is before the current time
@@ -170,52 +157,13 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         return TimeSlider.convertMillisToProgress(now.millisOfDay) + R.integer.calendar_min_search_time_rail
     }
 
-    override fun computeDateText(start: LocalDate?, end: LocalDate?): CharSequence {
-        return computeDateRangeText(start, end).toString()
-    }
-
-    override fun computeTooltipText(start: LocalDate?, end: LocalDate?): Pair<String, String> {
-        val resource = if (isRoundTripSearchObservable.value) {
-            val instructionStringResId =
-                    if (end == null)
-                        R.string.calendar_instructions_date_range_flight_select_return_date
-                    else
-                        R.string.calendar_drag_to_modify
-            context.resources.getString(instructionStringResId)
-        } else {
-            ""
-        }
-        return Pair(computeTopTextForToolTip(start, end), resource)
-    }
-
-    override fun computeDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
+    override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
         if (start == null && end == null) {
-            val resId = if (isRoundTripSearchObservable.value) R.string.select_dates else R.string.select_departure_date
-            return context.resources.getString(resId)
-        }
-
-        val dateRangeText = computeDateRangeText(start, end)
-        val sb = SpannableBuilder()
-        sb.append(dateRangeText)
-
-        if (start != null && end != null) {
-            val nightCount = JodaUtils.daysBetween(start, end)
-            val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
-            sb.append(" ");
-            sb.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString))
-        }
-        return sb.build()
-    }
-
-    override fun computeDateRangeText(start: LocalDate?, end: LocalDate?): String? {
-        if (start == null && end == null) {
-            val resId = if (isRoundTripSearchObservable.value) R.string.select_dates else R.string.select_departure_date
-            return context.getString(resId)
+            return getCalendarDateLabel()
         } else if (end == null && isRoundTripSearchObservable.value) {
             return Phrase.from(context.resources, R.string.select_return_date_TEMPLATE).put("startdate", DateUtils.localDateToMMMd(start)).format().toString()
-        } else {
-            return DateFormatUtils.formatRailDateRange(context, start, end)
         }
+        return DateFormatUtils.formatRailDateRange(context, start, end)
     }
 
     override fun getMaxSearchDurationDays(): Int {
@@ -243,7 +191,57 @@ class RailSearchViewModel(context: Context) : SearchViewModelWithTimeSliderCalen
         return context.resources.getString(R.string.rail_returning_at)
     }
 
+    override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
+        if (isRoundTripSearchObservable.value && end == null) {
+            return context.getString(R.string.calendar_instructions_date_range_flight_select_return_date)
+        }
+        return context.getString(R.string.calendar_drag_to_modify)
+    }
+
+    override fun getEmptyDateText(forContentDescription: Boolean): String {
+        val label = getCalendarDateLabel()
+        if (forContentDescription)  {
+            return getDateAccessibilityText(label, "")
+        }
+        return label
+    }
+
+    override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
+        return "" //no op, rail doesn't update until time is selected.
+    }
+
+    override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
+        return "" //no op, rail doesn't update until time is selected.
+    }
+
+    private fun computeCalendarCardViewText(startMillis: Int, endMillis: Int, isContentDescription: Boolean): String? {
+        if (startDate() == null) {
+            return getEmptyDateText(isContentDescription)
+        }
+
+        val dateTimeRange = DateFormatUtils.formatRailDateTimeRange(context, startDate(), startMillis,
+                endDate(), endMillis, isRoundTripSearchObservable.value);
+        if (isContentDescription) {
+            return getDateAccessibilityText(getCalendarDateLabel(), dateTimeRange)
+        }
+        return dateTimeRange
+
+    }
+
+    private fun getCalendarDateLabel() : String {
+        val resId = if (isRoundTripSearchObservable.value) R.string.select_dates else R.string.select_departure_date
+        return context.getString(resId)
+    }
+
     private fun resetDates() {
         onDatesChanged(Pair(null, null))
+    }
+
+    override fun getStartTimeContDesc(time: String): String {
+        return Phrase.from(context, R.string.rail_depart_time_cont_desc_TEMPLATE).put("time", time).format().toString()
+    }
+
+    override fun getEndTimeContDesc(time: String): String {
+        return Phrase.from(context, R.string.rail_return_time_cont_desc_TEMPLATE).put("time", time).format().toString()
     }
 }

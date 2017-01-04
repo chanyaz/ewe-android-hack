@@ -8,6 +8,7 @@ import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
+import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -30,19 +31,19 @@ class CheckoutTravelerViewModelTest {
     fun setUp() {
         searchParams = setUpParams()
         Ui.getApplication(context).defaultTravelerComponent()
-        testViewModel = TravelersViewModel(context, LineOfBusiness.PACKAGES, false)
+        testViewModel = FlightTravelersViewModel(context, LineOfBusiness.PACKAGES, false)
         testViewModel.travelerValidator.updateForNewSearch(searchParams)
     }
 
     @Test
     fun testMainTravelerMinAgeShow() {
-        testViewModel = TravelersViewModel(context, LineOfBusiness.PACKAGES, true)
+        testViewModel = FlightTravelersViewModel(context, LineOfBusiness.PACKAGES, true)
         assertTrue(testViewModel.showMainTravelerMinAgeMessaging.value)
     }
 
     @Test
     fun testMainTravelerMinAgeHide() {
-        testViewModel = TravelersViewModel(context, LineOfBusiness.PACKAGES, false)
+        testViewModel = FlightTravelersViewModel(context, LineOfBusiness.PACKAGES, false)
         assertFalse(testViewModel.showMainTravelerMinAgeMessaging.value)
     }
 

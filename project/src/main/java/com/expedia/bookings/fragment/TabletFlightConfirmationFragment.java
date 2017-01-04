@@ -22,21 +22,22 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Rate;
-import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable.CornerMode;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AddToCalendarUtils;
-import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.Akeakamai;
 import com.expedia.bookings.utils.DateFormatUtils;
 import com.expedia.bookings.utils.FragmentBailUtils;
+import com.expedia.bookings.utils.HotelCrossSellUtils;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ShareUtils;
 import com.expedia.bookings.utils.Ui;
 import com.mobiata.android.SocialUtils;
+import com.mobiata.android.util.SettingUtils;
 import com.squareup.phrase.Phrase;
 
 public class TabletFlightConfirmationFragment extends TabletConfirmationFragment {
@@ -156,6 +157,7 @@ public class TabletFlightConfirmationFragment extends TabletConfirmationFragment
 			.setTarget(mHeaderBitmapDrawable.getCallBack()).build().load(url);
 		setLob(LineOfBusiness.FLIGHTS);
 
+		SettingUtils.save(getActivity(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		return v;
 	}
 

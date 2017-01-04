@@ -23,10 +23,15 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 
 		// Login Features
 		initializeFeatureCheck(R.string.preference_enable_smart_lock);
+		initializeFeatureCheck(R.string.preference_hotel_itin_soft_change_button);
 		initializeFeatureCheck(R.string.preference_enable_activity_map);
-		initializeFeatureCheck(R.string.preference_enable_filter_text_search);
-		initializeFeatureCheck(R.string.preference_enable_gaia_current_location_suggestion);
-		initializeFeatureCheck(R.string.preference_enable_new_checkout);
+		initializeFeatureCheck(R.string.preference_enable_rail_checkout_login);
+		initializeFeatureCheck(R.string.preference_itin_hotel_upgrade);
+		initializeFeatureCheck(R.string.preference_itin_card_detail);
+		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
+		initializeFeatureCheck(R.string.preference_itin_user_reviews);
+		initializeFeatureCheck(R.string.preference_enable_urgency_messaging_on_flights);
+		initializeFeatureCheck(R.string.preference_universal_checkout_material_forms);
 	}
 
 	private void initializeFeatureCheck(int featureKey) {

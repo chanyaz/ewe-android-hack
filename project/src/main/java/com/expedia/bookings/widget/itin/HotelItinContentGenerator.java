@@ -40,9 +40,11 @@ import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 import com.expedia.bookings.utils.ClipboardUtils;
 import com.expedia.bookings.utils.Constants;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.NavUtils;
@@ -245,12 +247,11 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 			view = (TextView) getLayoutInflater().inflate(R.layout.include_itin_card_summary_hotel, container, false);
 		}
 
-		ItinCardDataHotel data = getItinCardData();
-		view.setText(getSummaryText(data));
+		view.setText(getSummaryText());
 		return view;
 	}
 
-	public String getSummaryText(ItinCardDataHotel data) {
+	public String getSummaryText() {
 		DateTime startDate = data.getStartDate();
 		DateTime endDate = data.getEndDate();
 		DateTime now = DateTime.now(startDate.getZone());
@@ -333,6 +334,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		TextView bedTypeHeaderTextView = Ui.findView(view, R.id.bed_type_header_text_view);
 		TextView bedTypeTextView = Ui.findView(view, R.id.bed_type_text_view);
 		ViewGroup commonItinDataContainer = Ui.findView(view, R.id.itin_shared_info_container);
+		TextView hotelUpgradeText = Ui.findView(view, R.id.room_upgrade_button);
 
 		// Bind
 		Resources res = getResources();
@@ -343,11 +345,39 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		infoTriplet.setLabels(
 			res.getString(R.string.itin_card_details_check_in),
 			res.getString(R.string.itin_card_details_check_out),
-			res.getQuantityText(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
+			res.getQuantityString(R.plurals.number_of_guests_label, itinCardData.getGuestCount()));
 
 		if (itinCardData.getPropertyLocation() != null) {
 			staticMapImageView.setLocation(new LatLong(itinCardData.getPropertyLocation().getLatitude(),
 				itinCardData.getPropertyLocation().getLongitude()));
+		}
+
+		//Upgrade hotel booking
+		boolean showRoomUpgradeButton =
+			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_upgrade) && !isSharedItin();
+		if (showRoomUpgradeButton) {
+			//hasUpgradeAvailable set to true until API is ready
+			boolean hasUpgradeAvailable = true;
+			hotelUpgradeText.setVisibility(hasUpgradeAvailable ? View.VISIBLE : View.GONE);
+			AccessibilityUtil.appendRoleContDesc(hotelUpgradeText, hotelUpgradeText.getText().toString(), R.string.accessibility_cont_desc_role_button);
+
+			if (hasUpgradeAvailable) {
+				//add null check if necessary!
+				//roomUpgradeLink stubbed until API is ready
+				final String roomUpgradeLink = "http://www.expedia.com";
+				hotelUpgradeText.setOnClickListener(new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						WebViewActivity.IntentBuilder intentBuilder =
+							buildWebViewIntent(R.string.trips_upgrade_hotel_button_label_cont_desc, roomUpgradeLink);
+
+						Intent intent = intentBuilder.getIntent();
+						//Stubbed using cancel room data until API is ready
+						intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
+						((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
+					}
+				});
+			}
 		}
 
 		addressTextView.setText(itinCardData.getAddressString());
@@ -414,35 +444,91 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 	@Override
 	protected boolean addBookingInfo(ViewGroup container) {
-		boolean result = super.addBookingInfo(container);
+		boolean success = super.addBookingInfo(container);
 
-		// Cancel booking button
-		TextView cancelHotelHotelRoomTv = Ui.findView(container, R.id.cancel_hotel_room);
-		View lineDivider = Ui.findView(container, R.id.divider_cancel_hotel_room);
-
+		if (!success) {
+			return false;
+		}
 
 		String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
 		boolean showCancelHotelRoomBtn = !getItinCardData().isPastCheckInDate() && Strings.isNotEmpty(roomCancelLink);
 		if (showCancelHotelRoomBtn) {
-			cancelHotelHotelRoomTv.setVisibility(View.VISIBLE);
-			lineDivider.setVisibility(View.VISIBLE);
-			cancelHotelHotelRoomTv.setOnClickListener(new OnClickListener() {
-				String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
-
-				@Override
-				public void onClick(View v) {
-					WebViewActivity.IntentBuilder intentBuilder =
-						buildWebViewIntent(R.string.itin_card_details_cancel_hotel_room, roomCancelLink)
-							.setRoomCancelType();
-					Intent intent = intentBuilder.getIntent();
-					intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
-					((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
-					OmnitureTracking.trackHotelItinCancelRoomClick();
-				}
-			});
+			// Cancel booking button
+			cancelHotelRoomButton(container);
 		}
 
-		return result;
+		boolean showEditRoomOption =
+			FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_hotel_itin_soft_change_button)
+				&& !isSharedItin();
+		if (showEditRoomOption) {
+
+			//Setting hasEditRoomOption to true till API is ready
+			boolean hasEditRoomOption = true;
+
+			if (hasEditRoomOption) {
+				setUpEditHotelRoomInfoButton(container);
+			}
+		}
+
+		return true;
+	}
+
+	private void cancelHotelRoomButton(ViewGroup container) {
+		TextView cancelHotelHotelRoomTv = Ui.findView(container, R.id.cancel_hotel_room);
+		View cancelHotelLineDividerView = Ui.findView(container, R.id.cancel_hotel_divider);
+
+		cancelHotelHotelRoomTv.setVisibility(View.VISIBLE);
+		cancelHotelLineDividerView.setVisibility(View.VISIBLE);
+		cancelHotelHotelRoomTv.setOnClickListener(new OnClickListener() {
+			final String roomCancelLink = getItinCardData().getProperty().getRoomCancelLink();
+
+			@Override
+			public void onClick(View v) {
+				startWebActivityForCancelHotelRoom(roomCancelLink);
+			}
+		});
+	}
+
+	private void startWebActivityForCancelHotelRoom(String roomCancelLink) {
+		WebViewActivity.IntentBuilder intentBuilder =
+			buildWebViewIntent(R.string.itin_card_details_cancel_hotel_room, roomCancelLink)
+				.setRoomCancelType();
+		Intent intent = intentBuilder.getIntent();
+		intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
+		((Activity) getContext()).startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
+		OmnitureTracking.trackHotelItinCancelRoomClick();
+	}
+
+	private void setUpEditHotelRoomInfoButton(ViewGroup container) {
+		TextView editHotelRoomInfo = Ui.findView(container, R.id.edit_hotel_room_info);
+		View editHotelRoomLineDividerView = Ui.findView(container, R.id.divider_edit_hotel_room_info);
+
+		AccessibilityUtil.appendRoleContDesc(editHotelRoomInfo,
+			getContext().getResources().getString(R.string.itin_card_change_hotel_options),
+			R.string.accessibility_cont_desc_role_button);
+
+		editHotelRoomInfo.setVisibility(View.VISIBLE);
+		editHotelRoomLineDividerView.setVisibility(View.VISIBLE);
+
+		//Launch mWeb until api is ready
+
+		editHotelRoomInfo.setOnClickListener(new OnClickListener() {
+			final String editHotelRoomInfoLink = "http://www.expedia.com";
+
+			public void onClick(View v) {
+				startWebActivityForEditHotelRoomInfo(editHotelRoomInfoLink);
+			}
+		});
+	}
+
+	private void startWebActivityForEditHotelRoomInfo(String editHotelRoomInfoLink) {
+		WebViewActivity.IntentBuilder intentBuilder = buildWebViewIntent(
+			R.string.itin_card_edit_hotel_room_info, editHotelRoomInfoLink);
+
+		Intent intent = intentBuilder.getIntent();
+		intent.putExtra(Constants.ITIN_CANCEL_ROOM_BOOKING_TRIP_ID, getItinCardData().getTripNumber());
+		((Activity) getContext())
+			.startActivityForResult(intent, Constants.ITIN_CANCEL_ROOM_WEBPAGE_CODE);
 	}
 
 	@Override

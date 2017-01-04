@@ -115,5 +115,6 @@ public class FlightLeg {
 		public int elapsedDays;
 
 		public String seatClass;
+		public String bookingCode;
 	}
 }

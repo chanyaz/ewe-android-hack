@@ -1,8 +1,6 @@
 package com.expedia.bookings.unit
 
 import com.expedia.bookings.data.GaiaSuggestion
-import com.expedia.bookings.data.SuggestionResultType
-import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.SuggestionV4Services
 import com.mobiata.mocke3.ExpediaDispatcher
@@ -33,35 +31,9 @@ class SuggestionV4ServicesTest {
         service = SuggestionV4Services("http://localhost:" + server.port,
                 "http://localhost:" + server.port,
                 OkHttpClient.Builder().addInterceptor(logger).build(),
-                interceptor, Schedulers.immediate(), Schedulers.immediate())
+                interceptor, interceptor, Schedulers.immediate(), Schedulers.immediate())
 
         givenExpediaDispatcherPrepared()
-    }
-
-    @Test
-    fun testNearbySuggestionsWithOnlyAirport() {
-        val test = TestSubscriber<List<SuggestionV4>>()
-        val observer = service?.suggestNearbyV4("en_US", "latLng", 1, "clientId",
-                SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE, "distance", "HOTELS")
-        observer?.subscribe(test)
-
-        val suggestions = test.onNextEvents[0]
-        assertEquals(2, suggestions.size)
-        assertEquals("AIRPORT", suggestions[0].type)
-        test.assertValueCount(1)
-    }
-
-    @Test
-    fun testNearbySuggestionsWithMultiCity() {
-        val test = TestSubscriber<List<SuggestionV4>>()
-        val observer = service?.suggestNearbyV4("en_US", "latLng", 1, "clientId",
-                SuggestionResultType.MULTI_CITY, "distance", "HOTELS")
-        observer?.subscribe(test)
-
-        val suggestions = test.onNextEvents[0]
-        assertEquals(2, suggestions.size)
-        assertEquals("MULTICITY", suggestions[0].type)
-        test.assertValueCount(1)
     }
 
     @Test

@@ -32,6 +32,7 @@ import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.mobiata.android.SocialUtils
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.joda.time.format.DateTimeFormat
 import rx.Observable
@@ -137,6 +138,8 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             val isUserBucketedForLXCrossSellTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCrossSellOnHotelConfirmationTest)
                     && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
             addLXBtn.onNext(if(isUserBucketedForLXCrossSellTest) context.resources.getString(com.expedia.bookings.R.string.add_lx_TEMPLATE, product.hotelCity) else "")
+
+            SettingUtils.get(context, R.string.preference_user_has_booked_hotel_or_flight, true)
         }
 
     }

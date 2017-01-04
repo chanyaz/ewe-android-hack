@@ -262,10 +262,6 @@ open class HotelTracking {
         OmnitureTracking.trackHotelV2CheckoutErrorRetry()
     }
 
-    fun trackHotelCardIOButtonClicked() {
-        OmnitureTracking.trackHotelV2CardIOButtonClicked()
-    }
-
     fun trackHotelPurchaseConfirmation(hotelCheckoutResponse: HotelCheckoutResponse, percentagePaidWithPoints: Int, totalAppliedRewardCurrency: String, guestCount: Int, couponCode: String) {
         OmnitureTracking.trackHotelV2PurchaseConfirmation(hotelCheckoutResponse, percentagePaidWithPoints, totalAppliedRewardCurrency)
         LeanPlumUtils.trackHotelV2Booked(hotelCheckoutResponse, guestCount, couponCode)

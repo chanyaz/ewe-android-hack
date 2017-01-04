@@ -25,6 +25,7 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
 
     abstract val showBundlePriceSubject: BehaviorSubject<Boolean>
+    abstract val showSeatClassAndBookingCode: BehaviorSubject<Boolean>
 
     init {
         selectedFlightLegSubject.subscribe { selectedFlight ->

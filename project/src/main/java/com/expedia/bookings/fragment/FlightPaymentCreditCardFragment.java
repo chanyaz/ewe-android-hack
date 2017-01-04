@@ -95,7 +95,9 @@ public class FlightPaymentCreditCardFragment extends Fragment implements Validat
 					if (!flightItem.isPaymentTypeSupported(mBillingInfo.getPaymentType())) {
 						String cardName = CreditCardUtils
 							.getHumanReadableName(getActivity(), mBillingInfo.getPaymentType());
-						String message = getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName);
+						String message = Phrase.from(getContext(), R.string.airline_does_not_accept_cardtype_TEMPLATE)
+							.put("card_type", cardName)
+							.format().toString();
 						updateCardMessage(message, getResources().getColor(R.color.flight_card_unsupported_warning));
 						toggleCardMessage(true, true);
 					}

@@ -19,15 +19,11 @@ class RailSuggestionAdapterViewModel(context: Context, suggestionsService: Sugge
         return SuggestionV4Utils.RECENT_RAIL_SUGGESTIONS_FILE
     }
 
-    override fun getLineOfBusiness(): String {
-        return "RAILS"
+    override fun getLineOfBusinessForGaia(): String {
+        return "rails"
     }
 
-    override fun getNearbyRegionType(): Int {
-        return SuggestionResultType.MULTI_CITY
-    }
-
-    override fun getNearbySortType(): String {
+    override fun getNearbySortTypeForGaia(): String {
         return "distance"
     }
 }

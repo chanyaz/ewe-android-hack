@@ -6,6 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightServiceClassType
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
@@ -39,6 +42,7 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
         val airlineAirplaneType = row.findViewById(R.id.airline_airplane_type) as TextView
         val departureArrivalAirports = row.findViewById(R.id.departure_arrival_airport) as TextView
         val operatedBy = row.findViewById(R.id.operating_airline_name) as TextView
+        val seatClassAndBookingCode = row.findViewById(R.id.flight_seat_class_booking_code) as TextView
         val segmentDuration = row.findViewById(R.id.flight_duration) as TextView
         departureArrivalTime.text = FlightV2Utils.getFlightDepartureArrivalTimeAndDays(context,
                 breakdown.segment.departureDateTimeISO, breakdown.segment.arrivalDateTimeISO, breakdown.segment.elapsedDays)
@@ -49,6 +53,15 @@ class FlightSegmentBreakdownView(context: Context, attrs: AttributeSet?) : Scrol
         if (Strings.isEmpty(operatedByString)) operatedBy.visibility = View.GONE else operatedBy.text = operatedByString
         segmentDuration.text = FlightV2Utils.getFlightSegmentDurationString(context, breakdown.segment)
         segmentDuration.contentDescription = FlightV2Utils.getFlightSegmentDurationContentDescription(context, breakdown.segment)
+
+        val seatClassAndBookingCodeText = FlightServiceClassType.getSeatClassAndBookingCodeText(context, breakdown.segment)
+        if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode) &&
+                breakdown.showSeatClassAndBookingCode && Strings.isNotEmpty(seatClassAndBookingCodeText)) {
+            seatClassAndBookingCode.visibility = VISIBLE
+            seatClassAndBookingCode.text = seatClassAndBookingCodeText
+        } else {
+            seatClassAndBookingCode.visibility = GONE
+        }
         return row
     }
 

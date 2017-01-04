@@ -1,38 +1,49 @@
 package com.expedia.bookings.dagger;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.security.Security;
+import java.security.cert.CertificateException;
+import java.security.cert.X509Certificate;
+import java.util.Collections;
+import java.util.concurrent.TimeUnit;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
+import javax.net.ssl.SSLContext;
+import javax.net.ssl.TrustManager;
+import javax.net.ssl.X509TrustManager;
+
 import android.content.Context;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.server.PersistentCookieManager;
 import com.expedia.bookings.services.AbacusServices;
 import com.expedia.bookings.services.ClientLogServices;
-import com.expedia.bookings.services.PersistentCookieManager;
+import com.expedia.bookings.utils.ClientLogConstants;
+import com.expedia.bookings.data.clientlog.ClientLog;
+import com.expedia.bookings.utils.EncryptionUtil;
 import com.expedia.bookings.utils.ExpediaDebugUtil;
 import com.expedia.bookings.utils.ServicesUtil;
 import com.expedia.bookings.utils.StethoShim;
 import com.expedia.bookings.utils.Strings;
 import com.expedia.bookings.utils.TLSSocketFactory;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.google.android.gms.security.ProviderInstaller;
 import com.mobiata.android.DebugUtils;
 import com.mobiata.android.util.AdvertisingIdUtils;
+import com.mobiata.android.util.NetUtils;
 import com.mobiata.android.util.SettingUtils;
+
 import dagger.Module;
 import dagger.Provides;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.security.cert.CertificateException;
-import java.security.cert.X509Certificate;
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-import javax.inject.Singleton;
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManager;
-import javax.net.ssl.X509TrustManager;
 import okhttp3.Cache;
 import okhttp3.ConnectionSpec;
 import okhttp3.HttpUrl;
@@ -51,6 +62,7 @@ public class AppModule {
 
 	public AppModule(Context context) {
 		this.context = context;
+		Security.addProvider(new org.spongycastle.jce.provider.BouncyCastleProvider());
 	}
 
 	@Provides
@@ -123,17 +135,17 @@ public class AppModule {
 		}
 	}
 
+	private static final String COOKIE_FILE_V6 = "cookies-6-encrypted.dat";
 	private static final String COOKIE_FILE_V5 = "cookies-5.dat";
-	private static final String COOKIE_FILE_V4 = "cookies-4.dat";
-	private static final String COOKIE_FILE_OLD = COOKIE_FILE_V4;
-	private static final String COOKIE_FILE_LATEST = COOKIE_FILE_V5;
+	private static final String COOKIE_FILE_OLD = COOKIE_FILE_V5;
+	private static final String COOKIE_FILE_LATEST = COOKIE_FILE_V6;
 
 	@Provides
 	@Singleton
-	PersistentCookieManager provideCookieManager(Context context) {
+	PersistentCookieManager provideCookieManager(Context context, EncryptionUtil encryptionUtil) {
 		File oldStorage = context.getFileStreamPath(COOKIE_FILE_OLD);
 		File storage = context.getFileStreamPath(COOKIE_FILE_LATEST);
-		PersistentCookieManager manager = new PersistentCookieManager(storage, oldStorage);
+		PersistentCookieManager manager = new PersistentCookieManager(storage, oldStorage, encryptionUtil);
 		return manager;
 	}
 
@@ -156,7 +168,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	OkHttpClient provideOkHttpClient(Context context, PersistentCookieManager cookieManager, Cache cache,
-		HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled) {
+									 HttpLoggingInterceptor.Level logLevel, SSLContext sslContext, boolean isModernTLSEnabled) {
 		try {
 			ProviderInstaller.installIfNeeded(context);
 		}
@@ -231,9 +243,27 @@ public class AppModule {
 
 				request.url(url.build());
 				Response response = chain.proceed(request.build());
+
+				clientLog(request, response, context);
 				return response;
 			}
 		};
+	}
+
+	private void clientLog(Request.Builder request, Response response, Context context) {
+		if (!request.build().url().toString().contains(ClientLogConstants.CLIENT_LOG_URL)) {
+			long responseTime = response.receivedResponseAtMillis() - response.sentRequestAtMillis();
+			ClientLog.ResponseCLBuilder responseLogBuilder = new ClientLog.ResponseCLBuilder();
+
+			responseLogBuilder.pageName(request.build().url().encodedPath().replaceAll("/","_"));
+			responseLogBuilder.eventName(NetUtils.isWifiConnected(context) ? ClientLogConstants.WIFI : ClientLogConstants.MOBILE_DATA);
+			responseLogBuilder.deviceName(android.os.Build.MODEL);
+			responseLogBuilder.responseTime(responseTime);
+
+			ClientLogServices clientLogServices = Ui.getApplication(context).appComponent().clientLog();
+			clientLogServices.log(responseLogBuilder.build());
+
+		}
 	}
 
 	@Provides
@@ -260,7 +290,7 @@ public class AppModule {
 	@Provides
 	@Singleton
 	ClientLogServices provideClientLog(OkHttpClient client, EndpointProvider endpointProvider,
-		Interceptor interceptor) {
+									   Interceptor interceptor) {
 		final String endpoint = endpointProvider.getE3EndpointUrl();
 		return new ClientLogServices(endpoint, client, interceptor, AndroidSchedulers.mainThread(), Schedulers.io());
 	}
@@ -269,5 +299,19 @@ public class AppModule {
 	@Singleton
 	UserLoginStateChangedModel provideUserLoginStateChangedModel() {
 		return new UserLoginStateChangedModel();
+	}
+
+	@Provides
+	@Named("GaiaInterceptor")
+	Interceptor provideGaiaRequestInterceptor(final Context context) {
+		return new Interceptor() {
+			@Override
+			public Response intercept(Interceptor.Chain chain) throws IOException {
+				Request.Builder request = chain.request().newBuilder();
+				request.addHeader("key", ServicesUtil.getGaiaApiKey(context));
+				Response response = chain.proceed(request.build());
+				return response;
+			}
+		};
 	}
 }

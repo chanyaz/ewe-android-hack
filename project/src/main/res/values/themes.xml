@@ -95,7 +95,7 @@
         <item name="skin_hotelPrimaryTravelerInfoLogoDrawable">@drawable/ic_expedia_white_logo_small</item>
         <item name="skin_hotelImagePlaceHolderDrawable">@drawable/ic_image_placeholder</item>
         <item name="skin_travelerLabelOnCheckout">@string/guest_details</item>
-        <item name="skin_bestPriceGuaranteeString">@string/best_price_guarantee</item>
+        <item name="skin_bestPriceGuaranteeString">@string/price_guarantee</item>
         <item name="skin_cvvBookButtonTextColor">@android:color/black</item>
         <item name="skin_cvvEntryTitleText">@string/security_code_TEMPLATE</item>
         <item name="skin_hotelConfirmationPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
@@ -200,7 +200,7 @@
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/cars_fallback</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
@@ -223,7 +223,7 @@
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/cars_fallback</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
@@ -265,7 +265,7 @@
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/cars_fallback</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
         <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>

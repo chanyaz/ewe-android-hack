@@ -100,7 +100,7 @@ abstract class BaseBundleFlightWidget(context: Context, attrs: AttributeSet?) : 
             this.selectedCardObservable.onNext(Unit)
             var segmentBreakdowns = arrayListOf<FlightSegmentBreakdown>()
             for (segment in selectedFlight.flightSegments) {
-                segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover))
+                segmentBreakdowns.add(FlightSegmentBreakdown(segment, selectedFlight.hasLayover, false))
             }
             flightSegmentWidget.viewmodel.addSegmentRowsObserver.onNext(segmentBreakdowns)
 

@@ -13,6 +13,8 @@ import com.expedia.bookings.data.BillingInfo;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.StoredCreditCard;
 import com.expedia.bookings.data.trips.TripBucketItem;
+import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.BookingInfoUtils;
 import com.expedia.bookings.utils.CreditCardUtils;
 import com.expedia.bookings.utils.WalletUtils;
@@ -151,18 +153,29 @@ public class StoredCreditCardSpinnerAdapter extends ArrayAdapter<StoredCreditCar
 		TextView tv;
 		tv = Ui.findView(retView, R.id.text1);
 		ContactDetailsCompletenessStatusImageView rStatus = Ui.findView(retView, R.id.card_info_status_icon);
-
-		boolean isValidCard = true;
-		// Show a special icon for an invalid credit card (can happen in flights mode)
-		if (mTripBucketItem != null) {
-			isValidCard = mTripBucketItem.isPaymentTypeSupported(cardType);
-		}
-		tv.setText(storedCardName);
-		int imgRes = isValidCard ? BookingInfoUtils.getTabletCardIcon(cardType) :
-			R.drawable.unsupported_card;
-		tv.setCompoundDrawablesWithIntrinsicBounds(imgRes, 0, 0, 0);
 		rStatus.setStatus(
 			isSelectable ? ContactDetailsCompletenessStatus.COMPLETE : ContactDetailsCompletenessStatus.DEFAULT);
+
+		String storedCardText = storedCardName;
+		// Show a special icon for an invalid credit card (can happen in flights mode)
+		int imgRes = R.drawable.unsupported_card;
+		if (mTripBucketItem != null) {
+			boolean isValidCard = mTripBucketItem.isPaymentTypeSupported(cardType);
+			if (isValidCard) {
+				if (rStatus.getVisibility() == View.GONE) {
+					rStatus.setVisibility(View.VISIBLE);
+				}
+				imgRes = BookingInfoUtils.getTabletCardIcon(cardType);
+			}
+			else {
+				rStatus.setVisibility(View.GONE);
+				storedCardText = ValidFormOfPaymentUtils.getInvalidFormOfPaymentMessage(getContext(), cardType, mTripBucketItem.getLineOfBusiness());
+				String disabledString = getContext().getString(R.string.accessibility_cont_desc_card_is_disabled);
+				AccessibilityUtil.appendRoleContDesc(tv, storedCardText + ", " + disabledString, R.string.accessibility_cont_desc_role_button);
+			}
+		}
+		tv.setCompoundDrawablesWithIntrinsicBounds(imgRes, 0, 0, 0);
+		tv.setText(storedCardText);
 		return retView;
 	}
 

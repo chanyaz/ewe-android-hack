@@ -7,7 +7,7 @@
         <item name="skin_hotelListingUserRatingStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_ratingBarUserReviewStyle">@style/RatingBar.UserReview.Blue</item>
         <item name="skin_hotelListMapMarkerDrawable">@drawable/map_pin_normal</item>
-        <item name="skin_bestPriceGuaranteeString">@string/best_price_guarantee</item>
+        <item name="skin_bestPriceGuaranteeString">@string/price_guarantee</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/dialog_breakdown_stripe</item>
         <item name="skin_actionBarSpinnerBackground">@drawable/ic_ab_arrow</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>

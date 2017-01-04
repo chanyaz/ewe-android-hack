@@ -20,7 +20,7 @@
     <ViewStub
         android:id="@+id/traveler_presenter_stub"
         android:inflatedId="@+id/traveler_presenter"
-        android:layout="@layout/test_traveler_presenter_stub"
+        android:layout="@layout/flight_travelers_presenter_view_stub"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

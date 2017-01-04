@@ -72,7 +72,10 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
         // AbacusV2 API
         if (request.path.contains("/api/bucketing/v1/evaluateExperiments")) {
-            return makeResponse("/api/bucketing/happy.json")
+            val params = parseHttpRequest(request)
+            val tpid = params["tpid"] ?: return make404()
+
+            return makeResponse("/api/bucketing/happy$tpid.json")
         }
 
         // AbacusV2 API
@@ -164,6 +167,9 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
     private fun dispatchTrip(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)
+        if (lastSignInEmail.isNotEmpty() && lastSignInEmail == "trip_error@mobiata.com") {
+            return makeResponse("/api/trips/error_trip_response.json", params)
+        }
 
         // Common to all trips
         // NOTE: using static hour offset so that daylight savings doesn't muck with the data
@@ -344,6 +350,9 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
         if (params.containsKey("locale")) {
             locale = params["locale"]
+        }
+        if ((latitude == "31.32") && (longitude == "75.57")) {
+            return makeResponse("/api/gaia/nearby_gaia_suggestion_with_no_lx_activities.json")
         }
         if ((latitude == "3.0") && (longitude == "3.0") && (lob == "hotels")) {
             return makeResponse("/api/gaia/nearby_gaia_suggestion.json");

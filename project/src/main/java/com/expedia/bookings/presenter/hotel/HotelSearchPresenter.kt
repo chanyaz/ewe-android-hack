@@ -58,6 +58,10 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             showErrorDialog(message)
         }
 
+        vm.dateAccessibilityObservable.subscribe { text ->
+            calendarWidgetV2.contentDescription = text
+        }
+
         searchButton.subscribeOnClick(vm.searchObserver)
     }
 

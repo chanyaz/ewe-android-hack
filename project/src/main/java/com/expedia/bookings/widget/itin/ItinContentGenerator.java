@@ -533,6 +533,10 @@ public abstract class ItinContentGenerator<T extends ItinCardData> {
 		return item;
 	}
 
+	/**
+	 * @param container
+	 * @return true: details exist and we can show them, inflated booking details view and populated. false: otherwise
+	 */
 	protected boolean addBookingInfo(ViewGroup container) {
 		Log.d("ITIN: addBookingInfo");
 		if (getItinCardData() != null

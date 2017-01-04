@@ -51,6 +51,9 @@
     <!-- Rails api key -->
     <string name="rails_prod_api_key">5b4e726f-abe4-4f3f-aad3-0dc9e48e7ea6</string>
 
+    <!-- Gaia api key -->
+    <string name="gaia_prod_api_key">8c6e14d4-7e69-41b3-aa60-601a7f6dc971</string>
+
     <!-- Lawyer labels for UK ATOL information -->
     <string name="lawyer_label_atol_information">ATOL Information</string>
     <string name="lawyer_label_atol_long_message">Flight-Plus arrangements created on the UK Expedia mobile app are financially protected by the Civil Aviation Authority (under Expedia, Inc.\&apos;s ATOL number 5788). But ATOL protection does not apply to all flight and hotel services listed on this mobile app. Please ask us to confirm what protection may apply to your booking. If you do not receive an ATOL Certificate then your booking will not be ATOL protected. Please see our general terms and conditions for further details on ATOL or for more information about financial protection and the ATOL Certificate go to: &lt;a href="http://www.atol.org.uk/ATOLCertificate"&gt;www.atol.org.uk/ATOLCertificate&lt;/a&gt;</string>
@@ -107,14 +110,22 @@
     <string name="preference_abacus_setting_bucketed">Bucketed</string>
     <string name="preference_enable_leakcanary">preference_enable_leakcanary</string>
     <string name="preference_enable_tune">preference_enable_tune</string>
+    <string name="preference_user_has_seen_review_prompt">preference_user_has_seen_review_prompt</string>
+    <string name="preference_user_has_booked_hotel_or_flight">preference_user_has_booked_hotel_or_flight</string>
+    <string name="preference_date_last_review_prompt_shown">preference_date_last_review_prompt_shown</string>
 
     <!-- Preference keys for feature toggle -->
     <string name="preference_open_feature_toggle_settings">preference_open_feature_toggle_settings</string>
+    <string name="preference_hotel_itin_soft_change_button">preference_hotel_itin_soft_change_button</string>
     <string name="preference_enable_smart_lock">preference_enable_smart_lock</string>
     <string name="preference_enable_activity_map">preference_enable_activity_map</string>
-    <string name="preference_enable_filter_text_search">preference_enable_filter_text_search</string>
-    <string name="preference_enable_gaia_current_location_suggestion">preference_enable_gaia_current_location_suggestion</string>
-    <string name="preference_enable_new_checkout">preference_enable_new_checkout</string>
+    <string name="preference_itin_hotel_upgrade">preference_itin_hotel_upgrade</string>
+    <string name="preference_itin_user_reviews">preference_itin_user_reviews</string>
+    <string name="preference_itin_card_detail">preference_itin_card_detail</string>
+    <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
+    <string name="preference_universal_checkout_material_forms">preference_enable_universal_checkout_material_forms</string>
+    <string name="preference_enable_rail_checkout_login">preference_enable_rail_checkout_login</string>
+    <string name="preference_enable_urgency_messaging_on_flights">preference_enable_urgency_messaging_on_flights</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

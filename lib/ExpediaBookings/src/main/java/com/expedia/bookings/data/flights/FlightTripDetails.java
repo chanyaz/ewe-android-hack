@@ -8,6 +8,7 @@ import org.joda.time.DateTime;
 
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.insurance.InsuranceProduct;
+import com.google.gson.annotations.SerializedName;
 
 public class FlightTripDetails {
 
@@ -42,6 +43,8 @@ public class FlightTripDetails {
 		public String numberOfTickets;
 		public int seatsRemaining;
 		public List<SplitFarePrice> splitFarePrice;
+		@SerializedName("segmentAttributes")
+		public List<List<SeatClassAndBookingCode>> offersSeatClassAndBookingCode;
 
 		public List<InsuranceProduct> availableInsuranceProducts = Collections.emptyList();
 		public InsuranceProduct selectedInsuranceProduct;
@@ -105,5 +108,11 @@ public class FlightTripDetails {
 			}
 		}
 		return legs;
+	}
+
+	public class SeatClassAndBookingCode {
+		public String bookingCode;
+		@SerializedName("cabinCode")
+		public String seatClass;
 	}
 }

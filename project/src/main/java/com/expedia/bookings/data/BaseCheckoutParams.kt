@@ -103,14 +103,27 @@ open class BaseCheckoutParams(val billingInfo: BillingInfo, val travelers: Array
             params.put("expirationDateYear", billingInfo.expirationDate.year)
             params.put("expirationDateMonth", billingInfo.expirationDate.monthOfYear)
 
-            params.put("streetAddress", billingInfo.location.streetAddressLine1)
+            if (!billingInfo.location.streetAddressLine1.isNullOrEmpty()) {
+                params.put("streetAddress", billingInfo.location.streetAddressLine1)
+            }
             if (!billingInfo.location.streetAddressLine2.isNullOrEmpty()) {
                 params.put("streetAddress2", billingInfo.location.streetAddressLine2)
             }
-            params.put("city", billingInfo.location.city)
-            params.put("state", billingInfo.location.stateCode)
+
+            if (!billingInfo.location.city.isNullOrEmpty()) {
+                params.put("city", billingInfo.location.city)
+
+            }
+            if (!billingInfo.location.stateCode.isNullOrEmpty()) {
+                params.put("state", billingInfo.location.stateCode)
+            }
+
+            if (!billingInfo.location.postalCode.isNullOrEmpty()) {
+                params.put("postalCode", billingInfo.location.postalCode)
+            }
+
             params.put("country", billingInfo.location.countryCode)
-            params.put("postalCode", billingInfo.location.postalCode)
+
         }
 
         return params

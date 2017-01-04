@@ -39,9 +39,9 @@ public class PackagesFlightsTest extends PackageTestCase {
 		PackageScreen.selectRoom();
 		Common.delay(1);
 		PackageScreen.flightList().check(matches(atFlightListPosition(1, withContentDescription(
-			"Flight time is 9:00 am to 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops SFO to HNL. 5 hours 12 minutes  Button"))));
+			"Flight time is 9:00 am to 11:12 am with price difference of +$0. Flying with United. The flight duration is 5 hours 12 minutes with 0 stops SFO to HNL. 5 hours 12 minutes.  Button"))));
 		PackageScreen.flightList().check(matches(atFlightListPosition(4, withContentDescription(
-			"Flight time is 9:50 am to 11:40 pm with price difference of +$0. Flying with Hawaiian Airlines. The flight duration is 16 hours 50 minutes with 3 stops SFO to SAN. 4 hours 37 minutes  Layover 0 hours 48 minutes  SAN to LAX. 0 hours 54 minutes  Layover 1 hour 1 minute  LAX to OGG. 5 hours 40 minutes  Layover 1 hour 40 minutes  OGG to HNL. 0 hours 40 minutes  Button"))));
+			"Flight time is 9:50 am to 11:40 pm with price difference of +$0. Flying with Hawaiian Airlines. The flight duration is 16 hours 50 minutes with 3 stops SFO to SAN. 4 hours 37 minutes.  Layover 0 hours 48 minutes.  SAN to LAX. 0 hours 54 minutes.  Layover 1 hour 1 minute.  LAX to OGG. 5 hours 40 minutes.  Layover 1 hour 40 minutes.  OGG to HNL. 0 hours 40 minutes.  Button"))));
 		PackageScreen.selectFlight(1);
 		onView(allOf(withId(R.id.flight_segment_layover_duration), hasSibling(withText("Layover in (SAN) San Diego")))).check(matches(withContentDescription("48 minutes")));
 		onView(allOf(withId(R.id.flight_duration), hasSibling(withText("Hawaiian Airlines 497 • Boeing 737-900")))).check(matches(withContentDescription("4 hour 37 minutes")));

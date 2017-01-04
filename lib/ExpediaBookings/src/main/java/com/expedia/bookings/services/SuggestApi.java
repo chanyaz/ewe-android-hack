@@ -20,14 +20,4 @@ public interface SuggestApi {
 		@Query("client") String client,
 		@Query("lob") String lineOfBusiness,
 		@Query("siteid") Integer siteId);
-
-	@GET("/api/v4/nearby/")
-	Observable<SuggestionV4Response> suggestNearbyV4(
-		@Query("locale") String locale,
-		@Query("latlong") String latlong,
-		@Query("siteid") int siteid,
-		@Query("regiontype") int suggestionResultType,
-		@Query("sortcriteria") String sort,
-		@Query("client") String client,
-		@Query("lob") String lineOfBusiness);
 }

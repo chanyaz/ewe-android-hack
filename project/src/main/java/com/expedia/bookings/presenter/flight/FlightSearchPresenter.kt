@@ -62,6 +62,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             showErrorDialog(message)
         }
 
+        vm.dateAccessibilityObservable.subscribe { text ->
+            calendarWidgetV2.contentDescription = text
+        }
+
         originSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, false, CurrentLocationObservable.create(getContext()))
         destinationSuggestionViewModel = AirportSuggestionViewModel(getContext(), suggestionServices, true, null)
         originSuggestionAdapter = SuggestionAdapter(originSuggestionViewModel)
@@ -70,6 +74,8 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
 
     lateinit private var originSuggestionAdapter: SuggestionAdapter
     lateinit private var destinationSuggestionAdapter: SuggestionAdapter
+    override val delayBeforeShowingDestinationSuggestions = 5L
+    override val waitForOtherSuggestionListeners = 5L
 
     init {
         travelerWidgetV2.traveler.getViewModel().showSeatingPreference = true
@@ -104,9 +110,10 @@ open class FlightSearchPresenter(context: Context, attrs: AttributeSet) : BaseTw
             override fun onTabSelected(tab: TabLayout.Tab) {
                 val isRoundTripSearch = tab.position == 0
                 searchViewModel.isRoundTripSearchObservable.onNext(isRoundTripSearch)
-                announceForAccessibility(Phrase.from(context, R.string.flights_tab_selection_accouncement_TEMPLATE)
-                        .put("whichway", pagerAdapter.getPageTitle(tab.position).toString().toLowerCase())
-                        .format().toString())
+                announceForAccessibility(if (isRoundTripSearch)
+                    context.getString(R.string.flights_tab_selection_accouncement_roundtrip)
+                else
+                    context.getString(R.string.flights_tab_selection_accouncement_oneway))
             }
         })
     }

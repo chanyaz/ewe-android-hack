@@ -329,7 +329,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             filterHotelName.text = null
         }
 
-        vm.sortByObservable.subscribe { sortType ->
+        vm.sortSpinnerObservable.subscribe { sortType ->
             val position = sortByAdapter.getPosition(sortType)
             sortByButtonGroup.setSelection(position, false)
         }

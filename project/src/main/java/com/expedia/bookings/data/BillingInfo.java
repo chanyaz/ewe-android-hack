@@ -28,7 +28,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 	private StoredCreditCard mStoredCard;
 	private boolean mSaveCardToExpediaAccount = false;
 	private boolean mIsTempCard = false;
-	private boolean mIsCardIO = false;
 
 	public BillingInfo() {
 		// default
@@ -156,14 +155,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 
 	public void setExpirationDate(LocalDate expirationDate) {
 		this.mExpirationDate = expirationDate;
-	}
-
-	public void setIsCardIO(boolean isCardIO) {
-		this.mIsCardIO = isCardIO;
-	}
-
-	public boolean getIsCardIO() {
-		return mIsCardIO;
 	}
 
 	public String getNameOnCard() {

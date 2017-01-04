@@ -1,6 +1,12 @@
 package com.expedia.bookings.data.trips;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+
 import org.joda.time.DateTime;
+import org.joda.time.Period;
+import org.joda.time.PeriodType;
 
 import android.content.Context;
 import android.text.TextUtils;
@@ -10,24 +16,28 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightLeg;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
+import com.expedia.bookings.fragment.UserReviewRatingDialog;
 import com.expedia.bookings.model.DismissedItinButton;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
-import com.expedia.bookings.widget.itin.ItinCard;
-import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
+import com.expedia.bookings.widget.itin.FlightItinCard;
+import com.expedia.bookings.widget.itin.HotelItinCard;
 import com.expedia.bookings.widget.itin.ItinAirAttachCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard;
 import com.expedia.bookings.widget.itin.ItinButtonCard.ItinButtonType;
 import com.expedia.bookings.widget.itin.ItinButtonCard.OnHideListener;
+import com.expedia.bookings.widget.itin.ItinCard;
+import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
+import com.expedia.vm.UserReviewDialogViewModel;
+import com.mobiata.android.util.SettingUtils;
 import com.mobiata.flightlib.data.Waypoint;
-
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
 
 public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickListener, OnHideListener {
 	//////////////////////////////////////////////////////////////////////////////////////
@@ -54,7 +64,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	private List<ItinCardData> mItinCardDatas;
 	private int mDetailPosition = -1;
 	private String mSelectedCardId;
-
+	private UserReviewRatingDialog ratingDialog;
 	// This is used when we are syncing with the manager; that way we don't ever make
 	// the adapter's data and the ListView's data go out of sync.
 	private List<ItinCardData> mItinCardDatasSync;
@@ -138,12 +148,32 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 		}
 		else {
 			ItinCard card;
-			if (convertView instanceof ItinCard) {
-				card = (ItinCard) convertView;
+			if (data instanceof ItinCardDataHotel) {
+				if (convertView instanceof HotelItinCard) {
+					card = (HotelItinCard) convertView;
+				}
+				else {
+					card = new HotelItinCard(mContext, null);
+					card.setOnItinCardClickListener(this);
+				}
+			}
+			else if (data instanceof ItinCardDataFlight) {
+				if (convertView instanceof FlightItinCard) {
+					card = (FlightItinCard) convertView;
+				}
+				else {
+					card = new FlightItinCard(mContext, null);
+					card.setOnItinCardClickListener(this);
+				}
 			}
 			else {
-				card = new ItinCard(mContext);
-				card.setOnItinCardClickListener(this);
+				if (convertView instanceof ItinCard) {
+					card = (ItinCard) convertView;
+				}
+				else {
+					card = new ItinCard(mContext);
+					card.setOnItinCardClickListener(this);
+				}
 			}
 
 			State state = getItemViewCardState(position);
@@ -245,7 +275,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	/**
 	 * Empty the Adapter and fire notifyDataSetChanged(). This does not remove any underlying data from ItineraryManager.
-	 * 
+	 * <p>
 	 * This method allows the adapter to be emptied without waiting for an ItineraryManager.sync operation to complete.
 	 * It is useful for logging out a user, where we want the UI to reflect the user being logged out, but maybe itins have
 	 * not all been cleared yet.
@@ -267,6 +297,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 
 	/**
 	 * The first (and usually only) summary view card position
+	 *
 	 * @return
 	 */
 	public synchronized int getMostRelevantCardPosition() {
@@ -390,7 +421,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				setAsSummaryCard = true;
 			}
 			else if (data instanceof ItinCardDataHotel
-					&& startDate.getDayOfYear() == today) {
+				&& startDate.getDayOfYear() == today) {
 				if (summaryCardData instanceof ItinCardDataCar) {
 					if (summaryCardData.getStartDate().isBefore(now)) {
 						setAsSummaryCard = true;
@@ -424,7 +455,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			// Use the first in-progress card as summary instead
 			DateTime startDate = summaryCardData.getStartDate();
 			if (firstInProgressCard.getEndDate().isBefore(startDate)
-					&& nowMillis < startDate.getMillis() - threeHours) {
+				&& nowMillis < startDate.getMillis() - threeHours) {
 				summaryCardPosition = firstInProgressCardPos;
 				summaryCardData = firstInProgressCard;
 			}
@@ -582,15 +613,15 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				if (isUserAirAttachQualified) {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataAirAttach(tripFlight, itinFlightLeg, nextFlightLeg));
-					len ++;
-					i ++;
+					len++;
+					i++;
 				}
 				// Show default hotel cross-sell button
 				else {
 					itinCardDatas
 						.add(i + 1, new ItinCardDataHotelAttach(tripFlight, itinFlightLeg, nextFlightLeg));
-					len ++;
-					i ++;
+					len++;
+					i++;
 				}
 			}
 		}
@@ -699,5 +730,24 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 			}
 		}
 		syncWithManager();
+	}
+
+	public boolean showUserReview() {
+		boolean hasShownUserReview = SettingUtils.get(mContext, R.string.preference_user_has_seen_review_prompt, false);
+		boolean hasBookedHotelOrFlight = SettingUtils.get(mContext, R.string.preference_user_has_booked_hotel_or_flight, false);
+		boolean isBucketed = FeatureToggleUtil
+			.isUserBucketedAndFeatureEnabled(mContext, AbacusUtils.EBAndroidAppTripsUserReviews,
+				R.string.preference_itin_user_reviews);
+		DateTime lastDate = new DateTime(SettingUtils.get(mContext, R.string.preference_date_last_review_prompt_shown, DateTime.now().getMillis()));
+		boolean hasBeenAtLeast3Months = new Period(lastDate, DateTime.now(), PeriodType.yearMonthDayTime()).getMonths() >= 3;
+		if ((!hasShownUserReview || hasBeenAtLeast3Months) && hasBookedHotelOrFlight && isBucketed) {
+			if (ratingDialog == null) {
+				ratingDialog = new UserReviewRatingDialog(mContext);
+				ratingDialog.setViewModel(new UserReviewDialogViewModel(mContext));
+			}
+			ratingDialog.show();
+			return true;
+		}
+		return false;
 	}
 }

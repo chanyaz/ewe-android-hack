@@ -131,8 +131,8 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrave
                     spinner.setSelection(DEFAULT_CHILD_AGE)
                     spinner.onItemSelectedListener = selectedListener
                 } else {
-                    spinner.visibility = View.VISIBLE
                     spinner.contentDescription = Phrase.from(context, R.string.search_child_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).format().toString()
+                    spinner.visibility = View.VISIBLE
                 }
             }
             adultMinus.setAccessibilityHoverFocus()

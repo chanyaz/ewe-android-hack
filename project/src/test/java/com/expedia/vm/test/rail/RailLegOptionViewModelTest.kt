@@ -35,7 +35,7 @@ class RailLegOptionViewModelTest {
 
     val expectedDuration = DateTimeUtils.formatDuration(context.resources, testDurationMinutes)
     val expectedChangeText = RailUtils.formatRailChangesText(context, testNoOfChanges)
-    val expectedFormattedTime = RailUtils.formatTimeInterval(context, DateTime.now(), DateTime.now().plusHours(1))
+    val expectedFormattedTime = RailUtils.formatTimeIntervalToDeviceFormat(context, DateTime.now(), DateTime.now().plusHours(1))
 
     @Test
     fun testFormattedStopsAndDuration() {

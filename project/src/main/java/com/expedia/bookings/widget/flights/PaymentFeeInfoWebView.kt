@@ -4,9 +4,9 @@ import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.R
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.widget.shared.AbstractWebViewWidget
+import com.expedia.bookings.widget.shared.BaseWebViewWidget
 
-class PaymentFeeInfoWebView(context: Context, attrs: AttributeSet) : AbstractWebViewWidget(context, attrs) {
+class PaymentFeeInfoWebView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
     val airlinesChargePaymentFees = PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()
 

@@ -71,6 +71,8 @@ abstract class SearchViewModelWithTimeSliderCalendar(context: Context) : BaseSea
     abstract fun onTimesChanged(times: Pair<Int, Int>)
     abstract fun validateTimes()
     abstract fun getAllowedMinProgress(now: DateTime): Int
+    abstract fun getStartTimeContDesc(time: String) : String
+    abstract fun getEndTimeContDesc(time: String) : String
 
     private fun isStartDateEqualToToday(): Boolean {
         return if (startDate() != null) startDate()!!.isEqual(LocalDate.now()) else false

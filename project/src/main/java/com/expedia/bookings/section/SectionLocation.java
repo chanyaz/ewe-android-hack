@@ -25,6 +25,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RailLocation;
+import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption;
@@ -486,8 +487,8 @@ public class SectionLocation extends LinearLayout
 
 		Validator<EditText> mPostalCodeCharacterCountValidator = new Validator<EditText>() {
 
-			//Allow anything between 1 and 15 characters OR blank (this should match the api)
-			Pattern mPattern = Pattern.compile("^(.{1,15})?$");
+//			Allow anything between 1 and 20 characters if required based on billing country
+			Pattern mPattern = Pattern.compile("^(.{1,20})?$");
 
 			@Override
 			public int validate(EditText obj) {
@@ -597,17 +598,13 @@ public class SectionLocation extends LinearLayout
 	 */
 	private boolean requiresPostalCode() {
 		// #1056. Postal code check depends on the country, of billing, selected.
-		if (mLineOfBusiness == LineOfBusiness.FLIGHTS) {
+		if (mLineOfBusiness == LineOfBusiness.FLIGHTS || LineOfBusinessExtensions.Companion.isUniversalCheckout(mLineOfBusiness, getContext())) {
 			CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
 			String selectedCountry = countryAdapter.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(),
 				CountryDisplayType.THREE_LETTER);
 			return PointOfSale.countryPaymentRequiresPostalCode(selectedCountry);
 		}
 
-		if (mLineOfBusiness == LineOfBusiness.PACKAGES) {
-			// TODO Check with product for PACKAGES lob postal code restrictions.
-			return true;
-		}
 		return false;
 	}
 

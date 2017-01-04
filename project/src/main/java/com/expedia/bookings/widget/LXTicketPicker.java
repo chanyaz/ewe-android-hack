@@ -49,6 +49,9 @@ public class LXTicketPicker extends LinearLayout {
 	public void onAddTicket() {
 		trackAddOrRemove("Add.");
 		ticket.count++;
+		announceForAccessibility(Phrase.from(getContext(), R.string.lx_ticket_added_announce_accessibility_TEMPLATE)
+				.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
+				.format());
 		setTicketCount();
 	}
 
@@ -56,6 +59,9 @@ public class LXTicketPicker extends LinearLayout {
 	public void onRemoveTicket() {
 		trackAddOrRemove("Remove.");
 		ticket.count--;
+		announceForAccessibility(Phrase.from(getContext(), R.string.lx_ticket_removed_announce_accessibility_TEMPLATE)
+				.put("traveler", LXDataUtils.ticketDisplayName(getContext(), ticket.code))
+				.format());
 		setTicketCount();
 	}
 

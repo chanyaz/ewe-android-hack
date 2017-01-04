@@ -7,6 +7,7 @@ import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.graphics.Rect
+import android.support.v7.widget.CardView
 import android.util.AttributeSet
 import android.view.View
 import android.view.ViewStub
@@ -15,7 +16,6 @@ import android.view.Window
 import android.widget.Button
 import android.widget.LinearLayout
 import android.widget.Space
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
@@ -26,11 +26,11 @@ import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
-import com.expedia.bookings.presenter.packages.TravelersPresenter
-import com.expedia.bookings.tracking.OmnitureTracking
+import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
@@ -47,7 +47,7 @@ import com.expedia.util.setInverseVisibility
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.unsubscribeOnClick
-import com.expedia.vm.BaseCheckoutViewModel
+import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.PaymentViewModel
@@ -55,28 +55,31 @@ import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
-import com.squareup.phrase.Phrase
 import rx.Observable
 import rx.Subscription
+import javax.inject.Inject
 import kotlin.properties.Delegates
 
 abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(context, attr), SlideToWidgetLL.ISlideToListener,
         UserAccountRefresher.IUserAccountRefreshListener, AccountButton.AccountButtonClickListener {
 
+    lateinit var paymentViewModel: PaymentViewModel
+        @Inject set
+
     /** abstract methods **/
     protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
-    abstract fun getPaymentWidgetViewModel(): PaymentViewModel
+
+    abstract fun getDefaultToTravelerTransition(): DefaultToTraveler
     abstract fun injectComponents()
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun updateDbTravelers()
     abstract fun trackShowSlideToPurchase()
-    abstract fun makeCheckoutViewModel(): BaseCheckoutViewModel
+    abstract fun makeCheckoutViewModel(): AbstractCheckoutViewModel
     abstract fun makeCreateTripViewModel(): BaseCreateTripViewModel
-    abstract fun getCheckoutViewModel(): BaseCheckoutViewModel
+    abstract fun getCheckoutViewModel(): AbstractCheckoutViewModel
     abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
-    abstract fun isPassportRequired(response: TripResponse)
     abstract fun showMainTravelerMinimumAgeMessaging(): Boolean
 
     /** contants **/
@@ -101,7 +104,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val invalidPaymentTypeWarningTextView: TextView by bindView(R.id.invalid_payment_type_warning)
     val debitCardsNotAcceptedTextView: TextView by bindView(R.id.flights_debit_cards_not_accepted)
     val paymentViewStub: ViewStub by bindView(R.id.payment_info_card_view_stub)
-    val insuranceWidget: InsuranceWidget by bindView(R.id.insurance_widget)
+    val travelersPresenterStub: ViewStub by bindView(R.id.traveler_presenter_stub)
     val space: Space by bindView(R.id.scrollview_space)
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
@@ -120,6 +123,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     var paymentLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var travelerLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
+    val travelerSummaryCardView: CardView by bindView(R.id.traveler_default_state_card_view)
 
     val paymentWidget: PaymentWidget by lazy {
         val presenter = paymentViewStub.inflate() as PaymentWidget
@@ -127,21 +131,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     val logoutDialog: AlertDialog by lazy {
-        val builder = AlertDialog.Builder(context)
-        var messageText = Phrase.from(context, R.string.sign_out_confirmation_TEMPLATE)
-                .put("brand", BuildConfig.brand)
-                .format().toString()
-        builder.setMessage(messageText)
-        builder.setCancelable(false)
-        builder.setPositiveButton(context.getString(R.string.sign_out), { dialog, which ->
+        val logoutFunc = fun() {
             logoutUser()
-            OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.SUCCESS)
-        })
-        builder.setNegativeButton(context.getString(R.string.cancel), { dialog, which ->
-            dialog.dismiss()
-            OmnitureTracking.trackLogOutAction(OmnitureTracking.LogOut.CANCEL)
-        })
-        builder.create()
+        }
+        DialogFactory.createLogoutDialog(context, logoutFunc)
     }
 
     /** viewmodels **/
@@ -159,9 +152,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         view
     }
-    val travelersPresenter: TravelersPresenter by lazy {
-        val presenter = findViewById(R.id.traveler_presenter) as TravelersPresenter
-        presenter.viewModel = TravelersViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
+
+    abstract fun createTravelersViewModel(): TravelersViewModel
+
+    val travelersPresenter: AbstractTravelersPresenter by lazy {
+        val presenter = travelersPresenterStub.inflate() as AbstractTravelersPresenter
+        presenter.viewModel = createTravelersViewModel()
         presenter.travelerEntryWidget.travelerButton.setLOB(getLineOfBusiness())
         presenter.closeSubject.subscribe {
             show(CheckoutDefault(), FLAG_CLEAR_BACKSTACK)
@@ -188,7 +184,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     var travelerManager: TravelerManager by Delegates.notNull()
 
-    protected var ckoViewModel: BaseCheckoutViewModel by notNullAndObservable { vm ->
+    protected var ckoViewModel: AbstractCheckoutViewModel by notNullAndObservable { vm ->
         vm.creditCardRequired.subscribe { required ->
             paymentWidget.viewmodel.isCreditCardRequired.onNext(required)
         }
@@ -292,7 +288,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     override fun onFinishInflate() {
         super.onFinishInflate()
         addDefaultTransition(defaultTransition)
-        addTransition(defaultToTraveler)
+        addTransition(getDefaultToTravelerTransition())
         addTransition(defaultToPayment)
         setUpLayoutListeners()
         setUpErrorMessaging()
@@ -304,8 +300,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         val createTripResponse = getCreateTripViewModel().createTripResponseObservable.value
         if (createTripResponse != null) {
             fireCheckoutOverviewTracking(createTripResponse)
-        }
-        else {
+        } else {
             trackShowingCkoOverviewSubscription = getCreateTripViewModel().createTripResponseObservable.safeSubscribe { tripResponse ->
                 // Un-subscribe:- as we only want to track the initial load of cko overview
                 trackShowingCkoOverviewSubscription?.unsubscribe()
@@ -316,7 +311,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private fun setUpViewModels() {
         priceChangeViewModel = PriceChangeViewModel(context, getLineOfBusiness())
-        baseCostSummaryBreakdownViewModel =  getCostSummaryBreakdownViewModel()
+        baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
         bundleTotalPriceViewModel = BundleTotalPriceViewModel(context)
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
@@ -400,7 +395,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                     }
                 }).subscribe()
 
-        Observable.combineLatest( getCheckoutViewModel().paymentTypeSelectedHasCardFee,
+        Observable.combineLatest(getCheckoutViewModel().paymentTypeSelectedHasCardFee,
                 paymentWidget.viewmodel.showingPaymentForm,
                 { haveCardFee, showingGuestPaymentForm ->
                     val cardFeeVisibility = if (haveCardFee && showingGuestPaymentForm) View.VISIBLE else View.GONE
@@ -430,73 +425,52 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
     }
 
-    private val defaultToTraveler = object : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, TravelersPresenter::class.java) {
+
+    open class DefaultToPayment(val presenter: BaseCheckoutPresenter) : Presenter.Transition(CheckoutDefault::class.java, BillingDetailsPaymentWidget::class.java) {
+
         override fun startTransition(forward: Boolean) {
-            super.startTransition(forward)
-            bottomContainer.visibility = if (forward) GONE else VISIBLE
-            if (!forward) {
-                Ui.hideKeyboard(travelersPresenter)
-                travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
-                travelersPresenter.viewModel.updateCompletionStatus()
-                setToolbarTitle()
-                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
-                travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
-            } else {
-                decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
-            }
+            presenter.startDefaultToPaymentTransition(forward)
         }
 
         override fun endTransition(forward: Boolean) {
-            super.endTransition(forward)
-            if (!forward) {
-                animateInSlideToPurchase(true)
-                travelersPresenter.setFocusForView()
-                travelerSummaryCard.setFocusForView()
-                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
-            } else {
-                val lp = space.layoutParams
-                lp.height = 0
-                space.layoutParams = lp
-            }
-
+            presenter.endDefaultToPaymentTransition(forward)
         }
     }
 
-    private val defaultToPayment = object : Presenter.Transition(CheckoutDefault::class.java, BillingDetailsPaymentWidget::class.java) {
-
-        override fun startTransition(forward: Boolean) {
-            loginWidget.setInverseVisibility(forward)
-            hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
-            travelerSummaryCard.visibility = if (forward) View.GONE else View.VISIBLE
-            legalInformationText.setInverseVisibility(forward)
-            depositPolicyText.setInverseVisibility(forward)
-            bottomContainer.setInverseVisibility(forward)
-            if (!forward) {
-                Ui.hideKeyboard(paymentWidget)
-                invalidPaymentTypeWarningTextView.visibility = View.GONE
-                cardProcessingFeeTextView.visibility  = View.GONE
-                debitCardsNotAcceptedTextView.visibility = View.GONE
-                paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
-                scrollView.layoutParams.height = height
-                paymentWidget.viewmodel.showingPaymentForm.onNext(false)
-            } else {
-                decorView.viewTreeObserver.addOnGlobalLayoutListener(paymentLayoutListener)
-            }
-            setInsuranceWidgetVisibility(!forward)
+    private fun endDefaultToPaymentTransition(forward: Boolean) {
+        if (!forward) {
+            animateInSlideToPurchase(true)
+            paymentWidget.setFocusForView()
+            decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
+        } else {
+            val lp = space.layoutParams
+            lp.height = 0
+            space.layoutParams = lp
         }
+        ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
+    }
 
-        override fun endTransition(forward: Boolean) {
-            if (!forward) {
-                animateInSlideToPurchase(true)
-                paymentWidget.setFocusForView()
-                decorView.viewTreeObserver.removeOnGlobalLayoutListener(paymentLayoutListener)
-            } else {
-                val lp = space.layoutParams
-                lp.height = 0
-                space.layoutParams = lp
-            }
-            ckoViewModel.showingPaymentWidgetSubject.onNext(forward)
+    private fun startDefaultToPaymentTransition(forward: Boolean) {
+        loginWidget.setInverseVisibility(forward)
+        hintContainer.visibility = if (forward) View.GONE else if (User.isLoggedIn(getContext())) View.GONE else View.VISIBLE
+        travelerSummaryCardView.visibility = if (forward) View.GONE else View.VISIBLE
+        legalInformationText.setInverseVisibility(forward)
+        depositPolicyText.setInverseVisibility(forward)
+        bottomContainer.setInverseVisibility(forward)
+        if (!forward) {
+            Ui.hideKeyboard(paymentWidget)
+            invalidPaymentTypeWarningTextView.visibility = View.GONE
+            cardProcessingFeeTextView.visibility = View.GONE
+            debitCardsNotAcceptedTextView.visibility = View.GONE
+            paymentWidget.show(PaymentWidget.PaymentDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
+            scrollView.layoutParams.height = height
+            paymentWidget.viewmodel.showingPaymentForm.onNext(false)
+        } else {
+            decorView.viewTreeObserver.addOnGlobalLayoutListener(paymentLayoutListener)
         }
+    }
+
+    open val defaultToPayment = object : DefaultToPayment(this) {
     }
 
     fun showPaymentPresenter() {
@@ -516,13 +490,13 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
     }
 
-    open fun setInsuranceWidgetVisibility(visible: Boolean) {
-        insuranceWidget.visibility = View.GONE
+    /** Slide to book **/
+    override fun onSlideStart() {
     }
 
-    /** Slide to book **/
-    override fun onSlideStart() { }
-    override fun onSlideProgress(pixels: Float, total: Float) { }
+    override fun onSlideProgress(pixels: Float, total: Float) {
+    }
+
     override fun onSlideAllTheWay() {
         if (ckoViewModel.builder.hasValidParams()) {
             ckoViewModel.checkoutParams.onNext(ckoViewModel.builder.build())
@@ -572,8 +546,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             accessiblePurchaseButton.visibility = View.VISIBLE
             accessiblePurchaseButton.hideTouchTarget()
             slideToPurchase.visibility = View.GONE
-        }
-        else {
+        } else {
             slideToPurchase.visibility = View.VISIBLE
             accessiblePurchaseButton.visibility = View.GONE
         }
@@ -696,4 +669,42 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         super.unsubscribeWindowAtTeardown()
         getCheckoutViewModel().unsubscribeAll()
     }
+
+    fun getPaymentWidgetViewModel(): PaymentViewModel {
+        return paymentViewModel
+    }
+
+
+    inner class DefaultToTraveler(className: Class<*>) : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, className) {
+        override fun startTransition(forward: Boolean) {
+            super.startTransition(forward)
+            bottomContainer.visibility = if (forward) GONE else VISIBLE
+            if (!forward) {
+                Ui.hideKeyboard(travelersPresenter)
+                travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
+                travelersPresenter.viewModel.updateCompletionStatus()
+                setToolbarTitle()
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
+                travelersPresenter.toolbarTitleSubject.onNext(getCheckoutToolbarTitle(resources, Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSecureCheckoutMessaging)))
+            } else {
+                decorView.viewTreeObserver.addOnGlobalLayoutListener(travelerLayoutListener)
+            }
+        }
+
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            if (!forward) {
+                animateInSlideToPurchase(true)
+                travelersPresenter.setFocusForView()
+                travelerSummaryCard.setFocusForView()
+                decorView.viewTreeObserver.removeOnGlobalLayoutListener(travelerLayoutListener)
+            } else {
+                val lp = space.layoutParams
+                lp.height = 0
+                space.layoutParams = lp
+            }
+
+        }
+    }
+
 }

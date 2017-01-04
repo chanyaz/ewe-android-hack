@@ -30,7 +30,7 @@ open class RailDetailsViewModel(val context: Context) {
 
     init {
         railLegOptionSubject.subscribe { railLegOption ->
-            formattedTimeIntervalSubject.onNext(RailUtils.formatTimeInterval(context, railLegOption.getDepartureDateTime(),
+            formattedTimeIntervalSubject.onNext(RailUtils.formatTimeIntervalToDeviceFormat(context, railLegOption.getDepartureDateTime(),
                     railLegOption.getArrivalDateTime()))
             val changesString = RailUtils.formatRailChangesText(context, railLegOption.noOfChanges)
             formattedLegInfoSubject.onNext("${DateTimeUtils.formatDuration(context.resources,

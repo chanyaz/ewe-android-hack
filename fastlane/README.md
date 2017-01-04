@@ -11,6 +11,11 @@ sudo gem install fastlane
 fastlane android screenshots
 ```
 Run a marketing screenshot sweep
+### android branch_and_bump
+```
+fastlane android branch_and_bump
+```
+Create a new release branch and bump the version on the base branch. Optionally protects the newly created release branch.
 
 ----
 

@@ -10,7 +10,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Codes
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
-import com.expedia.bookings.presenter.BaseOverviewPresenter
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Constants
@@ -23,7 +23,7 @@ import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
 
-class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOverviewPresenter(context, attrs) {
+class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
     val bundleWidget: BundleWidget by bindView(R.id.bundle_widget)
     val changeHotel by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel) }
     val changeHotelRoom by lazy { bundleOverviewHeader.toolbar.menu.findItem(R.id.package_change_hotel_room) }
@@ -147,7 +147,7 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseOver
     override fun back(): Boolean {
         bundleWidget.viewModel.cancelSearchObservable.onNext(Unit)
 
-        if (currentState == BaseOverviewPresenter.BundleDefault::class.java.name && bundleOverviewHeader.appBarLayout.isActivated) {
+        if (currentState == BaseTwoScreenOverviewPresenter.BundleDefault::class.java.name && bundleOverviewHeader.appBarLayout.isActivated) {
             showBackToSearchDialog()
             return true
         }

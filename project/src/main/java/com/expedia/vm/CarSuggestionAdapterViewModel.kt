@@ -18,17 +18,8 @@ class CarSuggestionAdapterViewModel(context: Context, suggestionsService: Sugges
         return SuggestionV4Utils.RECENT_CAR_SUGGESTIONS_FILE
     }
 
-    override fun getLineOfBusiness(): String {
-        return "CARS"
-    }
-
-    override fun getNearbyRegionType(): Int {
-        return SuggestionResultType.AIRPORT or SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or
-                SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.AIRPORT_METRO_CODE
-    }
-
-    override fun getNearbySortType(): String {
-        return "p"
+    override fun getLineOfBusinessForGaia(): String {
+        return "cars"
     }
 
     override fun getNearbySortTypeForGaia(): String {

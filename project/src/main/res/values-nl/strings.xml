@@ -125,8 +125,6 @@
     <string name="calendar_desc_itinerary_TEMPLATE">{brand}-reisplannr.: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_desc_support_TEMPLATE">{brand}-klantenservice: {localphone} en {phone}</string>
-    <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
-    <string name="car_search_date_range_cont_desc_TEMPLATE">Autoverhuurdatums. Knop. Opent dialoogvenster. {date_time_range}</string>
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">Google Map-weergave van locatie activiteit</string>
 
@@ -256,14 +254,15 @@
     <string name="stored_card_TEMPLATE">{cardtype} opgeslagen</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Opgeslagen kaarten</string>
-    <!-- text that goes underneath the camera button for card_io -->
-    <string name="card_io_btn_text">SCAN</string>
-    <!-- Card.io scan text -->
-    <string name="scan_card_text">Kaart scannen</string>
-    <!-- Card.io instruction text -->
-    <string name="scan_card_instruction_text">Houd kaart hier. Het wordt automatisch gescand.</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
     <string name="accessibility_cost_summary_cont_desc_role_button">Knop prijsoverzicht</string>
+    <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
+    <plurals name="number_of_errors_TEMPLATE">
+        <item quantity="one">Je hebt {number} fout in het formulier.</item>
+        <item quantity="other">Je hebt {number} fouten in het formulier.</item>
+    </plurals>
+    <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
+    <string name="accessibility_announcement_please_review_and_resubmit">Controleer de informatie en probeer het opnieuw.</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -740,8 +739,6 @@
     <string name="lx_voucherless_offer">Online coupon</string>
     <!-- Message for voucherless offers  -->
     <string name="lx_print_voucher_offer">Afgedrukte coupon nodig</string>
-    <!-- Card brand not supported (e.g. "Visa not accepted") -->
-    <string name="lx_does_not_accept_cardtype_TEMPLATE">%1$s niet geaccepteerd</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Sorry, maar de prijs van de activiteit is gewijzigd. Probeer opnieuw te boeken.</string>
     <!-- LX Error Limited Inventory -->
@@ -1036,6 +1033,8 @@
     <string name="Sign_in_with_cont_desc_TEMPLATE">Knop Aanmelden bij {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Meld je aan en verzamel {reward} Expedia+ punten</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Knop Meld je aan en verzamel {reward} Expedia+ punten</string>
     <!-- or -->
     <string name="or">of</string>
 
@@ -1075,6 +1074,37 @@
     <string name="from_hint">Vanaf</string>
     <!-- Rail to hint -->
     <string name="to_hint">Naar</string>
+
+    <!-- Accessibility String Informs the user of selected departure time. Ex. "Departure Time: Feb 4 12:00 -->
+    <string name="rail_depart_time_cont_desc_TEMPLATE">Vertrektijd {time}</string>
+
+    <!-- Accessibility string informs the user of selected return time. Ex. "Return Time: Feb 8 15:00-->
+    <string name="rail_return_time_cont_desc_TEMPLATE">Retourtijd {time}</string>
+
+    <!-- Accessibility string to tell the user this text is also a button -->
+    <string name="rail_from_hint_cont_desc">Vanaf knop</string>
+    <!-- Accessibility string to tell the user this text is also a button -->
+    <string name="rail_to_hint_cont_desc">Naar knop</string>
+
+    <!-- Accessibility string to tell the user the departing station they selected Ex. Going from London Euston. Button -->
+    <string name="rail_going_from_location_cont_desc_TEMPLATE">Vanaf {location} Knop</string>
+    <!-- Accessibility string to tell the user the destination station they selected Ex. Going to Sugar loaf. Button -->
+    <string name="rail_going_to_location_cont_desc_TEMPLATE">Naar {location} Knop</string>
+
+    <!-- Accessibility description, infroms the user of the rail card button, and describes currently selected number of railcards-->
+    <plurals name="search_rail_card_cont_desc_TEMPLATE">
+        <item quantity="one">Aantal railcards. Knop. Opent dialoogvenster. {count} railcard</item>
+        <item quantity="other">Aantal railcards. Knop. Opent dialoogvenster. {count} railcards</item>
+    </plurals>
+
+
+    <!-- Accessibility string telling the user the swap button will change the departure and destination selections -->
+    <string name="rail_swap_locations_cont_desc">Wissel de aankomst- en vertrekplaats.</string>
+
+    <!-- Accessibility announcement when one way search screen is selected. -->
+    <string name="rail_tab_oneway_selected_announcement">Zoekscherm met enkele treinritten</string>
+    <!-- Accessibility announcement when Return search screen is selected. -->
+    <string name="rail_tab_roundtrip_selected_announcement">Zoekscherm met retour treinritten</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1196,6 +1226,12 @@
     <string name="itinerary_fetch_error">Reisplannen ophalen mislukt</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Aanmelden voor je reizen</string>
+    <!-- Button text to refresh your trips -->
+    <string name="refresh_trips">Reizen vernieuwen</string>
+    <!-- Itinerary screen when we can't fetch any trips -->
+    <string name="fetching_trips_error">We konden momenteel geen reisplannen ophalen. Probeer het opnieuw.</string>
+    <!-- Itinerary screen when we connection fails while fetching trips -->
+    <string name="fetching_trips_error_connection">Verbinding maken mislukt.</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Morgen</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1271,6 +1307,8 @@
     <string name="trips_back_button_label_cont_desc">Knop Terug naar Reizen</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Knop om reis uit te vouwen</string>
+    <!-- Content Description for upgrade image to upgrade hotel room -->
+    <string name="trips_upgrade_hotel_button_label_cont_desc">Hotelkamer upgraden</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Bevestigingsnr. hotel</string>
     <!-- Passengers Label -->
@@ -1387,8 +1425,6 @@
     <string name="flight_arrived">Aangekomen</string>
     <!-- Refresh -->
     <string name="refresh">Vernieuwen</string>
-    <!-- Try Again -->
-    <string name="try_again">Probeer opnieuw</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">KOPIEER %1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
@@ -1529,7 +1565,13 @@
     <string name="itin_card_details_details">Bijkomende informatie</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Kamer annuleren</string>
+    <!-- Label for button to upgrade Hotel room -->
+    <string name="itin_card_details_upgrade_hotel_button">Tijdelijke deal: Upgrade nu!</string>
     <string name="itin_card_flight_checkin_title">Check-in vlucht</string>
+    <!-- Label for button to edit Hotel booking -->
+    <string name="itin_card_edit_hotel_room_info">Kamerinfo bewerken</string>
+    <!-- Accessibility announcement for button to edit Hotel booking -->
+    <string name="itin_card_change_hotel_options">Hotelopties wijzigen</string>
 
     <string name="itin_card_flight_checkin_details">Ga naar de site van %s</string>
     <string name="itin_card_details_pick_up">Ophalen</string>
@@ -1741,8 +1783,10 @@
     <string name="flights_round_trip_label">Retour</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">Enkele reis</string>
-    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
-    <string name="flights_tab_selection_accouncement_TEMPLATE">Zoekscherm {whichway} vluchten wordt getoond</string>
+    <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
+    <string name="flights_tab_selection_accouncement_oneway">Zoekscherm met enkele vluchten</string>
+    <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
+    <string name="flights_tab_selection_accouncement_roundtrip">Zoekscherm met retourvluchten</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Heenvlucht</string>
     <!-- Flights Line of Business title -->
@@ -1783,6 +1827,9 @@
     <string name="error_try_again_warning">Oeps! Laten we dat nog eens proberen.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Opnieuw proberen</string>
+
+    <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
+    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1864,6 +1911,8 @@
     <string name="edit_search">Zoekopdracht wijzigen</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Selecteer datums</string>
+    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <string name="trip_dates_cont_desc">Reisdatums</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Bestemming zoeken</string>
     <!-- Number of adults template -->
@@ -2034,13 +2083,15 @@
     <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
     <string name="airline_processing_fee_TEMPLATE">Transactiekosten airline: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
-    <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline aanvaardt geen %1$s</string>
+    <string name="airline_does_not_accept_cardtype_TEMPLATE">Airline aanvaardt geen {card_type}</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
-    <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotels aanvaardt geen %1$s</string>
-    <!-- Package trip does not accept <Credit Card Brand> (Example: Visa is not accepted for this trip) -->
-    <string name="package_does_not_accept_cardtype_TEMPLATE">{card_type} wordt niet aanvaard voor deze reis</string>
-    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
-    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$s aanvaardt geen %2$s</string>
+    <string name="hotel_does_not_accept_cardtype_TEMPLATE">Hotels aanvaardt geen {card_type}</string>
+    <!-- Package trip does not accept <Credit Card Brand> (Example: Trip does not accept Visa) -->
+    <string name="package_does_not_accept_cardtype_TEMPLATE">Reis aanvaardt geen {card_type}</string>
+    <!-- Rental company does not accept <Credit Card Brand> (e.g. "Rental company does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">Verhuurder aanvaardt geen {card_type}</string>
+    <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">Activiteit aanvaardt geen {card_type}</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">Betaalpassen worden niet aanvaard.</string>
 
@@ -2125,8 +2176,8 @@
     <string name="to_be_collected_by_the_hotel_TEMPLATE">Te betalen bij hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Boeking voltooien</string>
-    <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">Prijsgarantie</string>
+    <!-- Our price gaurentee string -->
+    <string name="price_guarantee">Prijsgarantie</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Gratis annulering&lt;/b&gt; tot &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -3209,8 +3260,6 @@
     <string name="sign_in">Aanmelden</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Bezig met aanmelden …</string>
-    <!-- Message that tells user they failed to sign in -->
-    <string name="sign_in_failed">Meld je opnieuw aan</string>
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">Ben je zeker dat je je wilt afmelden bij je {brand}-account?</string>
     <!-- Label for loading user profile from Expedia -->
@@ -4064,7 +4113,6 @@
 
     <string name="lob_not_supported_error_message">Sorry, boekingen van {lob} zijn nog niet beschikbaar voor jouw regio.</string>
 
-
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(26-59 jaar oud)</string>
 
@@ -4408,6 +4456,9 @@
     <!-- Legal message shown on search result screen for round trip search -->
     <string name="rail_search_legal_banner_round_trip">Prijzen zijn voor retourreizen voor alle passagiers. Mogelijk gelden er ook transactie- en ticketleveringskosten.</string>
 
+    <!-- Accessible legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip_cont_desc">Prijzen zijn voor retourreizen voor alle passagiers. Mogelijk gelden er ook transactie- en ticketleveringskosten. Knop</string>
+
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+{pricedifference}</string>
 
@@ -4524,17 +4575,42 @@
     <string name="rail_unknown_error_message">Wijzig je zoekcriteria en probeer het opnieuw.</string>
     <string name="rail_cko_retry_error_message">Controleer je betalingsinfo en probeer het opnieuw of wijzig je zoekopdracht.</string>
 
+    <!-- Rails content description for add railcard button on Railcards screen -->
+    <string name="rail_add_railcard_cont_desc">Railcard toevoegen</string>
+    <!-- Rails content description for remove railcard button on Railcards screen -->
+    <string name="rail_remove_railcard_cont_desc">Railcard verwijderen</string>
+
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
     <string name="rail_departure_arrival_station_TEMPLATE">{departurestation} naar {arrivalstation}</string>
     <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
     <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
-    <string name="pwp_points_conversion_unauthenticated_access">Sorry, er deed zich een serverprobleem voor. Probeer het opnieuw.</string>
-    <string name="pwp_trip_service_error">Sorry, er deed zich een serverprobleem voor. Probeer het opnieuw.</string>
-    <string name="pwp_unknown_error">Er is een onbekende fout opgetreden. Probeer het opnieuw.</string>
+    <!--Rails content description for results card, e.g. Departs at 10:06am Arrives at 11:11am London Midlan Trip Duration 5h 43min, 2 changes -->
+    <string name="rail_result_card_cont_desc_TEMPLATE">Vertrekt om {departuretime} Arriveert om {arrivaltime} {trainoperator} Duur {tripdurationandchanges}</string>
+    <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
+    <string name="rail_journey_details_cont_desc_TEMPLATE">{departurestation} naar {arrivalstation} via {travelmode} met {trainoperator} duur {duration}, vertrekt om {departuretime} arriveert om {arrivaltime}</string>
+    <!--Rails content description for results card Railcard applied portion -->
+    <string name="rail_railcard_applied_cont_desc">Railcard toegepast</string>
+    <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
+   <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Tarieven vanaf {price}</string>
+   <!-- Rail selected outbound content description on the outbound results -->
+   <string name="rail_selected_outbound_cont_desc">Geselecteerde heenvlucht:</string>
+    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
+    <string name="rail_button_cont_desc_TEMPLATE">{description}. Knop</string>
 
-    <!-- New Hotel Search screen -->
+    <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
+    <string name="rail_railcard_applied_cont_desc_TEMPLATE">Railcard toegepast: {railcards}</string>
+
+    <!-- Accessibility string describing button opens cost breakdown dialog.
+        Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
+    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}. Dialoogvenster kostenoverzicht. Knop.</string>
+
+   <string name="pwp_points_conversion_unauthenticated_access">Sorry, er deed zich een serverprobleem voor. Probeer het opnieuw.</string>
+   <string name="pwp_trip_service_error">Sorry, er deed zich een serverprobleem voor. Probeer het opnieuw.</string>
+   <string name="pwp_unknown_error">Er is een onbekende fout opgetreden. Probeer het opnieuw.</string>
+
+   <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Bestemming invoeren</string>
     <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
     <string name="enter_destination_cont_desc">Voer bestemming in. Knop</string>
@@ -4658,11 +4734,7 @@
     <!--Flying from card content description before a location is selected-->
     <string name="packages_search_flying_from_cont_desc">Vlucht vanaf. Knop</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_cont_desc">Selecteer reisdatums. Knop. Opent dialoogvenster</string>
-    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_date_range_cont_desc_TEMPLATE">{startdate} naar {enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
-    <string name="trip_search_date_range_cont_desc_TEMPLATE">Reisdatums. Knop. Opent dialoogvenster. {date_range}. {nights}</string>
+    <string name="select_travel_dates_cont_desc">Selecteer reisdatums. Knop. Opent dialoogvenster</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
     <string name="hotel_card_view_price_cont_desc_TEMPLATE">Prijs {price}.  \u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
@@ -4670,6 +4742,9 @@
         <item quantity="one">Aantal reizigers. Knop. Opent dialoogvenster. {travelers} reiziger</item>
         <item quantity="other">Aantal reizigers. Knop. Opent dialoogvenster. {travelers} reizigers</item>
     </plurals>
+
+    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="search_date_range_cont_desc_TEMPLATE">{startdate} naar {enddate}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">Voeg 1 volwassene reiziger toe</string>
     <!--Traveler widget adults minus button content description-->
@@ -4688,11 +4763,11 @@
     <!--Rail Traveler widget senior minus button content description-->
     <string name="rails_remove_senior_traveler_cont_desc">Verwijder 1 senior</string>
 
-    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor kind {childnumber}</string>
-    <!--Packages search youth age drop down content description Eg. "Select age for youth 1."-->
+    <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor jongere {youthnumber}.</string>
-    <!--Packages search senior age drop down content description Eg. "Select age for senior 1."-->
+    <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
     <string name="search_senior_drop_down_cont_desc_TEMPLATE">Selecteer leeftijd voor senior {seniornumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
@@ -4707,10 +4782,10 @@
     <!--Content description for clear button in filter used for Talkback-->
     <string name="packages_flight_search_filter_clear_button_cont_desc">Filters wissen. Knop</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget">Pakkettotaal is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">Pakkettotaal is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">Pakkettotaal is {totalprice}. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. {savings}. Dialoogvenster kostenoverzicht. Knop.</string>
-    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakketprijs is {price_per_person} per persoon. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. Knop om pakket te bekijken.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Pakketdetails worden weergegeven. Sluitknop.</string>
@@ -4760,8 +4835,10 @@
     <string name="lx_add_ticket_button_cont_desc_TEMPLATE">{traveler} toevoegen</string>
     <!-- Content description for LX remove ticket button e.g. Remove child Button -->
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">{traveler} verwijderen</string>
-    <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
-    <string name="lx_search_date_range_cont_desc_TEMPLATE">Activiteitendatums. Knop. Opent dialoogvenster. {date_range}</string>
+    <!-- Announcement on LX add button Click  e.g One adult Added -->
+    <string name="lx_ticket_added_announce_accessibility_TEMPLATE">1 {traveler} toegevoegd</string>
+    <!-- Announcement on LX remove button click e.g One adult Removed -->
+    <string name="lx_ticket_removed_announce_accessibility_TEMPLATE">1 {traveler} verwijderd</string>
 
     <!-- Content description for action: $44. Cost summary information button. -->
     <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Knop prijsoverzicht</string>
@@ -4799,6 +4876,8 @@
     <string name="hotel_room_expand_cont_desc">Vouw uit om kamerinfo te zien en kamer te selecteren</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
     <string name="hotel_expanded_room_select_cont_desc">Selecteer kamer</string>
+    <!-- Content Description for payment options list when card is not accepted -->
+    <string name="accessibility_cont_desc_card_is_disabled">utgeschakeld</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">Prijs is {activity_price}</string>
@@ -4811,6 +4890,11 @@
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Selectievak. Niet aangevinkt.</string>
     <string name="base_search_dates_cont_desc">Selecteer datums. Knop. Opent dialoogvenster</string>
     <string name="lx_search_start_date_cont_desc">Selecteer startdatum. Knop. Opent dialoogvenster</string>
+
+    <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
+    <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
+    <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
+    <string name="search_dates_cont_desc_TEMPLATE">{dates_label} Knop. Opent dialoogvenster. {duration_description}</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>
@@ -4848,8 +4932,8 @@
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">Naar klemboard kopiëren. Knop.</string>
 
-    <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
-    <string name="lx_carousal_cont_desc_TEMPLATE">Activiteit geselecteerd, {caption}</string>
+    <!-- LX Carousal images content description : Activity, 3 of 5 photos. -->
+    <string name="lx_carousal_cont_desc_TEMPLATE">Activiteit, {caption}</string>
 
     <!-- Gallery Image count e.g. "1/14" -->
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
@@ -4862,5 +4946,17 @@
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">Meerdere airlines</string>
+    <!-- Room Upgrade Available messaging on Itin Screen -->
+    <string name="room_upgrade_available">Upgrade beschikbaar</string>
+    <!-- Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title">Hoe was je ervaring?</string>
+    <!-- Message for App Rating Dialog -->
+    <string name="dialog_app_rating_message">Als je van onze app houdt, geef het dan een beoordeling in de Play Store.</string>
+    <!-- Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button">Beoordelen</string>
+    <!-- Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button">Feedback sturen</string>
+    <!-- Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button">Nee, bedankt</string>
 
 </resources>

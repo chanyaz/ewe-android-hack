@@ -35,7 +35,7 @@ public class AirAttach implements JSONable {
 		try {
 			JSONObject obj = new JSONObject();
 			obj.put("airAttachQualified", mAirAttachQualified);
-			JodaUtils.putDateTimeInJson(obj, "offerExpires", mExpirationDate);
+			JodaUtils.putDateTimeInJson(obj, "jodaOfferExpiresObj", mExpirationDate);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -47,7 +47,41 @@ public class AirAttach implements JSONable {
 	@Override
 	public boolean fromJson(JSONObject obj) {
 		mAirAttachQualified = obj.optBoolean("airAttachQualified", false);
-		mExpirationDate = DateTimeParser.parseDateTime(obj.opt("offerExpires"));
+
+		if (obj.has("jodaOfferExpiresObj")) {
+			mExpirationDate = JodaUtils.getDateTimeFromJsonBackCompat(obj, "jodaOfferExpiresObj", "");
+		}
+		else if (obj.has("offerExpires")) {
+			JSONObject offerExpires = obj.optJSONObject("offerExpires");
+			mExpirationDate = DateTimeParser.parseDateTime(offerExpires);
+		}
+
 		return true;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) {
+			return true;
+		}
+		if (o == null || getClass() != o.getClass()) {
+			return false;
+		}
+
+		AirAttach airAttach = (AirAttach) o;
+
+		if (mAirAttachQualified != airAttach.mAirAttachQualified) {
+			return false;
+		}
+		return mExpirationDate != null ? mExpirationDate.equals(airAttach.mExpirationDate)
+			: airAttach.mExpirationDate == null;
+
+	}
+
+	@Override
+	public int hashCode() {
+		int result = (mAirAttachQualified ? 1 : 0);
+		result = 31 * result + (mExpirationDate != null ? mExpirationDate.hashCode() : 0);
+		return result;
 	}
 }

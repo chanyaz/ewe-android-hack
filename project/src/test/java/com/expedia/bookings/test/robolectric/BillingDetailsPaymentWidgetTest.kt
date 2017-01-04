@@ -16,6 +16,7 @@ import com.expedia.bookings.data.flights.ValidFormOfPayment
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
+import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -340,24 +341,57 @@ class BillingDetailsPaymentWidgetTest {
     fun testNumberOfErrorsCorrect() {
         val incompleteBillingInfo = BillingInfo(getIncompleteCCBillingInfo())
         incompleteBillingInfo.location.stateCode = ""
-        incompleteBillingInfo.location.city = ""
+        incompleteBillingInfo.location.postalCode = ""
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
         billingDetailsPaymentWidget.sectionBillingInfo.bind(incompleteBillingInfo)
         billingDetailsPaymentWidget.sectionLocation.bind(incompleteBillingInfo.location)
-
-        billingDetailsPaymentWidget.cardInfoContainer.performClick()
-        billingDetailsPaymentWidget.doneClicked.onNext(Unit)
 
         val numSectionLocationErrors = billingDetailsPaymentWidget.sectionLocation.numberOfInvalidFields
         val numSectionBillingErrors = billingDetailsPaymentWidget.sectionBillingInfo.numberOfInvalidFields
         val totalNumberOfErrors = numSectionBillingErrors.plus(numSectionLocationErrors)
 
-        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.creditCardNumber.compoundDrawables[2]).createdFromResId)
-        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.addressState.compoundDrawables[2]).createdFromResId)
-        assertEquals(R.drawable.invalid, Shadows.shadowOf(billingDetailsPaymentWidget.addressCity.compoundDrawables[2]).createdFromResId)
+        assertEquals(1, numSectionBillingErrors)
+        assertEquals(2, numSectionLocationErrors)
+        assertEquals(3, totalNumberOfErrors)
+    }
 
-        assertEquals(numSectionBillingErrors, 1)
-        assertEquals(numSectionLocationErrors, 2)
-        assertEquals(totalNumberOfErrors, 3)
+    @Test
+    fun testPostalCodeNotRequired() {
+//        reference ExpediaPaymentPostalCodeOptionalCountries for list of countries not requiring postal code
+        val incompleteBillingInfo = getCompleteBillingInfo()
+        incompleteBillingInfo.location.countryCode = "SYR"
+        incompleteBillingInfo.location.postalCode = ""
+
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(incompleteBillingInfo)
+        billingDetailsPaymentWidget.sectionLocation.bind(incompleteBillingInfo.location)
+
+        assertTrue(billingDetailsPaymentWidget.sectionLocation.performValidation())
+
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
+
+        assertTrue(billingDetailsPaymentWidget.sectionLocation.performValidation())
+    }
+
+    @Test
+    fun testPostalCodeIsRequired() {
+        val incompleteBillingInfo = getCompleteBillingInfo()
+        incompleteBillingInfo.location.countryCode = "USA"
+        incompleteBillingInfo.location.postalCode = ""
+
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.FLIGHTS_V2)
+        billingDetailsPaymentWidget.sectionBillingInfo.bind(incompleteBillingInfo)
+        billingDetailsPaymentWidget.sectionLocation.bind(incompleteBillingInfo.location)
+
+        assertFalse(billingDetailsPaymentWidget.sectionLocation.performValidation())
+
+        billingDetailsPaymentWidget.viewmodel.lineOfBusiness.onNext(LineOfBusiness.PACKAGES)
+        assertFalse(billingDetailsPaymentWidget.sectionLocation.performValidation())
+
+        incompleteBillingInfo.location.postalCode = "12345"
+        billingDetailsPaymentWidget.sectionLocation.bind(incompleteBillingInfo.location)
+
+        assertTrue(billingDetailsPaymentWidget.sectionLocation.performValidation())
     }
 
     private fun getUserWithStoredCard() : User {
@@ -433,4 +467,9 @@ class BillingDetailsPaymentWidgetTest {
 		return location
 	}
 
+    private fun getCompleteBillingInfo() : BillingInfo {
+        val billingInfo = getIncompleteCCBillingInfo()
+        billingInfo.setNumberAndDetectType("4111111111111111")
+        return billingInfo
+    }
 }

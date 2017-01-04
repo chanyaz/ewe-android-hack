@@ -56,6 +56,23 @@ public class AbacusResponse {
 		test.value = value;
 	}
 
+	/**
+	 * Utility method to force update {@link AbacusTest} object through deeplinks
+	 * when we test the release builds.
+	 */
+	public void updateABTest(int key, int value) {
+		AbacusTest test = abacusTestMap.get(key);
+		if (test == null) {
+			test = new AbacusTest();
+			test.id = key;
+			test.value = 0;
+			test.instanceId = 0;
+			abacusTestMap.put(key, test);
+		}
+
+		test.value = value;
+	}
+
 	public AbacusTest testForKey(int key) {
 		if (abacusTestDebugMap.get(key) != null && abacusTestDebugMap.get(key).getBucketVariate() != AbacusUtils.ABTEST_IGNORE_DEBUG) {
 			return abacusTestDebugMap.get(key);
@@ -67,6 +84,10 @@ public class AbacusResponse {
 
 	public int numberOfTests() {
 		return abacusTestMap.size();
+	}
+
+	public int numberOfTestsDebugMap() {
+		return abacusTestDebugMap.size();
 	}
 
 	public void updateFrom(AbacusResponse otherResponse) {

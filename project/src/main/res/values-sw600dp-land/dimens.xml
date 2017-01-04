@@ -6,4 +6,8 @@
     <dimen name="plane_window_text_offset">-40dp</dimen>
     <dimen name="flight_search_calendar_height">@dimen/match_parent</dimen>
 
+    <!-- Itin Hotel Upgrade Button -->
+    <dimen name="itin_hotel_upgrade_drawable_padding">50dp</dimen>
+    <dimen name="itin_hotel_upgrade_paddingLeft">18dp</dimen>
+
 </resources>

@@ -80,8 +80,6 @@
             </android.support.v7.widget.Toolbar>
         </FrameLayout>
 
-        <include layout="@layout/widget_theme_results" />
-
         <com.expedia.bookings.widget.LXSearchResultsWidget
             android:id="@+id/lx_search_results_widget"
             android:layout_width="match_parent"
@@ -116,6 +114,8 @@
         android:clickable="true"
         android:visibility="gone"
         android:alpha=".5" />
+
+    <include layout="@layout/widget_theme_results" />
 
     <LinearLayout
         android:id="@+id/sort_filter_widget_container"

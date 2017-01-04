@@ -20,12 +20,6 @@
     <uses-permission android:name="android.permission.READ_SYNC_SETTINGS" />
     <uses-permission android:name="android.permission.READ_SYNC_STATS" />
 
-    <!-- We want to be more strict with how we add the camera permission -->
-    <uses-permission
-        android:name="android.permission.CAMERA"
-        tools:node="remove" />
-    <uses-permission-sdk-23 android:name="android.permission.CAMERA" />
-
     <!-- For Google Wallet and GCM -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
 
@@ -54,11 +48,12 @@
 
     <application
         android:name="com.expedia.bookings.activity.ExpediaBookingApp"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/launcher_name"
-        android:theme="@style/Theme">
+        android:theme="@style/Theme"
+        tools:replace="android:allowBackup">
 
         <!-- ActiveAndroid -->
         <meta-data
@@ -186,6 +181,12 @@
             android:resizeableActivity="false"
             android:screenOrientation="portrait"
             android:theme="@style/V2.Theme.Hotels"
+            tools:ignore="UnusedAttribute" />
+        <activity android:name="com.expedia.bookings.fragment.ItinCardDetailsActivity"
+            android:launchMode="singleTop"
+            android:resizeableActivity="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/V2.Theme.Packages"
             tools:ignore="UnusedAttribute" />
 
         <!-- Hotels activities -->

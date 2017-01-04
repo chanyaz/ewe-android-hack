@@ -19,6 +19,7 @@
             style="@style/MaterialCardTextView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_search_card_height"
+            android:contentDescription="@string/rail_from_hint_cont_desc"
             app:cardCornerRadius="0dp"
             app:input_icon="@drawable/location"
             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
@@ -35,6 +36,7 @@
             style="@style/MaterialCardTextView"
             android:layout_width="match_parent"
             android:layout_height="@dimen/default_search_card_height"
+            android:contentDescription="@string/rail_to_hint_cont_desc"
             app:cardCornerRadius="0dp"
             app:input_icon="@drawable/location"
             app:input_icon_tint_color="@color/search_screen_icon_color_v2"
@@ -48,6 +50,7 @@
         android:layout_gravity="center_vertical"
         android:layout_marginRight="12dp"
         android:background="?attr/selectableItemBackground"
+        android:contentDescription="@string/rail_swap_locations_cont_desc"
         android:padding="13dp"
         android:src="@drawable/ic_search_swap"/>
 </LinearLayout>

@@ -1,11 +1,13 @@
 package com.expedia.bookings.server;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
 import org.joda.time.DateTime;
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.text.TextUtils;
@@ -73,8 +75,8 @@ public class TripParser {
 		trip.setTitle(tripJson.optString("title"));
 		trip.setDescription(tripJson.optString("description"));
 		trip.setDetailsUrl(tripJson.optString("webDetailsURL"));
-		trip.setStartDate(DateTimeParser.parseDateTime(tripJson.opt("startTime")));
-		trip.setEndDate(DateTimeParser.parseDateTime(tripJson.opt("endTime")));
+		trip.setStartDate(DateTimeParser.parseDateTime(tripJson.optJSONObject("startTime")));
+		trip.setEndDate(DateTimeParser.parseDateTime(tripJson.optJSONObject("endTime")));
 
 		trip.setBookingStatus(parseBookingStatus(tripJson.optString("bookingStatus")));
 
@@ -200,13 +202,13 @@ public class TripParser {
 		hotel.getShareInfo().setSharableDetailsUrl(obj.optString("sharableItemDetailURL").replace("/api/", "/m/"));
 
 		if (obj.has("checkInDateTime") && obj.has("checkOutDateTime")) {
-			hotel.setStartDate(DateTimeParser.parseDateTime(obj.opt("checkInDateTime")));
-			hotel.setEndDate(DateTimeParser.parseDateTime(obj.opt("checkOutDateTime")));
+			hotel.setStartDate(DateTimeParser.parseDateTime(obj.optJSONObject("checkInDateTime")));
+			hotel.setEndDate(DateTimeParser.parseDateTime(obj.optJSONObject("checkOutDateTime")));
 		}
 		else {
 			// Old version of code, kept because I'm not sure which servers support newer version yet
-			hotel.setStartDate(DateTimeParser.parseDateTime(obj.opt("checkInDate")));
-			hotel.setEndDate(DateTimeParser.parseDateTime(obj.opt("checkOutDate")));
+			hotel.setStartDate(DateTimeParser.parseISO8601DateTimeString(obj.optString("checkInDate")));
+			hotel.setEndDate(DateTimeParser.parseISO8601DateTimeString(obj.optString("checkOutDate")));
 		}
 
 		Property property = new Property();
@@ -305,12 +307,12 @@ public class TripParser {
 		parseTripCommon(obj, flight);
 
 		if (obj.has("startTime") && obj.has("endTime")) {
-			flight.setStartDate(DateTimeParser.parseDateTime(obj.opt("startTime")));
-			flight.setEndDate(DateTimeParser.parseDateTime(obj.opt("endTime")));
+			flight.setStartDate(DateTimeParser.parseDateTime(obj.optJSONObject("startTime")));
+			flight.setEndDate(DateTimeParser.parseDateTime(obj.optJSONObject("endTime")));
 		}
 		else {
-			flight.setStartDate(DateTimeParser.parseDateTime(obj.opt("startDate")));
-			flight.setEndDate(DateTimeParser.parseDateTime(obj.opt("endDate")));
+			flight.setStartDate(DateTimeParser.parseDateTime(obj.optJSONObject("startDate")));
+			flight.setEndDate(DateTimeParser.parseDateTime(obj.optJSONObject("endDate")));
 		}
 
 		// We're taking a lack of legs info to mean that this is a non-details call;
@@ -484,9 +486,24 @@ public class TripParser {
 		if (obj.has("uniqueID")) {
 			Activity activity = new Activity();
 
+			int guestCount = 0;
 			activity.setId(obj.optString("uniqueID", null));
 			activity.setTitle(obj.optString("activityTitle", null));
-			activity.setGuestCount(obj.optInt("travelerCount"));
+
+			if (obj.optJSONObject("price") != null && obj.optJSONObject("price").optJSONObject("pricePerCategory") != null) {
+				JSONObject travelerCategories = obj.optJSONObject("price").optJSONObject("pricePerCategory");
+				Iterator<?> iterator = travelerCategories.keys();
+
+				while (iterator.hasNext()) {
+					try {
+						guestCount += ((JSONObject) travelerCategories.get((String)iterator.next())).optInt("numberOfPassengers");
+					}
+					catch (JSONException e) {
+						Log.e("Exception parsing traveler from travelerCategories", e);
+					}
+				}
+			}
+			activity.setGuestCount(guestCount);
 			activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
 
 			// Parse travelers

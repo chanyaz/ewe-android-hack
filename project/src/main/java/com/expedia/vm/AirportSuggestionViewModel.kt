@@ -18,15 +18,11 @@ class AirportSuggestionViewModel(context: Context, suggestionsService: Suggestio
         return SuggestionV4Utils.RECENT_AIRPORT_SUGGESTIONS_FILE
     }
 
-    override fun getLineOfBusiness(): String {
-        return "FLIGHTS"
+    override fun getLineOfBusinessForGaia(): String {
+        return "flights"
     }
 
-    override fun getNearbyRegionType(): Int {
-        return SuggestionResultType.AIRPORT
-    }
-
-    override fun getNearbySortType(): String {
+    override fun getNearbySortTypeForGaia(): String {
         return "popularity"
     }
 }

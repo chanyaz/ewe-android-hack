@@ -12,7 +12,7 @@ abstract class BaseTravelerEntryWidgetViewModel(val context: Context, val travel
     abstract fun updateTraveler(traveler: Traveler)
     abstract fun validate(): Boolean
 
-    fun getTraveler(): Traveler {
+    open fun getTraveler(): Traveler {
         return Db.getTravelers()[travelerIndex]
     }
 }

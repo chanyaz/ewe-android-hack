@@ -12,7 +12,6 @@ import android.text.Spanned;
 import android.text.format.DateUtils;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.HotelMedia;
 import com.expedia.bookings.data.HotelOffersResponse;
@@ -234,10 +233,6 @@ public class HotelUtils {
 	public static String formattedReviewCount(int numberOfReviews) {
 		NumberFormat nf = NumberFormat.getInstance();
 		return nf.format(numberOfReviews);
-	}
-
-	public static boolean isCardIoAvailable() {
-		return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M && !ExpediaBookingApp.isDeviceShitty();
 	}
 
 	public static int getFirstUncommonHotelIndex(List<Hotel> firstListOfHotels, List<Hotel> secondListOfHotels) {
