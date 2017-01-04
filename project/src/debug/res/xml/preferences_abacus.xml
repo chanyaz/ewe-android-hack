@@ -103,7 +103,7 @@
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
-        android:title="Flights tests">
+        android:title="Flights tests (Old Path)">
 
         <ListPreference
             android:entries="@array/abacus_default_choices"
@@ -131,6 +131,12 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flight AB test - 12182" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Material Flights Tests">
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
@@ -166,7 +172,7 @@
             android:key="12765"
             android:layout="@layout/preference"
             android:summary="%s"
-            android:title="Material Flight - Round Trip on FSR" />
+            android:title="Flight Round Trip on FSR" />
 
     </PreferenceCategory>
 
