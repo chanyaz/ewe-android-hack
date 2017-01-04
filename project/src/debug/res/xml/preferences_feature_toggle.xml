@@ -11,8 +11,25 @@
             android:summary="Easy way to login use smart lock."
             android:title="Enable Smart Lock Feature" />
 
+        <CheckBoxPreference
+            android:key="@string/preference_enable_rail_checkout_login"
+            android:layout="@layout/preference"
+            android:summary="Login on Rail checkout screen."
+            android:title="Enable Login on Rail Checkout" />
+
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Flight Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_urgency_messaging_on_flights"
+            android:layout="@layout/preference"
+            android:summary="Enable Urgency Messaging On Flights."
+            android:title="Enable Urgency Messaging On Flights" />
+
+    </PreferenceCategory>
 
     <PreferenceCategory
         android:layout="@layout/preference_category_title"
@@ -24,24 +41,6 @@
             android:summary="Activity Infosite Map."
             android:title="Enable Activity Infosite Map" />
 
-        <CheckBoxPreference
-            android:key="@string/preference_enable_filter_text_search"
-            android:layout="@layout/preference"
-            android:summary="Activity Filter Text Search."
-            android:title="Enable Activity Filter Text Search" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        android:layout="@layout/preference_category_title"
-        android:title="GAIA Suggestions">
-
-        <CheckBoxPreference
-            android:key="@string/preference_enable_gaia_current_location_suggestion"
-            android:layout="@layout/preference"
-            android:summary="GAIA Current Location Suggestion"
-            android:title="Enable GAIA Current Location Suggestion" />
-
     </PreferenceCategory>
 
     <PreferenceCategory
@@ -49,10 +48,46 @@
         android:title="CheckOut Features">
 
         <CheckBoxPreference
-            android:key="@string/preference_enable_new_checkout"
+            android:key="@string/preference_enable_universal_checkout_on_lx"
             android:layout="@layout/preference"
-            android:summary="New checkout form behavior in Universal Checkout"
-            android:title="Enable new Checkout Behavior" />
+            android:summary="Bring universal checkout to LX"
+            android:title="Enable Universal Checkout on LX" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_universal_checkout_material_forms"
+            android:layout="@layout/preference"
+            android:summary="Universal Checkout Material Forms"
+            android:title="Enable Universal Checkout Material Forms" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Itin Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_itin_hotel_upgrade"
+            android:layout="@layout/preference"
+            android:summary="Upgrade your hotel room booking"
+            android:title="Enable Hotel Upgrade Feature" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_hotel_itin_soft_change_button"
+            android:layout="@layout/preference"
+            android:summary="Hotel Itinerary Soft Change."
+            android:title="Enable Hotel Itin Soft Change Button" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_itin_user_reviews"
+            android:layout="@layout/preference"
+            android:summary="Itin user review prompt"
+            android:title="Enable User Review Dialog" />
+
+        <CheckBoxPreference
+            android:key="@string/preference_itin_card_detail"
+            android:layout="@layout/preference"
+            android:summary="Itinerary card detail view"
+            android:title="Enable new itinerary detail view" />
 
     </PreferenceCategory>
 </PreferenceScreen>

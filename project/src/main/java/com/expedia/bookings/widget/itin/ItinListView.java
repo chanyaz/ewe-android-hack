@@ -1,5 +1,9 @@
 package com.expedia.bookings.widget.itin;
 
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.concurrent.Semaphore;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -7,6 +11,7 @@ import android.animation.ValueAnimator;
 import android.animation.ValueAnimator.AnimatorUpdateListener;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.TypedArray;
 import android.database.DataSetObserver;
 import android.graphics.Canvas;
@@ -25,21 +30,21 @@ import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.animation.ResizeAnimator;
 import com.expedia.bookings.data.trips.ItinCardData;
 import com.expedia.bookings.data.trips.ItinCardDataAdapter;
 import com.expedia.bookings.data.trips.ItinCardDataRails;
+import com.expedia.bookings.fragment.ItinCardDetailsActivity;
 import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.itin.ItinCard.OnItinCardClickListener;
 import com.mobiata.android.Log;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.concurrent.Semaphore;
 
 @SuppressWarnings("rawtypes")
 public class ItinListView extends ListView implements OnItemClickListener, OnScrollListener, OnItinCardClickListener {
@@ -864,6 +869,7 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 		ItinCardData data = mAdapter.getItem(position);
+		Boolean isItinCardDetailFeatureOn = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_card_detail);
 		if (view instanceof ItinButtonCard) {
 			// Do nothing
 		}
@@ -872,6 +878,10 @@ public class ItinListView extends ListView implements OnItemClickListener, OnScr
 		}
 		else if (data instanceof ItinCardDataRails) {
 			openItinInWebView(data.getDetailsUrl());
+		}
+		else if (data.hasDetailData() && isItinCardDetailFeatureOn) {
+			Intent i = new Intent(getContext(), ItinCardDetailsActivity.class);
+			getContext().startActivity(i);
 		}
 		else if (data.hasDetailData()) {
 			showDetails(position, true);

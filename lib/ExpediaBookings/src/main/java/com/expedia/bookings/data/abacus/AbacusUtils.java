@@ -28,14 +28,20 @@ public class AbacusUtils {
 	public static final int EBAndroidAppFlightInsurance = 10212;
 	public static final int EBAndroidAppHotelSearchScreenSoldOutTest = 10554;
 	public static final int EBAndroidAppLXCrossSellOnHotelConfirmationTest = 10556;
-	public static final int EBAndroidAppHotelHCKOCardIOTest = 10799;
 	public static final int EBAndroidAppHotelFavoriteTest = 10989;
 	public static final int EBAndroidAppSmartLockTest = 11269;
 	public static final int EBAndroidAppHotelResultsPerceivedInstantTest = 10555;
 	public static final int EBAndroidAppRailLineOfBusinessEnabledTest = 12113;
 	public static final int EBAndroidAppHotelFilterProminence = 11790;
 	public static final int EBAndroidItinHotelGallery = 12465;
+	public static final int EBAndroidAppFlightUrgencyMessage = 12768;
 	public static final int EBAndroidAppFlightRateDetailExpansion = 12637;
+	public static final int EBAndroidAppBringUniversalCheckoutToLX = 12630;
+	public static final int EBAndroidAppLXFilterSearch = 12689;
+	public static final int EBAndroidAppTripsUserReviews = 12794;
+	public static final int EBAndroidAppFlightsSeatClassAndBookingCode = 12763;
+	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
+	public static final int EBAndroidAppMaterialFlightSearchRoundTripMessage = 12765;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
@@ -75,13 +81,19 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppHotelSearchScreenSoldOutTest);
 		testIDs.add(EBAndroidAppHotelResultsPerceivedInstantTest);
 		testIDs.add(EBAndroidAppLXCrossSellOnHotelConfirmationTest);
-		testIDs.add(EBAndroidAppHotelHCKOCardIOTest);
 		testIDs.add(EBAndroidAppSmartLockTest);
 		testIDs.add(EBAndroidAppHotelFavoriteTest);
 		testIDs.add(EBAndroidAppRailLineOfBusinessEnabledTest);
 		testIDs.add(EBAndroidAppHotelFilterProminence);
 		testIDs.add(EBAndroidItinHotelGallery);
 		testIDs.add(EBAndroidAppFlightRateDetailExpansion);
+		testIDs.add(EBAndroidAppFlightUrgencyMessage);
+		testIDs.add(EBAndroidAppBringUniversalCheckoutToLX);
+		testIDs.add(EBAndroidAppLXFilterSearch);
+		testIDs.add(EBAndroidAppTripsUserReviews);
+		testIDs.add(EBAndroidAppFlightsSeatClassAndBookingCode);
+		testIDs.add(EBAndroidAppUniversalCheckoutMaterialForms);
+		testIDs.add(EBAndroidAppMaterialFlightSearchRoundTripMessage);
 		return testIDs;
 	}
 

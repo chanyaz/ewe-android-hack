@@ -70,15 +70,9 @@
                     android:text="@string/no_upcoming_trips"
                     android:textColor="@color/itin_offwhite_text"
                     android:textSize="18sp"
+                    android:paddingLeft="100dp"
+                    android:paddingRight="100dp"
                     app:textStyle="light" />
-
-                <Button
-                    android:id="@+id/login_button"
-                    style="@style/ItinLoginRefreshButton"
-                    android:layout_marginTop="0dp"
-                    android:bufferType="spannable"
-                    android:gravity="center"
-                    android:visibility="gone" />
 
                 <Button
                     android:id="@+id/find_itinerary_button"
@@ -92,7 +86,7 @@
                     android:visibility="gone" />
 
                 <Button
-                    android:id="@+id/no_trips_refresh_button"
+                    android:id="@+id/status_refresh_button"
                     style="@style/ItinLoginRefreshButton"
                     android:layout_marginTop="0dp"
                     android:bufferType="spannable"
@@ -153,49 +147,6 @@
                 android:textColor="@color/launch_screen_itin_divider"
                 android:textSize="14sp"
                 app:textStyle="medium" />
-
-            <View
-                android:id="@+id/empty_list_error_mask"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentTop="true"
-                android:background="#99000000"
-                android:visibility="gone" />
-
-            <LinearLayout
-                android:id="@+id/error_container"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_above="@id/or_enter_itin_number_tv"
-                android:layout_below="@id/centered_content"
-                android:layout_centerHorizontal="true"
-                android:gravity="center"
-                android:orientation="vertical"
-                android:visibility="gone" >
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/no_trips_error_message"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="24dp"
-                    android:textColor="@android:color/white"
-                    android:textSize="28sp"
-                    app:textStyle="light" />
-
-                <Button
-                    android:id="@+id/no_trips_try_again_button"
-                    style="@style/LoginFormButton"
-                    android:layout_width="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:background="@drawable/btn_cancel"
-                    android:bufferType="spannable"
-                    android:contentDescription="@string/sign_in_for_your_trips"
-                    android:gravity="center"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
-                    android:text="@string/try_again"
-                    android:textStyle="bold" />
-            </LinearLayout>
         </RelativeLayout>
 
         <LinearLayout

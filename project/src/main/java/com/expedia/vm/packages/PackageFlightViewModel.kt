@@ -12,4 +12,8 @@ class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractF
             return flightLeg.packageOfferModel.price.differentialPriceFormatted
         }
     }
+
+    override fun getUrgencyMessageVisibilty(): Boolean {
+        return false
+    }
 }

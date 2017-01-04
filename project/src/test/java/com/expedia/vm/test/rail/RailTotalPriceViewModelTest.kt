@@ -14,12 +14,13 @@ import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
-class RailTotalPriceViewModelTest {
+class
+RailTotalPriceViewModelTest {
     val context = RuntimeEnvironment.application
     val testVM = RailTotalPriceViewModel(context)
 
     val mockTotal = Mockito.mock(Money::class.java)
-    val testTotalString = "100$"
+    val testTotalString = "$100"
 
     @Test
     fun testBundleDefaultDisplayStrings() {
@@ -35,7 +36,10 @@ class RailTotalPriceViewModelTest {
 
     @Test
     fun assertAccessibility() {
-        assertEquals("", testVM.getAccessibleContentDescription(), "Muahaha now you have to write tests.")
+        Mockito.`when`(mockTotal.getFormattedMoneyFromAmountAndCurrencyCode(Mockito.anyInt())).thenReturn(testTotalString)
+        testVM.total.onNext(mockTotal)
+        assertEquals("Total, Payment and ticket delivery fees may also apply, $testTotalString. Cost breakdown dialog. Button.",
+                testVM.getAccessibleContentDescription())
     }
 
     @Test

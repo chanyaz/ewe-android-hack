@@ -125,8 +125,6 @@
     <string name="calendar_desc_itinerary_TEMPLATE">Núm. de itinerario de {brand}: {itinerary}</string>
     <!-- Part of the description, showing a phone # for support.  %1$s is the local phone number and %2$s is for toll free no, e.g. "Expedia Customer Support: 222-222-2222 and 800-321-1111" -->
     <string name="calendar_desc_support_TEMPLATE">Servicio de atención a clientes de {brand}: {localphone} y {phone}</string>
-    <!--Car search dates content description for Talkback to indicate what the car search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 to Jun 23 -->
-    <string name="car_search_date_range_cont_desc_TEMPLATE">Fechas de alquiler de auto. Botón. Abre el cuadro de diálogo. {date_time_range}</string>
     <!-- Accessibility - Content Description for activity map view on activity details -->
     <string name="activity_map_view_cont_desc">Ubicación de la actividad usando la vista de mapa de Google</string>
 
@@ -256,14 +254,15 @@
     <string name="stored_card_TEMPLATE">{cardtype} guardada</string>
     <!-- Select card from checkout saved cards list -->
     <string name="saved_cards">Tarjetas guardadas</string>
-    <!-- text that goes underneath the camera button for card_io -->
-    <string name="card_io_btn_text">ESCANEAR</string>
-    <!-- Card.io scan text -->
-    <string name="scan_card_text">Escanear tarjeta</string>
-    <!-- Card.io instruction text -->
-    <string name="scan_card_instruction_text">Mantén la tarjeta a esta altura. Se escaneará automáticamente.</string>
     <!--Hotels accessibility content description for Cost Summary Button-->
     <string name="accessibility_cost_summary_cont_desc_role_button">Botón de resumen del costo</string>
+    <!--Universal Checkout Announcement for outstanding invalid form fields. E.g. You have 3 errors on the form OR You have 1 error on the form-->
+    <plurals name="number_of_errors_TEMPLATE">
+        <item quantity="one">Hay {number} error en el formulario.</item>
+        <item quantity="other">Hay {number} errores en el formulario.</item>
+    </plurals>
+    <!-- Accessibility announcement requesting user to fix errors on checkout forms. -->
+    <string name="accessibility_announcement_please_review_and_resubmit">Verifícalo y vuelve a enviarlo.</string>
 
     <!-- Car error strings -->
     <!-- Message for user that pick-up time is too early.  -->
@@ -310,7 +309,7 @@
     <!-- Select dates - used for the Calendar. Must be "proper case" -->
     <string name="select_dates_proper_case">Seleccionar fechas</string>
     <!-- Select Start date - used for the LX Calendar. -->
-    <string name="select_start_date">Seleccionar la fecha de inicio</string>
+    <string name="select_start_date">Seleccionar fecha de inicio</string>
     <!-- Hotels Tonight -->
     <string name="hotels_tonight">Hotel para hoy</string>
     <!-- Missing flight info message -->
@@ -740,8 +739,6 @@
     <string name="lx_voucherless_offer">Cupón electrónico</string>
     <!-- Message for voucherless offers  -->
     <string name="lx_print_voucher_offer">Se debe presentar un cupón electrónico</string>
-    <!-- Card brand not supported (e.g. "Visa not accepted") -->
-    <string name="lx_does_not_accept_cardtype_TEMPLATE">No se acepta %1$s</string>
     <!-- LX Error Activity Price Changed -->
     <string name="lx_error_price_changed">Lo sentimos, el precio de esta actividad cambió. Intenta buscar otra vez.</string>
     <!-- LX Error Limited Inventory -->
@@ -1036,6 +1033,8 @@
     <string name="Sign_in_with_cont_desc_TEMPLATE">Botón para iniciar sesión con {brand}</string>
     <!-- Sign in with earn message. Eg: Sign in to earn 123 Expedia+ points -->
     <string name="Sign_in_to_earn_TEMPLATE">Inicia sesión para acumular {reward} puntos de Expedia+</string>
+    <!-- Content description for sign in with earn message. Eg: Sign in to earn 123 Expedia+ points button -->
+    <string name="Sign_in_to_earn_cont_desc_TEMPLATE">Botón para iniciar sesión para acumular {reward} puntos de Expedia+</string>
     <!-- or -->
     <string name="or">o</string>
 
@@ -1075,6 +1074,37 @@
     <string name="from_hint">Sale de</string>
     <!-- Rail to hint -->
     <string name="to_hint">Llega a</string>
+
+    <!-- Accessibility String Informs the user of selected departure time. Ex. "Departure Time: Feb 4 12:00 -->
+    <string name="rail_depart_time_cont_desc_TEMPLATE">Fecha y hora de salida: {time}</string>
+
+    <!-- Accessibility string informs the user of selected return time. Ex. "Return Time: Feb 8 15:00-->
+    <string name="rail_return_time_cont_desc_TEMPLATE">Fecha y hora de llegada: {time}</string>
+
+    <!-- Accessibility string to tell the user this text is also a button -->
+    <string name="rail_from_hint_cont_desc">Botón que indica el lugar de salida</string>
+    <!-- Accessibility string to tell the user this text is also a button -->
+    <string name="rail_to_hint_cont_desc">Botón que indica el lugar de llegada</string>
+
+    <!-- Accessibility string to tell the user the departing station they selected Ex. Going from London Euston. Button -->
+    <string name="rail_going_from_location_cont_desc_TEMPLATE">Sale de {location}. Botón</string>
+    <!-- Accessibility string to tell the user the destination station they selected Ex. Going to Sugar loaf. Button -->
+    <string name="rail_going_to_location_cont_desc_TEMPLATE">Llega a {location}. Botón</string>
+
+    <!-- Accessibility description, infroms the user of the rail card button, and describes currently selected number of railcards-->
+    <plurals name="search_rail_card_cont_desc_TEMPLATE">
+        <item quantity="one">Cantidad de tarjetas de descuento. Botón. Abre el cuadro de diálogo. {count} tarjeta de descuento</item>
+        <item quantity="other">Cantidad de tarjetas de descuento. Botón. Abre el cuadro de diálogo. {count} tarjetas de descuento</item>
+    </plurals>
+
+
+    <!-- Accessibility string telling the user the swap button will change the departure and destination selections -->
+    <string name="rail_swap_locations_cont_desc">Intercambiar el lugar de llegada por el lugar de salida.</string>
+
+    <!-- Accessibility announcement when one way search screen is selected. -->
+    <string name="rail_tab_oneway_selected_announcement">Se muestra la pantalla de búsqueda de viaje de ida en tren</string>
+    <!-- Accessibility announcement when Return search screen is selected. -->
+    <string name="rail_tab_roundtrip_selected_announcement">Se muestra la pantalla de búsqueda de viaje de vuelta en tren</string>
 
     <!-- New launch screen -->
     <!-- Top deals tonight -->
@@ -1196,6 +1226,12 @@
     <string name="itinerary_fetch_error">Hubo un error al buscar tus itinerarios</string>
     <!-- Sign in for your trips -->
     <string name="sign_in_for_your_trips">Inicia sesión para tus viajes</string>
+    <!-- Button text to refresh your trips -->
+    <string name="refresh_trips">Actualizar los resultados</string>
+    <!-- Itinerary screen when we can't fetch any trips -->
+    <string name="fetching_trips_error">No pudimos encontrar tus itinerarios. Inténtalo de nuevo.</string>
+    <!-- Itinerary screen when we connection fails while fetching trips -->
+    <string name="fetching_trips_error_connection">No podemos conectarnos en este momento.</string>
     <!-- String for Tomorrow as in "Marriott Grand Hotel - Tomorrow" -->
     <string name="tomorrow">Mañana</string>
     <!-- String for Today as in "Marriott Grand Hotel - Today" -->
@@ -1271,6 +1307,8 @@
     <string name="trips_back_button_label_cont_desc">Botón para volver a la pantalla de viajes</string>
     <!-- Content Description for chevron image to expand selected itinerary/trip -->
     <string name="trips_expand_button_label_cont_desc">Botón para ampliar el viaje</string>
+    <!-- Content Description for upgrade image to upgrade hotel room -->
+    <string name="trips_upgrade_hotel_button_label_cont_desc">Obtener ascenso de categoría de habitación</string>
     <!-- Hotel confirmation code "Hotel Confirmation Code" -->
     <string name="hotel_confirmation_code_label">Código de confirmación del hotel</string>
     <!-- Passengers Label -->
@@ -1387,8 +1425,6 @@
     <string name="flight_arrived">Llegó</string>
     <!-- Refresh -->
     <string name="refresh">Actualizar</string>
-    <!-- Try Again -->
-    <string name="try_again">Inténtalo de nuevo</string>
     <!-- Button label for copying a piece of text.  %1$s is the text, e.g. "COPY 123-456-7890" -->
     <string name="copy_TEMPLATE">COPIAR %1$s</string>
     <!-- Hours and minutes duration future TEMPLATE. This will be used to produce a string like:"in 3 hours and 12 minutes". Args: %1$s = hours e.g. "3 hours". %2$s = minutes e.g. "12 minutes". -->
@@ -1529,7 +1565,13 @@
     <string name="itin_card_details_details">Información adicional</string>
     <!-- Label for button to cancel Hotel booking -->
     <string name="itin_card_details_cancel_hotel_room">Cancelar habitación de hotel</string>
+    <!-- Label for button to upgrade Hotel room -->
+    <string name="itin_card_details_upgrade_hotel_button">¡Ascenso de categoría disponible por tiempo limitado!</string>
     <string name="itin_card_flight_checkin_title">Check-in del vuelo</string>
+    <!-- Label for button to edit Hotel booking -->
+    <string name="itin_card_edit_hotel_room_info">Editar información de la habitación</string>
+    <!-- Accessibility announcement for button to edit Hotel booking -->
+    <string name="itin_card_change_hotel_options">Cambiar opciones de hotel</string>
 
     <string name="itin_card_flight_checkin_details">Visita el sitio web de %s</string>
     <string name="itin_card_details_pick_up">Entrega</string>
@@ -1741,8 +1783,10 @@
     <string name="flights_round_trip_label">IDA Y VUELTA</string>
     <!-- Flights Search view button label for one-way searches -->
     <string name="flights_one_way_label">IDA</string>
-    <!-- Flights Search view. Accessibility announcement when ONE WAY/ROUND TRIP is selected. Example: Showing ROUND TRIP flight search screen. -->
-    <string name="flights_tab_selection_accouncement_TEMPLATE">Mostrando la pantalla de búsqueda de vuelos ({whichway})</string>
+    <!-- Flights Search view. Accessibility announcement when One Way TRIP is selected. Example: Showing One Way flight search screen. -->
+    <string name="flights_tab_selection_accouncement_oneway">Se muestra la pantalla de búsqueda de vuelo de ida</string>
+    <!-- Flights Search view. Accessibility announcement when Round TRIP is selected. Example: Showing Round Trip flight search screen. -->
+    <string name="flights_tab_selection_accouncement_roundtrip">Se muestra la pantalla de búsqueda de vuelo de ida y vuelta</string>
     <!-- Label to identify selected outbound flight/rail card -->
     <string name="outbound_label">Vuelta</string>
     <!-- Flights Line of Business title -->
@@ -1783,6 +1827,9 @@
     <string name="error_try_again_warning">Volvamos a intentarlo.</string>
     <!-- Flights unknown error screen:- retry button label -->
     <string name="flight_error_retry">Intentarlo de nuevo</string>
+
+    <!-- Flights seatClass and Booking Code Template. Example: Economy (O) -->
+    <string name="flight_seatclass_booking_code_TEMPLATE">{seat_class} ({booking_code})</string>
 
     <!-- Flights -->
     <!-- Label for Flight Search in task manager -->
@@ -1864,6 +1911,8 @@
     <string name="edit_search">Modificar la búsqueda</string>
     <!-- Action mode asking users to select dates -->
     <string name="select_dates">Seleccionar fechas</string>
+    <!-- Accessibilty labeling to the user the trip dates card. -->
+    <string name="trip_dates_cont_desc">Fechas de viaje</string>
     <!-- Action mode asking users to select location -->
     <string name="search_destination">Buscar destino</string>
     <!-- Number of adults template -->
@@ -2034,13 +2083,15 @@
     <!-- Airline processing fee for this card. Example: Airline processing fee for this card: $5 -->
     <string name="airline_processing_fee_TEMPLATE">El cargo de la línea aérea por procesar esta tarjeta es: &lt;b&gt;{card_fee}&lt;/b&gt;</string>
     <!-- Airline does not accept <Credit Card Brand> (e.g. "Airline does not accept Visa") -->
-    <string name="airline_does_not_accept_cardtype_TEMPLATE">La línea aérea no acepta %1$s</string>
+    <string name="airline_does_not_accept_cardtype_TEMPLATE">La línea aérea no acepta {card_type}</string>
     <!-- Hotel does not accept <Credit Card Brand> (e.g. "Hotel does not accept Visa") -->
-    <string name="hotel_does_not_accept_cardtype_TEMPLATE">El hotel no acepta %1$s</string>
-    <!-- Package trip does not accept <Credit Card Brand> (Example: Visa is not accepted for this trip) -->
-    <string name="package_does_not_accept_cardtype_TEMPLATE">No se aceptan tarjetas {card_type} para este viaje</string>
-    <!-- Car supplier does not accept <Credit Card Brand> (e.g. "Enterprise does not accept Visa") -->
-    <string name="car_does_not_accept_cardtype_TEMPLATE">%1$sEl no acepta %2$s</string>
+    <string name="hotel_does_not_accept_cardtype_TEMPLATE">El hotel no acepta {card_type}</string>
+    <!-- Package trip does not accept <Credit Card Brand> (Example: Trip does not accept Visa) -->
+    <string name="package_does_not_accept_cardtype_TEMPLATE">La reservación del viaje no se puede pagar con {card_type}</string>
+    <!-- Rental company does not accept <Credit Card Brand> (e.g. "Rental company does not accept Visa") -->
+    <string name="car_does_not_accept_cardtype_TEMPLATE">La empresa de alquiler no acepta {card_type}</string>
+    <!-- Activity does not accept <Credit Card Brand> (e.g. "Activity does not accept Discover") -->
+    <string name="lx_does_not_accept_cardtype_TEMPLATE">La reservación de la actividad no se puede pagar con {card_type}</string>
     <!-- Debit cards not supported message -->
     <string name="debit_cards_not_accepted">No se aceptan tarjetas de débito.</string>
 
@@ -2125,8 +2176,8 @@
     <string name="to_be_collected_by_the_hotel_TEMPLATE">A pagar al hotel: {dueamount}</string>
     <!-- "Finish Booking" button that appears after CVV is entered -->
     <string name="Finish_Booking">Finalizar la reservación</string>
-    <!-- Our best price gaurentee string -->
-    <string name="best_price_guarantee">Garantía del mejor precio</string>
+    <!-- Our price gaurentee string -->
+    <string name="price_guarantee">Precio garantizado</string>
     <!-- Free cancellation template string where we insert the date the free cancellation expires -->
     <string name="free_cancellation_date_TEMPLATE">&lt;b&gt;Cancelación gratuita&lt;/b&gt; antes del &lt;b&gt;%s&lt;/b&gt;</string>
     <!-- Sign out -->
@@ -3209,8 +3260,6 @@
     <string name="sign_in">Iniciar sesión</string>
     <!-- Progress dialog text when we are signing the user into Expedia -->
     <string name="signing_in">Iniciando sesión…</string>
-    <!-- Message that tells user they failed to sign in -->
-    <string name="sign_in_failed">Inicia sesión otra vez</string>
     <!-- Label for sign out confirmation -->
     <string name="sign_out_confirmation_TEMPLATE">¿Estás seguro de que quieres cerrar tu sesión de {brand}?</string>
     <!-- Label for loading user profile from Expedia -->
@@ -4064,7 +4113,6 @@
 
     <string name="lob_not_supported_error_message">Lo sentimos, pero todavía no es posible reservar {lob} en tu ubicación.</string>
 
-
     <!-- Adult age label on rail search -->
     <string name="rail_adult_age_label">(De 26 a 59 años)</string>
 
@@ -4408,6 +4456,9 @@
     <!-- Legal message shown on search result screen for round trip search -->
     <string name="rail_search_legal_banner_round_trip">Las tarifas corresponden a precios de ida y vuelta para todos los pasajeros. Es posible que también se apliquen cargos por pago y envío de boletos.</string>
 
+    <!-- Accessible legal message shown on search result screen for round trip search -->
+    <string name="rail_search_legal_banner_round_trip_cont_desc">Las tarifas corresponden a precios de ida y vuelta para todos los pasajeros. Es posible que también se apliquen cargos por pago y envío de boletos. Botón</string>
+
     <!-- Rail inbound results price difference for each leg, for example " +$5.50"-->
     <string name="rail_price_difference_TEMPLATE">+ {pricedifference}</string>
 
@@ -4524,17 +4575,42 @@
     <string name="rail_unknown_error_message">Modifica los criterios de búsqueda e inténtalo de nuevo.</string>
     <string name="rail_cko_retry_error_message">Verifica tu información de facturación e inténtalo de nuevo, o modifica la búsqueda.</string>
 
+    <!-- Rails content description for add railcard button on Railcards screen -->
+    <string name="rail_add_railcard_cont_desc">Agregar tarjeta de descuento</string>
+    <!-- Rails content description for remove railcard button on Railcards screen -->
+    <string name="rail_remove_railcard_cont_desc">Eliminar tarjeta de descuento</string>
+
     <!-- Confirmation screen -->
     <!-- leg departure arrival station info, e.g. EdgeHill to Ryde -->
     <string name="rail_departure_arrival_station_TEMPLATE">De {departurestation} a {arrivalstation}</string>
     <!-- leg departure time and travelers info, e.g. Mar 22, 9am, 2 Travelers -->
     <string name="rail_departure_time_travelers_TEMPLATE">{departuretime}, {travelers}</string>
 
-    <string name="pwp_points_conversion_unauthenticated_access">Lo sentimos, tuvimos un problema en el servidor. Inténtalo de nuevo.</string>
-    <string name="pwp_trip_service_error">Lo sentimos, tuvimos un problema en el servidor. Inténtalo de nuevo.</string>
-    <string name="pwp_unknown_error">Ha surgido un error desconocido. Inténtalo de nuevo.</string>
+    <!--Rails content description for results card, e.g. Departs at 10:06am Arrives at 11:11am London Midlan Trip Duration 5h 43min, 2 changes -->
+    <string name="rail_result_card_cont_desc_TEMPLATE">Hora de salida: {departuretime} Hora de llegada: {arrivaltime} Duración del viaje de {trainoperator}: {tripdurationandchanges}</string>
+    <!--Rails content description for journey details, e.g. London Euston to Crewe via Train on Virgin Trains duration 1h34m, departs at 06:36am Arrives at 08:10am -->
+    <string name="rail_journey_details_cont_desc_TEMPLATE">El viaje de {departurestation} a {arrivalstation} en {travelmode} con {trainoperator} dura {duration}. Sale a las {departuretime} y llega a las {arrivaltime}.</string>
+    <!--Rails content description for results card Railcard applied portion -->
+    <string name="rail_railcard_applied_cont_desc">Tarjeta de descuento aplicada</string>
+    <!--Rails content description for results card showing starting fare, e.g. Fares from $100 -->
+   <string name="rail_result_card_price_from_cont_desc_TEMPLATE">Precios desde {price}</string>
+   <!-- Rail selected outbound content description on the outbound results -->
+   <string name="rail_selected_outbound_cont_desc">Viaje de ida seleccionado:</string>
+    <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
+    <string name="rail_button_cont_desc_TEMPLATE">{description}. Botón</string>
 
-    <!-- New Hotel Search screen -->
+    <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
+    <string name="rail_railcard_applied_cont_desc_TEMPLATE">Tarjeta de descuento aplicada: {railcards}</string>
+
+    <!-- Accessibility string describing button opens cost breakdown dialog.
+        Ex. Total, payment and fess may apply, $120. Cost Breakdown dialog. Button.-->
+    <string name="rail_cost_breakdown_button_cont_desc_TEMPLATE">{costsummary}. Cuadro de diálogo del desglose de gastos. Botón.</string>
+
+   <string name="pwp_points_conversion_unauthenticated_access">Lo sentimos, tuvimos un problema en el servidor. Inténtalo de nuevo.</string>
+   <string name="pwp_trip_service_error">Lo sentimos, tuvimos un problema en el servidor. Inténtalo de nuevo.</string>
+   <string name="pwp_unknown_error">Ha surgido un error desconocido. Inténtalo de nuevo.</string>
+
+   <!-- New Hotel Search screen -->
     <string name="enter_destination_hint">Ingresa un destino</string>
     <!-- New Hotel Content description for destination button, e.g- Enter Destination. Button-->
     <string name="enter_destination_cont_desc">Ingresar destino. Botón</string>
@@ -4658,11 +4734,7 @@
     <!--Flying from card content description before a location is selected-->
     <string name="packages_search_flying_from_cont_desc">Origen. Botón</string>
     <!--Travel dates card content description before date range is selected-->
-    <string name="packages_search_dates_cont_desc">Selecciona las fechas de viaje. Botón. Abre el cuadro de diálogo</string>
-    <!--Packages search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
-    <string name="packages_search_date_range_cont_desc_TEMPLATE">Del {startdate} al {enddate}</string>
-    <!--Packages search dates content description for Talkback to indicate what the date range is and how many nights the trip is for Eg. Trip dates. Button. Opens dialog. Jun 22 to Jun 25. (3 nights)-->
-    <string name="trip_search_date_range_cont_desc_TEMPLATE">Fechas de viaje. Botón. Abre el cuadro de diálogo. {date_range}. {nights}</string>
+    <string name="select_travel_dates_cont_desc">Selecciona las fechas de viaje. Botón. Abre el cuadro de diálogo</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
     <string name="hotel_card_view_price_cont_desc_TEMPLATE">Precio: {price}.  \u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
@@ -4670,6 +4742,9 @@
         <item quantity="one">Cantidad de pasajeros. Botón. Abre el cuadro de diálogo. {travelers} pasajero</item>
         <item quantity="other">Cantidad de pasajeros. Botón. Abre el cuadro de diálogo. {travelers} pasajeros</item>
     </plurals>
+
+    <!--search date format template for accessible dates (Talkback announces date range with 'to' in between) Eg. Jun 2 to Jun 5-->
+    <string name="search_date_range_cont_desc_TEMPLATE">Del {startdate} al {enddate}</string>
     <!--Traveler widget adults plus button content description-->
     <string name="add_adult_traveler_cont_desc">Agregar un adulto</string>
     <!--Traveler widget adults minus button content description-->
@@ -4688,11 +4763,11 @@
     <!--Rail Traveler widget senior minus button content description-->
     <string name="rails_remove_senior_traveler_cont_desc">Eliminar un adulto mayor</string>
 
-    <!--Packages search child age drop down content description Eg. "Select age for child 1."-->
+    <!--Packages and Rails search child age drop down content description Eg. "Select age for child 1."-->
     <string name="search_child_drop_down_cont_desc_TEMPLATE">Seleccionar la edad para el menor {childnumber}.</string>
-    <!--Packages search youth age drop down content description Eg. "Select age for youth 1."-->
+    <!--Rails search youth age drop down content description Eg. "Select age for youth 1."-->
     <string name="search_youth_drop_down_cont_desc_TEMPLATE">Seleccionar la edad para el joven {youthnumber}.</string>
-    <!--Packages search senior age drop down content description Eg. "Select age for senior 1."-->
+    <!--Rails search senior age drop down content description Eg. "Select age for senior 1."-->
     <string name="search_senior_drop_down_cont_desc_TEMPLATE">Seleccionar la edad para el adulto mayor {seniornumber}.</string>
     <!--Packages search alternate datepicker announce for accessibility-->
     <!--Announce for choosing start date before showing datepicker dialog-->
@@ -4707,10 +4782,10 @@
     <!--Content description for clear button in filter used for Talkback-->
     <string name="packages_flight_search_filter_clear_button_cont_desc">Borrar filtros. Botón</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
-    <string name="bundle_overview_price_widget">El total del paquete es {totalprice}. El precio incluye impuestos, cargos de ambos vuelos y hotel. {savings}</string>
+    <string name="bundle_overview_price_widget_TEMPLATE">El total del paquete es {totalprice}. El precio incluye impuestos y cargos aplicables a los vuelos y al hotel. {savings}</string>
     <!--Content description for Bundle total widget. Example: Bundle total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
     <string name="bundle_total_price_widget_cost_breakdown_cont_desc_TEMPLATE">El total del paquete es {totalprice}. El precio incluye impuestos y cargos aplicables a los vuelos y al hotel. {savings}. Cuadro de diálogo del desglose de gastos. Botón.</string>
-    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle total is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Button to view bundle.-->
+    <!--Content description for Bundle sliding widget, with instruction to expand to show more details. Example: Bundle price is $1,234.00 per person. This price includes taxes, fees for both flights and hotel. Button to view bundle.-->
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">El precio del paquete es {price_per_person} por persona. El precio incluye impuestos y cargos aplicables a los vuelos y al hotel. Botón para ver el paquete.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Se muestran los detalles del paquete. Botón para cerrar.</string>
@@ -4760,8 +4835,10 @@
     <string name="lx_add_ticket_button_cont_desc_TEMPLATE">Agregar {traveler}</string>
     <!-- Content description for LX remove ticket button e.g. Remove child Button -->
     <string name="lx_remove_ticket_button_cont_desc_TEMPLATE">Eliminar {traveler}</string>
-    <!--LX search dates content description for Talkback to indicate what the activity search date is for Eg. Activity dates. Button. Opens dialog. Jun 22 -->
-    <string name="lx_search_date_range_cont_desc_TEMPLATE">Fechas de actividades. Botón. Abre el cuadro de diálogo. {date_range}</string>
+    <!-- Announcement on LX add button Click  e.g One adult Added -->
+    <string name="lx_ticket_added_announce_accessibility_TEMPLATE">{traveler} agregado</string>
+    <!-- Announcement on LX remove button click e.g One adult Removed -->
+    <string name="lx_ticket_removed_announce_accessibility_TEMPLATE">{traveler} eliminado</string>
 
     <!-- Content description for action: $44. Cost summary information button. -->
     <string name="lx_selection_cost_summary_cont_desc_TEMPLATE">{trip_total}. Botón de resumen del costo.</string>
@@ -4799,6 +4876,8 @@
     <string name="hotel_room_expand_cont_desc">Ampliar para ver la información y seleccionar la habitación</string>
     <!--Packages accessibility content description for hotel room selection collapse -->
     <string name="hotel_expanded_room_select_cont_desc">Seleccionar habitación</string>
+    <!-- Content Description for payment options list when card is not accepted -->
+    <string name="accessibility_cont_desc_card_is_disabled">deshabilitada</string>
 
     <!-- LX SRP activity price content description when no discount e.g. Price is $30 -->
     <string name="activity_price_without_discount_cont_desc_TEMPLATE">El precio es {activity_price}</string>
@@ -4811,6 +4890,11 @@
     <string name="accessibility_cont_desc_role_checkbox_unchecked">Casilla de verificación. No seleccionada.</string>
     <string name="base_search_dates_cont_desc">Seleccionar fechas. Botón. Abre el cuadro de diálogo</string>
     <string name="lx_search_start_date_cont_desc">Seleccionar la fecha de inicio. Botón. Abre el cuadro de diálogo</string>
+
+    <!-- Accessibility string, indicates the type of trip and the duration of the trip. -->
+    <!-- Ex. Select Dates. Button. Opens dialog. Dec 22 to Dec 25 (3 nights) -->
+    <!-- Ex 2. Select pick-up and drop-off dates. Button. Opens dialog. Jan 1 5:00 to Jan 5 18:00 -->
+    <string name="search_dates_cont_desc_TEMPLATE">Botón de {dates_label}. Abre el cuadro de diálogo. {duration_description}</string>
 
     <!-- Discount amount shown with minus e.g. -$30 -->
     <string name="discount_minus_amount">-{amount}</string>
@@ -4848,8 +4932,8 @@
     <!-- Trips copy to clipboard itinerary number. -->
     <string name="copy_to_clipboard_cont_desc">Copiar en el portapapeles. Botón.</string>
 
-    <!-- LX Carousal images content description : Activity Selected, 3 of 5 photos. -->
-    <string name="lx_carousal_cont_desc_TEMPLATE">Actividad seleccionada, {caption}</string>
+    <!-- LX Carousal images content description : Activity, 3 of 5 photos. -->
+    <string name="lx_carousal_cont_desc_TEMPLATE">Actividad, {caption}</string>
 
     <!-- Gallery Image count e.g. "1/14" -->
     <string name="gallery_photo_count_TEMPLATE">{index}/{count}</string>
@@ -4862,5 +4946,17 @@
 
     <!-- Flights Results Multiple Carriers Label for more than 3 carriers or if carriers cause line wrap -->
     <string name="multiple_carriers_text">Múltiples aerolíneas</string>
+    <!-- Room Upgrade Available messaging on Itin Screen -->
+    <string name="room_upgrade_available">Ascenso de categoría disponible</string>
+    <!-- Title for App Rating Dialog -->
+    <string name="dialog_app_rating_title">¿Cómo fue tu experiencia?</string>
+    <!-- Message for App Rating Dialog -->
+    <string name="dialog_app_rating_message">Si te gusta nuestra aplicación, comparte tu opinión y deja un comentario en Play Store.</string>
+    <!-- Button for App Rating Dialog to go to play store and review app-->
+    <string name="dialog_app_rating_review_button">Hacer un comentario</string>
+    <!-- Button for App Rating Dialog to email feedback -->
+    <string name="dialog_app_rating_feedback_button">Enviar por correo electrónico</string>
+    <!-- Button for App Rating Dialog to decline review -->
+    <string name="dialog_app_rating_no_button">No, gracias</string>
 
 </resources>

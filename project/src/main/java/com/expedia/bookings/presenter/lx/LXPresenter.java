@@ -1,7 +1,5 @@
 package com.expedia.bookings.presenter.lx;
 
-import javax.inject.Inject;
-
 import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -10,12 +8,14 @@ import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.view.animation.DecelerateInterpolator;
-
+import butterknife.InjectView;
 import com.expedia.bookings.R;
 import com.expedia.bookings.animation.TransitionElement;
 import com.expedia.bookings.data.LXState;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.lob.lx.ui.viewmodel.LXSearchViewModel;
 import com.expedia.bookings.otto.Events;
@@ -30,8 +30,7 @@ import com.expedia.bookings.widget.LoadingOverlayWidget;
 import com.expedia.vm.LXMapViewModel;
 import com.google.android.gms.maps.MapView;
 import com.squareup.otto.Subscribe;
-
-import butterknife.InjectView;
+import javax.inject.Inject;
 import rx.Observer;
 
 public class LXPresenter extends Presenter {
@@ -61,12 +60,20 @@ public class LXPresenter extends Presenter {
 	@InjectView(R.id.confirmation)
 	LXConfirmationWidget confirmationWidget;
 
+
+	LXCheckoutPresenter checkoutPresenter;
+
+	LXOverviewPresenter overviewPresenter;
+
 	private static class LXParamsOverlay {
 		// ignore
 	}
 
-	@InjectView(R.id.lx_checkout_presenter)
-	LXCheckoutPresenter checkoutPresenter;
+	@InjectView(R.id.overview_presenter)
+	ViewStub overviewPresenterViewStub;
+
+	@InjectView(R.id.lx_checkout_presenter_stub)
+	ViewStub checkoutPresenterViewStub;
 
 	@Inject
 	LXState lxState;
@@ -74,6 +81,12 @@ public class LXPresenter extends Presenter {
 	@Override
 	public void onFinishInflate() {
 		super.onFinishInflate();
+		if (isUniversalCheckout()) {
+			overviewPresenter = (LXOverviewPresenter) overviewPresenterViewStub.inflate();
+		}
+		else {
+			checkoutPresenter = (LXCheckoutPresenter) checkoutPresenterViewStub.inflate();
+		}
 		Ui.getApplication(getContext()).lxComponent().inject(this);
 
 		searchParamsWidget.setSearchViewModel(new LXSearchViewModel(getContext()));
@@ -82,11 +95,16 @@ public class LXPresenter extends Presenter {
 		addTransition(resultsToDetails);
 		addTransition(searchOverlayOnResults);
 		addTransition(searchOverlayOnDetails);
-		addTransition(detailsToCheckout);
 		addTransition(detailsToSearch);
 
-		addTransition(checkoutToConfirmation);
-		addTransition(checkoutToResults);
+		if (isUniversalCheckout()) {
+			addTransition(detailsToCheckoutV2);
+		}
+		else {
+			addTransition(detailsToCheckout);
+			addTransition(checkoutToConfirmation);
+			addTransition(checkoutToResults);
+		}
 		show(resultsPresenter);
 		resultsPresenter.setVisibility(VISIBLE);
 
@@ -158,6 +176,19 @@ public class LXPresenter extends Presenter {
 			super.endTransition(forward);
 			if (!forward) {
 				AccessibilityUtil.setFocusToToolbarNavigationIcon(detailsPresenter.toolbar);
+			}
+		}
+	};
+
+	private Transition detailsToCheckoutV2 = new VisibilityTransition(this, LXDetailsPresenter.class, LXOverviewPresenter.class) {
+		@Override
+		public void endTransition(boolean forward) {
+			super.endTransition(forward);
+			if (!forward) {
+				AccessibilityUtil.setFocusToToolbarNavigationIcon(detailsPresenter.toolbar);
+			}
+			else {
+				overviewPresenter.makeNewCreateTripCall();
 			}
 		}
 	};
@@ -342,7 +373,12 @@ public class LXPresenter extends Presenter {
 
 	@Subscribe
 	public void onOfferBooked(Events.LXOfferBooked event) {
-		show(checkoutPresenter);
+		if (isUniversalCheckout()) {
+			show(overviewPresenter);
+		}
+		else {
+			show(checkoutPresenter);
+		}
 	}
 
 	@Subscribe
@@ -354,13 +390,19 @@ public class LXPresenter extends Presenter {
 		this.isGroundTransport = isGroundTransport;
 		resultsPresenter.setIsFromGroundTransport(isGroundTransport);
 		detailsPresenter.details.setIsFromGroundTransport(isGroundTransport);
-		checkoutPresenter.setIsFromGroundTransport(isGroundTransport);
-		checkoutPresenter.checkout.setIsFromGroundTransport(isGroundTransport);
-		confirmationWidget.setIsFromGroundTransport(isGroundTransport);
-		checkoutPresenter.checkout.paymentInfoCardView.getViewmodel().getLineOfBusiness()
-			.onNext(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
-		checkoutPresenter.checkout.mainContactInfoCardView
-			.setLineOfBusiness(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
+		if (!isUniversalCheckout()) {
+			checkoutPresenter.setIsFromGroundTransport(isGroundTransport);
+			checkoutPresenter.checkout.setIsFromGroundTransport(isGroundTransport);
+			confirmationWidget.setIsFromGroundTransport(isGroundTransport);
+			checkoutPresenter.checkout.paymentInfoCardView.getViewmodel().getLineOfBusiness()
+				.onNext(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
+			checkoutPresenter.checkout.mainContactInfoCardView
+				.setLineOfBusiness(isGroundTransport ? LineOfBusiness.TRANSPORT : LineOfBusiness.LX);
+		}
+	}
+
+	private boolean isUniversalCheckout() {
+		return LineOfBusinessExtensions.Companion.isUniversalCheckout(LineOfBusiness.LX, getContext());
 	}
 
 	public void setUserBucketedForCategoriesTest(boolean isUserBucketedForTest) {

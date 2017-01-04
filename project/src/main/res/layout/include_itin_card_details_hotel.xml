@@ -6,6 +6,23 @@
     android:layout_marginBottom="16dp"
     android:orientation="vertical" >
 
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/room_upgrade_button"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/itin_summary_section_height"
+        android:gravity="left|center_vertical"
+        android:background="@color/hotel_tonight_only_color"
+        android:drawablePadding="@dimen/itin_hotel_upgrade_drawable_padding"
+        android:drawableRight="@drawable/ic_itin_webview"
+        android:paddingLeft="@dimen/itin_hotel_upgrade_paddingLeft"
+        android:paddingRight="@dimen/itin_hotel_upgrade_paddingRight"
+        android:text="@string/itin_card_details_upgrade_hotel_button"
+        android:textColor="@color/itin_white_text"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:minTextSize="10dp"
+        app:textStyle="normal" />
+    
     <!-- CHECKIN/CHECKOUT/GUEST COUNT -->
 
     <com.expedia.bookings.widget.InfoTripletView

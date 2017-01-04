@@ -5,7 +5,6 @@ import android.content.DialogInterface
 import android.graphics.PorterDuff
 import android.os.Bundle
 import android.support.v4.content.ContextCompat
-import android.text.format.DateUtils
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +16,9 @@ import android.widget.RelativeLayout
 import android.widget.SeekBar
 import android.widget.TextView
 import com.expedia.bookings.R
-import com.expedia.bookings.utils.DateFormatUtils
 import com.expedia.bookings.widget.TimeSlider
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.SearchViewModelWithTimeSliderCalendar
-import com.mobiata.android.time.widget.CalendarPicker
 import com.squareup.phrase.Phrase
 import rx.Subscription
 import kotlin.properties.Delegates
@@ -173,11 +170,11 @@ class TimeAndCalendarDialogFragment(val viewModel: SearchViewModelWithTimeSlider
         }
     }
 
-     fun setContentDescriptionForTimeSlider(seekBar: TimeSlider, isPickup: Boolean, progress: Int): String {
+     fun setContentDescriptionForTimeSlider(seekBar: TimeSlider, isDepart: Boolean, progress: Int): String {
         val time = seekBar.calculateProgress(progress)
-        if (isPickup)
-            return Phrase.from(context, R.string.pick_up_slider_cont_desc_TEMPLATE).put("time", time).format().toString()
+        if (isDepart)
+            return viewModel.getStartTimeContDesc(time)
         else
-            return Phrase.from(context, R.string.drop_off_slider_cont_desc_TEMPLATE).put("time", time).format().toString()
+            return viewModel.getEndTimeContDesc(time)
     }
 }

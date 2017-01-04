@@ -49,6 +49,14 @@
             android:id="@+id/flight_duration"
             style="@style/Core.Text.Default.LightColor"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"/>
+
+        <com.expedia.bookings.widget.TextView
+            android:id="@+id/flight_seat_class_booking_code"
+            style="@style/Core.Text.Default.LightColor"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </LinearLayout>
 </LinearLayout>

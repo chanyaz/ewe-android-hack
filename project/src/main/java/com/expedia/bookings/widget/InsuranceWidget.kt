@@ -3,11 +3,11 @@ package com.expedia.bookings.widget
 import android.app.AlertDialog
 import android.content.Context
 import android.support.v4.content.ContextCompat
+import android.support.v7.widget.CardView
 import android.support.v7.widget.SwitchCompat
 import android.text.method.LinkMovementMethod
 import android.util.AttributeSet
 import android.view.View
-import android.widget.LinearLayout
 import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.tracking.FlightsV2Tracking
@@ -22,7 +22,7 @@ import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.InsuranceViewModel
 
-class InsuranceWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
+class InsuranceWidget(context: Context, attrs: AttributeSet) : CardView(context, attrs) {
     val descriptionTextView: TextView by bindView(R.id.insurance_description)
     val termsTextView: TextView by bindView(R.id.insurance_terms)
     val titleTextView: TextView by bindView(R.id.insurance_title)
@@ -51,9 +51,6 @@ class InsuranceWidget(context: Context, attrs: AttributeSet) : LinearLayout(cont
 
     init {
         View.inflate(context, R.layout.insurance_widget, this)
-
-        background = ContextCompat.getDrawable(context, R.drawable.card_background)
-        orientation = VERTICAL
 
         val icon = ContextCompat.getDrawable(context, R.drawable.ic_checkout_info).mutate()
         descriptionTextView.compoundDrawablePadding = (5 * resources.displayMetrics.density + 0.5f).toInt()

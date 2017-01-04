@@ -1,12 +1,16 @@
 package com.expedia.vm
 
 import android.content.Context
+import android.text.style.RelativeSizeSpan
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.JodaUtils
+import com.expedia.bookings.utils.SpannableBuilder
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
@@ -85,10 +89,10 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
     override fun onDatesChanged(dates: Pair<LocalDate?, LocalDate?>) {
         var (start, end) = dates
 
-        dateTextObservable.onNext(computeDateText(start, end))
-        dateAccessibilityObservable.onNext(computeDateText(start, end, true))
-        dateInstructionObservable.onNext(computeDateInstructionText(start, end))
-        calendarTooltipTextObservable.onNext(computeTooltipText(start, end))
+        dateTextObservable.onNext(getCalendarCardDateText(start, end, false))
+        dateAccessibilityObservable.onNext(getCalendarCardDateText(start, end, true))
+        dateInstructionObservable.onNext(getDateInstructionText(start, end))
+        calendarTooltipTextObservable.onNext(getToolTipText(start, end))
 
         if (start != null && (end == null || start.equals(end))) {
             end = start.plusDays(1)
@@ -96,7 +100,66 @@ class HotelSearchViewModel(context: Context) : BaseSearchViewModel(context) {
         super.onDatesChanged(Pair(start, end))
     }
 
+    override fun getCalendarToolTipInstructions(start: LocalDate?, end: LocalDate?): String {
+        if (end == null) {
+            return context.getString(R.string.hotel_calendar_tooltip_bottom)
+        }
+        return context.getString(R.string.calendar_drag_to_modify)
+    }
+
+    override fun getDateInstructionText(start: LocalDate?, end: LocalDate?): CharSequence {
+        if (start == null && end == null) {
+            return context.getString(R.string.select_checkin_date)
+        } else if (end == null) {
+            return getNoEndDateText(start, false)
+        }
+        return getCompleteDateText(start!!, end, false)
+    }
+
+    override fun getEmptyDateText(forContentDescription: Boolean): String {
+        val selectDatesText = context.getString(R.string.select_dates)
+        if (forContentDescription) {
+            return getDateAccessibilityText(selectDatesText, "")
+        }
+        return selectDatesText
+    }
+
+    override fun getNoEndDateText(start: LocalDate?, forContentDescription: Boolean): String {
+        val selectCheckoutText = context.getString(R.string.select_checkout_date_TEMPLATE, DateUtils.localDateToMMMd(start))
+        if (forContentDescription) {
+            return getDateAccessibilityText(selectCheckoutText, "")
+        }
+        return selectCheckoutText
+    }
+
+    override fun getCompleteDateText(start: LocalDate, end: LocalDate, forContentDescription: Boolean): String {
+        val dateNightText = getDateNightText(start, end, forContentDescription)
+        if (forContentDescription) {
+            return getDateAccessibilityText(context.getString(R.string.select_dates), dateNightText.toString())
+        }
+        return dateNightText.toString()
+    }
+
     private fun isFilterUnavailableEnabled(): Boolean {
         return !Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest)
+    }
+
+    private fun getDateNightText(start: LocalDate, end: LocalDate, isContentDescription: Boolean) : CharSequence {
+        val dateNightBuilder = SpannableBuilder()
+        val nightCount = JodaUtils.daysBetween(start, end)
+
+        val nightsString = context.resources.getQuantityString(R.plurals.length_of_stay, nightCount, nightCount)
+
+        val dateRangeText = if (isContentDescription) {
+            getStartToEndDateString(start, end)
+        } else {
+            getStartDashEndDateString(start, end)
+        }
+
+        dateNightBuilder.append(dateRangeText)
+        dateNightBuilder.append(" ")
+        dateNightBuilder.append(context.resources.getString(R.string.nights_count_TEMPLATE, nightsString), RelativeSizeSpan(0.8f))
+
+        return dateNightBuilder.build()
     }
 }

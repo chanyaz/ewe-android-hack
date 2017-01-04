@@ -48,6 +48,7 @@
         <item name="skin_lxErrorWidgetDrawable">@drawable/error_lx</item>
         <item name="skin_rippleDrawable">@drawable/lx_button_ripple</item>
         <item name="paymentWidgetLayout">@layout/payment_widget</item>
+        <item name="traveler_presenter">@layout/lx_traveler_presenter_view_stub</item>
         <item name="spinner_traveler_text_color_drawable">@drawable/traveler_text_color</item>
 
         <item name="accept_terms_text_color">@color/lx_primary_color</item>

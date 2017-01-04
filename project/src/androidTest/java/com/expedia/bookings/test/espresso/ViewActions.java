@@ -36,10 +36,10 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
-import com.expedia.bookings.widget.CheckoutToolbar;
 import com.expedia.bookings.widget.FilterRangeSeekBar;
 import com.expedia.bookings.widget.FilterSeekBar;
 import com.expedia.bookings.widget.StarRatingBar;
+import com.expedia.bookings.widget.CheckoutToolbar;
 import com.mobiata.android.Log;
 import com.mobiata.android.widget.CalendarDatePicker;
 
@@ -76,8 +76,7 @@ public final class ViewActions {
 	public static class LaxSwipeAction implements ViewAction {
 		private GeneralSwipeAction mAction;
 
-		public LaxSwipeAction(Swiper swiper, CoordinatesProvider endCoordinatesProvider,
-			PrecisionDescriber precisionDescriber) {
+		public LaxSwipeAction(Swiper swiper, CoordinatesProvider endCoordinatesProvider, PrecisionDescriber precisionDescriber) {
 			CoordinatesProvider startCoordinates = new CoordinatesProvider() {
 				@Override
 				public float[] calculateCoordinates(View view) {
@@ -86,7 +85,7 @@ public final class ViewActions {
 					v.getLocationOnScreen(screenPos);
 					final float startX = screenPos[0];
 					final float startY = screenPos[1];
-					return new float[] { startX, startY };
+					return new float[] {startX, startY};
 				}
 			};
 			mAction = new GeneralSwipeAction(swiper, startCoordinates, endCoordinatesProvider, precisionDescriber);
@@ -256,36 +255,7 @@ public final class ViewActions {
 				}
 				else {
 					View childView = ((LinearLayout) view).getChildAt(index);
-					value
-						.set(((CheckBox) childView.findViewById(R.id.filter_refinement_checkbox)).getText().toString());
-				}
-			}
-
-			@Override
-			public String getDescription() {
-				return "get the  airline checkbox text";
-			}
-		};
-	}
-
-
-	public static ViewAction getChildViewTextGeneric(final int index, final AtomicReference<String> value,
-		final int id) {
-		return new ViewAction() {
-
-			@Override
-			public Matcher<View> getConstraints() {
-				return Matchers.allOf(isAssignableFrom(ViewGroup.class));
-			}
-
-			@Override
-			public void perform(UiController uiController, View view) {
-				if (index == -1) {
-					value.set(Integer.toString(((LinearLayout) view).getChildCount()));
-				}
-				else {
-					View childView = ((LinearLayout) view).getChildAt(index);
-					value.set(((com.expedia.bookings.widget.TextView) childView.findViewById(id)).getText().toString());
+					value.set(((CheckBox) childView.findViewById(R.id.filter_refinement_checkbox)).getText().toString());
 				}
 			}
 
@@ -498,8 +468,7 @@ public final class ViewActions {
 
 			@Override
 			public String getDescription() {
-				return String.format(Locale.getDefault(),
-					"Waiting for view to match given matcher, max wait time is: %d seconds",
+				return String.format(Locale.getDefault(), "Waiting for view to match given matcher, max wait time is: %d seconds",
 					timeoutSeconds);
 			}
 
@@ -529,7 +498,7 @@ public final class ViewActions {
 	}
 
 	public static ViewAction waitForViewToDisplay() {
-		return waitFor(isDisplayed(), 30, TimeUnit.SECONDS);
+		return waitFor(isDisplayed(), 10, TimeUnit.SECONDS);
 	}
 
 	public static ViewAction waitForViewToCompletelyDisplay() {

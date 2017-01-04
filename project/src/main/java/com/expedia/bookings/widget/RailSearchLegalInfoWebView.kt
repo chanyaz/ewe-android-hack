@@ -3,9 +3,11 @@ package com.expedia.bookings.widget
 import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.R
-import com.expedia.bookings.widget.shared.AbstractWebViewWidget
+import com.expedia.bookings.data.pos.PointOfSale
+import com.expedia.bookings.widget.shared.BaseWebViewWidget
 
-class RailSearchLegalInfoWebView(context: Context, attrs: AttributeSet) : AbstractWebViewWidget(context, attrs) {
+class RailSearchLegalInfoWebView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
+    val url = PointOfSale.getPointOfSale().railsPaymentAndTicketDeliveryFeesUrl
 
     override fun onFinishInflate() {
         super.onFinishInflate()
@@ -14,5 +16,9 @@ class RailSearchLegalInfoWebView(context: Context, attrs: AttributeSet) : Abstra
 
     override fun setToolbarPadding() {
         // Do nothing
+    }
+
+    fun loadUrl() {
+        webView.loadUrl(url)
     }
 }

@@ -17,6 +17,8 @@ import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.widget.CalendarWidgetWithTimeSlider
 import com.expedia.bookings.widget.suggestions.CarSuggestionAdapter
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeOnClick
@@ -25,11 +27,13 @@ import com.expedia.vm.CarSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.expedia.vm.cars.CarSearchViewModel
 import com.squareup.phrase.Phrase
+import org.joda.time.LocalDate
 import rx.android.schedulers.AndroidSchedulers
 import java.util.concurrent.TimeUnit
 import kotlin.properties.Delegates
 
 class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocationSearchPresenter(context, attrs) {
+    val calendarWidget by bindView<CalendarWidgetWithTimeSlider>(R.id.car_calendar_card)
 
     val suggestionServices: SuggestionV4Services by lazy {
         Ui.getApplication(getContext()).carComponent().suggestionsService()
@@ -98,8 +102,6 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
 
     override var originSuggestionViewModel: SuggestionAdapterViewModel by notNullAndObservable { vm ->
         val suggestionSelectedObserver = suggestionSelectedObserver(getSearchViewModel().originLocationObserver)
-        val delayBeforeShowingDestinationSuggestions = 325L
-        val waitForOtherSuggestionListeners = 350L
 
         vm.suggestionSelectedSubject
                 .doOnNext(suggestionSelectedObserver)
@@ -134,6 +136,10 @@ class CarSearchPresenter(context: Context, attrs: AttributeSet) : BaseTwoLocatio
 
     override fun requestA11yFocus(isOrigin: Boolean) {
         AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar)
+    }
+
+    override fun selectDates(startDate: LocalDate?, endDate: LocalDate?) {
+        calendarWidget.dismissDialog()
     }
 
     fun showAlertMessage(messageResourceId: Int, confirmButtonResourceId: Int) {

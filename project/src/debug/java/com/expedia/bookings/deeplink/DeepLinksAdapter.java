@@ -1,6 +1,8 @@
 package com.expedia.bookings.deeplink;
 
 import java.net.URISyntaxException;
+import java.util.Collections;
+import java.util.List;
 
 import org.joda.time.LocalDate;
 
@@ -14,12 +16,15 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.data.abacus.AbacusUtils;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -30,6 +35,7 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 	private static final int TYPE_LINK = 1;
 	private static final int TYPE_LINK_WITH_PACKAGE = 2;
 	private static final int TYPE_LINK_CUSTOM = 3;
+	private static final int TYPE_LINK_WITH_AB_TESTS = 4;
 
 	private static final DeepLink[] DEEP_LINKS = new DeepLink[] {
 		new DeepLinkSection("Hotels", R.color.hotels_primary_color),
@@ -42,7 +48,14 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Attraction (Academy of Paris)", "expda://hotelSearch?location=Academy%20of%20Paris%2C%20Paris%2C%20France"),
 		new DeepLink("Airport (BVA)", "expda://hotelSearch?location=Paris%2C%20France%20(BVA-Beauvais)"),
 		new DeepLink("Intent", "intent://hotelSearch?location=Orlando,%20FL/#Intent;package=com.expedia.bookings;scheme=expda;end"),
-		new DeepLink("Current Location Search", "expda://hotelSearch"),
+		new DeepLink("Current Location Search URI", "expda://hotelSearch"),
+		new DeepLink("Current Location Search URL", "https://www.expedia.com/mobile/deeplink/Hotel-Search"),
+		new DeepLink("Sort by Recommended", "expda://hotelSearch?sortType=Recommended"),
+		new DeepLink("Sort by Discounts", "expda://hotelSearch?sortType=Discounts"),
+		new DeepLink("Sort by Price", "expda://hotelSearch?sortType=Price"),
+		new DeepLink("Sort by Rating", "expda://hotelSearch?sortType=Rating"),
+		new DeepLink("Sort with Location and Dates", "expda://hotelSearch?sortType=Rating&location=Austin,%20TX", "checkInDate", 14, "checkOutDate", 18),
+
 		new DeepLink("Hotel ID 11562190", "expda://hotelSearch?hotelId=11562190&seocid=Google"),
 		new DeepLink("Hotel ID 9046290", "expda://hotelSearch/?hotelId=9046290"),
 		new DeepLink("Hotel ID 1819759", "expda://hotelSearch/?hotelId=1819759&cid=SEO.Google"),
@@ -62,31 +75,37 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		new DeepLink("Sold Out complex (maybe)", "expda://hotelSearch?hotelId=4183598&numAdults=3&childAges=3,2&cid=SEO.Google", "checkInDate", 1, "checkOutDate", 2),
 
 		new DeepLinkSection("Flights", R.color.flights_lob_btn),
-		new DeepLink("Flight Search", "expda://flightSearch"),
+		new DeepLink("Flight Search URI", "expda://flightSearch"),
+		new DeepLink("Flight Search URL", "https://www.expedia.com/mobile/deeplink/Flights-Search"),
 		new DeepLink("Flight Search (Round trip)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&returnDate=2017-02-03&numAdults=1"),
 		new DeepLink("Flight Search (One Way)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&numAdults=1"),
 		new DeepLink("Flight Search (3 adults, roundTrip)", "expda://flightSearch?origin=SFO&destination=SEA&departureDate=2017-02-01&returnDate=2017-02-03&numAdults=3"),
 		new DeepLink("Flight Travel Guide", "expda://flightSearch?destination=ATH&seocid=Google"),
 
-
 		new DeepLinkSection("Activities", R.color.lx_primary_color),
-		new DeepLink("Activity Search", "expda://activitySearch"),
+		new DeepLink("Activity Search URI", "expda://activitySearch"),
+		new DeepLink("Activity Search URL", "https://www.expedia.com/mobile/deeplink/things-to-do/search"),
 		new DeepLink("San Francisco", "expda://activitySearch?location=San%20Francisco", "startDate", 3),
 
 		new DeepLinkSection("Cars", R.color.cars_primary_color),
-		new DeepLink("Car Search", "expda://carSearch"),
+		new DeepLink("Car Search URI", "expda://carSearch"),
+		new DeepLink("Car Search URL", "https://www.expedia.com/mobile/deeplink/carsearch"),
 
 		new DeepLinkSection("Deferred", R.color.launch_screen_primary),
 		new DeepLink("Parc 55 San Francisco, a Hilton Hotel",
 			"https://169006.measurementapi.com/serve?action=click&publisher_id=169006&site_id=107678&invoke_url=expda%3A%2F%2FhotelSearch%3FhotelId%3D12539"),
 
 		new DeepLinkSection("Other", R.color.gt_primary_color),
-		new DeepLink("Home", "expda://home"),
-		new DeepLink("Sign In", "expda://signIn"),
+		new DeepLink("Home URI", "expda://home"),
+		new DeepLink("Home URL", "https://www.expedia.com/mobile/deeplink"),
+		new DeepLink("Sign In URI", "expda://signIn"),
+		new DeepLink("Sign In URL", "https://www.expedia.com/mobile/deeplink/user/signin"),
+		new DeepLink("Trips URI", "expda://trips"),
+		new DeepLink("Trips URL", "https://www.expedia.com/mobile/deeplink/trips"),
 		new DeepLink("Unsupported URL Scheme", "george://noworky"),
-		new DeepLink("Request Push Permissions", "expda://requestNotificationPermission"),
 		new DeepLink("Destination (Muzei Plugin)", "expda://destination/?displayName=Orlando,+FL&searchType=CITY&hotelId=178294&airportCode=ORL&regionId=178294&latitude=28.541290&longitude=-81.379040&imageCode=fun-orlando"),
 		new DeepLink("Support Email", "expda://supportEmail"),
+		new DeepLinkWithABTests("Force Bucket", "expda://forceBucket?key={}&value={}"),
 		new DeepLinkWithPackage("Empty Data", ""),
 		new DeepLinkCustom(),
 	};
@@ -98,6 +117,9 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		}
 		else if (DEEP_LINKS[position] instanceof DeepLinkWithPackage) {
 			return TYPE_LINK_WITH_PACKAGE;
+		}
+		else if (DEEP_LINKS[position] instanceof DeepLinkWithABTests) {
+			return TYPE_LINK_WITH_AB_TESTS;
 		}
 		else if (DEEP_LINKS[position] instanceof DeepLinkCustom) {
 			return TYPE_LINK_CUSTOM;
@@ -117,6 +139,9 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 		}
 		else if (viewType == TYPE_LINK_CUSTOM) {
 			return new DeepLinkCustomViewHolder(inflate(R.layout.row_deep_link_test_custom, parent));
+		}
+		else if (viewType == TYPE_LINK_WITH_AB_TESTS) {
+			return new DeepLinkWithABTestsViewHolder(inflate(R.layout.row_deep_link_test_with_ab_tests, parent));
 		}
 		else {
 			return new DeepLinkViewHolder(inflate(R.layout.row_deep_link_test, parent));
@@ -177,7 +202,6 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 			else {
 				intent = new Intent(Intent.ACTION_VIEW, Uri.parse(link));
 			}
-
 			safeStartActivity(v.getContext(), intent);
 		}
 
@@ -210,6 +234,38 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 			}
 
 			safeStartActivity(v.getContext(), intent);
+		}
+	}
+
+	public static class DeepLinkWithABTestsViewHolder extends DeepLinkViewHolder {
+
+		@InjectView(R.id.app_ab_tests_spinner)
+		Spinner abTestsSpinner;
+
+		@InjectView(R.id.test_variant_edit_text)
+		EditText testVariantEditText;
+
+		public DeepLinkWithABTestsViewHolder(View itemView) {
+			super(itemView);
+			List<Integer> testIDList = AbacusUtils.getActiveTests();
+
+			//add 0 to reset the test map
+			testIDList.add(0);
+
+			Collections.sort(testIDList);
+			ArrayAdapter<Integer> spinnerArrayAdapter = new ArrayAdapter<Integer>(itemView.getContext(), android.R.layout.simple_spinner_item, testIDList); //selected item will look like a spinner set from XML
+			spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+			abTestsSpinner.setAdapter(spinnerArrayAdapter);
+		}
+
+		@Override
+		public void onClick(View view) {
+			Intent intent = new Intent();
+			String link = "expda://forceBucket?key=" + abTestsSpinner.getSelectedItem() + "&value=" + testVariantEditText.getText();
+
+			Toast.makeText(view.getContext(), link, Toast.LENGTH_SHORT).show();
+			intent.setData(Uri.parse(link));
+			safeStartActivity(view.getContext(), intent);
 		}
 	}
 
@@ -264,6 +320,12 @@ public class DeepLinksAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
 	static class DeepLinkWithPackage extends DeepLink {
 		DeepLinkWithPackage(String label, String link) {
+			super(label, link);
+		}
+	}
+
+	static class DeepLinkWithABTests extends DeepLink {
+		DeepLinkWithABTests(String label, String link) {
 			super(label, link);
 		}
 	}

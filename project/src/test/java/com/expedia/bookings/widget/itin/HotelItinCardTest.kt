@@ -5,24 +5,19 @@ import android.view.LayoutInflater
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LoyaltyMembershipTier
-import com.expedia.bookings.data.trips.ItinCardDataHotel
-import com.expedia.bookings.data.trips.TripHotel
-import com.expedia.bookings.server.TripParser
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.widget.TextView
-import okio.Okio
-import org.json.JSONArray
-import org.json.JSONObject
+import com.expedia.bookings.widget.itin.support.ItinCardDataHotelBuilder
+import com.mobiata.android.util.SettingUtils
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
-import java.io.File
 import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
@@ -31,8 +26,7 @@ class HotelItinCardTest {
 
     val activity = Robolectric.buildActivity(Activity::class.java).create().get()
 
-    lateinit private var sut: ItinCard<ItinCardDataHotel>
-    lateinit private var itinCardData: ItinCardDataHotel
+    lateinit private var sut: HotelItinCard
 
     @Test
     fun vipLabelText() {
@@ -44,7 +38,7 @@ class HotelItinCardTest {
     fun vipLabelTextVisible() {
         createSystemUnderTest()
         givenGoldMember()
-        givenHotel(vipHotel = true)
+        val itinCardData = ItinCardDataHotelBuilder().withVipEnabled(true).build()
         sut.bind(itinCardData)
         assertEquals(View.VISIBLE, getVipLabelTextView().visibility)
     }
@@ -53,7 +47,7 @@ class HotelItinCardTest {
     fun dontShowVipLabelPosVipSupportDisabled() {
         createSystemUnderTest()
         givenGoldMember()
-        givenHotel(vipHotel = true)
+        val itinCardData = ItinCardDataHotelBuilder().withVipEnabled(true).build()
         givenPointOfSaleVipSupportDisabled()
         sut.bind(itinCardData)
         assertEquals(View.GONE, getVipLabelTextView().visibility)
@@ -63,7 +57,7 @@ class HotelItinCardTest {
     fun dontShowVipLabelToBlueMember() {
         createSystemUnderTest()
         givenBlueMember()
-        givenHotel(vipHotel = true)
+        val itinCardData = ItinCardDataHotelBuilder().withVipEnabled(true).build()
         sut.bind(itinCardData)
         assertEquals(View.GONE, getVipLabelTextView().visibility)
     }
@@ -72,9 +66,41 @@ class HotelItinCardTest {
     fun dontShowVipLabelForNonVipAccessHotel() {
         createSystemUnderTest()
         givenGoldMember()
-        givenHotel(vipHotel = false)
+        val itinCardData = ItinCardDataHotelBuilder().withVipEnabled(false).build()
         sut.bind(itinCardData)
         assertEquals(View.GONE, getVipLabelTextView().visibility)
+    }
+
+    @Test
+    fun roomUpgradeBannerVisible() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        createSystemUnderTest()
+        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().build()
+        sut.bind(itinCardData)
+
+        assertEquals(View.VISIBLE, getUpgradeBannerTextView().visibility)
+    }
+
+    @Test
+    fun roomUpgradeBannerGoneFeatureOff() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, false)
+        createSystemUnderTest()
+        val itinCardData = ItinCardDataHotelBuilder().withUpgradeableRoom().build()
+        sut.bind(itinCardData)
+
+        assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
+    }
+
+    @Test
+    fun roomUpgradeBannerGoneForSharedItin() {
+        SettingUtils.save(activity, R.string.preference_itin_hotel_upgrade, true)
+        createSystemUnderTest()
+        val itinCardData = ItinCardDataHotelBuilder()
+                            .withUpgradeableRoom()
+                            .isSharedItin(true).build()
+        sut.bind(itinCardData)
+
+        assertEquals(View.GONE, getUpgradeBannerTextView().visibility)
     }
 
     private fun givenPointOfSaleVipSupportDisabled() {
@@ -86,21 +112,16 @@ class HotelItinCardTest {
         return vipLabelTextView
     }
 
-    private fun createSystemUnderTest() {
-        activity.setTheme(R.style.NewLaunchTheme)
-        val itinCard = ItinCard<ItinCardDataHotel>(activity)
-        LayoutInflater.from(activity).inflate(R.layout.widget_itin_card, itinCard)
-        sut = itinCard
+    private fun getUpgradeBannerTextView(): TextView {
+        val upgradeBanner = sut.findViewById(R.id.room_upgrade_available_banner) as TextView
+        return upgradeBanner
     }
 
-    private fun givenHotel(vipHotel : Boolean) {
-        val fileName = if(vipHotel) "hotel_trip_vip_booking" else "hotel_trip_non_vip_booking"
-        val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/$fileName.json"))).readUtf8()
-        val jsonObject = JSONObject(data)
-        val jsonArray = jsonObject.getJSONArray("responseData")
-        val tripHotel = getHotelTrip(jsonArray)!!
-
-        itinCardData = ItinCardDataHotel(tripHotel)
+    private fun createSystemUnderTest() {
+        activity.setTheme(R.style.NewLaunchTheme)
+        val itinCard = HotelItinCard(activity, null)
+        LayoutInflater.from(activity).inflate(R.layout.widget_itin_card, itinCard)
+        sut = itinCard
     }
 
     private fun givenBlueMember() {
@@ -114,21 +135,5 @@ class HotelItinCardTest {
     private fun createUser(loyaltyMembershipTier: LoyaltyMembershipTier) {
         val goldCustomer = UserLoginTestUtil.mockUser(loyaltyMembershipTier)
         UserLoginTestUtil.setupUserAndMockLogin(goldCustomer)
-    }
-
-    private fun getHotelTrip(jsonArray: JSONArray): TripHotel? {
-        val tripParser = TripParser()
-
-        var index = 0
-        while (index < jsonArray.length()) {
-            val tripJsonObj = jsonArray.get(index) as JSONObject
-            val tripObj = tripParser.parseTrip(tripJsonObj)
-            val tripComponent = tripObj.tripComponents[0]
-            if (tripComponent is TripHotel) {
-                return tripComponent
-            }
-            index++
-        }
-        return null
     }
 }

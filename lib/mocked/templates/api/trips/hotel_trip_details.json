@@ -1,0 +1,217 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_SUMMARY",
+  "responseData": [
+    {
+      "levelOfDetail": "FULL",
+      "tripId": "fb24d134-adbd-44f6-9904-48cfb33bbd50",
+      "webDetailsURL": "https://www.expedia.com/trips/1103274148635",
+      "tripNumber": 1103274148635,
+      "title": "Mobile Itinerary",
+      "description": "",
+      "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/fb24d134-adbd-44f6-9904-48cfb33bbd50/updateTripNameDescription",
+      "startTime": {
+        "epochSeconds": "${hotelCheckInEpochSeconds}",
+        "timeZoneOffsetSeconds": "${hotelCheckInTzOffset}"
+      },
+      "endTime": {
+        "epochSeconds": "${hotelCheckOutEpochSeconds}",
+        "timeZoneOffsetSeconds": "${hotelCheckOutTzOffset}"
+      },
+      "bookingStatus": "BOOKED",
+      "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/pIKlUOQoG9oOTMrSCQKbBQOvgzOArmMlOrDMFACXvO_6jYldmVbMU54aZwdZbn7e",
+      "customerSupport": {
+        "customerSupportURL": "http://support.expedia.com/app/home",
+        "customerSupportPhoneNumberDomestic": "+1-877-787-3117",
+        "customerSupportPhoneNumberInternational": "+1-877-787-3117",
+        "customerSupportPhoneInfoForEmail": [
+          "Call Expedia+ blue Customer Care at 1-877-787-3117.",
+          "For faster service, mention itinerary # <strong> 1103274148635 </strong>"
+        ],
+        "termsAndConditionsURL": ""
+      },
+      "isBookedUsingForeignCurrency": false,
+      "hotels": [
+        {
+          "uniqueID": "5D5D96B6-0BB4-4A08-B82F-C9FBADF85532_0",
+          "hotelId": "564858",
+          "numberOfNights": 2,
+          "bookingStatus": "BOOKED",
+          "bookingStatusText": "Completed",
+          "bookingStatusMessage": "This reservation is complete. We hope you had a great trip.",
+          "inventoryType": "MERCHANT",
+          "inventorySource": "INTERNAL",
+          "paymentModel": "EXPEDIA_COLLECT",
+          "inventoryVisibility": "VISIBLE",
+          "orderNumber": "8115321894499",
+          "state": "POST_END_3",
+          "infositeURL": "http://www.expedia.com/itin.h564858.Hotel-Information?langid=1033",
+          "hotelPropertyInfo": {
+            "address": {
+              "addressLine1": "665 Bush St",
+              "city": "San Francisco",
+              "countrySubdivisionCode": "CA",
+              "postalCode": "94108",
+              "countryCode": "USA",
+              "countryName": " United States of America",
+              "fullAddress": "665 Bush St, San Francisco, CA, 94108 United States of America",
+              "airportCode": "SFO"
+            },
+            "name": "Orchard Hotel",
+            "starRating": "35",
+            "photoThumbnailURL": "/hotels/1000000/570000/564900/564858/564858_42_l.jpg",
+            "photoThumbnail500pixURL": "/hotels/1000000/570000/564900/564858/564858_42_y.jpg",
+            "photoThumbnail1000pixURL": "/hotels/1000000/570000/564900/564858/564858_42_z.jpg",
+            "localPhone": "1-415-362-8878",
+            "formattedPhoneNumbers": "Tel: 1 (415) 362-8878, Fax: 1 (415) 362-8088",
+            "checkInPolicies": [
+              "Minimum check-in age is 18",
+              "Check-in time starts at 3 PM"
+            ],
+            "checkInStartTimePolicy": {
+              "label": "Check-in time starts at",
+              "value": "3 PM"
+            },
+            "checkInEndTimePolicy": {},
+            "checkOutTimePolicy": {
+              "label": "Check-out time is",
+              "value": "Noon"
+            },
+            "generalRules": [
+              "Check-out time is Noon"
+            ],
+            "restrictionPolicies": [],
+            "fees": [
+              "The following fees and deposits are charged by the property at time of service, check-in, or check-out.<ul> <li>Breakfast fee: USD 14 per person (approximately)</li>       <li>Valet parking fee: USD 40 per night (in/out privileges)</li>       <li>Deposit: USD 100.00 per night</li>     <li>Crib (infant bed) fee: USD 10 per night</li><li>Rollaway beds are available for an additional fee</li>  </ul>",
+              "The above list may not be comprehensive. Fees and deposits may not include tax and are subject to change."
+            ],
+            "mandatoryFees": [],
+            "specialCheckInInstructions": [],
+            "latitude": 37.790248,
+            "longitude": -122.408469,
+            "isVipAccess": false,
+            "googleMapsLink": "http://maps.google.com?q=94108+San+Francisco,+665+Bush+St+"
+          },
+          "rooms": [
+            {
+              "uniqueID": "5D5D96B6-0BB4-4A08-B82F-C9FBADF85532_0_520073486",
+              "roomRatePlanDescription": "Deluxe Room, 1 King Bed",
+              "roomTypeCode": "22746",
+              "ratePlanCode": "1964586",
+              "bookingStatus": "BOOKED",
+              "drrRateDiscountDescription": "Book now and save",
+              "orderLineNumber": "da0459bd-bd1a-4b84-b054-b1bcdcd75aa1",
+              "refundabilityStatus": "REFUNDABLE",
+              "availableOnAllDates": true,
+              "totalPriceDetails": {
+                "primaryCurrencyCode": "USD",
+                "base": "504.46",
+                "baseFormatted": "$504.46",
+                "baseWithAdjustmentForDRRRateDiscount": "450.66",
+                "baseWithAdjustmentForDRRRateDiscountFormatted": "$450.66",
+                "taxesAndFees": "70.28",
+                "taxesAndFeesFormatted": "$70.28",
+                "adjustmentForDRRRateDiscount": "-53.80",
+                "adjustmentForDRRRateDiscountFormatted": "-$53.80",
+                "adjustmentForCoupon": "-90.14",
+                "adjustmentForCouponFormatted": "-$90.14",
+                "subTotalBeforeCoupon": "520.94",
+                "subTotalBeforeCouponFormatted": "$520.94",
+                "total": "430.80",
+                "totalFormatted": "$430.80",
+                "averagePricePerDay": "225.33",
+                "averagePricePerDayFormatted": "$225.33",
+                "averageTaxPerDay": "35.14",
+                "averageTaxPerDayFormatted": "$35.14",
+                "isSameRateForAllNights": true,
+                "expediaChangeFee": "0",
+                "expediaChangeFeeFormatted": "$0.00"
+              },
+              "roomPreferences": {
+                "primaryOccupant": {
+                  "firstName": "Kevin",
+                  "fullName": "Kevin Carpenter",
+                  "email": "kevinjcarpenter@gmail.com",
+                  "phone": "1-173-47400492"
+                },
+                "otherOccupantInfo": {
+                  "adultCount": 1,
+                  "childCount": 0,
+                  "infantCount": 0,
+                  "childAndInfantCount": 0,
+                  "childAndInfantAges": []
+                },
+                "occupantSelectedRoomOptions": {
+                  "bedTypeName": "1 king bed",
+                  "smokingPreference": "NONSMOKING_ROOM",
+                  "accessibilityOptions": [],
+                  "hasExtraBedAdult": false,
+                  "hasExtraBedChild": false,
+                  "hasExtraBedInfant": false,
+                  "isSmokingPreferenceSelected": true,
+                  "isRoomOptionsAvailable": true
+                },
+                "availableRoomOptions": {
+                  "bedTypes": [
+                    {
+                      "id": "14",
+                      "description": "1 king bed",
+                      "selected": true
+                    }
+                  ],
+                  "accessibilityOptions": [
+                    {
+                      "id": "2424",
+                      "description": "Accessibility equipment for the deaf",
+                      "selected": false
+                    },
+                    {
+                      "id": "2420",
+                      "description": "Accessible bathroom",
+                      "selected": false
+                    },
+                    {
+                      "id": "2419",
+                      "description": "Accessible path of travel",
+                      "selected": false
+                    },
+                    {
+                      "id": "2421",
+                      "description": "Roll-in shower",
+                      "selected": false
+                    },
+                    {
+                      "id": "2423",
+                      "description": "In-room accessibility",
+                      "selected": false
+                    },
+                    {
+                      "id": "2425",
+                      "description": "Braille or raised signage",
+                      "selected": false
+                    }
+                  ],
+                  "isSmokingRoomAvailable": false,
+                  "isNonSmokingRoomAvailable": true
+                }
+              },
+              "amenities": [
+                "Free Wireless Internet"
+              ],
+              "nonPricePromotionData": {
+                "id": "1",
+                "version": "1",
+                "text": "The minibar is free"
+              },
+              "roomCancelLink": "https://localhost/hotel-cancel-details?tripid=5196d5cf-6274-4695-9e2d-0f5ff8c69ec1&ordernumber=8024355663759&orderlineguid=155cfc84-8fe1-4d44-ab59-d04ee4482c1d&roomNumber=0"
+            }
+          ],
+          "isFreeCancellationAvailable": true,
+          "checkInDate": "2016-12-07T15:00:00-08:00",
+          "checkOutDate": "2016-12-11T11:00:00-08:00"
+        }
+      ],
+      "isTripUpgradable": true
+    }
+  ]
+}

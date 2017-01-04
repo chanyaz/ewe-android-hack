@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="5dp"
+        android:focusable="true"
         android:gravity="center"
         android:textColor="@color/itin_white_text"
         android:textSize="24sp"
@@ -22,6 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:focusable="true"
         android:textColor="@color/itin_white_text"
         android:textSize="11sp" />
 
@@ -29,6 +31,7 @@
         android:id="@+id/travelers"
         style="@style/HotelCheckoutImageSummary.Common"
         android:layout_gravity="center"
+        android:focusable="true"
         android:textColor="@color/itin_white_text" />
 
 </merge>

@@ -50,6 +50,7 @@ public class LXBaseActivity extends TrackingAbstractAppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		Ui.getApplication(this).defaultLXComponents();
+		Ui.getApplication(this).defaultTravelerComponent();
 
 		Intent intent = getIntent();
 		isGroundTransport = intent.getBooleanExtra(EXTRA_IS_GROUND_TRANSPORT, false);

@@ -397,12 +397,7 @@ public class SectionTravelerInfo extends LinearLayout implements ISection<Travel
 			else { // set primary passport country
 				CountrySpinnerAdapter adapter = new CountrySpinnerAdapter(getContext(), CountryDisplayType.FULL_NAME);
 				int pos = adapter.getPositionByCountryThreeLetterCode(data.getPrimaryPassportCountry());
-				if (pos > 0) {
-					field.setText(adapter.getItemValue(pos, CountryDisplayType.FULL_NAME));
-				}
-				else {
-					field.setText("");
-				}
+				field.setText(adapter.getItemValue(pos, CountryDisplayType.FULL_NAME));
 			}
 			onChange();
 		}

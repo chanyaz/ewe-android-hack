@@ -18,7 +18,7 @@ import rx.Subscription
 import java.util.Comparator
 import java.util.Collections
 
-class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
+class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClient: OkHttpClient, interceptor: Interceptor, gaiaInterceptor: Interceptor, val observeOn: Scheduler, val subscribeOn: Scheduler) {
 
     val suggestApi: SuggestApi by lazy {
         val gson = GsonBuilder().registerTypeAdapter(SuggestionResponse::class.java, SuggestionResponse()).create()
@@ -39,7 +39,8 @@ class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClie
                 .baseUrl(gaiaEndPoint)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
-                .client(okHttpClient.newBuilder().addInterceptor(interceptor).build())
+                .client(okHttpClient.newBuilder().addInterceptor(gaiaInterceptor)
+                        .addInterceptor(interceptor).build())
                 .build()
 
         adapter.create<GaiaSuggestApi>(GaiaSuggestApi::class.java)
@@ -72,13 +73,6 @@ class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClie
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
         return response.map { response -> response.toMutableList() }
-    }
-
-    fun suggestNearbyV4(locale: String, latlng: String, siteId: Int, clientId: String, suggestType: Int, sortType: String, lob: String): Observable<MutableList<SuggestionV4>> {
-        return suggestApi.suggestNearbyV4(locale, latlng, siteId, suggestType, sortType, clientId, lob)
-                .observeOn(observeOn)
-                .subscribeOn(subscribeOn)
-                .map { response -> response.suggestions.take(2).toMutableList() }
     }
 
     fun getCarSuggestionsV4(query: String, client: String, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
@@ -125,7 +119,8 @@ class SuggestionV4Services(essEndpoint: String, gaiaEndPoint: String, okHttpClie
     }
 
     fun getAirports(query: String, clientId: String, isDest: Boolean, observer: Observer<List<SuggestionV4>>, locale: String): Subscription {
-        var suggestType = SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
+        var suggestType = SuggestionResultType.NEIGHBORHOOD or SuggestionResultType.POINT_OF_INTEREST or SuggestionResultType.MULTI_CITY or
+                SuggestionResultType.CITY or SuggestionResultType.AIRPORT or SuggestionResultType.AIRPORT_METRO_CODE
 
         return suggestApi.suggestV4(query, locale, suggestType, isDest, "ta_hierarchy", clientId, "FLIGHTS", null)
                 .observeOn(observeOn)

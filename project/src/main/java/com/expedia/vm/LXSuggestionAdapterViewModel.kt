@@ -18,18 +18,6 @@ class LXSuggestionAdapterViewModel(context: Context, suggestionsService: Suggest
         return SuggestionV4Utils.RECENT_LX_SUGGESTIONS_FILE
     }
 
-    override fun getLineOfBusiness(): String {
-        return "ACTIVITIES"
-    }
-
-    override fun getNearbyRegionType(): Int {
-        return SuggestionResultType.CITY or SuggestionResultType.MULTI_CITY or SuggestionResultType.NEIGHBORHOOD
-    }
-
-    override fun getNearbySortType(): String {
-        return "d"
-    }
-
     override fun getLineOfBusinessForGaia(): String {
         return "lx"
     }

@@ -4,11 +4,22 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.vm.BaseTotalPriceWidgetViewModel
+import com.squareup.phrase.Phrase
 
-class RailTotalPriceViewModel(context: Context) : BaseTotalPriceWidgetViewModel(false) {
+class RailTotalPriceViewModel(val context: Context) : BaseTotalPriceWidgetViewModel(false) {
     override fun getAccessibleContentDescription(isCostBreakdownShown: Boolean, isSlidable: Boolean, isExpanded: Boolean): String {
-        // TODO copy what makes sense from code for flight/packages
-        return ""
+        val costSummaryBuilder = StringBuilder();
+
+        costSummaryBuilder.append(bundleTextLabelObservable.value)
+        costSummaryBuilder.append(", ")
+        costSummaryBuilder.append(bundleTotalIncludesObservable.value)
+        costSummaryBuilder.append(", ")
+        costSummaryBuilder.append(totalPriceObservable.value)
+        val contentDescription = Phrase.from(context, R.string.rail_cost_breakdown_button_cont_desc_TEMPLATE)
+                .put("costsummary", costSummaryBuilder.toString())
+                .format().toString()
+
+        return contentDescription
     }
 
     init {

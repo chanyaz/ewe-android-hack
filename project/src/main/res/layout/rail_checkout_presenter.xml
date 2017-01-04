@@ -2,7 +2,8 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <RelativeLayout android:id="@+id/rail_checkout_container"
+    <RelativeLayout
+        android:id="@+id/rail_checkout_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
@@ -10,31 +11,53 @@
             android:id="@+id/rail_checkout_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="?attr/actionBarSize"
-            android:background="@color/rail_primary_color"
             android:layout_alignParentTop="true"
+            android:background="@color/rail_primary_color"
+            android:minHeight="?attr/actionBarSize"
             app:contentInsetEnd="16dp"
             app:contentInsetRight="16dp"
             app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
-            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"/>
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/card_processing_fee"
             style="@style/RailWarningBar"
-            android:layout_below="@id/rail_checkout_toolbar"
             android:layout_above="@+id/rail_payment_info_card_view_stub"
-            android:maxLines="1"
+            android:layout_below="@id/rail_checkout_toolbar"
             android:animateLayoutChanges="true"
+            android:maxLines="1"
             android:visibility="gone" />
+
+        <LinearLayout
+            android:id="@+id/login_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/rail_checkout_toolbar"
+            android:orientation="vertical"
+            android:visibility="gone">
+
+            <com.expedia.bookings.widget.AccountButton
+                android:id="@+id/login_button"
+                style="?attr/checkout_card_view_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="@dimen/card_view_container_margin"
+                android:layout_marginRight="@dimen/card_view_container_margin"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical" />
+
+            <include layout="@layout/login_hint"/>
+        </LinearLayout>
 
         <com.expedia.bookings.widget.traveler.TravelerSummaryCard
             android:id="@+id/rail_traveler_card_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/rail_checkout_toolbar"
-            android:layout_marginTop="@dimen/temporary_medium_padding"
+            android:layout_below="@id/login_container"
             android:layout_marginLeft="@dimen/card_view_container_margin"
             android:layout_marginRight="@dimen/card_view_container_margin"
+            android:layout_marginTop="@dimen/temporary_medium_padding"
             android:background="@drawable/card_background" />
 
         <com.expedia.bookings.widget.rail.RailTicketDeliveryOverviewWidget
@@ -45,7 +68,7 @@
             android:layout_marginLeft="@dimen/card_view_container_margin"
             android:layout_marginRight="@dimen/card_view_container_margin"
             android:layout_marginTop="@dimen/temporary_medium_padding"
-            android:background="@drawable/card_background"/>
+            android:background="@drawable/card_background" />
 
         <ViewStub
             android:id="@+id/rail_payment_info_card_view_stub"
@@ -90,30 +113,30 @@
                 android:orientation="vertical"
                 android:paddingBottom="8dp"
                 android:paddingTop="8dp"
-                android:visibility="gone"/>
+                android:visibility="gone" />
         </LinearLayout>
 
         <com.expedia.bookings.widget.TextView
             android:id="@+id/legal_information_text_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/ticket_delivery_overview_widget"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="@dimen/card_view_container_margin"
+            android:layout_marginTop="80dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
             android:textColor="@color/defaultTextColor"
-            android:textSize="10sp"
-            android:layout_marginTop="80dp"
-            android:layout_below="@+id/ticket_delivery_overview_widget"/>
+            android:textSize="10sp" />
     </RelativeLayout>
 
     <com.expedia.bookings.widget.rail.RailTravelerEntryWidget
         android:id="@+id/rail_traveler_entry_widget"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         android:animateLayoutChanges="true"
-        android:visibility="gone"/>
+        android:orientation="vertical"
+        android:visibility="gone" />
 
     <com.expedia.bookings.widget.rail.RailTicketDeliveryEntryWidget
         android:id="@+id/ticket_delivery_entry_widget"
@@ -121,5 +144,5 @@
         android:layout_height="match_parent"
         android:animateLayoutChanges="true"
         android:orientation="vertical"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 </merge>

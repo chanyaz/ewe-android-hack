@@ -10,27 +10,26 @@ import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.otto.Events
+import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.util.safeSubscribe
 import com.expedia.vm.BaseCreateTripViewModel
-import com.expedia.vm.PaymentViewModel
 import com.expedia.vm.packages.PackageCheckoutViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.PackageCreateTripViewModel
+import com.expedia.vm.traveler.FlightTravelersViewModel
+import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.otto.Subscribe
-import javax.inject.Inject
 
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
-    lateinit var paymentViewModel: PaymentViewModel
-        @Inject set
+
+    override fun getDefaultToTravelerTransition(): DefaultToTraveler {
+        return DefaultToTraveler(FlightTravelersPresenter::class.java)
+    }
 
     override fun injectComponents() {
         Ui.getApplication(context).packageComponent().inject(this)
-    }
-
-    override fun getPaymentWidgetViewModel(): PaymentViewModel {
-        return paymentViewModel
     }
 
     override fun setupCreateTripViewModel(vm: BaseCreateTripViewModel) {
@@ -43,7 +42,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
             loginWidget.updateRewardsText(getLineOfBusiness())
             priceChangeWidget.viewmodel.originalPrice.onNext(response.oldPackageDetails?.pricing?.packageTotal)
             priceChangeWidget.viewmodel.newPrice.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
+            totalPriceWidget.viewModel.total.onNext(response.bundleTotal)
             val packageTotalPrice = response.packageDetails.pricing
             totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
             val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
@@ -57,18 +56,13 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
             totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
             if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
                 totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-            isPassportRequired(response)
+            (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(response.packageDetails.flight.details.offer)
         }
         getCheckoutViewModel().priceChangeObservable.subscribe(getCreateTripViewModel().createTripResponseObservable)
     }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
-    }
-
-    override fun isPassportRequired(response: TripResponse) {
-        val flightOffer = (response as PackageCreateTripResponse).packageDetails.flight.details.offer
-        travelersPresenter.viewModel.passportRequired.onNext(flightOffer.isInternational || flightOffer.isPassportNeeded)
     }
 
     override fun getLineOfBusiness(): LineOfBusiness {
@@ -112,5 +106,9 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
 
     override fun showMainTravelerMinimumAgeMessaging(): Boolean {
         return true
+    }
+
+    override fun createTravelersViewModel(): TravelersViewModel {
+        return FlightTravelersViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
     }
 }

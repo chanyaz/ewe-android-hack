@@ -38,7 +38,6 @@ import com.expedia.bookings.tracking.AdTracker;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.ArrowXDrawableUtil;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.LXNavUtils;
 import com.expedia.bookings.utils.RetrofitUtils;
@@ -125,7 +124,7 @@ public class LXResultsPresenter extends Presenter {
 	private static final String GT_FILTERS = "Shared Transfers|Private Transfers";
 	private boolean isUserBucketedForCategoriesTest;
 	private LXTheme themeSelected = new LXTheme();
-	private boolean lxFilterTextSearchToggle;
+	private boolean lxFilterTextSearchEnabled;
 
 	@OnClick(R.id.sort_filter_button)
 	public void onSortFilterClicked() {
@@ -196,9 +195,20 @@ public class LXResultsPresenter extends Presenter {
 
 	Transition themeResultsToActivityResults = new LeftToRightTransition(this, LXThemeResultsWidget.class,
 		LXSearchResultsWidget.class) {
+
+		@Override
+		public void startTransition(boolean forward) {
+			super.startTransition(forward);
+			if (!forward) {
+				searchResultsWidget.setVisibility(GONE);
+			}
+		}
+
 		@Override
 		public void endTransition(boolean forward) {
 			super.endTransition(forward);
+			themeResultsWidget.setVisibility(forward ? GONE : VISIBLE);
+			searchResultsWidget.setVisibility(forward ? VISIBLE : GONE);
 			AccessibilityUtil.setFocusToToolbarNavigationIcon(toolbar);
 
 		}
@@ -214,11 +224,13 @@ public class LXResultsPresenter extends Presenter {
 		setUserBucketedForCategoriesTest(Db.getAbacusResponse()
 			.isUserBucketedForTest(AbacusUtils.EBAndroidAppLXCategoryABTest));
 
-		lxFilterTextSearchToggle = FeatureToggleUtil
-			.isFeatureEnabled(getContext(), R.string.preference_enable_filter_text_search);
+		lxFilterTextSearchEnabled = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppLXFilterSearch);
 
 		setupToolbar();
-
+		int toolbarSize = Ui.getStatusBarHeight(getContext());
+		if (toolbarSize > 0) {
+				themeResultsWidget.setPadding(0, Ui.toolbarSizeWithStatusBar(getContext()), 0, 0);
+			}
 		searchResultsWidget.getRecyclerView().setOnScrollListener(recyclerScrollListener);
 		sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 	}
@@ -259,7 +271,7 @@ public class LXResultsPresenter extends Presenter {
 			sortFilterButton.setVisibility(VISIBLE);
 			searchSubscription = lxServices.lxThemeSortAndFilter(
 				themeSelected, new LXSortFilterMetadata(new HashMap<String, LXCategoryMetadata>(), LXSortType.POPULARITY),
-				themeResultSortObserver, lxFilterTextSearchToggle);
+				themeResultSortObserver, lxFilterTextSearchEnabled);
 			setToolbarTitles(theme.title,
 				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, false),
 				LXDataUtils.getToolbarSearchDateText(getContext(), lxState.searchParams, true));
@@ -460,7 +472,7 @@ public class LXResultsPresenter extends Presenter {
 			searchResultFilterObserver.widget = searchResultsWidget;
 			searchSubscription = lxServices.lxSearchSortFilter(event.lxSearchParams,
 				areExternalFiltersSupplied ? new LXSortFilterMetadata(filters) : null,
-				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver, lxFilterTextSearchToggle);
+				areExternalFiltersSupplied ? searchResultFilterObserver : searchResultObserver, lxFilterTextSearchEnabled);
 			sortFilterButton.setFilterText(getResources().getString(R.string.sort_and_filter));
 			sortFilterWidget.setToolbarTitle(getResources().getString(R.string.sort_and_filter));
 			setToolbarTitles(event.lxSearchParams.getLocation(),
@@ -486,11 +498,11 @@ public class LXResultsPresenter extends Presenter {
 	public void onLXFilterChanged(Events.LXFilterChanged event) {
 		if (isUserBucketedForCategoriesTest) {
 			searchSubscription = lxServices.lxThemeSortAndFilter(themeSelected, event.lxSortFilterMetadata,
-				themeResultSortObserver, lxFilterTextSearchToggle);
+				themeResultSortObserver, lxFilterTextSearchEnabled);
 		}
 		else {
 			searchSubscription = lxServices
-				.lxSearchSortFilter(null, event.lxSortFilterMetadata, searchResultFilterObserver, lxFilterTextSearchToggle);
+				.lxSearchSortFilter(null, event.lxSortFilterMetadata, searchResultFilterObserver, lxFilterTextSearchEnabled);
 		}
 	}
 

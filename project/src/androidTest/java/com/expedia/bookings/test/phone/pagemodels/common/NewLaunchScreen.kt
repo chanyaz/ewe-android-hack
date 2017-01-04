@@ -26,10 +26,6 @@ object NewLaunchScreen {
         return onView(allOf<View>(withText("Car Rentals"), isCompletelyDisplayed()))
     }
 
-    @JvmStatic fun packagesLaunchButton(displayName: String): ViewInteraction {
-        return onView(allOf<View>(withText(displayName), isCompletelyDisplayed()))
-    }
-
     @JvmStatic fun tripsButton(): ViewInteraction {
         return onView(withText(R.string.trips))
     }

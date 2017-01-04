@@ -12,6 +12,7 @@ import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.subscribeText
 import com.expedia.vm.rail.RailSearchViewModel
+import com.squareup.phrase.Phrase
 import rx.Observable
 
 class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardView(context, attrs) {
@@ -31,9 +32,18 @@ class RailSearchLocationWidget(context: Context, attrs: AttributeSet?) : CardVie
     }
 
     var viewModel: RailSearchViewModel by notNullAndObservable { vm ->
-        vm.formattedOriginObservable.subscribeText(originLocationText)
-        vm.formattedDestinationObservable.subscribeText(destinationLocationText)
-
+        vm.formattedOriginObservable.subscribe { formattedOrigin ->
+            originLocationText.text = formattedOrigin
+            originLocationText.contentDescription = Phrase.from(context, R.string.rail_going_from_location_cont_desc_TEMPLATE)
+                    .put("location", formattedOrigin)
+                    .format().toString()
+        }
+        vm.formattedDestinationObservable.subscribe { formattedDestination ->
+            destinationLocationText.text = formattedDestination
+            destinationLocationText.contentDescription = Phrase.from(context, R.string.rail_going_to_location_cont_desc_TEMPLATE)
+                    .put("location", formattedDestination)
+                    .format().toString()
+        }
         Observable.combineLatest(
                 vm.formattedOriginObservable,
                 vm.formattedDestinationObservable,

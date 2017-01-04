@@ -39,6 +39,7 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
     val sortContainerObservable = BehaviorSubject.create<Boolean>()
     val priceRangeContainerVisibility = BehaviorSubject.create<Boolean>()
     val sortByObservable = PublishSubject.create<Sort>()
+    val sortSpinnerObservable = PublishSubject.create<Sort>()
     val isCurrentLocationSearch = BehaviorSubject.create<Boolean>(false)
 
     data class StarRatings(var one: Boolean = false, var two: Boolean = false, var three: Boolean = false, var four: Boolean = false, var five: Boolean = false)
@@ -132,6 +133,7 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
 
     init {
         sortByObservable.subscribe(sortObserver)
+        sortByObservable.subscribe(sortSpinnerObservable)
 
         doneObservable.subscribe { params ->
             sortByObservable.onNext(userFilterChoices.userSort)
@@ -164,6 +166,7 @@ abstract class AbstractHotelFilterViewModel(val context: Context) {
 
     fun resetUserFilters() {
         userFilterChoices.userSort = ProductFlavorFeatureConfiguration.getInstance().getDefaultSort()
+        sortSpinnerObservable.onNext(Sort.RECOMMENDED)
         userFilterChoices.isVipOnlyAccess = false
         userFilterChoices.hotelStarRating = StarRatings()
         userFilterChoices.name = ""

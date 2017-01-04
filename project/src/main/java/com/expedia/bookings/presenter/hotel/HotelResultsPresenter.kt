@@ -85,8 +85,13 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
             setMapToInitialState(params.suggestion)
             showLoading()
             show(ResultsList())
+
             filterView.sortByObserver.onNext(params.isCurrentLocationSearch() && !params.suggestion.isGoogleSuggestionSearch)
             filterView.viewmodel.clearObservable.onNext(Unit)
+        }
+
+        vm.sortByDeepLinkSubject.subscribe { sortType ->
+            filterView.viewmodel.sortByObservable.onNext(sortType)
         }
 
         vm.locationParamsSubject.subscribe { params ->

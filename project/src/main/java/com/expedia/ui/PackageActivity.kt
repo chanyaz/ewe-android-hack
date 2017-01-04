@@ -9,7 +9,7 @@ import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.packages.PackageCreateTripParams
 import com.expedia.bookings.otto.Events
-import com.expedia.bookings.presenter.BaseOverviewPresenter
+import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.presenter.packages.PackagePresenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -116,7 +116,7 @@ class PackageActivity : TrackingAbstractAppCompatActivity() {
                         intent.putExtra(Constants.REQUEST, Constants.PACKAGE_FLIGHT_RETURN_REQUEST_CODE)
                         packagePresenter.backStack.push(intent)
                         packagePresenter.backStack.push(packagePresenter.bundlePresenter)
-                        packagePresenter.bundlePresenter.show(BaseOverviewPresenter.BundleDefault())
+                        packagePresenter.bundlePresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault())
                     } else {
                         //If change flight, remove changed outbound flight intent
                         packagePresenter.backStack.pop()

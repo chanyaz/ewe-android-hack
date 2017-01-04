@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.rail
 
 import android.content.Context
+import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -131,10 +132,15 @@ class RailResultsAdapter(val context: Context, val legSelectedSubject: PublishSu
             vm.legOptionObservable.subscribe { legOption ->
                 timelineView.updateLeg(legOption)
             }
+
+            vm.contentDescriptionObservable.subscribe { content ->
+                cardView.contentDescription = content
+            }
         }
 
         val resources = root.resources
 
+        val cardView: CardView by root.bindView(R.id.rail_card_view)
         val timesView: TextView by root.bindView(R.id.timesView)
         val priceView: TextView by root.bindView(R.id.priceView)
         val operatorTextView: TextView by root.bindView(R.id.trainOperator)

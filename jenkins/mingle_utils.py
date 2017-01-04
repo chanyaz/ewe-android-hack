@@ -36,6 +36,8 @@ def createCard(mingleProjectId, mingleAccessId, mingleAccessSecret, cardName, ca
 
 		print response
 		if response.status_code != 201:
+			print createCardPostBody
+			print response.text
 			return -1
 		print "Location of card = " + response.headers['Location']
 		cardCreatedLink = response.headers['Location']

@@ -1,33 +1,24 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.support.annotation.VisibleForTesting
 import android.support.v4.content.ContextCompat
-import android.support.v7.app.AppCompatActivity
 import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.extensions.isUniversalCheckout
 import com.expedia.bookings.data.payment.PaymentSplitsType
 import com.expedia.bookings.data.pos.PointOfSale
-import com.expedia.bookings.data.trips.TripBucketItemCar
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.data.utils.ValidFormOfPaymentUtils
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.CreditCardUtils
-import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
-import com.expedia.bookings.widget.PaymentWidgetV2
 import com.squareup.phrase.Phrase
-import io.card.payment.CardIOActivity
-import io.card.payment.CreditCard
-import org.joda.time.LocalDate
 import rx.Observable
 import rx.android.schedulers.AndroidSchedulers
 import rx.subjects.BehaviorSubject
@@ -56,8 +47,6 @@ open class PaymentViewModel(val context: Context) {
     val isCreditCardRequired = BehaviorSubject.create<Boolean>(false)
     val isZipValidationRequired = BehaviorSubject.create<Boolean>(false)
     val lineOfBusiness = BehaviorSubject.create<LineOfBusiness>(LineOfBusiness.HOTELS)
-    val cardIoScanResult = PublishSubject.create<CreditCard>()
-    val startCreditCardScan = PublishSubject.create<Unit>()
     val expandObserver = PublishSubject.create<Boolean>()
     val showDebitCardsNotAcceptedSubject = BehaviorSubject.create<Boolean>(false)
     val selectCorrectCardObservable = PublishSubject.create<Boolean>()
@@ -68,35 +57,17 @@ open class PaymentViewModel(val context: Context) {
     val cardTitle = PublishSubject.create<String>()
     val cardSubtitle = PublishSubject.create<String>()
     val pwpSmallIcon = PublishSubject.create<Boolean>()
-    val cardIO = BehaviorSubject.create<String>()
     val tempCard = PublishSubject.create<Pair<String, Drawable>>()
     val paymentTypeWarningHandledByCkoView = BehaviorSubject.create<Boolean>(false)
     val invalidPaymentTypeWarning = PublishSubject.create<String>()
     val showCardFeeInfoLabel = PublishSubject.create<Boolean>()
     val showInvalidPaymentWarning = PublishSubject.create<Boolean>()
-    val cardIOBillingInfo = PublishSubject.create<BillingInfo>()
     val userHasAtleastOneStoredCard = PublishSubject.create<Boolean>()
     val onStoredCardChosen = PublishSubject.create<Unit>()
     val onTemporarySavedCreditCardChosen = PublishSubject.create<Unit>()
     val ccFeeDisclaimer = PublishSubject.create<String>()
 
-    val creditCardScanIntent: Intent by lazy {
-        val scanIntent = Intent(context, CardIOActivity::class.java)
-        scanIntent.putExtra(CardIOActivity.EXTRA_USE_CARDIO_LOGO, true)  // No pesky PayPal logo!
-        scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_MANUAL_ENTRY, true)
-        scanIntent.putExtra(CardIOActivity.EXTRA_SUPPRESS_CONFIRMATION, true)
-        scanIntent.putExtra(CardIOActivity.EXTRA_GUIDE_COLOR, ContextCompat.getColor(context, R.color.hotels_primary_color))
-        scanIntent.putExtra(CardIOActivity.EXTRA_SCAN_INSTRUCTIONS, resources.getString(R.string.scan_card_instruction_text))
-        scanIntent
-    }
-
     init {
-        startCreditCardScan.subscribe {
-            HotelTracking().trackHotelCardIOButtonClicked()
-            val activity = context as AppCompatActivity
-            activity.startActivityForResult(creditCardScanIntent, PaymentWidgetV2.CARD_IO_REQUEST_CODE)
-        }
-
         Observable.combineLatest(billingInfoAndStatusUpdate, isRedeemable, splitsType) {
             infoAndStatus, isRedeemable, splitsType ->
             object {
@@ -162,37 +133,8 @@ open class PaymentViewModel(val context: Context) {
                     val tripItem = Db.getTripBucket().getItem(lineOfBusiness.value)
                     val showingPaymentFeeWarning = tripItem?.hasPaymentFee(cardType) ?: false
                     var invalidPaymentWarningMsg = ""
-
-                    if (tripItem != null &&
-                            cardType != null &&
-                            !tripItem.isPaymentTypeSupported(cardType)) {
-                        val cardName = CreditCardUtils.getHumanReadableName(context, cardType)
-                        invalidPaymentWarningMsg = when (lineOfBusiness.value) {
-                            LineOfBusiness.CARS -> {
-                                resources.getString(R.string.car_does_not_accept_cardtype_TEMPLATE,
-                                        (tripItem as TripBucketItemCar).mCarTripResponse.carProduct.vendor.name, cardName)
-                            }
-
-                            LineOfBusiness.LX, LineOfBusiness.TRANSPORT -> {
-                                resources.getString(R.string.lx_does_not_accept_cardtype_TEMPLATE, cardName)
-                            }
-
-                            LineOfBusiness.HOTELS -> {
-                                resources.getString(R.string.hotel_does_not_accept_cardtype_TEMPLATE, cardName)
-                            }
-
-                            LineOfBusiness.FLIGHTS_V2 -> {
-                                resources.getString(R.string.airline_does_not_accept_cardtype_TEMPLATE, cardName)
-                            }
-
-                            LineOfBusiness.PACKAGES -> {
-                                Phrase.from(resources, R.string.package_does_not_accept_cardtype_TEMPLATE)
-                                        .put("card_type", cardName)
-                                        .format().toString()
-                            }
-
-                            else -> ""
-                        }
+                    if (tripItem != null && cardType != null && !tripItem.isPaymentTypeSupported(cardType)) {
+                        invalidPaymentWarningMsg = ValidFormOfPaymentUtils.getInvalidFormOfPaymentMessage(context, cardType, lineOfBusiness.value)
                     }
                     val showLabel = !paymentTypeWarningHandledByCkoView.value || !showingPaymentFeeWarning && invalidPaymentWarningMsg.isBlank()
                     invalidPaymentTypeWarning.onNext(invalidPaymentWarningMsg)
@@ -213,23 +155,7 @@ open class PaymentViewModel(val context: Context) {
             }
             isZipValidationRequired.onNext(isPostalCodeRequired)
             ccFeeDisclaimer.onNext(getCCFeeDisclaimerText(lob))
-            newCheckoutIsEnabled.onNext(FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_new_checkout) && lob.isUniversalCheckout())
-        }
-
-        cardIoScanResult.subscribe { card ->
-            val billingInfo = BillingInfo()
-            billingInfo.number = card.cardNumber
-            if (card.expiryYear != 0 && card.expiryMonth != 0) {
-                val localDateForExp = LocalDate.now().withYear(card.expiryYear).withMonthOfYear(card.expiryMonth)
-                billingInfo.expirationDate = localDateForExp
-            }
-            billingInfo.securityCode = card.cvv
-            billingInfo.isCardIO = true
-            val location = Location()
-            location.postalCode = card.postalCode
-            billingInfo.location = location
-            cardIOBillingInfo.onNext(billingInfo)
-            moveFocusToPostalCodeSubject.onNext(Unit)
+            newCheckoutIsEnabled.onNext(lob.isUniversalCheckout(context))
         }
 
         resetCardFees.subscribe { cardBIN.onNext("") }
@@ -250,7 +176,7 @@ open class PaymentViewModel(val context: Context) {
     private fun lobRequiresCreditCard(lob: LineOfBusiness): Boolean {
         return lob == LineOfBusiness.PACKAGES || lob == LineOfBusiness.HOTELS
                 || lob == LineOfBusiness.FLIGHTS || lob == LineOfBusiness.FLIGHTS_V2
-                || lob == LineOfBusiness.RAILS
+                || lob == LineOfBusiness.RAILS || lob == LineOfBusiness.LX
     }
 
     private fun setPaymentTileInfo(type: PaymentType?, title: String, subTitle: String, splitsType: PaymentSplitsType, completeStatus: ContactDetailsCompletenessStatus) {

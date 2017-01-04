@@ -8,4 +8,5 @@ public interface IMedia {
 	void setIsPlaceholder(boolean isPlaceholder);
 	boolean getIsPlaceHolder();
 	int getPlaceHolderId();
+	int getFallbackImage();
 }

@@ -88,31 +88,45 @@
 
                     <com.expedia.bookings.widget.packages.FlightAirlineWidget
                         android:id="@+id/flight_airline_widget"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_marginTop="2dp"
-                        android:layout_weight="1"/>
+                        android:layout_height="wrap_content"
+                        android:layout_weight="4"/>
 
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/trip_type_text_view"
+                        android:text="@string/Roundtrip"
+                        android:visibility="gone"
+                        android:gravity="right"
+                        style="@style/Core.Text.Default.LightColor"
+                        android:layout_marginTop="1dp"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="@dimen/flight_trip_type_text_view_margin_left"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:orientation="horizontal" >
+                    <com.expedia.bookings.widget.TextView
+                        android:id="@+id/flight_duration_text_view"
+                        style="@style/Core.Text.Default.LightColor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flight_earn_message_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_marginTop="2dp"
                         android:drawableLeft="@drawable/earn_message_icon"
                         android:drawablePadding="@dimen/earn_message_icon_dimen"
                         android:textColor="@color/hotel_earn_message_text_color"
                         android:textSize="12sp"
                         app:textStyle="normal" />
-
                 </LinearLayout>
-
-                <com.expedia.bookings.widget.TextView
-                    android:id="@+id/flight_duration_text_view"
-                    style="@style/Core.Text.Default.LightColor"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="3dp" />
 
                 <com.expedia.bookings.widget.packages.FlightLayoverWidget
                     android:id="@+id/custom_flight_layover_widget"
@@ -123,6 +137,29 @@
                     app:layover_background="@drawable/flight_layover_pattern_bg"
                     app:location_text_color="@color/packages_primary_color"
                     app:location_text_size="@dimen/layover_bar_text_size" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:background="@color/cardview_divider_lines_gray" />
+
+            <LinearLayout
+                android:id="@+id/urgency_message_layout"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:orientation="horizontal"
+                android:visibility="gone">
+
+                <com.expedia.bookings.widget.TextView
+                    android:id="@+id/urgency_message"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="right|center_vertical"
+                    android:paddingRight="13dp"
+                    android:textColor="@color/flight_seats_left_urgency_message_color"
+                    android:textSize="11sp"
+                    app:textStyle="medium" />
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

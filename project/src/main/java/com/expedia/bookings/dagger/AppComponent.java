@@ -1,5 +1,6 @@
 package com.expedia.bookings.dagger;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import android.content.Context;
@@ -11,11 +12,12 @@ import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.model.UserLoginStateChangedModel;
+
 import dagger.Component;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 
-@Component(modules = {AppModule.class})
+@Component(modules = {AppModule.class, CryptoModule.class})
 @Singleton
 public interface AppComponent {
 	void inject(ExpediaServices services);
@@ -26,6 +28,8 @@ public interface AppComponent {
 	EndpointProvider endpointProvider();
 	OkHttpClient okHttpClient();
 	Interceptor requestInterceptor();
+	@Named("GaiaInterceptor")
+	Interceptor gaiaRequestInterceptor();
 	AbacusServices abacus();
 	ClientLogServices clientLog();
 	UserLoginStateChangedModel userLoginStateChangedModel();

@@ -8,16 +8,17 @@
         android:orientation="vertical">
 
         <android.support.v7.widget.Toolbar
-        android:id="@+id/amenities_rules_toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="top"
-        android:background="?attr/primary_color"
-        android:minHeight="?attr/actionBarSize"
-        app:navigationIcon="@drawable/ic_close_white_24dp"
-        app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
-        app:title="@string/amenities"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
+            android:id="@+id/amenities_rules_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top"
+            android:background="?attr/primary_color"
+            android:minHeight="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_close_white_24dp"
+            app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
+            app:title="@string/amenities"
+            app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+            app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/amenities_rules_tabs"

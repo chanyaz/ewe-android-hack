@@ -97,7 +97,7 @@
             style="@style/HotelCheckoutSummaryCommon.Common"
             android:drawableLeft="@drawable/ic_hotel_check"
             android:drawablePadding="8dp"
-            android:text="@string/best_price_guarantee" />
+            android:text="@string/price_guarantee" />
     </LinearLayout>
 
     <View

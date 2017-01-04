@@ -15,6 +15,7 @@ import org.joda.time.format.ISODateTimeFormat
 import java.util.Locale
 
 object FlightV2Utils {
+    val TICKETS_LEFT_CUTOFF_FOR_DECIDING_URGENCY = 5
 
     @JvmStatic fun getFlightDurationStopString(context: Context, flight: FlightLeg): String {
         return context.resources.getString(R.string.flight_duration_description_template, getFlightDurationString(context, flight), getFlightStopString(context, flight))
@@ -209,5 +210,18 @@ object FlightV2Utils {
         val time = DateTime.parse(timeStr, fmt)
         val dateFormat = DateTimeUtils.getDeviceTimeFormat(context)
         return JodaUtils.format(time, dateFormat).toLowerCase(Locale.getDefault())
+    }
+
+    @JvmStatic fun getSeatsLeftUrgencyMessage(context: Context, flightLeg: FlightLeg): String {
+        if (flightLeg.packageOfferModel.urgencyMessage != null) {
+            val seatsLeft = flightLeg.packageOfferModel.urgencyMessage.ticketsLeft
+            if (seatsLeft > 0 && seatsLeft <= TICKETS_LEFT_CUTOFF_FOR_DECIDING_URGENCY)
+                return Phrase.from(context.resources.getString(R.string.flight_seats_left_urgency_message_TEMPLATE))
+                        .put("seats", seatsLeft)
+                        .format().toString()
+            else
+                return "";
+        } else
+            return "";
     }
 }

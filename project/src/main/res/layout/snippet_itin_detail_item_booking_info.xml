@@ -33,14 +33,9 @@
         android:padding="8dp"
         android:text="@string/itin_card_details_cancel_hotel_room" />
 
-    <View
-        android:id="@+id/divider_cancel_hotel_room"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:background="#4D555D" />
+    <include android:id="@+id/cancel_hotel_divider"
+             android:visibility="gone"
+        layout="@layout/include_itin_card_divider_hotel" />
 
     <com.expedia.bookings.widget.TextView
         android:id="@+id/booking_info"
@@ -56,13 +51,26 @@
         android:padding="8dp"
         android:text="@string/itin_card_details_details" />
 
-    <View
-        android:id="@+id/divider"
+    <include android:id="@+id/divider" layout="@layout/include_itin_card_divider_hotel" />
+
+    <com.expedia.bookings.widget.TextView
+        android:id="@+id/edit_hotel_room_info"
+        style="@style/TextView.Itin.SectionText"
+        android:visibility="gone"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:background="#4D555D" />
+        android:background="?android:attr/selectableItemBackground"
+        android:drawableLeft="@drawable/ic_create_white_24dp"
+        android:drawablePadding="8dp"
+        android:gravity="center_vertical"
+        android:padding="8dp"
+        android:text="@string/itin_card_edit_hotel_room_info" />
+
+    <include android:id="@+id/divider_edit_hotel_room_info"
+             android:visibility="gone"
+             layout="@layout/include_itin_card_divider_hotel" />
 
     <RelativeLayout
         android:id="@+id/itin_details_deep_refresh_container"

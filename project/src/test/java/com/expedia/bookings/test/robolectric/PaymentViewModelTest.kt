@@ -7,7 +7,6 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
-import com.expedia.bookings.data.Location
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.StoredCreditCard
 import com.expedia.bookings.data.TripBucketItemFlightV2
@@ -31,8 +30,6 @@ import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.PaymentViewModel
-import com.mobiata.android.util.SettingUtils
-import org.joda.time.LocalDate
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -154,7 +151,7 @@ class PaymentViewModelTest {
         viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("$expectedCarVendorName does not accept American Express")
+        testSubscriber.assertValue("Rental company does not accept American Express")
     }
 
     @Test
@@ -182,7 +179,7 @@ class PaymentViewModelTest {
         viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("American Express is not accepted for this trip")
+        testSubscriber.assertValue("Trip does not accept American Express")
     }
 
     @Test
@@ -210,7 +207,7 @@ class PaymentViewModelTest {
         viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("American Express not accepted")
+        testSubscriber.assertValue("Activity does not accept American Express")
     }
 
     @Test
@@ -224,7 +221,7 @@ class PaymentViewModelTest {
         viewModel.cardTypeSubject.onNext(PaymentType.CARD_AMERICAN_EXPRESS)
 
         testSubscriber.assertValueCount(1)
-        testSubscriber.assertValue("American Express not accepted")
+        testSubscriber.assertValue("Activity does not accept American Express")
     }
 
     @Test
@@ -287,24 +284,7 @@ class PaymentViewModelTest {
     }
 
     @Test
-    fun testCreditCardSentToBillingInfo() {
-        val cardIOTestSubscriber = TestSubscriber.create<String>()
-        viewModel.cardIO.subscribe(cardIOTestSubscriber)
-        val info = getBillingInfoFromCard()
-        viewModel.cardIO.onNext(info.number)
-        viewModel.cardIO.onNext(info.securityCode)
-        viewModel.cardIO.onNext(info.nameOnCard)
-        viewModel.cardIO.onNext(info.location.postalCode)
-        viewModel.cardIO.onNext(info.expirationDate.monthOfYear.toString())
-        viewModel.cardIO.onNext(info.expirationDate.year.toString())
-        viewModel.cardIO.onNext(info.isCardIO.toString())
-
-        cardIOTestSubscriber.assertValues("4111111111111111", "111", "Joe Smith", "99999", 12.toString(), 2017.toString(), "true")
-    }
-
-    @Test
     fun testNewCheckoutBehavior() {
-        SettingUtils.save(getContext(), R.string.preference_enable_new_checkout, true)
         val testNewCheckoutSubscriber = TestSubscriber.create<Boolean>()
         viewModel.newCheckoutIsEnabled.subscribe(testNewCheckoutSubscriber)
 
@@ -321,7 +301,6 @@ class PaymentViewModelTest {
 
     @Test
     fun testMenuButtonBehaviorOnCardSelection() {
-        SettingUtils.save(getContext(), R.string.preference_enable_new_checkout, true)
         val testMenuVisibilitySubscriber = TestSubscriber.create<Boolean>()
         val testEnableMenuSubscriber = TestSubscriber.create<Boolean>()
         viewModel.menuVisibility.subscribe(testMenuVisibilitySubscriber)
@@ -371,21 +350,6 @@ class PaymentViewModelTest {
         carTripResponse.carProduct.vendor.name = expectedCarVendorName
         val tripBucketItemCar = TripBucketItemCar(carTripResponse)
         Db.getTripBucket().add(tripBucketItemCar)
-    }
-
-    private fun getBillingInfoFromCard() : BillingInfo {
-        val info = BillingInfo()
-        info.number = "4111111111111111"
-        info.securityCode = "111"
-        info.nameOnCard = "Joe Smith"
-        val localDateForExp = LocalDate.now().withYear(2017).withMonthOfYear(12)
-        info.expirationDate = localDateForExp
-        info.isCardIO = true;
-        val location = Location()
-        location.postalCode = "99999"
-        info.location = location
-        viewModel.cardIOBillingInfo.onNext(info)
-        return info
     }
 
     private fun getBillingInfo(hasStoredCard: Boolean): BillingInfo {

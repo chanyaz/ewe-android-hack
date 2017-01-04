@@ -2,6 +2,7 @@ package com.expedia.vm.test.robolectric
 
 import android.content.Context
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
@@ -23,6 +24,9 @@ class PackageCheckoutOverviewViewModelTest {
         val viewmodel = PackageCheckoutOverviewViewModel(getContext())
         val trip = PackageCreateTripResponse()
         val packageDetails = PackageCreateTripResponse.PackageDetails()
+        packageDetails.pricing = PackageCreateTripResponse.Pricing()
+        packageDetails.pricing.bundleTotal = Money(1000, "USD")
+        packageDetails.pricing.packageTotal = Money(950, "USD")
         val hotel = HotelCreateTripResponse.HotelProductResponse()
         Db.setPackageParams(PackageSearchParams(SuggestionV4(), SuggestionV4(), LocalDate.now(), LocalDate.now(), 1, emptyList<Int>(), false))
         hotel.largeThumbnailUrl = "/testurl"
@@ -67,6 +71,12 @@ class PackageCheckoutOverviewViewModelTest {
 
         cityTestSubscriber.assertValueCount(2)
         assertEquals("Tokyo, Japan", cityTestSubscriber.onNextEvents[1])
+
+        assertEquals("$1,000", trip.bundleTotal.formattedMoney)
+        packageDetails.pricing.bundleTotal = null
+
+        assertEquals("$950", trip.bundleTotal.formattedMoney)
+
     }
 
     private fun getContext(): Context {

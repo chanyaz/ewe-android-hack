@@ -7,11 +7,15 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.LoadingViewHolder
 import com.expedia.bookings.widget.TextView
@@ -177,6 +181,9 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         val flightAirlineWidget: FlightAirlineWidget by root.bindView(R.id.flight_airline_widget)
         val bestFlightView: ViewGroup by root.bindView(R.id.package_best_flight)
         val flightEarnMessage: TextView by root.bindView(R.id.flight_earn_message_text_view)
+        val urgencyMessageTextView: TextView by root.bindView(R.id.urgency_message)
+        val urgencyMessageContainer: LinearLayout by root.bindView(R.id.urgency_message_layout)
+        val roundTripTextView: TextView by root.bindView(R.id.trip_type_text_view)
 
         init {
             itemView.setOnClickListener(this)
@@ -189,12 +196,23 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         }
 
         fun bind(viewModel: AbstractFlightViewModel) {
+            if (isRoundTripSearch && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)) {
+                roundTripTextView.visibility = View.VISIBLE
+            } else {
+                roundTripTextView.visibility = View.GONE
+            }
             flightTimeTextView.text = viewModel.flightTime
             priceTextView.text = viewModel.price()
             flightDurationTextView.text = viewModel.duration
             val flight = viewModel.layover
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
-            flightAirlineWidget.update(viewModel.airline)
+            flightAirlineWidget.update(viewModel.airline, isRoundTripSearch)
+            if (viewModel.getUrgencyMessageVisibilty() && Strings.isNotEmpty(viewModel.seatsLeft)) {
+                urgencyMessageContainer.visibility = View.VISIBLE
+                urgencyMessageTextView.text = viewModel.seatsLeft
+            } else {
+                urgencyMessageContainer.visibility = View.GONE
+            }
             cardView.contentDescription = viewModel.contentDescription
             flightEarnMessage.text = viewModel.packageOfferModel?.loyaltyInfo?.earn?.getEarnMessage(context) ?:""
         }

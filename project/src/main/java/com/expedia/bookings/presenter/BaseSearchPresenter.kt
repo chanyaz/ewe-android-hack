@@ -147,7 +147,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
         AccessibilityUtil.delayFocusToToolbarNavigationIcon(toolbar, 300)
     }
 
-    protected  fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {
+    protected fun locationClickListener(isCustomerSelectingOrigin: Boolean): (View) -> Unit {
         return {
            performLocationClick(isCustomerSelectingOrigin)
         }
@@ -370,9 +370,7 @@ abstract class BaseSearchPresenter(context: Context, attrs: AttributeSet) : Pres
                 tabs.alpha = TransitionElement.calculateStep(bgFade.end, bgFade.start, 0f)
             }
 
-            if (firstLaunch) {
-                endTransition(forward)
-            }
+            endTransition(forward)
         }
 
         override fun updateTransition(f: Float, forward: Boolean) {

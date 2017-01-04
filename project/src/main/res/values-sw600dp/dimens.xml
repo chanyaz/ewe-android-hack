@@ -44,7 +44,6 @@
 
     <!-- Account / Login button -->
     <dimen name="account_button_height">52dp</dimen>
-    <dimen name="account_button_padding">6dp</dimen>
     <dimen name="login_button_text_size">17sp</dimen>
     <dimen name="account_button_points_text_size">15sp</dimen>
     <dimen name="card_icon_padding">6dp</dimen>
@@ -226,5 +225,10 @@
 
     <!-- Select Airport button top margin (used when no origin is set) -->
     <dimen name="pick_airport_button_top_margin">10dp</dimen>
+
+    <!-- Itin Hotel Upgrade Textview -->
+    <dimen name="itin_hotel_upgrade_paddingRight">20dp</dimen>
+    <dimen name="itin_hotel_upgrade_drawable_padding">95dp</dimen>
+    <dimen name="itin_hotel_upgrade_paddingLeft">15dp</dimen>
 
 </resources>

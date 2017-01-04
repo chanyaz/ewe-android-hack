@@ -14,6 +14,7 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import kotlin.properties.Delegates
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
@@ -58,7 +59,6 @@ class PackageCheckoutParamsTest {
         assertEquals("malcolm", params.toQueryMap()[expectedAddTravelerKey2])
     }
 
-
     @Test
     fun testRedressAndSeatingPreference() {
         val travelers = arrayListOf(getTraveler())
@@ -94,6 +94,28 @@ class PackageCheckoutParamsTest {
 
         assertTrue(params.toQueryMap().containsKey(expectedStoredCardKey))
         assertEquals("12345", params.toQueryMap()[expectedStoredCardKey])
+    }
+
+    @Test
+    fun testMissingBillingInfo() {
+        val travelers = arrayListOf(getTraveler())
+        val billingInfo = getBillingInfo()
+        billingInfo.location.city = ""
+        billingInfo.location.stateCode = ""
+        billingInfo.location.postalCode = null
+        val builder = builder.billingInfo(billingInfo)
+                .travelers(travelers)
+                .cvv("123") as PackageCheckoutParams.Builder
+
+        val params = builder.bedType("")
+                .expectedFareCurrencyCode("")
+                .expectedTotalFare("")
+                .tripId("")
+                .build()
+
+        assertFalse(params.toQueryMap().containsKey("city"))
+        assertFalse(params.toQueryMap().containsKey("state"))
+        assertFalse(params.toQueryMap().containsKey("postalCode"))
     }
 
     fun getBillingInfo(): BillingInfo {

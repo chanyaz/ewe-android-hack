@@ -7,6 +7,7 @@ import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.utils.rail.RailUtils
 import com.mobiata.flightlib.utils.DateTimeUtils
 import com.squareup.phrase.Phrase
+import rx.Observable
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
@@ -26,6 +27,16 @@ class RailLegSummaryViewModel(context: Context) {
     val fareDescriptionObservable = railProductObserver.map { railProduct -> railProduct.aggregatedFareDescription }
     val railCardNameObservable = railProductObserver.map { railProduct ->
         getAppliedRailcardNames(railProduct)
+    }
+
+    val railSummaryContentDescription = Observable.combineLatest(railLegOptionObserver, formattedStopsAndDurationObservable)
+    { legOption, stopsAndDuration ->
+        Phrase.from(context, R.string.rail_result_card_cont_desc_TEMPLATE)
+                .put("departuretime", RailUtils.formatTimeToDeviceFormat(context, legOption.getDepartureDateTime()))
+                .put("arrivaltime", RailUtils.formatTimeToDeviceFormat(context, legOption.getArrivalDateTime()))
+                .put("trainoperator", legOption.aggregatedOperatingCarrier)
+                .put("tripdurationandchanges", stopsAndDuration)
+                .format().toString()
     }
 
     init {

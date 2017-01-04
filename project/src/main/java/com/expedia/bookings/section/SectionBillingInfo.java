@@ -1,5 +1,7 @@
 package com.expedia.bookings.section;
 
+import java.util.ArrayList;
+
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
@@ -22,6 +24,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
 import com.expedia.bookings.data.BillingInfo;
@@ -30,6 +33,7 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
@@ -48,7 +52,6 @@ import com.mobiata.android.util.ViewUtils;
 import com.mobiata.android.validation.MultiValidator;
 import com.mobiata.android.validation.ValidationError;
 import com.mobiata.android.validation.Validator;
-import java.util.ArrayList;
 
 public class SectionBillingInfo extends LinearLayout implements ISection<BillingInfo>, ISectionEditable,
 	InvalidCharacterListener {
@@ -516,10 +519,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 				public void afterTextChanged(Editable s) {
 					boolean isCreditField = field.getId() == R.id.edit_creditcard_number;
 					if (hasBoundData()) {
-						if (getData().getNumber() == null || !s.toString().equalsIgnoreCase(getData().getNumber()) || getData().getIsCardIO()) {
-							if (!getData().getIsCardIO()) {
-								getData().setIsCardIO(false);
-							}
+						if (getData().getNumber() == null || !s.toString().equalsIgnoreCase(getData().getNumber())) {
 							getData().setNumber(s.toString());
 
 							//this will ensure that the credit card text is not grayed out when the credit card field is empty
@@ -702,7 +702,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
-				if (isPostalCodeRequired()) {
+				if (isPostalCodeRequired() && !LineOfBusinessExtensions.Companion.isUniversalCheckout(mLineOfBusiness, getContext())) {
 					if (obj == null) {
 						return ValidationError.ERROR_DATA_MISSING;
 					}

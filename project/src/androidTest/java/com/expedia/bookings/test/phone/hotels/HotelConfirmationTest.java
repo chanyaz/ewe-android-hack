@@ -1,5 +1,8 @@
 package com.expedia.bookings.test.phone.hotels;
 
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+
 import android.support.test.espresso.matcher.ViewMatchers;
 
 import com.expedia.bookings.R;
@@ -7,6 +10,7 @@ import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.espresso.HotelTestCase;
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel;
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen;
+import com.expedia.bookings.utils.DateFormatUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
@@ -28,11 +32,17 @@ public class HotelConfirmationTest extends HotelTestCase {
 		HotelScreen.enterCVVAndBook();
 		HotelScreen.waitForConfirmationDisplayed();
 
+		DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+		String checkinDate = "2014-04-23";
+		String checkoutDate = "2014-04-24";
+
 		EspressoUtils.assertViewIsDisplayed(R.id.hotel_confirmation_presenter);
 		onView(withId(R.id.hotel_name_view)).check(matches((withText("Layne Hotel"))));
 
+		String expectedDateText = DateFormatUtils
+			.formatDateRange(getActivity(), dtf.parseLocalDate(checkinDate), dtf.parseLocalDate(checkoutDate), DateFormatUtils.FLAGS_DATE_ABBREV_MONTH);
 		onView(allOf(withId(R.id.check_in_out_dates), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
-			.check(matches(withText("Apr 23 – 24, 2014")));
+			.check(matches(withText(expectedDateText)));
 
 		onView(allOf(withId(R.id.address_line_one), withEffectiveVisibility(ViewMatchers.Visibility.VISIBLE)))
 			.check(matches(withText("545 Jones St")));
