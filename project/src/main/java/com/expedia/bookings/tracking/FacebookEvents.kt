@@ -37,6 +37,7 @@ import com.expedia.bookings.data.trips.TripBucketItemFlight
 import com.expedia.bookings.data.trips.TripBucketItemHotel
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
+import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData
 import com.expedia.bookings.utils.CollectionUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Strings
@@ -106,16 +107,17 @@ class FacebookEvents() {
         }
     }
 
-    fun trackHotelV2Search(searchParams: com.expedia.bookings.data.hotels.HotelSearchParams, searchResponse: com.expedia.bookings.data.hotels.HotelSearchResponse) {
-
-        val location: Location = getLocation(searchResponse.hotelList[0].city,
-                searchResponse.hotelList[0].stateProvinceCode,
-                searchResponse.hotelList[0].countryCode)
-        val hotelList: List<Hotel> = searchResponse.hotelList
+    fun trackHotelV2Search(trackingData: HotelSearchTrackingData) {
+        val location = getLocation(trackingData.city ?: "", trackingData.stateProvinceCode ?: "", trackingData.countryCode ?: "")
         val parameters = Bundle()
-        addCommonHotelV2Params(parameters, searchParams, searchResponse.searchRegionId ?: "", location)
+
+        addGenericHotelV2Params(parameters)
+        addCommonHotelV2RegionParams(parameters, trackingData.searchRegionId ?: "", location)
+        addCommonHotelV2SearchParams(parameters, trackingData.checkInDate!!, trackingData.checkoutDate!!,
+                trackingData.numberOfGuests, trackingData.numberOfChildren)
+
         parameters.putString(AppEventsConstants.EVENT_PARAM_SEARCH_STRING, location.city ?: "")
-        parameters.putString("LowestSearch_Value", calculateLowestRateV2Hotels(hotelList)?.displayTotalPrice?.getAmount()?.toString() ?: "")
+        parameters.putString("LowestSearch_Value", trackingData.lowestHotelTotalPrice ?: "")
         parameters.putInt("Num_Rooms", 1)
 
         track(AppEventsConstants.EVENT_NAME_SEARCHED, parameters)
@@ -594,25 +596,42 @@ class FacebookEvents() {
     }
 
     private fun addCommonHotelV2Params(parameters: Bundle, searchParams: com.expedia.bookings.data.hotels.HotelSearchParams, regionId: String, location: Location) {
-        val dtf = ISODateTimeFormat.date()
-        parameters.putString("LOB", "Hotel")
-        val formattedAddressCityState = StrUtils.formatAddressCityState(location) ?: ""
-        val numOfNight = JodaUtils.daysBetween(searchParams.checkIn, searchParams.checkOut)
-        parameters.putString("region_id", regionId)
-        addCommonLocationEvents(parameters, location)
+        addGenericHotelV2Params(parameters)
+        addCommonHotelV2RegionParams(parameters, regionId, location)
+        addCommonHotelV2SearchParams(parameters, searchParams.checkIn, searchParams.checkOut, searchParams.guests,
+                searchParams.children.size)
+    }
 
-        parameters.putString("destination_name", formattedAddressCityState)
-        parameters.putString("Checkin_Date", dtf.print(searchParams.checkIn))
-        parameters.putString("Checkout_Date", dtf.print(searchParams.checkOut))
-        parameters.putInt("Booking_Window", getBookingWindow(searchParams.checkIn))
-        parameters.putInt("Num_People", searchParams.guests)
-        parameters.putInt("Number_Children", searchParams.children.size)
-        parameters.putInt("Number_Nights", numOfNight)
+    private fun addGenericHotelV2Params(parameters: Bundle) {
+        parameters.putString("LOB", "Hotel")
+
         if (facebookContext != null) {
             parameters.putInt("Logged_in_Status", encodeBoolean(User.isLoggedIn(facebookContext)))
         }
         parameters.putString("Reward_Status", getLoyaltyTier(Db.getUser()))
         parameters.putString("POS", PointOfSale.getPointOfSale().twoLetterCountryCode)
+    }
+
+    private fun addCommonHotelV2SearchParams(parameters: Bundle, checkIn: LocalDate, checkOut: LocalDate,
+                                             guests: Int, numberOfChildren: Int) {
+        val dtf = ISODateTimeFormat.date()
+
+        val numOfNight = JodaUtils.daysBetween(checkIn, checkOut)
+
+        parameters.putString("Checkin_Date", dtf.print(checkIn))
+        parameters.putString("Checkout_Date", dtf.print(checkOut))
+        parameters.putInt("Booking_Window", getBookingWindow(checkIn))
+        parameters.putInt("Num_People", guests)
+        parameters.putInt("Number_Children", numberOfChildren)
+        parameters.putInt("Number_Nights", numOfNight)
+    }
+
+    private fun addCommonHotelV2RegionParams(parameters: Bundle, regionId: String, location: Location) {
+        val formattedAddressCityState = StrUtils.formatAddressCityState(location) ?: ""
+        parameters.putString("region_id", regionId)
+        parameters.putString("destination_name", formattedAddressCityState)
+
+        addCommonLocationEvents(parameters, location)
     }
 
     private fun addCommonHotelV2Params(parameters: Bundle, hotelCheckoutResponse: HotelCheckoutResponse, location: Location) {

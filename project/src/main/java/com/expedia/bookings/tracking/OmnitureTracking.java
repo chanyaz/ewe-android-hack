@@ -101,6 +101,8 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.text.HtmlCompat;
+import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
+import com.expedia.bookings.tracking.hotel.HotelTracking;
 import com.expedia.bookings.utils.CollectionUtils;
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.DateUtils;
@@ -314,8 +316,7 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Search Results Update", null, null);
 	}
 
-	public static void internalTrackHotelsV2Search(com.expedia.bookings.data.hotels.HotelSearchParams searchParams,
-		com.expedia.bookings.data.hotels.HotelSearchResponse searchResponse) {
+	public static void trackHotelsV2Search(HotelSearchTrackingData searchTrackingData) {
 		// Start actually tracking the search result change
 		Log.d(TAG, "Tracking \"" + HOTELSV2_RESULT + "\" pageLoad...");
 
@@ -323,42 +324,58 @@ public class OmnitureTracking {
 
 		s.setAppState(HOTELSV2_RESULT);
 		s.setEvar(18, HOTELSV2_RESULT);
-		s.setEvents("event12,event51");
 
 		// LOB Search
 		s.setEvar(2, "D=c2");
 		s.setProp(2, HOTELV2_LOB);
 
 		// Region
-		addHotelV2RegionId(s, searchParams);
-		// Check in/check out date
-		addHotelV2AdvancePurchaseWindow(s, searchParams);
+		s.setProp(4, searchTrackingData.getRegion());
+		s.setEvar(4, "D=c4");
 
-		s.setEvar(47, getHotelV2Evar47String(searchParams));
-
-		// prop and evar 5, 6
-		setDateValues(s, searchParams.getCheckIn(), searchParams.getCheckOut());
-		// Freeform location
-		if (!TextUtils.isEmpty(searchParams.getSuggestion().regionNames.fullName)) {
-			s.setEvar(48, searchParams.getSuggestion().regionNames.fullName);
+		String checkInString = searchTrackingData.getCheckInDate().toString(PROP_DATE_FORMAT);
+		String checkoutString;
+		if (searchTrackingData.getCheckoutDate() != null) {
+			checkoutString = searchTrackingData.getCheckoutDate().toString(PROP_DATE_FORMAT);
+		}
+		else {
+			checkoutString = "nil";
 		}
 
-		// Number of search results
-		if (searchResponse != null) {
-			s.setProp(1, Integer.toString(searchResponse.hotelList.size()));
+		s.setProp(5, checkInString);
+		s.setEvar(5, searchTrackingData.getSearchWindowDays());
+
+		s.setProp(6, checkoutString);
+		s.setEvar(6, searchTrackingData.getDuration().toString());
+
+		StringBuilder searchDataPipeList = new StringBuilder("HOT|A");
+		searchDataPipeList.append(searchTrackingData.getNumberOfAdults());
+		searchDataPipeList.append("|C");
+		searchDataPipeList.append(searchTrackingData.getNumberOfChildren());
+		s.setEvar(47, searchDataPipeList.toString());
+
+		if (searchTrackingData.getFreeFormRegion() != null) {
+			s.setEvar(48, searchTrackingData.getFreeFormRegion());
 		}
 
-		if (searchResponse != null) {
-			// Has at least one sponsored Listing
-			if (searchResponse.hotelList.get(0).isSponsoredListing) {
-				s.setEvar(28, HOTELS_SEARCH_SPONSORED_PRESENT);
-				s.setProp(16, HOTELS_SEARCH_SPONSORED_PRESENT);
+		if (searchTrackingData.hasResponse()) {
+			s.setProp(1, searchTrackingData.getNumberOfResults());
+
+			String sponsoredListingPresent = "App.Hotels.Search.Sponsored.No";
+			if (searchTrackingData.getHasSponsoredListingPresent()) {
+				sponsoredListingPresent = "App.Hotels.Search.Sponsored.Yes";
 			}
-			else {
-				s.setEvar(28, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
-				s.setProp(16, HOTELS_SEARCH_SPONSORED_NOT_PRESENT);
-			}
+			s.setEvar(28, sponsoredListingPresent);
+			s.setProp(16, sponsoredListingPresent);
 		}
+
+		StringBuilder eventStringBuilder = new StringBuilder();
+		eventStringBuilder.append("event12,event51");
+		HotelSearchTrackingData.PerformanceData perfData = searchTrackingData.getPerformanceData();
+		if (perfData.getTimeToLoadUsable() != null) {
+			eventStringBuilder.append(",event220,event221" + "=" + perfData.getTimeToLoadUsable());
+		}
+		s.setEvents(eventStringBuilder.toString());
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest);
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);

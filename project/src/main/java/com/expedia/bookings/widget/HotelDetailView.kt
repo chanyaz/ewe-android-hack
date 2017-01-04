@@ -32,7 +32,7 @@ import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.cars.LatLong
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Amenity
 import com.expedia.bookings.utils.AnimUtils
@@ -527,31 +527,6 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         space.layoutParams = params
     }
 
-    val payNowObserver: Observer<Unit> = endlessObserver {
-        //pay now show all the offers
-        payNowLaterSelectionChanged(true)
-        viewmodel.roomResponseListObservable.onNext(Pair(viewmodel.hotelOffersResponse.hotelRoomResponse, viewmodel.uniqueValueAddForRooms))
-
-        if (viewmodel.hasVipAccessLoyaltyObservable.value) {
-            displayRoomRateHeader()
-            roomRateVIPLoyaltyAppliedContainer.visibility = View.VISIBLE
-        } else if (viewmodel.hasRegularLoyaltyPointsAppliedObservable.value) {
-            displayRoomRateHeader()
-            roomRateRegularLoyaltyAppliedView.visibility = View.VISIBLE
-        }
-
-        HotelTracking().trackPayNowContainerClick()
-    }
-
-    val payLaterObserver: Observer<Unit> = endlessObserver {
-        //pay later show only etp offers
-        payNowLaterSelectionChanged(false)
-        viewmodel.etpRoomResponseListObservable.onNext(Pair(viewmodel.etpOffersList, viewmodel.etpUniqueValueAddForRooms))
-        roomRateVIPLoyaltyAppliedContainer.visibility = View.GONE
-        roomRateRegularLoyaltyAppliedView.visibility = View.GONE
-        HotelTracking().trackPayLaterContainerClick()
-    }
-
     fun payNowLaterSelectionChanged(payNowSelected: Boolean) {
         payNowButtonContainer.isSelected = payNowSelected
         payLaterButtonContainer.isSelected = !payNowSelected
@@ -561,12 +536,12 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             payNowButton.setCompoundDrawablesWithIntrinsicBounds(checkMarkIcon, null, null, null)
             payLaterButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             payNowButtonContainer.unsubscribeOnClick()
-            payLaterButtonContainer.subscribeOnClick(payLaterObserver)
+            payLaterButtonContainer.subscribeOnClick(payLaterClickObserver)
         } else {
             payNowButton.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null)
             payLaterButton.setCompoundDrawablesWithIntrinsicBounds(checkMarkIcon, null, null, null)
             payLaterButtonContainer.unsubscribeOnClick()
-            payNowButtonContainer.subscribeOnClick(payNowObserver)
+            payNowButtonContainer.subscribeOnClick(payNowClickObserver)
         }
 
         // Scroll to the top room in case of change in ETP selection when ETP container is sticked
@@ -732,9 +707,9 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         }, 400L)
     }
 
-
     init {
         View.inflate(getContext(), R.layout.widget_hotel_detail, this)
+
         gallery.addImageViewCreatedListener({ index -> updateGalleryChildrenHeights(index) })
         statusBarHeight = Ui.getStatusBarHeight(getContext())
         toolBarHeight = Ui.getToolbarSize(getContext())
@@ -777,6 +752,31 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         FontCache.setTypeface(payLaterButton, FontCache.Font.ROBOTO_REGULAR)
 
         AccessibilityUtil.appendRoleContDesc(etpInfoTextSmall, etpInfoTextSmall.text.toString(), R.string.accessibility_cont_desc_role_button);
+    }
+
+    val payNowClickObserver: Observer<Unit> = endlessObserver {
+        //pay now show all the offers
+        payNowLaterSelectionChanged(true)
+        viewmodel.roomResponseListObservable.onNext(Pair(viewmodel.hotelOffersResponse.hotelRoomResponse, viewmodel.uniqueValueAddForRooms))
+
+        if (viewmodel.hasVipAccessLoyaltyObservable.value) {
+            displayRoomRateHeader()
+            roomRateVIPLoyaltyAppliedContainer.visibility = View.VISIBLE
+        } else if (viewmodel.hasRegularLoyaltyPointsAppliedObservable.value) {
+            displayRoomRateHeader()
+            roomRateRegularLoyaltyAppliedView.visibility = View.VISIBLE
+        }
+
+        HotelTracking.trackPayNowContainerClick()
+    }
+
+    val payLaterClickObserver: Observer<Unit> = endlessObserver {
+        //pay later show only etp offers
+        payNowLaterSelectionChanged(false)
+        viewmodel.etpRoomResponseListObservable.onNext(Pair(viewmodel.etpOffersList, viewmodel.etpUniqueValueAddForRooms))
+        roomRateVIPLoyaltyAppliedContainer.visibility = View.GONE
+        roomRateRegularLoyaltyAppliedView.visibility = View.GONE
+        HotelTracking.trackPayLaterContainerClick()
     }
 
     private fun trackSelectRoomClick(isStickyButton: Boolean) {

@@ -3,7 +3,7 @@ package com.expedia.bookings.widget.hotel
 import android.view.ViewGroup
 import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelFavoriteHelper
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FavoriteButton
 import com.expedia.bookings.widget.shared.AbstractHotelCellViewHolder
@@ -20,7 +20,7 @@ class HotelCellViewHolder(root: ViewGroup, width: Int, private val hotelFavorite
     override fun bind(viewModel: HotelViewModel) {
         super.bind(viewModel)
         if (showFavorites) {
-            val favoriteButtonViewModel = FavoriteButtonViewModel(heartView.context, hotelId, HotelTracking(), HotelTracking.PageName.SEARCH_RESULT)
+            val favoriteButtonViewModel = FavoriteButtonViewModel(heartView.context, hotelId, HotelTracking.PageName.SEARCH_RESULT)
             heartView.viewModel = favoriteButtonViewModel
             favoriteButtonViewModel.favoriteChangeSubject.subscribe(hotelFavoriteChange)
             heartView.updateImageState()

@@ -23,7 +23,6 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.abacus.AbacusUtils
-import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -35,9 +34,10 @@ import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.ClientLogServices
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.services.ReviewsServices
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelClientLogTracker
+import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.ClientLogConstants
 import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
@@ -62,7 +62,6 @@ import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
-import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
 import javax.inject.Inject
@@ -81,6 +80,12 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         @Inject set
 
     lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+        @Inject set
+
+    lateinit var hotelClientLogTracker: HotelClientLogTracker
+        @Inject set
+
+    lateinit var searchTrackingBuilder: HotelSearchTrackingDataBuilder
         @Inject set
 
     var hotelDetailViewModel: HotelDetailViewModel by Delegates.notNull()
@@ -108,36 +113,43 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.mapView.getMapAsync(presenter)
         presenter.viewmodel = HotelResultsViewModel(getContext(), hotelServices, LineOfBusiness.HOTELS)
 
-        val hotelResultsDisplayClientLogBuilder: ClientLog.HotelResultBuilder = ClientLog.HotelResultBuilder()
         presenter.viewmodel.searchingForHotelsDateTime.subscribe(){
-            hotelResultsDisplayClientLogBuilder.requestTime(DateTime.now())
+            searchTrackingBuilder.markSearchApiCallMade()
         }
         presenter.viewmodel.hotelResultsObservable.subscribe {
-            hotelResultsDisplayClientLogBuilder.processingTime(DateTime.now())
+            searchTrackingBuilder.markResultsProcessed()
         }
         presenter.viewmodel.resultsReceivedDateTimeObservable.subscribe() { dateTime ->
-            hotelResultsDisplayClientLogBuilder.responseTime(dateTime)
+            searchTrackingBuilder.markApiResponseReceived()
         }
         presenter.adapter.allViewsLoadedTimeObservable.subscribe() {
-            hotelResultsDisplayClientLogBuilder.requestToUser(DateTime.now())
-            val userBucketedForTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
-                hotelResultsDisplayClientLogBuilder.eventName(if (userBucketedForTest) ClientLogConstants.PERCIEVED_INSTANT_SEARCH_RESULTS else ClientLogConstants.REGULAR_SEARCH_RESULTS)
-            hotelResultsDisplayClientLogBuilder.pageName(ClientLogConstants.MATERIAL_HOTEL_SEARCH_PAGE)
-            hotelResultsDisplayClientLogBuilder.deviceName(android.os.Build.MODEL)
-            clientLogServices.log(hotelResultsDisplayClientLogBuilder.build())
+            searchTrackingBuilder.markResultsUsable()
+            if (searchTrackingBuilder.isWorkComplete()) {
+                val trackingData = searchTrackingBuilder.build()
+                hotelClientLogTracker.trackResultsPerformance(trackingData.performanceData)
+                HotelTracking.trackHotelSearch(trackingData)
+            }
         }
         presenter.hotelSelectedSubject.subscribe(hotelSelectedObserver)
         presenter.viewmodel.errorObservable.subscribe(errorPresenter.getViewModel().apiErrorObserver)
         presenter.viewmodel.errorObservable.subscribe { show(errorPresenter) }
         presenter.viewmodel.showHotelSearchViewObservable.subscribe { show(searchPresenter, Presenter.FLAG_CLEAR_TOP) }
         presenter.viewmodel.hotelResultsObservable.subscribe({ hotelSearchResponse ->
-            if (!Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)) {
-                HotelTracking().trackHotelsSearch(hotelSearchParams, hotelSearchResponse)
+            if (!isBucketedForPerceivedInstant()) {
+                searchTrackingBuilder.searchParams(hotelSearchParams)
+                searchTrackingBuilder.searchResponse(hotelSearchResponse)
             }
         })
         presenter.viewmodel.addHotelResultsObservable.subscribe({ hotelSearchResponse ->
-            if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)) {
-                HotelTracking().trackHotelsSearch(hotelSearchParams, hotelSearchResponse)
+            if (isBucketedForPerceivedInstant()) {
+                searchTrackingBuilder.searchParams(hotelSearchParams)
+                searchTrackingBuilder.searchResponse(hotelSearchResponse)
+
+                if (searchTrackingBuilder.isWorkComplete()) {
+                    val trackingData = searchTrackingBuilder.build()
+                    hotelClientLogTracker.trackResultsPerformance(trackingData.performanceData)
+                    HotelTracking.trackHotelSearch(trackingData)
+                }
             }
         })
         presenter.searchOverlaySubject.subscribe(searchResultsOverlayObserver)
@@ -252,7 +264,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             }
 
             override fun onTabSelected(tab: TabLayout.Tab) {
-                HotelTracking().trackHotelReviewsCategories(tab.position)
+                HotelTracking.trackHotelReviewsCategories(tab.position)
             }
         })
         presenter.reviewServices = reviewServices
@@ -292,7 +304,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 builder.setTitle(R.string.ChooseLocation)
                 val dialogItemClickListener = DialogInterface.OnClickListener { dialog, which ->
                     triggerNewSearch(which)
-                    HotelTracking().trackGeoSuggestionClick()
+                    HotelTracking.trackGeoSuggestionClick()
                 }
                 builder.setItems(freeformLocations, dialogItemClickListener)
                 val alertDialog = builder.create()
@@ -403,7 +415,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         override fun endTransition(forward: Boolean) {
             searchPresenter.visibility = View.VISIBLE
             searchPresenter.showSuggestionState(selectOrigin = false)
-            HotelTracking().trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
+            HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -474,7 +486,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             resultsPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             resultsPresenter.animationFinalize(forward, true)
             searchPresenter.animationFinalize(forward)
-            if (!forward) HotelTracking().trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
+            if (!forward) HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -563,7 +575,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             searchPresenter.animationFinalize(forward)
             errorPresenter.animationFinalize()
-            if (!forward) HotelTracking().trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
+            if (!forward) HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
         }
     }
 
@@ -591,7 +603,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
                 detailPresenter.hotelDetailView.viewmodel.addViewsAfterTransition()
             }
             else {
-                HotelTracking().trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
+                HotelTracking.trackHotelSearchBox((searchPresenter.getSearchViewModel() as HotelSearchViewModel).shopWithPointsViewModel.swpEffectiveAvailability.value)
             }
         }
     }
@@ -729,7 +741,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val hotelSelectedObserver: Observer<Hotel> = endlessObserver { hotel ->
         //If hotel is known to be "Sold Out", simply show the Hotel Details Screen in "Sold Out" state, otherwise fetch Offers and show those as well
         showDetails(hotel.hotelId, if (hotel.isSoldOut) false else true)
-        HotelTracking().trackHotelCarouselClick()
+        HotelTracking.trackHotelCarouselClick()
     }
 
     data class HotelDetailsRequestMetadata(val hotelId: String, val hotelOffersResponse: HotelOffersResponse, val isOffersRequest: Boolean)
@@ -743,7 +755,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         detailPresenter.hotelDetailView.viewmodel.paramsSubject.onNext(hotelSearchParams)
         if (HotelFavoriteHelper.showHotelFavoriteTest(true)) {
             detailPresenter.hotelDetailView.hotelId = hotelId
-            val favoriteButtonViewModel = FavoriteButtonViewModel(context, hotelId, HotelTracking(), HotelTracking.PageName.INFOSITE)
+            val favoriteButtonViewModel = FavoriteButtonViewModel(context, hotelId, HotelTracking.PageName.INFOSITE)
             detailPresenter.hotelDetailView.hotelDetailsToolbar.heartIcon.viewModel = favoriteButtonViewModel
             favoriteButtonViewModel.favoriteChangeSubject.subscribe(viewModel.hotelFavoriteChange)
         }
@@ -789,6 +801,10 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
 
     val searchResultsOverlayObserver: Observer<Unit> = endlessObserver { params ->
         show(searchPresenter)
+    }
+
+    private fun isBucketedForPerceivedInstant() : Boolean {
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest)
     }
 
     private fun trackHotelDetail() {
