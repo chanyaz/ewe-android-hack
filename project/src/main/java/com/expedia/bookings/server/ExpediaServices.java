@@ -986,6 +986,9 @@ public class ExpediaServices implements DownloadListener {
 
 			query.add(new BasicNameValuePair("email", trip.getGuestEmailAddress()));
 			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
+
+			// When fetching trips for guest user as a signed in user, the response sends back cookies for both user profile. So let's ignore it.
+			flags = flags | F_IGNORE_COOKIES;
 		}
 		else {
 			tripIdentifier = trip.getTripId();
