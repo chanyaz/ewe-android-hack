@@ -197,8 +197,7 @@ public class RecyclerGallery extends RecyclerView {
 			if (mMode == MODE_FILL) {
 				imageWidth = screen.x;
 
-				mLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
-					(int) (getContext().getResources().getDimension(R.dimen.car_details_image_size)));
+				mLayoutParams = new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.MATCH_PARENT);
 			}
 			else {
 				imageWidth = screen.x * 0.60f;
