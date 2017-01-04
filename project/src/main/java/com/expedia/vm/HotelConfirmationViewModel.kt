@@ -139,7 +139,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
                     && PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)
             addLXBtn.onNext(if(isUserBucketedForLXCrossSellTest) context.resources.getString(com.expedia.bookings.R.string.add_lx_TEMPLATE, product.hotelCity) else "")
 
-            SettingUtils.get(context, R.string.preference_user_has_booked_hotel_or_flight, true)
+            SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
         }
 
     }
