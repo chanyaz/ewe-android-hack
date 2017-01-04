@@ -12,7 +12,7 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.hotels.HotelSearchResponse
 import com.expedia.bookings.services.HotelServices
 import com.expedia.bookings.tracking.AdImpressionTracking
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.bindView
@@ -40,7 +40,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
     val HOTEL_VIEW = 2
     val LOADING_VIEW = 3
 
-    val allViewsLoadedTimeObservable = PublishSubject.create<DateTime>()
+    val allViewsLoadedTimeObservable = PublishSubject.create<Unit>()
 
     var loading = true
     val loadingSubject = BehaviorSubject.create<Unit>()
@@ -132,7 +132,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
                 holder.bind(viewModel)
                 if (!newResultsConsumed) {
                     newResultsConsumed = true
-                    allViewsLoadedTimeObservable.onNext(DateTime.now())
+                    allViewsLoadedTimeObservable.onNext(Unit)
                 }
             }
             is LoadingViewHolder -> holder.setAnimator(AnimUtils.setupLoadingAnimation(holder.backgroundImageView, fixedPosition % 2 == 0))
@@ -144,7 +144,7 @@ abstract class BaseHotelListAdapter(val hotelSelectedSubject: PublishSubject<Hot
         hotelSelectedSubject.onNext(hotel)
         if (hotel.isSponsoredListing) {
             AdImpressionTracking.trackAdClickOrImpression(context, hotel.clickTrackingUrl, null)
-            HotelTracking().trackHotelSponsoredListingClick()
+            HotelTracking.trackHotelSponsoredListingClick()
         }
     }
 

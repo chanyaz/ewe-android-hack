@@ -51,7 +51,7 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 			.subscribe(observer)
 	}
 
-	fun search(params: HotelSearchParams, numberOfResults: Int, resultsResponseReceivedObservable: PublishSubject<DateTime>? = null): Observable<HotelSearchResponse> {
+	fun search(params: HotelSearchParams, numberOfResults: Int, resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Observable<HotelSearchResponse> {
 		// null out regionId and lat/lng if they're not set so we don't pass them in the request (Hotels API requirement #7218)
 		val lat = if (params.suggestion.coordinates.lat != 0.0) params.suggestion.coordinates.lat else null
 		val lng = if (params.suggestion.coordinates.lng != 0.0) params.suggestion.coordinates.lng else null
@@ -62,7 +62,7 @@ class HotelServices(endpoint: String, okHttpClient: OkHttpClient, interceptor: I
 				.observeOn(observeOn)
 				.subscribeOn(subscribeOn)
 				.doOnNext{
-					resultsResponseReceivedObservable?.onNext(DateTime.now())
+					resultsResponseReceivedObservable?.onNext(Unit)
 				}
 				.doOnNext { response ->
 					if (response.hasErrors()) return@doOnNext

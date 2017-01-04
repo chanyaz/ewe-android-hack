@@ -5,7 +5,7 @@ import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.abacus.AbacusResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
@@ -20,7 +20,6 @@ class FavoriteButtonViewModelTest {
     val context = RuntimeEnvironment.application
     val hotelIdBeingTested: String = "1234"
     val otherHotelId: String = "2345"
-    lateinit var hotelTracking: HotelTracking
     lateinit var vm: FavoriteButtonViewModel
     val testSubscriber = TestSubscriber.create<Pair<String, Boolean>>()
 
@@ -98,7 +97,6 @@ class FavoriteButtonViewModelTest {
 
         thenHotelIsFavorite(hotelIdBeingTested)
 
-        thenHotelFavoriteIsTrackedOnSearchResult(hotelIdBeingTested)
     }
 
     @Test
@@ -110,8 +108,6 @@ class FavoriteButtonViewModelTest {
         whenFavoriteButtonIsClicked()
 
         thenHotelIsNotFavorite(hotelIdBeingTested)
-
-        thenHotelUnfavoriteIsTrackedOnSearchResult(hotelIdBeingTested)
     }
 
     @Test
@@ -123,8 +119,6 @@ class FavoriteButtonViewModelTest {
         whenFavoriteButtonIsClicked()
 
         thenHotelIsFavorite(hotelIdBeingTested)
-
-        thenHotelFavoriteIsTrackedOnInfosite(hotelIdBeingTested)
     }
 
     @Test
@@ -136,8 +130,6 @@ class FavoriteButtonViewModelTest {
         whenFavoriteButtonIsClicked()
 
         thenHotelIsNotFavorite(hotelIdBeingTested)
-
-        thenHotelUnfavoriteIsTrackedOnInfosite(hotelIdBeingTested)
     }
 
     @Test
@@ -158,13 +150,11 @@ class FavoriteButtonViewModelTest {
     }
 
     private fun givenViewModelForSearchResult() {
-        hotelTracking = Mockito.mock(HotelTracking::class.java)
-        vm = FavoriteButtonViewModel(context, hotelIdBeingTested, hotelTracking, HotelTracking.PageName.SEARCH_RESULT)
+        vm = FavoriteButtonViewModel(context, hotelIdBeingTested, HotelTracking.PageName.SEARCH_RESULT)
     }
 
     private fun givenViewModelForInfosite() {
-        hotelTracking = Mockito.mock(HotelTracking::class.java)
-        vm = FavoriteButtonViewModel(context, hotelIdBeingTested, hotelTracking, HotelTracking.PageName.INFOSITE)
+        vm = FavoriteButtonViewModel(context, hotelIdBeingTested, HotelTracking.PageName.INFOSITE)
     }
 
     private fun givenFavoriteSubjectSubscription() {
@@ -199,21 +189,5 @@ class FavoriteButtonViewModelTest {
     private fun thenHotelFavoriteChangeFired(hotelId: String, isFavorite: Boolean) {
         testSubscriber.assertValueCount(1)
         testSubscriber.assertValue(Pair(hotelId, isFavorite))
-    }
-
-    private fun thenHotelFavoriteIsTrackedOnSearchResult(hotelId: String) {
-        Mockito.verify(hotelTracking).trackHotelFavoriteClick(hotelId, true, HotelTracking.PageName.SEARCH_RESULT)
-    }
-
-    private fun thenHotelUnfavoriteIsTrackedOnSearchResult(hotelId: String) {
-        Mockito.verify(hotelTracking).trackHotelFavoriteClick(hotelId, false, HotelTracking.PageName.SEARCH_RESULT)
-    }
-
-    private fun thenHotelFavoriteIsTrackedOnInfosite(hotelId: String) {
-        Mockito.verify(hotelTracking).trackHotelFavoriteClick(hotelId, true, HotelTracking.PageName.INFOSITE)
-    }
-
-    private fun thenHotelUnfavoriteIsTrackedOnInfosite(hotelId: String) {
-        Mockito.verify(hotelTracking).trackHotelFavoriteClick(hotelId, false, HotelTracking.PageName.INFOSITE)
     }
 }

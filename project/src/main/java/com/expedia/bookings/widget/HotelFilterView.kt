@@ -27,7 +27,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.HotelFavoriteHelper
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.shouldShowCircleForRatings
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FilterAmenity
@@ -155,7 +155,7 @@ class HotelFilterView(context: Context, attrs: AttributeSet) : FrameLayout(conte
             filterFavoriteContainer.setOnClickListener {
                 clearHotelNameFocus()
                 updateFavoriteFilter()
-                HotelTracking().trackHotelFilterFavoriteClicked(filterHotelFavorite.isChecked)
+                HotelTracking.trackHotelFilterFavoriteClicked(filterHotelFavorite.isChecked)
             }
         }
 

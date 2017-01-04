@@ -36,8 +36,8 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
     val locationParamsSubject = PublishSubject.create<SuggestionV4>()
 
     // Outputs
-    val searchingForHotelsDateTime = PublishSubject.create<DateTime>()
-    val resultsReceivedDateTimeObservable = PublishSubject.create<DateTime>()
+    val searchingForHotelsDateTime = PublishSubject.create<Unit>()
+    val resultsReceivedDateTimeObservable = PublishSubject.create<Unit>()
     val addHotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val hotelResultsObservable = PublishSubject.create<HotelSearchResponse>()
     val mapResultsObservable = PublishSubject.create<HotelSearchResponse>()
@@ -86,7 +86,7 @@ class HotelResultsViewModel(private val context: Context, private val hotelServi
                 .put("enddate", DateUtils.localDateToMMMd(params.checkOut))
                 .put("guests", StrUtils.formatGuestString(context, params.guests))
                 .format())
-        searchingForHotelsDateTime.onNext(DateTime.now())
+        searchingForHotelsDateTime.onNext(Unit)
         searchHotels(params)
     }
 

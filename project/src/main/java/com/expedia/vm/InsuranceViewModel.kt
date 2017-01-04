@@ -18,7 +18,7 @@ import com.expedia.bookings.data.insurance.InsuranceProduct
 import com.expedia.bookings.data.insurance.InsuranceTripParams
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.SpannableLinkBuilder
 import com.expedia.bookings.utils.Ui

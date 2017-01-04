@@ -34,7 +34,6 @@ import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
-import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItemFlight;
@@ -42,6 +41,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.leanplum.Leanplum;
 import com.leanplum.LeanplumActivityHelper;
 import com.leanplum.LeanplumPushNotificationCustomizer;
@@ -464,25 +464,24 @@ public class LeanPlumUtils {
 
 	}
 
-	public static void trackHotelV2Search(com.expedia.bookings.data.hotels.HotelSearchParams searchParams,
-		HotelSearchResponse searchResponse) {
+	public static void trackHotelV2Search(HotelSearchTrackingData trackingData) {
 		if (initialized) {
 			String eventName = "Search Hotel";
 			Log.i("LeanPlum hotel search");
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
 
-			if (searchResponse != null && !searchResponse.hotelList.isEmpty()) {
-				addCommonProductRetargeting(eventParams, searchResponse.hotelList.get(0).city,
-					searchResponse.hotelList.get(0).stateProvinceCode,
-					searchResponse.hotelList.get(0).countryCode);
-				eventParams.put("Destination", searchResponse.hotelList.get(0).city);
+			if (trackingData.hasResponse()) {
+				addCommonProductRetargeting(eventParams, trackingData.getCity(),
+					trackingData.getStateProvinceCode(),
+					trackingData.getCountryCode());
+				eventParams.put("Destination", trackingData.getCity());
 			}
-			if (!Strings.isEmpty(searchParams.getSuggestion().gaiaId)) {
-				eventParams.put("RegionId", searchParams.getSuggestion().gaiaId);
+			if (!Strings.isEmpty(trackingData.getSearchRegionId())) {
+				eventParams.put("RegionId", trackingData.getSearchRegionId());
 			}
-			eventParams.put("CheckInDate", DateUtils.convertDatetoInt(searchParams.getCheckIn()));
-			eventParams.put("CheckOutDate", DateUtils.convertDatetoInt(searchParams.getCheckOut()));
-			eventParams.put("b_win", "" + getBookingWindow(searchParams.getCheckIn()));
+			eventParams.put("CheckInDate", DateUtils.convertDatetoInt(trackingData.getCheckInDate()));
+			eventParams.put("CheckOutDate", DateUtils.convertDatetoInt(trackingData.getCheckoutDate()));
+			eventParams.put("b_win", "" + getBookingWindow(trackingData.getCheckInDate()));
 			eventParams.put("p_type", "HOTEL");
 			tracking(eventName, eventParams);
 		}

@@ -3,10 +3,14 @@ package com.expedia.bookings.presenter.flight
 import android.content.Context
 import android.util.AttributeSet
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import javax.inject.Inject
 
 class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractMaterialFlightResultsPresenter(context, attrs) {
 
+    lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
+        @Inject set
     override fun back(): Boolean {
         flightOfferViewModel.cancelSearchObservable.onNext(Unit)
         return super.back()
@@ -33,7 +37,10 @@ class FlightOutboundPresenter(context: Context, attrs: AttributeSet) : AbstractM
     }
 
     override fun trackFlightResultsLoad() {
-        val flightLegs = flightOfferViewModel.outboundResultsObservable.value
-        FlightsV2Tracking.trackResultOutBoundFlights(Db.getFlightSearchParams(), flightLegs)
+        if (searchTrackingBuilder.isWorkComplete()) {
+            val trackingData = searchTrackingBuilder.build()
+            val flightLegs = flightOfferViewModel.outboundResultsObservable.value
+            FlightsV2Tracking.trackResultOutBoundFlights(Db.getFlightSearchParams(), flightLegs, trackingData)
+        }
     }
 }
