@@ -40,7 +40,7 @@ import rx.subjects.PublishSubject
 import rx.subjects.Subject
 import javax.inject.Inject
 
-class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseCheckoutPresenter(context, attr) {
+class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
 
     lateinit var insuranceServices: InsuranceServices
         @Inject set
