@@ -69,6 +69,22 @@ class FlightOverviewViewModelTest {
     }
 
     @Test
+    fun urgencyMessageSeatsLeftText() {
+        setupSystemUnderTest()
+        setupFlightLeg()
+
+        sut.numberOfTravelers.onNext(1)
+        flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 5
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("5 seats left, $646.00", sut.urgencyMessagingSubject.value)
+
+        sut.numberOfTravelers.onNext(1)
+        flightLeg.packageOfferModel.urgencyMessage.ticketsLeft = 6
+        sut.selectedFlightLegSubject.onNext(flightLeg)
+        assertEquals("$646.00", sut.urgencyMessagingSubject.value)
+    }
+
+    @Test
     fun totalDurationText() {
         setupSystemUnderTest()
         setupFlightLeg()
