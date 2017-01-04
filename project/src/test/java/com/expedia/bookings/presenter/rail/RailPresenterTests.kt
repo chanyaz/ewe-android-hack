@@ -4,9 +4,13 @@ import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.rail.presenter.RailDetailsPresenter
+import com.expedia.bookings.rail.presenter.RailInboundPresenter
+import com.expedia.bookings.rail.presenter.RailOutboundPresenter
+import com.expedia.bookings.rail.presenter.RailPresenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.RailSearchLegalInfoWebView
+import com.expedia.bookings.rail.widget.RailSearchLegalInfoWebView
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith

@@ -1,47 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge xmlns:android="http://schemas.android.com/apk/res/android">
-    <com.expedia.bookings.presenter.rail.RailSearchPresenter
+    <com.expedia.bookings.rail.presenter.RailSearchPresenter
         android:id="@+id/rail_search_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.presenter.rail.RailOutboundPresenter
+    <com.expedia.bookings.rail.presenter.RailOutboundPresenter
         android:id="@+id/rail_outbound_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.expedia.bookings.presenter.rail.RailDetailsPresenter
+    <com.expedia.bookings.rail.presenter.RailDetailsPresenter
         android:id="@+id/rail_outbound_details_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.expedia.bookings.presenter.rail.RailInboundPresenter
+    <com.expedia.bookings.rail.presenter.RailInboundPresenter
         android:id="@+id/rail_inbound_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.expedia.bookings.presenter.rail.RailInboundDetailsPresenter
+    <com.expedia.bookings.rail.presenter.RailInboundDetailsPresenter
         android:id="@+id/rail_inbound_details_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"/>
 
-    <com.expedia.bookings.presenter.rail.RailTripOverviewPresenter
+    <com.expedia.bookings.rail.presenter.RailTripOverviewPresenter
         android:id="@+id/rail_trip_overview_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.expedia.bookings.presenter.rail.RailCheckoutPresenter
+    <com.expedia.bookings.rail.presenter.RailCheckoutPresenter
         android:id="@+id/rail_checkout_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone" />
 
-    <com.expedia.bookings.presenter.rail.RailConfirmationPresenter
+    <com.expedia.bookings.rail.presenter.RailConfirmationPresenter
         android:id="@+id/rail_confirmation_presenter"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -55,7 +55,7 @@
         android:inflatedId="@+id/rail_amenities_rules_widget"
         android:layout="@layout/rail_amenities_rules_stub" />
 
-    <com.expedia.bookings.presenter.rail.RailErrorPresenter
+    <com.expedia.bookings.rail.presenter.RailErrorPresenter
         android:id="@+id/widget_rail_errors"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

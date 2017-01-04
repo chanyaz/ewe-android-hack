@@ -2,7 +2,7 @@ package com.expedia.vm.test.rail
 
 import com.expedia.bookings.R
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.widget.rail.TicketDeliveryMethod
+import com.expedia.bookings.rail.widget.TicketDeliveryMethod
 import com.expedia.vm.rail.RailTicketDeliveryOverviewViewModel
 import org.junit.Test
 import org.junit.runner.RunWith

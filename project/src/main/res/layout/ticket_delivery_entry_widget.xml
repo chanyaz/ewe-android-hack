@@ -37,7 +37,7 @@
                 android:background="@drawable/card_background"
                 android:orientation="vertical">
 
-                <com.expedia.bookings.widget.rail.RailTicketDeliveryOptionWidget
+                <com.expedia.bookings.rail.widget.RailTicketDeliveryOptionWidget
                     android:id="@+id/station_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
                     android:layout_marginRight="57dp"
                     android:background="@color/search_origin_dest_divider" />
 
-                <com.expedia.bookings.widget.rail.RailTicketDeliveryOptionWidget
+                <com.expedia.bookings.rail.widget.RailTicketDeliveryOptionWidget
                     android:id="@+id/mail_delivery_container"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -86,7 +86,7 @@
                     android:paddingLeft="20dp"
                     android:text="@string/shipping_address" />
 
-                <com.expedia.bookings.widget.rail.RailDeliveryAddressEntry
+                <com.expedia.bookings.rail.widget.RailDeliveryAddressEntry
                     android:id="@+id/rail_delivery_address_entry"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

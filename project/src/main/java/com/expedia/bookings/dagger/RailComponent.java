@@ -1,10 +1,10 @@
 package com.expedia.bookings.dagger;
 
 import com.expedia.bookings.dagger.tags.RailScope;
-import com.expedia.bookings.presenter.rail.RailPresenter;
+import com.expedia.bookings.rail.presenter.RailPresenter;
 import com.expedia.bookings.services.RailServices;
 import com.expedia.bookings.services.SuggestionV4Services;
-import com.expedia.bookings.widget.RailCardsPickerWidget;
+import com.expedia.bookings.rail.widget.RailCardsPickerWidget;
 import com.expedia.vm.rail.RailCheckoutViewModel;
 
 import dagger.Component;

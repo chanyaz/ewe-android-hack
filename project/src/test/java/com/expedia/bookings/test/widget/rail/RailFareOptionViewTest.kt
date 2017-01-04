@@ -8,7 +8,7 @@ import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.widget.rail.RailFareOptionView
+import com.expedia.bookings.rail.widget.RailFareOptionView
 import com.expedia.vm.rail.RailFareOptionViewModel
 import org.junit.Test
 import org.junit.runner.RunWith

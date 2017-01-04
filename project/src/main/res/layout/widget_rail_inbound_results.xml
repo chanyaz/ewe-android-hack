@@ -17,7 +17,7 @@
             app:subtitleTextAppearance="@style/ToolbarSubtitleTextAppearance"
             app:titleTextAppearance="@style/ToolbarTitleTextAppearance" />
 
-        <com.expedia.bookings.widget.rail.RailOutboundHeaderView
+        <com.expedia.bookings.rail.widget.RailOutboundHeaderView
             android:id="@+id/outbound_header_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             android:layout_below="@id/open_return_selected_header"
             android:layout_above="@+id/inbound_legal_banner">
 
-            <com.expedia.bookings.widget.rail.RailResultsRecyclerView
+            <com.expedia.bookings.rail.widget.RailResultsRecyclerView
                 android:id="@+id/rail_inbound_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

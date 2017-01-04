@@ -17,7 +17,7 @@
         android:focusable="true"
         tools:text="Mon, Feb 22" />
 
-    <com.expedia.bookings.widget.rail.RailLegSummaryWidget
+    <com.expedia.bookings.rail.widget.RailLegSummaryWidget
         android:id="@+id/rail_outbound_leg_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +48,7 @@
         android:focusable="true"
         android:visibility="gone"/>
 
-    <com.expedia.bookings.widget.rail.RailLegSummaryWidget
+    <com.expedia.bookings.rail.widget.RailLegSummaryWidget
         android:id="@+id/rail_inbound_leg_widget"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

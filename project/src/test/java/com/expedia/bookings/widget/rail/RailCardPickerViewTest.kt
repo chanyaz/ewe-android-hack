@@ -8,8 +8,8 @@ import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.testrule.ServicesRule
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.widget.RailCardPickerRowView
-import com.expedia.bookings.widget.RailCardPickerView
+import com.expedia.bookings.rail.widget.RailCardPickerRowView
+import com.expedia.bookings.rail.widget.RailCardPickerView
 import com.expedia.vm.RailCardPickerViewModel
 import org.junit.Before
 import org.junit.Rule

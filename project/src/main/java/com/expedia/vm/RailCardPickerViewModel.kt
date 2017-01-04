@@ -9,7 +9,7 @@ import com.expedia.bookings.data.rail.responses.RailCardsResponse
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.StrUtils
-import com.expedia.bookings.widget.RailCardPickerRowView
+import com.expedia.bookings.rail.widget.RailCardPickerRowView
 import rx.Observer
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject

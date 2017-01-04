@@ -5,7 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.requests.RailSearchRequest
 import com.expedia.bookings.data.rail.responses.RailLegOption
-import com.expedia.bookings.utils.rail.RailUtils
+import com.expedia.bookings.rail.util.RailUtils
 import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 

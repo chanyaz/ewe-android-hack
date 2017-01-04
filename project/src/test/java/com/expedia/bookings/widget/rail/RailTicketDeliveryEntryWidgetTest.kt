@@ -7,6 +7,8 @@ import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption
+import com.expedia.bookings.rail.widget.RailTicketDeliveryEntryWidget
+import com.expedia.bookings.rail.widget.TicketDeliveryMethod
 import com.expedia.bookings.section.RailDeliverySpinnerWithValidationIndicator
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.widget.TicketDeliverySelectionStatus

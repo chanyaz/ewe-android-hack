@@ -4,7 +4,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.rail.responses.RailCard
 import com.expedia.bookings.data.rail.responses.RailCardSelected
 import com.expedia.bookings.test.robolectric.RobolectricRunner
-import com.expedia.bookings.widget.RailCardPickerRowView
+import com.expedia.bookings.rail.widget.RailCardPickerRowView
 import com.expedia.bookings.widget.SpinnerAdapterWithHint
 import com.expedia.vm.RailCardPickerRowViewModel
 import org.junit.Before

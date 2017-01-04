@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.expedia.bookings.widget.rail.RailTripSummaryWidget
+    <com.expedia.bookings.rail.widget.RailTripSummaryWidget
         android:id="@+id/rail_trip_summary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

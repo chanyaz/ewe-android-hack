@@ -310,7 +310,7 @@
             tools:ignore="UnusedAttribute" />
 
         <activity
-            android:name="com.expedia.ui.RailActivity"
+            android:name="com.expedia.bookings.rail.activity.RailActivity"
             android:label="Rail"
             android:launchMode="singleTop"
             android:resizeableActivity="false"

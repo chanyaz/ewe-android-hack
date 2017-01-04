@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.rail
 import android.app.Activity
 import android.view.LayoutInflater
 import com.expedia.bookings.R
+import com.expedia.bookings.rail.presenter.RailOutboundPresenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test

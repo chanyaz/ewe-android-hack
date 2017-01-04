@@ -5,8 +5,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.rail.responses.RailLegOption
 import com.expedia.bookings.data.rail.responses.RailOffer
-import com.expedia.bookings.utils.rail.RailUtils
-import com.expedia.bookings.widget.RailLegOptionViewModel
+import com.expedia.bookings.rail.util.RailUtils
+import com.expedia.bookings.rail.widget.RailLegOptionViewModel
 import rx.Observable
 
 class RailOutboundHeaderViewModel(context: Context) : RailLegOptionViewModel(context, false) {

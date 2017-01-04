@@ -12,7 +12,7 @@ import com.expedia.bookings.widget.MaskedCreditCardEditText
 import com.expedia.bookings.widget.PaymentWidget
 import com.expedia.bookings.widget.TextView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
-import com.expedia.bookings.widget.rail.CreditCardFeesView
+import com.expedia.bookings.rail.widget.CreditCardFeesView
 import com.expedia.util.subscribeTextAndVisibility
 import com.expedia.util.subscribeTextChange
 import com.expedia.vm.PaymentViewModel
