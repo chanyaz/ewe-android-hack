@@ -9,6 +9,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.location.CurrentLocationObservable
 import com.expedia.bookings.presenter.BaseSearchPresenter
 import com.expedia.bookings.text.HtmlCompat
+import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.SuggestionV4Utils
@@ -16,14 +17,16 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.HotelSuggestionAdapter
 import com.expedia.bookings.widget.ShopWithPointsWidget
 import com.expedia.util.notNullAndObservable
-import com.expedia.util.subscribeOnClick
 import com.expedia.vm.BaseSearchViewModel
 import com.expedia.vm.HotelSearchViewModel
 import com.expedia.vm.HotelSuggestionAdapterViewModel
 import com.expedia.vm.SuggestionAdapterViewModel
 import com.squareup.phrase.Phrase
+import javax.inject.Inject
 
 class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPresenter(context, attrs) {
+    lateinit var searchTrackingBuilder: HotelSearchTrackingDataBuilder
+        @Inject set
 
     var searchViewModel: HotelSearchViewModel by notNullAndObservable { vm ->
         calendarWidgetV2.viewModel = vm
@@ -62,7 +65,10 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
             calendarWidgetV2.contentDescription = text
         }
 
-        searchButton.subscribeOnClick(vm.searchObserver)
+        searchButton.setOnClickListener {
+            searchTrackingBuilder.markSearchClicked()
+            vm.searchObserver.onNext(Unit)
+        }
     }
 
     private val hotelSuggestionAdapter by lazy {
@@ -97,6 +103,10 @@ class HotelSearchPresenter(context: Context, attrs: AttributeSet) : BaseSearchPr
 
     override fun getSuggestionHistoryFileName(): String {
         return SuggestionV4Utils.RECENT_HOTEL_SUGGESTIONS_FILE
+    }
+
+    init {
+        Ui.getApplication(getContext()).hotelComponent().inject(this)
     }
 
     override fun onFinishInflate() {

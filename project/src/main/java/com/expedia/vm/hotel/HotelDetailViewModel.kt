@@ -8,7 +8,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelDetailToolbarViewModel
 import rx.Observer
@@ -46,7 +46,7 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
     }
 
     override fun trackHotelDetailLoad(hotelOffersResponse: HotelOffersResponse, hotelSearchParams: HotelSearchParams, hasEtpOffer: Boolean, currentLocationSearch: Boolean, hotelSoldOut: Boolean, isRoomSoldOut: Boolean) {
-        HotelTracking().trackPageLoadHotelInfosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, currentLocationSearch, hotelSoldOut, isRoomSoldOut)
+        HotelTracking.trackPageLoadHotelInfosite(hotelOffersResponse, hotelSearchParams, hasEtpOffer, currentLocationSearch, hotelSoldOut, isRoomSoldOut)
     }
 
     override fun getLOB(): LineOfBusiness {
@@ -58,27 +58,27 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
     }
 
     override fun trackHotelResortFeeInfoClick() {
-        HotelTracking().trackHotelResortFeeInfo()
+        HotelTracking.trackHotelResortFeeInfo()
     }
 
     override fun trackHotelRenovationInfoClick() {
-        HotelTracking().trackHotelRenovationInfo()
+        HotelTracking.trackHotelRenovationInfo()
     }
 
     override fun trackHotelDetailBookPhoneClick() {
-        HotelTracking().trackLinkHotelDetailBookPhoneClick()
+        HotelTracking.trackLinkHotelDetailBookPhoneClick()
     }
 
     override fun trackHotelDetailSelectRoomClick(isStickyButton: Boolean) {
-        HotelTracking().trackLinkHotelDetailSelectRoom()
+        HotelTracking.trackLinkHotelDetailSelectRoom()
     }
 
     override fun trackHotelViewBookClick() {
-        HotelTracking().trackLinkHotelViewRoomClick()
+        HotelTracking.trackLinkHotelViewRoomClick()
     }
 
     override fun trackHotelDetailMapViewClick() {
-        HotelTracking().trackHotelDetailMapView()
+        HotelTracking.trackHotelDetailMapView()
     }
     companion object {
         @JvmStatic fun convertToToolbarViewModel(detailViewModel: BaseHotelDetailViewModel) : HotelDetailToolbarViewModel {

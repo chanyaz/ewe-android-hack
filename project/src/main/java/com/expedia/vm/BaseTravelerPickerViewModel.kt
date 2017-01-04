@@ -5,7 +5,7 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TravelerParams
 import com.expedia.bookings.tracking.FlightsV2Tracking
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.StrUtils
@@ -61,7 +61,7 @@ abstract class BaseTravelerPickerViewModel(var context: Context) {
             }
 
             LineOfBusiness.HOTELS -> {
-                HotelTracking().trackTravelerPickerClick(actionLabel)
+                HotelTracking.trackTravelerPickerClick(actionLabel)
             }
 
             LineOfBusiness.FLIGHTS_V2 -> {

@@ -4,7 +4,7 @@ import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.hotels.HotelOffersResponse
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.util.endlessObserver
@@ -25,7 +25,7 @@ class HotelReviewsViewModel(val context: Context, val lob: LineOfBusiness = Line
             PackagesTracking().trackHotelReviewPageLoad()
         }
         else {
-            HotelTracking().trackHotelReviews()
+            HotelTracking.trackHotelReviews()
         }
     }
 

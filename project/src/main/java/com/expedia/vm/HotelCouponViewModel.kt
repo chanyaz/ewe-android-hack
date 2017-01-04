@@ -10,7 +10,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.services.HotelServices
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.util.endlessObserver
 import rx.Observable
 import rx.subjects.BehaviorSubject
@@ -67,10 +67,10 @@ class HotelCouponViewModel(val context: Context, val hotelServices: HotelService
                 if (couponParamsObservable.value.isFromNotSignedInToSignedIn) {
                     errorShowDialogObservable.onNext(trip.firstError)
                 }
-                HotelTracking().trackHotelCouponFail(couponParamsObservable.value.couponCode, trip.firstError.errorCode.toString())
+                HotelTracking.trackHotelCouponFail(couponParamsObservable.value.couponCode, trip.firstError.errorCode.toString())
             } else {
                 couponChangeSuccess(trip)
-                HotelTracking().trackHotelCouponSuccess(couponParamsObservable.value.couponCode)
+                HotelTracking.trackHotelCouponSuccess(couponParamsObservable.value.couponCode)
             }
         })
     }

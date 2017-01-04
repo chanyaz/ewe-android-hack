@@ -21,7 +21,7 @@ import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.services.HotelCheckoutResponse
 import com.expedia.bookings.tracking.AdImpressionTracking
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AddToCalendarUtils
 import com.expedia.bookings.utils.CarDataUtils
 import com.expedia.bookings.utils.DateFormatUtils
@@ -131,7 +131,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             hotelLocation.onNext(location)
             AdImpressionTracking.trackAdConversion(context, it.hotelCheckoutResponse.checkoutResponse.bookingResponse.tripId)
             val coupon = Db.getTripBucket().hotelV2.mHotelTripResponse.coupon
-            HotelTracking().trackHotelPurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalAppliedRewardCurrency,
+            HotelTracking.trackHotelPurchaseConfirmation(it.hotelCheckoutResponse, it.percentagePaidWithPoints, it.totalAppliedRewardCurrency,
                     hotelSearchParams.guests, if(coupon!=null) coupon.code else "")
 
             // LX Cross sell
@@ -149,7 +149,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             override fun onNext(t: Unit?) {
                 NavUtils.goToActivities(context, null, LXDataUtils.fromHotelParams(context, checkInDate.value, hotelLocation.value),
                         NavUtils.FLAG_OPEN_RESULTS)
-                HotelTracking().trackHotelCrossSellLX()
+                HotelTracking.trackHotelCrossSellLX()
                 (context as Activity).finish()
             }
 
@@ -174,7 +174,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
                 flightSearchParams.returnDate = checkOutDate.value
 
                 NavUtils.goToFlights(context, true)
-                HotelTracking().trackHotelCrossSellFlight()
+                HotelTracking.trackHotelCrossSellFlight()
             }
 
             override fun onCompleted() {
@@ -194,7 +194,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
                 val carSearchParams = CarSearchParam.Builder().origin(originSuggestion)
                         .startDate(checkInDate.value).endDate(checkOutDate.value).build() as CarSearchParam
                 NavUtils.goToCars(context, null, carSearchParams, NavUtils.FLAG_OPEN_SEARCH)
-                HotelTracking().trackHotelCrossSellCar()
+                HotelTracking.trackHotelCrossSellCar()
             }
 
             override fun onCompleted() {
@@ -210,7 +210,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
         return object : Observer<Unit> {
             override fun onNext(t: Unit?) {
                 showAddToCalendarIntent(checkIn = true, context = context)
-                HotelTracking().trackHotelConfirmationCalendar()
+                HotelTracking.trackHotelConfirmationCalendar()
             }
 
             override fun onCompleted() {
@@ -241,7 +241,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             override fun onNext(t: Unit?) {
                 val phoneNumber = PointOfSale.getPointOfSale().getSupportPhoneNumberBestForUser(Db.getUser())
                 SocialUtils.call(context, phoneNumber)
-                HotelTracking().trackHotelCallCustomerSupport()
+                HotelTracking.trackHotelCallCustomerSupport()
             }
 
             override fun onCompleted() {
@@ -258,7 +258,7 @@ class HotelConfirmationViewModel(checkoutResponseObservable: Observable<HotelChe
             override fun onNext(t: Unit?) {
                 val intent = Intent(Intent.ACTION_VIEW, Uri.parse("http://maps.google.com/maps?daddr=" + hotelLocation.value.toLongFormattedString()))
                 context.startActivity(intent)
-                HotelTracking().trackHotelConfirmationDirection()
+                HotelTracking.trackHotelConfirmationDirection()
             }
 
             override fun onCompleted() {

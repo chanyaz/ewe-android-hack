@@ -15,7 +15,7 @@ import com.expedia.bookings.bitmaps.PicassoHelper
 import com.expedia.bookings.bitmaps.PicassoTarget
 import com.expedia.bookings.data.HotelMedia
 import com.expedia.bookings.graphics.HeaderBitmapDrawable
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.ColorBuilder
 import com.expedia.bookings.utils.Images
@@ -28,7 +28,6 @@ import com.expedia.vm.HotelCheckoutSummaryViewModel
 import com.squareup.picasso.Picasso
 
 class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val viewModel: HotelCheckoutSummaryViewModel) : LinearLayout(context, attrs) {
-
     val PICASSO_HOTEL_IMAGE = "HOTEL_CHECKOUT_IMAGE"
 
     val hotelName: android.widget.TextView by bindView(R.id.hotel_name)
@@ -65,9 +64,10 @@ class HotelCheckoutSummaryWidget(context: Context, attrs: AttributeSet?, val vie
     init {
         orientation = LinearLayout.VERTICAL
         View.inflate(getContext(), R.layout.hotel_checkout_summary_widget, this)
+
         costSummary.setOnClickListener {
             dialog.show()
-            HotelTracking().trackTripSummaryClick()
+            HotelTracking.trackTripSummaryClick()
         }
 
         viewModel.hotelName.subscribeText(hotelName)

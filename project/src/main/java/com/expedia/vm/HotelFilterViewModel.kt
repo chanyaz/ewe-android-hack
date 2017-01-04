@@ -1,35 +1,35 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 
 class HotelFilterViewModel(context:Context): AbstractHotelFilterViewModel(context) {
     override fun trackHotelSortBy(sortBy: String) {
-        HotelTracking().trackHotelSortBy(sortBy)
+        HotelTracking.trackHotelSortBy(sortBy)
     }
 
     override fun trackHotelFilterVIP(vipOnly: Boolean) {
-        HotelTracking().trackLinkHotelFilterVip(vipOnly)
+        HotelTracking.trackLinkHotelFilterVip(vipOnly)
     }
 
     override fun trackHotelFilterPriceSlider() {
-        HotelTracking().trackHotelSortPriceSlider()
+        HotelTracking.trackHotelSortPriceSlider()
     }
 
     override fun trackHotelFilterByName() {
-        HotelTracking().trackLinkHotelFilterByName()
+        HotelTracking.trackLinkHotelFilterByName()
     }
 
     override fun trackClearFilter() {
-        HotelTracking().trackLinkHotelClearFilter()
+        HotelTracking.trackLinkHotelClearFilter()
     }
 
     override fun trackHotelFilterNeighbourhood() {
-        HotelTracking().trackLinkHotelFilterNeighbourhood()
+        HotelTracking.trackLinkHotelFilterNeighbourhood()
     }
 
     override fun trackHotelRefineRating(rating: String) {
-        HotelTracking().trackLinkHotelRefineRating(rating)
+        HotelTracking.trackLinkHotelRefineRating(rating)
     }
 
     override fun sortItemToRemove(): Sort {

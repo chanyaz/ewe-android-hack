@@ -30,7 +30,7 @@ import com.expedia.bookings.section.InvalidCharacterHelper
 import com.expedia.bookings.section.SectionBillingInfo
 import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.tracking.FlightsV2Tracking
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.ArrowXDrawableUtil
@@ -608,7 +608,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     fun trackAnalytics() {
         if (!ExpediaBookingApp.isAutomation()) {
             if (getLineOfBusiness() == LineOfBusiness.HOTELS) {
-                HotelTracking().trackHotelPaymentEdit()
+                HotelTracking.trackHotelPaymentEdit()
             } else {
                 OmnitureTracking.trackCheckoutPayment(getLineOfBusiness())
             }
