@@ -228,6 +228,7 @@ class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaun
                     }
                     PAGER_POS_ITIN -> gotoItineraries()
                     PAGER_POS_ACCOUNT -> {
+                        pagerPosition = PAGER_POS_ACCOUNT
                         if (User.isLoggedIn(this@NewPhoneLaunchActivity)) {
                             accountFragment?.refreshUserInfo()
                         }
