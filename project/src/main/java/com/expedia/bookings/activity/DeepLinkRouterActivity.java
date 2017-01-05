@@ -831,8 +831,12 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	};
 
 	private void goFetchSharedItin(String sharableUrl) {
-		ItineraryManager.getInstance().fetchSharedItin(sharableUrl);
+		getItineraryManagerInstance().fetchSharedItin(sharableUrl);
 		NavUtils.goToItin(this);
+	}
+
+	protected ItineraryManager getItineraryManagerInstance() {
+		return ItineraryManager.getInstance();
 	}
 
 	private int parseNumAdults(String numAdultsStr) {
