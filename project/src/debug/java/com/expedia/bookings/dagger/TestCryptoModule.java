@@ -16,7 +16,6 @@ import dagger.Provides;
 public final class TestCryptoModule {
 	private static final String SECRET_KEY_FILE = "secure_key_file.dat";
 	private static final String COOKIES_FILE = "cookies-6-encrypted.dat";
-	private static final String KEYSTORE_FILE = "keyStoreName";
 	private static final String KEYSTORE_ALIAS = "COOKIE_KEYSTORE";
 
 	@Provides
@@ -24,10 +23,8 @@ public final class TestCryptoModule {
 	EncryptionUtil provideEncryptionUtil(Context context) {
 		final File encrypted = context.getFileStreamPath(SECRET_KEY_FILE);
 		File cookies = context.getFileStreamPath(COOKIES_FILE);
-		File keystore = context.getFileStreamPath(KEYSTORE_FILE);
 		encrypted.delete();
 		cookies.delete();
-		keystore.delete();
 		return new TestEncryptionUtil(context, encrypted, KEYSTORE_ALIAS, false);
 	}
 
