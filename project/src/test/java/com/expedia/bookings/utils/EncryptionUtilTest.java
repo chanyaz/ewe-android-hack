@@ -148,22 +148,6 @@ public class EncryptionUtilTest {
 	}
 
 	@Test
-	public void encryptionShortTextDoesNotFail() throws Throwable {
-		encryptionUtil = new TestEncryptionUtil(getContext(), keystore, "testAlias", true);
-		String cipherText = encryptionUtil.encryptStringToBase64CipherText("1");
-		String decryptedText = encryptionUtil.decryptStringFromBase64CipherText(cipherText);
-		assertEquals("1", decryptedText);
-	}
-
-	@Test
-	public void encryptionEmptyDoesNotFail() throws Throwable {
-		encryptionUtil = new TestEncryptionUtil(getContext(), keystore, "testAlias", true);
-		String cipherText = encryptionUtil.encryptStringToBase64CipherText("");
-		String decryptedText = encryptionUtil.decryptStringFromBase64CipherText(cipherText);
-		assertEquals("", decryptedText);
-	}
-
-	@Test
 	public void upgradeWorks() throws Throwable {
 		ReflectionHelpers.setStaticField(Build.VERSION.class, "SDK_INT", 19);
 		encryptionUtil = new TestEncryptionUtil(getContext(), keystore, "testAlias", true);
