@@ -1,10 +1,12 @@
-package com.expedia.bookings.server;
+package com.expedia.bookings.services;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.lang.reflect.Type;
+import java.net.HttpCookie;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,9 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jetbrains.annotations.NotNull;
-
-import com.expedia.bookings.utils.EncryptionUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
@@ -23,21 +22,25 @@ import com.google.gson.reflect.TypeToken;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
-import okio.BufferedSink;
-import okio.BufferedSource;
-import okio.Okio;
-import okio.Source;
 
 public class PersistentCookieManager implements CookieJar {
 	private HashMap<String, HashMap<String, Cookie>> cookieStore = new HashMap<>();
 	private File storage;
 	private Gson gson;
-	private EncryptionUtil encryptionUtil;
 
-	public PersistentCookieManager(@NotNull File storage, @NotNull File oldStorage, @NotNull EncryptionUtil encryptionUtil) {
+	public PersistentCookieManager(File storage) {
+		this(storage, null);
+	}
+
+	public PersistentCookieManager(File storage, File oldStorage) {
 		this.storage = storage;
-		this.encryptionUtil = encryptionUtil;
 		//Gson doesn't use class constructors by default so it may not call vital init code.
+		InstanceCreator httpCookieTypeAdapter = new InstanceCreator<HttpCookie>() {
+			@Override
+			public HttpCookie createInstance(Type type) {
+				return new HttpCookie("fakeName", "");
+			}
+		};
 		InstanceCreator cookieTypeAdapter = new InstanceCreator<Cookie>() {
 			@Override
 			public Cookie createInstance(Type type) {
@@ -47,8 +50,9 @@ public class PersistentCookieManager implements CookieJar {
 		};
 		gson = new GsonBuilder()
 			.registerTypeAdapter(Cookie.class, cookieTypeAdapter)
+			.registerTypeAdapter(HttpCookie.class, httpCookieTypeAdapter)
 			.create();
-		loadEncryptAndDelete(oldStorage);
+		loadAndDelete(oldStorage);
 		load();
 	}
 
@@ -85,7 +89,6 @@ public class PersistentCookieManager implements CookieJar {
 	public void clear() {
 		cookieStore.clear();
 		storage.delete();
-		encryptionUtil.clear();
 	}
 
 	public void removeNamedCookies(String[] names) {
@@ -126,34 +129,7 @@ public class PersistentCookieManager implements CookieJar {
 
 			TypeToken token = new TypeToken<HashMap<String, HashMap<String, Cookie>>>() {
 			};
-
-			BufferedSource source = Okio.buffer(Okio.source(storage));
-			String encryptedText = source.readUtf8();
-
-			String json = encryptionUtil.decryptStringFromBase64CipherText(encryptedText);
-			HashMap<String, HashMap<String, Cookie>> savedCookies = gson.fromJson(json, token.getType());
-
-			if (savedCookies == null) {
-				return;
-			}
-
-			cookieStore.putAll(savedCookies);
-		}
-		catch (Exception e) {
-			clear();
-			throw new RuntimeException(e);
-		}
-	}
-
-	private void loadEncryptAndDelete(@NotNull File file) {
-		try {
-			if (!file.exists()) {
-				return;
-			}
-
-			TypeToken token = new TypeToken<HashMap<String, HashMap<String, Cookie>>>() {
-			};
-			BufferedReader reader = new BufferedReader(new FileReader(file));
+			BufferedReader reader = new BufferedReader(new FileReader(storage));
 			HashMap<String, HashMap<String, Cookie>> savedCookies = gson.fromJson(reader, token.getType());
 			reader.close();
 
@@ -162,34 +138,75 @@ public class PersistentCookieManager implements CookieJar {
 			}
 
 			cookieStore.putAll(savedCookies);
-			save();
+		}
+		catch (Exception e) {
+			storage.delete();
+			throw new RuntimeException(e);
+		}
+	}
+
+	private void loadAndDelete(File file) {
+		try {
+			if (file == null || !file.exists()) {
+				return;
+			}
+
+			TypeToken token = new TypeToken<List<UriCookiePair>>() {
+			};
+			BufferedReader reader = new BufferedReader(new FileReader(file));
+			List<UriCookiePair> pairs = gson.fromJson(reader, token.getType());
+			reader.close();
+
+			if (pairs == null) {
+				return;
+			}
+
+			for (UriCookiePair pair : pairs) {
+				HashMap<String, Cookie> cookies = cookieStore.get(pair.uri.getHost());
+				if (cookies == null) {
+					cookies = new HashMap<>();
+				}
+				Cookie cookie = Cookie.parse(HttpUrl.get(pair.uri), pair.cookie.toString());
+				cookies.put(cookie.name(), cookie);
+
+				cookieStore.put(pair.uri.getHost(), cookies);
+			}
 		}
 		catch (Exception e) {
 			file.delete();
 			throw new RuntimeException(e);
 		}
 		finally {
-			if (file.exists()) {
+			if (file != null && file.exists()) {
 				file.delete();
 			}
 		}
 	}
 
 	private void save() {
+		// Generate json
 		String json = gson.toJson(cookieStore);
+
 		try {
 			storage.getParentFile().mkdirs();
 			storage.createNewFile();
-			String encryptedJson = encryptionUtil.encryptStringToBase64CipherText(json);
-			ByteArrayInputStream inputStream = new ByteArrayInputStream(encryptedJson.getBytes());
-			Source from = Okio.source(inputStream);
-			BufferedSink to = Okio.buffer(Okio.sink(storage));
-			to.writeAll(from);
-			to.close();
+			FileWriter writer = new FileWriter(storage);
+			writer.write(json, 0, json.length());
+			writer.close();
 		}
 		catch (Exception e) {
-			clear();
+			storage.delete();
 			throw new RuntimeException(e);
+		}
+	}
+
+	public static class UriCookiePair {
+		public URI uri;
+		public HttpCookie cookie;
+
+		public UriCookiePair(URI uri, HttpCookie cookie) {
+			this.uri = uri;
+			this.cookie = cookie;
 		}
 	}
 
@@ -217,4 +234,5 @@ public class PersistentCookieManager implements CookieJar {
 		cookieStore.put(posUrl, cookies);
 		save();
 	}
+
 }
