@@ -51,8 +51,9 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
             }
         }
         if (getUrgencyMessageVisibilty()) {
-            result.append(Phrase.from(context, R.string.flight_detail_urgency_message_cont_desc_TEMPLATE).put("seatsleft",
-                    seatsLeft).format().toString())
+            val seatsLeft = flightLeg.packageOfferModel.urgencyMessage.ticketsLeft
+            result.append(Phrase.from(context.resources.getQuantityString(R.plurals.flight_detail_urgency_message_cont_desc_TEMPLATE, seatsLeft))
+                    .put("seatsleft", seatsLeft).format().toString())
         }
         result.append(Phrase.from(context.resources.getString(R.string.accessibility_cont_desc_role_button)).format().toString())
 
