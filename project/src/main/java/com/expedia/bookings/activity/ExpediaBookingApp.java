@@ -154,7 +154,7 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			startupTimer.addSplit("Stetho init");
 		}
 
-		mAppComponent = createAppComponent();
+		defaultAppComponents();
 		startupTimer.addSplit("Dagger AppModule created");
 
 		if (mAppComponent.endpointProvider().getEndPoint() == EndPoint.MOCK_MODE) {
@@ -489,6 +489,14 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		setLaunchComponent(DaggerLaunchComponent.builder()
 			.appComponent(mAppComponent)
 			.build());
+	}
+
+	public void defaultAppComponents() {
+		setAppComponent(createAppComponent());
+	}
+
+	public void setAppComponent(AppComponent appComponent) {
+		mAppComponent = appComponent;
 	}
 
 	public void setLaunchComponent(LaunchComponent launchComponent) {
