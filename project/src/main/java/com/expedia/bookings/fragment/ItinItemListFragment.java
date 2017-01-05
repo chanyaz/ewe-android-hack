@@ -59,7 +59,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private ItinItemListFragmentListener mListener;
 
 	private View mRoot;
-	private View mSpacerView;
 	private ImageView mShadowImageView;
 	private ItinListView mItinListView;
 	private View mEmptyView;
@@ -134,7 +133,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		final View view = inflater.inflate(R.layout.fragment_itinerary_list, null);
 
 		mRoot = Ui.findView(view, R.id.outer_container);
-		mSpacerView = Ui.findView(view, R.id.spacer_view);
 		mShadowImageView = Ui.findView(view, R.id.shadow_image_view);
 		mItinListView = Ui.findView(view, android.R.id.list);
 		mEmptyView = Ui.findView(view, android.R.id.empty);
@@ -258,11 +256,9 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 		mItinListView.setSimpleMode(true);
 
 		if (enabled) {
-			mSpacerView.setVisibility(View.GONE);
 			mShadowImageView.setVisibility(View.GONE);
 		}
 		else if (!isInDetailMode()) {
-			mSpacerView.setVisibility(View.VISIBLE);
 			mShadowImageView.setVisibility(View.VISIBLE);
 		}
 	}
@@ -444,10 +440,10 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			}
 
 			if (!animate) {
-				mSpacerView.setVisibility(isInDetailMode ? View.GONE : View.VISIBLE);
+				// do nothing
 			}
 			else if (isInDetailMode) {
-				mSpacerView.post(new Runnable() {
+				getView().post(new Runnable() {
 					@Override
 					public void run() {
 						getExpandAnimatorSet().start();
@@ -455,7 +451,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 				});
 			}
 			else {
-				mSpacerView.post(new Runnable() {
+				getView().post(new Runnable() {
 					@Override
 					public void run() {
 						getCollapseAnimatorSet().start();
@@ -483,8 +479,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private AnimatorSet getCollapseAnimatorSet() {
 		final int actionBarHeight = getSupportActionBarHeight();
 
-		mSpacerView.setVisibility(View.VISIBLE);
-
 		ObjectAnimator pagerSlideDown = ObjectAnimator.ofFloat(mItinListView, "translationY", -actionBarHeight, 0);
 		ObjectAnimator shadowSlideDown = ObjectAnimator.ofFloat(mShadowImageView, "translationY", -actionBarHeight, 0);
 
@@ -497,8 +491,6 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 
 	private AnimatorSet getExpandAnimatorSet() {
 		final int actionBarHeight = getSupportActionBarHeight();
-
-		mSpacerView.setVisibility(View.GONE);
 
 		ObjectAnimator pagerSlideUp = ObjectAnimator.ofFloat(mItinListView, "translationY", actionBarHeight, 0);
 		ObjectAnimator shadowSlideUp = ObjectAnimator.ofFloat(mShadowImageView, "translationY", actionBarHeight, 0);

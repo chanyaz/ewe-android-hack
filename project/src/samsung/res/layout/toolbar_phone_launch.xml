@@ -7,10 +7,16 @@
     app:contentInsetLeft="12dp"
     app:contentInsetStart="12dp">
 
-    <com.expedia.bookings.widget.SlidingTabLayout
+    <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:gravity="bottom"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/actionbar_tab_text_selected"
+        app:tabTextColor="@color/actionbar_tab_text_unselected"
+        app:tabIndicatorColor="@color/launch_tab_indicator"/>
 
     <LinearLayout
         android:id="@+id/collection_layout"

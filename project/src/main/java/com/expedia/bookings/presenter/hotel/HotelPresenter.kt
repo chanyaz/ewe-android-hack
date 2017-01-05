@@ -6,6 +6,7 @@ import android.app.ProgressDialog
 import android.content.Context
 import android.content.DialogInterface
 import android.graphics.Color
+import android.support.design.widget.TabLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AlertDialog
@@ -245,13 +246,15 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     val reviewsView: HotelReviewsView by lazy {
         var viewStub = findViewById(R.id.reviews_stub) as ViewStub
         var presenter = viewStub.inflate() as HotelReviewsView
-        presenter.hotelReviewsTabbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageSelected(position: Int) {
-                HotelTracking().trackHotelReviewsCategories(position)
+        presenter.hotelReviewsTabbar.slidingTabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
             }
-            override fun onPageScrollStateChanged(state: Int) {
+
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                HotelTracking().trackHotelReviewsCategories(tab.position)
             }
         })
         presenter.reviewServices = reviewServices

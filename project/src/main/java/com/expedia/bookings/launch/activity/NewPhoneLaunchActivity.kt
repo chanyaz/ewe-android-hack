@@ -7,11 +7,11 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.TabLayout
 import android.support.v4.app.DialogFragment
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import android.support.v4.view.ViewPager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -31,6 +31,7 @@ import com.expedia.bookings.fragment.AccountSettingsFragment
 import com.expedia.bookings.fragment.ItinItemListFragment
 import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment
 import com.expedia.bookings.launch.fragment.NewPhoneLaunchFragment
+import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.notification.Notification
 import com.expedia.bookings.tracking.AdTracker
 import com.expedia.bookings.tracking.FacebookEvents
@@ -42,7 +43,6 @@ import com.expedia.bookings.utils.DebugMenu
 import com.expedia.bookings.utils.DebugMenuFactory
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.DisableableViewPager
-import com.expedia.bookings.launch.widget.NewPhoneLaunchToolbar
 import com.expedia.bookings.widget.itin.ItinListView
 import com.expedia.ui.TrackingAbstractAppCompatActivity
 import com.mobiata.android.fragment.AboutSectionFragment
@@ -93,21 +93,10 @@ class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaun
         setContentView(R.layout.activity_phone_new_launch)
         viewPager.offscreenPageLimit = 2
         viewPager.adapter = pagerAdapter
-        toolBar.slidingTabLayout.setViewPager(viewPager)
-        toolBar.slidingTabLayout.setOnPageChangeListener(pageChangeListener)
-        toolBar.slidingTabLayout.setOnTabClickedListener { pagerPosition ->
-            if (pagerPosition != PAGER_SELECTED_POS) {
-                PAGER_SELECTED_POS = pagerPosition
-            } else {
-                // if we are in shops or account tab scroll to top
-                if (PAGER_SELECTED_POS == PAGER_POS_ACCOUNT) {
-                    accountFragment?.smoothScrollToTop()
-                } else if (PAGER_SELECTED_POS == PAGER_POS_LAUNCH) {
-                    newPhoneLaunchFragment?.smoothScrollToTop()
-                }
 
-            }
-        }
+        toolBar.tabLayout.setupWithViewPager(viewPager)
+        toolBar.tabLayout.setOnTabSelectedListener(pageChangeListener)
+
         setSupportActionBar(toolBar)
         supportActionBar?.elevation = 0f
 
@@ -217,11 +206,30 @@ class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaun
     }
 
 
-    private val pageChangeListener = object : ViewPager.SimpleOnPageChangeListener() {
+    private val pageChangeListener = object : TabLayout.OnTabSelectedListener {
+        override fun onTabReselected(tab: TabLayout.Tab?) {
 
-        override fun onPageSelected(position: Int) {
-            if (position != pagerPosition) {
-                when (position) {
+        }
+
+        override fun onTabUnselected(tab: TabLayout.Tab?) {
+
+        }
+
+        override fun onTabSelected(tab: TabLayout.Tab) {
+            if (tab.position != PAGER_SELECTED_POS) {
+                PAGER_SELECTED_POS = tab.position
+            } else {
+                // if we are in shops or account tab scroll to top
+                if (PAGER_SELECTED_POS == PAGER_POS_ACCOUNT) {
+                    accountFragment?.smoothScrollToTop()
+                } else if (PAGER_SELECTED_POS == PAGER_POS_LAUNCH) {
+                    newPhoneLaunchFragment?.smoothScrollToTop()
+                }
+
+            }
+
+            if (tab.position != pagerPosition) {
+                when (tab.position) {
                     PAGER_POS_LAUNCH -> {
                         gotoWaterfall()
                         OmnitureTracking.trackPageLoadLaunchScreen()
