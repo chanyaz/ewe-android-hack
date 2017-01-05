@@ -6,7 +6,6 @@ import org.json.JSONObject;
 
 import com.expedia.bookings.utils.CurrencyUtils;
 import com.expedia.bookings.utils.Strings;
-import com.expedia.bookings.utils.WalletUtils;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -166,10 +165,6 @@ public class BillingInfo implements JSONable, Comparable<BillingInfo> {
 	}
 
 	public void setStoredCard(StoredCreditCard card) {
-		if (card != null && card.isGoogleWallet() && Db.getFullWallet() != null) {
-			// need to re-set google wallet as it gets cleared (#5673)
-			WalletUtils.bindWalletToBillingInfo(Db.getFullWallet(), this);
-		}
 		mStoredCard = card;
 	}
 

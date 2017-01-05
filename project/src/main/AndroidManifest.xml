@@ -320,15 +320,6 @@
             tools:ignore="UnusedAttribute"/>
 
         <activity
-            android:name="com.expedia.bookings.activity.GoogleWalletActivity"
-            android:configChanges="screenSize|orientation|keyboardHidden"
-            android:launchMode="singleTop"
-            android:resizeableActivity="false"
-            android:theme="@style/V2.Theme.Floating"
-            android:windowSoftInputMode="adjustResize"
-            tools:ignore="UnusedAttribute" />
-
-        <activity
             android:name="com.expedia.ui.FlightActivity"
             android:label="Flights"
             android:launchMode="singleTop"

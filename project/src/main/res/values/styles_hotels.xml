@@ -2,14 +2,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
     <style name="V2.Theme.Hotels" parent="Whitelabel.HotelTheme.Base" />
-
-    <style name="V2.Theme.Floating" parent="Whitelabel.HotelTheme.Base">
-        <item name="android:windowIsFloating">true</item>
-        <item name="android:windowContentOverlay">@null</item>
-        <item name="android:windowNoTitle">true</item>
-        <item name="android:backgroundDimEnabled">true</item>
-    </style>
-
     <!--
         Override this theme in whitelabels to provide whitelabel specific theme values.
 

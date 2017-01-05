@@ -4,7 +4,6 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.content.DialogInterface
-import android.content.Intent
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
@@ -17,7 +16,6 @@ import android.widget.LinearLayout
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.ExpediaBookingApp
-import com.expedia.bookings.activity.GoogleWalletActivity
 import com.expedia.bookings.data.BillingInfo
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
@@ -39,7 +37,6 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.BookingInfoUtils
 import com.expedia.bookings.utils.FontCache
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindOptionalView
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
@@ -58,12 +55,10 @@ import com.squareup.phrase.Phrase
 import rx.subjects.PublishSubject
 
 open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(context, attr), View.OnFocusChangeListener {
-    val REQUEST_CODE_GOOGLE_WALLET_ACTIVITY = 1989
     val cardInfoContainer: ViewGroup by bindView(R.id.card_info_container)
     val paymentOptionsContainer: ViewGroup by bindView(R.id.section_payment_options_container)
     val billingInfoContainer: ViewGroup by bindView(R.id.section_billing_info_container)
     val paymentOptionCreditDebitCard: TextView by bindView(R.id.payment_option_credit_debit)
-    val paymentOptionGoogleWallet: TextView by bindView(R.id.payment_option_google_wallet)
     val sectionBillingInfo: SectionBillingInfo by bindView(R.id.section_billing_info)
     val sectionLocation: SectionLocation by bindView(R.id.section_location_address)
     val creditCardNumber: NumberMaskEditText by bindView(R.id.edit_creditcard_number)
@@ -284,10 +279,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             trackShowPaymentEdit()
         }
 
-        paymentOptionGoogleWallet.setOnClickListener {
-            openGoogleWallet()
-        }
-
         FontCache.setTypeface(cardInfoExpiration, FontCache.Font.ROBOTO_REGULAR)
         FontCache.setTypeface(cardInfoName, FontCache.Font.ROBOTO_MEDIUM)
         Db.setTemporarilySavedCard(null)
@@ -462,12 +453,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
         }
     }
 
-    /** Google Wallet **/
-    private fun openGoogleWallet() {
-        val i = Intent(context, GoogleWalletActivity::class.java)
-        (context as AppCompatActivity).startActivityForResult(i, REQUEST_CODE_GOOGLE_WALLET_ACTIVITY)
-    }
-
     /** Save card to account **/
     private fun shouldShowSaveDialog(): Boolean {
         return (getLineOfBusiness() == LineOfBusiness.HOTELS
@@ -526,7 +511,6 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
             viewmodel.menuVisibility.onNext(false)
             cardInfoContainer.visibility = if (forward) View.GONE else View.VISIBLE
             paymentOptionsContainer.visibility = if (forward) View.VISIBLE else View.GONE
-            paymentOptionGoogleWallet.visibility = if (WalletUtils.isWalletSupported(getLineOfBusiness())) View.VISIBLE else View.GONE
             billingInfoContainer.visibility = View.GONE
             toolbarTitle.onNext(
                     if (forward) {
@@ -646,7 +630,7 @@ open class PaymentWidget(context: Context, attr: AttributeSet) : Presenter(conte
     open fun shouldShowPaymentOptions(): Boolean {
         return (User.isLoggedIn(context) && Db.getUser().storedCreditCards.isNotEmpty()
                 && getLineOfBusiness() != LineOfBusiness.RAILS)
-                || Db.getTemporarilySavedCard() != null || WalletUtils.isWalletSupported(getLineOfBusiness())
+                || Db.getTemporarilySavedCard() != null
     }
 
     open fun isSecureToolbarBucketed(): Boolean {

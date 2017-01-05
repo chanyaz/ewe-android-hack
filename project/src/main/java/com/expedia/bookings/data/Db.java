@@ -24,8 +24,6 @@ import com.expedia.bookings.data.trips.TripBucket;
 import com.expedia.bookings.model.WorkingBillingInfoManager;
 import com.expedia.bookings.model.WorkingTravelerManager;
 import com.expedia.bookings.utils.LeanPlumUtils;
-import com.google.android.gms.wallet.FullWallet;
-import com.google.android.gms.wallet.MaskedWallet;
 import com.mobiata.android.Log;
 import com.mobiata.android.json.JSONUtils;
 import com.mobiata.android.json.JSONable;
@@ -78,12 +76,6 @@ public class Db {
 	//It will be set only if user chose 'Save' on filling in new card details. If he chose 'No Thanks', this won't be set then.
 	private BillingInfo temporarilySavedCard ;
 
-	// Google Full Wallet
-	private FullWallet mFullWallet;
-
-	// Google Masked Wallet; kept separate from BillingInfo as it is more transient
-	private MaskedWallet mMaskedWallet;
-
 	// The currently logged in User profile
 	private User mUser;
 
@@ -105,14 +97,6 @@ public class Db {
 
 	// Flight Travelers (this is the list of travelers going on the trip, these must be valid for checking out)
 	private ArrayList<Traveler> mTravelers = new ArrayList();
-
-	// This is the Traveler we've generated from Google Wallet data.
-	// It is expected that you will generate this when you first
-	// retrieve a masked wallet.
-	//
-	// This should be transient, as we do not want to restore this
-	// if the user has changed the Wallet permissions.
-	private Traveler mGoogleWalletTraveler;
 
 	// The current traveler manager this helps us save state and edit a copy of the working traveler
 	private WorkingTravelerManager mWorkingTravelerManager;
@@ -310,22 +294,6 @@ public class Db {
 		return sDb.mBillingInfo != null;
 	}
 
-	public static FullWallet getFullWallet() {
-		return sDb.mFullWallet;
-	}
-
-	public static void setFullWallet(FullWallet mFullWallet) {
-		sDb.mFullWallet = mFullWallet;
-	}
-
-	public static void setMaskedWallet(MaskedWallet maskedWallet) {
-		sDb.mMaskedWallet = maskedWallet;
-	}
-
-	public static MaskedWallet getMaskedWallet() {
-		return sDb.mMaskedWallet;
-	}
-
 	public static void loadUser(Context context) {
 		sDb.mUser = new User(context);
 	}
@@ -397,14 +365,6 @@ public class Db {
 
 	public static void setTravelers(List<Traveler> travelers) {
 		sDb.mTravelers = new ArrayList<>(travelers);
-	}
-
-	public static void setGoogleWalletTraveler(Traveler traveler) {
-		sDb.mGoogleWalletTraveler = traveler;
-	}
-
-	public static Traveler getGoogleWalletTraveler() {
-		return sDb.mGoogleWalletTraveler;
 	}
 
 	public static WorkingTravelerManager getWorkingTravelerManager() {
