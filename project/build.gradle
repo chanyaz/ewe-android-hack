@@ -80,7 +80,6 @@ dependencies {
     compile ('com.wefika:flowlayout:0.4.0') {
         exclude group: 'com.intellij'
     }
-    compile 'com.madgag.spongycastle:prov:1.54.0.0'
 
     // Dagger 2.6.1
     compile 'com.google.dagger:dagger:2.6.1'
