@@ -18,5 +18,6 @@ public interface ClientLogApi {
 		@Query("requestTime") long requestTime,
 		@Query("responseTime") long responseTime,
 		@Query("processingTime") long processingTime,
-		@Query("requestToUser") long requestToUser);
+		@Query("requestToUser") long requestToUser,
+		@Query("DeviceType") String deviceType);
 }
