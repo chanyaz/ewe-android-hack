@@ -23,10 +23,14 @@ import java.net.URI
 class SecurePaymentWebView(context: Context, attrs: AttributeSet) : BaseWebViewWidget(context, attrs) {
 
 //    var shouldBeShown = false
-    val testCheckinDate = BehaviorSubject.create<String>()
-    val testCheckoutDate = BehaviorSubject.create<String>()
-    val testDestination = BehaviorSubject.create<String>()
-//    val customWebClient =  object : WebViewClient() {
+    val customWebClient =  object : WebViewClient() {
+        override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
+            super.onPageStarted(view, url, favicon)
+            if (url?.contains("signin") ?: false) {
+                closeWebView.onNext(Unit)
+            }
+        }
+    }
 //    override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse {
 //        if (request?.url.toString().contains("startDate")) {
 ////            exit the thing
@@ -46,7 +50,7 @@ override var viewModel: WebViewViewModel by notNullAndObservable { vm ->
 }
 
     init {
-//        webView.setWebViewClient(customWebClient)
+        webView.setWebViewClient(customWebClient)
     }
 
     override fun onFinishInflate() {
