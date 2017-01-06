@@ -30,7 +30,7 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
 
     @Test
     fun testCreateTripPriceChange() {
-        getToCheckoutOverview(PriceChangeType.CREATE_TRIP)
+        getToCheckout(PriceChangeType.CREATE_TRIP)
 
         // test price change
         FlightsOverviewScreen.assertPriceChangeShown("Price dropped from $763")
@@ -43,8 +43,22 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
     }
 
     @Test
+    fun testCreateTripPriceChangeAlertDialog() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppFlightsCreateTripPriceChangeAlert)
+        getToCheckoutOverview(PriceChangeType.CREATE_TRIP)
+        // test price change
+        FlightsOverviewScreen.assertPriceChangeShown("Price dropped from $763")
+
+        PackageScreen.enterTravelerInfo()
+        PackageScreen.enterPaymentInfo()
+        CheckoutViewModel.performSlideToPurchase()
+
+        FlightTestHelpers.assertConfirmationViewIsDisplayed()
+    }
+
+    @Test
     fun testCheckoutPriceChange() {
-        getToCheckoutOverview(PriceChangeType.CHECKOUT)
+        getToCheckout(PriceChangeType.CHECKOUT)
 
         PackageScreen.enterTravelerInfo()
         PackageScreen.enterPaymentInfo("checkoutpricechange lastname")
@@ -57,7 +71,7 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
     fun testCheckoutPriceChangeWithInsurance() {
         bucketInsuranceTest(true)
 
-        getToCheckoutOverview(PriceChangeType.CHECKOUT, false)
+        getToCheckout(PriceChangeType.CHECKOUT, false)
 
         assertInsuranceIsVisible()
         PackageScreen.toggleInsurance()
@@ -73,7 +87,7 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
 
     @Test
     fun testCheckoutSignedInPriceChange() {
-        getToCheckoutOverview(PriceChangeType.CHECKOUT)
+        getToCheckout(PriceChangeType.CHECKOUT)
 
         CheckoutViewModel.signInOnCheckout()
 
@@ -85,7 +99,12 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
         FlightsOverviewScreen.assertPriceChangeShown("Price changed from $696")
     }
 
-    private fun getToCheckoutOverview(priceChangeType: PriceChangeType, isOneWay: Boolean = true) {
+    private fun getToCheckout(priceChangeType: PriceChangeType, isOneWay: Boolean = true) {
+        getToCheckoutOverview(priceChangeType, isOneWay)
+        PackageScreen.checkout().perform(ViewActions.click())
+    }
+
+    private fun getToCheckoutOverview(priceChangeType: PriceChangeType, isOneWay: Boolean = true){
         searchFlights(FlightApiMockResponseGenerator.SuggestionResponseType.HAPPY_PATH, isOneWay)
         if (priceChangeType == PriceChangeType.CREATE_TRIP) {
             selectOutboundFlight(FlightApiMockResponseGenerator.SearchResultsResponseType.CREATE_TRIP_PRICE_CHANGE)
@@ -97,7 +116,6 @@ class FlightPriceChangeTest: FlightErrorTestCase() {
                 selectFirstInboundFlight()
             }
         }
-        PackageScreen.checkout().perform(ViewActions.click())
     }
 
     private fun assertInsuranceAfterPriceChange() {
