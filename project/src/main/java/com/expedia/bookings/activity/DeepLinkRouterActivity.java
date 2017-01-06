@@ -137,11 +137,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 				finish();
 				return;
 			}
-			else if (dataString.contains("signIn")) {
-				handleSignIn();
-				finish();
-				return;
-			}
 			else if (ProductFlavorFeatureConfiguration.getInstance().getHostnameForShortUrl().equalsIgnoreCase(host)) {
 				final String shortUrl = dataString;
 				final ExpediaServices services = new ExpediaServices(this);
@@ -199,6 +194,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			finish = true;
 			break;
 		case "/user/signin":
+		case "signin":
 			handleSignIn();
 			finish = true;
 			break;
