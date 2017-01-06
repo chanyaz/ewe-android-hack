@@ -46,22 +46,17 @@ import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
 import com.expedia.bookings.widget.HotelMapCarouselAdapter
 import com.expedia.bookings.widget.LoadingOverlayWidget
+import com.expedia.bookings.widget.shared.SecurePaymentWebView
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
-import com.expedia.vm.GeocodeSearchModel
-import com.expedia.vm.HotelCheckoutViewModel
-import com.expedia.vm.HotelConfirmationViewModel
-import com.expedia.vm.HotelCreateTripViewModel
-import com.expedia.vm.HotelErrorViewModel
-import com.expedia.vm.HotelMapViewModel
-import com.expedia.vm.HotelPresenterViewModel
-import com.expedia.vm.HotelReviewsViewModel
-import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.*
 import com.expedia.vm.hotel.FavoriteButtonViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
+import org.apache.http.util.EncodingUtils
+import org.bouncycastle.util.encoders.Encoder
 import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -94,6 +89,18 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.searchViewModel = HotelSearchViewModel(context)
         presenter.searchViewModel.searchParamsObservable.subscribe(searchObserver)
         presenter
+    }
+
+    val securePaymentStub: ViewStub by bindView(R.id.secure_payment_stub)
+    val secureWebView: SecurePaymentWebView by lazy {
+        var newWebView = securePaymentStub.inflate() as SecurePaymentWebView
+        newWebView.viewModel = WebViewViewModel()
+        newWebView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        newWebView.closeWebView.subscribe {
+            back()
+        }
+        newWebView.viewModel.webViewUrlPostObservable.onNext("https://www.expedia.com/Hotel-Search?#")
+        newWebView
     }
 
     val errorPresenter: HotelErrorPresenter by bindView(R.id.widget_hotel_errors)
@@ -188,7 +195,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             checkoutDialog.dismiss()
-            show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
+            show(secureWebView)
+//            show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
             WalletUtils.unbindFullWalletDataFromBillingInfo(Db.getWorkingBillingInfoManager().workingBillingInfo)
         })
 
@@ -338,6 +346,8 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         addTransition(checkoutToError)
         addTransition(detailsToError)
         addTransition(checkoutToSearch)
+        addTransition(checkoutToSecurePayment)
+        addTransition(securePaymentToConfirmation)
 
         errorPresenter.hotelDetailViewModel = hotelDetailViewModel
         errorPresenter.viewmodel = HotelErrorViewModel(context)
@@ -535,6 +545,25 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             checkoutPresenter.visibility = if (forward) View.GONE else View.VISIBLE
             errorPresenter.visibility = if (forward) View.VISIBLE else View.GONE
             errorPresenter.animationFinalize()
+        }
+    }
+
+    private val checkoutToSecurePayment = object : Transition(HotelCheckoutPresenter::class.java, SecurePaymentWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
+        override fun endTransition(forward: Boolean) {
+            super.endTransition(forward)
+            secureWebView.toolbar.visibility = if (forward) View.VISIBLE else View.GONE
+            checkoutPresenter.visibility = if (!forward) View.VISIBLE else View.GONE
+            secureWebView.visibility = if (!forward) View.GONE else View.VISIBLE
+            AccessibilityUtil.setFocusToToolbarNavigationIcon(secureWebView.toolbar)
+        }
+    }
+
+    private val securePaymentToConfirmation = object : Transition(SecurePaymentWebView::class.java, HotelConfirmationPresenter::class.java) {
+        override fun endTransition(forward: Boolean) {
+            if (forward) {
+                secureWebView.visibility = View.GONE
+                AccessibilityUtil.delayFocusToToolbarNavigationIcon(confirmationPresenter.toolbar, 300)
+            }
         }
     }
 

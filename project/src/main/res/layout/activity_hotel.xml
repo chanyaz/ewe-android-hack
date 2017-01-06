@@ -62,6 +62,13 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
+    <ViewStub
+        android:id="@+id/secure_payment_stub"
+        android:inflatedId="@+id/secure_payment_webview"
+        android:layout="@layout/secure_payment_webview_stub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <com.expedia.bookings.presenter.hotel.HotelConfirmationPresenter
         android:id="@+id/hotel_confirmation_presenter"
         android:layout_width="match_parent"
