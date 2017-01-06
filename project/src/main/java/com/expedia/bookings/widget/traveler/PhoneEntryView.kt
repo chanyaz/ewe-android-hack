@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.TelephoneSpinner
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.traveler.TravelerPhoneViewModel
@@ -17,6 +18,8 @@ import com.expedia.vm.traveler.TravelerPhoneViewModel
 class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val phoneSpinner: TelephoneSpinner by bindView(R.id.edit_phone_number_country_code_spinner)
     val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
+
+    var isFirstSelected = false
 
     var viewModel: TravelerPhoneViewModel by notNullAndObservable { vm ->
         phoneNumber.viewModel = vm.phoneViewModel
@@ -58,6 +61,11 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             spinnerUpdated()
             phoneSpinner.updateText()
+            if (isFirstSelected) {
+                view?.setAccessibilityHoverFocus()
+            } else {
+                isFirstSelected = true
+            }
         }
     }
 }
