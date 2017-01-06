@@ -18,6 +18,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.scrollTo;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 
 public class ProfileScreen {
@@ -121,11 +122,23 @@ public class ProfileScreen {
 		onView(withId(R.id.sign_in_button)).perform(click());
 	}
 
+	public static void clickSignOutButton() {
+		onView(withId(R.id.sign_out_button)).perform(click());
+	}
+
 	public static void clickFacebookSignInButton() {
 		onView(withId(R.id.sign_in_with_facebook_button)).perform(click());
 	}
 
 	public static void clickCreateAccountButton() {
 		onView(withId(R.id.create_account_button)).perform(click());
+	}
+
+	public static void waitForAccountViewDisplay() {
+		onView(withId(R.id.account_view)).perform(waitForViewToDisplay());
+	}
+
+	public static void waitForAccountPagerDisplay() {
+		onView(withId(R.id.scroll_container)).perform(waitForViewToDisplay());
 	}
 }

@@ -110,6 +110,8 @@ class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaun
             gotoItineraries()
         } else if (ItineraryManager.haveTimelyItinItem()) {
             gotoItineraries()
+        } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ACCOUNT, false)) {
+            gotoAccount()
         } else if (lineOfBusiness != null) {
             var errorMessage: CharSequence = ""
             if (lineOfBusiness == LineOfBusiness.CARS) {
@@ -132,6 +134,8 @@ class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaun
             gotoItineraries()
         } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ITIN, false)) {
             gotoItineraries()
+        } else if (intent.getBooleanExtra(ARG_FORCE_SHOW_ACCOUNT, false)) {
+            gotoAccount()
         }
     }
 
@@ -237,10 +241,7 @@ class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaun
                     PAGER_POS_ITIN -> gotoItineraries()
                     PAGER_POS_ACCOUNT -> {
                         pagerPosition = PAGER_POS_ACCOUNT
-                        if (User.isLoggedIn(this@NewPhoneLaunchActivity)) {
-                            accountFragment?.refreshUserInfo()
-                        }
-                        viewPager.currentItem = PAGER_POS_ACCOUNT
+                        gotoAccount()
                         OmnitureTracking.trackAccountPageLoad()
                     }
                 }
@@ -283,6 +284,13 @@ class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaun
             itinListFragment?.showItinCard(jumpToItinId, false)
             jumpToItinId = null
         }
+    }
+
+    @Synchronized private fun gotoAccount() {
+        if (User.isLoggedIn(this@NewPhoneLaunchActivity)) {
+            accountFragment?.refreshUserInfo()
+        }
+        viewPager.currentItem = PAGER_POS_ACCOUNT
     }
 
     fun shouldShowOverFlowMenu(): Boolean {
@@ -502,6 +510,7 @@ class NewPhoneLaunchActivity : TrackingAbstractAppCompatActivity(), NewPhoneLaun
     companion object {
         val ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL"
         val ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN"
+        val ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT"
         val ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION"
         /**
          * Create intent to open this activity and jump straight to a particular itin item.

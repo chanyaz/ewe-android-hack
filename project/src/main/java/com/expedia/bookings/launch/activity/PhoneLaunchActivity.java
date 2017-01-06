@@ -58,11 +58,14 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 
 	public static final String ARG_FORCE_SHOW_WATERFALL = "ARG_FORCE_SHOW_WATERFALL";
 	public static final String ARG_FORCE_SHOW_ITIN = "ARG_FORCE_SHOW_ITIN";
+	public static final String ARG_FORCE_SHOW_ACCOUNT = "ARG_FORCE_SHOW_ACCOUNT";
 	public static final String ARG_JUMP_TO_NOTIFICATION = "ARG_JUMP_TO_NOTIFICATION";
 
 	private static final int PAGER_POS_WATERFALL = 0;
 
 	private static final int PAGER_POS_ITIN = 1;
+
+	private static final int PAGER_POS_ACCOUNT = 2;
 
 	private static final int TOOLBAR_ANIM_DURATION = 200;
 
