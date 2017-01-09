@@ -41,10 +41,6 @@ class FlightCreateTripViewModel(val context: Context) : BaseCreateTripViewModel(
                     createTripErrorObservable.onNext(error)
                 }
                 else {
-                    val hasPriceChange = response.details.oldOffer != null
-                    if (hasPriceChange) {
-                        priceChangeObservable.onNext(response)
-                    }
                     Db.getTripBucket().clearFlight()
                     Db.getTripBucket().add(TripBucketItemFlightV2(response))
                     createTripResponseObservable.onNext(response)

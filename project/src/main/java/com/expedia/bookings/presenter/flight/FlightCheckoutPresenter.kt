@@ -11,6 +11,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.FlightTripResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
@@ -18,6 +19,7 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
@@ -56,14 +58,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         makePaymentErrorSubscriber(getCheckoutViewModel().showDebitCardsNotAcceptedSubject, ckoViewModel.showingPaymentWidgetSubject,
                 debitCardsNotAcceptedTextView, debitCardsNotAcceptedSubject)
 
-        getCheckoutViewModel().priceChangeObservable.subscribe {
-            it as FlightCheckoutResponse
-            handlePriceChange(it)
-        }
-        getCreateTripViewModel().priceChangeObservable.subscribe {
-            it as FlightCreateTripResponse
-            handlePriceChange(it)
-        }
 
         getCheckoutViewModel().createTripResponseObservable.safeSubscribe(flightCostSummaryObservable)
         getCreateTripViewModel().showNoInternetRetryDialog.subscribe {
@@ -105,32 +99,31 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         vm.tripParams.subscribe {
             userAccountRefresher.ensureAccountIsRefreshed()
         }
-
-        getCheckoutViewModel().createTripResponseObservable.safeSubscribe { response ->
-            response as FlightCreateTripResponse
-            loginWidget.updateRewardsText(getLineOfBusiness())
-            insuranceWidget.viewModel.tripObservable.onNext(response)
-            totalPriceWidget.viewModel.total.onNext(response.tripTotalPayableIncludingFeeIfZeroPayableByPoints())
-            totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
-            (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(response.details.offer)
-        }
     }
 
-    private fun handlePriceChange(tripResponse: FlightTripResponse) {
-        val newPrice = tripResponse.tripTotalPayableIncludingFeeIfZeroPayableByPoints()
+    override fun onCreateTripResponse(tripResponse: TripResponse?) {
+        onTripResponse(tripResponse)
+    }
 
-        val oldOffer = tripResponse.details.oldOffer
-        if (oldOffer != null) {
-            val originalPrice = oldOffer.totalPriceWithInsurance ?: oldOffer.totalPrice
-            priceChangeWidget.viewmodel.originalPrice.onNext(originalPrice)
-            priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
-        }
-
-        insuranceWidget.viewModel.tripObservable.onNext(tripResponse)
-        totalPriceWidget.viewModel.total.onNext(newPrice)
+    private fun onTripResponse(tripResponse: TripResponse?) {
+        loginWidget.updateRewardsText(getLineOfBusiness())
+        insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
+        totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice)
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
     }
+
+    override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
+        tripResponse as FlightCheckoutResponse
+        val newPrice = tripResponse.newPrice
+        val oldPrice = tripResponse.getOldPrice()
+        if (oldPrice != null) {
+            priceChangeWidget.viewmodel.originalPrice.onNext(oldPrice)
+            priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
+        }
+        onTripResponse(tripResponse)
+    }
+
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
@@ -208,6 +201,18 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {
         return DefaultToTraveler(FlightTravelersPresenter::class.java)
+    }
+
+    override fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean {
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightsCreateTripPriceChangeAlert)
+    }
+
+    override fun trackCheckoutPriceChange(diffPercentage: Int) {
+        FlightsV2Tracking.trackFlightCheckoutPriceChange(diffPercentage)
+    }
+
+    override fun trackCreateTripPriceChange(diffPercentage: Int) {
+        FlightsV2Tracking.trackFlightCreateTripPriceChange(diffPercentage)
     }
 
 }

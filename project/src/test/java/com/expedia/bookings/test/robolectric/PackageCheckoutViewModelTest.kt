@@ -43,7 +43,7 @@ class PackageCheckoutViewModelTest {
     @Test
     fun testCheckoutPriceChange() {
         val testSubscriber = TestSubscriber.create<TripResponse>()
-        testViewModel.priceChangeObservable.subscribe(testSubscriber)
+        testViewModel.checkoutPriceChangeObservable.subscribe(testSubscriber)
 
         testViewModel.builder.tripId("12312")
         testViewModel.builder.expectedTotalFare("133")

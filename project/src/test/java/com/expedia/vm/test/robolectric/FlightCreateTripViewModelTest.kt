@@ -73,26 +73,6 @@ class FlightCreateTripViewModelTest {
     }
 
     @Test
-    fun createTripPriceChange() {
-        givenCreateTripPriceChange()
-
-        val tripResponseSubscriber = TestSubscriber<TripResponse>()
-        val showCreateTripDialogSubscriber = TestSubscriber<Boolean>()
-        val priceChangeSubscriber = TestSubscriber<TripResponse>()
-        sut.createTripResponseObservable.subscribe(tripResponseSubscriber)
-        sut.showCreateTripDialogObservable.subscribe(showCreateTripDialogSubscriber)
-        sut.priceChangeObservable.subscribe(priceChangeSubscriber)
-
-        sut.tripParams.onNext(params)
-        sut.performCreateTrip.onNext(Unit)
-
-        tripResponseSubscriber.awaitTerminalEvent(200, TimeUnit.MILLISECONDS)
-        tripResponseSubscriber.assertValueCount(1)
-        priceChangeSubscriber.assertValueCount(1)
-        showCreateTripDialogSubscriber.assertValues(true, false)
-    }
-
-    @Test
     fun createTripError() {
         givenCreateTripResponseError()
 

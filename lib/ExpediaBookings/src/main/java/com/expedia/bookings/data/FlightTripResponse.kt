@@ -14,4 +14,12 @@ abstract class FlightTripResponse : TripResponse() {
     fun getAvailableInsuranceProducts(): List<InsuranceProduct> = getOffer().availableInsuranceProducts
 
     abstract fun getOffer(): FlightTripDetails.FlightOffer
+
+    override fun getOldPrice(): Money? {
+        if (details.oldOffer == null) {
+            return null
+        }
+        return details.oldOffer.totalPriceWithInsurance ?: details.oldOffer.totalPrice
+    }
+
 }

@@ -52,7 +52,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
             sliderPurchaseTotalText.onNext(totalPrice)
         }
 
-        priceChangeObservable.subscribe { checkoutResponse ->
+        checkoutPriceChangeObservable.subscribe { checkoutResponse ->
             checkoutResponse as FlightCheckoutResponse
             val flightTripDetails = checkoutResponse.details
             builder.expectedTotalFare(flightTripDetails.offer.totalPrice.amount.toString())
@@ -124,7 +124,7 @@ open class FlightCheckoutViewModel(context: Context) : AbstractCardFeeEnabledChe
                 if (response.hasErrors()) {
                     when (response.firstError.errorCode) {
                         ApiError.Code.PRICE_CHANGE -> {
-                            priceChangeObservable.onNext(response)
+                            checkoutPriceChangeObservable.onNext(response)
                         }
                         else -> {
                             checkoutErrorObservable.onNext(response.firstError)

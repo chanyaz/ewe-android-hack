@@ -21,6 +21,27 @@ import javax.inject.Inject
 
 class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
 
+    override fun trackCreateTripPriceChange(priceChangeDiffPercentage: Int) {
+        //TODO
+    }
+
+    override fun trackCheckoutPriceChange(priceDiff: Int) {
+        //TODO
+    }
+
+    override fun handleCheckoutPriceChange(response: TripResponse) {
+        //TODO
+    }
+
+    override fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean {
+        //TODO
+        return false
+    }
+
+    override fun onCreateTripResponse(response: TripResponse?) {
+
+    }
+
     lateinit var lxCheckoutViewModel: LXCheckoutViewModel
         @Inject set
 
