@@ -91,12 +91,10 @@
     <string name="preference_fake_current_location">preference_fake_current_location</string>
     <string name="preference_force_new_location">preference_force_new_location</string>
     <string name="preference_show_itin_checkin">preference_show_itin_checkin</string>
-    <string name="preference_google_wallet_cvv_challenge">preference_google_wallet_cvv_challenge</string>
     <string name="preference_disable_push_registration">preference_disable_push_registration</string>
     <string name="preference_push_notification_any_flight">preference_push_notification_any_flight</string>
     <string name="preference_force_fs_db_update">preference_force_fs_db_update</string>
     <string name="preference_push_notification_gcm_id">preference_push_notification_gcm_id</string>
-    <string name="preference_fake_invalid_google_wallet_line_item">preference_fake_invalid_google_wallet_line_item</string>
     <string name="preference_clear_user_cookies">preference_clear_user_cookies</string>
     <string name="preference_enable_picasso_logging">preference_enable_picasso_logging</string>
     <string name="preference_enable_bugshaker">preference_enable_bugshaker</string>
