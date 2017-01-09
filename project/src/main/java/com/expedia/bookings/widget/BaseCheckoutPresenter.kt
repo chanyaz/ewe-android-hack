@@ -298,32 +298,27 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
             if (hasPriceChange(response)) {
                 trackCreateTripPriceChange(getPriceChangeDiffPercentage(response!!.getOldPrice()!!, response!!.newPrice))
-                if(shouldShowAlertForCreateTripPriceChange(response)) {
-                    showAlertDialogForPriceChange(response!!)
-                } else {
-                    priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
-                    onCreateTripResponse(response)
+                if (shouldShowPriceChangeOnCreateTrip(response!!.newPrice.amount, response!!.getOldPrice()!!.amount)) {
+                    if (shouldShowAlertForCreateTripPriceChange(response)) {
+                        showAlertDialogForPriceChange(response!!)
+                        return@safeSubscribe
+                    } else {
+                        priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
+                    }
                 }
-            } else {
-                onCreateTripResponse(response)
             }
+            onCreateTripResponse(response)
         }
         setupCreateTripViewModel(vm)
     }
 
     fun hasPriceChange(response: TripResponse?): Boolean {
-        return response?.getOldPrice() != null && showPriceChange(response!!.newPrice.amount, response!!.getOldPrice()!!.amount)
+        return response?.getOldPrice() != null
     }
 
-    fun showPriceChange(newprice: BigDecimal, originalprice: BigDecimal): Boolean {
-        if (newprice.compareTo(originalprice) == 1) {
-            return true
-        }
-        val ratio = newprice.toDouble()/originalprice.toDouble()
-        val isChangeBigEnoughToShow = (1.0 - ratio) >= Constants.PRICE_CHANGE_NOTIFY_CUTOFF
-        return isChangeBigEnoughToShow
+    fun shouldShowPriceChangeOnCreateTrip(newPrice: BigDecimal, oldPrice: BigDecimal): Boolean {
+        return (Math.ceil(newPrice.toDouble()) - Math.ceil(oldPrice.toDouble())) != 0.0
     }
-
 
     abstract fun onCreateTripResponse(response: TripResponse?)
 

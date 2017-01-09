@@ -21,6 +21,7 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
+import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
 
@@ -45,9 +46,17 @@ class FlightPriceChangeTest {
     fun testCreateTripPriceChange() {
         val priceChangeSubscriber = TestSubscriber<Boolean>()
         checkout.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getDummyFlightCreateTripPriceChangeResponse())
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getDummyFlightCreateTripPriceChangeResponse(9.0, 10.0))
         priceChangeSubscriber.assertValueCount(1)
         priceChangeSubscriber.assertValue(true)
+    }
+
+    @Test
+    fun testCreateTripPriceChangeNotFired() {
+        val priceChangeSubscriber = TestSubscriber<Boolean>()
+        checkout.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getDummyFlightCreateTripPriceChangeResponse(9.01, 10.0))
+        priceChangeSubscriber.assertValueCount(0)
     }
 
     @Test
@@ -78,13 +87,13 @@ class FlightPriceChangeTest {
         return flightCheckoutResponse
     }
 
-    private fun getDummyFlightCreateTripPriceChangeResponse(): FlightCreateTripResponse? {
+    private fun getDummyFlightCreateTripPriceChangeResponse(newMoney: Double, oldMoney: Double): FlightCreateTripResponse? {
         val flightCreateTripResponse = FlightCreateTripResponse()
         val flightTripDetails = FlightTripDetails()
         val flightOffer = FlightTripDetails.FlightOffer()
-        val newMoney = Money(10, "USD")
+        val newMoney = Money(BigDecimal(newMoney), "USD")
         val oldFlightOffer = FlightTripDetails.FlightOffer()
-        val oldMoney = Money(9, "USD")
+        val oldMoney = Money(BigDecimal(oldMoney), "USD")
         oldFlightOffer.totalPrice = oldMoney
         flightTripDetails.oldOffer = oldFlightOffer
         flightOffer.pricePerPassengerCategory = ArrayList<FlightTripDetails.PricePerPassengerCategory>()
