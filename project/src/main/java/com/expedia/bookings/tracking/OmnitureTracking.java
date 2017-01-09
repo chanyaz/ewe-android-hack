@@ -4782,6 +4782,7 @@ public class OmnitureTracking {
 	private static final String PACKAGES_CHECKOUT_SLIDE_TO_PURCHASE = "App.Package.Checkout.SlideToPurchase";
 	private static final String PACKAGES_CHECKOUT_PAYMENT_CID = "App.Package.Checkout.Payment.CID";
 	private static final String PACKAGES_CHECKOUT_PRICE_CHANGE = "App.Package.CKO.PriceChange";
+	private static final String PACKAGES_BUNDLE_PRICE_CHANGE = "App.Package.RD.PriceChange";
 
 
 	private static void addPackagesCommonFields(ADMS_Measurement s) {
@@ -5191,12 +5192,14 @@ public class OmnitureTracking {
 		createTrackPageLoadEventBase(PACKAGES_CHECKOUT_PAYMENT_CID).track();
 	}
 
+	public static void trackPackagesCreateTripPriceChange(int priceDiff) {
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackPriceChange(s, priceDiff, PACKAGES_BUNDLE_PRICE_CHANGE, "PKG|", "Rate Details View");
+	}
+
 	public static void trackPackagesCheckoutPriceChange(int priceDiff) {
-		Log.d(TAG, "Tracking \"" + PACKAGES_CHECKOUT_PRICE_CHANGE + "\" click...");
-		ADMS_Measurement s = createTrackLinkEvent(PACKAGES_CHECKOUT_PRICE_CHANGE);
-		s.setEvents("event62");
-		s.setProp(9, "PKG|" + priceDiff);
-		s.trackLink(null, "o", "Package Checkout", null, null);
+		ADMS_Measurement s = getFreshTrackingObject();
+		trackPriceChange(s, priceDiff, PACKAGES_CHECKOUT_PRICE_CHANGE, "PKG|", "Package Checkout");
 	}
 
 	public static void trackPackagesHotelFilterPageLoad() {
@@ -5264,7 +5267,8 @@ public class OmnitureTracking {
 	private static final String FLIGHTS_V2_RATE_DETAILS = "App.Flight.RateDetails";
 	private static final String FLIGHTS_V2_DETAILS_EXPAND = "App.Flight.RD.ViewDetails";
 	private static final String FLIGHTS_V2_COST_SUMMARY = "App.Flight.RD.TotalCost";
-	private static final String FLIGHTS_V2_PRICE_CHANGE = "App.Flight.CKO.PriceChange";
+	private static final String FLIGHTS_V2_RATE_DETAILS_PRICE_CHANGE = "App.Flight.RD.PriceChange";
+	private static final String FLIGHTS_V2_CHECKOUT_PRICE_CHANGE = "App.Flight.CKO.PriceChange";
 	private static final String FLIGHTS_V2_SELECT_TRAVELER = "App.Flight.CKO.Traveler.Select.Existing";
 	private static final String FLIGHTS_V2_ENTER_TRAVELER = "App.Flight.CKO.Traveler.EnterManually";
 	private static final String FLIGHTS_V2_SELECT_CARD = "App.Flight.CKO.Payment.Select.Existing";
@@ -5699,21 +5703,21 @@ public class OmnitureTracking {
 	public static void trackFlightCreateTripPriceChange(int priceChangePercentage) {
 		ADMS_Measurement s = getFreshTrackingObject();
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsCreateTripPriceChangeAlert);
-		trackFlightPriceChange(s, priceChangePercentage);
+		trackPriceChange(s, priceChangePercentage, FLIGHTS_V2_RATE_DETAILS_PRICE_CHANGE, "FLT|", "Rate Details View");
 	}
 
 	public static void trackFlightCheckoutPriceChange(int priceChangePercentage) {
 		ADMS_Measurement s = getFreshTrackingObject();
-		trackFlightPriceChange(s, priceChangePercentage);
+		trackPriceChange(s, priceChangePercentage, FLIGHTS_V2_CHECKOUT_PRICE_CHANGE, "FLT|", "Flight Checkout");
 	}
 
-	private static void trackFlightPriceChange(ADMS_Measurement s, int priceChangePercentage) {
-		Log.d(TAG, "Tracking \"" + FLIGHTS_V2_PRICE_CHANGE + "\" click...");
+	private static void trackPriceChange(ADMS_Measurement s, int priceChangePercentage, String trackingId, String lobForProp9, String linkName) {
+		Log.d(TAG, "Tracking \"" + trackingId + "\" click...");
 		s.setEvents("event62");
-		s.setProp(9, "FLT|" + priceChangePercentage);
-		s.setEvar(28, FLIGHTS_V2_PRICE_CHANGE);
-		s.setProp(16, FLIGHTS_V2_PRICE_CHANGE);
-		s.trackLink(null, "o", "Flight Checkout", null, null);
+		s.setProp(9, lobForProp9 + priceChangePercentage);
+		s.setEvar(28, trackingId);
+		s.setProp(16, trackingId);
+		s.trackLink(null, "o", linkName, null, null);
 	}
 
 	public static void trackFlightCheckoutSelectTraveler() {
