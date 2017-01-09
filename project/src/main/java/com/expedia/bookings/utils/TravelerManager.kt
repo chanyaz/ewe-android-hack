@@ -1,6 +1,7 @@
 package com.expedia.bookings.utils
 
 import android.content.Context
+import com.expedia.bookings.R
 import com.expedia.bookings.data.AbstractFlightSearchParams
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.Traveler
@@ -36,12 +37,16 @@ class TravelerManager {
         travelersUpdated.onNext(Unit)
     }
 
-    fun updateRailTravelers() {
+    fun updateRailTravelers(context: Context) {
         val travelers = Db.getTravelers()
         travelers.clear()
         // Rail only collects Primary Traveler so don't worry about the details of the others.
-        val traveler = Traveler()
-        travelers.add(traveler)
+        val railLoginEnabled = FeatureToggleUtil.isFeatureEnabled(context, R.string.preference_enable_rail_checkout_login)
+        if (railLoginEnabled && User.isLoggedIn(context)) {
+            travelers.add(Db.getUser().primaryTraveler)
+        } else {
+            travelers.add(Traveler())
+        }
     }
 
     fun getChildPassengerCategory(childAge: Int, params: AbstractFlightSearchParams): PassengerCategory {
@@ -60,7 +65,7 @@ class TravelerManager {
     }
 
     fun onSignIn(context: Context) {
-        if(User.isLoggedIn(context) && Db.getTravelers().isNotEmpty()) {
+        if (User.isLoggedIn(context) && Db.getTravelers().isNotEmpty()) {
             val primaryTraveler = Db.getUser().primaryTraveler
             primaryTraveler.passengerCategory = Db.getTravelers()[0].passengerCategory
             Db.getTravelers()[0] = primaryTraveler

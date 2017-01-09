@@ -10,7 +10,7 @@ open class TravelerPhoneViewModel(context: Context) {
 
     private var phone: Phone by Delegates.notNull()
     val phoneViewModel = PhoneViewModel(context)
-    val phoneCountyCodeSubject = BehaviorSubject.create<String>()
+    val phoneCountryCodeSubject = BehaviorSubject.create<String>()
 
     val countryNameObserver = endlessObserver<String> { countryName ->
         phone.countryName = countryName
@@ -26,7 +26,7 @@ open class TravelerPhoneViewModel(context: Context) {
 
     fun updatePhone(phone: Phone) {
         this.phone = phone
-        phoneCountyCodeSubject.onNext(phone.countryCode)
+        phoneCountryCodeSubject.onNext(phone.countryCode)
         phoneViewModel.textSubject.onNext(if (phone.number.isNullOrEmpty()) "" else phone.number)
     }
 

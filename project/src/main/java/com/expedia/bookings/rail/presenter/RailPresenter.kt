@@ -14,13 +14,13 @@ import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
+import com.expedia.bookings.rail.widget.RailAmenitiesFareRulesWidget
+import com.expedia.bookings.rail.widget.RailSearchLegalInfoWebView
 import com.expedia.bookings.services.RailServices
 import com.expedia.bookings.tracking.RailTracking
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.rail.widget.RailSearchLegalInfoWebView
-import com.expedia.bookings.rail.widget.RailAmenitiesFareRulesWidget
 import com.expedia.util.endlessObserver
 import com.expedia.vm.rail.RailCheckoutOverviewViewModel
 import com.expedia.vm.rail.RailConfirmationViewModel
@@ -69,7 +69,7 @@ class RailPresenter(context: Context, attrs: AttributeSet) : Presenter(context, 
     val searchObserver: Observer<RailSearchRequest> = endlessObserver { params ->
         railSearchParams = params
 
-        travelerManager.updateRailTravelers()
+        travelerManager.updateRailTravelers(context)
         transitionToOutboundResults()
         outboundPresenter.viewmodel.paramsSubject.onNext(params)
         inboundPresenter.viewmodel.paramsSubject.onNext(params)
