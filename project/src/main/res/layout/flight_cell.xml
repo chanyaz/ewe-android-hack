@@ -114,13 +114,13 @@
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flight_duration_text_view"
                         style="@style/Core.Text.Default.LightColor"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
                         android:layout_height="wrap_content" />
                     <com.expedia.bookings.widget.TextView
                         android:id="@+id/flight_earn_message_text_view"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
                         android:drawableLeft="@drawable/earn_message_icon"
                         android:drawablePadding="@dimen/earn_message_icon_dimen"
                         android:textColor="@color/hotel_earn_message_text_color"
