@@ -362,7 +362,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.flight_segment_breakdown,
 		R.layout.flight_segment_layover_row,
 		R.layout.flight_segment_row,
-		R.layout.hotel_review_actionbar_tab_bg,
 		R.string.checkout_enter_payment_details,
 		R.string.checkout_hotelsv2_enter_payment_details_line2,
 		R.menu.checkout_menu,

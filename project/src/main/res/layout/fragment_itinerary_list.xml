@@ -7,20 +7,12 @@
     android:background="#212527"
     android:orientation="vertical" >
 
-    <!-- ActionBar spacer view -->
-
-    <View
-        android:id="@+id/spacer_view"
-        android:layout_width="match_parent"
-        android:layout_height="?android:attr/actionBarSize" />
-
     <!-- The listview -->
 
     <com.expedia.bookings.widget.itin.ItinListView
         android:id="@android:id/list"
         android:layout_width="@dimen/itin_list_view_width"
         android:layout_height="match_parent"
-        android:layout_below="@id/spacer_view"
         android:layout_centerHorizontal="true"
         android:cacheColorHint="@android:color/transparent"
         android:divider="@null"
@@ -183,7 +175,6 @@
         android:id="@+id/shadow_image_view"
         android:layout_width="match_parent"
         android:layout_height="6dp"
-        android:layout_below="@id/spacer_view"
         android:background="@drawable/ab_shadow" />
 
   </RelativeLayout>

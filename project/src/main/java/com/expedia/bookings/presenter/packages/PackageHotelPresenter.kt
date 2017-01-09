@@ -3,6 +3,7 @@ package com.expedia.bookings.presenter.packages
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.support.design.widget.TabLayout
 import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import android.util.AttributeSet
@@ -129,15 +130,15 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         val viewStub = findViewById(R.id.reviews_stub) as ViewStub
         val presenter = viewStub.inflate() as HotelReviewsView
         presenter.reviewServices = reviewServices
-        presenter.hotelReviewsTabbar.slidingTabLayout.setOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageSelected(position: Int) {
-                PackagesTracking().trackHotelReviewCategoryChange(position)
+        presenter.hotelReviewsTabbar.slidingTabLayout.setOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabReselected(tab: TabLayout.Tab?) {
             }
 
-            override fun onPageScrollStateChanged(state: Int) {
+            override fun onTabUnselected(tab: TabLayout.Tab?) {
             }
 
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                PackagesTracking().trackHotelReviewCategoryChange(tab.position)
             }
         })
         setUpReviewsTransition(presenter)

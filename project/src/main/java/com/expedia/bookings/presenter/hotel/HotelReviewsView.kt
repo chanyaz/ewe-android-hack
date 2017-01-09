@@ -43,7 +43,7 @@ class HotelReviewsView(context: Context, attrs: AttributeSet) : FrameLayout(cont
 
     var hotelReviewsAdapterViewModel: HotelReviewsAdapterViewModel by notNullAndObservable { vm ->
         adapter = HotelReviewsAdapter(context, viewPager, vm)
-        hotelReviewsTabbar.slidingTabLayout.setViewPager(viewPager)
+        hotelReviewsTabbar.slidingTabLayout.setupWithViewPager(viewPager)
     }
 
     var adapter: HotelReviewsAdapter by Delegates.notNull()

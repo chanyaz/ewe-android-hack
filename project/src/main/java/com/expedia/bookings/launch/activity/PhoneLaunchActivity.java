@@ -8,10 +8,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +34,7 @@ import com.expedia.bookings.fragment.LoginConfirmLogoutDialogFragment.DoLogoutLi
 import com.expedia.bookings.launch.fragment.PhoneLaunchFragment;
 import com.expedia.bookings.launch.interfaces.IPhoneLaunchActivityLaunchFragment;
 import com.expedia.bookings.launch.interfaces.IPhoneLaunchFragmentListener;
+import com.expedia.bookings.launch.widget.PhoneLaunchToolbar;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.AdTracker;
@@ -47,7 +48,6 @@ import com.expedia.bookings.utils.TuneUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.DisableableViewPager;
 import com.expedia.bookings.widget.itin.ItinListView;
-import com.expedia.bookings.launch.widget.PhoneLaunchToolbar;
 import com.squareup.phrase.Phrase;
 
 import butterknife.ButterKnife;
@@ -135,8 +135,8 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		mViewPager.setAdapter(mPagerAdapter);
 
 		// Toolbar/support Actionbar
-		mToolbar.slidingTabLayout.setViewPager(mViewPager);
-		mToolbar.slidingTabLayout.setOnPageChangeListener(mPageChangeListener);
+		mToolbar.slidingTabLayout.setupWithViewPager(mViewPager);
+		mToolbar.slidingTabLayout.setOnTabSelectedListener(mPageChangeListener);
 		setSupportActionBar(mToolbar);
 		getSupportActionBar().getThemedContext();
 
@@ -333,23 +333,29 @@ public class PhoneLaunchActivity extends ActionBarActivity implements ItinListVi
 		Notification.dismissExisting(notification);
 	}
 
-	private SimpleOnPageChangeListener mPageChangeListener = new SimpleOnPageChangeListener() {
+	private TabLayout.OnTabSelectedListener mPageChangeListener = new TabLayout.OnTabSelectedListener() {
 		@Override
-		public void onPageScrollStateChanged(int state) {
-			super.onPageScrollStateChanged(state);
-		}
-
-		@Override
-		public void onPageSelected(int position) {
-			if (mViewPager != null && position != mPagerPosition) {
-				if (position == PAGER_POS_WATERFALL) {
+		public void onTabSelected(TabLayout.Tab tab) {
+			if (mViewPager != null && tab.getPosition() != mPagerPosition) {
+				if (tab.getPosition() == PAGER_POS_WATERFALL) {
 					gotoWaterfall();
 				}
-				else if (position == PAGER_POS_ITIN) {
+				else if (tab.getPosition() == PAGER_POS_ITIN) {
 					gotoItineraries();
 				}
 			}
 		}
+
+		@Override
+		public void onTabUnselected(TabLayout.Tab tab) {
+
+		}
+
+		@Override
+		public void onTabReselected(TabLayout.Tab tab) {
+
+		}
+
 	};
 
 	private synchronized void gotoWaterfall() {

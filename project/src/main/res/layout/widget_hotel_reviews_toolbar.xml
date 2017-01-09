@@ -4,12 +4,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:foreground="?android:attr/windowContentOverlay"
+    android:background="?attr/primary_color"
     app:contentInsetLeft="0dp"
     app:contentInsetStart="0dp">
 
-    <com.expedia.bookings.widget.SlidingTabLayout
+    <android.support.design.widget.TabLayout
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?attr/primary_color" />
+        android:layout_height="50dip"
+        android:gravity="bottom"
+        app:tabGravity="fill"
+        app:tabIndicatorColor="@color/launch_tab_indicator"
+        app:tabMode="fixed"
+        app:tabSelectedTextColor="@color/actionbar_tab_text_selected"
+        app:tabTextColor="@color/actionbar_tab_text_unselected" />
+
 </android.support.v7.widget.Toolbar>
