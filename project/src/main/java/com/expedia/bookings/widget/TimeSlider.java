@@ -25,6 +25,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.SeekBar;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.DateFormatUtils;
 
 public class TimeSlider extends SeekBar {
@@ -105,14 +106,31 @@ public class TimeSlider extends SeekBar {
 	}
 
 	private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+		int previousProgress = 0;
+		boolean isFirstTime = true;
 		@Override
-		public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-			for (OnSeekBarChangeListener listener : onSeekBarChangeListeners) {
-				listener.onProgressChanged(seekBar, progress, fromUser);
+		public void onProgressChanged(SeekBar seekBar, int requestedProgress, boolean fromUser) {
+
+			int adjustedProgress = requestedProgress;
+			if (fromUser && AccessibilityUtil.isTalkBackEnabled(getContext())) {
+				if (requestedProgress > previousProgress) {
+					adjustedProgress = previousProgress + 1;
+				}
+				else if (requestedProgress < previousProgress) {
+					adjustedProgress = previousProgress - 1;
+				}
 			}
-			if (!fromUser) {
+
+			for (OnSeekBarChangeListener listener : onSeekBarChangeListeners) {
+				listener.onProgressChanged(seekBar, adjustedProgress, fromUser);
+			}
+
+			if ((!fromUser && isFirstTime) || AccessibilityUtil.isTalkBackEnabled(getContext())) {
 				setThumb(getThumbnail(calculateProgress(getProgress()), false));
 			}
+
+			previousProgress = adjustedProgress;
+			isFirstTime = false;
 		}
 
 		@Override
