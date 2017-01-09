@@ -25,6 +25,7 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.fragment.UserReviewRatingDialog;
 import com.expedia.bookings.model.DismissedItinButton;
+import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.FlightItinCard;
@@ -740,13 +741,17 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 				R.string.preference_itin_user_reviews);
 		DateTime lastDate = new DateTime(SettingUtils.get(mContext, R.string.preference_date_last_review_prompt_shown, DateTime.now().getMillis()));
 		boolean hasBeenAtLeast3Months = new Period(lastDate, DateTime.now(), PeriodType.yearMonthDayTime()).getMonths() >= 3;
-		if ((!hasShownUserReview || hasBeenAtLeast3Months) && hasBookedHotelOrFlight && isBucketed) {
-			if (ratingDialog == null) {
-				ratingDialog = new UserReviewRatingDialog(mContext);
-				ratingDialog.setViewModel(new UserReviewDialogViewModel(mContext));
+
+		if ((!hasShownUserReview || hasBeenAtLeast3Months) && hasBookedHotelOrFlight) {
+			OmnitureTracking.trackItinUserRating();
+			if (isBucketed) {
+				if (ratingDialog == null) {
+					ratingDialog = new UserReviewRatingDialog(mContext);
+					ratingDialog.setViewModel(new UserReviewDialogViewModel(mContext));
+				}
+				ratingDialog.show();
+				return true;
 			}
-			ratingDialog.show();
-			return true;
 		}
 		return false;
 	}
