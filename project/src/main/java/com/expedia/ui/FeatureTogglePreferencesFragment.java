@@ -29,7 +29,6 @@ public class FeatureTogglePreferencesFragment extends BasePreferenceFragment {
 		initializeFeatureCheck(R.string.preference_itin_hotel_upgrade);
 		initializeFeatureCheck(R.string.preference_itin_card_detail);
 		initializeFeatureCheck(R.string.preference_enable_universal_checkout_on_lx);
-		initializeFeatureCheck(R.string.preference_itin_user_reviews);
 		initializeFeatureCheck(R.string.preference_enable_urgency_messaging_on_flights);
 		initializeFeatureCheck(R.string.preference_universal_checkout_material_forms);
 	}
