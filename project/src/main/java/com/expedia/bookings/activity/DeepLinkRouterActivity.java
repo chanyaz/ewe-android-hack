@@ -116,17 +116,17 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		Set<String> queryData = StrUtils.getQueryParameterNames(data);
 		OmnitureTracking.parseAndTrackDeepLink(data, queryData);
 
-		if (scheme.equals("https") || scheme.equals("http")) {
-			String path = data.getPath().toLowerCase(Locale.US);
+		String path = data.getPath().toLowerCase(Locale.US);
+		if ((scheme.equals("https") || scheme.equals("http")) && path.contains(Constants.DEEPLINK_KEYWORD)) {
 			host = path.substring(path.indexOf(Constants.DEEPLINK_KEYWORD) + Constants.DEEPLINK_KEYWORD.length());
 		}
 		else {
-			host = data.getHost();
 		/*
 		 * Let's handle iOS implementation of sharing/importing itins, cause we can - Yeah, Android ROCKS !!!
 		 * iOS prepends the sharableLink this way "expda://addSharedItinerary?url=<actual_sharable_link_here>"
 		 * We intercept this uri too, extract the link and then send to fetch the itin.
 		 */
+			host = data.getHost();
 			if (host.equalsIgnoreCase("addSharedItinerary") && dataString.contains("m/trips/shared")) {
 				goFetchSharedItin(data.getQueryParameter("url"));
 				finish();
@@ -159,7 +159,8 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 				return;
 			}
 		}
-		Log.d(TAG, "Got deeplink: " + host + "/" + dataString);
+		Log.d(TAG, "Got deeplink host = " + host);
+		Log.d(TAG, "Got deeplink dataString = " + dataString);
 
 		boolean finish;
 		String hostLowerCase = host
@@ -830,8 +831,12 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	};
 
 	private void goFetchSharedItin(String sharableUrl) {
-		ItineraryManager.getInstance().fetchSharedItin(sharableUrl);
+		getItineraryManagerInstance().fetchSharedItin(sharableUrl);
 		NavUtils.goToItin(this);
+	}
+
+	protected ItineraryManager getItineraryManagerInstance() {
+		return ItineraryManager.getInstance();
 	}
 
 	private int parseNumAdults(String numAdultsStr) {

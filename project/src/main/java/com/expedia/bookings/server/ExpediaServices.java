@@ -85,6 +85,7 @@ import com.expedia.bookings.data.trips.TripResponse;
 import com.expedia.bookings.data.trips.TripShareUrlShortenerResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
+import com.expedia.bookings.services.PersistentCookieManager;
 import com.expedia.bookings.utils.BookingSuppressionUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.ServicesUtil;
@@ -986,6 +987,9 @@ public class ExpediaServices implements DownloadListener {
 
 			query.add(new BasicNameValuePair("email", trip.getGuestEmailAddress()));
 			query.add(new BasicNameValuePair("idtype", "itineraryNumber"));
+
+			// When fetching trips for guest user as a signed in user, the response sends back cookies for both user profile. So let's ignore it.
+			flags = flags | F_IGNORE_COOKIES;
 		}
 		else {
 			tripIdentifier = trip.getTripId();

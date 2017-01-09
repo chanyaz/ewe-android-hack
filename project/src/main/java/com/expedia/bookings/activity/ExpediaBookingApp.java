@@ -1,9 +1,5 @@
 package com.expedia.bookings.activity;
 
-import java.io.IOException;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.util.Locale;
-
 import android.app.ActivityManager;
 import android.content.ComponentName;
 import android.content.Context;
@@ -12,7 +8,6 @@ import android.content.res.Configuration;
 import android.graphics.Point;
 import android.support.multidex.MultiDexApplication;
 import android.text.format.DateUtils;
-
 import com.activeandroid.ActiveAndroid;
 import com.crashlytics.android.Crashlytics;
 import com.expedia.bookings.BuildConfig;
@@ -67,10 +62,11 @@ import com.mobiata.android.util.AndroidUtils;
 import com.mobiata.android.util.SettingUtils;
 import com.mobiata.android.util.TimingLogger;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
-
-import net.danlew.android.joda.JodaTimeAndroid;
-
 import io.fabric.sdk.android.Fabric;
+import java.io.IOException;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.Locale;
+import net.danlew.android.joda.JodaTimeAndroid;
 
 public class ExpediaBookingApp extends MultiDexApplication implements UncaughtExceptionHandler {
 	// Don't change the actual string, updated identifier for clarity
@@ -154,7 +150,9 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 			startupTimer.addSplit("Stetho init");
 		}
 
-		mAppComponent = createAppComponent();
+		mAppComponent = DaggerAppComponent.builder()
+			.appModule(new AppModule(this))
+			.build();
 		startupTimer.addSplit("Dagger AppModule created");
 
 		if (mAppComponent.endpointProvider().getEndPoint() == EndPoint.MOCK_MODE) {
@@ -465,12 +463,6 @@ public class ExpediaBookingApp extends MultiDexApplication implements UncaughtEx
 		else {
 			mLXComponent = mLXTestComponent;
 		}
-	}
-
-	protected AppComponent createAppComponent() {
-		return DaggerAppComponent.builder()
-			.appModule(new AppModule(this))
-			.build();
 	}
 
 	public void setLXTestComponent(LXComponent lxTestComponent) {

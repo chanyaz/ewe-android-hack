@@ -3,7 +3,6 @@ package com.expedia.bookings.test.robolectric
 import android.content.Context
 import android.view.View
 import android.widget.FrameLayout
-import com.expedia.bookings.R
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
@@ -18,7 +17,6 @@ import com.expedia.bookings.widget.packages.FlightAirlineWidget
 import com.expedia.bookings.widget.shared.AbstractFlightListAdapter
 import com.expedia.vm.AbstractFlightViewModel
 import com.expedia.vm.flights.FlightViewModel
-import com.mobiata.android.util.SettingUtils
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -97,8 +95,6 @@ class AbstractFlightListAdapterTest {
 
     @Test
     fun testSeatsLeftUrgencyMessageWhenBucketedForABTest() {
-        SettingUtils.save(context, R.string.preference_enable_urgency_messaging_on_flights, true)
-
         RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightUrgencyMessage)
         createTestFlightListAdapter()
 
@@ -117,8 +113,6 @@ class AbstractFlightListAdapterTest {
 
     @Test
     fun testUrgencyMessageVisibilityWhenNotBucketedForABTest() {
-        SettingUtils.save(context, R.string.preference_enable_urgency_messaging_on_flights, true)
-
         createTestFlightListAdapter()
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppFlightUrgencyMessage)
         createFlightLegWithUrgencyMessage(4)
