@@ -199,6 +199,7 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
         offerModel.urgencyMessage = urgencyMessage
         offerModel.price = price
         offerModel.segmentsSeatClassAndBookingCode = if (isOutbound) offer.offersSeatClassAndBookingCode.get(0) else offer.offersSeatClassAndBookingCode.get(1);
+        offerModel.loyaltyInfo = offer.loyaltyInfo
         return offerModel
     }
 

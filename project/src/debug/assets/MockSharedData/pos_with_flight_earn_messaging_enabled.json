@@ -74,6 +74,7 @@
     "marketingOptIn" : "DO_NOT_SHOW_AUTO_ENROLL",
     "showMultiBrandCreateAccountText" : false,
     "realTimeReviewLXEnabled" : true,
-    "earnMessageEnabled:flights": true
+    "earnMessageEnabled:flights": true,
+    "earnMessageEnabled:packages": true
   }
 }
