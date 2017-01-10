@@ -1,8 +1,9 @@
 package com.expedia.bookings.data.clientlog
 
+import com.expedia.bookings.utils.ClientLogConstants
 import org.joda.time.DateTime
 
-class ClientLog(val pageName: String, val eventName: String, val deviceName: String, val requestTime: Long, val responseTime: Long = 0L, val processingTime: Long = 0L, val requestToUser: Long = 0L) {
+class ClientLog(val pageName: String, val eventName: String, val deviceName: String, val requestTime: Long, val responseTime: Long = 0L, val processingTime: Long = 0L, val requestToUser: Long = 0L, val deviceType: String = ClientLogConstants.DEVICE_TYPE) {
 
     class HotelResultBuilder {
         private var pageName: String? = null
