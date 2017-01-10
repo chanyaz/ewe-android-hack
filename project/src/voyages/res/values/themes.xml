@@ -19,10 +19,6 @@
         <item name="skin_hotelListingFilterPriceCheapString">@string/filter_price_cheap</item>
         <item name="skin_hotelListingFilterPriceModerateString">@string/filter_price_moderate</item>
         <item name="skin_hotelListingFilterPriceExpensiveString">@string/filter_price_expensive</item>
-        <item name="skin_hangTagProgressDrawable">@drawable/gl_progress_tag</item>
-        <item name="skin_hangTagProgressRingFillDrawable">@drawable/gl_progress_ring_fill</item>
-        <item name="skin_hangTagKnobDrawable">@drawable/gl_progress_knob</item>
-        <item name="skin_hangTagKnobBackgroundDrawable">@drawable/gl_progress_knob_bg</item>
         <item name="skin_HotelRowThumbPlaceHolderDrawable">@drawable/ic_row_thumb_placeholder_vsc</item>
         <item name="skin_costSummaryDialogStripeDrawable">@drawable/rainbow_bar</item>
         <item name="skin_loginBookNowButtonDrawable">@drawable/btn_signin</item>
