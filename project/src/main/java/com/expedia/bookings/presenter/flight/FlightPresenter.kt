@@ -203,7 +203,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.confirmedOutboundFlightSelection.subscribe { presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable) }
         flightOfferViewModel.flightOfferSelected.subscribe { presenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
 
-        presenter.getCheckoutPresenter().toggleCheckoutButton(false)
+        presenter.toggleCheckoutButtonAndSliderVisibility(false)
 
         if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
             presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)
@@ -335,8 +335,8 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
 
     private fun flightListToOverviewTransition() {
         flightOverviewPresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.VISIBLE
-        flightOverviewPresenter.getCheckoutPresenter().resetAndShowTotalPriceWidget()
-        flightOverviewPresenter.getCheckoutPresenter().totalPriceWidget.bundleTotalPrice.visibility = View.GONE
+        flightOverviewPresenter.resetAndShowTotalPriceWidget()
+        flightOverviewPresenter.totalPriceWidget.bundleTotalPrice.visibility = View.GONE
         flightOverviewPresenter.getCheckoutPresenter().clearPaymentInfo()
         flightOverviewPresenter.getCheckoutPresenter().updateDbTravelers()
         if (Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)) {

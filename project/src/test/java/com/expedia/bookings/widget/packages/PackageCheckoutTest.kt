@@ -2,6 +2,7 @@ package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
 import android.view.View
+import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.ApiError
@@ -23,6 +24,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.packages.PackageSearchParams
 import com.expedia.bookings.enums.TravelerCheckoutStatus
 import com.expedia.bookings.presenter.Presenter
+import com.expedia.bookings.presenter.packages.PackageOverviewPresenter
 import com.expedia.bookings.services.PackageServices
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
@@ -31,11 +33,14 @@ import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.testrule.ServicesRule
+import com.expedia.bookings.utils.TuneUtils.context
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.validation.TravelerValidator
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.ContactDetailsCompletenessStatus
 import com.expedia.bookings.widget.PackageCheckoutPresenter
+import com.expedia.vm.packages.BundleOverviewViewModel
 import okhttp3.mockwebserver.MockWebServer
 import org.joda.time.LocalDate
 import org.junit.Before
@@ -65,6 +70,7 @@ class PackageCheckoutTest {
 
     private var checkout: PackageCheckoutPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
+    private var overview : PackageOverviewPresenter by Delegates.notNull()
 
     @Before fun before() {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
@@ -72,9 +78,10 @@ class PackageCheckoutTest {
         travelerValidator = Ui.getApplication(RuntimeEnvironment.application).travelerComponent().travelerValidator()
         setUpPackageDb()
         travelerValidator.updateForNewSearch(Db.getPackageParams())
-        val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_checkout_test)
+        val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.package_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
+        overview = activity.findViewById(R.id.package_overview_presenter) as PackageOverviewPresenter
         setUpCheckout()
     }
 
@@ -86,9 +93,9 @@ class PackageCheckoutTest {
 
         assertEquals(TravelerCheckoutStatus.COMPLETE, checkout.travelerSummaryCard.getStatus())
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
-        assertEquals(View.VISIBLE, checkout.totalPriceWidget.visibility)
+        assertEquals(View.VISIBLE, overview.totalPriceWidget.visibility)
         assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
-        assertEquals(0f, checkout.slideToPurchaseLayout.translationY)
+        assertEquals(0f, overview.slideToPurchaseLayout.translationY)
     }
 
     @Test
@@ -181,9 +188,9 @@ class PackageCheckoutTest {
 
         assertEquals(TravelerCheckoutStatus.COMPLETE, checkout.travelerSummaryCard.getStatus())
         assertEquals(ContactDetailsCompletenessStatus.COMPLETE, checkout.paymentWidget.paymentStatusIcon.status)
-        assertEquals(View.VISIBLE, checkout.totalPriceWidget.visibility)
+        assertEquals(View.VISIBLE, overview.totalPriceWidget.visibility)
         assertEquals(true, checkout.getCheckoutViewModel().builder.hasValidTravelerAndBillingInfo())
-        assertEquals(0f, checkout.slideToPurchaseLayout.translationY)
+        assertEquals(0f, overview.slideToPurchaseLayout.translationY)
 
         val testUser = User()
         testUser.primaryTraveler = enterTraveler(Traveler())
@@ -263,11 +270,12 @@ class PackageCheckoutTest {
     }
 
     private fun setUpCheckout() {
-        checkout = activity.findViewById(R.id.package_checkout_presenter) as PackageCheckoutPresenter
+        checkout = overview.getCheckoutPresenter()
         checkout.getCreateTripViewModel().packageServices = packageServiceRule.services!!
         checkout.getCheckoutViewModel().packageServices = packageServiceRule.services!!
         checkout.show(BaseCheckoutPresenter.CheckoutDefault(), Presenter.FLAG_CLEAR_BACKSTACK)
-        checkout.slideToPurchaseLayout.visibility = View.VISIBLE
+        overview.bundleWidget.viewModel = BundleOverviewViewModel(activity.applicationContext, packageServiceRule.services!!)
+        overview.slideToPurchaseLayout.visibility = View.VISIBLE
     }
 
     private fun setUpPackageDb() {

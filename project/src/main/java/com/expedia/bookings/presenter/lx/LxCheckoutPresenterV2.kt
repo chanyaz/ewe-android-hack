@@ -9,10 +9,8 @@ import com.expedia.bookings.presenter.packages.LXTravelersPresenter
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.vm.AbstractCheckoutViewModel
-import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.lx.LXCheckoutViewModel
-import com.expedia.vm.lx.LXCostSummaryViewModel
 import com.expedia.vm.lx.LXCreateTripViewModel
 import com.expedia.vm.traveler.LXTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
@@ -80,10 +78,6 @@ class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckou
         return tripViewModel as LXCreateTripViewModel
     }
 
-    override fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel {
-        //TODO
-        return LXCostSummaryViewModel(context)
-    }
 
     override fun setupCreateTripViewModel(vm: BaseCreateTripViewModel) {
         //TODO
@@ -93,9 +87,6 @@ class LxCheckoutPresenterV2(context: Context, attr: AttributeSet?) : BaseCheckou
         return false
     }
 
-    override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
-        //TODO
-    }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
