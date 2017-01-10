@@ -15,6 +15,7 @@ import android.support.test.espresso.action.Swipe
 import android.support.test.espresso.action.ViewActions.click
 import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.contrib.RecyclerViewActions
+import android.support.test.espresso.matcher.RootMatchers
 import android.support.test.espresso.matcher.ViewMatchers.isAssignableFrom
 import android.support.test.espresso.matcher.ViewMatchers.isCompletelyDisplayed
 import android.support.test.espresso.matcher.ViewMatchers.isDisplayed
@@ -28,11 +29,14 @@ import android.widget.EditText
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.RouterActivity
 import com.expedia.bookings.data.LobInfo
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.test.BuildConfig
+import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.CustomMatchers.airportDropDownEntryWithAirportCode
 import com.expedia.bookings.test.espresso.EspressoUtils.waitForViewNotYetInLayoutToDisplay
+import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.phone.hotels.HotelScreen
 import com.expedia.bookings.test.phone.lx.LXScreen
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
@@ -107,6 +111,7 @@ class PlayStoreScreenshotSweep {
 
             if (flightSearchCriteria != null) {
                 takeFlightScreenshotAndReturnToLaunchScreen(flightSearchCriteria)
+                takeMaterialFlightScreenshotAndReturnToLaunchScreen(flightSearchCriteria)
             }
 
             if (carSearchCriteria != null) {
@@ -130,7 +135,7 @@ class PlayStoreScreenshotSweep {
 
         SearchScreen.searchEditText().perform(typeTextViaReplace(hotelSearchInfo.searchString))
         Common.delay(1)
-        SearchScreen.selectLocation(hotelSearchInfo.suggestString)
+        SearchScreen.selectUnambiguousSuggestion(hotelSearchInfo.suggestString)
 
         val startDate = LocalDate.now().plusDays(90)
         val endDate = startDate.plusDays(5)
@@ -148,18 +153,19 @@ class PlayStoreScreenshotSweep {
     }
 
     private fun takeFlightScreenshotAndReturnToLaunchScreen(searchCriteria: FlightSearchCriteria) {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightTest, AbacusUtils.DefaultVariate.CONTROL.ordinal)
         onView(allOf(withText(LobInfo.FLIGHTS.labelRes), isCompletelyDisplayed())).perform(click())
 
         if (searchCriteria.isDropdownSearch) {
             onView(withId(R.id.departure_airport_spinner)).perform(click())
-            onData(airportDropDownEntryWithAirportCode(searchCriteria.departureAirport)).perform(click())
+            onData(airportDropDownEntryWithAirportCode(searchCriteria.departureAirport.code)).perform(click())
             onView(withId(R.id.arrival_airport_spinner)).perform(click())
-            onData(airportDropDownEntryWithAirportCode(searchCriteria.arrivalAirport)).perform(click())
+            onData(airportDropDownEntryWithAirportCode(searchCriteria.arrivalAirport.code)).perform(click())
         } else {
-            FlightsSearchScreen.departureEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.departureAirport))
+            FlightsSearchScreen.departureEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.departureAirport.code))
             Espresso.closeSoftKeyboard()
             Common.delay(1)
-            FlightsSearchScreen.arrivalEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.arrivalAirport))
+            FlightsSearchScreen.arrivalEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.arrivalAirport.code))
             Espresso.closeSoftKeyboard()
         }
         FlightsSearchScreen.clickSelectDepartureButton()
@@ -171,6 +177,40 @@ class PlayStoreScreenshotSweep {
         waitForViewNotYetInLayout(R.id.flight_price_label_text_view, 20)
 
         Screengrab.screenshot("flight_results")
+
+        Espresso.pressBack()
+        Espresso.pressBack()
+        Common.delay(1)
+    }
+
+    private fun takeMaterialFlightScreenshotAndReturnToLaunchScreen(searchCriteria: FlightSearchCriteria) {
+        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightTest, AbacusUtils.DefaultVariate.BUCKETED.ordinal)
+        onView(allOf(withText(LobInfo.FLIGHTS.labelRes), isCompletelyDisplayed())).perform(click())
+
+        if (searchCriteria.isDropdownSearch) {
+            SearchScreen.origin().perform(click())
+            onData(airportDropDownEntryWithAirportCode(searchCriteria.departureAirport.code)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
+            SearchScreen.destination().perform(click())
+            onData(airportDropDownEntryWithAirportCode(searchCriteria.arrivalAirport.code)).inRoot(RootMatchers.isPlatformPopup()).perform(click())
+        } else {
+            SearchScreen.origin().perform(click())
+            SearchScreen.searchEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.departureAirport.code))
+            Common.delay(1)
+            SearchScreen.selectLocation(searchCriteria.departureAirport.suggestString)
+            Common.delay(1)
+            SearchScreen.searchEditText().perform(ViewActions.waitForViewToDisplay())
+            SearchScreen.searchEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.arrivalAirport.code))
+            Common.delay(1)
+            SearchScreen.selectLocation(searchCriteria.arrivalAirport.suggestString)
+        }
+        val startDate = LocalDate.now().plusDays(35)
+        val endDate = startDate.plusDays(3)
+        SearchScreen.selectDates(startDate, endDate)
+        SearchScreen.searchButton().perform(click())
+
+        waitForViewNotYetInLayout(R.id.sort_filter_button, 60)
+
+        Screengrab.screenshot("material_flight_results")
 
         Espresso.pressBack()
         Espresso.pressBack()
@@ -189,7 +229,7 @@ class PlayStoreScreenshotSweep {
         SearchScreen.selectDates(startDate, endDate)
 
         SearchScreen.searchButton().perform(click())
-        waitForViewNotYetInLayout(R.id.sort_filter_button, 30)
+        waitForViewNotYetInLayout(R.id.category_sort_toolbar, 30)
         Common.delay(2)
 
         Screengrab.screenshot("car_results")
@@ -294,6 +334,43 @@ class PlayStoreScreenshotSweep {
         private val THAILAND = Locale("th", "TH")
         private val HONG_KONG = Locale.SIMPLIFIED_CHINESE
 
+        private val AMS_en = AirportSearchCriteria("AMS", "Amsterdam, Netherlands (AMS - Schiphol)")
+        private val AMS_nl = AirportSearchCriteria("AMS", "Amsterdam, Nederland (AMS - Schiphol)")
+        private val ARN_se = AirportSearchCriteria("ARN", "Stockholm, Sverige (ARN - Arlanda)")
+        private val BER_de = AirportSearchCriteria("BER", "Berlin, Deutschland (BER - Alle Flughäfen)")
+        private val BKK_tl = AirportSearchCriteria("BKK", "กรุงเทพ, ไทย (BKK - ทุกสนามบิน)")
+        private val CGK = AirportSearchCriteria("CGK")
+        private val CNX = AirportSearchCriteria("CNX")
+        private val CPH_da = AirportSearchCriteria("CPH", "København, Danmark (CPH - Alle lufthavne)")
+        private val GIG_pt = AirportSearchCriteria("GIG", "Rio de Janeiro, Brasil (GIG - Galeão - Aeroporto Internacional Antonio Carlos Jobim)")
+        private val HKG_en = AirportSearchCriteria("HKG", "Hong Kong, Hong Kong (HKG - Hong Kong Intl.)")
+        private val HND_jp = AirportSearchCriteria("HND", "東京, 日本 (HND - 羽田空港)")
+        private val HND_tl = AirportSearchCriteria("HND", "โตเกียว, ญี่ปุ่น (HND - สนามบินฮาเนดะ)")
+        private val HNL_jp = AirportSearchCriteria("HNL", "ホノルル - オアフ, オアフ, ハワイ, アメリカ合衆国 (HNL-ホノルル国際空港)")
+        private val ICN = AirportSearchCriteria("ICN")
+        private val KUL = AirportSearchCriteria("KUL")
+        private val LAS_en = AirportSearchCriteria("LAS", "Las Vegas, NV (LAS - All Airports)")
+        private val LAS_pt = AirportSearchCriteria("LAS", "Las Vegas, NV, Estados Unidos (LAS - Todos os aeroportos)")
+        private val LAS_fr = AirportSearchCriteria("LAS", "Las Vegas, Nevada, États - Unis (LAS-Tous les aéroports)")
+        private val LAS_cn = AirportSearchCriteria("LAS", "拉斯維加斯, 內華達, 美國 (LAS - 所有機場)")
+        private val LON_en = AirportSearchCriteria("LON", "London, England, UK (LON - All Airports)")
+        private val LON_de = AirportSearchCriteria("LON", "London, England, Großbritannien (LON - Alle Flughäfen)")
+        private val LON_da = AirportSearchCriteria("LON", "London, England, Storbritannien (LON - Alle lufthavne)")
+        private val LON_no = AirportSearchCriteria("LON", "London, England, Storbritannia (LON - alle flyplasser)")
+        private val LON_se = AirportSearchCriteria("LON", "London, England, Storbritannien (LON - Alla flygplatser)")
+        private val MAD_es = AirportSearchCriteria("MAD", "Madrid, España (MAD - Todos los aeropuertos)")
+        private val NYC_fr = AirportSearchCriteria("NYC", "New York, New York, États - Unis (NYC-Tous les aéroports)")
+        private val NYC_nl = AirportSearchCriteria("NYC", "New York, NY, Verenigde Staten (NYC - Alle luchthavens)")
+        private val OSL_no = AirportSearchCriteria("OSL", "Oslo, Norge (OSL - alle flyplasser)")
+        private val PAR_fr = AirportSearchCriteria("PAR", "Paris, France (PAR - Tous les aéroports)")
+        private val PAR_it = AirportSearchCriteria("PAR", "Parigi, Francia (PAR - tutti gli aeroporti)")
+        private val ROM_es = AirportSearchCriteria("ROM", "Roma, Italia (ROM - Todos los aeropuertos)")
+        private val ROM_it = AirportSearchCriteria("ROM", "Roma, Italia (ROM - tutti gli aeroporti)")
+        private val SFO_en = AirportSearchCriteria("SFO", "San Francisco, CA (SFO - San Francisco Intl.)")
+        private val TPE_en = AirportSearchCriteria("TPE", "Taipei, Taiwan (TPE - All Airports)")
+        private val TPE_cn = AirportSearchCriteria("TPE", "台北, 台灣 (TPE - 所有機場)")
+        private val YUL_fr = AirportSearchCriteria("YUL", "Montréal, QC, Canada (YUL - Aéroport international Pierre Elliott Trudeau)")
+
         init {
             hotelSearchCriteriaForLocale.put(Locale.US, LocationSearchCriteria("San Francisco, CA"))
             hotelSearchCriteriaForLocale.put(ARGENTINA, LocationSearchCriteria("Buenos Aires, Argentina"))
@@ -311,30 +388,30 @@ class PlayStoreScreenshotSweep {
             hotelSearchCriteriaForLocale.put(NORWAY, LocationSearchCriteria("Oslo, Norge"))
             hotelSearchCriteriaForLocale.put(SWEDEN, LocationSearchCriteria("Stockholm, Sverige"))
             hotelSearchCriteriaForLocale.put(THAILAND, LocationSearchCriteria("โตเกียว, ญี่ปุ่น"))
-            // ESS typeahead currently forced to English for Simplififed Chinese o_O
+            // ESS typeahead currently forced to English for Simplified Chinese o_O
             // hotelSearchCriteriaForLocale.put(HONG_KONG, HotelSearchCriteria("汉城百济", "汉城百济博物馆, 首尔, 韩国"))
             hotelSearchCriteriaForLocale.put(HONG_KONG, LocationSearchCriteria("Seoul", "Seoul, South Korea"))
             hotelSearchCriteriaForLocale.put(Locale.TAIWAN, LocationSearchCriteria("東京,", "東京 (及鄰近地區), 日本"))
             hotelSearchCriteriaForLocale.put(Locale.UK, LocationSearchCriteria("London", "London, England, UK"))
 
-            flightSearchCriteriaForLocale.put(Locale.US, FlightSearchCriteria("SFO", "LAS"))
-            flightSearchCriteriaForLocale.put(BRAZIL, FlightSearchCriteria("GIG", "LAS"))
-            flightSearchCriteriaForLocale.put(Locale.CANADA_FRENCH, FlightSearchCriteria("YUL", "LAS"))
-            flightSearchCriteriaForLocale.put(Locale.GERMANY, FlightSearchCriteria("BER", "LON"))
-            flightSearchCriteriaForLocale.put(DENMARK, FlightSearchCriteria("CPH", "LON"))
-            flightSearchCriteriaForLocale.put(SPAIN, FlightSearchCriteria("MAD", "ROM"))
-            flightSearchCriteriaForLocale.put(Locale.FRANCE, FlightSearchCriteria("PAR", "NYC"))
-            flightSearchCriteriaForLocale.put(INDONESIA, FlightSearchCriteria("CGK", "KUL", true))
-            flightSearchCriteriaForLocale.put(Locale.ITALY, FlightSearchCriteria("ROM", "PAR"))
-            flightSearchCriteriaForLocale.put(Locale.JAPAN, FlightSearchCriteria("HND", "HNL"))
-            flightSearchCriteriaForLocale.put(Locale.KOREA, FlightSearchCriteria("ICN", "CNX", true))
-            flightSearchCriteriaForLocale.put(NETHERLANDS, FlightSearchCriteria("AMS", "NYC"))
-            flightSearchCriteriaForLocale.put(NORWAY, FlightSearchCriteria("OSL", "LON"))
-            flightSearchCriteriaForLocale.put(SWEDEN, FlightSearchCriteria("ARN", "LON"))
-            flightSearchCriteriaForLocale.put(THAILAND, FlightSearchCriteria("BKK", "HND"))
-            flightSearchCriteriaForLocale.put(HONG_KONG, FlightSearchCriteria("HKG", "TPE"))
-            flightSearchCriteriaForLocale.put(Locale.TAIWAN, FlightSearchCriteria("TPE", "LAS"))
-            flightSearchCriteriaForLocale.put(Locale.UK, FlightSearchCriteria("LON", "AMS"))
+            flightSearchCriteriaForLocale.put(Locale.US, FlightSearchCriteria(SFO_en, LAS_en))
+            flightSearchCriteriaForLocale.put(BRAZIL, FlightSearchCriteria(GIG_pt, LAS_pt))
+            flightSearchCriteriaForLocale.put(Locale.CANADA_FRENCH, FlightSearchCriteria(YUL_fr, LAS_fr))
+            flightSearchCriteriaForLocale.put(Locale.GERMANY, FlightSearchCriteria(BER_de, LON_de))
+            flightSearchCriteriaForLocale.put(DENMARK, FlightSearchCriteria(CPH_da, LON_da))
+            flightSearchCriteriaForLocale.put(SPAIN, FlightSearchCriteria(MAD_es, ROM_es))
+            flightSearchCriteriaForLocale.put(Locale.FRANCE, FlightSearchCriteria(PAR_fr, NYC_fr))
+            flightSearchCriteriaForLocale.put(INDONESIA, FlightSearchCriteria(CGK, KUL, true))
+            flightSearchCriteriaForLocale.put(Locale.ITALY, FlightSearchCriteria(ROM_it, PAR_it))
+            flightSearchCriteriaForLocale.put(Locale.JAPAN, FlightSearchCriteria(HND_jp, HNL_jp))
+            flightSearchCriteriaForLocale.put(Locale.KOREA, FlightSearchCriteria(ICN, CNX, true))
+            flightSearchCriteriaForLocale.put(NETHERLANDS, FlightSearchCriteria(AMS_nl, NYC_nl))
+            flightSearchCriteriaForLocale.put(NORWAY, FlightSearchCriteria(OSL_no, LON_no))
+            flightSearchCriteriaForLocale.put(SWEDEN, FlightSearchCriteria(ARN_se, LON_se))
+            flightSearchCriteriaForLocale.put(THAILAND, FlightSearchCriteria(BKK_tl, HND_tl))
+            flightSearchCriteriaForLocale.put(HONG_KONG, FlightSearchCriteria(HKG_en, TPE_en))
+            flightSearchCriteriaForLocale.put(Locale.TAIWAN, FlightSearchCriteria(TPE_cn, LAS_cn))
+            flightSearchCriteriaForLocale.put(Locale.UK, FlightSearchCriteria(LON_en, AMS_en))
 
             carSearchCriteriaForLocale.put(Locale.US, LocationSearchCriteria("San Francisco", "San Francisco (and vicinity)"))
             carSearchCriteriaForLocale.put(Locale.CANADA_FRENCH, LocationSearchCriteria("Montréal", "Montréal (et environs)"))
@@ -381,9 +458,11 @@ class PlayStoreScreenshotSweep {
                 get() = alternateSuggestString ?: searchString
         }
 
-        class FlightSearchCriteria(val departureAirport: String,
-                                   val arrivalAirport: String,
+        class FlightSearchCriteria(val departureAirport: AirportSearchCriteria,
+                                   val arrivalAirport: AirportSearchCriteria,
                                    val isDropdownSearch: Boolean = false)
+
+        class AirportSearchCriteria(val code: String, val suggestString: String = "")
     }
 
 

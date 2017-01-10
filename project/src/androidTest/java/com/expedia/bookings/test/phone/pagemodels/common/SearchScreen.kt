@@ -8,23 +8,28 @@ import android.support.test.espresso.action.ViewActions.typeText
 import android.support.test.espresso.contrib.RecyclerViewActions
 import android.support.test.espresso.matcher.RootMatchers.withDecorView
 import android.support.test.espresso.matcher.ViewMatchers
-import android.support.test.espresso.matcher.ViewMatchers.*
+import android.support.test.espresso.matcher.ViewMatchers.hasDescendant
+import android.support.test.espresso.matcher.ViewMatchers.withEffectiveVisibility
+import android.support.test.espresso.matcher.ViewMatchers.withId
+import android.support.test.espresso.matcher.ViewMatchers.withText
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.test.espresso.Common
+import com.expedia.bookings.test.espresso.CustomMatchers
 import com.expedia.bookings.test.espresso.SpoonScreenshotUtils
 import com.expedia.bookings.test.espresso.TabletViewActions
 import com.expedia.bookings.test.espresso.TestValues
 import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.phone.hotels.HotelScreen
 import com.mobiata.mocke3.FlightApiMockResponseGenerator
+import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
+import org.hamcrest.Matchers.containsString
 import org.hamcrest.Matchers.not
 import org.hamcrest.core.Is.`is`
 import org.joda.time.LocalDate
 import java.util.concurrent.TimeUnit
-import org.hamcrest.Matchers.containsString
 
 object SearchScreen {
 
@@ -273,9 +278,19 @@ object SearchScreen {
     }
 
     @Throws(Throwable::class)
-    @JvmStatic fun selectLocation(hotel: String) {
+    @JvmStatic fun selectLocation(location: String) {
+        val viewMatcher = hasDescendant(withText(containsString(location)))
+        selectSuggestion(viewMatcher)
+    }
+
+    @Throws(Throwable::class)
+    @JvmStatic fun selectUnambiguousSuggestion(suggestion: String) {
+        val viewMatcher = allOf(hasDescendant(withText(suggestion)), hasDescendant(CustomMatchers.withImageDrawable(R.drawable.search_type_icon)))
+        selectSuggestion(viewMatcher)
+    }
+
+    @JvmStatic private fun selectSuggestion(viewMatcher: Matcher<View>) {
         suggestionList().perform(ViewActions.waitForViewToDisplay())
-        val viewMatcher = hasDescendant(withText(containsString(hotel)))
 
         suggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS))
         suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))
