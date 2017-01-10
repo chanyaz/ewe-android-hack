@@ -549,5 +549,31 @@ android.applicationVariants.all { variant ->
         launcherName = "@string/app_name"
     }
     variant.resValue "string", "launcher_name", "${launcherName}"
+
+    variant.mergeAssets.doLast {
+        delete(fileTree(dir: variant.mergeAssets.outputDir, includes: sharedDataFilesToRemove(variant)))
+
+    }
 }
 
+def sharedDataFilesToRemove(variant) {
+    List<String> filesToRemove = new ArrayList<String>()
+    android.productFlavors.all { flavor ->
+        if (flavor.name != variant.productFlavors.get(0).name) {
+            if (flavor.name == 'travelocity') {
+                filesToRemove.add('ExpediaSharedData/TravelocityPointOfSaleConfig.json')
+                filesToRemove.add('ExpediaSharedData/TVLYServerURLs.json')
+            }
+            else if (flavor.name == 'voyages') {
+                filesToRemove.add('ExpediaSharedData/VSCPointOfSaleConfig.json')
+                filesToRemove.add('ExpediaSharedData/VSCServerURLs.json')
+            }
+            else {
+                filesToRemove.add('ExpediaSharedData/' + flavor.name.capitalize().concat('PointOfSaleConfig.json'))
+                filesToRemove.add('ExpediaSharedData/' + flavor.name.capitalize().concat('ServerURLs.json'))
+            }
+        }
+    }
+    filesToRemove.add('ExpediaSharedData/validate.sh')
+    return filesToRemove
+}
