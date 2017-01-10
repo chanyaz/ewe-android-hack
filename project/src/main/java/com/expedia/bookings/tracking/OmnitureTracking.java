@@ -115,6 +115,7 @@ import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.AdvertisingIdUtils;
 import com.mobiata.android.util.SettingUtils;
+
 import kotlin.NotImplementedError;
 
 /**
@@ -247,6 +248,7 @@ public class OmnitureTracking {
 	private static final String PAY_WITH_POINTS_DISABLED = "App.Hotels.CKO.Points.None";
 	private static final String PAY_WITH_POINTS_ERROR = "App.Hotels.CKO.Points.Error";
 	private static final String SHOP_WITH_POINTS_TOGGLE_STATE = "App.Hotels.DS.SWP.";
+	private static final String ITIN_RATE_APP = "App.RateApp";
 
 	public enum OmnitureEventName {
 		REWARD_PROGRAM_NAME,
@@ -6133,4 +6135,12 @@ public class OmnitureTracking {
 		s.setEvar(37, paymentType.getOmnitureTrackingCode());
 		s.track();
 	}
+
+	public static void trackItinUserRating() {
+		String pageName = ITIN_RATE_APP;
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+		trackAbacusTest(s, AbacusUtils.EBAndroidAppTripsUserReviews);
+		s.track();
+	}
+
 }
