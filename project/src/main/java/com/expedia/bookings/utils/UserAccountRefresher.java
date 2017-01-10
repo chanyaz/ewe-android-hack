@@ -9,6 +9,7 @@ import com.expedia.account.data.FacebookLinkResponse;
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.LineOfBusiness;
+import com.expedia.bookings.data.ServerError;
 import com.expedia.bookings.data.SignInResponse;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.otto.Events;
@@ -33,7 +34,6 @@ public class UserAccountRefresher {
 	private String keyRefreshUser;
 	//When we last refreshed user data.
 	private long mLastRefreshedUserTimeMillis = 0L;
-
 	private Context context;
 
 	@Inject
@@ -63,23 +63,25 @@ public class UserAccountRefresher {
 	private final BackgroundDownloader.OnDownloadComplete<SignInResponse> mRefreshUserCallback = new BackgroundDownloader.OnDownloadComplete<SignInResponse>() {
 		@Override
 		public void onDownload(SignInResponse results) {
-			if (results == null || results.hasErrors()) {
-				//The refresh failed, so we just log them out. They can always try to login again.
-				if (User.isLoggedIn(context)) {
-					if (isUserFacebookSessionActive()) {
-						forceAccountRefresh();
-					}
-					else {
-						doLogout();
+			if (results != null) {
+				if (results.hasErrors()) {
+					//The refresh failed, so we just log them out. They can always try to login again.
+					if (User.isLoggedIn(context)) {
+						if (isUserFacebookSessionActive()) {
+							forceAccountRefresh();
+						}
+						else if (results.getErrors().get(0).getErrorCode() == ServerError.ErrorCode.NOT_AUTHENTICATED) {
+							doLogout();
+						}
 					}
 				}
-			}
-			else {
-				// Update our existing saved data
-				User user = results.getUser();
-				user.save(context);
-				Db.setUser(user);
-				userLoginStateChangedModel.getUserLoginStateChanged().onNext(true);
+				else {
+					// Update our existing saved data
+					User user = results.getUser();
+					user.save(context);
+					Db.setUser(user);
+					userLoginStateChangedModel.getUserLoginStateChanged().onNext(true);
+				}
 			}
 
 			if (userAccountRefreshListener != null) {
@@ -153,6 +155,9 @@ public class UserAccountRefresher {
 						success();
 					}
 					else {
+						if (User.isLoggedIn(context)) {
+							doLogout();
+						}
 						failure();
 					}
 				}
@@ -167,9 +172,6 @@ public class UserAccountRefresher {
 
 				private void failure() {
 					Log.d("FB: Autologin failed");
-					if (User.isLoggedIn(context)) {
-						doLogout();
-					}
 					if (userAccountRefreshListener != null) {
 						userAccountRefreshListener.onUserAccountRefreshed();
 					}
