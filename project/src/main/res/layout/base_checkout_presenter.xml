@@ -197,6 +197,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/footer_button_height"
             android:background="#FFFFFF"
+            android:visibility="gone"
             android:paddingLeft="19dp"
             android:paddingRight="19dp" />
 
@@ -251,13 +252,13 @@
 
             </LinearLayout>
 
-               <ViewStub
-                   android:id="@+id/accept_terms_viewStub"
-                   android:layout_height="wrap_content"
-                   android:layout_width="match_parent"
-                   android:layout_alignTop="@+id/slide_to_purchase_layout"
-                   android:layout_alignBottom="@+id/slide_to_purchase_layout"
-                   android:layout="@layout/accept_terms_stub" />
+            <ViewStub
+                android:id="@+id/accept_terms_viewStub"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_alignTop="@+id/slide_to_purchase_layout"
+                android:layout_alignBottom="@+id/slide_to_purchase_layout"
+                android:layout="@layout/accept_terms_stub" />
 
         </RelativeLayout>
     </LinearLayout>
@@ -267,23 +268,6 @@
         android:layout_width="match_parent"
         android:layout_height="4dp"
         android:background="@drawable/tb_shadow" />
-
-    <FrameLayout
-        android:id="@+id/button_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/white">
-
-        <Button
-            android:id="@+id/checkout_button"
-            style="@style/MaterialFooterRoundButtonText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:layout_margin="9dp"
-            android:text="@string/Checkout" />
-    </FrameLayout>
 
     <ViewStub
         android:id="@+id/traveler_presenter_stub"

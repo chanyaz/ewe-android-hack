@@ -53,13 +53,13 @@ class PackageActivity : TrackingAbstractAppCompatActivity() {
                     packagePresenter.bundlePresenter.bundleWidget.outboundFlightWidget.viewModel.showLoadingStateObservable.onNext(false)
 
                     val rate = Db.getPackageSelectedRoom().rateInfo.chargeableRateInfo
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
+                    packagePresenter.bundlePresenter.totalPriceWidget.viewModel.setPriceValues(rate.packageTotalPrice, rate.packageSavings)
 
                 } else if (packagePresenter.backStack.size == 2) {
                     Db.getPackageParams().currentFlights = Db.getPackageParams().defaultFlights
 
                     //revert bundle view to be the state loaded hotels
-                    packagePresenter.bundlePresenter.getCheckoutPresenter().totalPriceWidget.resetPriceWidget()
+                    packagePresenter.bundlePresenter.totalPriceWidget.resetPriceWidget()
                     packagePresenter.bundlePresenter.bundleWidget.revertBundleViewToSelectHotel()
                     packagePresenter.bundlePresenter.bundleWidget.bundleHotelWidget.viewModel.showLoadingStateObservable.onNext(false)
                 }

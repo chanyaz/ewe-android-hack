@@ -13,7 +13,6 @@ import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
-import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
@@ -24,11 +23,9 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.InsuranceWidget
 import com.expedia.bookings.widget.TextView
-import com.expedia.util.safeSubscribe
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.FlightCheckoutViewModel
 import com.expedia.vm.InsuranceViewModel
-import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.flights.FlightCreateTripViewModel
 import com.expedia.vm.traveler.FlightTravelersViewModel
 import com.expedia.vm.traveler.TravelersViewModel
@@ -52,13 +49,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
 
     init {
         val debitCardsNotAcceptedSubject = BehaviorSubject.create<Spanned>(SpannedString(context.getString(R.string.flights_debit_cards_not_accepted)))
-        val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
 
         makePaymentErrorSubscriber(getCheckoutViewModel().showDebitCardsNotAcceptedSubject, ckoViewModel.showingPaymentWidgetSubject,
                 debitCardsNotAcceptedTextView, debitCardsNotAcceptedSubject)
 
 
-        getCheckoutViewModel().createTripResponseObservable.safeSubscribe(flightCostSummaryObservable)
         getCreateTripViewModel().showNoInternetRetryDialog.subscribe {
             val retryFun = fun() {
                 getCreateTripViewModel().performCreateTrip.onNext(Unit)
@@ -105,25 +100,20 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
     }
 
     private fun onTripResponse(tripResponse: TripResponse?) {
+        getCreateTripViewModel().updateOverviewUiObservable.onNext(tripResponse)
         loginWidget.updateRewardsText(getLineOfBusiness())
         insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
-        totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice())
-        totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(tripResponse.details.offer)
-        (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
     }
 
     override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
         tripResponse as FlightCheckoutResponse
-        val newPrice = tripResponse.newPrice()
         val oldPrice = tripResponse.getOldPrice()
         if (oldPrice != null) {
-            priceChangeWidget.viewmodel.originalPrice.onNext(oldPrice)
-            priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
+            getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(tripResponse)
         }
         onTripResponse(tripResponse)
     }
-
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()
@@ -143,11 +133,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         FlightsV2Tracking.trackSlideToPurchase(cardType ?: PaymentType.UNKNOWN)
     }
 
-    override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {
-        createTripResponse as FlightCreateTripResponse
-        val flightSearchParams = Db.getFlightSearchParams()
-        FlightsV2Tracking.trackShowFlightOverView(flightSearchParams, createTripResponse)
-    }
 
     override fun makeCheckoutViewModel(): FlightCheckoutViewModel {
         return flightCheckoutViewModel
@@ -163,10 +148,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
 
     override fun getCreateTripViewModel(): FlightCreateTripViewModel {
         return tripViewModel as FlightCreateTripViewModel
-    }
-
-    override fun getCostSummaryBreakdownViewModel(): FlightCostSummaryBreakdownViewModel {
-        return FlightCostSummaryBreakdownViewModel(context)
     }
 
     override fun showMainTravelerMinimumAgeMessaging(): Boolean {
