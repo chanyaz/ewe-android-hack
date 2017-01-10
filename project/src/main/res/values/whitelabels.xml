@@ -57,12 +57,6 @@
     <attr name="skin_hotelListingFilterPriceModerateString" format="reference|string" />
     <attr name="skin_hotelListingFilterPriceExpensiveString" format="reference|string" />
 
-    <!-- HangTag assets -->
-    <attr name="skin_hangTagProgressDrawable" format="reference" />
-    <attr name="skin_hangTagProgressRingFillDrawable" format="reference" />
-    <attr name="skin_hangTagKnobDrawable" format="reference" />
-    <attr name="skin_hangTagKnobBackgroundDrawable" format="reference" />
-
     <!-- Hotel Listing row thumbnail placeholder -->
     <attr name="skin_HotelRowThumbPlaceHolderDrawable" format="reference" />
 

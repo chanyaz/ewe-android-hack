@@ -427,8 +427,6 @@ android {
 
         // These files are from outside our project
         exclude (
-            '**/gl/*.java',
-            '**/GLTagProgressBar.java',
             '**/CustomEditText.java',
             '**/SocketActivityHierarchyServer.java',
         )
