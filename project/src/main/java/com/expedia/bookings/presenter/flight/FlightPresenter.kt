@@ -480,6 +480,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             if (!forward) {
                 FlightsV2Tracking.trackSearchPageLoad()
                 flightCreateTripViewModel.reset()
+                outBoundPresenter.resultsPresenter.recyclerView.scrollToPosition(0)
             }
         }
     }
