@@ -228,8 +228,12 @@ class PackagesTracking {
         OmnitureTracking.trackPackagesCheckoutErrorRetry()
     }
 
-    fun trackPriceChange(priceDiff: Int) {
+    fun trackCheckoutPriceChange(priceDiff: Int) {
         OmnitureTracking.trackPackagesCheckoutPriceChange(priceDiff)
+    }
+
+    fun trackCreateTripPriceChange(priceDiff: Int) {
+        OmnitureTracking.trackPackagesCreateTripPriceChange(priceDiff)
     }
 
     fun trackCheckoutSelectTraveler() {

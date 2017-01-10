@@ -24,11 +24,11 @@ import com.squareup.otto.Subscribe
 class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheckoutPresenter(context, attr) {
 
     override fun trackCreateTripPriceChange(diffPercentage: Int) {
-        PackagesTracking().trackPriceChange(diffPercentage)
+        PackagesTracking().trackCreateTripPriceChange(diffPercentage)
     }
 
     override fun trackCheckoutPriceChange(diffPercentage: Int) {
-        PackagesTracking().trackPriceChange(diffPercentage)
+        PackagesTracking().trackCheckoutPriceChange(diffPercentage)
     }
 
     override fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean {
