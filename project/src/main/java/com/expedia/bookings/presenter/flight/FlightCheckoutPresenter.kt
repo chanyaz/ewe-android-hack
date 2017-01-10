@@ -109,6 +109,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
         totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice())
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
+        (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(tripResponse.details.offer)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
     }
 
