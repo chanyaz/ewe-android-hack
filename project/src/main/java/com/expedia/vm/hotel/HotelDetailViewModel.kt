@@ -1,8 +1,6 @@
 package com.expedia.vm.hotel
 
 import android.content.Context
-import android.content.res.Resources
-import android.graphics.drawable.Drawable
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
@@ -11,8 +9,6 @@ import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.tracking.HotelTracking
-import com.expedia.util.getABTestGuestRatingBackground
-import com.expedia.util.getABTestGuestRatingText
 import com.expedia.vm.BaseHotelDetailViewModel
 import com.expedia.vm.HotelDetailToolbarViewModel
 import rx.Observer
@@ -59,14 +55,6 @@ open class HotelDetailViewModel(context: Context, roomSelectedObserver: Observer
 
     override fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean {
         return roomOffer.isMemberDeal && User.isLoggedIn(context)
-    }
-
-    override fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String {
-        return getABTestGuestRatingText(rating, context.resources)
-    }
-
-    override fun getGuestRatingBackground(rating: Float, context: Context): Drawable {
-        return getABTestGuestRatingBackground(rating, context)
     }
 
     override fun trackHotelResortFeeInfoClick() {
