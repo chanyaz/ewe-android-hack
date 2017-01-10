@@ -13,7 +13,6 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
-import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
@@ -30,7 +29,6 @@ import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
 import kotlin.properties.Delegates
-import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class, ShadowResourcesEB::class))
@@ -149,28 +147,6 @@ class PackageHotelCellTest {
         val hotel = makeHotel()
         packageHotelHolder.bind(PackageHotelViewModel(packageHotelHolder.itemView.context, hotel))
         Assert.assertEquals(View.GONE, packageHotelHolder.priceIncludesFlightsView.visibility)
-    }
-
-    @Test
-    fun testReviewsDisabled() {
-        val expectedString = activity.resources.getString(R.string.hotel_guest_recommend)
-        assertEquals(expectedString, packageHotelHolder.getGuestRatingRecommendedText(1f, activity.resources))
-
-        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest,
-                AbacusUtils.HotelSuperlativeReviewsVariate.CONTROL.ordinal)
-        assertEquals(expectedString, packageHotelHolder.getGuestRatingRecommendedText(1f, activity.resources))
-
-        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest,
-                AbacusUtils.HotelSuperlativeReviewsVariate.WITH_COLOR_NO_SUPERLATIVES.ordinal)
-        assertEquals(expectedString, packageHotelHolder.getGuestRatingRecommendedText(1f, activity.resources))
-
-        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest,
-                AbacusUtils.HotelSuperlativeReviewsVariate.NO_COLOR_WITH_SUPERLATIVES.ordinal)
-        assertEquals(expectedString, packageHotelHolder.getGuestRatingRecommendedText(1f, activity.resources))
-
-        RoboTestHelper.updateABTest(AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest,
-                AbacusUtils.HotelSuperlativeReviewsVariate.WITH_COLOR_WITH_SUPERLATIVES.ordinal)
-        assertEquals(expectedString, packageHotelHolder.getGuestRatingRecommendedText(1f, activity.resources))
     }
 
     private fun makeHotel(): Hotel {

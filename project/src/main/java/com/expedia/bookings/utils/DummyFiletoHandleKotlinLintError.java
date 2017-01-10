@@ -202,7 +202,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.sold_out_pin,
 		R.color.hotelsv2_sold_out_hotel_gray,
 		R.string.room_rate_pay_later_due_now,
-		R.drawable.user_review_background_green,
 		R.string.hotel_guest_recommend_good_superlative,
 		R.string.hotel_guest_recommend_very_good_superlative,
 		R.string.hotel_guest_recommend_excellent_superlative,
