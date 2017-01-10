@@ -42,7 +42,7 @@ class HotelFilterViewTest {
         paymentModel = PaymentModel<HotelCreateTripResponse>(loyaltyServiceRule.services!!)
         shopWithPointsViewModel = ShopWithPointsViewModel(RuntimeEnvironment.application, paymentModel, UserLoginStateChangedModel())
         activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.V2_Theme_Hotels)
+        activity.setTheme(R.style.Theme_Hotels_Control)
         Ui.getApplication(activity).defaultHotelComponents()
     }
 

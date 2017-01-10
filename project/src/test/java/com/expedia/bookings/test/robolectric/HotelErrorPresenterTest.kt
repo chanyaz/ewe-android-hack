@@ -16,7 +16,7 @@ import org.robolectric.RuntimeEnvironment
 class HotelErrorPresenterTest {
     @Test fun testSoldOutErrorScreen() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
-        activity.setTheme(R.style.V2_Theme_Hotels)
+        activity.setTheme(R.style.Theme_Hotels_Control)
 
         val hotelErrorPresenter = HotelErrorPresenter(RuntimeEnvironment.application, null)
         hotelErrorPresenter.viewmodel = HotelErrorViewModel(RuntimeEnvironment.application)

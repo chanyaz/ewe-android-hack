@@ -283,7 +283,7 @@
                         android:layout_height="36dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/hotel_select_room_button_selector"
+                        android:background="?attr/secondary_ripple_button_drawable"
                         android:minHeight="0dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -297,7 +297,7 @@
                         android:layout_height="36dp"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:background="@drawable/hotel_select_room_button_selector"
+                        android:background="?attr/secondary_ripple_button_drawable"
                         android:minHeight="0dp"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -726,7 +726,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="40dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/hotel_pay_now_later_button_selector"
+                                android:background="?attr/pay_now_later_selector"
                                 android:clickable="true"
                                 android:focusable="true">
 
@@ -743,7 +743,7 @@
                                     android:gravity="center"
                                     android:text="@string/room_rate_pay_now"
                                     android:textAllCaps="false"
-                                    android:textColor="@color/sliding_group_text" />
+                                    android:textColor="?attr/hotel_pay_now_later_text" />
                             </com.expedia.bookings.widget.FrameLayout>
 
                             <View
@@ -756,7 +756,7 @@
                                 android:layout_width="0dp"
                                 android:layout_height="40dp"
                                 android:layout_weight="1"
-                                android:background="@drawable/hotel_pay_now_later_button_selector"
+                                android:background="?attr/pay_now_later_selector"
                                 android:clickable="true"
                                 android:focusable="true">
 
@@ -773,7 +773,7 @@
                                     android:gravity="center"
                                     android:text="@string/room_rate_pay_later"
                                     android:textAllCaps="false"
-                                    android:textColor="@color/sliding_group_text" />
+                                    android:textColor="?attr/hotel_pay_now_later_text" />
                             </com.expedia.bookings.widget.FrameLayout>
 
                         </LinearLayout>

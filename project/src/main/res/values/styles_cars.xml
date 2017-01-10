@@ -110,7 +110,7 @@
         <item name="android:ellipsize">end</item>
     </style>
 
-    <style name="CarButton" parent="Core.Widget.Button">
+    <style name="CarButton" parent="Core.Button.Footer">
         <item name="android:background">@drawable/cars_button_selector</item>
     </style>
 

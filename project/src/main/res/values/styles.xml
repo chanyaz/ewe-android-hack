@@ -19,7 +19,7 @@
 
         <!-- CVV attrs -->
         <item name="skin_cvvBookButtonTextColor">@color/cvv_book_button_text_color</item>
-        <item name="skin_errorWidgetEditButtonStyle">@style/Core.Widget.Button</item>
+        <item name="skin_errorWidgetEditButtonStyle">@style/Core.Button.Footer</item>
 
         <item name="android:datePickerDialogTheme">@style/style_date_picker_dialog</item>
     </style>
@@ -35,6 +35,16 @@
     </style>
 
     <style name="Core.Widget.Button" parent="android:Widget.Button">
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:paddingLeft">20dp</item>
+        <item name="android:paddingRight">20dp</item>
+        <item name="android:paddingBottom">2dp</item>
+        <item name="android:minHeight">0dp</item>
+        <item name="android:height">38dp</item>>
+    </style>
+
+    <style name="Core.Button.Footer" parent="android:Widget.Button">
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textAllCaps">false</item>
         <item name="android:paddingLeft">20dp</item>
@@ -1355,7 +1365,7 @@
         <item name="android:textColor">@color/packages_bundle_overview_footer_secondary_text_savings</item>
     </style>
 
-    <style name="ErrorActionButton" parent="Core.Widget.Button">
+    <style name="ErrorActionButton" parent="Core.Button.Footer">
         <item name="android:background">@drawable/error_button_selector</item>
     </style>
 

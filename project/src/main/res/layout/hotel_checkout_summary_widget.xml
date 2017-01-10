@@ -211,7 +211,7 @@
                 android:layout_alignTop="@+id/amount_due_today_label"
                 android:layout_toRightOf="@id/amount_due_today_label"
                 android:gravity="right|center_vertical"
-                android:textColor="@color/hotels_primary_color"
+                android:textColor="?attr/primary_color"
                 android:textSize="16sp"
                 app:textStyle="medium" />
         </RelativeLayout>
