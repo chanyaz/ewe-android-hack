@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -3122,25 +3123,33 @@ public class OmnitureTracking {
 			add("affcid");
 			add("brandcid");
 			add("seocid");
+			add("kword");
+			add("mdpcid");
+			add("mdpdtl");
+			add("oladtl");
+			add("afflid");
+			add("icmcid");
+			add("icmdtl");
 		}
 	};
 
-	private static String sDeepLinkKey;
-	private static String sDeepLinkValue;
+	private static HashMap<String, String> deepLinkArgs = new HashMap<String, String>();
+
+
 
 	public static void parseAndTrackDeepLink(Uri data, Set<String> queryData) {
-		for (String key : KNOWN_DEEP_LINK_ARGS) {
-			if (queryData.contains(key)) {
-				setDeepLinkTrackingParams(key, data.getQueryParameter(key));
-				break;
+		for (String key: queryData) {
+			if (KNOWN_DEEP_LINK_ARGS.contains(key.toLowerCase(Locale.US))) {
+				setDeepLinkTrackingParams(key.toLowerCase(Locale.US), data.getQueryParameter(key));
 			}
 		}
 	}
 
+	/* This is a separate method because other classes also use it */
 	public static void setDeepLinkTrackingParams(String key, String value) {
-		sDeepLinkKey = key;
-		sDeepLinkValue = value;
+		deepLinkArgs.put(key, value);
 	}
+
 
 	/**
 	 * Note: Due to the way that ItineraryManager interacts with our Fragments + Views, this extra bookkeeping is
@@ -4240,40 +4249,63 @@ public class OmnitureTracking {
 	}
 
 	private static void addDeepLinkData(ADMS_Measurement s) {
-		if (sDeepLinkKey != null && sDeepLinkValue != null) {
-			String var;
+		// Yes this logic is ugly (but is as desired by marketing).
+		// See https://eiwork.mingle.thoughtworks.com/projects/eb_ad_app/cards/9353 for details
 
-			if (sDeepLinkKey.equals("emlcid")) {
-				var = "EML.";
+		if (!deepLinkArgs.isEmpty()) {
+
+			String var = null;
+			String deepLinkValue = null;
+
+			// eVar22 items
+			if ((deepLinkValue = deepLinkArgs.get("emlcid")) != null) {
+				var = "EML." + deepLinkValue;
 			}
-			else if (sDeepLinkKey.equals("semcid")) {
-				var = "SEM.";
+			else if ((deepLinkValue = deepLinkArgs.get("semcid")) != null) {
+				var = "SEM." + deepLinkValue;
 			}
-			else if (sDeepLinkKey.equals("olacid")) {
-				var = "OLA.";
+			else if ((deepLinkValue = deepLinkArgs.get("olacid")) != null) {
+				var = "OLA." + deepLinkValue;
+				if ((deepLinkValue = deepLinkArgs.get("oladtl")) != null) {
+					var += "&OLADTL=" + deepLinkValue;
+				}
 			}
-			else if (sDeepLinkKey.equals("affcid")) {
-				var = "AFF.";
+			else if ((deepLinkValue = deepLinkArgs.get("brandcid")) != null) {
+				var = "Brand." + deepLinkValue;
 			}
-			else if (sDeepLinkKey.equals("brandcid")) {
-				var = "Brand.";
+			else if ((deepLinkValue = deepLinkArgs.get("seocid")) != null) {
+				var = "SEO." + deepLinkValue;
 			}
-			else if (sDeepLinkKey.equals("seocid")) {
-				var = "SEO.";
+			else if ((deepLinkValue = deepLinkArgs.get("mdpcid")) != null) {
+				var = "MDP." + deepLinkValue;
+				if ((deepLinkValue = deepLinkArgs.get("mdpdtl")) != null) {
+					var += "&MDPDTL=" + deepLinkValue;
+				}
 			}
-			else {
-				Log.w(TAG, "Received Deep Link tracking parameters we don't know how to handle. Ignoring");
-				sDeepLinkKey = null;
-				sDeepLinkValue = null;
-				return;
+			else if ((deepLinkValue = deepLinkArgs.get("affcid")) != null) {
+				var = "AFF." + deepLinkValue;
+				if ((deepLinkValue = deepLinkArgs.get("afflid")) != null) {
+					var += "&AFFLID=" + deepLinkValue;
+				}
+			}
+			else if ((deepLinkValue = deepLinkArgs.get("icmcid")) != null) {
+				var = "ICM." + deepLinkValue;
+				if ((deepLinkValue = deepLinkArgs.get("icmdtl")) != null) {
+					var += "&ICMDTL=" + deepLinkValue;
+				}
 			}
 
-			int evar = 22;
-			var += sDeepLinkValue;
-			s.setEvar(evar, var);
+			if (var != null) {
+				s.setEvar(22, var);
+			}
 
-			sDeepLinkKey = null;
-			sDeepLinkValue = null;
+
+			// kword eVar15
+			if ((deepLinkValue = deepLinkArgs.get("kword")) != null) {
+				s.setEvar(15, deepLinkValue);
+			}
+
+			deepLinkArgs.clear();
 		}
 	}
 
