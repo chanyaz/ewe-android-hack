@@ -13,7 +13,6 @@ import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.graphics.HeaderBitmapDrawable;
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AnimUtils;
@@ -22,11 +21,11 @@ import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.FrameLayout;
 import com.expedia.bookings.widget.HotelViewHolder;
+import com.expedia.vm.NewLaunchLobViewModel;
 import com.expedia.bookings.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import kotlin.Unit;
 import rx.subjects.BehaviorSubject;
 import rx.subjects.PublishSubject;
 
@@ -34,9 +33,9 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private static final String PICASSO_TAG = "LAUNCH_LIST";
 	private static final int LOB_VIEW = 0;
 	private static final int HEADER_VIEW = 1;
-	public static final int HOTEL_VIEW = 2;
-	public static final int COLLECTION_VIEW = 3;
-	public static final int LOADING_VIEW = 4;
+	private static final int HOTEL_VIEW = 2;
+	private static final int COLLECTION_VIEW = 3;
+	private static final int LOADING_VIEW = 4;
 	private List<?> listData = new ArrayList<>();
 
 	private ViewGroup parentView;
@@ -46,17 +45,18 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	private LaunchLobHeaderViewHolder lobViewHolder;
 
 	// 0 means we are in old launch screen and 1 means we are in new search screen we want to add lob
-	public int headerPosition = 0;
+	private int headerPosition = 0;
 
-	public static boolean loadingState = false;
+	private static boolean loadingState = false;
 
-	public BehaviorSubject<Unit> posSubject = BehaviorSubject.create();
 	public BehaviorSubject<Boolean> hasInternetConnectionChangeSubject = BehaviorSubject.create();
 	public PublishSubject<Hotel> hotelSelectedSubject = PublishSubject.create();
 	public PublishSubject<Bundle> seeAllClickSubject = PublishSubject.create();
 	private boolean showOnlyLOBView = false;
 
-	public LaunchListAdapter(View header) {
+	public NewLaunchLobViewModel viewModel;
+
+	public LaunchListAdapter(View header, NewLaunchLobViewModel viewModel, boolean showLobView) {
 		headerView = header;
 		if (header == null) {
 			throw new IllegalArgumentException("Don't pass a null View into LaunchListAdapter");
@@ -64,20 +64,15 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		seeAllButton = ButterKnife.findById(headerView, R.id.see_all_hotels_button);
 		launchListTitle = ButterKnife.findById(headerView, R.id.launch_list_header_title);
 		FontCache.setTypeface(launchListTitle, FontCache.Font.ROBOTO_MEDIUM);
-	}
 
-	public LaunchListAdapter(View header, boolean showLobView) {
-		this(header);
+		this.viewModel = viewModel;
+
 		if (showLobView) {
 			headerPosition = 1;
 		}
 		else {
 			headerPosition = 0;
 		}
-	}
-
-	private boolean isHeader(int position) {
-		return position == headerPosition;
 	}
 
 	public boolean isLobView(int position) {
@@ -90,6 +85,7 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			NewLaunchLobWidget view = (NewLaunchLobWidget) LayoutInflater.from(parent.getContext())
 				.inflate(R.layout.widget_new_launch_lob, parent, false);
 			lobViewHolder = new LaunchLobHeaderViewHolder(view);
+			lobViewHolder.getLobWidget().setViewModel(viewModel);
 			return lobViewHolder;
 		}
 		if (viewType == HEADER_VIEW) {
@@ -121,12 +117,6 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 	@Override
 	public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 		boolean fullWidthTile;
-		if (holder.getItemViewType() == LOB_VIEW) {
-			NewLaunchLobWidget lobWidget = ((LaunchLobHeaderViewHolder) holder).getLobWidget();
-			lobWidget
-				.setViewModel(
-					new NewLaunchLobViewModel(lobWidget.getContext(), hasInternetConnectionChangeSubject, posSubject));
-		}
 		if (holder.getItemViewType() == HEADER_VIEW || holder.getItemViewType() == LOB_VIEW) {
 			StaggeredGridLayoutManager.LayoutParams layoutParams = (StaggeredGridLayoutManager.LayoutParams) holder.itemView
 				.getLayoutParams();
@@ -243,6 +233,16 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 		this.listData = listData;
 	}
 
+	public void onHasInternetConnectionChange(boolean enabled) {
+		showOnlyLOBView = !enabled;
+		hasInternetConnectionChangeSubject.onNext(enabled);
+		notifyDataSetChanged();
+	}
+
+	private boolean isHeader(int position) {
+		return position == headerPosition;
+	}
+
 	private final View.OnClickListener seeAllClickListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
@@ -254,15 +254,4 @@ public class LaunchListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 			OmnitureTracking.trackNewLaunchScreenSeeAllClick();
 		}
 	};
-
-	public void onPOSChange() {
-		posSubject.onNext(Unit.INSTANCE);
-	}
-
-
-	public void onHasInternetConnectionChange(boolean enabled) {
-		showOnlyLOBView = !enabled;
-		hasInternetConnectionChangeSubject.onNext(enabled);
-		notifyDataSetChanged();
-	}
 }

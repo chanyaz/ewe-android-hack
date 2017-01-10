@@ -27,9 +27,6 @@ import com.expedia.bookings.data.hotels.NearbyHotelParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.launch.vm.NewLaunchLobViewModel
-import com.expedia.bookings.launch.widget.LaunchListAdapter
-import com.expedia.bookings.launch.widget.LaunchListWidget
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.services.CollectionServices
 import com.expedia.bookings.services.HotelServices
@@ -40,6 +37,7 @@ import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
+import com.expedia.vm.NewLaunchLobViewModel
 import com.mobiata.android.Log
 import com.squareup.otto.Subscribe
 import org.joda.time.DateTime
@@ -100,9 +98,9 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
     val launchListWidget: LaunchListWidget by bindView(R.id.launch_list_widget)
     private val lobViewContainer: android.widget.FrameLayout by bindView(R.id.lob_view_container)
-    private val lobView: NewLaunchLobWidget by lazy {
+    val lobView: NewLaunchLobWidget by lazy {
         val newLaunchLobWidget = LayoutInflater.from(context).inflate(R.layout.widget_new_launch_lob, null, false) as NewLaunchLobWidget
-        newLaunchLobWidget.viewModel = NewLaunchLobViewModel(context, hasInternetConnection, posChangeSubject);
+        newLaunchLobWidget.viewModel = viewModel;
         newLaunchLobWidget
     }
 
@@ -114,11 +112,14 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
     val darkView: View by bindView(R.id.darkness)
 
+    val viewModel = NewLaunchLobViewModel(context, hasInternetConnection, posChangeSubject)
+
     override fun onFinishInflate() {
         super.onFinishInflate()
         Ui.getApplication(context).defaultLaunchComponents()
         Ui.getApplication(context).launchComponent().inject(this)
         toolbarShadow.alpha = 0f
+        launchListWidget.setViewModel(viewModel)
         launchListWidget.addOnScrollListener(scrollListener)
         lobViewContainer.addView(lobView)
         lobViewContainer.visibility = VISIBLE
@@ -166,6 +167,84 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
 
         }
 
+        initAirAttachBanner()
+
+        currentLocationSubject.subscribe { currentLocation ->
+            launchListWidget.visibility = View.VISIBLE
+            launchError.visibility = View.GONE
+            if (isNearByHotelDataExpired() || isPOSChanged) {
+                isPOSChanged = false
+                val params = buildHotelSearchParams(currentLocation)
+                downloadSubscription = hotelServices.nearbyHotels(params, getNearByHotelObserver())
+                launchDataTimeStamp = DateTime.now()
+                launchListWidget.showListLoadingAnimation()
+            }
+        }
+
+        locationNotAvailable.subscribe {
+            launchListWidget.visibility = View.VISIBLE
+            launchListWidget.showListLoadingAnimation()
+            val country = PointOfSale.getPointOfSale().twoLetterCountryCode.toLowerCase(Locale.US)
+            val localeCode = PointOfSale.getPointOfSale().localeIdentifier
+            launchDataTimeStamp = null
+            downloadSubscription = collectionServices.getPhoneCollection(
+                    ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country, localeCode,
+                    collectionDownloadListener)
+        }
+
+        posChangeSubject.subscribe {
+            isPOSChanged = true
+            Ui.getApplication(context).defaultLaunchComponents()
+            Ui.getApplication(context).launchComponent().inject(this)
+            if (currentLocationSubject.value != null) {
+                currentLocationSubject.onNext(currentLocationSubject.value)
+            } else {
+                locationNotAvailable.onNext(Unit)
+            }
+            launchListWidget.onPOSChange();
+            adjustLobViewHeight();
+        }
+
+    }
+
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
+        Events.register(this)
+    }
+
+    override fun onDetachedFromWindow() {
+        Events.unregister(this)
+        cleanup()
+        super.onDetachedFromWindow()
+    }
+
+    fun onBackPressed(): Boolean {
+        return handleBackOrDarkViewClick()
+    }
+
+    private val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+            val lobHeaderView = launchListWidget.layoutManager.findViewByPosition(0)
+            val scrollY = lobHeaderView?.y ?: toolBarHeight
+            val value = Math.abs(scrollY) / toolBarHeight
+            toolbarShadow.alpha = Math.min(1f, Math.max(0f, value))
+            if (lobHeaderView == null && lobViewContainer.translationY < 0) {
+                showFabButton()
+            } else {
+                hideFabButton()
+            }
+        }
+    }
+
+    @Suppress("unused")
+    @Subscribe
+    fun onLaunchResume(event: Events.PhoneLaunchOnResume) {
+        // TODO  refresh the hotel list if it expired
+        Log.i(TAG, "On Launch or Resume event" + event)
+    }
+
+    private fun initAirAttachBanner() {
         showAirAttachBanner.subscribe { showAirAttach ->
             if (!showAirAttach) {
                 airAttachBanner.visibility = INVISIBLE
@@ -209,43 +288,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
                 }
             })
         }
-
-        currentLocationSubject.subscribe { currentLocation ->
-            launchListWidget.visibility = View.VISIBLE
-            launchError.visibility = View.GONE
-            if (isNearByHotelDataExpired() || isPOSChanged) {
-                isPOSChanged = false
-                val params = buildHotelSearchParams(currentLocation)
-                downloadSubscription = hotelServices.nearbyHotels(params, getNearByHotelObserver())
-                launchDataTimeStamp = DateTime.now()
-                launchListWidget.showListLoadingAnimation()
-            }
-        }
-
-        locationNotAvailable.subscribe {
-            launchListWidget.visibility = View.VISIBLE
-            launchListWidget.showListLoadingAnimation()
-            val country = PointOfSale.getPointOfSale().twoLetterCountryCode.toLowerCase(Locale.US)
-            val localeCode = PointOfSale.getPointOfSale().localeIdentifier
-            launchDataTimeStamp = null
-            downloadSubscription = collectionServices.getPhoneCollection(
-                    ProductFlavorFeatureConfiguration.getInstance().phoneCollectionId, country, localeCode,
-                    collectionDownloadListener)
-        }
-
-        posChangeSubject.subscribe {
-            isPOSChanged = true
-            Ui.getApplication(context).defaultLaunchComponents()
-            Ui.getApplication(context).launchComponent().inject(this)
-            if (currentLocationSubject.value != null) {
-                currentLocationSubject.onNext(currentLocationSubject.value)
-            } else {
-                locationNotAvailable.onNext(Unit)
-            }
-            launchListWidget.onPOSChange();
-            adjustLobViewHeight();
-        }
-
     }
 
     private fun adjustLobViewHeight() {
@@ -289,7 +331,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
     }
 
-
     private fun showLobAndDarkView() {
         val showDarknessAnim = ObjectAnimator.ofFloat(darkView, "alpha", 0f, DARK_VIEW_VISIBLE_ALPHA)
         startAnimation(showDarknessAnim)
@@ -311,21 +352,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         objectAnimator.start()
     }
 
-    val scrollListener: RecyclerView.OnScrollListener = object : RecyclerView.OnScrollListener() {
-        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
-            super.onScrolled(recyclerView, dx, dy)
-            val lobHeaderView = launchListWidget.layoutManager.findViewByPosition(0)
-            val scrollY = lobHeaderView?.y ?: toolBarHeight
-            val value = Math.abs(scrollY) / toolBarHeight
-            toolbarShadow.alpha = Math.min(1f, Math.max(0f, value))
-            if (lobHeaderView == null && lobViewContainer.translationY < 0) {
-                showFabButton()
-            } else {
-                hideFabButton()
-            }
-        }
-    }
-
     private fun showFabButton() {
         if (fab.visibility != VISIBLE) {
             fab.visibility = VISIBLE
@@ -344,17 +370,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
     }
 
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        Events.register(this)
-    }
-
-    override fun onDetachedFromWindow() {
-        Events.unregister(this)
-        cleanup()
-        super.onDetachedFromWindow()
-    }
-
     private fun cleanup() {
         if (downloadSubscription != null) {
             downloadSubscription?.unsubscribe()
@@ -362,7 +377,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         }
     }
 
-    fun getCollectionObserver(): Observer<Collection> {
+    private fun getCollectionObserver(): Observer<Collection> {
         val defaultCollectionListener = object : Observer<Collection> {
             override fun onCompleted() {
                 cleanup()
@@ -378,13 +393,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
             }
         }
         return defaultCollectionListener
-    }
-
-    @Suppress("unused")
-    @Subscribe
-    fun onLaunchResume(event: Events.PhoneLaunchOnResume) {
-        // TODO  refresh the hotel list if it expired
-        Log.i(TAG, "On Launch or Resume event" + event)
     }
 
     private fun buildHotelSearchParams(loc: Location): NearbyHotelParams {
@@ -405,7 +413,7 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         return params
     }
 
-    fun getNearByHotelObserver(): Observer<MutableList<Hotel>> {
+    private fun getNearByHotelObserver(): Observer<MutableList<Hotel>> {
         val downloadListener = object : Observer<MutableList<Hotel>> {
             override fun onCompleted() {
                 if (!wasHotelsDownloadEmpty) {
@@ -462,11 +470,6 @@ class NewPhoneLaunchWidget(context: Context, attrs: AttributeSet) : FrameLayout(
         return launchDataTimeStamp == null || JodaUtils.isExpired(launchDataTimeStamp, MINIMUM_TIME_AGO) || isPOSChanged
 
     }
-
-    fun onBackPressed(): Boolean {
-        return handleBackOrDarkViewClick()
-    }
-
 
     private val gestureListener = object : GestureDetector.SimpleOnGestureListener() {
 

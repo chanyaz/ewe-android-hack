@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
+import org.robolectric.RuntimeEnvironment;
 
 import android.app.Activity;
 import android.view.LayoutInflater;
@@ -22,6 +23,10 @@ import com.expedia.bookings.widget.CollectionViewHolder;
 import com.expedia.bookings.widget.HotelViewHolder;
 import com.expedia.bookings.launch.widget.LaunchHeaderViewHolder;
 import com.expedia.bookings.launch.widget.LaunchListWidget;
+import com.expedia.vm.NewLaunchLobViewModel;
+
+import kotlin.Unit;
+import rx.subjects.BehaviorSubject;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,6 +35,10 @@ public class LaunchScreenTest {
 	private CollectionLocation collectionLocation = new CollectionLocation();
 	private Hotel hotel = new Hotel();
 	private Hotel hotelNoRating = new Hotel();
+
+	private NewLaunchLobViewModel vm = new NewLaunchLobViewModel(RuntimeEnvironment.application,
+		BehaviorSubject.<Boolean>create(), BehaviorSubject.<Unit>create());
+
 	@Before
 	public void before() {
 		HotelRate rate = new HotelRate();
@@ -74,6 +83,7 @@ public class LaunchScreenTest {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
+		launchListWidget.setViewModel(vm);
 		launchListWidget.setHeaderPaddingTop(10);
 		launchListWidget.showListLoadingAnimation();
 
@@ -97,6 +107,7 @@ public class LaunchScreenTest {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
+		launchListWidget.setViewModel(vm);
 		launchListWidget.setHeaderPaddingTop(10);
 		launchListWidget.showListLoadingAnimation();
 
@@ -120,6 +131,7 @@ public class LaunchScreenTest {
 		Activity activity = Robolectric.buildActivity(Activity.class).create().get();
 		View v = LayoutInflater.from(activity).inflate(R.layout.launch_screen_test, null);
 		LaunchListWidget launchListWidget = (LaunchListWidget) v.findViewById(R.id.launch_list_widget);
+		launchListWidget.setViewModel(vm);
 		launchListWidget.setHeaderPaddingTop(10);
 		launchListWidget.showListLoadingAnimation();
 

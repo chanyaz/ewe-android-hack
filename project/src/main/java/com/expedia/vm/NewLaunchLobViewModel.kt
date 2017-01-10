@@ -1,4 +1,4 @@
-package com.expedia.bookings.launch.vm
+package com.expedia.vm
 
 import android.content.Context
 import android.view.View
@@ -16,18 +16,12 @@ import java.util.ArrayList
 class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChangeSubject: BehaviorSubject<Boolean>, val posChangeSubject: BehaviorSubject<Unit>) {
 
     val lobsSubject = PublishSubject.create<ArrayList<LobInfo>>()
-
-    val navigationSubject = PublishSubject.create<Pair<LineOfBusiness, View>>()
-
     val refreshLobsObserver = endlessObserver<Unit> {
         lobsSubject.onNext(getSupportedLinesOfBusiness(PointOfSale.getPointOfSale()))
     }
 
     init {
         posChangeSubject.subscribe(refreshLobsObserver)
-        navigationSubject.subscribe {
-            trackLobNavigation(it.first)
-        }
     }
 
     private fun getSupportedLinesOfBusiness(pos: PointOfSale): ArrayList<LobInfo> {
@@ -63,9 +57,5 @@ class NewLaunchLobViewModel(val context: Context, val hasInternetConnectionChang
         }
 
         return lobs
-    }
-
-    private fun trackLobNavigation(lineOfBusiness: LineOfBusiness) {
-        OmnitureTracking.trackNewLaunchScreenLobNavigation(lineOfBusiness)
     }
 }
