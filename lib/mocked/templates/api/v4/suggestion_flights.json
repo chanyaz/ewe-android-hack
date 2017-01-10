@@ -40,6 +40,42 @@
       "packageable": "false"
     },
     {
+      "@type": "gaiaRegionResult",
+      "index": "0",
+      "gaiaId": "happy",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Delhi, India (DEL - Indira Gandhi Intl.)",
+        "shortName": "Delhi, India (DEL - Indira Gandhi Intl.)",
+        "displayName": "Delhi, India (DEL - Indira Gandhi Intl.)",
+        "lastSearchName": "Delhi, India (DEL - Indira Gandhi Intl.)"
+      },
+      "coordinates": {
+        "lat": "37.615940",
+        "long": "-122.387996"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "DEL",
+          "metrocode": "DEL",
+          "multicity": "happy"
+        },
+        "country": {
+          "name": "INDIA",
+          "isoCode2": "IN",
+          "isoCode3": "IND"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "432"
+      },
+      "regionGrades": {
+        "globalGrade": "97"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false"
+    },
+    {
       "@type": "passport_needed",
       "index": "1",
       "gaiaId": "happy",

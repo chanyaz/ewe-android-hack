@@ -12,6 +12,7 @@ public class HomeScreenSteps {
 
 	@Given("^I launch the App$")
 	public void validateHomeScreenAppears() throws Throwable {
+		NewLaunchScreen.shopButton().perform(click());
 		NewLaunchScreen.hotelsLaunchButton().perform(ViewActions.waitForViewToCompletelyDisplay());
 	}
 
