@@ -93,8 +93,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     /** contants **/
     private val ANIMATION_DELAY = 200L
-    var sliderHeight = 0f
-    var checkoutButtonHeight = 0f
+
     protected var cardType: PaymentType? = null
     protected var userAccountRefresher = UserAccountRefresher(context, getLineOfBusiness(), this)
     private val checkoutDialog = ProgressDialog(context)
@@ -118,6 +117,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
+
+//    bottom contains all these-->
     val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
     val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
@@ -125,8 +126,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
     val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
-    val checkoutButtonContainer: View by bindView(R.id.button_container)
-    val checkoutButton: Button by bindView(R.id.checkout_button)
+//    <-- end of bottom container
+
     val rootWindow: Window by lazy { (context as Activity).window }
     val decorView: View by lazy { rootWindow.decorView.findViewById(android.R.id.content) }
     var paymentLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
@@ -403,24 +404,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     private fun setUpLayoutListeners() {
-        slideToPurchaseLayout.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                sliderHeight = slideToPurchaseLayout.height.toFloat()
-                if (sliderHeight != 0f) {
-                    slideToPurchaseLayout.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    bottomContainer.translationY = sliderHeight
-                }
-            }
-        })
-        checkoutButtonContainer.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
-            override fun onGlobalLayout() {
-                checkoutButtonHeight = checkoutButtonContainer.height.toFloat()
-                if (sliderHeight != 0f) {
-                    checkoutButtonContainer.viewTreeObserver.removeOnGlobalLayoutListener(this)
-                    checkoutButtonContainer.translationY = checkoutButtonHeight
-                }
-            }
-        })
         paymentLayoutListener = makeKeyboardListener(scrollView)
         travelerLayoutListener = makeKeyboardListener(travelersPresenter.travelerEntryWidget, toolbarHeight * 2)
     }
@@ -636,13 +619,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         if (!User.isLoggedIn(context)) {
             paymentWidget.clearPaymentInfo()
         }
-    }
-
-    fun toggleCheckoutButton(isEnabled: Boolean) {
-        checkoutButtonContainer.translationY = if (isEnabled) 0f else checkoutButtonHeight
-        val shouldShowSlider = currentState == CheckoutDefault::class.java.name && ckoViewModel.isValidForBooking()
-        bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else sliderHeight
-        checkoutButton.isEnabled = isEnabled
     }
 
     fun resetPriceChange() {

@@ -81,7 +81,7 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         checkoutPresenter.slideToPurchase.resetSlider()
         if (currentState == BundleDefault::class.java.name) {
             bundleOverviewHeader.toggleOverviewHeader(!isBucketedForExpandedRateDetailsTest)
-            checkoutPresenter.toggleCheckoutButton(true)
+            toggleCheckoutButton(true)
         }
     }
 
