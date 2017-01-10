@@ -40,17 +40,19 @@ import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
 import com.expedia.bookings.text.HtmlCompat;
-import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.CarDataUtils;
+import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugInfoUtils;
+import com.expedia.bookings.utils.DeepLinkUtils;
 import com.expedia.bookings.utils.GuestsPickerUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.LXDataUtils;
 import com.expedia.bookings.utils.NavUtils;
 import com.expedia.bookings.utils.StrUtils;
 import com.expedia.bookings.utils.TrackingUtils;
+import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.util.ForceBucketPref;
 import com.mobiata.android.BackgroundDownloader;
@@ -79,6 +81,8 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private boolean mIsCurrentLocationSearch;
 	private HotelSearchParams hotelSearchParams;
+
+	ClientLogServices clientLogServices;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -114,8 +118,10 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			Log.w(TAG, "Could not decode deep link data" + data.toString(), e);
 		}
 
-		Set<String> queryData = StrUtils.getQueryParameterNames(data);
-		OmnitureTracking.parseAndTrackDeepLink(data, queryData);
+		Set<String> queryParameterNames = StrUtils.getQueryParameterNames(data);
+
+		clientLogServices = Ui.getApplication(this).appComponent().clientLog();
+		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, data, queryParameterNames);
 
 		String path = data.getPath().toLowerCase(Locale.US);
 		if ((scheme.equals("https") || scheme.equals("http")) && path.contains(Constants.DEEPLINK_KEYWORD)) {
@@ -178,21 +184,21 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			break;
 		case "/hotel-search":
 		case "hotelsearch":
-			finish = handleHotelSearch(data, queryData);
+			finish = handleHotelSearch(data, queryParameterNames);
 			break;
 		case "/flights-search":
 		case "flightsearch":
-			handleFlightSearch(data, queryData);
+			handleFlightSearch(data, queryParameterNames);
 			finish = true;
 			break;
 		case "/things-to-do/search":
 		case "activitysearch":
-			handleActivitySearch(data, queryData);
+			handleActivitySearch(data, queryParameterNames);
 			finish = true;
 			break;
 		case "/carsearch":
 		case "carsearch":
-			handleCarsSearch(data, queryData);
+			handleCarsSearch(data, queryParameterNames);
 			finish = true;
 			break;
 		case "/user/signin":
@@ -210,7 +216,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			finish = true;
 			break;
 		case "forcebucket":
-			handleForceBucketing(data, queryData);
+			handleForceBucketing(data, queryParameterNames);
 			finish = true;
 			break;
 		default:

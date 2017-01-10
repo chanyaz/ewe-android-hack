@@ -10,10 +10,8 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -28,8 +26,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
-import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 import android.util.Pair;
@@ -3126,49 +3124,17 @@ public class OmnitureTracking {
 		s.trackLink(null, "o", "Itinerary Action", null, null);
 	}
 
-	///////////////////////////////////////////////////////////////////////////////////////////
-	//
-	// Deep Link Tracking
-	//
-	// Documentation:
-	// https://confluence/display/Omniture/Download+-+Retargeting+-+Deeplink+Campaign+Tracking
-
-	// TODO candidate for ExpediaPointOfSale JSON?
-	private static final Set<String> KNOWN_DEEP_LINK_ARGS = new HashSet<String>() {
-		{
-			add("emlcid");
-			add("semcid");
-			add("olacid");
-			add("affcid");
-			add("brandcid");
-			add("seocid");
-			add("kword");
-			add("mdpcid");
-			add("mdpdtl");
-			add("oladtl");
-			add("afflid");
-			add("icmcid");
-			add("icmdtl");
-		}
-	};
-
 	private static HashMap<String, String> deepLinkArgs = new HashMap<String, String>();
-
-
-
-	public static void parseAndTrackDeepLink(Uri data, Set<String> queryData) {
-		for (String key: queryData) {
-			if (KNOWN_DEEP_LINK_ARGS.contains(key.toLowerCase(Locale.US))) {
-				setDeepLinkTrackingParams(key.toLowerCase(Locale.US), data.getQueryParameter(key));
-			}
-		}
-	}
 
 	/* This is a separate method because other classes also use it */
 	public static void setDeepLinkTrackingParams(String key, String value) {
 		deepLinkArgs.put(key, value);
 	}
 
+	@VisibleForTesting
+	public static HashMap<String, String> getDeepLinkArgs() {
+		return deepLinkArgs;
+	}
 
 	/**
 	 * Note: Due to the way that ItineraryManager interacts with our Fragments + Views, this extra bookkeeping is
