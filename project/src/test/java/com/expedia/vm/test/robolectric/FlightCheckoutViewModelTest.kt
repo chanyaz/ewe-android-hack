@@ -46,6 +46,7 @@ import rx.observers.TestSubscriber
 import rx.schedulers.Schedulers
 import java.io.File
 import java.io.IOException
+import java.math.BigDecimal
 import java.util.concurrent.TimeUnit
 import kotlin.test.assertEquals
 
@@ -110,9 +111,12 @@ class FlightCheckoutViewModelTest {
         sut.sliderPurchaseTotalText.subscribe(sliderPurchaseTotalTextTestSubscriber)
 
         sut.createTripResponseObservable.onNext(newTripResponse)
+        assertEquals(BigDecimal("42.00"), sut.createTripResponseObservable.value!!.newPrice().amount)
         sut.paymentViewModel.cardBIN.onNext("654321")
 
+        assertEquals(BigDecimal("44.50"), sut.createTripResponseObservable.value!!.newPrice().amount)
         sliderPurchaseTotalTextTestSubscriber.assertValueCount(2)
+        
         assertEquals("Your card will be charged $42.00", sliderPurchaseTotalTextTestSubscriber.onNextEvents[0].toString())
         assertEquals("Your card will be charged $44.50", sliderPurchaseTotalTextTestSubscriber.onNextEvents[1].toString())
 

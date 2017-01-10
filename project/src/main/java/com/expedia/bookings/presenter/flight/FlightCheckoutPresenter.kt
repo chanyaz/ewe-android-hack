@@ -7,10 +7,10 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
-import com.expedia.bookings.data.FlightTripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
@@ -19,7 +19,6 @@ import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.services.InsuranceServices
 import com.expedia.bookings.tracking.FlightsV2Tracking
-import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.BaseCheckoutPresenter
@@ -108,14 +107,14 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
     private fun onTripResponse(tripResponse: TripResponse?) {
         loginWidget.updateRewardsText(getLineOfBusiness())
         insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
-        totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice)
+        totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice())
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
     }
 
     override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
         tripResponse as FlightCheckoutResponse
-        val newPrice = tripResponse.newPrice
+        val newPrice = tripResponse.newPrice()
         val oldPrice = tripResponse.getOldPrice()
         if (oldPrice != null) {
             priceChangeWidget.viewmodel.originalPrice.onNext(oldPrice)
