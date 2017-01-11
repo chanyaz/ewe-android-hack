@@ -6143,4 +6143,23 @@ public class OmnitureTracking {
 		s.track();
 	}
 
+	public static void trackItinAppRatingClickReview() {
+		trackItinAppRatingClick("App.RateApp.Review");
+	}
+
+	public static void trackItinAppRatingClickFeedback() {
+		trackItinAppRatingClick("App.RateApp.Feedback");
+	}
+
+	public static void trackItinAppRatingClickNo() {
+		trackItinAppRatingClick("App.RateApp.NoThanks");
+	}
+
+	private static void trackItinAppRatingClick(String rfrrid) {
+		String pageName = ITIN_RATE_APP;
+		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
+		s.setEvar(28, rfrrid);
+		s.setProp(16, rfrrid);
+		s.trackLink(null, "o", "Rate App Action", null, null);
+	}
 }

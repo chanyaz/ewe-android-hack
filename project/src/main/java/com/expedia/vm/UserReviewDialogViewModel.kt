@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import rx.subjects.PublishSubject
@@ -21,10 +22,12 @@ class UserReviewDialogViewModel(val context: Context) {
         reviewSubject.subscribe {
             val packageName = context.packageName
             reviewLinkSubject.onNext("market://details?id=" + packageName)
+            OmnitureTracking.trackItinAppRatingClickReview()
         }
         feedbackSubject.subscribe {
             val scheme = BuildConfig.DEEPLINK_SCHEME
             feedbackLinkSubject.onNext(scheme +"://supportEmail")
+            OmnitureTracking.trackItinAppRatingClickFeedback()
         }
         reviewLinkSubject.subscribe { link ->
             startIntent(link)
@@ -35,6 +38,7 @@ class UserReviewDialogViewModel(val context: Context) {
         noSubject.subscribe {
             SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, true)
             SettingUtils.save(context, R.string.preference_date_last_review_prompt_shown, DateTime.now().millis)
+            OmnitureTracking.trackItinAppRatingClickNo()
         }
 
         rx.Observable.merge(reviewSubject, feedbackSubject, noSubject).subscribe(closeSubject)
