@@ -33,7 +33,15 @@ object FlightV2Utils {
 
     @JvmStatic fun getFlightLegDurationContentDescription(context: Context, flightLeg: FlightLeg): String {
         val flightDuration = getDurationContentDesc(context, flightLeg.durationHour, flightLeg.durationMinute)
-        return getTotalDurationString(context, flightDuration)
+        val flightDistance = flightLeg.totalTravelDistance
+        val flightDistanceUnit = flightLeg.totalTravelDistanceUnits
+
+        if (!flightDistanceUnit.isNullOrEmpty() && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightDistanceOnDetails)) {
+            return getTotalDurationWithDistanceString(context, flightDuration, flightDistance, flightDistanceUnit)
+        }
+        else {
+            return getTotalDurationString(context, flightDuration)
+        }
     }
 
     private fun getTotalDurationString(context: Context, flightDuration: String): String {
