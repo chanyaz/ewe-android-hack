@@ -80,7 +80,7 @@
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">重复行程</string>
     <!-- Text for error toolbar-->
-    <string name="price_changed_text">价格有变</string>
+    <string name="price_changed_text">价格有变动</string>
     <!-- Text for error toolbar-->
     <string name="cars_payment_failed_text">付款失败</string>
     <!-- Text for error toolbar-->
@@ -104,7 +104,7 @@
     <!-- Car doors text-->
     <string name="car_doors_text">门</string>
     <!-- Car bags text-->
-    <string name="car_bags_text">个旅行袋</string>
+    <string name="car_bags_text">行李</string>
     <!-- Car automatic transmission text-->
     <string name="car_auto_tran_text">自动挡</string>
     <!-- Car manual transmission text-->
@@ -380,7 +380,7 @@
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">总价</string>
     <!-- Text for error toolbar-->
-    <string name="lx_price_change_text">价格变更</string>
+    <string name="lx_price_change_text">价格有变动</string>
     <!-- LX Ticket type names -->
     <string name="ticket_type_traveler">旅客</string>
     <string name="ticket_type_adult">成人</string>
@@ -843,6 +843,8 @@
     <string name="prices_oneway_label">人均单程票价</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">往返</string>
+    <!-- Label clarifying the type of flight trip -->
+    <string name="Roundtrip">往返</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">人均往返票起价</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -873,12 +875,12 @@
     <string name="tablet_tripbucket_item_removed">已删除</string>
     <!-- Label indicating how many items are being booked for the current trip -->
     <plurals name="items_in_trip">
-        <item quantity="zero">旅行内容</item>
+        <item quantity="zero">行程项目</item>
         <item quantity="one">项旅行内容</item>
-        <item quantity="two">项旅行内容</item>
-        <item quantity="few">项旅行内容</item>
-        <item quantity="many">项旅行内容</item>
-        <item quantity="other">项旅行内容</item>
+        <item quantity="two">行程项目</item>
+        <item quantity="few">行程项目</item>
+        <item quantity="many">行程项目</item>
+        <item quantity="other">行程项目</item>
     </plurals>
 
     <!-- LX Sort & Filter "Sort By" section header -->
@@ -980,17 +982,17 @@
     <!-- A message stating this hotel is all sold out for the given dates searched -->
     <string name="sorry_rooms_sold_out_TEMPLATE">很抱歉，{brand} 上已无空房。</string>
     <!-- A message stating this hotel is sold out on Expedia -->
-    <string name="sold_out_on_TEMPLATE">{brand} 上已售完</string>
+    <string name="sold_out_on_TEMPLATE">{brand} 上已订完</string>
     <!-- Hotel gallery title -->
     <string name="photos_for_TEMPLATE">%s的照片</string>
     <!-- Caption for number of rooms left count, i.e. "4 rooms left" -->
     <plurals name="n_rooms_left_TEMPLATE">
-        <item quantity="zero">%s间空房</item>
-        <item quantity="one">%s间空房</item>
-        <item quantity="two">%s间空房</item>
-        <item quantity="few">%s间空房</item>
-        <item quantity="many">%s间空房</item>
-        <item quantity="other">还剩 %s间空房</item>
+        <item quantity="zero">还剩 %s 间空房</item>
+        <item quantity="one">还剩 %s间空房</item>
+        <item quantity="two">还剩 %s 间空房</item>
+        <item quantity="few">还剩 %s 间空房</item>
+        <item quantity="many">还剩 %s 间空房</item>
+        <item quantity="other">还剩 %s 间空房</item>
     </plurals>
     <!-- Title for the reviews section after we get the property name -->
     <string name="reviews_for_TEMPLATE">%1$s的点评</string>
@@ -1217,7 +1219,7 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">近期无旅行计划。</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">输入行程编号</string>
+    <string name="enter_itinerary_number">按钮：输入访客的行程编号</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">输入访客的行程编号</string>
     <!-- Fetching your itinerary -->
@@ -2675,9 +2677,9 @@
     <!-- Error shown to user if they attempt to book with an individual under 18 which is unsupported -->
     <string name="error_booking_with_minor">很抱歉，尚不支持为年龄不满 18 岁的儿童进行预订。</string>
     <!-- Error shown to user if we don't know what exactly what went wrong. -->
-    <string name="error_flight_unhandled">很抱歉，我们此刻似乎无法处理您的订单。请再试一次。</string>
+    <string name="error_flight_unhandled">很抱歉，我们暂时无法处理您的订单。请再试一次。</string>
     <!-- Error shown to user if we don't know what exactly what went wrong.  %s is the itinerary users can quote to allow agents to pull up their case. -->
-    <string name="error_flight_unhandled_TEMPLATE">很抱歉，我们此刻似乎无法处理您的订单。请再试一次或致电 {brand} 客服，并提供此行程编号：{itinerary}</string>
+    <string name="error_flight_unhandled_TEMPLATE">很抱歉，我们暂时无法处理您的订单。请再试一次或致电 {brand} 客服，并提供此行程编号：{itinerary}</string>
     <!-- Error shown to user if their flight is no longer available (sold out, session expired, whatever) -->
     <string name="error_flight_no_longer_available_TEMPLATE">非常抱歉，您选择的航班在 {brand} 上已经没有余票。</string>
     <!-- Error shown to user if one of multiple flights is no longer available (sold out, session expired, whatever) -->
@@ -2831,7 +2833,7 @@
     <!-- Expedia sponsored listing -->
     <string name="sponsored">赞助商</string>
     <!-- Expedia ETP book now/pay later search results -->
-    <string name="book_now_pay_later">立即预订，稍后付款</string>
+    <string name="book_now_pay_later">现在预订，到店付款</string>
     <!-- Search range error message template. %1$s = max search length. e.g. "We're sorry, but we are unable to search for hotel stays longer than 28 days." -->
     <string name="hotel_search_range_error_TEMPLATE">很抱歉，我们无法搜索超过 %1$s 天的酒店预订。</string>
     <!-- Search Error title text "Search Error" -->
@@ -4308,6 +4310,11 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} 分钟</string>
 
+    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
+    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
+        <item quantity="one">此价格的机票还剩 {seats} 张</item>
+        <item quantity="other">此价格的机票还剩 {seats} 张</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} - {elapseddays} 天</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4721,10 +4728,15 @@
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">原价打折 {percentage}。\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">超值价 {unrealdeal}\u0020</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} 到 {arrivalairport}。{durationhours} {durationmins} \u0020</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">中途停留 {layoverhours} {layovermins} \u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} 到 {arrivalairport}。{durationhours} {durationmins}。\u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">中途停留 {layoverhours} {layovermins}。\u0020</string>
+    <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
+    <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
+        <item quantity="one">此价格的机票只剩 {seatsleft} 张</item>
+        <item quantity="other">此价格的机票只剩 {seatsleft} 张</item>
+    </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">飞往。按钮。{to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->

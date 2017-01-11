@@ -843,6 +843,8 @@
     <string name="prices_oneway_label">Prix aller simple par personne</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">aller-retour</string>
+    <!-- Label clarifying the type of flight trip -->
+    <string name="Roundtrip">Vol retour</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Prix aller-retour par personne, à partir de</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -1217,7 +1219,7 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Pas de voyages à venir.</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">Saisir le numéro de voyage</string>
+    <string name="enter_itinerary_number">Sélectionnez l\&apos;option de voyage réservé en tant qu\&apos;invité</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">Saisir un numéro de voyage réservé en tant qu\&apos;invité</string>
     <!-- Fetching your itinerary -->
@@ -4308,6 +4310,11 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minute</string>
 
+    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
+    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
+        <item quantity="one">Plus que {seats} place à ce prix sur notre appli</item>
+        <item quantity="other">Plus que {seats} places à ce prix sur notre appli</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} - {elapseddays} j</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4525,7 +4532,7 @@
     <string name="rail_station_info_TEMPLATE">de {departure} à {arrival}</string>
 
     <!-- rail amenities segment fare info e.g. "Standard advanced day single" -->
-    <string name="rail_fare_info_TEMPLATE">{serviceclass} {fareclass}</string>
+    <string name="rail_fare_info_TEMPLATE">{fareclass} {serviceclass}</string>
 
     <!-- rail fare rule text. e.g. "• Travel is allowed via any permitted route." -->
     <string name="fare_rule_text_TEMPLATE">• {farerule}</string>
@@ -4721,10 +4728,15 @@
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Remise de {percentage} sur le prix initial.  \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Offre incroyable : {unrealdeal}\u0020</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} à {arrivalairport}. {durationhours} {durationmins} \u0020</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Escale : {layoverhours}{layovermins} \u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} à {arrivalairport}. {durationhours} {durationmins}. \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Escale : {layoverhours} {layovermins}. \u0020</string>
+    <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
+    <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
+        <item quantity="one">Il ne reste plus que {seatsleft} place à ce prix sur notre appli</item>
+        <item quantity="other">Il ne reste plus que {seatsleft} places à ce prix sur notre appli</item>
+    </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Destination du vol. Bouton. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->

@@ -843,6 +843,8 @@
     <string name="prices_oneway_label">Preços somente de ida por pessoa</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">ida e volta</string>
+    <!-- Label clarifying the type of flight trip -->
+    <string name="Roundtrip">Ida e volta</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Preços de ida e volta, por pessoa, a partir de</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -1217,9 +1219,9 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Nenhuma viagem futura.</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">Digite o número do itinerário</string>
+    <string name="enter_itinerary_number">Botão para inserir um número de itinerário de hóspede</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="enter_a_guest_itinerary_number">Digite o número de itinerário de hóspede</string>
+    <string name="enter_a_guest_itinerary_number">Insira um número de itinerário de hóspede</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">Buscando seus itinerários…</string>
     <!-- Error fetching itinerary -->
@@ -1955,7 +1957,7 @@
     <!-- Content Description text for hotels date range template. Example May 12 to May 15 -->
     <string name="calendar_instructions_date_range_cont_desc_TEMPLATE">{startdate} a {enddate}</string>
     <!-- Calendar instructions flight start date selected and label indicating this will be a one way search -->
-    <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (Somente ida)</string>
+    <string name="calendar_instructions_date_range_flight_one_way_TEMPLATE">{startdate} (somente ida)</string>
     <!-- Calendar instructions rail start date selected -->
     <string name="calendar_instructions_date_rail_one_way_TEMPLATE">{startdate}</string>
     <!-- Calendar instructions flight: Customer has selected start date - Label used in tooltip indicating return date must be selected -->
@@ -4308,6 +4310,11 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minutos</string>
 
+    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
+    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
+        <item quantity="one">{seats} restante(s) por este preço</item>
+        <item quantity="other">{seats} restante(s) por este preço</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} +{elapseddays}d</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4597,7 +4604,7 @@
    <!-- Rail selected outbound content description on the outbound results -->
    <string name="rail_selected_outbound_cont_desc">Selecionar ida:</string>
     <!-- Rail Accessibility Template to describe text that is also a button.  Ex. Travel anytime of day. Button. -->
-    <string name="rail_button_cont_desc_TEMPLATE">Botão {description}.</string>
+    <string name="rail_button_cont_desc_TEMPLATE">{description}. Botão</string>
 
     <!-- Accessibility infroms user selected rail cards are applied, Railcard Applied: Child Disability, Veteran Card -->
     <string name="rail_railcard_applied_cont_desc_TEMPLATE">Passe ferroviário aplicado: {railcards}</string>
@@ -4721,10 +4728,15 @@
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Preço original com desconto de {percentage}.  \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Oferta sem igual: {unrealdeal}\u0020</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">De {departureairport} para {arrivalairport} {durationhours} {durationmins} \u0020</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Escala {layoverhours} {layovermins} \u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">De {departureairport} para {arrivalairport} {durationhours} {durationmins}. \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Escala: {layoverhours} {layovermins}. \u0020</string>
+    <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
+    <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
+        <item quantity="one">Resta apenas {seatsleft} assento por este preço</item>
+        <item quantity="other">Restam apenas {seatsleft} assentos por este preço</item>
+    </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Voando para. Botão. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->

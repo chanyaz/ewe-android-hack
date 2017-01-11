@@ -843,6 +843,8 @@
     <string name="prices_oneway_label">Priser pr. person for enkeltbillet</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">tur-retur</string>
+    <!-- Label clarifying the type of flight trip -->
+    <string name="Roundtrip">Returbillet</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Priser pr. person tur-retur fra</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -1217,7 +1219,7 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Ingen kommende rejser</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">Indtast rejseplansnummer</string>
+    <string name="enter_itinerary_number">Tilføj en knap for gæsterejseplan</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">Angiv en gæsterejseplan</string>
     <!-- Fetching your itinerary -->
@@ -4308,6 +4310,11 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minutter</string>
 
+    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
+    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
+        <item quantity="one">{seats} tilbage til denne pris</item>
+        <item quantity="other">{seats} sæder tilbage til denne pris</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}d</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4471,7 +4478,7 @@
     <string name="rail_overtaken_message">Tog overhalet: Denne rute er langsommere end andre ruter.</string>
 
     <!-- Messaging indicating to the user of their previously selected choice. -->
-    <string name="rail_open_return_selected">Du har søgt efter efter en åben returrejse</string>
+    <string name="rail_open_return_selected">Du har søgt efter en åben returrejse</string>
 
     <!-- When the user selects an open return they can choose any inbound train journey -->
     <string name="rail_open_return_description">Du behøver ikke at rejse med det valgte tog, men vælg venligst din præference</string>
@@ -4721,10 +4728,15 @@
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Den oprindelige pris er blevet nedsat med {percentage}.  \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Utroligt tilbud {unrealdeal}\u0020</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} til {arrivalairport}. {durationhours} {durationmins} \u0020</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Mellemlanding {layoverhours} {layovermins} \u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} til {arrivalairport}. {durationhours} {durationmins}. \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Mellemlanding {layoverhours} {layovermins}. \u0020</string>
+    <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
+    <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
+        <item quantity="one">Der er {seatsleft} tilbage til denne pris</item>
+        <item quantity="other">Der er {seatsleft} sæder tilbage til denne pris</item>
+    </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Flyver til. Knap. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->

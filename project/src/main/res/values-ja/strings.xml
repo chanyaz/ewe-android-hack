@@ -843,6 +843,8 @@
     <string name="prices_oneway_label">1 名あたりの片道料金</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">往復</string>
+    <!-- Label clarifying the type of flight trip -->
+    <string name="Roundtrip">往復</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">往復 (1 名あたり) の最低価格</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -1217,7 +1219,7 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">予約された旅行はありません。</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">旅程番号を入力してください</string>
+    <string name="enter_itinerary_number">旅程番号を入力してくださいボタン</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">旅程番号を入力してください</string>
     <!-- Fetching your itinerary -->
@@ -4308,6 +4310,11 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} 分</string>
 
+    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
+    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
+        <item quantity="one">この料金の座席は残り {seats} 席</item>
+        <item quantity="other">この料金の座席は残り {seats} 席</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays} 日</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4721,10 +4728,15 @@
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">通常料金から {percentage} 割引。\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">超目玉セール {unrealdeal}\u0020</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">出発地 {departureairport}、到着地 {arrivalairport}。{durationhours} {durationmins} \u0020</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">乗継時間 {layoverhours} {layovermins} \u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">出発地 {departureairport}、到着地 {arrivalairport}。所要時間 {durationhours} {durationmins}。\u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">乗継時間 {layoverhours} {layovermins}。\u0020</string>
+    <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
+    <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
+        <item quantity="one">この料金の座席は残り {seatsleft} 席です</item>
+        <item quantity="other">の料金の座席は残り {seatsleft} 席です</item>
+    </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">目的地。ボタン。{to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
