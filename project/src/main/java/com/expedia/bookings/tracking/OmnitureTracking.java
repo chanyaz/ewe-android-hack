@@ -5632,7 +5632,6 @@ public class OmnitureTracking {
 		s.setProp(2, "Flight");
 		if (isOutboundFlight) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode);
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppMaterialFlightDistanceOnDetails);
 		}
 		s.track();
 	}
