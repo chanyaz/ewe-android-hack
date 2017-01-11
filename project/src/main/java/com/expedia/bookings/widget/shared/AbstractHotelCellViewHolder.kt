@@ -1,7 +1,5 @@
 package com.expedia.bookings.widget.shared
 
-import android.content.Context
-import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.LinearGradient
 import android.graphics.Shader
@@ -36,6 +34,8 @@ import com.expedia.util.subscribeStarRating
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeTextColor
 import com.expedia.util.subscribeVisibility
+import com.expedia.util.getGuestRatingText
+import com.expedia.util.getGuestRatingBackground
 import com.expedia.vm.hotel.HotelViewModel
 import com.larvalabs.svgandroid.widget.SVGView
 import com.squareup.picasso.Picasso
@@ -101,8 +101,8 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
         viewModel.pricePerNightColorObservable.subscribeTextColor(pricePerNight)
         viewModel.hotelGuestRatingObservable.subscribe { rating ->
             guestRating.text = rating.toString()
-            guestRating.background = getGuestRatingBackground(rating, itemView.context)
-            guestRatingRecommendedText.text = getGuestRatingRecommendedText(rating, itemView.resources)
+            guestRating.background = getGuestRatingBackground(itemView.context)
+            guestRatingRecommendedText.text = getGuestRatingText(rating, itemView.resources)
         }
         viewModel.topAmenityTitleObservable.subscribeText(topAmenityTitle)
         viewModel.hotelDiscountPercentageObservable.subscribeText(discountPercentage)
@@ -211,10 +211,6 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
             }
         }
     }
-
-    abstract fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String
-
-    abstract fun getGuestRatingBackground(rating: Float, context: Context): Drawable
 
     abstract fun showHotelFavorite(): Boolean
     

@@ -1,7 +1,6 @@
 package com.expedia.vm
 
 import android.content.Context
-import android.content.res.Resources
 import android.graphics.drawable.Drawable
 import android.support.v4.content.ContextCompat
 import com.expedia.bookings.R
@@ -33,6 +32,8 @@ import com.expedia.bookings.widget.HotelDetailView
 import com.expedia.bookings.widget.RecyclerGallery
 import com.expedia.bookings.widget.priceFormatter
 import com.expedia.util.endlessObserver
+import com.expedia.util.getGuestRatingText
+import com.expedia.util.getGuestRatingBackground
 import com.mobiata.android.FormatUtils
 import com.mobiata.android.SocialUtils
 import com.squareup.phrase.Phrase
@@ -61,8 +62,6 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     abstract fun showFeeType() : Boolean
     abstract fun getLOB(): LineOfBusiness
     abstract fun hasMemberDeal(roomOffer: HotelOffersResponse.HotelRoomResponse): Boolean
-    abstract fun getGuestRatingRecommendedText(rating: Float, resources: Resources): String
-    abstract fun getGuestRatingBackground(rating: Float, context: Context): Drawable
     abstract fun trackHotelResortFeeInfoClick()
     abstract fun trackHotelRenovationInfoClick()
     abstract fun trackHotelDetailBookPhoneClick()
@@ -228,8 +227,8 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         }
 
         userRatingObservable.onNext(response.hotelGuestRating.toString())
-        userRatingBackgroundColorObservable.onNext(getGuestRatingBackground(response.hotelGuestRating.toFloat(), context))
-        userRatingRecommendationTextObservable.onNext(getGuestRatingRecommendedText(response.hotelGuestRating.toFloat(), context.resources))
+        userRatingBackgroundColorObservable.onNext(getGuestRatingBackground(context))
+        userRatingRecommendationTextObservable.onNext(getGuestRatingText(response.hotelGuestRating.toFloat(), context.resources))
         isUserRatingAvailableObservable.onNext(hotelOffersResponse.hotelGuestRating > 0)
 
         numberOfReviewsObservable.onNext(
