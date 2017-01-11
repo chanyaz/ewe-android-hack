@@ -6,8 +6,6 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.mobiata.flightlib.utils.DateTimeUtils
@@ -42,14 +40,6 @@ object FlightV2Utils {
                 .format().toString()
     }
 
-    private fun getTotalDurationWithDistanceString(context: Context, flightDuration: String, distance: Int, distanceUnit: String): String {
-        return Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_with_distance_TEMPLATE))
-                .put("duration", flightDuration)
-                .put("distance", distance.toString())
-                .put("distanceunit", distanceUnit)
-                .format().toString()
-    }
-
     @JvmStatic fun getFlightSegmentLayoverDurationContentDescription(context: Context, segment: FlightLeg.FlightSegment): String {
         return getDurationContentDesc(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
     }
@@ -60,21 +50,10 @@ object FlightV2Utils {
 
     @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int): CharSequence {
         val flightDuration = FlightV2Utils.getFlightDurationString(context, flight)
-        val flightDistance = flight.totalTravelDistance
-        val flightDistanceUnit = flight.totalTravelDistanceUnits
-        val totalDuration: String
-        val start: Int
-        val end: Int
-        if (!flightDistanceUnit.isNullOrEmpty() && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightDistanceOnDetails)) {
-            totalDuration = getTotalDurationWithDistanceString(context, flightDuration, flightDistance, flightDistanceUnit)
-            start = totalDuration.indexOf(flightDuration)
-            end = totalDuration.length
-        } else {
-            totalDuration = getTotalDurationString(context, flightDuration)
-            start = totalDuration.indexOf(flightDuration)
-            end = start + flightDuration.length
-        }
+        var totalDuration = getTotalDurationString(context, flightDuration)
 
+        val start = totalDuration.indexOf(flightDuration)
+        val end = start + flightDuration.length
         val colorSpan = ForegroundColorSpan(ContextCompat.getColor(context, colorId))
         val totalDurationStyledString = SpannableStringBuilder(totalDuration)
         totalDurationStyledString.setSpan(colorSpan, start, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)
