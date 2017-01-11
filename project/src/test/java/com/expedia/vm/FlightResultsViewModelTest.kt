@@ -1,6 +1,8 @@
 package com.expedia.vm
 
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import org.junit.Before
 import org.junit.Test
@@ -9,6 +11,7 @@ import org.robolectric.RuntimeEnvironment
 import rx.observers.TestSubscriber
 
 @RunWith(RobolectricRunner::class)
+@RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
 class FlightResultsViewModelTest {
 
     val context = RuntimeEnvironment.application

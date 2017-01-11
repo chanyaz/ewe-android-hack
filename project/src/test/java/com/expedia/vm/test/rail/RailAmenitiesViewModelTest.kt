@@ -6,6 +6,8 @@ import com.expedia.bookings.data.rail.responses.RailProduct
 import com.expedia.bookings.data.rail.responses.RailSearchResponse
 import com.expedia.bookings.data.rail.responses.RailOffer
 import com.expedia.bookings.data.rail.responses.RailSegment
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.testutils.JSONResourceReader
 import com.expedia.vm.rail.RailAmenitiesViewModel
@@ -31,6 +33,7 @@ class RailAmenitiesViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun outboundLegNotSet() {
         amenitiesVM = RailAmenitiesViewModel()
         amenitiesVM.railProductObservable.onNext(testRailProduct)

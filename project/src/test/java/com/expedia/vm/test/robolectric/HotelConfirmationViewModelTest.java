@@ -24,6 +24,8 @@ import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.lob.lx.ui.activity.LXBaseActivity;
 import com.expedia.bookings.services.CarServices;
 import com.expedia.bookings.services.HotelCheckoutResponse;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.AddToCalendarUtilsTests;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.CarDataUtils;
@@ -67,6 +69,7 @@ public class HotelConfirmationViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void addToCalendarBtnObserver() {
 		boolean isCheckIn = true;
 		givenHotelName();
@@ -82,6 +85,7 @@ public class HotelConfirmationViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void addCheckOutEventToCalendar() {
 		boolean isCheckIn = false;
 		givenHotelName();

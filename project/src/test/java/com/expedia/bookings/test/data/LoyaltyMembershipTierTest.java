@@ -1,14 +1,19 @@
 package com.expedia.bookings.test.data;
 
-import org.junit.Test;
 
 import com.expedia.bookings.data.LoyaltyMembershipTier;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
+import com.expedia.bookings.test.robolectric.RobolectricRunner;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+@RunWith(RobolectricRunner.class)
 public class LoyaltyMembershipTierTest {
 
 	@Test
@@ -19,6 +24,7 @@ public class LoyaltyMembershipTierTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA})
 	public void testFromApiValue() throws Exception {
 		assertEquals(LoyaltyMembershipTier.NONE, LoyaltyMembershipTier.fromApiValue(null));
 		assertEquals(LoyaltyMembershipTier.NONE, LoyaltyMembershipTier.fromApiValue(""));
@@ -30,6 +36,7 @@ public class LoyaltyMembershipTierTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA})
 	public void testToApiValue() throws Exception {
 		assertNull(LoyaltyMembershipTier.NONE.toApiValue());
 		assertEquals("BLUE", LoyaltyMembershipTier.BASE.toApiValue());

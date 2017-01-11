@@ -6,7 +6,9 @@ import com.expedia.bookings.R
 import com.expedia.bookings.data.TripDetails
 import com.expedia.bookings.data.User
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -46,6 +48,7 @@ class FlightConfirmationViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun flightConfirmationViewModelTest() {
         val expiresInFuture = DateTime.now().plusDays(50).toString()
         val response = getCheckoutResponse(expiresInFuture)

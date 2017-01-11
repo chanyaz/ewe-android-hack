@@ -6,6 +6,8 @@ import com.expedia.bookings.data.rail.responses.BaseRailOffer
 import com.expedia.bookings.data.rail.responses.RailCreateTripResponse
 import com.expedia.bookings.data.rail.responses.RailDomainProduct
 import com.expedia.bookings.data.rail.responses.RailTripOffer
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.rail.RailCostSummaryBreakdownViewModel
@@ -45,7 +47,7 @@ class RailCostSummaryBreakdownViewModelTest {
         breakdownsSubscriber.assertReceivedOnNext(listOf(expectedBreakdown))
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun priceBreakdownFeesIncluded() {
         costBreakdownVM = RailCostSummaryBreakdownViewModel(activity, false)
 

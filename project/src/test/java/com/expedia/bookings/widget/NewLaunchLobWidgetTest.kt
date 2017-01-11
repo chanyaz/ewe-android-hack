@@ -9,6 +9,8 @@ import com.expedia.bookings.data.LobInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.launch.widget.NewLaunchLobWidget
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.NewLaunchLobViewModel
 import com.mobiata.android.util.SettingUtils
@@ -49,18 +51,21 @@ class NewLaunchLobWidgetTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightNotAvailableIndiaPOS() {
         setPOS(PointOfSaleId.INDIA)
         validateFlightNotAvialable()
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightNotAvailableArgentinaPOS() {
         setPOS(PointOfSaleId.ARGENTINA)
         validateFlightNotAvialable()
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testFlightNotAvailableVietnamPOS() {
         setPOS(PointOfSaleId.VIETNAM)
         validateFlightNotAvialable()

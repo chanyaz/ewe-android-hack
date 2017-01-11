@@ -80,6 +80,7 @@ class HotelDetailsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testDiscountPercentageVipAccessTonightOnly() {
         val hotel = makeHotel()
         hotel.currentAllotment = "0"
@@ -175,6 +176,7 @@ class HotelDetailsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testOnlyVipAccess() {
         val hotel = makeHotel()
         hotel.currentAllotment = "0"
@@ -206,6 +208,7 @@ class HotelDetailsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testVipAccessWithLoyaltyApplied() {
         val hotel = makeHotel()
         hotel.currentAllotment = "0"
@@ -472,6 +475,7 @@ class HotelDetailsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testNotSoldOutVisibility() {
         val hotel = makeHotel()
 
@@ -498,6 +502,7 @@ class HotelDetailsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testSoldOutReverseVisibility() {
         val hotel = makeHotel()
 

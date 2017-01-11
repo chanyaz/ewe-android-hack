@@ -4,6 +4,8 @@ import android.view.View
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.packages.PackageOfferModel
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.flights.FlightOverviewViewModel
 import org.junit.Before
@@ -39,7 +41,7 @@ class FlightOverviewPresenterTest {
         testSubscriber.assertValueCount(1)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun showBaggageFees() {
         val expectedUrl = "https://www.expedia.com/" + BAGGAGE_FEES_URL_PATH
         createSelectedFlightLeg()
