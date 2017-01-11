@@ -14,6 +14,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.VisibleForTesting;
 import android.util.TimeFormatException;
 
 import com.expedia.bookings.R;
@@ -761,13 +762,16 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 	}
 
-	private void handleSupportEmail() {
+	@VisibleForTesting
+	protected void handleSupportEmail() {
 		Intent intent = SocialUtils
-			.getEmailIntent(this, getString(R.string.email_app_support), getString(R.string.email_app_support_headline), DebugInfoUtils.generateEmailBody(this));
+			.getEmailIntent(this, getString(R.string.email_app_support), getString(R.string.email_app_support_headline),
+				DebugInfoUtils.generateEmailBody(this));
 		startActivity(intent);
 	}
 
-	private void handleSignIn() {
+	@VisibleForTesting
+	protected void handleSignIn() {
 		NavUtils.goToSignIn(this);
 	}
 

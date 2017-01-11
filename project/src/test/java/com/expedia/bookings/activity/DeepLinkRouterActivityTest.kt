@@ -33,6 +33,45 @@ class DeepLinkRouterActivityTest {
         assertPhoneLaunchActivityStarted(deepLinkRouterActivity)
     }
 
+    @Test
+    fun homeDeeplink() {
+        val homeUrl = "expda://home"
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(homeUrl)
+
+        val nextStartedActivity = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
+        val expectedIntent = Intent(deepLinkRouterActivity, NewPhoneLaunchActivity::class.java)
+        expectedIntent.putExtra(PhoneLaunchActivity.ARG_FORCE_SHOW_WATERFALL, true)
+        assertEquals(expectedIntent, nextStartedActivity)
+    }
+
+    @Test
+    fun signInDeeplink() {
+        val signInUrl = "expda://signIn"
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(signInUrl)
+
+        assertEquals(1, deepLinkRouterActivity.signInCallsCount)
+    }
+
+    @Test
+    fun supportEmailDeeplink() {
+        val supportEmailUrl = "expda://supportEmail"
+        val deepLinkRouterActivity = getDeepLinkRouterActivity(supportEmailUrl)
+
+        assertEquals(1, deepLinkRouterActivity.supportEmailCallsCount)
+    }
+
+    private fun getDeepLinkRouterActivity(deepLinkUrl : String): TestDeepLinkRouterActivity {
+        val deepLinkRouterActivityController = createSystemUnderTest()
+        val mockItineraryManager = createMockItineraryManager()
+        val deepLinkRouterActivity = deepLinkRouterActivityController.get()
+
+        deepLinkRouterActivity.mockItineraryManager = mockItineraryManager
+        setIntentOnActivity(deepLinkRouterActivityController, deepLinkUrl)
+        deepLinkRouterActivityController.setup()
+
+        return deepLinkRouterActivity
+    }
+
     private fun assertPhoneLaunchActivityStarted(deepLinkRouterActivity: TestDeepLinkRouterActivity) {
         val nextStartedActivity = Shadows.shadowOf(deepLinkRouterActivity).peekNextStartedActivity()
         val expectedIntent = Intent(deepLinkRouterActivity, NewPhoneLaunchActivity::class.java)
@@ -50,19 +89,28 @@ class DeepLinkRouterActivityTest {
         return deepLinkRouterActivityController
     }
 
-    private fun setIntentOnActivity(deepLinkRouterActivityController: ActivityController<TestDeepLinkRouterActivity>, sharedItinUrl: String) {
-        val uri = Uri.parse(sharedItinUrl)
+    private fun setIntentOnActivity(deepLinkRouterActivityController: ActivityController<TestDeepLinkRouterActivity>, deepLinkUrl: String) {
+        val uri = Uri.parse(deepLinkUrl)
         val intent = Intent("", uri)
         deepLinkRouterActivityController.withIntent(intent)
     }
 
     class TestDeepLinkRouterActivity() : DeepLinkRouterActivity() {
 
+        var signInCallsCount = 0
+        var supportEmailCallsCount = 0
         lateinit var mockItineraryManager: ItineraryManager
 
         override fun getItineraryManagerInstance(): ItineraryManager {
             return mockItineraryManager
         }
-    }
 
+        override fun handleSignIn() {
+            signInCallsCount++
+        }
+
+        override fun handleSupportEmail() {
+            supportEmailCallsCount++
+        }
+    }
 }
