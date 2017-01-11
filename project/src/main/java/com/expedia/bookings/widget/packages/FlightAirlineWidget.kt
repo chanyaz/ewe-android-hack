@@ -16,9 +16,8 @@ import com.expedia.bookings.widget.TextView
 
 class FlightAirlineWidget(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
 
-    fun update(airlines: List<Airline>, isRoundTrip: Boolean, isEarnMessageVisible: Boolean) {
-        if ((airlines.size > 2 && ((isRoundTrip
-                && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)) || isEarnMessageVisible))
+    fun update(airlines: List<Airline>, isRoundTripMessageVisible: Boolean, isEarnMessageVisible: Boolean) {
+        if ((airlines.size > 2 && (isRoundTripMessageVisible || isEarnMessageVisible))
                 || airlines.size > 3) {
             addAirlineViewWithMultipleCarriersImage()
         } else {

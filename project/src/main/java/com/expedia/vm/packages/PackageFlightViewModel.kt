@@ -22,4 +22,8 @@ class PackageFlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractF
     override fun isEarnMessageVisible(earnMessage: String): Boolean {
         return Strings.isNotEmpty(earnMessage) && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages
     }
+
+    override fun getRoundTripMessageVisibilty(): Boolean {
+        return false
+    }
 }
