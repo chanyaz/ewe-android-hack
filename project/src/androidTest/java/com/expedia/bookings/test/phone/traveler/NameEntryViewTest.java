@@ -5,21 +5,28 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import android.support.design.widget.TextInputLayout;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.TravelerName;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.traveler.NameEntryView;
 import com.expedia.vm.traveler.TravelerNameViewModel;
+import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class NameEntryViewTest {
@@ -36,8 +43,24 @@ public class NameEntryViewTest {
 
 	@Before
 	public void setUp() {
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariate.CONTROL.ordinal());
+		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, false);
+
 		nameView = (NameEntryView) activityTestRule.getRoot();
 		Ui.getApplication(InstrumentationRegistry.getTargetContext()).defaultTravelerComponent();
+	}
+
+	@Test
+	public void testMaterialForm() throws Throwable {
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
+		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true);
+
+		NameEntryView nameEntryView = (NameEntryView) LayoutInflater.from(activityTestRule.getActivity())
+			.inflate(R.layout.test_name_entry_view, null);
+
+		assertTrue(nameEntryView.getMaterialFormTestEnabled());
+		TextInputLayout textInputLayout = (TextInputLayout) nameEntryView.findViewById(R.id.first_name_layout_input);
+		assertNotNull(textInputLayout);
 	}
 
 	@Test

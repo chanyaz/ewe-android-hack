@@ -2,6 +2,7 @@ package com.expedia.util
 
 import android.graphics.ColorMatrixColorFilter
 import android.graphics.drawable.Drawable
+import android.support.design.widget.TextInputLayout
 import android.view.View
 import android.widget.CompoundButton
 import android.widget.EditText
@@ -18,6 +19,7 @@ import rx.Observable
 import rx.Observer
 import rx.Subscription
 import rx.exceptions.OnErrorNotImplementedException
+import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 
 fun <T> endlessObserver(body: (T) -> Unit): Observer<T> {
@@ -90,7 +92,7 @@ fun <T : Any?> Observable<T>.safeSubscribe(observer: Observer<T>): Subscription 
 }
 
 // Only emits non-null data
-fun <T: Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Subscription {
+fun <T : Any?> Observable<T>.safeSubscribe(onNextFunc: (T) -> Unit): Subscription {
     return this.subscribe {
         if (it != null) {
             onNextFunc.invoke(it as T)
@@ -228,4 +230,16 @@ fun TextView.subscribeTextChange(observer: Observer<String>): Subscription {
     return RxTextView.afterTextChangeEvents(this).map({
         it.view().text.toString()
     }).distinctUntilChanged().subscribe(observer)
+}
+
+fun EditText.subscribeMaterialFormsError(observer: BehaviorSubject<Boolean>, errorMessage: String) {
+    observer.subscribe { hasError ->
+        val compounds = this.compoundDrawables
+        this.setCompoundDrawablesWithIntrinsicBounds(compounds[0], compounds[1], null, compounds[3])
+        if (hasError) {
+            (this.parent as TextInputLayout).error = errorMessage
+        } else {
+            (this.parent as TextInputLayout).error = null
+        }
+    }
 }

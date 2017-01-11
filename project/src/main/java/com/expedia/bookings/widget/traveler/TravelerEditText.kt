@@ -97,8 +97,8 @@ class TravelerEditText(context: Context, attrs: AttributeSet?) : EditText(contex
 
     override fun onInitializeAccessibilityNodeInfo(nodeInfo: AccessibilityNodeInfo) {
         super.onInitializeAccessibilityNodeInfo(nodeInfo)
-        val text = this.text.toString()
-        val hint = this.hint.toString()
+        val text = this.text?.toString()
+        val hint = this.hint?.toString()
         val conDescription = if (Strings.isNotEmpty(this.contentDescription)) {
             this.contentDescription.toString()
         } else ""
