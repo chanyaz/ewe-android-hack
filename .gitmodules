@@ -15,4 +15,4 @@
 	url = git@github.com:/ExpediaInc/ewe-android-time.git
 [submodule "lib/bug-reporter"]
 	path = lib/bug-reporter
-	url = git@github.com:/TRIPA013/bug-reporter.git
+	url = git@github.com:/ExpediaInc/ewe-android-bug-reporter.git
