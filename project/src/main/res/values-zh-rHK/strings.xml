@@ -843,6 +843,8 @@
     <string name="prices_oneway_label">每位單程價</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">來回</string>
+    <!-- Label clarifying the type of flight trip -->
+    <string name="Roundtrip">來回</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">每位來回價低至</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -1217,9 +1219,9 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">沒有即將進行的旅程。</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">請輸入行程編號</string>
+    <string name="enter_itinerary_number">輸入旅客行程編號按鈕</string>
     <!-- Enter a Guest itinerary number -->
-    <string name="enter_a_guest_itinerary_number">請輸入旅客行程編號</string>
+    <string name="enter_a_guest_itinerary_number">輸入旅客行程編號</string>
     <!-- Fetching your itinerary -->
     <string name="fetching_your_itinerary">正載入您的行程…</string>
     <!-- Error fetching itinerary -->
@@ -4308,6 +4310,11 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} 分鐘</string>
 
+    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
+    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
+        <item quantity="one">此價格尚餘 {seats} 個位</item>
+        <item quantity="other">此價格尚餘 {seats} 個位</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}日</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4721,10 +4728,15 @@
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">原價 {percentage} 折扣。\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">超筍優惠 {unrealdeal}\u0020</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} 往 {arrivalairport}。{durationhours} {durationmins} \u0020</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">停留 {layoverhours} {layovermins} \u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} 往 {arrivalairport}。{durationhours} {durationmins}。\u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">停留 {layoverhours} {layovermins}。\u0020</string>
+    <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
+    <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
+        <item quantity="one">此價格尚餘 {seatsleft} 個位</item>
+        <item quantity="other">此價格尚餘 {seatsleft} 個位</item>
+    </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">飛往。按鈕。{to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
@@ -4799,9 +4811,9 @@
     <!-- Error message displayed when insurance fails to be added to a trip -->
     <string name="insurance_add_error">很抱歉，我們未能添加旅遊保險。請再試一次，或選擇不添加旅遊保險而繼續預訂。</string>
     <!-- Benefits of purchasing insurance for domestic flights -->
-    <string name="insurance_benefits_domestic">1. 您的機票不設退款而您因病無法成行。&lt;br/&gt;&lt;br/&gt;2. 您因傷無法乘搭回程航班。&lt;br/&gt;&lt;br/&gt;3. 您的旅伴因出現受保緊急醫療情況而無法成行。</string>
+    <string name="insurance_benefits_domestic">1. 您的機票不設退款而您因病無法成行。&lt;br/&gt;&lt;br/&gt;2.您因傷無法乘搭回程航班。&lt;br/&gt;&lt;br/&gt;3.您的旅伴因出現受保緊急醫療情況而無法成行。</string>
     <!-- Benefits of purchasing insurance for international flights -->
-    <string name="insurance_benefits_international">1. 您的機票不設退款而您因病無法成行。&lt;br/&gt;&lt;br/&gt;2. 您需要補購遺失的行李 (包括手提電腦、電話或相機)。&lt;br/&gt;&lt;br/&gt;3. 您的保險不包旅行時的醫療開支。</string>
+    <string name="insurance_benefits_international">1. 您的機票不設退款而您因病無法成行。&lt;br/&gt;&lt;br/&gt;2.您需要補購遺失的行李 (包括手提電腦、電話或相機)。&lt;br/&gt;&lt;br/&gt;3.您的保險不包旅行時的醫療開支。</string>
     <!-- Insurance call to action; links to list of benefits -->
     <string name="insurance_description">您可能需要旅遊保險的 3 個情況</string>
     <!-- Error message displayed when insurance fails to be removed from a trip -->
