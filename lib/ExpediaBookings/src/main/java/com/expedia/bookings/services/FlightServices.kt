@@ -103,6 +103,8 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
                             segment.durationMinutes = travelPeriod.minutes
                             leg.durationHour += travelPeriod.hours
                             leg.durationMinute += travelPeriod.minutes
+                            leg.totalTravelDistance += segment.distance
+                            leg.totalTravelDistanceUnits = segment.distanceUnits
 
                             if (lastSegment != null) {
                                 val layOverPeriod = Period(lastArrival, segmentDepartureTime);

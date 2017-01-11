@@ -2,7 +2,10 @@ package com.expedia.bookings.utils
 
 import android.app.Activity
 import android.content.res.Resources
+import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowDateFormat
 import org.junit.Before
@@ -106,6 +109,29 @@ class FlightV2UtilsTest {
         testFlightLeg.flightSegments[0].operatingAirlineName = "Alaska Airlines"
         val testOperatingAirlinesNameString = FlightV2Utils.getOperatingAirlineNameString(activity, testFlightLeg.flightSegments[0])
         assertEquals("Operated by Alaska Airlines", testOperatingAirlinesNameString)
+    }
+
+    @Test
+    fun testStylizedFlightDurationString() {
+        testFlightLeg.durationHour = 2
+        testFlightLeg.durationMinute = 20
+        testFlightLeg.totalTravelDistance = 939
+        testFlightLeg.totalTravelDistanceUnits = "miles"
+
+        RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppMaterialFlightDistanceOnDetails)
+
+        val controlString = FlightV2Utils.getStylizedFlightDurationString(activity, testFlightLeg, R.color.packages_total_duration_text)
+        assertEquals("Total Duration: 2h 20m", controlString)
+
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppMaterialFlightDistanceOnDetails)
+
+        val variantString = FlightV2Utils.getStylizedFlightDurationString(activity, testFlightLeg, R.color.packages_total_duration_text)
+        assertEquals("Total Duration: 2h 20m • 939 miles", variantString)
+
+        testFlightLeg.totalTravelDistanceUnits = ""
+        val string = FlightV2Utils.getStylizedFlightDurationString(activity, testFlightLeg, R.color.packages_total_duration_text)
+        assertEquals("Total Duration: 2h 20m", string)
+
     }
 
     fun buildTestFlightLeg() : FlightLeg {

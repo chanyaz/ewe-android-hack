@@ -3094,7 +3094,7 @@
             "mixedCarrierFlight": false,
             "originCity": "San Francisco, CA",
             "destinationCity": "Detroit",
-            "totalTravelDistance": "3,320",
+            "totalTravelDistance": "3320",
             "totalTravelDistanceUnits": "miles",
             "outbound": true,
             "seatMapUrlList": [
@@ -3129,7 +3129,7 @@
                 "arrivalAirport": "Boston (Logan Intl.)",
                 "departureDateTimeISO": "2016-02-02T21:45:00.000-08:00",
                 "arrivalDateTimeISO": "2016-02-03T06:10:00.000-05:00",
-                "totalTravelDistance": "2,698",
+                "totalTravelDistance": 2698,
                 "totalTravelDistanceUnits": "miles",
                 "trainSegment": false
               },
@@ -3204,7 +3204,7 @@
             "mixedCarrierFlight": false,
             "originCity": "Detroit, MI",
             "destinationCity": "San Francisco",
-            "totalTravelDistance": "3,320",
+            "totalTravelDistance": "3320",
             "totalTravelDistanceUnits": "miles",
             "outbound": false,
             "seatMapUrlList": [
@@ -3266,7 +3266,7 @@
                 "arrivalAirport": "San Francisco (SFO)",
                 "departureDateTimeISO": "2016-02-04T19:05:00.000-05:00",
                 "arrivalDateTimeISO": "2016-02-04T22:54:00.000-08:00",
-                "totalTravelDistance": "2,698",
+                "totalTravelDistance": 2698,
                 "totalTravelDistanceUnits": "miles",
                 "trainSegment": false
               }
