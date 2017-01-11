@@ -23,6 +23,7 @@ abstract class AbstractFlightViewModel(protected val context: Context, protected
     abstract fun price(): String
     abstract fun getUrgencyMessageVisibilty(): Boolean
     abstract fun isEarnMessageVisible(earnMessage: String): Boolean
+    abstract fun getRoundTripMessageVisibilty(): Boolean
 
     var contentDescription = getFlightContentDesc()
 
