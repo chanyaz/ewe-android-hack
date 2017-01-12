@@ -79,6 +79,10 @@
     <string name="checkout_text">결제</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">중복된 여행</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">가격 변경</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">고객님 여행의 가격이 {oldprice}에서 {newprice}의 금액으로 변경되었습니다. 요금은 자주 변경됩니다. 지금 바로 예약하여 이 가격을 확보하세요.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">가격 변경됨</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">새 카드 입력</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">숙박객 정보</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">정보 입력</string>
     <!-- Text for enter payment details line 1 -->
@@ -2596,7 +2598,7 @@
     <!-- Summary of the user's hotel stay.  %1$s is the # of guests, %2$s is the duration, e.g. "3 Guests, Aug 1 to Aug 3" -->
     <string name="stay_summary_TEMPLATE">%1$s, %2$s</string>
     <!-- Hotel confirmation directions text -->
-    <string name="hotel_confirmation_directions">호텔까지 찾아오시는 길</string>
+    <string name="hotel_confirmation_directions">찾아오시는 길</string>
     <!-- Button label for getting flights to a particular location.  %s is a location, e.g. "Flights to San Francisco" -->
     <string name="rent_a_car_TEMPLATE">%1$s에서 렌터카 대여</string>
     <!-- Hotel confirmation page -->

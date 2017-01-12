@@ -79,6 +79,10 @@
     <string name="checkout_text">Reservar</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Viagem duplicada</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">Mudança de preço</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">O preço de sua viagem mudou de {oldprice} para {newprice}. As tarifas podem mudar com frequência. Reserve agora para garantir esse preço.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">O preço mudou</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Insira o novo cartão de crédito/débito</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Detalhes do hóspede</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Insira suas informações</string>
     <!-- Text for enter payment details line 1 -->

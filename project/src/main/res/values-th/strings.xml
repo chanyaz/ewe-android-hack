@@ -79,6 +79,10 @@
     <string name="checkout_text">ชำระเงิน</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">ทริปซ้ำกัน</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">การเปลี่ยนแปลงราคา</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">ค่าเดินทางของคุณเปลี่ยนจาก {oldprice} เป็น {newprice} ราคาอาจมีการเปลี่ยนแปลง จองเลยเพื่อล็อคราคานี้</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">ราคามีการเปลี่ยนแปลง</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">ป้อนบัตรเครดิต/เดบิตใบใหม่</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">รายละเอียดผู้เข้าพัก</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">ป้อนข้อมูลของคุณ</string>
     <!-- Text for enter payment details line 1 -->

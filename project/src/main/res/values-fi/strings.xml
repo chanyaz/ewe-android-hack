@@ -62,9 +62,9 @@
     <!-- Cars price templates-->
     <string name="cars_daily_text">per päivä</string>
     <!-- Cars checkout price breakdown for POS same as pickup location templates-->
-    <string name="cars_checkout_breakdown_us_text">Hinnat on valuutassa %s.</string>
+    <string name="cars_checkout_breakdown_us_text">Hinnat ovat valuutassa %s.</string>
     <!-- Cars checkout price breakdown for pickup location different than POS templates-->
-    <string name="cars_checkout_breakdown_non_us_text">Hinnat on valuutassa %1$s. Kaikki noutohetkellä veloitettavat verot ja maksut maksetaan paikallisessa valuutassa (%2$s).</string>
+    <string name="cars_checkout_breakdown_non_us_text">Hinnat ovat valuutassa %1$s. Kaikki noutohetkellä veloitettavat verot ja maksut maksetaan paikallisessa valuutassa (%2$s).</string>
     <!-- Cars weekly price templates-->
     <string name="cars_weekly_text">per viikko</string>
     <!-- Cars weekly price templates-->
@@ -79,6 +79,10 @@
     <string name="checkout_text">Maksu</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Sama matka</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">Hintamuutos</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">Matkasi hinta on muuttunut. Vanha hinta oli {oldprice} ja uusi hinta on {newprice}. Hinnat muuttuvat usein. Varaa nyt hyödyntääksesi tämän hinnan.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Hinta on muuttunut</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Anna uuden pankki-/luottokortin tiedot</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Asiakkaan tiedot</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Anna tietosi</string>
     <!-- Text for enter payment details line 1 -->
@@ -376,7 +378,7 @@
     <!-- LX checkout cost breakdown for alert button -->
     <string name="lx_cost_breakdown_button_text">Valmis</string>
     <!-- LX checkout price breakdown for POS same as pickup location templates-->
-    <string name="lx_checkout_breakdown_price_disclaimer_text">Hinnat on valuutassa %s.</string>
+    <string name="lx_checkout_breakdown_price_disclaimer_text">Hinnat ovat valuutassa %s.</string>
     <!-- Checkout price breakdown Total Price Label -->
     <string name="checkout_breakdown_total_price">Loppusumma</string>
     <!-- Text for error toolbar-->
