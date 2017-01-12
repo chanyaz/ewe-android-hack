@@ -9,10 +9,11 @@ import android.widget.Spinner
 import com.expedia.bookings.R
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.SpinnerAdapterWithHint
+import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 
 class RailDeliverySpinnerWithValidationIndicator(context: Context, attrs: AttributeSet?): LinearLayout(context, attrs) {
 
-    val spinner: Spinner by bindView(R.id.rail_delivery_spinner)
+    val spinner: AccessibleSpinner by bindView(R.id.rail_delivery_spinner)
     val validationIndicator: ImageView by bindView(R.id.validation_indicator)
 
     private val spinnerFocusListener = SpinnerFocusListener()

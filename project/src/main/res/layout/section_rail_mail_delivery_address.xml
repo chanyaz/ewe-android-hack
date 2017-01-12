@@ -19,7 +19,7 @@
         <com.expedia.bookings.section.RailDeliverySpinnerWithValidationIndicator
             android:id="@+id/edit_delivery_option_spinner"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content" />
 
         <com.expedia.bookings.widget.accessibility.AccessibleEditText
             android:id="@+id/edit_address_line_one"

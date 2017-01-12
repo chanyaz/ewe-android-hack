@@ -72,9 +72,9 @@ public class SectionLocation extends LinearLayout
 		mContext = context;
 
 		//Display fields
-		mFields.add(this.mDisplayAddressCountry);
-		mFields.add(this.mDisplayAddressBothLines);
-		mFields.add(this.mDisplayCityStateZipOneLine);
+		mFields.add(mDisplayAddressCountry);
+		mFields.add(mDisplayAddressBothLines);
+		mFields.add(mDisplayCityStateZipOneLine);
 
 		//Validation Indicators
 		mFields.add(mValidAddrLineOne);
@@ -85,13 +85,13 @@ public class SectionLocation extends LinearLayout
 		mFields.add(mValidDeliveryOption);
 
 		//Edit fields
-		mFields.add(this.mEditAddressLineOne);
-		mFields.add(this.mEditAddressLineTwo);
-		mFields.add(this.mEditAddressCity);
-		mFields.add(this.mEditAddressState);
-		mFields.add(this.mEditAddressPostalCode);
-		mFields.add(this.mEditCountrySpinner);
-		mFields.add(this.mEditDeliveryOptionSpinner);
+		mFields.add(mEditAddressLineOne);
+		mFields.add(mEditAddressLineTwo);
+		mFields.add(mEditAddressCity);
+		mFields.add(mEditAddressState);
+		mFields.add(mEditAddressPostalCode);
+		mFields.add(mEditCountrySpinner);
+		mFields.add(mEditDeliveryOptionSpinner);
 	}
 
 	@Override
@@ -768,6 +768,8 @@ public class SectionLocation extends LinearLayout
 							(RailTicketDeliveryOption) selected.getItem());
 					}
 					onChange(SectionLocation.this);
+
+					mEditAddressLineOne.getField().requestFocus();
 				}
 
 				@Override
