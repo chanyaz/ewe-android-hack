@@ -94,6 +94,7 @@ class FlightApiMockResponseGenerator() {
             hashMap.put(PAYMENT_FAILED, ApiError.Code.PAYMENT_FAILED)
             hashMap.put(UNKNOWN_ERROR, ApiError.Code.UNKNOWN_ERROR)
             hashMap.put(SESSION_TIMEOUT, ApiError.Code.SESSION_TIMEOUT)
+            hashMap.put(INVALID_INPUT, ApiError.Code.INVALID_INPUT)
             hashMap
         }
 
@@ -102,6 +103,7 @@ class FlightApiMockResponseGenerator() {
         val PAYMENT_FAILED = "paymentfailederror"
         val UNKNOWN_ERROR = "unknownerror"
         val SESSION_TIMEOUT = "sessiontimeout"
+        val INVALID_INPUT = "invalidinput"
         val TRIP_ID = "tripId"
 
         fun getSearchResponseFilePath(params: MutableMap<String, String>): String {
