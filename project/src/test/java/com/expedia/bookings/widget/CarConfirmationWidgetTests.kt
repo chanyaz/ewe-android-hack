@@ -14,7 +14,9 @@ import com.expedia.bookings.data.cars.SearchCarFare
 import com.expedia.bookings.data.cars.SearchCarOffer
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.test.MockCarServiceTestRule
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -35,6 +37,7 @@ class CarConfirmationWidgetTests {
         @Rule get
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testCarConfirmationWidgetButtonsAccessibility() {
         val activity = Robolectric.buildActivity(Activity::class.java).create().get()
         val carConfirmationWidget = LayoutInflater.from(activity).inflate(R.layout.widget_car_confirmation, null) as CarConfirmationWidget

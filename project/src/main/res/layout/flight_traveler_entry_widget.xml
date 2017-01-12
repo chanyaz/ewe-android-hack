@@ -55,6 +55,16 @@
             android:visibility="gone"
             app:spinner_label="@string/passport_country"/>
 
+        <TextView
+            android:id="@+id/passport_country_error_message"
+            android:layout_width="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_height="wrap_content"
+            android:text="@string/passport_validation_error_message"
+            android:textColor="#FFD50000"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
         <com.expedia.bookings.widget.FlightTravelerAdvancedOptionsWidget
             android:id="@+id/traveler_advanced_options_widget"
             android:layout_width="match_parent"

@@ -19,6 +19,8 @@ import com.expedia.bookings.data.trips.TripBucketItemLX
 import com.expedia.bookings.data.trips.TripBucketItemPackages
 import com.expedia.bookings.data.trips.TripBucketItemTransport
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.widget.AccountButton
 import com.squareup.phrase.Phrase
 import org.junit.Before
@@ -103,7 +105,7 @@ class AccountButtonTest {
         assertEquals(expectedText, rewardsText)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testSignInTextWithoutRewards() {
         val rewardsText = accountButton.signInWithoutRewardsText.toString()
         val expectedText = Phrase.from(context, R.string.Sign_in_with_TEMPLATE).putOptional("brand", "Expedia").format().toString()

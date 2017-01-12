@@ -24,7 +24,9 @@ import com.expedia.bookings.enums.PassengerCategory
 import com.expedia.bookings.interceptors.MockInterceptor
 import com.expedia.bookings.services.CardFeeService
 import com.expedia.bookings.services.FlightServices
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.Ui
 import com.expedia.vm.FlightCheckoutViewModel
@@ -86,6 +88,7 @@ class FlightCheckoutViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun legalTextObservable() {
         givenGoodTripResponse()
         setupSystemUnderTest()
@@ -165,7 +168,7 @@ class FlightCheckoutViewModelTest {
         assertEquals(newTripResponse.tripId, flightCheckoutParams.tripId)
     }
 
-    @Test
+    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun selectedFlightHasFeesShowCardFeeWarnings() {
         setupSystemUnderTest()
 

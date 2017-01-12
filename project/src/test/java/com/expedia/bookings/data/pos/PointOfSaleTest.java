@@ -11,7 +11,9 @@ import android.content.Context;
 import com.expedia.bookings.data.LoyaltyMembershipTier;
 import com.expedia.bookings.data.Traveler;
 import com.expedia.bookings.data.User;
+import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 
 import static org.junit.Assert.assertEquals;
@@ -30,6 +32,7 @@ public class PointOfSaleTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void checkSupportPhoneNumbersMiddleTier() {
 		Mockito.when(mockTraveler.getIsLoyaltyMembershipActive()).thenReturn(true);
 		Mockito.when(mockTraveler.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.MIDDLE);
@@ -48,6 +51,7 @@ public class PointOfSaleTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void checkSupportPhoneNumbersTopTier() {
 		Mockito.when(mockTraveler.getIsLoyaltyMembershipActive()).thenReturn(true);
 		Mockito.when(mockTraveler.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.TOP);
@@ -81,6 +85,7 @@ public class PointOfSaleTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void checkSupportPhoneNumbersBlue() {
 		Mockito.when(mockTraveler.getIsLoyaltyMembershipActive()).thenReturn(true);
 		Mockito.when(mockTraveler.getLoyaltyMembershipTier()).thenReturn(LoyaltyMembershipTier.BASE);

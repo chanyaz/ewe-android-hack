@@ -7,6 +7,8 @@ import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.data.packages.PackageSearchParams
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import org.joda.time.LocalDate
@@ -20,6 +22,7 @@ import kotlin.test.assertEquals
 class PackageCheckoutOverviewViewModelTest {
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun packageViewModelTest() {
         val viewmodel = PackageCheckoutOverviewViewModel(getContext())
         val trip = PackageCreateTripResponse()

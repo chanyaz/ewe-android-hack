@@ -9,9 +9,11 @@ import android.widget.AdapterView
 import android.widget.LinearLayout
 import android.widget.Spinner
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.section.AssistanceTypeSpinnerAdapter
 import com.expedia.bookings.section.SeatPreferenceSpinnerAdapter
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.util.notNullAndObservable
@@ -24,6 +26,9 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
     val redressNumber: TravelerEditText by bindView(R.id.redress_number)
     val assistancePreferenceSpinner: Spinner by bindView(R.id.edit_assistance_preference_spinner)
     val seatPreferenceSpinner: Spinner by bindView(R.id.edit_seat_preference_spinner)
+    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
+
 
     val travelerInfoDialog: AlertDialog by lazy {
         val builder = AlertDialog.Builder(context)
@@ -63,10 +68,13 @@ class FlightTravelerAdvancedOptionsWidget(context: Context, attrs: AttributeSet?
             val assistanceAdapter = assistancePreferenceSpinner.adapter as AssistanceTypeSpinnerAdapter
             assistancePreferenceSpinner.setSelection(assistanceAdapter.getAssistanceTypePosition(assist))
         }
+
     }
 
     init {
-        View.inflate(context, R.layout.traveler_advanced_options_widget, this)
+
+        View.inflate(context, if (materialFormTestEnabled) R.layout.material_traveler_advanced_options_widget
+        else R.layout.traveler_advanced_options_widget, this)
         orientation = VERTICAL
 
         if (PointOfSale.getPointOfSale().shouldShowKnownTravelerNumber()) {

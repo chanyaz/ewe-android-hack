@@ -15,7 +15,6 @@ public class AbacusUtils {
 
 	public static final int EBAndroidAppCarInsuranceIncludedCKO = 7774;
 	public static final int ExpediaAndroidAppAATestSep2015 = 11455;
-	public static final int EBAndroidAppHotelsV2SuperlativeReviewsABTest = 8688;
 	public static final int EBAndroidAppLXCategoryABTest = 9165;
 	public static final int EBAndroidAppLXFirstActivityListingExpanded = 9467;
 	public static final int EBAndroidAppFlightsRoundtripMessageTest = 9636;
@@ -44,7 +43,6 @@ public class AbacusUtils {
 	public static final int EBAndroidAppUniversalCheckoutMaterialForms = 12721;
 	public static final int EBAndroidAppMaterialFlightSearchRoundTripMessage = 12765;
 	public static final int EBAndroidAppHotelColorSwitch = 12875;
-	public static final int EBAndroidAppMaterialFlightDistanceOnDetails = 12766;
 	public static final int ABTEST_IGNORE_DEBUG = -1;
 
 	public enum DefaultVariate {
@@ -70,7 +68,6 @@ public class AbacusUtils {
 		List<Integer> testIDs = new ArrayList<>();
 		testIDs.add(EBAndroidAppCarInsuranceIncludedCKO);
 		testIDs.add(ExpediaAndroidAppAATestSep2015);
-		testIDs.add(EBAndroidAppHotelsV2SuperlativeReviewsABTest);
 		testIDs.add(EBAndroidAppLXCategoryABTest);
 		testIDs.add(EBAndroidAppLXFirstActivityListingExpanded);
 		testIDs.add(EBAndroidAppFlightsRoundtripMessageTest);
@@ -99,7 +96,6 @@ public class AbacusUtils {
 		testIDs.add(EBAndroidAppUniversalCheckoutMaterialForms);
 		testIDs.add(EBAndroidAppMaterialFlightSearchRoundTripMessage);
 		testIDs.add(EBAndroidAppHotelColorSwitch);
-		testIDs.add(EBAndroidAppMaterialFlightDistanceOnDetails);
 		return testIDs;
 	}
 

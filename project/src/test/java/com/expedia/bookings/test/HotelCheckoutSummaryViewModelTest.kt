@@ -48,6 +48,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun happy() {
         givenHappyHotelProductResponse()
         setup()
@@ -93,6 +94,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun freeCancellationWindowIsProvided() {
         givenHappyHotelProductResponse()
         setup()
@@ -120,6 +122,7 @@ class HotelCheckoutSummaryViewModelTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun payLaterHotelDueNowIsDepostitAmount() {
         givenPayLaterHotelProductResponse()
         setup()

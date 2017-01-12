@@ -4434,8 +4434,6 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Layover in ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Total Duration: {duration}</string>
-    <!-- Example : Total Duration: 2h 20m • 939 miles -->
-    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">Total Duration: {duration} • {distance} {distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">#{itinerary} sent to {email}</string>
@@ -4974,5 +4972,18 @@
     <string name="dialog_app_rating_feedback_button">Send Feedback</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">No, thanks</string>
+    <!-- Checkout validation error message for email -->
+    <string name="email_validation_error_message">Enter a valid email address</string>
+    <!-- Checkout validation error message for first name -->
+    <string name="first_name_validation_error_message">Enter first name using letters only</string>
+    <!-- Checkout validation error message for last name -->
+    <string name="last_name_validation_error_message">Enter last name using letters only (minimum 2 characters)</string>
+    <!-- Checkout validation error message for phone number -->
+    <string name="phone_validation_error_message">Enter a valid phone number</string>
+    <!-- Checkout validation error message for date of birth -->
+    <string name="date_of_birth_validation_error_message">Enter valid date of birth</string>
+    <!-- Checkout validation error message for gender -->
+    <string name="gender_validation_error_message">Select a gender</string>
+    <string name="passport_validation_error_message">Select a passport country</string>
 
 </resources>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/edit_birth_date_text_layout_btn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        app:errorEnabled="true">
+
+        <com.expedia.bookings.widget.traveler.TravelerEditText
+            android:id="@+id/edit_birth_date_text_btn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:cursorVisible="false"
+            android:drawableRight="@drawable/material_dropdown"
+            android:hint="@string/date_of_birth"
+            android:inputType="none"
+            android:nextFocusForward="@+id/edit_gender_spinner"
+            android:textSize="@dimen/traveler_input_text_size"
+            app:error_cont_desc="@string/accessibility_cont_desc_role_error" />
+
+    </android.support.design.widget.TextInputLayout>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <com.expedia.bookings.widget.traveler.TravelerSpinner
+            android:id="@+id/edit_gender_spinner"
+            style="@style/FakeSpinner.Light"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="6dp"
+            android:layout_weight="1"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:nextFocusForward="@+id/first_name_input"
+            android:popupBackground="@android:color/white"
+            android:textSize="@dimen/traveler_input_text_size"
+            app:spinner_label="@string/gender" />
+
+        <TextView
+            android:id="@+id/gender_error_message"
+            android:layout_width="wrap_content"
+            android:paddingLeft="5dp"
+            android:layout_height="wrap_content"
+            android:text="@string/gender_validation_error_message"
+            android:textColor="#FFD50000"
+            android:textSize="12sp"
+            android:visibility="gone" />
+
+    </LinearLayout>
+
+</merge>

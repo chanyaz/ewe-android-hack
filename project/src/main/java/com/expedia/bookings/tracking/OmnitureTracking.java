@@ -362,7 +362,6 @@ public class OmnitureTracking {
 
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelSearchScreenSoldOutTest);
 		trackAbacusTest(s, AbacusUtils.ExpediaAndroidAppAATestSep2015);
-		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelsV2SuperlativeReviewsABTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFilterProminence);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelResultsPerceivedInstantTest);
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelFavoriteTest);
@@ -3831,6 +3830,9 @@ public class OmnitureTracking {
 
 		ADMS_Measurement s = getFreshTrackingObject();
 
+		if (lob == LineOfBusiness.HOTELS) {
+			trackAbacusTest(s, AbacusUtils.EBAndroidAppHotelColorSwitch);
+		}
 
 		s.setEvar(12, LAUNCH_SEARCH + "." + lobString);
 		s.setEvar(28, link);
@@ -5632,7 +5634,6 @@ public class OmnitureTracking {
 		s.setProp(2, "Flight");
 		if (isOutboundFlight) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode);
-			trackAbacusTest(s, AbacusUtils.EBAndroidAppMaterialFlightDistanceOnDetails);
 		}
 		s.track();
 	}

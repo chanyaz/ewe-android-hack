@@ -27,7 +27,9 @@ import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.services.PackageServices;
+import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
@@ -71,6 +73,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void strikeThroughPriceShow() {
 		hotel.lowRateInfo.priceToShowUsers = 10f;
 		hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f;
@@ -83,6 +86,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void contentDescriptionWithStrikeThroughPercent() {
 		hotel.lowRateInfo.priceToShowUsers = 10f;
 		hotel.lowRateInfo.strikethroughPriceToShowUsers = 12f;
@@ -106,6 +110,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void contentDescriptionWithZeroGuestRating() {
 		hotel.hotelStarRating = 4;
 		hotel.hotelGuestRating = 0;
@@ -122,6 +127,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void contentDescriptionWithNonZeroRatings() {
 		hotel.hotelStarRating = 4;
 		hotel.hotelGuestRating = 3;
@@ -130,6 +136,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void strikeThroughPriceShowForPackages() {
 		TestSubscriber<PackageSearchResponse> observer = new TestSubscriber<>();
 		PackageSearchParams params = (PackageSearchParams) new PackageSearchParams.Builder(26, 329)
@@ -299,6 +306,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void vipMessageWithNoLoyaltyMessage() {
 		givenHotelWithVipAccess();
 		UserLoginTestUtil.Companion.setupUserAndMockLogin(getUser());
@@ -309,6 +317,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void vipLoyaltyMessageVisible() {
 		givenHotelWithVipAccess();
 		givenHotelWithShopWithPointsAvailable();
@@ -319,6 +328,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void vipLoyaltyMessageDisplayedOnMaps() {
 		givenHotelWithVipAccess();
 		givenHotelWithShopWithPointsAvailable();

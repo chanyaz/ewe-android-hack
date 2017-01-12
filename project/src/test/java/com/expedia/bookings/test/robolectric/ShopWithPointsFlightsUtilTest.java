@@ -8,7 +8,9 @@ import org.robolectric.RuntimeEnvironment;
 import android.content.Context;
 
 import com.expedia.bookings.R;
+import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.ShopWithPointsFlightsUtil;
 import com.mobiata.android.util.SettingUtils;
 
@@ -20,6 +22,7 @@ public class ShopWithPointsFlightsUtilTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA})
 	public void testIsShopWithPointsEnabled() {
 		Assert.assertEquals(ShopWithPointsFlightsUtil.isShopWithPointsEnabled(getContext()), false);
 

@@ -1,6 +1,8 @@
 package com.expedia.vm
 
 import com.expedia.bookings.R
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
@@ -20,6 +22,7 @@ class ReviewRatingDialogViewModelTest {
     lateinit var vm: UserReviewDialogViewModel
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLinksAreCorrect() {
         vm = UserReviewDialogViewModel(context)
 

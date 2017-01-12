@@ -32,15 +32,6 @@
 
         <ListPreference
             android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_hotel_review_superlatives"
-            android:entryValues="@array/abacus_hotel_review_superlatives_values"
-            android:summary="%s"
-            android:key="8688"
-            android:layout="@layout/preference"
-            android:title="Hotels v2 Superlative reviews - 8688" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
             android:entries="@array/abacus_default_choices"
             android:entryValues="@array/abacus_default_choice_values"
             android:summary="%s"
@@ -176,15 +167,6 @@
             android:layout="@layout/preference"
             android:summary="%s"
             android:title="Flight Round Trip on FSR" />
-
-        <ListPreference
-            android:defaultValue="@string/preference_abacus_default"
-            android:entries="@array/abacus_default_choices"
-            android:entryValues="@array/abacus_default_choice_values"
-            android:key="12766"
-            android:layout="@layout/preference"
-            android:summary="%s"
-            android:title="Material Flight - Distance on Flight Detail" />
 
     </PreferenceCategory>
 

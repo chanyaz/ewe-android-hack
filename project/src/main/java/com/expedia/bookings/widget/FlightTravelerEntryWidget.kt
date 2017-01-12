@@ -7,10 +7,13 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.TextView
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.accessibility.AccessibleSpinner
@@ -23,6 +26,8 @@ import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
 class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : AbstractTravelerEntryWidget(context, attrs) {
 
     val DEFAULT_EMPTY_PASSPORT = 0
+    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
 
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: AccessibleSpinner by bindView(R.id.passport_country_spinner)
@@ -75,7 +80,12 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
         vm.passportValidSubject.subscribe { isValid ->
             val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
-            adapter.setErrorVisible(!isValid)
+            if (!materialFormTestEnabled) {
+                adapter.setErrorVisible(!isValid)
+            } else {
+                val passportErrorMessage = findViewById(R.id.passport_country_error_message) as TextView
+                passportErrorMessage.visibility = if (isValid) View.GONE else View.VISIBLE
+            }
         }
     }
 
@@ -138,6 +148,10 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
             (viewModel as FlightTravelerEntryWidgetViewModel).passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+            if (materialFormTestEnabled) {
+                val passportErrorMessage = findViewById(R.id.passport_country_error_message) as TextView
+                passportErrorMessage.visibility = if (position == 0) View.VISIBLE else View.GONE
+            }
             if (position == 0) {
                 adapter.setErrorVisible(true)
             }

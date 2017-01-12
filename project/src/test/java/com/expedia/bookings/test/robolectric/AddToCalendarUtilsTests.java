@@ -13,6 +13,8 @@ import android.text.TextUtils;
 
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.utils.AddToCalendarUtils;
 
 import static org.junit.Assert.assertEquals;
@@ -26,18 +28,21 @@ public class AddToCalendarUtilsTests {
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void generateHotelAddToCalendarIntentCheckOutDate() {
 		String confirmationNumber = "112358132134";
 		testGenerateHotelAddToCalendarIntent(false, confirmationNumber, "");
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void generateHotelAddToCalendarIntentCheckInDate() {
 		String confirmationNumber = "112358132134";
 		testGenerateHotelAddToCalendarIntent(true, confirmationNumber, "");
 	}
 
 	@Test
+	@RunForBrands(brands = {MultiBrand.EXPEDIA})
 	public void generateHotelAddToCalendarIntentItineraryNumber() {
 		String itineraryNumber = "431231853211";
 		testGenerateHotelAddToCalendarIntent(false, "", itineraryNumber);

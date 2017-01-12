@@ -20,6 +20,8 @@ import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.trips.TripBucketItemHotelV2
 import com.expedia.bookings.services.LoyaltyServices
 import com.expedia.bookings.test.MockHotelServiceTestRule
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -95,6 +97,7 @@ class PaymentWidgetV2Test {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun testPaymentTile() {
         sut.validateAndBind()
         //For Paying With Points Only

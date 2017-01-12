@@ -9,15 +9,20 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.LinearLayout
 import com.expedia.bookings.R
+import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setAccessibilityHoverFocus
 import com.expedia.bookings.widget.TelephoneSpinner
 import com.expedia.util.notNullAndObservable
+import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.vm.traveler.TravelerPhoneViewModel
 
 class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(context, attrs) {
     val phoneSpinner: TelephoneSpinner by bindView(R.id.edit_phone_number_country_code_spinner)
     val phoneNumber: TravelerEditText by bindView(R.id.edit_phone_number)
+    val materialFormTestEnabled = FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context,
+            AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, R.string.preference_universal_checkout_material_forms)
 
     var isFirstSelected = false
 
@@ -30,12 +35,20 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         }
         phoneSpinner.onItemSelectedListener = PhoneSpinnerItemSelected()
         spinnerUpdated()
+
+        if (materialFormTestEnabled) {
+            phoneNumber.subscribeMaterialFormsError(phoneNumber.viewModel.errorSubject, context.getString(R.string.phone_validation_error_message))
+        }
     }
 
     init {
-        View.inflate(context, R.layout.phone_entry_view, this)
+        if (materialFormTestEnabled) {
+            View.inflate(context, R.layout.material_phone_entry_view, this)
+        } else {
+            View.inflate(context, R.layout.phone_entry_view, this)
+            gravity = Gravity.BOTTOM
+        }
         orientation = HORIZONTAL
-        gravity = Gravity.BOTTOM
     }
 
     override fun onFinishInflate() {

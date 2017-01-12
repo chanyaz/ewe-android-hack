@@ -202,7 +202,6 @@ public class DummyFiletoHandleKotlinLintError {
 		R.drawable.sold_out_pin,
 		R.color.hotelsv2_sold_out_hotel_gray,
 		R.string.room_rate_pay_later_due_now,
-		R.drawable.user_review_background_green,
 		R.string.hotel_guest_recommend_good_superlative,
 		R.string.hotel_guest_recommend_very_good_superlative,
 		R.string.hotel_guest_recommend_excellent_superlative,
@@ -823,9 +822,18 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.lx_search_start_date_cont_desc,
 		R.string.rail_journey_details_cont_desc_TEMPLATE,
 		R.plurals.flight_detail_urgency_message_cont_desc_TEMPLATE,
+		R.layout.material_email_entry_view,
+		R.layout.material_name_entry_view,
+		R.layout.material_phone_entry_view,
+		R.layout.material_traveler_advanced_options_widget,
+		R.layout.material_tsa_entry_view,
+		R.string.email_validation_error_message,
+		R.string.first_name_validation_error_message,
+		R.string.date_of_birth_validation_error_message,
+		R.string.last_name_validation_error_message,
+		R.string.phone_validation_error_message,
 		R.layout.activity_itin_card_details,
 		R.layout.itin_card_details,
-		R.layout.widget_rating_dialog,
-		R.string.package_flight_overview_total_duration_with_distance_TEMPLATE
+		R.layout.widget_rating_dialog
 	};
 }

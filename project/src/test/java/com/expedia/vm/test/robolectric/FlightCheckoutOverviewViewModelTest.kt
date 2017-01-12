@@ -3,6 +3,8 @@ package com.expedia.vm.test.robolectric
 import android.content.Context
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import org.joda.time.LocalDate
@@ -16,6 +18,7 @@ import kotlin.test.assertEquals
 class FlightCheckoutOverviewViewModelTest {
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun flightViewModelTest() {
         val viewmodel = FlightCheckoutOverviewViewModel(getContext())
 

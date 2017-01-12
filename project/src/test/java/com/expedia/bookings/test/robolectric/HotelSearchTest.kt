@@ -11,6 +11,8 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.services.LoyaltyServices
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -101,6 +103,7 @@ class HotelSearchTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.ORBITZ))
     fun shopWithPointsSelection() {
         val testSubscriber = TestSubscriber<HotelSearchParams>()
         val expected = arrayListOf<HotelSearchParams>()

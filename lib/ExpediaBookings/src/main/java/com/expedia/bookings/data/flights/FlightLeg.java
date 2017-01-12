@@ -47,7 +47,7 @@ public class FlightLeg {
 	public String promoCampaignLogoURI;
 	public List<String> seatMapUrlList;
 	public int stopCount;
-	public int totalTravelDistance;
+	public String totalTravelDistance;
 	public String totalTravelDistanceUnits;
 
 	public PackageOfferModel packageOfferModel;
@@ -113,8 +113,6 @@ public class FlightLeg {
 		public int layoverDurationHours;
 		public int layoverDurationMinutes;
 		public int elapsedDays;
-		public int distance;
-		public String distanceUnits;
 
 		public String seatClass;
 		public String bookingCode;

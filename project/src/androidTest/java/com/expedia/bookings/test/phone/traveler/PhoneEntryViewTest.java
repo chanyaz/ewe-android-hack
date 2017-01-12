@@ -6,18 +6,23 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import android.content.Context;
+import android.support.design.widget.TextInputLayout;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.rule.UiThreadTestRule;
 import android.support.test.runner.AndroidJUnit4;
+import android.view.LayoutInflater;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.Phone;
+import com.expedia.bookings.data.abacus.AbacusUtils;
+import com.expedia.bookings.test.espresso.AbacusTestUtils;
 import com.expedia.bookings.test.espresso.CustomMatchers;
 import com.expedia.bookings.test.espresso.EspressoUtils;
 import com.expedia.bookings.test.rules.PlaygroundRule;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.traveler.PhoneEntryView;
 import com.expedia.vm.traveler.TravelerPhoneViewModel;
+import com.mobiata.android.util.SettingUtils;
 
 import static android.support.test.espresso.Espresso.onView;
 import static android.support.test.espresso.action.ViewActions.typeText;
@@ -25,7 +30,9 @@ import static android.support.test.espresso.assertion.ViewAssertions.doesNotExis
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import static junit.framework.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @RunWith(AndroidJUnit4.class)
 public class PhoneEntryViewTest {
@@ -43,8 +50,32 @@ public class PhoneEntryViewTest {
 
 	@Before
 	public void setup() {
+		AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms, AbacusUtils.DefaultVariate.CONTROL.ordinal());
+		SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, false);
+
 		Context context = InstrumentationRegistry.getTargetContext();
 		Ui.getApplication(context).defaultTravelerComponent();
+	}
+
+	@Test
+	public void testMaterialForm() throws Throwable {
+		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms);
+		SettingUtils
+			.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms,
+				true);
+
+		uiThreadTestRule.runOnUiThread(new Runnable() {
+			@Override
+			public void run() {
+				PhoneEntryView phoneEntryView = (PhoneEntryView) LayoutInflater.from(activityTestRule.getActivity())
+					.inflate(R.layout.test_phone_entry_view, null);
+				assertTrue(phoneEntryView.getMaterialFormTestEnabled());
+				TextInputLayout textInputLayout = (TextInputLayout) phoneEntryView
+					.findViewById(R.id.edit_phone_layout_number);
+				assertNotNull(textInputLayout);
+			}
+		});
+
 	}
 
 	@Test

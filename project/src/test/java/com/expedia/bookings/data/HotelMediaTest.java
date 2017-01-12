@@ -4,6 +4,8 @@ import org.json.JSONObject;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import com.expedia.bookings.test.MultiBrand;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.RobolectricRunner;
 import com.expedia.bookings.utils.Images;
 
@@ -28,6 +30,7 @@ public class HotelMediaTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA, MultiBrand.ORBITZ})
 	public void fromToJsonWithUrl() {
 		HotelMedia mediaWithUrl = new HotelMedia(Images.getMediaHost() + "/hotels/1000000/50000/41300/41245/41245_228_l.jpg");
 
