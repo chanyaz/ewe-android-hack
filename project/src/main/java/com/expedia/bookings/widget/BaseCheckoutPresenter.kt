@@ -281,6 +281,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     protected var tripViewModel: BaseCreateTripViewModel by notNullAndObservable { vm ->
         vm.performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
+        vm.priceChangeAlertPriceObservable.map { response -> Pair(response?.getOldPrice(), response?.newPrice()) }.distinctUntilChanged().map { it.first != null && it.second != null }.subscribe(vm.showPriceChangeAlertObservable)
+        vm.showPriceChangeAlertObservable.subscribe { show ->
+            if (show) {
+                showAlertDialogForPriceChange(vm.createTripResponseObservable.value!!)
+            }
+        }
         vm.showCreateTripDialogObservable.subscribe { show ->
             if (show) {
                 createTripDialog.show()
@@ -299,7 +305,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 trackCreateTripPriceChange(getPriceChangeDiffPercentage(response!!.getOldPrice()!!, response!!.newPrice()))
                 if (shouldShowPriceChangeOnCreateTrip(response!!.newPrice().amount, response!!.getOldPrice()!!.amount)) {
                     if (shouldShowAlertForCreateTripPriceChange(response)) {
-                        showAlertDialogForPriceChange(response!!)
+                        vm.priceChangeAlertPriceObservable.onNext(response!!)
                         return@safeSubscribe
                     } else {
                         priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
@@ -646,6 +652,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     fun resetPriceChange() {
         priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
+        tripViewModel.priceChangeAlertPriceObservable.onNext(null)
     }
 
     fun resetAndShowTotalPriceWidget() {
@@ -727,7 +734,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 .put("oldprice", tripResponse.getOldPrice()!!.formattedMoneyFromAmountAndCurrencyCode)
                 .put("newprice", tripResponse.newPrice().formattedMoneyFromAmountAndCurrencyCode)
                 .format())
-        builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, which ->
+        builder.setPositiveButton(context.getString(R.string.ok)) { dialog, which ->
             onCreateTripResponse(tripResponse)
             dialog.dismiss()
         }

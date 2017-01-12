@@ -1,14 +1,18 @@
 package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
+import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripDetails
+import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
+import com.expedia.bookings.test.robolectric.RoboTestHelper
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -19,11 +23,13 @@ import org.junit.runner.RunWith
 import org.robolectric.Robolectric
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
+import org.robolectric.shadows.ShadowAlertDialog
 import org.robolectric.shadows.ShadowResourcesEB
 import rx.observers.TestSubscriber
 import java.math.BigDecimal
 import java.util.ArrayList
 import kotlin.properties.Delegates
+import kotlin.test.assertEquals
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowResourcesEB::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -49,6 +55,33 @@ class FlightPriceChangeTest {
         checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getDummyFlightCreateTripPriceChangeResponse(9.0, 10.0))
         priceChangeSubscriber.assertValueCount(1)
         priceChangeSubscriber.assertValue(true)
+    }
+
+    @Test
+    fun testCreateTripPriceAlert() {
+        RoboTestHelper.bucketTests(AbacusUtils.EBAndroidAppFlightsCreateTripPriceChangeAlert)
+        val priceChangeAlertPriceSubscriber = TestSubscriber<TripResponse>()
+        val showPriceChangeAlertSubscriber = TestSubscriber<Boolean>()
+
+        checkout.resetAndShowTotalPriceWidget()
+        checkout.flightCreateTripViewModel.priceChangeAlertPriceObservable.subscribe(priceChangeAlertPriceSubscriber)
+        checkout.flightCreateTripViewModel.showPriceChangeAlertObservable.subscribe(showPriceChangeAlertSubscriber)
+
+        //Verify multiple createTripResponses just lead to one alert
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getDummyFlightCreateTripPriceChangeResponse(9.01, 10.01))
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getDummyFlightCreateTripPriceChangeResponse(9.01, 10.01))
+        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getDummyFlightCreateTripPriceChangeResponse(9.01, 10.01))
+
+        priceChangeAlertPriceSubscriber.assertValueCount(3)
+        showPriceChangeAlertSubscriber.assertValueCount(1)
+        showPriceChangeAlertSubscriber.assertValue(true)
+
+        val alertDialog = ShadowAlertDialog.getLatestAlertDialog()
+        val okButton = alertDialog.findViewById(android.R.id.button1) as Button
+        val errorMessage = alertDialog.findViewById(android.R.id.message) as android.widget.TextView
+        assertEquals(true, alertDialog.isShowing)
+        assert(errorMessage.text.contains("The price of your trip has changed from $10.01 to $9.01. Rates can change frequently. Book now to lock in this price."))
+        assertEquals("OK", okButton.text )
     }
 
     @Test
