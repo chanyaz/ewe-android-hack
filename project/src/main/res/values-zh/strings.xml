@@ -79,6 +79,10 @@
     <string name="checkout_text">付款</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">重复行程</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">价格有变动</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">您此次旅行的价格已由 {oldprice} 更改为 {newprice}。价格经常变化。马上预订，锁定这个价格。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">价格有变动</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">输入新的借记卡或信用卡信息</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">住客详细信息</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">输入您的信息</string>
     <!-- Text for enter payment details line 1 -->
@@ -3749,7 +3751,7 @@
     <string name="country_sh">圣赫勒拿</string>
     <string name="country_kn">圣基茨和尼维斯</string>
     <string name="country_lc">圣卢西亚</string>
-    <string name="country_mf">圣马丁（法属部分)</string>
+    <string name="country_mf">圣马丁（法属部分）</string>
     <string name="country_pm">圣皮埃尔和密克隆</string>
     <string name="country_vc">圣文森特和格林纳丁斯</string>
     <string name="country_ws">萨摩亚</string>

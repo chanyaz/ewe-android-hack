@@ -79,6 +79,10 @@
     <string name="checkout_text">Betaling</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Dobbeltbooket rejse</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">Prisændring</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">Prisen på din rejse er blevet ændret fra {oldprice} til {newprice}. Priserne kan hurtigt ændre sig. Book nu for at være sikker på at få denne pris.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Prisen har ændret sig</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Indtast nyt kreditkort/debetkort</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Oplysninger om gæst</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Indtast dine oplysninger</string>
     <!-- Text for enter payment details line 1 -->

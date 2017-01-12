@@ -79,6 +79,10 @@
     <string name="checkout_text">付款</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">重複的旅行</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">價格有變</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">您行程的價格已由 {oldprice} 改為 {newprice}。價格可能經常變動。請即預訂以鎖定此價格。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">價格有變</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">輸入新的扣帳卡/信用卡</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">旅客資料</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">輸入您的資料</string>
     <!-- Text for enter payment details line 1 -->
@@ -3505,7 +3507,7 @@
     <!-- Display for distances - but abbreviated, for space.  1$ is a distance, 2$ is a unit, e.g. "5 mi" -->
     <string name="distance_template_short">%1$s %2$s</string>
     <!-- Resort Fee format for Non US POS e.g. "20 USD" -->
-    <string name="non_us_resort_fee_format_TEMPLATE">{amount} {currency}</string>
+    <string name="non_us_resort_fee_format_TEMPLATE">{currency}{amount}</string>
     <!-- Menu strings -->
     <!-- Label for "settings" menu item. -->
     <string name="Settings">設定</string>
