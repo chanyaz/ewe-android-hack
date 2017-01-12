@@ -99,7 +99,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         newWebView.closeWebView.subscribe {
             back()
         }
-        newWebView.viewModel.webViewUrlPostObservable.onNext(" https://www.expedia.com/HotelCheckout?tripid="+ checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.value.tripId)
+        newWebView.viewModel.webViewUrlPostObservable.onNext("https://www.expedia.com/HotelCheckout?tripid="+ checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.value.tripId)
         newWebView
     }
 
