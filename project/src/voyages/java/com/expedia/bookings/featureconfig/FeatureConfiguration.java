@@ -50,6 +50,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
+	public boolean shouldShowEmailUsOnAppSupportWebview() {
+		return false;
+	}
+
+	@Override
 	public boolean isAppCrossSellInActivityShareContentEnabled() {
 		return false;
 	}

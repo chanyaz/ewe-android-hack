@@ -42,6 +42,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return context.getString(R.string.app_support_url);
 	}
 
+	@Override
+	public boolean shouldShowEmailUsOnAppSupportWebview() {
+		return true;
+	}
+
 	public boolean isAppCrossSellInActivityShareContentEnabled() {
 		return true;
 	}
