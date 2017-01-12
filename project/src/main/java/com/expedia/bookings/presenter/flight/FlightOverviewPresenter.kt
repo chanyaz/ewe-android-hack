@@ -8,26 +8,33 @@ import android.util.AttributeSet
 import android.view.View
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.FlightTripResponse
+import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.presenter.BaseTwoScreenOverviewPresenter
 import com.expedia.bookings.tracking.FlightsV2Tracking
 import com.expedia.bookings.utils.bindView
+import com.expedia.util.safeSubscribe
 import com.expedia.util.subscribeText
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.FlightCheckoutOverviewViewModel
 import com.expedia.vm.flights.FlightCheckoutSummaryViewModel
+import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoScreenOverviewPresenter(context, attrs) {
     val flightSummary: FlightSummaryWidget by bindView(R.id.flight_summary)
     val viewModel = FlightCheckoutSummaryViewModel()
     val isBucketedForExpandedRateDetailsTest = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppFlightRateDetailExpansion)
+    val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
 
     init {
         bundleOverviewHeader.checkoutOverviewHeaderToolbar.viewmodel = FlightCheckoutOverviewViewModel(context)
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.viewmodel = FlightCheckoutOverviewViewModel(context)
-        getCheckoutPresenter().totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.trip_total))
-        getCheckoutPresenter().totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))
+        totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(R.string.trip_total))
+        totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_taxes_and_fees))
         getCheckoutPresenter().getCheckoutViewModel().showDebitCardsNotAcceptedSubject.subscribe(getCheckoutPresenter().paymentWidget.viewmodel.showDebitCardsNotAcceptedSubject)
+        getCheckoutPresenter().getCheckoutViewModel().createTripResponseObservable.safeSubscribe(flightCostSummaryObservable)
         scrollSpaceView = flightSummary.scrollSpaceView
         bundleOverviewHeader.checkoutOverviewFloatingToolbar.visibility = View.INVISIBLE
         bundleOverviewHeader.isExpandable = !isBucketedForExpandedRateDetailsTest
@@ -88,5 +95,32 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     override fun translateHeader(f: Float, forward: Boolean) {
         if (!isBucketedForExpandedRateDetailsTest)
             super.translateHeader(f, forward)
+    }
+
+    override fun getCostSummaryBreakdownViewModel(): FlightCostSummaryBreakdownViewModel {
+        return FlightCostSummaryBreakdownViewModel(context)
+    }
+
+    override fun onCreateTripResponse(tripResponse: TripResponse?) {
+        onTripResponse(tripResponse)
+    }
+
+    private fun onTripResponse(tripResponse: TripResponse?) {
+        checkoutPresenter.loginWidget.updateRewardsText(checkoutPresenter.getLineOfBusiness())
+        getCheckoutPresenter().insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
+        totalPriceWidget.viewModel.total.onNext(tripResponse?.newPrice)
+        totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
+        (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
+    }
+
+    override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
+        tripResponse as FlightCheckoutResponse
+        val newPrice = tripResponse.newPrice
+        val oldPrice = tripResponse.getOldPrice()
+        if (oldPrice != null) {
+            priceChangeWidget.viewmodel.originalPrice.onNext(oldPrice)
+            priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
+        }
+        onTripResponse(tripResponse)
     }
 }

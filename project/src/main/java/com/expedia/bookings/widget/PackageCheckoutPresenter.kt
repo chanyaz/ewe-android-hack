@@ -35,29 +35,7 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         return false
     }
 
-    override fun handleCheckoutPriceChange(response: TripResponse) {
-        onCreateTripResponse(response)
-    }
 
-    override fun onCreateTripResponse(response: TripResponse?) {
-        response as PackageCreateTripResponse
-        loginWidget.updateRewardsText(getLineOfBusiness())
-        totalPriceWidget.viewModel.total.onNext(response.bundleTotal)
-        val packageTotalPrice = response.packageDetails.pricing
-        totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
-        val costSummaryViewModel = (totalPriceWidget.breakdown.viewmodel as PackageCostSummaryBreakdownViewModel)
-        costSummaryViewModel.packageCostSummaryObservable.onNext(response)
-
-        val messageString =
-                if (response.packageDetails.pricing.hasResortFee() && !PointOfSale.getPointOfSale().shouldShowBundleTotalWhenResortFees())
-                    R.string.cost_summary_breakdown_total_due_today
-                else
-                    R.string.bundle_total_text
-        totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
-        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
-            totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-        (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(response.packageDetails.flight.details.offer)
-    }
 
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {
         return DefaultToTraveler(FlightTravelersPresenter::class.java)
@@ -114,9 +92,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         return tripViewModel as PackageCreateTripViewModel
     }
 
-    override fun getCostSummaryBreakdownViewModel(): PackageCostSummaryBreakdownViewModel {
-        return PackageCostSummaryBreakdownViewModel(context)
-    }
 
     override fun showMainTravelerMinimumAgeMessaging(): Boolean {
         return true

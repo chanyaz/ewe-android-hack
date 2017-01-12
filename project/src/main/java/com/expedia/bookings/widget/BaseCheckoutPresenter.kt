@@ -82,11 +82,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     abstract fun makeCreateTripViewModel(): BaseCreateTripViewModel
     abstract fun getCheckoutViewModel(): AbstractCheckoutViewModel
     abstract fun getCreateTripViewModel(): BaseCreateTripViewModel
-    abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
     abstract fun showMainTravelerMinimumAgeMessaging(): Boolean
     abstract fun trackCheckoutPriceChange(priceDiff: Int)
-    abstract fun handleCheckoutPriceChange(response: TripResponse)
     abstract fun createTravelersViewModel(): TravelersViewModel
     abstract fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean
     abstract fun trackCreateTripPriceChange(priceChangeDiffPercentage: Int)
@@ -120,8 +118,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
 //    bottom contains all these-->
     val bottomContainer: LinearLayout by bindView(R.id.bottom_container)
-    val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
-    val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
+
     val slideToPurchaseLayout: LinearLayout by bindView(R.id.slide_to_purchase_layout)
     val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
     val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
@@ -207,15 +204,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 checkoutDialog.dismiss()
             }
         }
-        vm.checkoutPriceChangeObservable.subscribe { response ->
-            slideToPurchase.resetSlider()
-            animateInSlideToPurchase(true)
-            priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
-            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
-            priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
-            trackCheckoutPriceChange(getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice))
-            handleCheckoutPriceChange(response)
-        }
+
         vm.noNetworkObservable.subscribe {
             slideToPurchase.resetSlider()
         }
@@ -232,57 +221,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         return diffPercentage
     }
 
-    protected var priceChangeViewModel: PriceChangeViewModel by notNullAndObservable { vm ->
-        priceChangeWidget.viewmodel = vm
-        vm.priceChangeVisibility.subscribe { visible ->
-            if (priceChangeWidget.measuredHeight == 0) {
-                priceChangeWidget.measure(View.MeasureSpec.makeMeasureSpec(this.width, View.MeasureSpec.AT_MOST),
-                        View.MeasureSpec.makeMeasureSpec(this.height, View.MeasureSpec.UNSPECIFIED))
-            }
-            val height = priceChangeWidget.measuredHeight
-            if (visible) {
-                priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
-                AnimUtils.slideInOut(priceChangeWidget, height, object : Animator.AnimatorListener {
-                    override fun onAnimationCancel(animation: Animator) {
 
-                    }
-
-                    override fun onAnimationRepeat(animation: Animator) {
-
-                    }
-
-                    override fun onAnimationStart(animation: Animator) {
-
-                    }
-
-                    override fun onAnimationEnd(animation: Animator) {
-                        priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
-                    }
-
-                })
-                AnimUtils.slideInOut(bottomContainerDropShadow, height)
-            } else {
-                priceChangeWidget.translationY = height.toFloat()
-            }
-        }
-    }
-
-    protected var bundleTotalPriceViewModel: BundleTotalPriceViewModel by notNullAndObservable { vm ->
-        totalPriceWidget.viewModel = vm
-        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
-            vm.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-    }
-
-    protected var baseCostSummaryBreakdownViewModel: BaseCostSummaryBreakdownViewModel by notNullAndObservable { vm ->
-        totalPriceWidget.breakdown.viewmodel = vm
-        vm.iconVisibilityObservable.subscribe { show ->
-            totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
-            totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
-        }
-    }
 
     protected var tripViewModel: BaseCreateTripViewModel by notNullAndObservable { vm ->
-        vm.performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
         vm.showCreateTripDialogObservable.subscribe { show ->
             if (show) {
                 createTripDialog.show()
@@ -294,22 +235,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 createTripDialog.dismiss()
             }
         }
-        vm.createTripResponseObservable.safeSubscribe { response ->
-            priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
-            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
-            if (hasPriceChange(response)) {
-                trackCreateTripPriceChange(getPriceChangeDiffPercentage(response!!.getOldPrice()!!, response!!.newPrice))
-                if (shouldShowPriceChangeOnCreateTrip(response!!.newPrice.amount, response!!.getOldPrice()!!.amount)) {
-                    if (shouldShowAlertForCreateTripPriceChange(response)) {
-                        showAlertDialogForPriceChange(response!!)
-                        return@safeSubscribe
-                    } else {
-                        priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
-                    }
-                }
-            }
-            onCreateTripResponse(response)
-        }
+
         setupCreateTripViewModel(vm)
     }
 
@@ -321,7 +247,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         return (Math.ceil(newPrice.toDouble()) - Math.ceil(oldPrice.toDouble())) != 0.0
     }
 
-    abstract fun onCreateTripResponse(response: TripResponse?)
 
     init {
         View.inflate(context, R.layout.base_checkout_presenter, this)
@@ -358,9 +283,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
     private fun setUpViewModels() {
-        priceChangeViewModel = PriceChangeViewModel(context, getLineOfBusiness())
-        baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
-        bundleTotalPriceViewModel = BundleTotalPriceViewModel(context)
         ckoViewModel = makeCheckoutViewModel()
         tripViewModel = makeCreateTripViewModel()
         getCreateTripViewModel().createTripResponseObservable.safeSubscribe(getCheckoutViewModel().createTripResponseObservable)
@@ -621,14 +543,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
     }
 
-    fun resetPriceChange() {
-        priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
-    }
 
-    fun resetAndShowTotalPriceWidget() {
-        resetPriceChange()
-        totalPriceWidget.resetPriceWidget()
-    }
 
     fun resetTravelers() {
         travelersPresenter.resetTravelers()
@@ -697,21 +612,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         return paymentViewModel
     }
 
-    fun showAlertDialogForPriceChange(tripResponse: TripResponse) {
-        val builder = AlertDialog.Builder(context)
-        builder.setTitle(context.getString(R.string.price_change_text))
-        builder.setMessage(Phrase.from(this, R.string.price_change_alert_TEMPLATE)
-                .put("oldprice", tripResponse.getOldPrice()!!.formattedMoneyFromAmountAndCurrencyCode)
-                .put("newprice", tripResponse.newPrice.formattedMoneyFromAmountAndCurrencyCode)
-                .format())
-        builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, which ->
-            onCreateTripResponse(tripResponse)
-            dialog.dismiss()
-        }
-        builder.setOnCancelListener { onCreateTripResponse(tripResponse) }
-        val dialog = builder.create()
-        dialog.show()
-    }
+
 
     inner class DefaultToTraveler(className: Class<*>) : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, className) {
         override fun startTransition(forward: Boolean) {

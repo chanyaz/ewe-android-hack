@@ -53,13 +53,11 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     init {
         val debitCardsNotAcceptedSubject = BehaviorSubject.create<Spanned>(SpannedString(context.getString(R.string.flights_debit_cards_not_accepted)))
-        val flightCostSummaryObservable = (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable
 
         makePaymentErrorSubscriber(getCheckoutViewModel().showDebitCardsNotAcceptedSubject, ckoViewModel.showingPaymentWidgetSubject,
                 debitCardsNotAcceptedTextView, debitCardsNotAcceptedSubject)
 
 
-        getCheckoutViewModel().createTripResponseObservable.safeSubscribe(flightCostSummaryObservable)
         getCreateTripViewModel().showNoInternetRetryDialog.subscribe {
             val retryFun = fun() {
                 getCreateTripViewModel().performCreateTrip.onNext(Unit)
@@ -101,28 +99,7 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
     }
 
-    override fun onCreateTripResponse(tripResponse: TripResponse?) {
-        onTripResponse(tripResponse)
-    }
 
-    private fun onTripResponse(tripResponse: TripResponse?) {
-        loginWidget.updateRewardsText(getLineOfBusiness())
-        insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
-        totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice)
-        totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
-        (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
-    }
-
-    override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
-        tripResponse as FlightCheckoutResponse
-        val newPrice = tripResponse.newPrice
-        val oldPrice = tripResponse.getOldPrice()
-        if (oldPrice != null) {
-            priceChangeWidget.viewmodel.originalPrice.onNext(oldPrice)
-            priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
-        }
-        onTripResponse(tripResponse)
-    }
 
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
@@ -163,10 +140,6 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
 
     override fun getCreateTripViewModel(): FlightCreateTripViewModel {
         return tripViewModel as FlightCreateTripViewModel
-    }
-
-    override fun getCostSummaryBreakdownViewModel(): FlightCostSummaryBreakdownViewModel {
-        return FlightCostSummaryBreakdownViewModel(context)
     }
 
     override fun showMainTravelerMinimumAgeMessaging(): Boolean {

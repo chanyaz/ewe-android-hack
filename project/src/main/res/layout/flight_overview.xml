@@ -20,6 +20,41 @@
         android:layout_marginTop="?attr/actionBarSize"
         android:fitsSystemWindows="true" />
 
+    <LinearLayout
+        android:id="@+id/bottom_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:animateLayoutChanges="true"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/bottom_container_drop_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/drop_shadow" />
+
+        <com.expedia.bookings.widget.PriceChangeWidget
+            android:id="@+id/price_change"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
+
+        <com.expedia.bookings.widget.TotalPriceWidget
+            android:id="@+id/total_price_widget"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/footer_button_height"
+            android:background="#FFFFFF"
+            android:paddingLeft="19dp"
+            android:paddingRight="19dp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1px"
+            android:background="@color/divider_gray" />
+
+    </LinearLayout>
+
     <FrameLayout
         android:id="@+id/button_container"
         android:layout_width="match_parent"

@@ -141,8 +141,8 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
     override fun back(): Boolean {
         val didHandleBack = super.back()
         if (!didHandleBack) {
-            checkoutPresenter.resetPriceChange()
-            checkoutPresenter.totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+//            resetPriceChange()
+//            checkoutPresenter.totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
         }
         return didHandleBack
     }

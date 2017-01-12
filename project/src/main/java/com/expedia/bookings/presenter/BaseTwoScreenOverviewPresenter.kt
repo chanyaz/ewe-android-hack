@@ -1,6 +1,8 @@
 package com.expedia.bookings.presenter
 
+import android.animation.Animator
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.graphics.Rect
 import android.support.design.widget.AppBarLayout
@@ -14,22 +16,24 @@ import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import com.expedia.bookings.R
+import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
-import com.expedia.bookings.utils.AccessibilityUtil
-import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.bindView
-import com.expedia.bookings.utils.setAccessibilityHoverFocus
-import com.expedia.bookings.widget.BaseCheckoutPresenter
-import com.expedia.bookings.widget.BundleOverviewHeader
-import com.expedia.bookings.widget.CVVEntryWidget
-import com.expedia.bookings.widget.ScrollView
+import com.expedia.bookings.utils.*
+import com.expedia.bookings.widget.*
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
+import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
+import com.expedia.vm.BaseCostSummaryBreakdownViewModel
+import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.WebViewViewModel
+import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
+import com.expedia.vm.packages.BundleTotalPriceViewModel
+import com.squareup.phrase.Phrase
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
@@ -45,6 +49,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     val checkoutButtonContainer: View by bindView(R.id.button_container)
     val checkoutButton: Button by bindView(R.id.checkout_button)
 
+    val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
+    val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
+
     var scrollSpaceView: View? = null
     var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
 
@@ -57,17 +64,79 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         airlineFeeWebview
     }
 
+
+    protected var priceChangeViewModel: PriceChangeViewModel by notNullAndObservable { vm ->
+        priceChangeWidget.viewmodel = vm
+        vm.priceChangeVisibility.subscribe { visible ->
+            if (priceChangeWidget.measuredHeight == 0) {
+                priceChangeWidget.measure(MeasureSpec.makeMeasureSpec(this.width, MeasureSpec.AT_MOST),
+                        MeasureSpec.makeMeasureSpec(this.height, MeasureSpec.UNSPECIFIED))
+            }
+            val height = priceChangeWidget.measuredHeight
+            if (visible) {
+                priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_YES
+                AnimUtils.slideInOut(priceChangeWidget, height, object : Animator.AnimatorListener {
+                    override fun onAnimationCancel(animation: Animator) {
+
+                    }
+
+                    override fun onAnimationRepeat(animation: Animator) {
+
+                    }
+
+                    override fun onAnimationStart(animation: Animator) {
+
+                    }
+
+                    override fun onAnimationEnd(animation: Animator) {
+                        priceChangeWidget.priceChange.importantForAccessibility = View.IMPORTANT_FOR_ACCESSIBILITY_NO
+                    }
+
+                })
+                AnimUtils.slideInOut(checkoutPresenter.bottomContainerDropShadow, height)
+            } else {
+                priceChangeWidget.translationY = height.toFloat()
+            }
+        }
+    }
+
+    protected var bundleTotalPriceViewModel: BundleTotalPriceViewModel by notNullAndObservable { vm ->
+        totalPriceWidget.viewModel = vm
+        if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
+            vm.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
+    }
+
+    protected var baseCostSummaryBreakdownViewModel: BaseCostSummaryBreakdownViewModel by notNullAndObservable { vm ->
+        totalPriceWidget.breakdown.viewmodel = vm
+        vm.iconVisibilityObservable.safeSubscribe { show ->
+            totalPriceWidget.toggleBundleTotalCompoundDrawable(show)
+            totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(show)
+        }
+
+    }
+
     init {
         inflate()
-        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
+        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { response ->
             resetCheckoutState()
+            onCreateTripResponse(response)
         }
-        checkoutPresenter.getCheckoutViewModel().checkoutPriceChangeObservable.subscribe {
+
+        checkoutPresenter.getCheckoutViewModel().checkoutPriceChangeObservable.subscribe { response ->
             resetCheckoutState()
             if (currentState == CVVEntryWidget::class.java.name) {
                 show(checkoutPresenter, FLAG_CLEAR_TOP)
             }
+            checkoutPresenter.slideToPurchase.resetSlider()
+            checkoutPresenter.animateInSlideToPurchase(true)
+            priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
+            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
+            priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
+            checkoutPresenter.trackCheckoutPriceChange(checkoutPresenter.getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice))
+            handleCheckoutPriceChange(response)
         }
+        checkoutPresenter.getCreateTripViewModel().performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
+
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
 
         checkoutPresenter.paymentWidget.toolbarTitle.subscribe(bundleOverviewHeader.toolbar.viewModel.toolbarTitle)
@@ -102,6 +171,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         bundleOverviewHeader.setUpCollapsingToolbar()
 
         overviewLayoutListener = OverviewLayoutListener()
+        priceChangeViewModel = PriceChangeViewModel(context, checkoutPresenter.getLineOfBusiness())
+        bundleTotalPriceViewModel = BundleTotalPriceViewModel(context)
+        baseCostSummaryBreakdownViewModel = getCostSummaryBreakdownViewModel()
+
     }
 
     private val overviewToAirlineFeeWebView = object : Transition(checkoutPresenter.javaClass, PaymentFeeInfoWebView::class.java, DecelerateInterpolator(), ANIMATION_DURATION) {
@@ -284,8 +357,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     override fun back(): Boolean {
         val didHandleBack = super.back()
         if (!didHandleBack) {
-            checkoutPresenter.resetPriceChange()
-            checkoutPresenter.totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
+            resetPriceChange()
+            totalPriceWidget.toggleBundleTotalCompoundDrawable(false)
         }
         return didHandleBack
     }
@@ -298,6 +371,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     abstract fun trackCheckoutPageLoad()
     abstract fun trackPaymentCIDLoad()
     abstract fun inflate()
+    abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
+    abstract fun onCreateTripResponse(response: TripResponse?)
+    abstract fun handleCheckoutPriceChange(response: TripResponse)
 
 
     inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
@@ -312,8 +388,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         if (checkoutPresenter.slideToPurchaseLayout.height > 0) {
             scrollspaceheight -= checkoutPresenter.slideToPurchaseLayout.height
         }
-        if (checkoutPresenter.priceChangeWidget.height > 0) {
-            scrollspaceheight -= checkoutPresenter.priceChangeWidget.height
+        if (priceChangeWidget.height > 0) {
+            scrollspaceheight -= priceChangeWidget.height
         }
         if (scrollSpaceViewLp?.height != scrollspaceheight) {
             scrollSpaceViewLp?.height = scrollspaceheight
@@ -355,5 +431,30 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         val shouldShowSlider = currentState == BaseCheckoutPresenter.CheckoutDefault::class.java.name && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
         checkoutPresenter.bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else sliderHeight
         checkoutButton.isEnabled = isEnabled
+    }
+
+    fun showAlertDialogForPriceChange(tripResponse: TripResponse) {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(context.getString(R.string.price_change_text))
+        builder.setMessage(Phrase.from(this, R.string.price_change_alert_TEMPLATE)
+                .put("oldprice", tripResponse.getOldPrice()!!.formattedMoneyFromAmountAndCurrencyCode)
+                .put("newprice", tripResponse.newPrice.formattedMoneyFromAmountAndCurrencyCode)
+                .format())
+        builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, which ->
+            onCreateTripResponse(tripResponse)
+            dialog.dismiss()
+        }
+        builder.setOnCancelListener { onCreateTripResponse(tripResponse) }
+        val dialog = builder.create()
+        dialog.show()
+    }
+
+    fun resetPriceChange() {
+        priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
+    }
+
+    fun resetAndShowTotalPriceWidget() {
+        resetPriceChange()
+        totalPriceWidget.resetPriceWidget()
     }
 }
