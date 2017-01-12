@@ -72,4 +72,16 @@
             android:title="Enable new itinerary detail view" />
 
     </PreferenceCategory>
+
+    <PreferenceCategory
+        android:layout="@layout/preference_category_title"
+        android:title="Flight Features">
+
+        <CheckBoxPreference
+            android:key="@string/preference_enable_distance_on_flight_overview"
+            android:layout="@layout/preference"
+            android:summary="Distance on Flight overview"
+            android:title="Enable distance on flight overview" />
+
+    </PreferenceCategory>
 </PreferenceScreen>

@@ -13,4 +13,8 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
     override fun pricePerPersonString(selectedFlight: FlightLeg): String {
         return selectedFlight.packageOfferModel.price.differentialPriceFormatted
     }
+
+    override fun showFlightDistance(selectedFlight: FlightLeg): Boolean {
+        return false
+    }
 }

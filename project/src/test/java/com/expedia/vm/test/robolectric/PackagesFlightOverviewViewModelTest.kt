@@ -9,9 +9,10 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import kotlin.test.assertEquals
+import kotlin.test.assertFalse
 
 @RunWith(RobolectricRunner::class)
-class FlightOverviewViewModelTest {
+class PackagesFlightOverviewViewModelTest {
 
     private val context = RuntimeEnvironment.application
 
@@ -103,5 +104,13 @@ class FlightOverviewViewModelTest {
 
         sut.selectedFlightLegSubject.onNext(flightLeg)
         assertEquals("$646.00/person", sut.bundlePriceSubject.value)
+    }
+
+    @Test
+    fun testFlightDistanceVisibilty() {
+        setupSystemUnderTest()
+        setupFlightLeg()
+
+        assertFalse(sut.showFlightDistance(flightLeg))
     }
 }

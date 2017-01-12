@@ -6,6 +6,8 @@ import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.style.ForegroundColorSpan
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.flights.Airline
 import com.expedia.bookings.data.flights.FlightLeg
 import com.mobiata.flightlib.utils.DateTimeUtils
@@ -29,14 +31,30 @@ object FlightV2Utils {
         return getDurationString(context, segment.layoverDurationHours, segment.layoverDurationMinutes)
     }
 
-    @JvmStatic fun getFlightLegDurationContentDescription(context: Context, flightLeg: FlightLeg): String {
+    @JvmStatic fun getFlightLegDurationContentDescription(context: Context, flightLeg: FlightLeg, showFlightDistance: Boolean = false): String {
         val flightDuration = getDurationContentDesc(context, flightLeg.durationHour, flightLeg.durationMinute)
-        return getTotalDurationString(context, flightDuration)
+        val flightDistance = flightLeg.totalTravelDistance
+        val flightDistanceUnit = flightLeg.totalTravelDistanceUnits
+
+        if (showFlightDistance) {
+            return getTotalDurationWithDistanceString(context, flightDuration, flightDistance, flightDistanceUnit)
+        }
+        else {
+            return getTotalDurationString(context, flightDuration)
+        }
     }
 
     private fun getTotalDurationString(context: Context, flightDuration: String): String {
         return Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_TEMPLATE))
                 .put("duration", flightDuration)
+                .format().toString()
+    }
+
+    private fun getTotalDurationWithDistanceString(context: Context, flightDuration: String, distance: String, distanceUnit: String): String {
+        return Phrase.from(context.resources.getString(R.string.package_flight_overview_total_duration_with_distance_TEMPLATE))
+                .put("duration", flightDuration)
+                .put("distance", distance.toString())
+                .put("distanceunit", distanceUnit)
                 .format().toString()
     }
 
@@ -48,12 +66,23 @@ object FlightV2Utils {
         return getDurationContentDesc(context, segment.durationHours, segment.durationMinutes)
     }
 
-    @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int): CharSequence {
+    @JvmStatic fun getStylizedFlightDurationString(context: Context, flight: FlightLeg, colorId: Int, showFlightDistance: Boolean = false): CharSequence {
         val flightDuration = FlightV2Utils.getFlightDurationString(context, flight)
-        var totalDuration = getTotalDurationString(context, flightDuration)
+        val flightDistance = flight.totalTravelDistance
+        val flightDistanceUnit = flight.totalTravelDistanceUnits
+        val totalDuration: String
+        val start: Int
+        val end: Int
+        if (showFlightDistance) {
+            totalDuration = getTotalDurationWithDistanceString(context, flightDuration, flightDistance, flightDistanceUnit)
+            start = totalDuration.indexOf(flightDuration)
+            end = totalDuration.length
+        } else {
+            totalDuration = getTotalDurationString(context, flightDuration)
+            start = totalDuration.indexOf(flightDuration)
+            end = start + flightDuration.length
+        }
 
-        val start = totalDuration.indexOf(flightDuration)
-        val end = start + flightDuration.length
         val colorSpan = ForegroundColorSpan(ContextCompat.getColor(context, colorId))
         val totalDurationStyledString = SpannableStringBuilder(totalDuration)
         totalDurationStyledString.setSpan(colorSpan, start, end, Spannable.SPAN_EXCLUSIVE_INCLUSIVE)

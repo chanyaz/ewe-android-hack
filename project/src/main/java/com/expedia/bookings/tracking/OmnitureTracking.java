@@ -5658,7 +5658,7 @@ public class OmnitureTracking {
 		s.track();
 	}
 
-	public static void trackFlightOverview(Boolean isOutboundFlight, Boolean isRoundTrip) {
+	public static void trackFlightOverview(Boolean isOutboundFlight, Boolean isRoundTrip, Boolean isDistancePresent) {
 		String pageName = !isRoundTrip ? FLIGHT_SEARCH_ONE_WAY_DETAILS :
 			isOutboundFlight ? FLIGHT_SEARCH_ROUNDTRIP_OUT_DETAILS : FLIGHT_SEARCH_ROUNDTRIP_IN_DETAILS;
 		ADMS_Measurement s = createTrackPageLoadEventBase(pageName);
@@ -5666,6 +5666,9 @@ public class OmnitureTracking {
 		s.setProp(2, "Flight");
 		if (isOutboundFlight) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightsSeatClassAndBookingCode);
+			if (isDistancePresent && FeatureToggleUtil.isFeatureEnabled(sContext, R.string.preference_enable_distance_on_flight_overview)) {
+				trackAbacusTest(s, AbacusUtils.EBAndroidAppMaterialFlightDistanceOnDetails);
+			}
 		}
 		s.track();
 	}

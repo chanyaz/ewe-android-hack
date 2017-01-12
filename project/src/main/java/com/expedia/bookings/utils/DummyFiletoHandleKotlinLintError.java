@@ -834,6 +834,7 @@ public class DummyFiletoHandleKotlinLintError {
 		R.string.phone_validation_error_message,
 		R.layout.activity_itin_card_details,
 		R.layout.itin_card_details,
-		R.layout.widget_rating_dialog
+		R.layout.widget_rating_dialog,
+		R.string.package_flight_overview_total_duration_with_distance_TEMPLATE
 	};
 }
