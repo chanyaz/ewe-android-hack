@@ -67,6 +67,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     protected var priceChangeViewModel: PriceChangeViewModel by notNullAndObservable { vm ->
         priceChangeWidget.viewmodel = vm
+        checkoutPresenter.getCreateTripViewModel().performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
         vm.priceChangeVisibility.subscribe { visible ->
             if (priceChangeWidget.measuredHeight == 0) {
                 priceChangeWidget.measure(MeasureSpec.makeMeasureSpec(this.width, MeasureSpec.AT_MOST),
@@ -135,7 +136,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             checkoutPresenter.trackCheckoutPriceChange(checkoutPresenter.getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice))
             handleCheckoutPriceChange(response)
         }
-        checkoutPresenter.getCreateTripViewModel().performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
 
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
 
