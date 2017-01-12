@@ -268,23 +268,6 @@
         android:layout_height="4dp"
         android:background="@drawable/tb_shadow" />
 
-    <FrameLayout
-        android:id="@+id/button_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:background="@color/white">
-
-        <Button
-            android:id="@+id/checkout_button"
-            style="@style/MaterialFooterRoundButtonText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:minHeight="48dp"
-            android:layout_margin="9dp"
-            android:text="@string/Checkout" />
-    </FrameLayout>
-
     <ViewStub
         android:id="@+id/traveler_presenter_stub"
         android:inflatedId="@+id/traveler_presenter"
