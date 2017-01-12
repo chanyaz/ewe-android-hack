@@ -99,7 +99,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         newWebView.closeWebView.subscribe {
             back()
         }
-        newWebView.viewModel.webViewUrlPostObservable.onNext("https://www.expedia.com/Hotel-Search?#")
+        newWebView.viewModel.webViewUrlPostObservable.onNext(" https://www.expedia.com/HotelCheckout?tripid="+ checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.value.tripId)
         newWebView
     }
 
@@ -191,7 +191,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         var presenter = checkoutStub.inflate() as HotelCheckoutPresenter
         presenter.hotelCheckoutWidget.createTripViewmodel = HotelCreateTripViewModel(hotelServices, paymentModel)
         presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices, paymentModel)
-        confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(presenter.hotelCheckoutViewModel.checkoutResponseObservable, context)
+        confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(PublishSubject.create(), context)
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             checkoutDialog.dismiss()

@@ -19,12 +19,14 @@ open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentM
     // outputs
     val errorObservable = PublishSubject.create<ApiError>()
     val noResponseObservable = PublishSubject.create<Throwable>()
-    val checkoutResponseObservable = BehaviorSubject.create<HotelCheckoutResponse>()
+    val checkoutResponseObservable = BehaviorSubject.create<Unit>()
     val priceChangeResponseObservable = BehaviorSubject.create<HotelCreateTripResponse>()
 
     init {
         checkoutParams.subscribe { params ->
-            hotelServices.checkout(params, getCheckoutResponseObserver())
+            checkoutResponseObservable.onNext(Unit)
+
+//            hotelServices.checkout(params, getCheckoutResponseObserver())
         }
     }
 
@@ -71,7 +73,7 @@ open class HotelCheckoutViewModel(val hotelServices: HotelServices, val paymentM
                         }
                     }
                 } else {
-                    checkoutResponseObservable.onNext(checkout)
+//                    checkoutResponseObservable.onNext(checkout)
                 }
             }
 
