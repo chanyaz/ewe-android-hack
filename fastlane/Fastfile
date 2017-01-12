@@ -40,6 +40,18 @@ platform :android do
     demo_mode(enable: false)
   end
 
+  desc "Upload release to Google Play"
+  lane :release do |options|
+    # determine version code of new APK
+    version_code = get_apk_version_code(apk_file: options[:apk_file])
+
+    # prepare release notes
+    import_localized_release_notes(csv_file: options[:csv_file], version_code: version_code)
+
+    # upload
+    #supply()
+  end
+
   desc "Create a new release branch and bump the version on the base branch. Optionally protects the newly created release branch."
   lane :branch_and_bump do |options|
     curr_version = sh "cd .. && perl tools/extract_version.pl project/build.gradle #{options[:flavor]}"

@@ -11,6 +11,11 @@ sudo gem install fastlane
 fastlane android screenshots
 ```
 Run a marketing screenshot sweep
+### android release
+```
+fastlane android release
+```
+Upload release to Google Play
 ### android branch_and_bump
 ```
 fastlane android branch_and_bump
