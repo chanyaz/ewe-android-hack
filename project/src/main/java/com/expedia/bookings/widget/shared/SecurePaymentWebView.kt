@@ -26,7 +26,7 @@ class SecurePaymentWebView(context: Context, attrs: AttributeSet) : BaseWebViewW
     val customWebClient =  object : WebViewClient() {
         override fun onPageStarted(view: WebView?, url: String?, favicon: Bitmap?) {
             super.onPageStarted(view, url, favicon)
-            if (url?.contains("signin") ?: false) {
+            if (url?.contains("Confirmation") ?: false) {
                 closeWebView.onNext(Unit)
             }
         }
@@ -42,10 +42,7 @@ class SecurePaymentWebView(context: Context, attrs: AttributeSet) : BaseWebViewW
 //}
 override var viewModel: WebViewViewModel by notNullAndObservable { vm ->
         vm.webViewUrlPostObservable.subscribe { url ->
-            val localCheckout = LocalDate.now()
-            val postData = "destination=Santa Cruz&startDate=${localCheckout.plusDays(1)}&endDate=${localCheckout.plusDays(2)}&adults=1"
-            Log.d("CHRIS we about to post! with " + url + postData)
-            webView.postUrl(url, EncodingUtils.getBytes(postData, "BASE64"))
+            webView.loadUrl(url)
         }
 }
 

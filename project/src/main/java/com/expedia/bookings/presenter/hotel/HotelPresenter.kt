@@ -28,6 +28,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
+import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -98,6 +99,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         newWebView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
         newWebView.closeWebView.subscribe {
             back()
+            show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
         newWebView.viewModel.webViewUrlPostObservable.onNext("https://www.expedia.com/HotelCheckout?tripid="+ checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.value.tripId)
         newWebView
@@ -215,7 +217,7 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             DialogFactory.showNoInternetRetryDialog(context, retryFun, cancelFun)
         }
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe {
-            checkoutDialog.show()
+//            checkoutDialog.show()
         }
         presenter.hotelCheckoutWidget.slideAllTheWayObservable.withLatestFrom(paymentModel.paymentSplitsWithLatestTripTotalPayableAndTripResponse) { unit, paymentSplitsAndLatestTripResponse ->
             paymentSplitsAndLatestTripResponse.isCardRequired()

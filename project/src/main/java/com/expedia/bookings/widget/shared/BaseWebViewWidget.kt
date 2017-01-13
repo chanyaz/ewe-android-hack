@@ -9,6 +9,7 @@ import android.webkit.*
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.expedia.bookings.R
+import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
@@ -51,12 +52,33 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
     }
 
+    private fun loadCookies() {
+        val cookieSyncManager = CookieSyncManager.createInstance(context)
+        val cookieManager = CookieManager.getInstance()
+
+        // Set the Expedia cookies for loading the URL properly
+        val cookiesStore = ExpediaServices.getCookies(context)
+        cookieManager.setAcceptCookie(true)
+        cookieManager.removeSessionCookie()
+
+        if (cookiesStore != null) {
+            for (cookies in cookiesStore.values) {
+                for (cookie in cookies.values) {
+                    cookieManager.setCookie(cookie.domain(), cookie.toString())
+                }
+            }
+        }
+
+        cookieSyncManager.sync()
+    }
+
+
     init {
         View.inflate(getContext(), R.layout.widget_web_view, this)
         this.orientation = LinearLayout.VERTICAL
         toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
         setToolbarPadding()
-
+        loadCookies()
         webView.setWebViewClient(webClient)
         webView.settings.javaScriptEnabled = true
     }
