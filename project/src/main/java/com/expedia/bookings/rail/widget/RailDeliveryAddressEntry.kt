@@ -11,11 +11,12 @@ import com.expedia.bookings.section.RailDeliverySpinnerWithValidationIndicator
 import com.expedia.bookings.section.SectionLocation
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
+import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 import rx.subjects.PublishSubject
 
 class RailDeliveryAddressEntry(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs), EntryManager.FormListener {
     val mailDeliverySectionLocation: SectionLocation by bindView(R.id.mail_delivery_address)
-    val railSpinner: RailDeliverySpinnerWithValidationIndicator by bindView(R.id.edit_delivery_option_spinner)
+    val railDeliverySpinner: RailDeliverySpinnerWithValidationIndicator by bindView(R.id.edit_delivery_option_spinner)
     val addressLineOne: AccessibleEditText by bindView(R.id.edit_address_line_one)
     val addressCity: AccessibleEditText by bindView(R.id.edit_address_city)
     val addressPostalCode: AccessibleEditText by bindView(R.id.edit_address_postal_code)
@@ -27,8 +28,6 @@ class RailDeliveryAddressEntry(context: Context, attrs: AttributeSet?) : FrameLa
         View.inflate(context, R.layout.section_rail_mail_delivery_address, this)
         mailDeliverySectionLocation.setLineOfBusiness(LineOfBusiness.RAILS)
         entryManager = EntryManager(listOf(addressLineOne, addressCity, addressPostalCode), this)
-
-        railSpinner.spinner.nextFocusForwardId = R.id.edit_address_line_one
     }
 
     override fun onVisibilityChanged(changedView: View, visibility: Int) {
@@ -57,7 +56,7 @@ class RailDeliveryAddressEntry(context: Context, attrs: AttributeSet?) : FrameLa
         return addressLineOne.text.isNotEmpty()
                 && addressCity.text.isNotEmpty()
                 && addressPostalCode.text.isNotEmpty()
-                && railSpinner.hasItemSelected()
+                && railDeliverySpinner.hasItemSelected()
     }
 
     fun focusNext() {

@@ -16,7 +16,8 @@
         app:contentInsetEnd="16dp"
         app:contentInsetRight="16dp"
         app:title="@string/ticket_delivery"
-        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"/>
+        app:titleTextAppearance="@style/ToolbarTitleTextAppearance"
+        app:navigationContentDescription="@string/toolbar_nav_icon_close_cont_desc"/>
 
     <ScrollView
         android:layout_width="match_parent"

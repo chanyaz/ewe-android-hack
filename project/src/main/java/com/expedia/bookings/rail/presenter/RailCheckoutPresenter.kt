@@ -444,13 +444,13 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         }
 
         override fun endTransition(forward: Boolean) {
-            if (!forward) {
-                transitionToCheckoutEnd()
-                Ui.hideKeyboard(paymentWidget)
-                paymentWidget.setFocusForView()
-            } else {
+            if (forward) {
                 toolbar.visibility = View.GONE
                 travelerEntryWidget.visibility = View.VISIBLE
+            } else {
+                transitionToCheckoutEnd()
+                Ui.hideKeyboard(travelerEntryWidget)
+                travelerCardWidget.setFocusForView()
             }
         }
     }
@@ -470,12 +470,13 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
             ticketDeliveryEntryWidget.setVisibility(forward)
 
             if (forward) {
+                toolbar.visibility = View.GONE
                 paymentWidget.visibility = View.GONE
                 hideCheckoutStart()
             } else {
                 transitionToCheckoutEnd()
                 Ui.hideKeyboard(ticketDeliveryEntryWidget)
-                ticketDeliveryEntryWidget.setFocusForView()
+                ticketDeliveryOverviewWidget.setFocusForView()
             }
         }
     }
