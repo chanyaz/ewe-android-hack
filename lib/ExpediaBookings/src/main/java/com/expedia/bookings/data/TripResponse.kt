@@ -119,7 +119,7 @@ abstract class TripResponse : BaseApiResponse() {
         }
     }
 
-    val  newPrice: Money by lazy {
-        tripTotalPayableIncludingFeeIfZeroPayableByPoints()
+    fun newPrice(): Money {
+         return tripTotalPayableIncludingFeeIfZeroPayableByPoints()
     }
 }

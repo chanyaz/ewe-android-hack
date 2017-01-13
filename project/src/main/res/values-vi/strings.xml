@@ -79,6 +79,10 @@
     <string name="checkout_text">Thanh toán</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Chuyến đi trùng</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">Giá thay đổi</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">Giá đã thay đổi từ {oldprice} thành {newprice}. Giá thường xuyên thay đổi. Hãy đặt ngay để hưởng giá này.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Giá thay đổi</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Nhập thẻ tín dụng/ghi nợ mới</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Thông tin khách</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Nhập thông tin của quý vị</string>
     <!-- Text for enter payment details line 1 -->
@@ -843,6 +845,8 @@
     <string name="prices_oneway_label">Giá 1 chiều 1 người</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">khứ hồi</string>
+    <!-- Label clarifying the type of flight trip -->
+    <string name="Roundtrip">Khứ hồi</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Giá hai chiều, mỗi người, từ</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -1217,7 +1221,7 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Không có chuyến đi nào sắp đến.</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">Nhập số lịch trình</string>
+    <string name="enter_itinerary_number">Nút nhập lịch trình của khách</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">Nhập lịch trình của khách</string>
     <!-- Fetching your itinerary -->
@@ -4308,6 +4312,11 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} phút</string>
 
+    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
+    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
+        <item quantity="one">Chỉ còn {seats} chỗ giá này</item>
+        <item quantity="other">Còn {seats} chỗ giá này</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays} ngày</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4721,10 +4730,15 @@
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Giảm {percentage} giá thông thường.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Ưu đãi Không tưởng {unrealdeal}\u0020</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} đến {arrivalairport}. {durationhours} {durationmins} \u0020</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Tạm dừng {layoverhours} {layovermins} \u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} đến {arrivalairport}. {durationhours} {durationmins}. \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Tạm dừng {layoverhours} {layovermins}. \u0020</string>
+    <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
+    <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
+        <item quantity="one">Chỉ còn {seatsleft} chỗ giá này</item>
+        <item quantity="other">Còn {seatsleft} chỗ giá này</item>
+    </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Bay đến. Nút. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->

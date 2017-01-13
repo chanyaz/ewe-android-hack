@@ -79,6 +79,10 @@
     <string name="checkout_text">付款</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">行程重複</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">價格變更</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">您的行程價格已經從 {oldprice} 變更為 {newprice}。價格時有變動。立即預訂以確保享有此價格。</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">價格已變更</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">輸入新的金融卡/信用卡號碼</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">旅客資訊</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">輸入您的資訊</string>
     <!-- Text for enter payment details line 1 -->
@@ -843,6 +845,8 @@
     <string name="prices_oneway_label">每人單程價格</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">來回</string>
+    <!-- Label clarifying the type of flight trip -->
+    <string name="Roundtrip">來回</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">每人來回價格，最低</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -1217,7 +1221,7 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">沒有即將出發的行程</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">輸入行程編號</string>
+    <string name="enter_itinerary_number">輸入旅客行程編號按鈕</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">輸入旅客行程編號</string>
     <!-- Fetching your itinerary -->
@@ -1684,7 +1688,7 @@
     <!-- Hotel phone number -->
     <string name="share_template_long_hotel_4_phone">電話\n%s</string>
     <!-- App download link -->
-    <string name="share_long_ad_TEMPLATE">預訂飯店和機票，並查看和分享您的行程。立即下載免費 {brand} App。\n{appinfourl}</string>
+    <string name="share_long_ad_TEMPLATE">預訂飯店和機票，並查看和分享您的行程。立即下載免費 {brand} 行動 App。\n{appinfourl}</string>
     <!-- 1: city 2: date string -->
     <string name="share_template_subject_flight">我將於 %2$s飛往%1$s</string>
     <!-- 1: travelerName 2: city 3: date string -->
@@ -4308,6 +4312,11 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} 分鐘</string>
 
+    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
+    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
+        <item quantity="one">此價格機票還剩　{seats}　張</item>
+        <item quantity="other">此價格機票還剩　{seats}　張</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}天</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4721,10 +4730,15 @@
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">原價 {percentage} 折扣。\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">最超值機 + 酒 {unrealdeal}\u0020</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport}到{arrivalairport}{durationhours} {durationmins} \u0020</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
+    <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport}到{arrivalairport}{durationhours} {durationmins}.\u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
     <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">停留 {layoverhours} {layovermins} \u0020</string>
+    <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
+    <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
+        <item quantity="one">此價格機票還剩 {seatsleft} 張</item>
+        <item quantity="other">此價格機票還剩 {seatsleft} 張</item>
+    </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">目的地。按鈕。{to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->

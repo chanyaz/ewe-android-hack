@@ -79,6 +79,10 @@
     <string name="checkout_text">Procedi al pagamento</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Viaggio duplicato</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">Cambio di prezzo</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">Il prezzo del tuo volo è cambiato da {oldprice} a {newprice}. Le tariffe possono subire spesso variazioni. Prenota subito per assicurarti questo prezzo.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Cambio di prezzo</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Inserisci una nuova carta di credito/debito</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Dettagli ospite</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Inserisci i tuoi dati</string>
     <!-- Text for enter payment details line 1 -->
@@ -843,6 +845,8 @@
     <string name="prices_oneway_label">Prezzi di sola andata a persona</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">andata e ritorno</string>
+    <!-- Label clarifying the type of flight trip -->
+    <string name="Roundtrip">Andata e ritorno</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Prezzi di andata e ritorno a persona, da</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -1217,7 +1221,7 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Nessun viaggio futuro.</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">Inserisci numero itinerario</string>
+    <string name="enter_itinerary_number">Pulsante Inserisci un numero di itinerario prenotato come ospite</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">Inserisci un numero di itinerario prenotato come ospite</string>
     <!-- Fetching your itinerary -->
@@ -4308,6 +4312,11 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minuti</string>
 
+    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
+    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
+        <item quantity="one">Solo {seats} posto rimasto a questo prezzo</item>
+        <item quantity="other">Solo {seats} posti rimasti a questo prezzo</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}g</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4721,10 +4730,15 @@
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Prezzo originale scontato {percentage}.  \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Offerta incredibile {unrealdeal}\u0020</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">Da {departureairport} a {arrivalairport}. {durationhours} {durationmins} \u0020</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Scalo di {layoverhours} {layovermins} \u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">Da {departureairport} a {arrivalairport}. {durationhours} {durationmins}. \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Scalo di {layoverhours} {layovermins}. \u0020</string>
+    <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
+    <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
+        <item quantity="one">È rimasto solo {seatsleft} posto a questo prezzo</item>
+        <item quantity="other">Sono rimasti solo {seatsleft} posti a questo prezzo</item>
+    </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Volo per. Pulsante. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->

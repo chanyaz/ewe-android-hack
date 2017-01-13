@@ -20,8 +20,8 @@ import com.expedia.bookings.R
 import com.expedia.bookings.activity.AccountLibActivity
 import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
 import com.expedia.bookings.data.Db
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.LineOfBusiness
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
@@ -36,7 +36,6 @@ import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
-import com.expedia.bookings.utils.Constants
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
@@ -210,9 +209,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             slideToPurchase.resetSlider()
             animateInSlideToPurchase(true)
             priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
-            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
+            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice())
             priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
-            trackCheckoutPriceChange(getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice))
+            trackCheckoutPriceChange(getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice()))
             handleCheckoutPriceChange(response)
         }
         vm.noNetworkObservable.subscribe {
@@ -295,10 +294,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.createTripResponseObservable.safeSubscribe { response ->
             priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
-            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
+            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice())
             if (hasPriceChange(response)) {
-                trackCreateTripPriceChange(getPriceChangeDiffPercentage(response!!.getOldPrice()!!, response!!.newPrice))
-                if (shouldShowPriceChangeOnCreateTrip(response!!.newPrice.amount, response!!.getOldPrice()!!.amount)) {
+                trackCreateTripPriceChange(getPriceChangeDiffPercentage(response!!.getOldPrice()!!, response!!.newPrice()))
+                if (shouldShowPriceChangeOnCreateTrip(response!!.newPrice().amount, response!!.getOldPrice()!!.amount)) {
                     if (shouldShowAlertForCreateTripPriceChange(response)) {
                         showAlertDialogForPriceChange(response!!)
                         return@safeSubscribe
@@ -726,7 +725,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         builder.setTitle(context.getString(R.string.price_change_text))
         builder.setMessage(Phrase.from(this, R.string.price_change_alert_TEMPLATE)
                 .put("oldprice", tripResponse.getOldPrice()!!.formattedMoneyFromAmountAndCurrencyCode)
-                .put("newprice", tripResponse.newPrice.formattedMoneyFromAmountAndCurrencyCode)
+                .put("newprice", tripResponse.newPrice().formattedMoneyFromAmountAndCurrencyCode)
                 .format())
         builder.setPositiveButton(context.getString(R.string.DONE)) { dialog, which ->
             onCreateTripResponse(tripResponse)

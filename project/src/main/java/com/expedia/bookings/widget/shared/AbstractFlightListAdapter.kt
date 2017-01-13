@@ -197,7 +197,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
         }
 
         fun bind(viewModel: AbstractFlightViewModel) {
-            if (isRoundTripSearch && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)) {
+            if (isRoundTripSearch && viewModel.getRoundTripMessageVisibilty()) {
                 roundTripTextView.visibility = View.VISIBLE
             } else {
                 roundTripTextView.visibility = View.GONE
@@ -207,7 +207,7 @@ abstract class AbstractFlightListAdapter(val context: Context, val flightSelecte
             flightDurationTextView.text = viewModel.duration
             val flight = viewModel.layover
             flightLayoverWidget.update(flight.flightSegments, flight.durationHour, flight.durationMinute, maxFlightDuration)
-            flightAirlineWidget.update(viewModel.airline, isRoundTripSearch, viewModel.isEarnMessageVisible(viewModel.earnMessage))
+            flightAirlineWidget.update(viewModel.airline, isRoundTripSearch && viewModel.getRoundTripMessageVisibilty(), viewModel.isEarnMessageVisible(viewModel.earnMessage))
             if (viewModel.getUrgencyMessageVisibilty() && Strings.isNotEmpty(viewModel.seatsLeft)) {
                 urgencyMessageContainer.visibility = View.VISIBLE
                 urgencyMessageTextView.text = viewModel.seatsLeft
