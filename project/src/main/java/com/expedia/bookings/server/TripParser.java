@@ -485,7 +485,13 @@ public class TripParser {
 
 		if (obj.has("uniqueID")) {
 			Activity activity = new Activity();
-
+			String imageUrl = null;
+			if (obj.optJSONObject("highResImage") != null && obj.optJSONObject("highResImage").optString("url") != null) {
+				imageUrl = obj.optJSONObject("highResImage").optString("url");
+			}
+			else if (obj.optJSONObject("image") != null && obj.optJSONObject("image").optString("url") != null) {
+				imageUrl = obj.optJSONObject("image").optString("url");
+			}
 			int guestCount = 0;
 			activity.setId(obj.optString("uniqueID", null));
 			activity.setTitle(obj.optString("activityTitle", null));
@@ -505,6 +511,7 @@ public class TripParser {
 			}
 			activity.setGuestCount(guestCount);
 			activity.setVoucherPrintUrl(obj.optString("voucherPrintURL"));
+			activity.setImageUrl(imageUrl);
 
 			// Parse travelers
 			JSONArray travelersArr = obj.optJSONArray("travelers");

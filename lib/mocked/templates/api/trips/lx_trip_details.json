@@ -85,6 +85,11 @@
           "activityItemTitle": "Day Trips & Excursions",
           "voucherless": false,
           "activityItemTitleEnglish": "Day Trip to New York by Train with Hop-on Hop-Off Pass: Full-Day Excursion",
+          "image": {
+            "url": "https://s3.amazonaws.com/mediavault.le/media/35670cca90aebdafe2e140239bdf0188abfe3f02.jpeg",
+            "caption": "",
+            "creditString": ""
+          },
           "activityDetailsURL": "https://wwwexpediacom.trunk.sb.karmalab.net/lx/activity/358734/",
           "locationMapURL": "//maps.googleapis.com/maps/api/staticmap?client=gme-expedia&channel=expedia-LXVoucher&zoom=17&size=640x360&maptype=roadmap&sensor=false&format=png8&scale=2&center=39.95572,-75.1819&markers=color:blue%7C39.95572,-75.1819&markers=color:red%7C40.71279,-74.00594&signature=NmnjkjoTTbiO4FX4w2ONlwTzBhY=",
           "travelerCount": 5,
@@ -103,7 +108,14 @@
           "lxVoucherPrintURL": "https://wwwexpediacom.trunk.sb.karmalab.net/things-to-do/voucher/?tripid=b9739936-62a8-49a1-af12-fdbe85d78e5f",
           "regionId": "178297",
           "destinationRegionId": "178293",
-          "unbookedPackageV2": false
+          "unbookedPackageV2": false,
+          "highResImage": {
+            "width": 500,
+            "height": 281,
+            "url": "https://s3.amazonaws.com/mediavault.le/media/d845b674a00c4ec7dc685942d31f955b2e354f73.jpeg",
+            "caption": "",
+            "creditString": ""
+          }
         }
       ],
       "totalTripPrice": {
@@ -197,6 +209,11 @@
           "activityItemTitle":"Shared Transfers",
           "voucherless":false,
           "activityItemTitleEnglish":"Shared Shuttle: Detroit International Airport (DTW): Hotels to Airport in Detroit City Center",
+          "image": {
+            "url": "https://s3.amazonaws.com/mediavault.le/media/35670cca90aebdafe2e140239bdf0188abfe3f02.jpeg",
+            "caption": "",
+            "creditString": ""
+          },
           "activityDetailsURL":"https://www.expedia.com/lx/activity/224793/",
           "locationMapURL":"//maps.googleapis.com/maps/api/staticmap?client=gme-expedia&channel=expedia-LXVoucher&zoom=17&size=640x360&maptype=roadmap&sensor=false&format=png8&scale=2¢er=42.33143,-83.04575&markers=color:blue%7C42.33143,-83.04575&markers=color:blue%7C42.22539,-83.34153&markers=color:red%7C42.22539,-83.34153&signature=HtITwJTYNWM2SILtxB8SoqAgaLw=",
           "travelerCount":1,
@@ -215,7 +232,14 @@
           "lxVoucherPrintURL":"https://www.expedia.com/things-to-do/voucher/?tripid=bd8e2514-e156-45fb-b9ce-a50643ca7cde",
           "regionId":"178255",
           "destinationRegionId":"178255",
-          "unbookedPackageV2":false
+          "unbookedPackageV2":false,
+          "highResImage": {
+            "width": 500,
+            "height": 281,
+            "url": "https://s3.amazonaws.com/mediavault.le/media/d845b674a00c4ec7dc685942d31f955b2e354f73.jpeg",
+            "caption": "",
+            "creditString": ""
+          }
         }
       ],
       "totalTripPrice":{
@@ -270,6 +294,11 @@
           "activityItemTitle":"Shared Transfers",
           "voucherless":false,
           "activityItemTitleEnglish":"Shared Shuttle: Detroit International Airport (DTW): Hotels to Airport in Detroit City Center",
+          "image": {
+            "url": "https://s3.amazonaws.com/mediavault.le/media/35670cca90aebdafe2e140239bdf0188abfe3f02.jpeg",
+            "caption": "",
+            "creditString": ""
+          },
           "activityDetailsURL":"https://www.expedia.com/lx/activity/224793/",
           "locationMapURL":"//maps.googleapis.com/maps/api/staticmap?client=gme-expedia&channel=expedia-LXVoucher&zoom=17&size=640x360&maptype=roadmap&sensor=false&format=png8&scale=2¢er=42.33143,-83.04575&markers=color:blue%7C42.33143,-83.04575&markers=color:blue%7C42.22539,-83.34153&markers=color:red%7C42.22539,-83.34153&signature=HtITwJTYNWM2SILtxB8SoqAgaLw=",
           "travelerCount":1,
@@ -288,7 +317,14 @@
           "lxVoucherPrintURL":"https://www.expedia.com/things-to-do/voucher/?tripid=bd8e2514-e156-45fb-b9ce-a50643ca7cde",
           "regionId":"178255",
           "destinationRegionId":"178255",
-          "unbookedPackageV2":false
+          "unbookedPackageV2":false,
+          "highResImage": {
+            "width": 500,
+            "height": 281,
+            "url": "https://s3.amazonaws.com/mediavault.le/media/d845b674a00c4ec7dc685942d31f955b2e354f73.jpeg",
+            "caption": "",
+            "creditString": ""
+          }
         }
       ],
       "totalTripPrice":{

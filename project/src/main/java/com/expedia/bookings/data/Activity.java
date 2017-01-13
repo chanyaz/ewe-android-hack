@@ -17,6 +17,7 @@ public class Activity implements JSONable {
 	private Integer mGuestsCount;
 	private List<Traveler> mTravelers = new ArrayList<>();
 	private String mVoucherPrintUrl;
+	private String mImageUrl;
 
 	public String getId() {
 		return mId;
@@ -38,8 +39,16 @@ public class Activity implements JSONable {
 		return mGuestsCount;
 	}
 
+	public String getImageUrl() {
+		return mImageUrl;
+	}
+
 	public void setGuestCount(Integer guestCount) {
 		mGuestsCount = guestCount;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		mImageUrl = imageUrl;
 	}
 
 	public List<Traveler> getTravelers() {
@@ -70,6 +79,7 @@ public class Activity implements JSONable {
 			obj.put("guestCount", mGuestsCount);
 			JSONUtils.putJSONableList(obj, "travelers", mTravelers);
 			obj.put("voucherPrintUrl", mVoucherPrintUrl);
+			obj.put("imageUrl", mImageUrl);
 			return obj;
 		}
 		catch (JSONException e) {
@@ -84,6 +94,7 @@ public class Activity implements JSONable {
 		mGuestsCount = obj.optInt("guestCount");
 		mTravelers = JSONUtils.getJSONableList(obj, "travelers", Traveler.class);
 		mVoucherPrintUrl = obj.optString("voucherPrintUrl");
+		mImageUrl = obj.optString("imageUrl");
 		return true;
 	}
 }
