@@ -21,4 +21,8 @@ class FlightViewModel(context: Context, flightLeg: FlightLeg) : AbstractFlightVi
     override fun isEarnMessageVisible(earnMessage: String): Boolean {
         return Strings.isNotEmpty(earnMessage) && PointOfSale.getPointOfSale().isEarnMessageEnabledForFlights
     }
+
+    override fun getRoundTripMessageVisibilty(): Boolean {
+        return Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage)
+    }
 }

@@ -36,7 +36,6 @@ public class ItinAdapterTest {
 
 	@Test
 	public void testReviewPromptOnlyShowsOnce() {
-		SettingUtils.save(getContext(), R.string.preference_itin_user_reviews, true);
 		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
 		assertTrue(adapter.showUserReview());
@@ -46,7 +45,6 @@ public class ItinAdapterTest {
 
 	@Test
 	public void testReviewPromptOnlyShowsAgainAfterCleared() {
-		SettingUtils.save(getContext(), R.string.preference_itin_user_reviews, true);
 		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
 		assertTrue(adapter.showUserReview());
@@ -57,16 +55,7 @@ public class ItinAdapterTest {
 	}
 
 	@Test
-	public void testReviewPromptDoesNotShowFeatureToggle() {
-		SettingUtils.save(getContext(), R.string.preference_itin_user_reviews, false);
-		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
-		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
-		assertFalse(adapter.showUserReview());
-	}
-
-	@Test
 	public void testReviewPromptDoesNotShowAbacus() {
-		SettingUtils.save(getContext(), R.string.preference_itin_user_reviews, true);
 		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
 		assertFalse(adapter.showUserReview());
@@ -74,7 +63,6 @@ public class ItinAdapterTest {
 
 	@Test
 	public void testReviewPromptShowsAfterThreeMonths() {
-		SettingUtils.save(getContext(), R.string.preference_itin_user_reviews, true);
 		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
 		assertTrue(adapter.showUserReview());
@@ -87,7 +75,6 @@ public class ItinAdapterTest {
 
 	@Test
 	public void testReviewPromptDoesNotShowBeforeThreeMonths() {
-		SettingUtils.save(getContext(), R.string.preference_itin_user_reviews, true);
 		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
 		assertTrue(adapter.showUserReview());
@@ -100,7 +87,6 @@ public class ItinAdapterTest {
 
 	@Test
 	public void testReviewPromptDoesNotShowThreeMonthsInFuture() {
-		SettingUtils.save(getContext(), R.string.preference_itin_user_reviews, true);
 		SettingUtils.save(getContext(), R.string.preference_user_has_booked_hotel_or_flight, true);
 		AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews);
 		assertTrue(adapter.showUserReview());

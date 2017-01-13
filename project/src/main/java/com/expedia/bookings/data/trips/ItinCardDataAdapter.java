@@ -26,7 +26,6 @@ import com.expedia.bookings.data.trips.TripComponent.Type;
 import com.expedia.bookings.fragment.UserReviewRatingDialog;
 import com.expedia.bookings.model.DismissedItinButton;
 import com.expedia.bookings.tracking.OmnitureTracking;
-import com.expedia.bookings.utils.FeatureToggleUtil;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.widget.itin.FlightItinCard;
 import com.expedia.bookings.widget.itin.HotelItinCard;
@@ -736,9 +735,7 @@ public class ItinCardDataAdapter extends BaseAdapter implements OnItinCardClickL
 	public boolean showUserReview() {
 		boolean hasShownUserReview = SettingUtils.get(mContext, R.string.preference_user_has_seen_review_prompt, false);
 		boolean hasBookedHotelOrFlight = SettingUtils.get(mContext, R.string.preference_user_has_booked_hotel_or_flight, false);
-		boolean isBucketed = FeatureToggleUtil
-			.isUserBucketedAndFeatureEnabled(mContext, AbacusUtils.EBAndroidAppTripsUserReviews,
-				R.string.preference_itin_user_reviews);
+		boolean isBucketed = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppTripsUserReviews);
 		DateTime lastDate = new DateTime(SettingUtils.get(mContext, R.string.preference_date_last_review_prompt_shown, DateTime.now().getMillis()));
 		boolean hasBeenAtLeast3Months = new Period(lastDate, DateTime.now(), PeriodType.yearMonthDayTime()).getMonths() >= 3;
 

@@ -79,6 +79,10 @@
     <string name="checkout_text">Betalning</string>
     <!-- Text for error toolbar-->
     <string name="cars_dupe_trip_text">Dubbelbokad resa</string>
+    <!-- Text for price change-->
+    <string name="price_change_text">Prisändring</string>
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <string name="price_change_alert_TEMPLATE">Priset för din resa har ändrats från {oldprice} till {newprice}. Priserna ändras ofta. Boka nu för att säkra det här priset.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Priset har ändrats</string>
     <!-- Text for error toolbar-->
@@ -230,8 +234,6 @@
     <string name="shortened_checkout_payment_option_credit_debit_label">Ange nytt bankkort/kreditkort</string>
     <!-- Text for enter guest details line 1 -->
     <string name="checkout_hotelsv2_enter_guest_details_line1">Gästinformation</string>
-    <!-- Text for Android pay label -->
-    <string name="checkout_payment_option_android_pay_label">Android Pay</string>
     <!-- Text for enter guest details line 2 -->
     <string name="checkout_hotelsv2_enter_guest_details_line2">Ange dina uppgifter</string>
     <!-- Text for enter payment details line 1 -->
@@ -843,6 +845,8 @@
     <string name="prices_oneway_label">Pris per person för enkelresa</string>
     <!-- Label clarifying that the price shown is for a roundtrip flight -->
     <string name="roundtrip">retur</string>
+    <!-- Label clarifying the type of flight trip -->
+    <string name="Roundtrip">Retur</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
     <string name="prices_roundtrip_minimum_label">Priser per person för tur- och returresa, från</string>
     <!-- Variant emphasizing that the price may be a minimum, for regulatory compliance. d/5810-->
@@ -1217,7 +1221,7 @@
     <!-- No upcoming trips -->
     <string name="no_upcoming_trips">Inga kommande resor.</string>
     <!-- Enter itinerary number -->
-    <string name="enter_itinerary_number">Ange resplansnummer</string>
+    <string name="enter_itinerary_number">Knapp för att ange gästresplan</string>
     <!-- Enter a Guest itinerary number -->
     <string name="enter_a_guest_itinerary_number">Ange en gästresplan</string>
     <!-- Fetching your itinerary -->
@@ -4308,6 +4312,11 @@
     <!-- Accessibility label for flight minutes duration template e.g.42 minutes -->
     <string name="flight_min_duration_template_cont_desc">{m} minuter</string>
 
+    <!-- Label for Flight seats left urgency message. Example: 4 left at this price -->
+    <plurals name="flight_seats_left_urgency_message_TEMPLATE">
+        <item quantity="one">{seats} sittplatser kvar till det här priset</item>
+        <item quantity="other">{seats} sittplatser kvar till det här priset</item>
+    </plurals>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am -1d -->
     <string name="flight_departure_arrival_time_negative_days_TEMPLATE">{departuretime} - {arrivaltime} -{elapseddays}d</string>
     <!-- Flight departure arrival time in multi days e.g. 5:15 pm - 7:48 am +1d -->
@@ -4721,10 +4730,15 @@
     <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">{percentage} rabatt på ursprungligt pris \u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Sanslöst erbjudande {unrealdeal}\u0020</string>
-    <!--Flight Detail card view - flight duration content description for accessibility Eg. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} till {arrivalairport}. {durationhours} {durationmins} \u0020</string>
-    <!--Flight Detail card view - layover duration content description for accessibility Eg. Layover. 2 hours 4 minutes. -->
-    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Mellanlandning {layoverhours} {layovermins} \u0020</string>
+    <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} till {arrivalairport}. {durationhours} {durationmins}. \u0020</string>
+    <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
+    <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Mellanlandning {layoverhours} {layovermins}. \u0020</string>
+    <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
+    <plurals name="flight_detail_urgency_message_cont_desc_TEMPLATE">
+        <item quantity="one">Det finns {seatsleft} sittplats kvar till det här priset</item>
+        <item quantity="other">Det finns {seatsleft} sittplatser kvar till det här priset</item>
+    </plurals>
     <!--Flying to card content description Eg. Flying to. Button. San Francisco, CA (SFO-San Francisco Intl.)-->
     <string name="search_flying_to_destination_cont_desc_TEMPLATE">Flyger till. Knapp. {to_destination}</string>
     <!--Flying from card content description Eg. Flying from. Button. Detroit, MI (DTW-Detroit Metropolitan Wayne County)-->
