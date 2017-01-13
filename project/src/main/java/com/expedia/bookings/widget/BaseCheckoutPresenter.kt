@@ -409,6 +409,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         legalInformationText.setInverseVisibility(forward)
         depositPolicyText.setInverseVisibility(forward)
         bottomContainer.setInverseVisibility(forward)
+        ckoViewModel.newBottomContainerVisibility.onNext(forward)
         if (!forward) {
             Ui.hideKeyboard(paymentWidget)
             invalidPaymentTypeWarningTextView.visibility = View.GONE
@@ -618,6 +619,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
             bottomContainer.visibility = if (forward) GONE else VISIBLE
+            ckoViewModel.newBottomContainerVisibility.onNext(forward)
             if (!forward) {
                 Ui.hideKeyboard(travelersPresenter)
                 travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))

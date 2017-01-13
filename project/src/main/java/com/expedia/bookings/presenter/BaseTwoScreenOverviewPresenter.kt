@@ -24,6 +24,7 @@ import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.endlessObserver
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
+import com.expedia.util.setInverseVisibility
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.PriceChangeViewModel
@@ -132,6 +133,9 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
             checkoutPresenter.trackCheckoutPriceChange(checkoutPresenter.getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice))
             handleCheckoutPriceChange(response)
+        }
+        checkoutPresenter.getCheckoutViewModel().newBottomContainerVisibility.subscribe { hide ->
+            newBottom.setInverseVisibility(hide)
         }
 
         bundleOverviewHeader.toolbar.overflowIcon = ContextCompat.getDrawable(context, R.drawable.ic_create_white_24dp)
