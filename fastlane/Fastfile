@@ -11,7 +11,7 @@
 
 # This is the minimum version number required.
 # Update this, if you use features of a newer version
-fastlane_version "1.111.0"
+fastlane_version "2.8.0"
 
 default_platform :android
 
@@ -38,6 +38,18 @@ platform :android do
 
     # Reset device
     demo_mode(enable: false)
+  end
+
+  desc "Upload release to Google Play"
+  lane :release do |options|
+    # determine version code of new APK
+    version_code = get_apk_version_code(apk_file: options[:apk_file])
+
+    # prepare release notes
+    import_localized_release_notes(csv_file: options[:csv_file], version_code: version_code)
+
+    # upload
+    #supply()
   end
 
   desc "Create a new release branch and bump the version on the base branch. Optionally protects the newly created release branch."
