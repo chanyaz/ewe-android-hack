@@ -1,10 +1,8 @@
 package com.expedia.bookings.presenter
 
 import android.animation.Animator
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
-import android.graphics.Rect
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
 import android.support.v4.content.ContextCompat
@@ -15,11 +13,10 @@ import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.Button
+import android.widget.LinearLayout
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.presenter.packages.AbstractTravelersPresenter
-import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.utils.*
 import com.expedia.bookings.widget.*
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
@@ -31,7 +28,6 @@ import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.WebViewViewModel
-import com.expedia.vm.flights.FlightCostSummaryBreakdownViewModel
 import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.squareup.phrase.Phrase
 
@@ -51,6 +47,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
 
     val priceChangeWidget: PriceChangeWidget by bindView(R.id.price_change)
     val totalPriceWidget: TotalPriceWidget by bindView(R.id.total_price_widget)
+    val newBottom : LinearLayout by bindView(R.id.new_bottom_container)
 
     var scrollSpaceView: View? = null
     var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
@@ -167,7 +164,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             showCheckout()
             checkoutPresenter.slideToPurchaseLayout.visibility = View.VISIBLE
         }
-
         bundleOverviewHeader.setUpCollapsingToolbar()
 
         overviewLayoutListener = OverviewLayoutListener()
@@ -317,6 +313,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         }
         checkoutPresenter.bottomContainer.translationY = if (forward) slideIn else slideOut
         checkoutButtonContainer.translationY = if (forward) f * checkoutButtonHeight else (1 - f) * checkoutButtonHeight
+        newBottom.translationY =  if (forward) 0f else -checkoutButtonHeight
     }
 
     open protected fun resetCheckoutState() {
@@ -423,12 +420,13 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 }
             }
         })
-
     }
 
     fun toggleCheckoutButton(isEnabled: Boolean) {
+        newBottom.translationY = -checkoutButtonHeight
         checkoutButtonContainer.translationY = if (isEnabled) 0f else checkoutButtonHeight
         val shouldShowSlider = currentState == BaseCheckoutPresenter.CheckoutDefault::class.java.name && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
+        if (shouldShowSlider) newBottom.translationY = - sliderHeight else if (!isEnabled) newBottom.translationY = 0f
         checkoutPresenter.bottomContainer.translationY = if (isEnabled) sliderHeight - checkoutButtonHeight else if (shouldShowSlider) 0f else sliderHeight
         checkoutButton.isEnabled = isEnabled
     }
