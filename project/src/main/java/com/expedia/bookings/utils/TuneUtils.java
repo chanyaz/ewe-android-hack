@@ -42,6 +42,7 @@ import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.lx.LXActivity;
+import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -437,7 +438,7 @@ public class TuneUtils {
 				.withAttribute2(isUserLoggedIn())
 				.withRevenue(revenue)
 				.withCurrencyCode(hotelCheckoutResponse.currencyCode)
-				.withAdvertiserRefId(getAdvertiserRefId(hotelCheckoutResponse.orderId))
+				.withAdvertiserRefId(getAdvertiserRefId(hotelCheckoutResponse.checkoutResponse.bookingResponse.travelRecordLocator))
 				.withQuantity(stayDuration)
 				.withContentType(hotelCheckoutResponse.checkoutResponse.productResponse.getHotelName())
 				.withContentId(hotelCheckoutResponse.checkoutResponse.productResponse.hotelId)
@@ -725,7 +726,7 @@ public class TuneUtils {
 				.withRevenue(totalPrice)
 				.withCurrencyCode(currency)
 				.withQuantity(tripBucketItemFlight.getFlightSearchParams().getNumTravelers())
-				.withAdvertiserRefId(getAdvertiserRefId(orderId))
+				.withAdvertiserRefId(getAdvertiserRefId(tripBucketItemFlight.getItinerary().getTravelRecordLocator()))
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);
 
@@ -763,7 +764,7 @@ public class TuneUtils {
 				.withRevenue(totalPrice)
 				.withCurrencyCode(flightCheckoutResponse.getTotalChargesPrice().currencyCode)
 				.withQuantity(totalGuests)
-				.withAdvertiserRefId(getAdvertiserRefId(flightCheckoutResponse.getOrderId()))
+				.withAdvertiserRefId(getAdvertiserRefId(flightCheckoutResponse.getNewTrip().getTravelRecordLocator()))
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(departureDate);
 
@@ -855,7 +856,7 @@ public class TuneUtils {
 				.withAttribute2(isUserLoggedIn())
 				.withRevenue(carOffer.detailedFare.grandTotal.getAmount().doubleValue())
 				.withCurrencyCode(carOffer.detailedFare.grandTotal.getCurrency())
-				.withAdvertiserRefId(getAdvertiserRefId(carCheckoutResponse.orderId))
+				.withAdvertiserRefId(getAdvertiserRefId(carCheckoutResponse.newTrip.travelRecordLocator))
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(pickupTime)
 				.withDate2(dropOffTime);
@@ -925,7 +926,7 @@ public class TuneUtils {
 
 	public static void trackLXConfirmation(String lxActivityLocation, Money totalPrice, Money ticketPrice,
 		String lxActivityStartDate,
-		String orderId, String lxActivityTitle, int selectedTicketCount, int selectedChildTicketCount) {
+		LXCheckoutResponse checkoutResponse, String lxActivityTitle, int selectedTicketCount, int selectedChildTicketCount) {
 		if (initialized) {
 			MATEvent event = new MATEvent("lx_confirmation");
 			MATEventItem eventItem = new MATEventItem("lx_confirmation_item");
@@ -943,7 +944,7 @@ public class TuneUtils {
 				.withRevenue(revenue)
 				.withQuantity(1)
 				.withCurrencyCode(totalPrice.getCurrency())
-				.withAdvertiserRefId(getAdvertiserRefId(orderId))
+				.withAdvertiserRefId(getAdvertiserRefId(checkoutResponse.newTrip.travelRecordLocator))
 				.withEventItems(Arrays.asList(eventItem))
 				.withDate1(DateUtils
 					.yyyyMMddHHmmssToLocalDate(lxActivityStartDate)
@@ -1006,9 +1007,9 @@ public class TuneUtils {
 		return User.isLoggedIn(context) ? "1" : "0";
 	}
 
-	private static String getAdvertiserRefId(String orderId) {
+	private static String getAdvertiserRefId(String travelRecordLocator) {
 		String tpid = Integer.toString(PointOfSale.getPointOfSale().getTpid());
-		return String.format("%s:%s", orderId, tpid);
+		return String.format("%s:%s", travelRecordLocator, tpid);
 	}
 
 }

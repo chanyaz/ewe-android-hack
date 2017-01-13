@@ -16,6 +16,7 @@ import com.expedia.bookings.data.cars.CarSearch;
 import com.expedia.bookings.data.cars.CarSearchParam;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.cars.SearchCarOffer;
+import com.expedia.bookings.data.lx.LXCheckoutResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
@@ -247,11 +248,11 @@ public class AdTracker {
 
 	public static void trackLXBooked(String lxActivityLocation, Money totalPrice, Money ticketPrice,
 		String lxActivityStartDate,
-		List<String> lxActivityCategories, String orderId, String lxActivityTitle, String activityId,
+		List<String> lxActivityCategories, LXCheckoutResponse checkoutResponse, String lxActivityTitle, String activityId,
 		LocalDate startDate, String regionId, int selectedTicketCount, int selectedChildTicketCount) {
 		LeanPlumUtils.trackLXBooked(lxActivityLocation, totalPrice, lxActivityStartDate, lxActivityCategories);
 		TuneUtils.trackLXConfirmation(lxActivityLocation, totalPrice, ticketPrice, lxActivityStartDate,
-			orderId, lxActivityTitle, selectedTicketCount, selectedChildTicketCount);
+			checkoutResponse, lxActivityTitle, selectedTicketCount, selectedChildTicketCount);
 		new FacebookEvents().trackLXConfirmation(activityId, lxActivityLocation, startDate, regionId, totalPrice,
 			selectedTicketCount, selectedChildTicketCount);
 	}

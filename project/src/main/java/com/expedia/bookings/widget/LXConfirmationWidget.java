@@ -123,7 +123,7 @@ public class LXConfirmationWidget extends android.widget.LinearLayout {
 			lxState.selectedTicketsCount(), isGroundTransport);
 		AdTracker.trackLXBooked(lxState.activity.location, lxState.latestTotalPrice(), lxState.selectedTickets().get(0).money,
 			lxState.offer.availabilityInfoOfSelectedDate.availabilities.valueDate, lxState.activity.categories,
-			event.checkoutResponse.orderId, lxState.activity.title, lxState.activity.id, lxState.searchParams.getActivityStartDate(),
+			event.checkoutResponse, lxState.activity.title, lxState.activity.id, lxState.searchParams.getActivityStartDate(),
 			lxState.activity.regionId, lxState.selectedTicketsCount(), lxState.selectedChildTicketsCount());
 
 		final Resources res = getResources();
