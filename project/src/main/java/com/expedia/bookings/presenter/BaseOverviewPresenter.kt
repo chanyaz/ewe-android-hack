@@ -116,8 +116,8 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             if (!forward) {
-                checkoutPresenter.slideToPurchase.resetSlider()
-                checkoutPresenter.slideToPurchaseLayout.setAccessibilityHoverFocus()
+//                checkoutPresenter.slideToPurchase.resetSlider()
+//                checkoutPresenter.slideToPurchaseLayout.setAccessibilityHoverFocus()
             } else {
                 cvv.visibility = View.VISIBLE
                 trackPaymentCIDLoad()

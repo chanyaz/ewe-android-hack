@@ -109,7 +109,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         hotelOffersErrorObservable.subscribe(presenter.getViewModel().hotelOffersApiErrorObserver)
         presenter.getViewModel().checkoutUnknownErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
-            bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
+            bundlePresenter.slideToPurchase.resetSlider()
         }
 
         presenter.viewmodel.createTripUnknownErrorObservable.subscribe {
@@ -120,7 +120,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
         presenter.viewmodel.checkoutTravelerErrorObservable.subscribe {
             show(bundlePresenter, Presenter.FLAG_CLEAR_TOP)
             bundlePresenter.show(bundlePresenter.getCheckoutPresenter())
-            bundlePresenter.getCheckoutPresenter().slideToPurchase.resetSlider()
+            bundlePresenter.slideToPurchase.resetSlider()
             bundlePresenter.getCheckoutPresenter().openTravelerPresenter()
         }
 
@@ -191,7 +191,7 @@ class PackagePresenter(context: Context, attrs: AttributeSet) : IntentPresenter(
                 bundlePresenter.bundleWidget.collapseBundleWidgets()
                 bundlePresenter.bundleOverviewHeader.checkoutOverviewHeaderToolbar.visibility = View.GONE
                 bundlePresenter.bundleOverviewHeader.toggleOverviewHeader(false)
-                bundlePresenter.toggleCheckoutButton(false)
+                bundlePresenter.toggleCheckoutButtonAndSliderVisibility(false)
                 bundlePresenter.resetAndShowTotalPriceWidget()
                 bundlePresenter.setToolbarNavIcon(true)
                 bundlePresenter.scrollSpaceView?.viewTreeObserver?.addOnGlobalLayoutListener(bundlePresenter.overviewLayoutListener)

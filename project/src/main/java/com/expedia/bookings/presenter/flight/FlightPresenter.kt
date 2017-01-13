@@ -203,7 +203,7 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         flightOfferViewModel.confirmedOutboundFlightSelection.subscribe { presenter.viewModel.showFreeCancellationObservable.onNext(it.isFreeCancellable) }
         flightOfferViewModel.flightOfferSelected.subscribe { presenter.viewModel.showSplitTicketMessagingObservable.onNext(it.isSplitTicket) }
 
-        presenter.toggleCheckoutButton(false)
+        presenter.toggleCheckoutButtonAndSliderVisibility(false)
 
         if (PointOfSale.getPointOfSale().shouldShowAirlinePaymentMethodFeeMessage()) {
             presenter.viewModel.showAirlineFeeWarningObservable.onNext(true)

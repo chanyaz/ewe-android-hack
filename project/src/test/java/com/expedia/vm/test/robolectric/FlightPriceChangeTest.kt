@@ -1,6 +1,7 @@
 package com.expedia.bookings.widget.packages
 
 import android.support.v4.app.FragmentActivity
+import android.view.ViewStub
 import com.expedia.bookings.R
 import com.expedia.bookings.activity.PlaygroundActivity
 import com.expedia.bookings.data.Money
@@ -9,10 +10,12 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightTripDetails
 import com.expedia.bookings.presenter.flight.FlightCheckoutPresenter
+import com.expedia.bookings.presenter.flight.FlightOverviewPresenter
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.bookings.utils.Ui
+import com.mobiata.flightlib.data.Flight
 import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
@@ -32,21 +35,23 @@ class FlightPriceChangeTest {
 
     private var checkout: FlightCheckoutPresenter by Delegates.notNull()
     private var activity: FragmentActivity by Delegates.notNull()
+    private var overview: FlightOverviewPresenter by Delegates.notNull()
 
     @Before fun before() {
         Ui.getApplication(RuntimeEnvironment.application).defaultTravelerComponent()
         Ui.getApplication(RuntimeEnvironment.application).defaultFlightComponents()
-        val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_checkout_test)
+        val intent = PlaygroundActivity.createIntent(RuntimeEnvironment.application, R.layout.flight_overview_test)
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
-        checkout = activity.findViewById(R.id.flight_checkout_presenter) as FlightCheckoutPresenter
+        overview = activity.findViewById(R.id.flight_overview_presenter) as FlightOverviewPresenter
+        checkout = overview.getCheckoutPresenter()
     }
 
     @Test
     fun testCreateTripPriceChange() {
         val priceChangeSubscriber = TestSubscriber<Boolean>()
-        checkout.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
-        checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getDummyFlightCreateTripPriceChangeResponse(9.0, 10.0))
+        overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
+        checkout.getCreateTripViewModel().createTripResponseObservable.onNext(getDummyFlightCreateTripPriceChangeResponse(9.0, 10.0))
         priceChangeSubscriber.assertValueCount(1)
         priceChangeSubscriber.assertValue(true)
     }
@@ -54,7 +59,7 @@ class FlightPriceChangeTest {
     @Test
     fun testCreateTripPriceChangeNotFired() {
         val priceChangeSubscriber = TestSubscriber<Boolean>()
-        checkout.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
+        overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
         checkout.flightCreateTripViewModel.createTripResponseObservable.onNext(getDummyFlightCreateTripPriceChangeResponse(9.01, 10.0))
         priceChangeSubscriber.assertValueCount(0)
     }
@@ -62,7 +67,7 @@ class FlightPriceChangeTest {
     @Test
     fun testCheckoutPriceChange() {
         val priceChangeSubscriber = TestSubscriber<Boolean>()
-        checkout.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
+        overview.priceChangeWidget.viewmodel.priceChangeVisibility.subscribe(priceChangeSubscriber)
         checkout.flightCheckoutViewModel.checkoutPriceChangeObservable.onNext(getDummyFlightCheckoutResponse())
         priceChangeSubscriber.assertValueCount(1)
         priceChangeSubscriber.assertValue(true)
