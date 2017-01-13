@@ -79,6 +79,7 @@ public class TravelerButton extends LinearLayout {
 	@Override
 	protected void onFinishInflate() {
 		super.onFinishInflate();
+		setOrientation(LinearLayout.HORIZONTAL);
 		LayoutInflater inflater = LayoutInflater.from(getContext());
 		inflater.inflate(R.layout.checkout_traveler_button, this);
 		ButterKnife.inject(this);
@@ -95,6 +96,10 @@ public class TravelerButton extends LinearLayout {
 
 	public void setLOB(LineOfBusiness lob) {
 		lineOfBusiness = lob;
+	}
+
+	public void updateSelectTravelerText(String text) {
+		selectTraveler.setText(text);
 	}
 
 	private void onStoredTravelerSelected(int position) {

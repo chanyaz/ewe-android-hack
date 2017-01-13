@@ -28,9 +28,11 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
 
     var viewModel: TravelerPhoneViewModel by notNullAndObservable { vm ->
         phoneNumber.viewModel = vm.phoneViewModel
-        vm.phoneCountyCodeSubject.subscribe { countryCode ->
+        vm.phoneCountryCodeSubject.subscribe { countryCode ->
             if (!TextUtils.isEmpty(countryCode)) {
                 phoneSpinner.update(countryCode, "")
+            } else {
+                phoneSpinner.selectPOSCountry()
             }
         }
         phoneSpinner.onItemSelectedListener = PhoneSpinnerItemSelected()
@@ -65,7 +67,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         viewModel.countryNameObserver.onNext(phoneSpinner.selectedTelephoneCountry)
     }
 
-    private inner class PhoneSpinnerItemSelected(): AdapterView.OnItemSelectedListener {
+    private inner class PhoneSpinnerItemSelected() : AdapterView.OnItemSelectedListener {
 
         override fun onNothingSelected(parent: AdapterView<*>?) {
             // do nothing

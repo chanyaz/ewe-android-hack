@@ -25,6 +25,14 @@
         android:padding="@dimen/checkout_form_padding"
         android:animateLayoutChanges="true">
 
+        <com.expedia.bookings.widget.TravelerButton
+            android:id="@+id/rail_traveler_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/traveler_input_bottom_margin"
+            android:gravity="center_vertical"
+            android:visibility="gone"/>
+
         <com.expedia.bookings.widget.traveler.NameEntryView
             android:id="@+id/name_entry_widget"
             android:layout_width="match_parent"

@@ -17,7 +17,7 @@ class RailTravelersViewModel(context: Context) : AbstractTravelersViewModel() {
     }
 
     fun refresh() {
-        if (isTravelerEmpty(getTraveler(0))) {
+        if (getTravelers().isEmpty() || isTravelerEmpty(getTraveler(0))) {
             travelersCompletenessStatus.onNext(TravelerCheckoutStatus.CLEAN)
         } else {
             updateCompletionStatus()

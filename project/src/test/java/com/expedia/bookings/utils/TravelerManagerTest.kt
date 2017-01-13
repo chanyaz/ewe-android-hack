@@ -1,5 +1,6 @@
 package com.expedia.bookings.utils
 
+import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.SuggestionV4
 import com.expedia.bookings.data.Traveler
@@ -12,6 +13,7 @@ import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
 import com.expedia.vm.test.traveler.MockTravelerProvider
+import com.mobiata.android.util.SettingUtils
 import org.joda.time.LocalDate
 import org.junit.Assert
 import org.junit.Test
@@ -19,6 +21,8 @@ import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
 import org.robolectric.annotation.Config
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
+import kotlin.test.assertTrue
 
 @RunWith(RobolectricRunner::class)
 @Config(shadows = arrayOf(ShadowGCM::class, ShadowUserManager::class, ShadowAccountManagerEB::class))
@@ -99,6 +103,29 @@ class TravelerManagerTest {
                 "Not Signed In, nothing about traveler should change")
         assertEquals(mockTravelerProvider.testFirstName, Db.getTravelers()[0].firstName,
                 "Not Signed In, nothing about traveler should change")
+    }
+
+    @Test
+    fun testUpdateTravelersWhenUserNotLoggedIn() {
+        SettingUtils.save(RuntimeEnvironment.application  , R.string.preference_enable_rail_checkout_login, true)
+        travelerManager.updateRailTravelers(RuntimeEnvironment.application)
+        assertTrue(Db.getTravelers().size == 1)
+        assertNull(Db.getTravelers()[0].lastName)
+    }
+
+    @Test
+    fun testUpdateTravelersWhenUserLoggedIn() {
+        SettingUtils.save(RuntimeEnvironment.application  , R.string.preference_enable_rail_checkout_login, true)
+
+        val testUser = User();
+        testUser.primaryTraveler = Traveler()
+        testUser.primaryTraveler.firstName = mockTravelerProvider.testFirstName
+
+        UserLoginTestUtil.setupUserAndMockLogin(testUser)
+
+        travelerManager.updateRailTravelers(RuntimeEnvironment.application)
+        assertTrue(Db.getTravelers().size == 1)
+        assertEquals(mockTravelerProvider.testFirstName, Db.getTravelers()[0].firstName)
     }
 
     private fun getPackageParams() : PackageSearchParams {
