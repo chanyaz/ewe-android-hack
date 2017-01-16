@@ -11,7 +11,6 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 
 import com.expedia.bookings.R;
 import com.expedia.bookings.data.User;
@@ -97,9 +96,6 @@ public class ItineraryActivity extends TrackingFragmentActivity implements ItinI
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		if (getResources().getBoolean(R.bool.portrait)) {
-			requestWindowFeature(Window.FEATURE_ACTION_BAR_OVERLAY);
-		}
 		super.onCreate(savedInstanceState);
 
 		setContentView(R.layout.activity_itinerary);
