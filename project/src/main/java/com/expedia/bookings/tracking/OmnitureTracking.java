@@ -2998,7 +2998,8 @@ public class OmnitureTracking {
 	}
 
 	public static void trackItinError() {
-		ADMS_Measurement s = getFreshTrackingObject();
+		Log.d(TAG, "Tracking \"" + ITIN_ERROR + "\" pageLoad");
+		ADMS_Measurement s = createTrackPageLoadEventBase(ITIN_ERROR);
 		s.setEvents("event98");
 		s.setEvar(18, ITIN_ERROR);
 		s.setProp(36, "itin:unable to retrieve trip summary");
