@@ -32,7 +32,6 @@ class FlightOverViewModelTest {
 
         flightLeg = FlightLeg()
         flightLeg.totalTravelDistance = "123"
-        SettingUtils.save(context, R.string.preference_enable_distance_on_flight_overview, true)
 
 
         RoboTestHelper.controlTests(AbacusUtils.EBAndroidAppMaterialFlightDistanceOnDetails)
