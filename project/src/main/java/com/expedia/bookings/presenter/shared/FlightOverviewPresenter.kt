@@ -25,11 +25,13 @@ import com.expedia.vm.AbstractFlightOverviewViewModel
 import com.expedia.vm.FlightSegmentBreakdown
 import com.expedia.vm.FlightSegmentBreakdownViewModel
 import rx.subjects.PublishSubject
+import rx.Observable
 
 class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presenter(context, attrs) {
 
     val bundlePriceTextView: TextView by bindView(R.id.bundle_price)
     val bundlePriceLabelTextView: TextView by bindView(R.id.bundle_price_label)
+    val earnMessageTextView: TextView by bindView(R.id.earn_message)
     val selectFlightButton: Button by bindView(R.id.select_flight_button)
     val urgencyMessagingText: TextView by bindView(R.id.flight_overview_urgency_messaging)
     val totalDurationText: TextView by bindView(R.id.flight_total_duration)
@@ -56,8 +58,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet?) : Presente
     var vm: AbstractFlightOverviewViewModel by notNullAndObservable {
         vm.chargesObFeesTextSubject.subscribeTextAndVisibility(paymentFeesMayApplyTextView)
         vm.bundlePriceSubject.subscribeText(bundlePriceTextView)
+        vm.earnMessage.subscribeText(earnMessageTextView)
+        vm.showEarnMessage.subscribeVisibility(earnMessageTextView)
         vm.showBundlePriceSubject.subscribeVisibility(bundlePriceLabelTextView)
-        vm.showBundlePriceSubject.subscribeVisibility(bundlePriceTextView)
+        Observable.combineLatest(vm.showEarnMessage, vm.showBundlePriceSubject, {
+            showEarnMessage, showBundlePrice ->
+            showEarnMessage || showBundlePrice
+        }).subscribeVisibility(bundlePriceTextView)
         vm.urgencyMessagingSubject.subscribeTextAndVisibilityInvisible(urgencyMessagingText)
         vm.totalDurationSubject.subscribeText(totalDurationText)
         vm.totalDurationContDescSubject.subscribeContentDescription(totalDurationText)

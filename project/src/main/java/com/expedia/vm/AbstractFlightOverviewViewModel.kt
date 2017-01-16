@@ -3,6 +3,7 @@ package com.expedia.vm
 import android.content.Context
 import com.expedia.bookings.R
 import com.expedia.bookings.data.flights.FlightLeg
+import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.FlightV2Utils
 import com.expedia.util.endlessObserver
@@ -23,8 +24,10 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     var numberOfTravelers = BehaviorSubject.create<Int>(0)
     val obFeeDetailsUrlObservable = PublishSubject.create<String>()
     val e3EndpointUrl = Ui.getApplication(context).appComponent().endpointProvider().e3EndpointUrl
+    val earnMessage = BehaviorSubject.create<String>()
 
     abstract val showBundlePriceSubject: BehaviorSubject<Boolean>
+    abstract val showEarnMessage: BehaviorSubject<Boolean>
     abstract val showSeatClassAndBookingCode: BehaviorSubject<Boolean>
 
     abstract fun pricePerPersonString(selectedFlight: FlightLeg): String
