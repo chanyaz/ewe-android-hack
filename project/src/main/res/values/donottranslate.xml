@@ -122,6 +122,7 @@
     <string name="preference_enable_universal_checkout_on_lx">preference_enable_universal_checkout_on_lx</string>
     <string name="preference_universal_checkout_material_forms">preference_enable_universal_checkout_material_forms</string>
     <string name="preference_enable_rail_checkout_login">preference_enable_rail_checkout_login</string>
+    <string name="preference_enable_distance_on_flight_overview">preference_enable_distance_on_flight_overview</string>
 
     <!-- Default values for preference keys -->
     <string name="preference_fake_price_change_default">0</string>

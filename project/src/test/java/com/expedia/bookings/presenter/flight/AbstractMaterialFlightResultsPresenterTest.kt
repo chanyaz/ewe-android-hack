@@ -137,7 +137,7 @@ class AbstractMaterialFlightResultsPresenterTest {
             throw UnsupportedOperationException()
         }
 
-        override fun trackFlightOverviewLoad() {
+        override fun trackFlightOverviewLoad(isDistancePresent: Boolean) {
             throw UnsupportedOperationException()
         }
 

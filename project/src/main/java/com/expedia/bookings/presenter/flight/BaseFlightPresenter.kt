@@ -24,6 +24,7 @@ import com.expedia.bookings.utils.ArrowXDrawableUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
+import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.widget.BaggageFeeInfoWidget
 import com.expedia.bookings.widget.BaseFlightFilterWidget
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
@@ -244,7 +245,9 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         override fun onNext(flight: FlightLeg) {
             show(overviewPresenter)
             overviewPresenter.vm.selectedFlightLegSubject.onNext(flight)
-            trackFlightOverviewLoad()
+            trackFlightOverviewLoad(flight.totalTravelDistance != null &&
+                    FeatureToggleUtil.isFeatureEnabled(context,
+                    R.string.preference_enable_distance_on_flight_overview))
         }
 
         override fun onCompleted() {
@@ -305,7 +308,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun isOutboundResultsPresenter(): Boolean
     abstract fun trackFlightResultsLoad()
-    abstract fun trackFlightOverviewLoad()
+    abstract fun trackFlightOverviewLoad(isDistancePresent: Boolean)
     abstract fun trackFlightSortFilterLoad()
     abstract fun trackShowBaggageFee()
     abstract fun trackShowPaymentFees()

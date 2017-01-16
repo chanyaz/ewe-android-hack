@@ -27,13 +27,17 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     abstract val showBundlePriceSubject: BehaviorSubject<Boolean>
     abstract val showSeatClassAndBookingCode: BehaviorSubject<Boolean>
 
+    abstract fun pricePerPersonString(selectedFlight: FlightLeg): String
+    abstract fun showFlightDistance(selectedFlight: FlightLeg): Boolean
+
     init {
         selectedFlightLegSubject.subscribe { selectedFlight ->
             updateUrgencyMessage(selectedFlight)
             updateOBFees(selectedFlight)
 
-            totalDurationSubject.onNext(FlightV2Utils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text))
-            totalDurationContDescSubject.onNext(FlightV2Utils.getFlightLegDurationContentDescription(context, selectedFlight))
+            val isFlightDistanceVisible = showFlightDistance(selectedFlight)
+            totalDurationSubject.onNext(FlightV2Utils.getStylizedFlightDurationString(context, selectedFlight, R.color.packages_total_duration_text, isFlightDistanceVisible))
+            totalDurationContDescSubject.onNext(FlightV2Utils.getFlightLegDurationContentDescription(context, selectedFlight, isFlightDistanceVisible))
 
             var perPersonPrice = Phrase.from(context.resources.getString(R.string.package_flight_overview_per_person_TEMPLATE))
                     .put("money", selectedFlight.packageOfferModel.price.pricePerPersonFormatted)
@@ -91,6 +95,4 @@ abstract class AbstractFlightOverviewViewModel(val context: Context) {
     val selectFlightClickObserver: Observer<Unit> = endlessObserver {
         selectedFlightClickedSubject.onNext(selectedFlightLegSubject.value)
     }
-
-    abstract fun pricePerPersonString(selectedFlight: FlightLeg): String
 }
