@@ -59,6 +59,27 @@ class GalleryActivity : Activity(), RecyclerGallery.GalleryItemScrollListener {
             lp.width = indicatorWidth
             galleryIndicator.layoutParams = lp
         }
+
+        gallery.addImageViewCreatedListener({ index -> updateGalleryChildrenHeights(index) })
+    }
+
+    private fun updateGalleryChildrenHeights(index: Int) {
+        resizeImageViews(index)
+        resizeImageViews(index - 1)
+        resizeImageViews(index + 1)
+    }
+
+    private fun resizeImageViews(index: Int) {
+        if (index >= 0 && index < gallery.adapter.itemCount) {
+            val height  = gallery.height
+            val galleryHeight = resources.getDimensionPixelSize(R.dimen.gallery_height)
+            var holder = gallery.findViewHolderForAdapterPosition(index)
+            if (holder != null) {
+                holder = holder as RecyclerGallery.RecyclerAdapter.ViewHolder
+                holder.mImageView?.setIntermediateValue(height - galleryHeight, height,
+                        0f / galleryHeight)
+            }
+        }
     }
 
     private fun setUpToolbar() {
