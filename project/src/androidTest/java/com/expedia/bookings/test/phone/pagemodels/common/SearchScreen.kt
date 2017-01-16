@@ -296,6 +296,10 @@ object SearchScreen {
         suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(viewMatcher, click()))
     }
 
+    @JvmStatic fun waitForSuggestions(viewMatcher: Matcher<View>) {
+        suggestionList().perform(ViewActions.waitFor(viewMatcher, 10, TimeUnit.SECONDS))
+    }
+
     @JvmStatic fun selectRecentSearch(location: String) {
         suggestionList().perform(RecyclerViewActions.actionOnItem<RecyclerView.ViewHolder>(hasDescendant(withText(location)), click()))
     }

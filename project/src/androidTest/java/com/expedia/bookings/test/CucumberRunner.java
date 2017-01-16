@@ -5,7 +5,7 @@ import cucumber.api.CucumberOptions;
 @CucumberOptions(features = "Features",
 	glue = { "com.expedia.bookings.test" },
 	monochrome = true,
-	tags = {"@HotelSearch"},
+	tags = {"@Flights"},
 	plugin = { "pretty" }
 )
 public class CucumberRunner {

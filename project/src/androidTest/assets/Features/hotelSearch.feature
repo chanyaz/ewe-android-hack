@@ -1,6 +1,6 @@
 Feature: Getting hotel results from the App
 
-  @WIP @Int @HotelSearch
+  @Int @HotelSearch
   Scenario Outline: Successfully searching for hotels with different combinations.
 
     Given I launch the App
