@@ -78,9 +78,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     abstract fun setupCreateTripViewModel(vm: BaseCreateTripViewModel)
     abstract fun showMainTravelerMinimumAgeMessaging(): Boolean
     abstract fun trackCheckoutPriceChange(priceDiff: Int)
+    abstract fun handleCheckoutPriceChange(response: TripResponse)
     abstract fun createTravelersViewModel(): TravelersViewModel
     abstract fun shouldShowAlertForCreateTripPriceChange(response: TripResponse?): Boolean
     abstract fun trackCreateTripPriceChange(priceChangeDiffPercentage: Int)
+    abstract fun onCreateTripResponse(response: TripResponse?)
 
     /** contants **/
     private val ANIMATION_DELAY = 200L
@@ -430,15 +432,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         ckoViewModel.animateInSlideToPurchaseObservable.onNext(true)
     }
 
-
-
     fun clearPaymentInfo() {
         if (!User.isLoggedIn(context)) {
             paymentWidget.clearPaymentInfo()
         }
     }
-
-
 
     fun resetTravelers() {
         travelersPresenter.resetTravelers()
@@ -477,6 +475,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             val scrollViewContainerLocation = IntArray(2)
             contentView.getLocationOnScreen(contentViewLocation)
 //            bottomContainer.getLocationOnScreen(bottomContainerLocation)
+//            bottom container is no longer available?
             scrollView.getLocationOnScreen(scrollViewContainerLocation)
 
             val contentViewBottomPosition = contentViewLocation[1] + contentView.height - space.height

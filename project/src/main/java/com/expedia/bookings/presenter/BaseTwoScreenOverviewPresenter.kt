@@ -31,6 +31,7 @@ import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.packages.BundleTotalPriceViewModel
 import com.squareup.phrase.Phrase
+import java.math.BigDecimal
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener, SlideToWidgetLL.ISlideToListener {
 
@@ -136,6 +137,15 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         inflate()
         checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { response ->
             resetCheckoutState()
+            if (hasPriceChange(response)) {
+                checkoutPresenter.trackCheckoutPriceChange(getPriceChangeDiffPercentage(response?.getOldPrice()!!, response?.newPrice!!))
+                if (shouldShowPriceChangeOnCreateTrip(response?.getOldPrice()!!.amount, response?.newPrice!!.amount)) {
+                    showAlertDialogForPriceChange(response!!)
+                    return@safeSubscribe
+                } else {
+                    priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
+                }
+            }
             onCreateTripResponse(response)
         }
 
@@ -150,7 +160,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice)
             priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
             checkoutPresenter.trackCheckoutPriceChange(getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice))
-            handleCheckoutPriceChange(response)
+            handlePriceChange(response)
         }
         checkoutPresenter.getCheckoutViewModel().bottomContainerVisibility.subscribe { hide ->
             bottomContainer.setInverseVisibility(hide)
@@ -429,7 +439,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     abstract fun inflate()
     abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
     abstract fun onCreateTripResponse(response: TripResponse?)
-    abstract fun handleCheckoutPriceChange(response: TripResponse)
+    abstract fun handlePriceChange(response: TripResponse)
 
 
     inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
@@ -522,13 +532,13 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         return diffPercentage
     }
 
-//    fun hasPriceChange(response: TripResponse?): Boolean {
-//        return response?.getOldPrice() != null
-//    }
-//
-//    fun shouldShowPriceChangeOnCreateTrip(newPrice: BigDecimal, oldPrice: BigDecimal): Boolean {
-//        return (Math.ceil(newPrice.toDouble()) - Math.ceil(oldPrice.toDouble())) != 0.0
-//    }
+    fun hasPriceChange(response: TripResponse?): Boolean {
+        return response?.getOldPrice() != null
+    }
+
+    fun shouldShowPriceChangeOnCreateTrip(newPrice: BigDecimal, oldPrice: BigDecimal): Boolean {
+        return (Math.ceil(newPrice.toDouble()) - Math.ceil(oldPrice.toDouble())) != 0.0
+    }
 
     fun animateInSlideToPurchase(visible: Boolean) {
         if (AccessibilityUtil.isTalkBackEnabled(context) && visible) {

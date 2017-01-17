@@ -35,8 +35,6 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
         return false
     }
 
-
-
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {
         return DefaultToTraveler(FlightTravelersPresenter::class.java)
     }
@@ -99,5 +97,12 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
 
     override fun createTravelersViewModel(): TravelersViewModel {
         return FlightTravelersViewModel(context, getLineOfBusiness(), showMainTravelerMinimumAgeMessaging())
+    }
+
+    override fun handleCheckoutPriceChange(response: TripResponse) {
+    }
+
+    override fun onCreateTripResponse(response: TripResponse?) {
+        loginWidget.updateRewardsText(getLineOfBusiness())
     }
 }

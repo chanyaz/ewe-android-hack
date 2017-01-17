@@ -99,8 +99,14 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet) : BaseChecko
         }
     }
 
+    override fun handleCheckoutPriceChange(response: TripResponse) {
+        
+    }
 
-
+    override fun onCreateTripResponse(response: TripResponse?) {
+        loginWidget.updateRewardsText(getLineOfBusiness())
+        insuranceWidget.viewModel.tripObservable.onNext(response as FlightTripResponse)
+    }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {
         onLoginSuccess()

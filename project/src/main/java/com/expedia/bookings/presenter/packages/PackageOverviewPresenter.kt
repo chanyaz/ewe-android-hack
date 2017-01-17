@@ -210,13 +210,13 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         return PackageCostSummaryBreakdownViewModel(context)
     }
 
-    override fun handleCheckoutPriceChange(response: TripResponse) {
+    override fun handlePriceChange(response: TripResponse) {
         onCreateTripResponse(response)
     }
 
     override fun onCreateTripResponse(response: TripResponse?) {
         response as PackageCreateTripResponse
-        getCheckoutPresenter().loginWidget.updateRewardsText(checkoutPresenter.getLineOfBusiness())
+        checkoutPresenter.onCreateTripResponse(response)
         totalPriceWidget.viewModel.total.onNext(response.bundleTotal)
         val packageTotalPrice = response.packageDetails.pricing
         totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)

@@ -106,14 +106,13 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
     }
 
     private fun onTripResponse(tripResponse: TripResponse?) {
-        checkoutPresenter.loginWidget.updateRewardsText(checkoutPresenter.getLineOfBusiness())
-        getCheckoutPresenter().insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
+        getCheckoutPresenter().onCreateTripResponse(tripResponse)
         totalPriceWidget.viewModel.total.onNext(tripResponse?.newPrice)
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
     }
 
-    override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
+    override fun handlePriceChange(tripResponse: TripResponse) {
         tripResponse as FlightCheckoutResponse
         val newPrice = tripResponse.newPrice
         val oldPrice = tripResponse.getOldPrice()
