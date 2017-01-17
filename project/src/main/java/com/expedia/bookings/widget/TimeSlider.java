@@ -107,7 +107,6 @@ public class TimeSlider extends SeekBar {
 
 	private SeekBar.OnSeekBarChangeListener onSeekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
 		int previousProgress = 0;
-		boolean isFirstTime = true;
 		@Override
 		public void onProgressChanged(SeekBar seekBar, int requestedProgress, boolean fromUser) {
 
@@ -125,12 +124,11 @@ public class TimeSlider extends SeekBar {
 				listener.onProgressChanged(seekBar, adjustedProgress, fromUser);
 			}
 
-			if ((!fromUser && isFirstTime) || AccessibilityUtil.isTalkBackEnabled(getContext())) {
+			if ((!fromUser) || AccessibilityUtil.isTalkBackEnabled(getContext())) {
 				setThumb(getThumbnail(calculateProgress(getProgress()), false));
 			}
 
 			previousProgress = adjustedProgress;
-			isFirstTime = false;
 		}
 
 		@Override
