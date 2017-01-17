@@ -1,0 +1,324 @@
+{
+  "q": "lon",
+  "rid": "cf55d356-2fc7-4bbf-a0ef-2d5ed3905a51",
+  "rc": "OK",
+  "sr": [
+    {
+      "@type": "gaiaRegionResult",
+      "index": "0",
+      "gaiaId": "6139104",
+      "type": "METROCODE",
+      "regionNames": {
+        "fullName": "London, England, UK (LON-All Airports)",
+        "shortName": "London (LON-All Airports)",
+        "displayName": "<B>Lon</B>don, England, UK (<B>LON</B> - All Airports)",
+        "lastSearchName": "London, England, UK (LON-All Airports)"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6139104"
+      },
+      "coordinates": {
+        "lat": "51.55246341",
+        "long": "0.029501721"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "LON",
+          "metrocode": "LON",
+          "multicity": "178279"
+        },
+        "country": {
+          "name": "United Kingdom",
+          "isoCode2": "GB",
+          "isoCode3": "GBR"
+        }
+      },
+      "regionMetadata": {
+        "hotelCount": "2975"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "packageable": "false",
+      "score": "0.6845833111019743",
+      "popularity": "207.0"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "1",
+      "gaiaId": "6000361",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "London, England, UK (LHR-Heathrow)",
+        "shortName": "London (LHR-Heathrow)",
+        "displayName": "LHR&nbsp;-&nbsp;Heathrow",
+        "lastSearchName": "London, England, UK (LHR-Heathrow)"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6000361"
+      },
+      "coordinates": {
+        "lat": "51.470878",
+        "long": "-0.449753"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "LHR",
+          "metrocode": "LON",
+          "multicity": "178279"
+        },
+        "country": {
+          "name": "United Kingdom",
+          "isoCode2": "GB",
+          "isoCode3": "GBR"
+        },
+        "relation": [
+          "child"
+        ],
+        "isChild": "true"
+      },
+      "regionMetadata": {
+        "hotelCount": "2418"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false",
+      "score": "1.0",
+      "popularity": "424.0"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "2",
+      "gaiaId": "6000359",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "London, England, UK (LGW-Gatwick)",
+        "shortName": "London (LGW-Gatwick)",
+        "displayName": "LGW&nbsp;-&nbsp;Gatwick",
+        "lastSearchName": "London, England, UK (LGW-Gatwick)"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6000359"
+      },
+      "coordinates": {
+        "lat": "51.156026",
+        "long": "-0.16458"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "LGW",
+          "metrocode": "LON",
+          "multicity": "178279"
+        },
+        "country": {
+          "name": "United Kingdom",
+          "isoCode2": "GB",
+          "isoCode3": "GBR"
+        },
+        "relation": [
+          "child"
+        ],
+        "isChild": "true"
+      },
+      "regionMetadata": {
+        "hotelCount": "2380"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false",
+      "score": "0.16273584905660385",
+      "popularity": "69.0"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "3",
+      "gaiaId": "6000351",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "London, England, UK (LCY-London City)",
+        "shortName": "London (LCY-London City)",
+        "displayName": "LCY&nbsp;-&nbsp;<B>Lon</B>don City",
+        "lastSearchName": "London, England, UK (LCY-London City)"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6000351"
+      },
+      "coordinates": {
+        "lat": "51.503667",
+        "long": "0.049717"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "LCY",
+          "metrocode": "LON",
+          "multicity": "178279"
+        },
+        "country": {
+          "name": "United Kingdom",
+          "isoCode2": "GB",
+          "isoCode3": "GBR"
+        },
+        "relation": [
+          "child"
+        ],
+        "isChild": "true"
+      },
+      "regionMetadata": {
+        "hotelCount": "1631"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false",
+      "score": "0.056603773584905454",
+      "popularity": "24.0"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "4",
+      "gaiaId": "6000614",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "London, England, UK (STN-Stansted)",
+        "shortName": "London (STN-Stansted)",
+        "displayName": "STN&nbsp;-&nbsp;Stansted",
+        "lastSearchName": "London, England, UK (STN-Stansted)"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6000614"
+      },
+      "coordinates": {
+        "lat": "51.889432",
+        "long": "0.262148"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "STN",
+          "metrocode": "LON",
+          "multicity": "178279"
+        },
+        "country": {
+          "name": "United Kingdom",
+          "isoCode2": "GB",
+          "isoCode3": "GBR"
+        },
+        "relation": [
+          "child"
+        ],
+        "isChild": "true"
+      },
+      "regionMetadata": {
+        "hotelCount": "58"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false",
+      "score": "0.04952830188679249",
+      "popularity": "21.0"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "5",
+      "gaiaId": "6000377",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "London, England, UK (LTN-Luton)",
+        "shortName": "London (LTN-Luton)",
+        "displayName": "LTN&nbsp;-&nbsp;Luton",
+        "lastSearchName": "London, England, UK (LTN-Luton)"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6000377"
+      },
+      "coordinates": {
+        "lat": "51.878796",
+        "long": "-0.376453"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "LTN",
+          "metrocode": "LON",
+          "multicity": "178279"
+        },
+        "country": {
+          "name": "United Kingdom",
+          "isoCode2": "GB",
+          "isoCode3": "GBR"
+        },
+        "relation": [
+          "child"
+        ],
+        "isChild": "true"
+      },
+      "regionMetadata": {
+        "hotelCount": "97"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false",
+      "score": "0.03066037735849038",
+      "popularity": "13.0"
+    },
+    {
+      "@type": "gaiaRegionResult",
+      "index": "6",
+      "gaiaId": "6031806",
+      "type": "AIRPORT",
+      "regionNames": {
+        "fullName": "Southend-on-Sea, England, UK (SEN-Southend Municipal)",
+        "shortName": "Southend-on-Sea (SEN-Southend Municipal)",
+        "displayName": "SEN&nbsp;-&nbsp;Southend Municipal, Southend-on-Sea, England, UK",
+        "lastSearchName": "Southend-on-Sea, England, UK (SEN-Southend Municipal)"
+      },
+      "essId": {
+        "sourceName": "GAI",
+        "sourceId": "6031806"
+      },
+      "coordinates": {
+        "lat": "51.567567",
+        "long": "0.700089"
+      },
+      "hierarchyInfo": {
+        "airport": {
+          "airportCode": "SEN",
+          "metrocode": "LON",
+          "multicity": "178279"
+        },
+        "country": {
+          "name": "United Kingdom",
+          "isoCode2": "GB",
+          "isoCode3": "GBR"
+        },
+        "relation": [
+          "child"
+        ],
+        "isChild": "true"
+      },
+      "regionMetadata": {
+        "hotelCount": "31"
+      },
+      "regionGrades": {
+        "globalGrade": "99"
+      },
+      "isMinorAirport": "false",
+      "packageable": "false",
+      "score": "0.002358490566037653",
+      "popularity": "1.0"
+    }
+  ]
+}

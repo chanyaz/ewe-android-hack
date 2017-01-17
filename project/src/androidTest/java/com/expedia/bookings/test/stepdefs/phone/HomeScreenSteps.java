@@ -7,12 +7,13 @@ import cucumber.api.java.en.And;
 import cucumber.api.java.en.Given;
 
 import static android.support.test.espresso.action.ViewActions.click;
+import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 
 public class HomeScreenSteps {
 
 	@Given("^I launch the App$")
 	public void validateHomeScreenAppears() throws Throwable {
-		NewLaunchScreen.shopButton().perform(click());
+		NewLaunchScreen.shopButton().perform(waitForViewToDisplay(), click());
 		NewLaunchScreen.hotelsLaunchButton().perform(ViewActions.waitForViewToCompletelyDisplay());
 	}
 
@@ -20,10 +21,10 @@ public class HomeScreenSteps {
 	public void homeButtonClick(String lob) throws Throwable {
 		switch (lob) {
 		case "Hotels":
-			NewLaunchScreen.hotelsLaunchButton().perform(ViewActions.waitForViewToDisplay(), click());
+			NewLaunchScreen.hotelsLaunchButton().perform(waitForViewToDisplay(), click());
 			break;
 		case "Flights":
-			NewLaunchScreen.flightLaunchButton().perform(ViewActions.waitForViewToDisplay(), click());
+			NewLaunchScreen.flightLaunchButton().perform(waitForViewToDisplay(), click());
 			break;
 		}
 	}

@@ -17,6 +17,7 @@ import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.action.ViewActions.typeText;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
 import static android.support.test.espresso.matcher.ViewMatchers.hasSibling;
+import static android.support.test.espresso.matcher.ViewMatchers.hasDescendant;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withParent;
@@ -24,6 +25,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.expedia.bookings.test.espresso.ViewActions.waitForViewToDisplay;
 import static org.hamcrest.Matchers.allOf;
 import static org.hamcrest.Matchers.containsString;
+import static org.hamcrest.Matchers.not;
 
 
 public class SearchScreenSteps {
@@ -31,7 +33,7 @@ public class SearchScreenSteps {
 	Map<String, String> parameters;
 	int totalTravelers;
 
-	@When("^I enter source and destination for flights")
+	@When("^I enter source and destination for flights$")
 	public void enterSourceAndDestination(Map<String, String> parameters) throws Throwable {
 		SearchScreen.origin().perform(click());
 		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(parameters.get("source")));
@@ -40,14 +42,35 @@ public class SearchScreenSteps {
 		SearchScreen.selectLocation(parameters.get("destination_suggest"));
 	}
 
-	@And("^I pick dates for flights")
+	@When("^I type \"(.*?)\" in the flights search box$")
+	public void typeInOriginSearchBox(String query) throws Throwable {
+		SearchScreen.origin().perform(click());
+		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(query));
+	}
+
+	@When("^I type \"(.*?)\" in the flights destination search box$")
+	public void typeInDestinationSearchBox(String query) throws Throwable {
+		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(query));
+	}
+
+	@When("^I add \"(.*?)\" to the query in flights search box$")
+	public void addLettersToQuery(String q) throws Throwable {
+		SearchScreen.searchEditText().perform(waitForViewToDisplay(), typeText(q));
+	}
+
+	@When("^I select \"(.*?)\" from suggestions$")
+	public void selectSuggestion(String suggestion) throws Throwable {
+		SearchScreen.selectLocation(suggestion);
+	}
+
+	@And("^I pick dates for flights$")
 	public void pickDates(Map<String, String> parameters) throws Throwable {
 		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
 		LocalDate endDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("end_date")));
 		SearchScreen.selectDates(stDate, endDate);
 	}
 
-	@And("^I change travellers count and press done")
+	@And("^I change travellers count and press done$")
 	public void changeTravellersCount() throws Throwable {
 		SearchScreen.selectGuestsButton().perform(click());
 		SearchScreen.searchAlertDialogDone().perform(waitForViewToDisplay());
@@ -57,48 +80,83 @@ public class SearchScreenSteps {
 		SearchScreen.searchAlertDialogDone().perform(click());
 	}
 
-	@And("^I select one way trip")
+	@And("^I select one way trip$")
 	public void selectOneWayTrip() throws Throwable {
 		FlightsScreen.selectOneWay();
 	}
 
-	@And("^I pick departure date for flights")
+	@And("^I pick departure date for flights$")
 	public void selectDepartureDate(Map<String, String> parameters) throws Throwable {
 		LocalDate stDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
 		SearchScreen.selectDates(stDate, null);
 	}
 
-	@Then("^I can trigger flights search")
+	@Then("^I can trigger flights search$")
 	public void searchClick() throws Throwable {
 		SearchScreen.searchButton().perform(click());
 	}
 
-	@Then("^departure field exists for flights search form")
+	@Then("^flights suggest typeAhead is not fired$")
+	public void verifySuggestionListEmpty() throws Throwable {
+		SearchScreen.suggestionList().check(matches(not(hasDescendant(withId(R.id.suggestion_text_container)))));
+	}
+
+	@Then("^flights suggest typeAhead is fired for \"(.*?)\"$")
+	public void verifySuggestionsForGivenQuery(String query) throws Throwable {
+		SearchScreen.searchEditText().check(matches(withText(query)));
+		if (query.equals("lon")) {
+			SearchScreen.suggestionList()
+				.check(matches(hasDescendant(withText("London, England, UK (LON - All Airports)"))));
+		}
+		else if (query.equals("lond")) {
+			SearchScreen.suggestionList()
+				.check(matches(hasDescendant(withText("San Francisco, CA (SFO-San Francisco Intl.)"))));
+		}
+	}
+
+	@Then("^flights suggest typeAhead is fired$")
+	public void checkTypeAheadFired() throws Throwable {
+		SearchScreen.waitForSuggestions(hasDescendant(withId(R.id.suggestion_text_container)));
+		SearchScreen.suggestionList().check(matches(hasDescendant(withId(R.id.suggestion_text_container))));
+	}
+
+	@Then("^\"(.*?)\" is listed at the top of suggestion list as recent search$")
+	public void checkRecentSearchesSuggestionResults(String result) throws Throwable {
+		SearchScreen.suggestionList()
+			.check(matches(hasDescendant(withText(result))));
+	}
+
+	@And("^the results are listed in hierarchy$")
+	public void verifyHierarchicalSuggestion() throws Throwable {
+		SearchScreen.suggestionList().check(matches(hasDescendant(withId(R.id.hierarchy_imageview))));
+	}
+
+	@Then("^departure field exists for flights search form$")
 	public void checkDepartureField() throws Throwable {
 		SearchScreen.origin().check(matches(isDisplayed()));
 		SearchScreen.origin().check(matches(withText(containsString("Flying from"))));
 	}
 
-	@And("arrival field exists for flights search form")
+	@And("arrival field exists for flights search form$")
 	public void checkArrivalField() throws Throwable {
 		SearchScreen.destination().check(matches(isDisplayed()));
 		SearchScreen.destination().check(matches(withText(containsString("Flying to"))));
 	}
 
-	@Then("^calendar field exists for flights search form")
+	@Then("^calendar field exists for flights search form$")
 	public void checkCalendarField() throws Throwable {
 		onView(withId(R.id.calendar_card)).check(matches(isDisplayed()));
 		onView(withId(R.id.calendar_card)).check(matches(withText(containsString("Select Dates"))));
 	}
 
 
-	@Then("^calendar field exists for one way flights search form")
+	@Then("^calendar field exists for one way flights search form$")
 	public void checkCalendarFieldOneWay() throws Throwable {
 		onView(withId(R.id.calendar_card)).check(matches(isDisplayed()));
 		onView(withId(R.id.calendar_card)).check(matches(withText(containsString("Select departure date"))));
 	}
 
-	@And("^I make a flight search with following parameters")
+	@And("^I make a flight search with following parameters$")
 	public void flightSearchCall(Map<String, String> parameters) throws Throwable {
 		this.parameters = parameters;
 		enterSourceAndDestination(parameters);
@@ -123,7 +181,7 @@ public class SearchScreenSteps {
 			.check(matches(withText(containsString(destination))));
 	}
 
-	@And("^on FSR the date is as user selected")
+	@And("^on FSR the date is as user selected$")
 	public void verifyDate() throws Throwable {
 		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("start_date")));
 		String date = String.valueOf(startDate.getDayOfMonth());
@@ -166,13 +224,13 @@ public class SearchScreenSteps {
 		}
 	}
 
-	@And("^on inbound FSR the number of traveller are as user selected")
+	@And("^on inbound FSR the number of traveller are as user selected$")
 	public void verifyTravelersForInbound() throws Throwable {
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), withText(containsString("Traveler"))))
 			.check(matches(withText(containsString(totalTravelers + " Traveler"))));
 	}
 
-	@Then("^I verify date is as user selected for inbound flight")
+	@Then("^I verify date is as user selected for inbound flight$")
 	public void verifyDateForInboundFlight() throws Throwable {
 		LocalDate startDate = LocalDate.now().plusDays(Integer.parseInt(parameters.get("end_date")));
 		String date = String.valueOf(startDate.getDayOfMonth());
@@ -186,17 +244,16 @@ public class SearchScreenSteps {
 			withText(containsString("Traveler")))).check(matches(withText(containsString(year))));
 	}
 
-	@Then("^I select first flight")
+	@Then("^I select first flight$")
 	public void selectFirstFlight() throws Throwable {
 		FlightsScreen.selectFlight(FlightsScreen.outboundFlightList(), 0);
 		FlightsScreen.selectOutboundFlight().perform(click());
 	}
 
-	@And("^on outbound FSR the number of traveller are as user selected")
+	@And("^on outbound FSR the number of traveller are as user selected$")
 	public void verifyTravelersForOutbound() throws Throwable {
 		onView(allOf(withParent(withId(R.id.flights_toolbar)), hasSibling(withText("Select return flight")),
 			withText(containsString("Traveler"))))
 			.check(matches(withText(containsString(totalTravelers + " Traveler"))));
 	}
-
 }

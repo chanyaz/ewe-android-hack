@@ -309,6 +309,9 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         } else if (request.path.startsWith("/api/v4/typeahead/")) {
             if ("FLIGHTS".equals(lob)) {
                 //Material Flights
+                if(request.path.startsWith("/api/v4/typeahead/lon?")) {
+                    return makeResponse("/api/v4/suggestion_flights_lon.json")
+                }
                 return makeResponse("/api/v4/suggestion_flights.json")
             } else {
                 val requestPath = request.path
@@ -319,15 +322,6 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
                     return makeResponse("/api/v4/suggestion.json")
                 }
             }
-        } else if (request.path.startsWith("/api/v4/nearby/")) {
-            if (latlong == "31.32|75.57") {
-                return makeResponse("/api/v4/suggestion_with_no_lx_activities.json")
-            } else if (regionType == "65") {
-                return makeResponse("/api/v4/suggestion_with_airports.json")
-            } else if (regionType == "4") {
-                return makeResponse("/api/v4/suggestion_with_airports_cities.json")
-            }
-            return makeResponse("/api/v4/suggestion_nearby.json")
         }
         return make404()
     }
