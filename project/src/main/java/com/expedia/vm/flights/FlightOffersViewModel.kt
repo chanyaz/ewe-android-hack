@@ -11,7 +11,7 @@ import com.expedia.bookings.data.packages.PackageOfferModel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
 import com.expedia.bookings.utils.RetrofitUtils
 import rx.Observer
 import rx.Subscription
@@ -26,6 +26,8 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
     val errorObservable = PublishSubject.create<ApiError>()
     val noNetworkObservable = PublishSubject.create<Unit>()
 
+    val searchingForFlightDateTime = PublishSubject.create<Unit>()
+    val resultsReceivedDateTimeObservable = PublishSubject.create<Unit>()
     val confirmedOutboundFlightSelection = BehaviorSubject.create<FlightLeg>()
     val confirmedInboundFlightSelection = BehaviorSubject.create<FlightLeg>()
     val outboundSelected = BehaviorSubject.create<FlightLeg>()
@@ -49,7 +51,8 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
     init {
         searchParamsObservable.subscribe { params ->
             isRoundTripSearchSubject.onNext(params.isRoundTrip())
-            flightSearchSubscription = flightServices.flightSearch(params, makeResultsObserver())
+            searchingForFlightDateTime.onNext(Unit)
+            flightSearchSubscription = flightServices.flightSearch(params, makeResultsObserver(), resultsReceivedDateTimeObservable)
         }
         cancelSearchObservable.subscribe {
             flightSearchSubscription?.unsubscribe()
@@ -221,13 +224,14 @@ class FlightOffersViewModel(val context: Context, val flightServices: FlightServ
                             }
                     obFeeDetailsUrlObservable.onNext(obFeeDetailsUrl)
                     createFlightMap(response)
+
                 }
             }
 
             override fun onError(e: Throwable) {
                 if (RetrofitUtils.isNetworkError(e)) {
                     val retryFun = fun() {
-                        flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver())
+                        flightServices.flightSearch(searchParamsObservable.value, makeResultsObserver(), resultsReceivedDateTimeObservable)
                     }
                     val cancelFun = fun() {
                         noNetworkObservable.onNext(Unit)

@@ -101,6 +101,7 @@ import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.server.EndPoint;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.text.HtmlCompat;
+import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelTracking;
 import com.expedia.bookings.utils.CollectionUtils;
@@ -371,7 +372,7 @@ public class OmnitureTracking {
 
 		StringBuilder eventStringBuilder = new StringBuilder();
 		eventStringBuilder.append("event12,event51");
-		HotelSearchTrackingData.PerformanceData perfData = searchTrackingData.getPerformanceData();
+		AbstractSearchTrackingData.PerformanceData perfData = searchTrackingData.getPerformanceData();
 		if (perfData.getTimeToLoadUsable() != null) {
 			eventStringBuilder.append(",event220,event221" + "=" + perfData.getTimeToLoadUsable());
 		}
@@ -5606,9 +5607,9 @@ public class OmnitureTracking {
 	}
 
 	public static void trackResultOutBoundFlights(
-		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
+		FlightSearchTrackingData searchTrackingData) {
 		String pageName =
-			flightSearchParams.getReturnDate() != null ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHTS_V2_SEARCH_ONEWAY;
+			searchTrackingData.getReturnDate() != null ? FLIGHT_SEARCH_ROUNDTRIP_OUT : FLIGHTS_V2_SEARCH_ONEWAY;
 
 		Log.d(TAG, "Tracking \"" + pageName + "\" pageLoad");
 
@@ -5620,22 +5621,31 @@ public class OmnitureTracking {
 		s.setProp(2, "Flight");
 
 		// Search Origin: 3 letter airport code of origin
-		String origin = flightSearchParams.getDepartureAirport().hierarchyInfo.airport.airportCode;
+		String origin = searchTrackingData.getDepartureAirport().hierarchyInfo.airport.airportCode;
 		s.setEvar(3, "D=c3");
 		s.setProp(3, origin);
 
 		// Search Destination: 3 letter airport code of destination
-		String dest = flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode;
+		String dest = searchTrackingData.getArrivalAirport().hierarchyInfo.airport.airportCode;
 		s.setEvar(4, "D=c4");
 		s.setProp(4, dest);
 
 		// day computation date
-		LocalDate departureDate = flightSearchParams.getDepartureDate();
-		LocalDate returnDate = flightSearchParams.getReturnDate();
+		LocalDate departureDate = searchTrackingData.getDepartureDate();
+		LocalDate returnDate = searchTrackingData.getReturnDate();
 
 		setDateValues(s, departureDate, returnDate);
 
-		s.setEvar(47, getFlightV2Evar47String(flightSearchParams));
+		s.setEvar(47, getFlightV2Evar47String(searchTrackingData));
+		StringBuilder eventStringBuilder = new StringBuilder();
+		eventStringBuilder.append("event12,event51");
+		AbstractSearchTrackingData.PerformanceData perfData = searchTrackingData.getPerformanceData();
+		if (perfData.getTimeToLoadUsable() != null) {
+			eventStringBuilder.append(",event220,event221" + "=" + perfData.getTimeToLoadUsable());
+		}
+		s.setEvents(eventStringBuilder.toString());
+
+
 		trackAbacusTest(s, AbacusUtils.EBAndroidAppFlightUrgencyMessage);
 		if (pageName.equals(FLIGHT_SEARCH_ROUNDTRIP_OUT)) {
 			trackAbacusTest(s, AbacusUtils.EBAndroidAppMaterialFlightSearchRoundTripMessage);
@@ -5784,11 +5794,11 @@ public class OmnitureTracking {
 	}
 
 	private static String getFlightV2Evar47String(
-		com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams) {
+		FlightSearchTrackingData searchTrackingData) {
 		// Pipe delimited list of LOB, flight search type (OW, RT, MD), # of Adults, and # of Children)
 		// e.g. FLT|RT|A2|C1
 		String str = "FLT|";
-		if (flightSearchParams.getEndDate() != null) {
+		if (searchTrackingData.getReturnDate() != null) {
 			str += "RT|A";
 		}
 		else {
@@ -5796,17 +5806,17 @@ public class OmnitureTracking {
 		}
 
 		int childrenInLap = 0;
-		if (flightSearchParams.getInfantSeatingInLap()) {
-			for (int age : flightSearchParams.getChildren()) {
+		if (searchTrackingData.getInfantSeatingInLap()) {
+			for (int age : searchTrackingData.getChildren()) {
 				if (age < 2) {
 					childrenInLap++;
 				}
 			}
 		}
 
-		int childrenInSeat = flightSearchParams.getChildren().size() - childrenInLap;
+		int childrenInSeat = searchTrackingData.getChildren().size() - childrenInLap;
 
-		str += flightSearchParams.getAdults();
+		str += searchTrackingData.getAdults();
 		str += "|C";
 		str += childrenInSeat;
 		str += "|L";

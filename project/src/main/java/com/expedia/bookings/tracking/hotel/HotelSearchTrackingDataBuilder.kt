@@ -2,15 +2,19 @@ package com.expedia.bookings.tracking.hotel
 
 import android.text.TextUtils
 import com.expedia.bookings.data.hotels.Hotel
+import com.expedia.bookings.tracking.AbstractTrackingDataBuilder
 import com.expedia.bookings.utils.JodaUtils
 import org.joda.time.LocalDate
 
-class HotelSearchTrackingDataBuilder {
-    private val trackingData = HotelSearchTrackingData()
+class HotelSearchTrackingDataBuilder : AbstractTrackingDataBuilder<HotelSearchTrackingData>() {
+    override var trackingData = HotelSearchTrackingData()
 
-    private var paramsPopulated = false
-    private var responsePopulated = false
-    private var responseTimePopulated = false
+    override fun build() : HotelSearchTrackingData {
+        paramsPopulated = false
+        responsePopulated = false
+        responseTimePopulated = false
+        return trackingData
+    }
 
     fun searchParams(searchParams: com.expedia.bookings.data.hotels.HotelSearchParams) {
         populateSearchParamFields(searchParams)
@@ -20,38 +24,6 @@ class HotelSearchTrackingDataBuilder {
     fun searchResponse(searchResponse: com.expedia.bookings.data.hotels.HotelSearchResponse) {
         populateSearchResponseFields(searchResponse)
         responsePopulated = true
-    }
-
-    fun markSearchClicked() {
-        trackingData.performanceData.markSearchClicked(System.currentTimeMillis())
-    }
-
-    fun markSearchApiCallMade() {
-        trackingData.performanceData.markSearchApiCallMade(System.currentTimeMillis())
-    }
-
-    fun markApiResponseReceived() {
-        trackingData.performanceData.markApiResponseReceived(System.currentTimeMillis())
-    }
-
-    fun markResultsProcessed() {
-        trackingData.performanceData.markResultsProcessed(System.currentTimeMillis())
-    }
-
-    fun markResultsUsable() {
-        trackingData.performanceData.markResultsUsable(System.currentTimeMillis())
-        responseTimePopulated = true
-    }
-
-    fun isWorkComplete() : Boolean {
-        return paramsPopulated && responsePopulated && responseTimePopulated
-    }
-
-    fun build() : HotelSearchTrackingData {
-        paramsPopulated = false
-        responsePopulated = false
-        responseTimePopulated = false
-        return trackingData
     }
 
     private fun populateSearchParamFields(searchParams: com.expedia.bookings.data.hotels.HotelSearchParams) {

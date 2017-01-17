@@ -1,4 +1,4 @@
-package com.expedia.bookings.tracking
+package com.expedia.bookings.tracking.flight
 
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.FlightFilter
@@ -7,6 +7,8 @@ import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.data.flights.FlightCreateTripResponse
 import com.expedia.bookings.data.flights.FlightLeg
 import com.expedia.bookings.data.flights.FlightSearchParams
+import com.expedia.bookings.tracking.FacebookEvents
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.LeanPlumUtils
 import com.expedia.bookings.utils.TuneUtils
 import com.expedia.vm.BaseFlightFilterViewModel
@@ -21,18 +23,18 @@ object FlightsV2Tracking {
         OmnitureTracking.trackFlightTravelerPickerClick(actionLabel)
     }
 
-    fun trackResultOutBoundFlights(flightSearchParams: FlightSearchParams,flightLegs: List<FlightLeg>) {
-        OmnitureTracking.trackResultOutBoundFlights(flightSearchParams)
-        LeanPlumUtils.trackFlightV2Search(flightSearchParams, flightLegs)
-        TuneUtils.trackFlightV2OutBoundResults(flightSearchParams, flightLegs)
-        FacebookEvents().trackFlightV2Search(flightSearchParams, flightLegs)
+    fun trackResultOutBoundFlights(trackingData: FlightSearchTrackingData) {
+        OmnitureTracking.trackResultOutBoundFlights(trackingData)
+        LeanPlumUtils.trackFlightV2Search(trackingData)
+        TuneUtils.trackFlightV2OutBoundResults(trackingData)
+        FacebookEvents().trackFlightV2Search(trackingData)
     }
 
     fun trackFlightOverview(isOutboundFlight: Boolean, isRoundTrip: Boolean) {
         OmnitureTracking.trackFlightOverview(isOutboundFlight, isRoundTrip)
     }
 
-    fun trackResultInBoundFlights(flightSearchParams: FlightSearchParams,flightLegs: List<FlightLeg>) {
+    fun trackResultInBoundFlights(flightSearchParams: FlightSearchParams, flightLegs: List<FlightLeg>) {
         OmnitureTracking.trackResultInBoundFlights()
         TuneUtils.trackFlightV2InBoundResults(flightSearchParams, flightLegs)
     }

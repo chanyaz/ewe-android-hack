@@ -22,6 +22,7 @@ import rx.Observable
 import rx.Observer
 import rx.Scheduler
 import rx.Subscription
+import rx.subjects.PublishSubject
 import java.util.ArrayList
 
 // "open" so we can mock for unit tests
@@ -46,12 +47,14 @@ open class FlightServices(endpoint: String, okHttpClient: OkHttpClient, intercep
     var checkoutRequestSubscription: Subscription? = null
 
     // open so we can use Mockito to mock FlightServices
-    open fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>): Subscription {
+    open fun flightSearch(params: FlightSearchParams, observer: Observer<FlightSearchResponse>,
+                          resultsResponseReceivedObservable: PublishSubject<Unit>? = null): Subscription {
         searchRequestSubscription?.unsubscribe()
 
         searchRequestSubscription = flightApi.flightSearch(params.toQueryMap(), params.children)
                 .observeOn(observeOn)
                 .subscribeOn(subscribeOn)
+                .doOnNext { resultsResponseReceivedObservable?.onNext(Unit) }
                 .doOnNext { response ->
                     if (response.hasErrors() || response.legs.isEmpty() || response.offers.isEmpty()) return@doOnNext
                     response.legs.forEach { leg ->

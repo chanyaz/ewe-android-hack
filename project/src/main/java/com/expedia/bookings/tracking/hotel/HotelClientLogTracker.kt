@@ -5,10 +5,11 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.clientlog.ClientLog
 import com.expedia.bookings.services.ClientLogServices
+import com.expedia.bookings.tracking.AbstractSearchTrackingData.PerformanceData
 import com.expedia.bookings.utils.ClientLogConstants
 
 class HotelClientLogTracker(val clientLogServices: ClientLogServices) {
-    fun trackResultsPerformance(trackingData: HotelSearchTrackingData.PerformanceData) {
+    fun trackResultsPerformance(trackingData: PerformanceData) {
         val clientLogBuilder: ClientLog.HotelResultBuilder = ClientLog.HotelResultBuilder()
         clientLogBuilder.requestTime(trackingData.requestStartTime)
         clientLogBuilder.responseTime(trackingData.responseReceivedTime)

@@ -1,7 +1,5 @@
 package com.expedia.bookings.utils;
 
-import android.app.Application;
-import com.expedia.bookings.data.flights.FlightTripDetails;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
@@ -10,10 +8,12 @@ import java.util.Map;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
 
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
+
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.ExpediaBookingApp;
@@ -25,6 +25,7 @@ import com.expedia.bookings.data.HotelSearchParams;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.Property;
+import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.User;
 import com.expedia.bookings.data.cars.CarCheckoutResponse;
 import com.expedia.bookings.data.cars.CarLocation;
@@ -33,6 +34,7 @@ import com.expedia.bookings.data.cars.CreateTripCarFare;
 import com.expedia.bookings.data.cars.CreateTripCarOffer;
 import com.expedia.bookings.data.flights.FlightCheckoutResponse;
 import com.expedia.bookings.data.flights.FlightCreateTripResponse;
+import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
 import com.expedia.bookings.data.pos.PointOfSale;
@@ -41,6 +43,7 @@ import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.notification.PushNotificationUtils;
 import com.expedia.bookings.services.HotelCheckoutResponse;
 import com.expedia.bookings.tracking.OmnitureTracking;
+import com.expedia.bookings.tracking.flight.FlightSearchTrackingData;
 import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.leanplum.Leanplum;
 import com.leanplum.LeanplumActivityHelper;
@@ -519,35 +522,45 @@ public class LeanPlumUtils {
 		}
 	}
 
-	public static void trackFlightV2Search(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
-		List<com.expedia.bookings.data.flights.FlightLeg> flightLegList) {
+	public static void trackFlightV2Search(FlightSearchTrackingData searchTrackingData) {
 		if (initialized) {
 			String eventName = "Search Flight";
 			HashMap<String, Object> eventParams = new HashMap<String, Object>();
-			int lastSegment = flightLegList.get(0).segments.size() - 1;
-			com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress = flightLegList.get(0).segments.get(lastSegment).arrivalAirportAddress;
-			addFlightV2SearchInfo(flightSearchParams, airportAddress, eventParams);
+			int lastSegment = searchTrackingData.getFlightLegList().get(0).segments.size() - 1;
+			com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress = searchTrackingData.getFlightLegList().get(0).segments.get(lastSegment).arrivalAirportAddress;
+			addFlightV2SearchInfo(searchTrackingData.getArrivalAirport(), searchTrackingData.getDepartureAirport(),
+				searchTrackingData.getDepartureDate(), searchTrackingData.getReturnDate(), eventParams);
+			if (airportAddress != null) {
+				addCommonProductRetargeting(eventParams, airportAddress.city, airportAddress.state,
+					airportAddress.country);
+			}
 			tracking(eventName, eventParams);
 		}
+	}
+
+	public static void addFlightV2SearchInfo(SuggestionV4 arrivalAirport, SuggestionV4 departureAirport,
+		LocalDate departureDate, LocalDate returnDate, HashMap<String, Object> eventParams) {
+		String destinationAirport = arrivalAirport.hierarchyInfo.airport.airportCode;
+		eventParams.put("Destination", destinationAirport);
+		eventParams.put("DepartureId", departureAirport.gaiaId);
+		eventParams.put("ArrivalId", arrivalAirport.gaiaId);
+		eventParams.put("DepartureDate", DateUtils.convertDatetoInt(departureDate));
+		if (returnDate != null) {
+			eventParams.put("ReturnDate", DateUtils.convertDatetoInt(returnDate));
+		}
+		eventParams.put("b_win", "" + getBookingWindow(departureDate));
+		eventParams.put("p_type", "FLIGHT");
 	}
 
 	public static void addFlightV2SearchInfo(com.expedia.bookings.data.flights.FlightSearchParams flightSearchParams,
 		com.expedia.bookings.data.flights.FlightLeg.FlightSegment.AirportAddress airportAddress,
 		HashMap<String, Object> eventParams) {
-		String destinationAirport = flightSearchParams.getArrivalAirport().hierarchyInfo.airport.airportCode;
+		addFlightV2SearchInfo(flightSearchParams.getArrivalAirport(), flightSearchParams.getDepartureAirport(),
+			flightSearchParams.getDepartureDate(), flightSearchParams.getReturnDate(), eventParams);
 		if (airportAddress != null) {
 			addCommonProductRetargeting(eventParams, airportAddress.city, airportAddress.state,
 				airportAddress.country);
 		}
-		eventParams.put("Destination", destinationAirport);
-		eventParams.put("DepartureId", flightSearchParams.getDepartureAirport().gaiaId);
-		eventParams.put("ArrivalId", flightSearchParams.getArrivalAirport().gaiaId);
-		eventParams.put("DepartureDate", DateUtils.convertDatetoInt(flightSearchParams.getDepartureDate()));
-		if (flightSearchParams.getReturnDate() != null) {
-			eventParams.put("ReturnDate", DateUtils.convertDatetoInt(flightSearchParams.getReturnDate()));
-		}
-		eventParams.put("b_win", "" + getBookingWindow(flightSearchParams.getDepartureDate()));
-		eventParams.put("p_type", "FLIGHT");
 	}
 
 	private static int getBookingWindow(LocalDate time) {

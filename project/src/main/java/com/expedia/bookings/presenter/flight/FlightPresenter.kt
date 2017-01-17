@@ -22,10 +22,13 @@ import com.expedia.bookings.presenter.LeftToRightTransition
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
 import com.expedia.bookings.services.FlightServices
-import com.expedia.bookings.tracking.FlightsV2Tracking
+import com.expedia.bookings.tracking.flight.FlightSearchTrackingDataBuilder
+import com.expedia.bookings.tracking.flight.FlightsV2Tracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.TravelerManager
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.widget.flights.FlightListAdapter
 import com.expedia.ui.FlightActivity
 import com.expedia.util.notNullAndObservable
 import com.expedia.util.safeSubscribe
@@ -48,6 +51,9 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
         @Inject set
 
     lateinit var flightCreateTripViewModel: FlightCreateTripViewModel
+        @Inject set
+
+    lateinit var searchTrackingBuilder: FlightSearchTrackingDataBuilder
         @Inject set
 
     lateinit var travelerManager: TravelerManager
@@ -119,12 +125,27 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             presenter.toolbarViewModel.city.onNext(params.arrivalAirport?.regionNames?.shortName)
             presenter.toolbarViewModel.travelers.onNext(params.guests)
             presenter.toolbarViewModel.date.onNext(params.departureDate)
+            searchTrackingBuilder.searchParams(params)
+        }
+        presenter.flightOfferViewModel.searchingForFlightDateTime.subscribe {
+            searchTrackingBuilder.markSearchApiCallMade()
+        }
+        presenter.flightOfferViewModel.resultsReceivedDateTimeObservable.subscribe {
+            searchTrackingBuilder.markApiResponseReceived()
+        }
+        presenter.flightOfferViewModel.outboundResultsObservable.subscribe {
+            searchTrackingBuilder.markResultsProcessed()
+            searchTrackingBuilder.searchResponse(it)
         }
         presenter.menuSearch.setOnMenuItemClickListener ({
             show(searchPresenter)
             true
         })
         presenter.setupComplete()
+        (presenter.resultsPresenter.recyclerView.adapter as FlightListAdapter).allViewsLoadedTimeObservable.subscribe {
+            searchTrackingBuilder.markResultsUsable()
+            outBoundPresenter.trackFlightResultsLoad()
+        }
         presenter
     }
 
@@ -273,7 +294,6 @@ class FlightPresenter(context: Context, attrs: AttributeSet?) : Presenter(contex
             flightOverviewPresenter.show(BaseTwoScreenOverviewPresenter.BundleDefault(), FLAG_CLEAR_BACKSTACK)
         }
         viewModel.outboundResultsObservable.subscribe {
-            outBoundPresenter.trackFlightResultsLoad()
             announceForAccessibility(Phrase.from(context, R.string.accessibility_announcement_showing_outbound_flights_TEMPLATE)
                     .put("city", viewModel.searchParamsObservable.value.arrivalAirport?.regionNames?.shortName)
                     .format().toString())
