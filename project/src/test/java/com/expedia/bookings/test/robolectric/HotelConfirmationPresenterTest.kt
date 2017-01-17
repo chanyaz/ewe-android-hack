@@ -11,6 +11,8 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.services.ItinTripServices
+import com.expedia.bookings.test.MultiBrand
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -67,6 +69,7 @@ class HotelConfirmationPresenterTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testConfirmationScreenPopulatedByItinsCall() {
         val testObserver: TestSubscriber<AbstractItinDetailsResponse> = TestSubscriber.create()
         val makeItinResponseObserver = hotelPresenter.makeNewItinResponseObserver()

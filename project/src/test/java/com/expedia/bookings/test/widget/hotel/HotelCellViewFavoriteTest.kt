@@ -17,7 +17,9 @@ import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.PointsEarnInfo
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.test.robolectric.UserLoginTestUtil
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
@@ -120,7 +122,9 @@ class HotelCellViewFavoriteTest {
         Assert.assertEquals(View.VISIBLE, hotelViewHolder.urgencyIcon.visibility)
     }
 
-    @Test fun testUrgencyMessageMobileExclusive() {
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
+    fun testUrgencyMessageMobileExclusive() {
         val hotel = makeHotel()
         givenHotelMobileExclusive(hotel)
 
