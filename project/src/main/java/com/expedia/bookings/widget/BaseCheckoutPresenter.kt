@@ -39,7 +39,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
-import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
 import com.expedia.util.getCheckoutToolbarTitle
 import com.expedia.util.notNullAndObservable
@@ -478,7 +477,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     }
 
 
-    open class DefaultToPayment(val presenter: BaseCheckoutPresenter) : Presenter.Transition(CheckoutDefault::class.java, BillingDetailsPaymentWidget::class.java) {
+    open inner class DefaultToPayment(val presenter: BaseCheckoutPresenter) : Presenter.Transition(CheckoutDefault::class.java, paymentWidget.javaClass) {
 
         override fun startTransition(forward: Boolean) {
             presenter.startDefaultToPaymentTransition(forward)
