@@ -334,7 +334,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 	private boolean handleActivitySearch(Uri data, Set<String> queryData) {
 
 		if (PointOfSale.getPointOfSale().supports(LineOfBusiness.LX)) {
-			LxSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
+			LxSearchParams searchParams = LXDataUtils.buildLXSearchParamsFromDeeplink(DeepLinkRouterActivity.this, data, queryData);
 			NavUtils.goToActivities(this, null, searchParams, NavUtils.FLAG_DEEPLINK);
 		}
 		else {

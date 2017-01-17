@@ -1,14 +1,5 @@
 package com.expedia.bookings.utils;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.EnumMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.Set;
-
 import org.joda.time.LocalDate;
 
 import android.content.Context;
@@ -29,6 +20,15 @@ import com.expedia.bookings.text.HtmlCompat;
 import com.mobiata.android.text.StrikethroughTagHandler;
 import com.mobiata.flightlib.data.Airport;
 import com.squareup.phrase.Phrase;
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Set;
 
 public class LXDataUtils {
 	private static final String RULES_RESTRICTIONS_URL_PATH = "Checkout/LXRulesAndRestrictions?tripid=";
@@ -256,12 +256,12 @@ public class LXDataUtils {
 		return c.getResources().getString(R.string.lx_destination_TEMPLATE, airport.mCity, Strings.isEmpty(airport.mStateCode) ? airport.mCountryCode : airport.mStateCode);
 	}
 
-	public static LxSearchParams fromHotelParams(Context context, LocalDate checkInDate, Location location) {
+	public static LxSearchParams fromHotelParams(Context context, LocalDate checkInDate, LocalDate checkOutDate, Location location) {
 		LxSearchParams searchParams = (LxSearchParams) new LxSearchParams.Builder()
 			.searchType(SearchType.EXPLICIT_SEARCH)
 			.location(formatLocation(context, location))
 			.startDate(checkInDate)
-			.endDate(checkInDate.plusDays(14)).build();
+			.endDate(checkOutDate).build();
 
 		return searchParams;
 	}
@@ -284,8 +284,14 @@ public class LXDataUtils {
 		return c.getResources().getString(R.string.lx_destination_TEMPLATE, location.getCity(), Strings.isEmpty(location.getStateCode()) ? location.getCountryCode() : location.getStateCode());
 	}
 
-	public static LxSearchParams buildLXSearchParamsFromDeeplink(Uri data, Set<String> queryData) {
-		LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(data.getQueryParameter("startDate"), LocalDate.now());
+	public static LxSearchParams buildLXSearchParamsFromDeeplink(Context context, Uri data, Set<String> queryData) {
+		String startOfSearchWindow = data.getQueryParameter("startDate");
+		LocalDate defaultStartOfSearchWindow = LocalDate.now();
+		LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(startOfSearchWindow, defaultStartOfSearchWindow);
+
+		String endOfSearchWindow = data.getQueryParameter("endDate");
+		LocalDate defaultEndOfSearchWindow = startDate.plusDays(context.getResources().getInteger(R.integer.lx_default_search_range));
+		LocalDate endDate = DateUtils.yyyyMMddToLocalDateSafe(endOfSearchWindow, defaultEndOfSearchWindow);
 
 		String location = "";
 		String filters = "";
@@ -300,7 +306,7 @@ public class LXDataUtils {
 			activityId = data.getQueryParameter("activityId");
 		}
 		return new LxSearchParams(location, DateUtils.ensureDateIsTodayOrInFuture(startDate),
-			DateUtils.ensureDateIsTodayOrInFuture(startDate), SearchType.EXPLICIT_SEARCH, filters, activityId, "");
+			DateUtils.ensureDateIsTodayOrInFuture(endDate), SearchType.EXPLICIT_SEARCH, filters, activityId, "");
 	}
 
 	public static boolean isActivityGT(List<String> activityCategories) {

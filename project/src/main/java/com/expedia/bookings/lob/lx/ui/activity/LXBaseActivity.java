@@ -109,7 +109,12 @@ public class LXBaseActivity extends TrackingAbstractAppCompatActivity {
 		final String location = intent.getStringExtra("location");
 		final LocalDate startDate = DateUtils.yyyyMMddToLocalDateSafe(intent.getStringExtra("startDateStr"),
 			LocalDate.now());
-		final LocalDate endDate = startDate.plusDays(getResources().getInteger(R.integer.lx_default_search_range));
+
+		String hotelCheckout = intent.getStringExtra("endDateStr");
+		Integer noHotelUseSearchDefaultOf14Days = R.integer.lx_default_search_range;
+		final LocalDate endDate = DateUtils.yyyyMMddToLocalDateSafe(hotelCheckout,
+			startDate.plusDays(getResources().getInteger(noHotelUseSearchDefaultOf14Days)));
+
 		final String filters = intent.getStringExtra("filters");
 		final String activityId = intent.getStringExtra("activityId");
 
@@ -124,7 +129,7 @@ public class LXBaseActivity extends TrackingAbstractAppCompatActivity {
 					return true;
 				}
 				if (navigateToSearch) {
-					Events.LXNewSearch event = new Events.LXNewSearch(location, startDate, null);
+					Events.LXNewSearch event = new Events.LXNewSearch(location, startDate, endDate);
 					updateSearchViewModel(event);
 					Events.post(event);
 					return true;
@@ -152,8 +157,8 @@ public class LXBaseActivity extends TrackingAbstractAppCompatActivity {
 			lxPresenter.searchParamsWidget.getSearchViewModel().getDestinationLocationObserver()
 				.onNext(getSuggestionFromLocation(event.locationName));
 		}
-		lxPresenter.searchParamsWidget.getSearchViewModel().datesUpdated(event.startDate, null);
-		lxPresenter.searchParamsWidget.selectDates(event.startDate, null);
+		lxPresenter.searchParamsWidget.getSearchViewModel().datesUpdated(event.startDate, event.endDate);
+		lxPresenter.searchParamsWidget.selectDates(event.startDate, event.endDate);
 		lxPresenter.searchParamsWidget.getSearchViewModel().getSearchButtonObservable().onNext(true);
 	}
 
