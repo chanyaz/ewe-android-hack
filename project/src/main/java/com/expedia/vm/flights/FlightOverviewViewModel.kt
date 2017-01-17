@@ -19,6 +19,6 @@ class FlightOverviewViewModel(context: Context) : AbstractFlightOverviewViewMode
     }
 
     override fun showFlightDistance(selectedFlight: FlightLeg): Boolean {
-        return !selectedFlight.totalTravelDistance.isNullOrEmpty() && FeatureToggleUtil.isUserBucketedAndFeatureEnabled(context, AbacusUtils.EBAndroidAppMaterialFlightDistanceOnDetails, R.string.preference_enable_distance_on_flight_overview)
+        return !selectedFlight.totalTravelDistance.isNullOrEmpty() && Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppMaterialFlightDistanceOnDetails)
     }
 }
