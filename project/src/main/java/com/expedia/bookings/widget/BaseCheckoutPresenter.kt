@@ -281,7 +281,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     protected var tripViewModel: BaseCreateTripViewModel by notNullAndObservable { vm ->
         vm.performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
-        vm.priceChangeAlertPriceObservable.map { response -> Pair(response?.getOldPrice(), response?.newPrice()) }.distinctUntilChanged().map { it.first != null && it.second != null }.subscribe(vm.showPriceChangeAlertObservable)
+        vm.priceChangeAlertPriceObservable.map { response -> Pair(response?.getOldPrice()?.formattedMoneyFromAmountAndCurrencyCode, response?.newPrice()?.formattedMoneyFromAmountAndCurrencyCode) }.distinctUntilChanged().map { it.first != null && it.second != null }.subscribe(vm.showPriceChangeAlertObservable)
         vm.showPriceChangeAlertObservable.subscribe { show ->
             if (show) {
                 showAlertDialogForPriceChange(vm.createTripResponseObservable.value!!)
