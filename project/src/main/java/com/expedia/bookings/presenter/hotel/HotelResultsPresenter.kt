@@ -14,7 +14,7 @@ import android.widget.Button
 import com.expedia.bookings.R
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.SuggestionV4
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseHotelListAdapter
@@ -192,27 +192,27 @@ class HotelResultsPresenter(context: Context, attrs: AttributeSet) : BaseHotelRe
     }
 
     override fun trackSearchMap() {
-        HotelTracking().trackHotelSearchMap()
+        HotelTracking.trackHotelSearchMap()
     }
 
     override fun trackMapToList() {
-        HotelTracking().trackHotelMapToList()
+        HotelTracking.trackHotelMapToList()
     }
 
     override fun trackCarouselScroll() {
-        HotelTracking().trackHotelCarouselScroll()
+        HotelTracking.trackHotelCarouselScroll()
     }
 
     override fun trackMapPinTap() {
-        HotelTracking().trackHotelMapTapPin()
+        HotelTracking.trackHotelMapTapPin()
     }
 
     override fun trackFilterShown() {
-        HotelTracking().trackHotelFilter()
+        HotelTracking.trackHotelFilter()
     }
 
     override fun trackMapSearchAreaClick() {
-        HotelTracking().trackHotelsSearchAreaClick()
+        HotelTracking.trackHotelsSearchAreaClick()
     }
 
     override fun getHotelListAdapter(): BaseHotelListAdapter {

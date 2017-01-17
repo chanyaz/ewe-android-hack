@@ -7,10 +7,13 @@ import com.expedia.bookings.dagger.tags.HotelScope;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.payment.PaymentModel;
 import com.expedia.bookings.server.EndpointProvider;
+import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.services.HotelServices;
 import com.expedia.bookings.services.LoyaltyServices;
 import com.expedia.bookings.services.ReviewsServices;
 import com.expedia.bookings.services.SuggestionV4Services;
+import com.expedia.bookings.tracking.hotel.HotelClientLogTracker;
+import com.expedia.bookings.tracking.hotel.HotelSearchTrackingDataBuilder;
 import com.expedia.model.UserLoginStateChangedModel;
 import com.expedia.vm.BucksViewModel;
 import com.expedia.vm.PayWithPointsViewModel;
@@ -90,5 +93,17 @@ public final class HotelModule {
 	@HotelScope
 	ShopWithPointsViewModel provideShopWithPointsViewModel(Context context, PaymentModel<HotelCreateTripResponse> paymentModel, UserLoginStateChangedModel userLoginChangedModel) {
 		return new ShopWithPointsViewModel(context, paymentModel, userLoginChangedModel);
+	}
+
+	@Provides
+	@HotelScope
+	HotelClientLogTracker provideHotelClientLogTracker(ClientLogServices clientLogServices) {
+		return new HotelClientLogTracker(clientLogServices);
+	}
+
+	@Provides
+	@HotelScope
+	HotelSearchTrackingDataBuilder provideHotelTrackingBuilder() {
+		return new HotelSearchTrackingDataBuilder();
 	}
 }

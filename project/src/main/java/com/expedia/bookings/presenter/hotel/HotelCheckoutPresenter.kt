@@ -19,7 +19,7 @@ import com.expedia.bookings.data.payment.Traveler
 import com.expedia.bookings.data.payment.TripDetails
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.VisibilityTransition
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.BookingSuppressionUtils
 import com.expedia.bookings.utils.JodaUtils
 import com.expedia.bookings.utils.ServicesUtil
@@ -36,7 +36,6 @@ import java.util.Locale
 import kotlin.properties.Delegates
 
 class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
-
     var hotelCheckoutViewModel: HotelCheckoutViewModel by notNullAndObservable { vm ->
         bookedWithCVVSubject.withLatestFrom(vm.paymentModel.paymentSplits,{cvv, paymentSplits->
             object{
@@ -116,7 +115,7 @@ class HotelCheckoutPresenter(context: Context, attrs: AttributeSet) : Presenter(
         } else {
             cvv.bind(billingInfo)
             show(cvv)
-            HotelTracking().trackHotelCheckoutPaymentCid()
+            HotelTracking.trackHotelCheckoutPaymentCid()
         }
     }
 

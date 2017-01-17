@@ -1,11 +1,10 @@
 package com.expedia.vm
 
 import android.content.Context
-import com.expedia.bookings.BuildConfig
 import com.expedia.bookings.R
 import com.expedia.bookings.data.ApiError
 import com.expedia.bookings.data.hotels.HotelSearchParams
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.DateUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.util.endlessObserver
@@ -16,7 +15,6 @@ import rx.subjects.PublishSubject
 import kotlin.properties.Delegates
 
 class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
-
     // Inputs
     val apiErrorObserver = PublishSubject.create<ApiError>()
     val paramsSubject = PublishSubject.create<HotelSearchParams>()
@@ -43,31 +41,31 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                 }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     checkoutCardErrorObservable.onNext(Unit)
-                    HotelTracking().trackHotelsCheckoutErrorRetry()
+                    HotelTracking.trackHotelsCheckoutErrorRetry()
                 }
                 ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS -> {
                     checkoutTravelerErrorObservable.onNext(Unit)
-                    HotelTracking().trackHotelsCheckoutErrorRetry()
+                    HotelTracking.trackHotelsCheckoutErrorRetry()
                 }
                 ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY -> {
                     productKeyExpiryObservable.onNext(Unit)
-                    HotelTracking().trackHotelsCheckoutErrorRetry()
+                    HotelTracking.trackHotelsCheckoutErrorRetry()
                 }
                 ApiError.Code.TRIP_ALREADY_BOOKED -> {
                     checkoutAlreadyBookedObservable.onNext(Unit)
-                    HotelTracking().trackHotelsCheckoutErrorRetry()
+                    HotelTracking.trackHotelsCheckoutErrorRetry()
                 }
                 ApiError.Code.PAYMENT_FAILED -> {
                     checkoutPaymentFailedObservable.onNext(Unit)
-                    HotelTracking().trackHotelsCheckoutErrorRetry()
+                    HotelTracking.trackHotelsCheckoutErrorRetry()
                 }
                 ApiError.Code.SESSION_TIMEOUT -> {
                     sessionTimeOutObservable.onNext(Unit)
-                    HotelTracking().trackHotelsCheckoutErrorRetry()
+                    HotelTracking.trackHotelsCheckoutErrorRetry()
                 }
                 ApiError.Code.HOTEL_CHECKOUT_UNKNOWN -> {
                     checkoutUnknownErrorObservable.onNext(Unit)
-                    HotelTracking().trackHotelsCheckoutErrorRetry()
+                    HotelTracking.trackHotelsCheckoutErrorRetry()
                 }
                 else -> {
                     defaultErrorObservable.onNext(Unit)
@@ -83,14 +81,14 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
-                    HotelTracking().trackHotelsNoResult()
+                    HotelTracking.trackHotelsNoResult()
                 }
                 ApiError.Code.HOTEL_MAP_SEARCH_NO_RESULTS -> {
                     imageObservable.onNext(R.drawable.error_search)
                     errorMessageObservable.onNext(context.getString(R.string.error_no_result_message))
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_search))
                     titleObservable.onNext(context.getString(R.string.visible_map_area))
-                    HotelTracking().trackHotelsNoResult()
+                    HotelTracking.trackHotelsNoResult()
                 }
                 ApiError.Code.HOTEL_CHECKOUT_CARD_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_payment)
@@ -102,7 +100,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
-                    HotelTracking().trackHotelsCardError()
+                    HotelTracking.trackHotelsCardError()
                 }
                 ApiError.Code.HOTEL_CHECKOUT_TRAVELLER_DETAILS -> {
                     imageObservable.onNext(R.drawable.error_default)
@@ -119,20 +117,20 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_guest_details))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
-                    HotelTracking().trackHotelsTravelerError()
+                    HotelTracking.trackHotelsTravelerError()
                 }
                 ApiError.Code.HOTEL_PRODUCT_KEY_EXPIRY -> {
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_hotel_no_longer_available))
                     buttonOneTextObservable.onNext(context.getString(R.string.search_again))
-                    HotelTracking().trackHotelsProductExpiredError()
+                    HotelTracking.trackHotelsProductExpiredError()
                 }
                 ApiError.Code.HOTEL_ROOM_UNAVAILABLE -> {
                     hotelSoldOutErrorObservable.onNext(true)
                     imageObservable.onNext(R.drawable.error_default)
                     errorMessageObservable.onNext(context.getString(R.string.error_room_sold_out))
                     buttonOneTextObservable.onNext(context.getString(R.string.select_another_room))
-                    HotelTracking().trackPageLoadHotelSoldOut()
+                    HotelTracking.trackPageLoadHotelSoldOut()
                 }
                 ApiError.Code.PAYMENT_FAILED -> {
                     imageObservable.onNext(R.drawable.error_payment)
@@ -140,7 +138,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.edit_payment))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
-                    HotelTracking().trackHotelsPaymentFailedError()
+                    HotelTracking.trackHotelsPaymentFailedError()
                 }
                 ApiError.Code.TRIP_ALREADY_BOOKED -> {
                     imageObservable.onNext(R.drawable.error_trip_booked)
@@ -148,7 +146,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.my_trips))
                     titleObservable.onNext(context.getString(R.string.booking_complete))
                     subTitleObservable.onNext("")
-                    HotelTracking().trackHotelsTripAlreadyBookedError()
+                    HotelTracking.trackHotelsTripAlreadyBookedError()
                 }
                 ApiError.Code.HOTEL_CHECKOUT_UNKNOWN -> {
                     imageObservable.onNext(R.drawable.no_hotel_error)
@@ -156,7 +154,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     buttonOneTextObservable.onNext(context.getString(R.string.retry))
                     titleObservable.onNext(context.getString(R.string.payment_failed_label))
                     subTitleObservable.onNext("")
-                    HotelTracking().trackHotelsUnknownError()
+                    HotelTracking.trackHotelsUnknownError()
                 }
                 ApiError.Code.SESSION_TIMEOUT -> {
                     imageObservable.onNext(R.drawable.error_timeout)
@@ -165,7 +163,7 @@ class HotelErrorViewModel(context: Context): AbstractErrorViewModel(context) {
                     titleObservable.onNext(context.getString(R.string.session_timeout))
                     subTitleObservable.onNext("")
                     buttonOneTextObservable.onNext(context.getString(R.string.search_again))
-                    HotelTracking().trackHotelsSessionTimeOutError()
+                    HotelTracking.trackHotelsSessionTimeOutError()
                 }
                 else -> {
                     makeDefaultError()

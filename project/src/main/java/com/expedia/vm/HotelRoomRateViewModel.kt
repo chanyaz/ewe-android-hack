@@ -11,7 +11,7 @@ import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
 import com.expedia.bookings.text.HtmlCompat
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.tracking.PackagesTracking
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.Images
@@ -94,11 +94,11 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
                 PackagesTracking().trackHotelRoomBookClick()
             }
             else {
-                HotelTracking().trackLinkHotelRoomBookClick(hotelRoomResponse, hasETP)
+                HotelTracking.trackLinkHotelRoomBookClick(hotelRoomResponse, hasETP)
             }
 
             if (hotelRoomResponse.rateInfo.chargeableRateInfo?.airAttached ?: false) {
-                HotelTracking().trackLinkHotelAirAttachEligible(hotelRoomResponse, hotelId)
+                HotelTracking.trackLinkHotelAirAttachEligible(hotelRoomResponse, hotelId)
             }
         } else {
             setViewRoomContentDescription.onNext(context.getString(R.string.hotel_expanded_room_select_cont_desc))
@@ -109,7 +109,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
                 PackagesTracking().trackHotelViewBookClick()
             }
             else {
-                HotelTracking().trackLinkHotelViewRoomClick()
+                HotelTracking.trackLinkHotelViewRoomClick()
             }
         }
     }

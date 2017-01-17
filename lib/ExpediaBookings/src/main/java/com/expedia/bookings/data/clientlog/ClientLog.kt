@@ -1,7 +1,6 @@
 package com.expedia.bookings.data.clientlog
 
 import com.expedia.bookings.utils.ClientLogConstants
-import org.joda.time.DateTime
 
 class ClientLog(val pageName: String, val eventName: String, val deviceName: String, val requestTime: Long, val responseTime: Long = 0L, val processingTime: Long = 0L, val requestToUser: Long = 0L, val deviceType: String = ClientLogConstants.DEVICE_TYPE) {
 
@@ -9,10 +8,10 @@ class ClientLog(val pageName: String, val eventName: String, val deviceName: Str
         private var pageName: String? = null
         private var eventName: String? = null
         private var deviceName: String? = null
-        private var requestTime: DateTime? = null
-        private var responseTime: DateTime? = null
-        private var processingTime: DateTime? = null
-        private var requestToUser: DateTime? = null
+        private var requestTime: Long? = null
+        private var responseTime: Long? = null
+        private var processingTime: Long? = null
+        private var requestToUser: Long? = null
 
         fun pageName(page: String?): ClientLog.HotelResultBuilder {
             pageName = page
@@ -29,22 +28,22 @@ class ClientLog(val pageName: String, val eventName: String, val deviceName: Str
             return this
         }
 
-        fun requestTime(time: DateTime?): ClientLog.HotelResultBuilder {
+        fun requestTime(time: Long?): ClientLog.HotelResultBuilder {
             requestTime = time
             return this
         }
 
-        fun responseTime(time: DateTime?): ClientLog.HotelResultBuilder {
+        fun responseTime(time: Long?): ClientLog.HotelResultBuilder {
             responseTime = time
             return this
         }
 
-        fun processingTime(time: DateTime?): ClientLog.HotelResultBuilder {
+        fun processingTime(time: Long?): ClientLog.HotelResultBuilder {
             processingTime = time
             return this
         }
 
-        fun requestToUser(time: DateTime?): ClientLog.HotelResultBuilder {
+        fun requestToUser(time: Long?): ClientLog.HotelResultBuilder {
             requestToUser = time
             return this
         }
@@ -53,12 +52,12 @@ class ClientLog(val pageName: String, val eventName: String, val deviceName: Str
             return ClientLog(pageName!!, eventName!!, deviceName!!, 0L, calculateTimeDiff(responseTime), calculateTimeDiff(processingTime), calculateTimeDiff(requestToUser))
         }
 
-        private fun calculateTimeDiff(time: DateTime?): Long {
+        private fun calculateTimeDiff(time: Long?): Long {
             val startTime = requestTime
             if (time == null || startTime == null) {
                 return 0
             }
-            return time.millis - startTime.millis
+            return time - startTime
         }
     }
 

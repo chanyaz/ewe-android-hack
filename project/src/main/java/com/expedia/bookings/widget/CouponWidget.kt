@@ -21,7 +21,7 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.payment.PaymentModel
 import com.expedia.bookings.data.payment.PaymentSplits
 import com.expedia.bookings.data.payment.UserPreferencePointsDetails
-import com.expedia.bookings.tracking.HotelTracking
+import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.accessibility.AccessibleEditText
@@ -34,6 +34,8 @@ import javax.inject.Inject
 import kotlin.properties.Delegates
 
 class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(context, attrs) {
+    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
+        @Inject set
 
     val unexpanded: TextView by bindView(R.id.unexpanded)
     val expanded: LinearLayout by bindView(R.id.expanded)
@@ -43,8 +45,6 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
     val appliedCouponMessage: TextView by bindView(R.id.applied_coupon_text)
     val removeCoupon: ImageButton by bindView(R.id.remove_coupon_button)
     var progress: View by Delegates.notNull()
-    lateinit var paymentModel: PaymentModel<HotelCreateTripResponse>
-        @Inject set
 
     private val onCouponSubmitClicked = PublishSubject.create<Unit>()
 
@@ -121,7 +121,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
         removeCoupon.setOnClickListener {
             resetFields()
             viewmodel.removeObservable.onNext(true)
-            HotelTracking().trackHotelCouponRemove(couponCode.text.toString())
+            HotelTracking.trackHotelCouponRemove(couponCode.text.toString())
         }
     }
 
@@ -144,7 +144,7 @@ class CouponWidget(context: Context, attrs: AttributeSet?) : ExpandableCardView(
                 mToolbarListener.onEditingComplete()
                 mToolbarListener.showRightActionButton(false)
             }
-            HotelTracking().trackHotelExpandCoupon()
+            HotelTracking.trackHotelExpandCoupon()
             couponCode.requestFocus()
             Ui.showKeyboard(couponCode, null)
         } else {

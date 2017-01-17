@@ -41,7 +41,6 @@ import com.expedia.bookings.data.flights.FlightTripDetails;
 import com.expedia.bookings.data.hotels.Hotel;
 import com.expedia.bookings.data.hotels.HotelCreateTripResponse;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
-import com.expedia.bookings.data.hotels.HotelSearchResponse;
 import com.expedia.bookings.data.lx.LXActivity;
 import com.expedia.bookings.data.lx.LXSearchResponse;
 import com.expedia.bookings.data.lx.LxSearchParams;
@@ -50,6 +49,7 @@ import com.expedia.bookings.data.trips.TripBucketItemFlight;
 import com.expedia.bookings.data.trips.TripBucketItemHotel;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.HotelCheckoutResponse;
+import com.expedia.bookings.tracking.hotel.HotelSearchTrackingData;
 import com.mobiata.android.Log;
 import com.mobiata.android.util.SettingUtils;
 import com.mobileapptracker.MATDeeplinkListener;
@@ -327,21 +327,23 @@ public class TuneUtils {
 		}
 	}
 
-	public static void trackHotelV2SearchResults(com.expedia.bookings.data.hotels.HotelSearchParams searchParams,
-		HotelSearchResponse searchResponse) {
+	public static void trackHotelV2SearchResults(HotelSearchTrackingData trackingData) {
 		if (initialized) {
 			MATEvent event = new MATEvent("hotel_search_results");
 			MATEventItem eventItem = new MATEventItem("hotel_search_results_item");
 
-			Date checkInDate = searchParams.getCheckIn().toDate();
-			Date checkOutDate = searchParams.getCheckOut().toDate();
+			Date checkInDate = trackingData.getCheckInDate().toDate();
+			Date checkOutDate = trackingData.getCheckoutDate().toDate();
 
 			StringBuilder topFiveHotelIdsBuilder = new StringBuilder();
 			StringBuilder sb = new StringBuilder();
-			int hotelsCount = searchResponse.hotelList.size();
-			if (searchResponse.hotelList != null && hotelsCount >= 0) {
+
+			List<Hotel> hotels = trackingData.getHotels();
+
+			int hotelsCount = hotels.size();
+			if (hotels != null && hotelsCount >= 0) {
 				for (int i = 0; (i < 5 && i < hotelsCount); i++) {
-					Hotel hotel = searchResponse.hotelList.get(i);
+					Hotel hotel = hotels.get(i);
 					topFiveHotelIdsBuilder.append(hotel.hotelId);
 					String hotelId = hotel.hotelId;
 					String hotelName = hotel.localizedName;
@@ -366,7 +368,7 @@ public class TuneUtils {
 				}
 			}
 			if (hotelsCount > 0) {
-				eventItem.withAttribute1(searchResponse.hotelList.get(0).city);
+				eventItem.withAttribute1(hotels.get(0).city);
 			}
 			eventItem.withAttribute4(topFiveHotelIdsBuilder.toString());
 			eventItem.withAttribute5(sb.toString());
