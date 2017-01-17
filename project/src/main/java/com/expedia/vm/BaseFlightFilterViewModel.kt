@@ -181,6 +181,7 @@ class BaseFlightFilterViewModel(val context: Context, val lob: LineOfBusiness) {
             resetRangeBars()
             handleFiltering()
             clearChecks.onNext(Unit)
+            isAirlinesExpanded = false
         }
     }
 
