@@ -350,6 +350,18 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		if (itinCardData.getPropertyLocation() != null) {
 			staticMapImageView.setLocation(new LatLong(itinCardData.getPropertyLocation().getLatitude(),
 				itinCardData.getPropertyLocation().getLongitude()));
+			boolean isHotelMapInteractionFeatureEnabled = FeatureToggleUtil.isFeatureEnabled(getContext(), R.string.preference_itin_hotel_map_click);
+			if (isHotelMapInteractionFeatureEnabled) {
+				staticMapImageView.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						final Intent intent = getItinCardData().getDirectionsIntent();
+						if (intent != null) {
+							NavUtils.startActivitySafe(getContext(), intent);
+						}
+					}
+				});
+			}
 		}
 
 		//Upgrade hotel booking
