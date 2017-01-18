@@ -99,9 +99,7 @@ public interface IProductFlavorFeatureConfiguration {
 
 	String getPhoneCollectionId();
 
-	int getSearchResultDealImageDrawable();
-
-	int getHotelDetailsDealImageDrawable();
+	int getHotelDealImageDrawable();
 
 	int getCollectionCount();
 

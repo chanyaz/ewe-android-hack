@@ -26,8 +26,11 @@ import com.expedia.bookings.data.payment.LoyaltyEarnInfo;
 import com.expedia.bookings.data.payment.LoyaltyInformation;
 import com.expedia.bookings.data.payment.PointsEarnInfo;
 import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.services.PackageServices;
+import com.expedia.bookings.test.MultiBrand;
 import com.expedia.bookings.test.PointOfSaleTestConfiguration;
+import com.expedia.bookings.test.RunForBrands;
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB;
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM;
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager;
@@ -285,6 +288,7 @@ public class HotelViewModelTest {
 	}
 
 	@Test
+	@RunForBrands(brands = { MultiBrand.EXPEDIA })
 	public void urgencyMessageMobileExclusiveHasFourthPriority() {
 		givenHotelMobileExclusive();
 
@@ -296,6 +300,21 @@ public class HotelViewModelTest {
 		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(R.drawable.mobile_exclusive,
 			R.color.hotel_mobile_exclusive_color,
 			RuntimeEnvironment.application.getResources().getString(R.string.mobile_exclusive)));
+	}
+
+	@Test
+	@RunForBrands(brands = { MultiBrand.SAMSUNG })
+	public void urgencyMessageMobileExclusiveImageShown() {
+		givenHotelMobileExclusive();
+
+		setupSystemUnderTest();
+
+		TestSubscriber<HotelViewModel.UrgencyMessage> urgencyMessageTestSubscriber = TestSubscriber.create();
+		vm.getHighestPriorityUrgencyMessageObservable().subscribe(urgencyMessageTestSubscriber);
+
+		urgencyMessageTestSubscriber.assertValue(new HotelViewModel.UrgencyMessage(
+			ProductFlavorFeatureConfiguration.getInstance().getHotelDealImageDrawable(),
+			R.color.hotel_mobile_exclusive_color, ""));
 	}
 
 	@Test
