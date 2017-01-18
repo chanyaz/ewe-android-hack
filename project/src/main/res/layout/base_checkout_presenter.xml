@@ -65,7 +65,7 @@
                         android:layout_marginTop="12dp"
                         android:fitsSystemWindows="true"
                         android:inflatedId="@+id/payment_info_card_view"
-                        android:layout="@layout/billing_details_payment_widget" />
+                        android:layout="?attr/paymentWidgetLayout" />
 
                     <!-- Insurance -->
 
