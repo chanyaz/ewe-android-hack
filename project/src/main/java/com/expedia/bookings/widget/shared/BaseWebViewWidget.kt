@@ -33,17 +33,11 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
             toggleLoading(false)
         }
 
-//        override fun shouldInterceptRequest(view: WebView?, request: WebResourceRequest?): WebResourceResponse {
-//            /*val wholeUrl = request?.url.toString()
-//            Log.v("CHRIS on shouldOverrideUrlLoading " +  wholeUrl + " size is " + request?.requestHeaders?.size.toString())*/
-////            if(wholeUrl.contains("Hotel-Search")) {
-////                closeWebView.onNext(Unit)
-////            }
-//            return super.shouldInterceptRequest(view, request)
-//        }
-
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
             toggleLoading(true)
+            if (url?.contains("onfirmation") ?: false) {
+                closeWebView.onNext(Unit)
+            }
         }
 
         override fun onReceivedError(view: WebView, request: WebResourceRequest, error: WebResourceError) {
@@ -85,7 +79,6 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
     open var viewModel: WebViewViewModel by notNullAndObservable { vm ->
         vm.webViewURLObservable.subscribe { url ->
-            Log.d("CHRIS we about to load!" + url)
             webView.loadUrl(url)
         }
     }

@@ -101,7 +101,6 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
             back()
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }
-        newWebView.viewModel.webViewUrlPostObservable.onNext("https://www.expedia.com/HotelCheckout?tripid="+ checkoutPresenter.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.value.tripId)
         newWebView
     }
 
@@ -195,9 +194,12 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
         presenter.hotelCheckoutViewModel = HotelCheckoutViewModel(hotelServices, paymentModel)
         confirmationPresenter.hotelConfirmationViewModel = HotelConfirmationViewModel(PublishSubject.create(), context)
         presenter.hotelCheckoutViewModel.checkoutParams.subscribe { presenter.cvv.enableBookButton(false) }
+        presenter.hotelCheckoutWidget.createTripViewmodel.tripResponseObservable.subscribe{
+            secureWebView.viewModel.webViewUrlPostObservable.onNext("https://www.expedia.com/HotelCheckout?tripid="+ it.tripId)
+            show(secureWebView)
+        }
         presenter.hotelCheckoutViewModel.checkoutResponseObservable.subscribe(endlessObserver { checkoutResponse ->
             checkoutDialog.dismiss()
-            show(secureWebView)
 //            show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
             WalletUtils.unbindFullWalletDataFromBillingInfo(Db.getWorkingBillingInfoManager().workingBillingInfo)
         })
