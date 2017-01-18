@@ -30,7 +30,7 @@ public class AbacusUtils {
 	public static final int EBAndroidAppHotelFavoriteTest = 10989;
 	public static final int EBAndroidAppSmartLockTest = 11269;
 	public static final int EBAndroidAppHotelResultsPerceivedInstantTest = 10555;
-	public static final int EBAndroidAppFlightsCreateTripPriceChangeAlert = 12800;
+	public static final int EBAndroidAppFlightsCreateTripPriceChangeAlert = 12992;
 	public static final int EBAndroidAppRailLineOfBusinessEnabledTest = 12113;
 	public static final int EBAndroidAppHotelFilterProminence = 11790;
 	public static final int EBAndroidItinHotelGallery = 12465;
