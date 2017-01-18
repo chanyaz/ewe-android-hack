@@ -1,0 +1,444 @@
+{
+  "apiVersion": "1.0",
+  "responseType": "TRIP_DETAILS",
+  "responseData": {
+    "levelOfDetail": "FULL",
+    "tripId": "53a6459c-822c-4425-9e14-3eea43f38a97",
+    "webDetailsURL": "https://www.expedia.com/trips/7238007847306",
+    "tripNumber": 7238007847306,
+    "title": "Flight to Las Vegas",
+    "updateTripNameDescPathURL": "https://www.expedia.com/api/trips/53a6459c-822c-4425-9e14-3eea43f38a97/updateTripNameDescription",
+    "startTime": {
+      "raw": "2017-09-05T20:00:00-07:00",
+      "localized": "Sep 5, 2017 8:00:00 PM",
+      "epochSeconds": 1504666800,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "9/5/2017",
+      "localizedMediumDate": "Sep 5",
+      "localizedFullDate": "Tue, Sep 5",
+      "localizedLongDate": "Sep 5, 2017",
+      "localizedShortTime": "8:00PM"
+    },
+    "endTime": {
+      "raw": "2017-09-05T21:33:00-07:00",
+      "localized": "Sep 5, 2017 9:33:00 PM",
+      "epochSeconds": 1504672380,
+      "timeZoneOffsetSeconds": -25200,
+      "localizedShortDate": "9/5/2017",
+      "localizedMediumDate": "Sep 5",
+      "localizedFullDate": "Tue, Sep 5",
+      "localizedLongDate": "Sep 5, 2017",
+      "localizedShortTime": "9:33PM"
+    },
+    "tripCreatedTime": {
+      "raw": "2017-01-18T23:57:11Z",
+      "localized": "Jan 18, 2017 11:57:11 PM",
+      "epochSeconds": 1484783831,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 18 Jan",
+      "localizedMediumDate": "Jan 18, 2017",
+      "localizedFullDate": "Wednesday, January 18, 2017",
+      "localizedLongDate": "January 18, 2017",
+      "localizedShortTime": "11:57 PM"
+    },
+    "tripUpdatedTime": {
+      "raw": "2017-01-18T23:58:15Z",
+      "localized": "Jan 18, 2017 11:58:15 PM",
+      "epochSeconds": 1484783895,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Wed, 18 Jan",
+      "localizedMediumDate": "Jan 18, 2017",
+      "localizedFullDate": "Wednesday, January 18, 2017",
+      "localizedLongDate": "January 18, 2017",
+      "localizedShortTime": "11:58 PM"
+    },
+    "tripCacheUpdatedTime": {
+      "raw": "2017-01-19T00:02:19Z",
+      "localized": "Jan 19, 2017 12:02:19 AM",
+      "epochSeconds": 1484784139,
+      "timeZoneOffsetSeconds": 0,
+      "localizedShortDate": "Thu, 19 Jan",
+      "localizedMediumDate": "Jan 19, 2017",
+      "localizedFullDate": "Thursday, January 19, 2017",
+      "localizedLongDate": "January 19, 2017",
+      "localizedShortTime": "12:02 AM"
+    },
+    "ownerId": 307520314,
+    "bookingStatus": "BOOKED",
+    "rewards": {
+      "totalPoints": 13.00,
+      "basePoints": 12.00,
+      "bonusPoints": [
+        {
+          "m_pointValue": 1.00,
+          "m_pointType": "offerPoint",
+          "m_pointDescription": "+silver Bonus",
+          "m_status": "PENDING",
+          "m_programId": 3
+        }
+      ],
+      "logoUrl": "/static/default/default/images/myrewards/RewardsLogo_193x76.png",
+      "viewStatementURL": "/user/rewards"
+    },
+    "sharableDetailsURL": "https://www.expedia.com/api/trips/shared/3onkuf_eBckddgmkNz3BNcCAqKW-p7rd4kTA4H5YkcUoaVhITa7YLZksqAi7kIDkO9f2Of33KaNUvN-pzL704LOL",
+    "airAttachQualificationInfo": {
+      "airAttachQualified": true,
+      "offerExpires": "2017-02-07T15:57:11.407-08:00",
+      "offerExpiresTime": {
+        "raw": "2017-02-07T15:57:11-08:00",
+        "localized": "Feb 7, 2017 3:57:11 PM",
+        "epochSeconds": 1486511831,
+        "timeZoneOffsetSeconds": -28800,
+        "localizedShortDate": "2/7/17",
+        "localizedMediumDate": "Feb 7, 2017",
+        "localizedFullDate": "Tuesday, February 7, 2017",
+        "localizedLongDate": "February 7, 2017",
+        "localizedShortTime": "3:57 PM"
+      }
+    },
+    "customerSupport": {
+      "customerSupportURL": "http://www.expedia.com/service/",
+      "customerSupportPhoneNumberDomestic": "+1 800-397-3342",
+      "customerSupportPhoneNumberInternational": "+1 404-728-8787",
+      "customerSupportPhoneInfoForEmail": [
+        "Call us at 1-877-261-3523.",
+        "For faster service, mention <strong>itinerary #7238007847306 </strong>"
+      ],
+      "termsAndConditionsURL": ""
+    },
+    "isBookedUsingForeignCurrency": false,
+    "flights": [
+      {
+        "uniqueID": "5B4874B5-3A4D-4B05-AC6A-81088EBAD678_0",
+        "bookingStatus": "BOOKED",
+        "bookingStatusText": "Confirmed",
+        "bookingStatusMessage": "Your reservation is booked and confirmed. There is no need to call us to reconfirm this reservation.",
+        "ticketingStatus": "COMPLETE",
+        "orderNumber": "8063550177859",
+        "webCancelPathURL": "https://www.expedia.com/flight-cancel-exchange?itinnumber=1157495899343&arl=304697418&bookingid=ZBZTFR",
+        "updateFrequentFlyerPathURL": "https://www.expedia.com/api/trips/53a6459c-822c-4425-9e14-3eea43f38a97/updateFrequentFlyerInformation",
+        "orderLineNumber": "20f7a877-3028-463f-8469-991d57053dd3",
+        "confirmationNumbers": [
+          {
+            "airlineName": "United",
+            "number": "IKQVCR"
+          }
+        ],
+        "paymentModel": "AGENCY",
+        "fareType": "PUBLISHED",
+        "flightType": "ONE_WAY",
+        "isInternational": false,
+        "fareTotal": {
+          "subTotal": "60.2",
+          "subTotalFormatted": "$60.20",
+          "currency": "USD",
+          "base": "42.79",
+          "baseFormatted": "$42.79",
+          "taxes": "17.41",
+          "taxesFormatted": "$17.41",
+          "total": "60.2",
+          "totalFormatted": "$60.20"
+        },
+        "farePerPassenger": [
+          {
+            "passengerIndex": 0,
+            "passengerTypeCode": "ADULT",
+            "passengerTypeCodeLocalized": "Adult",
+            "currency": "USD",
+            "base": "42.79",
+            "baseFormatted": "$42.79",
+            "taxes": "17.41",
+            "taxesFormatted": "$17.41",
+            "fees": [
+              {
+                "localizedName": "Transportation Tax",
+                "amount": "3.21",
+                "amountFormatted": "$3.21"
+              },
+              {
+                "localizedName": "Flight Segment Tax",
+                "amount": "4.1",
+                "amountFormatted": "$4.10"
+              },
+              {
+                "localizedName": "Passenger Civil Aviation Security Service Fee",
+                "amount": "5.6",
+                "amountFormatted": "$5.60"
+              },
+              {
+                "localizedName": "Passenger Facility Charge",
+                "amount": "4.5",
+                "amountFormatted": "$4.50"
+              }
+            ],
+            "total": "60.2",
+            "totalFormatted": "$60.20"
+          }
+        ],
+        "isSplitTicket": false,
+        "fulfillmentMethod": "ETICKET",
+        "passengers": [
+          {
+            "typeCode": "ADULT",
+            "typeLocalized": "Adult",
+            "title": "",
+            "firstName": "Girija",
+            "lastName": "Balachandran",
+            "fullName": "Girija Balachandran",
+            "age": 32,
+            "gender": "Female",
+            "dateOfBirth": "1984-10-16",
+            "TSAKnownTravelerNumber": "",
+            "passportNumber": "",
+            "passportCountryCode": "IN",
+            "phoneNumbers": [
+              {
+                "countryCode": "1",
+                "phone": "4152984012"
+              }
+            ],
+            "ticketNumbers": [
+              "0167939252191"
+            ],
+            "frequentFlyerPlans": [],
+            "seats": [
+              {
+                "assigned": "22F",
+                "seatPreference": "",
+                "seatPreferenceLocalized": "Unknown",
+                "smokingAllowed": false,
+                "seatType": "SEAT_UNPAID",
+                "statusCode": "Unknown",
+                "passengerName": "Girija Balachandran",
+                "legIndex": 0,
+                "segmentIndex": 0
+              }
+            ],
+            "emailAddress": "gbalachandran@expedia.com",
+            "seatPreferenceCode": "W"
+          }
+        ],
+        "brandedFareFamilyName": "",
+        "legs": [
+          {
+            "type": "NONSTOP",
+            "state": "PRE_START_4",
+            "numberOfStops": 0,
+            "airlineLogoURL": "https://images.trvl-media.com/media/content/expus/graphics/static_content/fusion/v0.1b/images/airlines/smUA.gif",
+            "segments": [
+              {
+                "transportationType": "FLIGHT",
+                "departureType": "FLIGHT_DEPARTURE",
+                "departureLocation": {
+                  "latitude": 37.61594,
+                  "longitude": -122.387996,
+                  "name": "San Francisco Intl.",
+                  "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+                  "airportCode": "SFO",
+                  "airportMetroCode": "QSF",
+                  "city": "San Francisco",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " CA"
+                },
+                "departureTime": {
+                  "raw": "2017-09-05T20:00:00-07:00",
+                  "localized": "Sep 5, 2017 8:00:00 PM",
+                  "epochSeconds": 1504666800,
+                  "timeZoneOffsetSeconds": -25200,
+                  "localizedShortDate": "9/5/2017",
+                  "localizedMediumDate": "Sep 5",
+                  "localizedFullDate": "Tue, Sep 5",
+                  "localizedLongDate": "Sep 5, 2017",
+                  "localizedShortTime": "8:00PM"
+                },
+                "arrivalType": "FLIGHT_ARRIVAL",
+                "arrivalLocation": {
+                  "latitude": 36.085393,
+                  "longitude": -115.150098,
+                  "name": "McCarran Intl.",
+                  "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+                  "airportCode": "LAS",
+                  "airportMetroCode": "LAS",
+                  "city": "Las Vegas",
+                  "countryCode": "USA",
+                  "countrySubdivisionCode": " NV"
+                },
+                "arrivalTime": {
+                  "raw": "2017-09-05T21:33:00-07:00",
+                  "localized": "Sep 5, 2017 9:33:00 PM",
+                  "epochSeconds": 1504672380,
+                  "timeZoneOffsetSeconds": -25200,
+                  "localizedShortDate": "9/5/2017",
+                  "localizedMediumDate": "Sep 5",
+                  "localizedFullDate": "Tue, Sep 5",
+                  "localizedLongDate": "Sep 5, 2017",
+                  "localizedShortTime": "9:33PM"
+                },
+                "departureTerminal": "3",
+                "arrivalTerminal": "3",
+                "airlineCode": "UA",
+                "externalAirlineCode": "UA",
+                "airlineName": "United",
+                "operatedByAirCarrierName": "",
+                "confirmationAirline": "United",
+                "confirmationNUmber": "IKQVCR",
+                "flightNumber": "681",
+                "equipmentCode": "320",
+                "equipmentDescription": "Airbus A320",
+                "formattedLayoverDuration": "",
+                "distance": 424,
+                "distanceUnits": "mi",
+                "duration": "PT1H33M",
+                "formattedDuration": "1h 33m",
+                "bookingCode": "G",
+                "cabinCode": "coach",
+                "cabinCodeLocalized": "Economy / Coach",
+                "isSeatMapAvailable": true,
+                "flightIdForSeatMap": "5B4874B5-3A4D-4B05-AC6A-81088EBAD678_0_L1_S1_1",
+                "status": "UNKNOWN",
+                "airSegmentStatusCode": "HK",
+                "isHidden": false,
+                "seatList": [
+                  {
+                    "assigned": "22F",
+                    "seatPreference": "",
+                    "seatPreferenceLocalized": "Unknown",
+                    "smokingAllowed": false,
+                    "seatType": "SEAT_UNPAID",
+                    "statusCode": "Unknown",
+                    "passengerName": "Girija Balachandran",
+                    "legIndex": 0,
+                    "segmentIndex": 0
+                  }
+                ]
+              }
+            ],
+            "sharableFlightLegURL": "https://www.expedia.com/api/trips/shared/Skjwnx0TSXPI_gAzTrkDcsCAIbyUbsTP02ftiXxiG7-a7LmXuYlvqWYakZdZb3A4nbHr4NK8dCRsxeYg6A-8zJUuaMKD5zEFQY5BJSzha7SgqPL1GQkwxnX0qAcoP8rJoGAJSAG6a-4EMd6zDOzeIh4_4QAm4Xodp_NEU6DMtA3AoA",
+            "duration": "PT1H33M",
+            "formattedDuration": "1h 33m",
+            "departingAirport": {
+              "code": "SFO",
+              "name": "San Francisco (SFO)",
+              "city": "San Francisco",
+              "metroCode": "QSF",
+              "latitude": 37.61594,
+              "longitude": -122.387996,
+              "longName": "San Francisco, CA (SFO-San Francisco Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": false,
+              "isMetroCode": false,
+              "airportID": 5195347,
+              "localName": "San Francisco Intl.",
+              "airportCityCode": "San Francisco, CA (SFO)",
+              "airportStateCode": " CA"
+            },
+            "arrivalAirport": {
+              "code": "LAS",
+              "name": "Las Vegas (McCarran Intl.)",
+              "city": "Las Vegas",
+              "metroCode": "LAS",
+              "latitude": 36.085393,
+              "longitude": -115.150098,
+              "longName": "Las Vegas, NV (LAS-McCarran Intl.)",
+              "isMinorAirport": false,
+              "isProhibitedAirport": false,
+              "countryCode": "USA",
+              "identicalMetroCode": true,
+              "isMetroCode": false,
+              "airportID": 5456204,
+              "localName": "McCarran Intl.",
+              "airportCityCode": "Las Vegas, NV (LAS)",
+              "airportStateCode": " NV"
+            },
+            "legDepartureTime": {
+              "raw": "2017-09-05T20:00:00-07:00",
+              "localized": "Sep 5, 2017 8:00:00 PM",
+              "epochSeconds": 1504666800,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "9/5/2017",
+              "localizedMediumDate": "Sep 5",
+              "localizedFullDate": "Tue, Sep 5",
+              "localizedLongDate": "Sep 5, 2017",
+              "localizedShortTime": "8:00PM"
+            },
+            "legArrivaltime": {
+              "raw": "2017-09-05T21:33:00-07:00",
+              "localized": "Sep 5, 2017 9:33:00 PM",
+              "epochSeconds": 1504672380,
+              "timeZoneOffsetSeconds": -25200,
+              "localizedShortDate": "9/5/2017",
+              "localizedMediumDate": "Sep 5",
+              "localizedFullDate": "Tue, Sep 5",
+              "localizedLongDate": "Sep 5, 2017",
+              "localizedShortTime": "9:33PM"
+            },
+            "fareBasisCode": "GAA4AKEN"
+          }
+        ],
+        "rules": {
+          "cancellationFeeLegalText": "A non-refundable administration fee will be applied for changes and cancellations of bookings. Customers will be informed of the administration fee by their Customer Support Centre Agent at the time of their call.",
+          "cancelChangeIntroductionText": "We understand that sometimes plans change. We do not charge a cancel or change fee. When the airline charges such fees in accordance with its own policies, the cost will be passed on to you.",
+          "feeChangeRefundIntroductionText": "When the airline charges any cancellation or change fees in accordance with its own policies, the cost will be passed on to you.",
+          "refundabilityText": "Tickets are nonrefundable, nontransferable and name changes are not allowed.",
+          "completePenaltyRules": {
+            "text": "Rules and restrictions as imposed by the airline will be applicable to your fare should you need to change or cancel your flight.",
+            "url": "https://www.expedia.com/Fare-Rules?tripid=53a6459c-822c-4425-9e14-3eea43f38a97",
+            "textAndURL": "Please read the <a id=\"complete_penalty_rules_for_changes_and_cancellations_link\" href=\"https://www.expedia.com/Fare-Rules?tripid=53a6459c-822c-4425-9e14-3eea43f38a97\" class=\"tooltip\" target=\"rulesAndRestrictions\">complete penalty rules for changes and cancellations <span class=\"visually-hidden\" style=\"display:none;\">(Opens a new window) </span> </a> applicable to this fare.",
+            "apiURL": "https://www.expedia.com/api/trips/7238007847306/items/5B4874B5-3A4D-4B05-AC6A-81088EBAD678_0/gdsFareRulesText?useCache=true"
+          },
+          "additionalAirlineFees": {
+            "text": "The airline may charge additional fees for checked baggage or other optional services.",
+            "url": "https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=GAA4AKEN&bookingclass=G&travelDate=2017-09-05&flightNumber=681",
+            "textAndURL": "The airline may charge <a href=\"https://www.expedia.com/Flights-BagFees?originapt=SFO&destinationapt=LAS&cabinclass=3&mktgcarrier=UA&opcarrier=&farebasis=GAA4AKEN&bookingclass=G&travelDate=2017-09-05&flightNumber=681\" class=\"tooltip\" target=\"rulesAndRestrictions\">additional fees <span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span> </a> for checked baggage or other optional services."
+          },
+          "airlineLiabilityLimitations": {
+            "text": "Please read important information regarding airline liability limitations.",
+            "url": "https://www.expedia.com/p/info-main/warsaw?",
+            "textAndURL": "Please read important information regarding <a id=\"airline_liability_limitations_link\" href=\"https://www.expedia.com/p/info-main/warsaw?\" class=\"tooltip\" target=\"rulesAndRestrictions\">airline liability limitations<span class=\"visually-hidden\" style=\"display:none;\" >(Opens a new window) </span></a>."
+          },
+          "airlineCheckInInstructionText": "Remember to bring your itinerary and government-issued photo ID for airport check-in and security.",
+          "railFeederMessages": [],
+          "expediaChangeFeeChargeable": false
+        },
+        "sharableItemDetailURL": "https://www.expedia.com/api/trips/shared/ZNpSh3jNvU3sn2oAa1hA1MCA6_6Xy9pUeaYC5fokNJ0hNV9VfI2IQMVcdzLZVEM_IbtnEWrSGhOLEY496sr7WED7yRXOLVgix053nlLzx4ydhOS7XKFiRFsskUYu73rskBvJXdRFoB7BvCYTEKkA-Kwq",
+        "airRecordLocator": "304697418",
+        "isSeatMapAvailable": true,
+        "ticketingTime": {
+          "raw": "2017-01-18T15:59:00-08:00",
+          "localized": "Jan 18, 2017 3:59:00 PM",
+          "epochSeconds": 1484783940,
+          "timeZoneOffsetSeconds": -28800,
+          "localizedShortDate": "Wed, 18 Jan",
+          "localizedMediumDate": "Jan 18, 2017",
+          "localizedFullDate": "Wednesday, January 18, 2017",
+          "localizedLongDate": "January 18, 2017",
+          "localizedShortTime": "3:59 PM"
+        },
+        "webChangePathURL": "https://www.expedia.com/flight-change-gds?itinnumber=1157495899343&arl=304697418&cname=United",
+        "bookingProvider": "SABRE",
+        "hasTrainTransfer": false,
+        "ticketingAirCarrierNames": [
+          "United"
+        ],
+        "isLccOrCharter": false,
+        "airlineManageBookingURL": "https://www.expedia.com/trips/airline/manage?airlineCode=UA&firstName=Girija&lastName=Balachandran&confirmation=IKQVCR&departureAirport=SFO&flightNumber=681&email=gbalachandran%40expedia.com&ticketNumber=0167939252191&flightDay=5&flightMonth=9",
+        "airlineCheckInURL": "https://www.expedia.com/trips/airline/checkin?airlineCode=UA&firstName=Girija&lastName=Balachandran&confirmation=IKQVCR&departureAirport=SFO&flightNumber=681&email=gbalachandran%40expedia.com&ticketNumber=0167939252191&flightDay=5&flightMonth=9",
+        "destinationRegionId": 6000345
+      }
+    ],
+    "totalTripPrice": {
+      "currency": "USD",
+      "total": "60.2",
+      "totalFormatted": "$60.20"
+    },
+    "isCouponApplied": false,
+    "readTripError": false,
+    "tripSource": "expedia",
+    "zetaTrip": false,
+    "isMRP": false,
+    "tripDataSource": "EXPWEB",
+    "isTripUpgradable": false
+  }
+}

@@ -84,8 +84,13 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
         }
 
         // Trips API
-        if (request.path.startsWith("/api/trips")) {
+        if (request.path.startsWith("/api/trips?")) {
             return dispatchTrip(request)
+        }
+
+        // Trips Details API
+        if (request.path.startsWith("/api/trips/")) {
+            return dispatchTripDetails(request)
         }
 
         // Calculate points API
@@ -164,6 +169,17 @@ class ExpediaDispatcher(protected var fileOpener: FileOpener) : Dispatcher() {
 
     /////////////////////////////////////////////////////////////////////////////
     // Path dispatching
+    private fun dispatchTripDetails(request: RecordedRequest): MockResponse {
+        val params = parseHttpRequest(request)
+        val startIndex = request.path.lastIndexOf("/") + 1
+        var endIndex = request.path.indexOfFirst { it.toString() == "?" }
+        if (endIndex == -1) {
+            endIndex = request.path.length
+        }
+
+        val fileName = request.path.substring(startIndex, endIndex)
+        return makeResponse("/api/trips/" + fileName + ".json", params)
+    }
 
     private fun dispatchTrip(request: RecordedRequest): MockResponse {
         val params = parseHttpRequest(request)

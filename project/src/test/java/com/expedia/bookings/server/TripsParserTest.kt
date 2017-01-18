@@ -40,8 +40,7 @@ class TripsParserTest {
     private fun getHotelTripJsonWithISO8061dateString(checkInDate: String, checkOutDate: String): JSONObject {
         val data = Okio.buffer(Okio.source(File("../lib/mocked/templates/api/trips/hotel_trip_details.json"))).readUtf8()
         val jsonObject = JSONObject(data)
-        val jsonArray = jsonObject.getJSONArray("responseData")
-        val hotelTripJsonObj = jsonArray.get(0) as JSONObject
+        val hotelTripJsonObj = jsonObject.getJSONObject("responseData")
 
         hotelTripJsonObj.put("checkInDate", checkInDate)
         hotelTripJsonObj.put("checkOutDate", checkOutDate)
