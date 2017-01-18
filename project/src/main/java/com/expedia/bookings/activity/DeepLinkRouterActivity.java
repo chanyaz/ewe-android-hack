@@ -39,10 +39,10 @@ import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItineraryManager;
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration;
 import com.expedia.bookings.server.ExpediaServices;
+import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.text.HtmlCompat;
 import com.expedia.bookings.utils.AbacusHelperUtils;
 import com.expedia.bookings.utils.CarDataUtils;
-import com.expedia.bookings.services.ClientLogServices;
 import com.expedia.bookings.utils.Constants;
 import com.expedia.bookings.utils.DebugInfoUtils;
 import com.expedia.bookings.utils.DeepLinkUtils;
@@ -55,6 +55,7 @@ import com.expedia.bookings.utils.TrackingUtils;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.utils.UserAccountRefresher;
 import com.expedia.util.ForceBucketPref;
+import com.expedia.util.ParameterTranslationUtils;
 import com.mobiata.android.BackgroundDownloader;
 import com.mobiata.android.LocationServices;
 import com.mobiata.android.Log;
@@ -81,6 +82,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 	private boolean mIsCurrentLocationSearch;
 	private HotelSearchParams hotelSearchParams;
+	private boolean isUniversalLink;
 
 	ClientLogServices clientLogServices;
 
@@ -107,8 +109,6 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		}
 
 		String dataString = data.toString();
-		String scheme = data.getScheme();
-		String host;
 
 		// Decoding the URL, as it is not being captured because of the encoding of the url on the test server's.
 		try {
@@ -118,22 +118,19 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			Log.w(TAG, "Could not decode deep link data" + data.toString(), e);
 		}
 
-		Set<String> queryParameterNames = StrUtils.getQueryParameterNames(data);
+		Set<String> queryData = StrUtils.getQueryParameterNames(data);
 
 		clientLogServices = Ui.getApplication(this).appComponent().clientLog();
-		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, data, queryParameterNames);
+		DeepLinkUtils.parseAndTrackDeepLink(clientLogServices, data, queryData);
+		String routingDestination = getRoutingDestination(data);
 
-		String path = data.getPath().toLowerCase(Locale.US);
-		if ((scheme.equals("https") || scheme.equals("http")) && path.contains(Constants.DEEPLINK_KEYWORD)) {
-			host = path.substring(path.indexOf(Constants.DEEPLINK_KEYWORD) + Constants.DEEPLINK_KEYWORD.length());
-		}
-		else {
 		/*
 		 * Let's handle iOS implementation of sharing/importing itins, cause we can - Yeah, Android ROCKS !!!
 		 * iOS prepends the sharableLink this way "expda://addSharedItinerary?url=<actual_sharable_link_here>"
 		 * We intercept this uri too, extract the link and then send to fetch the itin.
 		 */
-			host = data.getHost();
+		if (!isUniversalLink) {
+			String host = data.getHost();
 			if (host.equalsIgnoreCase("addSharedItinerary") && dataString.contains("m/trips/shared")) {
 				goFetchSharedItin(data.getQueryParameter("url"));
 				finish();
@@ -161,13 +158,11 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 				return;
 			}
 		}
-		Log.d(TAG, "Got deeplink host = " + host);
+		Log.d(TAG, "Got deeplink destination = " + routingDestination);
 		Log.d(TAG, "Got deeplink dataString = " + dataString);
 
 		boolean finish;
-		String hostLowerCase = host
-			.toLowerCase(Locale.US); // deliberately using US here, as the host will always be formatted in US ASCII
-		switch (hostLowerCase) {
+		switch (routingDestination) {
 
 		case "":
 		case "home":
@@ -184,21 +179,37 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			break;
 		case "/hotel-search":
 		case "hotelsearch":
-			finish = handleHotelSearch(data, queryParameterNames);
+			if (isUniversalLink) {
+				data = ParameterTranslationUtils.hotelSearchLink(data);
+				queryData = StrUtils.getQueryParameterNames(data);
+			}
+			finish = handleHotelSearch(data, queryData);
 			break;
 		case "/flights-search":
 		case "flightsearch":
-			handleFlightSearch(data, queryParameterNames);
+			if (isUniversalLink) {
+				data = ParameterTranslationUtils.flightSearchLink(data);
+				queryData = StrUtils.getQueryParameterNames(data);
+			}
+			handleFlightSearch(data, queryData);
 			finish = true;
 			break;
 		case "/things-to-do/search":
 		case "activitysearch":
-			handleActivitySearch(data, queryParameterNames);
+			if (isUniversalLink) {
+				data = ParameterTranslationUtils.lxSearchLink(data);
+				queryData = StrUtils.getQueryParameterNames(data);
+			}
+			handleActivitySearch(data, queryData);
 			finish = true;
 			break;
 		case "/carsearch":
 		case "carsearch":
-			handleCarsSearch(data, queryParameterNames);
+			if (isUniversalLink) {
+				data = ParameterTranslationUtils.carSearchLink(data);
+				queryData = StrUtils.getQueryParameterNames(data);
+			}
+			handleCarsSearch(data, queryData);
 			finish = true;
 			break;
 		case "/user/signin":
@@ -216,7 +227,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 			finish = true;
 			break;
 		case "forcebucket":
-			handleForceBucketing(data, queryParameterNames);
+			handleForceBucketing(data, queryData);
 			finish = true;
 			break;
 		default:
@@ -227,6 +238,27 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		if (finish) {
 			finish();
 		}
+	}
+
+	private String getRoutingDestination(Uri data) {
+		String routingDestination = "";
+		String schemeStr = data.getScheme().trim();
+		String path = data.getPath().toLowerCase(Locale.US);
+		switch (schemeStr) {
+		case "http":
+		case "https":
+			if (path.contains(Constants.DEEPLINK_KEYWORD)) {
+				isUniversalLink = true;
+				routingDestination = path
+					.substring(path.indexOf(Constants.DEEPLINK_KEYWORD) + Constants.DEEPLINK_KEYWORD.length());
+			}
+			break;
+		default:
+			routingDestination = data.getHost();
+			break;
+		}
+		return routingDestination
+			.toLowerCase(Locale.US);// deliberately using US here, as the host will always be formatted in US ASCII
 	}
 
 	private void handleForceBucketing(Uri data, Set<String> queryData) {
@@ -379,7 +411,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		if (queryData.contains("checkInDate")) {
 			String checkInDateStr = data.getQueryParameter("checkInDate");
 			try {
-				startDate = LocalDate.parse(checkInDateStr);
+				startDate = LocalDate.parse(checkInDateStr, ParameterTranslationUtils.customLinkDateFormatter);
 				Log.d(TAG, "Set hotel check in date: " + startDate);
 			}
 			catch (TimeFormatException | IllegalArgumentException e) {
@@ -390,7 +422,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 		if (queryData.contains("checkOutDate")) {
 			String checkOutDateStr = data.getQueryParameter("checkOutDate");
 			try {
-				endDate = LocalDate.parse(checkOutDateStr);
+				endDate = LocalDate.parse(checkOutDateStr, ParameterTranslationUtils.customLinkDateFormatter);
 				Log.d(TAG, "Set hotel check out date: " + endDate);
 			}
 			catch (TimeFormatException | IllegalArgumentException e) {
@@ -567,6 +599,7 @@ public class DeepLinkRouterActivity extends Activity implements UserAccountRefre
 
 			if (queryData.contains("sortType")) {
 				hotelSearchParams.setSortType(data.getQueryParameter("sortType"));
+				Log.d(TAG, "Setting hotel sort type: " + hotelSearchParams.getSortType());
 			}
 
 			NavUtils.goToHotels(DeepLinkRouterActivity.this, hotelSearchParams, null, NavUtils.FLAG_DEEPLINK);
