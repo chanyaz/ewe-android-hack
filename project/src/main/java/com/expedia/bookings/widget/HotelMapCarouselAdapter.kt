@@ -2,6 +2,7 @@ package com.expedia.bookings.widget
 
 import android.content.res.Resources
 import android.support.v7.widget.RecyclerView
+import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -131,6 +132,7 @@ class HotelMapCarouselAdapter(var hotels: List<Hotel>, val hotelSubject: Publish
             viewModel.hotelStrikeThroughPriceVisibility.subscribeVisibility(hotelStrikeThroughPrice)
             viewModel.hotelPriceFormatted.subscribeText(hotelPricePerNight)
             viewModel.pricePerNightColorObservable.subscribeTextColor(hotelPricePerNight)
+            viewModel.pricePerNightFontSizeObservable.subscribe { hotelPricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_PX, it) }
             viewModel.hotelStrikeThroughPriceFormatted.subscribeText(hotelStrikeThroughPrice)
             viewModel.hotelGuestRatingObservable.subscribe { hotelGuestRating.text = it.toString() }
             viewModel.soldOut.subscribeVisibility(hotelSoldOut)
