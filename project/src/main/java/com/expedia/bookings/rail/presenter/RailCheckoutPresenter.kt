@@ -260,7 +260,6 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         if (loginOnCheckoutEnabled) {
             loginWidget.bind(false, userLoggedIn, Db.getUser(), LineOfBusiness.RAILS)
             hintContainer.setVisibility(!userLoggedIn)
-            travelerEntryWidget.viewModel.showEmailSubject.onNext(userLoggedIn)
             travelersViewModel.refresh()
         }
         updateSlideToPurchase()
@@ -434,8 +433,10 @@ class RailCheckoutPresenter(context: Context, attr: AttributeSet?) : Presenter(c
         override fun startTransition(forward: Boolean) {
             if (forward) {
                 travelerEntryWidget.viewModel = SimpleTravelerEntryWidgetViewModel(context, 0)
+                val userLoggedIn = User.isLoggedIn(context)
+                travelerEntryWidget.viewModel.showEmailSubject.onNext(!(loginOnCheckoutEnabled && userLoggedIn))
                 if (loginOnCheckoutEnabled) {
-                    travelerEntryWidget.viewModel.showTravelerButtonObservable.onNext(User.isLoggedIn(context))
+                    travelerEntryWidget.viewModel.showTravelerButtonObservable.onNext(userLoggedIn)
                 }
                 paymentWidget.visibility = View.GONE
                 hideCheckoutStart()
