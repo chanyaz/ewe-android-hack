@@ -1,15 +1,20 @@
 package com.expedia.vm
 
 import com.expedia.bookings.R
+import com.expedia.bookings.activity.FlightAndPackagesRulesActivity
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.RobolectricRunner
+import com.expedia.bookings.utils.AbacusTestUtils
 import com.mobiata.android.util.SettingUtils
 import org.joda.time.DateTime
 import org.joda.time.LocalDate
+import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RuntimeEnvironment
+import org.robolectric.Shadows
 import rx.observers.TestSubscriber
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
@@ -21,11 +26,14 @@ class ReviewRatingDialogViewModelTest {
     val context = RuntimeEnvironment.application
     lateinit var vm: UserReviewDialogViewModel
 
+    @Before
+    fun before() {
+        vm = UserReviewDialogViewModel(context)
+    }
+
     @Test
     @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
     fun testLinksAreCorrect() {
-        vm = UserReviewDialogViewModel(context)
-
         val testReviewLink = TestSubscriber<String>()
         val testFeedbackLink = TestSubscriber<String>()
 
@@ -33,16 +41,27 @@ class ReviewRatingDialogViewModelTest {
         vm.feedbackLinkSubject.subscribe(testFeedbackLink)
 
         vm.reviewSubject.onNext(Unit)
-        vm.feedbackSubject.onNext(Unit)
-
         testReviewLink.assertValue("market://details?id=com.expedia.bookings")
+
+        var shadowActivity = Shadows.shadowOf(context)
+        var intent = shadowActivity.nextStartedActivity
+        var shadowIntent = Shadows.shadowOf(intent)
+        assertEquals("android.intent.action.VIEW", shadowIntent.action)
+        assertEquals("market://details?id=com.expedia.bookings", shadowIntent.dataString)
+
+        vm.feedbackSubject.onNext(Unit)
         testFeedbackLink.assertValue("expda://supportEmail")
+
+        shadowActivity = Shadows.shadowOf(context)
+        intent = shadowActivity.nextStartedActivity
+        shadowIntent = Shadows.shadowOf(intent)
+        assertEquals("android.intent.action.VIEW", shadowIntent.action)
+        assertEquals("expda://supportEmail", shadowIntent.dataString)
+
     }
 
     @Test
     fun testReviewSavedPrefs() {
-        vm = UserReviewDialogViewModel(context)
-
         val testReviewLink = TestSubscriber<Unit>()
         vm.reviewSubject.subscribe(testReviewLink)
 
@@ -53,8 +72,6 @@ class ReviewRatingDialogViewModelTest {
 
     @Test
     fun testFeedbackSavedPrefs() {
-        vm = UserReviewDialogViewModel(context)
-
         val testReviewLink = TestSubscriber<Unit>()
         vm.feedbackSubject.subscribe(testReviewLink)
 
@@ -65,8 +82,6 @@ class ReviewRatingDialogViewModelTest {
 
     @Test
     fun testNoThanksSavedPrefs() {
-        vm = UserReviewDialogViewModel(context)
-
         val testReviewLink = TestSubscriber<Unit>()
         vm.noSubject.subscribe(testReviewLink)
 
@@ -87,5 +102,61 @@ class ReviewRatingDialogViewModelTest {
         assertTrue(savedDate.toLocalDate().equals(LocalDate()))
         val hasShownUserReview = SettingUtils.get(context, R.string.preference_user_has_seen_review_prompt, false)
         assertTrue(hasShownUserReview)
+    }
+
+    @Test
+    fun testReviewPromptOnlyShowsAgainAfterCleared() {
+        SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
+
+        assertEquals(true, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+        SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, true)
+        assertEquals(false, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+        SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, false)
+        assertEquals(true, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+    }
+
+    @Test
+    fun testReviewPromptDoesNotShowAbacus() {
+        SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
+        AbacusTestUtils.unbucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
+
+        assertEquals(false, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+    }
+
+    @Test
+    fun testReviewPromptShowsAfterThreeMonths() {
+        SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
+
+        assertEquals(true, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+        SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, true)
+        assertEquals(false, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+        SettingUtils.save(context, R.string.preference_date_last_review_prompt_shown, DateTime.now().minusMonths(3).minusDays(1).millis)
+        assertEquals(true, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+    }
+
+    @Test
+    fun testReviewPromptDoesNotShowBeforeThreeMonths() {
+        SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
+
+        assertEquals(true, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+        SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, true)
+        assertEquals(false, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+        SettingUtils.save(context, R.string.preference_date_last_review_prompt_shown, DateTime.now().minusMonths(2).millis)
+        assertEquals(false, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+    }
+
+    @Test
+    fun testReviewPromptDoesNotShowThreeMonthsInFuture() {
+        SettingUtils.save(context, R.string.preference_user_has_booked_hotel_or_flight, true)
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppTripsUserReviews)
+
+        assertEquals(true, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+        SettingUtils.save(context, R.string.preference_user_has_seen_review_prompt, true)
+        assertEquals(false, UserReviewDialogViewModel.shouldShowReviewDialog(context))
+        SettingUtils.save(context, R.string.preference_date_last_review_prompt_shown, DateTime.now().plusMonths(3).plusDays(1).millis)
+        assertEquals(false, UserReviewDialogViewModel.shouldShowReviewDialog(context))
     }
 }
