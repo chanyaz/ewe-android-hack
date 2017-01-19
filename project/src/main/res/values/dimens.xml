@@ -441,4 +441,8 @@
     <dimen name="itin_hotel_upgrade_drawable_padding">53dp</dimen>
     <dimen name="itin_hotel_upgrade_paddingLeft">20dp</dimen>
 
+    <!-- Hotel price per night text size -->
+    <dimen name="hotel_price_per_night_prominent_text_size">19sp</dimen>
+    <dimen name="hotel_price_per_night_text_size">15sp</dimen>
+
 </resources>

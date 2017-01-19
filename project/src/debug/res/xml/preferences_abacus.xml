@@ -57,6 +57,15 @@
             android:layout="@layout/preference"
             android:title="Hotel Image Load Latency Test - 12908" />
 
+        <ListPreference
+            android:defaultValue="@string/preference_abacus_default"
+            android:entries="@array/abacus_default_choices"
+            android:entryValues="@array/abacus_default_choice_values"
+            android:summary="%s"
+            android:key="12974"
+            android:layout="@layout/preference"
+            android:title="Hotel Price Prominance Test - 12974" />
+
     </PreferenceCategory>
 
     <PreferenceCategory

@@ -7,6 +7,7 @@ import android.text.Spanned
 import com.expedia.bookings.R
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
@@ -45,7 +46,8 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
     val hotelPreviewRating = BehaviorSubject.create<Float>(hotel.hotelStarRating)
     val hotelPreviewRatingVisibility = BehaviorSubject.create<Float>(hotel.hotelStarRating).map { it >= 0.5f }
     val pricePerNightObservable by lazy { BehaviorSubject.create(priceFormatter(resources, hotel.lowRateInfo, false, !hotel.isPackage)) }
-    val pricePerNightColorObservable = BehaviorSubject.create(ContextCompat.getColor(context, if (hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false) R.color.hotels_primary_color else R.color.hotel_cell_gray_text))
+    val pricePerNightColorObservable = BehaviorSubject.create<Int>()
+    val pricePerNightFontSizeObservable = BehaviorSubject.create<Float>()
 
     val fewRoomsLeftUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
     val tonightOnlyUrgency = BehaviorSubject.create<UrgencyMessage>(null as UrgencyMessage?)
@@ -130,6 +132,11 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
         highestPriorityUrgencyMessageObservable.filter { it != null }.map { it!!.message }.subscribe(urgencyMessageBoxObservable)
 
         hotelStarRatingContentDescriptionObservable.onNext(HotelsV2DataUtil.getHotelRatingContentDescription(context, hotel.hotelStarRating.toInt()))
+
+        val shouldShowHotelProminencePrice = Db.getAbacusResponse().isUserBucketedForTest(AbacusUtils.EBAndroidAppHotelPriceProminance)
+        pricePerNightFontSizeObservable.onNext(getPricePerNightTextSize(shouldShowHotelProminencePrice))
+        pricePerNightColorObservable.onNext(ContextCompat.getColor(context, getPricePerNightTextColor(shouldShowHotelProminencePrice)))
+
     }
 
     private fun getTopAmenityTitle(hotel: Hotel, resources: Resources): String {
@@ -207,5 +214,22 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
         result.append(Phrase.from(context.resources.getString(R.string.accessibility_cont_desc_role_button)).format().toString())
 
         return result.build()
+    }
+
+    private fun getPricePerNightTextSize(bucketed: Boolean): Float {
+        if (bucketed) {
+            return resources.getDimension(R.dimen.hotel_price_per_night_prominent_text_size)
+        }
+        return resources.getDimension(R.dimen.hotel_price_per_night_text_size)
+    }
+
+    private fun getPricePerNightTextColor(bucketed: Boolean): Int {
+        if (hotel.lowRateInfo?.loyaltyInfo?.isBurnApplied ?: false) {
+            return R.color.hotels_primary_color
+        }
+        if (bucketed) {
+            return R.color.hotel_cell_prominent_gray_text
+        }
+        return R.color.hotel_cell_gray_text
     }
 }

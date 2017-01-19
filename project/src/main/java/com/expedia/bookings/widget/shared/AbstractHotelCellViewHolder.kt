@@ -10,6 +10,7 @@ import android.graphics.drawable.shapes.RectShape
 import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
+import android.util.TypedValue
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -99,6 +100,7 @@ abstract class AbstractHotelCellViewHolder(val root: ViewGroup, val width: Int) 
         viewModel.hotelNameObservable.subscribeText(hotelName)
         viewModel.pricePerNightObservable.subscribeText(pricePerNight)
         viewModel.pricePerNightColorObservable.subscribeTextColor(pricePerNight)
+        viewModel.pricePerNightFontSizeObservable.subscribe { pricePerNight.setTextSize(TypedValue.COMPLEX_UNIT_PX, it) }
         viewModel.hotelGuestRatingObservable.subscribe { rating ->
             guestRating.text = rating.toString()
             guestRating.background = getGuestRatingBackground(itemView.context)

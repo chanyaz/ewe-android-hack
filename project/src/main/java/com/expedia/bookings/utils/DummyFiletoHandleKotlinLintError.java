@@ -836,6 +836,9 @@ public class DummyFiletoHandleKotlinLintError {
 		R.layout.itin_card_details,
 		R.layout.widget_rating_dialog,
 		R.string.max_two_infants_seated_per_adult,
-		R.string.package_flight_overview_total_duration_with_distance_TEMPLATE
+		R.string.package_flight_overview_total_duration_with_distance_TEMPLATE,
+		R.color.hotel_cell_prominent_gray_text,
+		R.dimen.hotel_price_per_night_prominent_text_size,
+		R.dimen.hotel_price_per_night_text_size
 	};
 }
