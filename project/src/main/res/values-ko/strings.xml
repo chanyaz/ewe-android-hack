@@ -81,7 +81,7 @@
     <string name="cars_dupe_trip_text">중복된 여행</string>
     <!-- Text for price change-->
     <string name="price_change_text">가격 변경</string>
-    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">고객님 여행의 가격이 {oldprice}에서 {newprice}의 금액으로 변경되었습니다. 요금은 자주 변경됩니다. 지금 바로 예약하여 이 가격을 확보하세요.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">가격 변경됨</string>
@@ -4434,9 +4434,11 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">({airportcode}) {city}에서 중간 경유</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">총 소요 시간: {duration}</string>
+    <!-- Example : Total Duration: 2h 20m • 939 miles -->
+    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">총 비행 시간: {duration} • {distance}{distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
-    <string name="itinerary_sent_to_confirmation_TEMPLATE">{itinerary}, 다음으로 전송: {email}</string>
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">일정 번호 {itinerary}: {email} 주소로 전송됨</string>
 
     <!--Rail search screen title-->
     <string name="trains">기차</string>
@@ -4972,5 +4974,18 @@
     <string name="dialog_app_rating_feedback_button">의견 보내기</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">나중에 하기</string>
+    <!-- Checkout validation error message for email -->
+    <string name="email_validation_error_message">유효한 이메일 주소를 입력해 주세요.</string>
+    <!-- Checkout validation error message for first name -->
+    <string name="first_name_validation_error_message">이름은 문자로만 입력해 주세요.</string>
+    <!-- Checkout validation error message for last name -->
+    <string name="last_name_validation_error_message">성은 문자로만 입력해 주세요(2자 이상).</string>
+    <!-- Checkout validation error message for phone number -->
+    <string name="phone_validation_error_message">전화번호를 올바르게 입력해 주세요.</string>
+    <!-- Checkout validation error message for date of birth -->
+    <string name="date_of_birth_validation_error_message">생년월일을 올바르게 입력해 주세요.</string>
+    <!-- Checkout validation error message for gender -->
+    <string name="gender_validation_error_message">성별을 선택해 주세요.</string>
+    <string name="passport_validation_error_message">여권 국가를 선택해 주세요.</string>
 
 </resources>
