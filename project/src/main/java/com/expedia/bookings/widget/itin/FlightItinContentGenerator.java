@@ -669,7 +669,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 
 		notification.setBody(body);
 
-		notification.setImageDestination(R.drawable.bg_itin_placeholder_flight, destinationCode);
+		notification.setImageDestination(R.drawable.bg_itin_placeholder_cloud, destinationCode);
 
 		return notification;
 	}
@@ -698,7 +698,7 @@ public class FlightItinContentGenerator extends ItinContentGenerator<ItinCardDat
 		String destinationCode = lastWaypoint.mAirportCode;
 		String body = context.getString(R.string.Share_flight_itinerary_content);
 		notification.setBody(body);
-		notification.setImageDestination(R.drawable.bg_itin_placeholder_flight, destinationCode);
+		notification.setImageDestination(R.drawable.bg_itin_placeholder_cloud, destinationCode);
 
 		return notification;
 	}
