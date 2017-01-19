@@ -253,7 +253,7 @@ public class SlideToWidgetLL extends RelativeLayout {
 		}
 		if (mSliderText != null) {
 			mSliderText.setVisibility(View.VISIBLE);
-			mSliderText.setAlpha(.5f);
+			mSliderText.setAlpha(1f);
 		}
 
 		mPartialSlide = -1;

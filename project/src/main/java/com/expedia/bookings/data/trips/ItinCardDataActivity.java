@@ -86,6 +86,10 @@ public class ItinCardDataActivity extends ItinCardData {
 		return mActivity.getGuestCount();
 	}
 
+	public String getImageUrl() {
+		return mActivity.getImageUrl();
+	}
+
 	public String getFormattedGuestCount() {
 		return String.valueOf(getGuestCount());
 	}

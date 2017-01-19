@@ -48,9 +48,19 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 	@Override
 	public List<? extends IMedia> getHeaderBitmapDrawable() {
 		ArrayList<DefaultMedia> mediaList = new ArrayList<>();
-		DefaultMedia placeholder = new DefaultMedia(Collections.<String>emptyList(), "", getHeaderImagePlaceholderResId());
-		placeholder.setIsPlaceholder(true);
-		mediaList.add(placeholder);
+		ArrayList<String> imageUrlList = new ArrayList<>();
+		ItinCardDataActivity data = getItinCardData();
+		if (data.getImageUrl() !=  null && !data.getImageUrl().isEmpty()) {
+			imageUrlList.add(data.getImageUrl());
+			mediaList.add(new DefaultMedia(imageUrlList, "Image Gallery", getHeaderImagePlaceholderResId()));
+		}
+		else {
+			DefaultMedia placeholder = new DefaultMedia(Collections.<String>emptyList(), "", getHeaderImagePlaceholderResId());
+			placeholder.setIsPlaceholder(true);
+			mediaList.add(placeholder);
+			setHideDetailsTypeIcon(false);
+			setHideDetailsTitle(false);
+		}
 		return mediaList;
 	}
 
@@ -66,9 +76,6 @@ public class ActivityItinContentGenerator extends ItinContentGenerator<ItinCardD
 
 	public ActivityItinContentGenerator(Context context, ItinCardDataActivity data) {
 		super(context, data);
-
-		setHideDetailsTypeIcon(false);
-		setHideDetailsTitle(false);
 	}
 
 	@Override

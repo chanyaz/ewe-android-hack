@@ -91,6 +91,7 @@ public class LxRulesWidget extends LinearLayout {
 		Drawable drawable = getResources().getDrawable(R.drawable.ic_arrow_back_white_24dp).mutate();
 		drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 		toolbar.setNavigationIcon(drawable);
+		toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc);
 		toolbar.setNavigationOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
