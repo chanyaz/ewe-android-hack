@@ -9,6 +9,7 @@ import android.view.WindowManager
 import android.view.accessibility.AccessibilityEvent
 import com.expedia.bookings.R
 import com.expedia.bookings.data.TravelerParams
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.widget.shared.SearchInputTextView
 import com.expedia.util.subscribeText
 import com.expedia.vm.TravelerPickerViewModel
@@ -34,8 +35,10 @@ open class TravelerWidgetV2(context: Context, attrs: AttributeSet?) : SearchInpu
         travelerView.viewmodel = TravelerPickerViewModel(context)
         travelerView.viewmodel.travelerParamsObservable.subscribe(travelersSubject)
         travelerView.viewmodel.guestsTextObservable.subscribeText(this)
-        travelerView.viewmodel.tooManyInfants.subscribe { tooManyInfants ->
-            travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = !tooManyInfants
+        travelerView.viewmodel.showInfantErrorMessage.map { tooManyInfants ->
+            if (Strings.isEmpty(tooManyInfants)) true else false
+        }.subscribe { enable ->
+            travelerDialog.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = enable
         }
         travelerView
     }
