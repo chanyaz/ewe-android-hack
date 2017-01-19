@@ -81,7 +81,7 @@
     <string name="cars_dupe_trip_text">Ulangi Perjalanan</string>
     <!-- Text for price change-->
     <string name="price_change_text">Perubahan Harga</string>
-    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">Harga perjalanan Anda sudah berubah dari {oldprice} menjadi {newprice} Harga dapat terus berubah. Pesan sekarang untuk mendapatkan harga ini.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Perubahan Harga</string>
@@ -4434,6 +4434,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Transit di ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Total durasi: {duration}</string>
+    <!-- Example : Total Duration: 2h 20m • 939 miles -->
+    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">Total Durasi: {duration} • {distance} {distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">No. {itinerary} telah dikirim ke {email}</string>
@@ -4713,25 +4715,25 @@
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating. Price $123. Includes hotel and flights-->
     <string name="packages_hotel_details_cont_desc_TEMPLATE">{hotel} dengan peringkat {starrating} dari 5. Skor tamu {guestrating} dari 5. Harga {price}. Mencakup hotel dan penerbangan\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating. 4 of 5 guest rating.-->
-    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} dengan peringkat {starrating} dari 5. Skor tamu {guestrating} dari 5.  \u0020</string>
+    <string name="hotel_details_cont_desc_TEMPLATE">{hotel} dengan peringkat {starrating} dari 5. Skor tamu {guestrating} dari 5. \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 of 5 guest rating.-->
-    <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel} dengan skor tamu {guestrating} dari 5.  \u0020</string>
+    <string name="hotel_details_cont_desc_zero_starrating_TEMPLATE">{hotel} dengan skor tamu {guestrating} dari 5.\u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel with 4 stars of 5 rating.-->
-    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} dengan peringkat {starrating} dari 5.  \u0020</string>
+    <string name="hotel_details_cont_desc_zero_guestrating_TEMPLATE">{hotel} dengan peringkat {starrating} dari 5. \u0020</string>
     <!-- Hotel card view in packages - content description for accessibility. Example. Hilton hotel.-->
-    <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}.  \u0020</string>
+    <string name="hotel_details_cont_desc_zero_starrating_zero_guestrating_TEMPLATE">{hotel}.\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Eg. Old price %120 -->
     <string name="hotel_price_cont_desc_TEMPLATE">Harga awal {strikethroughprice}\u0020</string>
     <!-- Hotel discount percent off of normal price content description for accessibility. Example. 10% off normal price. -->
     <string name="hotel_discount_cont_desc_TEMPLATE">Diskon {percent}\u0025 dari harga normal\u0020</string>
     <!-- Hotel strike through price content description for accessibility. Example. Regularly $100, now $80. -->
-    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Harga reguler {strikethroughprice}, kini {price}.  \u0020</string>
+    <string name="hotel_price_strike_through_cont_desc_TEMPLATE">Harga reguler {strikethroughprice}, kini {price}.\u0020</string>
     <!-- Hotel strike percentage content description. Example. Original price discounted 20%. -->
-    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Harga asli didiskon {percentage}.  \u0020</string>
+    <string name="hotel_price_discount_percent_cont_desc_TEMPLATE">Harga asli didiskon {percentage}.\u0020</string>
     <!-- Hotel unreal deal content description for accessibility. Eg. Unreal Deal Book this and get free hotel -->
     <string name="hotel_unreal_deal_cont_desc_TEMPLATE">Unreal Deal {unrealdeal}\u0020</string>
     <!--Flight Detail card view - flight duration content description for accessibility Example. SFO to DTM. 3 hours 15 minutes. -->
-    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} ke {arrivalairport}. {durationhours} {durationmins}.  \u0020</string>
+    <string name="flight_detail_flight_duration_card_cont_desc_TEMPLATE">{departureairport} ke {arrivalairport}. {durationhours} {durationmins}. \u0020</string>
     <!--Flight Detail card view - layover duration content description for accessibility Example. Layover. 2 hours 4 minutes. -->
     <string name="flight_detail_layover_duration_card_cont_desc_TEMPLATE">Transit {layoverhours} {layovermins}. \u0020</string>
     <!-- Label for seats left urgency message content description for accessibility Example. There are 2 left at this price. -->
@@ -4750,7 +4752,7 @@
     <!--Travel dates card content description before date range is selected-->
     <string name="select_travel_dates_cont_desc">Pilih tanggal perjalanan. Tombol. Buka kotak</string>
     <!--Hotel Card View for Price for Talkback to indicate price shown if no strikethrough is necessary. Example. Price $100. -->
-    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Harga {price}.  \u0020</string>
+    <string name="hotel_card_view_price_cont_desc_TEMPLATE">Harga {price}. \u0020</string>
     <!--Search travelers card content description template. Eg. Number of travelers. Button. Opens dialog. 1 traveler-->
     <plurals name="search_travelers_cont_desc_TEMPLATE">
         <item quantity="one">Jumlah traveler. Tombol. Buka kotak. {travelers} traveler</item>
@@ -4972,5 +4974,18 @@
     <string name="dialog_app_rating_feedback_button">Kirim Umpan Balik</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Tidak, terima kasih</string>
+    <!-- Checkout validation error message for email -->
+    <string name="email_validation_error_message">Masukkan alamat email yang valid</string>
+    <!-- Checkout validation error message for first name -->
+    <string name="first_name_validation_error_message">Masukkan nama depan dengan huruf saja</string>
+    <!-- Checkout validation error message for last name -->
+    <string name="last_name_validation_error_message">Masukkan nama belakang dengan huruf saja (min. 2 karakter)</string>
+    <!-- Checkout validation error message for phone number -->
+    <string name="phone_validation_error_message">Masukkan nomor telepon yang valid</string>
+    <!-- Checkout validation error message for date of birth -->
+    <string name="date_of_birth_validation_error_message">Masukkan tanggal lahir yang valid</string>
+    <!-- Checkout validation error message for gender -->
+    <string name="gender_validation_error_message">Pilih jenis kelamin</string>
+    <string name="passport_validation_error_message">Pilih negara sesuai paspor</string>
 
 </resources>
