@@ -1,5 +1,6 @@
 package com.expedia.bookings.section;
 
+import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import java.util.ArrayList;
 
 import org.joda.time.DateTime;
@@ -33,7 +34,6 @@ import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Money;
 import com.expedia.bookings.data.PaymentType;
 import com.expedia.bookings.data.User;
-import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.TripBucketItem;
 import com.expedia.bookings.fragment.SimpleSupportDialogFragment;
@@ -702,7 +702,7 @@ public class SectionBillingInfo extends LinearLayout implements ISection<Billing
 		Validator<EditText> mValidator = new Validator<EditText>() {
 			@Override
 			public int validate(EditText obj) {
-				if (isPostalCodeRequired() && !LineOfBusinessExtensions.Companion.isUniversalCheckout(mLineOfBusiness, getContext())) {
+				if (isPostalCodeRequired() &&  !LobExtensionsKt.hasBillingInfo(mLineOfBusiness)) {
 					if (obj == null) {
 						return ValidationError.ERROR_DATA_MISSING;
 					}

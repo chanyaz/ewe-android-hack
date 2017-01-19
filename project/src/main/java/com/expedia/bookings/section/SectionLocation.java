@@ -1,5 +1,6 @@
 package com.expedia.bookings.section;
 
+import com.expedia.bookings.data.extensions.LobExtensionsKt;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +26,6 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.RailLocation;
-import com.expedia.bookings.data.extensions.LineOfBusinessExtensions;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.data.rail.responses.RailTicketDeliveryOption;
@@ -598,7 +598,7 @@ public class SectionLocation extends LinearLayout
 	 */
 	private boolean requiresPostalCode() {
 		// #1056. Postal code check depends on the country, of billing, selected.
-		if (mLineOfBusiness == LineOfBusiness.FLIGHTS || LineOfBusinessExtensions.Companion.isUniversalCheckout(mLineOfBusiness, getContext())) {
+		if (LobExtensionsKt.hasBillingInfo(mLineOfBusiness)) {
 			CountrySpinnerAdapter countryAdapter = (CountrySpinnerAdapter) mEditCountrySpinner.mField.getAdapter();
 			String selectedCountry = countryAdapter.getItemValue(mEditCountrySpinner.mField.getSelectedItemPosition(),
 				CountryDisplayType.THREE_LETTER);
