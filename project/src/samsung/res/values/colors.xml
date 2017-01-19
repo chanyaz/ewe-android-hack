@@ -26,6 +26,7 @@
     <color name="hotel_price_text_color_samsung">#0AA0FF</color>
     <color name="hotel_price_sale_text_color_samsung">#2B63A6</color>
     <color name="hotel_promo_background">#00812f</color>
+    <color name="hotel_mobile_exclusive_color">#27317a</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">#BA0A98</color>

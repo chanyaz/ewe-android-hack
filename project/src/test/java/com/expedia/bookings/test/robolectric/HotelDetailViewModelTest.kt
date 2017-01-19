@@ -6,6 +6,7 @@ import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.SuggestionV4
+import com.expedia.bookings.data.User
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelRate
 import com.expedia.bookings.data.hotels.HotelSearchParams
@@ -18,7 +19,10 @@ import com.expedia.bookings.data.payment.PointsEarnInfo
 import com.expedia.bookings.data.payment.PriceEarnInfo
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
+import com.expedia.bookings.test.MultiBrand
 import com.expedia.bookings.test.PointOfSaleTestConfiguration
+import com.expedia.bookings.test.RunForBrands
 import com.expedia.bookings.test.robolectric.shadows.ShadowAccountManagerEB
 import com.expedia.bookings.test.robolectric.shadows.ShadowGCM
 import com.expedia.bookings.test.robolectric.shadows.ShadowUserManager
@@ -138,7 +142,7 @@ class HotelDetailViewModelTest {
     }
 
 
-        @Test fun getHotelPriceContentDescriptionTestNoStrikeThrough() {
+    @Test fun getHotelPriceContentDescriptionTestNoStrikeThrough() {
         val chargeableRateInfo = offer1.hotelRoomResponse[0].rateInfo.chargeableRateInfo
         val testSubscriberText = TestSubscriber<CharSequence>()
         chargeableRateInfo.priceToShowUsers = 110f
@@ -293,14 +297,104 @@ class HotelDetailViewModelTest {
         assertTrue(vm.promoMessageVisibilityObservable.value)
     }
 
+    /**
+     * Sets the member deal for the current user
+     * @param loginUser : Determines whether the user should get logged in or logged out
+     * @param isMemberDeal : Sets the member deal to true or false
+     */
+    private fun setMemberDeal(loginUser: Boolean, isMemberDeal: Boolean) {
+        if (loginUser) {
+            UserLoginTestUtil.Companion.setupUserAndMockLogin(UserLoginTestUtil.Companion.mockUser())
+        } else if (User.isLoggedIn(context)) {
+            User.signOut(context)
+        }
+        offer1.hotelRoomResponse[0].isMemberDeal = isMemberDeal
+    }
+
+    @Test fun testMemberDeal() {
+        setMemberDeal(true, true)
+        assertTrue(vm.hasMemberDeal(offer1.hotelRoomResponse[0]))
+    }
+
+    @Test fun testNoMemberDeal() {
+        setMemberDeal(true, false)
+        assertFalse(vm.hasMemberDeal(offer1.hotelRoomResponse[0]))
+    }
+
+    @Test fun testNoUserMemberDeal() {
+        setMemberDeal(false, true)
+        assertFalse(vm.hasMemberDeal(offer1.hotelRoomResponse[0]))
+    }
+
+    @Test fun testNoUserNoMemberDeal() {
+        setMemberDeal(false, false)
+        assertFalse(vm.hasMemberDeal(offer1.hotelRoomResponse[0]))
+    }
+
+    @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.SAMSUNG))
+    fun testPromoImageForMobileExclusiveShown() {
+        setMemberDeal(false, false)
+        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = true
+        offer1.hotelRoomResponse[0].currentAllotment = "8"
+        offer1.hotelRoomResponse[0].isSameDayDRR = false
+        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
+        assertEquals(ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable, vm.promoImageObservable.value)
+    }
+
+    @Test fun testPromoImageForMemberDealNotShown() {
+        setMemberDeal(true, true)
+        offer1.hotelRoomResponse[0].currentAllotment = "8"
+        offer1.hotelRoomResponse[0].isSameDayDRR = false
+        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = false
+        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
+        assertEquals(0, vm.promoImageObservable.value)
+    }
+
+    @Test fun TestPromoImageForRoomLeftNotShown() {
+        setMemberDeal(false, false)
+        offer1.hotelRoomResponse[0].currentAllotment = "2"
+        offer1.hotelRoomResponse[0].isSameDayDRR = false
+        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = false
+        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
+        assertEquals(0, vm.promoImageObservable.value)
+    }
+
+    @Test fun TestPromoImageForAllDealsNotShown() {
+        setMemberDeal(false, false)
+        offer1.hotelRoomResponse[0].currentAllotment = "2"
+        offer1.hotelRoomResponse[0].isSameDayDRR = true
+        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = true
+        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
+        assertEquals(0, vm.promoImageObservable.value)
+    }
+
+    @Test fun testPromoImageForTonightOnlyNotShown() {
+        setMemberDeal(false, false)
+        offer1.hotelRoomResponse[0].isSameDayDRR = true
+        offer1.hotelRoomResponse[0].currentAllotment = "10"
+        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = false
+        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
+        assertEquals(0, vm.promoImageObservable.value)
+    }
+
+    @Test fun testPromoImageForNoDealsNotShown() {
+        setMemberDeal(false, false)
+        offer1.hotelRoomResponse[0].currentAllotment = "8"
+        offer1.hotelRoomResponse[0].isSameDayDRR = false
+        offer1.hotelRoomResponse[0].isDiscountRestrictedToCurrentSourceType = false
+        vm.promoImageObservable.onNext(vm.getPromoImage(offer1.hotelRoomResponse[0]))
+        assertEquals(0, vm.promoImageObservable.value)
+    }
+
     @Test fun packageSearchInfoShouldShow() {
         var searchParams = createSearchParams()
         searchParams.forPackage = true
         val response = PackageSearchResponse()
         response.packageInfo = PackageSearchResponse.PackageInfo()
-        response.packageInfo.hotelCheckinDate =  PackageSearchResponse.HotelCheckinDate()
+        response.packageInfo.hotelCheckinDate = PackageSearchResponse.HotelCheckinDate()
         response.packageInfo.hotelCheckinDate.isoDate = "2016-09-07"
-        response.packageInfo.hotelCheckoutDate =  PackageSearchResponse.HotelCheckoutDate()
+        response.packageInfo.hotelCheckoutDate = PackageSearchResponse.HotelCheckoutDate()
         response.packageInfo.hotelCheckoutDate.isoDate = "2016-09-08"
         Db.setPackageResponse(response)
         vm.paramsSubject.onNext(searchParams)

@@ -254,12 +254,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "PhoneDestinations";
 	}
 
-	public int getSearchResultDealImageDrawable() {
-		//No deal image
-		return 0;
-	}
-
-	public int getHotelDetailsDealImageDrawable() {
+	public int getHotelDealImageDrawable() {
 		//No deal image
 		return 0;
 	}

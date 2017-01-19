@@ -229,12 +229,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "SamsungDestinations";
 	}
 
-	public int getSearchResultDealImageDrawable() {
-		return R.drawable.for_samsung_blue;
-	}
-
-	public int getHotelDetailsDealImageDrawable() {
-		return R.drawable.for_samsung_white;
+	public int getHotelDealImageDrawable() {
+		return R.drawable.for_samsung;
 	}
 
 	@Override
