@@ -12,6 +12,7 @@ import com.expedia.bookings.data.User
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.trips.ItinCardDataHotel
+import com.expedia.bookings.tracking.OmnitureTracking
 import com.expedia.bookings.utils.FeatureToggleUtil
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.RecyclerGallery
@@ -37,6 +38,7 @@ class HotelItinCard(context: Context, attributeSet: AttributeSet?) : ItinCard<It
     override fun finishExpand() {
         mHeaderGallery.showPhotoCount = isBucketedForGallery()
         mHeaderGallery.canScroll = isBucketedForGallery()
+        OmnitureTracking.trackHotelItinGallery()
         super.finishExpand()
     }
 
