@@ -6,16 +6,15 @@ Feature: Flights testing
     Given I launch the App
     And I launch "Flights" LOB
     When I enter source and destination for flights
-      | source                | sfo                                       |
-      | destination           | DEL                                       |
-      | source_suggest        | San Francisco, CA                         |
-      | destination_suggest   | Delhi, India (DEL - Indira Gandhi Intl.)  |
+      | source              | sfo                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
     And I pick dates for flights
       | start_date | 5  |
       | end_date   | 10 |
     And I change travellers count and press done
     Then I can trigger flights search
-
 
 
   @Flights @SearchScreen
@@ -30,7 +29,7 @@ Feature: Flights testing
       | source_suggest      | San Francisco, CA                        |
       | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
     And I pick departure date for flights
-      | start_date | 5  |
+      | start_date | 5 |
     And I change travellers count and press done
     Then I can trigger flights search
 
@@ -91,3 +90,60 @@ Feature: Flights testing
     Then on FSR the destination is "Delhi"
     And on FSR the date is as user selected
     And on inbound FSR the number of traveller are as user selected
+
+
+  @Flights @SearchScreen
+  Scenario Outline: Validating travellers form adults
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I enter source and destination for flights
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick dates for flights
+      | start_date | 5  |
+      | end_date   | 10 |
+    And I click on guest button
+    And I increase the adult count to max
+    And I press done
+    Then <initialNumber> traveler count is as selected by user
+    When I click on guest button
+    And reduce the travellers count
+    And I press done
+    Then <laterNumber> traveler count is as selected by user
+
+    Examples:
+      | initialNumber | laterNumber |
+      | 6             | 5           |
+
+
+  @Flights @SearchScreen
+  Scenario Outline: Validating travellers form children
+
+    Given I launch the App
+    And I launch "Flights" LOB
+    When I enter source and destination for flights
+      | source              | SFO                                      |
+      | destination         | DEL                                      |
+      | source_suggest      | San Francisco, CA                        |
+      | destination_suggest | Delhi, India (DEL - Indira Gandhi Intl.) |
+    And I pick dates for flights
+      | start_date | 5  |
+      | end_date   | 10 |
+    And I click on guest button
+    And I increase the child count to max
+    And equal number of age pickers are shown
+    And the default age is 10 years
+    And I press done
+    Then <initialNumber> traveler count is as selected by user
+    When I click on guest button
+    And Reduce the child count
+    Then corresponding age picker is removed
+    When I press done
+    Then <laterNumber> traveler count is as selected by user
+
+    Examples:
+      | initialNumber | laterNumber |
+      | 5             | 4           |
