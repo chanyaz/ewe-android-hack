@@ -75,7 +75,7 @@ class FlightCheckoutErrorTest {
 
     @Test
     fun testTripAlreadyBooked() {
-        createCheckoutParams("tealeafFlight:TRIP_ALREADY_BOOKED", "TRIP_ALREADY_BOOKED", "")
+        createCheckoutParams("tealeafFlight:trip_already_booked", "trip_already_booked", "")
         val testSubscriber = TestSubscriber<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
@@ -87,7 +87,7 @@ class FlightCheckoutErrorTest {
 
     @Test
     fun testPaymentFailed() {
-        createCheckoutParams("tealeafFlight:PAYMENT_FAILED", "PAYMENT_FAILED", "")
+        createCheckoutParams("tealeafFlight:payment_failed", "payment_failed", "")
         val testSubscriber = TestSubscriber<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
@@ -99,7 +99,7 @@ class FlightCheckoutErrorTest {
 
     @Test
     fun testSessionTimeOut() {
-        createCheckoutParams("tealeafFlight:SESSION_TIMEOUT", "SESSION_TIMEOUT", "")
+        createCheckoutParams("tealeafFlight:session_timeout", "session_timeout", "")
         val testSubscriber = TestSubscriber<ApiError>()
         flightCheckoutVM.checkoutErrorObservable.subscribe(testSubscriber)
         flightCheckoutVM.checkoutParams.onNext(checkoutParams)
