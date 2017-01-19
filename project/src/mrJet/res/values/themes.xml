@@ -73,9 +73,9 @@
 
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_background</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
         <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>
@@ -98,9 +98,9 @@
 
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_background</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="skin_itinCardTitleBackground">@drawable/bg_itin_card_title</item>
         <item name="skin_itinCardBackground">@drawable/bg_itin_card</item>

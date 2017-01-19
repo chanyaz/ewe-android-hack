@@ -202,7 +202,7 @@
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/cars_fallback</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
@@ -225,7 +225,7 @@
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/cars_fallback</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
@@ -267,7 +267,7 @@
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_placeholder_activities</item>
         <item name="skin_itinCarPlaceholderDrawable">@drawable/cars_fallback</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/bg_itin_placeholder</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_flight</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color</item>
         <item name="skin_itinDismissListSelectorDrawable">?android:attr/selectableItemBackground</item>
