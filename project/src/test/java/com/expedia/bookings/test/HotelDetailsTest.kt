@@ -54,7 +54,7 @@ class HotelDetailsTest {
         activity.setTheme(R.style.Theme_Hotels_Control)
         CurrencyUtils.initMap(activity)
         hotelDetailView = android.view.LayoutInflater.from(activity).inflate(R.layout.test_hotel_details_widget, null) as HotelDetailView
-        vm = HotelDetailViewModel(activity.applicationContext, endlessObserver { /*ignore*/ })
+        vm = HotelDetailViewModel(activity.applicationContext)
         hotelDetailView.viewmodel = vm
 
         offers = HotelOffersResponse()

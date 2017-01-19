@@ -70,7 +70,7 @@ class HotelDetailViewModelTest {
 
     @Before fun before() {
         context = RuntimeEnvironment.application
-        vm = HotelDetailViewModel(RuntimeEnvironment.application, endlessObserver { /*ignore*/ })
+        vm = HotelDetailViewModel(RuntimeEnvironment.application)
 
         offer1 = HotelOffersResponse()
         offer1.hotelId = "hotel1"
@@ -158,21 +158,6 @@ class HotelDetailViewModelTest {
         val hotelOffer = HotelOffersResponse()
         vm.hotelOffersSubject.onNext(hotelOffer)
         assertFalse(vm.showDiscountPercentageObservable.value)
-    }
-
-    @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
-    fun resortFeeShowsForPackages() {
-        CurrencyUtils.initMap(RuntimeEnvironment.application)
-        val vm = PackageHotelDetailViewModel(RuntimeEnvironment.application, endlessObserver { /*ignore*/ })
-        val testSubscriber = TestSubscriber<String>()
-        vm.hotelResortFeeObservable.subscribe(testSubscriber)
-        vm.paramsSubject.onNext(createSearchParams())
-
-        makeResortFeeResponse(vm)
-
-        testSubscriber.requestMore(100)
-        assertEquals("$20", testSubscriber.onNextEvents[1])
-        assertEquals("per night", context.getString(vm.getFeeTypeText()))
     }
 
     @Test @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA))
@@ -390,25 +375,6 @@ class HotelDetailViewModelTest {
         assertEquals(0, vm.promoImageObservable.value)
     }
 
-    @Test fun packageSearchInfoShouldShow() {
-        var searchParams = createSearchParams()
-        searchParams.forPackage = true
-        val response = PackageSearchResponse()
-        response.packageInfo = PackageSearchResponse.PackageInfo()
-        response.packageInfo.hotelCheckinDate = PackageSearchResponse.HotelCheckinDate()
-        response.packageInfo.hotelCheckinDate.isoDate = "2016-09-07"
-        response.packageInfo.hotelCheckoutDate = PackageSearchResponse.HotelCheckoutDate()
-        response.packageInfo.hotelCheckoutDate.isoDate = "2016-09-08"
-        Db.setPackageResponse(response)
-        vm.paramsSubject.onNext(searchParams)
-        val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
-
-        val dates = DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)) + " - " +
-                DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate))
-        assertEquals(dates, vm.searchDatesObservable.value)
-        assertEquals("$dates, ${searchParams.guests} Guests", vm.searchInfoObservable.value)
-    }
-
     @Test fun priceShownToCustomerIncludesCustomerFees() {
         vm.hotelOffersSubject.onNext(offer2)
         val df = DecimalFormat("#")
@@ -484,7 +450,7 @@ class HotelDetailViewModelTest {
 
         val hotelRoomRateViewModels = ArrayList<HotelRoomRateViewModel>()
         (1..20).forEach {
-            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create(), endlessObserver { }, false, LineOfBusiness.HOTELS))
+            hotelRoomRateViewModels.add(HotelRoomRateViewModel(RuntimeEnvironment.application, offer1.hotelId, offer1.hotelRoomResponse.first(), "", it, PublishSubject.create(), false, LineOfBusiness.HOTELS))
         }
         vm.hotelRoomRateViewModelsObservable.onNext(hotelRoomRateViewModels)
 

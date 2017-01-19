@@ -108,21 +108,27 @@ class PackageHotelPresenter(context: Context, attrs: AttributeSet) : Presenter(c
         detailsStub.addView(detailsMapView)
         presenter.hotelMapView.mapView = detailsMapView
         presenter.hotelMapView.mapView.getMapAsync(presenter.hotelMapView);
-        presenter.hotelDetailView.viewmodel = PackageHotelDetailViewModel(context, selectedRoomObserver)
-        presenter.hotelDetailView.viewmodel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
-        presenter.hotelDetailView.viewmodel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
-        presenter.hotelDetailView.viewmodel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
-        presenter.hotelDetailView.viewmodel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
-        presenter.hotelDetailView.viewmodel.bundlePricePerPersonObservable.subscribe { pricePerPerson ->
+
+        val detailsViewModel = PackageHotelDetailViewModel(context)
+
+        detailsViewModel.roomSelectedSubject.subscribe(selectedRoomObserver)
+        detailsViewModel.reviewsClickedWithHotelData.subscribe(reviewsObserver)
+        detailsViewModel.vipAccessInfoObservable.subscribe(presenter.hotelVIPAccessInfoObserver)
+        detailsViewModel.hotelRenovationObservable.subscribe(presenter.hotelRenovationObserver)
+        detailsViewModel.mapClickedSubject.subscribe(presenter.hotelDetailsEmbeddedMapClickObserver)
+        detailsViewModel.bundlePricePerPersonObservable.subscribe { pricePerPerson ->
             bundleSlidingWidget.bundlePriceWidget.viewModel.pricePerPerson.onNext(pricePerPerson)
         }
-        presenter.hotelDetailView.viewmodel.bundleTotalPriceObservable.subscribe { totalPrice ->
+        detailsViewModel.bundleTotalPriceObservable.subscribe { totalPrice ->
             bundleSlidingWidget.bundlePriceFooter.viewModel.total.onNext(totalPrice)
         }
-        presenter.hotelDetailView.viewmodel.bundleSavingsObservable.subscribe { savings ->
+        detailsViewModel.bundleSavingsObservable.subscribe { savings ->
             bundleSlidingWidget.bundlePriceFooter.viewModel.savings.onNext(savings)
         }
-        presenter.hotelMapView.viewmodel = HotelMapViewModel(context, presenter.hotelDetailView.viewmodel.scrollToRoom, presenter.hotelDetailView.viewmodel.hotelSoldOut, presenter.hotelDetailView.viewmodel.getLOB())
+
+        presenter.hotelDetailView.viewmodel = detailsViewModel
+        presenter.hotelMapView.viewmodel = HotelMapViewModel(context, detailsViewModel.scrollToRoom, detailsViewModel.hotelSoldOut, detailsViewModel.getLOB())
+
         presenter
     }
 

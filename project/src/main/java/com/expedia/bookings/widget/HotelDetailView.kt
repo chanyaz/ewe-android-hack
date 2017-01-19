@@ -836,11 +836,15 @@ class HotelDetailView(context: Context, attrs: AttributeSet) : FrameLayout(conte
         val view = HotelRoomRateView(context, roomIndex)
         view.viewmodel = HotelRoomRateViewModel(context, viewmodel.hotelOffersResponse.hotelId,
                 roomResponse, uniqueValueAdd, roomIndex,
-                viewmodel.rowExpandingObservable, viewmodel.roomSelectedObserver,
-                hasETP, viewmodel.getLOB())
+                viewmodel.rowExpandingObservable, hasETP, viewmodel.getLOB())
         view.animateRoom.subscribe(rowAnimation)
         view.viewmodel.depositTermsClickedObservable.subscribe {
             viewmodel.depositInfoContainerClickObservable.onNext(Pair(viewmodel.hotelOffersResponse.hotelCountry, roomResponse))
+        }
+        view.viewmodel.roomSelectedObservable.subscribe { roomPair ->
+            val (index, roomResponse) = roomPair
+            viewmodel.roomSelectedSubject.onNext(roomResponse)
+            viewmodel.selectedRoomIndex = index
         }
         return view
     }

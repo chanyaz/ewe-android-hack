@@ -26,12 +26,12 @@ import rx.subjects.BehaviorSubject
 import rx.subjects.PublishSubject
 import java.math.BigDecimal
 
-class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, var selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>, val hasETP: Boolean, val lob:LineOfBusiness) {
+class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, var amenity: String, var rowIndex: Int, var rowExpanding: PublishSubject<Int>, val hasETP: Boolean, val lob:LineOfBusiness) {
 
     var lastRoomSelectedSubscription: Subscription? = null
 
     //Output
-    val roomSelectedObservable = PublishSubject.create<HotelOffersResponse.HotelRoomResponse>()
+    val roomSelectedObservable = PublishSubject.create<Pair<Int, HotelOffersResponse.HotelRoomResponse>>()
 
     val roomSoldOut = BehaviorSubject.create<Boolean>(false)
 
@@ -86,7 +86,7 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         if (!isChecked) {
             setViewRoomContentDescription.onNext(context.getString(R.string.hotel_room_expand_cont_desc))
 
-            roomSelectedObservable.onNext(hotelRoomResponse)
+            roomSelectedObservable.onNext(Pair(rowIndex,hotelRoomResponse))
             //don't change the state of toggle button
             viewRoomObservable.onNext(Unit)
 
@@ -128,13 +128,12 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
     }
 
     // TODO: We could have an observable for hotelRoomResponse here and do all this when we get a new one
-    fun setupModel(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hotelId: String, amenity: String, rowIndex: Int, rowExpanding: PublishSubject<Int>, selectedRoomObserver: Observer<HotelOffersResponse.HotelRoomResponse>) {
+    fun setupModel(hotelRoomResponse: HotelOffersResponse.HotelRoomResponse, hotelId: String, amenity: String, rowIndex: Int, rowExpanding: PublishSubject<Int>) {
         this.hotelRoomResponse = hotelRoomResponse
         this.hotelId = hotelId
         this.amenity = amenity
         this.rowIndex = rowIndex
         this.rowExpanding = rowExpanding
-        this.selectedRoomObserver = selectedRoomObserver
 
         roomTypeObservable.onNext(hotelRoomResponse.roomTypeDescription)
         currencyCode = hotelRoomResponse.rateInfo.chargeableRateInfo.currencyCode
@@ -220,10 +219,9 @@ class HotelRoomRateViewModel(val context: Context, var hotelId: String, var hote
         roomInfoExpandCollapseObservable1.onNext(Unit)
         lastRoomSelectedSubscription?.unsubscribe()
         roomSoldOut.onNext(false)
-        lastRoomSelectedSubscription = roomSelectedObservable.subscribe(selectedRoomObserver)
     }
 
     init {
-        setupModel(hotelRoomResponse, hotelId, amenity, rowIndex, rowExpanding, selectedRoomObserver)
+        setupModel(hotelRoomResponse, hotelId, amenity, rowIndex, rowExpanding)
     }
 }

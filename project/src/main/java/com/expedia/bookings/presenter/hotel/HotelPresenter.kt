@@ -279,13 +279,14 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     init {
         Ui.getApplication(getContext()).hotelComponent().inject(this)
 
-        hotelDetailViewModel = HotelDetailViewModel(context, endlessObserver<HotelOffersResponse.HotelRoomResponse> {
+        hotelDetailViewModel = HotelDetailViewModel(context)
+        hotelDetailViewModel.roomSelectedSubject.subscribe { roomResponse ->
             checkoutPresenter.hotelCheckoutWidget.couponCardView.viewmodel.hasDiscountObservable.onNext(false)
             checkoutPresenter.setSearchParams(hotelSearchParams)
             checkoutPresenter.hotelCheckoutWidget.setSearchParams(hotelSearchParams)
-            checkoutPresenter.showCheckout(it)
+            checkoutPresenter.showCheckout(roomResponse)
             show(checkoutPresenter)
-        })
+        }
 
         geoCodeSearchModel.geoResults.subscribe { geoResults ->
             fun triggerNewSearch(selectedResultIndex: Int) {

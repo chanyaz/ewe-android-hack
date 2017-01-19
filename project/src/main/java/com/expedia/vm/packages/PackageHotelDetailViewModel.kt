@@ -2,6 +2,7 @@ package com.expedia.vm.packages
 
 import android.content.Context
 import com.expedia.bookings.R
+import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.hotels.HotelOffersResponse
@@ -10,11 +11,52 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.data.pos.PointOfSaleId
 import com.expedia.bookings.tracking.PackagesTracking
+import com.expedia.bookings.utils.DateUtils
+import com.expedia.bookings.utils.StrUtils
 import com.expedia.vm.BaseHotelDetailViewModel
+import com.squareup.phrase.Phrase
+import org.joda.time.format.DateTimeFormat
 import rx.Observer
+import rx.subjects.BehaviorSubject
+import java.math.BigDecimal
 
-class PackageHotelDetailViewModel(context: Context, roomSelectedObserver: Observer<HotelOffersResponse.HotelRoomResponse>) :
-        BaseHotelDetailViewModel(context, roomSelectedObserver) {
+class PackageHotelDetailViewModel(context: Context) : BaseHotelDetailViewModel(context) {
+
+    val bundlePricePerPersonObservable = BehaviorSubject.create<Money>()
+    val bundleTotalPriceObservable = BehaviorSubject.create<Money>()
+    val bundleSavingsObservable = BehaviorSubject.create<Money>()
+
+    init {
+        paramsSubject.subscribe { params ->
+            val dtf = DateTimeFormat.forPattern("yyyy-MM-dd");
+            searchInfoObservable.onNext(Phrase.from(context, R.string.calendar_instructions_date_range_with_guests_TEMPLATE).put("startdate",
+                    DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate))).put("enddate",
+                    DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate))).put("guests", StrUtils.formatGuestString(context, params.guests))
+                    .format()
+                    .toString())
+            val dates = Phrase.from(context, R.string.calendar_instructions_date_range_TEMPLATE)
+                    .put("startdate",  DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckinDate.isoDate)))
+                    .put("enddate", DateUtils.localDateToMMMd(dtf.parseLocalDate(Db.getPackageResponse().packageInfo.hotelCheckoutDate.isoDate)))
+                    .format().toString()
+            searchDatesObservable.onNext(dates)
+
+            isCurrentLocationSearch = params.suggestion.isCurrentLocationSearch
+        }
+    }
+
+    override fun offerReturned(offerResponse: HotelOffersResponse) {
+        super.offerReturned(offerResponse)
+
+        val firstHotelRoomResponse = offerResponse.hotelRoomResponse?.firstOrNull()
+        if (firstHotelRoomResponse != null) {
+            val rate = firstHotelRoomResponse.rateInfo.chargeableRateInfo
+            if (rate.packagePricePerPerson != null && rate.packageTotalPrice != null && rate.packageSavings != null) {
+                bundlePricePerPersonObservable.onNext(Money(BigDecimal(rate.packagePricePerPerson.amount.toDouble()), rate.packagePricePerPerson.currencyCode))
+                bundleTotalPriceObservable.onNext(rate.packageTotalPrice)
+                bundleSavingsObservable.onNext(rate.packageSavings)
+            }
+        }
+    }
 
     override fun pricePerDescriptor(): String {
         return " " + context.getString(R.string.per_person)
