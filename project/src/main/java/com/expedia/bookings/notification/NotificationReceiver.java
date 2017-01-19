@@ -37,6 +37,7 @@ import com.expedia.bookings.launch.activity.PhoneLaunchActivity;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.notification.Notification.StatusType;
 import com.expedia.bookings.utils.Akeakamai;
+import com.expedia.bookings.utils.GoogleMapsUtil;
 import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.LeanPlumFlags;
 import com.expedia.bookings.utils.NavUtils;
@@ -369,7 +370,7 @@ public class NotificationReceiver extends BroadcastReceiver {
 					intent = FlightItinContentGenerator.getAirportDirectionsIntent(airport);
 				}
 				else if (data instanceof ItinCardDataHotel) {
-					intent = ((ItinCardDataHotel) data).getDirectionsIntent();
+					intent = GoogleMapsUtil.getDirectionsIntent(((ItinCardDataHotel) data).getProperty().getLocation().toLongFormattedString());
 				}
 				else if (data instanceof ItinCardDataCar) {
 					intent = mNotification.getNotificationType() == NotificationType.CAR_DROP_OFF
