@@ -24,7 +24,6 @@ import com.expedia.ui.PackageHotelActivity
 import com.expedia.util.safeSubscribe
 import com.expedia.vm.packages.PackageCheckoutOverviewViewModel
 import com.expedia.vm.packages.PackageCostSummaryBreakdownViewModel
-import com.expedia.vm.traveler.FlightTravelersViewModel
 import org.joda.time.format.DateTimeFormat
 import rx.subjects.PublishSubject
 
@@ -210,13 +209,8 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         return PackageCostSummaryBreakdownViewModel(context)
     }
 
-    override fun handlePriceChange(response: TripResponse) {
-        onCreateTripResponse(response)
-    }
-
-    override fun onCreateTripResponse(response: TripResponse?) {
+    override fun onTripResponse(response: TripResponse?) {
         response as PackageCreateTripResponse
-        checkoutPresenter.onCreateTripResponse(response)
         totalPriceWidget.viewModel.total.onNext(response.bundleTotal)
         val packageTotalPrice = response.packageDetails.pricing
         totalPriceWidget.viewModel.savings.onNext(packageTotalPrice.savings)
@@ -231,7 +225,6 @@ class PackageOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoS
         totalPriceWidget.viewModel.bundleTextLabelObservable.onNext(context.getString(messageString))
         if (ProductFlavorFeatureConfiguration.getInstance().shouldShowPackageIncludesView())
             totalPriceWidget.viewModel.bundleTotalIncludesObservable.onNext(context.getString(R.string.includes_flights_hotel))
-        (checkoutPresenter.travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(response.packageDetails.flight.details.offer)
     }
 
     override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {

@@ -14,6 +14,9 @@ open class BaseCreateTripViewModel() {
     val showPriceChangeAlertObservable = PublishSubject.create<Boolean>()
     val priceChangeAlertPriceObservable =  PublishSubject.create<TripResponse?>()
     val noNetworkObservable = PublishSubject.create<Unit>()
+    val updateOverviewUiObservable = PublishSubject.create<TripResponse>()
+    val updatePriceChangeWidgetObservable = PublishSubject.create<TripResponse>()
+    val showPriceChangeWidgetObservable = PublishSubject.create<Boolean>()
 
     fun reset() {
         createTripResponseObservable.onNext(null)

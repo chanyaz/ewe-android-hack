@@ -12,6 +12,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.abacus.AbacusUtils
+import com.expedia.bookings.data.flights.FlightCheckoutResponse
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
@@ -94,13 +95,24 @@ class FlightCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseCheck
         }
     }
 
-    override fun onCreateTripResponse(response: TripResponse?) {
+    override fun onCreateTripResponse(tripResponse: TripResponse?) {
+        onTripResponse(tripResponse)
+    }
+
+    private fun onTripResponse(tripResponse: TripResponse?) {
+        getCreateTripViewModel().updateOverviewUiObservable.onNext(tripResponse)
         loginWidget.updateRewardsText(getLineOfBusiness())
-        insuranceWidget.viewModel.tripObservable.onNext(response as FlightTripResponse)
+        insuranceWidget.viewModel.tripObservable.onNext(tripResponse as FlightTripResponse)
+        (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(tripResponse.details.offer)
     }
 
     override fun handleCheckoutPriceChange(tripResponse: TripResponse) {
-        onCreateTripResponse(tripResponse)
+        tripResponse as FlightCheckoutResponse
+        val oldPrice = tripResponse.getOldPrice()
+        if (oldPrice != null) {
+            getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(tripResponse)
+        }
+        onTripResponse(tripResponse)
     }
 
     @Subscribe fun onUserLoggedIn(@Suppress("UNUSED_PARAMETER") event: Events.LoggedInSuccessful) {

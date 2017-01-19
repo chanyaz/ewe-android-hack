@@ -41,4 +41,8 @@ class LXOverviewPresenter(context: Context, attrs: AttributeSet) : BaseSingleScr
     fun makeNewCreateTripCall(){
         checkoutPresenter.getCreateTripViewModel().performCreateTrip.onNext(Unit)
     }
+
+    fun getCheckoutPresenter() : LxCheckoutPresenterV2 {
+        return checkoutPresenter  as LxCheckoutPresenterV2
+    }
 }

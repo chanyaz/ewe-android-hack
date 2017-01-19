@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import com.expedia.bookings.data.Db
 import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.TripResponse
+import com.expedia.bookings.data.packages.PackageCreateTripResponse
 import com.expedia.bookings.otto.Events
 import com.expedia.bookings.presenter.packages.FlightTravelersPresenter
 import com.expedia.bookings.tracking.PackagesTracking
@@ -35,7 +36,10 @@ class PackageCheckoutPresenter(context: Context, attr: AttributeSet?) : BaseChec
     }
 
     override fun onCreateTripResponse(response: TripResponse?) {
+        response as PackageCreateTripResponse
         loginWidget.updateRewardsText(getLineOfBusiness())
+        getCreateTripViewModel().updateOverviewUiObservable.onNext(response)
+        (travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(response.packageDetails.flight.details.offer)
     }
 
     override fun getDefaultToTravelerTransition(): DefaultToTraveler {

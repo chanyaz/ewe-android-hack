@@ -100,28 +100,11 @@ class FlightOverviewPresenter(context: Context, attrs: AttributeSet) : BaseTwoSc
         return FlightCostSummaryBreakdownViewModel(context)
     }
 
-    override fun onCreateTripResponse(tripResponse: TripResponse?) {
-        onTripResponse(tripResponse)
-    }
-
-    private fun onTripResponse(tripResponse: TripResponse?) {
+    override fun onTripResponse(tripResponse: TripResponse?) {
         tripResponse as FlightTripResponse
-        getCheckoutPresenter().onCreateTripResponse(tripResponse)
         totalPriceWidget.viewModel.total.onNext(tripResponse.newPrice())
         totalPriceWidget.viewModel.costBreakdownEnabledObservable.onNext(true)
-        (checkoutPresenter.travelersPresenter.viewModel as FlightTravelersViewModel).flightOfferObservable.onNext(tripResponse.details.offer)
         (totalPriceWidget.breakdown.viewmodel as FlightCostSummaryBreakdownViewModel).flightCostSummaryObservable.onNext(tripResponse)
-    }
-
-    override fun handlePriceChange(tripResponse: TripResponse) {
-        tripResponse as FlightCheckoutResponse
-        val newPrice = tripResponse.newPrice()
-        val oldPrice = tripResponse.getOldPrice()
-        if (oldPrice != null) {
-            priceChangeWidget.viewmodel.originalPrice.onNext(oldPrice)
-            priceChangeWidget.viewmodel.newPrice.onNext(newPrice)
-        }
-        onTripResponse(tripResponse)
     }
 
     override fun fireCheckoutOverviewTracking(createTripResponse: TripResponse) {

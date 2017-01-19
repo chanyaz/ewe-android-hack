@@ -2,7 +2,6 @@ package com.expedia.bookings.presenter
 
 import android.animation.Animator
 import android.animation.ObjectAnimator
-import android.app.AlertDialog
 import android.content.Context
 import android.support.design.widget.AppBarLayout
 import android.support.design.widget.CoordinatorLayout
@@ -16,25 +15,48 @@ import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.LinearLayout
 import com.expedia.bookings.R
-import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
-import com.expedia.bookings.utils.*
-import com.expedia.bookings.widget.*
+import com.expedia.util.endlessObserver
+import com.expedia.util.setInverseVisibility
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.bookings.utils.bindView
+import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.setAccessibilityHoverFocus
+import com.expedia.bookings.utils.AccessibilityUtil
+import com.expedia.bookings.utils.AnimUtils
+import com.expedia.bookings.widget.TextView
+import com.expedia.bookings.widget.PriceChangeWidget
+import com.expedia.bookings.widget.TotalPriceWidget
+import com.expedia.bookings.widget.AcceptTermsWidget
+import com.expedia.bookings.widget.BaseCheckoutPresenter
+import com.expedia.bookings.widget.BundleOverviewHeader
+import com.expedia.bookings.widget.CVVEntryWidget
+import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
-import com.expedia.util.*
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.safeSubscribe
+import com.expedia.util.unsubscribeOnClick
 import com.expedia.vm.AbstractCardFeeEnabledCheckoutViewModel
 import com.expedia.vm.BaseCostSummaryBreakdownViewModel
 import com.expedia.vm.PriceChangeViewModel
 import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.packages.BundleTotalPriceViewModel
-import com.squareup.phrase.Phrase
 import rx.Subscription
-import java.math.BigDecimal
 
 abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener, SlideToWidgetLL.ISlideToListener {
+
+    open fun setBundleWidgetAndToolbar(forward: Boolean) { }
+    open fun setToolbarMenu(forward: Boolean) { }
+    open fun setToolbarNavIcon(forward: Boolean) { }
+    abstract fun trackCheckoutPageLoad()
+    abstract fun trackPaymentCIDLoad()
+    abstract fun inflate()
+    abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
+    abstract fun onTripResponse(response: TripResponse?)
+    protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
 
     val ANIMATION_DURATION = 400
     var sliderHeight = 0f
@@ -60,7 +82,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     var scrollSpaceView: View? = null
     var overviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     private var trackShowingCkoOverviewSubscription: Subscription? = null
-
 
     val paymentFeeInfoWebView: PaymentFeeInfoWebView by lazy {
         val viewStub = findViewById(R.id.payment_fee_info_webview_stub) as ViewStub
@@ -342,22 +363,10 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     override fun onSlideAbort() {
-        checkoutPresenter.getCheckoutViewModel().resetSliderObservable.onNext(Unit)
+        slideToPurchase.resetSlider()
     }
 
     class BundleDefault
-
-    open fun setBundleWidgetAndToolbar(forward: Boolean) { }
-    open fun setToolbarMenu(forward: Boolean) { }
-    open fun setToolbarNavIcon(forward: Boolean) { }
-    abstract fun trackCheckoutPageLoad()
-    abstract fun trackPaymentCIDLoad()
-    abstract fun inflate()
-    abstract fun getCostSummaryBreakdownViewModel(): BaseCostSummaryBreakdownViewModel
-    abstract fun onCreateTripResponse(response: TripResponse?)
-    abstract fun handlePriceChange(response: TripResponse)
-    protected abstract fun fireCheckoutOverviewTracking(createTripResponse: TripResponse)
-
 
     inner class OverviewLayoutListener: ViewTreeObserver.OnGlobalLayoutListener {
         override fun onGlobalLayout () {
@@ -418,7 +427,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     fun resetPriceChange() {
         priceChangeWidget.viewmodel.priceChangeVisibility.onNext(false)
         checkoutPresenter.getCreateTripViewModel().priceChangeAlertPriceObservable.onNext(null)
-
     }
 
     fun resetAndShowTotalPriceWidget() {
@@ -426,21 +434,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         totalPriceWidget.resetPriceWidget()
     }
 
-    private fun getPriceChangeDiffPercentage(oldPrice: Money, newPrice: Money): Int {
-        val priceDiff = newPrice.amount.toInt() - oldPrice.amount.toInt()
-        var diffPercentage: Int = 0
-        if (priceDiff != 0) {
-            diffPercentage = (priceDiff * 100) / oldPrice.amount.toInt()
-        }
-        return diffPercentage
-    }
-
     fun hasPriceChange(response: TripResponse?): Boolean {
         return response?.getOldPrice() != null
-    }
-
-    private fun shouldShowPriceChangeOnCreateTrip(newPrice: BigDecimal, oldPrice: BigDecimal): Boolean {
-        return (Math.ceil(newPrice.toDouble()) - Math.ceil(oldPrice.toDouble())) != 0.0
     }
 
     private fun animateInSlideToPurchase(visible: Boolean) {
@@ -503,21 +498,17 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun setupCheckoutViewModelSubscriptions() {
-        checkoutPresenter.getCheckoutViewModel().checkoutPriceChangeObservable.subscribe { response ->
+        checkoutPresenter.getCheckoutViewModel().checkoutPriceChangeObservable.subscribe {
             resetCheckoutState()
             if (currentState == CVVEntryWidget::class.java.name) {
                 show(checkoutPresenter, FLAG_CLEAR_TOP)
             }
-            slideToPurchase.resetSlider()
-            animateInSlideToPurchase(true)
-            priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
-            priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice())
-            priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
-            checkoutPresenter.trackCheckoutPriceChange(getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice()))
-            handlePriceChange(response)
         }
-        checkoutPresenter.getCheckoutViewModel().bottomContainerVisibility.subscribe { hide ->
-            bottomContainer.setInverseVisibility(hide)
+        checkoutPresenter.getCreateTripViewModel().updateOverviewUiObservable.subscribe { response ->
+            onTripResponse(response)
+        }
+        checkoutPresenter.getCheckoutViewModel().bottomContainerInverseVisibilityObservable.subscribe { forward ->
+            bottomContainer.setInverseVisibility(forward)
         }
         checkoutPresenter.getCheckoutViewModel().resetSliderObservable.subscribe {
             slideToPurchase.resetSlider()
@@ -525,12 +516,8 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenter.getCheckoutViewModel().animateInSlideToPurchaseObservable.subscribe { isVisible ->
             animateInSlideToPurchase(isVisible)
         }
-
         checkoutPresenter.getCheckoutViewModel().sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
         checkoutPresenter.getCheckoutViewModel().accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
-        checkoutPresenter.getCheckoutViewModel().noNetworkObservable.subscribe {
-            slideToPurchase.resetSlider()
-        }
     }
 
     private fun setupPaymentWidgetSubscriptions() {
@@ -561,11 +548,11 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
                 checkoutPresenter.getCheckoutViewModel().slideAllTheWayObservable.onNext(Unit)
             }
         }
-        slideToPurchase.addSlideToListener(checkoutPresenter)
         checkoutButton.setOnClickListener {
             showCheckout()
             slideToPurchaseLayout.visibility = View.VISIBLE
         }
+        slideToPurchase.addSlideToListener(checkoutPresenter)
     }
 
     private fun setupBundleOverviewHeader() {
@@ -587,24 +574,14 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
     }
 
     private fun setupCreateTripViewModelSubscriptions() {
-        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { response ->
-            resetCheckoutState()
+        checkoutPresenter.getCreateTripViewModel().updatePriceChangeWidgetObservable.subscribe { response ->
             priceChangeWidget.viewmodel.originalPrice.onNext(response?.getOldPrice())
             priceChangeWidget.viewmodel.newPrice.onNext(response?.newPrice())
-            if (hasPriceChange(response)) {
-                checkoutPresenter.trackCheckoutPriceChange(getPriceChangeDiffPercentage(response?.getOldPrice()!!, response!!.newPrice()))
-                if (shouldShowPriceChangeOnCreateTrip(response.getOldPrice()!!.amount, response.newPrice().amount)) {
-                    if (checkoutPresenter.shouldShowAlertForCreateTripPriceChange(response)) {
-                        checkoutPresenter.getCreateTripViewModel().priceChangeAlertPriceObservable.onNext(response)
-                        return@safeSubscribe
-                    } else {
-                        priceChangeWidget.viewmodel.priceChangeVisibility.onNext(true)
-                    }
-                }
-            }
-            onCreateTripResponse(response)
         }
-
+        checkoutPresenter.getCreateTripViewModel().createTripResponseObservable.safeSubscribe { trip ->
+            resetCheckoutState()
+        }
+        checkoutPresenter.getCreateTripViewModel().showPriceChangeWidgetObservable.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
         checkoutPresenter.getCreateTripViewModel().performCreateTrip.map { false }.subscribe(priceChangeWidget.viewmodel.priceChangeVisibility)
     }
 }

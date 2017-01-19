@@ -21,6 +21,7 @@ import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.data.PaymentType
 import com.expedia.bookings.data.TripResponse
 import com.expedia.bookings.data.User
+import com.expedia.bookings.data.Money
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
@@ -47,6 +48,7 @@ import com.expedia.vm.traveler.TravelerSummaryViewModel
 import com.expedia.vm.traveler.TravelersViewModel
 import com.squareup.phrase.Phrase
 import rx.Observable
+import java.math.BigDecimal
 import javax.inject.Inject
 import kotlin.properties.Delegates
 
@@ -165,11 +167,33 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 checkoutDialog.dismiss()
             }
         }
+        vm.checkoutPriceChangeObservable.subscribe { response ->
+            vm.resetSliderObservable.onNext(Unit)
+            vm.animateInSlideToPurchaseObservable.onNext(true)
+            getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
+            getCreateTripViewModel().showPriceChangeWidgetObservable.onNext(true)
+            trackCheckoutPriceChange(getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice()))
+            handleCheckoutPriceChange(response)
+        }
+        vm.noNetworkObservable.subscribe {
+            vm.resetSliderObservable.onNext(Unit)
+        }
         vm.cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
         vm.cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
     }
 
+
+    fun getPriceChangeDiffPercentage(oldPrice: Money, newPrice: Money): Int {
+        val priceDiff = newPrice.amount.toInt() - oldPrice.amount.toInt()
+        var diffPercentage: Int = 0
+        if (priceDiff != 0) {
+            diffPercentage = (priceDiff * 100) / oldPrice.amount.toInt()
+        }
+        return diffPercentage
+    }
+
     protected var tripViewModel: BaseCreateTripViewModel by notNullAndObservable { vm ->
+        vm.performCreateTrip.map { false }.subscribe(vm.showPriceChangeWidgetObservable)
         vm.priceChangeAlertPriceObservable.map { response ->
             Pair(response?.getOldPrice()?.formattedMoneyFromAmountAndCurrencyCode, response?.newPrice()?.formattedMoneyFromAmountAndCurrencyCode) }
                 .distinctUntilChanged().map { it.first != null && it.second != null }
@@ -190,6 +214,21 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 createTripDialog.dismiss()
             }
         }
+        vm.createTripResponseObservable.safeSubscribe { response ->
+            getCreateTripViewModel().updatePriceChangeWidgetObservable.onNext(response)
+            if (hasPriceChange(response)) {
+                trackCreateTripPriceChange(getPriceChangeDiffPercentage(response!!.getOldPrice()!!, response.newPrice()))
+                if (shouldShowPriceChangeOnCreateTrip(response.newPrice().amount, response.getOldPrice()!!.amount)) {
+                    if (shouldShowAlertForCreateTripPriceChange(response)) {
+                        vm.priceChangeAlertPriceObservable.onNext(response)
+                        return@safeSubscribe
+                    } else {
+                        vm.showPriceChangeWidgetObservable.onNext(true)
+                    }
+                }
+            }
+            onCreateTripResponse(response)
+        }
         setupCreateTripViewModel(vm)
     }
 
@@ -197,6 +236,9 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         return response?.getOldPrice() != null
     }
 
+    private fun shouldShowPriceChangeOnCreateTrip(newPrice: BigDecimal, oldPrice: BigDecimal): Boolean {
+        return (Math.ceil(newPrice.toDouble()) - Math.ceil(oldPrice.toDouble())) != 0.0
+    }
 
     init {
         View.inflate(context, R.layout.base_checkout_presenter, this)
@@ -246,7 +288,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
 
     private fun setClickListeners() {
         loginWidget.setListener(this)
-
         legalInformationText.setOnClickListener {
             context.startActivity(FlightAndPackagesRulesActivity.createIntent(context, getLineOfBusiness()))
         }
@@ -336,7 +377,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         travelerSummaryCardView.visibility = if (forward) View.GONE else View.VISIBLE
         legalInformationText.setInverseVisibility(forward)
         depositPolicyText.setInverseVisibility(forward)
-        ckoViewModel.bottomContainerVisibility.onNext(forward)
+        ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
         if (!forward) {
             Ui.hideKeyboard(paymentWidget)
             invalidPaymentTypeWarningTextView.visibility = View.GONE
@@ -509,7 +550,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     inner class DefaultToTraveler(className: Class<*>) : ScaleTransition(this, mainContent, travelersPresenter, CheckoutDefault::class.java, className) {
         override fun startTransition(forward: Boolean) {
             super.startTransition(forward)
-            ckoViewModel.bottomContainerVisibility.onNext(forward)
+            ckoViewModel.bottomContainerInverseVisibilityObservable.onNext(forward)
             if (!forward) {
                 Ui.hideKeyboard(travelersPresenter)
                 travelersPresenter.toolbarNavIconContDescSubject.onNext(resources.getString(R.string.toolbar_nav_icon_cont_desc))
