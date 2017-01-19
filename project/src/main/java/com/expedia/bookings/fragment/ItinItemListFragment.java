@@ -41,6 +41,7 @@ import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.ItineraryLoaderLoginExtender;
 import com.expedia.bookings.widget.itin.ItinListView;
 import com.expedia.bookings.widget.itin.ItinListView.OnListModeChangedListener;
+import com.expedia.vm.UserReviewDialogViewModel;
 import com.mobiata.android.app.SimpleDialogFragment;
 import com.mobiata.android.util.AndroidUtils;
 
@@ -63,6 +64,7 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	private ItinListView mItinListView;
 	private View mEmptyView;
 	private View mOrEnterNumberTv;
+	private UserReviewRatingDialog ratingDialog;
 	private ItineraryManager mItinManager;
 	private ViewGroup mEmptyListLoadingContainer;
 	private ViewGroup mEmptyListContent;
@@ -657,8 +659,18 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 	@Override
 	public void setUserVisibleHint(boolean visible) {
 		super.setUserVisibleHint(visible);
-		if (visible && isResumed()) {
-			mItinListView.getItinCardDataAdapter().showUserReview();
+		if (visible) {
+			showUserReview();
+		}
+	}
+
+	public void showUserReview() {
+		if (UserReviewDialogViewModel.shouldShowReviewDialog(getActivity())) {
+			if (ratingDialog == null) {
+				ratingDialog = new UserReviewRatingDialog(getActivity());
+				ratingDialog.setViewModel(new UserReviewDialogViewModel(getActivity()));
+			}
+			ratingDialog.show();
 		}
 	}
 }
