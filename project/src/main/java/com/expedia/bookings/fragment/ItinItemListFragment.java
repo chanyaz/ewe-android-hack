@@ -626,19 +626,15 @@ public class ItinItemListFragment extends Fragment implements LoginConfirmLogout
 			Collection<Trip> trips = im.getTrips();
 			Context context = getActivity();
 			if (context != null) {
-				if (trips.size() > 0) {
-					OmnitureTracking.trackItin(getActivity());
-				}
-				else {
-					if (trackEmpty) {
-						OmnitureTracking.trackItinEmpty();
-					}
+				if (trips.size() < 0 && trackEmpty) {
+					OmnitureTracking.trackItinEmpty();
 				}
 
-				//AdX we just want to track when the user goes to the page.
+				//we just want to track when the user goes to the page.
 				if (!mItinListTracked) {
 					mItinListTracked = true;
 					AdTracker.trackViewItinList();
+					OmnitureTracking.trackItin(getActivity());
 				}
 
 			}
