@@ -144,5 +144,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">패키지 요금은 1인당 {price_per_person}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. 패키지를 보려면 버튼을 탭하세요.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">패키지 세부 내용을 표시합니다. 닫으려면 버튼을 탭하세요.</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>

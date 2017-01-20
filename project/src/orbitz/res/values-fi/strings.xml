@@ -144,5 +144,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakettimatkahinta on {price_per_person} per henkilö. Hintaan sisältyy sekä lentojen että hotellin verot ja maksut. Painike pakettimatkan tarkasteluun.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Näytetään pakettimatkan tiedot. Painike sulkemiseen.</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Sisäpiirihinnat</string>
 </resources>

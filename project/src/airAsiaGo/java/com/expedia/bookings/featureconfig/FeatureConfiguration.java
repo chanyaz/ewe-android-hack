@@ -1,18 +1,11 @@
 package com.expedia.bookings.featureconfig;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.message.BasicNameValuePair;
-import org.joda.time.DateTime;
-
 import android.content.Context;
 import android.text.format.DateUtils;
 import android.view.View;
 
 import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
-import com.expedia.bookings.data.HotelFilter;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.pos.PointOfSaleId;
 import com.expedia.bookings.server.EndPoint;
@@ -20,7 +13,14 @@ import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AboutUtils;
 import com.expedia.bookings.utils.JodaUtils;
 import com.expedia.bookings.utils.Ui;
+import com.expedia.vm.AbstractHotelFilterViewModel;
 import com.mobiata.android.fragment.AboutSectionFragment;
+
+import org.apache.http.message.BasicNameValuePair;
+import org.joda.time.DateTime;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class FeatureConfiguration implements IProductFlavorFeatureConfiguration {
 	@Override
@@ -41,6 +41,11 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	@Override
 	public String getAppSupportUrl(Context context) {
 		return context.getString(R.string.app_support_url_aag);
+	}
+
+	@Override
+	public boolean shouldShowEmailUsOnAppSupportWebview() {
+		return true;
 	}
 
 	@Override
@@ -249,12 +254,7 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 		return "PhoneDestinations";
 	}
 
-	public int getSearchResultDealImageDrawable() {
-		//No deal image
-		return 0;
-	}
-
-	public int getHotelDetailsDealImageDrawable() {
+	public int getHotelDealImageDrawable() {
 		//No deal image
 		return 0;
 	}
@@ -270,8 +270,8 @@ public class FeatureConfiguration implements IProductFlavorFeatureConfiguration 
 	}
 
 	@Override
-	public HotelFilter.Sort getDefaultSort() {
-		return HotelFilter.Sort.RECOMMENDED;
+	public AbstractHotelFilterViewModel.Sort getDefaultSort() {
+		return AbstractHotelFilterViewModel.Sort.RECOMMENDED;
 	}
 
 	@Override

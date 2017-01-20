@@ -144,5 +144,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Il prezzo del pacchetto è di {price_per_person} a persona. Questo prezzo include tasse e oneri per voli e hotel. Pulsante per visualizzare il pacchetto.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Mostra i dettagli del pacchetto. Pulsante di chiusura.</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>

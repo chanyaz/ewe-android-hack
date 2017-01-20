@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.expedia.bookings.section.SectionTravelerInfo xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:orientation="horizontal" >
+
+    <ImageView
+        android:id="@+id/display_picture"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="@dimen/checkout_info_container_padding"
+        android:layout_weight="0"
+        android:src="@drawable/ic_traveler_blue_entered" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/display_full_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:text="@string/enter_traveler_info"
+            android:textColor="@color/data_review_dark"
+            android:textSize="@dimen/data_display_primary_text" />
+
+        <TextView
+            android:id="@+id/display_phone_number_with_country_code"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/data_review_gray"
+            android:textSize="@dimen/data_display_sub_text" />
+
+        <TextView
+            android:id="@+id/display_special_assistance"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:textColor="@color/data_review_gray"
+            android:textSize="@dimen/data_display_sub_text" />
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/validation_checkmark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="10dp"
+        android:layout_weight="0"
+        android:src="?attr/skin_icCheckoutCheckmarkDrawable"
+        android:visibility="gone" />
+
+</com.expedia.bookings.section.SectionTravelerInfo>

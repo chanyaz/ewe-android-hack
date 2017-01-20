@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.expedia.bookings.R;
+import com.squareup.phrase.Phrase;
 
 public class AppIntroPagerAdapter extends PagerAdapter {
 
@@ -46,7 +47,8 @@ public class AppIntroPagerAdapter extends PagerAdapter {
 		imageView.setImageResource(backgrounds[position]);
 
 		TextView title = (TextView) itemView.findViewById(R.id.pager_title);
-		title.setText(titles[position]);
+		title.setText(Phrase.from(container.getContext(), titles[position])
+			.putOptional("brand", container.getContext().getString(R.string.app_intro_display_name)).format());
 
 		container.addView(itemView);
 

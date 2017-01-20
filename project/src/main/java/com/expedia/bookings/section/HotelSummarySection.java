@@ -290,9 +290,9 @@ public class HotelSummarySection extends RelativeLayout {
 				mUrgencyText.setVisibility(View.VISIBLE);
 			}
 			else if (property.isLowestRateMobileExclusive()) {
-				if (ProductFlavorFeatureConfiguration.getInstance().getSearchResultDealImageDrawable() != 0) {
+				if (ProductFlavorFeatureConfiguration.getInstance().getHotelDealImageDrawable() != 0) {
 					mUrgencyText.setCompoundDrawablesWithIntrinsicBounds(
-						ProductFlavorFeatureConfiguration.getInstance().getSearchResultDealImageDrawable(), 0, 0, 0);
+						ProductFlavorFeatureConfiguration.getInstance().getHotelDealImageDrawable(), 0, 0, 0);
 					mUrgencyText.setText("");
 				}
 				else {

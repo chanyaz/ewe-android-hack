@@ -13,6 +13,7 @@ import com.expedia.bookings.data.payment.LoyaltyBurnInfo
 import com.expedia.bookings.data.payment.LoyaltyEarnInfo
 import com.expedia.bookings.data.payment.LoyaltyInformation
 import com.expedia.bookings.data.payment.LoyaltyType
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.test.robolectric.RobolectricRunner
 import com.expedia.bookings.utils.CurrencyUtils
 import com.expedia.bookings.utils.DateUtils
@@ -26,6 +27,7 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.Robolectric
+import org.robolectric.Shadows
 import org.robolectric.annotation.Config
 import org.robolectric.shadows.ShadowResourcesEB
 import java.util.ArrayList
@@ -276,6 +278,7 @@ class HotelDetailsTest {
     }
 
     @Test
+    @RunForBrands(brands = arrayOf(MultiBrand.EXPEDIA, MultiBrand.SAMSUNG))
     fun testOnlyMobileExclusive() {
         val hotel = makeHotel()
         hotel.currentAllotment = "0"
@@ -302,7 +305,13 @@ class HotelDetailsTest {
         assertEquals(View.GONE, hotelDetailView.discountPercentage.visibility)
         assertEquals(View.GONE, hotelDetailView.vipAccessMessageContainer.visibility)
         assertEquals(View.VISIBLE, hotelDetailView.promoMessage.visibility)
-        assertEquals(activity.resources.getString(R.string.mobile_exclusive), hotelDetailView.promoMessage.text)
+        if(ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable == 0)
+            assertEquals(activity.resources.getString(R.string.mobile_exclusive), hotelDetailView.promoMessage.text)
+        else {
+            val promoImage = hotelDetailView.promoMessage.compoundDrawables
+            val shadowDrawable = Shadows.shadowOf(promoImage[0])
+            assertEquals(ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable, shadowDrawable.createdFromResId)
+        }
     }
 
     @Test

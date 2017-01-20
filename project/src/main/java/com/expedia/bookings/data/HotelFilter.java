@@ -104,7 +104,7 @@ public class HotelFilter implements JSONable {
 		mPriceRange = PriceRange.ALL;
 		mMinStarRating = 0;
 		mHotelName = null;
-		mSort = ProductFlavorFeatureConfiguration.getInstance().getDefaultSort();
+		mSort = Sort.RECOMMENDED;
 		mVipAccessOnly = false;
 		mNeighborhoods = null;
 	}

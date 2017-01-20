@@ -1,10 +1,11 @@
 package com.expedia.bookings.widget;
 
-import org.joda.time.LocalDate;
-
 import android.content.Context;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -13,16 +14,23 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.data.Db;
 import com.expedia.bookings.data.FlightSearchParams;
 import com.expedia.bookings.data.HotelSearchParams;
+import com.expedia.bookings.data.LineOfBusiness;
 import com.expedia.bookings.data.Location;
 import com.expedia.bookings.data.collections.CollectionLocation;
 import com.expedia.bookings.data.lx.LxSearchParams;
+import com.expedia.bookings.data.pos.PointOfSale;
+import com.expedia.bookings.graphics.HeaderBitmapDrawable;
 import com.expedia.bookings.otto.Events;
 import com.expedia.bookings.utils.FontCache;
+import com.expedia.bookings.utils.Images;
 import com.expedia.bookings.utils.NavUtils;
+import com.expedia.bookings.utils.Ui;
 import com.mobiata.flightlib.data.Airport;
 import com.mobiata.flightlib.data.sources.FlightStatsDbUtils;
 import com.squareup.otto.Subscribe;
 import com.squareup.phrase.Phrase;
+
+import org.joda.time.LocalDate;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -57,7 +65,7 @@ public class CollectionLaunchWidget extends LinearLayout {
 	}
 
 	@OnClick(R.id.button_search_hotels)
-	void hotelClicked() {
+	public void hotelClicked() {
 		HotelSearchParams params = new HotelSearchParams();
 
 		params.setQuery(suggestion.shortName);
@@ -120,5 +128,22 @@ public class CollectionLaunchWidget extends LinearLayout {
 		}
 		loc.setDestinationId(destinationId);
 		return loc;
+	}
+
+	public void updateWidget(CollectionLocation collectionLocation, String collectionUrl) {
+		collectionDescription.setText(collectionLocation.description);
+
+		// Set LOB buttons visibility depending on the POS support.
+		searchFlights.setVisibility(PointOfSale.getPointOfSale().supports(LineOfBusiness.FLIGHTS) ? View.VISIBLE : View.GONE);
+		searchActivities.setVisibility(PointOfSale.getPointOfSale().supports(LineOfBusiness.LX) ? View.VISIBLE : View.GONE);
+
+		HeaderBitmapDrawable drawable = Images
+			.makeCollectionBitmapDrawable(getContext(), null, collectionUrl, "Collection_Details");
+
+		LayerDrawable layerDraw = new LayerDrawable(new Drawable[] {
+			drawable, getResources().getDrawable(R.drawable.collection_screen_gradient_overlay)
+		});
+
+		Ui.setViewBackground(this, layerDraw);
 	}
 }
