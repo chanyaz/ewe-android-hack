@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -22,6 +23,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.expedia.bookings.BuildConfig;
 import com.expedia.bookings.R;
 import com.expedia.bookings.activity.WebViewActivity;
 import com.expedia.bookings.bitmaps.FailedUrlCache;
@@ -32,6 +34,7 @@ import com.expedia.bookings.data.SuggestionV4;
 import com.expedia.bookings.data.cars.LatLong;
 import com.expedia.bookings.data.hotels.HotelOffersResponse;
 import com.expedia.bookings.data.hotels.HotelSearchParams;
+import com.expedia.bookings.data.itin.WUndergroundSearchResponse;
 import com.expedia.bookings.data.pos.PointOfSale;
 import com.expedia.bookings.data.trips.ItinCardDataHotel;
 import com.expedia.bookings.data.trips.TripComponent.Type;
@@ -39,6 +42,7 @@ import com.expedia.bookings.data.trips.TripHotel;
 import com.expedia.bookings.notification.Notification;
 import com.expedia.bookings.notification.Notification.NotificationType;
 import com.expedia.bookings.services.HotelServices;
+import com.expedia.bookings.services.WUndergroundApi;
 import com.expedia.bookings.tracking.OmnitureTracking;
 import com.expedia.bookings.utils.AccessibilityUtil;
 import com.expedia.bookings.utils.AddToCalendarUtils;
@@ -57,7 +61,14 @@ import com.expedia.bookings.widget.LocationMapImageView;
 import com.mobiata.android.SocialUtils;
 import com.squareup.phrase.Phrase;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 import rx.Observer;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardDataHotel> {
 
@@ -324,6 +335,7 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		InfoTripletView infoTriplet = Ui.findView(view, R.id.info_triplet);
 		LocationMapImageView staticMapImageView = Ui.findView(view, R.id.mini_map);
 		TextView addressTextView = Ui.findView(view, R.id.address_text_view);
+		TextView weatherTextView = Ui.findView(view, R.id.weather_text_view);
 		TextView localPhoneNumberHeaderTextView = Ui.findView(view, R.id.local_phone_number_header_text_view);
 		TextView localPhoneNumberTextView = Ui.findView(view, R.id.local_phone_number_text_view);
 		TextView tollFreePhoneNumberHeaderTextView = Ui.findView(view, R.id.toll_free_phone_number_header_text_view);
@@ -451,6 +463,8 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 
 		//Add shared data
 		addSharedGuiElements(commonItinDataContainer);
+
+		fetchWeather();
 
 		return view;
 	}
@@ -741,5 +755,50 @@ public class HotelItinContentGenerator extends ItinContentGenerator<ItinCardData
 		}
 
 		return sharableImgURL;
+	}
+
+
+	/////////////
+	// Weather Stuff
+
+	public static WUndergroundApi getWUndergroundService() {
+		HttpLoggingInterceptor httpLoggingInterceptor = new HttpLoggingInterceptor();
+
+		HttpLoggingInterceptor.Level logLevel = BuildConfig.DEBUG ? HttpLoggingInterceptor.Level.BODY : HttpLoggingInterceptor.Level.NONE;
+		httpLoggingInterceptor.setLevel(logLevel);
+		OkHttpClient client = new OkHttpClient().newBuilder().build();
+
+		Retrofit adapter = new Retrofit.Builder()
+			.baseUrl("http://www.wunderground.com/")
+			.addConverterFactory(SimpleXmlConverterFactory.create())
+			.addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+			.client(client)
+			.build();
+
+		return adapter.create(WUndergroundApi.class);
+	}
+
+	private void fetchWeather() {
+		getWUndergroundService().getWeather("mobiataXML",
+			getItinCardData().getProperty().getLocation().getLatitude() + "," + getItinCardData().getProperty()
+				.getLocation().getLongitude())
+			.subscribeOn(Schedulers.newThread())
+			.observeOn(AndroidSchedulers.mainThread())
+			.subscribe(new Observer<WUndergroundSearchResponse>() {
+				@Override
+				public void onCompleted() {
+					Log.i("Supreeth", "fetchWeather onCompleted");
+				}
+
+				@Override
+				public void onError(Throwable e) {
+					Log.i("Supreeth", "fetchWeather onError e = " + e);
+				}
+
+				@Override
+				public void onNext(WUndergroundSearchResponse response) {
+					Log.i("Supreeth", "fetchWeather response = ");
+				}
+			});
 	}
 }

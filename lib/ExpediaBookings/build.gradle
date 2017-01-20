@@ -19,6 +19,7 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.2'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.2'
+    compile 'com.squareup.retrofit2:converter-simplexml:2.1.0'
     compile "io.reactivex:rxjava:${rxjava_version}"
     compile 'org.json:json:20140107'
     compile "org.jetbrains.kotlin:kotlin-stdlib:${kotlin_version}"
