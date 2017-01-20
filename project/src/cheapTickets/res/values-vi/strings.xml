@@ -130,4 +130,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Giá gói là {price_per_person} mỗi người. Giá này gồm thuế, phí cho cả chuyến bay và khách sạn. Nút để xem gói.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Hiển thị chi tiết gói. Nút để đóng.</string>
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Secret Bargains</string>
 </resources>

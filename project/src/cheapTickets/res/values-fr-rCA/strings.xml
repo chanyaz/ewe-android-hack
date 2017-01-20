@@ -130,4 +130,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Le prix du forfait est de {price_per_person} par personne. Ce prix comprend les taxes et les frais pour les vols et l\&apos;hôtel. Bouton d\&apos;affichage du forfait.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Affichage des détails du forfait. Bouton de fermeture.</string>
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Secret Bargains</string>
 </resources>

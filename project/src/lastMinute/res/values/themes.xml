@@ -83,9 +83,9 @@
 
         <!-- PopupMenu -->
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_lm_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_lm_background</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_lm</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_lm_placeholder_flight</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_lm_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_lm</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_lm</item>
@@ -110,9 +110,9 @@
         <!-- PopupMenu -->
         <item name="android:dropDownListViewStyle">@android:style/Widget.Holo.Light.ListView.DropDown</item>
         <item name="skin_itinActivityPlaceholderDrawable">@drawable/itin_header_lm_placeholder_activities</item>
-        <item name="skin_itinCarPlaceholderDrawable">@drawable/default_cars_lm_background</item>
+        <item name="skin_itinCarPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinHotelPlaceholderDrawable">@drawable/placeholder_lg_lm</item>
-        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_lm_placeholder_flight</item>
+        <item name="skin_itinFlightPlaceholderDrawable">@drawable/bg_itin_placeholder_cloud</item>
         <item name="skin_itinDefaultPlaceholderDrawable">@drawable/bg_itin_lm_fallback_activity</item>
         <item name="skin_itinFlightsTripLineColor">@color/itin_flight_line_color_lm</item>
         <item name="skin_itinDismissListSelectorDrawable">@drawable/list_selector_lm</item>

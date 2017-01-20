@@ -144,5 +144,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakketprijs is {price_per_person} per persoon. Deze prijs is incl. belastingen, toeslagen voor vluchten + hotel. Knop om pakket te bekijken.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Pakketdetails worden weergegeven Sluitknop.</string>
-
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Insider Prices</string>
 </resources>

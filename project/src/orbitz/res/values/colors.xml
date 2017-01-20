@@ -64,6 +64,7 @@
     <color name="flight_edit_search_button_color">@color/white</color>
     <color name="flight_earn_message_text_color">@color/earn_message_text_color</color>
     <color name="traveler_drop_down_checked_color">@color/action_bar_bg_color</color>
+    <color name="flight_primary_color">@color/packages_primary_color</color>
 
     <!-- Cars and LX-->
     <color name="cars_primary_color">#004D7C</color>
@@ -155,5 +156,6 @@
     <!-- Flights V2 colors -->
     <color name="flight_overview_color_filter">@color/lob_btn_color</color>
     <color name="flights_details_layover_color">@color/lob_btn_color</color>
+    <color name="filter_number_text_color">@color/lob_btn_color</color>
 
 </resources>

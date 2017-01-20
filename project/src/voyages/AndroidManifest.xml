@@ -31,6 +31,7 @@
                 <data android:host="carSearch"/>
                 <data android:host="activitySearch"/>
                 <data android:host="signIn"/>
+                <data android:host="supportEmail"/>
 
             </intent-filter>
             <intent-filter>

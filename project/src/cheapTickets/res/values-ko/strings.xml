@@ -121,7 +121,7 @@
     <string name="search_bundle_total_text">패키지 확인하기</string>
     <string name="package_flight_overview_bundle_total_label">패키지 총액</string>
     <!-- Cost summary breakdown line item for savings -->
-    <string name="cost_summary_breakdown_total_savings">패키지 할인</string>
+    <string name="cost_summary_breakdown_total_savings">항공+호텔 할인순</string>
     <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved-->
     <string name="bundle_overview_price_widget_TEMPLATE">패키지 총액은 {totalprice}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. {savings}</string>
     <!--Content description for Bundle total widget. Example: Package total is $1,234.00. This price includes taxes, fees for both flights and hotel. $100.00 Saved. Cost Breakdown dialog. Button.-->
@@ -130,4 +130,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">패키지 요금은 1인당 {price_per_person}입니다. 이 요금에는 항공과 호텔 모두에 대한 세금 및 수수료가 포함됩니다. 패키지를 보려면 버튼을 탭하세요.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">패키지 세부 내용을 표시합니다. 닫으려면 버튼을 탭하세요.</string>
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Secret Bargains</string>
 </resources>

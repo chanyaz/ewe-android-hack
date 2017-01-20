@@ -12,6 +12,8 @@ import com.expedia.bookings.data.hotels.Hotel
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.featureconfig.IProductFlavorFeatureConfiguration
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.utils.HotelUtils
 import com.expedia.bookings.utils.HotelsV2DataUtil
@@ -119,8 +121,13 @@ open class HotelViewModel(private val context: Context, protected val hotel: Hot
                     resources.getString(R.string.tonight_only)))
         }
         if (hotel.isDiscountRestrictedToCurrentSourceType) {
-            mobileExclusiveUrgency.onNext(UrgencyMessage(R.drawable.mobile_exclusive, R.color.hotel_mobile_exclusive_color,
-                    resources.getString(R.string.mobile_exclusive)))
+            if (ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable == 0) {
+                mobileExclusiveUrgency.onNext(UrgencyMessage(R.drawable.mobile_exclusive, R.color.hotel_mobile_exclusive_color,
+                        resources.getString(R.string.mobile_exclusive)))
+            } else {
+                mobileExclusiveUrgency.onNext(UrgencyMessage(ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable,
+                        R.color.hotel_mobile_exclusive_color, ""))
+            }
         }
 
         soldOut.filter { it == true }.map {

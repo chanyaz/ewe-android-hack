@@ -69,7 +69,7 @@ public class AboutUtils {
 	public void openAppSupport() {
 		OmnitureTracking.trackClickSupportApp();
 		openWebsite(mActivity, ProductFlavorFeatureConfiguration.getInstance().getAppSupportUrl(mActivity), false,
-			true);
+			ProductFlavorFeatureConfiguration.getInstance().shouldShowEmailUsOnAppSupportWebview());
 	}
 
 	public void openRewardsCard() {

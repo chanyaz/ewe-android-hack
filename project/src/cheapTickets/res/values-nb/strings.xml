@@ -130,4 +130,6 @@
     <string name="bundle_overview_price_widget_button_open_TEMPLATE">Pakkeprisen er {price_per_person} per person. Denne prisen inkluderer skatter og avgifter for både fly og hotell. Knapp for å vise pakkereise.</string>
     <!--Content description for Bundle sliding widget, when it's opened.-->
     <string name="bundle_overview_price_widget_button_close">Viser informasjon om pakkereisen. Knapp for å lukke.</string>
+    <!-- Member Discount for a given property -->
+    <string name="member_pricing">Secret Bargains</string>
 </resources>

@@ -16,6 +16,7 @@ import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.pos.PointOfSale
 import com.expedia.bookings.extension.getEarnMessage
 import com.expedia.bookings.extension.isShowAirAttached
+import com.expedia.bookings.featureconfig.ProductFlavorFeatureConfiguration
 import com.expedia.bookings.text.HtmlCompat
 import com.expedia.bookings.tracking.hotel.HotelTracking
 import com.expedia.bookings.utils.Amenity
@@ -159,6 +160,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
     val hasVipAccessLoyaltyObservable = BehaviorSubject.create<Boolean>(false)
     val hasRegularLoyaltyPointsAppliedObservable = BehaviorSubject.create<Boolean>(false)
     val promoMessageObservable = BehaviorSubject.create<String>("")
+    val promoImageObservable = BehaviorSubject.create<Int>(0)
     val promoMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
     val earnMessageObservable = BehaviorSubject.create<String>()
     val earnMessageVisibilityObservable = BehaviorSubject.create<Boolean>()
@@ -251,6 +253,7 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
         hasVipAccessLoyaltyObservable.onNext(isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         hasRegularLoyaltyPointsAppliedObservable.onNext(!isVipAccess && response.doesAnyHotelRateOfAnyRoomHaveLoyaltyInfo)
         promoMessageObservable.onNext(getPromoText(firstHotelRoomResponse))
+        promoImageObservable.onNext(getPromoImage(firstHotelRoomResponse))
         val earnMessage = if (response.isPackage && PointOfSale.getPointOfSale().isEarnMessageEnabledForPackages) packageLoyaltyInformation?.earn?.getEarnMessage(context) ?: "" else chargeableRateInfo?.loyaltyInfo?.earn?.getEarnMessage(context) ?: ""
         val earnMessageVisibility = earnMessage.isNotBlank() && PointOfSale.getPointOfSale().isEarnMessageEnabledForHotels
         earnMessageObservable.onNext(earnMessage)
@@ -616,12 +619,26 @@ abstract class BaseHotelDetailViewModel(val context: Context, val roomSelectedOb
             context.resources.getQuantityString(R.plurals.num_rooms_left, roomsLeft, roomsLeft)
         } else if (roomOffer.isSameDayDRR) {
             context.resources.getString(R.string.tonight_only)
-        } else if (roomOffer.isDiscountRestrictedToCurrentSourceType) {
+        } else if (roomOffer.isDiscountRestrictedToCurrentSourceType &&
+                ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable == 0) {
             context.resources.getString(R.string.mobile_exclusive)
         } else {
             ""
         }
     }
+
+    fun getPromoImage(roomOffer: HotelOffersResponse.HotelRoomResponse?): Int {
+        if (roomOffer == null) {
+            return 0
+        }
+        // Return PromoImage only for Mobile Exclusive type of deals.
+        if (!hasMemberDeal(roomOffer) && roomOffer.currentAllotment.toInt() > ROOMS_LEFT_CUTOFF &&
+                !roomOffer.isSameDayDRR && roomOffer.isDiscountRestrictedToCurrentSourceType) {
+            return ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable
+        }
+        return 0
+    }
+
     private fun getHotelPriceContentDescription(showStrikeThrough: Boolean): String {
         return if (showStrikeThrough) {
             Phrase.from(context, R.string.hotel_price_strike_through_cont_desc_TEMPLATE)

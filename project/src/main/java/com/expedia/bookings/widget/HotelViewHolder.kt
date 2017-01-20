@@ -141,9 +141,9 @@ class HotelViewHolder(view: View) : RecyclerView.ViewHolder(view), View.OnClickL
                 saleTextView.setBackgroundColor(purple)
                 saleTextView.setCompoundDrawablesWithIntrinsicBounds(mobileOnly, null, null, null)
                 if (fullWidth) {
-                    if (ProductFlavorFeatureConfiguration.getInstance().hotelDetailsDealImageDrawable != 0) {
+                    if (ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable != 0) {
                         saleTextView.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context,
-                                ProductFlavorFeatureConfiguration.getInstance().hotelDetailsDealImageDrawable),
+                                ProductFlavorFeatureConfiguration.getInstance().hotelDealImageDrawable),
                                 null, null, null)
                         saleTextView.text = ""
                     } else {
