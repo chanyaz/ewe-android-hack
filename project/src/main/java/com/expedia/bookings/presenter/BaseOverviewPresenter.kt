@@ -6,14 +6,12 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.view.animation.AccelerateDecelerateInterpolator
 import com.expedia.bookings.R
-import com.expedia.bookings.presenter.lx.LxCheckoutPresenterV2
 import com.expedia.bookings.utils.AccessibilityUtil
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.CVVEntryWidget
 import com.expedia.util.endlessObserver
-import com.expedia.util.setInverseVisibility
 
 abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Presenter(context, attrs), CVVEntryWidget.CVVEntryFragmentListener {
 
@@ -82,11 +80,11 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         override fun updateTransition(f: Float, forward: Boolean) {
             val progress = Math.min(1f, range + f)
             translateCheckout(progress, forward)
-            setBundleWidgetAndToolbar(forward)
         }
 
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
+            setBundleWidgetAndToolbar(forward)
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
             if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE

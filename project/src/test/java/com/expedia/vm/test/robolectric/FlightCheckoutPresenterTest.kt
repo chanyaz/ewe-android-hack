@@ -39,7 +39,6 @@ class FlightCheckoutPresenterTest {
         val styledIntent = PlaygroundActivity.addTheme(intent, R.style.V2_Theme_Packages)
         activity = Robolectric.buildActivity(PlaygroundActivity::class.java).withIntent(styledIntent).create().visible().get()
         checkout = activity.findViewById(R.id.flight_checkout_presenter) as FlightCheckoutPresenter
-
     }
 
     @Test

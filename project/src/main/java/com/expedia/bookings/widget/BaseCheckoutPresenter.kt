@@ -255,7 +255,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         addDefaultTransition(defaultTransition)
         addTransition(getDefaultToTravelerTransition())
         addTransition(defaultToPayment)
-        setUpLayoutListeners()
+        setupKeyboardListeners()
         setUpErrorMessaging()
         initLoggedInState(User.isLoggedIn(context))
     }
@@ -293,7 +293,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
     }
 
-    private fun setUpLayoutListeners() {
+    private fun setupKeyboardListeners() {
         paymentLayoutListener = makeKeyboardListener(scrollView)
         travelerLayoutListener = makeKeyboardListener(travelersPresenter.travelerEntryWidget, toolbarHeight * 2)
     }
