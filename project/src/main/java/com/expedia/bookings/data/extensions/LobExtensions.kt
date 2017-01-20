@@ -26,3 +26,8 @@ fun LineOfBusiness.isMaterialLineOfBusiness(): Boolean {
 fun LineOfBusiness.isUniversalCheckout(context: Context): Boolean {
     return LineOfBusinessExtensions.isUniversalCheckout(this, context)
 }
+
+fun LineOfBusiness.hasBillingInfo(): Boolean {
+    return this == LineOfBusiness.FLIGHTS_V2 || this == LineOfBusiness.PACKAGES || this == LineOfBusiness.FLIGHTS
+}
+
