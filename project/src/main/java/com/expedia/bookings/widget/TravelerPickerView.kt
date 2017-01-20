@@ -19,7 +19,7 @@ import com.expedia.vm.BaseTravelerPickerViewModel
 import com.expedia.vm.TravelerPickerViewModel
 import com.squareup.phrase.Phrase
 
-class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPickerView(context, attrs) {
+class TravelerPickerView(context: Context, attrs: AttributeSet) : BaseTravelerPickerView(context, attrs) {
     override fun getViewModel(): BaseTravelerPickerViewModel {
         return viewmodel
     }
@@ -124,16 +124,17 @@ class HotelTravelerPickerView(context: Context, attrs: AttributeSet) : BaseTrave
             }
             for (i in childSpinners.indices) {
                 val spinner = childSpinners[i]
+                val selectedListener = spinner.onItemSelectedListener
+                spinner.onItemSelectedListener = null
                 if (i >= travelers.childrenAges.size) {
                     spinner.visibility = View.INVISIBLE
-                    val selectedListener = spinner.onItemSelectedListener
-                    spinner.onItemSelectedListener = null
                     spinner.setSelection(DEFAULT_CHILD_AGE)
-                    spinner.onItemSelectedListener = selectedListener
                 } else {
                     spinner.contentDescription = Phrase.from(context, R.string.search_child_drop_down_cont_desc_TEMPLATE).put("childnumber", i + 1).format().toString()
+                    spinner.setSelection(travelers.childrenAges[i])
                     spinner.visibility = View.VISIBLE
                 }
+                spinner.onItemSelectedListener = selectedListener
             }
             adultMinus.setAccessibilityHoverFocus()
         }

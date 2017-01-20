@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +20,7 @@ import com.expedia.bookings.R;
 import com.expedia.bookings.presenter.flight.FlightSearchPresenter;
 import com.expedia.bookings.utils.Ui;
 import com.expedia.bookings.widget.CalendarWidgetV2;
-import com.expedia.bookings.widget.HotelTravelerPickerView;
+import com.expedia.bookings.widget.TravelerPickerView;
 import com.expedia.bookings.widget.TravelerWidgetV2;
 import com.expedia.bookings.widget.shared.SearchInputTextView;
 import com.expedia.vm.FlightSearchViewModel;
@@ -112,32 +113,32 @@ public class FlightSearchPresenterTest {
 		TravelerPickerViewModel vm = new TravelerPickerViewModel(activity);
 		travelerCard.performClick();
 		View view = travelerCard.getTravelerDialogView();
-		HotelTravelerPickerView hotelTravelerPicker = (HotelTravelerPickerView) view
+		TravelerPickerView travelerPicker = (TravelerPickerView) view
 			.findViewById(R.id.traveler_view);
 
-		hotelTravelerPicker.getAdultPlus().performClick();
-		hotelTravelerPicker.getChildPlus().performClick();
-		hotelTravelerPicker.getChildPlus().performClick();
+		travelerPicker.getAdultPlus().performClick();
+		travelerPicker.getChildPlus().performClick();
+		travelerPicker.getChildPlus().performClick();
 
 		vm.setShowSeatingPreference(true);
-		hotelTravelerPicker.getChild1().setSelection(0);
-		hotelTravelerPicker.getChild2().setSelection(0);
-		hotelTravelerPicker.getInfantPreferenceSeatingSpinner().setSelection(0);
-		assertEquals(View.GONE, hotelTravelerPicker.getInfantError().getVisibility());
+		travelerPicker.getChild1().setSelection(0);
+		travelerPicker.getChild2().setSelection(0);
+		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(0);
+		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
 
-		hotelTravelerPicker.getChildPlus().performClick();
+		travelerPicker.getChildPlus().performClick();
 
-		hotelTravelerPicker.getChild3().setSelection(0);
-		hotelTravelerPicker.getInfantPreferenceSeatingSpinner().setSelection(0);
-		assertEquals(View.VISIBLE, hotelTravelerPicker.getInfantError().getVisibility());
+		travelerPicker.getChild3().setSelection(0);
+		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(0);
+		assertEquals(View.VISIBLE, travelerPicker.getInfantError().getVisibility());
 
-		hotelTravelerPicker.getChild3().setSelection(2);
-		hotelTravelerPicker.getInfantPreferenceSeatingSpinner().setSelection(0);
-		assertEquals(View.GONE, hotelTravelerPicker.getInfantError().getVisibility());
+		travelerPicker.getChild3().setSelection(2);
+		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(0);
+		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
 
-		hotelTravelerPicker.getChild3().setSelection(0);
-		hotelTravelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
-		assertEquals(View.GONE, hotelTravelerPicker.getInfantError().getVisibility());
+		travelerPicker.getChild3().setSelection(0);
+		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
+		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
 
 	}
 
@@ -149,38 +150,60 @@ public class FlightSearchPresenterTest {
 		TravelerPickerViewModel vm = new TravelerPickerViewModel(activity);
 		travelerCard.performClick();
 		View view = travelerCard.getTravelerDialogView();
-		HotelTravelerPickerView hotelTravelerPicker = (HotelTravelerPickerView) view
+		TravelerPickerView travelerPicker = (TravelerPickerView) view
 			.findViewById(R.id.traveler_view);
-		hotelTravelerPicker.getViewmodel().getTooManyInfantsInLap().subscribe(tooManyInfantsInLapTestSubscriber);
-		hotelTravelerPicker.getViewmodel().getTooManyInfantsInSeat().subscribe(tooManyInfantsInSeatTestSubscriber);
+		travelerPicker.getViewmodel().getTooManyInfantsInLap().subscribe(tooManyInfantsInLapTestSubscriber);
+		travelerPicker.getViewmodel().getTooManyInfantsInSeat().subscribe(tooManyInfantsInSeatTestSubscriber);
 
-		hotelTravelerPicker.getChildPlus().performClick();
-		hotelTravelerPicker.getChildPlus().performClick();
+		travelerPicker.getChildPlus().performClick();
+		travelerPicker.getChildPlus().performClick();
 
 		vm.setShowSeatingPreference(true);
-		hotelTravelerPicker.getChild1().setSelection(0);
-		hotelTravelerPicker.getChild2().setSelection(0);
-		hotelTravelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
+		travelerPicker.getChild1().setSelection(0);
+		travelerPicker.getChild2().setSelection(0);
+		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
 		int noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
 		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
 		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
-		assertEquals(View.GONE, hotelTravelerPicker.getInfantError().getVisibility());
+		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
 
 
-		hotelTravelerPicker.getChildPlus().performClick();
+		travelerPicker.getChildPlus().performClick();
 
-		hotelTravelerPicker.getChild3().setSelection(0);
-		hotelTravelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
-		assertEquals(View.VISIBLE, hotelTravelerPicker.getInfantError().getVisibility());
+		travelerPicker.getChild3().setSelection(0);
+		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
+		assertEquals(View.VISIBLE, travelerPicker.getInfantError().getVisibility());
 		noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
 		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
 		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), true);
 
-		hotelTravelerPicker.getChild3().setSelection(2);
-		hotelTravelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
-		assertEquals(View.GONE, hotelTravelerPicker.getInfantError().getVisibility());
+		travelerPicker.getChild3().setSelection(2);
+		travelerPicker.getInfantPreferenceSeatingSpinner().setSelection(1);
+		assertEquals(View.GONE, travelerPicker.getInfantError().getVisibility());
 		noOfEvents = tooManyInfantsInLapTestSubscriber.getOnNextEvents().size();
 		assertEquals(tooManyInfantsInLapTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
 		assertEquals(tooManyInfantsInSeatTestSubscriber.getOnNextEvents().get(noOfEvents - 1), false);
+	}
+
+	@Test
+	public void testTravelDialogForChildAgeAfterDismiss() {
+		TravelerWidgetV2 travelerCard = (TravelerWidgetV2) widget.findViewById(R.id.traveler_card);
+		travelerCard.performClick();
+		View view = travelerCard.getTravelerDialogView();
+		TravelerPickerView travelerPicker = (TravelerPickerView) view
+			.findViewById(R.id.traveler_view);
+
+		travelerPicker.getChildPlus().performClick();
+
+		travelerPicker.getChild1().setSelection(2);
+		travelerCard.getTravelerDialog().getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+		travelerCard.performClick();
+		assertEquals(2, travelerPicker.getChild1().getSelectedItemPosition());
+
+		travelerPicker.getChild1().setSelection(3);
+		travelerCard.getTravelerDialog().dismiss();
+
+		travelerCard.performClick();
+		assertEquals(2, travelerPicker.getChild1().getSelectedItemPosition());
 	}
 }

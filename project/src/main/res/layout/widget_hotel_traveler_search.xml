@@ -6,7 +6,7 @@
     android:clipToPadding="false"
     android:orientation="vertical">
 
-    <com.expedia.bookings.widget.HotelTravelerPickerView
+    <com.expedia.bookings.widget.TravelerPickerView
         android:id="@+id/traveler_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
