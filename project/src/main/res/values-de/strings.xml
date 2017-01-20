@@ -81,7 +81,7 @@
     <string name="cars_dupe_trip_text">Doppelt gebuchte Reise</string>
     <!-- Text for price change-->
     <string name="price_change_text">Preisänderung</string>
-    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">Der Preis für Ihre Reise hat sich von {oldprice} zu {newprice} geändert. Preise können sich oft ändern. Buchen Sie jetzt, um sich diesen Preis zu sichern.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Preisänderung</string>
@@ -4435,6 +4435,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Zwischenstopp in {city} ({airportcode})</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Gesamtdauer: {duration}</string>
+    <!-- Example : Total Duration: 2h 20m • 939 miles -->
+    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">Gesamtdauer: {duration} • {distance} {distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">Nr. {itinerary} gesendet an {email}</string>
@@ -4973,5 +4975,18 @@
     <string name="dialog_app_rating_feedback_button">Feedback senden</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Nein danke</string>
+    <!-- Checkout validation error message for email -->
+    <string name="email_validation_error_message">Geben Sie eine gültige E-Mail-Adresse ein</string>
+    <!-- Checkout validation error message for first name -->
+    <string name="first_name_validation_error_message">Geben Sie einen Vornamen nur mit Buchstaben ein</string>
+    <!-- Checkout validation error message for last name -->
+    <string name="last_name_validation_error_message">Geben Sie einen Nachnamen nur mit Buchstaben ein (mindestens zwei Zeichen)</string>
+    <!-- Checkout validation error message for phone number -->
+    <string name="phone_validation_error_message">Geben Sie eine gültige Telefonnummer ein</string>
+    <!-- Checkout validation error message for date of birth -->
+    <string name="date_of_birth_validation_error_message">Geben Sie ein gültiges Geburtsdatum ein</string>
+    <!-- Checkout validation error message for gender -->
+    <string name="gender_validation_error_message">Wählen Sie ein Geschlecht</string>
+    <string name="passport_validation_error_message">Wählen Sie das Land des Reisepasses</string>
 
 </resources>

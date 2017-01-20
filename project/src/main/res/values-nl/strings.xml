@@ -81,7 +81,7 @@
     <string name="cars_dupe_trip_text">Dubbele reis</string>
     <!-- Text for price change-->
     <string name="price_change_text">Prijswijziging</string>
-    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">De prijs van je reis is veranderd van {oldprice} naar {newprice}. Tarieven kunnen regelmatig wijzigen. Boek nu om deze prijs te garanderen.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">Prijs gewijzigd</string>
@@ -4434,6 +4434,8 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Tussenstop in ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Totale reisduur: {duration}</string>
+    <!-- Example : Total Duration: 2h 20m • 939 miles -->
+    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">Totale duur: {duration} - {distance}{distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
     <string name="itinerary_sent_to_confirmation_TEMPLATE">Nr {itinerary} gestuurd naar {email}</string>
@@ -4972,5 +4974,18 @@
     <string name="dialog_app_rating_feedback_button">Feedback sturen</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Nee, bedankt</string>
+    <!-- Checkout validation error message for email -->
+    <string name="email_validation_error_message">Voer een geldig e-mailadres in</string>
+    <!-- Checkout validation error message for first name -->
+    <string name="first_name_validation_error_message">Voer een voornaam in (alleen letters)</string>
+    <!-- Checkout validation error message for last name -->
+    <string name="last_name_validation_error_message">Voer een achternaam in (alleen letters, min. 2 tekens)</string>
+    <!-- Checkout validation error message for phone number -->
+    <string name="phone_validation_error_message">Voer een geldig telefoonnummer in</string>
+    <!-- Checkout validation error message for date of birth -->
+    <string name="date_of_birth_validation_error_message">Voer een geldige geboortedatum in</string>
+    <!-- Checkout validation error message for gender -->
+    <string name="gender_validation_error_message">Selecteer een geslacht</string>
+    <string name="passport_validation_error_message">Selecteer het land van het paspoort</string>
 
 </resources>

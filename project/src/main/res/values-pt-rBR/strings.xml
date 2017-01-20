@@ -81,7 +81,7 @@
     <string name="cars_dupe_trip_text">Viagem duplicada</string>
     <!-- Text for price change-->
     <string name="price_change_text">Mudança de preço</string>
-    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock this price."-->
+    <!-- Text message on price change alert e.g.: "The price of your trip has changed from $100 to $103. Rates can change frequently. Book now to lock in this price."-->
     <string name="price_change_alert_TEMPLATE">O preço de sua viagem mudou de {oldprice} para {newprice}. As tarifas podem mudar com frequência. Reserve agora para garantir esse preço.</string>
     <!-- Text for error toolbar-->
     <string name="price_changed_text">O preço mudou</string>
@@ -3469,11 +3469,11 @@
     </plurals>
     <!-- A number of nights (as in stay duration).  Capitalized -->
     <plurals name="number_of_nights">
-        <item quantity="zero">%d Noite</item>
-        <item quantity="one">%d Noite</item>
-        <item quantity="two">%d Noites</item>
-        <item quantity="many">%d Noites</item>
-        <item quantity="other">%d Noites</item>
+        <item quantity="zero">%d noite</item>
+        <item quantity="one">%d noite</item>
+        <item quantity="two">%d noites</item>
+        <item quantity="many">%d noites</item>
+        <item quantity="other">%d noites</item>
     </plurals>
     <!-- A number of days (as in rental duration), not including the actual number. Capitalized -->
     <plurals name="number_of_days_label">
@@ -4434,9 +4434,11 @@
     <string name="package_flight_overview_layover_in_TEMPLATE">Escala em ({airportcode}) {city}</string>
     <string name="package_flight_overview_airline_airplane_TEMPLATE">{carrier} {flightnumber} \u2022 {airplanetype}</string>
     <string name="package_flight_overview_total_duration_TEMPLATE">Duração total: {duration}</string>
+    <!-- Example : Total Duration: 2h 20m • 939 miles -->
+    <string name="package_flight_overview_total_duration_with_distance_TEMPLATE">Duração total: {duration} • {distance} {distanceunit}</string>
 
     <!-- Itinerary summary text- Itinerary number sent to the user email, e.g. #12344 sent to me@mail.com-->
-    <string name="itinerary_sent_to_confirmation_TEMPLATE">Nº{itinerary} enviado para {email}</string>
+    <string name="itinerary_sent_to_confirmation_TEMPLATE">{itinerary} enviado para {email}</string>
 
     <!--Rail search screen title-->
     <string name="trains">Trens</string>
@@ -4972,5 +4974,18 @@
     <string name="dialog_app_rating_feedback_button">Enviar comentários</string>
     <!-- Button for App Rating Dialog to decline review -->
     <string name="dialog_app_rating_no_button">Não, obrigado</string>
+    <!-- Checkout validation error message for email -->
+    <string name="email_validation_error_message">Insira um endereço de e-mail válido</string>
+    <!-- Checkout validation error message for first name -->
+    <string name="first_name_validation_error_message">Insira um nome usando somente letras</string>
+    <!-- Checkout validation error message for last name -->
+    <string name="last_name_validation_error_message">Insira um sobrenome usando somente letras (mínimo de 2 caracteres)</string>
+    <!-- Checkout validation error message for phone number -->
+    <string name="phone_validation_error_message">Insira um número de telefone válido</string>
+    <!-- Checkout validation error message for date of birth -->
+    <string name="date_of_birth_validation_error_message">Insira uma data de nascimento válida</string>
+    <!-- Checkout validation error message for gender -->
+    <string name="gender_validation_error_message">Indique o sexo</string>
+    <string name="passport_validation_error_message">Indique o país do passaporte</string>
 
 </resources>

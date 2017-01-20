@@ -60,11 +60,6 @@ class NewPhoneLaunchFragment : Fragment(), IPhoneLaunchActivityLaunchFragment {
         }
     }
 
-    override fun onStart() {
-        super.onStart()
-        newPhoneLaunchWidget.viewModel.refreshLobsObserver.onNext(Unit)
-    }
-
     override fun onResume() {
         super.onResume()
         Events.register(this)
