@@ -1,24 +1,28 @@
 package com.expedia.bookings.widget
 
 import android.animation.Animator
+import android.app.AlertDialog
 import android.content.Context
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.view.View
 import android.widget.AdapterView
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
-import android.widget.TextView
 import com.expedia.bookings.R
 import com.expedia.bookings.data.abacus.AbacusUtils
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.section.CountrySpinnerAdapter
 import com.expedia.bookings.utils.AnimUtils
 import com.expedia.bookings.utils.FeatureToggleUtil
+import com.expedia.bookings.utils.Strings
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.accessibility.AccessibleSpinner
 import com.expedia.bookings.widget.animation.ResizeHeightAnimator
 import com.expedia.bookings.widget.traveler.TSAEntryView
+import com.expedia.util.subscribeMaterialFormsError
 import com.expedia.util.subscribeVisibility
 import com.expedia.vm.traveler.AbstractUniversalCKOTravelerEntryWidgetViewModel
 import com.expedia.vm.traveler.FlightTravelerEntryWidgetViewModel
@@ -31,6 +35,7 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
 
     val tsaEntryView: TSAEntryView by bindView(R.id.tsa_entry_widget)
     val passportCountrySpinner: AccessibleSpinner by bindView(R.id.passport_country_spinner)
+    val passportCountryEditBox: EditText by bindView(R.id.passport_country_btn)
     val advancedOptionsWidget: FlightTravelerAdvancedOptionsWidget by bindView(R.id.traveler_advanced_options_widget)
     val advancedButton: LinearLayout by bindView(R.id.traveler_advanced_options_button)
     val advancedOptionsIcon: ImageView by bindView(R.id.traveler_advanced_options_icon)
@@ -70,35 +75,35 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         tsaEntryView.viewModel = vm.tsaViewModel
         advancedOptionsWidget.viewModel = vm.advancedOptionsViewModel
         vm.passportCountrySubject.subscribe { countryCode ->
-            selectPassport(countryCode)
+            if (materialFormTestEnabled) {
+                passportCountryEditBox.setText(countryCode)
+            } else {
+                selectPassport(countryCode)
+            }
+        }
+        if (materialFormTestEnabled) {
+            vm.showPassportCountryObservable.subscribeVisibility(passportCountryEditBox)
+        } else {
+            vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
         }
 
-        vm.showPassportCountryObservable.subscribeVisibility(passportCountrySpinner)
         vm.showPassportCountryObservable.subscribe { show ->
-            tsaEntryView.genderSpinner.nextFocusForwardId = if (show) R.id.passport_country_spinner else R.id.first_name_input
+            var view: View = if (materialFormTestEnabled) tsaEntryView.genderEditText as View else tsaEntryView.genderSpinner as View
+            view.nextFocusForwardId = if (show) R.id.passport_country_spinner else R.id.first_name_input
         }
 
         vm.passportValidSubject.subscribe { isValid ->
-            val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
             if (!materialFormTestEnabled) {
+                val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
                 adapter.setErrorVisible(!isValid)
             } else {
-                val passportErrorMessage = findViewById(R.id.passport_country_error_message) as TextView
-                passportErrorMessage.visibility = if (isValid) View.GONE else View.VISIBLE
+                passportCountryEditBox.subscribeMaterialFormsError(vm.passportValidSubject.map { !it },
+                        R.string.passport_validation_error_message, R.drawable.material_dropdown)
             }
         }
     }
 
     init {
-        val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
-                R.layout.material_spinner_item, R.layout.spinner_dropdown_item, true)
-        adapter.setPrefix(context.getString(R.string.passport_country_colon))
-        adapter.setColoredPrefix(false)
-
-        passportCountrySpinner.adapter = adapter
-        passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
-        passportCountrySpinner.isFocusable = true
-        passportCountrySpinner.isFocusableInTouchMode = true
         tsaEntryView.dateOfBirth.addOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
             if (hasFocus) {
                 Ui.hideKeyboard(this)
@@ -106,13 +111,31 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
             }
             onFocusChange(view, hasFocus)
         })
-        tsaEntryView.genderSpinner.addOnFocusChangeListener(this)
-        passportCountrySpinner.setOnFocusChangeListener { view, hasFocus ->
-            if (hasFocus) {
-                Ui.hideKeyboard(this)
-                passportCountrySpinner.performClick()
+
+        if (materialFormTestEnabled) {
+            passportCountryEditBox.onFocusChangeListener = View.OnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    Ui.hideKeyboard(this)
+                    passportCountryEditBox.performClick()
+                }
+                onFocusChange(view, hasFocus)
             }
-            onFocusChange(view, hasFocus)
+        } else {
+            val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
+                    R.layout.material_spinner_item, R.layout.spinner_dropdown_item, true)
+            adapter.setPrefix(context.getString(R.string.passport_country_colon))
+            adapter.setColoredPrefix(false)
+
+            passportCountrySpinner.adapter = adapter
+            passportCountrySpinner.onItemSelectedListener = CountryItemSelectedListener()
+
+            passportCountrySpinner.setOnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    Ui.hideKeyboard(this)
+                    passportCountrySpinner.performClick()
+                }
+                onFocusChange(view, hasFocus)
+            }
         }
         advancedOptionsWidget.redressNumber.addOnFocusChangeListener(this)
     }
@@ -127,6 +150,40 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
                 hideAdvancedOptions()
             }
         }
+
+        if (materialFormTestEnabled) {
+            passportCountryEditBox.setOnClickListener {
+                showCountryAlertDialog()
+            }
+            tsaEntryView.genderEditText!!.addOnFocusChangeListener(View.OnFocusChangeListener { view, hasFocus ->
+                if (hasFocus) {
+                    Ui.hideKeyboard(this)
+                    tsaEntryView.genderEditText!!.performClick()
+                }
+                onFocusChange(view, hasFocus)
+            })
+        } else {
+            tsaEntryView.genderSpinner?.addOnFocusChangeListener(this)
+        }
+
+    }
+
+    private fun showCountryAlertDialog() {
+        val builder = AlertDialog.Builder(context)
+        builder.setTitle(context.resources.getString(R.string.passport_country))
+        val adapter = CountrySpinnerAdapter(context, CountrySpinnerAdapter.CountryDisplayType.FULL_NAME,
+                R.layout.material_item)
+        adapter.showPosAsFirstCountry()
+
+        builder.setAdapter(adapter) { dialog, position ->
+            passportCountryEditBox.setText(adapter.getItem(position))
+            (viewModel as FlightTravelerEntryWidgetViewModel).passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
+            (viewModel as FlightTravelerEntryWidgetViewModel).passportValidSubject.onNext(true)
+        }
+
+        val alert = builder.create()
+        alert.listView.divider = (ContextCompat.getDrawable(context, R.drawable.divider_row_filter_refinement))
+        alert.show()
     }
 
     private fun showAdvancedOptions() {
@@ -148,21 +205,32 @@ class FlightTravelerEntryWidget(context: Context, attrs: AttributeSet?) : Abstra
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             val adapter = passportCountrySpinner.adapter as CountrySpinnerAdapter
             (viewModel as FlightTravelerEntryWidgetViewModel).passportCountryObserver.onNext(adapter.getItemValue(position, CountrySpinnerAdapter.CountryDisplayType.THREE_LETTER))
-            if (materialFormTestEnabled) {
-                val passportErrorMessage = findViewById(R.id.passport_country_error_message) as TextView
-                passportErrorMessage.visibility = if (position == 0) View.VISIBLE else View.GONE
-            }
-            if (position == 0) {
-                adapter.setErrorVisible(true)
+            if (!materialFormTestEnabled) {
+                if (position == 0) {
+                    adapter.setErrorVisible(true)
+                }
             }
         }
     }
 
     //to be removed for new checkout
     override fun isCompletelyFilled(): Boolean {
-        return  super.isCompletelyFilled() &&
-                (tsaEntryView.dateOfBirth.text.isNotEmpty() && tsaEntryView.genderSpinner.selectedItemPosition != 0) &&
-                ((passportCountrySpinner.visibility == View.VISIBLE && passportCountrySpinner.selectedItemPosition != 0) || passportCountrySpinner.visibility == View.GONE)
+        return super.isCompletelyFilled() &&
+                tsaEntryView.dateOfBirth.text.isNotEmpty() && tsaEntryView.isValidGender() && isValidPassport()
+    }
+
+    private fun isValidPassport(): Boolean {
+        var view: View
+        var validPassport: Boolean
+        if (materialFormTestEnabled) {
+            view = passportCountryEditBox
+            validPassport = (passportCountryEditBox.visibility == View.VISIBLE && Strings.isNotEmpty(passportCountryEditBox.text.toString()))
+
+        } else {
+            view = passportCountrySpinner
+            validPassport = (passportCountrySpinner.visibility == View.VISIBLE && passportCountrySpinner.selectedItemPosition != 0)
+        }
+        return (validPassport) || view.visibility == View.GONE
     }
 
     private fun selectPassport(countryCode: String?) {

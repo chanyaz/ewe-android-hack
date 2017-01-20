@@ -12,6 +12,7 @@ import com.expedia.bookings.test.espresso.AbacusTestUtils
 import com.expedia.bookings.test.rules.PlaygroundRule
 import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.widget.traveler.TSAEntryView
+import com.expedia.bookings.widget.traveler.TravelerEditText
 import com.expedia.vm.traveler.TravelerTSAViewModel
 import com.mobiata.android.util.SettingUtils
 import org.junit.Assert.assertEquals
@@ -54,6 +55,33 @@ class TSAEntryViewTest {
             assertTrue(tsaEntryView.materialFormTestEnabled)
             val textInputLayout = tsaEntryView.findViewById(R.id.edit_birth_date_text_layout_btn) as TextInputLayout
             assertNotNull(textInputLayout)
+
+        }
+    }
+
+    @Test
+    @Throws(Throwable::class)
+    fun testMaterialFormGender() {
+        AbacusTestUtils.bucketTests(AbacusUtils.EBAndroidAppUniversalCheckoutMaterialForms)
+        SettingUtils.save(InstrumentationRegistry.getTargetContext(), R.string.preference_universal_checkout_material_forms, true)
+
+        uiThreadTestRule.runOnUiThread {
+            val tsaEntryView = LayoutInflater.from(activityTestRule.activity)
+                    .inflate(R.layout.test_tsa_entry_view, null) as TSAEntryView
+
+            assertTrue(tsaEntryView.materialFormTestEnabled)
+
+            val genderEditText = tsaEntryView.findViewById(R.id.edit_gender_btn) as TravelerEditText
+            assertNotNull(genderEditText)
+
+            val tsaVM = TravelerTSAViewModel(Traveler(), activityTestRule.activity)
+
+            tsaEntryView.viewModel = tsaVM
+            tsaVM.genderViewModel.errorSubject.onNext(true)
+            assertEquals((genderEditText.parent as TextInputLayout).error, "Select a gender")
+
+            tsaVM.genderViewModel.errorSubject.onNext(false)
+            assertEquals((genderEditText.parent as TextInputLayout).error, null)
 
         }
     }

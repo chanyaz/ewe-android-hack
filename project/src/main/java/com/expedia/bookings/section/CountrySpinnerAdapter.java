@@ -85,6 +85,11 @@ public class CountrySpinnerAdapter extends BaseAdapter {
 		}
 	}
 
+	public void showPosAsFirstCountry() {
+		mCountries.add(0, new CountryNameData(mContext.getResources()
+			.getString(PointOfSale.getPointOfSale().getCountryNameResId()), PointOfSale.getPointOfSale().getTwoLetterCountryCode(), PointOfSale.getPointOfSale().getThreeLetterCountryCode()));
+	}
+
 	protected List<CountryNameData> buildCountriesDataSet(String[] countryNames, String[] twoLetterCountryCodes,
 		String[] threeLetterCountryCodes) {
 		List<CountryNameData> mCountries = new ArrayList<CountryNameData>();

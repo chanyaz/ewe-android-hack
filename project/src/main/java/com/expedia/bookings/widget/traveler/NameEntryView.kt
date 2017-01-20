@@ -26,8 +26,8 @@ class NameEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(conte
         lastName.viewModel = vm.lastNameViewModel
 
         if (materialFormTestEnabled) {
-            firstName.subscribeMaterialFormsError(firstName.viewModel.errorSubject, context.getString(R.string.first_name_validation_error_message))
-            lastName.subscribeMaterialFormsError(lastName.viewModel.errorSubject, context.getString(R.string.last_name_validation_error_message))
+            firstName.subscribeMaterialFormsError(firstName.viewModel.errorSubject, R.string.first_name_validation_error_message)
+            lastName.subscribeMaterialFormsError(lastName.viewModel.errorSubject, R.string.last_name_validation_error_message)
         }
 
     }
