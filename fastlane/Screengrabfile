@@ -8,7 +8,7 @@ test_instrumentation_runner 'com.expedia.bookings.test.espresso.InstrumentationT
 app_apk_path 'project/build/outputs/apk/project-expedia-debug.apk'
 tests_apk_path 'project/build/outputs/apk/project-expedia-debug-androidTest.apk'
 
-locales ['en-US', 'es-AR', 'pt-BR', 'fr-CA', 'de-DE', 'da-DK', 'es-ES', 'fr-FR', 'id-ID', 'it-IT', 'ja-JP', 'ko-KR', 'nl-NL', 'nb-NO', 'sv-SE', 'th-TH', 'zh-CN', 'zh-TW', 'en-GB']
+locales ['en-US', 'fr-CA', 'de-DE', 'fr-FR', 'it-IT', 'sv-SE', 'en-GB', 'ja-JP', 'zh-CN', 'fi-FI', 'pt-BR', 'da-DK', 'es-ES', 'id-ID', 'ko-KR', 'es-MX', 'nl-NL', 'nb-NO', 'th-TH', 'zh-TW', 'es-AR']
 
 # clear all previously generated screenshots in your local output directory before creating new ones
 clear_previous_screenshots true
