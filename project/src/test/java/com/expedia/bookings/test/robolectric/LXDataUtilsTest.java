@@ -143,7 +143,7 @@ public class LXDataUtilsTest {
 		Location location = new Location();
 		location.setCity("San francisco");
 		location.setStateCode("SFO");
-		LocalDate checkoutDate = new LocalDate().plusDays(14);
+		LocalDate checkoutDate = new LocalDate().plusDays(10);
 		String locationText = getContext().getResources().getString(
 			R.string.lx_destination_TEMPLATE, location.getCity(),
 			Strings.isEmpty(location.getStateCode()) ? location.getCountryCode() : location.getStateCode());
@@ -152,7 +152,7 @@ public class LXDataUtilsTest {
 			.searchType(SearchType.EXPLICIT_SEARCH).location(locationText).startDate(checkinDate).endDate(checkoutDate)
 			.build();
 
-		LxSearchParams obtainedSearchParams = LXDataUtils.fromHotelParams(getContext(), checkinDate, location);
+		LxSearchParams obtainedSearchParams = LXDataUtils.fromHotelParams(getContext(), checkinDate, checkoutDate, location);
 
 		assertEquals(expectedSearchParams.getLocation(), obtainedSearchParams.getLocation());
 		assertEquals(expectedSearchParams.getSearchType(), obtainedSearchParams.getSearchType());
@@ -178,7 +178,7 @@ public class LXDataUtilsTest {
 	private LxSearchParams getLxSearchParamsFromDeeplink(String expectedURL) {
 		Uri data = Uri.parse(expectedURL);
 		Set<String> queryData = data.getQueryParameterNames();
-		return LXDataUtils.buildLXSearchParamsFromDeeplink(data, queryData);
+		return LXDataUtils.buildLXSearchParamsFromDeeplink(getContext(), data, queryData);
 	}
 
 	@Test

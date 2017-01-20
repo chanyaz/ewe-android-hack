@@ -386,6 +386,7 @@ public class NavUtils {
 		Intent intent = new Intent(context, LXBaseActivity.class);
 		if (searchParams != null) {
 			intent.putExtra("startDateStr", DateUtils.localDateToyyyyMMdd(searchParams.getActivityStartDate()));
+			intent.putExtra("endDateStr", DateUtils.localDateToyyyyMMdd(searchParams.getActivityEndDate()));
 			intent.putExtra("location", searchParams.getLocation());
 		}
 

@@ -33,6 +33,7 @@ public class ItinCardDataLXAttach extends ItinCardData {
 
 	public LxSearchParams getLxSearchParams(Context context) {
 		return LXDataUtils
-			.fromHotelParams(context, new LocalDate(tripHotel.getStartDate()), tripHotel.getProperty().getLocation());
+			.fromHotelParams(context, new LocalDate(tripHotel.getStartDate()),
+				new LocalDate(tripHotel.getEndDate()), tripHotel.getProperty().getLocation());
 	}
 }
