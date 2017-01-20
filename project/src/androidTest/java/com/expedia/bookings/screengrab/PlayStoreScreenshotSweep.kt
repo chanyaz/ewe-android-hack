@@ -41,7 +41,6 @@ import com.expedia.bookings.test.espresso.ViewActions
 import com.expedia.bookings.test.phone.hotels.HotelScreen
 import com.expedia.bookings.test.phone.lx.LXScreen
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
-import com.expedia.bookings.test.phone.pagemodels.flights.FlightsSearchScreen
 import com.expedia.bookings.test.tablet.pagemodels.Settings
 import org.hamcrest.Matcher
 import org.hamcrest.Matchers.allOf
@@ -112,7 +111,6 @@ class PlayStoreScreenshotSweep {
             }
 
             if (flightSearchCriteria != null) {
-                takeFlightScreenshotAndReturnToLaunchScreen(flightSearchCriteria)
                 takeMaterialFlightScreenshotAndReturnToLaunchScreen(flightSearchCriteria)
             }
 
@@ -154,37 +152,6 @@ class PlayStoreScreenshotSweep {
         Common.delay(1)
     }
 
-    private fun takeFlightScreenshotAndReturnToLaunchScreen(searchCriteria: FlightSearchCriteria) {
-        AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightTest, AbacusUtils.DefaultVariate.CONTROL.ordinal)
-        onView(allOf(withText(LobInfo.FLIGHTS.labelRes), isCompletelyDisplayed())).perform(click())
-
-        if (searchCriteria.isDropdownSearch) {
-            onView(withId(R.id.departure_airport_spinner)).perform(click())
-            onData(airportDropDownEntryWithAirportCode(searchCriteria.departureAirport.code)).perform(click())
-            onView(withId(R.id.arrival_airport_spinner)).perform(click())
-            onData(airportDropDownEntryWithAirportCode(searchCriteria.arrivalAirport.code)).perform(click())
-        } else {
-            FlightsSearchScreen.departureEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.departureAirport.code))
-            Espresso.closeSoftKeyboard()
-            Common.delay(1)
-            FlightsSearchScreen.arrivalEditText().perform(typeText("1"), typeTextViaReplace(searchCriteria.arrivalAirport.code))
-            Espresso.closeSoftKeyboard()
-        }
-        FlightsSearchScreen.clickSelectDepartureButton()
-        val startDate = LocalDate.now().plusDays(35)
-        val endDate = startDate.plusDays(3)
-        FlightsSearchScreen.clickDate(startDate, endDate)
-        FlightsSearchScreen.clickSearchButton()
-
-        waitForViewNotYetInLayout(R.id.flight_price_label_text_view, 20)
-
-        Screengrab.screenshot("flight_results")
-
-        Espresso.pressBack()
-        Espresso.pressBack()
-        Common.delay(1)
-    }
-
     private fun takeMaterialFlightScreenshotAndReturnToLaunchScreen(searchCriteria: FlightSearchCriteria) {
         AbacusTestUtils.updateABTest(AbacusUtils.EBAndroidAppFlightTest, AbacusUtils.DefaultVariate.BUCKETED.ordinal)
         onView(allOf(withText(LobInfo.FLIGHTS.labelRes), isCompletelyDisplayed())).perform(click())
@@ -212,7 +179,7 @@ class PlayStoreScreenshotSweep {
 
         waitForViewNotYetInLayout(R.id.sort_filter_button, 60)
 
-        Screengrab.screenshot("material_flight_results")
+        Screengrab.screenshot("flight_results")
 
         Espresso.pressBack()
         Espresso.pressBack()
