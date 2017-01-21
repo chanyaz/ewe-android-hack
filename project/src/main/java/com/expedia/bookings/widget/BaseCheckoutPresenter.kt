@@ -472,6 +472,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             updateTravelerPresenter()
             if (forward) {
                 setToolbarTitle()
+                animateInSlideToPurchase(true)
             }
         }
     }
@@ -602,10 +603,11 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             accessiblePurchaseButton.visibility = View.GONE
         }
         val isSlideToPurchaseLayoutVisible = visible && ckoViewModel.isValidForBooking()
-        val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
-
-        if (acceptTermsRequired && !termsAccepted && isSlideToPurchaseLayoutVisible) {
-            acceptTermsWidget.visibility = View.VISIBLE
+        if (acceptTermsRequired) {
+            val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
+            if (!termsAccepted && isSlideToPurchaseLayoutVisible) {
+                acceptTermsWidget.visibility = View.VISIBLE
+            }
         }
         if (isSlideToPurchaseLayoutVisible) {
             trackShowSlideToPurchase()

@@ -12,7 +12,9 @@ import com.expedia.bookings.test.espresso.Common
 import com.expedia.bookings.test.espresso.NewFlightTestCase
 import com.expedia.bookings.test.phone.packages.PackageScreen
 import com.expedia.bookings.test.phone.pagemodels.common.CheckoutViewModel
+import com.expedia.bookings.test.phone.pagemodels.common.LogInScreen
 import com.expedia.bookings.test.phone.pagemodels.common.SearchScreen
+import com.expedia.bookings.test.tablet.pagemodels.Checkout
 import com.mobiata.android.Log
 import org.hamcrest.Matchers
 import org.joda.time.LocalDate
@@ -26,7 +28,7 @@ class FlightCheckoutOverviewAcceptTermsTest : NewFlightTestCase() {
         Common.setPOS(PointOfSaleId.FRANCE)
         selectFlightsProceedToCheckout()
 
-        assertAcceptTermsWidgetIsNotInflated()
+        assertAcceptTermsWidgetIsInflatedButGone()
 
         enterTravelerInfo()
         assertAcceptTermsWidgetIsInflatedButGone()
@@ -86,6 +88,22 @@ class FlightCheckoutOverviewAcceptTermsTest : NewFlightTestCase() {
 
         assertSlideToPurchaseWidgetIsVisible()
         assertAcceptTermsWidgetIsNotInflated()
+    }
+
+    @Test
+    fun testAcceptTermsWidgetShownWhenLoggedIn() {
+        Common.setPOS(PointOfSaleId.SWEDEN)
+        selectFlightsProceedToCheckout()
+        CheckoutViewModel.signInOnCheckout()
+
+        assertAcceptTermsWidgetIsShown()
+
+        Common.pressBack()
+        Common.pressBack()
+        FlightsScreen.selectInboundFlight().perform(ViewActions.click())
+        PackageScreen.checkout().perform(ViewActions.click())
+
+        assertAcceptTermsWidgetIsShown()
     }
 
     private fun assertAcceptTermsWidgetIsShown() {
