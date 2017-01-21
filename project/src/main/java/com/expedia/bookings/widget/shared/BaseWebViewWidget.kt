@@ -9,13 +9,18 @@ import android.webkit.*
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.expedia.bookings.R
+import com.expedia.bookings.data.LineOfBusiness
 import com.expedia.bookings.server.ExpediaServices
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebViewViewModel
-import com.mobiata.android.Log
+import okhttp3.Cookie
+import okhttp3.HttpUrl
 import rx.subjects.PublishSubject
+import java.util.*
+
 
 open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
     val toolbar: Toolbar by bindView(R.id.toolbar)
@@ -23,6 +28,8 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     val progressView: ProgressBar by bindView(R.id.webview_progress_view)
     val statusBarHeight by lazy { Ui.getStatusBarHeight(context) }
     val closeWebView = PublishSubject.create<Unit>()
+    val userAccountRefresher: UserAccountRefresher = UserAccountRefresher(context, LineOfBusiness.HOTELS, null)
+
 
     var webClient = object : WebViewClient() {
         override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean {
@@ -35,7 +42,10 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
             toggleLoading(true)
-            if (url?.contains("onfirmation") ?: false) {
+            if (url?.contains("onfirmation")) {
+                val cookies = CookieManager.getInstance().getCookie(url)
+                addCookies(cookies)
+                userAccountRefresher.forceAccountRefresh()
                 closeWebView.onNext(Unit)
             }
         }
@@ -64,6 +74,22 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         }
 
         cookieSyncManager.sync()
+    }
+
+
+    fun addCookies(cookies: String) {
+        val services = ExpediaServices(context)
+
+        val EXPEDIA_COOKIES = ArrayList<Cookie>()
+        val cookieList = arrayListOf("user","mInfo","lInfo")
+
+        val temp = cookies.split("; ".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        for (ar1 in temp) {
+            val cookieName = ar1.substring(0, ar1.indexOf("="))
+            if(cookieList.contains(cookieName))
+            EXPEDIA_COOKIES.add(Cookie.parse(HttpUrl.parse("https://www.expedia.com"), ar1))
+        }
+        services.mCookieManager.saveFromResponse(HttpUrl.parse("https://www.expedia.com"), EXPEDIA_COOKIES)
     }
 
 

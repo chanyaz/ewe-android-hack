@@ -84,7 +84,7 @@ public class PersistentCookieManagerTest {
 
 	private File storage;
 	private File oldCookieStorage;
-	private PersistentCookieManager manager;
+	public PersistentCookieManager manager;
 
 	private Context getContext() {
 		return RuntimeEnvironment.application;
