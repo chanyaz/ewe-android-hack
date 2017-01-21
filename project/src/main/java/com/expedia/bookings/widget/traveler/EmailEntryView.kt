@@ -21,7 +21,7 @@ class EmailEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
     var viewModel: TravelerEmailViewModel by notNullAndObservable { vm ->
         emailAddress.viewModel = vm
         if (materialFormTestEnabled) {
-            emailAddress.subscribeMaterialFormsError(emailAddress.viewModel.errorSubject, context.getString(R.string.email_validation_error_message))
+            emailAddress.subscribeMaterialFormsError(emailAddress.viewModel.errorSubject, R.string.email_validation_error_message)
         }
     }
 

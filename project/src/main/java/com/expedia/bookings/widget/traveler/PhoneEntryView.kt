@@ -39,7 +39,7 @@ class PhoneEntryView(context: Context, attrs: AttributeSet?) : LinearLayout(cont
         spinnerUpdated()
 
         if (materialFormTestEnabled) {
-            phoneNumber.subscribeMaterialFormsError(phoneNumber.viewModel.errorSubject, context.getString(R.string.phone_validation_error_message))
+            phoneNumber.subscribeMaterialFormsError(phoneNumber.viewModel.errorSubject, R.string.phone_validation_error_message)
         }
     }
 
