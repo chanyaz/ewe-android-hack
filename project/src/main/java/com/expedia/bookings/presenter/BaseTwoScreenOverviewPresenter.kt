@@ -450,10 +450,11 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             accessiblePurchaseButton.visibility = View.GONE
         }
         val isSlideToPurchaseLayoutVisible = visible && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-        val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
-
-        if (acceptTermsRequired && !termsAccepted && isSlideToPurchaseLayoutVisible) {
-            acceptTermsWidget.visibility = View.VISIBLE
+        if (acceptTermsRequired) {
+            val termsAccepted = acceptTermsWidget.vm.acceptedTermsObservable.value
+            if (!termsAccepted && isSlideToPurchaseLayoutVisible) {
+                acceptTermsWidget.visibility = View.VISIBLE
+            }
         }
         if (isSlideToPurchaseLayoutVisible) {
             checkoutPresenter.trackShowSlideToPurchase()
