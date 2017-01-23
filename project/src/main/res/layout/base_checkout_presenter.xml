@@ -206,7 +206,6 @@
             android:layout_height="1px"
             android:background="@color/divider_gray" />
 
-
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -253,17 +252,16 @@
 
             </LinearLayout>
 
-            <ViewStub
-                android:id="@+id/accept_terms_viewStub"
-                android:layout_height="wrap_content"
-                android:layout_width="match_parent"
-                android:layout_alignTop="@+id/slide_to_purchase_layout"
-                android:layout_alignBottom="@+id/slide_to_purchase_layout"
-                android:layout="@layout/accept_terms_stub" />
+                <ViewStub
+                    android:id="@+id/accept_terms_viewStub"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_alignTop="@+id/slide_to_purchase_layout"
+                    android:layout_alignBottom="@+id/slide_to_purchase_layout"
+                    android:layout="@layout/accept_terms_stub" />
 
         </RelativeLayout>
     </LinearLayout>
-
 
     <View
         android:id="@+id/drop_shadow"

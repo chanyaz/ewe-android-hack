@@ -29,7 +29,6 @@ import com.expedia.bookings.widget.TotalPriceWidget
 import com.expedia.bookings.widget.BaseCheckoutPresenter
 import com.expedia.bookings.widget.BundleOverviewHeader
 import com.expedia.bookings.widget.CVVEntryWidget
-import com.expedia.bookings.widget.SlideToWidgetLL
 import com.expedia.bookings.widget.flights.PaymentFeeInfoWebView
 import com.expedia.bookings.widget.packages.BillingDetailsPaymentWidget
 import com.expedia.util.notNullAndObservable

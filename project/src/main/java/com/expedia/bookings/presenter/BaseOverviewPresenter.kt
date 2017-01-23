@@ -92,6 +92,7 @@ abstract class BaseOverviewPresenter(context: Context, attrs: AttributeSet) : Pr
         override fun endTransition(forward: Boolean) {
             super.endTransition(forward)
             setBundleWidgetAndToolbar(forward)
+
             checkoutPresenter.mainContent.visibility = if (forward) View.VISIBLE else View.GONE
             checkoutPresenter.mainContent.translationY = 0f
             if (forward) checkoutPresenter.toolbarDropShadow.visibility = View.VISIBLE

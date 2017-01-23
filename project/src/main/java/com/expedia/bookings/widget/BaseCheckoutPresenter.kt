@@ -99,6 +99,10 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     val legalInformationText: TextView by bindView(R.id.legal_information_text_view)
     val hintContainer: LinearLayout by bindView(R.id.hint_container)
     val depositPolicyText: TextView by bindView(R.id.disclaimer_text)
+    val slideToPurchaseLayout: LinearLayout by bindView(R.id.slide_to_purchase_layout)
+    val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
+    val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
+    val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
 
     val rootWindow: Window by lazy { (context as Activity).window }
     val decorView: View by lazy { rootWindow.decorView.findViewById(android.R.id.content) }
@@ -106,28 +110,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
     var travelerLayoutListener: ViewTreeObserver.OnGlobalLayoutListener? = null
     var toolbarHeight = Ui.getToolbarSize(context)
     val travelerSummaryCardView: CardView by bindView(R.id.traveler_default_state_card_view)
-
-    val slideToPurchaseLayout: LinearLayout by bindView(R.id.slide_to_purchase_layout)
-    val slideToPurchase: SlideToWidgetLL by bindView(R.id.slide_to_purchase_widget)
-
-    val accessiblePurchaseButton: SlideToWidgetLL by bindView(R.id.purchase_button_widget)
-    val slideTotalText: TextView by bindView(R.id.purchase_total_text_view)
-
-    private val acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox()
-    fun areAcceptTermsRequired() : Boolean {
-        return acceptTermsRequired
-    }
-    val acceptTermsWidget: AcceptTermsWidget by lazy {
-        val viewStub = findViewById(R.id.accept_terms_viewStub) as ViewStub
-        val presenter = viewStub.inflate() as AcceptTermsWidget
-        presenter.acceptButton.setOnClickListener {
-            acceptTermsWidget.vm.acceptedTermsObservable.onNext(true)
-            AnimUtils.slideDown(acceptTermsWidget)
-            acceptTermsWidget.visibility = View.GONE
-            acceptTermsWidget.acceptButton.unsubscribeOnClick()
-        }
-        presenter
-    }
 
     val paymentWidget: PaymentWidget by lazy {
         val presenter = paymentViewStub.inflate() as PaymentWidget
@@ -171,6 +153,22 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         presenter
     }
 
+    private val acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox()
+    fun areAcceptTermsRequired() : Boolean {
+        return acceptTermsRequired
+    }
+    val acceptTermsWidget: AcceptTermsWidget by lazy {
+        val viewStub = findViewById(R.id.accept_terms_viewStub) as ViewStub
+        val presenter = viewStub.inflate() as AcceptTermsWidget
+        presenter.acceptButton.setOnClickListener {
+            acceptTermsWidget.vm.acceptedTermsObservable.onNext(true)
+            AnimUtils.slideDown(acceptTermsWidget)
+            acceptTermsWidget.visibility = View.GONE
+            acceptTermsWidget.acceptButton.unsubscribeOnClick()
+        }
+        presenter
+    }
+
     var travelerManager: TravelerManager by Delegates.notNull()
 
     protected var ckoViewModel: AbstractCheckoutViewModel by notNullAndObservable { vm ->
@@ -179,6 +177,8 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         }
         vm.legalText.subscribeTextAndVisibility(legalInformationText)
         vm.depositPolicyText.subscribeText(depositPolicyText)
+        vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
+        vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
         vm.showCheckoutDialogObservable.subscribe { show ->
             if (show) {
                 checkoutDialog.show()
@@ -194,15 +194,12 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
             trackCheckoutPriceChange(getPriceChangeDiffPercentage(response.getOldPrice()!!, response.newPrice()))
             handleCheckoutPriceChange(response)
         }
-        vm.sliderPurchaseTotalText.subscribeTextAndVisibility(slideTotalText)
-        vm.accessiblePurchaseButtonContentDescription.subscribe { accessiblePurchaseButton.contentDescription = it }
         vm.noNetworkObservable.subscribe {
             slideToPurchase.resetSlider()
         }
         vm.cardFeeTextSubject.subscribeText(cardProcessingFeeTextView)
         vm.cardFeeWarningTextSubject.subscribeTextAndVisibility(cardFeeWarningTextView)
     }
-
 
     fun getPriceChangeDiffPercentage(oldPrice: Money, newPrice: Money): Int {
         val priceDiff = newPrice.amount.toInt() - oldPrice.amount.toInt()
@@ -268,7 +265,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         setUpPaymentViewModel()
         setUpViewModels()
         setUpDialogs()
-        setClickListeners()
+        setUpListeners()
     }
 
     override fun onFinishInflate() {
@@ -307,19 +304,19 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         checkoutDialog.isIndeterminate = true
     }
 
-    private fun setClickListeners() {
+    private fun setUpListeners() {
         loginWidget.setListener(this)
+        slideToPurchase.addSlideToListener(this)
         legalInformationText.setOnClickListener {
             context.startActivity(FlightAndPackagesRulesActivity.createIntent(context, getLineOfBusiness()))
         }
         accessiblePurchaseButton.setOnClickListener {
-            if (getCheckoutViewModel().builder.hasValidParams()) {
-                getCheckoutViewModel().checkoutParams.onNext(getCheckoutViewModel().builder.build())
+            if (ckoViewModel.builder.hasValidParams()) {
+                ckoViewModel.checkoutParams.onNext(getCheckoutViewModel().builder.build())
             } else {
-                getCheckoutViewModel().slideAllTheWayObservable.onNext(Unit)
+                ckoViewModel.slideAllTheWayObservable.onNext(Unit)
             }
         }
-        slideToPurchase.addSlideToListener(this)
     }
 
     private fun setupKeyboardListeners() {
