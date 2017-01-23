@@ -36,7 +36,13 @@ import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.utils.setFocusForView
 import com.expedia.bookings.widget.traveler.TravelerSummaryCard
-import com.expedia.util.*
+import com.expedia.util.getCheckoutToolbarTitle
+import com.expedia.util.notNullAndObservable
+import com.expedia.util.unsubscribeOnClick
+import com.expedia.util.safeSubscribe
+import com.expedia.util.subscribeTextAndVisibility
+import com.expedia.util.subscribeText
+import com.expedia.util.setInverseVisibility
 import com.expedia.vm.AbstractCheckoutViewModel
 import com.expedia.vm.BaseCreateTripViewModel
 import com.expedia.vm.PaymentViewModel
@@ -153,10 +159,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         presenter
     }
 
-    private val acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox()
-    fun areAcceptTermsRequired() : Boolean {
-        return acceptTermsRequired
-    }
+    val acceptTermsRequired = PointOfSale.getPointOfSale().requiresRulesRestrictionsCheckbox()
     val acceptTermsWidget: AcceptTermsWidget by lazy {
         val viewStub = findViewById(R.id.accept_terms_viewStub) as ViewStub
         val presenter = viewStub.inflate() as AcceptTermsWidget
@@ -254,7 +257,7 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
         return response?.getOldPrice() != null
     }
 
-    private fun shouldShowPriceChangeOnCreateTrip(newPrice: BigDecimal, oldPrice: BigDecimal): Boolean {
+    fun shouldShowPriceChangeOnCreateTrip(newPrice: BigDecimal, oldPrice: BigDecimal): Boolean {
         return (Math.ceil(newPrice.toDouble()) - Math.ceil(oldPrice.toDouble())) != 0.0
     }
 
@@ -601,7 +604,6 @@ abstract class BaseCheckoutPresenter(context: Context, attr: AttributeSet?) : Pr
                 lp.height = 0
                 space.layoutParams = lp
             }
-
         }
     }
 }

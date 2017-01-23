@@ -165,8 +165,6 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
         checkoutPresenter.getCheckoutViewModel().checkoutParams.subscribe { cvv.enableBookButton(false) }
         setUpLayoutListeners()
 
-        totalPriceWidget.visibility = View.VISIBLE
-
         val checkoutPresenterLayoutParams = checkoutPresenter.layoutParams as MarginLayoutParams
         checkoutPresenterLayoutParams.setMargins(0, toolbarHeight, 0, 0)
 
@@ -410,7 +408,7 @@ abstract class BaseTwoScreenOverviewPresenter(context: Context, attrs: Attribute
             checkoutPresenter.accessiblePurchaseButton.visibility = View.GONE
         }
         val isSlideToPurchaseLayoutVisible = visible && checkoutPresenter.getCheckoutViewModel().isValidForBooking()
-        if (checkoutPresenter.areAcceptTermsRequired()) {
+        if (checkoutPresenter.acceptTermsRequired) {
             val termsAccepted = checkoutPresenter.acceptTermsWidget.vm.acceptedTermsObservable.value
             if (!termsAccepted && isSlideToPurchaseLayoutVisible) {
                 checkoutPresenter.acceptTermsWidget.visibility = View.VISIBLE
