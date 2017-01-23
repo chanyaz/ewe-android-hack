@@ -168,7 +168,7 @@ class PackageFlightPresenter(context: Context, attrs: AttributeSet) : BaseFlight
 
     override fun isOutboundResultsPresenter(): Boolean = Db.getPackageParams()?.isOutboundSearch() ?: false
 
-    override fun trackFlightOverviewLoad(isDistancePresent: Boolean) {
+    override fun trackFlightOverviewLoad() {
         val isOutboundSearch = Db.getPackageParams()?.isOutboundSearch() ?: false
         PackagesTracking().trackFlightRoundTripDetailsLoad(isOutboundSearch)
     }

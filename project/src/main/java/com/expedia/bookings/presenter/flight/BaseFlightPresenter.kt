@@ -244,7 +244,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
         override fun onNext(flight: FlightLeg) {
             show(overviewPresenter)
             overviewPresenter.vm.selectedFlightLegSubject.onNext(flight)
-            trackFlightOverviewLoad(!flight.totalTravelDistance.isNullOrEmpty())
+            trackFlightOverviewLoad()
         }
 
         override fun onCompleted() {
@@ -305,7 +305,7 @@ abstract class BaseFlightPresenter(context: Context, attrs: AttributeSet?) : Pre
     abstract fun getLineOfBusiness(): LineOfBusiness
     abstract fun isOutboundResultsPresenter(): Boolean
     abstract fun trackFlightResultsLoad()
-    abstract fun trackFlightOverviewLoad(isDistancePresent: Boolean)
+    abstract fun trackFlightOverviewLoad()
     abstract fun trackFlightSortFilterLoad()
     abstract fun trackShowBaggageFee()
     abstract fun trackShowPaymentFees()
