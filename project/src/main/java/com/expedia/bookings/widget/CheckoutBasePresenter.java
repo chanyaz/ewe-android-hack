@@ -117,7 +117,7 @@ public abstract class CheckoutBasePresenter extends Presenter implements SlideTo
 	ExpandableCardView lastExpandedCard;
 	ExpandableCardView currentExpandedCard;
 
-	protected UserAccountRefresher userAccountRefresher;
+	public UserAccountRefresher userAccountRefresher;
 
 	private boolean listenToScroll = true;
 

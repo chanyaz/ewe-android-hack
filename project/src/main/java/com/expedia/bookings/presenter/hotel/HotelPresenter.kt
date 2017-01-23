@@ -28,7 +28,6 @@ import com.expedia.bookings.data.hotels.HotelCreateTripResponse
 import com.expedia.bookings.data.hotels.HotelOffersResponse
 import com.expedia.bookings.data.hotels.HotelSearchParams
 import com.expedia.bookings.data.payment.PaymentModel
-import com.expedia.bookings.data.trips.ItineraryManager
 import com.expedia.bookings.dialog.DialogFactory
 import com.expedia.bookings.presenter.Presenter
 import com.expedia.bookings.presenter.ScaleTransition
@@ -42,6 +41,7 @@ import com.expedia.bookings.utils.NavUtils
 import com.expedia.bookings.utils.RetrofitUtils
 import com.expedia.bookings.utils.StrUtils
 import com.expedia.bookings.utils.Ui
+import com.expedia.bookings.utils.UserAccountRefresher
 import com.expedia.bookings.utils.WalletUtils
 import com.expedia.bookings.utils.bindView
 import com.expedia.bookings.widget.FrameLayout
@@ -50,14 +50,21 @@ import com.expedia.bookings.widget.LoadingOverlayWidget
 import com.expedia.bookings.widget.shared.SecurePaymentWebView
 import com.expedia.ui.HotelActivity.Screen
 import com.expedia.util.endlessObserver
-import com.expedia.vm.*
+import com.expedia.vm.GeocodeSearchModel
+import com.expedia.vm.HotelCheckoutViewModel
+import com.expedia.vm.HotelConfirmationViewModel
+import com.expedia.vm.HotelCreateTripViewModel
+import com.expedia.vm.HotelErrorViewModel
+import com.expedia.vm.HotelMapViewModel
+import com.expedia.vm.HotelPresenterViewModel
+import com.expedia.vm.HotelReviewsViewModel
+import com.expedia.vm.HotelSearchViewModel
+import com.expedia.vm.WebViewViewModel
 import com.expedia.vm.hotel.FavoriteButtonViewModel
 import com.expedia.vm.hotel.HotelDetailViewModel
 import com.expedia.vm.hotel.HotelResultsViewModel
 import com.google.android.gms.maps.MapView
 import com.mobiata.android.Log
-import org.apache.http.util.EncodingUtils
-import org.bouncycastle.util.encoders.Encoder
 import org.joda.time.DateTime
 import rx.Observer
 import rx.subjects.PublishSubject
@@ -93,11 +100,16 @@ open class HotelPresenter(context: Context, attrs: AttributeSet?) : Presenter(co
     }
 
     val securePaymentStub: ViewStub by bindView(R.id.secure_payment_stub)
+    val userAccountRefresher= UserAccountRefresher(context, LineOfBusiness.HOTELS, null)
     val secureWebView: SecurePaymentWebView by lazy {
         var newWebView = securePaymentStub.inflate() as SecurePaymentWebView
         newWebView.viewModel = WebViewViewModel()
-        newWebView.setExitButtonOnClickListener(View.OnClickListener { this.back() })
+        newWebView.setExitButtonOnClickListener(View.OnClickListener { this.back()
+           // checkoutPresenter.hotelCheckoutWidget.userAccountRefresher.forceAccountRefresh()
+            userAccountRefresher.forceAccountRefresh()
+        })
         newWebView.closeWebView.subscribe {
+            userAccountRefresher.forceAccountRefresh()
             back()
             show(confirmationPresenter, Presenter.FLAG_CLEAR_BACKSTACK)
         }

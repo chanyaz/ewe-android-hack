@@ -5,7 +5,12 @@ import android.graphics.Bitmap
 import android.support.v7.widget.Toolbar
 import android.util.AttributeSet
 import android.view.View
-import android.webkit.*
+import android.webkit.CookieManager
+import android.webkit.CookieSyncManager
+import android.webkit.WebResourceError
+import android.webkit.WebResourceRequest
+import android.webkit.WebView
+import android.webkit.WebViewClient
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import com.expedia.bookings.R
@@ -14,7 +19,6 @@ import com.expedia.bookings.utils.Ui
 import com.expedia.bookings.utils.bindView
 import com.expedia.util.notNullAndObservable
 import com.expedia.vm.WebViewViewModel
-import com.mobiata.android.Log
 import rx.subjects.PublishSubject
 
 open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayout(context, attrs) {
@@ -31,6 +35,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
 
         override fun onPageFinished(view: WebView, url: String) {
             toggleLoading(false)
+       //     CookieManager.getInstance().flush()
         }
 
         override fun onPageStarted(view: WebView, url: String, favicon: Bitmap?) {
@@ -47,7 +52,9 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
     }
 
     private fun loadCookies() {
+
         val cookieSyncManager = CookieSyncManager.createInstance(context)
+
         val cookieManager = CookieManager.getInstance()
 
         // Set the Expedia cookies for loading the URL properly
@@ -72,7 +79,7 @@ open class BaseWebViewWidget(context: Context, attrs: AttributeSet) : LinearLayo
         this.orientation = LinearLayout.VERTICAL
         toolbar.setNavigationContentDescription(R.string.toolbar_nav_icon_cont_desc)
         setToolbarPadding()
-        loadCookies()
+      //  loadCookies()
         webView.setWebViewClient(webClient)
         webView.settings.javaScriptEnabled = true
     }

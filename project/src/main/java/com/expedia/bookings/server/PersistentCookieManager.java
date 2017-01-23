@@ -4,8 +4,12 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileReader;
+import java.io.IOException;
 import java.lang.reflect.Type;
+import java.net.CookieManager;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -19,7 +23,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.InstanceCreator;
 import com.google.gson.reflect.TypeToken;
-
+import com.mobiata.android.Log;
 import okhttp3.Cookie;
 import okhttp3.CookieJar;
 import okhttp3.HttpUrl;
@@ -28,7 +32,8 @@ import okio.BufferedSource;
 import okio.Okio;
 import okio.Source;
 
-public class PersistentCookieManager implements CookieJar {
+public class PersistentCookieManager extends CookieManager implements CookieJar {
+	private android.webkit.CookieManager webkitCookieManager;
 	private HashMap<String, HashMap<String, Cookie>> cookieStore = new HashMap<>();
 	private File storage;
 	private Gson gson;
@@ -37,6 +42,7 @@ public class PersistentCookieManager implements CookieJar {
 	public PersistentCookieManager(@NotNull File storage, @NotNull File oldStorage, @NotNull EncryptionUtil encryptionUtil) {
 		this.storage = storage;
 		this.encryptionUtil = encryptionUtil;
+		this.webkitCookieManager = android.webkit.CookieManager.getInstance();
 		//Gson doesn't use class constructors by default so it may not call vital init code.
 		InstanceCreator cookieTypeAdapter = new InstanceCreator<Cookie>() {
 			@Override
@@ -53,32 +59,125 @@ public class PersistentCookieManager implements CookieJar {
 	}
 
 	@Override
-	public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
-		HashMap<String, Cookie> cookieMap = cookieStore.get(url.host());
-		if (cookieMap == null) {
-			cookieMap = new HashMap<>();
+	public void put(URI uri, Map<String, List<String>> responseHeaders) throws IOException {
+		super.put(uri, responseHeaders);
+		if ((uri == null) || (responseHeaders == null)) {
+			return;
 		}
-		for (Cookie cookie : cookies) {
-			if (cookie.expiresAt() < System.currentTimeMillis()) {
+
+		// save our url once
+		String url = uri.toString();
+
+		// go over the headers
+		for (String headerKey : responseHeaders.keySet()) {
+			// ignore headers which aren't cookie related
+			if ((headerKey == null)
+				|| !(headerKey.equalsIgnoreCase("Set-Cookie2") || headerKey
+				.equalsIgnoreCase("Set-Cookie"))) {
 				continue;
 			}
-			cookieMap.put(cookie.name(), cookie);
+
+			// process each of the headers
+			for (String headerValue : responseHeaders.get(headerKey)) {
+				webkitCookieManager.setCookie(url, headerValue);
+			}
 		}
-		cookieStore.put(url.host(), cookieMap);
-		save();
+	}
+
+	@Override
+	public Map<String, List<String>> get(URI uri, Map<String, List<String>> requestHeaders) throws IOException {
+		// make sure our args are valid
+		if ((uri == null) || (requestHeaders == null)) {
+			throw new IllegalArgumentException("Argument is null");
+		}
+
+		// save our url once
+		String url = uri.toString();
+
+		// prepare our response
+		Map<String, List<String>> res = new java.util.HashMap<String, List<String>>();
+
+		// get the cookie
+		String cookie = webkitCookieManager.getCookie(url);
+
+		// return it
+		if (cookie != null) {
+			res.put("Cookie", Arrays.asList(cookie));
+		}
+
+		return res;
+		//	return super.get(uri, requestHeaders);
+	}
+
+	@Override
+	public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {
+//		HashMap<String, Cookie> cookieMap = cookieStore.get(url.host());
+//		if (cookieMap == null) {
+//			cookieMap = new HashMap<>();
+//		}
+//		for (Cookie cookie : cookies) {
+//			if (cookie.expiresAt() < System.currentTimeMillis()) {
+//				continue;
+//			}
+//			cookieMap.put(cookie.name(), cookie);
+//		}
+//		cookieStore.put(url.host(), cookieMap);
+//		save();
+
+
+		HashMap<String, List<String>> generatedResponseHeaders = new HashMap<>();
+		ArrayList<String> cookiesList = new ArrayList<>();
+		for (Cookie c : cookies) {
+			// toString correctly generates a normal cookie string
+			cookiesList.add(c.toString());
+		}
+
+		generatedResponseHeaders.put("Set-Cookie", cookiesList);
+		try {
+			put(url.uri(), generatedResponseHeaders);
+		}
+		catch (IOException e) {
+			Log.e("Error adding cookies through okhttp" + e.toString());
+		}
+
 	}
 
 	@Override
 	public List<Cookie> loadForRequest(HttpUrl url) {
-		List<Cookie> cookies = new ArrayList<>();
-		HashMap<String, Cookie> cookieMap = cookieStore.get(url.host());
-		if (cookieMap != null) {
-			cookies = new ArrayList<>(cookieMap.values());
+//		List<Cookie> cookies = new ArrayList<>();
+//		HashMap<String, Cookie> cookieMap = cookieStore.get(url.host());
+//		if (cookieMap != null) {
+//			cookies = new ArrayList<>(cookieMap.values());
+//		}
+//		return cookies;
+
+		ArrayList<Cookie> cookieArrayList = new ArrayList<>();
+		try {
+			Map<String, List<String>> cookieList = get(url.uri(), new HashMap<String, List<String>>());
+			// Format here looks like: "Cookie":["cookie1=val1;cookie2=val2;"]
+			for (List<String> ls : cookieList.values()) {
+				for (String s : ls) {
+					String[] cookies = s.split(";");
+					for (String cookie : cookies) {
+						Cookie c = Cookie.parse(url, cookie);
+						cookieArrayList.add(c);
+					}
+				}
+			}
 		}
-		return cookies;
+		catch (IOException e) {
+			Log.e("error making cookie!", e.toString());
+		}
+		return cookieArrayList;
+
+
 	}
 
-	public HashMap<String, HashMap<String, Cookie>> getCookieStore() {
+	public android.webkit.CookieManager getWebViewCookie() {
+		return webkitCookieManager;
+	}
+
+	public HashMap<String, HashMap<String, Cookie>> getCustomCookieStore() {
 		return cookieStore;
 	}
 
@@ -193,6 +292,36 @@ public class PersistentCookieManager implements CookieJar {
 			throw new RuntimeException(e);
 		}
 	}
+
+	public void setCookie(String cookieName, String cookieValue, String domain) {
+		String urlKey = domain;
+		if (cookieStore.containsKey(urlKey)) {
+			HashMap<String, Cookie> cookies = cookieStore.get(urlKey);
+			cookies.put(cookieName, generateCookie(cookieName, cookieValue, domain));
+			cookieStore.put(urlKey, cookies);
+			save();
+		}
+		else {
+			createNewEntryWithCookie(cookieName, cookieValue, domain);
+		}
+	}
+
+	private Cookie generateCookie(String cookieName, String guid, String domain) {
+		Cookie.Builder cookieBuilder = new Cookie.Builder();
+		cookieBuilder.domain(domain);
+		cookieBuilder.expiresAt(fiveYearsFromNowInMilliseconds());
+		cookieBuilder.name(cookieName);
+		cookieBuilder.value(guid);
+		return cookieBuilder.build();
+	}
+
+	private void createNewEntryWithCookie(String cookieName, String cookieValue, String domain) {
+		HashMap<String, Cookie> cookies = new HashMap<>();
+		cookies.put(cookieName, generateCookie(cookieName, cookieValue, domain));
+		cookieStore.put(domain, cookies);
+		save();
+	}
+
 
 	private long fiveYearsFromNowInMilliseconds() {
 		Calendar calendar = Calendar.getInstance();
